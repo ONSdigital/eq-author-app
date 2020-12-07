@@ -1,5 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO, NUMBER } = require("../../constants/answerTypes");
+const { RADIO } = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -26,36 +26,54 @@ const {
   movePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { deleteSection, moveSection } = require("../../tests/utils/contextBuilder/section");
+const {
+  deleteSection,
+  moveSection,
+} = require("../../tests/utils/contextBuilder/section");
 
 describe("routing", () => {
+  let config;
+
+  beforeEach(async () => {
+    config = {
+      metadata: [{}],
+      sections: [
+        {
+          title: "title-1",
+          alias: "alias-1",
+          position: 0,
+          folders: [
+            {
+              pages: [
+                {
+                  title: "page-1",
+                  parentSection: "title-1",
+                  answers: [
+                    {
+                      type: RADIO,
+                    },
+                  ],
+                  routing: {},
+                },
+                {
+                  title: "page-2",
+                  parentSection: "title-2",
+                  answers: [
+                    {
+                      type: RADIO,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+  });
+
   describe("A Routing", () => {
     it("should create a default routing when creating a routing", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const page = questionnaire.sections[0].folders[0].pages[0];
@@ -76,41 +94,6 @@ describe("routing", () => {
 
     // Passes intermittently
     it("should be able to update the else destination on a routing", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: {},
-                  },
-                  {
-                    title: "page-2",
-                    parentSection: "title-2",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -141,32 +124,6 @@ describe("routing", () => {
 
   describe("Routing Rules", () => {
     it("should create a routing rule", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const page = questionnaire.sections[0].folders[0].pages[0];
@@ -182,41 +139,6 @@ describe("routing", () => {
     });
 
     it("should be able to update the destination on a routing rule", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{}] },
-                  },
-                  {
-                    title: "page-2",
-                    parentSection: "title-2",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -243,32 +165,7 @@ describe("routing", () => {
     });
 
     it("should be able to delete the last routing rule and also delete the routing", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{}] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
+      config.sections[0].folders[0].pages[0].routing = { rules: [{}] };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -289,32 +186,10 @@ describe("routing", () => {
 
   describe("expression group", () => {
     it("can update an expression groups operator", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{ expressionGroup: {} }] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -332,32 +207,10 @@ describe("routing", () => {
       const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
     });
+
     it("has validation errors", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{ expressionGroup: {} }] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
       };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
@@ -367,32 +220,10 @@ describe("routing", () => {
         result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
       ).toBe(1);
     });
+
     it("does not have validation errors if there are none", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                    routing: { rules: [{ expressionGroup: {} }] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
       };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
@@ -423,6 +254,7 @@ describe("routing", () => {
         },
         ctx
       );
+
       const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
@@ -432,31 +264,8 @@ describe("routing", () => {
 
   describe("expressions", () => {
     it("can create a expression", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{ expressionGroup: {} }] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
       };
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
@@ -478,44 +287,11 @@ describe("routing", () => {
     });
 
     it("can update a expression", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                    routing: {
-                      rules: [{ expressionGroup: { expressions: [{}] } }],
-                      else: { section: 0, folder: 0, page: 1 },
-                    },
-                  },
-                  {
-                    title: "page-2",
-                    parentSection: "title-2",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+        else: { section: 0, folder: 0, page: 1 },
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -550,34 +326,10 @@ describe("routing", () => {
     });
 
     it("can delete an expression", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                    routing: {
-                      rules: [{ expressionGroup: { expressions: [{}] } }],
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -599,32 +351,10 @@ describe("routing", () => {
     });
 
     it("has validation errors", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                    routing: { rules: [{ expressionGroup: {} }] },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -648,43 +378,10 @@ describe("routing", () => {
 
   describe("left sides", () => {
     it("should be able to update the left to a new answer", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: RADIO,
-                      },
-                    ],
-                  },
-                  {
-                    title: "page-2",
-                    parentSection: "title-2",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                    routing: {
-                      rules: [{ expressionGroup: { expressions: [{}] } }],
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[1].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstAnswer =
@@ -713,34 +410,10 @@ describe("routing", () => {
 
   describe("right sides", () => {
     it("should be able to update the right to a new number value", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        type: NUMBER,
-                      },
-                    ],
-                    routing: {
-                      rules: [{ expressionGroup: { expressions: [{}] } }],
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
       };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -779,36 +452,13 @@ describe("routing", () => {
     });
 
     it("should be able to update the selected options array", async () => {
-      let config = {
-        metadata: [{}],
-        sections: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            position: 0,
-            folders: [
-              {
-                pages: [
-                  {
-                    title: "page-1",
-                    parentSection: "title-1",
-                    answers: [
-                      {
-                        options: [{}, {}, {}],
-                        type: RADIO,
-                      },
-                    ],
-                    routing: {
-                      rules: [{ expressionGroup: { expressions: [{}] } }],
-                    },
-                  },
-                  { pageType: "calculatedSummary" },
-                ],
-              },
-            ],
-          },
-        ],
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
       };
+      config.sections[0].folders[0].pages[1] = {
+        pageType: "calculatedSummary",
+      };
+
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstQuestionPage = questionnaire.sections[0].folders[0].pages[0];
@@ -1085,34 +735,42 @@ describe("routing", () => {
         sections: [
           {
             id: "section1",
-            pages: [
+            folders: [
               {
-                title: "page1",
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
+                    title: "page1",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
+                  },
+                  {
+                    title: "page2",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
+                    routing: { rules: [{}] },
                   },
                 ],
-              },
-              {
-                title: "page2",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-                routing: { rules: [{}] },
               },
             ],
           },
           {
             id: "section2",
-            pages: [
+            folders: [
               {
-                title: "page3",
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
+                    title: "page3",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
                   },
                 ],
               },
@@ -1126,7 +784,7 @@ describe("routing", () => {
     it("should remove routing on new last question when section deleted", async () => {
       const firstSection = questionnaire.sections[0];
       const secondSection = questionnaire.sections[1];
-      const routingPage = firstSection.pages[1];
+      const routingPage = firstSection.folders[0].pages[1];
 
       expect(routingPage.routing.rules).toHaveLength(1);
 
@@ -1141,7 +799,7 @@ describe("routing", () => {
       const firstSectionId = firstSection.id;
       const secondSection = questionnaire.sections[1];
       const secondSectionId = secondSection.id;
-      const routingPage = firstSection.pages[1];
+      const routingPage = firstSection.folders[0].pages[1];
 
       expect(routingPage.routing.rules).toHaveLength(1);
 
@@ -1151,11 +809,13 @@ describe("routing", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([secondSectionId,firstSectionId]);
+      expect(sections.map(s => s.id)).toEqual([
+        secondSectionId,
+        firstSectionId,
+      ]);
 
-      // Check routing page has been removed
       expect(routingPage.routing).toBeUndefined();
-   });
+    });
   });
 
   describe("on Page deleted or moved exposing new last question with routing", () => {
@@ -1165,29 +825,33 @@ describe("routing", () => {
         sections: [
           {
             id: "section1",
-            pages: [
+            folders: [
               {
-                title: "page1",
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
+                    title: "page1",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
                   },
-                ],
-              },
-              {
-                title: "page2",
-                answers: [
                   {
-                    type: RADIO,
+                    title: "page2",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
+                    routing: { rules: [{}] },
                   },
-                ],
-                routing: { rules: [{}] },
-              },
-              {
-                title: "page3",
-                answers: [
                   {
-                    type: RADIO,
+                    title: "page3",
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
                   },
                 ],
               },
@@ -1200,8 +864,8 @@ describe("routing", () => {
 
     it("should remove routing on new last question when page deleted", async () => {
       const section = questionnaire.sections[0];
-      const routingPage = section.pages[1];
-      const pageToDelete = section.pages[2];
+      const routingPage = section.folders[0].pages[1];
+      const pageToDelete = section.folders.pages[2];
 
       // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
@@ -1210,22 +874,22 @@ describe("routing", () => {
       await deletePage(ctx, pageToDelete.id);
       expect(questionnaire.sections[0].pages).toHaveLength(2);
 
-      // Check routing page has been removed
       expect(routingPage.routing).toBeUndefined();
     });
 
     it("should remove routing on new last question when page moved", async () => {
       const section = questionnaire.sections[0];
-      const firstPageId = section.pages[0].id;
-      const routingPage = section.pages[1];
+      const firstPageId = section.folders[0].pages[0].id;
+      const routingPage = section.folders[0].pages[1];
       const routingPageId = routingPage.id;
       const pageToMoveId = section.pages[2].id;
 
-      // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
 
       // Move third page above second
-      const {section: { pages },} = await movePage(ctx, {
+      const {
+        section: { pages },
+      } = await movePage(ctx, {
         id: pageToMoveId,
         sectionId: section.id,
         position: 1,
@@ -1235,8 +899,7 @@ describe("routing", () => {
         pageToMoveId,
         routingPageId,
       ]);
-      
-      // Check routing page has been removed
+
       expect(routingPage.routing).toBeUndefined();
     });
   });
