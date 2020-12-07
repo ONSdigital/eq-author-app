@@ -2116,8 +2116,14 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                   Object {
                     "alias": "1.1.1",
                     "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
                     "id": "1.1.1",
                     "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
                     "title": "Page 1.1.1",
                     "validationErrorInfo": Object {
                       "totalCount": 2,
@@ -2157,8 +2163,14 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                   Object {
                     "alias": "1.1.1",
                     "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
                     "id": "1.1.1",
                     "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
                     "title": "Page 1.1.1",
                     "validationErrorInfo": Object {
                       "totalCount": 2,
@@ -2220,8 +2232,14 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                             Object {
                               "alias": "1.1.1",
                               "displayName": "Page 1.1.1",
+                              "folder": Object {
+                                "id": "1",
+                              },
                               "id": "1.1.1",
                               "position": 0,
+                              "section": Object {
+                                "id": "1",
+                              },
                               "title": "Page 1.1.1",
                               "validationErrorInfo": Object {
                                 "totalCount": 2,
