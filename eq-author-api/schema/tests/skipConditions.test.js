@@ -113,7 +113,11 @@ describe("skip conditions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}, {}],
+            folders: [
+              {
+                pages: [{}, {}],
+              },
+            ],
           },
         ],
       });
@@ -121,8 +125,8 @@ describe("skip conditions", () => {
     });
     it("should remove skip conditions on first page when a page is moved", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.pages[0];
-      const page2 = section.pages[1];
+      const page1 = section.folders[0].pages[0];
+      const page2 = section.folders[0].pages[1];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -144,8 +148,8 @@ describe("skip conditions", () => {
     });
     it("should remove skip conditions on first page when a page is deleted", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.pages[0];
-      const page2 = section.pages[1];
+      const page1 = section.folders[0].pages[0];
+      const page2 = section.folders[0].pages[1];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -166,10 +170,10 @@ describe("skip conditions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}],
+            folders: [{ pages: [{}] }],
           },
           {
-            pages: [{}],
+            folders: [{ pages: [{}] }],
           },
         ],
       });
@@ -178,7 +182,7 @@ describe("skip conditions", () => {
     it("should remove skip conditions on first page when a section is moved", async () => {
       const section1 = questionnaire.sections[0];
       const section2 = questionnaire.sections[1];
-      const page2 = section2.pages[0];
+      const page2 = section2.folders[0].pages[0];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -200,7 +204,7 @@ describe("skip conditions", () => {
     it("should remove skip conditions on first page when a sectyion is deleted", async () => {
       const section1 = questionnaire.sections[0];
       const section2 = questionnaire.sections[1];
-      const page2 = section2.pages[0];
+      const page2 = section2.folders[0].pages[0];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
