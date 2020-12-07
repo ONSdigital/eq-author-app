@@ -44,7 +44,6 @@ describe("Question Page Editor", () => {
     questionnaire = buildQuestionnaire();
     const section = questionnaire.sections[0];
     page = section.folders[0].pages[0];
-    page.section = { id: section.id };
     match = {
       params: {
         questionnaireId: questionnaire.id,

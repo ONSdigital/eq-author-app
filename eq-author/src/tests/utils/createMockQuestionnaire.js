@@ -21,6 +21,12 @@ export const buildPages = ({
       validationErrorInfo: {
         totalCount: 2,
       },
+      section: {
+        id: `${sectionNumber}`,
+      },
+      folder: {
+        id: `${folderNumber}`,
+      },
     };
   });
 
