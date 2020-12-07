@@ -21,19 +21,23 @@ export const mapMutateToProps = ({ mutate }) => ({
       ];
 
       options.update = (proxy, { data = {} }) => {
-        const movedPage = data.movePage;
-        const fromSectionId = `Section${from.sectionId}`;
-        const fromSection = proxy.readFragment({ id: fromSectionId, fragment });
+        if (data && data.movePage) {
+          const fromSectionId = `Section${from.sectionId}`;
+          const fromSection = proxy.readFragment({
+            id: fromSectionId,
+            fragment,
+          });
 
-        // Delete question from old folder to prevent brief period with duplication in nav bar
-        fromSection.folders.forEach(({ pages }) => {
-          remove(pages, { id: movedPage.id });
-        });
+          // Delete question from old folder to prevent brief period with duplication in nav bar
+          fromSection.folders.forEach(({ pages }) => {
+            remove(pages, { id: data.movePage.id });
+          });
 
-        proxy.writeData({
-          id: `Section${from.sectionId}`,
-          data: fromSection,
-        });
+          proxy.writeData({
+            id: `Section${from.sectionId}`,
+            data: fromSection,
+          });
+        }
       };
     }
 
