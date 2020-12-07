@@ -226,4 +226,38 @@ describe("components/Autocomplete", () => {
       "autocomplete-input"
     );
   });
+
+  it("should be able to delete default values", () => {
+    props.defaultValue = "ab";
+    const { getByTestId } = render(Component(props));
+
+    getByTestId(inputId).focus();
+
+    userEvent.type(getByTestId(inputId), `{backspace}`);
+
+    expect(getByTestId(inputId)).toHaveAttribute("value", "a");
+  });
+
+  it("should handle other key press", () => {
+    const { getByTestId } = render(Component(props));
+
+    getByTestId(inputId).focus();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
+
+    userEvent.type(getByTestId(inputId), `b`);
+
+    expect(getByTestId(inputId)).toHaveFocus();
+
+    expect(getByTestId(inputId)).toHaveAttribute("value", "ab");
+  });
 });

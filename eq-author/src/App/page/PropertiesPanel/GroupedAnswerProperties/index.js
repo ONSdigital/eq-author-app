@@ -167,7 +167,7 @@ export const UnwrappedGroupedAnswerProperties = ({
                 <Autocomplete
                   options={unitConversion}
                   filter={filterUnitOptions}
-                  placeholder={"Select a type"}
+                  placeholder={"Select a unit type"}
                   updateOption={element => {
                     const value =
                       element !== ""
