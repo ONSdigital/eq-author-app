@@ -9,9 +9,8 @@ const {
   reviewQuestionnaire,
 } = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
-const { createSection, deleteSection } = require("./section");
-const { createFolder, deleteFolder } = require("./folder");
-const { deletePage } = require("./page");
+const { createSection } = require("./section");
+const { createFolder } = require("./folder");
 const { createQuestionPage } = require("./page/questionPage");
 const { createAnswer, updateAnswer } = require("./answer");
 const {
@@ -28,6 +27,10 @@ const {
   updateQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 const { createCollapsible } = require("./collapsible");
+const {
+  getFolderById,
+  getSectionById,
+} = require("../../../schema/resolvers/utils");
 
 const buildRouting = require("./buildRouting");
 
@@ -64,8 +67,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   });
 
   const { questionnaire } = ctx;
-
-  await deleteSection(ctx, questionnaire.sections[0].id);
+  ctx.questionnaire.sections = [];
 
   if (Array.isArray(sections)) {
     for (let section of sections) {
@@ -75,15 +77,16 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
         ...section,
       });
 
-      await deleteFolder(ctx, createdSection.folders[0].id);
+      getSectionById(ctx, createdSection.id).folders = [];
 
       if (Array.isArray(section.folders)) {
         for (let folder of section.folders) {
           const createdFolder = await createFolder(ctx, {
             sectionId: createdSection.id,
+            ...folder,
           });
 
-          await deletePage(ctx, createdFolder.pages[0].id);
+          getFolderById(ctx, createdFolder.id).pages = [];
 
           if (Array.isArray(folder.pages)) {
             for (let page of folder.pages) {
@@ -98,6 +101,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
                   folderId: createdFolder.id,
                   ...page,
                 });
+
                 if (page.confirmation) {
                   const createdQuestionConfirmation = await createQuestionConfirmation(
                     ctx,
