@@ -35,7 +35,7 @@ export const handleDeletion = (
   const { sectionId, questionnaireId } = params;
 
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
-  const newSectionCreated = questionnaire.sections.length === 1;
+  const newSectionCreated = oldQuestionnaire.sections.length === 1;
 
   history.push(
     buildSectionPath({
