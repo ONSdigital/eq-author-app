@@ -14,12 +14,7 @@ import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import MainNavigation from "./MainNavigation";
-import {
-  SECTION,
-  PAGE,
-  QUESTION_CONFIRMATION,
-  FOLDER,
-} from "constants/entities";
+import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
