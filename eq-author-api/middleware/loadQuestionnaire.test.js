@@ -12,7 +12,7 @@ describe("loadQuestionnaire", () => {
     await new Promise(resolve => {
       loadQuestionnaire(req, res, resolve);
     });
-    expect(req.questionnaire).toEqual(questionnaire);
+    expect(req.questionnaire && req.questionnaire.id).toEqual(questionnaire.id);
   });
 
   it("should not add a questionnaire to the req when no header is provided", async () => {
@@ -75,7 +75,7 @@ describe("loadQuestionnaire", () => {
     };
 
     await loadQuestionnaire(req, res, next);
-    expect(req.questionnaire).toEqual(questionnaire);
+    expect(req.questionnaire && req.questionnaire.id).toEqual(questionnaire.id);
     expect(next).toHaveBeenCalled();
   });
 });
