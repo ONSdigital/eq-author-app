@@ -357,74 +357,77 @@ export const VALIDATION_QUERY = gql`
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        pages {
+        folders {
           id
-          validationErrorInfo {
-            ...ValidationErrorInfo
-          }
-          ... on QuestionPage {
-            answers {
-              ... on BasicAnswer {
-                id
-                validation {
-                  ... on NumberValidation {
-                    minValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+          pages {
+            id
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+            ... on QuestionPage {
+              answers {
+                ... on BasicAnswer {
+                  id
+                  validation {
+                    ... on NumberValidation {
+                      minValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      maxValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                    maxValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                  }
-                  ... on DateValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateRangeValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                  }
-                  ... on DateRangeValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      minDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    minDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    maxDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      maxDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
                   }
                 }
-              }
-              ... on MultipleChoiceAnswer {
-                id
+                ... on MultipleChoiceAnswer {
+                  id
+                }
               }
             }
           }
