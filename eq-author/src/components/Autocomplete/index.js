@@ -122,7 +122,7 @@ const Autocomplete = ({
         setIsOpen(false);
       }
     },
-    [query, isOpen]
+    [query, isOpen, selectedOption]
   );
 
   const handleKeyDown = useCallback(
@@ -195,9 +195,6 @@ const Autocomplete = ({
           id={"autocomplete-input-status"}
           length={filterOptions.length}
         />
-        <p>query - {query} </p>
-        <p>selected Option - {selectedOption} </p>
-        {/* <p>query - {query} </p> */}
         <Input
           id="autocomplete-input"
           data-test="autocomplete-input"
