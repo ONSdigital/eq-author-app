@@ -156,7 +156,7 @@ describe("calculated Summary", () => {
         {
           folders: [
             {
-              pages: [{ pageType: "calculatedSummary" }],
+              pages: [{ pageType: "calculatedSummary" }, {}],
             },
           ],
         },
@@ -171,8 +171,7 @@ describe("calculated Summary", () => {
 
     const result = await querySection(ctx, section.id);
 
-    expect(result.folders[0].pages).toHaveLength(0);
-    expect(result.folders[1].pages).toHaveLength(0);
+    expect(result.folders[0].pages).toHaveLength(1);
   });
 
   it("should return a full list of all available summary answers", async () => {
