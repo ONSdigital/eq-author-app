@@ -1,5 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO } = require("../../constants/answerTypes");
+const { RADIO, NUMBER } = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -50,7 +50,7 @@ describe("routing", () => {
                   parentSection: "title-1",
                   answers: [
                     {
-                      type: RADIO,
+                      type: NUMBER,
                     },
                   ],
                   routing: {},
@@ -76,7 +76,7 @@ describe("routing", () => {
     it("should create a default routing when creating a routing", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].folders[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[1];
 
       await executeQuery(
         createRoutingMutation,
@@ -455,6 +455,12 @@ describe("routing", () => {
       config.sections[0].folders[0].pages[0].routing = {
         rules: [{ expressionGroup: { expressions: [{}] } }],
       };
+      config.sections[0].folders[0].pages[0].answers = [
+        {
+          type: RADIO,
+          options: [{}, {}, {}],
+        },
+      ];
       config.sections[0].folders[0].pages[1] = {
         pageType: "calculatedSummary",
       };
@@ -865,14 +871,14 @@ describe("routing", () => {
     it("should remove routing on new last question when page deleted", async () => {
       const section = questionnaire.sections[0];
       const routingPage = section.folders[0].pages[1];
-      const pageToDelete = section.folders.pages[2];
+      const pageToDelete = section.folders[0].pages[2];
 
       // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
 
       // Delete third page
       await deletePage(ctx, pageToDelete.id);
-      expect(questionnaire.sections[0].pages).toHaveLength(2);
+      expect(section.folders[0].pages).toHaveLength(2);
 
       expect(routingPage.routing).toBeUndefined();
     });
@@ -882,19 +888,20 @@ describe("routing", () => {
       const firstPageId = section.folders[0].pages[0].id;
       const routingPage = section.folders[0].pages[1];
       const routingPageId = routingPage.id;
-      const pageToMoveId = section.pages[2].id;
+      const pageToMoveId = section.folders[0].pages[2].id;
 
       expect(routingPage.routing.rules).toHaveLength(1);
 
       // Move third page above second
-      const {
-        section: { pages },
-      } = await movePage(ctx, {
+      await movePage(ctx, {
         id: pageToMoveId,
         sectionId: section.id,
+        folderId: section.folders[0].id,
         position: 1,
       });
-      expect(pages.map(p => p.id)).toEqual([
+
+      const reorderedPageIds = section.folders[0].pages.map(({ id }) => id);
+      expect(reorderedPageIds).toEqual([
         firstPageId,
         pageToMoveId,
         routingPageId,
