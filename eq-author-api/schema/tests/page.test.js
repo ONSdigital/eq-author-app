@@ -25,6 +25,8 @@ const {
 const {
   getSectionByPageId,
   getPageById,
+  getPages,
+  getFolderById,
   getFolderByPageId,
   getSectionByFolderId,
 } = require("../resolvers/utils");
@@ -197,6 +199,13 @@ describe("page", () => {
                 },
               ],
             },
+            {
+              folders: [
+                {
+                  pages: [{}],
+                },
+              ],
+            },
           ],
         });
         questionnaire = ctx.questionnaire;
@@ -242,6 +251,20 @@ describe("page", () => {
 
         expect(folders[0].pages[0].id).toEqual(pageToMoveId);
         expect(folders[0].pages[1].id).toEqual(firstPageId);
+      });
+
+      it("should replenish last disabled folder in section", async () => {
+        const [firstSection, secondSection] = questionnaire.sections;
+        const [sourceFolder] = secondSection.folders;
+
+        await movePage(ctx, {
+          id: sourceFolder.pages[0].id,
+          sectionId: firstSection.id,
+          position: 0,
+        });
+
+        const updatedSourceFolder = getFolderById(ctx, sourceFolder.id);
+        expect(updatedSourceFolder.pages).toHaveLength(1);
       });
 
       it("should be able to move a page later in a section", async () => {
@@ -377,6 +400,7 @@ describe("page", () => {
         pageType: expect.any(String),
         answers: expect.any(Array),
         section: expect.any(Object),
+        folder: expect.any(Object),
         position: expect.any(Number),
         definitionLabel: expect.any(String),
         definitionContent: expect.any(String),
@@ -405,6 +429,12 @@ describe("page", () => {
 
     it("should resolve section", () => {
       expect(queriedPage.section.id).toEqual(questionnaire.sections[0].id);
+    });
+
+    it("should resolve folder", () => {
+      expect(queriedPage.folder.id).toEqual(
+        questionnaire.sections[0].folders[0].id
+      );
     });
 
     it("should resolve availablePipingAnswers", () => {
@@ -451,6 +481,15 @@ describe("page", () => {
       await deletePage(ctx, page.id);
       const deletedQuestionPage = await queryPage(ctx, page.id);
       expect(deletedQuestionPage).toBeNull();
+    });
+
+    it("should create a replacement page if final folder in section depleted of pages", async () => {
+      ctx = await buildContext({ sections: [{ folders: [{ pages: [{}] }] }] });
+      questionnaire = ctx.questionnaire;
+      const page = questionnaire.sections[0].folders[0].pages[0];
+      await deletePage(ctx, page.id);
+      const pages = getPages(ctx);
+      expect(pages).toHaveLength(1);
     });
   });
 

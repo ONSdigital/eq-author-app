@@ -21,6 +21,9 @@ const getPageQuery = `
       section {
         id
       }
+      folder {
+        id
+      }
       position
       availablePipingAnswers {
         id

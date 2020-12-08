@@ -101,6 +101,21 @@ describe("QuestionnaireDesignPage", () => {
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
+  it("should throw an error for invalid entity types", () => {
+    wrapper.setProps({
+      match: {
+        params: {
+          questionnaireId: questionnaire.id,
+          entityName: "invalid",
+        },
+      },
+    });
+
+    expect(() =>
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage")
+    ).toThrow();
+  });
+
   describe("onIntroductionPage", () => {
     beforeEach(() => {
       wrapper.setProps({

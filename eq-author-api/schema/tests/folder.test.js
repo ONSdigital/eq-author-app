@@ -8,6 +8,8 @@ const {
   getFolderByPageId,
 } = require("../resolvers/utils");
 
+const { createFolder } = require("../../tests/utils/contextBuilder/folder");
+
 const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
 
 describe("Folders", () => {
@@ -28,6 +30,18 @@ describe("Folders", () => {
     };
     questionnaire = await createQuestionnaire(ctx, config);
   });
+
+  describe("Resolvers", () => {
+    it("Can query a folder's parent section", async () => {
+      const [section] = questionnaire.sections;
+      const folder = await createFolder(ctx, {
+        sectionId: section.id,
+      });
+
+      expect(folder.section.id).toEqual(section.id);
+    });
+  });
+
   describe("Utils", () => {
     it("Can find all folders in a questionnaire", () => {
       const folders = getFolders(ctx);

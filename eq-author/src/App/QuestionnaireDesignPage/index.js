@@ -95,6 +95,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         break;
 
       case QUESTION_CONFIRMATION:
+      // Fall through
       case PAGE:
         for (const section of questionnaire.sections) {
           for (const folder of section.folders) {
@@ -120,12 +121,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
         break;
 
-      case FOLDER:
-        // TODO
-        break;
+      // case FOLDER:
+      // TODO
 
       default:
-      // TODO
+        throw new Error("Unrecognised entity type.");
     }
 
     if (pageType === "QuestionPage") {

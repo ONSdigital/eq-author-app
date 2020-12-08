@@ -6,7 +6,7 @@ import {
 
 describe("withDeleteSection", () => {
   let history, mutate, result, ownProps, onAddSection, showToast;
-  let currentPage, currentSection, questionnaire;
+  let currentPage, currentSection, questionnaire, defaultOptions;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire({ sectionCount: 2 });
@@ -43,6 +43,14 @@ describe("withDeleteSection", () => {
       showToast,
       client: {
         readFragment: jest.fn(() => questionnaire),
+      },
+    };
+
+    defaultOptions = {
+      variables: {
+        input: {
+          id: currentSection.id,
+        },
       },
     };
 
@@ -103,6 +111,20 @@ describe("withDeleteSection", () => {
         return expect(props.onDeleteSection(currentSection.id)).resolves.toBe(
           result
         );
+      });
+
+      it("shouldn't refetch questionnaire if other sections remain post-deletion", async () => {
+        await props.onDeleteSection(currentSection.id);
+        expect(mutate).toHaveBeenCalledWith(defaultOptions);
+      });
+
+      it("should refetch questionnaire to fetch replacement section when last section is deleted", async () => {
+        questionnaire.sections.pop();
+        await props.onDeleteSection(currentSection.id);
+        expect(mutate).toHaveBeenCalledWith({
+          ...defaultOptions,
+          refetchQueries: ["GetQuestionnaire"],
+        });
       });
     });
   });
