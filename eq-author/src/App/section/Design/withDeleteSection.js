@@ -57,7 +57,7 @@ export const displayToast = (ownProps, questionnaire) => {
   });
 
   const numberOfDeletedPages = deletedSection.folders
-    .map(({ pages }) => pages.length)
+    .flatMap(({ pages }) => pages.length)
     .reduce((acc, value) => acc + value);
 
   ownProps.showToast(

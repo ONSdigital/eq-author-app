@@ -1,7 +1,7 @@
 import { mapMutateToProps, handleDeletion } from "./withDeleteSection";
 import {
   buildQuestionnaire,
-  buildPages,
+  buildFolders,
 } from "tests/utils/createMockQuestionnaire";
 
 describe("withDeleteSection", () => {
@@ -98,7 +98,7 @@ describe("withDeleteSection", () => {
       });
 
       it("should pluralize the number of deleted pages in toast", () => {
-        currentSection.folders[0].pages.push(buildPages());
+        currentSection.folders = buildFolders({ folderCount: 2 });
 
         return props.onDeleteSection(currentSection.id).then(() => {
           expect(showToast).toHaveBeenCalledWith(
