@@ -116,7 +116,7 @@ const Autocomplete = ({
     e => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption !== null) {
+        if (query.length === 0 && selectedOption === null) {
           updateOption("");
         }
         setIsOpen(false);
@@ -195,6 +195,9 @@ const Autocomplete = ({
           id={"autocomplete-input-status"}
           length={filterOptions.length}
         />
+        <p>query - {query} </p>
+        <p>selected Option - {selectedOption} </p>
+        {/* <p>query - {query} </p> */}
         <Input
           id="autocomplete-input"
           data-test="autocomplete-input"
