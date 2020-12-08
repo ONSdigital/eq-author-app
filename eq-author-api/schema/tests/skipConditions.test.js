@@ -25,6 +25,8 @@ const {
   queryQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
+const { getFolderById } = require("../resolvers/utils");
+
 const config = {
   metadata: [{}],
   sections: [
@@ -125,8 +127,8 @@ describe("skip conditions", () => {
     });
     it("should remove skip conditions on first page when a page is moved", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.folders[0].pages[0];
-      const page2 = section.folders[0].pages[1];
+      const folder = section.folders[0];
+      const [page1, page2] = folder.pages;
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -134,22 +136,24 @@ describe("skip conditions", () => {
         "DefaultSkipCondition"
       );
 
-      const {
-        section: { pages },
-      } = await movePage(ctx, {
-        id: page1.id,
+      await movePage(ctx, {
+        id: page2.id,
         sectionId: section.id,
-        position: 1,
+        folderId: folder.id,
+        position: 0,
       });
-      expect(pages.map(p => p.id)).toEqual([page2.id, page1.id]);
+
+      const reorderedPageIds = getFolderById(ctx, folder.id).pages.map(
+        ({ id }) => id
+      );
+      expect(reorderedPageIds).toEqual([page2.id, page1.id]);
 
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();
     });
     it("should remove skip conditions on first page when a page is deleted", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.folders[0].pages[0];
-      const page2 = section.folders[0].pages[1];
+      const [page1, page2] = section.folders[0].pages;
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
