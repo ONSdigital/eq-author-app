@@ -99,7 +99,6 @@ describe("MongoDB Datastore", () => {
       delete questionnaire.metadata;
       delete questionnaire.editors;
       questionnaire.id = "456";
-      console.log(questionnaire);
       await datastore.createQuestionnaire(questionnaire, ctx);
       const questionnaireFromDb = await datastore.getQuestionnaire("456");
       expect(questionnaireFromDb.id).toMatch("456");
