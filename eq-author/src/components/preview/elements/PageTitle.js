@@ -7,6 +7,7 @@ import Error from "components/preview/Error";
 const Title = styled.h1`
   font-size: 1.4em;
   margin: 0 0 1em;
+  word-wrap: break-word;
 `;
 
 const PageTitle = ({ title, missingText = "Missing Page Title" }) => {

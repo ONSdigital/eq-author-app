@@ -41,6 +41,7 @@ export const answerComponents = {
 
 const AnswerWrapper = styled.div`
   margin-bottom: 1em;
+  word-wrap: break-word;
 `;
 
 export const Answer = ({ answer }) => {
