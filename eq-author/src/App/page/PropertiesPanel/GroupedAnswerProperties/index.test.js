@@ -286,6 +286,11 @@ describe("Grouped Answer Properties", () => {
       );
 
       getByTestId(inputId).focus();
+
+      fireEvent.change(getByTestId(inputId), {
+        target: { value: "" },
+      });
+
       getByTestId(inputId).blur();
 
       expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
@@ -307,8 +312,6 @@ describe("Grouped Answer Properties", () => {
       );
 
       getByTestId(inputId).focus();
-      // getByTestId(inputId).blur();
-      // getByTestId(inputId).focus();
 
       fireEvent.change(getByTestId(inputId), {
         target: { value: "cent" },
