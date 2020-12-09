@@ -2,7 +2,7 @@ const datastore = require("./datastore-mongodb");
 const mockQuestionnnaire = require("./mock-questionnaire");
 
 describe("MongoDB Datastore", () => {
-  let questionnaire, baseQuestionnaire, user, ctx;
+  let questionnaire, ctx;
 
   beforeAll(async () => {
     await datastore.connectDB();
