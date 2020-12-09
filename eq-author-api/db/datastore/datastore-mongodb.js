@@ -22,6 +22,7 @@ const connectDB = async () => {
     logger.info("Database connected");
   } catch (error) {
     logger.info(error);
+    throw error;
   }
 };
 
