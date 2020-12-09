@@ -9,6 +9,11 @@ const {
 } = require("../../utils/questionnaireEvents");
 
 let db;
+
+const connectDB = () => {
+  return;
+};
+
 if (process.env.GOOGLE_AUTH_PROJECT_ID) {
   db = new Firestore({
     projectId: process.env.GOOGLE_AUTH_PROJECT_ID,
@@ -495,4 +500,5 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  connectDB,
 };

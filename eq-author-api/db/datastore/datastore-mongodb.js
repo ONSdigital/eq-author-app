@@ -1,4 +1,4 @@
-const MongoClient = require("mongodb").MongoClient;
+const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const { pick } = require("lodash/fp");
@@ -8,18 +8,24 @@ const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
-const url = process.env.MONGODB_URL;
-const dbname = process.env.MONGODB_NAME;
-let dbo;
+const url = process.env.MONGO_URL || process.env.MONGODB_URL;
 
-MongoClient.connect(url, function(err, db) {
-  if (err) {
-    logger.error(err);
-    throw err;
+let dbo, connection;
+
+const connectDB = async () => {
+  try {
+    (connection = await MongoClient.connect(url)),
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      };
+    dbo = await connection.db();
+    logger.info("Database connected");
+  } catch (error) {
+    console.log(error);
+    logger.info(error);
   }
-  dbo = db.db(dbname);
-  logger.info("Database connected");
-});
+};
 
 const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
@@ -59,6 +65,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   } catch (error) {
     logger.error(`Unable to create questionnaire with ID: ${id}`);
     logger.error(error);
+    throw error;
   }
 
   logger.info(`Created questionnaire with ID: ${id}`);
@@ -487,4 +494,5 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  connectDB,
 };

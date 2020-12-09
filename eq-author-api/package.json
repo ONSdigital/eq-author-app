@@ -68,11 +68,13 @@
       "!middleware/import.js",
       "!app.js"
     ],
+    "preset": "@shelf/jest-mongodb",
     "watchPathIgnorePatterns": [
       "data/"
     ]
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "commander": "latest",
     "dynamodb-admin": "latest",
     "eslint": "latest",

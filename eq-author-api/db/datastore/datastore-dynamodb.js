@@ -15,6 +15,10 @@ const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
+const connectDB = () => {
+  return;
+};
+
 const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
 
@@ -307,4 +311,5 @@ module.exports = {
   createComments,
   saveMetadata,
   UserModel,
+  connectDB,
 };
