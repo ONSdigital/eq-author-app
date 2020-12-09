@@ -120,7 +120,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       // TODO
 
       default:
-        throw new Error("Unrecognised entity type.");
+        throw new Error("Unrecognised entity name.");
     }
 
     if (pageType === "QuestionPage") {
