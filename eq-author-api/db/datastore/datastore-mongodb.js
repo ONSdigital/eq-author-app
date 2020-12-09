@@ -22,7 +22,6 @@ const connectDB = async () => {
     logger.info("Database connected");
   } catch (error) {
     logger.info(error);
-    throw error;
   }
 };
 
@@ -255,7 +254,7 @@ const listQuestionnaires = async () => {
     const collection = dbo.collection("questionnaires");
     const questionnaires = await collection.find().toArray();
 
-    if (!questionnaires) {
+    if (questionnaires.length === 0) {
       logger.info("No questionnaires found");
       return [];
     }
@@ -295,8 +294,8 @@ const createComments = async questionnaireId => {
 const listUsers = async () => {
   try {
     const collection = dbo.collection("users");
-    const users = collection.find().toArray();
-    if (!collection) {
+    const users = await collection.find().toArray();
+    if (users.length === 0) {
       logger.info("No users found");
       return [];
     }
