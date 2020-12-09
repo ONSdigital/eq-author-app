@@ -153,8 +153,7 @@ const saveQuestionnaire = async changedQuestionnaire => {
     let collection = dbo.collection("questionnaires");
     await collection.updateOne(
       { id: id },
-      { $set: { ...justListFields(updatedQuestionnaire), updatedAt } },
-      { upsert: true }
+      { $set: { ...justListFields(updatedQuestionnaire), updatedAt } }
     );
 
     delete updatedQuestionnaire._id;
@@ -323,11 +322,7 @@ const saveMetadata = async metadata => {
   try {
     const updatedMetadata = { ...metadata, updatedAt: new Date() };
     const collection = dbo.collection("questionnaires");
-    await collection.updateOne(
-      { id: id },
-      { $set: updatedMetadata },
-      { upsert: true }
-    );
+    await collection.updateOne({ id: id }, { $set: updatedMetadata });
     return updatedMetadata;
   } catch (error) {
     logger.error(`Cannot update base questionnaire with ID ${id}`);
@@ -355,8 +350,7 @@ const createHistoryEvent = async (qid, event) => {
     const collection = dbo.collection("questionnaires");
     await collection.updateOne(
       { id: id },
-      { $set: { history: questionnaire.history } },
-      { upsert: true }
+      { $set: { history: questionnaire.history } }
     );
 
     return questionnaire.history;
@@ -379,11 +373,7 @@ const updateUser = async changedUser => {
     const existingUser = await collection.findOne({ id: id });
 
     const user = Object.assign(changedUser, existingUser);
-    await collection.updateOne(
-      { id: id },
-      { $set: { ...user } },
-      { upsert: true }
-    );
+    await collection.updateOne({ id: id }, { $set: { ...user } });
     return user;
   } catch (error) {
     logger.error(`Unable update user with ID ${id}`);
