@@ -310,12 +310,15 @@ describe("MongoDB Datastore", () => {
       ).not.toThrow();
     });
     it("Should return the questionnaire comments object", async () => {
+      const mockCommentObj = {
+        "123-456-789": [mockComment],
+      };
+
       const commentsFromDb = await datastore.saveComments({
         questionnaireId: "123",
-        comments: [mockComment],
+        comments: mockCommentObj,
       });
-
-      expect(commentsFromDb).toMatchObject([mockComment]);
+      expect(commentsFromDb).toMatchObject(mockCommentObj);
     });
   });
 
@@ -326,16 +329,18 @@ describe("MongoDB Datastore", () => {
     it("Should transform Firestore Timestamps into JS Date objects", async () => {
       const listOfComments = await datastore.getCommentsForQuestionnaire("123");
       expect(
-        listOfComments.comments[0].createdTime instanceof Date
+        listOfComments.comments["123-456-789"][0].createdTime instanceof Date
       ).toBeTruthy();
       expect(
-        listOfComments.comments[0].replies[0].createdTime instanceof Date
+        listOfComments.comments["123-456-789"][0].replies[0]
+          .createdTime instanceof Date
       ).toBeTruthy();
       expect(
-        listOfComments.comments[0].editedTime instanceof Date
+        listOfComments.comments["123-456-789"][0].editedTime instanceof Date
       ).toBeTruthy();
       expect(
-        listOfComments.comments[0].replies[0].editedTime instanceof Date
+        listOfComments.comments["123-456-789"][0].replies[0]
+          .editedTime instanceof Date
       ).toBeTruthy();
     });
   });
