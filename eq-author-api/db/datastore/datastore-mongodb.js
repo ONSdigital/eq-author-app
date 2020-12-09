@@ -14,15 +14,13 @@ let dbo, connection;
 
 const connectDB = async () => {
   try {
-    (connection = await MongoClient.connect(url)),
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      };
+    connection = await MongoClient.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     dbo = await connection.db();
     logger.info("Database connected");
   } catch (error) {
-    console.log(error);
     logger.info(error);
   }
 };

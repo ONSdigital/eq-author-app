@@ -11,16 +11,14 @@ const {
 let db;
 
 const connectDB = () => {
-  return;
+  if (process.env.GOOGLE_AUTH_PROJECT_ID) {
+    db = new Firestore({
+      projectId: process.env.GOOGLE_AUTH_PROJECT_ID,
+    });
+  } else {
+    db = new Firestore();
+  }
 };
-
-if (process.env.GOOGLE_AUTH_PROJECT_ID) {
-  db = new Firestore({
-    projectId: process.env.GOOGLE_AUTH_PROJECT_ID,
-  });
-} else {
-  db = new Firestore();
-}
 
 const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
