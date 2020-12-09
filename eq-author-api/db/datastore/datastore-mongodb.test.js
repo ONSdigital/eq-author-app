@@ -93,6 +93,17 @@ describe("MongoDB Datastore", () => {
       expect(questionnaireFromDb.createdAt instanceof Date).toBeTruthy();
       expect(questionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
     });
+
+    it("Should get a questionnaire with missing section, metadata and editors", async () => {
+      delete questionnaire.sections;
+      delete questionnaire.metadata;
+      delete questionnaire.editors;
+      questionnaire.id = "456";
+      console.log(questionnaire);
+      await datastore.createQuestionnaire(questionnaire, ctx);
+      const questionnaireFromDb = await datastore.getQuestionnaire("456");
+      expect(questionnaireFromDb.id).toMatch("456");
+    });
   });
 
   describe("Getting the base questionnaire", () => {

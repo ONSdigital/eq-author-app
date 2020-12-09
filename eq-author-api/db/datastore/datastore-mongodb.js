@@ -68,7 +68,6 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   } catch (error) {
     logger.error(`Unable to create questionnaire with ID: ${id}`);
     logger.error(error);
-    throw error;
   }
 
   logger.info(`Created questionnaire with ID: ${id}`);
