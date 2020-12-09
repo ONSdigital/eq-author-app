@@ -184,138 +184,143 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
-        pages {
+        folders {
           id
-          title
-          pageType
-          ... on CalculatedSummaryPage {
-            totalTitle
-            summaryAnswers {
-              id
-            }
-            availableSummaryAnswers {
-              id
-            }
-          }
-          ... on QuestionPage {
-            description
-            descriptionEnabled
-            guidance
-            guidanceEnabled
-            definitionLabel
-            definitionContent
-            definitionEnabled
-            additionalInfoLabel
-            additionalInfoContent
-            additionalInfoEnabled
-            confirmation {
-              id
-              title
-              qCode
-              positive {
-                label
-                description
+          alias
+          enabled
+          pages {
+            id
+            title
+            pageType
+            ... on CalculatedSummaryPage {
+              totalTitle
+              summaryAnswers {
+                id
               }
-              negative {
-                label
-                description
+              availableSummaryAnswers {
+                id
               }
             }
-            answers {
-              ...answerFragment
-              ... on MultipleChoiceAnswer {
-                options {
-                  ...optionFragment
+            ... on QuestionPage {
+              description
+              descriptionEnabled
+              guidance
+              guidanceEnabled
+              definitionLabel
+              definitionContent
+              definitionEnabled
+              additionalInfoLabel
+              additionalInfoContent
+              additionalInfoEnabled
+              confirmation {
+                id
+                title
+                qCode
+                positive {
+                  label
+                  description
                 }
-                mutuallyExclusiveOption {
-                  ...optionFragment
+                negative {
+                  label
+                  description
                 }
               }
-            }
-            routing {
-              rules {
-                expressionGroup {
-                  operator
-                  expressions {
-                    ... on BinaryExpression2 {
-                      left {
-                        ... on BasicAnswer {
-                          id
-                          type
-                          label
-                        }
-                        ... on MultipleChoiceAnswer {
-                          id
-                          type
-                          options {
+              answers {
+                ...answerFragment
+                ... on MultipleChoiceAnswer {
+                  options {
+                    ...optionFragment
+                  }
+                  mutuallyExclusiveOption {
+                    ...optionFragment
+                  }
+                }
+              }
+              routing {
+                rules {
+                  expressionGroup {
+                    operator
+                    expressions {
+                      ... on BinaryExpression2 {
+                        left {
+                          ... on BasicAnswer {
                             id
+                            type
+                            label
+                          }
+                          ... on MultipleChoiceAnswer {
+                            id
+                            type
+                            options {
+                              id
+                            }
                           }
                         }
-                      }
-                      condition
-                      right {
-                        ... on CustomValue2 {
-                          number
-                        }
-                        ... on SelectedOptions2 {
-                          options {
-                            id
-                            label
+                        condition
+                        right {
+                          ... on CustomValue2 {
+                            number
+                          }
+                          ... on SelectedOptions2 {
+                            options {
+                              id
+                              label
+                            }
                           }
                         }
                       }
                     }
                   }
+                  destination {
+                    ...destination2Fragment
+                  }
                 }
-                destination {
+                else {
                   ...destination2Fragment
                 }
               }
-              else {
-                ...destination2Fragment
-              }
-            }
-            skipConditions {
-              expressions {
-                ... on BinaryExpression2 {
-                  left {
-                    ... on BasicAnswer {
-                      id
-                      type
-                      label
-                    }
-                    ... on MultipleChoiceAnswer {
-                      id
-                      type
-                      options {
+              skipConditions {
+                expressions {
+                  ... on BinaryExpression2 {
+                    left {
+                      ... on BasicAnswer {
                         id
+                        type
+                        label
+                      }
+                      ... on MultipleChoiceAnswer {
+                        id
+                        type
+                        options {
+                          id
+                        }
                       }
                     }
-                  }
-                  condition
-                  right {
-                    ... on CustomValue2 {
-                      number
-                    }
-                    ... on SelectedOptions2 {
-                      options {
-                        id
-                        label
+                    condition
+                    right {
+                      ... on CustomValue2 {
+                        number
+                      }
+                      ... on SelectedOptions2 {
+                        options {
+                          id
+                          label
+                        }
                       }
                     }
                   }
                 }
               }
-            }
-            totalValidation {
-              id
-              enabled
-              entityType
-              custom
-              previousAnswer {
+              totalValidation {
                 id
+                enabled
+                entityType
+                custom
+                previousAnswer {
+                  id
+                }
+                condition
               }
-              condition
             }
           }
         }
