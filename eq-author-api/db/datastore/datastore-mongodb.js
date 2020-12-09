@@ -8,12 +8,11 @@ const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
-const url = process.env.MONGO_URL || process.env.MONGODB_URL;
-
 let dbo, connection;
 
-const connectDB = async () => {
+const connectDB = async (overrideUrl = "") => {
   try {
+    const url = overrideUrl || process.env.MONGO_URL;
     connection = await MongoClient.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

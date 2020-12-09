@@ -42,6 +42,10 @@ describe("MongoDB Datastore", () => {
   });
 
   describe("Error handling for failed DB connection", () => {
+    it("Should not throw error on connect to db", async () => {
+      expect(() => datastore.connectDB("BrokenConnectionString")).not.toThrow();
+    });
+
     it("Should not throw error on listQuestionnaires", async () => {
       expect(() => datastore.listQuestionnaires()).not.toThrow();
     });
