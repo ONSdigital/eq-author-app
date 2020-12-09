@@ -36,12 +36,6 @@ const mockQuestionnaire = () => {
     editors: [],
     isPublic: true,
     publishStatus: "Unpublished",
-    createdAt: {
-      toDate: () => new Date(),
-    },
-    updatedAt: {
-      toDate: () => new Date(),
-    },
   };
   return questionnaire;
 };

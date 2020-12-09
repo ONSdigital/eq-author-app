@@ -36,9 +36,13 @@ const justListFields = pick(BASE_FIELDS);
 
 const createQuestionnaire = async (questionnaire, ctx) => {
   const updatedAt = new Date();
+  const createdAt = updatedAt;
 
   if (!questionnaire.id) {
     questionnaire.id = uuidv4();
+  }
+  if (!questionnaire.createdAt) {
+    questionnaire.createdAt = createdAt;
   }
 
   let { id } = questionnaire;
@@ -118,16 +122,7 @@ const getQuestionnaireMetaById = async id => {
       return null;
     }
 
-    const updatedQuestionnaire = {
-      ...questionnaire,
-      history: questionnaire.history.map(historyItem => ({
-        ...historyItem,
-        time: historyItem.time.toDate(),
-      })),
-      updatedAt: questionnaire.updatedAt.toDate(),
-      createdAt: questionnaire.createdAt.toDate(),
-    };
-    return updatedQuestionnaire;
+    return questionnaire;
   } catch (error) {
     logger.error(`Error getting base questionnaire with ID ${id}`);
     logger.error(error);
@@ -429,44 +424,7 @@ const getCommentsForQuestionnaire = async questionnaireId => {
     const comments = await collection.findOne({
       questionnaireId: questionnaireId,
     });
-
-    const data = comments;
-
-    const listOfComponents = Object.keys(data.comments);
-    listOfComponents.forEach(component => {
-      const componentComments = data.comments[component];
-      data.comments[component] = componentComments.map(comment => {
-        let editedTime;
-        if (comment.editedTime) {
-          editedTime = comment.editedTime;
-        } else {
-          editedTime = null;
-        }
-
-        const replies = comment.replies.map(reply => {
-          let editedTime;
-          if (reply.editedTime) {
-            editedTime = reply.editedTime;
-          } else {
-            editedTime = null;
-          }
-
-          return {
-            ...reply,
-            editedTime,
-            createdTime: reply.createdTime,
-          };
-        });
-
-        return {
-          ...comment,
-          replies,
-          editedTime,
-          createdTime: comment.createdTime,
-        };
-      });
-    });
-    return data;
+    return comments;
   } catch (error) {
     logger.error(
       `Unable to get comments for questionnaire with ID ${questionnaireId}`
