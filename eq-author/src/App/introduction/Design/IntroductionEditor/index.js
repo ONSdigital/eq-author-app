@@ -130,13 +130,12 @@ export const IntroductionEditor = ({
             <RichTextEditor
               id={`details-additionalGuidancePanel-${id}`}
               name="additionalGuidancePanel"
-              // label="Additional guidance panel"
               value={additionalGuidancePanel}
               onUpdate={onChangeUpdate}
               multiline
               controls={{
+                heading: true,
                 emphasis: true,
-                piping: true,
                 list: true,
                 bold: true,
                 link: true,

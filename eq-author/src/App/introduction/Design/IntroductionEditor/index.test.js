@@ -10,6 +10,8 @@ describe("IntroductionEditor", () => {
       introduction: {
         id: "1",
         title: "title",
+        additionalGuidancePanelSwitch: true,
+        additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
         secondaryDescription: "secondary description",

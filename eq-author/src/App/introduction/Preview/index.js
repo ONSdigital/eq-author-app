@@ -70,6 +70,10 @@ const GuidancePanel = styled.div`
   border-left: solid 0.6em ${colors.darkerBlue};
   padding: 1em;
   background-color: ${colors.paleBlue};
+  h2 {
+    padding-top: 0;
+    margin-top: 0;
+  }
 `;
 
 export const Collapsibles = styled.div`
