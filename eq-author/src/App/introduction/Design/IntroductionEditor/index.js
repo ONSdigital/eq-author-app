@@ -67,7 +67,11 @@ const InlineField = styled(Field)`
   }
 `;
 
-export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
+export const IntroductionEditor = ({
+  introduction,
+  onChangeUpdate,
+  onUpdate,
+}) => {
   const {
     id,
     collapsibles,
@@ -122,7 +126,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
               name="toggle-additional-guidance-panel"
               hideLabels={false}
               onChange={({ value }) =>
-                onChangeUpdate({
+                onUpdate({
                   variables: {
                     input: {
                       id,
