@@ -138,7 +138,7 @@ exports[`MultipleChoiceAnswer should render OptionItem 1`] = `
         "rules": Array [
           "font-size:1em;background:#fff;border:1px solid ",
           "#999999",
-          ";border-radius:0.2em;width:auto;min-width:20em;display:inline-block;overflow:hidden;position:relative;margin-bottom:0.25em;",
+          ";border-radius:0.2em;width:100%;min-width:20em;display:inline-block;overflow:hidden;position:relative;margin-bottom:0.25em;word-wrap:break-word;",
           [Function],
           ";",
         ],
@@ -170,7 +170,7 @@ exports[`MultipleChoiceAnswer should render OptionItem with error 1`] = `
         "rules": Array [
           "font-size:1em;background:#fff;border:1px solid ",
           "#999999",
-          ";border-radius:0.2em;width:auto;min-width:20em;display:inline-block;overflow:hidden;position:relative;margin-bottom:0.25em;",
+          ";border-radius:0.2em;width:100%;min-width:20em;display:inline-block;overflow:hidden;position:relative;margin-bottom:0.25em;word-wrap:break-word;",
           [Function],
           ";",
         ],
