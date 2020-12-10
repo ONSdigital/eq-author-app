@@ -64,6 +64,10 @@ const Button = styled.div`
   margin-bottom: 2em;
 `;
 
+const GuidancePanel = styled.div`
+  background-color: grey;
+`;
+
 export const Collapsibles = styled.div`
   margin-bottom: 1em;
 `;
@@ -103,6 +107,7 @@ export const IntroductionPreview = ({ loading, data }) => {
     questionnaireIntroduction: {
       id,
       title,
+      additionalGuidancePanel,
       description,
       legalBasis,
       secondaryTitle,
@@ -121,6 +126,12 @@ export const IntroductionPreview = ({ loading, data }) => {
           If the company details or structure have changed contact us on{" "}
           <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
         </p>
+
+        <GuidancePanel
+          data-test="additionalGuidancePanel"
+          dangerouslySetInnerHTML={{ __html: additionalGuidancePanel }}
+        />
+
         <Description
           data-test="description"
           dangerouslySetInnerHTML={{ __html: description }}
@@ -182,6 +193,7 @@ const fragment = gql`
   fragment QuestionnaireIntroduction on QuestionnaireIntroduction {
     id
     title
+    additionalGuidancePanel
     description
     legalBasis
     secondaryTitle
