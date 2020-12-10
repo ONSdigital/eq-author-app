@@ -50,7 +50,7 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
-  additionalGuidancePanelEnabled: Boolean
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: Theme
   navigation: Boolean
@@ -583,7 +583,7 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
-  additionalGuidancePanelEnabled: Boolean
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   legalBasis: LegalBasis!
   secondaryTitle: String!
@@ -1145,6 +1145,7 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
   legalBasis: LegalBasis!

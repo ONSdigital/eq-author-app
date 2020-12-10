@@ -70,7 +70,7 @@ const InlineField = styled(Field)`
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
-  onUpdate,
+  updateQuestionnaireIntroduction,
 }) => {
   const {
     id,
@@ -108,6 +108,43 @@ export const IntroductionEditor = ({
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
+
+          <InlineField>
+            <Label>Additional guidance panel</Label>
+
+            <ToggleSwitch
+              id="toggle-additional-guidance-panel"
+              name="toggle-additional-guidance-panel"
+              hideLabels={false}
+              onChange={({ value }) =>
+                updateQuestionnaireIntroduction({
+                  id,
+                  ...introduction,
+                  additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
+                })
+              }
+              checked={additionalGuidancePanelSwitch}
+            />
+          </InlineField>
+          {additionalGuidancePanelSwitch ? (
+            <RichTextEditor
+              id={`details-additionalGuidancePanel-${id}`}
+              name="additionalGuidancePanel"
+              // label="Additional guidance panel"
+              value={additionalGuidancePanel}
+              onUpdate={onChangeUpdate}
+              multiline
+              controls={{
+                emphasis: true,
+                piping: true,
+                list: true,
+                bold: true,
+                link: true,
+              }}
+              testSelector="txt-collapsible-additionalGuidancePanel"
+            />
+          ) : null}
+
           <RichTextEditor
             id="intro-description"
             name="description"
@@ -117,43 +154,6 @@ export const IntroductionEditor = ({
             controls={descriptionControls}
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-description"
-          />
-          <InlineField>
-            <Label>Additional guidance panel</Label>
-
-            <ToggleSwitch
-              id="toggle-additional-guidance-panel"
-              name="toggle-additional-guidance-panel"
-              hideLabels={false}
-              onChange={({ value }) =>
-                onUpdate({
-                  variables: {
-                    input: {
-                      id,
-                      ...introduction,
-                      additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
-                    },
-                  },
-                })
-              }
-              checked={additionalGuidancePanelSwitch}
-            />
-          </InlineField>
-          <RichTextEditor
-            id={`details-additionalGuidancePanel-${id}`}
-            name="additionalGuidancePanel"
-            // label="Additional guidance panel"
-            value={additionalGuidancePanel}
-            onUpdate={onChangeUpdate}
-            multiline
-            controls={{
-              emphasis: true,
-              piping: true,
-              list: true,
-              bold: true,
-              link: true,
-            }}
-            testSelector="txt-collapsible-additionalGuidancePanel"
           />
 
           <SectionTitle>Legal basis</SectionTitle>
@@ -236,6 +236,7 @@ const fragment = gql`
     title
     description
     additionalGuidancePanel
+    additionalGuidancePanelSwitch
     secondaryTitle
     secondaryDescription
     collapsibles {
