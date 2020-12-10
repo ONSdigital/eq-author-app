@@ -48,7 +48,6 @@ const Container = styled.div`
 const Replay = styled.div`
   background-color: ${colors.darkBlue};
   color: ${colors.white};
-  width: auto;
   min-width: 20em;
   width: 100%;
   word-break: break-word;
