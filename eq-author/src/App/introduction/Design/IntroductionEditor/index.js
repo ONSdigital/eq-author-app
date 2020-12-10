@@ -19,6 +19,8 @@ import LegalBasisField from "./LegalBasisField";
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
+import { Field, Input, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -55,12 +57,24 @@ const descriptionControls = {
   link: true,
 };
 
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
 export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
   const {
     id,
     collapsibles,
     title,
     description,
+    additionalGuidancePanel,
+    additionalGuidancePanelSwitch,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -100,6 +114,44 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-description"
           />
+          <InlineField>
+            <Label>Additional guidance panel</Label>
+
+            <ToggleSwitch
+              id="toggle-additional-guidance-panel"
+              name="toggle-additional-guidance-panel"
+              hideLabels={false}
+              onChange={({ value }) =>
+                onChangeUpdate({
+                  variables: {
+                    input: {
+                      id,
+                      ...introduction,
+                      additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
+                    },
+                  },
+                })
+              }
+              checked={additionalGuidancePanelSwitch}
+            />
+          </InlineField>
+          <RichTextEditor
+            id={`details-additionalGuidancePanel-${id}`}
+            name="additionalGuidancePanel"
+            // label="Additional guidance panel"
+            value={additionalGuidancePanel}
+            onUpdate={onChangeUpdate}
+            multiline
+            controls={{
+              emphasis: true,
+              piping: true,
+              list: true,
+              bold: true,
+              link: true,
+            }}
+            testSelector="txt-collapsible-additionalGuidancePanel"
+          />
+
           <SectionTitle>Legal basis</SectionTitle>
           <LegalBasisField
             name="legalBasis"
@@ -179,6 +231,7 @@ const fragment = gql`
     id
     title
     description
+    additionalGuidancePanel
     secondaryTitle
     secondaryDescription
     collapsibles {
