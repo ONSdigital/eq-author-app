@@ -25,7 +25,7 @@ const Container = styled.div`
     margin-bottom: 0;
   }
   em {
-    background-color: #dce5b0;
+    background-color: ${colors.highlightGreen};
     padding: 0 0.125em;
     font-style: normal;
   }
@@ -52,8 +52,8 @@ const Description = styled.div`
 
 const Button = styled.div`
   color: white;
-  background-color: #0f8243;
-  border: 2px solid #0f8243;
+  background-color: ${colors.green};
+  border: 2px solid ${colors.green};
   padding: 0.75rem 1rem;
   margin: 0;
   font-size: 1rem;
@@ -65,7 +65,11 @@ const Button = styled.div`
 `;
 
 const GuidancePanel = styled.div`
-  background-color: grey;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-left: solid 0.6em ${colors.darkerBlue};
+  padding: 1em;
+  background-color: ${colors.paleBlue};
 `;
 
 export const Collapsibles = styled.div`
@@ -88,7 +92,7 @@ const CollapsiblesTitle = styled.div`
 `;
 
 const CollapsiblesContent = styled.div`
-  border-left: 2px solid #999;
+  border-left: 2px solid ${colors.grey};
   margin-left: 6px;
   padding: 0.2em 0 0.2em 1em;
 `;
