@@ -55,6 +55,7 @@ const Replay = styled.div`
   overflow: hidden;
   margin-top: 0;
   margin-bottom: 1em;
+  padding-right: 1em;
 `;
 
 export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
