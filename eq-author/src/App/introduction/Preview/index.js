@@ -16,7 +16,7 @@ import iconChevron from "./icon-chevron.svg";
 
 const Container = styled.div`
   padding: 0 2em 2em;
-  max-width: 40em;
+  word-break: break-word;
   font-size: 1.1em;
   p {
     margin: 0 0 1em;
