@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+import VisuallyHidden from "../VisuallyHidden/index";
 
 import IconText from "components/IconText";
 import WarningIcon from "constants/icon-warning.svg?inline";
@@ -18,6 +19,7 @@ export const ValidationError = props => {
 
   return (
     <ErrorStyling className={className} right={right} icon={WarningIcon}>
+      <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
       {children}
     </ErrorStyling>
   );
