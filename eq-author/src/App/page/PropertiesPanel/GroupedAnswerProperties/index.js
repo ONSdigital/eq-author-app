@@ -77,8 +77,10 @@ const filterUnitOptions = (options, query) =>
   Object.values(options)
     .filter(
       x =>
-        x.unit.toLowerCase().includes(query.toLowerCase()) ||
-        x.abbreviation.toLowerCase().includes(query.toLowerCase())
+        x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
+        x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
+        query.toLowerCase().trim().startsWith(x.unit.toLowerCase()) ||
+        query.toLowerCase().trim().startsWith(x.abbreviation.toLowerCase())
     )
     .map((option, index) => (
       <span key={`unit-option-${index}`} value={option.unit}>
@@ -169,21 +171,17 @@ export const UnwrappedGroupedAnswerProperties = ({
                   filter={filterUnitOptions}
                   placeholder={"Select a unit type"}
                   updateOption={element => {
-                    const value =
-                      element !== ""
-                        ? element.children[0]?.getAttribute("value")
-                        : "";
                     updateAnswersOfType(answerType, page.id, {
-                      unit: value,
+                      unit: element && element.children[0]?.getAttribute("value"),
                     });
                   }}
                   hasError={hasUnitError}
                   defaultValue={
-                    (answers[0].properties.unit &&
-                      `${answers[0].properties.unit} (${
+                    answers[0].properties.unit
+                      ? `${answers[0].properties.unit} (${
                         unitConversion[answers[0].properties.unit].abbreviation
-                      })`) ||
-                    ""
+                      })`
+                      : ""
                   }
                 />
               </MultiLineField>
