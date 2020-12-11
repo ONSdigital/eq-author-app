@@ -1,6 +1,5 @@
 const Ajv = require("ajv");
 const createValidationError = require("./createValidationError");
-const { uniqWith, isEqual } = require("lodash");
 
 const schemas = require("./schemas");
 
@@ -23,47 +22,49 @@ module.exports = questionnaire => {
     err => err.keyword === "errorMessage"
   );
 
-  const formattedErrorMessages = errorMessages.map(error => {
-    if (error.sectionId) {
-      delete error.dataPath;
-      delete error.schemaPath;
-      delete error.keyword;
+  const uniqueErrorMessages = {};
 
-      return error;
+  for (const err of errorMessages) {
+    if (err.keyword !== "errorMessage") {
+      continue;
     }
+    const key = JSON.stringify(err);
+    if (!uniqueErrorMessages[key]) {
+      uniqueErrorMessages[key] = err;
+    }
+  }
 
-    const { dataPath, message } = error;
+  const formattedErrorMessages = Object.values(uniqueErrorMessages).map(
+    error => {
+      if (error.sectionId) {
+        delete error.dataPath;
+        delete error.schemaPath;
+        delete error.keyword;
 
-    const splitDataPath = dataPath.split("/");
-    const field =
-      message === "ERR_QCODE_REQUIRED"
-        ? "qCode"
-        : message === "ERR_SECONDARY_QCODE_REQUIRED"
-        ? "secondaryQCode"
-        : splitDataPath.pop();
+        return error;
+      }
 
-    const newErrorMessage = createValidationError(
-      splitDataPath,
-      field,
-      message,
-      questionnaire
-    );
+      const { dataPath, message } = error;
 
-    delete newErrorMessage.keyword;
-    return newErrorMessage;
-  });
+      const splitDataPath = dataPath.split("/");
+      const field =
+        message === "ERR_QCODE_REQUIRED"
+          ? "qCode"
+          : message === "ERR_SECONDARY_QCODE_REQUIRED"
+          ? "secondaryQCode"
+          : splitDataPath.pop();
 
-  const uniqeErrorMessages = uniqWith(formattedErrorMessages, (one, two) => {
-    const oneClone = Object.assign({}, one);
-    const twoClone = Object.assign({}, two);
+      const newErrorMessage = createValidationError(
+        splitDataPath,
+        field,
+        message,
+        questionnaire
+      );
 
-    delete oneClone.id;
-    delete twoClone.id;
+      delete newErrorMessage.keyword;
+      return newErrorMessage;
+    }
+  );
 
-    const isDuplicate = isEqual(oneClone, twoClone);
-
-    return isDuplicate;
-  });
-
-  return uniqeErrorMessages;
+  return formattedErrorMessages;
 };

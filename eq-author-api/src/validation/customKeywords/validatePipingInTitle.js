@@ -2,10 +2,11 @@ const {
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
 } = require("../../../constants/validationErrorCodes");
-const cheerio = require("cheerio");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const { flatMap, compact } = require("lodash/fp");
 const createValidationError = require("../createValidationError");
+
+const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
 
 module.exports = function(ajv) {
   ajv.addKeyword("validatePipingInTitle", {
@@ -39,32 +40,31 @@ module.exports = function(ajv) {
         true
       );
 
-      const $ = cheerio.load(entityData);
       const pipedIdList = [];
 
-      $("p")
-        .find("span")
-        .each(function(index, element) {
-          pipedIdList.push($(element).data());
-        });
+      let matches;
+      do {
+        matches = pipedAnswerIdRegex.exec(entityData);
+        if (matches && matches.length > 1) {
+          pipedIdList.push(matches[1]);
+        }
+      } while (matches);
 
       let pipedAnswerDeleted = false;
       let pipedAnswerMoved = false;
 
-      pipedIdList.forEach(dataItem => {
-        if (dataItem.piped === "answers") {
-          const foundAnswerInPrevious = previousAnswersForPage.some(
-            el => el.id === dataItem.id
+      pipedIdList.forEach(answerId => {
+        const foundAnswerInPrevious = previousAnswersForPage.some(
+          el => el.id === answerId
+        );
+        if (!foundAnswerInPrevious) {
+          pipedAnswerDeleted = true;
+          const foundAnswerAfter = allAnswersForQuestionnaire.some(
+            el => el.id === answerId
           );
-          if (!foundAnswerInPrevious) {
-            pipedAnswerDeleted = true;
-            const foundAnswerAfter = allAnswersForQuestionnaire.some(
-              el => el.id === dataItem.id
-            );
-            if (foundAnswerAfter) {
-              pipedAnswerMoved = true;
-              pipedAnswerDeleted = false;
-            }
+          if (foundAnswerAfter) {
+            pipedAnswerMoved = true;
+            pipedAnswerDeleted = false;
           }
         }
       });
