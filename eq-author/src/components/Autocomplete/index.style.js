@@ -13,6 +13,9 @@ export const RoundedInput = styled(Input)`
   box-sizing: border-box;
   padding-left: 2em;
   outline: none;
+  &::placeholder {
+    color: ${colors.darkGrey};
+  }
   ${({ hasError }) =>
     hasError &&
     `
