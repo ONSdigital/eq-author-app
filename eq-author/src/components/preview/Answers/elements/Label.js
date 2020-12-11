@@ -9,6 +9,7 @@ const Description = styled.div`
   line-height: 1.4;
   margin-top: 0.2em;
   display: block;
+  word-wrap: break-word;
 `;
 
 const Wrapper = styled.label`
@@ -17,6 +18,7 @@ const Wrapper = styled.label`
   font-weight: 600;
   font-size: 1em;
   line-height: 1.4;
+  word-wrap: break-word;
 `;
 
 const Label = ({ description, children }) => (

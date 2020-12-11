@@ -149,6 +149,8 @@ describe("GroupValidations", () => {
       "ValidationError"
     );
 
-    expect(wrapper.shallow().text()).toEqual(ERR_TOTAL_NO_VALUE);
+    expect(wrapper.shallow().text()).toEqual(
+      "Error:" + String.fromCharCode(160) + ERR_TOTAL_NO_VALUE
+    );
   });
 });

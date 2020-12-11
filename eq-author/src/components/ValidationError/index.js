@@ -5,6 +5,7 @@ import { colors } from "constants/theme";
 
 import IconText from "components/IconText";
 import WarningIcon from "constants/icon-warning.svg?inline";
+import VisuallyHidden from "../VisuallyHidden/index";
 
 const ErrorStyling = styled(IconText)`
   color: ${colors.red};
@@ -20,6 +21,7 @@ const ValidationError = ({ children, right, className, test }) => (
     right={right}
     data-test={test}
   >
+    <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
     {children}
   </ErrorStyling>
 );
