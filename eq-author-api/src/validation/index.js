@@ -18,19 +18,15 @@ module.exports = questionnaire => {
     return [];
   }
 
-  const errorMessages = validate.errors.filter(
-    err => err.keyword === "errorMessage"
-  );
-
   const uniqueErrorMessages = {};
 
-  for (const err of errorMessages) {
-    if (err.keyword !== "errorMessage") {
-      continue;
-    }
-    const key = JSON.stringify(err);
-    if (!uniqueErrorMessages[key]) {
-      uniqueErrorMessages[key] = err;
+  for (const err of validate.errors) {
+    if (err.keyword === "errorMessage") {
+      const key = `${err.dataPath} ${err.message}`;
+
+      if (!uniqueErrorMessages[key]) {
+        uniqueErrorMessages[key] = err;
+      }
     }
   }
 
