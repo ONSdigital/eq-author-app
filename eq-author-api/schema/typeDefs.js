@@ -106,6 +106,7 @@ type Folder {
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
+  section: Section
 }
 
 type Section {
@@ -129,6 +130,7 @@ interface Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  folder: Folder!
   section: Section!
   position: Int!
   availablePipingAnswers: [Answer!]!
@@ -148,6 +150,7 @@ type QuestionPage implements Page {
   pageType: PageType!
   answers: [Answer]
   section: Section!
+  folder: Folder!
   position: Int!
   definitionLabel: String
   definitionContent: String
@@ -174,6 +177,7 @@ type CalculatedSummaryPage implements Page {
   pageType: PageType!
   qCode: String
   section: Section!
+  folder: Folder!
   position: Int!
   availableSummaryAnswers: [Answer!]!
   summaryAnswers: [Answer!]!

@@ -1,0 +1,6 @@
+fragment Folder on Folder {
+  id
+  alias
+  enabled
+  position
+}

@@ -3,22 +3,13 @@ import { shallow } from "enzyme";
 
 import MovePageQuery from "./MovePageModal/MovePageQuery";
 import { PageHeader } from "./PageHeader";
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import {
+  buildQuestionnaire,
+  buildSections,
+} from "tests/utils/createMockQuestionnaire";
 
 describe("Question Page Editor", () => {
-  let wrapper;
-
-  let mockHandlers;
-  let page;
-  let mockEvent;
-
-  const match = {
-    params: {
-      questionnaireId: "1",
-      sectionId: "2",
-      pageId: "3",
-    },
-  };
+  let wrapper, mockHandlers, page, mockEvent, questionnaire, match;
 
   const render = ({ ...props }) => {
     return shallow(
@@ -50,19 +41,15 @@ describe("Question Page Editor", () => {
       preventDefault: jest.fn(),
     };
 
-    page = {
-      __typename: "Page",
-      id: "3",
-      position: 1,
-      alias: "Alias",
-      displayName: "Alias",
-      section: {
-        id: "2",
+    questionnaire = buildQuestionnaire();
+    const section = questionnaire.sections[0];
+    page = section.folders[0].pages[0];
+    match = {
+      params: {
+        questionnaireId: questionnaire.id,
+        sectionId: section.id,
+        pageId: page.id,
       },
-      title: "",
-      description: "",
-      guidance: "",
-      answers: [],
     };
 
     wrapper = render({});
@@ -109,10 +96,8 @@ describe("Question Page Editor", () => {
   });
 
   describe("Move", () => {
-    let questionnaire;
     beforeEach(() => {
       wrapper = render();
-      questionnaire = buildQuestionnaire();
       wrapper.setState({ showMovePageDialog: true });
     });
 
@@ -147,21 +132,6 @@ describe("Question Page Editor", () => {
     });
 
     it("should disable move when only one question", () => {
-      questionnaire.sections = [
-        {
-          id: "1",
-          title: "Section 1",
-          displayName: "Section 1",
-          pages: [
-            {
-              id: "3",
-              title: "1.1",
-              displayName: "1.1",
-              position: 0,
-            },
-          ],
-        },
-      ];
       wrapper = render({ questionnaire });
       const button = wrapper.find("[data-test='btn-move']").prop("disabled");
 
@@ -169,27 +139,7 @@ describe("Question Page Editor", () => {
     });
 
     it("should enable move when more than one question", () => {
-      questionnaire.sections = [
-        {
-          id: "1",
-          title: "Section 1",
-          displayName: "Section 1",
-          pages: [
-            {
-              id: "3",
-              title: "1.1",
-              displayName: "1.1",
-              position: 0,
-            },
-            {
-              id: "4",
-              title: "1.2",
-              displayName: "1.2",
-              position: 0,
-            },
-          ],
-        },
-      ];
+      questionnaire.sections = buildSections({ pageCount: 2 });
       wrapper = render({ questionnaire });
       const button = wrapper.find("[data-test='btn-move']").prop("disabled");
 

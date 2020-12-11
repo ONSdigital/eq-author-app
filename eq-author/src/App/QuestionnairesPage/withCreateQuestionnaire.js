@@ -17,7 +17,7 @@ export const redirectToDesigner = history => ({ data }) => {
   }
 
   const section = questionnaire.sections[0];
-  const page = section.pages[0];
+  const page = section.folders[0].pages[0];
 
   history.push(
     buildPagePath({

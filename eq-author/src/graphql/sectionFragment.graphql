@@ -1,6 +1,9 @@
 fragment MinimalSection on Section {
   id
-  pages {
+  folders {
     id
+    pages {
+      id
+    }
   }
 }

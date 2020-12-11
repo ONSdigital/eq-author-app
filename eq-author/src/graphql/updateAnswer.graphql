@@ -9,6 +9,12 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
         ...ValidationErrorInfo
       }
     }
+    page {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
     displayName
   }
 }

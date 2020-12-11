@@ -62,7 +62,6 @@ const proptypes = {
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
     canAddQuestionPage: PropTypes.bool.isRequired,
@@ -143,7 +142,6 @@ export const UnwrappedNavigationSidebar = props => {
     canAddQuestionConfirmation,
     canAddCalculatedSummaryPage,
     canAddQuestionPage,
-    loading,
   } = props;
 
   const { label, isOpen } = state;
@@ -194,7 +192,7 @@ export const UnwrappedNavigationSidebar = props => {
 
   return (
     <Container data-test="side-nav">
-      {loading ? null : (
+      {!questionnaire ? null : (
         <>
           <NavigationHeader
             questionnaire={questionnaire}

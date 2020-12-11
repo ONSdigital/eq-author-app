@@ -1,36 +1,17 @@
 import { mapMutateToProps, handleDeletion } from "./withDeleteSection";
+import {
+  buildQuestionnaire,
+  buildFolders,
+} from "tests/utils/createMockQuestionnaire";
 
 describe("withDeleteSection", () => {
   let history, mutate, result, ownProps, onAddSection, showToast;
-  let deletedPage, currentPage, currentSection, questionnaire;
+  let currentPage, currentSection, questionnaire, defaultOptions;
 
   beforeEach(() => {
-    deletedPage = {
-      id: "2",
-      sectionId: "2",
-    };
-
-    currentPage = {
-      id: "1",
-      sectionId: "1",
-    };
-
-    currentSection = {
-      id: currentPage.sectionId,
-      pages: [currentPage, { id: "3" }],
-    };
-
-    questionnaire = {
-      id: "1",
-      title: "My Questionnaire",
-      sections: [
-        currentSection,
-        {
-          id: deletedPage.sectionId,
-          pages: [deletedPage],
-        },
-      ],
-    };
+    questionnaire = buildQuestionnaire({ sectionCount: 2 });
+    currentSection = questionnaire.sections[0];
+    currentPage = currentSection.folders[0].pages[0];
 
     history = {
       push: jest.fn(),
@@ -39,8 +20,8 @@ describe("withDeleteSection", () => {
     result = {
       data: {
         deleteSection: {
-          id: "questionnaire",
-          sections: [],
+          ...questionnaire,
+          sections: [questionnaire.sections[1]],
         },
       },
     };
@@ -62,6 +43,14 @@ describe("withDeleteSection", () => {
       showToast,
       client: {
         readFragment: jest.fn(() => questionnaire),
+      },
+    };
+
+    defaultOptions = {
+      variables: {
+        input: {
+          id: currentSection.id,
+        },
       },
     };
 
@@ -101,19 +90,16 @@ describe("withDeleteSection", () => {
       });
 
       it("should display number of deleted pages in toast", () => {
-        const pages = currentSection.pages;
-        currentSection.pages = [currentPage];
-
         return props.onDeleteSection(currentSection.id).then(() => {
           expect(showToast).toHaveBeenCalledWith(
             expect.stringContaining("1 page")
           );
-
-          currentSection.pages = pages;
         });
       });
 
       it("should pluralize the number of deleted pages in toast", () => {
+        currentSection.folders = buildFolders({ folderCount: 2 });
+
         return props.onDeleteSection(currentSection.id).then(() => {
           expect(showToast).toHaveBeenCalledWith(
             expect.stringContaining("2 pages")
@@ -126,25 +112,27 @@ describe("withDeleteSection", () => {
           result
         );
       });
+
+      it("shouldn't refetch questionnaire if other sections remain post-deletion", async () => {
+        await props.onDeleteSection(currentSection.id);
+        expect(mutate).toHaveBeenCalledWith(defaultOptions);
+      });
+
+      it("should refetch questionnaire to fetch replacement section when last section is deleted", async () => {
+        questionnaire.sections.pop();
+        await props.onDeleteSection(currentSection.id);
+        expect(mutate).toHaveBeenCalledWith({
+          ...defaultOptions,
+          refetchQueries: ["GetQuestionnaire"],
+        });
+      });
     });
   });
 
   describe("handleDeletion", () => {
-    describe("when only one section in questionnaire", () => {
-      it("should add new section", () => {
-        handleDeletion(ownProps, result, {});
-        expect(onAddSection).toHaveBeenCalled();
-      });
-    });
-
-    describe("when more than one section in questionnaire", () => {
-      it("should redirect to another section", () => {
-        result.data.deleteSection.sections = [
-          { id: "section 1", pages: [{ id: "page 1" }] },
-        ];
-        handleDeletion(ownProps, result, questionnaire);
-        expect(history.push).toHaveBeenCalled();
-      });
+    it("should redirect to another section", () => {
+      handleDeletion(ownProps, result, questionnaire);
+      expect(history.push).toHaveBeenCalled();
     });
   });
 });

@@ -45,6 +45,7 @@ const {
 } = require("../../src/businessLogic");
 
 const {
+  getExpressions,
   getSections,
   getSectionById,
   getFolderById,
@@ -516,7 +517,6 @@ const Resolvers = {
       return option;
     }),
     deleteOption: createMutation((_, { input }, ctx) => {
-      const pages = getPages(ctx);
       const answers = getAnswers(ctx);
 
       const answer = find(answers, answer => {
@@ -527,30 +527,13 @@ const Resolvers = {
 
       const removedOption = first(remove(answer.options, { id: input.id }));
 
-      pages.forEach(page => {
-        if (!page.routing && !page.skipConditions) {
-          return;
+      getExpressions(ctx).forEach(expression => {
+        if (expression.right && expression.right.optionIds) {
+          remove(
+            expression.right.optionIds,
+            value => value === removedOption.id
+          );
         }
-
-        const routingExprs = page.routing
-          ? page.routing.rules.flatMap(
-              rule => rule.expressionGroup && rule.expressionGroup.expressions
-            )
-          : [];
-        const skipExprs = page.skipConditions
-          ? page.skipConditions.flatMap(
-              condition => condition && condition.expressions
-            )
-          : [];
-        const rightHandSides = [...routingExprs, ...skipExprs].map(
-          x => x && x.right
-        );
-
-        rightHandSides.forEach(right => {
-          if (right && right.optionIds) {
-            remove(right.optionIds, value => value === removedOption.id);
-          }
-        });
       });
 
       return answer;
@@ -1020,6 +1003,7 @@ const Resolvers = {
   },
 
   Folder: {
+    section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
     position: ({ id }, args, ctx) => {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });

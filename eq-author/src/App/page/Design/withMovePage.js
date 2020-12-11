@@ -1,94 +1,47 @@
 import { graphql } from "react-apollo";
-import movePageMutation from "graphql/movePage.graphql";
-import fragment from "graphql/fragments/movePage.graphql";
-import { buildPagePath } from "utils/UrlUtils";
 import { remove } from "lodash";
+import fragment from "graphql/fragments/movePage.graphql";
+import getSection from "graphql/getSection.graphql";
+import movePageMutation from "graphql/movePage.graphql";
 
-export const createUpdater = ({ from, to }) => (proxy, result) => {
-  result = result.data.movePage;
-  const fromSectionId = `Section${from.sectionId}`;
-  const fromSection = proxy.readFragment({ id: fromSectionId, fragment });
-
-  // remove page from previous section and update position values
-  const [movedPage] = remove(fromSection.pages, { id: from.id });
-  fromSection.pages.forEach((page, i) => (page.position = i));
-
-  proxy.writeFragment({
-    id: fromSectionId,
-    fragment,
-    data: fromSection,
-  });
-
-  const toSectionId = `Section${to.sectionId}`;
-  const toSection = proxy.readFragment({ id: toSectionId, fragment });
-
-  // add page to new section and update position values
-  toSection.pages.splice(result.position, 0, movedPage);
-  toSection.pages.forEach((page, i) => (page.position = i));
-
-  proxy.writeFragment({
-    id: toSectionId,
-    fragment,
-    data: toSection,
-  });
-};
-
-const redirect = ({ history, match }, { from, to }) => {
-  const movedToDifferentSection = from.sectionId !== to.sectionId;
-
-  if (movedToDifferentSection) {
-    history.replace(
-      buildPagePath({
-        questionnaireId: match.params.questionnaireId,
-        sectionId: to.sectionId,
-        pageId: to.id,
-      })
-    );
-  }
-};
-
-const getCachedSection = (client, id) =>
-  client.readFragment({
-    id: `Section${id}`,
-    fragment,
-  });
-
-const handleMove = ({ onAddQuestionPage }, section) => {
-  if (section.pages.length === 0) {
-    return onAddQuestionPage(section.id);
-  }
-};
-
-export const mapMutateToProps = ({ ownProps, mutate }) => ({
+export const mapMutateToProps = ({ mutate }) => ({
   onMovePage({ from, to }) {
-    const optimisticResponse = {
-      movePage: {
-        id: to.id,
-        section: {
-          id: to.sectionId,
-          __typename: "Section",
+    const options = { variables: { input: to } };
+
+    if (from.sectionId !== to.sectionId) {
+      options.refetchQueries = [
+        {
+          query: getSection,
+          variables: {
+            input: {
+              sectionId: from.sectionId,
+            },
+          },
         },
-        position: to.position,
-        __typename: "QuestionPage",
-      },
-    };
+      ];
 
-    const mutation = mutate({
-      update: createUpdater({ from, to }),
-      variables: { input: to },
-      optimisticResponse,
-    });
+      options.update = (proxy, { data = {} }) => {
+        if (data && data.movePage) {
+          const fromSectionId = `Section${from.sectionId}`;
+          const fromSection = proxy.readFragment({
+            id: fromSectionId,
+            fragment,
+          });
 
-    return mutation
-      .then(() => redirect(ownProps, { from, to }))
-      .then(() => {
-        const cachedSection = getCachedSection(
-          ownProps.client,
-          ownProps.page.section.id
-        );
-        handleMove(ownProps, cachedSection);
-      })
-      .then(() => mutation);
+          // Delete question from old folder to prevent brief period with duplication in nav bar
+          fromSection.folders.forEach(({ pages }) => {
+            remove(pages, { id: data.movePage.id });
+          });
+
+          proxy.writeData({
+            id: `Section${from.sectionId}`,
+            data: fromSection,
+          });
+        }
+      };
+    }
+
+    return mutate(options);
   },
 });
 

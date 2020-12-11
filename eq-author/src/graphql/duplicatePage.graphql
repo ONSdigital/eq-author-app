@@ -14,8 +14,11 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       }
       section {
         id
-        pages {
+        folders {
           id
+          pages {
+            id
+          }
         }
       }
       confirmation {

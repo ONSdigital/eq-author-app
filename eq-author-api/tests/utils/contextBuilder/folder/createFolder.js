@@ -12,6 +12,9 @@ const createFolderMutation = `
             id
         }
         position
+        section {
+         id
+        }
     }
   }
 `;

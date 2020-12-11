@@ -10,14 +10,19 @@ const result = {
       sections: [
         {
           id: 1,
-          pages: [
+          folders: [
             {
-              id: 1,
-              answers: [
+              id: "f1",
+              pages: [
                 {
                   id: 1,
-                  type: "TextField",
-                  properties: { required: true },
+                  answers: [
+                    {
+                      id: 1,
+                      type: "TextField",
+                      properties: { required: true },
+                    },
+                  ],
                 },
               ],
             },

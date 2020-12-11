@@ -18,9 +18,12 @@ query GetAvailableRoutingDestinations($input: QueryInput!) {
         sections {
           id
           displayName
-          pages {
+          folders {
             id
-            displayName
+            pages {
+              id
+              displayName
+            }
           }
         }
       }

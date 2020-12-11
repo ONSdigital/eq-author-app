@@ -388,23 +388,23 @@ describe("multiple choice answer", () => {
                           options: [{}],
                         },
                       ],
-                    },
-                  ],
-                  routing: {
-                    rules: [
-                      {
-                        expressionGroup: {
-                          expressions: [{}],
-                        },
+                      routing: {
+                        rules: [
+                          {
+                            expressionGroup: {
+                              expressions: [{}],
+                            },
+                          },
+                        ],
                       },
-                    ],
-                  },
-                },
-                {
-                  answers: [
+                    },
                     {
-                      type: CHECKBOX,
-                      options: [{}],
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                          options: [{}],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -432,8 +432,8 @@ describe("multiple choice answer", () => {
         const option = getOption(questionnaire);
 
         const expression =
-          questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup
-            .expressions[0];
+          questionnaire.sections[0].folders[0].pages[0].routing.rules[0]
+            .expressionGroup.expressions[0];
         expression.right = {
           optionIds: [option.id],
         };
@@ -448,7 +448,7 @@ describe("multiple choice answer", () => {
 
         const option = getOption(questionnaire);
 
-        const secondPage = questionnaire.sections[0].pages[1];
+        const secondPage = questionnaire.sections[0].folders[0].pages[1];
         secondPage.skipConditions = [
           {
             id: "skip-1",

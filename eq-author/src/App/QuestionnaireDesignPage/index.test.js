@@ -1,6 +1,7 @@
 import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import {
   SECTION,
@@ -26,41 +27,16 @@ describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let answer, confirmation, page, section, questionnaire, validations;
+  let confirmation, page, section, questionnaire, validations;
 
   beforeEach(() => {
-    answer = {
-      id: "1",
-      label: "",
-      options: [{ id: "1" }],
-    };
+    questionnaire = buildQuestionnaire();
+    section = questionnaire.sections[0];
+    page = questionnaire.sections[0].folders[0].pages[0];
 
     confirmation = {
       id: "4",
       title: "Confirmation",
-    };
-
-    page = {
-      id: "1",
-      description: "",
-      guidance: "",
-      title: "",
-      pageType: "QuestionPage",
-      position: 0,
-      answers: [answer],
-    };
-
-    section = {
-      id: "2",
-      title: "",
-      pages: [page],
-    };
-
-    questionnaire = {
-      id: "3",
-      title: "hello world",
-      sections: [section],
-      displayName: "my displayName",
     };
 
     validations = {
@@ -123,6 +99,21 @@ describe("QuestionnaireDesignPage", () => {
       },
     });
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
+  });
+
+  it("should throw an error for invalid entity types", () => {
+    wrapper.setProps({
+      match: {
+        params: {
+          questionnaireId: questionnaire.id,
+          entityName: "invalid",
+        },
+      },
+    });
+
+    expect(() =>
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage")
+    ).toThrow();
   });
 
   describe("onIntroductionPage", () => {
@@ -262,8 +253,8 @@ describe("QuestionnaireDesignPage", () => {
       );
     });
 
-    it("should disable adding question page when the page already has one", () => {
-      questionnaire.sections[0].pages[0].confirmation = {
+    it("should disable adding confirmation page when the question page already has one", () => {
+      questionnaire.sections[0].folders[0].pages[0].confirmation = {
         id: 1,
       };
       wrapper.setProps({ questionnaire });
@@ -281,7 +272,7 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("should disable adding question confirmation when not on a question page", () => {
-      questionnaire.sections[0].pages[0] = {
+      questionnaire.sections[0].folders[0].pages[0] = {
         id: "1",
         title: "",
         pageType: "NotQuestionPage",

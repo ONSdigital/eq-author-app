@@ -3,6 +3,14 @@
 fragment SkipLogicPage on QuestionPage {
   id
   position
+  section {
+    id
+    position
+  }
+  folder {
+    id
+    position
+  }
   skipConditions {
     ...SkipLogicEditor
   }

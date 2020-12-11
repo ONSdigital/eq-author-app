@@ -14,55 +14,45 @@ import fragment from "./fragment.graphql";
 import transformNestedFragments from "utils/transformNestedFragments";
 import Panel from "components/Panel";
 
-export class UnwrappedSkipLogicPage extends React.Component {
-  static propTypes = {
-    page: propType(
-      transformNestedFragments(fragment, SkipLogicEditor.fragments)
-    ).isRequired,
-    createSkipCondition: PropTypes.func.isRequired,
-  };
+export const UnwrappedSkipLogicPage = ({ page, createSkipCondition }) => {
+  const handleAddSkipCondtions = () => createSkipCondition(page.id);
+  const isFirstQuestion =
+    page.position + page.folder.position + page.section.position === 0;
 
-  static fragments = [fragment, ...SkipLogicEditor.fragments];
+  return (
+    <div data-test="skip-condition-editor">
+      <TransitionGroup>
+        {page.skipConditions ? (
+          <Transition key="skip-condition-set" exit={false}>
+            <SkipLogicEditor
+              pageId={page.id}
+              skipConditions={page.skipConditions}
+            />
+          </Transition>
+        ) : (
+          <Transition key="skip-condition-set-empty" exit={false}>
+            <Panel>
+              <NoSkipConditions
+                onAddSkipCondtions={handleAddSkipCondtions}
+                data-test="skip-condition-set-empty-msg"
+                isFirstQuestion={isFirstQuestion}
+              >
+                All users will see this question if no skip logic is added.
+              </NoSkipConditions>
+            </Panel>
+          </Transition>
+        )}
+      </TransitionGroup>
+    </div>
+  );
+};
 
-  handleAddSkipCondtions = () =>
-    this.props.createSkipCondition(this.props.page.id);
+UnwrappedSkipLogicPage.propTypes = {
+  page: propType(transformNestedFragments(fragment, SkipLogicEditor.fragments))
+    .isRequired,
+  createSkipCondition: PropTypes.func.isRequired,
+};
 
-  renderContent(page) {
-    const isFirstQuestion = page.section.position === 0 && page.position === 0;
-    if (!page.skipConditions) {
-      return (
-        <Transition key="skip-condition-set-empty" exit={false}>
-          <Panel>
-            <NoSkipConditions
-              onAddSkipCondtions={this.handleAddSkipCondtions}
-              data-test="skip-condition-set-empty-msg"
-              isFirstQuestion={isFirstQuestion}
-            >
-              All users will see this question if no skip logic is added.
-            </NoSkipConditions>
-          </Panel>
-        </Transition>
-      );
-    }
-
-    return (
-      <Transition key="skip-condition-set" exit={false}>
-        <SkipLogicEditor
-          pageId={page.id}
-          skipConditions={page.skipConditions}
-        />
-      </Transition>
-    );
-  }
-
-  render() {
-    const { page } = this.props;
-    return (
-      <div data-test="skip-condition-editor">
-        <TransitionGroup>{this.renderContent(page)}</TransitionGroup>
-      </div>
-    );
-  }
-}
+UnwrappedSkipLogicPage.fragments = [fragment, ...SkipLogicEditor.fragments];
 
 export default withCreateSkipLogic(UnwrappedSkipLogicPage);

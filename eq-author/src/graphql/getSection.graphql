@@ -1,0 +1,41 @@
+#import "./fragments/validationErrorInfo.graphql"
+
+query GetSection($input: QueryInput!) {
+  section(input: $input) {
+    id
+    alias
+    displayName
+    introductionTitle
+    introductionContent
+    position
+    validationErrorInfo {
+      totalCount
+      id
+    }
+    folders {
+      id
+      enabled
+      alias
+      position
+      pages {
+        id
+        title
+        displayName
+        position
+        pageType
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+        ... on QuestionPage {
+          confirmation {
+            id
+            displayName
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+        }
+      }
+    }
+  }
+}

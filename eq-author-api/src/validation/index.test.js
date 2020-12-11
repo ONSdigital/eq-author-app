@@ -36,7 +36,7 @@ const validation = require(".");
 const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 const addExpression = ({ questionnaire, number, condition }) => {
-  questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions.push(
+  questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions.push(
     {
       id: "expression_2",
       condition,
@@ -74,6 +74,7 @@ describe("schema validation", () => {
                       id: "answer_1",
                       type: NUMBER,
                       label: "Number",
+                      qCode: "qCode1",
                       properties: {
                         required: false,
                         decimals: 0,
@@ -92,31 +93,21 @@ describe("schema validation", () => {
                       },
                     },
                     {
-                      id: "page_1",
-                      title: "page title",
-                      answers: [
-                        {
-                          id: "answer_1",
-                          type: NUMBER,
-                          label: "Number",
-                        },
-                        {
-                          id: "answer_12",
-                          type: NUMBER,
-                          label: "Number",
-                        },
-                      ],
+                      id: "answer_12",
+                      type: NUMBER,
+                      label: "Number",
                     },
+                  ],
+                },
+                {
+                  id: "page_2",
+                  title: "page title",
+                  answers: [
                     {
-                      id: "page_2",
-                      title: "page title",
-                      answers: [
-                        {
-                          id: "answer_2",
-                          type: NUMBER,
-                          label: "Number",
-                        },
-                      ],
+                      id: "answer_2",
+                      type: NUMBER,
+                      label: "Number",
+                      qCode: "qCode4",
                     },
                   ],
                 },
@@ -1639,7 +1630,7 @@ describe("schema validation", () => {
 
     describe("Validating AND in routing rules", () => {
       beforeEach(() => {
-        questionnaire.sections[0].pages[1].routing = {
+        questionnaire.sections[0].folders[0].pages[1].routing = {
           id: "1",
           else: {
             id: "else-1",
@@ -1708,7 +1699,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 44 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
 
         expect(validation(questionnaire)).toHaveLength(0);
@@ -1718,7 +1709,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 40 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
 
         const errors = validation(questionnaire);
@@ -1730,7 +1721,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 43 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
 
         const errors = validation(questionnaire);
@@ -1742,9 +1733,9 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 43 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
-        questionnaire.sections[0].pages[0].answers[0].properties.decimals = 1;
+        questionnaire.sections[0].folders[0].pages[0].answers[0].properties.decimals = 1;
 
         expect(validation(questionnaire)).toHaveLength(0);
       });
@@ -1753,7 +1744,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 44 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
         addExpression({ questionnaire, condition: "Equal", number: 43 });
 
@@ -1764,7 +1755,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessThan", number: 44 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterThan";
         addExpression({ questionnaire, condition: "Equal", number: 40 });
 
@@ -1777,7 +1768,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "LessOrEqual", number: 43 });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
           "GreaterOrEqual";
         addExpression({ questionnaire, condition: "NotEqual", number: 42 });
         addExpression({ questionnaire, condition: "NotEqual", number: 43 });
@@ -1801,7 +1792,7 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "GreaterThan" });
-        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right = null;
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right = null;
 
         const errors = validation(questionnaire);
         expect(errors).toHaveLength(1);
@@ -1811,7 +1802,7 @@ describe("schema validation", () => {
       it("should run logical AND rules validation code also for skipConditions", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
-        questionnaire.sections[0].pages[1].skipConditions = [
+        questionnaire.sections[0].folders[0].pages[1].skipConditions = [
           {
             id: "group-1",
             expressions: [

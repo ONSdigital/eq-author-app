@@ -1,40 +1,23 @@
 import { mapMutateToProps } from "./withDeletePage";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 describe("withDeletePage", () => {
   let history, mutate, result, ownProps, onAddQuestionPage, showToast;
-  let deletedPage, currentPage, sectionId, questionnaireId, beforeDeleteSection;
+  let deletedPage, currentPage, questionnaire;
 
   beforeEach(() => {
-    sectionId = "9";
-    questionnaireId = "1";
-    currentPage = {
-      id: "1",
-      sectionId,
-      position: 0,
-    };
+    questionnaire = buildQuestionnaire({ pageCount: 2 });
+    const section = questionnaire.sections[0];
+    currentPage = section.folders[0].pages[0];
+    deletedPage = section.folders[0].pages[1];
 
-    deletedPage = {
-      id: "2",
-      section: {
-        id: sectionId,
-      },
-      position: 1,
-    };
-
-    beforeDeleteSection = {
-      id: sectionId,
-      pages: [currentPage, deletedPage, { id: "3", position: 2 }],
-    };
-
-    history = {
-      push: jest.fn(),
-    };
+    history = { push: jest.fn() };
 
     result = {
       data: {
         deletePage: {
-          id: sectionId,
-          pages: [currentPage, { id: "3", position: 2 }],
+          ...section,
+          folders: [section.folders[0]],
         },
       },
     };
@@ -44,12 +27,12 @@ describe("withDeletePage", () => {
 
     ownProps = {
       client: {
-        readFragment: jest.fn().mockReturnValueOnce(beforeDeleteSection),
+        readFragment: jest.fn().mockReturnValueOnce(section),
       },
       match: {
         params: {
-          questionnaireId,
-          sectionId,
+          questionnaireId: questionnaire.id,
+          sectionId: section.id,
           pageId: currentPage.id,
         },
       },
@@ -93,24 +76,10 @@ describe("withDeletePage", () => {
         });
       });
 
-      it("should create a page if you delete the last page in a section", () => {
-        result.data.deletePage.pages = [];
-        ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
-          ...beforeDeleteSection,
-          pages: [deletedPage],
-        });
-
-        return props.onDeletePage(deletedPage).then(() => {
-          expect(onAddQuestionPage).toHaveBeenCalledWith(
-            deletedPage.section.id
-          );
-        });
-      });
-
       it("should redirect to another page in the section", () => {
         return props.onDeletePage(deletedPage).then(() => {
           expect(history.push).toHaveBeenCalledWith(
-            `/q/${questionnaireId}/page/${currentPage.id}/design`
+            `/q/${questionnaire.id}/page/${currentPage.id}/design`
           );
         });
       });
