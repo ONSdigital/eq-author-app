@@ -10,10 +10,18 @@ const processContent = ctx => flow(convertPipes(ctx), parseContent);
 const getSimpleText = (content, ctx) =>
   flow(convertPipes(ctx), getInnerHTMLWithPiping)(content);
 
-const getComplexText = (content, ctx) => {
+const addPanel = additionalGuidancePanel =>
+  `<div class=\"panel panel--simple panel--info\"><div class=\"panel__body\">${additionalGuidancePanel}</div></div>`;
+
+const getComplexText = (content, ctx) => additionalGuidancePanel => {
   const result = processContent(ctx)(content);
   if (result) {
-    return result.content;
+    if (additionalGuidancePanel) {
+      result.content.unshift({
+        description: addPanel(additionalGuidancePanel),
+      });
+      return result.content;
+    } else return result.content;
   }
   return undefined;
 };
@@ -22,6 +30,7 @@ module.exports = class Introduction {
   constructor(
     {
       description,
+      additionalGuidancePanel,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -32,12 +41,11 @@ module.exports = class Introduction {
   ) {
     this.type = "Introduction";
     this.id = "introduction-block";
-
     this.primary_content = [
       {
         type: "Basic",
         id: "primary",
-        content: getComplexText(description, ctx),
+        content: getComplexText(description, ctx)(additionalGuidancePanel),
       },
     ];
 

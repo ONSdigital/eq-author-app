@@ -19,7 +19,7 @@ import LegalBasisField from "./LegalBasisField";
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
-import { Field, Input, Label } from "components/Forms";
+import { Field, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Section = styled.section`
