@@ -7,11 +7,12 @@ import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 describe("withCreateQuestionnaire", () => {
-  let history, mutate, results, user, page, section, questionnaire;
+  let history, mutate, results, user, page, folder, section, questionnaire;
 
   beforeEach(() => {
     page = { id: "3" };
-    section = { id: "2", pages: [page] };
+    folder = { id: "f", pages: [page] };
+    section = { id: "2", folders: [folder] };
     questionnaire = { id: "1", sections: [section] };
 
     results = {
