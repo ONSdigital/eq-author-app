@@ -13,10 +13,13 @@ const getSimpleText = (content, ctx) =>
 const addPanel = additionalGuidancePanel =>
   `<div class=\"panel panel--simple panel--info\"><div class=\"panel__body\">${additionalGuidancePanel}</div></div>`;
 
-const getComplexText = (content, ctx) => additionalGuidancePanel => {
+const getComplexText = (content, ctx) => (
+  additionalGuidancePanel,
+  additionalGuidancePanelSwitch
+) => {
   const result = processContent(ctx)(content);
   if (result) {
-    if (additionalGuidancePanel) {
+    if (additionalGuidancePanel && additionalGuidancePanelSwitch) {
       result.content.unshift({
         description: addPanel(additionalGuidancePanel),
       });
@@ -31,6 +34,7 @@ module.exports = class Introduction {
     {
       description,
       additionalGuidancePanel,
+      additionalGuidancePanelSwitch,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -45,7 +49,10 @@ module.exports = class Introduction {
       {
         type: "Basic",
         id: "primary",
-        content: getComplexText(description, ctx)(additionalGuidancePanel),
+        content: getComplexText(description, ctx)(
+          additionalGuidancePanel,
+          additionalGuidancePanelSwitch
+        ),
       },
     ];
 

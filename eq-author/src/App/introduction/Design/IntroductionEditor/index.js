@@ -116,7 +116,7 @@ export const IntroductionEditor = ({
               id="toggle-additional-guidance-panel"
               name="toggle-additional-guidance-panel"
               hideLabels={false}
-              onChange={({ value }) =>
+              onChange={() =>
                 updateQuestionnaireIntroduction({
                   id,
                   ...introduction,
@@ -254,6 +254,7 @@ IntroductionEditor.propTypes = {
     transformNestedFragments(fragment, CollapsiblesEditor.fragments)
   ).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  updateQuestionnaireIntroduction: PropTypes.func.isRequired,
 };
 
 const withWrappers = flowRight(
