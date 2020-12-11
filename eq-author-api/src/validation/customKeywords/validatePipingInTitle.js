@@ -22,6 +22,20 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
+      const pipedIdList = [];
+
+      let matches;
+      do {
+        matches = pipedAnswerIdRegex.exec(entityData);
+        if (matches && matches.length > 1) {
+          pipedIdList.push(matches[1]);
+        }
+      } while (matches);
+
+      if (!pipedIdList.length) {
+        return true;
+      }
+
       const splitDataPath = dataPath.split("/");
       const currentPage =
         questionnaire.sections[splitDataPath[2]].pages[splitDataPath[4]];
@@ -39,16 +53,6 @@ module.exports = function(ajv) {
         currentPage.id,
         true
       );
-
-      const pipedIdList = [];
-
-      let matches;
-      do {
-        matches = pipedAnswerIdRegex.exec(entityData);
-        if (matches && matches.length > 1) {
-          pipedIdList.push(matches[1]);
-        }
-      } while (matches);
 
       let pipedAnswerDeleted = false;
       let pipedAnswerMoved = false;

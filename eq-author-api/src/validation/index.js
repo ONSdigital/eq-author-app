@@ -11,6 +11,36 @@ require("ajv-keywords")(ajv, "select");
 
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
+const formatErrorMessage = (error, questionnaire) => {
+  if (error.sectionId) {
+    delete error.dataPath;
+    delete error.schemaPath;
+    delete error.keyword;
+
+    return error;
+  }
+
+  const { dataPath, message } = error;
+
+  const splitDataPath = dataPath.split("/");
+  const field =
+    message === "ERR_QCODE_REQUIRED"
+      ? "qCode"
+      : message === "ERR_SECONDARY_QCODE_REQUIRED"
+      ? "secondaryQCode"
+      : splitDataPath.pop();
+
+  const newErrorMessage = createValidationError(
+    splitDataPath,
+    field,
+    message,
+    questionnaire
+  );
+
+  delete newErrorMessage.keyword;
+  return newErrorMessage;
+};
+
 module.exports = questionnaire => {
   validate(questionnaire);
 
@@ -19,48 +49,20 @@ module.exports = questionnaire => {
   }
 
   const uniqueErrorMessages = {};
+  const formattedErrorMessages = [];
 
   for (const err of validate.errors) {
     if (err.keyword === "errorMessage") {
       const key = `${err.dataPath} ${err.message}`;
 
-      if (!uniqueErrorMessages[key]) {
-        uniqueErrorMessages[key] = err;
+      if (uniqueErrorMessages[key]) {
+        continue;
       }
+      uniqueErrorMessages[key] = err;
+
+      formattedErrorMessages.push(formatErrorMessage(err, questionnaire));
     }
   }
-
-  const formattedErrorMessages = Object.values(uniqueErrorMessages).map(
-    error => {
-      if (error.sectionId) {
-        delete error.dataPath;
-        delete error.schemaPath;
-        delete error.keyword;
-
-        return error;
-      }
-
-      const { dataPath, message } = error;
-
-      const splitDataPath = dataPath.split("/");
-      const field =
-        message === "ERR_QCODE_REQUIRED"
-          ? "qCode"
-          : message === "ERR_SECONDARY_QCODE_REQUIRED"
-          ? "secondaryQCode"
-          : splitDataPath.pop();
-
-      const newErrorMessage = createValidationError(
-        splitDataPath,
-        field,
-        message,
-        questionnaire
-      );
-
-      delete newErrorMessage.keyword;
-      return newErrorMessage;
-    }
-  );
 
   return formattedErrorMessages;
 };
