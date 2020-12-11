@@ -16,6 +16,7 @@ const {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  connectDB,
 } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
 
@@ -53,6 +54,10 @@ jest.mock("@google-cloud/firestore", () => {
 
 describe("Firestore Datastore", () => {
   let questionnaire, baseQuestionnaire, user, ctx;
+
+  beforeAll(async () => {
+    await connectDB();
+  });
 
   beforeEach(() => {
     questionnaire = {
