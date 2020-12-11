@@ -12,6 +12,8 @@ if (!process.env.DATABASE) {
 
 const datastore = require(`./datastore-${databaseName}`);
 
-datastore.connectDB();
+if (datastore.connectDB) {
+  datastore.connectDB();
+}
 
 module.exports = datastore;
