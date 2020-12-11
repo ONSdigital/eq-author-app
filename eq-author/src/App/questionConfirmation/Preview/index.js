@@ -24,7 +24,6 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 
 const Container = styled.div`
   padding: 2em;
-  max-width: 40em;
   font-size: 1.1em;
   p {
     margin: 0 0 1em;
@@ -49,12 +48,14 @@ const Container = styled.div`
 const Replay = styled.div`
   background-color: ${colors.darkBlue};
   color: ${colors.white};
-  width: auto;
   min-width: 20em;
+  width: 100%;
+  word-break: break-word;
   display: inline-block;
   overflow: hidden;
   margin-top: 0;
   margin-bottom: 1em;
+  padding-right: 1em;
 `;
 
 export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
