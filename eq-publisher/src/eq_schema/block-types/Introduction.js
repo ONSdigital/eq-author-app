@@ -24,7 +24,9 @@ const getComplexText = (content, ctx) => (
         description: addPanel(additionalGuidancePanel),
       });
       return result.content;
-    } else return result.content;
+    } else {
+      return result.content;
+    }
   }
   return undefined;
 };
