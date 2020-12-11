@@ -17,7 +17,6 @@ import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
 
 const Container = styled.div`
   padding: 2em;
-  max-width: 35em;
   font-size: 1.1em;
   p {
     margin: 0 0 1em;
@@ -52,6 +51,7 @@ const SummaryItem = styled.div`
 
 const SummaryLabel = styled.div`
   font-weight: normal;
+  word-break: break-word;
 `;
 
 const SummaryValue = styled.div`
@@ -78,6 +78,7 @@ const SummaryTotal = styled(SummaryItem)`
 
 const SummaryTotalLabel = styled.div`
   font-weight: bold;
+  word-break: break-word;
 `;
 
 const CalculatedSummaryPagePreview = ({ page }) => {

@@ -66,12 +66,13 @@ export const OptionItem = styled.div`
   background: #fff;
   border: 1px solid ${colors.grey};
   border-radius: 0.2em;
-  width: auto;
+  width: 100%;
   min-width: 20em;
   display: inline-block;
   overflow: hidden;
   position: relative;
   margin-bottom: 0.25em;
+  word-wrap: break-word;
 
   ${props => props.error && optionItemError};
 `;
