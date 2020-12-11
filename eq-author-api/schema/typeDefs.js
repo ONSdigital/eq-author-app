@@ -789,6 +789,7 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String!
   navigation: Boolean
