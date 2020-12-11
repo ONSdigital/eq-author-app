@@ -26,7 +26,7 @@ const labelColors = {
   off: colors.grey,
 };
 
-const knobSize = 1; // One what? FOOT?
+const knobSize = 1;
 
 const border = {
   on: `1px solid ${backgroundColors.on}`,
