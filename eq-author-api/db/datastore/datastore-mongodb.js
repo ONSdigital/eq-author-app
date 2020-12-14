@@ -21,6 +21,7 @@ const connectDB = async (overrideUrl = "") => {
     logger.info("Database connected");
   } catch (error) {
     logger.info(error);
+    throw error;
   }
 };
 
