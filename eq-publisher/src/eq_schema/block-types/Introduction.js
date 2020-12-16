@@ -11,7 +11,7 @@ const getSimpleText = (content, ctx) =>
   flow(convertPipes(ctx), getInnerHTMLWithPiping)(content);
 
 const addPanel = additionalGuidancePanel =>
-  `<div class=\"panel panel--simple panel--info\"><div class=\"panel__body\">${additionalGuidancePanel}</div></div>`;
+  `<div class='panel panel--simple panel--info'><div class='panel__body'>${additionalGuidancePanel}</div></div>`;
 
 const getComplexText = (content, ctx) => (
   additionalGuidancePanel,
