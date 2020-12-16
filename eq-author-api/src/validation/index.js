@@ -23,12 +23,18 @@ const formatErrorMessage = (error, questionnaire) => {
   const { dataPath, message } = error;
 
   const splitDataPath = dataPath.split("/");
-  const field =
-    message === "ERR_QCODE_REQUIRED"
-      ? "qCode"
-      : message === "ERR_SECONDARY_QCODE_REQUIRED"
-      ? "secondaryQCode"
-      : splitDataPath.pop();
+      let field = ""
+      
+      switch(message) {
+          case "ERR_QCODE_REQUIRED":
+             field = "qCode";
+             break;
+         case "ERR_SECONDARY_QCODE_REQUIRED":
+             field = "secondaryQCode";
+             break;
+         default:
+             field = splitDataPath.pop();  
+      }
 
   const newErrorMessage = createValidationError(
     splitDataPath,
