@@ -9,14 +9,14 @@ exports[`Date Position Picker Should render 1`] = `
   value="before"
 >
   <option
-    key="before"
-    value="before"
+    key="Before"
+    value="Before"
   >
     before
   </option>
   <option
-    key="after"
-    value="after"
+    key="After"
+    value="After"
   >
     after
   </option>
