@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
-
+import { groupBy } from "lodash/fp";
+import { flatMap } from "lodash"
 import { Autocomplete } from "components/Autocomplete";
 import { unitConversion } from "constants/unit-types";
 const unitTypes = [
@@ -24,11 +25,49 @@ const unitTypes = [
   "Kilowatt hours",
 ];
 const filterOptions = (options, query) =>
-  Object.values(options).filter(
+  [Object.values(options).filter(
     x =>
       x.unit.toLowerCase().includes(query) ||
       x.abbreviation.toLowerCase().includes(query)
-  ).map(option => <span>{option.unit} <span aria-hidden="true">({option.abbreviation})</span></span>);
+  ).map(option => <span>{option.unit} <span aria-hidden="true">({option.abbreviation})</span></span>)];
+  const filterCondition = (x, query) =>
+  x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
+  x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
+  x.type.toLowerCase().includes(query.toLowerCase().trim()) ||
+  query
+    .toLowerCase()
+    .trim()
+    .startsWith(x.unit.toLowerCase()) ||
+  query
+    .toLowerCase()
+    .trim()
+    .startsWith(x.abbreviation.toLowerCase());
+  const filterUnitCategories = (options, query) => {
+  const common = Object.values(options)
+    .filter(x => filterCondition(x, query))
+    .map((option, index) => (
+      <span key={`unit-option-${index}`} value={option.unit}>
+        {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+      </span>
+    ));
+  if (!query.length) {
+    const categorized = flatMap(
+      groupBy("type", unitConversion),
+      (item, index) => [index, ...item]
+    );
+    const categories = categorized.map((option, index) =>
+      typeof option === "string" ? (
+        <span category="true">{option}</span>
+      ) : (
+        <span key={`unit-option-${index}`} value={option.unit}>
+          {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+        </span>
+      )
+    );
+    return [common, categories];
+  }
+  return [common];
+};
 
 
 
@@ -42,7 +81,7 @@ const filterOptions = (options, query) =>
 <Canvas>
   <Story
     name="Default"
-    args={{ options: unitTypes, placeholder: "Select a type" }}
+    args={{ options: unitTypes, placeholder: "Select a unit type" }}
   >
     {(args) => <Autocomplete {...args} />}
   </Story>
@@ -63,9 +102,20 @@ TODO
 <Canvas>
   <Story
     name="Filtered"
-    args={{ options: unitConversion, placeholder: "Select a type" }}
+    args={{ options: unitConversion, placeholder: "Select a unit type" }}
   >
     {(args) => <Autocomplete {...args} filter={filterOptions} />}
+  </Story>
+</Canvas>
+
+### categories
+
+<Canvas>
+  <Story
+    name="Categories"
+    args={{ options: unitConversion, placeholder: "Select a unit type" }}
+  >
+    {(args) => <Autocomplete {...args} filter={filterUnitCategories} />}
   </Story>
 </Canvas>
 
@@ -74,8 +124,7 @@ TODO
 TODO
 
 Notes:
-- `aria-activedescendent` has a violation when the value is set to `false` when there is no active descendent
-- Bug to do with 
+- `aria-activedescendent` has a violation when the value is set to `false` when there is no active descendent 
 
 ## Research
 
