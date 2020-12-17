@@ -27,7 +27,7 @@
     "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
-    "firebase-admin": "^9.4.1",
+    "firebase-admin": "^9.4.2",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
@@ -44,6 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.20",
     "moment": "latest",
+    "mongodb": "^3.6.3",
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
@@ -67,11 +68,13 @@
       "!middleware/import.js",
       "!app.js"
     ],
+    "preset": "@shelf/jest-mongodb",
     "watchPathIgnorePatterns": [
       "data/"
     ]
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "commander": "latest",
     "dynamodb-admin": "latest",
     "eslint": "latest",
