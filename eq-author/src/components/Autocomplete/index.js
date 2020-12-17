@@ -40,7 +40,7 @@ const Autocomplete = ({
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [selectedOption, setSelectedOption] = useState(defaultValue || "");
+  const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
   // builds a list of elements
   const comboElements = useRef(new Map());
@@ -139,7 +139,7 @@ const Autocomplete = ({
     e => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption !== "") {
+        if (query.length === 0 && selectedOption === null) {
           updateOption("");
         }
         setIsOpen(false);
