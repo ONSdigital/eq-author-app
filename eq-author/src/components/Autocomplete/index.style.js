@@ -1,7 +1,35 @@
 import styled, { css } from "styled-components";
-import { Input } from "components/Forms";
+import { darken } from "polished";
 import { colors, radius } from "constants/theme";
+import { Input } from "components/Forms";
 import Icon from "./icon-search.svg";
+
+export const ScrollPaneCSS = css`
+  -webkit-background-clip: text;
+  transition: background-color 0.2s;
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    box-shadow: none;
+    background-color: ${colors.lightGrey};
+    transition: background-color 0.2s;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 0;
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  > :first-child {
+    backface-visibility: hidden !important;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: ${darken(0.1, colors.lightGrey)};
+    }
+  }
+`;
 
 export const Wrapper = styled.div`
   box-sizing: border-box;
@@ -18,9 +46,9 @@ export const RoundedInput = styled(Input)`
   }
   ${({ hasError }) =>
     hasError &&
-    `
-  border-color: ${colors.red};
-`}
+    css`
+      border-color: ${colors.red};
+    `}
 `;
 
 export const DropDown = styled.ul`
@@ -33,6 +61,7 @@ export const DropDown = styled.ul`
   max-height: 7em;
   padding-left: 0;
   overflow-y: auto;
+  ${ScrollPaneCSS}
 `;
 
 const commonListStateStyling = css`
@@ -41,19 +70,23 @@ const commonListStateStyling = css`
 `;
 
 export const ListItem = styled.li`
-  background-color: ${colors.white};
+  background-color: ${props =>
+    props.category ? colors.lightMediumGrey : colors.white};
   color: ${colors.darkGrey};
   display: block;
   margin: 0.1em 0;
   padding: 0.2em;
   padding-left: 0.5em;
+  ${props =>
+    !props.category &&
+    css`
+      &:hover {
+        ${commonListStateStyling}
+      }
 
-  &:hover {
-    ${commonListStateStyling}
-  }
-
-  &:focus {
-    ${commonListStateStyling}
-    outline: none;
-  }
+      &:focus {
+        ${commonListStateStyling}
+        outline: none;
+      }
+    `}
 `;
