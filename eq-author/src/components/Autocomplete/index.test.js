@@ -26,6 +26,39 @@ const filter = (options, query) => [
     ),
 ];
 
+const categoryFilter = (options, query) => {
+  const noCats = [
+    { unit: "Centimetres", abbreviation: "cm" },
+    { unit: "Metres", abbreviation: "cm2" },
+  ];
+  const common = noCats
+    .filter(
+      x =>
+        x.unit.toLowerCase().includes(query) ||
+        x.abbreviation.toLowerCase().includes(query)
+    )
+    .map((option, index) => (
+      <span key={`unit-option-${index}`} value={option.unit}>
+        {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+      </span>
+    ));
+  if (!query.length) {
+    const categorized = ["Length", ...noCats];
+
+    const categories = categorized.map((option, index) =>
+      typeof option === "string" ? (
+        <span category="true">{option}</span>
+      ) : (
+        <span key={`unit-option-${index}`} value={option.unit}>
+          {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+        </span>
+      )
+    );
+    return [common, categories];
+  }
+  return [common];
+};
+
 describe("components/Autocomplete", () => {
   let props, mocks;
 
@@ -87,7 +120,7 @@ describe("components/Autocomplete", () => {
     expect(getByTestId(inputId)).toHaveFocus();
   });
 
-  it("should be updateOption with Enter", () => {
+  it("should fire updateOption with Enter", () => {
     const { getByTestId } = render(Component(props));
 
     getByTestId(inputId).focus();
@@ -109,7 +142,7 @@ describe("components/Autocomplete", () => {
     expect(mocks.updateOption).toHaveBeenCalledTimes(1);
   });
 
-  it("should be updateOption with Space", () => {
+  it("should fire updateOption with Space", () => {
     const { getByTestId } = render(Component(props));
 
     getByTestId(inputId).focus();
@@ -260,5 +293,17 @@ describe("components/Autocomplete", () => {
     expect(getByTestId(inputId)).toHaveFocus();
 
     expect(getByTestId(inputId)).toHaveAttribute("value", "ab");
+  });
+
+  it("Should render categories when present", () => {
+    const newProps = {
+      ...props,
+      options: unitConversion,
+      filter: categoryFilter,
+    };
+    const { getByTestId, getByText } = render(Component(newProps));
+
+    getByTestId(inputId).focus();
+    expect(getByText("Length")).toBeTruthy();
   });
 });
