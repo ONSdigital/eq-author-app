@@ -1,3 +1,9 @@
+/*
+[X] - Need to sort out the listing of results when using categories...
+[ ] - Fix the tests
+[ ] - Add styles
+*/
+
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -37,17 +43,23 @@ const Autocomplete = ({
   const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
   // builds a list of elements
-  const comboElements = useRef({});
+  const comboElements = useRef(new Map());
 
   const onArrowDown = useCallback(
     event => {
       event.preventDefault();
-      const index =
+      const increaseIndex =
         selectedIndex === filterOptions.length - 1
           ? filterOptions.length - 1
           : selectedIndex + 1;
 
-      focusEl(comboElements.current[index]);
+      const hasIndex =
+        comboElements.current.has(increaseIndex) &&
+        comboElements.current.get(increaseIndex) !== null;
+
+      const index = hasIndex ? increaseIndex : increaseIndex + 1;
+
+      focusEl(comboElements.current.get(index));
       setSelectedIndex(index);
     },
     [selectedIndex]
@@ -57,16 +69,22 @@ const Autocomplete = ({
     event => {
       event.preventDefault();
 
-      const index = selectedIndex === -1 ? -1 : selectedIndex - 1;
+      const decreaseIndex = selectedIndex === -1 ? -1 : selectedIndex - 1;
 
-      focusEl(comboElements.current[index]);
+      const hasIndex =
+        comboElements.current.has(decreaseIndex) &&
+        comboElements.current.get(decreaseIndex) !== null;
+
+      const index = hasIndex ? decreaseIndex : decreaseIndex - 1;
+
+      focusEl(comboElements.current.get(index));
       setSelectedIndex(index);
     },
     [selectedIndex]
   );
 
   const onSelect = useCallback(() => {
-    const selectedElement = comboElements.current[selectedIndex];
+    const selectedElement = comboElements.current.get(selectedIndex);
     setSelectedOption(selectedElement.innerText);
     updateOption(selectedElement);
   }, [selectedIndex]);
@@ -103,9 +121,12 @@ const Autocomplete = ({
 
   const handleOtherKeyDown = useCallback(
     event => {
-      const inputElement = comboElements.current[-1];
+      const inputElement = comboElements.current.get(-1);
       const eventIsOnInput = event.target === inputElement;
       if (!eventIsOnInput) {
+        // this resets list back to top
+        // check with Joe if this is okay
+        comboElements.current.has(1) && comboElements.current.get(1).focus();
         inputElement.focus();
       }
     },
@@ -167,12 +188,6 @@ const Autocomplete = ({
     }
   }, [query, isOpen, selectedOption]);
 
-  // any filter function added needs to accept query as a param
-  const filterOptions =
-    typeof filter === "function"
-      ? filter(options, query)
-      : options.filter(option => option.toLowerCase().includes(query));
-
   // ------------------------------------------------------
   // provides hint to screen reader when query is empty
   const assistiveHintID = "autocomplete-assistiveHint";
@@ -183,75 +198,109 @@ const Autocomplete = ({
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
 
+  // any filter function added needs to accept query as a param and return an array
+  const [filterOptions, categories] = React.useMemo(
+    () =>
+      filter && typeof filter === "function"
+        ? filter(options, query)
+        : [options.filter(option => option.toLowerCase().includes(query))],
+    [options, query]
+  );
+
+  const hasCategories = useCallback(
+    (filterOptions, categories) =>
+      (categories || filterOptions).map((option, index) => {
+        if (option.props?.category) {
+          return (
+            <ListItem
+              key={index}
+              id={`autocomplete-category-${index}`}
+              data-test={`autocomplete-category-${index}`}
+              tabIndex="-1"
+              category
+            >
+              {option}
+            </ListItem>
+          );
+        }
+        return (
+          <ListItem
+            key={index}
+            id={`autocomplete-option-${index}`}
+            data-test={`autocomplete-option-${index}`}
+            aria-selected={selectedIndex === index ? "true" : "false"}
+            tabIndex="-1"
+            role="option"
+            ref={optionEl => {
+              comboElements.current.set(index, optionEl);
+            }}
+            onClick={event => handleClick(event)}
+          >
+            {option}
+          </ListItem>
+        );
+      }),
+    [options, query]
+  );
+
+  function onRenderCallback(id, phase, actualDuration, baseDuration) {
+    console.log(id, phase, actualDuration, baseDuration);
+  }
+
   return (
     <>
-      <Wrapper
-        data-test="autocomplete"
-        onKeyDown={event => handleKeyDown(event)}
-        onBlur={e => handleBlur(e)}
-        onClick={() => setIsOpen(true)}
-      >
-        <Status
-          id={"autocomplete-input-status"}
-          length={filterOptions.length}
-        />
-        <Input
-          id="autocomplete-input"
-          data-test="autocomplete-input"
-          aria-activedescendant={
-            isOpen && query.length > 0
-              ? comboElements.current[selectedIndex]?.id
-              : `${false}`
-          }
-          aria-autocomplete={"list"}
-          aria-controls={"autocomplete-listbox"}
-          {...ariaDescribedProp}
-          aria-expanded={isOpen ? "true" : "false"}
-          aria-label="Auto complete input"
-          aria-owns={"autocomplete-listbox"}
-          autoComplete="off"
-          forwardRef={inputEl => {
-            comboElements.current[-1] = inputEl;
-          }}
-          onChange={event => handleInputChange(event)}
-          onFocus={() => setIsOpen(true)}
-          placeholder={placeholder}
-          role="combobox"
-          type="text"
-          value={selectedOption ? selectedOption : query}
-          hasError={hasError}
-        />
-        {isOpen && !selectedOption && (
-          <DropDown
-            id="autocomplete-listbox"
-            data-test="autocomplete-listbox"
-            role="listbox"
-          >
-            {filterOptions.map((option, index) => (
-              <ListItem
-                key={index}
-                id={`autocomplete-option-${index}`}
-                data-test={`autocomplete-option-${index}`}
-                aria-selected={selectedIndex === index ? "true" : "false"}
-                aria-setsize={filterOptions.length}
-                aria-posinset={index + 1}
-                tabIndex="-1"
-                role="option"
-                ref={optionEl => {
-                  comboElements.current[index] = optionEl;
-                }}
-                onClick={event => handleClick(event)}
-              >
-                {option}
-              </ListItem>
-            ))}
-            {!filterOptions.length && <ListItem>No results found</ListItem>}
-          </DropDown>
-        )}
-      </Wrapper>
-      <span id={assistiveHintID} style={{ display: "none" }}>
-        {tAssistiveHint()}
-      </span>
+      <React.Profiler id="Autocomplete" onRender={onRenderCallback}>
+        <Wrapper
+          data-test="autocomplete"
+          onKeyDown={event => handleKeyDown(event)}
+          onBlur={e => handleBlur(e)}
+          onClick={() => setIsOpen(true)}
+        >
+          <Status
+            id={"autocomplete-input-status"}
+            length={filterOptions.length}
+          />
+          <Input
+            id="autocomplete-input"
+            data-test="autocomplete-input"
+            aria-activedescendant={
+              isOpen && query.length > 0
+                ? comboElements.current.get(selectedIndex)?.id
+                : `${false}`
+            }
+            aria-autocomplete={"list"}
+            aria-controls={"autocomplete-listbox"}
+            {...ariaDescribedProp}
+            aria-expanded={isOpen ? "true" : "false"}
+            aria-label="Auto complete input"
+            aria-owns={"autocomplete-listbox"}
+            autoComplete="off"
+            forwardRef={inputEl => {
+              comboElements.current.set(-1, inputEl);
+            }}
+            onChange={event => handleInputChange(event)}
+            onFocus={() => setIsOpen(true)}
+            placeholder={placeholder}
+            role="combobox"
+            type="text"
+            value={selectedOption ? selectedOption : query}
+            hasError={hasError}
+          />
+          {isOpen && !selectedOption && (
+            <DropDown
+              id="autocomplete-listbox"
+              data-test="autocomplete-listbox"
+              role="listbox"
+            >
+              {hasCategories(filterOptions, categories)}
+              {!filterOptions.length && <ListItem>No results found</ListItem>}
+            </DropDown>
+          )}
+        </Wrapper>
+        <span id={assistiveHintID} style={{ display: "none" }}>
+          {tAssistiveHint()}
+        </span>
+      </React.Profiler>
     </>
   );
 };
