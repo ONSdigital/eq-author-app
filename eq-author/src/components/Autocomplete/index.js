@@ -40,7 +40,7 @@ const Autocomplete = ({
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [selectedOption, setSelectedOption] = useState(defaultValue || null);
+  const [selectedOption, setSelectedOption] = useState(defaultValue || "");
   const [isOpen, setIsOpen] = useState(false);
   // builds a list of elements
   const comboElements = useRef(new Map());
@@ -48,10 +48,12 @@ const Autocomplete = ({
   const onArrowDown = useCallback(
     event => {
       event.preventDefault();
+      const isLarger = (categories && categories.length) > filterOptions.length;
+
+      const arrayLength = isLarger ? categories.length : filterOptions.length;
+
       const increaseIndex =
-        selectedIndex === filterOptions.length - 1
-          ? filterOptions.length - 1
-          : selectedIndex + 1;
+        selectedIndex === arrayLength - 1 ? arrayLength - 1 : selectedIndex + 1;
 
       const hasIndex =
         comboElements.current.has(increaseIndex) &&
@@ -137,7 +139,7 @@ const Autocomplete = ({
     e => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption === null) {
+        if (query.length === 0 && selectedOption !== "") {
           updateOption("");
         }
         setIsOpen(false);
@@ -204,7 +206,7 @@ const Autocomplete = ({
       filter && typeof filter === "function"
         ? filter(options, query)
         : [options.filter(option => option.toLowerCase().includes(query))],
-    [options, query]
+    [query]
   );
 
   const hasCategories = useCallback(
@@ -240,67 +242,61 @@ const Autocomplete = ({
           </ListItem>
         );
       }),
-    [options, query]
+    [query, options]
   );
-
-  function onRenderCallback(id, phase, actualDuration, baseDuration) {
-    console.log(id, phase, actualDuration, baseDuration);
-  }
 
   return (
     <>
-      <React.Profiler id="Autocomplete" onRender={onRenderCallback}>
-        <Wrapper
-          data-test="autocomplete"
-          onKeyDown={event => handleKeyDown(event)}
-          onBlur={e => handleBlur(e)}
-          onClick={() => setIsOpen(true)}
-        >
-          <Status
-            id={"autocomplete-input-status"}
-            length={filterOptions.length}
-          />
-          <Input
-            id="autocomplete-input"
-            data-test="autocomplete-input"
-            aria-activedescendant={
-              isOpen && query.length > 0
-                ? comboElements.current.get(selectedIndex)?.id
-                : `${false}`
-            }
-            aria-autocomplete={"list"}
-            aria-controls={"autocomplete-listbox"}
-            {...ariaDescribedProp}
-            aria-expanded={isOpen ? "true" : "false"}
-            aria-label="Auto complete input"
-            aria-owns={"autocomplete-listbox"}
-            autoComplete="off"
-            forwardRef={inputEl => {
-              comboElements.current.set(-1, inputEl);
-            }}
-            onChange={event => handleInputChange(event)}
-            onFocus={() => setIsOpen(true)}
-            placeholder={placeholder}
-            role="combobox"
-            type="text"
-            value={selectedOption ? selectedOption : query}
-            hasError={hasError}
-          />
-          {isOpen && !selectedOption && (
-            <DropDown
-              id="autocomplete-listbox"
-              data-test="autocomplete-listbox"
-              role="listbox"
-            >
-              {hasCategories(filterOptions, categories)}
-              {!filterOptions.length && <ListItem>No results found</ListItem>}
-            </DropDown>
-          )}
-        </Wrapper>
-        <span id={assistiveHintID} style={{ display: "none" }}>
-          {tAssistiveHint()}
-        </span>
-      </React.Profiler>
+      <Wrapper
+        data-test="autocomplete"
+        onKeyDown={event => handleKeyDown(event)}
+        onBlur={e => handleBlur(e)}
+        onClick={() => setIsOpen(true)}
+      >
+        <Status
+          id={"autocomplete-input-status"}
+          length={filterOptions.length}
+        />
+        <Input
+          id="autocomplete-input"
+          data-test="autocomplete-input"
+          aria-activedescendant={
+            isOpen && query.length > 0
+              ? comboElements.current.get(selectedIndex)?.id
+              : `${false}`
+          }
+          aria-autocomplete={"list"}
+          aria-controls={"autocomplete-listbox"}
+          {...ariaDescribedProp}
+          aria-expanded={isOpen ? "true" : "false"}
+          aria-label="Auto complete input"
+          aria-owns={"autocomplete-listbox"}
+          autoComplete="off"
+          forwardRef={inputEl => {
+            comboElements.current.set(-1, inputEl);
+          }}
+          onChange={event => handleInputChange(event)}
+          onFocus={() => setIsOpen(true)}
+          placeholder={placeholder}
+          role="combobox"
+          type="text"
+          value={selectedOption ? selectedOption : query}
+          hasError={hasError}
+        />
+        {isOpen && !selectedOption && (
+          <DropDown
+            id="autocomplete-listbox"
+            data-test="autocomplete-listbox"
+            role="listbox"
+          >
+            {hasCategories(filterOptions, categories)}
+            {!filterOptions.length && <ListItem>No results found</ListItem>}
+          </DropDown>
+        )}
+      </Wrapper>
+      <span id={assistiveHintID} style={{ display: "none" }}>
+        {tAssistiveHint()}
+      </span>
     </>
   );
 };
