@@ -13,7 +13,7 @@ const firstOptionId = "autocomplete-option-0";
 const emptyResult = "No results found";
 const testList = ["a", "ab", "b", "c"];
 
-const filter = (options, query) =>
+const filter = (options, query) => [
   Object.values(options)
     .filter(
       x =>
@@ -23,7 +23,8 @@ const filter = (options, query) =>
     .map(
       option => `${option.unit}
      ${option.abbreviation}`
-    );
+    ),
+];
 
 describe("components/Autocomplete", () => {
   let props, mocks;
