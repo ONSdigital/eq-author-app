@@ -25,6 +25,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
           introductionId: "introId",
           title: "title",
           description: "description",
+          additionalGuidancePanel: "Guidance Panel",
           foo: "foo",
           __typename: "QuestionnaireIntroduction",
         },
