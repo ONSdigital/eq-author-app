@@ -2,13 +2,35 @@ const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const { pick } = require("lodash/fp");
-const { baseQuestionnaireFields, id } = require("../baseQuestionnaireSchema");
+const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const { logger } = require("../../utils/logger");
 const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
 let dbo, connection;
+
+const createIndexes = async () => {
+  let collection = dbo.collection("questionnaires");
+  let result = await collection.createIndex({ id: 1 });
+  logger.info(`Questionnaire Index created: ${result}`);
+
+  collection = dbo.collection("versions");
+  result = await collection.createIndex({ id: 1, createdAt: -1 });
+  logger.info(`versions Index created: ${result}`);
+
+  collection = dbo.collection("comments");
+  result = await collection.createIndex({ questionnaireId: 1 });
+  logger.info(`comments Index created: ${result}`);
+
+  collection = dbo.collection("users");
+  result = await collection.createIndex({ id: 1 });
+  logger.info(`Users id Index created: ${result}`);
+
+  collection = dbo.collection("users");
+  result = await collection.createIndex({ externalId: 1 });
+  logger.info(`Users externalId Index created: ${result}`);
+};
 
 const connectDB = async (overrideUrl = "") => {
   try {
@@ -19,6 +41,7 @@ const connectDB = async (overrideUrl = "") => {
     });
     dbo = await connection.db();
     logger.info("Database connected");
+    createIndexes();
   } catch (error) {
     logger.info(error);
     throw error;
@@ -347,7 +370,7 @@ const createHistoryEvent = async (qid, event) => {
 
     const collection = dbo.collection("questionnaires");
     await collection.updateOne(
-      { id: id },
+      { id: qid },
       { $set: { history: questionnaire.history } }
     );
 
