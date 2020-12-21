@@ -1,11 +1,5 @@
 import { css } from "styled-components";
-import { colors } from "constants/theme";
-
-export const focusStyle = css`
-  border-color: ${colors.blue};
-  outline-color: ${colors.blue};
-  box-shadow: 0 0 0 3px ${colors.tertiary};
-`;
+import { colors, focusStyle } from "constants/theme";
 
 const invalidStyle = css`
   border-color: ${colors.red};
