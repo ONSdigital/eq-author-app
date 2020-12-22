@@ -72,7 +72,8 @@ export const characterErrors = {
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
-export const CALCSUM_ANSWER_NOT_SELECTED = "Select at least two answers to be calculated";
+export const CALCSUM_ANSWER_NOT_SELECTED =
+  "Select at least two answers to be calculated";
 export const CALCSUM_SUMMARY_ANSWERS_THE_SAME =
   "Select answers that are the same unit type";
 export const DATE_LABEL_REQUIRED = "Enter a date label";
@@ -92,7 +93,7 @@ export const MAX_INCLUSIVE_TEXT = "must be less than";
 
 export const ERR_TOTAL_NO_VALUE = "Value required";
 export const ERR_NO_VALUE = "Value is required";
-export const SELECTION_REQUIRED = "Unit type required";
+export const SELECTION_REQUIRED = "Selection required";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
@@ -165,6 +166,7 @@ export const buildLabelError = (mainString, insString, pos, pos2) => {
   ) {
     return "Label error";
   }
-  const newLabelError = mainString.slice(0, pos) + insString + mainString.slice(pos2);
+  const newLabelError =
+    mainString.slice(0, pos) + insString + mainString.slice(pos2);
   return newLabelError;
 };

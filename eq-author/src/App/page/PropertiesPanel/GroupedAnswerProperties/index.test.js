@@ -8,7 +8,6 @@ import {
   DURATION,
   TEXTAREA,
 } from "constants/answer-types";
-import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
 
@@ -19,7 +18,7 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
 import { characterErrors } from "constants/validationMessages";
 
-import { UnwrappedGroupedAnswerProperties, UnitPropertiesStyled } from "./";
+import { UnwrappedGroupedAnswerProperties } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
@@ -224,64 +223,9 @@ describe("Grouped Answer Properties", () => {
   });
 
   describe("Unit answers", () => {
+    let unitProps;
     beforeEach(() => {
-      props = {
-        page: {
-          id: "pageId",
-          answers: [
-            {
-              id: "1",
-              type: UNIT,
-              displayName: "Currency 1",
-              properties: {
-                unit: KILOJOULES,
-                decimals: 2,
-              },
-            },
-            {
-              id: "2",
-              type: UNIT,
-              displayName: "Currency 2",
-              properties: {
-                unit: KILOJOULES,
-                decimals: 2,
-              },
-            },
-          ],
-        },
-        updateAnswersOfType: jest.fn(),
-      };
-    });
-
-    it("should show one copy of the shared unit properties", () => {
-      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-      expect(wrapper.find(UnitPropertiesStyled)).toHaveLength(1);
-    });
-
-    it("should update the unit answer when unit is changed", async () => {
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...props} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-
-      fireEvent.change(getByTestId("unit-select"), {
-        target: { value: CENTIMETRES },
-      });
-
-      expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
-        unit: CENTIMETRES,
-      });
-    });
-
-    it("should show error message if there is no unit type selected", () => {
-      props = {
+      unitProps = {
         page: {
           id: "pageId",
           answers: [
@@ -315,8 +259,11 @@ describe("Grouped Answer Properties", () => {
         },
         updateAnswersOfType: jest.fn(),
       };
+    });
+
+    it("should show error message if there is no unit type selected", () => {
       const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...props} />,
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
         {
           route: "/q/1/page/0",
           urlParamMatcher: "/q/:questionnaireId/page/:pageId",
@@ -325,6 +272,86 @@ describe("Grouped Answer Properties", () => {
 
       const errMsg = getByTestId("unitRequired");
       expect(errMsg).toBeTruthy();
+    });
+
+    it("should save the unit type when an empty string", () => {
+      unitProps.page.answers[0].properties.unit = "Acres";
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      getByTestId(inputId).focus();
+
+      fireEvent.change(getByTestId(inputId), {
+        target: { value: "" },
+      });
+
+      getByTestId(inputId).blur();
+
+      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
+      expect(unitProps.updateAnswersOfType).toHaveBeenLastCalledWith(
+        UNIT,
+        "pageId",
+        { unit: "" }
+      );
+    });
+
+    it("should save the unit type", () => {
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      getByTestId(inputId).focus();
+
+      fireEvent.change(getByTestId(inputId), {
+        target: { value: "cent" },
+      });
+
+      fireEvent.click(getByTestId("autocomplete-option-1"));
+
+      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
+      expect(unitProps.updateAnswersOfType).toHaveBeenLastCalledWith(
+        UNIT,
+        "pageId",
+        { unit: "Square centimetres" }
+      );
+    });
+
+    it("should have a default value", () => {
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(getByTestId(inputId).value).toEqual("");
+    });
+
+    it("should have a set initial value", () => {
+      unitProps.page.answers[0].properties.unit = "Acres";
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(getByTestId(inputId).value).toEqual("Acres (ac)");
     });
   });
 

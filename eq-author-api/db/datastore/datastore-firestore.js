@@ -9,13 +9,16 @@ const {
 } = require("../../utils/questionnaireEvents");
 
 let db;
-if (process.env.GOOGLE_AUTH_PROJECT_ID) {
-  db = new Firestore({
-    projectId: process.env.GOOGLE_AUTH_PROJECT_ID,
-  });
-} else {
-  db = new Firestore();
-}
+
+const connectDB = () => {
+  if (process.env.GOOGLE_AUTH_PROJECT_ID) {
+    db = new Firestore({
+      projectId: process.env.GOOGLE_AUTH_PROJECT_ID,
+    });
+  } else {
+    db = new Firestore();
+  }
+};
 
 const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
@@ -495,4 +498,5 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  connectDB,
 };
