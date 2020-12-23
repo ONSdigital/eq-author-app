@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import { flip, map, partial } from "lodash";
 
-import * as metadataTypes from "constants/metadata-types";
 import { TableSelect } from "components/datatable/Controls";
 
 const Select = ({ name, options, value, onChange, onUpdate }) => {
