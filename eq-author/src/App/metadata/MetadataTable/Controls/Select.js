@@ -20,7 +20,12 @@ const Select = ({ name, options, value, onChange, onUpdate }) => {
 };
 
 Select.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.oneOf(Object.values(metadataTypes))),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })
+  ),
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
