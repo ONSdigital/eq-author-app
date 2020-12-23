@@ -11,7 +11,7 @@ const Select = ({ name, options, value, onChange, onUpdate }) => {
   return (
     <TableSelect name={name} value={value} onChange={handleUpdate}>
       {map(options, (option, index) => (
-        <option key={index} value={option.type}>
+        <option key={index} value={option.value}>
           {option.label}
         </option>
       ))}
