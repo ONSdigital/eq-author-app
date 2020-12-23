@@ -1,26 +1,26 @@
 const DATE = {
   label: "Date",
-  type: "Date",
+  value: "Date",
 };
 
 const TEXT = {
   label: "Text",
-  type: "Text",
+  value: "Text",
 };
 
 const TEXT_OPTIONAL = {
   label: "Text (Optional)",
-  type: "Text_Optional",
+  value: "Text_Optional",
 };
 
 const LANGUAGE = {
   label: "Language",
-  type: "Language",
+  value: "Language",
 };
 
 const REGION = {
   label: "Region",
-  type: "Region",
+  value: "Region",
 };
 
 export { DATE, TEXT, TEXT_OPTIONAL, LANGUAGE, REGION };
