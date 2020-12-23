@@ -12,15 +12,15 @@ describe("Select", () => {
       options: [
         {
           label: "Option A",
-          type: "opt_a",
+          value: "opt_a",
         },
         {
           label: "Option B",
-          type: "opt_b",
+          value: "opt_b",
         },
         {
           label: "Option C",
-          type: "opt_c",
+          value: "opt_c",
         },
       ],
       name: "test",
