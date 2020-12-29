@@ -31,10 +31,11 @@ const MetadataTable = ({
   <Table data-test="metadata-table">
     <TableHead>
       <TableRow>
-        <TableHeadColumn width="20%">Key</TableHeadColumn>
-        <TableHeadColumn width="20%">Alias</TableHeadColumn>
+        <TableHeadColumn width="15%">Key</TableHeadColumn>
+        <TableHeadColumn width="15%">Alias</TableHeadColumn>
         <TableHeadColumn width="15%">Type</TableHeadColumn>
-        <TableHeadColumn width="45%">Value</TableHeadColumn>
+        <TableHeadColumn width="40%">Value</TableHeadColumn>
+        <TableHeadColumn width="15%">Fallback</TableHeadColumn>
         <TableHeadColumn width="34px" />
       </TableRow>
     </TableHead>
@@ -52,7 +53,7 @@ const MetadataTable = ({
     </TableBody>
     <TableFoot>
       <TableRow>
-        <TableColumn colSpan="5">
+        <TableColumn colSpan="6">
           <AddRowButton
             data-test="metadata-add-row"
             onClick={() => onAdd(questionnaireId)}
