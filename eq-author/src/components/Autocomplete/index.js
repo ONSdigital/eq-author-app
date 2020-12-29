@@ -1,9 +1,3 @@
-/*
-[X] - Need to sort out the listing of results when using categories...
-[ ] - Fix the tests
-[ ] - Add styles
-*/
-
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -139,7 +133,8 @@ const Autocomplete = ({
     e => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption === null) {
+        if (selectedOption === null) {
+          setQuery("");
           updateOption("");
         }
         setIsOpen(false);
