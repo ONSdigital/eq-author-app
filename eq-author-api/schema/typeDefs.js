@@ -445,6 +445,7 @@ enum Theme {
 type Metadata {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -1106,6 +1107,7 @@ input DeleteMetadataInput {
 input UpdateMetadataInput {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date

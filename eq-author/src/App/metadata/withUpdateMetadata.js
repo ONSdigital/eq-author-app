@@ -8,6 +8,7 @@ const fragment = gql`
   {
     id
     key
+    fallbackKey
     alias
     type
     dateValue

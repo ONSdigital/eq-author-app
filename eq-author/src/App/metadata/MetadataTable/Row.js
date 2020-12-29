@@ -24,6 +24,7 @@ export const StatelessRow = ({
   metadata: {
     id,
     key,
+    fallbackKey,
     alias,
     type,
     dateValue,
@@ -120,6 +121,7 @@ export const StatelessRow = ({
           onChange={onChange}
           onUpdate={onUpdate}
           options={fallbackKeys}
+          defaultValue={fallbackKey}
           name="fallbackKey"
         />
       </TableColumn>

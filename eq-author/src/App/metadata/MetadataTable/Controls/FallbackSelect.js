@@ -2,16 +2,23 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { Autocomplete, AutocompleteProps } from "components/Autocomplete";
 
-const FallbackSelect = ({ options, name, onChange, onUpdate }) => {
+const FallbackSelect = ({
+  options,
+  name,
+  onChange,
+  onUpdate,
+  defaultValue,
+}) => {
   const handleSelect = useCallback(
-    element =>
+    element => {
       onChange(
         {
           name,
-          value: element?.children?.[0]?.getAttribute("value") ?? "",
+          value: element?.innerText ?? "",
         },
         onUpdate
-      ),
+      );
+    },
     [name, onChange, onUpdate]
   );
 
@@ -21,6 +28,7 @@ const FallbackSelect = ({ options, name, onChange, onUpdate }) => {
       placeholder="None"
       borderless
       updateOption={handleSelect}
+      defaultValue={defaultValue}
     />
   );
 };
@@ -28,6 +36,7 @@ const FallbackSelect = ({ options, name, onChange, onUpdate }) => {
 FallbackSelect.propTypes = {
   options: AutocompleteProps.options,
   placeholder: AutocompleteProps.placeholder,
+  defaultValue: AutocompleteProps.defaultValue,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
