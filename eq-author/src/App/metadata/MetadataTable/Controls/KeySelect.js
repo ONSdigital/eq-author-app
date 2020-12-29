@@ -35,20 +35,17 @@ class KeySelect extends Component {
   handleBlur = () => {
     const { name, onChange, onUpdate } = this.props;
     const { value } = this.state;
-    onChange({ name, value }, () => onUpdate());
+    onChange({ name, value }, onUpdate);
   };
 
   handleStateChange = changes => {
     const { name, onChange, onUpdate } = this.props;
     const { inputValue: value, selectedItem } = changes;
 
-    if (isUndefined(value)) {
-      return;
-    }
     if (selectedItem) {
-      onChange({ name, value: selectedItem.value }, () => onUpdate());
+      onChange({ name, value: selectedItem.value }, onUpdate);
     }
-    if (/^[a-z0-9-_]+$/i.test(value) || !value) {
+    if (/^[a-z0-9-_]+$/i.test(value) || value === "") {
       this.setState(() => ({ value }));
     }
   };

@@ -20,6 +20,16 @@ import {
 import { EN, CY } from "constants/languages";
 import { GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS } from "constants/regions";
 
+export const getFallbackKeys = ({ key, type, allKeyData }) => {
+  return allKeyData
+    .filter(
+      row =>
+        row.key !== key &&
+        (row.type === type || `${row.type}_Optional` === type)
+    )
+    .map(({ key }) => key);
+};
+
 export const StatelessRow = ({
   metadata: {
     id,
@@ -40,14 +50,7 @@ export const StatelessRow = ({
   keyData,
 }) => {
   const fallbackKeys = useMemo(
-    () =>
-      keyData
-        .filter(
-          row =>
-            row.key !== key &&
-            (row.type === type || `${row.type}_Optional` === type)
-        )
-        .map(({ key }) => key),
+    () => getFallbackKeys({ key, type, allKeyData: keyData }),
     [keyData, key, type]
   );
 

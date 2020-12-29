@@ -18,7 +18,7 @@ const focusEl = element => element && element.focus();
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   updateOption: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   filter: PropTypes.func,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
