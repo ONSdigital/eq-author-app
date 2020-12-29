@@ -209,8 +209,8 @@ const Autocomplete = ({
     [query]
   );
 
-  const hasCategories = useCallback(
-    (filterOptions, categories) =>
+  const results = React.useMemo(
+    () =>
       (categories || filterOptions).map((option, index) => {
         if (option.props?.category) {
           return (
@@ -242,7 +242,7 @@ const Autocomplete = ({
           </ListItem>
         );
       }),
-    [query, options]
+    [query, options, filterOptions, categories]
   );
 
   return (
@@ -289,7 +289,7 @@ const Autocomplete = ({
             data-test="autocomplete-listbox"
             role="listbox"
           >
-            {hasCategories(filterOptions, categories)}
+            {results}
             {!filterOptions.length && <ListItem>No results found</ListItem>}
           </DropDown>
         )}
