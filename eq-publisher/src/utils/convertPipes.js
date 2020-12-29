@@ -45,7 +45,10 @@ const PIPE_TYPES = {
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
-    render: ({ key }) => `metadata['${key}']`,
+    render: ({ key, fallbackKey }) =>
+      fallbackKey
+        ? `first_non_empty_item(metadata['${key}'], metadata['${fallbackKey}'])`
+        : `metadata['${key}']`,
     getType: ({ type }) => type,
   },
   variable: {

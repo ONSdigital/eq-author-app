@@ -147,6 +147,7 @@ exports.getQuestionnaire = `
   fragment metadataFragment on Metadata {
     id
     key
+    fallbackKey
     type
   }
   

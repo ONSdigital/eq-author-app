@@ -162,6 +162,16 @@ describe("convertPipes", () => {
       expect(convertPipes(createContext(metadata))(html)).toEqual("");
     });
 
+    it("should add fallback metadata if available", () => {
+      const html = createPipe({ id: "42", pipeType: "metadata" });
+      const metadata = [
+        { id: "42", key: "skeleton", type: "Text", fallbackKey: "cruciform" },
+      ];
+      expect(convertPipes(createContext(metadata))(html)).toEqual(
+        "{{ first_non_empty_item(metadata['skeleton'], metadata['cruciform']) }}"
+      );
+    });
+
     describe("formatting", () => {
       it("should format date metadata as date", () => {
         const html = createPipe({ id: "123", pipeType: "metadata" });
