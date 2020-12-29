@@ -49,6 +49,11 @@ export const RoundedInput = styled(Input)`
     css`
       border-color: ${colors.red};
     `}
+  ${({ borderless }) =>
+    borderless &&
+    css`
+      border: none;
+    `}
 `;
 
 export const DropDown = styled.ul`

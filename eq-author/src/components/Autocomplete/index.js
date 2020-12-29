@@ -22,6 +22,7 @@ const AutocompleteProps = {
   filter: PropTypes.func,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
+  borderless: PropTypes.bool,
 };
 
 const Autocomplete = ({
@@ -31,6 +32,7 @@ const Autocomplete = ({
   filter,
   placeholder,
   hasError,
+  borderless = false,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -277,6 +279,7 @@ const Autocomplete = ({
           type="text"
           value={selectedOption ? selectedOption : query}
           hasError={hasError}
+          borderless={borderless}
         />
         {isOpen && !selectedOption && (
           <DropDown
@@ -298,4 +301,4 @@ const Autocomplete = ({
 
 Autocomplete.propTypes = AutocompleteProps;
 
-export { Autocomplete };
+export { Autocomplete, AutocompleteProps };
