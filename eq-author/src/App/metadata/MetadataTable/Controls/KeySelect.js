@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { reject, includes, isUndefined } from "lodash";
+import { reject, includes } from "lodash";
 
 import Typeahead from "components/Forms/Typeahead";
 import {
