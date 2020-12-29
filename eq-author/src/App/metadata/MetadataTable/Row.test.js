@@ -59,6 +59,7 @@ describe("MetadataTable", () => {
 
     props = {
       metadata: metadata,
+      keyData: metadataTypes,
       questionnaireId: questionnaireId,
       onDelete: jest.fn(),
       onUpdate: jest.fn(),

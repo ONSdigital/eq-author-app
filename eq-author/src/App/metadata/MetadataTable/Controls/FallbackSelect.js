@@ -28,7 +28,6 @@ const FallbackSelect = ({ options, name, onChange, onUpdate }) => {
 FallbackSelect.propTypes = {
   options: AutocompleteProps.options,
   placeholder: AutocompleteProps.placeholder,
-  updateOption: AutocompleteProps.updateOption,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

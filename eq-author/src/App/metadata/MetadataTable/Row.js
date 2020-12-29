@@ -20,7 +20,7 @@ import {
 import { EN, CY } from "constants/languages";
 import { GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS } from "constants/regions";
 
-const StatelessRow = ({
+export const StatelessRow = ({
   metadata: {
     id,
     key,
