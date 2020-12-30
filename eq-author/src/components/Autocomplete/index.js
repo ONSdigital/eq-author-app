@@ -203,7 +203,7 @@ const Autocomplete = ({
       filter && typeof filter === "function"
         ? filter(options, query)
         : [options.filter(option => option.toLowerCase().includes(query))],
-    [query]
+    [query, options]
   );
 
   const results = React.useMemo(
