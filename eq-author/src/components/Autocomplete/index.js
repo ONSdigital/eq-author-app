@@ -41,6 +41,12 @@ const Autocomplete = ({
   // builds a list of elements
   const comboElements = useRef(new Map());
 
+  // Allow dynamically modifying the selected value from parent component
+  useEffect(() => {
+    setSelectedOption(defaultValue);
+    setIsOpen(false);
+  }, [defaultValue]);
+
   const onArrowDown = useCallback(
     event => {
       event.preventDefault();

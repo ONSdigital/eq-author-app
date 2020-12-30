@@ -17,6 +17,7 @@ describe("FallbackSelect", () => {
         name={name}
         onChange={onChange}
         onUpdate={onUpdate}
+        defaultValue={null}
       />
     );
 
