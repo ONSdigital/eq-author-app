@@ -310,15 +310,37 @@ describe("metadata", () => {
   });
 
   describe("delete", () => {
-    it("should delete a metadata", async () => {
+    beforeEach(async () => {
       ctx = await buildContext({
-        metadata: [{}],
+        metadata: [
+          {
+            key: "skeleton",
+            type: TEXT,
+            textValue: "Woo",
+          },
+          {
+            key: "cruciform",
+            type: TEXT,
+            textValue: "Hoo",
+          },
+        ],
       });
       questionnaire = ctx.questionnaire;
+    });
 
+    it("should delete a metadata entry", async () => {
+      expect(await queryMetadata(ctx)).toHaveLength(2);
       await deleteMetadata(ctx, questionnaire.metadata[0].id);
       const deletedMetadata = await queryMetadata(ctx);
-      expect(deletedMetadata).toEqual([]);
+      expect(deletedMetadata).toHaveLength(1);
+    });
+
+    it("should remove fallbackKey references to deleted metadata entries", async () => {
+      ctx.questionnaire.metadata[1].fallbackKey = questionnaire.metadata[0].key;
+      expect((await queryMetadata(ctx))[1].fallbackKey).toEqual("skeleton");
+      await deleteMetadata(ctx, questionnaire.metadata[0].id);
+      const deletedMetadata = await queryMetadata(ctx);
+      expect(deletedMetadata[0].fallbackKey).toBeNull();
     });
   });
 });
