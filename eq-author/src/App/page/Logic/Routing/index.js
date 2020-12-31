@@ -13,7 +13,7 @@ import Error from "components/Error";
 import RoutingPage from "./RoutingPage";
 import transformNestedFragments from "utils/transformNestedFragments";
 import { buildPagePath } from "utils/UrlUtils";
-import Logic from "../../Logic";
+import Logic from "App/shared/Logic";
 
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 

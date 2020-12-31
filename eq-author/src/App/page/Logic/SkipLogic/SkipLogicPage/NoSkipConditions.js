@@ -6,8 +6,8 @@ import styled from "styled-components";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 
-import IconAddRule from "../icon-add-rule.svg?inline";
-import IconRouting from "./icon-routing.svg?inline";
+import IconAddRule from "assets/icon-add-rule.svg?inline";
+import IconRouting from "assets/icon-routing.svg?inline";
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +34,9 @@ const Paragraph = styled.p`
 
 const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
-  ${props =>  props.isFirstQuestion && `
+  ${props =>
+    props.isFirstQuestion &&
+    `
      pointer-events: none;
      opacity: 0.6;`};
 `;
@@ -46,19 +48,27 @@ const SkipConditionsSetMsg = ({
 }) => (
   <Container {...otherProps}>
     <Icon />
-    <Title>{isFirstQuestion ? "Skip logic not available for this question" : "No skip conditions exist for this question" }</Title>
-    <Paragraph>{isFirstQuestion ? "You can't add skip logic to the first question in a questionnaire." : "All users will see this question if no skip logic is added."}</Paragraph>
-      <AddSkipConditionsButton
-        small
-        naked
-        variant="primary"
-        onClick={onAddSkipCondtions}
-        data-test="btn-add-skip-condition"
-        isFirstQuestion={isFirstQuestion}
-        disabled={isFirstQuestion}
-      >
-        <IconText icon={IconAddRule}>Add your skip conditions</IconText>
-      </AddSkipConditionsButton>
+    <Title>
+      {isFirstQuestion
+        ? "Skip logic not available for this question"
+        : "No skip conditions exist for this question"}
+    </Title>
+    <Paragraph>
+      {isFirstQuestion
+        ? "You can't add skip logic to the first question in a questionnaire."
+        : "All users will see this question if no skip logic is added."}
+    </Paragraph>
+    <AddSkipConditionsButton
+      small
+      naked
+      variant="primary"
+      onClick={onAddSkipCondtions}
+      data-test="btn-add-skip-condition"
+      isFirstQuestion={isFirstQuestion}
+      disabled={isFirstQuestion}
+    >
+      <IconText icon={IconAddRule}>Add your skip conditions</IconText>
+    </AddSkipConditionsButton>
   </Container>
 );
 

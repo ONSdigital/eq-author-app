@@ -13,7 +13,7 @@ import Error from "components/Error";
 import SkipLogicPage from "./SkipLogicPage";
 import transformNestedFragments from "utils/transformNestedFragments";
 import { buildPagePath } from "utils/UrlUtils";
-import Logic from "../../Logic";
+import Logic from "App/shared/Logic";
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 
 export class UnwrappedQuestionSkipLogicRoute extends React.Component {
@@ -67,7 +67,10 @@ const query = gql`
       displayName
       pageType
       ...SkipLogicPage
-      section {id, position}
+      section {
+        id
+        position
+      }
     }
   }
 `;
