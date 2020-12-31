@@ -1,19 +1,26 @@
 #import "./SkipLogicEditor/fragment.graphql"
 
-fragment SkipLogicPage on QuestionPage {
+fragment SkipLogicPage on Page {
   id
-  position
-  skipConditions {
-    ...SkipLogicEditor
+  pageType
+  section {
+    id
+    position
   }
   validationErrorInfo {
     id
     errors {
       id
-      type
       field
+      type
       errorCode
     }
     totalCount
+  }
+  ... on QuestionPage {
+    position
+    skipConditions {
+      ...SkipLogicEditor
+    }
   }
 }
