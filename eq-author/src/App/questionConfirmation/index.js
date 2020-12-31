@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 import Design from "./Design";
 import Preview from "./Preview";
+import Routing from "./Logic/Routing";
 
 export default [
   <Route
@@ -15,5 +16,16 @@ export default [
     key="confirmation-preview"
     path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
     component={Preview}
+  />,
+  <Route
+    key="confirmation-logic"
+    path="/q/:questionnaireId/question-confirmation/:confirmationId/logic"
+  >
+    <Redirect to="routing" />
+  </Route>,
+  <Route
+    key="confirmation-routing"
+    path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
+    component={Routing}
   />,
 ];

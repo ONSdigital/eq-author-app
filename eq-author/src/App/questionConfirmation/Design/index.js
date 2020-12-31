@@ -103,6 +103,7 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
       <EditorLayout
         title={displayName}
         preview
+        logic
         validationErrorInfo={pageData.validationErrorInfo}
       >
         <Panel>{this.renderContent()}</Panel>

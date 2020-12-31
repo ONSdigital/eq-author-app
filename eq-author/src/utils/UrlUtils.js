@@ -63,7 +63,7 @@ export const buildConfirmationPath = ({ confirmationId, tab, ...rest }) => {
   }
   return generatePath(Routes.QUESTIONNAIRE)({
     ...rest,
-    tab: sanitiseTab(["design", "preview"])(tab),
+    tab: sanitiseTab(["design", "routing", "skip", "logic", "preview"])(tab),
     entityId: confirmationId,
     entityName: QUESTION_CONFIRMATION,
   });
