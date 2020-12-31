@@ -90,17 +90,6 @@ describe("buildConfirmationPath", () => {
     expect(() => buildConfirmationPath({ questionnaireId })).toThrow();
     expect(() => buildConfirmationPath({ confirmationId })).toThrow();
   });
-
-  it("rejects invalid tabs", () => {
-    const path = buildConfirmationPath({
-      questionnaireId,
-      confirmationId,
-      tab: "routing",
-    });
-    expect(path).toEqual(
-      `/q/${questionnaireId}/question-confirmation/${confirmationId}/design`
-    );
-  });
 });
 
 describe("buildIntroductionPath", () => {
@@ -225,5 +214,17 @@ describe("buildLogicPath", () => {
       tab: "design",
     });
     expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/routing`);
+  });
+
+  it("builds a confirmation Routing path", () => {
+    const path = buildLogicPath({
+      questionnaireId,
+      confirmationId,
+      tab: "design",
+    });
+
+    expect(path).toEqual(
+      `/q/${questionnaireId}/question-confirmation/${confirmationId}/routing`
+    );
   });
 });

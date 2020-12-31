@@ -89,8 +89,6 @@ export class UnwrappedLogicPage extends React.Component {
     data: PropTypes.shape({
       page: CustomPropTypes.page,
     }),
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.object, // eslint-disable-line
   };
 
   renderContent() {

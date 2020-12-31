@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`questionConfirmation/Routing should render 1`] = `
+<UnwrappedLogicPage>
+  <RoutingRuleSetMsg
+    disabled={true}
+  >
+    <NoRouting__Title>
+       Routing logic not available for confirmation questions 
+    </NoRouting__Title>
+    <NoRouting__Paragraph>
+      The route will be based on the answer to the previous question.
+    </NoRouting__Paragraph>
+  </RoutingRuleSetMsg>
+</UnwrappedLogicPage>
+`;

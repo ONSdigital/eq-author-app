@@ -2261,6 +2261,19 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                 path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
               />
               <Route
+                key="confirmation-logic"
+                path="/q/:questionnaireId/question-confirmation/:confirmationId/logic"
+              >
+                <Redirect
+                  to="routing"
+                />
+              </Route>
+              <Route
+                component={[Function]}
+                key="confirmation-routing"
+                path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
+              />
+              <Route
                 component={[Function]}
                 key="introduction-design"
                 path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
