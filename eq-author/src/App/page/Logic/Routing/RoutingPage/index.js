@@ -18,6 +18,14 @@ import Panel from "components/Panel";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
+export const messages = {
+  ROUTING_NOT_AVAILABLE: "Routing is not available for this question",
+  NO_RULES_EXIST: "No routing rules exist for this question",
+  LAST_PAGE: "You can't route on the last question in a questionnaire.",
+  DEFAULT_ROUTING:
+    "Users completing this question will be taken to the next page.",
+};
+
 export const UnwrappedRoutingPage = ({ page, createRouting }) => {
   const handleAddRouting = () => createRouting(page.id);
 
@@ -43,13 +51,11 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
               >
                 <Title>
                   {isLastPage
-                    ? "Routing is not available for this quesiton"
-                    : "No routing rules exist for this question"}
+                    ? messages.ROUTING_NOT_AVAILABLE
+                    : messages.NO_RULES_EXIST}
                 </Title>
                 <Paragraph>
-                  {isLastPage
-                    ? "You can't route on the last question in a questionnaire."
-                    : "Users completing this question will be taken to the next page."}
+                  {isLastPage ? messages.LAST_PAGE : messages.DEFAULT_RUOTING}
                 </Paragraph>
               </NoRouting>
             </Panel>

@@ -10,8 +10,7 @@ export default () => (
     <NoRouting disabled>
       <Title> Routing logic not available for confirmation questions </Title>
       <Paragraph>
-        {" "}
-        The route will be based on the answer to the previous question.{" "}
+        The route will be based on the answer to the previous question.
       </Paragraph>
     </NoRouting>
   </Logic>
