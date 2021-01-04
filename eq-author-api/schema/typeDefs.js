@@ -541,6 +541,7 @@ type SelectedOptions2 {
 }
 
 enum LogicCondition {
+  Select
   Equal
   NotEqual
   GreaterThan

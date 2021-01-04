@@ -1,3 +1,4 @@
+const SELECT = "Select";
 const ONE_OF = "OneOf";
 const EQUAL = "Equal";
 const NOT_EQUAL = "NotEqual";
@@ -12,6 +13,7 @@ const NOT_ANY_OF = "NotAnyOf";
 const UNANSWERED = "Unanswered";
 
 module.exports = {
+  SELECT,
   ONE_OF,
   EQUAL,
   NOT_EQUAL,

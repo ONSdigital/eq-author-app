@@ -11,6 +11,7 @@ import { rightSideErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
 const conditions = {
+  SELECT: "Select",
   EQUAL: "Equal",
   NOT_EQUAL: "NotEqual",
   GREATER_THAN: "GreaterThan",
@@ -118,6 +119,7 @@ class NumberAnswerSelector extends React.Component {
             value={expression.condition}
             data-test="condition-selector"
           >
+            <option value={conditions.SELECT}>Select an operator</option>
             <option value={conditions.EQUAL}>(=) Equal to</option>
             <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
             <option value={conditions.GREATER_THAN}>(&gt;) More than</option>

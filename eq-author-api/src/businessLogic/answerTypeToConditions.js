@@ -2,6 +2,7 @@ const answerTypes = require("../../constants/answerTypes");
 const conditions = require("../../constants/routingConditions");
 
 const NUMERIC_COMPARISONS = [
+  conditions.SELECT,
   conditions.EQUAL,
   conditions.NOT_EQUAL,
   conditions.GREATER_THAN,
