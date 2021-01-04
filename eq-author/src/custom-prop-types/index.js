@@ -20,7 +20,7 @@ const CustomPropTypes = {
     id: PropTypes.string.isRequired,
     alias: PropTypes.string,
     key: PropTypes.string,
-    type: PropTypes.oneOf(Object.values(metadataTypes).map(type => type.type)),
+    type: PropTypes.oneOf(Object.values(metadataTypes).map(type => type.value)),
     languageValue: PropTypes.string,
     regionValue: PropTypes.string,
     textValue: PropTypes.string,

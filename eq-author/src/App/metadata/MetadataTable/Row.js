@@ -68,7 +68,7 @@ export class StatelessRow extends Component {
           />
         </TableColumn>
         <TableColumn>
-          {(type === TEXT.type || type === TEXT_OPTIONAL.type) && (
+          {(type === TEXT.value || type === TEXT_OPTIONAL.value) && (
             <TableInput
               onChange={onChange}
               onBlur={onUpdate}
@@ -76,7 +76,7 @@ export class StatelessRow extends Component {
               name="textValue"
             />
           )}
-          {type === DATE.type && (
+          {type === DATE.value && (
             <TableInputDate
               onChange={onChange}
               onBlur={onUpdate}
@@ -85,7 +85,7 @@ export class StatelessRow extends Component {
               type="date"
             />
           )}
-          {type === REGION.type && (
+          {type === REGION.value && (
             <Select
               onChange={onChange}
               onUpdate={onUpdate}
@@ -94,7 +94,7 @@ export class StatelessRow extends Component {
               name="regionValue"
             />
           )}
-          {type === LANGUAGE.type && (
+          {type === LANGUAGE.value && (
             <Select
               onChange={onChange}
               onUpdate={onUpdate}
