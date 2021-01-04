@@ -14,10 +14,8 @@ export const SkipLogicRoute = ({ match }) => {
     variables: {
       input: match.params,
     },
-    fetchPolicy: "network-only",
   });
 
-  console.log("data", data);
   const page = data?.skippable;
 
   return (

@@ -1,8 +1,28 @@
-#import "./SkipLogicPage/fragment.graphql"
+#import "./SkipLogicPage/SkipLogicEditor/fragment.graphql"
 
 query GetSkipLogic($input: QueryInput!) {
   skippable(input: $input) {
     id
-    ...SkipLogicPage
+    skipConditions {
+      ...SkipLogicEditor
+    }
+    ... on QuestionPage {
+      position
+      pageType
+      section {
+        id
+        position
+      }
+      validationErrorInfo {
+        id
+        errors {
+          id
+          field
+          type
+          errorCode
+        }
+        totalCount
+      }
+    }
   }
 }

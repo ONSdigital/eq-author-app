@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from "react";
 
 import { TransitionGroup } from "react-transition-group";
