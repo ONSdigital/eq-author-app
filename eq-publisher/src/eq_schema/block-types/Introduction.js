@@ -28,6 +28,7 @@ const getComplexText = (content, ctx) => (
       return result.content;
     }
   }
+
   return undefined;
 };
 
@@ -61,12 +62,12 @@ module.exports = class Introduction {
     this.preview_content = {
       id: "preview",
       title: getSimpleText(secondaryTitle, ctx),
-      content: getComplexText(secondaryDescription, ctx),
+      content: getComplexText(secondaryDescription, ctx)(),
       questions: collapsibles
         .filter(collapsible => collapsible.title && collapsible.description)
         .map(({ title, description }) => ({
           question: title,
-          content: getComplexText(description, ctx),
+          content: getComplexText(description, ctx)(),
         })),
     };
 
@@ -74,7 +75,7 @@ module.exports = class Introduction {
       {
         id: "secondary-content",
         title: getSimpleText(tertiaryTitle, ctx),
-        content: getComplexText(tertiaryDescription, ctx),
+        content: getComplexText(tertiaryDescription, ctx)(),
       },
     ];
   }

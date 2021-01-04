@@ -12,6 +12,7 @@ describe("Introduction", () => {
       secondaryTitle: `<p>Information you need ${piping}</p>`,
       secondaryDescription:
         "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",
+
       collapsibles: [
         {
           id: "d45bf1dd-f286-40ca-b6a2-fe0014574c36",
