@@ -127,7 +127,12 @@ interface Page {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionPage implements Page {
+interface Skippable {
+  id: ID!
+  skipConditions: [ExpressionGroup2]
+}
+
+type QuestionPage implements Page & Skippable {
   id: ID!
   title: String!
   alias: String
@@ -181,7 +186,7 @@ type ConfirmationOption {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionConfirmation {
+type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
@@ -192,6 +197,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  skipConditions: [ExpressionGroup2]
 }
 
 interface Answer {
@@ -625,6 +631,7 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
+  skippable(input: QueryInput!): Skippable
 }
 
 input QueryInput {

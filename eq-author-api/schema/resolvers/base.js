@@ -214,6 +214,10 @@ const Resolvers = {
         input.includeSelf,
         ROUTING_ANSWER_TYPES
       ),
+    skippable: (root, { input: { pageId, confirmationId } }, ctx) =>
+      confirmationId
+        ? getConfirmationById(ctx, confirmationId)
+        : getPageById(ctx, pageId),
   },
 
   Subscription: {
@@ -986,6 +990,11 @@ const Resolvers = {
 
   QuestionnaireInfo: {
     totalSectionCount: questionnaire => questionnaire.sections.length,
+  },
+
+  Skippable: {
+    __resolveType: ({ alias }) =>
+      alias !== null ? "QuestionPage" : "QuestionConfirmation",
   },
 
   Section: {
