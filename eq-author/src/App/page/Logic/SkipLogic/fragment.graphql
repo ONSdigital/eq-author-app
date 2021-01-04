@@ -1,0 +1,8 @@
+#import "./SkipLogicPage/fragment.graphql"
+
+query GetSkipLogic($input: QueryInput!) {
+  skippable(input: $input) {
+    id
+    ...SkipLogicPage
+  }
+}

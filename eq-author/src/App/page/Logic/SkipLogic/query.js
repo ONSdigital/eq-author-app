@@ -5,7 +5,8 @@ import transformNestedFragments from "utils/transformNestedFragments";
 export default transformNestedFragments(
   gql`
     query GetSkipLogic($input: QueryInput!) {
-      page(input: $input) {
+      skippable(input: $input) {
+        id
         ...SkipLogicPage
       }
     }
