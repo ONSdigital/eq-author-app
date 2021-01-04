@@ -106,7 +106,7 @@
     "draft-js-plugins-editor": "latest",
     "draft-js-raw-content-state": "latest",
     "draftjs-filters": "^2.2.4",
-    "firebase": "latest",
+    "firebase": "8.0.1",
     "firebaseui": "latest",
     "graphql": "latest",
     "graphql-anywhere": "latest",
