@@ -10,7 +10,7 @@ describe("IntroductionEditor", () => {
       introduction: {
         id: "1",
         title: "title",
-        additionalGuidancePanelSwitch: true,
+        additionalGuidancePanelSwitch: false,
         additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
@@ -31,9 +31,20 @@ describe("IntroductionEditor", () => {
 
   it("should toggle the additional guidance panel", () => {
     const wrapper = shallow(<IntroductionEditor {...props} />);
+    expect(
+      wrapper.find('[name="additionalGuidancePanel"]').exists()
+    ).toBeFalsy();
     wrapper
       .find("#toggle-additional-guidance-panel")
       .simulate("change", { target: { checked: true } });
     expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show the additional guidance panel", () => {
+    props.introduction.additionalGuidancePanelSwitch = true;
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+    expect(
+      wrapper.find('[name="additionalGuidancePanel"]').exists()
+    ).toBeTruthy();
   });
 });

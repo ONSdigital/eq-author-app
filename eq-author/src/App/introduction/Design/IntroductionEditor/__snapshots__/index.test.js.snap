@@ -37,35 +37,13 @@ exports[`IntroductionEditor should render 1`] = `
           Additional guidance panel
         </Label>
         <ToggleSwitch
-          checked={true}
+          checked={false}
           hideLabels={false}
           id="toggle-additional-guidance-panel"
           name="toggle-additional-guidance-panel"
           onChange={[Function]}
         />
       </IntroductionEditor__InlineField>
-      <RichTextEditor
-        autoFocus={false}
-        controls={
-          Object {
-            "bold": true,
-            "emphasis": true,
-            "heading": true,
-            "link": true,
-            "list": true,
-          }
-        }
-        disabled={false}
-        id="details-additionalGuidancePanel-1"
-        label="Switch"
-        maxHeight={12}
-        multiline={true}
-        name="additionalGuidancePanel"
-        onUpdate={[MockFunction]}
-        placeholder=""
-        testSelector="txt-collapsible-additionalGuidancePanel"
-        value="additionalGuidancePanel"
-      />
       <RichTextEditor
         autoFocus={false}
         controls={
