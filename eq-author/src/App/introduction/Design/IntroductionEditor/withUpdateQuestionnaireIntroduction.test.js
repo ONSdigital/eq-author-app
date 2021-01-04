@@ -12,7 +12,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
     ).toBeInstanceOf(Function);
   });
 
-  it.only("should filter the args to what is allowed and call mutate", () => {
+  it("should filter the args to what is allowed and call mutate", () => {
     mapMutateToProps({ mutate }).updateQuestionnaireIntroduction({
       introductionId: "introId",
       title: "title",
