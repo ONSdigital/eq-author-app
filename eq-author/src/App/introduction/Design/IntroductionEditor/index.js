@@ -131,6 +131,7 @@ export const IntroductionEditor = ({
               id={`details-additionalGuidancePanel-${id}`}
               name="additionalGuidancePanel"
               value={additionalGuidancePanel}
+              label="Switch"
               onUpdate={onChangeUpdate}
               multiline
               controls={{

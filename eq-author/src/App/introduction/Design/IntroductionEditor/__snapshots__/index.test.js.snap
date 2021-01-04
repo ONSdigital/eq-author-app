@@ -57,6 +57,7 @@ exports[`IntroductionEditor should render 1`] = `
         }
         disabled={false}
         id="details-additionalGuidancePanel-1"
+        label="Switch"
         maxHeight={12}
         multiline={true}
         name="additionalGuidancePanel"

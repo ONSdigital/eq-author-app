@@ -21,10 +21,19 @@ describe("IntroductionEditor", () => {
         legalBasis: "VOLUNTARY",
       },
       onChangeUpdate: jest.fn(),
+      updateQuestionnaireIntroduction: jest.fn(),
     };
   });
 
   it("should render", () => {
     expect(shallow(<IntroductionEditor {...props} />)).toMatchSnapshot();
+  });
+
+  it("should toggle the additional guidance panel", () => {
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+    wrapper
+      .find("#toggle-additional-guidance-panel")
+      .simulate("change", { target: { checked: true } });
+    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
   });
 });
