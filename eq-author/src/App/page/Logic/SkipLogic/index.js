@@ -1,5 +1,4 @@
 import React from "react";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 
@@ -7,8 +6,8 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 
 import SkipLogicPage from "./SkipLogicPage";
-import transformNestedFragments from "utils/transformNestedFragments";
 import Logic from "App/shared/Logic";
+import SKIPLOGIC_QUERY from "./query";
 
 export const SkipLogicRoute = ({ match }) => {
   const { loading, data } = useQuery(SKIPLOGIC_QUERY, {
@@ -31,17 +30,6 @@ export const SkipLogicRoute = ({ match }) => {
     </Logic>
   );
 };
-
-const SKIPLOGIC_QUERY = transformNestedFragments(
-  gql`
-    query GetSkipLogic($input: QueryInput!) {
-      page(input: $input) {
-        ...SkipLogicPage
-      }
-    }
-  `,
-  SkipLogicPage.fragments
-);
 
 SkipLogicRoute.propTypes = {
   match: PropTypes.shape({
