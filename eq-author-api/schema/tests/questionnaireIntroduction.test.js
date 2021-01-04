@@ -65,7 +65,7 @@ describe("questionnaire", () => {
         title: "new title",
         description: "new description",
         additionalGuidancePanel: "new guidance panel",
-        // additionalGuidancePanelSwitch: true,
+        additionalGuidancePanelSwitch: true,
         secondaryTitle: "new secondaryTitle",
         secondaryDescription: "new secondaryDescription",
         legalBasis: NOTICE_2,
@@ -81,6 +81,8 @@ describe("questionnaire", () => {
       expect(updatedIntroduction).toEqual({
         id: questionnaire.introduction.id,
         collapsibles: expect.any(Array),
+        additionalGuidancePanel: "new guidance panel",
+        additionalGuidancePanelSwitch: true,
         ...changes,
       });
     });

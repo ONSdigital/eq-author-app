@@ -12,13 +12,16 @@ describe("withUpdateQuestionnaireIntroduction", () => {
     ).toBeInstanceOf(Function);
   });
 
-  it("should filter the args to what is allowed and call mutate", () => {
+  it.only("should filter the args to what is allowed and call mutate", () => {
     mapMutateToProps({ mutate }).updateQuestionnaireIntroduction({
       introductionId: "introId",
       title: "title",
       description: "description",
+      additionalGuidancePanel: "Guidance Panel",
+      additionalGuidancePanelSwitch: true,
       foo: "foo",
     });
+    console.log(mutate);
     expect(mutate).toHaveBeenCalledWith({
       optimisticResponse: {
         updateQuestionnaireIntroduction: {
@@ -26,6 +29,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
           title: "title",
           description: "description",
           additionalGuidancePanel: "Guidance Panel",
+          dditionalGuidancePanelSwitch: true,
           foo: "foo",
           __typename: "QuestionnaireIntroduction",
         },
@@ -34,6 +38,8 @@ describe("withUpdateQuestionnaireIntroduction", () => {
         input: {
           title: "title",
           description: "description",
+          additionalGuidancePanel: "Guidance Panel",
+          dditionalGuidancePanelSwitch: true,
         },
       },
     });
