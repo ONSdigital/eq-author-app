@@ -21,7 +21,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
       additionalGuidancePanelSwitch: true,
       foo: "foo",
     });
-    console.log(mutate);
+
     expect(mutate).toHaveBeenCalledWith({
       optimisticResponse: {
         updateQuestionnaireIntroduction: {
@@ -29,7 +29,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
           title: "title",
           description: "description",
           additionalGuidancePanel: "Guidance Panel",
-          dditionalGuidancePanelSwitch: true,
+          additionalGuidancePanelSwitch: true,
           foo: "foo",
           __typename: "QuestionnaireIntroduction",
         },
@@ -39,7 +39,7 @@ describe("withUpdateQuestionnaireIntroduction", () => {
           title: "title",
           description: "description",
           additionalGuidancePanel: "Guidance Panel",
-          dditionalGuidancePanelSwitch: true,
+          additionalGuidancePanelSwitch: true,
         },
       },
     });
