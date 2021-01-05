@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import { propType } from "graphql-anywhere";
-import { flow, get } from "lodash/fp";
+import { flow, get, find } from "lodash/fp";
 
 import Transition from "App/page/Logic/Routing/Transition";
 import Button from "components/buttons/Button";
@@ -26,8 +26,7 @@ import ValidationError from "components/ValidationError";
 import { destinationErrors } from "constants/validationMessages";
 
 const RepositionedValidationError = styled(ValidationError)`
-  justify-content: unset;
-  padding-left: 36.5%;
+  justify-content: center;
   margin-top: 0;
 `;
 
@@ -137,6 +136,11 @@ export class UnwrappedRuleEditor extends React.Component {
       return false;
     }).length;
 
+    const hasDestinationErr = find(
+      err => err.field === "destination",
+      validationErrors
+    );
+
     return (
       <>
         <Rule data-test="routing-rule" className={className}>
@@ -207,15 +211,14 @@ export class UnwrappedRuleEditor extends React.Component {
             validationErrors={validationErrors}
           />
         </Rule>
-        {validationErrors.length > 0 &&
-          validationErrors[0].field === "destination" && (
-            <RepositionedValidationError
-              right
-              test="destination-validation-error"
-            >
-              <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
-            </RepositionedValidationError>
-          )}
+        {hasDestinationErr && (
+          <RepositionedValidationError
+            test="destination-validation-error"
+            right
+          >
+            <p>{destinationErrors[hasDestinationErr.errorCode].message}</p>
+          </RepositionedValidationError>
+        )}
       </>
     );
   }
