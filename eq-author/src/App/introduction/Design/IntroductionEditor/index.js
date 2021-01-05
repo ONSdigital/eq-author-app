@@ -136,7 +136,6 @@ export const IntroductionEditor = ({
               multiline
               controls={{
                 heading: true,
-                emphasis: true,
                 list: true,
                 bold: true,
                 link: true,
