@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { get, filter } from "lodash";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
@@ -83,85 +82,60 @@ const Badge = styled.span`
   height: 1.4em;
 `;
 
-export class UnwrappedLogicPage extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    data: PropTypes.shape({
-      page: CustomPropTypes.page,
-    }),
-  };
+const TABS = [
+  {
+    key: `routing`,
+    label: "Routing logic",
+  },
+  {
+    key: `skip`,
+    label: "Skip logic",
+  },
+];
 
-  renderContent() {
-    const { children, data } = this.props;
-    const page = get(data, "page", null);
+const LogicPage = ({ children, page }) => (
+  <EditorLayout
+    design
+    preview
+    logic
+    validationErrorInfo={page?.validationErrorInfo}
+    title={page?.displayName ?? ""}
+    singleColumnLayout
+    mainCanvasMaxWidth="80em"
+  >
+    <LogicMainCanvas>
+      <Grid>
+        <Column gutters={false} cols={2.5}>
+          <MenuTitle>Select your logic</MenuTitle>
+          <StyledUl>
+            {TABS.map(({ key, label }) => {
+              const errors = page?.validationErrorInfo?.errors?.filter(
+                ({ type }) => type && type.includes(key)
+              );
+              return (
+                <li data-test={key} key={key}>
+                  <LogicLink exact to={key} activeClassName="active" replace>
+                    {label}
+                    {errors?.length > 0 && (
+                      <Badge data-test="badge-withCount">{errors.length}</Badge>
+                    )}
+                  </LogicLink>
+                </li>
+              );
+            })}
+          </StyledUl>
+        </Column>
+        <Column gutters={false} cols={9.5}>
+          <LogicContainer>{children}</LogicContainer>
+        </Column>
+      </Grid>
+    </LogicMainCanvas>
+  </EditorLayout>
+);
 
-    const TABS = [
-      {
-        key: `routing`,
-        label: "Routing logic",
-      },
-      {
-        key: `skip`,
-        label: "Skip logic",
-      },
-    ];
+LogicPage.propTypes = {
+  children: PropTypes.node.isRequired,
+  page: CustomPropTypes.page,
+};
 
-    return (
-      <LogicMainCanvas>
-        <Grid>
-          <Column gutters={false} cols={2.5}>
-            <MenuTitle>Select your logic</MenuTitle>
-            <StyledUl>
-              {TABS.map(({ key, label }) => {
-                let errors;
-                if (page) {
-                  errors = filter(page.validationErrorInfo.errors, error =>
-                    error.type ? error.type.includes(key) : false
-                  );
-                }
-                return (
-                  <li data-test={key} key={key}>
-                    <LogicLink exact to={key} activeClassName="active" replace>
-                      {label}
-                      {errors !== undefined &&
-                      errors !== null &&
-                      errors.length > 0 ? (
-                        <Badge data-test="badge-withCount">
-                          {errors.length}
-                        </Badge>
-                      ) : null}
-                    </LogicLink>
-                  </li>
-                );
-              })}
-            </StyledUl>
-          </Column>
-          <Column gutters={false} cols={9.5}>
-            <LogicContainer>{children}</LogicContainer>
-          </Column>
-        </Grid>
-      </LogicMainCanvas>
-    );
-  }
-
-  render() {
-    const displayName = get(this.props, "data.page.displayName", "");
-    const pageData = get(this.props, "data.page", {});
-
-    return (
-      <EditorLayout
-        design
-        preview
-        logic
-        validationErrorInfo={pageData.validationErrorInfo}
-        title={displayName}
-        singleColumnLayout
-        mainCanvasMaxWidth="80em"
-      >
-        {this.renderContent()}
-      </EditorLayout>
-    );
-  }
-}
-
-export default UnwrappedLogicPage;
+export default LogicPage;

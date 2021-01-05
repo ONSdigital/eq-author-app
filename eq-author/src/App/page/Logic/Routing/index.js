@@ -64,7 +64,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    return <Logic {...this.props}>{this.renderContent()}</Logic>;
+    return <Logic page={this.props.data?.page}>{this.renderContent()}</Logic>;
   }
 }
 

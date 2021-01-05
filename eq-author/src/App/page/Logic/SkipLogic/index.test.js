@@ -21,7 +21,7 @@ const renderWithMocks = (match, data = null) => {
       request: {
         query: SKIPLOGIC_QUERY,
         variables: {
-          input: match.params,
+          input: match.params.confirmationId || match.params.pageId,
         },
       },
       result: {
