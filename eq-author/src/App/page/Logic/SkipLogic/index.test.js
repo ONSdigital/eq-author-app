@@ -2,22 +2,10 @@ import React from "react";
 import { MockedProvider } from "@apollo/react-testing";
 import { render, screen } from "tests/utils/rtl";
 import SkipLogicRoute from ".";
-import query from "./query";
+import SKIPLOGIC_QUERY from "./fragment.graphql";
 
 jest.mock("./SkipLogicPage", () => () => <h1> Mock skip logic page </h1>);
 jest.mock("App/shared/Logic", () => ({ children }) => <> {children} </>); // eslint-disable-line react/prop-types
-
-jest.mock("./query", () => {
-  const gql = jest.requireActual("graphql-tag");
-
-  return gql`
-    query GetSkipLogic($input: QueryInput!) {
-      page(input: $input) {
-        id
-      }
-    }
-  `;
-});
 
 const defaultMatch = {
   params: {
@@ -27,21 +15,25 @@ const defaultMatch = {
   },
 };
 
-const renderWithMocks = (match, result) => {
+const renderWithMocks = (match, data = null) => {
   const mocks = [
     {
       request: {
-        query,
+        query: SKIPLOGIC_QUERY,
         variables: {
           input: match.params,
         },
       },
-      result,
+      result: {
+        data: {
+          skippable: data,
+        },
+      },
     },
   ];
 
   return render(
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider mocks={mocks}>
       <SkipLogicRoute match={match} />
     </MockedProvider>
   );
@@ -49,22 +41,33 @@ const renderWithMocks = (match, result) => {
 
 describe("Routes/SkipLogic", () => {
   it("should show loading message while graphql request in flight", () => {
-    renderWithMocks(defaultMatch, null);
+    renderWithMocks(defaultMatch);
     expect(screen.getByTestId("loading")).toBeTruthy();
   });
 
   it("should show error message if page not found", async () => {
-    renderWithMocks(defaultMatch, null);
+    renderWithMocks(defaultMatch);
     await new Promise(resolve => setTimeout(resolve, 0));
     expect(screen.getByText("Something went wrong")).toBeTruthy();
   });
 
   it("should show SkipLogicPage for page if retrieved successfully", async () => {
     renderWithMocks(defaultMatch, {
-      data: {
-        page: {
-          id: "3",
-        },
+      __typename: "QuestionPage",
+      pageType: "QuestionPage",
+      id: "3",
+      position: 0,
+      skipConditions: null,
+      section: {
+        __typename: "Section",
+        id: "section-1",
+        position: 0,
+      },
+      validationErrorInfo: {
+        __typename: "ValidationErrorInfo",
+        id: "valid-1",
+        errors: [],
+        totalCount: 0,
       },
     });
     await new Promise(resolve => setTimeout(resolve, 0));
