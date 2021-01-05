@@ -8,6 +8,8 @@ const queryIntroductionQuery = `
       description
       secondaryTitle
       secondaryDescription
+      additionalGuidancePanel
+      additionalGuidancePanelSwitch
       collapsibles {
         id
       }
