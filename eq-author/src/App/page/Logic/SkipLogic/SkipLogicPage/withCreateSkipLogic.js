@@ -3,9 +3,9 @@ import { graphql } from "react-apollo";
 import createSkipCondition from "./createSkipCondition.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  createSkipCondition(pageId) {
+  createSkipCondition(id) {
     return mutate({
-      variables: { input: { pageId } },
+      variables: { input: { parentId: id } },
     });
   },
 });

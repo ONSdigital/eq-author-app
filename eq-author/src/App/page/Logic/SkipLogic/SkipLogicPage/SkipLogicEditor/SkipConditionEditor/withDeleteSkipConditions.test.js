@@ -17,7 +17,7 @@ describe("withDeleteSkipConditions", () => {
     it("should call mutate", () => {
       props.deleteSkipConditions("pageId");
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: { pageId: "pageId" } },
+        variables: { input: { parentId: "pageId" } },
       });
     });
   });

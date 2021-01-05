@@ -3,8 +3,10 @@
 mutation deleteSkipConditions($input: DeleteSkipConditionsInput!) {
   deleteSkipConditions(input: $input) {
     id
-    displayName
-    pageType
+    ... on QuestionPage {
+      displayName
+      pageType
+    }
     ...SkipLogicPage
   }
 }

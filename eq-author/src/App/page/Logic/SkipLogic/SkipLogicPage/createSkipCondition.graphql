@@ -3,8 +3,10 @@
 mutation createSkipCondition($input: CreateSkipConditionInput!) {
   createSkipCondition(input: $input) {
     id
-    displayName
-    pageType
+    ... on QuestionPage {
+      displayName
+      pageType
+    }
     ...SkipLogicPage
   }
 }

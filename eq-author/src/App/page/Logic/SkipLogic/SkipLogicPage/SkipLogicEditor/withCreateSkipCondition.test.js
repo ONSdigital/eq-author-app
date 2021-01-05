@@ -17,7 +17,7 @@ describe("withCreateSkipCondition", () => {
     it("should call mutate", () => {
       props.createSkipCondition("id");
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: { pageId: "id" } },
+        variables: { input: { parentId: "id" } },
       });
     });
   });

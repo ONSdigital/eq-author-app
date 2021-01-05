@@ -14,7 +14,6 @@ const {
   first,
   some,
   concat,
-  reject,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
@@ -59,6 +58,8 @@ const {
   getValidationById,
   getAvailablePreviousAnswersForValidation,
   getAvailableMetadataForValidation,
+  getSkippables,
+  getSkippableById,
   remapAllNestedIds,
 } = require("./utils");
 
@@ -214,10 +215,7 @@ const Resolvers = {
         input.includeSelf,
         ROUTING_ANSWER_TYPES
       ),
-    skippable: (root, { input: { pageId, confirmationId } }, ctx) =>
-      confirmationId
-        ? getConfirmationById(ctx, confirmationId)
-        : getPageById(ctx, pageId),
+    skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
   },
 
   Subscription: {
@@ -906,36 +904,34 @@ const Resolvers = {
         operator: "And",
         expressions: [createExpression({ left: createLeftSide(leftHandSide) })],
       });
-      const page = getPageById(ctx, input.pageId);
+      const parent = getSkippableById(ctx, input.parentId);
 
-      page.skipConditions = page.skipConditions
-        ? [...page.skipConditions, defaultSkipCondition]
+      parent.skipConditions = parent.skipConditions
+        ? [...parent.skipConditions, defaultSkipCondition]
         : [defaultSkipCondition];
 
-      return page;
+      return parent;
     }),
     deleteSkipCondition: createMutation((_, { input }, ctx) => {
-      const pages = getPages(ctx);
+      const parent = getSkippables(ctx).find(
+        ({ skipConditions }) =>
+          skipConditions && skipConditions.find(({ id }) => id === input.id)
+      );
 
-      const page = find(pages, page => {
-        const { skipConditions } = page;
-        if (some(skipConditions, { id: input.id })) {
-          return page;
-        }
-      });
+      parent.skipConditions.splice(
+        parent.skipConditions.findIndex(({ id }) => id === input.id),
+        1
+      );
+      parent.skipConditions = parent.skipConditions.length
+        ? parent.skipConditions
+        : null;
 
-      page.skipConditions = reject(page.skipConditions, { id: input.id });
-
-      if (!page.skipConditions.length) {
-        delete page.skipConditions;
-      }
-
-      return page;
+      return parent;
     }),
     deleteSkipConditions: createMutation((_, { input }, ctx) => {
-      const page = getPageById(ctx, input.pageId);
-      delete page.skipConditions;
-      return page;
+      const parent = getSkippableById(ctx, input.parentId);
+      delete parent.skipConditions;
+      return parent;
     }),
   },
 

@@ -38,7 +38,7 @@ describe("skippable interface", () => {
       query,
       {
         input: {
-          pageId: ctx.questionnaire.sections[0].pages[0].id,
+          id: ctx.questionnaire.sections[0].pages[0].id,
         },
       },
       ctx
@@ -52,8 +52,7 @@ describe("skippable interface", () => {
       query,
       {
         input: {
-          confirmationId:
-            ctx.questionnaire.sections[0].pages[0].confirmation.id,
+          id: ctx.questionnaire.sections[0].pages[0].confirmation.id,
         },
       },
       ctx

@@ -635,6 +635,7 @@ type Query {
 }
 
 input QueryInput {
+  id: ID
   questionnaireId: ID
   sectionId: ID
   pageId: ID
@@ -649,7 +650,7 @@ input GetAvailableAnswersInput {
 }
 
 input CreateSkipConditionInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 input DeleteSkipConditionInput {
@@ -657,7 +658,7 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 
@@ -724,9 +725,9 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
-  deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
-  deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
+  createSkipCondition(input: CreateSkipConditionInput!): Skippable
+  deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
+  deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
 }
 
 input CreateRouting2Input {

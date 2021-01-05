@@ -3,11 +3,11 @@ import { graphql } from "react-apollo";
 import deleteSkipConditions from "./deleteSkipConditions.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  deleteSkipConditions(pageId) {
+  deleteSkipConditions(parentId) {
     return mutate({
       variables: {
         input: {
-          pageId,
+          parentId,
         },
       },
     });
