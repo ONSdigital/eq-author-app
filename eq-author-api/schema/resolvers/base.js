@@ -993,8 +993,8 @@ const Resolvers = {
   },
 
   Skippable: {
-    __resolveType: ({ alias }) =>
-      alias !== null ? "QuestionPage" : "QuestionConfirmation",
+    __resolveType: ({ pageType }) =>
+      pageType === "QuestionPage" ? "QuestionPage" : "QuestionConfirmation",
   },
 
   Section: {

@@ -638,6 +638,7 @@ input QueryInput {
   questionnaireId: ID
   sectionId: ID
   pageId: ID
+  confirmationId: ID
   answerId: ID
   optionId: ID
 }
