@@ -8,6 +8,8 @@ const updateQuestionnaireIntroductionMutation = `
       description
       secondaryTitle
       secondaryDescription
+      additionalGuidancePanel
+      additionalGuidancePanelSwitch
       collapsibles {
         id
       }

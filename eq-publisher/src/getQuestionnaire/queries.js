@@ -161,6 +161,8 @@ exports.getQuestionnaire = `
         id
         title
         description
+        additionalGuidancePanel
+        additionalGuidancePanelSwitch
         legalBasis
         secondaryTitle
         secondaryDescription
