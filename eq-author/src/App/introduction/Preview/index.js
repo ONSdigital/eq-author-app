@@ -25,7 +25,7 @@ const Container = styled.div`
     margin-bottom: 0;
   }
   em {
-    background-color: #dce5b0;
+    background-color: ${colors.highlightGreen};
     padding: 0 0.125em;
     font-style: normal;
   }
@@ -52,8 +52,8 @@ const Description = styled.div`
 
 const Button = styled.div`
   color: white;
-  background-color: #0f8243;
-  border: 2px solid #0f8243;
+  background-color: ${colors.green};
+  border: 2px solid ${colors.green};
   padding: 0.75rem 1rem;
   margin: 0;
   font-size: 1rem;
@@ -62,6 +62,18 @@ const Button = styled.div`
   display: inline-block;
   text-rendering: optimizeLegibility;
   margin-bottom: 2em;
+`;
+
+const GuidancePanel = styled.div`
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-left: solid 0.6em ${colors.darkerBlue};
+  padding: 1em;
+  background-color: ${colors.paleBlue};
+  h2 {
+    padding-top: 0;
+    margin-top: 0;
+  }
 `;
 
 export const Collapsibles = styled.div`
@@ -84,7 +96,7 @@ const CollapsiblesTitle = styled.div`
 `;
 
 const CollapsiblesContent = styled.div`
-  border-left: 2px solid #999;
+  border-left: 2px solid ${colors.grey};
   margin-left: 6px;
   padding: 0.2em 0 0.2em 1em;
 `;
@@ -103,6 +115,7 @@ export const IntroductionPreview = ({ loading, data }) => {
     questionnaireIntroduction: {
       id,
       title,
+      additionalGuidancePanel,
       description,
       legalBasis,
       secondaryTitle,
@@ -121,6 +134,12 @@ export const IntroductionPreview = ({ loading, data }) => {
           If the company details or structure have changed contact us on{" "}
           <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
         </p>
+
+        <GuidancePanel
+          data-test="additionalGuidancePanel"
+          dangerouslySetInnerHTML={{ __html: additionalGuidancePanel }}
+        />
+
         <Description
           data-test="description"
           dangerouslySetInnerHTML={{ __html: description }}
@@ -182,6 +201,7 @@ const fragment = gql`
   fragment QuestionnaireIntroduction on QuestionnaireIntroduction {
     id
     title
+    additionalGuidancePanel
     description
     legalBasis
     secondaryTitle
