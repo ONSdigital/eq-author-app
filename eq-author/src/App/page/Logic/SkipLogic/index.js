@@ -16,7 +16,6 @@ export const SkipLogicRoute = ({ match }) => {
         id: match.params.confirmationId || match.params.pageId,
       },
     },
-    fetchPolicy: "cache-and-network",
   });
 
   console.log(error);

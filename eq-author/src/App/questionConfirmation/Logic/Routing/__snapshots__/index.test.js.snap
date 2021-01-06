@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`questionConfirmation/Routing should render 1`] = `
-<UnwrappedLogicPage>
+<LogicPage>
   <RoutingRuleSetMsg
     disabled={true}
   >
@@ -12,5 +12,5 @@ exports[`questionConfirmation/Routing should render 1`] = `
       The route will be based on the answer to the previous question.
     </NoRouting__Paragraph>
   </RoutingRuleSetMsg>
-</UnwrappedLogicPage>
+</LogicPage>
 `;
