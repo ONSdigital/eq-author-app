@@ -6,6 +6,7 @@ const getMetadataQuery = `
       metadata {
         id
         key
+        fallbackKey
         alias
         type
         dateValue

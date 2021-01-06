@@ -51,7 +51,7 @@ export const UnwrappedMetadataPageContent = ({
   onDeleteMetadata,
   onUpdateMetadata,
 }) => {
-  if (loading) {
+  if (loading && !data) {
     return <Loading height="100%">Questionnaire metadata loading…</Loading>;
   }
 

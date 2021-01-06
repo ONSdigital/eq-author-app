@@ -11,6 +11,8 @@ module.exports = metadata => {
     }">trad_as</span> (<span data-piped="metadata" data-id="${
       find(metadata, { key: "ru_name" }).id
     }">ru_name</span>)</p>`,
+    additionalGuidancePanelSwitch: false,
+    additionalGuidancePanel: "",
     description:
       "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures aren’t available.</li><li>We will treat your data securely and confidentially.</li></ul>",
     legalBasis: NOTICE_1,

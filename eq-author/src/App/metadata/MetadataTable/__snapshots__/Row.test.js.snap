@@ -62,6 +62,14 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
     />
   </TableColumn>
   <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
     <DeleteRowButton
       data-test="metadata-delete-row"
       onClick={[Function]}
@@ -131,6 +139,14 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
       onChange={[MockFunction]}
       type="date"
       value="2018-09-17"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>
@@ -229,6 +245,14 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
     />
   </TableColumn>
   <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
     <DeleteRowButton
       data-test="metadata-delete-row"
       onClick={[Function]}
@@ -312,6 +336,14 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
     />
   </TableColumn>
   <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
     <DeleteRowButton
       data-test="metadata-delete-row"
       onClick={[Function]}
@@ -380,6 +412,14 @@ exports[`MetadataTable should render 1`] = `
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
       value="text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>

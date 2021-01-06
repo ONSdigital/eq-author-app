@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { forEach } from "lodash";
 
-import { StatelessRow } from "./Row";
+import { StatelessRow, getFallbackKeys } from "./Row";
 import { DeleteRowButton } from "components/datatable/Controls";
 
 const render = (props = {}) => shallow(<StatelessRow {...props} />);
@@ -59,6 +59,7 @@ describe("MetadataTable", () => {
 
     props = {
       metadata: metadata,
+      keyData: metadataTypes,
       questionnaireId: questionnaireId,
       onDelete: jest.fn(),
       onUpdate: jest.fn(),
@@ -87,5 +88,21 @@ describe("MetadataTable", () => {
   it("should call onDelete event handler when deleting a metadata", () => {
     wrapper.find(DeleteRowButton).simulate("click");
     expect(props.onDelete).toHaveBeenCalledWith(questionnaireId, metadata.id);
+  });
+
+  it("should generate list of possible fallback metadata correctly", () => {
+    const selectedOption = {
+      id: "5",
+      key: "trad_as",
+      type: "Text_Optional",
+    };
+
+    const fallbackKeys = getFallbackKeys({
+      key: selectedOption.key,
+      type: selectedOption.type,
+      allKeyData: [...metadataTypes, selectedOption],
+    });
+
+    expect(fallbackKeys).toEqual([metadataTypes[0].key]);
   });
 });
