@@ -1,72 +1,37 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, screen } from "tests/utils/rtl";
+import SkipLogicPage from "./";
 
-import { UnwrappedSkipLogicPage as SkipLogicPage } from "./";
-
-import NoSkipConditions from "./NoSkipConditions";
-import SkipLogicEditor from "./SkipLogicEditor";
+jest.mock("../mutations.js", () => ({
+  useCreateSkipCondition: jest.fn(),
+}));
 
 describe("Skip Condition Page", () => {
-  it("should show the no skip condition message when there is no skip conditions for a page", () => {
-    const wrapper = shallow(
-      <SkipLogicPage
-        page={{
-          id: "1",
-          displayName: "test",
-          position: 0,
-          section: {
-            position: 0,
-          },
-          skipConditions: null,
-          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
-        }}
-        createSkipCondition={jest.fn()}
-      />
-    );
-    expect(wrapper.find(NoSkipConditions).exists()).toBe(true);
-  });
+  const defaultPage = {
+    id: "1",
+    displayName: "test",
+    position: 0,
+    section: {
+      position: 0,
+    },
+    skipConditions: null,
+    validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+  };
 
-  it("should call create skip condition with the page id when add skip condition button is clicked", () => {
-    const createSkipCondition = jest.fn();
-    const wrapper = shallow(
-      <SkipLogicPage
-        page={{
-          id: "1",
-          displayName: "test",
-          position: 0,
-          section: {
-            position: 0,
-          },
-          skipConditions: null,
-          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
-        }}
-        createSkipCondition={createSkipCondition}
-      />
-    );
-    wrapper.find(NoSkipConditions).simulate("addSkipCondtions");
-    expect(createSkipCondition).toHaveBeenCalledWith("1");
+  it("should show the no skip condition message when there is no skip conditions for a page", () => {
+    render(<SkipLogicPage page={defaultPage} />);
+    expect(screen.getByTestId("skip-condition-set-empty-msg")).toBeTruthy();
   });
 
   it("should render the editor when there is a skip condition", () => {
-    const skipConditions = [{ id: "2", expressions: [] }];
-    const wrapper = shallow(
+    render(
       <SkipLogicPage
         page={{
-          id: "1",
-          displayName: "test",
-          position: 0,
-          section: {
-            position: 0,
-          },
-          skipConditions,
-          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+          ...defaultPage,
+          skipConditions: [{ id: "2", expressions: [] }],
         }}
-        createSkipCondition={jest.fn()}
       />
     );
-    expect(wrapper.find(SkipLogicEditor).exists()).toBe(true);
-    expect(wrapper.find(SkipLogicEditor).props().skipConditions).toMatchObject(
-      skipConditions
-    );
+    expect(screen.getByTestId("skip-condition-editor")).toBeTruthy();
   });
 });
