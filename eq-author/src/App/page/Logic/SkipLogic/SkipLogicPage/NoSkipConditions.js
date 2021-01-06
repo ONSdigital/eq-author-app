@@ -42,7 +42,7 @@ const AddSkipConditionsButton = styled(Button)`
 `;
 
 const SkipConditionsSetMsg = ({
-  onAddSkipCondtions,
+  onAddSkipConditions,
   isFirstQuestion,
   ...otherProps
 }) => (
@@ -62,7 +62,7 @@ const SkipConditionsSetMsg = ({
       small
       naked
       variant="primary"
-      onClick={onAddSkipCondtions}
+      onClick={onAddSkipConditions}
       data-test="btn-add-skip-condition"
       isFirstQuestion={isFirstQuestion}
       disabled={isFirstQuestion}
@@ -73,7 +73,7 @@ const SkipConditionsSetMsg = ({
 );
 
 SkipConditionsSetMsg.propTypes = {
-  onAddSkipCondtions: PropTypes.func.isRequired,
+  onAddSkipConditions: PropTypes.func.isRequired,
   isFirstQuestion: PropTypes.bool.isRequired,
 };
 

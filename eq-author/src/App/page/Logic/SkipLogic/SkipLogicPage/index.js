@@ -36,7 +36,7 @@ const SkipLogicPage = ({ page }) => {
           ) : (
             <Panel>
               <NoSkipConditions
-                onAddSkipCondtions={createSkipCondition}
+                onAddSkipConditions={createSkipCondition}
                 data-test="skip-condition-set-empty-msg"
                 isFirstQuestion={isFirstQuestion}
               >

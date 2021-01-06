@@ -3,17 +3,16 @@ import { render, fireEvent, screen } from "tests/utils/rtl";
 import NoSkipConditions from "./NoSkipConditions";
 
 describe("components/NoSkipConditions", () => {
-
   const disabledTitle = "Skip logic not available for this question";
   const disabledParagraph =
     "You can't add skip logic to the first question in a questionnaire.";
   const enabledTitle = "No skip conditions exist for this question";
   const enabledParagraph =
     "All users will see this question if no skip logic is added.";
-  
+
   it("should render with button disabled", () => {
     const { queryByText } = render(
-      <NoSkipConditions onAddSkipCondtions={jest.fn()} isFirstQuestion>
+      <NoSkipConditions onAddSkipConditions={jest.fn()} isFirstQuestion>
         Ullamcorper Venenatis Fringilla
       </NoSkipConditions>
     );
@@ -30,7 +29,7 @@ describe("components/NoSkipConditions", () => {
 
   it("should render with button enabled", () => {
     const { queryByText } = render(
-      <NoSkipConditions onAddSkipCondtions={jest.fn()}>
+      <NoSkipConditions onAddSkipConditions={jest.fn()}>
         Ullamcorper Venenatis Fringilla
       </NoSkipConditions>
     );
@@ -46,15 +45,14 @@ describe("components/NoSkipConditions", () => {
   });
 
   it("should call onAddSkipConditions when button clicked", () => {
-    const onAddSkipCondtions = jest.fn();
+    const onAddSkipConditions = jest.fn();
     const { getByTestId } = render(
-      <NoSkipConditions onAddSkipCondtions={onAddSkipCondtions}>
+      <NoSkipConditions onAddSkipConditions={onAddSkipConditions}>
         Ullamcorper Venenatis Fringilla
       </NoSkipConditions>
     );
     const button = getByTestId("btn-add-skip-condition");
     fireEvent.click(button);
-    expect(onAddSkipCondtions).toHaveBeenCalledTimes(1);
+    expect(onAddSkipConditions).toHaveBeenCalledTimes(1);
   });
-
 });
