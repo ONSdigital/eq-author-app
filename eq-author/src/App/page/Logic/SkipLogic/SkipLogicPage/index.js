@@ -15,7 +15,10 @@ import { useCreateSkipCondition } from "../mutations.js";
 const SkipLogicPage = ({ page }) => {
   const createSkipCondition = useCreateSkipCondition({ parentId: page.id });
 
-  const isFirstQuestion = page.section.position === 0 && page.position === 0;
+  const isFirstQuestion =
+    page?.pageType === "QuestionPage" &&
+    page.section.position === 0 &&
+    page.position === 0;
 
   return (
     <div data-test="skip-condition-editor">
@@ -28,6 +31,7 @@ const SkipLogicPage = ({ page }) => {
             <SkipLogicEditor
               pageId={page.id}
               skipConditions={page.skipConditions}
+              onAddSkipConditions={createSkipCondition}
             />
           ) : (
             <Panel>

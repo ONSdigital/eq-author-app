@@ -30,7 +30,7 @@ exports[`components/SkipConditionSet should render children 1`] = `
   <SkipLogicEditor__Footer />
   <SkipLogicEditor__AddSkipConditionButton
     data-test="btn-add-skip-condition"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     small={true}
     type="button"
     variant="secondary"

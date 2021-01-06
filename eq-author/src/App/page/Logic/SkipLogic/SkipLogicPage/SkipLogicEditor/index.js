@@ -2,15 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
-import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 
 import Transition from "App/page/Logic/Routing/Transition";
 import { propType } from "graphql-anywhere";
-import transformNestedFragments from "utils/transformNestedFragments";
-import withCreateSkipCondition from "./withCreateSkipCondition";
 import fragment from "./fragment.graphql";
 import SkipConditionEditor from "./SkipConditionEditor";
 
@@ -32,20 +29,14 @@ const Footer = styled.div`
   align-items: center;
 `;
 
-export class UnwrappedSkipLogicEditor extends React.Component {
+export default class UnwrappedSkipLogicEditor extends React.Component {
   static propTypes = {
     pageId: PropTypes.string.isRequired,
-    skipConditions: propType(
-      transformNestedFragments(fragment, SkipConditionEditor.fragments)
-    ).isRequired,
-    createSkipCondition: PropTypes.func.isRequired,
+    skipConditions: propType(fragment).isRequired,
+    onAddSkipConditions: PropTypes.func.isRequired,
   };
 
-  static fragments = [fragment, ...SkipConditionEditor.fragments];
-
-  handleAddClick = () => {
-    this.props.createSkipCondition(this.props.pageId);
-  };
+  handleClick = this.props.onAddSkipConditions;
 
   render() {
     return (
@@ -66,7 +57,7 @@ export class UnwrappedSkipLogicEditor extends React.Component {
         <AddSkipConditionButton
           variant="secondary"
           small
-          onClick={this.handleAddClick}
+          onClick={this.handleClick}
           data-test="btn-add-skip-condition"
         >
           Add OR statement
@@ -75,7 +66,3 @@ export class UnwrappedSkipLogicEditor extends React.Component {
     );
   }
 }
-
-const withMutations = flow(withCreateSkipCondition);
-
-export default withMutations(UnwrappedSkipLogicEditor);
