@@ -26,7 +26,8 @@ import ValidationError from "components/ValidationError";
 import { destinationErrors } from "constants/validationMessages";
 
 const RepositionedValidationError = styled(ValidationError)`
-  justify-content: center;
+  padding-left: 41%;
+  justify-content: unset;
   margin-top: 0;
 `;
 
