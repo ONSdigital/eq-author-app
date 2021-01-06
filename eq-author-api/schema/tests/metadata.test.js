@@ -217,6 +217,25 @@ describe("metadata", () => {
         expect(updatedMetadata).toMatchObject(expected);
       }
     });
+
+    it("should clear fallback key when type changed", async () => {
+      const fallbackKey = "my-fave-fallback";
+
+      updatedMetadata = await updateMetadata(ctx, {
+        ...update,
+        fallbackKey,
+      });
+
+      expect(updatedMetadata).toMatchObject({ fallbackKey });
+
+      updatedMetadata = await updateMetadata(ctx, {
+        id: metadata.id,
+        type: DATE,
+        dateValue: "1066-10-14",
+      });
+
+      expect(updatedMetadata.fallbackKey).toBeNull();
+    });
   });
 
   describe("query", () => {

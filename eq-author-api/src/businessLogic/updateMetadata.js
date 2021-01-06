@@ -33,6 +33,10 @@ module.exports = (
     newValues = merge(newValues, find({ key }, defaultValues));
   }
 
+  if (type !== metadataToUpdate.type) {
+    newValues.fallbackKey = null;
+  }
+
   return {
     ...metadataToUpdate,
     ...newValues,

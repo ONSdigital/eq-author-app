@@ -5,6 +5,7 @@ const updateMetadataMutation = `
     updateMetadata(input: $input) {
       id
       key
+      fallbackKey,
       alias
       type
       dateValue
