@@ -20,7 +20,7 @@ const ROUTING_PAGE_TYPES = ["QuestionPage"];
 export class UnwrappedQuestionRoutingRoute extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      questionPage: propType(
+      page: propType(
         transformNestedFragments(
           RoutingPage.fragments[0],
           RoutingPage.fragments.slice(1)

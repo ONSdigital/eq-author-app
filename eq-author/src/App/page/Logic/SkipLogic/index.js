@@ -10,15 +10,13 @@ import Logic from "App/shared/Logic";
 import SKIPLOGIC_QUERY from "./fragment.graphql";
 
 export const SkipLogicRoute = ({ match }) => {
-  const { loading, data, error } = useQuery(SKIPLOGIC_QUERY, {
+  const { loading, data } = useQuery(SKIPLOGIC_QUERY, {
     variables: {
       input: {
         id: match.params.confirmationId || match.params.pageId,
       },
     },
   });
-
-  console.log(error);
 
   const page = data?.skippable;
 
