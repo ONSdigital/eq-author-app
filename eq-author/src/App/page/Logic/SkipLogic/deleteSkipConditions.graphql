@@ -1,4 +1,4 @@
-#import "../../fragment.graphql"
+#import "./SkipLogicPage/fragment.graphql"
 
 mutation deleteSkipConditions($input: DeleteSkipConditionsInput!) {
   deleteSkipConditions(input: $input) {

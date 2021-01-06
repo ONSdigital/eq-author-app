@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "tests/utils/rtl";
 import SkipLogicPage from "./";
 
-jest.mock("../mutations.js", () => ({
-  useCreateSkipCondition: jest.fn(),
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(() => [jest.fn()]),
 }));
 
 describe("Skip Condition Page", () => {

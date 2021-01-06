@@ -13,7 +13,7 @@ exports[`SkipConditionEditor should render 1`] = `
     </Label>
     <SkipConditionEditor__RemoveSkipConditionButton
       data-test="btn-remove-skip-conditions"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
       variant="primary"
     >

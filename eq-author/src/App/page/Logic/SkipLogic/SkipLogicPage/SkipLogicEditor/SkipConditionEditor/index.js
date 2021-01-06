@@ -2,24 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
-import { flow, get } from "lodash/fp";
-
 import Transition from "App/page/Logic/Routing/Transition";
 import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
-
 import { RADIO } from "constants/answer-types";
 
 import { propType } from "graphql-anywhere";
-import transformNestedFragments from "utils/transformNestedFragments";
 import fragment from "./fragment.graphql";
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
-import withDeleteSkipCondition from "./withDeleteSkipCondition";
-import withDeleteSkipConditions from "./withDeleteSkipConditions";
-
 import { Label } from "components/Forms";
+import {
+  useDeleteSkipConditions,
+  useDeleteSkipCondition,
+} from "../../../mutations";
 
 export const LABEL_IF = "IF";
 export const LABEL_AND = "AND";
@@ -69,91 +66,85 @@ const RemoveSkipConditionButton = styled(Button).attrs({
   padding: 0.2em;
 `;
 
-export class UnwrappedSkipConditionEditor extends React.Component {
-  static propTypes = {
-    pageId: PropTypes.string.isRequired,
-    expressionGroup: propType(
-      transformNestedFragments(fragment, BinaryExpressionEditor.fragments)
-    ).isRequired,
-    expressionGroupIndex: PropTypes.number.isRequired,
-    deleteSkipCondition: PropTypes.func.isRequired,
-    deleteSkipConditions: PropTypes.func.isRequired,
-    className: PropTypes.string,
-  };
+const SkipConditionEditor = ({
+  pageId,
+  expressionGroup,
+  expressionGroupIndex,
+  className,
+}) => {
+  const deleteSkipConditions = useDeleteSkipConditions({ parentId: pageId });
+  const deleteSkipCondition = useDeleteSkipCondition({
+    id: expressionGroup.id,
+  });
 
-  static fragments = [fragment, ...BinaryExpressionEditor.fragments];
+  const handleDeleteAllClick = deleteSkipConditions;
+  const handleDeleteClick = deleteSkipCondition;
 
-  handleDeleteClick = () => {
-    this.props.deleteSkipCondition(this.props.expressionGroup.id);
-  };
+  const existingRadioConditions = {};
 
-  handleDeleteAllClick = () => {
-    this.props.deleteSkipConditions(this.props.pageId);
-  };
+  const header = (
+    <Header>
+      <Label inline>{LABEL_GROUP_TITLE}</Label>
+      <RemoveSkipConditionButton
+        onClick={handleDeleteAllClick}
+        data-test="btn-remove-skip-conditions"
+      >
+        {LABEL_REMOVE_ALL_GROUPS}
+      </RemoveSkipConditionButton>
+    </Header>
+  );
 
-  render() {
-    const { className, expressionGroupIndex, expressionGroup } = this.props;
+  const middle = (
+    <Middle>
+      <Label inline>{LABEL_OR}</Label>
+      <RemoveSkipConditionButton
+        onClick={handleDeleteClick}
+        data-test="btn-remove-skip-condition"
+      >
+        {LABEL_REMOVE_GROUP}
+      </RemoveSkipConditionButton>
+    </Middle>
+  );
 
-    const existingRadioConditions = {};
+  return (
+    <SkipCondition data-test="skip-condition" className={className}>
+      {expressionGroupIndex > 0 ? middle : header}
+      <Expressions>
+        <TransitionGroup>
+          {expressionGroup.expressions.map((expression, index) => {
+            const component = (
+              <Transition key={expression.id}>
+                <BinaryExpressionEditor
+                  expression={expression}
+                  expressionGroupId={expressionGroup.id}
+                  label={index > 0 ? LABEL_AND : LABEL_IF}
+                  isOnlyExpression={expressionGroup.expressions.length === 1}
+                  isLastExpression={
+                    index === expressionGroup.expressions.length - 1
+                  }
+                  canAddCondition={
+                    !existingRadioConditions[expression?.left?.id]
+                  }
+                  includeSelf={false}
+                />
+              </Transition>
+            );
+            if (expression?.left?.type === RADIO) {
+              existingRadioConditions[expression?.left?.id] = true;
+            }
+            return component;
+          })}
+        </TransitionGroup>
+      </Expressions>
+    </SkipCondition>
+  );
+};
 
-    const header = (
-      <Header>
-        <Label inline>{LABEL_GROUP_TITLE}</Label>
-        <RemoveSkipConditionButton
-          onClick={this.handleDeleteAllClick}
-          data-test="btn-remove-skip-conditions"
-        >
-          {LABEL_REMOVE_ALL_GROUPS}
-        </RemoveSkipConditionButton>
-      </Header>
-    );
-    const middle = (
-      <Middle>
-        <Label inline>{LABEL_OR}</Label>
-        <RemoveSkipConditionButton
-          onClick={this.handleDeleteClick}
-          data-test="btn-remove-skip-condition"
-        >
-          {LABEL_REMOVE_GROUP}
-        </RemoveSkipConditionButton>
-      </Middle>
-    );
+SkipConditionEditor.propTypes = {
+  pageId: PropTypes.string.isRequired,
+  expressionGroup: propType(fragment).isRequired,
+  expressionGroupIndex: PropTypes.number.isRequired,
+  className: PropTypes.string,
+};
 
-    return (
-      <SkipCondition data-test="skip-condition" className={className}>
-        {expressionGroupIndex > 0 ? middle : header}
-        <Expressions>
-          <TransitionGroup>
-            {expressionGroup.expressions.map((expression, index) => {
-              const component = (
-                <Transition key={expression.id}>
-                  <BinaryExpressionEditor
-                    expression={expression}
-                    expressionGroupId={expressionGroup.id}
-                    label={index > 0 ? LABEL_AND : LABEL_IF}
-                    isOnlyExpression={expressionGroup.expressions.length === 1}
-                    isLastExpression={
-                      index === expressionGroup.expressions.length - 1
-                    }
-                    canAddCondition={
-                      !existingRadioConditions[get("left.id", expression)]
-                    }
-                    includeSelf={false}
-                  />
-                </Transition>
-              );
-              if (get("left.type", expression) === RADIO) {
-                existingRadioConditions[get("left.id", expression)] = true;
-              }
-              return component;
-            })}
-          </TransitionGroup>
-        </Expressions>
-      </SkipCondition>
-    );
-  }
-}
-
-const withMutations = flow(withDeleteSkipCondition, withDeleteSkipConditions);
-
-export default withMutations(UnwrappedSkipConditionEditor);
+export default SkipConditionEditor;

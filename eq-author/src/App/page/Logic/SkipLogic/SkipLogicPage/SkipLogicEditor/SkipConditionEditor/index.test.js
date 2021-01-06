@@ -5,12 +5,14 @@ import { RADIO } from "constants/answer-types";
 
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
-import { UnwrappedSkipConditionEditor as SkipConditionEditor } from "./";
-import { byTestAttr } from "tests/utils/selectors";
+import SkipConditionEditor from "./";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(() => [jest.fn()]),
+}));
 
 describe("SkipConditionEditor", () => {
   let defaultProps;
-  let defaultPropsMiddle;
 
   beforeEach(() => {
     defaultProps = {
@@ -20,34 +22,11 @@ describe("SkipConditionEditor", () => {
       deleteSkipCondition: jest.fn(),
       deleteSkipConditions: jest.fn(),
     };
-    defaultPropsMiddle = {
-      pageId: "1",
-      expressionGroup: { id: "expGrpId", expressions: [] },
-      expressionGroupIndex: 1,
-      deleteSkipCondition: jest.fn(),
-      deleteSkipConditions: jest.fn(),
-    };
   });
 
   it("should render", () => {
     const wrapper = shallow(<SkipConditionEditor {...defaultProps} />);
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should allow deleting all skip conditions", () => {
-    const wrapper = shallow(<SkipConditionEditor {...defaultProps} />);
-    wrapper.find(byTestAttr("btn-remove-skip-conditions")).simulate("click");
-    expect(defaultProps.deleteSkipConditions).toHaveBeenCalledWith(
-      defaultProps.pageId
-    );
-  });
-
-  it("should allow deleting or skip conditions", () => {
-    const wrapper = shallow(<SkipConditionEditor {...defaultPropsMiddle} />);
-    wrapper.find(byTestAttr("btn-remove-skip-condition")).simulate("click");
-    expect(defaultPropsMiddle.deleteSkipCondition).toHaveBeenCalledWith(
-      defaultPropsMiddle.expressionGroup.id
-    );
   });
 
   it("should pass down the correct prop when a second 'And' condition is invalid", () => {

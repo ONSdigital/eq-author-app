@@ -10,7 +10,7 @@ exports[`components/SkipConditionSet should render children 1`] = `
       key="2"
       timeout={200}
     >
-      <Apollo(Apollo(UnwrappedSkipConditionEditor))
+      <SkipConditionEditor
         expressionGroup={
           Object {
             "expressions": Array [
