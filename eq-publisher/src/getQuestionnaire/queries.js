@@ -147,6 +147,7 @@ exports.getQuestionnaire = `
   fragment metadataFragment on Metadata {
     id
     key
+    fallbackKey
     type
   }
   
@@ -161,6 +162,8 @@ exports.getQuestionnaire = `
         id
         title
         description
+        additionalGuidancePanel
+        additionalGuidancePanelSwitch
         legalBasis
         secondaryTitle
         secondaryDescription

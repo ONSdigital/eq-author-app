@@ -596,6 +596,13 @@ const Resolvers = {
           id: input.id,
         })
       );
+
+      ctx.questionnaire.metadata.forEach(row => {
+        if (row.fallbackKey === deletedMetadata.key) {
+          row.fallbackKey = null;
+        }
+      });
+
       return deletedMetadata;
     }),
     createQuestionConfirmation: createMutation((_, { input }, ctx) => {

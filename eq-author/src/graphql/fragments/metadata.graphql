@@ -1,6 +1,7 @@
 fragment Metadata on Metadata {
   id
   key
+  fallbackKey
   alias
   type
   textValue

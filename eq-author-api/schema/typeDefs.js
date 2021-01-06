@@ -50,6 +50,8 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: Theme
   navigation: Boolean
   surveyId: String
@@ -445,6 +447,7 @@ enum Theme {
 type Metadata {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -582,6 +585,8 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   legalBasis: LegalBasis!
   secondaryTitle: String!
   secondaryDescription: String!
@@ -786,6 +791,8 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String!
   navigation: Boolean
   surveyId: String!
@@ -799,6 +806,8 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String
   legalBasis: LegalBasis
   navigation: Boolean
@@ -1107,6 +1116,7 @@ input DeleteMetadataInput {
 input UpdateMetadataInput {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -1139,6 +1149,8 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  additionalGuidancePanelSwitch: Boolean!
+  additionalGuidancePanel: String
   description: String!
   legalBasis: LegalBasis!
   secondaryTitle: String!
