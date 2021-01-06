@@ -1,6 +1,9 @@
 import React from "react";
-import { render, screen } from "tests/utils/rtl";
+import { shallow } from "enzyme";
+
 import SkipLogicPage from "./";
+import SkipLogicEditor from "./SkipLogicEditor";
+import NoSkipConditions from "./NoSkipConditions";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [jest.fn()]),
@@ -10,7 +13,7 @@ describe("Skip Condition Page", () => {
   const defaultPage = {
     id: "1",
     displayName: "test",
-    position: 0,
+    position: 1,
     section: {
       position: 0,
     },
@@ -19,12 +22,12 @@ describe("Skip Condition Page", () => {
   };
 
   it("should show the no skip condition message when there is no skip conditions for a page", () => {
-    render(<SkipLogicPage page={defaultPage} />);
-    expect(screen.getByTestId("skip-condition-set-empty-msg")).toBeTruthy();
+    const wrapper = shallow(<SkipLogicPage page={defaultPage} />);
+    expect(wrapper.find(NoSkipConditions)).toBeTruthy();
   });
 
   it("should render the editor when there is a skip condition", () => {
-    render(
+    const wrapper = shallow(
       <SkipLogicPage
         page={{
           ...defaultPage,
@@ -32,6 +35,19 @@ describe("Skip Condition Page", () => {
         }}
       />
     );
-    expect(screen.getByTestId("skip-condition-editor")).toBeTruthy();
+    expect(wrapper.find(SkipLogicEditor)).toBeTruthy();
+  });
+
+  it("should signal to NoSkipConditions if it's the first page in a questionnaire", () => {
+    const wrapper = shallow(
+      <SkipLogicPage
+        page={{
+          ...defaultPage,
+          position: 0,
+        }}
+      />
+    );
+
+    expect(wrapper.find(NoSkipConditions).props().isFirstQuestion).toBeTruthy();
   });
 });
