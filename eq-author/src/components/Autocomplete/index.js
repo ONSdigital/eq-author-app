@@ -1,9 +1,3 @@
-/*
-[X] - Need to sort out the listing of results when using categories...
-[ ] - Fix the tests
-[ ] - Add styles
-*/
-
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -24,10 +18,11 @@ const focusEl = element => element && element.focus();
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   updateOption: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   filter: PropTypes.func,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
+  borderless: PropTypes.bool,
 };
 
 const Autocomplete = ({
@@ -37,6 +32,7 @@ const Autocomplete = ({
   filter,
   placeholder,
   hasError,
+  borderless = false,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -44,6 +40,12 @@ const Autocomplete = ({
   const [isOpen, setIsOpen] = useState(false);
   // builds a list of elements
   const comboElements = useRef(new Map());
+
+  // Allow dynamically modifying the selected value from parent component
+  useEffect(() => {
+    setSelectedOption(defaultValue);
+    setIsOpen(false);
+  }, [defaultValue]);
 
   const onArrowDown = useCallback(
     event => {
@@ -139,7 +141,8 @@ const Autocomplete = ({
     e => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption === null) {
+        if (selectedOption === null) {
+          setQuery("");
           updateOption("");
         }
         setIsOpen(false);
@@ -206,11 +209,11 @@ const Autocomplete = ({
       filter && typeof filter === "function"
         ? filter(options, query)
         : [options.filter(option => option.toLowerCase().includes(query))],
-    [query]
+    [query, options]
   );
 
-  const hasCategories = useCallback(
-    (filterOptions, categories) =>
+  const results = React.useMemo(
+    () =>
       (categories || filterOptions).map((option, index) => {
         if (option.props?.category) {
           return (
@@ -242,7 +245,7 @@ const Autocomplete = ({
           </ListItem>
         );
       }),
-    [query, options]
+    [query, options, filterOptions, categories]
   );
 
   return (
@@ -282,6 +285,7 @@ const Autocomplete = ({
           type="text"
           value={selectedOption ? selectedOption : query}
           hasError={hasError}
+          borderless={borderless}
         />
         {isOpen && !selectedOption && (
           <DropDown
@@ -289,7 +293,7 @@ const Autocomplete = ({
             data-test="autocomplete-listbox"
             role="listbox"
           >
-            {hasCategories(filterOptions, categories)}
+            {results}
             {!filterOptions.length && <ListItem>No results found</ListItem>}
           </DropDown>
         )}
@@ -303,4 +307,4 @@ const Autocomplete = ({
 
 Autocomplete.propTypes = AutocompleteProps;
 
-export { Autocomplete };
+export { Autocomplete, AutocompleteProps };
