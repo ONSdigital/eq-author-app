@@ -9,6 +9,7 @@ const createMetadataMutation = `
       id
       alias
       key
+      fallbackKey,
       type
       dateValue
       regionValue

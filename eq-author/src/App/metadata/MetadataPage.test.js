@@ -62,7 +62,9 @@ describe("Metadata page", () => {
   const renderWithContext = (component, rest) =>
     render(
       <MeContext.Provider value={{ me: user, signOut }}>
-        <QuestionnaireContext.Provider value={props.data.questionnaire}>
+        <QuestionnaireContext.Provider
+          value={props.data && props.data.questionnaire}
+        >
           {component}
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
@@ -78,6 +80,7 @@ describe("Metadata page", () => {
     props = {
       ...props,
       loading: true,
+      data: null,
     };
 
     const { getByTestId } = renderWithContext(
