@@ -8,8 +8,6 @@ import Truncated from "components/Truncated";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  overflow: hidden;
-  white-space: pre;
   color: ${colors.white};
   padding: 0 1.5em 1em;
 `;
@@ -20,13 +18,12 @@ const Title = styled.h1`
   margin: 0;
   width: 100%;
   line-height: 1.3;
+  word-break: break-word;
 `;
 
 const PageTitle = ({ children }) => (
   <Wrapper>
-    <Truncated>
       <Title data-test="questionnaire-title">{children}&nbsp;</Title>
-    </Truncated>
   </Wrapper>
 );
 
