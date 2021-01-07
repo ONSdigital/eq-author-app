@@ -8,8 +8,9 @@ module.exports = (
   answerTypes = PIPING_ANSWER_TYPES
 ) => {
   const allPages = flatMap(section => section.pages, questionnaire.sections);
-  const allPagesAndConfirmations = allPages.flatMap(page =>
-    page.confirmation ? [page, page.confirmation] : [page]
+  const allPagesAndConfirmations = flatMap(
+    page => (page.confirmation ? [page, page.confirmation] : [page]),
+    allPages
   );
 
   const pagesBeforeCurrent = takeWhile(
