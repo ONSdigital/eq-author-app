@@ -86,7 +86,6 @@ const FlexInline = styled.div`
   flex-direction: row;
   justify-content: center;
   height: 0.9em;
-  /* height: ${hitTarget.height}em; */
   width: ${hitTarget.width}em;
   position: relative;
 `;
