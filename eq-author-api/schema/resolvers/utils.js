@@ -68,7 +68,7 @@ const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
 const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
 
 const getSkipConditions = ctx =>
-  flatMap(filter(getPages(ctx), "skipConditions"), "skipConditions");
+  flatMap(filter(getSkippables(ctx), "skipConditions"), "skipConditions");
 
 const getSkipConditionById = (ctx, id) => {
   const skipConditions = getSkipConditions(ctx);

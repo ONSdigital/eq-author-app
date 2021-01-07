@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Route, Redirect } from "react-router-dom";
+import SkipLogic from "App/page/Logic/SkipLogic";
 
 import Design from "./Design";
 import Preview from "./Preview";
@@ -24,8 +25,13 @@ export default [
     <Redirect to="routing" />
   </Route>,
   <Route
-    key="confirmation-routing"
+    key="confirmation-logic-routing"
     path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
     component={Routing}
+  />,
+  <Route
+    key="confirmation-logic-skip"
+    path="/q/:questionnaireId/question-confirmation/:confirmationId/skip"
+    component={SkipLogic}
   />,
 ];

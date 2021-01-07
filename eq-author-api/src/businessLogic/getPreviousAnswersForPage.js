@@ -4,7 +4,6 @@ const {
   filter,
   some,
   concat,
-  find,
   compact,
 } = require("lodash/fp");
 const { PIPING_ANSWER_TYPES } = require("../../constants/pipingAnswerTypes");
@@ -18,11 +17,18 @@ module.exports = (
   const allPages = flatMap(section => section.pages, questionnaire.sections);
 
   const pagesBeforeCurrent = takeWhile(
-    page => page.id !== currentPageId,
+    page =>
+      page.id !== currentPageId &&
+      page.confirmation && page.confirmation.id !== currentPageId,
     allPages
   );
 
-  const currentPage = find({ id: currentPageId }, allPages);
+  const currentPage = allPages.find(
+    ({ id, confirmation }) =>
+      id === currentPageId ||
+      (confirmation && confirmation.id === currentPageId)
+  );
+
   const pagesToInclude = includeSelf
     ? concat(currentPage, pagesBeforeCurrent)
     : pagesBeforeCurrent;

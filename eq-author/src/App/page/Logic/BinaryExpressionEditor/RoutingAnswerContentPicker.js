@@ -53,8 +53,9 @@ const RoutingAnswerContentPicker = props => (
     query={GET_AVAILABLE_ANSWERS}
     variables={{
       input: {
-        pageId: props.match.params.pageId,
-        includeSelf: props.includeSelf,
+        pageId: props.match.params.confirmationId || props.match.params.pageId,
+        includeSelf:
+          Boolean(props.match.params.confirmationId) || props.includeSelf,
       },
     }}
     fetchPolicy="cache-and-network"
