@@ -36,7 +36,6 @@ const border = {
 export const ToggleSwitchBackground = styled.div`
   height: ${backgroundSize.height}em;
   width: ${backgroundSize.width}em;
-  top: ${(hitTarget.height - backgroundSize.height) / 2}em;
   background: ${props =>
     props.checked ? backgroundColors.on : backgroundColors.off};
   border-radius: 2em;
@@ -86,7 +85,8 @@ const FlexInline = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: ${hitTarget.height}em;
+  height: 0.9em;
+  /* height: ${hitTarget.height}em; */
   width: ${hitTarget.width}em;
   position: relative;
 `;
