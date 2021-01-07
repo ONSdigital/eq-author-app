@@ -38,7 +38,8 @@ export const SkipLogicRoute = ({ match }) => {
 SkipLogicRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      pageId: PropTypes.string.isRequired,
+      pageId: PropTypes.string,
+      confirmationId: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };

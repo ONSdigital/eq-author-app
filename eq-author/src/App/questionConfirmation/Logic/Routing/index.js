@@ -5,10 +5,11 @@ import NoRouting, {
   Paragraph,
 } from "App/shared/Logic/Routing/NoRouting";
 import GET_PAGE_QUERY from "./fragment.graphql";
+import PropTypes from "prop-types";
 
 import { useQuery } from "@apollo/react-hooks";
 
-export default ({ match }) => {
+const Routing = ({ match }) => {
   const { data } = useQuery(GET_PAGE_QUERY, {
     variables: {
       id: match.params.confirmationId,
@@ -28,3 +29,13 @@ export default ({ match }) => {
     </Logic>
   );
 };
+
+Routing.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      confirmationId: PropTypes.string.isRequired,
+    }),
+  }),
+};
+
+export default Routing;
