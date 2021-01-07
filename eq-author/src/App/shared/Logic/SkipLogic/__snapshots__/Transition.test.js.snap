@@ -12,7 +12,7 @@ exports[`components/Routing/Transition should render 1`] = `
         [Function],
       ],
       "componentStyle": ComponentStyle {
-        "componentId": "Transition__RoutingComponentTransition-sc-7hoil3-0",
+        "componentId": "Transition__RoutingComponentTransition-sc-2voe5n-0",
         "isStatic": false,
         "rules": Array [
           "position:relative;&.component-enter{opacity:0;transform:scale(0.95);z-index:200;}&.component-enter-active{opacity:1;transform:scale(1);transition:opacity ",
@@ -37,7 +37,7 @@ exports[`components/Routing/Transition should render 1`] = `
         "timeout": [Function],
       },
       "render": [Function],
-      "styledComponentId": "Transition__RoutingComponentTransition-sc-7hoil3-0",
+      "styledComponentId": "Transition__RoutingComponentTransition-sc-2voe5n-0",
       "target": [Function],
       "toString": [Function],
       "warnTooManyClasses": [Function],

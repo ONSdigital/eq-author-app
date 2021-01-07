@@ -56,6 +56,7 @@ describe("Routes/SkipLogic", () => {
   it("should show SkipLogicPage for page if retrieved successfully", async () => {
     renderWithMocks(defaultMatch, {
       __typename: "QuestionPage",
+      displayName: "Profound questions",
       pageType: "QuestionPage",
       id: "3",
       position: 0,
