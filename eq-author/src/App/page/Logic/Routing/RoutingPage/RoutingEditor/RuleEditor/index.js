@@ -6,32 +6,28 @@ import { propType } from "graphql-anywhere";
 import { flow, get, find } from "lodash/fp";
 
 import Transition from "App/page/Logic/Routing/Transition";
-import Button from "components/buttons/Button";
-
-import { colors } from "constants/theme";
-
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
-
-import { RADIO } from "constants/answer-types";
-
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
+
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
-
 import ValidationError from "components/ValidationError";
+import Button from "components/buttons/Button";
+
 import { destinationErrors } from "constants/validationMessages";
+import { colors } from "constants/theme";
+
+const LABEL_THEN = "Then";
 
 const RepositionedValidationError = styled(ValidationError)`
   padding-left: 41%;
   justify-content: unset;
   margin-top: 0;
 `;
-
-const LABEL_THEN = "Then";
 
 const Expressions = styled.div`
   background: white;
