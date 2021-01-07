@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import styled from "styled-components";
 import { colors } from "constants/theme";
-import Truncated from "components/Truncated";
 
 const Wrapper = styled.div`
   display: flex;
