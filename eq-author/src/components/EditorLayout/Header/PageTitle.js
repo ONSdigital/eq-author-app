@@ -17,7 +17,9 @@ const Title = styled.h1`
   margin: 0;
   width: 100%;
   line-height: 1.3;
-  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const PageTitle = ({ children }) => (
