@@ -55,7 +55,7 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
                     : messages.NO_RULES_EXIST}
                 </Title>
                 <Paragraph>
-                  {isLastPage ? messages.LAST_PAGE : messages.DEFAULT_RUOTING}
+                  {isLastPage ? messages.LAST_PAGE : messages.DEFAULT_ROUTING}
                 </Paragraph>
               </NoRouting>
             </Panel>

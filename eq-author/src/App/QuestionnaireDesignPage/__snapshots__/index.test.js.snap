@@ -2270,8 +2270,13 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               </Route>
               <Route
                 component={[Function]}
-                key="confirmation-routing"
+                key="confirmation-logic-routing"
                 path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
+              />
+              <Route
+                component={[Function]}
+                key="confirmation-logic-skip"
+                path="/q/:questionnaireId/question-confirmation/:confirmationId/skip"
               />
               <Route
                 component={[Function]}
