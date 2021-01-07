@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Route, Redirect } from "react-router-dom";
-import SkipLogic from "App/page/Logic/SkipLogic";
+import SkipLogic from "App/shared/Logic/SkipLogic";
 
 import Design from "./Design";
 import Preview from "./Preview";
