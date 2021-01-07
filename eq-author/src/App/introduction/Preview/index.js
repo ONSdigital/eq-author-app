@@ -116,6 +116,7 @@ export const IntroductionPreview = ({ loading, data }) => {
       id,
       title,
       additionalGuidancePanel,
+      additionalGuidancePanelSwitch,
       description,
       legalBasis,
       secondaryTitle,
@@ -135,10 +136,12 @@ export const IntroductionPreview = ({ loading, data }) => {
           <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
         </p>
 
-        <GuidancePanel
-          data-test="additionalGuidancePanel"
-          dangerouslySetInnerHTML={{ __html: additionalGuidancePanel }}
-        />
+        {additionalGuidancePanelSwitch && (
+          <GuidancePanel
+            data-test="additionalGuidancePanel"
+            dangerouslySetInnerHTML={{ __html: additionalGuidancePanel }}
+          />
+        )}
 
         <Description
           data-test="description"
@@ -202,6 +205,7 @@ const fragment = gql`
     id
     title
     additionalGuidancePanel
+    additionalGuidancePanelSwitch
     description
     legalBasis
     secondaryTitle

@@ -16,7 +16,7 @@ export const ScrollPaneCSS = css`
   ::-webkit-scrollbar-track {
     border-radius: 0;
     box-shadow: none;
-    background: rgba(0, 0, 0, 0.1);
+    background: ${colors.lighterGrey};
   }
   ::-webkit-scrollbar {
     width: 10px;
@@ -49,6 +49,11 @@ export const RoundedInput = styled(Input)`
     css`
       border-color: ${colors.red};
     `}
+  ${({ borderless }) =>
+    borderless &&
+    css`
+      border: none;
+    `}
 `;
 
 export const DropDown = styled.ul`
@@ -61,6 +66,10 @@ export const DropDown = styled.ul`
   max-height: 7em;
   padding-left: 0;
   overflow-y: auto;
+  position: absolute;
+  width: calc(100% - 1.8em);
+  z-index: 1;
+  box-shadow: 2px 3px 7px ${colors.lightGrey};
   ${ScrollPaneCSS}
 `;
 
@@ -74,8 +83,7 @@ export const ListItem = styled.li`
     props.category ? colors.lightMediumGrey : colors.white};
   color: ${colors.darkGrey};
   display: block;
-  margin: 0.1em 0;
-  padding: 0.2em;
+  padding: 0.3em;
   padding-left: 0.5em;
   ${props =>
     !props.category &&
