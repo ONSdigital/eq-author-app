@@ -24,5 +24,17 @@ query GetSkipLogic($input: QueryInput!) {
         totalCount
       }
     }
+    ... on QuestionConfirmation {
+      validationErrorInfo {
+        id
+        errors {
+          id
+          field
+          type
+          errorCode
+        }
+        totalCount
+      }
+    }
   }
 }
