@@ -15,6 +15,8 @@ describe("Introduction Preview", () => {
           id: "1",
           title: "foo",
           description: "<p>bar</p>",
+          additionalGuidancePanel: "",
+          additionalGuidancePanelSwitch: false,
           secondaryTitle: "secondaryTitle",
           secondaryDescription: "<p>secondaryDescription</p>",
           legalBasis: "NOTICE_1",
@@ -76,5 +78,17 @@ describe("Introduction Preview", () => {
         "[data-test='legalBasis']"
       )
     ).toMatchSnapshot();
+  });
+
+  it("should show additional guidance panel when enabled", () => {
+    props.data.questionnaireIntroduction.additionalGuidancePanelSwitch = true;
+    props.data.questionnaireIntroduction.additionalGuidancePanel =
+      "hello world!";
+
+    const wrapper = shallow(<IntroductionPreview {...props} />);
+
+    expect(wrapper.find("[data-test='additionalGuidancePanel']")).toHaveLength(
+      1
+    );
   });
 });
