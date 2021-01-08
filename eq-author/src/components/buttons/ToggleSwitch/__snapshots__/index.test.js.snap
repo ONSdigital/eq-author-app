@@ -86,6 +86,7 @@ exports[`ToggleSwitch should render 1`] = `
 .c4 {
   height: 1em;
   width: 1.5em;
+  top: 0.6000000000000001em;
   background: #FFFFFF;
   border-radius: 2em;
   position: absolute;
@@ -148,7 +149,7 @@ exports[`ToggleSwitch should render 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 0.9em;
+  height: 2.2em;
   width: 2em;
   position: relative;
 }
@@ -282,6 +283,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
 .c4 {
   height: 1em;
   width: 1.5em;
+  top: 0.6000000000000001em;
   background: #FFFFFF;
   border-radius: 2em;
   position: absolute;
@@ -344,7 +346,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 0.9em;
+  height: 2.2em;
   width: 2em;
   position: relative;
 }
