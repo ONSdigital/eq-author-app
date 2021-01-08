@@ -20,14 +20,6 @@ exports[`Introduction Preview should render 1`] = `
         surveys@ons.gov.uk
       </Preview__Link>
     </p>
-    <Preview__GuidancePanel
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": undefined,
-        }
-      }
-      data-test="additionalGuidancePanel"
-    />
     <Preview__Description
       dangerouslySetInnerHTML={
         Object {
