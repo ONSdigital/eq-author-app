@@ -30,7 +30,9 @@ exports[`IntroductionEditor should render 1`] = `
         testSelector="txt-intro-title"
         value="title"
       />
-      <IntroductionEditor__InlineField>
+      <IntroductionEditor__InlineField
+        open={false}
+      >
         <Label
           bold={true}
         >
