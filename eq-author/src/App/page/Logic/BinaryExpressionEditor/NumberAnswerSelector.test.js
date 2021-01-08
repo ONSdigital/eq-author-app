@@ -76,6 +76,7 @@ describe("NumberAnswerSelector", () => {
       defaultProps.expression.condition = null;
 
       // Ensure the input field is shown
+      defaultProps.expression.condition = "Equal";
       const wrapperWithShownInput = shallow(
         <NumberAnswerSelector {...defaultProps} />
       );
