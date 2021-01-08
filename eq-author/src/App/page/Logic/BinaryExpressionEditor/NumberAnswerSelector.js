@@ -11,7 +11,7 @@ import { rightSideErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
 const conditions = {
-  SELECT: null,
+  SELECT: "Select",
   EQUAL: "Equal",
   NOT_EQUAL: "NotEqual",
   GREATER_THAN: "GreaterThan",

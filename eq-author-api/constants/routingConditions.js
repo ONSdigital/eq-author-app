@@ -1,4 +1,4 @@
-const SELECT = null;
+const SELECT = "Select";
 const ONE_OF = "OneOf";
 const EQUAL = "Equal";
 const NOT_EQUAL = "NotEqual";
