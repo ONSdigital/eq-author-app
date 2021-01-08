@@ -113,6 +113,7 @@ export const CalculatedSummaryPageEditor = props => {
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
           errorValidationMsg={ErrorMsg()}
+          autoFocus={!page.title}
         />
         <div>
           <SelectorTitle>Answers to calculate</SelectorTitle>
