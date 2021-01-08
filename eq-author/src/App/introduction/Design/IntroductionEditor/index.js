@@ -60,8 +60,7 @@ const descriptionControls = {
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
-  margin-bottom: 0.4em;
-
+  margin-bottom: ${props => (props.open ? "0.4em" : "2em")};
   > * {
     margin-bottom: 0;
   }
@@ -109,7 +108,7 @@ export const IntroductionEditor = ({
             testSelector="txt-intro-title"
           />
 
-          <InlineField>
+          <InlineField open={additionalGuidancePanelSwitch}>
             <Label>Additional guidance panel</Label>
 
             <ToggleSwitch
