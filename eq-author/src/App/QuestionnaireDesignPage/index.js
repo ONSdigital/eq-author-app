@@ -345,6 +345,12 @@ export const VALIDATION_QUERY = gql`
             ...ValidationErrorInfo
           }
           ... on QuestionPage {
+            confirmation {
+              id
+              validationErrorInfo {
+                ...ValidationErrorInfo
+              }
+            }
             answers {
               ... on BasicAnswer {
                 id
