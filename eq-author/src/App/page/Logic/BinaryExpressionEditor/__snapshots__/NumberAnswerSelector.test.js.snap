@@ -20,7 +20,7 @@ exports[`NumberAnswerSelector should render 1`] = `
       <option
         value={null}
       >
-        Select an operator
+        Select a parameter
       </option>
       <option
         value="Equal"
@@ -107,7 +107,7 @@ exports[`NumberAnswerSelector should render a currency 1`] = `
       <option
         value={null}
       >
-        Select an operator
+        Select a parameter
       </option>
       <option
         value="Equal"
@@ -194,7 +194,7 @@ exports[`NumberAnswerSelector should render a percentage 1`] = `
       <option
         value={null}
       >
-        Select an operator
+        Select a parameter
       </option>
       <option
         value="Equal"

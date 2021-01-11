@@ -1241,7 +1241,12 @@
           "type": "string"
         },
         "condition": {
-          "type": "string",
+          "allOf": [
+            {
+              "validateMultipleChoiceCondition": "condition",
+              "$ref": "definitions.json#/definitions/populatedString"
+            }
+          ],
           "validateMultipleChoiceCondition": "condition"
         },
         "left": {
@@ -1262,42 +1267,56 @@
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED",
           "validateLeftHandSide": "left"
-        },
-        "right": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "enum": [
-                "Custom",
-                "SelectedOptions"
-              ]
-            },
-            "optionIds": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string"
-              }
-            },
-            "customValue": {
-              "type": "object",
-              "properties": {
-                "number": {
-                  "not": {
-                    "type": "null"
+        }
+      },
+      "if": {
+        "properties": {
+          "condition": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "right": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": [
+                  "Custom",
+                  "SelectedOptions"
+                ]
+              },
+              "optionIds": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customValue": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "not": {
+                      "type": "null"
+                    }
                   }
                 }
               }
-            }
-          },
-          "required": [
-            "type"
-          ],
-          "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
-          "validateExclusiveCheckbox": "right"
+            },
+            "required": [
+              "type"
+            ],
+            "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
+            "validateExclusiveCheckbox": "right"
+          }
         }
       },
-      "validateExpression": "validateExpression"
+      "validateExpression": "validateExpression",
+      "required": [
+        "condition"
+      ]
     },
     "expression-unanswered": {
       "properties": {
