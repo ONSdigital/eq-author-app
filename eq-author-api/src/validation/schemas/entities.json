@@ -1174,7 +1174,16 @@
         "id": {
           "type": "string"
         },
-        "destination": {},
+        "destination": {
+          "properties": {
+            "logical": {
+              "not": {
+                "const": "Default"
+              }
+            }
+          },
+          "errorMessage": "ERR_DESTINATION_REQUIRED"
+        },
         "expressionGroup": {
           "$ref": "entities.json#/definitions/expressionGroup"
         }
