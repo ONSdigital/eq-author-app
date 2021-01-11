@@ -73,7 +73,6 @@ describe("NumberAnswerSelector", () => {
       defaultProps.expression.left.type = type;
 
       // Needs to be reset on each iteration to ensure the input field can be tested properly, otherwise first expect will fail on iterations > 1
-      defaultProps.expression.condition = null;
 
       // Ensure the input field is shown
       defaultProps.expression.condition = "Equal";
