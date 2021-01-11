@@ -2,11 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
-import { Grid, Column } from "components/Grid";
 import PropTypes from "prop-types";
 
 import RoutingDestinationContentPicker from "./RoutingDestinationContentPicker";
+
+import { Grid, Column } from "components/Grid";
+import ValidationError from "components/ValidationError";
+
+import { destinationErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
+
+const DESTINATION_TYPE = {
+  Section: "Section",
+  QuestionPage: "QuestionPage",
+  CalculatedSummaryPage: "CalculatedSummaryPage",
+};
+
+const RepositionedValidationError = styled(ValidationError)`
+  padding-left: 41%;
+  justify-content: unset;
+  margin-top: 0;
+`;
 
 const RoutingRuleResult = styled.div`
   padding: 0.5em 0.5em 0.5em 1.5em;
@@ -29,16 +45,25 @@ const Goto = styled.span`
   margin-right: 1em;
 `;
 
-export const UnwrappedDestinationSelector = props => {
-  const { label, id, disabled, value, match, validationErrors = [] } = props;
-
+export const UnwrappedDestinationSelector = ({
+  label,
+  id,
+  disabled,
+  value,
+  match,
+  validationErrors = [],
+  onChange,
+}) => {
   const handleChange = ({ value: { __typename: type, id } }) => {
     let destination;
-    if (type === "Section") {
+    if (type === DESTINATION_TYPE.Section) {
       destination = {
         sectionId: id,
       };
-    } else if (type === "QuestionPage" || type === "CalculatedSummaryPage") {
+    } else if (
+      type === DESTINATION_TYPE.QuestionPage ||
+      type === DESTINATION_TYPE.CalculatedSummaryPage
+    ) {
       destination = {
         pageId: id,
       };
@@ -48,7 +73,7 @@ export const UnwrappedDestinationSelector = props => {
       };
     }
 
-    props.onChange(destination);
+    onChange(destination);
   };
 
   const destinationValidationErrors = validationErrors.filter(
@@ -56,26 +81,38 @@ export const UnwrappedDestinationSelector = props => {
   );
 
   return (
-    <RoutingRuleResult key={id}>
-      <Grid align="center">
-        <Column gutters={false} cols={5}>
-          <Label htmlFor={id} disabled={disabled}>
-            {label} <Goto>Go to: </Goto>
-          </Label>
-        </Column>
-        <Column gutters={false} cols={7}>
-          <RoutingDestinationContentPicker
-            id={id}
-            pageId={match.params.pageId}
-            selected={value}
-            onSubmit={handleChange}
-            disabled={disabled}
-            data-test="routing-destination-content-picker"
-            hasError={destinationValidationErrors.length}
-          />
-        </Column>
-      </Grid>
-    </RoutingRuleResult>
+    <>
+      <RoutingRuleResult key={id}>
+        <Grid align="center">
+          <Column gutters={false} cols={5}>
+            <Label htmlFor={id} disabled={disabled}>
+              {label} <Goto>Go to: </Goto>
+            </Label>
+          </Column>
+          <Column gutters={false} cols={7}>
+            <RoutingDestinationContentPicker
+              id={id}
+              pageId={match.params.pageId}
+              selected={value}
+              onSubmit={handleChange}
+              disabled={disabled}
+              data-test="routing-destination-content-picker"
+              hasError={destinationValidationErrors.length}
+            />
+          </Column>
+        </Grid>
+      </RoutingRuleResult>
+      {destinationValidationErrors.length > 0 && (
+        <RepositionedValidationError test="destination-validation-error" right>
+          <p>
+            {
+              destinationErrors[destinationValidationErrors[0].errorCode]
+                .message
+            }
+          </p>
+        </RepositionedValidationError>
+      )}
+    </>
   );
 };
 
