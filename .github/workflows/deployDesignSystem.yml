@@ -1,7 +1,7 @@
 name: Build and deploy design system
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   push:
     branches:
       - master
