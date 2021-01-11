@@ -6,6 +6,7 @@ import NoRouting, {
 } from "App/shared/Logic/Routing/NoRouting";
 import GET_PAGE_QUERY from "./fragment.graphql";
 import PropTypes from "prop-types";
+import Panel from "components/Panel";
 
 import { useQuery } from "@apollo/react-hooks";
 
@@ -20,12 +21,17 @@ const Routing = ({ match }) => {
 
   return (
     <Logic page={page}>
-      <NoRouting disabled>
-        <Title> Routing logic not available for confirmation questions </Title>
-        <Paragraph>
-          The route will be based on the answer to the previous question.
-        </Paragraph>
-      </NoRouting>
+      <Panel>
+        <NoRouting disabled>
+          <Title>
+            {" "}
+            Routing logic not available for confirmation questions{" "}
+          </Title>
+          <Paragraph>
+            The route will be based on the answer to the previous question.
+          </Paragraph>
+        </NoRouting>
+      </Panel>
     </Logic>
   );
 };
