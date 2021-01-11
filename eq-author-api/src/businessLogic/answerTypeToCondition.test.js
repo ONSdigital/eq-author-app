@@ -29,11 +29,11 @@ describe("AnswerTypeToCondition", () => {
   describe("getDefault()", () => {
     it("should return equal for all apart from radio", () => {
       const expectedDefaults = {
-        [answerTypes.NUMBER]: conditions.EQUAL,
-        [answerTypes.PERCENTAGE]: conditions.EQUAL,
-        [answerTypes.CURRENCY]: conditions.EQUAL,
+        [answerTypes.NUMBER]: conditions.SELECT,
+        [answerTypes.PERCENTAGE]: conditions.SELECT,
+        [answerTypes.CURRENCY]: conditions.SELECT,
         [answerTypes.RADIO]: conditions.ONE_OF,
-        [answerTypes.UNIT]: conditions.EQUAL,
+        [answerTypes.UNIT]: conditions.SELECT,
         [answerTypes.CHECKBOX]: conditions.ALL_OF,
       };
       VALID_TYPES.forEach(type => {
