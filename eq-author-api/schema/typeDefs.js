@@ -129,7 +129,12 @@ interface Page {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionPage implements Page {
+interface Skippable {
+  id: ID!
+  skipConditions: [ExpressionGroup2]
+}
+
+type QuestionPage implements Page & Skippable {
   id: ID!
   title: String!
   alias: String
@@ -183,7 +188,7 @@ type ConfirmationOption {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionConfirmation {
+type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
@@ -194,6 +199,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  skipConditions: [ExpressionGroup2]
 }
 
 interface Answer {
@@ -630,12 +636,15 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
+  skippable(input: QueryInput!): Skippable
 }
 
 input QueryInput {
+  id: ID
   questionnaireId: ID
   sectionId: ID
   pageId: ID
+  confirmationId: ID
   answerId: ID
   optionId: ID
 }
@@ -646,7 +655,7 @@ input GetAvailableAnswersInput {
 }
 
 input CreateSkipConditionInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 input DeleteSkipConditionInput {
@@ -654,7 +663,7 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 
@@ -721,9 +730,9 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
-  deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
-  deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
+  createSkipCondition(input: CreateSkipConditionInput!): Skippable
+  deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
+  deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
 }
 
 input CreateRouting2Input {

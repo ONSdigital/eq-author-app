@@ -46,6 +46,40 @@ exports.getQuestionnaire = `
       }
     }
   }
+
+  fragment ExpressionGroup on ExpressionGroup2 {
+    id
+    expressions {
+      ... on BinaryExpression2 {
+        left {
+          ... on BasicAnswer {
+            id
+            type
+            label
+          }
+          ... on MultipleChoiceAnswer {
+            id
+            type
+            options {
+              id
+            }
+          }
+        }
+        condition
+        right {
+          ... on CustomValue2 {
+            number
+          }
+          ... on SelectedOptions2 {
+            options {
+              id
+              label
+            }
+          }
+        }
+      }
+    }
+  }
   
   fragment MinValueValidationRule on MinValueValidationRule {
     id
@@ -223,6 +257,9 @@ exports.getQuestionnaire = `
                 label
                 description
               }
+              skipConditions {
+                ...ExpressionGroup
+              }
             }
             answers {
               ...answerFragment
@@ -239,36 +276,7 @@ exports.getQuestionnaire = `
               rules {
                 expressionGroup {
                   operator
-                  expressions {
-                    ... on BinaryExpression2 {
-                      left {
-                        ... on BasicAnswer {
-                          id
-                          type
-                          label
-                        }
-                        ... on MultipleChoiceAnswer {
-                          id
-                          type
-                          options {
-                            id
-                          }
-                        }
-                      }
-                      condition
-                      right {
-                        ... on CustomValue2 {
-                          number
-                        }
-                        ... on SelectedOptions2 {
-                          options {
-                            id
-                            label
-                          }
-                        }
-                      }
-                    }
-                  }
+                  ...ExpressionGroup
                 }
                 destination {
                   ...destination2Fragment
@@ -279,36 +287,7 @@ exports.getQuestionnaire = `
               }
             }
             skipConditions {
-              expressions {
-                ... on BinaryExpression2 {
-                  left {
-                    ... on BasicAnswer {
-                      id
-                      type
-                      label
-                    }
-                    ... on MultipleChoiceAnswer {
-                      id
-                      type
-                      options {
-                        id
-                      }
-                    }
-                  }
-                  condition
-                  right {
-                    ... on CustomValue2 {
-                      number
-                    }
-                    ... on SelectedOptions2 {
-                      options {
-                        id
-                        label
-                      }
-                    }
-                  }
-                }
-              }
+              ...ExpressionGroup
             }
             totalValidation {
               id

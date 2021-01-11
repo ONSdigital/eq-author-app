@@ -46,6 +46,10 @@ const getConfirmations = ctx =>
 
 const getConfirmationById = (ctx, id) => find(getConfirmations(ctx), { id });
 
+const getSkippableById = (ctx, id) =>
+  getConfirmationById(ctx, id) || getPageById(ctx, id);
+const getSkippables = ctx => [...getConfirmations(ctx), ...getPages(ctx)];
+
 const getAnswers = ctx => compact(flatMap(getPages(ctx), page => page.answers));
 
 const getAnswerById = (ctx, id) => find(getAnswers(ctx), { id });
@@ -64,7 +68,7 @@ const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
 const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
 
 const getSkipConditions = ctx =>
-  flatMap(filter(getPages(ctx), "skipConditions"), "skipConditions");
+  flatMap(filter(getSkippables(ctx), "skipConditions"), "skipConditions");
 
 const getSkipConditionById = (ctx, id) => {
   const skipConditions = getSkipConditions(ctx);
@@ -206,6 +210,9 @@ module.exports = {
 
   getConfirmations,
   getConfirmationById,
+
+  getSkippableById,
+  getSkippables,
 
   getValidationById,
 

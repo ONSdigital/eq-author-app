@@ -59,7 +59,7 @@ class NumberAnswerSelector extends React.Component {
         type: PropTypes.string.isRequired,
       }).isRequired,
       right: PropTypes.shape({
-        number: PropTypes.number.isRequired,
+        number: PropTypes.number,
       }),
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
