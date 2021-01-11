@@ -403,6 +403,10 @@ describe("routing", () => {
         },
         ctx
       );
+
+      ctx.questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup.expressions[0].condition =
+        "Equal";
+
       await executeQuery(
         updateRightSideMutation,
         {
