@@ -7,9 +7,9 @@ mutation createSkipCondition($input: CreateSkipConditionInput!) {
   }
 }`;
 
-const createSkipCondition = async (ctx, page) => {
+const createSkipCondition = async (ctx, parent) => {
   const input = {
-    pageId: page.id,
+    parentId: parent.id,
   };
   const result = await executeQuery(
     createSkipConditionMutation,

@@ -50,6 +50,8 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: Theme
   navigation: Boolean
   surveyId: String
@@ -127,7 +129,12 @@ interface Page {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionPage implements Page {
+interface Skippable {
+  id: ID!
+  skipConditions: [ExpressionGroup2]
+}
+
+type QuestionPage implements Page & Skippable {
   id: ID!
   title: String!
   alias: String
@@ -181,7 +188,7 @@ type ConfirmationOption {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionConfirmation {
+type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
@@ -192,6 +199,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  skipConditions: [ExpressionGroup2]
 }
 
 interface Answer {
@@ -445,6 +453,7 @@ enum Theme {
 type Metadata {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -581,6 +590,8 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   legalBasis: LegalBasis!
   secondaryTitle: String!
   secondaryDescription: String!
@@ -625,12 +636,15 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
+  skippable(input: QueryInput!): Skippable
 }
 
 input QueryInput {
+  id: ID
   questionnaireId: ID
   sectionId: ID
   pageId: ID
+  confirmationId: ID
   answerId: ID
   optionId: ID
 }
@@ -641,7 +655,7 @@ input GetAvailableAnswersInput {
 }
 
 input CreateSkipConditionInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 input DeleteSkipConditionInput {
@@ -649,7 +663,7 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 
@@ -716,9 +730,9 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
-  deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
-  deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
+  createSkipCondition(input: CreateSkipConditionInput!): Skippable
+  deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
+  deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
 }
 
 input CreateRouting2Input {
@@ -785,6 +799,8 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String!
   navigation: Boolean
   surveyId: String!
@@ -798,6 +814,8 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String
   legalBasis: LegalBasis
   navigation: Boolean
@@ -1106,6 +1124,7 @@ input DeleteMetadataInput {
 input UpdateMetadataInput {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -1138,6 +1157,8 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  additionalGuidancePanelSwitch: Boolean!
+  additionalGuidancePanel: String
   description: String!
   legalBasis: LegalBasis!
   secondaryTitle: String!

@@ -1,0 +1,12 @@
+#import "./SkipLogicPage/fragment.graphql"
+
+mutation deleteSkipCondition($input: DeleteSkipConditionInput!) {
+  deleteSkipCondition(input: $input) {
+    id
+    ... on QuestionPage {
+      displayName
+      pageType
+    }
+    ...SkipLogicPage
+  }
+}

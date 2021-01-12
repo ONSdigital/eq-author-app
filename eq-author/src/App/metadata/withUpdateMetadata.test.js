@@ -24,6 +24,7 @@ describe("withUpdateMetadata", () => {
         props.onUpdateMetadata(metadata);
         expect(mutate).toHaveBeenCalledWith({
           variables: { input: { id: metadata.id } },
+          refetchQueries: ["GetQuestionnaireWithMetadata"],
         });
       });
     });

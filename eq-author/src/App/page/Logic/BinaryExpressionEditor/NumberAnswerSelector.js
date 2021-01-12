@@ -11,6 +11,7 @@ import { rightSideErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
 const conditions = {
+  SELECT: null,
   EQUAL: "Equal",
   NOT_EQUAL: "NotEqual",
   GREATER_THAN: "GreaterThan",
@@ -58,7 +59,7 @@ class NumberAnswerSelector extends React.Component {
         type: PropTypes.string.isRequired,
       }).isRequired,
       right: PropTypes.shape({
-        number: PropTypes.number.isRequired,
+        number: PropTypes.number,
       }),
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
@@ -118,6 +119,9 @@ class NumberAnswerSelector extends React.Component {
             value={expression.condition}
             data-test="condition-selector"
           >
+            {!expression.condition && (
+              <option value={conditions.SELECT}>Select an operator</option>
+            )}
             <option value={conditions.EQUAL}>(=) Equal to</option>
             <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
             <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
@@ -130,31 +134,32 @@ class NumberAnswerSelector extends React.Component {
             </option>
             <option value={conditions.UNANSWERED}>Unanswered</option>
           </ConditionSelector>
-          {expression.condition !== conditions.UNANSWERED && (
-            <>
-              <Value>
-                <VisuallyHidden>
-                  <Label htmlFor={`expression-right-${expression.id}`}>
-                    Value
-                  </Label>
-                </VisuallyHidden>
-                <Number
-                  default={null}
-                  id={`expression-right-${expression.id}`}
-                  min={-99999999}
-                  max={999999999}
-                  placeholder="Value"
-                  value={this.state.number}
-                  name={`expression-right-${expression.id}`}
-                  onChange={this.handleRightChange}
-                  onBlur={this.handleRightBlur}
-                  data-test="number-value-input"
-                  type={expression.left.type}
-                  unit={get(expression.left, "properties.unit", null)}
-                />
-              </Value>
-            </>
-          )}
+          {expression.condition !== conditions.UNANSWERED &&
+            expression.condition !== conditions.SELECT && (
+              <>
+                <Value>
+                  <VisuallyHidden>
+                    <Label htmlFor={`expression-right-${expression.id}`}>
+                      Value
+                    </Label>
+                  </VisuallyHidden>
+                  <Number
+                    default={null}
+                    id={`expression-right-${expression.id}`}
+                    min={-99999999}
+                    max={999999999}
+                    placeholder="Value"
+                    value={this.state.number}
+                    name={`expression-right-${expression.id}`}
+                    onChange={this.handleRightChange}
+                    onBlur={this.handleRightBlur}
+                    data-test="number-value-input"
+                    type={expression.left.type}
+                    unit={get(expression.left, "properties.unit", null)}
+                  />
+                </Value>
+              </>
+            )}
         </NumberAnswerRoutingSelector>
         {hasError && this.handleError()}
       </>

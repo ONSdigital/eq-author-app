@@ -5,7 +5,7 @@ import { Route, Redirect } from "react-router-dom";
 import Design from "./Design";
 import Preview from "./Preview";
 import Routing from "./Logic/Routing";
-import SkipLogic from "./Logic/SkipLogic";
+import SkipLogic from "App/shared/Logic/SkipLogic";
 
 export default [
   <Route

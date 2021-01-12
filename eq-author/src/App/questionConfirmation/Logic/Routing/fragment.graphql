@@ -1,0 +1,11 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
+query GetConfirmationPageInfo($id: ID!) {
+  questionConfirmation(id: $id) {
+    id
+    displayName
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

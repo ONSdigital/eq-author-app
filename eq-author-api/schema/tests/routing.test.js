@@ -26,7 +26,10 @@ const {
   movePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { deleteSection, moveSection } = require("../../tests/utils/contextBuilder/section");
+const {
+  deleteSection,
+  moveSection,
+} = require("../../tests/utils/contextBuilder/section");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -351,8 +354,8 @@ describe("routing", () => {
       const result = await queryPage(ctx, firstPage.id);
 
       expect(
-        result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
-      ).toBe(1);
+        result.routing.rules[0].expressionGroup.validationErrorInfo.errors
+      ).toHaveLength(2);
     });
 
     it("does not have validation errors if there are none", async () => {
@@ -372,7 +375,9 @@ describe("routing", () => {
                     type: NUMBER,
                   },
                 ],
-                routing: { rules: [{ expressionGroup: {} }] },
+                routing: {
+                  rules: [{ expressionGroup: {} }],
+                },
               },
             ],
           },
@@ -385,6 +390,8 @@ describe("routing", () => {
       const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      firstPage.routing.rules[0].destination.logical = "NextPage";
 
       await executeQuery(
         updateLeftSideMutation,
@@ -1094,11 +1101,14 @@ describe("routing", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([secondSectionId,firstSectionId]);
+      expect(sections.map(s => s.id)).toEqual([
+        secondSectionId,
+        firstSectionId,
+      ]);
 
       // Check routing page has been removed
       expect(routingPage.routing).toBeUndefined();
-   });
+    });
   });
 
   describe("on Page deleted or moved exposing new last question with routing", () => {
@@ -1168,7 +1178,9 @@ describe("routing", () => {
       expect(routingPage.routing.rules).toHaveLength(1);
 
       // Move third page above second
-      const {section: { pages },} = await movePage(ctx, {
+      const {
+        section: { pages },
+      } = await movePage(ctx, {
         id: pageToMoveId,
         sectionId: section.id,
         position: 1,
@@ -1178,7 +1190,7 @@ describe("routing", () => {
         pageToMoveId,
         routingPageId,
       ]);
-      
+
       // Check routing page has been removed
       expect(routingPage.routing).toBeUndefined();
     });

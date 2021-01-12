@@ -1,6 +1,7 @@
 name: Build and deploy design system
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -34,8 +35,9 @@ jobs:
         working-directory: ${{env.working-directory}}
 
       - name: Deploy design system
-        uses: JamesIves/github-pages-deploy-action@3.5.9
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: design-system
+          CLEAN: true

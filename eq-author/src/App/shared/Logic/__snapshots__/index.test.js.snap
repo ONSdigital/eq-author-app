@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logic Page should render 1`] = `
+<EditorLayout
+  design={true}
+  logic={true}
+  mainCanvasMaxWidth="80em"
+  preview={true}
+  singleColumnLayout={true}
+  title="My first displayname"
+  validationErrorInfo={
+    Object {
+      "errors": Array [
+        Object {
+          "id": "expressions-skipConditions-1",
+          "type": "skipConditionExpression",
+        },
+        Object {
+          "id": "expressions-routing-1",
+          "type": "routingExpression",
+        },
+      ],
+      "totalCount": 2,
+    }
+  }
+>
+  <Logic__LogicMainCanvas>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <Column
+        cols={2.5}
+        gutters={false}
+      >
+        <Logic__MenuTitle>
+          Select your logic
+        </Logic__MenuTitle>
+        <Logic__StyledUl>
+          <li
+            data-test="routing"
+            key="routing"
+          >
+            <Logic__LogicLink
+              activeClassName="active"
+              exact={true}
+              replace={true}
+              to="routing"
+            >
+              Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
+            </Logic__LogicLink>
+          </li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
+            <Logic__LogicLink
+              activeClassName="active"
+              exact={true}
+              replace={true}
+              to="skip"
+            >
+              Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
+            </Logic__LogicLink>
+          </li>
+        </Logic__StyledUl>
+      </Column>
+      <Column
+        cols={9.5}
+        gutters={false}
+      >
+        <Logic__LogicContainer>
+          Content
+        </Logic__LogicContainer>
+      </Column>
+    </Grid>
+  </Logic__LogicMainCanvas>
+</EditorLayout>
+`;

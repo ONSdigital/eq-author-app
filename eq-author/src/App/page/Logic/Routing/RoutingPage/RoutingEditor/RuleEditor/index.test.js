@@ -74,12 +74,18 @@ describe("RuleEditor", () => {
           id: "binaryExpressionId",
           type: RADIO,
         },
+        validationErrorInfo: {
+          totalCount: 0,
+        },
       },
       {
         id: "3",
         left: {
           id: "binaryExpressionId",
           type: RADIO,
+        },
+        validationErrorInfo: {
+          totalCount: 0,
         },
       },
     ];

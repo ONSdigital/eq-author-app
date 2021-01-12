@@ -9,6 +9,8 @@ const mutation = gql`
     updateQuestionnaireIntroduction(input: $input) {
       id
       title
+      additionalGuidancePanelSwitch
+      additionalGuidancePanel
       description
       legalBasis
       secondaryTitle
@@ -22,6 +24,8 @@ const inputFilter = gql`
   {
     id
     title
+    additionalGuidancePanelSwitch
+    additionalGuidancePanel
     description
     legalBasis
     secondaryTitle

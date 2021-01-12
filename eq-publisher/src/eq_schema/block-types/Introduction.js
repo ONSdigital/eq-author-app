@@ -10,11 +10,25 @@ const processContent = ctx => flow(convertPipes(ctx), parseContent);
 const getSimpleText = (content, ctx) =>
   flow(convertPipes(ctx), getInnerHTMLWithPiping)(content);
 
-const getComplexText = (content, ctx) => {
+const addPanel = additionalGuidancePanel =>
+  `<div class='panel panel--simple panel--info'><div class='panel__body'>${additionalGuidancePanel}</div></div>`;
+
+const getComplexText = (content, ctx) => (
+  additionalGuidancePanel,
+  additionalGuidancePanelSwitch
+) => {
   const result = processContent(ctx)(content);
   if (result) {
-    return result.content;
+    if (additionalGuidancePanel && additionalGuidancePanelSwitch) {
+      result.content.unshift({
+        description: addPanel(additionalGuidancePanel),
+      });
+      return result.content;
+    } else {
+      return result.content;
+    }
   }
+
   return undefined;
 };
 
@@ -22,6 +36,8 @@ module.exports = class Introduction {
   constructor(
     {
       description,
+      additionalGuidancePanel,
+      additionalGuidancePanelSwitch,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -32,24 +48,26 @@ module.exports = class Introduction {
   ) {
     this.type = "Introduction";
     this.id = "introduction-block";
-
     this.primary_content = [
       {
         type: "Basic",
         id: "primary",
-        content: getComplexText(description, ctx),
+        content: getComplexText(description, ctx)(
+          additionalGuidancePanel,
+          additionalGuidancePanelSwitch
+        ),
       },
     ];
 
     this.preview_content = {
       id: "preview",
       title: getSimpleText(secondaryTitle, ctx),
-      content: getComplexText(secondaryDescription, ctx),
+      content: getComplexText(secondaryDescription, ctx)(),
       questions: collapsibles
         .filter(collapsible => collapsible.title && collapsible.description)
         .map(({ title, description }) => ({
           question: title,
-          content: getComplexText(description, ctx),
+          content: getComplexText(description, ctx)(),
         })),
     };
 
@@ -57,7 +75,7 @@ module.exports = class Introduction {
       {
         id: "secondary-content",
         title: getSimpleText(tertiaryTitle, ctx),
-        content: getComplexText(tertiaryDescription, ctx),
+        content: getComplexText(tertiaryDescription, ctx)(),
       },
     ];
   }
