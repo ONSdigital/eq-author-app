@@ -2,7 +2,10 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, act, flushPromises } from "tests/utils/rtl";
 
-import { rightSideErrors } from "constants/validationMessages";
+import {
+  rightSideErrors,
+  OPERATOR_REQUIRED,
+} from "constants/validationMessages";
 
 import { Number } from "components/Forms";
 
@@ -127,5 +130,24 @@ describe("NumberAnswerSelector", () => {
     expect(
       getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message)
     ).toBeTruthy();
+  });
+
+  it("should show error message when no operator is selected", () => {
+    defaultProps.expression.condition = null;
+    // defaultProps.groupErrorMessage = OPERATOR_REQUIRED;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: OPERATOR_REQUIRED,
+    };
+
+    const { getByText } = render(
+      <NumberAnswerSelector hasError {...defaultProps} />
+    );
+
+    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "100%");
+    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule(
+      "justify-content",
+      "flex-start"
+    );
+    expect(getByText(OPERATOR_REQUIRED)).toBeTruthy();
   });
 });

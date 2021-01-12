@@ -140,7 +140,7 @@ class NumberAnswerSelector extends React.Component {
             data-test="condition-selector"
           >
             {!expression.condition && (
-              <option value={conditions.SELECT}>Select a parameter</option>
+              <option value={conditions.SELECT}>Select an operator</option>
             )}
             <option value={conditions.EQUAL}>(=) Equal to</option>
             <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>

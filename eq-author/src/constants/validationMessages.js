@@ -95,7 +95,7 @@ export const ERR_TOTAL_NO_VALUE = "Value required";
 export const ERR_NO_VALUE = "Value is required";
 export const SELECTION_REQUIRED = "Selection required";
 
-export const OPERATOR_REQUIRED = "Choose a parameter";
+export const OPERATOR_REQUIRED = "Choose an operator";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
