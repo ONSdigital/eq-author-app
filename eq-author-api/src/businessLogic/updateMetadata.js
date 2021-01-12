@@ -6,9 +6,13 @@ const {
 
 const { merge, find } = require("lodash/fp");
 
-module.exports = (metadataToUpdate, { key, alias, type, ...values }) => {
+module.exports = (
+  metadataToUpdate,
+  { key, fallbackKey, alias, type, ...values }
+) => {
   let newValues = {
     key,
+    fallbackKey,
     alias,
     type,
     textValue: null,
@@ -27,6 +31,10 @@ module.exports = (metadataToUpdate, { key, alias, type, ...values }) => {
 
   if (metadataToUpdate.key !== key) {
     newValues = merge(newValues, find({ key }, defaultValues));
+  }
+
+  if (type !== metadataToUpdate.type) {
+    newValues.fallbackKey = null;
   }
 
   return {

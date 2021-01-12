@@ -1,2 +1,9 @@
-export const EN = "en";
-export const CY = "cy";
+export const EN = {
+  label: "en",
+  value: "en",
+};
+
+export const CY = {
+  label: "cy",
+  value: "cy",
+};

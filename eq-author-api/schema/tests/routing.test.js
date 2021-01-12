@@ -217,8 +217,8 @@ describe("routing", () => {
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const result = await queryPage(ctx, firstPage.id);
       expect(
-        result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
-      ).toBe(1);
+        result.routing.rules[0].expressionGroup.validationErrorInfo.errors
+      ).toHaveLength(2);
     });
 
     it("does not have validation errors if there are none", async () => {
@@ -232,6 +232,9 @@ describe("routing", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      firstPage.routing.rules[0].destination.logical = "NextPage";
+
       await executeQuery(
         updateLeftSideMutation,
         {

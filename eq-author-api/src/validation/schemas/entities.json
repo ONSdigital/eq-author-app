@@ -315,6 +315,12 @@
         "title": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
+        "skipConditions": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/expressionGroup"
+          }
+        },
         "qCode": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
@@ -1197,7 +1203,16 @@
         "id": {
           "type": "string"
         },
-        "destination": {},
+        "destination": {
+          "properties": {
+            "logical": {
+              "not": {
+                "const": "Default"
+              }
+            }
+          },
+          "errorMessage": "ERR_DESTINATION_REQUIRED"
+        },
         "expressionGroup": {
           "$ref": "entities.json#/definitions/expressionGroup"
         }

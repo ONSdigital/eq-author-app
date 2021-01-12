@@ -19,6 +19,8 @@ import LegalBasisField from "./LegalBasisField";
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
+import { Field, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -55,12 +57,27 @@ const descriptionControls = {
   link: true,
 };
 
-export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: ${props => (props.open ? "0.4em" : "2em")};
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
+export const IntroductionEditor = ({
+  introduction,
+  onChangeUpdate,
+  updateQuestionnaireIntroduction,
+}) => {
   const {
     id,
     collapsibles,
     title,
     description,
+    additionalGuidancePanel,
+    additionalGuidancePanelSwitch,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -90,6 +107,42 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
+
+          <InlineField open={additionalGuidancePanelSwitch}>
+            <Label>Additional guidance panel</Label>
+
+            <ToggleSwitch
+              id="toggle-additional-guidance-panel"
+              name="toggle-additional-guidance-panel"
+              hideLabels={false}
+              onChange={() =>
+                updateQuestionnaireIntroduction({
+                  id,
+                  ...introduction,
+                  additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
+                })
+              }
+              checked={additionalGuidancePanelSwitch}
+            />
+          </InlineField>
+          {additionalGuidancePanelSwitch ? (
+            <RichTextEditor
+              id={`details-additionalGuidancePanel-${id}`}
+              name="additionalGuidancePanel"
+              value={additionalGuidancePanel}
+              label=""
+              onUpdate={onChangeUpdate}
+              multiline
+              controls={{
+                heading: true,
+                list: true,
+                bold: true,
+                link: true,
+              }}
+              testSelector="txt-collapsible-additionalGuidancePanel"
+            />
+          ) : null}
+
           <RichTextEditor
             id="intro-description"
             name="description"
@@ -100,6 +153,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-description"
           />
+
           <SectionTitle>Legal basis</SectionTitle>
           <LegalBasisField
             name="legalBasis"
@@ -179,6 +233,8 @@ const fragment = gql`
     id
     title
     description
+    additionalGuidancePanel
+    additionalGuidancePanelSwitch
     secondaryTitle
     secondaryDescription
     collapsibles {
@@ -197,6 +253,7 @@ IntroductionEditor.propTypes = {
     transformNestedFragments(fragment, CollapsiblesEditor.fragments)
   ).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  updateQuestionnaireIntroduction: PropTypes.func.isRequired,
 };
 
 const withWrappers = flowRight(

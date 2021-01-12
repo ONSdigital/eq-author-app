@@ -80,6 +80,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
   return (
     <EditorLayout
       preview
+      logic
       title={displayName}
       renderPanel={() => <CommentsPanel componentId={id} />}
       validationErrorInfo={questionConfirmation.validationErrorInfo}

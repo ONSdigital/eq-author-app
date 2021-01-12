@@ -2,6 +2,7 @@ fragment AvailableMetadata on Metadata {
   id
   displayName
   key
+  fallbackKey
   alias
   type
   dateValue

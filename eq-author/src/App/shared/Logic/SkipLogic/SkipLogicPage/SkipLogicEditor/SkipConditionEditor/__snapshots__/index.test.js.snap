@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkipConditionEditor should render 1`] = `
+<SkipConditionEditor__SkipCondition
+  data-test="skip-condition"
+>
+  <SkipConditionEditor__Header>
+    <Label
+      bold={true}
+      inline={true}
+    >
+      Skip this question
+    </Label>
+    <SkipConditionEditor__RemoveSkipConditionButton
+      data-test="btn-remove-skip-conditions"
+      onClick={[MockFunction]}
+      type="button"
+      variant="primary"
+    >
+      Remove logic rule
+    </SkipConditionEditor__RemoveSkipConditionButton>
+  </SkipConditionEditor__Header>
+  <SkipConditionEditor__Expressions>
+    <TransitionGroup
+      childFactory={[Function]}
+      component="div"
+    />
+  </SkipConditionEditor__Expressions>
+</SkipConditionEditor__SkipCondition>
+`;

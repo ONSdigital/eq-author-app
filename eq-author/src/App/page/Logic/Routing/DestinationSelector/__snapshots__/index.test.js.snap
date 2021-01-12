@@ -1,48 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RoutingRuleDestinationSelector should render 1`] = `
-<DestinationSelector__RoutingRuleResult
-  key="test-select"
->
-  <Grid
-    align="center"
-    fillHeight={true}
+<Fragment>
+  <DestinationSelector__RoutingRuleResult
+    key="test-select"
   >
-    <Column
-      cols={5}
-      gutters={false}
+    <Grid
+      align="center"
+      fillHeight={true}
     >
-      <DestinationSelector__Label
-        disabled={false}
-        htmlFor="test-select"
+      <Column
+        cols={5}
+        gutters={false}
       >
-        Test
-         
-        <DestinationSelector__Goto>
-          Go to: 
-        </DestinationSelector__Goto>
-      </DestinationSelector__Label>
-    </Column>
-    <Column
-      cols={7}
-      gutters={false}
-    >
-      <RoutingDestinationContentPicker
-        data-test="routing-destination-content-picker"
-        disabled={false}
-        hasError={0}
-        id="test-select"
-        onSubmit={[Function]}
-        pageId="1"
-        selected={
-          Object {
-            "logicalDestination": Object {
-              "destinationType": "EndOfQuestionnaire",
-            },
+        <DestinationSelector__Label
+          disabled={false}
+          htmlFor="test-select"
+        >
+          Test
+           
+          <DestinationSelector__Goto>
+            Go to: 
+          </DestinationSelector__Goto>
+        </DestinationSelector__Label>
+      </Column>
+      <Column
+        cols={7}
+        gutters={false}
+      >
+        <RoutingDestinationContentPicker
+          data-test="routing-destination-content-picker"
+          disabled={false}
+          hasError={0}
+          id="test-select"
+          onSubmit={[Function]}
+          pageId="1"
+          selected={
+            Object {
+              "logicalDestination": Object {
+                "destinationType": "EndOfQuestionnaire",
+              },
+            }
           }
-        }
-      />
-    </Column>
-  </Grid>
-</DestinationSelector__RoutingRuleResult>
+        />
+      </Column>
+    </Grid>
+  </DestinationSelector__RoutingRuleResult>
+</Fragment>
 `;

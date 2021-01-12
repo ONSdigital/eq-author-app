@@ -32,6 +32,8 @@ describe("questionnaire", () => {
         id: expect.any(String),
         title: expect.any(String),
         description: expect.any(String),
+        additionalGuidancePanel: expect.any(String),
+        additionalGuidancePanelSwitch: expect.any(Boolean),
         secondaryTitle: expect.any(String),
         secondaryDescription: expect.any(String),
         collapsibles: expect.any(Array),
@@ -62,6 +64,8 @@ describe("questionnaire", () => {
       const changes = {
         title: "new title",
         description: "new description",
+        additionalGuidancePanel: "new guidance panel",
+        additionalGuidancePanelSwitch: true,
         secondaryTitle: "new secondaryTitle",
         secondaryDescription: "new secondaryDescription",
         legalBasis: NOTICE_2,
@@ -77,6 +81,8 @@ describe("questionnaire", () => {
       expect(updatedIntroduction).toEqual({
         id: questionnaire.introduction.id,
         collapsibles: expect.any(Array),
+        additionalGuidancePanel: "new guidance panel",
+        additionalGuidancePanelSwitch: true,
         ...changes,
       });
     });
