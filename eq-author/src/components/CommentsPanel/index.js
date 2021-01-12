@@ -208,7 +208,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [editReply, setEditReply] = useState("");
   const [activeReplyId, setActiveReplyId] = useState("");
   const [replyRef, setReplyRef] = useState();
-  const [scrollRef, setScrollRef] = useState();
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -253,13 +252,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     }
     replyRef.focus();
   }, [replyRef]);
-
-  useEffect(() => {
-    if (!scrollRef) {
-      return;
-    }
-    scrollRef.scrollIntoView({ behavior: "smooth" });
-  }, [scrollRef]);
 
   const handleEdit = (id, commentText) => {
     setActiveCommentId(id);
@@ -397,8 +389,10 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const comments = get(data, "comments", []);
 
   const displayComments = comments.map((item, index) => {
-    const replies = comments[index].replies;
-    const displayReplies = replies.map((repliesItem, repliesIndex) => {
+    const replies = item.replies;
+    let sortedReplies = replies;
+    sortedReplies = sortedReplies.reverse();
+    const displayReplies = sortedReplies.map((repliesItem, repliesIndex) => {
       return (
         <Replies
           key={repliesItem.id}
@@ -420,14 +414,8 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     });
 
     const repliesCount = displayReplies.length.toString();
-    const setScroll = tag => {
-      if (index === comments.length - 1) {
-        setScrollRef(tag);
-      }
-    };
     return (
       <CommentSection
-        setScroll={setScroll}
         key={item.id}
         myId={myId}
         getInitials={getInitials}

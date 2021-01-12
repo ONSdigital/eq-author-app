@@ -37,7 +37,6 @@ const StyledAccordion = styled(CommentAccordion)`
 
 const CommentSection = props => {
   const {
-    setScroll,
     myId,
     getInitials,
     index,
@@ -63,11 +62,7 @@ const CommentSection = props => {
   const editCommentName = `edit-comment-${index}`;
 
   return (
-    <CommentAddSection
-      ref={tag => {
-        setScroll(tag);
-      }}
-    >
+    <CommentAddSection>
       <CommentHeaderContainer>
         <AvatarWrapper>
           <AvatarOuter avatarColor={item.user.id === myId}>
@@ -153,7 +148,6 @@ const CommentSection = props => {
 };
 
 CommentSection.propTypes = {
-  setScroll: PropTypes.func.isRequired,
   myId: PropTypes.string.isRequired,
   getInitials: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,

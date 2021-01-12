@@ -41,32 +41,32 @@ const EditComment = props => {
     <CommentsPane>
       <CommentAddSection>
         <StyledLabel>{"Comments"}</StyledLabel>
+        <CommentAddSection>
+          <Field>
+            <StyledTextArea
+              id="comments-txt-area"
+              name="comment"
+              value={comment}
+              minRows={4}
+              maxRows={4}
+              onChange={({ target }) => setComment(target.value)}
+              onClick={() => setActiveReplyId("")}
+              data-test="comment-txt-area"
+            />
+          </Field>
+          <ButtonGroup horizontal align="right">
+            <Button
+              disabled={!comment}
+              variant="primary"
+              onClick={handleSubmit}
+              data-test="btn-add-comment"
+            >
+              Add
+            </Button>
+          </ButtonGroup>
+        </CommentAddSection>
       </CommentAddSection>
       <StyledScrollPane>{displayComments}</StyledScrollPane>
-      <CommentAddSection>
-        <Field>
-          <StyledTextArea
-            id="comments-txt-area"
-            name="comment"
-            value={comment}
-            minRows={4}
-            maxRows={4}
-            onChange={({ target }) => setComment(target.value)}
-            onClick={() => setActiveReplyId("")}
-            data-test="comment-txt-area"
-          />
-        </Field>
-        <ButtonGroup horizontal align="right">
-          <Button
-            disabled={!comment}
-            variant="primary"
-            onClick={handleSubmit}
-            data-test="btn-add-comment"
-          >
-            Add
-          </Button>
-        </ButtonGroup>
-      </CommentAddSection>
     </CommentsPane>
   );
 };

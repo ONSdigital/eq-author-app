@@ -205,7 +205,11 @@ const Resolvers = {
       const questionnareComments = await getCommentsForQuestionnaire(
         questionnaireId
       );
-      return questionnareComments.comments[id] || [];
+      return (
+        questionnareComments.comments[id].sort(
+          (a, b) => b.createdTime - a.createdTime
+        ) || []
+      );
     },
     getAvailableAnswers: (root, { input }, ctx) =>
       getPreviousAnswersForPage(
