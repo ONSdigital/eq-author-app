@@ -1,0 +1,38 @@
+#import "./SkipLogicEditor/fragment.graphql"
+
+fragment SkipLogicPage on Skippable {
+  id
+  skipConditions {
+    ...SkipLogicEditor
+  }
+  ... on QuestionPage {
+    position
+    pageType
+    section {
+      id
+      position
+    }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        field
+        type
+        errorCode
+      }
+      totalCount
+    }
+  }
+  ... on QuestionConfirmation {
+    validationErrorInfo {
+      id
+      errors {
+        id
+        field
+        type
+        errorCode
+      }
+      totalCount
+    }
+  }
+}
