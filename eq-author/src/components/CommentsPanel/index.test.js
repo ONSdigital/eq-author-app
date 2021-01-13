@@ -442,9 +442,6 @@ describe("Comments Pane", () => {
         await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
       });
 
-      // console.log(getByTestId("btn-delete-reply-0-1"));
-      console.log(vars);
-
       expect(vars.deleteReplyWasCalled).toBeTruthy();
       expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
       expect(reply).toBeTruthy();
@@ -511,8 +508,7 @@ describe("Comments Pane", () => {
           },
         });
       });
-      console.log(vars);
-      // console.log(editReplyTxtArea);
+
       const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
       expect(editReplySaveBtn).toHaveStyle("display: inline-flex");
       await act(async () => {
