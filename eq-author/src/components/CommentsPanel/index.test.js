@@ -11,20 +11,10 @@ describe("Comments Pane", () => {
   let user, props;
   const vars = {};
 
-  const origWindow = window.HTMLElement.prototype.scrollIntoView;
-
   afterEach(async () => {
     await act(async () => {
       await flushPromises();
     });
-  });
-
-  beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn();
-  });
-
-  afterAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = origWindow;
   });
 
   beforeEach(() => {

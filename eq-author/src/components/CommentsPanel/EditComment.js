@@ -37,6 +37,8 @@ const EditComment = props => {
     handleSubmit,
   } = props;
 
+  console.log(displayComments);
+
   return (
     <CommentsPane>
       <CommentAddSection>
