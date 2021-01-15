@@ -2,6 +2,7 @@ import React from "react";
 import { UnwrappedRoutingPage as RoutingPage, messages } from "./";
 import { render, screen, fireEvent } from "tests/utils/rtl";
 import QuestionnaireContext from "components/QuestionnaireContext";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 // Avoid testing as deeply as DestinationSelector (requires significantly more props & setup)
 jest.mock("../DestinationSelector", () => () => <br />);
@@ -9,29 +10,16 @@ jest.mock("../DestinationSelector", () => () => <br />);
 describe("Routing Page", () => {
   let questionnaire, page;
   beforeEach(() => {
-    questionnaire = {
-      id: "questionnaire-1",
-      sections: [
-        {
-          id: "section-1",
-          position: 0,
-          pages: [
-            {
-              id: "page-1",
-              position: 0,
-            },
-            {
-              id: "page-2",
-              position: 1,
-            },
-          ],
-        },
-      ],
-    };
-    for (const page of questionnaire.sections[0].pages) {
+    questionnaire = buildQuestionnaire({
+      sectionCount: 1,
+      folderCount: 1,
+      pageCount: 2,
+    });
+    for (const page of questionnaire.sections[0].folders[0].pages) {
       page.section = questionnaire.sections[0];
+      page.folder = questionnaire.sections[0].folders[0];
     }
-    page = questionnaire.sections[0].pages[0];
+    page = questionnaire.sections[0].folders[0].pages[0];
   });
 
   const renderWithContext = children =>
@@ -49,7 +37,7 @@ describe("Routing Page", () => {
   it("should not allow adding routing to the last question in a questionnaire", () => {
     renderWithContext(
       <RoutingPage
-        page={questionnaire.sections[0].pages[1]}
+        page={questionnaire.sections[0].folders[0].pages[1]}
         createRouting={jest.fn()}
       />
     );

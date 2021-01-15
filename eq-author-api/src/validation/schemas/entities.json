@@ -1269,7 +1269,9 @@
         "condition": {
           "allOf": [
             {
-              "validateMultipleChoiceCondition": "condition",
+              "validateMultipleChoiceCondition": "condition"
+            },
+            {
               "$ref": "definitions.json#/definitions/populatedString"
             }
           ],
