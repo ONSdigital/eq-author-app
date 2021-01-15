@@ -1274,8 +1274,7 @@
             {
               "$ref": "definitions.json#/definitions/populatedString"
             }
-          ],
-          "validateMultipleChoiceCondition": "condition"
+          ]
         },
         "left": {
           "type": "object",
