@@ -246,7 +246,7 @@ describe("routing", () => {
         ctx
       );
 
-      ctx.questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup.expressions[0].condition =
+      ctx.questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup.expressions[0].condition =
         "Equal";
 
       await executeQuery(
