@@ -1168,9 +1168,6 @@
             "id",
             "label"
           ]
-        },
-        "qCode": {
-          "$ref": "definitions.json#/definitions/populatedString"
         }
       },
       "required": [
