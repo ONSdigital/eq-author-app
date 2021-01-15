@@ -9,7 +9,7 @@ module.exports = (
 ) => {
   const allPages = flatMap(
     ({ pages }) => pages,
-    flatMap(({ folders }) => folders)
+    flatMap(({ folders }) => folders, questionnaire.sections)
   );
   const allPagesAndConfirmations = flatMap(
     page => (page.confirmation ? [page, page.confirmation] : [page]),
