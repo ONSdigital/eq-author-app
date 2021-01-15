@@ -56,9 +56,9 @@ describe("DateRange", () => {
     ];
     props.answer.validationErrorInfo.errors = error;
 
-    const { getAllByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
+    const { getByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
 
-    expect(getAllByText(DATE_LABEL_REQUIRED)).toBeTruthy();
+    expect(getByText(DATE_LABEL_REQUIRED)).toBeTruthy();
   });
 
   it("should render an error message when date secondarylabel input is empty", () => {
@@ -73,9 +73,9 @@ describe("DateRange", () => {
     ];
     props.answer.validationErrorInfo.errors = error;
 
-    const { getAllByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
+    const { getByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
 
-    expect(getAllByText(DATE_LABEL_REQUIRED)).toBeTruthy();
+    expect(getByText(DATE_LABEL_REQUIRED)).toBeTruthy();
   });
 
 });
