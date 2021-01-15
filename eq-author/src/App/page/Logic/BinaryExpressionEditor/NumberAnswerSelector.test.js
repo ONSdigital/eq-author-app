@@ -2,7 +2,10 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, act, flushPromises } from "tests/utils/rtl";
 
-import { rightSideErrors } from "constants/validationMessages";
+import {
+  rightSideErrors,
+  OPERATOR_REQUIRED,
+} from "constants/validationMessages";
 
 import { Number } from "components/Forms";
 
@@ -72,8 +75,6 @@ describe("NumberAnswerSelector", () => {
     [NUMBER, UNIT, CURRENCY, PERCENTAGE].forEach(type => {
       defaultProps.expression.left.type = type;
 
-      // Needs to be reset on each iteration to ensure the input field can be tested properly, otherwise first expect will fail on iterations > 1
-
       // Ensure the input field is shown
       defaultProps.expression.condition = "Equal";
       const wrapperWithShownInput = shallow(
@@ -127,5 +128,23 @@ describe("NumberAnswerSelector", () => {
     expect(
       getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message)
     ).toBeTruthy();
+  });
+
+  it("should show error message when no operator is selected", () => {
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: OPERATOR_REQUIRED,
+      field: "condition",
+    };
+
+    const { getByText } = render(
+      <NumberAnswerSelector hasError {...defaultProps} />
+    );
+
+    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "80%");
+    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule(
+      "justify-content",
+      "flex-start"
+    );
+    expect(getByText(OPERATOR_REQUIRED)).toBeTruthy();
   });
 });
