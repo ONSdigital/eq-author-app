@@ -199,6 +199,7 @@ describe("RoutingDestinationContentPicker", () => {
       expect(utils.getByText("s1q4")).toBeVisible();
     });
 
+    // this test is going to become obsolete
     it("should only display first question in other sections", () => {
       const utils = defaultSetup();
       utils.clickOpen();
@@ -212,6 +213,7 @@ describe("RoutingDestinationContentPicker", () => {
       expect(utils.queryByText("s3q2")).toBeFalsy();
     });
 
+    // will revisit this test
     it("should not display any questions from same section when on last question", () => {
       const newData = props.data();
       newData.page.availableRoutingDestinations.pages = [];
@@ -226,10 +228,44 @@ describe("RoutingDestinationContentPicker", () => {
     it("should not display items outside of the current section within the content picker for an else destination", () => {
       const utils = modifiedSetup({ ...props, id: "else" });
       utils.clickOpen();
-      utils.debug();
       expect(utils.queryByText(/section1/)).toBeTruthy();
       expect(utils.queryByText(/section2/)).toBeFalsy();
       expect(utils.queryByText(/section3/)).toBeFalsy();
+    });
+
+    it("should show 'Current section' to have focus by default", () => {
+      const utils = defaultSetup();
+      utils.clickOpen();
+      expect(utils.getByText("Current section")).toHaveFocus();
+    });
+
+    it("should display question titles in 'Current section'", () => {
+      const utils = defaultSetup();
+      utils.clickOpen();
+      expect(utils.getByText("Current section")).toBeVisible();
+      fireEvent.click(utils.getByText("Later sections"));
+      expect(utils.getByText(/s1q3/)).toBeVisible();
+      expect(utils.getByText(/s1q4/)).toBeVisible();
+    });
+
+    it("should display section names when routing out to 'Later sections'", () => {
+      const utils = defaultSetup();
+      utils.clickOpen();
+      expect(utils.getByText("Later sections")).toBeVisible();
+      fireEvent.click(utils.getByText("Later sections"));
+      expect(utils.getByText(/section1/)).toBeFalsy();
+      expect(utils.getByText(/section2/)).toBeVisible();
+      expect(utils.getByText(/section3/)).toBeVisible();
+    });
+
+    it("should be able to choose 'Other destinations'", () => {
+      const utils = defaultSetup();
+      utils.clickOpen();
+      expect(utils.getByText("Other destinations")).toBeVisible();
+      fireEvent.click(utils.getByText("Later sections"));
+      expect(utils.getByText(/Next page/)).toBeVisible();
+      expect(utils.getByText(/End of current section/)).toBeVisible();
+      expect(utils.getByText(/End of questionnaire/)).toBeVisible();
     });
   });
 });

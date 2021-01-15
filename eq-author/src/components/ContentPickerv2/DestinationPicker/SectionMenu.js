@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { get } from "lodash";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import { last } from "lodash";
 
 import ScrollPane from "components/ScrollPane";
-import Menu from "./Menu";
-import SubMenu from "./SubMenu";
+import Truncated from "components/Truncated";
+import {
+  MenuItemList,
+  ParentMenuItem,
+  SubMenuItem,
+  MenuItemTitles,
+  MenuItemTitle,
+} from "../Menu";
+
+import { keyCodes } from "constants/keyCodes";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -17,49 +25,93 @@ const Column = styled.div`
   width: ${props => props.width}%;
 `;
 
-const SectionMenu = ({ data, onSelected, isSelected, ...otherProps }) => {
-  const [selectedSection, setSelectedSection] = useState(data[0]);
+// move to constants?
+const destinationKey = {
+  NextPage: "Next page",
+  EndOfQuestionnaire: "End of questionnaire",
+};
 
-  const sectionData = [
-    ...data,
-    {
-      id: "EndOfQuestionnaire",
-      displayName: "End of questionnaire",
-      pages: [
-        { id: "EndOfQuestionnaire", displayName: "End of questionnaire" },
-      ],
-    },
-  ];
+// rename this function
+const logicalDestinations = ({ pages, logicalDestinations }) => {
+  const dest = logicalDestinations.map(item => {
+    item.displayName = destinationKey[item.id];
+    return item;
+  });
+  dest.splice(1, 0, {
+    ...last(pages),
+    displayName: "End of current section",
+  });
+  return dest;
+};
 
-  const showNewSection = section => {
-    onSelected();
-    setSelectedSection(section);
+// rename in future
+const getData = data => [
+  {
+    title: "Current section",
+    destinations: data.pages,
+  },
+  {
+    title: "Later sections",
+    destinations: data.sections,
+  },
+  {
+    title: "Other destinations",
+    destinations: logicalDestinations(data),
+  },
+];
+
+const SectionMenu = ({ data, onSelected, isSelected }) => {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const sectionData = getData(data);
+
+  const { Enter, Space } = keyCodes;
+  const onEnterUp = (event, section) => {
+    if (event.key === Enter || event.key === Space) {
+      onSelected(section);
+    }
   };
-
-  const selectedPages = get(selectedSection, "pages", []);
 
   return (
     <ColumnContainer>
       <Column width={44}>
-        <ScrollPane background>
-          <Menu
-            data={sectionData}
-            {...otherProps}
-            onSelected={showNewSection}
-            isSelected={item =>
-              selectedSection && selectedSection.id === item.id
-            }
-          />
+        <ScrollPane>
+          {sectionData.map((item, index) => (
+            <ParentMenuItem
+              key={index}
+              onClick={() => setSelectedTab(index)}
+              tabIndex={"0"}
+              onKeyUp={event => {
+                (event.key === Enter || event.key === Space) &&
+                  setSelectedTab(index);
+              }}
+              aria-selected={index === selectedTab}
+            >
+              {item.title}
+            </ParentMenuItem>
+          ))}
         </ScrollPane>
       </Column>
       <Column width={56}>
-        <ScrollPane background>
-          <SubMenu
-            pages={selectedPages}
-            onSelected={onSelected}
-            isSelected={isSelected}
-            {...otherProps}
-          />
+        <ScrollPane>
+          <MenuItemList>
+            {sectionData[selectedTab].destinations.map(dest => {
+              return (
+                <SubMenuItem
+                  key={dest.id}
+                  aria-selected={isSelected(dest)}
+                  onClick={() => onSelected(dest)}
+                  tabIndex={0}
+                  onKeyUp={event => onEnterUp(event, dest)}
+                >
+                  <MenuItemTitles>
+                    <MenuItemTitle>
+                      <Truncated>{dest.displayName}</Truncated>
+                    </MenuItemTitle>
+                  </MenuItemTitles>
+                </SubMenuItem>
+              );
+            })}
+          </MenuItemList>
         </ScrollPane>
       </Column>
     </ColumnContainer>

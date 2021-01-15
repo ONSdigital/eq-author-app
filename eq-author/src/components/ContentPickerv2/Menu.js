@@ -38,7 +38,8 @@ export const MenuItem = styled.li`
   }
 
   &:focus {
-    outline: 1px solid ${colors.tertiary};
+    border: 1px solid ${colors.tertiary};
+    /* outline: 1px solid ${colors.tertiary}; */
     border-color: ${colors.tertiary};
     z-index: 4;
   }
@@ -208,7 +209,9 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
               </MenuItemTitles>
               <MenuItemType>{item.type}</MenuItemType>
               {item.type === UNIT && (
-                <MenuItemType>{item.properties.unit ? item.properties.unit : "Missing unit"}</MenuItemType>
+                <MenuItemType>
+                  {item.properties.unit ? item.properties.unit : "Missing unit"}
+                </MenuItemType>
               )}
             </SubMenuItem>
           );

@@ -145,9 +145,7 @@ const ContentPicker = ({
         return (
           <DestinationPicker
             onConfirm={handleConfirm}
-            onSelected={item => {
-              handleSelected(item);
-            }}
+            onSelected={item => handleSelected(item)}
             isSelected={isSelected}
             data={data}
           />
