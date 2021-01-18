@@ -237,9 +237,6 @@ exports.getQuestionnaire = `
               availableSummaryAnswers {
                 id
               }
-              skipConditions {
-                ...ExpressionGroup
-              }
             }
             ... on QuestionPage {
               description
