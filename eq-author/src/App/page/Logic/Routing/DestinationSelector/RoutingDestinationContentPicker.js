@@ -44,6 +44,8 @@ const selectedDisplayName = selected => {
   return logical ? logicalDisplayName(logical) : absoluteDisplayName(selected);
 };
 
+// have a problem with rendering speed right now
+// conditionally rendering with the data is causing it to render slower
 export const UnwrappedRoutingDestinationContentPicker = ({
   id,
   loading,
@@ -55,11 +57,8 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   const [isPickerOpen, setPickerOpen] = useState(false);
   // keep an eye on this
   // Have refactored it but i'm unsure it's good enough to catch null/undefined
-  const {
-    pages = [],
-    logicalDestinations = [],
-    sections = [],
-  } = data?.page?.availableRoutingDestinations;
+  const { pages = [], logicalDestinations = [], sections = [] } =
+    data?.page?.availableRoutingDestinations || [];
 
   const displayName = selectedDisplayName(selected, {
     pages,
@@ -140,13 +139,13 @@ const RoutingDestinationContentPicker = ({ pageId, ...otherProps }) => {
 
   return (
     <>
-      {data && (
-        <UnwrappedRoutingDestinationContentPicker
-          data={data}
-          loading={loading}
-          {...otherProps}
-        />
-      )}
+      {/* {data && ( */}
+      <UnwrappedRoutingDestinationContentPicker
+        data={data}
+        loading={loading}
+        {...otherProps}
+      />
+      {/* )} */}
     </>
   );
 };
