@@ -390,7 +390,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
 
   const displayComments = comments.map((item, index) => {
     const { replies } = comments[index];
-    const sortedReplies = replies.slice() || [];
+    let sortedReplies = replies.slice() || [];
     sortedReplies = sortedReplies.sort((a, b) =>
       b.createdTime > a.createdTime ? 1 : -1
     );
