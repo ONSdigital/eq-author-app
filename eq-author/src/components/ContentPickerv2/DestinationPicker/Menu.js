@@ -111,7 +111,9 @@ const Menu = ({ data, onSelected, isSelected }) => {
 };
 
 Menu.propTypes = {
-  data: PropTypes.arrayOf(CustomPropTypes.section),
+  // data: PropTypes.arrayOf(CustomPropTypes.section),
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object,
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };

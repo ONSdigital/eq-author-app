@@ -25,10 +25,12 @@ const MenuContainer = styled.div`
   height: 25em;
 `;
 
+export const Title = "Select a destination";
+
 const DestinationPicker = ({ data, onSelected, isSelected, ...otherProps }) => (
   <>
     <ModalHeader>
-      <ModalTitle>Select a destination</ModalTitle>
+      <ModalTitle>{Title}</ModalTitle>
     </ModalHeader>
     <MenuContainer>
       <Menu
@@ -41,8 +43,11 @@ const DestinationPicker = ({ data, onSelected, isSelected, ...otherProps }) => (
   </>
 );
 
+// need to correct this shape tomorrow
 DestinationPicker.propTypes = {
-  data: PropTypes.arrayOf(CustomPropTypes.section),
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object,
+  // data: PropTypes.arrayOf(CustomPropTypes.section),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };
