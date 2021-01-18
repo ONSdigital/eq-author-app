@@ -237,52 +237,43 @@
       ]
     },
     "totalValidation": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "const": false
-            }
-          }
-        },
-        {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "const": true
-            },
-            "entityType": {
-              "const": "Custom"
-            },
-            "custom": {
-              "not": {
-                "type": "null"
-              }
-            }
-          }
-        },
-        {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "const": true
-            },
-            "entityType": {
-              "const": "PreviousAnswer"
-            },
-            "previousAnswer": {
-              "not": {
-                "type": "null"
-              }
-            }
-          }
+      "if": {
+        "type": "object",
+        "properties": {
+          "enabled": { "const": true }
         }
-      ],
-      "errorMessage": "ERR_TOTAL_NO_VALUE"
+      },
+      "then": {
+        "allOf": [
+          {
+            "if": {
+              "properties": { "entityType": { "const": "Custom" } }
+            },
+            "then": {
+              "properties": { "custom": { "type": "number" } },
+              "errorMessage": "ERR_TOTAL_NO_VALUE"
+            }
+          },
+          {
+            "if": {
+              "properties": { "entityType": { "const": "PreviousAnswer" } }
+            },
+            "then": {
+              "allOf": [
+                {
+                  "properties": { "previousAnswer": { "not": { "type": "null" } } },
+                  "errorMessage": "ERR_TOTAL_NO_VALUE"
+                },
+                {
+                  "checkIdExists": {
+                    "$data": "1/properties/previousAnswer"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "confirmationPage": {
       "properties": {
