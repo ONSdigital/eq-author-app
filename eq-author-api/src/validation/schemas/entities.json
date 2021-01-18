@@ -893,6 +893,9 @@
           "secondaryQCode": {
             "$ref": "definitions.json#/definitions/populatedString"
           },
+          "secondaryLabel": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "validation": {
             "allOf": [
               {
