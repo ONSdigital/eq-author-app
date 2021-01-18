@@ -5,7 +5,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
 
-import Menu from "./SectionMenu";
+import Menu from "./Menu";
 
 const ModalTitle = styled.div`
   font-weight: bold;

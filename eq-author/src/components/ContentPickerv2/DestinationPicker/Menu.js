@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { last } from "lodash";
 
-import ScrollPane from "components/ScrollPane";
-import Truncated from "components/Truncated";
 import {
   MenuItemList,
   ParentMenuItem,
@@ -13,8 +11,11 @@ import {
   MenuItemTitles,
   MenuItemTitle,
 } from "../Menu";
+import ScrollPane from "components/ScrollPane";
+import Truncated from "components/Truncated";
 
 import { keyCodes } from "constants/keyCodes";
+import { destinationKey } from "constants/destinations";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -25,65 +26,55 @@ const Column = styled.div`
   width: ${props => props.width}%;
 `;
 
-// move to constants?
-const destinationKey = {
-  NextPage: "Next page",
-  EndOfQuestionnaire: "End of questionnaire",
-};
-
-// rename this function
-const logicalDestinations = ({ pages, logicalDestinations }) => {
+const otherDestinations = ({ pages, logicalDestinations }) => {
   const dest = logicalDestinations.map(item => {
     item.displayName = destinationKey[item.id];
     return item;
   });
   dest.splice(1, 0, {
     ...last(pages),
-    displayName: "End of current section",
+    displayName: destinationKey.EndOfCurrentSection,
   });
   return dest;
 };
 
-// rename in future
-const getData = data => [
-  {
+const buildTabs = data => ({
+  current: {
     title: "Current section",
     destinations: data.pages,
   },
-  {
+  later: {
     title: "Later sections",
     destinations: data.sections,
   },
-  {
+  other: {
     title: "Other destinations",
-    destinations: logicalDestinations(data),
+    destinations: otherDestinations(data),
   },
-];
+});
 
-const SectionMenu = ({ data, onSelected, isSelected }) => {
+const Menu = ({ data, onSelected, isSelected }) => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const sectionData = getData(data);
+
+  const { current, later, other } = buildTabs(data);
 
   const { Enter, Space } = keyCodes;
-  const onEnterUp = (event, section) => {
-    if (event.key === Enter || event.key === Space) {
-      onSelected(section);
-    }
-  };
+
+  const tabs = later.destinations ? [current, later, other] : [current, other];
 
   return (
     <ColumnContainer>
       <Column width={44}>
         <ScrollPane>
-          {sectionData.map((item, index) => (
+          {tabs.map((item, index) => (
             <ParentMenuItem
               key={index}
               onClick={() => setSelectedTab(index)}
               tabIndex={"0"}
-              onKeyUp={event => {
+              onKeyUp={event =>
                 (event.key === Enter || event.key === Space) &&
-                  setSelectedTab(index);
-              }}
+                setSelectedTab(index)
+              }
               aria-selected={index === selectedTab}
             >
               {item.title}
@@ -94,23 +85,24 @@ const SectionMenu = ({ data, onSelected, isSelected }) => {
       <Column width={56}>
         <ScrollPane>
           <MenuItemList>
-            {sectionData[selectedTab].destinations.map(dest => {
-              return (
-                <SubMenuItem
-                  key={dest.id}
-                  aria-selected={isSelected(dest)}
-                  onClick={() => onSelected(dest)}
-                  tabIndex={0}
-                  onKeyUp={event => onEnterUp(event, dest)}
-                >
-                  <MenuItemTitles>
-                    <MenuItemTitle>
-                      <Truncated>{dest.displayName}</Truncated>
-                    </MenuItemTitle>
-                  </MenuItemTitles>
-                </SubMenuItem>
-              );
-            })}
+            {tabs[selectedTab].destinations.map(dest => (
+              <SubMenuItem
+                key={dest.id}
+                aria-selected={isSelected(dest)}
+                onClick={() => onSelected(dest)}
+                tabIndex={0}
+                onKeyUp={event =>
+                  (event.key === Enter || event.key === Space) &&
+                  onSelected(dest)
+                }
+              >
+                <MenuItemTitles>
+                  <MenuItemTitle>
+                    <Truncated>{dest.displayName}</Truncated>
+                  </MenuItemTitle>
+                </MenuItemTitles>
+              </SubMenuItem>
+            ))}
           </MenuItemList>
         </ScrollPane>
       </Column>
@@ -118,10 +110,10 @@ const SectionMenu = ({ data, onSelected, isSelected }) => {
   );
 };
 
-SectionMenu.propTypes = {
+Menu.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.section),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };
 
-export default SectionMenu;
+export default Menu;
