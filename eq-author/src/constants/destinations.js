@@ -7,5 +7,5 @@ export const destinationKey = {
   [EndOfQuestionnaire]: "End of questionnaire",
   [EndOfCurrentSection]: "End of current section",
   [NextPage]: "Next page",
-  [Default]: "Default",
+  [Default]: "Select a destination",
 };
