@@ -207,7 +207,7 @@ const Resolvers = {
         questionnaireId
       );
       let sortedComments = comments[id] || [];
-      sortedComments = sortedComments.sort(
+      sortedComments.sort(
         (a, b) => b.createdTime - a.createdTime
       );
       return sortedComments;
