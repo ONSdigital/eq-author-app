@@ -389,8 +389,8 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const comments = get(data, "comments", []);
 
   const displayComments = comments.map((item, index) => {
-    const replies = comments[index].replies;
-    let sortedReplies = replies.slice() || [];
+    const { replies } = comments[index];
+    const sortedReplies = replies.slice() || [];
     sortedReplies = sortedReplies.sort((a, b) =>
       b.createdTime > a.createdTime ? 1 : -1
     );
