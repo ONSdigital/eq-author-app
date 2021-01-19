@@ -37,7 +37,7 @@ describe("Section", () => {
       groups: [
         {
           id: "groupf1",
-          title: "Section 1",
+          title: "",
           blocks: [expect.any(Block)],
         },
       ],
@@ -91,6 +91,29 @@ describe("Section", () => {
       const section = new Section(sectionJSON, createCtx());
 
       expect(section.groups).toHaveLength(2);
+    });
+  });
+
+  describe("Section introduction", () => {
+    it("should add introduction content to first group if present", () => {
+      const sectionJSON = createSectionJSON();
+      const title = "Hello, world!";
+      const description = "<h1>Hello, world!</h1>";
+      sectionJSON.introductionTitle = title;
+      sectionJSON.introductionContent = description;
+
+      const section = new Section(sectionJSON, createCtx());
+      const introBlock = section.groups[0].blocks[0];
+
+      expect(introBlock.title).toBe(title);
+      expect(introBlock.type).toBe("Interstitial");
+      expect(introBlock.description).toBe(description);
+    });
+
+    it("shouldn't add introduction block when there's no title / content", () => {
+      const sectionJSON = createSectionJSON();
+      const section = new Section(sectionJSON, createCtx());
+      expect(section.groups[0].blocks[0].type).not.toBe("Interstitial");
     });
   });
 });
