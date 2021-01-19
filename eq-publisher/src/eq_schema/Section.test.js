@@ -86,7 +86,7 @@ describe("Section", () => {
     });
 
     it("shouldn't merge disabled folders with previous enabled folder", () => {
-      sectionJSON.folders.push(sectionJSON.folders[0]);
+      sectionJSON.folders.push({ ...sectionJSON.folders[0] });
       sectionJSON.folders[0].enabled = true;
       const section = new Section(sectionJSON, createCtx());
 
