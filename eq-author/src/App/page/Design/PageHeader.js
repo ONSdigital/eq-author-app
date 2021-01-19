@@ -72,18 +72,10 @@ export class PageHeader extends React.Component {
     this.handleCloseMovePageDialog(() => this.props.onMovePage(args));
   };
 
-  isMoveDisabled = questionnaire => {
-    let id = null;
-    if (questionnaire.sections[0].pages.length) {
-      id = this.props.page.id === questionnaire.sections[0].pages[0].id;
-    }
-
-    const moreAnswers =
-      questionnaire.sections[0].pages.length > 1 ||
-      questionnaire.sections.length > 1;
-
-    return id && !moreAnswers;
-  };
+  isMoveDisabled = questionnaire =>
+    questionnaire.sections[0].folders[0].pages.length <= 1 &&
+    questionnaire.sections[0].folders.length <= 1 &&
+    questionnaire.sections.length === 1;
 
   renderMovePageModal = ({ loading, error, data }) => {
     const { page } = this.props;

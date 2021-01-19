@@ -48,11 +48,17 @@ describe("RoutingDestinationContentPicker", () => {
               {
                 id: "0f6cfdcf-7876-41f6-80e9-143fb6b85e69",
                 displayName: "section2",
-                pages: [
+                folders: [
                   {
-                    id: "0f6cfdcf-7876-41f6-80e9-143fb6b85e69",
-                    displayName: "s2q1",
-                    __typename: "Section",
+                    id: "folder-1",
+                    pages: [
+                      {
+                        id: "0f6cfdcf-7876-41f6-80e9-143fb6b85e69",
+                        displayName: "s2q1",
+                        __typename: "QuestionPage",
+                      },
+                    ],
+                    __typename: "Folder",
                   },
                 ],
                 __typename: "Section",
@@ -60,11 +66,17 @@ describe("RoutingDestinationContentPicker", () => {
               {
                 id: "d3ea428b-a30e-497f-aff3-6895560a1282",
                 displayName: "section3",
-                pages: [
+                folders: [
                   {
-                    id: "d3ea428b-a30e-497f-aff3-6895560a1282",
-                    displayName: "s3q1",
-                    __typename: "Section",
+                    id: "folder-2",
+                    pages: [
+                      {
+                        id: "d3ea428b-a30e-497f-aff3-6895560a1282",
+                        displayName: "s3q1",
+                        __typename: "QuestionPage",
+                      },
+                    ],
+                    __typename: "Folder",
                   },
                 ],
                 __typename: "Section",

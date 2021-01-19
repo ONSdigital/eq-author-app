@@ -2,29 +2,21 @@ import React from "react";
 import { render } from "tests/utils/rtl";
 import { withRouter } from "react-router-dom";
 import PageNav from "./PageNav";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 describe("PageNav", () => {
   let Component, handleDelete;
 
-  const questionnaire = { id: "1", title: "Questionnaire" };
-  const pages = [
-    {
-      id: "2",
-      title: "Page",
-      displayName: "Page",
-      confirmation: {
-        id: "4",
-        title: "Confirmation Page",
-        __typename: "QuestionConfirmation",
-        displayName: "Confirmation page",
-      },
-    },
-  ];
-  const section = { id: "3", title: "Section", pages: pages, number: 1 };
+  const questionnaire = buildQuestionnaire();
+  questionnaire.sections[0].folders[0].pages[0].confirmation = {
+    id: "4",
+    title: "Confirmation Page",
+    __typename: "QuestionConfirmation",
+    displayName: "Confirmation page",
+  };
 
   beforeEach(() => {
     handleDelete = jest.fn(() => Promise.resolve());
-
     Component = withRouter(PageNav);
   });
 
@@ -32,7 +24,7 @@ describe("PageNav", () => {
     const { getByText } = render(
       <Component
         questionnaire={questionnaire}
-        section={section}
+        section={questionnaire.sections[0]}
         onDelete={handleDelete}
       />,
       {
@@ -40,7 +32,7 @@ describe("PageNav", () => {
         urlParamMatcher: "/q/:questionnaireId",
       }
     );
-    expect(getByText("Page")).toBeTruthy();
+    expect(getByText("Page 1.1.1")).toBeTruthy();
     expect(getByText("Confirmation page")).toBeTruthy();
   });
 });

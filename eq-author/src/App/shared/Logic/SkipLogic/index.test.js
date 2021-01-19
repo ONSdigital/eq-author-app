@@ -66,6 +66,11 @@ describe("Routes/SkipLogic", () => {
         id: "section-1",
         position: 0,
       },
+      folder: {
+        __typename: "Folder",
+        id: "folder-1",
+        position: 0,
+      },
       validationErrorInfo: {
         __typename: "ValidationErrorInfo",
         id: "valid-1",

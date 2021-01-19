@@ -1,6 +1,18 @@
 mutation MovePage($input: MovePageInput!) {
   movePage(input: $input) {
-    id
     position
+    id
+    title
+    section {
+      id
+      folders {
+        id
+        position
+        pages {
+          id
+          position
+        }
+      }
+    }
   }
 }

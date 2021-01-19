@@ -37,6 +37,7 @@ const createQuestionPage = async (ctx, input) => {
             guidance
             guidanceEnabled
             sectionId
+            folderId
             position
             definitionLabel
             definitionContent

@@ -14,9 +14,9 @@ const getPagePositionModal = wrapper =>
   wrapper.find(byTestAttr("page-position-modal"));
 
 describe("MovePageModal", () => {
-  const questionnaire = buildQuestionnaire();
+  const questionnaire = buildQuestionnaire({ sectionCount: 2 });
   const currentSection = questionnaire.sections[0];
-  const currentPage = currentSection.pages[0];
+  const currentPage = currentSection.folders[0].pages[0];
 
   const createWrapper = (props = {}, render = shallow) =>
     render(
@@ -73,8 +73,8 @@ describe("MovePageModal", () => {
 
     getSectionItem(wrapper).simulate("change", { value: selectedSection.id });
 
-    expect(wrapper.find("PositionModal").prop("options")).toBe(
-      selectedSection.pages
+    expect(wrapper.find("PositionModal").prop("options")).toStrictEqual(
+      selectedSection.folders.flatMap(({ pages }) => pages)
     );
   });
 });

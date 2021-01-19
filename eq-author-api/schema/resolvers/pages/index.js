@@ -1,6 +1,15 @@
-const { find, findIndex, remove, omit, set, first } = require("lodash");
+const { omit, remove } = require("lodash");
 
-const { getSectionByPageId, remapAllNestedIds } = require("../utils");
+const {
+  getSectionByPageId,
+  remapAllNestedIds,
+  getSectionById,
+  getPageById,
+  getMovePosition,
+  createFolder,
+  getFolderById,
+  getFolderByPageId,
+} = require("../utils");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
@@ -8,51 +17,102 @@ const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
 const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../../src/businessLogic/deleteLastPageRouting");
+const onFolderDeleted = require("../../../src/businessLogic/onFolderDeleted");
 
 const Resolvers = {};
 
 Resolvers.Page = {
   __resolveType: ({ pageType }) => pageType,
-  position: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    return findIndex(section.pages, { id });
-  },
 };
 
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
-    const section = getSectionByPageId(ctx, input.id);
-    const removedPage = first(remove(section.pages, { id: input.id }));
-    if (input.sectionId === section.id) {
-      section.pages.splice(input.position, 0, removedPage);
-    } else {
-      const newsection = find(ctx.questionnaire.sections, {
-        id: input.sectionId,
-      });
-      newsection.pages.splice(input.position, 0, removedPage);
+    const { id: pageId, sectionId, folderId, position } = input;
+
+    const page = getPageById(ctx, pageId);
+    const oldSection = getSectionByPageId(ctx, pageId);
+    const oldFolder = getFolderByPageId(ctx, pageId);
+    const newSection = getSectionById(ctx, sectionId);
+
+    const oldPages = oldFolder.pages;
+    oldPages.splice(oldPages.indexOf(page), 1);
+
+    if (!oldPages.length) {
+      if (oldSection.folders.length > 1 && !oldFolder.enabled) {
+        const removedFolder = remove(oldSection.folders, {
+          id: oldFolder.id,
+        });
+        onFolderDeleted(ctx, removedFolder);
+      } else {
+        oldPages.push(createQuestionPage());
+      }
     }
+
+    if (folderId) {
+      const folder = getFolderById(ctx, folderId);
+      folder.pages.splice(position, 0, page);
+      page.folderId = folder.id;
+    } else {
+      const { folders } = newSection;
+      const newFolder = createFolder({ pages: [page] });
+      folders.splice(position, 0, newFolder);
+      page.folderId = newFolder.id;
+    }
+
     deleteFirstPageSkipConditions(ctx);
     deleteLastPageRouting(ctx);
-    return removedPage;
+
+    return { ...page, sectionId: newSection.id };
   }),
+
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
-    const removedPage = first(remove(section.pages, { id: input.id }));
-    onPageDeleted(ctx, section, removedPage);
+    const { previous } = getMovePosition(section, input.id, 0);
+    section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
+
+    onPageDeleted(ctx, section, previous.page);
+
+    if (!section.folders[previous.folderIndex].pages.length) {
+      if (section.folders.length > 1) {
+        // If this isn't the section's last folder - delete it if it's empty
+        const [deletedFolder] = section.folders.splice(previous.folderIndex, 1);
+        onFolderDeleted(ctx, deletedFolder);
+      } else {
+        // If this is the section's last folder, re-populate it with a new question
+        const newPage = createQuestionPage();
+        section.folders[previous.folderIndex].pages.push(newPage);
+      }
+    }
+
     deleteFirstPageSkipConditions(ctx);
     deleteLastPageRouting(ctx);
+
     return section;
   }),
 
   duplicatePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
-    const page = find(section.pages, { id: input.id });
+    const page = getPageById(ctx, input.id);
     const newpage = omit(page, "id");
-    set(newpage, "alias", addPrefix(newpage.alias));
-    set(newpage, "title", addPrefix(newpage.title));
+    newpage.alias = addPrefix(newpage.alias);
+    newpage.title = addPrefix(newpage.title);
     const duplicatedPage = createQuestionPage(newpage);
     const remappedPage = remapAllNestedIds(duplicatedPage);
-    section.pages.splice(input.position, 0, remappedPage);
+    const { previous } = getMovePosition(section, input.id, input.position);
+    const previousFolder = section.folders[previous.folderIndex];
+
+    if (previousFolder.enabled) {
+      previousFolder.pages.splice(input.position, 0, remappedPage);
+    } else {
+      section.folders.splice(
+        previous.folderIndex + 1,
+        0,
+        createFolder({
+          pages: [remappedPage],
+        })
+      );
+    }
+
     return remappedPage;
   }),
 };

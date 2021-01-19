@@ -1,22 +1,14 @@
-const {
-  merge,
-  includes,
-  flatten,
-  values,
-  omit,
-  find,
-  get,
-} = require("lodash/fp");
+const { includes, flatten, values, omit, find, get } = require("lodash/fp");
 const { v4: uuidv4 } = require("uuid");
 const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties");
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
 const {
   createDefaultValidationsForAnswer,
 } = require("../../src/businessLogic/createValidation");
+const { merge } = require("lodash");
 
 module.exports = (answer, page) => {
-  const defaultProperties = getDefaultAnswerProperties(answer.type);
-  let properties = defaultProperties;
+  let properties = getDefaultAnswerProperties(answer.type);
 
   if (get("answers", page)) {
     const existingAnswerTypes = page.answers.map(a => a.type);

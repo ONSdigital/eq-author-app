@@ -70,11 +70,13 @@ export const UnwrappedSectionNavItem = props => {
 
   let questionErrorCount = 0;
 
-  section.pages.map(item => {
-    questionErrorCount =
-      questionErrorCount + item.validationErrorInfo.totalCount;
-    return questionErrorCount;
-  });
+  section.folders.map(({ pages }) =>
+    pages.map(item => {
+      questionErrorCount =
+        questionErrorCount + item.validationErrorInfo.totalCount;
+      return questionErrorCount;
+    })
+  );
 
   const SectionTitle = useCallback(
     isOpen => (

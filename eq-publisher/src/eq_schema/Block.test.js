@@ -201,7 +201,7 @@ describe("Block", () => {
     beforeEach(() => {
       const buildSkipConditions = questionnaire => {
         const newQuestionnaire = JSON.parse(JSON.stringify(questionnaire));
-        const pages = newQuestionnaire.sections[0].pages;
+        const pages = newQuestionnaire.sections[0].folders[0].pages;
         const answers = pages.map(({ answers }) => answers[0]);
         answers[0].type = NUMBER;
 
@@ -232,7 +232,7 @@ describe("Block", () => {
     });
     it("should translate skip conditions correctly", () => {
       const block = new Block(
-        mockQuestionnaireWithSkip.sections[0].pages[1],
+        mockQuestionnaireWithSkip.sections[0].folders[0].pages[1],
         null,
         newCtx
       );

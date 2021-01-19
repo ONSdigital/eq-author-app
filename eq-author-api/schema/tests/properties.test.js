@@ -15,11 +15,15 @@ const {
 const { CURRENCY, NUMBER, DATE } = require("../../constants/answerTypes");
 
 describe("properties", () => {
-  let ctx, questionnaire, section, page;
+  let ctx, questionnaire, section, folder, page;
   let config = {
     sections: [
       {
-        pages: [{}],
+        folders: [
+          {
+            pages: [{}],
+          },
+        ],
       },
     ],
   };
@@ -28,7 +32,8 @@ describe("properties", () => {
     ctx = await buildContext(config);
     questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
-    page = last(section.pages);
+    folder = last(section.folders);
+    page = last(folder.pages);
   });
 
   afterAll(async () => {

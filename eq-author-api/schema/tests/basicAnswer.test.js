@@ -27,9 +27,17 @@ describe("basic answer", () => {
 
   describe("create", () => {
     [NUMBER, CURRENCY, TEXTFIELD, DURATION].forEach(async type => {
-      it(`should create an ${type} answer`, async () => {
+      it(`should create a ${type} answer`, async () => {
         ctx = await buildContext({
-          sections: [{ pages: [{}] }],
+          sections: [
+            {
+              folders: [
+                {
+                  pages: [{}],
+                },
+              ],
+            },
+          ],
         });
         questionnaire = ctx.questionnaire;
 
@@ -40,7 +48,7 @@ describe("basic answer", () => {
           secondaryLabel: "answer-secondaryLabel",
           qCode: "answer-qcode",
           type,
-          questionPageId: questionnaire.sections[0].pages[0].id,
+          questionPageId: questionnaire.sections[0].folders[0].pages[0].id,
         });
 
         expect(answer).toEqual(
@@ -61,20 +69,24 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    description: "answer-description",
-                    guidance: "answer-guidance",
-                    label: "answer-label",
-                    secondaryLabel: "answer-secondaryLabel",
-                    qCode: "answer-qcode",
-                    type: NUMBER,
-                    properties: {
-                      decimals: 2,
-                      required: false,
-                    },
+                    answers: [
+                      {
+                        description: "answer-description",
+                        guidance: "answer-guidance",
+                        label: "answer-label",
+                        secondaryLabel: "answer-secondaryLabel",
+                        qCode: "answer-qcode",
+                        type: NUMBER,
+                        properties: {
+                          decimals: 2,
+                          required: false,
+                        },
+                      },
+                    ],
                   },
                 ],
               },
@@ -84,7 +96,7 @@ describe("basic answer", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const answer = questionnaire.sections[0].pages[0].answers[0];
+      const answer = questionnaire.sections[0].folders[0].pages[0].answers[0];
       const update = {
         id: answer.id,
         description: "answer-description-update",
@@ -109,11 +121,15 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -122,7 +138,7 @@ describe("basic answer", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       await updateAnswersOfType(ctx, {
         questionPageId: page.id,
         type: NUMBER,
@@ -131,7 +147,7 @@ describe("basic answer", () => {
 
       const answer = await createAnswer(ctx, {
         type: NUMBER,
-        questionPageId: questionnaire.sections[0].pages[0].id,
+        questionPageId: questionnaire.sections[0].folders[0].pages[0].id,
       });
 
       const queriedAnswer = await queryAnswer(ctx, answer.id);
@@ -143,26 +159,30 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                    properties: {
-                      decimals: 1,
-                    },
-                  },
-                  {
-                    type: NUMBER,
-                    properties: {
-                      decimals: 1,
-                    },
-                  },
-                  {
-                    type: CURRENCY,
-                    properties: {
-                      decimals: 0,
-                    },
+                    answers: [
+                      {
+                        type: NUMBER,
+                        properties: {
+                          decimals: 1,
+                        },
+                      },
+                      {
+                        type: NUMBER,
+                        properties: {
+                          decimals: 1,
+                        },
+                      },
+                      {
+                        type: CURRENCY,
+                        properties: {
+                          decimals: 0,
+                        },
+                      },
+                    ],
                   },
                 ],
               },
@@ -171,7 +191,7 @@ describe("basic answer", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
 
       const updatedAnswers = await updateAnswersOfType(ctx, {
         questionPageId: page.id,
@@ -206,12 +226,16 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
-                  { type: NUMBER },
-                  { type: CURRENCY },
-                  { type: TEXTFIELD },
+                pages: [
+                  {
+                    answers: [
+                      { type: NUMBER },
+                      { type: CURRENCY },
+                      { type: TEXTFIELD },
+                    ],
+                  },
                 ],
               },
             ],
@@ -220,7 +244,7 @@ describe("basic answer", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const answers = questionnaire.sections[0].pages[0].answers;
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
       const currentAnswerOrder = answers.map(a => a.id);
 
       const answerToMoveId = currentAnswerOrder[0];
@@ -240,12 +264,16 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
-                  { type: NUMBER },
-                  { type: CURRENCY },
-                  { type: TEXTFIELD },
+                pages: [
+                  {
+                    answers: [
+                      { type: NUMBER },
+                      { type: CURRENCY },
+                      { type: TEXTFIELD },
+                    ],
+                  },
                 ],
               },
             ],
@@ -254,7 +282,7 @@ describe("basic answer", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const answers = questionnaire.sections[0].pages[0].answers;
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
       const currentAnswerOrder = answers.map(a => a.id);
 
       const movedAnswer = await moveAnswer(ctx, {
@@ -276,19 +304,23 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                    description: "",
-                    guidance: "",
-                    label: "",
-                    secondaryLabel: "",
-                    qCode: "",
-                    properties: {
-                      required: false,
-                    },
+                    answers: [
+                      {
+                        type: NUMBER,
+                        description: "",
+                        guidance: "",
+                        label: "",
+                        secondaryLabel: "",
+                        qCode: "",
+                        properties: {
+                          required: false,
+                        },
+                      },
+                    ],
                   },
                 ],
               },
@@ -297,7 +329,7 @@ describe("basic answer", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      answer = questionnaire.sections[0].pages[0].answers[0];
+      answer = questionnaire.sections[0].folders[0].pages[0].answers[0];
       queriedAnswer = await queryAnswer(ctx, answer.id);
     });
 
@@ -325,7 +357,7 @@ describe("basic answer", () => {
 
     it("should resolve page", () => {
       expect(queriedAnswer.page.id).toEqual(
-        questionnaire.sections[0].pages[0].id
+        questionnaire.sections[0].folders[0].pages[0].id
       );
     });
 
@@ -357,11 +389,15 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -370,7 +406,7 @@ describe("basic answer", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const answer = questionnaire.sections[0].pages[0].answers[0];
+      const answer = questionnaire.sections[0].folders[0].pages[0].answers[0];
       await deleteAnswer(ctx, answer.id);
       const deletedAnswer = await queryAnswer(ctx, answer.id);
       expect(deletedAnswer).toBeNull();
@@ -380,11 +416,15 @@ describe("basic answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -393,9 +433,9 @@ describe("basic answer", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const answer = questionnaire.sections[0].pages[0].answers[0];
+      const answer = questionnaire.sections[0].folders[0].pages[0].answers[0];
       const page = await deleteAnswer(ctx, answer.id);
-      expect(page.id).toEqual(questionnaire.sections[0].pages[0].id);
+      expect(page.id).toEqual(questionnaire.sections[0].folders[0].pages[0].id);
     });
   });
 });
