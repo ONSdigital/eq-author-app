@@ -23,7 +23,7 @@ module.exports = (
   );
 
   const pagesToInclude = includeSelf
-    ? [currentPage, ...pagesBeforeCurrent]
+    ? [...pagesBeforeCurrent, currentPage]
     : pagesBeforeCurrent;
 
   const answers = compact(flatMap(page => page.answers, pagesToInclude));
