@@ -261,13 +261,14 @@
             "then": {
               "allOf": [
                 {
-                  "properties": { "previousAnswer": { "not": { "type": "null" } } },
-                  "errorMessage": "ERR_TOTAL_NO_VALUE"
+                  "checkIdExists": {
+                    "$data": "0/previousAnswer"
+                  },
+                  "errorMessage": "TEST_ERROR"
                 },
                 {
-                  "checkIdExists": {
-                    "$data": "1/properties/previousAnswer"
-                  }
+                  "properties": { "previousAnswer": { "not": { "type": "null" } } },
+                  "errorMessage": "ERR_TOTAL_NO_VALUE"
                 }
               ]
             }
@@ -1305,8 +1306,7 @@
             "required": [
               "type"
             ],
-            "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
-            "validateExclusiveCheckbox": "right"
+            "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
           }
         }
       },

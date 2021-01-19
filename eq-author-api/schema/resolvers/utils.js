@@ -183,7 +183,8 @@ const remapAllNestedIds = entity => {
 };
 
 // Transforms questionnaire into a hash map, mapping IDs to absolute positions
-const generateOrderedIdMap = ctx => {
+// Thereafter allows O(1) lookup to check if IDs exist & get their positions
+const generateOrderedIdMap = ({ questionnaire }) => {
   const map = new Map();
 
   const traverseIds = obj => {
@@ -204,7 +205,7 @@ const generateOrderedIdMap = ctx => {
     });
   };
 
-  traverseIds(ctx.questionnaire);
+  traverseIds(questionnaire);
   return map;
 };
 
@@ -231,7 +232,7 @@ const getOrderedIdMap = ctx => {
     result: generateOrderedIdMap(ctx),
   };
 
-  return getOrderedIdMap.result;
+  return getOrderedIdMap.lastInvokation.result;
 };
 
 // Efficiently check if questionnaire contains entity with given id

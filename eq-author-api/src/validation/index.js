@@ -40,7 +40,12 @@ const formatErrorMessage = (error, questionnaire) => {
 };
 
 module.exports = questionnaire => {
-  const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
+  const ajv = new Ajv({
+    allErrors: true,
+    jsonPointers: true,
+    $data: true,
+    strictKeywords: true,
+  });
   require("ajv-errors")(ajv);
   require("./customKeywords")(ajv);
   require("ajv-keywords")(ajv, "select");

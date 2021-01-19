@@ -13,4 +13,5 @@ module.exports = ajv => {
   require("./validateRoutingRules")(ajv);
   require("./validateRoutingLogicalAND")(ajv);
   require("./validatePipingInTitle")(ajv);
+  require("./checkIdExists")(ajv);
 };
