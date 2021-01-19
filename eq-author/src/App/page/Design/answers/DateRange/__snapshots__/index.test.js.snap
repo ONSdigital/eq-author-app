@@ -7,18 +7,20 @@ exports[`DateRange should render 1`] = `
   <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
-        "childAnswers": Array [
-          Object {
-            "id": "1from",
-            "label": "Period from",
-          },
-          Object {
-            "id": "1to",
-            "label": "Period to",
-          },
-        ],
+        "description": "test",
+        "displayName": "Untitled answer",
+        "guidance": "",
         "id": "1",
-        "label": "Lorem ipsum",
+        "label": "",
+        "properties": Object {
+          "required": false,
+        },
+        "qCode": "yuky",
+        "secondaryLabel": "",
+        "type": "DateRange",
+        "validationErrorInfo": Object {
+          "errors": Array [],
+        },
       }
     }
     key="from-1"
@@ -39,18 +41,20 @@ exports[`DateRange should render 1`] = `
   <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
-        "childAnswers": Array [
-          Object {
-            "id": "1from",
-            "label": "Period from",
-          },
-          Object {
-            "id": "1to",
-            "label": "Period to",
-          },
-        ],
+        "description": "test",
+        "displayName": "Untitled answer",
+        "guidance": "",
         "id": "1",
-        "label": "Lorem ipsum",
+        "label": "",
+        "properties": Object {
+          "required": false,
+        },
+        "qCode": "yuky",
+        "secondaryLabel": "",
+        "type": "DateRange",
+        "validationErrorInfo": Object {
+          "errors": Array [],
+        },
       }
     }
     key="to-1"
