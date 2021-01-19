@@ -116,7 +116,7 @@ describe("RoutingDestinationContentPicker", () => {
   it("should render", () => {
     const utils = defaultSetup();
     utils.clickOpen();
-    expect(utils.getByText("Select a question")).toBeVisible();
+    expect(utils.getByText("Select a destination")).toBeVisible();
   });
 
   it("should fire onSubmit with destination when confirming", () => {
@@ -186,86 +186,6 @@ describe("RoutingDestinationContentPicker", () => {
       expect(utils.getByTestId("content-picker-select")).toHaveAttribute(
         "disabled"
       );
-    });
-  });
-
-  describe("displaying destinations", () => {
-    it("should only display questions after the current question in the section", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-      expect(utils.queryByText("s1q1")).toBeFalsy();
-
-      expect(utils.getByText("s1q3")).toBeVisible();
-      expect(utils.getByText("s1q4")).toBeVisible();
-    });
-
-    // this test is going to become obsolete
-    it("should only display first question in other sections", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-
-      utils.clickByText("section2");
-      expect(utils.getByText("s2q1")).toBeVisible();
-      expect(utils.queryByText("s2q2")).toBeFalsy();
-
-      utils.clickByText("section3");
-      expect(utils.getByText("s3q1")).toBeVisible();
-      expect(utils.queryByText("s3q2")).toBeFalsy();
-    });
-
-    // will revisit this test
-    it("should not display any questions from same section when on last question", () => {
-      const newData = props.data();
-      newData.page.availableRoutingDestinations.pages = [];
-
-      const utils = modifiedSetup({ ...props, data: () => newData });
-
-      utils.clickOpen();
-      expect(utils.queryByText(/s1/)).toBeFalsy();
-      expect(utils.getByText("s2q1")).toBeVisible();
-    });
-
-    it("should not display items outside of the current section within the content picker for an else destination", () => {
-      const utils = modifiedSetup({ ...props, id: "else" });
-      utils.clickOpen();
-      expect(utils.queryByText(/section1/)).toBeTruthy();
-      expect(utils.queryByText(/section2/)).toBeFalsy();
-      expect(utils.queryByText(/section3/)).toBeFalsy();
-    });
-
-    it("should show 'Current section' to have focus by default", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-      expect(utils.getByText("Current section")).toHaveFocus();
-    });
-
-    it("should display question titles in 'Current section'", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-      expect(utils.getByText("Current section")).toBeVisible();
-      fireEvent.click(utils.getByText("Later sections"));
-      expect(utils.getByText(/s1q3/)).toBeVisible();
-      expect(utils.getByText(/s1q4/)).toBeVisible();
-    });
-
-    it("should display section names when routing out to 'Later sections'", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-      expect(utils.getByText("Later sections")).toBeVisible();
-      fireEvent.click(utils.getByText("Later sections"));
-      expect(utils.getByText(/section1/)).toBeFalsy();
-      expect(utils.getByText(/section2/)).toBeVisible();
-      expect(utils.getByText(/section3/)).toBeVisible();
-    });
-
-    it("should be able to choose 'Other destinations'", () => {
-      const utils = defaultSetup();
-      utils.clickOpen();
-      expect(utils.getByText("Other destinations")).toBeVisible();
-      fireEvent.click(utils.getByText("Later sections"));
-      expect(utils.getByText(/Next page/)).toBeVisible();
-      expect(utils.getByText(/End of current section/)).toBeVisible();
-      expect(utils.getByText(/End of questionnaire/)).toBeVisible();
     });
   });
 });

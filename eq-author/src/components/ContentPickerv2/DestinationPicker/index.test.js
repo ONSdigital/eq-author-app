@@ -3,13 +3,6 @@ import { render } from "tests/utils/rtl";
 
 import DestinationPicker, { Title } from "./";
 
-// Oh boy this is gonna be a fun one
-
-// will be a really good opportunity to refactor some tests
-// jest.mock("./Menu.js", () => {
-//   return "menu";
-// });
-
 const data = () => ({
   logicalDestinations: [
     {

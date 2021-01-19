@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
 
@@ -14,7 +13,7 @@ const ModalTitle = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  padding: 1.5em 1em 1.5em;
+  padding: 1.5em 1em;
   border-bottom: 1px solid ${colors.bordersLight};
   display: flex;
   align-items: center;
@@ -47,7 +46,6 @@ const DestinationPicker = ({ data, onSelected, isSelected, ...otherProps }) => (
 DestinationPicker.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object,
-  // data: PropTypes.arrayOf(CustomPropTypes.section),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };

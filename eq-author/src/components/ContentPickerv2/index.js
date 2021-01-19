@@ -184,11 +184,14 @@ const ContentPicker = ({
 };
 
 ContentPicker.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    })
-  ),
+  data: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      })
+    ),
+  ]),
   startingSelectedAnswers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

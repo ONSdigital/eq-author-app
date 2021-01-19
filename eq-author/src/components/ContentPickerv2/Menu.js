@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 import iconChevron from "./icon-chevron-small.svg";
@@ -39,7 +39,6 @@ export const MenuItem = styled.li`
 
   &:focus {
     border: 1px solid ${colors.tertiary};
-    /* outline: 1px solid ${colors.tertiary}; */
     border-color: ${colors.tertiary};
     z-index: 4;
   }
@@ -57,16 +56,17 @@ export const ParentMenuItem = styled(MenuItem)`
     right: 0.5em;
     opacity: 0.5;
   }
-
-  &[aria-selected="true"] {
-    background: #f3f3f3;
-    &::after {
-      opacity: 1;
-    }
-    &:hover {
-      background: #f3f3f3;
-    }
-  }
+  ${props =>
+    props["aria-selected"] &&
+    css`
+      background-color: #f3f3f3;
+      &::after {
+        opacity: 1;
+      }
+      &:hover {
+        background: #f3f3f3;
+      }
+    `}
 `;
 
 export const SubMenuItem = styled(MenuItem)`
@@ -74,18 +74,20 @@ export const SubMenuItem = styled(MenuItem)`
   --colorSecondary: ${colors.textLight};
   --colorTertiary: ${colors.text};
 
-  &[aria-selected="true"] {
-    --color: ${colors.white};
-    --colorSecondary: ${colors.white};
+  ${props =>
+    props["aria-selected"] &&
+    css`
+      background-color: ${colors.primary};
+      --color: ${colors.white};
+      --colorSecondary: ${colors.white};
 
-    background: ${colors.primary};
-    border-color: #377090;
-    z-index: 2;
+      border-color: #377090;
+      z-index: 2;
 
-    &:hover {
-      background: #397596;
-    }
-  }
+      &:hover {
+        background: #397596;
+      }
+    `}
 `;
 
 export const MenuItemTitles = styled.div`

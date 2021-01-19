@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 import { last } from "lodash";
 
 import {
@@ -26,6 +25,14 @@ const Column = styled.div`
   width: ${props => props.width}%;
 `;
 
+const { Enter, Space } = keyCodes;
+
+export const tabTitles = {
+  current: "Current section",
+  later: "Later sections",
+  other: "Other destinations",
+};
+
 const otherDestinations = ({ pages, logicalDestinations }) => {
   const dest = logicalDestinations.map(item => {
     item.displayName = destinationKey[item.id];
@@ -40,15 +47,15 @@ const otherDestinations = ({ pages, logicalDestinations }) => {
 
 const buildTabs = data => ({
   current: {
-    title: "Current section",
+    title: tabTitles.current,
     destinations: data.pages,
   },
   later: {
-    title: "Later sections",
+    title: tabTitles.later,
     destinations: data.sections,
   },
   other: {
-    title: "Other destinations",
+    title: tabTitles.other,
     destinations: otherDestinations(data),
   },
 });
@@ -58,12 +65,11 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { current, later, other } = buildTabs(data);
 
-  const { Enter, Space } = keyCodes;
-
+  // might not need later.destinations
   const tabs = later.destinations ? [current, later, other] : [current, other];
 
   return (
-    <ColumnContainer>
+    <ColumnContainer data-test="destination-picker-menu">
       <Column width={44}>
         <ScrollPane>
           {tabs.map((item, index) => (

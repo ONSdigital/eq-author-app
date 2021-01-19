@@ -68,7 +68,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
     onSubmit({ name: "routingDestination", value: selected });
   };
 
-  const isElse =
+  const contentData =
     id === "else"
       ? { pages, logicalDestinations }
       : { pages, logicalDestinations, sections };
@@ -85,7 +85,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
       </ContentSelectButton>
       <ContentPicker
         isOpen={isPickerOpen}
-        data={isElse}
+        data={contentData}
         onClose={() => setPickerOpen(false)}
         onSubmit={handlePickerSubmit}
         data-test="picker"
