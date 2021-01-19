@@ -433,6 +433,9 @@ const getCommentsForQuestionnaire = async questionnaireId => {
     const comments = await collection.findOne({
       questionnaireId: questionnaireId,
     });
+    if (!comments) {
+      return createComments(questionnaireId);
+    }
     return comments;
   } catch (error) {
     logger.error(
