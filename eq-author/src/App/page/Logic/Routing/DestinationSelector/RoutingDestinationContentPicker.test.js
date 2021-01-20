@@ -1,9 +1,13 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import { UnwrappedRoutingDestinationContentPicker as DestinationContentPicker } from "./RoutingDestinationContentPicker";
+import { RoutingDestinationContentPicker as DestinationContentPicker } from "./RoutingDestinationContentPicker";
+import { useQuery } from "@apollo/react-hooks";
 
 const props = {
   selected: { logical: "NextPage" },
+};
+
+const queryResult = {
   loading: false,
   data: () => ({
     page: {
@@ -75,13 +79,22 @@ const props = {
   }),
 };
 
-function setup({ data, loading, selected, ...extra }) {
+jest.mock("@apollo/react-hooks", () => ({
+  __esModule: true,
+  useQuery: jest.fn(),
+}));
+
+useQuery.mockImplementation(() => ({
+  data: queryResult.data(),
+  loading: queryResult.loading,
+}));
+
+function setup({ selected, ...extra }) {
   const onSubmit = jest.fn();
 
   const utils = render(
     <DestinationContentPicker
-      data={data()}
-      loading={loading}
+      pageId={"2"}
       selected={selected}
       onSubmit={onSubmit}
       {...extra}
@@ -155,6 +168,17 @@ describe("RoutingDestinationContentPicker", () => {
     expect(queryByText("Later sections")).toBeNull();
   });
 
+  it("should render with no display name if loading and next page selected", () => {
+    useQuery.mockImplementationOnce(() => ({
+      data: queryResult.data(),
+      loading: !queryResult.loading,
+    }));
+
+    const { getByTestId } = defaultSetup();
+
+    expect(getByTestId("content-picker-select")).toHaveAttribute("disabled");
+  });
+
   describe("displayName", () => {
     it("should correctly render page display name", () => {
       const { getByText } = modifiedSetup({
@@ -192,14 +216,6 @@ describe("RoutingDestinationContentPicker", () => {
       });
 
       expect(getByText("Select a destination")).toBeVisible();
-    });
-
-    it("should render with no display name if loading and next page selected", () => {
-      const { getByTestId } = modifiedSetup({
-        loading: true,
-      });
-
-      expect(getByTestId("content-picker-select")).toHaveAttribute("disabled");
     });
 
     it("should display the default destination if everything is null", () => {

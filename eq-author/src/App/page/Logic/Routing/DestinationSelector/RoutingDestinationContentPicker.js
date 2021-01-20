@@ -28,14 +28,18 @@ const selectedDisplayName = selected => {
   return logical ? logicalDisplayName(logical) : absoluteDisplayName(selected);
 };
 
-export const UnwrappedRoutingDestinationContentPicker = ({
+export const RoutingDestinationContentPicker = ({
   id,
-  loading,
-  data,
+  pageId,
   selected,
   onSubmit,
   ...otherProps
 }) => {
+  const { loading, data } = useQuery(getAvailableRoutingDestinations, {
+    variables: { input: { pageId: pageId } },
+    fetchPolicy: "cache-and-network",
+  });
+
   const [isPickerOpen, setPickerOpen] = useState(false);
 
   const { pages = [], logicalDestinations = [], sections = [] } =
@@ -80,52 +84,11 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   );
 };
 
-const destinationProps = PropTypes.arrayOf(
-  PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    logicalDestination: PropTypes.string.isRequired,
-  })
-);
-
-UnwrappedRoutingDestinationContentPicker.propTypes = {
+RoutingDestinationContentPicker.propTypes = {
   id: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    page: PropTypes.shape({
-      availableRoutingDestinations: PropTypes.shape({
-        logicalDestinations: destinationProps,
-        questionPages: destinationProps,
-        sections: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string,
-            logicalDestination: PropTypes.string,
-          })
-        ),
-      }),
-    }),
-  }),
+  pageId: PropTypes.string.isRequired,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
-};
-
-const RoutingDestinationContentPicker = ({ pageId, ...otherProps }) => {
-  const { loading, data } = useQuery(getAvailableRoutingDestinations, {
-    variables: { input: { pageId: pageId } },
-    fetchPolicy: "cache-and-network",
-  });
-
-  return (
-      <UnwrappedRoutingDestinationContentPicker
-        data={data}
-        loading={loading}
-        {...otherProps}
-      />
-  );
-};
-
-RoutingDestinationContentPicker.propTypes = {
-  pageId: PropTypes.string.isRequired,
-  id: PropTypes.string,
 };
 
 export default RoutingDestinationContentPicker;
