@@ -259,18 +259,30 @@
               "properties": { "entityType": { "const": "PreviousAnswer" } }
             },
             "then": {
-              "allOf": [
-                {
-                  "checkIdExists": {
+              "if": {
+                "properties": { "previousAnswer": { "type": "string" } }
+              },
+              "then": {
+                "if": {
+                  "idExists": {
+                    "$data": "0/previousAnswer"
+                  }
+                },
+                "then": {
+                  "idPreceedsCurrentEntity": {
                     "$data": "0/previousAnswer"
                   },
-                  "errorMessage": "TEST_ERROR"
+                  "errorMessage": "ERR_REFERENCE_MOVED"
                 },
-                {
-                  "properties": { "previousAnswer": { "not": { "type": "null" } } },
-                  "errorMessage": "ERR_TOTAL_NO_VALUE"
+                "else": {
+                  "failValidation": true,
+                  "errorMessage": "ERR_REFERENCE_DELETED"
                 }
-              ]
+              },
+              "else": {
+                "failValidation": true,
+                "errorMessage": "ERR_TOTAL_NO_VALUE"
+              }
             }
           }
         ]
