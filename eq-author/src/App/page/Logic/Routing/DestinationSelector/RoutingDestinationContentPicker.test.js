@@ -114,17 +114,17 @@ function modifiedSetup(change) {
 
 describe("RoutingDestinationContentPicker", () => {
   it("should render", () => {
-    const utils = defaultSetup();
-    utils.clickOpen();
-    expect(utils.getByText("Select a destination")).toBeVisible();
+    const { clickOpen, getByText } = defaultSetup();
+    clickOpen();
+    expect(getByText("Select a destination")).toBeVisible();
   });
 
   it("should fire onSubmit with destination when confirming", () => {
-    const utils = defaultSetup();
-    utils.clickOpen();
-    utils.clickByText("s1q4");
-    utils.clickSubmit();
-    expect(utils.onSubmit).toHaveBeenCalledWith({
+    const { clickOpen, clickByText, clickSubmit, onSubmit } = defaultSetup();
+    clickOpen();
+    clickByText("s1q4");
+    clickSubmit();
+    expect(onSubmit).toHaveBeenCalledWith({
       name: "routingDestination",
       value: {
         id: "04c776d3-24ea-4630-ad2d-30b6a0c0e5f4",
@@ -141,51 +141,49 @@ describe("RoutingDestinationContentPicker", () => {
 
   describe("displayName", () => {
     it("should correctly render page display name", () => {
-      const utils = modifiedSetup({
+      const { getByText } = modifiedSetup({
         selected: { page: { id: "1", displayName: "page name" } },
       });
-      expect(utils.getByText("page name")).toBeVisible();
+      expect(getByText("page name")).toBeVisible();
     });
 
     it("should correctly render section display name", () => {
-      const utils = modifiedSetup({
+      const { getByText } = modifiedSetup({
         selected: { section: { id: "1", displayName: "section name" } },
       });
-      expect(utils.getByText("section name")).toBeVisible();
+      expect(getByText("section name")).toBeVisible();
     });
 
     it("should correctly render logicalDestination EndOfQuestionnaire", () => {
-      const utils = modifiedSetup({
+      const { getByText } = modifiedSetup({
         selected: { logical: "EndOfQuestionnaire" },
       });
 
-      expect(utils.getByText("End of questionnaire")).toBeVisible();
+      expect(getByText("End of questionnaire")).toBeVisible();
     });
 
     it("should correctly render logicalDestination NextPage", () => {
-      const utils = modifiedSetup({
+      const { getByText } = modifiedSetup({
         selected: { logical: "NextPage" },
       });
 
-      expect(utils.getByText("Next page")).toBeVisible();
+      expect(getByText("Next page")).toBeVisible();
     });
 
     it("should correctly render logicalDestination Default", () => {
-      const utils = modifiedSetup({
+      const { getByText } = modifiedSetup({
         selected: { logical: "Default" },
       });
 
-      expect(utils.getByText("Select a destination")).toBeVisible();
+      expect(getByText("Select a destination")).toBeVisible();
     });
 
     it("should render with no display name if loading and next page selected", () => {
-      const utils = modifiedSetup({
+      const { getByTestId } = modifiedSetup({
         loading: true,
       });
-      // utils.debug();
-      expect(utils.getByTestId("content-picker-select")).toHaveAttribute(
-        "disabled"
-      );
+
+      expect(getByTestId("content-picker-select")).toHaveAttribute("disabled");
     });
   });
 });
