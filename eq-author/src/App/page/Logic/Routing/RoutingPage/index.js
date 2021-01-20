@@ -31,7 +31,8 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
 
   const { questionnaire } = useQuestionnaire();
   const isLastPage =
-    page.position === page.section.pages.length - 1 &&
+    page.position === page.folder.pages.length - 1 &&
+    page.folder.position === page.section.folders.length - 1 &&
     page.section.position === questionnaire?.sections?.length - 1;
 
   return (

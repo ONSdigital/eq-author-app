@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NavigationSidebar should only render container if loading 1`] = `
-<NavigationSidebar__Container
-  data-test="side-nav"
-/>
-`;
-
 exports[`NavigationSidebar should render 1`] = `
 <NavigationSidebar__Container
   data-test="side-nav"
@@ -21,27 +15,46 @@ exports[`NavigationSidebar should render 1`] = `
     onAddSection={[Function]}
     questionnaire={
       Object {
-        "id": "1",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
-            "id": "3",
-            "pages": Array [
+            "displayName": "Section 1",
+            "folders": Array [
               Object {
-                "id": "2",
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
+                  Object {
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
+                    "id": "1.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
+                  },
+                ],
                 "position": 0,
-                "title": "Page",
-                "validationErrorInfo": Object {
-                  "totalCount": 5,
-                },
               },
             ],
-            "title": "Section",
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
             "validationErrorInfo": Object {
               "totalCount": 0,
             },
           },
         ],
-        "title": "Questionnaire",
+        "title": "questionnaire",
       }
     }
   />
@@ -65,27 +78,46 @@ exports[`NavigationSidebar should render 1`] = `
           }
           questionnaire={
             Object {
-              "id": "1",
+              "displayName": "questionnaire",
+              "id": "questionnaire",
               "sections": Array [
                 Object {
-                  "id": "3",
-                  "pages": Array [
+                  "displayName": "Section 1",
+                  "folders": Array [
                     Object {
-                      "id": "2",
+                      "alias": "Folder 1.1",
+                      "enabled": false,
+                      "id": "1.1",
+                      "pages": Array [
+                        Object {
+                          "alias": "1.1.1",
+                          "displayName": "Page 1.1.1",
+                          "folder": Object {
+                            "id": "1",
+                          },
+                          "id": "1.1.1",
+                          "position": 0,
+                          "section": Object {
+                            "id": "1",
+                          },
+                          "title": "Page 1.1.1",
+                          "validationErrorInfo": Object {
+                            "totalCount": 2,
+                          },
+                        },
+                      ],
                       "position": 0,
-                      "title": "Page",
-                      "validationErrorInfo": Object {
-                        "totalCount": 5,
-                      },
                     },
                   ],
-                  "title": "Section",
+                  "id": "1",
+                  "position": 0,
+                  "title": "Section 1",
                   "validationErrorInfo": Object {
                     "totalCount": 0,
                   },
                 },
               ],
-              "title": "Questionnaire",
+              "title": "questionnaire",
             }
           }
         />

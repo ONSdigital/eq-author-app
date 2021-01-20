@@ -6,10 +6,17 @@ fragment RoutingPage on QuestionPage {
   routing {
     ...RoutingEditor
   }
-  section {
+  folder {
     id
     position
     pages {
+      id
+    }
+  }
+  section {
+    id
+    position
+    folders {
       id
     }
   }

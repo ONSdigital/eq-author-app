@@ -24,10 +24,10 @@
             "introductionTitle"
           ]
         },
-        "pages": {
+        "folders": {
           "type": "array",
           "items": {
-            "$ref": "entities.json#/definitions/page"
+            "$ref": "entities.json#/definitions/folder"
           }
         }
       },
@@ -35,6 +35,29 @@
         "id",
         "pages"
       ]
+    },
+    "folder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/page"
+          }
+        },
+        "skipConditions": {
+          "$ref": "entities.json#/definitions/skipConditions"
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "$ref": "entities.json#/definitions/page"
+      }
     },
     "page": {
       "type": "object",
@@ -1253,11 +1276,12 @@
         "condition": {
           "allOf": [
             {
-              "validateMultipleChoiceCondition": "condition",
+              "validateMultipleChoiceCondition": "condition"
+            },
+            {
               "$ref": "definitions.json#/definitions/populatedString"
             }
-          ],
-          "validateMultipleChoiceCondition": "condition"
+          ]
         },
         "left": {
           "type": "object",
@@ -1354,6 +1378,29 @@
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        }
+      }
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "expressions": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "entities.json#/definitions/expression"
+                },
+                {
+                  "$ref": "entities.json#/definitions/expression-unanswered"
+                }
+              ]
+            }
+          }
         }
       }
     }

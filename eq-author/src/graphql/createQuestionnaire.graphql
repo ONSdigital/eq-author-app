@@ -8,9 +8,11 @@ mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
       name
     }
     sections {
-      id
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
     }
     introduction {

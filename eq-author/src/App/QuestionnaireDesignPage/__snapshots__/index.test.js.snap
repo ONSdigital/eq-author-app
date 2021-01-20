@@ -740,25 +740,51 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                 "kind": "Field",
                 "name": Object {
                   "kind": "Name",
-                  "value": "pages",
+                  "value": "folders",
                 },
                 "selectionSet": Object {
                   "kind": "SelectionSet",
                   "selections": Array [
                     Object {
+                      "alias": undefined,
+                      "arguments": Array [],
                       "directives": Array [],
-                      "kind": "FragmentSpread",
+                      "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "PageNavItem",
+                        "value": "id",
                       },
+                      "selectionSet": undefined,
                     },
                     Object {
+                      "alias": undefined,
+                      "arguments": Array [],
                       "directives": Array [],
-                      "kind": "FragmentSpread",
+                      "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "PageConfirmationNavItem",
+                        "value": "pages",
+                      },
+                      "selectionSet": Object {
+                        "kind": "SelectionSet",
+                        "selections": Array [
+                          Object {
+                            "directives": Array [],
+                            "kind": "FragmentSpread",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "PageNavItem",
+                            },
+                          },
+                          Object {
+                            "directives": Array [],
+                            "kind": "FragmentSpread",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "PageConfirmationNavItem",
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
@@ -1152,7 +1178,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2022,
+        "end": 2065,
         "start": 0,
       },
     }
@@ -1318,7 +1344,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                             "kind": "Field",
                             "name": Object {
                               "kind": "Name",
-                              "value": "pages",
+                              "value": "folders",
                             },
                             "selectionSet": Object {
                               "kind": "SelectionSet",
@@ -1341,25 +1367,8 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                   "kind": "Field",
                                   "name": Object {
                                     "kind": "Name",
-                                    "value": "validationErrorInfo",
+                                    "value": "pages",
                                   },
-                                  "selectionSet": Object {
-                                    "kind": "SelectionSet",
-                                    "selections": Array [
-                                      Object {
-                                        "directives": Array [],
-                                        "kind": "FragmentSpread",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "ValidationErrorInfo",
-                                        },
-                                      },
-                                    ],
-                                  },
-                                },
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "InlineFragment",
                                   "selectionSet": Object {
                                     "kind": "SelectionSet",
                                     "selections": Array [
@@ -1370,63 +1379,48 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                         "kind": "Field",
                                         "name": Object {
                                           "kind": "Name",
-                                          "value": "confirmation",
+                                          "value": "id",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "validationErrorInfo",
                                         },
                                         "selectionSet": Object {
                                           "kind": "SelectionSet",
                                           "selections": Array [
                                             Object {
-                                              "alias": undefined,
-                                              "arguments": Array [],
                                               "directives": Array [],
-                                              "kind": "Field",
+                                              "kind": "FragmentSpread",
                                               "name": Object {
                                                 "kind": "Name",
-                                                "value": "id",
-                                              },
-                                              "selectionSet": undefined,
-                                            },
-                                            Object {
-                                              "alias": undefined,
-                                              "arguments": Array [],
-                                              "directives": Array [],
-                                              "kind": "Field",
-                                              "name": Object {
-                                                "kind": "Name",
-                                                "value": "validationErrorInfo",
-                                              },
-                                              "selectionSet": Object {
-                                                "kind": "SelectionSet",
-                                                "selections": Array [
-                                                  Object {
-                                                    "directives": Array [],
-                                                    "kind": "FragmentSpread",
-                                                    "name": Object {
-                                                      "kind": "Name",
-                                                      "value": "ValidationErrorInfo",
-                                                    },
-                                                  },
-                                                ],
+                                                "value": "ValidationErrorInfo",
                                               },
                                             },
                                           ],
                                         },
                                       },
                                       Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
                                         "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "answers",
-                                        },
+                                        "kind": "InlineFragment",
                                         "selectionSet": Object {
                                           "kind": "SelectionSet",
                                           "selections": Array [
                                             Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
                                               "directives": Array [],
-                                              "kind": "InlineFragment",
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "confirmation",
+                                              },
                                               "selectionSet": Object {
                                                 "kind": "SelectionSet",
                                                 "selections": Array [
@@ -1448,449 +1442,17 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "validation",
+                                                      "value": "validationErrorInfo",
                                                     },
                                                     "selectionSet": Object {
                                                       "kind": "SelectionSet",
                                                       "selections": Array [
                                                         Object {
                                                           "directives": Array [],
-                                                          "kind": "InlineFragment",
-                                                          "selectionSet": Object {
-                                                            "kind": "SelectionSet",
-                                                            "selections": Array [
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "minValue",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "maxValue",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                            ],
-                                                          },
-                                                          "typeCondition": Object {
-                                                            "kind": "NamedType",
-                                                            "name": Object {
-                                                              "kind": "Name",
-                                                              "value": "NumberValidation",
-                                                            },
-                                                          },
-                                                        },
-                                                        Object {
-                                                          "directives": Array [],
-                                                          "kind": "InlineFragment",
-                                                          "selectionSet": Object {
-                                                            "kind": "SelectionSet",
-                                                            "selections": Array [
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "earliestDate",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "latestDate",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                            ],
-                                                          },
-                                                          "typeCondition": Object {
-                                                            "kind": "NamedType",
-                                                            "name": Object {
-                                                              "kind": "Name",
-                                                              "value": "DateValidation",
-                                                            },
-                                                          },
-                                                        },
-                                                        Object {
-                                                          "directives": Array [],
-                                                          "kind": "InlineFragment",
-                                                          "selectionSet": Object {
-                                                            "kind": "SelectionSet",
-                                                            "selections": Array [
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "earliestDate",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "latestDate",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "minDuration",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                              Object {
-                                                                "alias": undefined,
-                                                                "arguments": Array [],
-                                                                "directives": Array [],
-                                                                "kind": "Field",
-                                                                "name": Object {
-                                                                  "kind": "Name",
-                                                                  "value": "maxDuration",
-                                                                },
-                                                                "selectionSet": Object {
-                                                                  "kind": "SelectionSet",
-                                                                  "selections": Array [
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "id",
-                                                                      },
-                                                                      "selectionSet": undefined,
-                                                                    },
-                                                                    Object {
-                                                                      "alias": undefined,
-                                                                      "arguments": Array [],
-                                                                      "directives": Array [],
-                                                                      "kind": "Field",
-                                                                      "name": Object {
-                                                                        "kind": "Name",
-                                                                        "value": "validationErrorInfo",
-                                                                      },
-                                                                      "selectionSet": Object {
-                                                                        "kind": "SelectionSet",
-                                                                        "selections": Array [
-                                                                          Object {
-                                                                            "directives": Array [],
-                                                                            "kind": "FragmentSpread",
-                                                                            "name": Object {
-                                                                              "kind": "Name",
-                                                                              "value": "ValidationErrorInfo",
-                                                                            },
-                                                                          },
-                                                                        ],
-                                                                      },
-                                                                    },
-                                                                  ],
-                                                                },
-                                                              },
-                                                            ],
-                                                          },
-                                                          "typeCondition": Object {
-                                                            "kind": "NamedType",
-                                                            "name": Object {
-                                                              "kind": "Name",
-                                                              "value": "DateRangeValidation",
-                                                            },
+                                                          "kind": "FragmentSpread",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "ValidationErrorInfo",
                                                           },
                                                         },
                                                       ],
@@ -1898,52 +1460,542 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                   },
                                                 ],
                                               },
-                                              "typeCondition": Object {
-                                                "kind": "NamedType",
-                                                "name": Object {
-                                                  "kind": "Name",
-                                                  "value": "BasicAnswer",
-                                                },
-                                              },
                                             },
                                             Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
                                               "directives": Array [],
-                                              "kind": "InlineFragment",
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "answers",
+                                              },
                                               "selectionSet": Object {
                                                 "kind": "SelectionSet",
                                                 "selections": Array [
                                                   Object {
-                                                    "alias": undefined,
-                                                    "arguments": Array [],
                                                     "directives": Array [],
-                                                    "kind": "Field",
-                                                    "name": Object {
-                                                      "kind": "Name",
-                                                      "value": "id",
+                                                    "kind": "InlineFragment",
+                                                    "selectionSet": Object {
+                                                      "kind": "SelectionSet",
+                                                      "selections": Array [
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "id",
+                                                          },
+                                                          "selectionSet": undefined,
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validation",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "InlineFragment",
+                                                                "selectionSet": Object {
+                                                                  "kind": "SelectionSet",
+                                                                  "selections": Array [
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "minValue",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "maxValue",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                  ],
+                                                                },
+                                                                "typeCondition": Object {
+                                                                  "kind": "NamedType",
+                                                                  "name": Object {
+                                                                    "kind": "Name",
+                                                                    "value": "NumberValidation",
+                                                                  },
+                                                                },
+                                                              },
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "InlineFragment",
+                                                                "selectionSet": Object {
+                                                                  "kind": "SelectionSet",
+                                                                  "selections": Array [
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "earliestDate",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "latestDate",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                  ],
+                                                                },
+                                                                "typeCondition": Object {
+                                                                  "kind": "NamedType",
+                                                                  "name": Object {
+                                                                    "kind": "Name",
+                                                                    "value": "DateValidation",
+                                                                  },
+                                                                },
+                                                              },
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "InlineFragment",
+                                                                "selectionSet": Object {
+                                                                  "kind": "SelectionSet",
+                                                                  "selections": Array [
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "earliestDate",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "latestDate",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "minDuration",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                    Object {
+                                                                      "alias": undefined,
+                                                                      "arguments": Array [],
+                                                                      "directives": Array [],
+                                                                      "kind": "Field",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "maxDuration",
+                                                                      },
+                                                                      "selectionSet": Object {
+                                                                        "kind": "SelectionSet",
+                                                                        "selections": Array [
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "id",
+                                                                            },
+                                                                            "selectionSet": undefined,
+                                                                          },
+                                                                          Object {
+                                                                            "alias": undefined,
+                                                                            "arguments": Array [],
+                                                                            "directives": Array [],
+                                                                            "kind": "Field",
+                                                                            "name": Object {
+                                                                              "kind": "Name",
+                                                                              "value": "validationErrorInfo",
+                                                                            },
+                                                                            "selectionSet": Object {
+                                                                              "kind": "SelectionSet",
+                                                                              "selections": Array [
+                                                                                Object {
+                                                                                  "directives": Array [],
+                                                                                  "kind": "FragmentSpread",
+                                                                                  "name": Object {
+                                                                                    "kind": "Name",
+                                                                                    "value": "ValidationErrorInfo",
+                                                                                  },
+                                                                                },
+                                                                              ],
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                      },
+                                                                    },
+                                                                  ],
+                                                                },
+                                                                "typeCondition": Object {
+                                                                  "kind": "NamedType",
+                                                                  "name": Object {
+                                                                    "kind": "Name",
+                                                                    "value": "DateRangeValidation",
+                                                                  },
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
+                                                        },
+                                                      ],
                                                     },
-                                                    "selectionSet": undefined,
+                                                    "typeCondition": Object {
+                                                      "kind": "NamedType",
+                                                      "name": Object {
+                                                        "kind": "Name",
+                                                        "value": "BasicAnswer",
+                                                      },
+                                                    },
+                                                  },
+                                                  Object {
+                                                    "directives": Array [],
+                                                    "kind": "InlineFragment",
+                                                    "selectionSet": Object {
+                                                      "kind": "SelectionSet",
+                                                      "selections": Array [
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "id",
+                                                          },
+                                                          "selectionSet": undefined,
+                                                        },
+                                                      ],
+                                                    },
+                                                    "typeCondition": Object {
+                                                      "kind": "NamedType",
+                                                      "name": Object {
+                                                        "kind": "Name",
+                                                        "value": "MultipleChoiceAnswer",
+                                                      },
+                                                    },
                                                   },
                                                 ],
-                                              },
-                                              "typeCondition": Object {
-                                                "kind": "NamedType",
-                                                "name": Object {
-                                                  "kind": "Name",
-                                                  "value": "MultipleChoiceAnswer",
-                                                },
                                               },
                                             },
                                           ],
                                         },
+                                        "typeCondition": Object {
+                                          "kind": "NamedType",
+                                          "name": Object {
+                                            "kind": "Name",
+                                            "value": "QuestionPage",
+                                          },
+                                        },
                                       },
                                     ],
-                                  },
-                                  "typeCondition": Object {
-                                    "kind": "NamedType",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "QuestionPage",
-                                    },
                                   },
                                 },
                               ],
@@ -2086,7 +2138,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2674,
+        "end": 2871,
         "start": 0,
       },
     }
@@ -2116,7 +2168,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
 
 exports[`QuestionnaireDesignPage should redirect to the introduction if it has one 1`] = `
 <Redirect
-  to="/q/3/introduction/1/design"
+  to="/q/questionnaire/introduction/1/design"
 />
 `;
 
@@ -2125,36 +2177,46 @@ exports[`QuestionnaireDesignPage should render 1`] = `
   value={
     Object {
       "questionnaire": Object {
-        "displayName": "my displayName",
-        "id": "3",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
-            "id": "2",
-            "pages": Array [
+            "displayName": "Section 1",
+            "folders": Array [
               Object {
-                "answers": Array [
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
                   Object {
-                    "id": "1",
-                    "label": "",
-                    "options": Array [
-                      Object {
-                        "id": "1",
-                      },
-                    ],
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
+                    "id": "1.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
                   },
                 ],
-                "description": "",
-                "guidance": "",
-                "id": "1",
-                "pageType": "QuestionPage",
                 "position": 0,
-                "title": "",
               },
             ],
-            "title": "",
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
-        "title": "hello world",
+        "title": "questionnaire",
       },
     }
   }
@@ -2162,36 +2224,46 @@ exports[`QuestionnaireDesignPage should render 1`] = `
   <BaseLayout
     questionnaire={
       Object {
-        "displayName": "my displayName",
-        "id": "3",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
-            "id": "2",
-            "pages": Array [
+            "displayName": "Section 1",
+            "folders": Array [
               Object {
-                "answers": Array [
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
                   Object {
-                    "id": "1",
-                    "label": "",
-                    "options": Array [
-                      Object {
-                        "id": "1",
-                      },
-                    ],
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
+                    "id": "1.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
                   },
                 ],
-                "description": "",
-                "guidance": "",
-                "id": "1",
-                "pageType": "QuestionPage",
                 "position": 0,
-                "title": "",
               },
             ],
-            "title": "",
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
-        "title": "hello world",
+        "title": "questionnaire",
       }
     }
   >
@@ -2212,46 +2284,55 @@ exports[`QuestionnaireDesignPage should render 1`] = `
             </QuestionnaireDesignPage__MainNav>
             <withRouter(UnwrappedNavigationSidebar)
               canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={true}
+              canAddQuestionConfirmation={false}
               canAddQuestionPage={true}
               data-test="side-nav"
-              loading={false}
               onAddCalculatedSummaryPage={[Function]}
               onAddQuestionConfirmation={[Function]}
               onAddQuestionPage={[Function]}
               onAddSection={[MockFunction]}
               questionnaire={
                 Object {
-                  "displayName": "my displayName",
-                  "id": "3",
+                  "displayName": "questionnaire",
+                  "id": "questionnaire",
                   "sections": Array [
                     Object {
-                      "id": "2",
-                      "pages": Array [
+                      "displayName": "Section 1",
+                      "folders": Array [
                         Object {
-                          "answers": Array [
+                          "alias": "Folder 1.1",
+                          "enabled": false,
+                          "id": "1.1",
+                          "pages": Array [
                             Object {
-                              "id": "1",
-                              "label": "",
-                              "options": Array [
-                                Object {
-                                  "id": "1",
-                                },
-                              ],
+                              "alias": "1.1.1",
+                              "displayName": "Page 1.1.1",
+                              "folder": Object {
+                                "id": "1",
+                              },
+                              "id": "1.1.1",
+                              "position": 0,
+                              "section": Object {
+                                "id": "1",
+                              },
+                              "title": "Page 1.1.1",
+                              "validationErrorInfo": Object {
+                                "totalCount": 2,
+                              },
                             },
                           ],
-                          "description": "",
-                          "guidance": "",
-                          "id": "1",
-                          "pageType": "QuestionPage",
                           "position": 0,
-                          "title": "",
                         },
                       ],
-                      "title": "",
+                      "id": "1",
+                      "position": 0,
+                      "title": "Section 1",
+                      "validationErrorInfo": Object {
+                        "totalCount": 0,
+                      },
                     },
                   ],
-                  "title": "hello world",
+                  "title": "questionnaire",
                 }
               }
             />
@@ -2387,7 +2468,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 
 exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
 <Redirect
-  to="/q/3/section/2/design"
+  to="/q/questionnaire/section/1/design"
 />
 `;
 

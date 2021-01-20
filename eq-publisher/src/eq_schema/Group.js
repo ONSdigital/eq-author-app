@@ -5,10 +5,10 @@ const {
 } = require("./builders/confirmationPage/ConfirmationPage");
 
 class Group {
-  constructor(title, section, ctx) {
-    this.id = `group${section.id}`;
+  constructor(title, folder, ctx) {
+    this.id = `group${folder.id}`;
     this.title = ctx.questionnaireJson.navigation ? title : "";
-    this.blocks = this.buildBlocks(section, ctx);
+    this.blocks = this.buildBlocks(folder, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
@@ -38,16 +38,16 @@ class Group {
     );
   }
 
-  buildBlocks(section, ctx) {
-    const blocks = flatten(
-      section.pages.map(page => {
-        const block = new Block(page, section.id, ctx);
+  buildBlocks(folder, ctx) {
+    return flatten(
+      folder.pages.map(page => {
+        const block = new Block(page, folder.id, ctx);
         if (page.confirmation) {
           return [
             block,
             buildAuthorConfirmationQuestion(
               page,
-              section.id,
+              folder.id,
               page.routingRuleSet,
               page.routing,
               ctx
@@ -57,19 +57,6 @@ class Group {
         return block;
       })
     );
-
-    if (!section.introductionTitle || !section.introductionContent) {
-      return blocks;
-    }
-    return [
-      Block.buildIntroBlock(
-        section.introductionTitle,
-        section.introductionContent,
-        section.id,
-        ctx
-      ),
-      ...blocks,
-    ];
   }
 }
 

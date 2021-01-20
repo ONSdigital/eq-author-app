@@ -32,6 +32,8 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
 
   let sections,
     section,
+    folders,
+    folder,
     pages,
     page,
     confirmation,
@@ -63,8 +65,15 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         validationErr.type = "section";
         break;
 
+      case "folders":
+        ({ folders } = section);
+        folder = folders[dataPath[index + 1]];
+        validationErr.folderId = folder.id;
+        validationErr.type = "folders";
+        break;
+
       case "pages":
-        ({ pages } = section);
+        ({ pages } = folder);
         page = pages[dataPath[index + 1]];
         validationErr.pageId = page.id;
         validationErr.type = "page";

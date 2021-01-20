@@ -15,20 +15,26 @@ query testSkippable($input: QueryInput!) {
 `;
 
 describe("skippable interface", () => {
-  let ctx;
+  let ctx, page;
 
   beforeEach(async () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              confirmation: {},
+              pages: [
+                {
+                  confirmation: {},
+                },
+              ],
             },
           ],
         },
       ],
     });
+
+    page = ctx.questionnaire.sections[0].folders[0].pages[0];
   });
 
   afterEach(() => deleteQuestionnaire(ctx, ctx.questionnaire.id));
@@ -38,7 +44,7 @@ describe("skippable interface", () => {
       query,
       {
         input: {
-          id: ctx.questionnaire.sections[0].pages[0].id,
+          id: page.id,
         },
       },
       ctx
@@ -52,7 +58,7 @@ describe("skippable interface", () => {
       query,
       {
         input: {
-          id: ctx.questionnaire.sections[0].pages[0].confirmation.id,
+          id: page.confirmation.id,
         },
       },
       ctx

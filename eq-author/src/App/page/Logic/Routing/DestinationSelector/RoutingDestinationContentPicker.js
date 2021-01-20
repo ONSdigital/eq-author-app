@@ -54,7 +54,7 @@ const getSelectedDisplayName = (
   if (!selected.page && !selected.section && !selected.logical) {
     return "Select a destination";
   }
-  
+
   if (selected.logical) {
     return getLogicalDisplayName(
       selected.logical,
@@ -106,9 +106,13 @@ export const UnwrappedRoutingDestinationContentPicker = ({
     if (id !== "else") {
       const routingSections = destinationData.sections;
       routingSections.forEach((section, index) => {
-        section.pages[0].id = section.id;
-        section.pages[0].__typename = "Section";
-        routingSections[index].pages = [section.pages[0]];
+        routingSections[index].pages = [
+          {
+            ...section.folders[0].pages[0],
+            id: section.id,
+            __typename: "Section",
+          },
+        ];
       });
 
       sections.push(...routingSections);
