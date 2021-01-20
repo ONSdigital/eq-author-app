@@ -1,7 +1,7 @@
 const { idExists } = require("../../../schema/resolvers/utils");
 
 module.exports = function(ajv) {
-  ajv.addKeyword("checkIdExists", {
+  ajv.addKeyword("idExists", {
     $data: true,
     validate: (
       id,
