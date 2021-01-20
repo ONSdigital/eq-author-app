@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-
 import styled, { css } from "styled-components";
-import { UNIT } from "constants/answer-types";
-import { colors } from "constants/theme";
-import iconChevron from "./icon-chevron-small.svg";
+
 import Truncated from "components/Truncated";
+
+import iconChevron from "./icon-chevron-small.svg";
+import { colors } from "constants/theme";
+
+import { UNIT } from "constants/answer-types";
 
 export const MenuItemList = styled.ol`
   display: block;
@@ -59,12 +61,12 @@ export const ParentMenuItem = styled(MenuItem)`
   ${props =>
     props["aria-selected"] &&
     css`
-      background-color: #f3f3f3;
+      background-color: ${colors.lighterGrey};
       &::after {
         opacity: 1;
       }
       &:hover {
-        background: #f3f3f3;
+        background-color: ${colors.lighterGrey};
       }
     `}
 `;
