@@ -95,7 +95,12 @@ UnwrappedRoutingDestinationContentPicker.propTypes = {
       availableRoutingDestinations: PropTypes.shape({
         logicalDestinations: destinationProps,
         questionPages: destinationProps,
-        sections: destinationProps,
+        sections: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string,
+            logicalDestination: PropTypes.string,
+          })
+        ),
       }),
     }),
   }),
