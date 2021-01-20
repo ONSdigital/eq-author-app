@@ -29,6 +29,7 @@ const {
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
   ERR_LOGICAL_AND,
+  ERR_TOTAL_NO_VALUE,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1875,6 +1876,54 @@ describe("schema validation", () => {
 
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(0);
+    });
+  });
+
+  describe("totalValidation", () => {
+    const setTotalValidation = attributes => {
+      questionnaire.sections[0].folders[0].pages[1].totalValidation = {
+        id: "totalvalidation-rule-1",
+        enabled: true,
+        entityType: "previousAnswer",
+        previousAnswer: "answer_1",
+        condition: "Equal",
+        ...attributes,
+      };
+    };
+    const errors = () => validation(questionnaire);
+
+    describe("using a custom numerical value", () => {
+      it("should not return an error for a valid rule", () => {
+        setTotalValidation({
+          entityType: "custom",
+          custom: 42,
+        });
+        expect(errors().length).toBe(0);
+      });
+
+      it("should return an error when custom value not set", () => {
+        setTotalValidation({
+          entityType: "custom",
+          custom: null,
+        });
+        expect(errors().length).toBe(1);
+        expect(errors()[0].errorMessage).toBe(ERR_TOTAL_NO_VALUE);
+      });
+    });
+
+    describe("using a reference to previous answer", () => {
+      it("should not return an error for a valid rule", () => {
+        setTotalValidation();
+        expect(errors().length).toBe(0);
+      });
+
+      it("should return an error when previous answer reference not set", () => {
+        setTotalValidation({
+          previousAnswer: null,
+        });
+        expect(errors().length).toBe(1);
+        expect(errors()[0].errorMessage).toBe(ERR_TOTAL_NO_VALUE);
+      });
     });
   });
 });
