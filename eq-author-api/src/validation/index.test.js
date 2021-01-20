@@ -30,6 +30,8 @@ const {
   PIPING_TITLE_MOVED,
   ERR_LOGICAL_AND,
   ERR_TOTAL_NO_VALUE,
+  ERR_REFERENCE_DELETED,
+  ERR_REFERENCE_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1880,49 +1882,80 @@ describe("schema validation", () => {
   });
 
   describe("totalValidation", () => {
-    const setTotalValidation = attributes => {
+    const validateTotalValidation = attributes => {
       questionnaire.sections[0].folders[0].pages[1].totalValidation = {
         id: "totalvalidation-rule-1",
         enabled: true,
-        entityType: "previousAnswer",
-        previousAnswer: "answer_1",
+        entityType:
+          attributes.previousAnswer !== undefined ? "PreviousAnswer" : "Custom",
         condition: "Equal",
         ...attributes,
       };
+      questionnaire.updatedAt = new Date();
+      return validation(questionnaire);
     };
-    const errors = () => validation(questionnaire);
 
     describe("using a custom numerical value", () => {
       it("should not return an error for a valid rule", () => {
-        setTotalValidation({
-          entityType: "custom",
+        const errors = validateTotalValidation({
           custom: 42,
         });
-        expect(errors().length).toBe(0);
+        expect(errors.length).toBe(0);
       });
 
       it("should return an error when custom value not set", () => {
-        setTotalValidation({
-          entityType: "custom",
+        const errors = validateTotalValidation({
           custom: null,
         });
-        expect(errors().length).toBe(1);
-        expect(errors()[0].errorMessage).toBe(ERR_TOTAL_NO_VALUE);
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_TOTAL_NO_VALUE);
       });
     });
 
     describe("using a reference to previous answer", () => {
       it("should not return an error for a valid rule", () => {
-        setTotalValidation();
-        expect(errors().length).toBe(0);
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_1",
+        });
+        expect(errors.length).toBe(0);
       });
 
       it("should return an error when previous answer reference not set", () => {
-        setTotalValidation({
+        const errors = validateTotalValidation({
           previousAnswer: null,
         });
-        expect(errors().length).toBe(1);
-        expect(errors()[0].errorMessage).toBe(ERR_TOTAL_NO_VALUE);
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_TOTAL_NO_VALUE);
+      });
+
+      it("should return an error when previous answer reference doesn't exist", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: "i-dont-exist-anymore",
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_DELETED);
+      });
+
+      it("should return an error when previous answer reference comes after current question", () => {
+        questionnaire.sections[0].folders[0].pages.push({
+          id: "page_3",
+          title: "Dummy moved page",
+          answers: [
+            {
+              id: "answer_3",
+              type: NUMBER,
+              label: "Number",
+              qCode: "qCode5",
+            },
+          ],
+        });
+
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_3",
+        });
+
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_MOVED);
       });
     });
   });
