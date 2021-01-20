@@ -46,9 +46,9 @@ module.exports = questionnaire => {
     $data: true,
     strictKeywords: true,
   });
-  require("ajv-errors")(ajv);
   require("./customKeywords")(ajv);
   require("ajv-keywords")(ajv, "select");
+  require("ajv-errors")(ajv);
   const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
   validate(questionnaire);
