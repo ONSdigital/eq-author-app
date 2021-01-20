@@ -24,7 +24,7 @@ export const MenuItem = styled.li`
   font-size: 0.9em;
   padding: 0 1em;
   height: 3.5em;
-  background-color: white;
+  background-color: ${colors.white};
   position: relative;
   cursor: pointer;
   border-top: 1px solid ${colors.lightGrey};
@@ -83,11 +83,11 @@ export const SubMenuItem = styled(MenuItem)`
       --color: ${colors.white};
       --colorSecondary: ${colors.white};
 
-      border-color: #377090;
+      border-color: ${colors.primary};
       z-index: 2;
 
       &:hover {
-        background: #397596;
+        background: ${colors.mediumBlue};
       }
     `}
 `;
@@ -127,15 +127,15 @@ export const SectionTitle = styled.div`
   padding: 0.3rem 1rem;
   letter-spacing: 0.05em;
   font-weight: bold;
-  color: #666;
+  color: ${colors.darkGrey};
   line-height: 1.1;
 
   &:not(:first-of-type) {
-    border-top: 1px solid #e4e8eb;
+    border-top: 1px solid ${colors.lightMediumGrey};
   }
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid #e4e8eb;
+    border-bottom: 1px solid ${colors.lightMediumGrey};
   }
 `;
 
