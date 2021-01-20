@@ -1,19 +1,3 @@
-/*
-TODO:
-[X] - None of the tests actually work
-[X] - Write tests
-[X] - Find out what design is needed
-[X] - Find out why current picker is broken. SPOILER - it's because no scrollbars
-[X] - Determine how fields are populated
-[X] - Completely refactored Destination picker
-[X] - Remove HOC and useQuery instead
-[X] - Need to refactor this file
-[ ] -
-[ ] - Remove HOC and useQuery instead
-[ ] -
-[ ] - OPTIONAL: Tidy up propTypes?
-*/
-
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useQuery } from "@apollo/react-hooks";
@@ -96,31 +80,22 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   );
 };
 
-// Prune the propTypes
+const destinationProps = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    logicalDestination: PropTypes.string.isRequired,
+  })
+);
+
 UnwrappedRoutingDestinationContentPicker.propTypes = {
   id: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     page: PropTypes.shape({
       availableRoutingDestinations: PropTypes.shape({
-        logicalDestinations: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            logicalDestination: PropTypes.string.isRequired,
-          })
-        ),
-        questionPages: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            displayName: PropTypes.string.isRequired,
-          })
-        ),
-        sections: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            displayName: PropTypes.string.isRequired,
-          })
-        ),
+        logicalDestinations: destinationProps,
+        questionPages: destinationProps,
+        sections: destinationProps,
       }),
     }),
   }),
@@ -136,13 +111,11 @@ const RoutingDestinationContentPicker = ({ pageId, ...otherProps }) => {
 
   return (
     <>
-      {/* {data && ( */}
       <UnwrappedRoutingDestinationContentPicker
         data={data}
         loading={loading}
         {...otherProps}
       />
-      {/* )} */}
     </>
   );
 };
