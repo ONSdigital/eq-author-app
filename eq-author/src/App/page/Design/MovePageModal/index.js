@@ -25,8 +25,8 @@ const Trigger = styled.button.attrs({ type: "button" })`
   font-size: 1em;
   padding: 0.5rem;
   padding-right: 2em;
-  background: white url('${Icon}') no-repeat right center;
-  border: solid 1px #aeaeae;
+  background: ${colors.white} url('${Icon}') no-repeat right center;
+  border: solid 1px ${colors.borders};
   text-align: left;
   border-radius: ${radius};
   color: ${colors.black};
@@ -91,7 +91,7 @@ class MovePageModal extends React.Component {
     return find(questionnaire.sections, { id: selectedSectionId });
   }
 
-  handlePageMove = position => {
+  handlePageMove = ({ position }) => {
     const { page, onMovePage, sectionId } = this.props;
     const { selectedSectionId } = this.state;
 
@@ -152,7 +152,7 @@ class MovePageModal extends React.Component {
 
         <PositionModal
           data-test={"page-position-modal"}
-          options={selectedSection.pages}
+          options={selectedSection.folders.flatMap(({ pages }) => pages)}
           onMove={this.handlePageMove}
           selected={page}
           {...this.props}

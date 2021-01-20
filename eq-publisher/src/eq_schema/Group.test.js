@@ -50,52 +50,6 @@ describe("Group", () => {
     });
   });
 
-  it("returns a schema with an introduction when there is one", () => {
-    const groupJSON = createGroupJSON({
-      introductionTitle: "Intro Title",
-      introductionContent: "Intro Content",
-    });
-
-    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
-
-    expect(runnerJSON).toMatchObject({
-      id: "group1",
-      title: "Section 1",
-      blocks: [
-        {
-          description: "Intro Content",
-          id: "group1-introduction",
-          title: "Intro Title",
-          type: "Interstitial",
-        },
-        expect.any(Block),
-      ],
-    });
-  });
-
-  it("returns no introduction when null title and content", () => {
-    const groupJSON = createGroupJSON({
-      introductionTitle: null,
-      introductionContent: null,
-    });
-
-    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
-
-    expect(runnerJSON).toMatchObject({
-      id: "group1",
-      title: "Section 1",
-      blocks: [expect.any(Block)],
-    });
-  });
-
-  it("returns a schema without an introduction when it is disabled", () => {
-    const groupJSON = createGroupJSON();
-
-    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
-
-    expect(runnerJSON.blocks).toHaveLength(1);
-  });
-
   describe("skip conditions", () => {
     const createGroupsJSON = () => [
       {
@@ -236,43 +190,49 @@ describe("Group", () => {
           {
             id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-4",
             title: "<p>Section 1</p>",
-            pages: [
+            folders: [
               {
-                id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
-                title: "<p>Test question</p>",
-                description: "<p>Test description</p>",
-                descriptionEnabled: true,
-                guidance: null,
-                pageType: "QuestionPage",
-                routingRuleSet,
-                routing,
-                confirmation: {
-                  id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-2",
-                  title: "<p>Are you sure?</p>",
-                  page: {
-                    id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
-                  },
-                  positive: {
-                    label: "Oh yes.",
-                    description: "Positive",
-                  },
-                  negative: {
-                    label: "Wait I can get more?",
-                    description: "Negative",
-                  },
-                },
-                answers: [
+                id: "folder-1",
+                enabled: false,
+                pages: [
                   {
-                    id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-6",
-                    type: "Currency",
-                    label: "How much money do you want?",
-                    description: "",
-                    guidance: "",
-                    properties: {
-                      decimals: 0,
-                      required: false,
+                    id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+                    title: "<p>Test question</p>",
+                    description: "<p>Test description</p>",
+                    descriptionEnabled: true,
+                    guidance: null,
+                    pageType: "QuestionPage",
+                    routingRuleSet,
+                    routing,
+                    confirmation: {
+                      id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-2",
+                      title: "<p>Are you sure?</p>",
+                      page: {
+                        id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+                      },
+                      positive: {
+                        label: "Oh yes.",
+                        description: "Positive",
+                      },
+                      negative: {
+                        label: "Wait I can get more?",
+                        description: "Negative",
+                      },
                     },
-                    qCode: "",
+                    answers: [
+                      {
+                        id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-6",
+                        type: "Currency",
+                        label: "How much money do you want?",
+                        description: "",
+                        guidance: "",
+                        properties: {
+                          decimals: 0,
+                          required: false,
+                        },
+                        qCode: "",
+                      },
+                    ],
                   },
                 ],
               },
@@ -286,7 +246,7 @@ describe("Group", () => {
       const ctx = ctxGenerator(null);
       const resultantJson = new Group(
         "Section 1",
-        ctx.questionnaireJson.sections[0],
+        ctx.questionnaireJson.sections[0].folders[0],
         ctx
       );
 
@@ -377,7 +337,7 @@ describe("Group", () => {
             },
             destination: {
               section: {
-                id: "2",
+                id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-4",
               },
               page: null,
               logical: null,
@@ -395,7 +355,7 @@ describe("Group", () => {
 
       const resultantJson = new Group(
         "Group Title",
-        ctx.questionnaireJson.sections[0],
+        ctx.questionnaireJson.sections[0].folders[0],
         ctx
       );
 
@@ -415,7 +375,7 @@ describe("Group", () => {
         },
         {
           goto: {
-            group: "group2",
+            group: "groupfolder-1",
             when: [
               {
                 id: "answer1",
@@ -442,7 +402,7 @@ describe("Group", () => {
     it("pipes in checkbox values from the previous questions", () => {
       const ctx = ctxGenerator(null);
 
-      ctx.questionnaireJson.sections[0].pages[0].answers[0] = {
+      ctx.questionnaireJson.sections[0].folders[0].pages[0].answers[0] = {
         id: "6",
         type: "Checkbox",
         label: "Test",
@@ -467,11 +427,11 @@ describe("Group", () => {
         },
       };
 
-      const section = ctx.questionnaireJson.sections[0];
-      const resultantJson = new Group(section.title, section, ctx);
+      const folder = ctx.questionnaireJson.sections[0].folders[0];
+      const resultantJson = new Group(folder.title, folder, ctx);
 
       expect(resultantJson.blocks[1].questions[0].description).toEqual(
-        `{{ answers['answer${section.pages[0].answers[0].id}']|format_unordered_list }}`
+        `{{ answers['answer${folder.pages[0].answers[0].id}']|format_unordered_list }}`
       );
     });
   });

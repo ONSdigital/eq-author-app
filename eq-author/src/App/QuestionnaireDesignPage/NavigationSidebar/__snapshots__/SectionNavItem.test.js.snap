@@ -10,7 +10,7 @@ exports[`SectionNavItem should render 1`] = `
     }
   }
   title={[Function]}
-  titleName="Section"
+  titleName="Section 1"
   url={[Function]}
 >
   <SectionNavItem__StyledSectionNavItem
@@ -22,48 +22,82 @@ exports[`SectionNavItem should render 1`] = `
     <PageNav
       questionnaire={
         Object {
-          "displayName": "Questionnaire",
-          "id": "1",
+          "displayName": "questionnaire",
+          "id": "questionnaire",
           "sections": Array [
             Object {
-              "displayName": "Section",
-              "id": "3",
+              "displayName": "Section 1",
+              "folders": Array [
+                Object {
+                  "alias": "Folder 1.1",
+                  "enabled": false,
+                  "id": "1.1",
+                  "pages": Array [
+                    Object {
+                      "alias": "1.1.1",
+                      "displayName": "Page 1.1.1",
+                      "folder": Object {
+                        "id": "1",
+                      },
+                      "id": "1.1.1",
+                      "position": 0,
+                      "section": Object {
+                        "id": "1",
+                      },
+                      "title": "Page 1.1.1",
+                      "validationErrorInfo": Object {
+                        "totalCount": 2,
+                      },
+                    },
+                  ],
+                  "position": 0,
+                },
+              ],
+              "id": "1",
+              "position": 0,
+              "title": "Section 1",
+              "validationErrorInfo": Object {
+                "totalCount": 0,
+              },
+            },
+          ],
+          "title": "questionnaire",
+        }
+      }
+      section={
+        Object {
+          "displayName": "Section 1",
+          "folders": Array [
+            Object {
+              "alias": "Folder 1.1",
+              "enabled": false,
+              "id": "1.1",
               "pages": Array [
                 Object {
-                  "displayName": "Page",
-                  "id": "2",
-                  "title": "Page",
+                  "alias": "1.1.1",
+                  "displayName": "Page 1.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "1.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "1",
+                  },
+                  "title": "Page 1.1.1",
                   "validationErrorInfo": Object {
                     "totalCount": 2,
                   },
                 },
               ],
-              "title": "Section",
-              "validationErrorInfo": Object {
-                "totalCount": 2,
-              },
+              "position": 0,
             },
           ],
-          "title": "Questionnaire",
-        }
-      }
-      section={
-        Object {
-          "displayName": "Section",
-          "id": "3",
-          "pages": Array [
-            Object {
-              "displayName": "Page",
-              "id": "2",
-              "title": "Page",
-              "validationErrorInfo": Object {
-                "totalCount": 2,
-              },
-            },
-          ],
-          "title": "Section",
+          "id": "1",
+          "position": 0,
+          "title": "Section 1",
           "validationErrorInfo": Object {
-            "totalCount": 2,
+            "totalCount": 0,
           },
         }
       }

@@ -21,11 +21,10 @@ describe("DateRange", () => {
         description: "test",
         guidance: "",
         secondaryLabel: "",
-        properties: {required: false},
+        properties: { required: false },
         displayName: "Untitled answer",
         qCode: "yuky",
-        validationErrorInfo:
-        {
+        validationErrorInfo: {
           errors: [],
         },
       },
@@ -56,7 +55,9 @@ describe("DateRange", () => {
     ];
     props.answer.validationErrorInfo.errors = error;
 
-    const { getByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
+    const { getByText } = rtlRender(
+      <DateRange onUpdate={handleUpdate} {...props} />
+    );
 
     expect(getByText(DATE_LABEL_REQUIRED)).toBeTruthy();
   });
@@ -73,9 +74,10 @@ describe("DateRange", () => {
     ];
     props.answer.validationErrorInfo.errors = error;
 
-    const { getByText } = rtlRender(<DateRange onUpdate={handleUpdate} {...props} />);
+    const { getByText } = rtlRender(
+      <DateRange onUpdate={handleUpdate} {...props} />
+    );
 
     expect(getByText(DATE_LABEL_REQUIRED)).toBeTruthy();
   });
-
 });
