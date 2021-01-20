@@ -115,13 +115,11 @@ const RoutingDestinationContentPicker = ({ pageId, ...otherProps }) => {
   });
 
   return (
-    <>
       <UnwrappedRoutingDestinationContentPicker
         data={data}
         loading={loading}
         {...otherProps}
       />
-    </>
   );
 };
 
