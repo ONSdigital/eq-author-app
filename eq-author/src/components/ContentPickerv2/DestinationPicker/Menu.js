@@ -25,13 +25,13 @@ const Column = styled.div`
   width: ${props => props.width}%;
 `;
 
-const { Enter, Space } = keyCodes;
-
 export const tabTitles = {
   current: "Current section",
   later: "Later sections",
   other: "Other destinations",
 };
+
+const { Enter, Space } = keyCodes;
 
 const otherDestinations = ({ pages, logicalDestinations }) => {
   const dest = logicalDestinations.map(item => {
@@ -65,7 +65,6 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { current, later, other } = buildTabs(data);
 
-  // might not need later.destinations
   const tabs = later.destinations ? [current, later, other] : [current, other];
 
   return (
@@ -117,9 +116,11 @@ const Menu = ({ data, onSelected, isSelected }) => {
 };
 
 Menu.propTypes = {
-  // data: PropTypes.arrayOf(CustomPropTypes.section),
-  // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    pages: PropTypes.array,
+    logicalDestinations: PropTypes.array,
+    sections: PropTypes.array,
+  }),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };

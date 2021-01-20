@@ -42,10 +42,12 @@ const DestinationPicker = ({ data, onSelected, isSelected, ...otherProps }) => (
   </>
 );
 
-// need to correct this shape tomorrow
 DestinationPicker.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    pages: PropTypes.array,
+    logicalDestinations: PropTypes.array,
+    sections: PropTypes.array,
+  }),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };

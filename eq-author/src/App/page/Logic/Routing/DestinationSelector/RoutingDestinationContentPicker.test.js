@@ -139,6 +139,22 @@ describe("RoutingDestinationContentPicker", () => {
     });
   });
 
+  it("should close content picker", () => {
+    const { clickOpen, clickByText, queryByText } = defaultSetup();
+    clickOpen();
+    expect(queryByText("Select a destination")).toBeVisible();
+    clickByText("Cancel");
+    expect(queryByText("Select a destination")).not.toBeVisible();
+  });
+
+  it("should not render 'Later sections' when else destination selector", () => {
+    const { clickOpen, queryByText } = modifiedSetup({
+      id: "else",
+    });
+    clickOpen();
+    expect(queryByText("Later sections")).toBeNull();
+  });
+
   describe("displayName", () => {
     it("should correctly render page display name", () => {
       const { getByText } = modifiedSetup({
@@ -184,6 +200,12 @@ describe("RoutingDestinationContentPicker", () => {
       });
 
       expect(getByTestId("content-picker-select")).toHaveAttribute("disabled");
+    });
+
+    it("should display the default destination if everything is null", () => {
+      const { getByText } = modifiedSetup({ selected: { logical: null } });
+
+      expect(getByText("Select a destination")).toBeVisible();
     });
   });
 });
