@@ -111,10 +111,17 @@ describe("Block", () => {
         metadata,
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
-                  { id: `7151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                pages: [
+                  {
+                    answers: [
+                      {
+                        id: `7151378b-579d-40bf-b4d4-a378c573706a`,
+                        type: "Text",
+                      },
+                    ],
+                  },
                 ],
               },
             ],
