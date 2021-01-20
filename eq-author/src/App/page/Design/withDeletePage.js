@@ -1,5 +1,5 @@
 import { graphql } from "react-apollo";
-import { flowRight } from "lodash";
+import { flowRight, flatMap } from "lodash";
 
 import { withShowToast } from "components/Toasts";
 import deletePageMutation from "graphql/deletePage.graphql";
@@ -39,7 +39,7 @@ export const mapMutateToProps = props => ({
     const { ownProps, mutate } = props;
     const { client } = ownProps;
     const cachedSection = getCachedSection(client, page.section.id);
-    const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
+    const cachedPages = flatMap(cachedSection.folders, ({ pages }) => pages);
     const nextPage = getNextPage(cachedPages, page.id);
     const mutation = mutate({
       variables: { input: { id: page.id } },

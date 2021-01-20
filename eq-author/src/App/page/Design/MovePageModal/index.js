@@ -6,7 +6,7 @@ import CustomPropTypes from "custom-prop-types";
 import PositionModal from "components/PositionModal";
 import ItemSelectModal from "components/ItemSelectModal";
 import ItemSelect, { Option } from "components/ItemSelectModal/ItemSelect";
-import { find, uniqueId } from "lodash";
+import { find, uniqueId, flatMap } from "lodash";
 import Icon from "assets/icon-select.svg";
 
 import { colors, radius } from "constants/theme";
@@ -152,7 +152,7 @@ class MovePageModal extends React.Component {
 
         <PositionModal
           data-test={"page-position-modal"}
-          options={selectedSection.folders.flatMap(({ pages }) => pages)}
+          options={flatMap(selectedSection.folders, ({ pages }) => pages)}
           onMove={this.handlePageMove}
           selected={page}
           {...this.props}

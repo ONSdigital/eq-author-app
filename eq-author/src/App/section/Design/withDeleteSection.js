@@ -1,5 +1,5 @@
 import { graphql } from "react-apollo";
-import { find, flowRight } from "lodash";
+import { find, flowRight, flatMap } from "lodash";
 import gql from "graphql-tag";
 import { withShowToast } from "components/Toasts";
 
@@ -56,9 +56,10 @@ export const displayToast = (ownProps, questionnaire) => {
     id: params.sectionId,
   });
 
-  const numberOfDeletedPages = deletedSection.folders
-    .flatMap(({ pages }) => pages.length)
-    .reduce((acc, value) => acc + value);
+  const numberOfDeletedPages = flatMap(
+    deletedSection.folders,
+    ({ pages }) => pages.length
+  ).reduce((acc, value) => acc + value);
 
   ownProps.showToast(
     `Section + ${numberOfDeletedPages} ${pluralize(

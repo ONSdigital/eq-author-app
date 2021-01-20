@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
-
+import { flatMap } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import { TransitionGroup } from "react-transition-group";
 import NavItemTransition from "./NavItemTransition";
@@ -19,7 +19,7 @@ const NavList = styled.ol`
 `;
 
 const PageNav = ({ section, questionnaire }) => {
-  const pages = section.folders.flatMap(({ pages }) =>
+  const pages = flatMap(section.folders, ({ pages }) =>
     pages
       .reduce((list, page) => [...list, page, page.confirmation], [])
       .filter(Boolean)
