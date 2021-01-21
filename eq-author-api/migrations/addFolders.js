@@ -5,16 +5,14 @@ module.exports = function addFolders(questionnaire) {
 
   const folders = sections.map(section => {
     if (!section.hasOwnProperty("folders") && section.hasOwnProperty("pages")) {
-      const pages = section.pages;
-      section.folders = [
-        {
-          id: uuidv4(),
-          alias: "",
-          enabled: false,
-          pages,
-          skipConditions: null,
-        },
-      ];
+      section.folders = section.pages.map(page => ({
+        id: uuidv4(),
+        enabled: false,
+        alias: "",
+        skipConditions: null,
+        pages: [page],
+      }));
+
       delete section.pages;
       return section;
     } else {
