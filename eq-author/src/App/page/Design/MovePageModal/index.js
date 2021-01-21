@@ -55,9 +55,6 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
     null
   );
 
-  console.log("useQuestionnaire: ", useQuestionnaire);
-  console.log("result", useQuestionnaire());
-
   const handleCloseSectionSelect = () => {
     setIsSectionSelectOpen(false);
     setSelectedSectionId(previousSelectedSectionId);
