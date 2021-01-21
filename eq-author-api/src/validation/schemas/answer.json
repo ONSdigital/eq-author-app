@@ -1,764 +1,692 @@
 {
   "$id": "http://example.com/schemas/answer.json",
+  "type": "object",
   "allOf": [
     {
-      "$ref": "#/definitions/basicAnswer"
+      "if": {
+        "properties": {
+          "type": {
+            "not": { "enum": ["Checkbox", "Radio"] }
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/basicAnswer"
+      }
     },
     {
-      "$ref": "#/definitions/checkboxAnswer"
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["Number", "Percentage", "Currency", "Unit"]
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/numericAnswer"
+      }
     },
     {
-      "$ref": "#/definitions/radioAnswer"
+      "if": {
+        "properties": {
+          "type": { "const": "Checkbox" }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/checkboxAnswer"
+      }
     },
     {
-      "$ref": "#/definitions/numericAnswer"
+      "if": {
+        "properties": {
+          "type": { "const": "Radio" }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/radioAnswer"
+      }
     },
     {
-      "$ref": "#/definitions/dateAnswer"
+      "if": {
+        "properties": {
+          "type": { "const": "Date" }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/dateAnswer"
+      }
     },
     {
-      "$ref": "#/definitions/dateRangeAnswer"
+      "if": {
+        "properties": {
+          "type": { "const": "DateRange" }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/dateRangeAnswer"
+      }
     }
   ],
   "definitions": {
     "basicAnswer": {
-      "type": "object",
-      "if": {
+      "properties": {
+        "qCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
         "properties": {
-          "type": {
-            "not": {
-              "enum": [
-                "Checkbox",
-                "Radio"
-              ]
-            }
-          }
+          "$ref": "#/definitions/properties"
         }
       },
-      "then": {
-        "type": "object",
-        "properties": {
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "id": {
-            "type": "string"
-          },
-          "label": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "properties": {
-            "$ref": "#/definitions/properties"
-          }
-        },
-        "required": [
-          "id",
-          "label"
-        ]
-      }
+      "required": [
+        "label"
+      ]
     },
     "numericAnswer": {
-      "if": {
-        "properties": {
-          "type": {
-            "enum": [
-              "Number",
-              "Percentage",
-              "Currency",
-              "Unit"
-            ]
-          }
-        }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "validation": {
-            "if": {
-              "allOf": [
-                {
-                  "properties": {
-                    "minValue": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "previousAnswer": {
-                          "const": null
-                        },
-                        "custom": {
-                          "not": {
-                            "type": "null"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "maxValue": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "previousAnswer": {
-                          "const": null
-                        },
-                        "custom": {
-                          "not": {
-                            "type": "null"
-                          }
+      "properties": {
+        "validation": {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "minValue": {
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "previousAnswer": {
+                        "const": null
+                      },
+                      "custom": {
+                        "not": {
+                          "type": "null"
                         }
                       }
                     }
                   }
                 }
-              ]
-            },
-            "then": {
-              "properties": {
-                "minValue": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "maximum": {
-                        "$data": "2/maxValue/custom"
+              },
+              {
+                "properties": {
+                  "maxValue": {
+                    "properties": {
+                      "enabled": {
+                        "const": true
                       },
-                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+                      "previousAnswer": {
+                        "const": null
+                      },
+                      "custom": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
                     }
-                  }
-                },
-                "maxValue": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {}
                   }
                 }
               }
-            },
+            ]
+          },
+          "then": {
             "properties": {
               "minValue": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "entityType": {
-                        "const": "Custom"
-                      },
-                      "custom": {
-                        "not": {
-                          "type": "null"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "entityType": {
-                        "const": "PreviousAnswer"
-                      },
-                      "previousAnswer": {
-                        "not": {
-                          "type": "null"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
+                "type": "object",
+                "properties": {
+                  "custom": {
+                    "maximum": {
+                      "$data": "2/maxValue/custom"
+                    },
+                    "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
                   }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
+                }
               },
               "maxValue": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "custom": {
-                        "not": {
-                          "type": "null"
-                        }
+                "type": "object",
+                "properties": {
+                  "custom": {}
+                }
+              }
+            }
+          },
+          "properties": {
+            "minValue": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "entityType": {
+                      "const": "Custom"
+                    },
+                    "custom": {
+                      "not": {
+                        "type": "null"
                       }
                     }
-                  },
-                  {
-                    "type": "object",
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "entityType": {
+                      "const": "PreviousAnswer"
+                    },
+                    "previousAnswer": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            },
+            "maxValue": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "custom": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "entityType": {
+                      "const": "PreviousAnswer"
+                    },
+                    "previousAnswer": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            }
+          }
+        }
+      }
+    },
+    "checkboxAnswer": {
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "qCode": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "option.json"
+              },
+              {
+                "uniquePropertyValueInArrayOfObjects": "label"
+              }
+            ],
+            "required": ["qCode"],
+            "errorMessage": {
+              "required": {
+                "qCode": "ERR_QCODE_REQUIRED"
+              }
+            }
+          }
+        },
+        "mutuallyExclusiveOption": {
+          "$ref": "option.json"
+        }
+      },
+      "required": ["options"]
+    },
+    "radioAnswer": {
+      "properties": {
+        "qCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "option.json"
+              },
+              {
+                "uniquePropertyValueInArrayOfObjects": "label"
+              }
+            ]
+          }
+        },
+        "mutuallyExclusiveOption": {
+          "$ref": "option.json"
+        }
+      },
+      "required": ["options", "qCode"],
+      "errorMessage": {
+        "required": {
+          "qCode": "ERR_QCODE_REQUIRED"
+        }
+      }
+    },
+    "dateAnswer": {
+      "properties": {
+        "validation": {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "earliestDate": {
                     "properties": {
                       "enabled": {
                         "const": true
                       },
                       "entityType": {
-                        "const": "PreviousAnswer"
-                      },
-                      "previousAnswer": {
-                        "not": {
-                          "type": "null"
-                        }
+                        "enum": [
+                          "Custom",
+                          "Metadata"
+                        ]
                       }
                     }
-                  },
-                  {
-                    "type": "object",
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "latestDate": {
                     "properties": {
                       "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              }
-            }
-          },
-          "properties": {
-            "$ref": "#/definitions/properties"
-          }
-        }
-      },
-      "else": false
-    },
-    "checkboxAnswer": {
-      "if": {
-        "properties": {
-          "type": {
-            "enum": [
-              "Checkbox"
-            ]
-          }
-        }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "options": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "qCode": {
-                  "$ref": "definitions.json#/definitions/populatedString"
-                }
-              },
-              "required": [
-                "qCode"
-              ],
-              "errorMessage": {
-                "required": {
-                  "qCode": "ERR_QCODE_REQUIRED"
-                }
-              },
-              "allOf": [
-                {
-                  "$ref": "option.json"
-                },
-                {
-                  "uniquePropertyValueInArrayOfObjects": "label"
-                }
-              ]
-            }
-          },
-          "mutuallyExclusiveOption": {
-            "$ref": "option.json"
-          }
-        },
-        "required": [
-          "id",
-          "options"
-        ]
-      },
-      "else": false
-    },
-    "radioAnswer": {
-      "if": {
-        "properties": {
-          "type": {
-            "enum": [
-              "Radio"
-            ]
-          }
-        }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "options": {
-            "type": "array",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "option.json"
-                },
-                {
-                  "uniquePropertyValueInArrayOfObjects": "label"
-                }
-              ]
-            }
-          },
-          "mutuallyExclusiveOption": {
-            "$ref": "option.json"
-          }
-        },
-        "required": [
-          "id",
-          "options",
-          "qCode"
-        ],
-        "errorMessage": {
-          "required": {
-            "qCode": "ERR_QCODE_REQUIRED"
-          }
-        }
-      },
-      "else": false
-    },
-    "dateAnswer": {
-      "if": {
-        "properties": {
-          "type": {
-            "enum": [
-              "Date"
-            ]
-          }
-        }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "validation": {
-            "if": {
-              "allOf": [
-                {
-                  "properties": {
-                    "earliestDate": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "entityType": {
-                          "enum": [
-                            "Custom",
-                            "Metadata"
-                          ]
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "latestDate": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "entityType": {
-                          "enum": [
-                            "Custom",
-                            "Metadata"
-                          ]
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
-            },
-            "then": {
-              "properties": {
-                "earliestDate": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "validateLatestAfterEarliest": {
-                        "$data": "2/latestDate"
+                        "const": true
+                      },
+                      "entityType": {
+                        "enum": [
+                          "Custom",
+                          "Metadata"
+                        ]
                       }
                     }
                   }
                 }
               }
-            },
+            ]
+          },
+          "then": {
             "properties": {
               "earliestDate": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "offset": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
+                "type": "object",
+                "properties": {
+                  "custom": {
+                    "validateLatestAfterEarliest": {
+                      "$data": "2/latestDate"
                     }
                   }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              },
-              "latestDate": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "offset": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
+                }
               }
             }
           },
           "properties": {
-            "$ref": "#/definitions/properties"
+            "earliestDate": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "offset": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            },
+            "latestDate": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "offset": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            }
           }
         }
       }
     },
     "dateRangeAnswer": {
-      "if": {
-        "properties": {
-          "type": {
-            "enum": [
-              "DateRange"
-            ]
+      "properties": {
+        "secondaryQCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "secondaryLabel": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "validation": {
+          "allOf": [
+            {
+              "if": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "minDuration": {
+                        "properties": {
+                          "enabled": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "maxDuration": {
+                        "properties": {
+                          "enabled": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "then": {
+                "properties": {
+                  "minDuration": {
+                    "type": "object",
+                    "properties": {
+                      "duration": {
+                        "validateDuration": {
+                          "$data": "2/maxDuration"
+                        }
+                      }
+                    }
+                  },
+                  "maxDuration": {
+                    "type": "object",
+                    "properties": {
+                      "duration": {}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "earliestDate": {
+                        "properties": {
+                          "enabled": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "latestDate": {
+                        "properties": {
+                          "enabled": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "then": {
+                "properties": {
+                  "earliestDate": {
+                    "type": "object",
+                    "properties": {
+                      "custom": {
+                        "validateLatestAfterEarliest": {
+                          "$data": "2/latestDate"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "earliestDate": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "offset": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            },
+            "latestDate": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "offset": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            },
+            "minDuration": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "duration": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            },
+            "maxDuration": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": true
+                    },
+                    "value": {
+                      "not": {
+                        "type": "null"
+                      }
+                    },
+                    "duration": {
+                      "properties": {
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  }
+                }
+              ],
+              "errorMessage": "ERR_NO_VALUE"
+            }
           }
         }
       },
-      "then": {
-        "type": "object",
-        "properties": {
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "secondaryQCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "secondaryLabel": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "validation": {
-            "allOf": [
-              {
-                "if": {
-                  "allOf": [
-                    {
-                      "properties": {
-                        "minDuration": {
-                          "properties": {
-                            "enabled": {
-                              "const": true
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "maxDuration": {
-                          "properties": {
-                            "enabled": {
-                              "const": true
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "then": {
-                  "properties": {
-                    "minDuration": {
-                      "type": "object",
-                      "properties": {
-                        "duration": {
-                          "validateDuration": {
-                            "$data": "2/maxDuration"
-                          }
-                        }
-                      }
-                    },
-                    "maxDuration": {
-                      "type": "object",
-                      "properties": {
-                        "duration": {}
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "if": {
-                  "allOf": [
-                    {
-                      "properties": {
-                        "earliestDate": {
-                          "properties": {
-                            "enabled": {
-                              "const": true
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "latestDate": {
-                          "properties": {
-                            "enabled": {
-                              "const": true
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "then": {
-                  "properties": {
-                    "earliestDate": {
-                      "type": "object",
-                      "properties": {
-                        "custom": {
-                          "validateLatestAfterEarliest": {
-                            "$data": "2/latestDate"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ],
-            "properties": {
-              "earliestDate": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "offset": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              },
-              "latestDate": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "offset": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              },
-              "minDuration": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "duration": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              },
-              "maxDuration": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": true
-                      },
-                      "value": {
-                        "not": {
-                          "type": "null"
-                        }
-                      },
-                      "duration": {
-                        "properties": {
-                          "value": {
-                            "not": {
-                              "type": "null"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "enabled": {
-                        "const": false
-                      }
-                    }
-                  }
-                ],
-                "errorMessage": "ERR_NO_VALUE"
-              }
-            }
-          },
-          "properties": {
-            "$ref": "#/definitions/properties"
-          }
-        },
-        "required": [
-          "qCode",
-          "secondaryQCode"
-        ],
-        "errorMessage": {
-          "required": {
-            "qCode": "ERR_QCODE_REQUIRED",
-            "secondaryQCode": "ERR_SECONDARY_QCODE_REQUIRED"
-          }
+      "required": [
+        "qCode",
+        "secondaryQCode"
+      ],
+      "errorMessage": {
+        "required": {
+          "qCode": "ERR_QCODE_REQUIRED",
+          "secondaryQCode": "ERR_SECONDARY_QCODE_REQUIRED"
         }
       }
     },
