@@ -1,0 +1,57 @@
+{
+  "$id": "http://example.com/schemas/validation.json",
+  "definitions": {
+    "totalValidation": {
+      "if": {
+        "type": "object",
+        "properties": {
+          "enabled": { "const": true }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "if": {
+              "properties": { "entityType": { "const": "Custom" } }
+            },
+            "then": {
+              "properties": { "custom": { "type": "number" } },
+              "errorMessage": "ERR_TOTAL_NO_VALUE"
+            }
+          },
+          {
+            "if": {
+              "properties": { "entityType": { "const": "PreviousAnswer" } }
+            },
+            "then": {
+              "if": {
+                "properties": { "previousAnswer": { "type": "string" } }
+              },
+              "then": {
+                "if": {
+                  "idExists": {
+                    "$data": "0/previousAnswer"
+                  }
+                },
+                "then": {
+                  "idPreceedsCurrentEntity": {
+                    "$data": "0/previousAnswer"
+                  },
+                  "errorMessage": "ERR_REFERENCE_MOVED"
+                },
+                "else": {
+                  "failValidation": true,
+                  "errorMessage": "ERR_REFERENCE_DELETED"
+                }
+              },
+              "else": {
+                "failValidation": true,
+                "errorMessage": "ERR_TOTAL_NO_VALUE"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

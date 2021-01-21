@@ -263,15 +263,11 @@ const getOrderedIdMap = ctx => {
 };
 
 // Efficiently check if questionnaire contains entity with given id
-const idExists = (ctx, id) => {
-  return getOrderedIdMap(ctx).get(id) !== undefined;
-};
+const idExists = (ctx, id) => getOrderedIdMap(ctx).get(id) !== undefined;
 
 // Efficiently get absolute position in questionnaire for entity with given id
 // Later pages, answers etc. have higher values than earlier pages, answers, etc.
-const getAbsolutePositionById = (ctx, id) => {
-  return getOrderedIdMap(ctx).get(id);
-};
+const getAbsolutePositionById = (ctx, id) => getOrderedIdMap(ctx).get(id);
 
 const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
 

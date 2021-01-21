@@ -1,0 +1,197 @@
+{
+  "$id": "http://example.com/schemas/page.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "allOf": [
+        {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        {
+          "validatePipingInTitle": "page"
+        }
+      ]
+    },
+    "confirmation": {
+      "$ref": "confirmationPage.json"
+    },
+    "routing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "logic.json#/definitions/routingRule"
+          }
+        }
+      }
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "$ref": "logic.json#/definitions/expressionGroup"
+      }
+    },
+    "totalValidation": {
+      "$ref": "validation.json#/definitions/totalValidation"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "definitionEnabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "definitionLabel": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
+          "definitionContent": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "additionalInfoEnabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "additionalInfoLabel": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "additionalInfoContent": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "guidanceEnabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "guidance": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "descriptionEnabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "description": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pageType": {
+            "enum": [
+              "QuestionPage"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "answer.json"
+            },
+            "minItems": 1,
+            "errorMessage": {
+              "minItems": "ERR_NO_ANSWERS"
+            }
+          }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "pageType": {
+              "enum": [
+                "CalculatedSummaryPage"
+              ]
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "summaryAnswers": {
+              "type": "array",
+              "items": {
+                "$ref": "answer.json"
+              },
+              "calculatedSummaryUnitConsistency": {
+                "$data": "/sections"
+              },
+              "minItems": 2,
+              "errorMessage": {
+                "minItems": "ERR_NO_ANSWERS"
+              }
+            }
+          },
+          "required": [
+            "summaryAnswers"
+          ]
+        }
+      }
+    }
+  ],
+  "required": [
+    "id",
+    "title"
+  ]
+}

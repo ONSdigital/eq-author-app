@@ -1,416 +1,26 @@
 {
-  "$id": "http://example.com/schemas/entities.json",
+  "$id": "http://example.com/schemas/answer.json",
+  "allOf": [
+    {
+      "$ref": "#/definitions/basicAnswer"
+    },
+    {
+      "$ref": "#/definitions/checkboxAnswer"
+    },
+    {
+      "$ref": "#/definitions/radioAnswer"
+    },
+    {
+      "$ref": "#/definitions/numericAnswer"
+    },
+    {
+      "$ref": "#/definitions/dateAnswer"
+    },
+    {
+      "$ref": "#/definitions/dateRangeAnswer"
+    }
+  ],
   "definitions": {
-    "section": {
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string",
-          "requiredWhenQuestionnaireSetting": "navigation"
-        },
-        "introductionTitle": {
-          "type": "string",
-          "requiredWhenOtherFieldsPopulated": [
-            "introductionContent"
-          ]
-        },
-        "introductionContent": {
-          "type": "string",
-          "requiredWhenOtherFieldsPopulated": [
-            "introductionTitle"
-          ]
-        },
-        "folders": {
-          "type": "array",
-          "items": {
-            "$ref": "entities.json#/definitions/folder"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "pages"
-      ]
-    },
-    "folder": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "pages": {
-          "type": "array",
-          "items": {
-            "$ref": "entities.json#/definitions/page"
-          }
-        },
-        "skipConditions": {
-          "$ref": "entities.json#/definitions/skipConditions"
-        }
-      }
-    },
-    "pages": {
-      "type": "array",
-      "items": {
-        "$ref": "entities.json#/definitions/page"
-      }
-    },
-    "page": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "allOf": [
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            {
-              "validatePipingInTitle": "page"
-            }
-          ]
-        },
-        "confirmation": {
-          "$ref": "entities.json#/definitions/confirmationPage"
-        },
-        "routing": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "rules": {
-              "type": "array",
-              "items": {
-                "$ref": "entities.json#/definitions/routingRule"
-              }
-            }
-          }
-        },
-        "skipConditions": {
-          "type": "array",
-          "items": {
-            "$ref": "entities.json#/definitions/expressionGroup"
-          }
-        },
-        "totalValidation": {
-          "$ref": "entities.json#/definitions/totalValidation"
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "definitionEnabled": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "definitionLabel": {
-                "allOf": [
-                  {
-                    "not": {
-                      "type": "null"
-                    },
-                    "errorMessage": "ERR_VALID_REQUIRED"
-                  },
-                  {
-                    "$ref": "definitions.json#/definitions/populatedString"
-                  }
-                ]
-              },
-              "definitionContent": {
-                "allOf": [
-                  {
-                    "not": {
-                      "type": "null"
-                    },
-                    "errorMessage": "ERR_VALID_REQUIRED"
-                  },
-                  {
-                    "$ref": "definitions.json#/definitions/populatedString"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "additionalInfoEnabled": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "additionalInfoLabel": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              },
-              "additionalInfoContent": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "guidanceEnabled": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "guidance": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "descriptionEnabled": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "description": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "pageType": {
-                "enum": [
-                  "QuestionPage"
-                ]
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "answers": {
-                "type": "array",
-                "items": {
-                  "$ref": "entities.json#/definitions/answer"
-                },
-                "minItems": 1,
-                "errorMessage": {
-                  "minItems": "ERR_NO_ANSWERS"
-                }
-              }
-            }
-          },
-          "else": {
-            "if": {
-              "properties": {
-                "pageType": {
-                  "enum": [
-                    "CalculatedSummaryPage"
-                  ]
-                }
-              }
-            },
-            "then": {
-              "properties": {
-                "summaryAnswers": {
-                  "type": "array",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "entities.json#/definitions/answer"
-                      }
-                    ]
-                  },
-                  "calculatedSummaryUnitConsistency": {
-                    "$data": "/sections"
-                  },
-                  "minItems": 2,
-                  "errorMessage": {
-                    "minItems": "ERR_NO_ANSWERS"
-                  }
-                }
-              },
-              "required": [
-                "summaryAnswers"
-              ]
-            }
-          }
-        }
-      ],
-      "required": [
-        "id",
-        "title"
-      ]
-    },
-    "totalValidation": {
-      "if": {
-        "type": "object",
-        "properties": {
-          "enabled": { "const": true }
-        }
-      },
-      "then": {
-        "allOf": [
-          {
-            "if": {
-              "properties": { "entityType": { "const": "Custom" } }
-            },
-            "then": {
-              "properties": { "custom": { "type": "number" } },
-              "errorMessage": "ERR_TOTAL_NO_VALUE"
-            }
-          },
-          {
-            "if": {
-              "properties": { "entityType": { "const": "PreviousAnswer" } }
-            },
-            "then": {
-              "if": {
-                "properties": { "previousAnswer": { "type": "string" } }
-              },
-              "then": {
-                "if": {
-                  "idExists": {
-                    "$data": "0/previousAnswer"
-                  }
-                },
-                "then": {
-                  "idPreceedsCurrentEntity": {
-                    "$data": "0/previousAnswer"
-                  },
-                  "errorMessage": "ERR_REFERENCE_MOVED"
-                },
-                "else": {
-                  "failValidation": true,
-                  "errorMessage": "ERR_REFERENCE_DELETED"
-                }
-              },
-              "else": {
-                "failValidation": true,
-                "errorMessage": "ERR_TOTAL_NO_VALUE"
-              }
-            }
-          }
-        ]
-      }
-    },
-    "confirmationPage": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
-        "skipConditions": {
-          "type": "array",
-          "items": {
-            "$ref": "entities.json#/definitions/expressionGroup"
-          }
-        },
-        "qCode": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
-        "positive": {
-          "type": "object",
-          "properties": {
-            "label": {
-              "if": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              },
-              "then": {
-                "not": {
-                  "const": {
-                    "$data": "2/negative/label"
-                  }
-                },
-                "errorMessage": "ERR_UNIQUE_REQUIRED"
-              },
-              "else": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            }
-          },
-          "required": [
-            "label"
-          ]
-        },
-        "negative": {
-          "type": "object",
-          "properties": {
-            "label": {
-              "if": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              },
-              "then": {
-                "not": {
-                  "const": {
-                    "$data": "2/positive/label"
-                  }
-                },
-                "errorMessage": "ERR_UNIQUE_REQUIRED"
-              },
-              "else": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            }
-          },
-          "required": [
-            "label"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "title",
-        "positive",
-        "qCode"
-      ],
-      "errorMessage": {
-        "required": {
-          "qCode": "ERR_QCODE_REQUIRED"
-        }
-      }
-    },
-    "answer": {
-      "allOf": [
-        {
-          "$ref": "entities.json#/definitions/basicAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/checkboxAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/radioAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/numericAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/dateAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/dateRangeAnswer"
-        }
-      ]
-    },
     "basicAnswer": {
       "type": "object",
       "if": {
@@ -438,7 +48,7 @@
             "$ref": "definitions.json#/definitions/populatedString"
           },
           "properties": {
-            "$ref": "entities.json#/definitions/properties"
+            "$ref": "#/definitions/properties"
           }
         },
         "required": [
@@ -621,7 +231,7 @@
             }
           },
           "properties": {
-            "$ref": "entities.json#/definitions/properties"
+            "$ref": "#/definitions/properties"
           }
         }
       },
@@ -662,7 +272,7 @@
               },
               "allOf": [
                 {
-                  "$ref": "entities.json#/definitions/option"
+                  "$ref": "option.json"
                 },
                 {
                   "uniquePropertyValueInArrayOfObjects": "label"
@@ -671,7 +281,7 @@
             }
           },
           "mutuallyExclusiveOption": {
-            "$ref": "entities.json#/definitions/option"
+            "$ref": "option.json"
           }
         },
         "required": [
@@ -705,7 +315,7 @@
             "items": {
               "allOf": [
                 {
-                  "$ref": "entities.json#/definitions/option"
+                  "$ref": "option.json"
                 },
                 {
                   "uniquePropertyValueInArrayOfObjects": "label"
@@ -714,7 +324,7 @@
             }
           },
           "mutuallyExclusiveOption": {
-            "$ref": "entities.json#/definitions/option"
+            "$ref": "option.json"
           }
         },
         "required": [
@@ -873,7 +483,7 @@
             }
           },
           "properties": {
-            "$ref": "entities.json#/definitions/properties"
+            "$ref": "#/definitions/properties"
           }
         }
       }
@@ -1137,7 +747,7 @@
             }
           },
           "properties": {
-            "$ref": "entities.json#/definitions/properties"
+            "$ref": "#/definitions/properties"
           }
         },
         "required": [
@@ -1166,241 +776,6 @@
         },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
-        }
-      }
-    },
-    "option": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
-        "additionalAnswer": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "label": {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            "properties": {
-              "$ref": "entities.json#/definitions/properties"
-            }
-          },
-          "required": [
-            "id",
-            "label"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "label"
-      ]
-    },
-    "routingRule": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "destination": {
-          "properties": {
-            "logical": {
-              "not": {
-                "const": "Default"
-              }
-            }
-          },
-          "errorMessage": "ERR_DESTINATION_REQUIRED"
-        },
-        "expressionGroup": {
-          "$ref": "entities.json#/definitions/expressionGroup"
-        }
-      },
-      "validateRoutingRule": {
-        "$data": "/sections"
-      }
-    },
-    "expressionGroup": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "operator": {
-          "enum": [
-            "And",
-            "Or"
-          ]
-        },
-        "expressions": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "entities.json#/definitions/expression"
-              },
-              {
-                "$ref": "entities.json#/definitions/expression-unanswered"
-              }
-            ]
-          }
-        }
-      },
-      "if": {
-        "properties": {
-          "operator": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "const": "And"
-              }
-            ]
-          }
-        }
-      },
-      "then": {
-        "validateRoutingLogicalAND": true
-      }
-    },
-    "expression": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "condition": {
-          "allOf": [
-            {
-              "validateMultipleChoiceCondition": "condition"
-            },
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            }
-          ]
-        },
-        "left": {
-          "type": "object",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "answerId": {
-                  "type": "string",
-                  "pattern": "\\w+"
-                }
-              },
-              "required": [
-                "answerId"
-              ]
-            }
-          ],
-          "errorMessage": "ERR_ANSWER_NOT_SELECTED",
-          "validateLeftHandSide": "left"
-        }
-      },
-      "if": {
-        "properties": {
-          "condition": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "right": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "enum": [
-                  "Custom",
-                  "SelectedOptions"
-                ]
-              },
-              "optionIds": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "type": "string"
-                }
-              },
-              "customValue": {
-                "type": "object",
-                "properties": {
-                  "number": {
-                    "not": {
-                      "type": "null"
-                    }
-                  }
-                }
-              }
-            },
-            "required": [
-              "type"
-            ],
-            "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
-          }
-        }
-      },
-      "validateExpression": "validateExpression",
-      "required": [
-        "condition"
-      ]
-    },
-    "expression-unanswered": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "condition": {
-          "enum": [
-            "Unanswered"
-          ]
-        },
-        "left": {
-          "type": "object",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "answerId": {
-                  "type": "string",
-                  "pattern": "\\w+"
-                }
-              },
-              "required": [
-                "answerId"
-              ]
-            }
-          ],
-          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
-        }
-      }
-    },
-    "skipConditions": {
-      "type": "array",
-      "items": {
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "expressions": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "entities.json#/definitions/expression"
-                },
-                {
-                  "$ref": "entities.json#/definitions/expression-unanswered"
-                }
-              ]
-            }
-          }
         }
       }
     }

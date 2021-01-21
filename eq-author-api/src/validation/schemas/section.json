@@ -1,0 +1,36 @@
+{
+    "$id": "http://example.com/schemas/section.json",
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string",
+            "requiredWhenQuestionnaireSetting": "navigation"
+        },
+        "introductionTitle": {
+            "type": "string",
+            "requiredWhenOtherFieldsPopulated": [
+                "introductionContent"
+            ]
+        },
+        "introductionContent": {
+            "type": "string",
+            "requiredWhenOtherFieldsPopulated": [
+                "introductionTitle"
+            ]
+        },
+        "folders": {
+            "type": "array",
+            "items": {
+                "$ref": "folder.json"
+            }
+        }
+    },
+    "required": [
+        "id",
+        "pages"
+    ]
+}
