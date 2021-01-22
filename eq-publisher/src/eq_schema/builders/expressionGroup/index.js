@@ -2,10 +2,10 @@ const translateBinaryExpression = require("../translateBinaryEpression/translate
 const { flatMap, filter, find, some } = require("lodash");
 
 const getMutallyExclusiveAnswer = (answerId, ctx) => {
-  const pages = flatMap(
-    filter(ctx.questionnaireJson.sections, "pages"),
-    "pages"
+  const pages = flatMap(ctx.questionnaireJson.sections, section =>
+    flatMap(section.folders, folder => folder.pages)
   );
+
   const answers = flatMap(filter(pages, "answers"), "answers");
   const answer = find(answers, { id: answerId });
   if (!answer) {
