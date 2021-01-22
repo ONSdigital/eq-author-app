@@ -29,6 +29,15 @@ describe("PositionModal", () => {
     expect(createWrapper({})).toMatchSnapshot();
   });
 
+  it("should open when trigger clicked", () => {
+    const wrapper = createWrapper();
+
+    getPositionModalTrigger(wrapper)
+      .first()
+      .simulate("click");
+    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(true);
+  });
+
   it("should close Modals on confirm", () => {
     const wrapper = createWrapper();
 
