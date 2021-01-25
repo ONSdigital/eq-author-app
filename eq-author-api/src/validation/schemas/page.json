@@ -39,7 +39,13 @@
       }
     },
     "totalValidation": {
-      "$ref": "validation.json#/definitions/totalValidation"
+      "type": ["null", "object"],
+      "if": {
+        "type": "object"
+      },
+      "then": {
+        "$ref": "validation.json#/definitions/validationEntry"
+      }
     }
   },
   "allOf": [

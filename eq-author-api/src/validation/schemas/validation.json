@@ -1,58 +1,6 @@
 {
   "$id": "http://example.com/schemas/validation.json",
   "definitions": {
-    "totalValidation": {
-      "if": {
-        "type": "object",
-        "properties": {
-          "enabled": { "const": true }
-        }
-      },
-      "then": {
-        "allOf": [
-          {
-            "if": {
-              "properties": { "entityType": { "const": "Custom" } }
-            },
-            "then": {
-              "properties": { "custom": { "type": "number" } },
-              "errorMessage": "ERR_TOTAL_NO_VALUE"
-            }
-          },
-          {
-            "if": {
-              "properties": { "entityType": { "const": "PreviousAnswer" } }
-            },
-            "then": {
-              "if": {
-                "properties": { "previousAnswer": { "type": "string" } }
-              },
-              "then": {
-                "if": {
-                  "idExists": {
-                    "$data": "0/previousAnswer"
-                  }
-                },
-                "then": {
-                  "idPreceedsCurrentEntity": {
-                    "$data": "0/previousAnswer"
-                  },
-                  "errorMessage": "ERR_REFERENCE_MOVED"
-                },
-                "else": {
-                  "failValidation": true,
-                  "errorMessage": "ERR_REFERENCE_DELETED"
-                }
-              },
-              "else": {
-                "failValidation": true,
-                "errorMessage": "ERR_TOTAL_NO_VALUE"
-              }
-            }
-          }
-        ]
-      }
-    },
     "numericValidations": {
       "if": {
         "properties": {
@@ -211,61 +159,98 @@
     },
     "validationEntry": {
       "type": "object",
-      "anyOf": [
+      "allOf": [
         {
-          "properties": {
-            "enabled": { "const": false }
-          }
-        },
-        {
-          "properties": {
-            "enabled": { "const": true },
-            "entityType": { "const": "Custom" },
-            "custom": {
-              "not": { "type": "null" }
-            }
-          }
-        },
-        {
-          "properties": {
-            "enabled": { "const": true },
-            "entityType": { "const": "Custom" },
-            "duration": {
-              "type": "object",
+          "anyOf": [
+            {
               "properties": {
-                "value": { "not": { "type": "null" } }
+                "enabled": { "const": false }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Now" }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Custom" },
+                "custom": {
+                  "not": { "type": "null" }
+                }
+              },
+              "required": ["custom"]
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Custom" },
+                "duration": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "not": { "type": "null" } }
+                  }
+                }
+              },
+              "required": ["duration"]
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Now" }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": {
+                  "const": "PreviousAnswer"
+                },
+                "previousAnswer": {
+                  "not": { "type": "null" }
+                }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Metadata" },
+                "metadata": {
+                  "not": { "type": "null" }
+                }
               }
             }
-          }
+          ],
+          "errorMessage": "ERR_NO_VALUE"
         },
         {
-          "properties": {
-            "enabled": { "const": true },
-            "entityType": { "const": "Now" }
-          }
-        },
-        {
-          "properties": {
-            "enabled": { "const": true },
-            "entityType": {
-              "const": "PreviousAnswer"
+          "if": {
+            "properties": {
+              "entityType": { "const": "PreviousAnswer" },
+              "previousAnswer": { "type": "string" }
             },
-            "previousAnswer": {
-              "not": { "type": "null" }
-            }
-          }
-        },
-        {
-          "properties": {
-            "enabled": { "const": true },
-            "entityType": { "const": "Metadata" },
-            "metadata": {
-              "not": { "type": "null" }
-            }
+            "required": ["previousAnswer"]
+          },
+          "then": {
+            "allOf": [
+              {
+                "idExists": {
+                  "$data": "0/previousAnswer"
+                },
+                "errorMessage": "ERR_REFERENCE_DELETED"
+              },
+              {
+                "idPreceedsCurrentEntity": {
+                  "$data": "0/previousAnswer"
+                },
+                "errorMessage": "ERR_REFERENCE_MOVED"
+              }
+            ]
           }
         }
-      ],
-      "errorMessage": "ERR_NO_VALUE"
+      ]
     }
   }
 }
