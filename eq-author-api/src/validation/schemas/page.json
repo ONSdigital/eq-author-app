@@ -19,7 +19,7 @@
       "$ref": "confirmationPage.json"
     },
     "routing": {
-      "type": "object",
+      "type": ["object", "null"],
       "properties": {
         "id": {
           "type": "string"
