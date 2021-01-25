@@ -29,7 +29,7 @@ const {
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
   ERR_LOGICAL_AND,
-  ERR_TOTAL_NO_VALUE,
+  ERR_NO_VALUE,
   ERR_REFERENCE_DELETED,
   ERR_REFERENCE_MOVED,
 } = require("../../constants/validationErrorCodes");
@@ -1919,7 +1919,7 @@ describe("schema validation", () => {
           custom: null,
         });
         expect(errors.length).toBe(1);
-        expect(errors[0].errorCode).toBe(ERR_TOTAL_NO_VALUE);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
       });
     });
 
@@ -1936,7 +1936,7 @@ describe("schema validation", () => {
           previousAnswer: null,
         });
         expect(errors.length).toBe(1);
-        expect(errors[0].errorCode).toBe(ERR_TOTAL_NO_VALUE);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
       });
 
       it("should return an error when previous answer reference doesn't exist", () => {
