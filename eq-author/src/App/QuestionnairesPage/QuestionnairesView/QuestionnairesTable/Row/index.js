@@ -125,6 +125,7 @@ export class Row extends React.Component {
     linkHasFocus: false,
     disabled: true,
     showDeleteModal: false,
+    showDuplicationModal: false,
     transitionOut: false,
   };
 
@@ -282,6 +283,7 @@ export class Row extends React.Component {
             </div>
           </TD>
         </TR>
+
         <DeleteConfirmDialog
           isOpen={this.state.showDeleteModal}
           onClose={this.handleModalClose}

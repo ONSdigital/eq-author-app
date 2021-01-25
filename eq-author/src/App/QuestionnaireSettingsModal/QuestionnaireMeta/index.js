@@ -117,7 +117,9 @@ export const StatelessQuestionnaireMeta = ({
           Let respondents move between sections while they&apos;re completing
           their questionnaire.
         </InformationPanel>
+
         <HorizontalSeparator />
+
         <InlineField>
           <Label>Answers summary</Label>
           <VerticalSeparator />
@@ -139,6 +141,7 @@ export const StatelessQuestionnaireMeta = ({
           Cancel
         </Button>
         <Button
+          onClick={onSubmit}
           type="submit"
           variant="primary"
           disabled={!(questionnaire.title && questionnaire.type)}

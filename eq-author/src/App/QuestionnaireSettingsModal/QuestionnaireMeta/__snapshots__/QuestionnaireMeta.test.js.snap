@@ -148,6 +148,7 @@ exports[`QuestionnaireMeta should render 1`] = `
       <Button
         data-test="questionnaire-submit-button"
         disabled={true}
+        onClick={[MockFunction]}
         type="submit"
         variant="primary"
       >
