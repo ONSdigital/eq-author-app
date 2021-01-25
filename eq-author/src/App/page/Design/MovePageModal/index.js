@@ -89,45 +89,47 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
 
   const sectionButtonId = uniqueId("MovePageModal");
   const selectedSection = useMemo(
-    () => find(questionnaire.sections, { id: selectedSectionId }),
+    () =>
+      questionnaire && find(questionnaire.sections, { id: selectedSectionId }),
     [questionnaire, selectedSectionId]
   );
 
   return useMemo(
-    () => (
-      <MoveModal title={"Move question"} isOpen={isOpen} onClose={onClose}>
-        <Label htmlFor={sectionButtonId}>Section</Label>
-        <Trigger id={sectionButtonId} onClick={handleOpenSectionSelect}>
-          <Truncated>{selectedSection.displayName}</Truncated>
-        </Trigger>
-        <ItemSelectModal
-          title="Section"
-          data-test={"section-select-modal"}
-          isOpen={isSectionSelectOpen}
-          onClose={handleCloseSectionSelect}
-          onConfirm={handleSectionConfirm}
-        >
-          <ItemSelect
-            data-test="section-item-select"
-            name="section"
-            value={selectedSection.id}
-            onChange={handleSectionChange}
+    () =>
+      questionnaire ? (
+        <MoveModal title={"Move question"} isOpen={isOpen} onClose={onClose}>
+          <Label htmlFor={sectionButtonId}>Section</Label>
+          <Trigger id={sectionButtonId} onClick={handleOpenSectionSelect}>
+            <Truncated>{selectedSection.displayName}</Truncated>
+          </Trigger>
+          <ItemSelectModal
+            title="Section"
+            data-test={"section-select-modal"}
+            isOpen={isSectionSelectOpen}
+            onClose={handleCloseSectionSelect}
+            onConfirm={handleSectionConfirm}
           >
-            {questionnaire.sections.map(section => (
-              <Option key={section.id} value={section.id}>
-                {section.displayName}
-              </Option>
-            ))}
-          </ItemSelect>
-        </ItemSelectModal>
-        <PositionModal
-          data-test={"page-position-modal"}
-          options={selectedSection.folders.flatMap(({ pages }) => pages)}
-          onMove={handlePageMove}
-          selected={page}
-        />
-      </MoveModal>
-    ),
+            <ItemSelect
+              data-test="section-item-select"
+              name="section"
+              value={selectedSection.id}
+              onChange={handleSectionChange}
+            >
+              {questionnaire.sections.map(section => (
+                <Option key={section.id} value={section.id}>
+                  {section.displayName}
+                </Option>
+              ))}
+            </ItemSelect>
+          </ItemSelectModal>
+          <PositionModal
+            data-test={"page-position-modal"}
+            options={selectedSection.folders.flatMap(({ pages }) => pages)}
+            onMove={handlePageMove}
+            selected={page}
+          />
+        </MoveModal>
+      ) : null,
     [selectedSection, questionnaire, page, isOpen, isSectionSelectOpen]
   );
 };
