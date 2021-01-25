@@ -105,8 +105,6 @@ PositionModal.propTypes = {
       position: PropTypes.number.isRequired,
     })
   ).isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   selected: PropTypes.shape({
     id: PropTypes.string,

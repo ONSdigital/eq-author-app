@@ -3,6 +3,9 @@ mutation MovePage($input: MovePageInput!) {
     position
     id
     title
+    folder {
+      id
+    }
     section {
       id
       folders {
