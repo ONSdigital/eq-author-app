@@ -167,6 +167,48 @@
         ]
       }
     },
+    "dateRangeValidations": {
+      "type": "object",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "minDuration": {
+                "properties": {
+                  "enabled": { "const": true }
+                }
+              },
+              "maxDuration": {
+                "properties": {
+                  "enabled": { "const": true }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "minDuration": {
+                "type": "object",
+                "properties": {
+                  "duration": {
+                    "validateDuration": {
+                      "$data": "2/maxDuration"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/dateValidations"
+        }
+      ],
+      "properties": {
+        "minDuration": { "$ref": "#/definitions/validationEntry" },
+        "maxDuration": { "$ref": "#/definitions/validationEntry" }
+      }
+    },
     "validationEntry": {
       "type": "object",
       "anyOf": [
@@ -177,17 +219,22 @@
         },
         {
           "properties": {
-            "enabled": {
-              "const": true
-            },
-            "entityType": {
-              "const": "Custom"
-            },
+            "enabled": { "const": true },
+            "entityType": { "const": "Custom" },
             "custom": {
               "not": { "type": "null" }
-            },
-            "customDate": {
-              "not": { "type": "null" }
+            }
+          }
+        },
+        {
+          "properties": {
+            "enabled": { "const": true },
+            "entityType": { "const": "Custom" },
+            "duration": {
+              "type": "object",
+              "properties": {
+                "value": { "not": { "type": "null" } }
+              }
             }
           }
         },
