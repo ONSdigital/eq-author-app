@@ -52,6 +52,96 @@
           }
         ]
       }
+    },
+    "numericValidations": {
+      "if": {
+        "properties": {
+          "minValue": {
+            "properties": {
+              "enabled": {
+                "const": true
+              },
+              "entityType": { "const": "Custom" },
+              "custom": {
+                "not": { "type": "null" }
+              }
+            }
+          },
+          "maxValue": {
+            "properties": {
+              "enabled": {
+                "const": true
+              },
+              "entityType": { "const": "Custom" },
+              "custom": {
+                "not": { "type": "null" }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "minValue": {
+            "type": "object",
+            "properties": {
+              "custom": {
+                "maximum": {
+                  "$data": "2/maxValue/custom"
+                },
+                "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "minValue": {
+          "$ref": "#/definitions/validationEntry"
+        },
+        "maxValue": {
+          "$ref": "#/definitions/validationEntry"
+        }
+      }
+    },
+    "validationEntry": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "enabled": {
+              "const": true
+            },
+            "entityType": {
+              "const": "Custom"
+            },
+            "custom": {
+              "not": { "type": "null" }
+            }
+          }
+        },
+        {
+          "properties": {
+            "enabled": {
+              "const": true
+            },
+            "entityType": {
+              "const": "PreviousAnswer"
+            },
+            "previousAnswer": {
+              "not": { "type": "null" }
+            }
+          }
+        },
+        {
+          "properties": {
+            "enabled": {
+              "const": false
+            }
+          }
+        }
+      ],
+      "errorMessage": "ERR_NO_VALUE"
     }
   }
 }
