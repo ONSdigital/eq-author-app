@@ -29,8 +29,5 @@
             }
         }
     },
-    "required": [
-        "id",
-        "pages"
-    ]
+    "required": ["id"]
 }
