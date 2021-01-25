@@ -3,7 +3,12 @@ const createValidationError = require("./createValidationError");
 
 const schemas = require("./schemas");
 
-const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
+const ajv = new Ajv({
+  allErrors: true,
+  jsonPointers: true,
+  $data: true,
+  strictKeywords: true,
+});
 require("./customKeywords")(ajv);
 require("ajv-keywords")(ajv, "select");
 require("ajv-errors")(ajv);
