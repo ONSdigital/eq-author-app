@@ -9,7 +9,6 @@ import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 export const mapMutateToProps = ({ mutate, ownProps }) => ({
   onDuplicateQuestionnaire({ id }) {
-    console.log('\nonDuplicateQuestionnaire................\n');
     const modifier = "settings";
     return mutate({
       variables: { input: { id } },
@@ -39,9 +38,6 @@ export const mapMutateToProps = ({ mutate, ownProps }) => ({
 });
 
 export const handleUpdate = (proxy, { data: { duplicateQuestionnaire } }) => {
-  
-  console.log('\handleUpdate................\n');
-
   const data = proxy.readQuery({ query: getQuestionnaireList });
   data.questionnaires = [duplicateQuestionnaire, ...data.questionnaires];
   proxy.writeQuery({

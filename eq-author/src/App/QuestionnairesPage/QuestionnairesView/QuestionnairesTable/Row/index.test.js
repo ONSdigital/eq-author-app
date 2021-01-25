@@ -7,17 +7,20 @@ import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { colors } from "constants/theme";
 import { UNPUBLISHED } from "constants/publishStatus";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
-import {
-  Row,
+import Row, {
   TR,
   ShortTitle,
   DuplicateQuestionnaireButton,
   QuestionnaireLink,
 } from "./";
 
+// const mockQuestionnaire = buildQuestionnaire({ sectionCount: 2 });
+
+
 describe("Row", () => {
-  let props;
+  let props, wrapper;
 
   const renderRow = props =>
     render(
@@ -29,6 +32,15 @@ describe("Row", () => {
     );
 
   beforeEach(() => {
+    // wrapper = shallow(
+    //   <Row
+    //   onDeleteQuestionnaire={jest.fn()}
+    //   onDuplicateQuestionnaire={jest.fn()}
+    //   history={jest.fn()}
+    //   questionnaire={mockQuestionnaire}
+    //   />
+    // );
+
     props = {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
@@ -89,9 +101,12 @@ describe("Row", () => {
 
   it("should handle button focus state change correctly", () => {
     const wrapper = shallow(<Row {...props} />);
+    
     const tableRow = wrapper.find(TR);
     const actionButton = wrapper.find("[data-test='action-btn-group']");
     const stopPropagation = jest.fn();
+
+    console.log(wrapper.debug({verbose:true}));
 
     tableRow.simulate("focus");
     expect(wrapper.state("linkHasFocus")).toBeTruthy();
@@ -104,6 +119,9 @@ describe("Row", () => {
 
   it("should navigate to the questionnaire when the row is clicked", () => {
     const wrapper = shallow(<Row {...props} />);
+
+    console.log(wrapper.debug({verbose:true}));
+
     const tableRow = wrapper.find(TR);
     tableRow.simulate("click");
     expect(props.history.push).toHaveBeenCalled();

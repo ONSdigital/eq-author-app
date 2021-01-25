@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { withRouter, NavLink } from "react-router-dom";
@@ -109,137 +109,120 @@ const Permission = styled.li`
     `}
 `;
 
-export class Row extends React.Component {
-  static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
-    history: CustomPropTypes.history.isRequired,
-    onDeleteQuestionnaire: PropTypes.func.isRequired,
-    onDuplicateQuestionnaire: PropTypes.func.isRequired,
-    exit: PropTypes.bool,
-    enter: PropTypes.bool,
-    autoFocus: PropTypes.bool,
-    isLastOnPage: PropTypes.bool,
-  };
+const propTypes = {
+  questionnaire: CustomPropTypes.questionnaire.isRequired,
+  history: CustomPropTypes.history.isRequired,
+  onDeleteQuestionnaire: PropTypes.func.isRequired,
+  onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  exit: PropTypes.bool,
+  enter: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  isLastOnPage: PropTypes.bool,
+};
 
-  state = {
-    linkHasFocus: false,
-    disabled: true,
-    showDeleteModal: false,
-    showDuplicationModal: false,
-    transitionOut: false,
-  };
+const Row = ({ questionnaire, questionnaire: {
+  id,
+  shortTitle,
+  createdBy,
+  title,
+  createdAt,
+  displayName,
+  updatedAt,
+  permission,
+}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus, isLastOnPage }) => {
 
-  rowRef = React.createRef();
+  const [linkHasFocus, setLinkHasFocus] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [transitionOut, setTransitionOut] = useState(false);
 
-  focusLink() {
-    this.rowRef.current.getElementsByTagName("a")[0].focus();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.autoFocus && this.props.autoFocus) {
-      this.focusLink();
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      this.focusLink();
-    }
-  }
-
-  handleClick = () => {
-    this.props.history.push(
+  const handleClick = () => {
+    history.push(
       buildQuestionnairePath({
-        questionnaireId: this.props.questionnaire.id,
+        questionnaireId: questionnaire.id,
       })
     );
   };
 
-  handleFocus = () => {
-    this.setState({
-      linkHasFocus: true,
-    });
+  const handleFocus = () => {
+    setLinkHasFocus(true);
   };
 
-  handleBlur = () => {
-    this.setState({
-      linkHasFocus: false,
-    });
+  const handleBlur = () => {
+    setLinkHasFocus(false);
   };
 
-  handleButtonFocus = e => {
-    this.setState({
-      linkHasFocus: false,
-    });
+  const handleButtonFocus = e => {
+    setLinkHasFocus(false);
     e.stopPropagation();
   };
 
-  handleLinkClick = e => {
+  const handleLinkClick = e => {
     e.stopPropagation();
   };
 
-  handleDuplicateQuestionnaire = e => {
+  const handleDuplicateQuestionnaire = e => {
     e.stopPropagation();
-    this.props.onDuplicateQuestionnaire(this.props.questionnaire);
+    onDuplicateQuestionnaire(questionnaire);
   };
 
-  handleDeleteQuestionnaire = e => {
+  const handleDeleteQuestionnaire = e => {
     e.stopPropagation();
-    this.setState({
-      showDeleteModal: true,
-      transitionOut: !this.props.isLastOnPage,
-    });
+    setShowDeleteModal(true);
+    setTransitionOut(!isLastOnPage);
   };
 
-  handleModalClose = () => {
-    this.setState({ showDeleteModal: false, transitionOut: false });
+  const handleModalClose = () => {
+    setShowDeleteModal(false);
+    setTransitionOut(false);
   };
 
-  handleModalConfirm = () => {
-    this.setState({ showDeleteModal: false });
-    this.props.onDeleteQuestionnaire(this.props.questionnaire);
+  const handleModalConfirm = () => {
+    setShowDeleteModal(false);
+    onDeleteQuestionnaire(questionnaire);
   };
 
-  render() {
-    const {
-      questionnaire: {
-        id,
-        shortTitle,
-        createdBy,
-        title,
-        createdAt,
-        displayName,
-        updatedAt,
-        permission,
-      },
-    } = this.props;
+  const rowRef = useRef()
+  const focusLink = () => rowRef.current.getElementsByTagName("a")[0].focus();
 
-    /* eslint-disable no-unused-vars */
-    //doing this as an easy way to extract non-dom props so styled-components will stop complaining https://github.com/styled-components/styled-components/issues/2218
-    const {
-      onDeleteQuestionnaire,
-      onDuplicateQuestionnaire,
-      ...rest
-    } = this.props;
-    /* eslint-enable no-unused-vars */
+  useEffect(() => {
+    if(autoFocus) {
+      focusLink()
+    }
+  }, []);
+
+  // This hook will check if didMountRef.current is true. 
+  // If true, it means that the component has just updated and therefore the hook needs to be executed. 
+  // If false, the component has just mounted, do the mounting stuff and set didMountRef.current to true 
+  // so as to know that future re-renderings are triggered by updates
+
+  // const didMountRef = useRef(false)
+  // const prevFocus = useRef();
+  // useEffect(() => {
+  //   prevFocus.current = autoFocus;
+  //   if (didMountRef.current) {
+  //     if (!prevFocus.current && autoFocus) {
+  //       focusLink();
+  //     }
+  //   } else {didMountRef.current = true}
+  // }, []);
 
     const hasWritePermisson = permission === WRITE;
 
     return (
       <>
         <TR
-          ref={this.rowRef}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          linkHasFocus={this.state.linkHasFocus}
-          onClick={this.handleClick}
+          ref={rowRef}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          linkHasFocus={linkHasFocus}
+          onClick={handleClick}
           data-test="table-row"
         >
           <TD>
             <QuestionnaireLink
               data-test="anchor-questionnaire-title"
               title={displayName}
-              onClick={this.handleLinkClick}
+              onClick={handleLinkClick}
               to={buildQuestionnairePath({
                 questionnaireId: id,
               })}
@@ -267,16 +250,16 @@ export class Row extends React.Component {
             </Permissions>
           </TD>
           <TD>
-            <div onFocus={this.handleButtonFocus} data-test="action-btn-group">
+            <div onFocus={handleButtonFocus} data-test="action-btn-group">
               <ButtonGroup>
                 <DuplicateQuestionnaireButton
                   data-test="btn-duplicate-questionnaire"
-                  onClick={this.handleDuplicateQuestionnaire}
+                  onClick={handleDuplicateQuestionnaire}
                 />
                 <IconButtonDelete
                   hideText
                   data-test="btn-delete-questionnaire"
-                  onClick={this.handleDeleteQuestionnaire}
+                  onClick={handleDeleteQuestionnaire}
                   disabled={!hasWritePermisson}
                 />
               </ButtonGroup>
@@ -285,9 +268,9 @@ export class Row extends React.Component {
         </TR>
 
         <DeleteConfirmDialog
-          isOpen={this.state.showDeleteModal}
-          onClose={this.handleModalClose}
-          onDelete={this.handleModalConfirm}
+          isOpen={showDeleteModal}
+          onClose={handleModalClose}
+          onDelete={handleModalConfirm}
           title={displayName}
           alertText="This questionnaire including all sections and questions will be deleted."
           icon={questionConfirmationIcon}
@@ -295,7 +278,199 @@ export class Row extends React.Component {
         />
       </>
     );
-  }
-}
+};
+
+Row.propTypes = propTypes;
 
 export default withRouter(Row);
+
+// export class Row extends React.Component {
+  // static propTypes = {
+  //   questionnaire: CustomPropTypes.questionnaire.isRequired,
+  //   history: CustomPropTypes.history.isRequired,
+  //   onDeleteQuestionnaire: PropTypes.func.isRequired,
+  //   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  //   exit: PropTypes.bool,
+  //   enter: PropTypes.bool,
+  //   autoFocus: PropTypes.bool,
+  //   isLastOnPage: PropTypes.bool,
+  // };
+
+  // state = {
+  //   linkHasFocus: false,
+  //   disabled: true,
+  //   showDeleteModal: false,
+  //   showDuplicationModal: false,
+  //   transitionOut: false,
+  // };
+
+  // rowRef = React.createRef();
+
+  // focusLink() {
+  //   this.rowRef.current.getElementsByTagName("a")[0].focus();
+  // }
+
+  // componentDidUpdate(prevProps) {
+  //   if (!prevProps.autoFocus && this.props.autoFocus) {
+  //     this.focusLink();
+  //   }
+  // }
+
+  // componentDidMount() {
+  //   if (this.props.autoFocus) {
+  //     this.focusLink();
+  //   }
+  // }
+
+  // handleClick = () => {
+  //   this.props.history.push(
+  //     buildQuestionnairePath({
+  //       questionnaireId: this.props.questionnaire.id,
+  //     })
+  //   );
+  // };
+
+  // handleFocus = () => {
+  //   this.setState({
+  //     linkHasFocus: true,
+  //   });
+  // };
+
+  // handleBlur = () => {
+  //   this.setState({
+  //     linkHasFocus: false,
+  //   });
+  // };
+
+  // handleButtonFocus = e => {
+  //   this.setState({
+  //     linkHasFocus: false,
+  //   });
+  //   e.stopPropagation();
+  // };
+
+  // handleLinkClick = e => {
+  //   e.stopPropagation();
+  // };
+
+  // handleDuplicateQuestionnaire = e => {
+  //   e.stopPropagation();
+  //   this.props.onDuplicateQuestionnaire(this.props.questionnaire);
+  // };
+
+  // handleDeleteQuestionnaire = e => {
+  //   e.stopPropagation();
+  //   this.setState({
+  //     showDeleteModal: true,
+  //     transitionOut: !this.props.isLastOnPage,
+  //   });
+  // };
+
+  // handleModalClose = () => {
+  //   this.setState({ showDeleteModal: false, transitionOut: false });
+  // };
+
+  // handleModalConfirm = () => {
+  //   this.setState({ showDeleteModal: false });
+  //   this.props.onDeleteQuestionnaire(this.props.questionnaire);
+  // };
+
+  // render() {
+  //   const {
+  //     questionnaire: {
+  //       id,
+  //       shortTitle,
+  //       createdBy,
+  //       title,
+  //       createdAt,
+  //       displayName,
+  //       updatedAt,
+  //       permission,
+  //     },
+  //   } = this.props;
+
+    /* eslint-disable no-unused-vars */
+    //doing this as an easy way to extract non-dom props so styled-components will stop complaining https://github.com/styled-components/styled-components/issues/2218
+    // const {
+    //   onDeleteQuestionnaire,
+    //   onDuplicateQuestionnaire,
+    //   ...rest
+    // } = this.props;
+    /* eslint-enable no-unused-vars */
+
+    // const hasWritePermisson = permission === WRITE;
+
+    // return (
+    //   <>
+    //     <TR
+    //       ref={this.rowRef}
+    //       onFocus={this.handleFocus}
+    //       onBlur={this.handleBlur}
+    //       linkHasFocus={this.state.linkHasFocus}
+    //       onClick={this.handleClick}
+    //       data-test="table-row"
+    //     >
+    //       <TD>
+    //         <QuestionnaireLink
+    //           data-test="anchor-questionnaire-title"
+    //           title={displayName}
+    //           onClick={this.handleLinkClick}
+    //           to={buildQuestionnairePath({
+    //             questionnaireId: id,
+    //           })}
+    //         >
+    //           {shortTitle && (
+    //             <ShortTitle>
+    //               <Truncated>{shortTitle}</Truncated>
+    //             </ShortTitle>
+    //           )}
+    //           <Truncated>{title}</Truncated>
+    //         </QuestionnaireLink>
+    //       </TD>
+    //       <TD>
+    //         <FormattedDate date={createdAt} />
+    //       </TD>
+    //       <TD>
+    //         <FormattedDate date={updatedAt} />
+    //       </TD>
+
+    //       <TD>{createdBy.displayName}</TD>
+    //       <TD>
+    //         <Permissions>
+    //           <Permission>View</Permission>
+    //           <Permission disabled={!hasWritePermisson}>Edit</Permission>
+    //         </Permissions>
+    //       </TD>
+    //       <TD>
+    //         <div onFocus={this.handleButtonFocus} data-test="action-btn-group">
+    //           <ButtonGroup>
+    //             <DuplicateQuestionnaireButton
+    //               data-test="btn-duplicate-questionnaire"
+    //               onClick={this.handleDuplicateQuestionnaire}
+    //             />
+    //             <IconButtonDelete
+    //               hideText
+    //               data-test="btn-delete-questionnaire"
+    //               onClick={this.handleDeleteQuestionnaire}
+    //               disabled={!hasWritePermisson}
+    //             />
+    //           </ButtonGroup>
+    //         </div>
+    //       </TD>
+    //     </TR>
+
+    //     <DeleteConfirmDialog
+    //       isOpen={this.state.showDeleteModal}
+    //       onClose={this.handleModalClose}
+    //       onDelete={this.handleModalConfirm}
+    //       title={displayName}
+    //       alertText="This questionnaire including all sections and questions will be deleted."
+    //       icon={questionConfirmationIcon}
+    //       data-test="delete-questionnaire"
+    //     />
+    //   </>
+    // );
+  // }
+// }
+
+
