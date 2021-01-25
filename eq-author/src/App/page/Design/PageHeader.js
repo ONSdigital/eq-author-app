@@ -19,7 +19,6 @@ import iconPage from "./icon-dialog-page.svg";
 import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
 import withDuplicatePage from "./withDuplicatePage";
-import MovePageQuery from "./MovePageModal/MovePageQuery";
 import { Toolbar, Buttons } from "./EditorToolbar";
 import IconMove from "./EditorToolbar/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
@@ -35,7 +34,6 @@ export class PageHeader extends React.Component {
     showDeleteConfirmDialog: false,
     showMovePageDialog: false,
   };
-  π;
 
   handleDuplicatePage = e => {
     e.preventDefault();
@@ -77,30 +75,11 @@ export class PageHeader extends React.Component {
     questionnaire.sections[0].folders.length <= 1 &&
     questionnaire.sections.length === 1;
 
-  renderMovePageModal = ({ loading, error, data }) => {
-    const { page } = this.props;
-    if (loading || error) {
-      return null;
-    }
-
-    return (
-      <MovePageModal
-        questionnaire={data.questionnaire}
-        isOpen={this.state.showMovePageDialog}
-        onClose={this.handleCloseMovePageDialog}
-        onMovePage={this.handleMovePage}
-        sectionId={page.section.id}
-        page={page}
-      />
-    );
-  };
-
   render() {
     const {
       page,
       onChange,
       onUpdate,
-      match,
       isDuplicateDisabled,
       alertText,
       questionnaire,
@@ -149,9 +128,13 @@ export class PageHeader extends React.Component {
           icon={iconPage}
           data-test="delete-page"
         />
-        <MovePageQuery questionnaireId={match.params.questionnaireId}>
-          {this.renderMovePageModal}
-        </MovePageQuery>
+        <MovePageModal
+          isOpen={this.state.showMovePageDialog}
+          onClose={this.handleCloseMovePageDialog}
+          onMovePage={this.handleMovePage}
+          sectionId={page.section.id}
+          page={page}
+        />
       </>
     );
   }

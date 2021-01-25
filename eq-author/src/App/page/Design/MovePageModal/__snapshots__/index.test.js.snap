@@ -4,106 +4,6 @@ exports[`MovePageModal should render 1`] = `
 <MoveModal
   isOpen={true}
   onClose={[MockFunction]}
-  onMovePage={[MockFunction]}
-  page={
-    Object {
-      "alias": "1.1.1",
-      "displayName": "Page 1.1.1",
-      "folder": Object {
-        "id": "1",
-      },
-      "id": "1.1.1",
-      "position": 0,
-      "section": Object {
-        "id": "1",
-      },
-      "title": "Page 1.1.1",
-      "validationErrorInfo": Object {
-        "totalCount": 2,
-      },
-    }
-  }
-  questionnaire={
-    Object {
-      "displayName": "questionnaire",
-      "id": "questionnaire",
-      "sections": Array [
-        Object {
-          "displayName": "Section 1",
-          "folders": Array [
-            Object {
-              "alias": "Folder 1.1",
-              "enabled": false,
-              "id": "1.1",
-              "pages": Array [
-                Object {
-                  "alias": "1.1.1",
-                  "displayName": "Page 1.1.1",
-                  "folder": Object {
-                    "id": "1",
-                  },
-                  "id": "1.1.1",
-                  "position": 0,
-                  "section": Object {
-                    "id": "1",
-                  },
-                  "title": "Page 1.1.1",
-                  "validationErrorInfo": Object {
-                    "totalCount": 2,
-                  },
-                },
-              ],
-              "position": 0,
-            },
-          ],
-          "id": "1",
-          "position": 0,
-          "title": "Section 1",
-          "validationErrorInfo": Object {
-            "totalCount": 0,
-          },
-        },
-        Object {
-          "displayName": "Section 2",
-          "folders": Array [
-            Object {
-              "alias": "Folder 2.1",
-              "enabled": false,
-              "id": "2.1",
-              "pages": Array [
-                Object {
-                  "alias": "2.1.1",
-                  "displayName": "Page 2.1.1",
-                  "folder": Object {
-                    "id": "1",
-                  },
-                  "id": "2.1.1",
-                  "position": 0,
-                  "section": Object {
-                    "id": "2",
-                  },
-                  "title": "Page 2.1.1",
-                  "validationErrorInfo": Object {
-                    "totalCount": 2,
-                  },
-                },
-              ],
-              "position": 0,
-            },
-          ],
-          "id": "2",
-          "position": 1,
-          "title": "Section 2",
-          "validationErrorInfo": Object {
-            "totalCount": 0,
-          },
-        },
-      ],
-      "title": "questionnaire",
-    }
-  }
-  sectionId="1"
-  selectedPosition={0}
   title="Move question"
 >
   <MovePageModal__Label
@@ -150,10 +50,7 @@ exports[`MovePageModal should render 1`] = `
   </ItemSelectModal>
   <PositionModal
     data-test="page-position-modal"
-    isOpen={true}
-    onClose={[MockFunction]}
     onMove={[Function]}
-    onMovePage={[MockFunction]}
     options={
       Array [
         Object {
@@ -174,104 +71,6 @@ exports[`MovePageModal should render 1`] = `
         },
       ]
     }
-    page={
-      Object {
-        "alias": "1.1.1",
-        "displayName": "Page 1.1.1",
-        "folder": Object {
-          "id": "1",
-        },
-        "id": "1.1.1",
-        "position": 0,
-        "section": Object {
-          "id": "1",
-        },
-        "title": "Page 1.1.1",
-        "validationErrorInfo": Object {
-          "totalCount": 2,
-        },
-      }
-    }
-    questionnaire={
-      Object {
-        "displayName": "questionnaire",
-        "id": "questionnaire",
-        "sections": Array [
-          Object {
-            "displayName": "Section 1",
-            "folders": Array [
-              Object {
-                "alias": "Folder 1.1",
-                "enabled": false,
-                "id": "1.1",
-                "pages": Array [
-                  Object {
-                    "alias": "1.1.1",
-                    "displayName": "Page 1.1.1",
-                    "folder": Object {
-                      "id": "1",
-                    },
-                    "id": "1.1.1",
-                    "position": 0,
-                    "section": Object {
-                      "id": "1",
-                    },
-                    "title": "Page 1.1.1",
-                    "validationErrorInfo": Object {
-                      "totalCount": 2,
-                    },
-                  },
-                ],
-                "position": 0,
-              },
-            ],
-            "id": "1",
-            "position": 0,
-            "title": "Section 1",
-            "validationErrorInfo": Object {
-              "totalCount": 0,
-            },
-          },
-          Object {
-            "displayName": "Section 2",
-            "folders": Array [
-              Object {
-                "alias": "Folder 2.1",
-                "enabled": false,
-                "id": "2.1",
-                "pages": Array [
-                  Object {
-                    "alias": "2.1.1",
-                    "displayName": "Page 2.1.1",
-                    "folder": Object {
-                      "id": "1",
-                    },
-                    "id": "2.1.1",
-                    "position": 0,
-                    "section": Object {
-                      "id": "2",
-                    },
-                    "title": "Page 2.1.1",
-                    "validationErrorInfo": Object {
-                      "totalCount": 2,
-                    },
-                  },
-                ],
-                "position": 0,
-              },
-            ],
-            "id": "2",
-            "position": 1,
-            "title": "Section 2",
-            "validationErrorInfo": Object {
-              "totalCount": 0,
-            },
-          },
-        ],
-        "title": "questionnaire",
-      }
-    }
-    sectionId="1"
     selected={
       Object {
         "alias": "1.1.1",
@@ -290,7 +89,6 @@ exports[`MovePageModal should render 1`] = `
         },
       }
     }
-    selectedPosition={0}
   />
 </MoveModal>
 `;
