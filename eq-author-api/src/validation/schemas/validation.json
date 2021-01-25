@@ -96,12 +96,75 @@
         }
       },
       "properties": {
-        "minValue": {
-          "$ref": "#/definitions/validationEntry"
-        },
-        "maxValue": {
-          "$ref": "#/definitions/validationEntry"
+        "minValue": { "$ref": "#/definitions/validationEntry" },
+        "maxValue": { "$ref": "#/definitions/validationEntry" }
+      }
+    },
+    "dateValidations": {
+      "type": "object",
+      "properties": {
+        "earliestDate": { "$ref": "#/definitions/dateValidationEntry" },
+        "latestDate": { "$ref": "#/definitions/dateValidationEntry" }
+      },
+      "if": {
+        "properties": {
+          "earliestDate": {
+            "properties": {
+              "enabled": { "const": true },
+              "entityType": {
+                "enum": ["Custom", "Metadata"]
+              }
+            }
+          },
+          "latestDate": {
+            "properties": {
+              "enabled": { "const": true },
+              "entityType": {
+                "enum": ["Custom", "Metadata"]
+              }
+            }
+          }
         }
+      },
+      "then": {
+        "properties": {
+          "earliestDate": {
+            "type": "object",
+            "properties": {
+              "custom": {
+                "validateLatestAfterEarliest": {
+                  "$data": "2/latestDate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dateValidationEntry": {
+      "type": "object",
+      "if": {
+        "properties": {
+          "enabled": { "const": true }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "offset": {
+                "type": "object",
+                "properties": {
+                  "value": { "not": { "type": "null" } }
+                }
+              }
+            },
+            "errorMessage": "ERR_OFFSET_NO_VALUE"
+          },
+          {
+            "$ref": "#/definitions/validationEntry"
+          }
+        ]
       }
     },
     "validationEntry": {
@@ -117,18 +180,28 @@
             },
             "custom": {
               "not": { "type": "null" }
+            },
+            "customDate": {
+              "not": { "type": "null" }
             }
           }
         },
         {
           "properties": {
-            "enabled": {
-              "const": true
-            },
+            "enabled": { "const": true },
             "entityType": {
               "const": "PreviousAnswer"
             },
             "previousAnswer": {
+              "not": { "type": "null" }
+            }
+          }
+        },
+        {
+          "properties": {
+            "enabled": { "const": true },
+            "entityType": { "const": "Metadata" },
+            "metadata": {
               "not": { "type": "null" }
             }
           }
