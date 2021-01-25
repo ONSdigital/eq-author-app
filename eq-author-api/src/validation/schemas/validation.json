@@ -172,6 +172,11 @@
       "anyOf": [
         {
           "properties": {
+            "enabled": { "const": false }
+          }
+        },
+        {
+          "properties": {
             "enabled": {
               "const": true
             },
@@ -184,6 +189,12 @@
             "customDate": {
               "not": { "type": "null" }
             }
+          }
+        },
+        {
+          "properties": {
+            "enabled": { "const": true },
+            "entityType": { "const": "Now" }
           }
         },
         {
@@ -203,13 +214,6 @@
             "entityType": { "const": "Metadata" },
             "metadata": {
               "not": { "type": "null" }
-            }
-          }
-        },
-        {
-          "properties": {
-            "enabled": {
-              "const": false
             }
           }
         }

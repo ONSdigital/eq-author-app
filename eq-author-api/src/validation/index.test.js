@@ -690,6 +690,17 @@ describe("schema validation", () => {
           });
         });
 
+        it("should return an error if date offset not set", () => {
+          answer.validation.latestDate.offset.value = null;
+
+          const errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_OFFSET_NO_VALUE" }),
+            ])
+          );
+        });
+
         it("should validate if qCode is missing", () => {
           const answer = {
             id: "a1",
