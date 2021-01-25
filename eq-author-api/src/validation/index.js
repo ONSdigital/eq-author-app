@@ -3,6 +3,12 @@ const createValidationError = require("./createValidationError");
 
 const schemas = require("./schemas");
 
+const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
+require("./customKeywords")(ajv);
+require("ajv-keywords")(ajv, "select");
+require("ajv-errors")(ajv);
+const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
+
 const formatErrorMessage = (error, questionnaire) => {
   if (error.sectionId) {
     delete error.dataPath;
@@ -40,12 +46,6 @@ const formatErrorMessage = (error, questionnaire) => {
 };
 
 module.exports = questionnaire => {
-  const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
-  require("ajv-errors")(ajv);
-  require("./customKeywords")(ajv);
-  require("ajv-keywords")(ajv, "select");
-  const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
-
   validate(questionnaire);
 
   if (!validate.errors) {
