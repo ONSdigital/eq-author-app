@@ -133,7 +133,6 @@ export const Row = ({ questionnaire, questionnaire: {
 
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [transitionOut, setTransitionOut] = useState(false);
 
   const rowRef = useRef();
   const focusLink = () => {
@@ -185,12 +184,10 @@ export const Row = ({ questionnaire, questionnaire: {
   const handleDeleteQuestionnaire = e => {
     e.stopPropagation();
     setShowDeleteModal(true);
-    setTransitionOut(isLastOnPage);
   };
 
   const handleModalClose = () => {
     setShowDeleteModal(false);
-    setTransitionOut(false);
   };
 
   const handleModalConfirm = () => {
