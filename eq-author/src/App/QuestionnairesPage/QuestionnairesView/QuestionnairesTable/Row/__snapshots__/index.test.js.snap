@@ -1,3 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Row should show the short title when it is provided 1`] = `null`;
+exports[`Row should show the short title when it is provided 1`] = `
+<Row__ShortTitle>
+  <Truncated>
+    Test title
+  </Truncated>
+</Row__ShortTitle>
+`;
