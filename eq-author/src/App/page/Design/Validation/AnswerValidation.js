@@ -214,7 +214,6 @@ const AnswerValidation = ({ answer }) => {
       );
 
       if (errors.length) {
-        // Some errors are specific to the individual validation entry - some are for the group
         const individualErrors = [];
         errors.forEach(error => {
           const target = [
@@ -229,16 +228,11 @@ const AnswerValidation = ({ answer }) => {
         });
 
         if (individualErrors.length) {
-          // Only display one error message - prioritise ERR_NO_VALUE
-          individualErrors.sort(({ errorCode }) =>
-            errorCode === "ERR_NO_VALUE" ? -1 : 0
-          );
           validationComponents.push(renderError(individualErrors[0]));
         }
       }
     }
 
-    // Render group errors after group
     if (groupErrors.length) {
       validationComponents.push(renderError(groupErrors[0]));
     }
