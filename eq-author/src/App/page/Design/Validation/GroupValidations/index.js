@@ -157,7 +157,6 @@ class GroupValidations extends Component {
         </TotalButton>
         {error && (
           <ValidationError right>
-            {" "}
             {errorMessages[error.errorCode]}
           </ValidationError>
         )}

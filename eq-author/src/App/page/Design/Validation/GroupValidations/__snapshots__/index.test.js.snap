@@ -18,7 +18,6 @@ exports[`GroupValidations should render 1`] = `
   <ValidationError
     right={true}
   >
-     
     Value is required
   </ValidationError>
   <GroupValidations__GroupValidationModal

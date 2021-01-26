@@ -16,6 +16,7 @@ import DurationValidation from "./DurationValidation";
 import DateValidation from "./DateValidation";
 
 import NumericValidation from "./NumericValidation/index";
+import ValidationError from "components/ValidationError";
 
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
@@ -131,11 +132,6 @@ export const validationTypes = [
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const PropertiesError = styled(IconText)`
-  color: ${colors.red};
-  justify-content: left;
-`;
-
 export const SidebarValidation = styled(SidebarButton)`
   &:not(:first-of-type) {
     margin-top: 0.5em;
@@ -151,6 +147,13 @@ const errorCodes = {
   ERR_REFERENCE_MOVED,
   ERR_REFERENCE_DELETED,
 };
+
+const renderError = error => (
+  <ValidationError right={false} key={error.id}>
+    {" "}
+    {errorCodes[error.errorCode]}{" "}
+  </ValidationError>
+);
 
 const titleText = (id, title, enabled, inclusive) => {
   if (!enabled) {
@@ -234,27 +237,14 @@ const AnswerValidation = ({ answer }) => {
           individualErrors.sort(({ errorCode }) =>
             errorCode === "ERR_NO_VALUE" ? -1 : 0
           );
-          const error = individualErrors[0];
-
-          validationComponents.push(
-            <PropertiesError role="alert" icon={WarningIcon} key={error.id}>
-              <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
-              {errorCodes[error.errorCode]}
-            </PropertiesError>
-          );
+          validationComponents.push(renderError(individualErrors[0]));
         }
       }
     }
 
     // Render group errors after group
     if (groupErrors.length) {
-      const error = groupErrors[0];
-      validationComponents.push(
-        <PropertiesError role="alert" icon={WarningIcon} key={error.id}>
-          <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
-          {errorCodes[error.errorCode]}
-        </PropertiesError>
-      );
+      validationComponents.push(renderError(groupErrors[0]));
     }
   }
 
