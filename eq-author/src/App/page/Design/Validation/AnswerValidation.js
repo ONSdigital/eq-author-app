@@ -3,13 +3,9 @@ import { kebabCase, get, startCase, isNull } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
-import { colors } from "constants/theme";
 import ModalWithNav from "components/modals/ModalWithNav";
 import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
-import IconText from "components/IconText";
-import WarningIcon from "constants/icon-warning.svg?inline";
-import VisuallyHidden from "components/VisuallyHidden";
 
 import ValidationContext from "./ValidationContext";
 import DurationValidation from "./DurationValidation";
