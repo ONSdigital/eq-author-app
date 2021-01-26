@@ -30,25 +30,18 @@ const PreviousAnswerEditor = ({
     .find(errorCode => Object.keys(errorMessages).includes(errorCode));
 
   const contentPicker = (
-    <>
-      <PreviousAnswerContentPicker
-        answerId={answer.id}
-        onSubmit={onChangeUpdate}
-        selectedContentDisplayName={validation?.previousAnswer?.displayName}
-        selectedId={validation?.previousAnswer?.id}
-        path={`answer.validation.${readKey}.availablePreviousAnswers`}
-        data-test="content-picker-select"
-        hasError={Boolean(errorCode)}
-      />
-      {errorCode && (
-        <ValidationError right={false}>
-          {errorMessages[errorCode]}
-        </ValidationError>
-      )}
-    </>
+    <PreviousAnswerContentPicker
+      answerId={answer.id}
+      onSubmit={onChangeUpdate}
+      selectedContentDisplayName={validation?.previousAnswer?.displayName}
+      selectedId={validation?.previousAnswer?.id}
+      path={`answer.validation.${readKey}.availablePreviousAnswers`}
+      data-test="content-picker-select"
+      hasError={Boolean(errorCode)}
+    />
   );
 
-  return validation?.__typename?.includes("Date") ? (
+  const component = validation?.__typename?.includes("Date") ? (
     contentPicker
   ) : (
     <FieldWithInclude
@@ -59,6 +52,17 @@ const PreviousAnswerEditor = ({
     >
       {contentPicker}
     </FieldWithInclude>
+  );
+
+  return (
+    <>
+      {component}
+      {errorCode && (
+        <ValidationError right={false}>
+          {errorMessages[errorCode]}
+        </ValidationError>
+      )}
+    </>
   );
 };
 

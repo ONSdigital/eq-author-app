@@ -1,23 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Custom Editor should render 1`] = `
-<FieldWithInclude
-  checked={true}
-  id="inclusive"
-  name="inclusive"
-  onChange={[MockFunction]}
->
-  <GetAvailablePreviewAnswersQuery
-    answerId="1"
-    data-test="content-picker-select"
-    hasError={true}
-    onSubmit={[MockFunction]}
-    path="answer.validation.read.availablePreviousAnswers"
-  />
+<Fragment>
+  <FieldWithInclude
+    checked={true}
+    id="inclusive"
+    name="inclusive"
+    onChange={[MockFunction]}
+  >
+    <GetAvailablePreviewAnswersQuery
+      answerId="1"
+      data-test="content-picker-select"
+      hasError={true}
+      onSubmit={[MockFunction]}
+      path="answer.validation.read.availablePreviousAnswers"
+    />
+  </FieldWithInclude>
   <ValidationError
     right={false}
   >
     Answer required
   </ValidationError>
-</FieldWithInclude>
+</Fragment>
 `;
