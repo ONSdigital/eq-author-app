@@ -129,7 +129,7 @@ export const Row = ({ questionnaire, questionnaire: {
   displayName,
   updatedAt,
   permission,
-}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus, isLastOnPage }) => {
+}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus }) => {
 
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -141,6 +141,22 @@ export const Row = ({ questionnaire, questionnaire: {
 
   useEffect(() => {
     if (autoFocus) {
+      focusLink();
+    }
+  });
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  const prevAutoFocus = usePrevious(autoFocus)
+
+  useEffect(() => {
+    if (!prevAutoFocus && autoFocus) {
       focusLink();
     }
   });
