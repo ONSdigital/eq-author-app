@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { kebabCase, get, startCase, isNull, find } from "lodash";
+import React, { useState, useMemo, useCallback } from "react";
+import { kebabCase, get, startCase, isNull } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
@@ -26,6 +26,8 @@ import {
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
   ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
 } from "constants/validationMessages";
 
 import {
@@ -144,6 +146,8 @@ const errorCodes = {
   ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
   ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
   ERR_NO_VALUE: ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
 };
 
 const titleText = (id, title, enabled, inclusive) => {
@@ -166,74 +170,94 @@ const AnswerValidation = ({ answer }) => {
   const modalId = `modal-validation-${answer.id}`;
 
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
-  const validValidationTypes = getValidationsForType(answer.type);
+  const validValidationTypes = useMemo(
+    () => getValidationsForType(answer.type),
+    [answer]
+  );
 
-  if (validValidationTypes.length === 0) {
-    return;
+  if (!validValidationTypes.length) {
+    return null;
   }
 
-  const validationButtons = [];
-  let pendingErrors = [];
+  const validationComponents = [];
 
-  validValidationTypes.forEach(type => {
-    const validation = get(answer, `validation.${type.id}`, {});
-    const errors = get(validation, `validationErrorInfo.errors`, []);
+  for (let i = 0; i < validValidationTypes.length; i += 2) {
+    const minimumType = validValidationTypes[i];
+    const maximumType = validValidationTypes[i + 1];
+    const groupErrors = [];
 
-    const { enabled, inclusive } = validation;
-    const value = enabled ? type.preview(validation, answer) : null;
+    for (const type of [minimumType, maximumType]) {
+      const validation = answer?.validation?.[type.id] || {};
+      const errors = validation?.validationErrorInfo?.errors || [];
+      const { enabled, inclusive } = validation;
+      const value = enabled ? type.preview(validation, answer) : null;
 
-    const onClick = () => {
-      setModalIsOpen(true);
-      setStartingTabId(type.id);
-    };
+      const handleSidebarButtonClick = () => {
+        setModalIsOpen(true);
+        setStartingTabId(type.id);
+      };
 
-    validationButtons.push(
-      <SidebarValidation
-        id={type.id}
-        key={type.id}
-        data-test={`sidebar-button-${kebabCase(type.title)}`}
-        onClick={onClick}
-        hasError={errors.length > 0}
-      >
-        <Title>{titleText(type.id, type.title, enabled, inclusive)}</Title>
-        {enabled && !isNull(value) && <Detail>{value}</Detail>}
-      </SidebarValidation>
-    );
-
-    pendingErrors.push(...errors);
-
-    const noValError = find(pendingErrors, error =>
-      error.errorCode.includes("ERR_NO_VALUE")
-    );
-
-    if (pendingErrors.length > 0) {
-      if (
-        (type.id === "earliestDate" && !noValError) ||
-        (type.id === "minDuration" && !noValError) ||
-        (type.id === "minValue" && !noValError)
-      ) {
-        return; // Don't display anything after the earliest date / min duration buttons - show after section
-      }
-
-      // Only show one error - ERR_NO_VALUE takes precedence
-      pendingErrors.sort(error =>
-        error.errorCode === "ERR_NO_VALUE" ? -1 : 0
+      validationComponents.push(
+        <SidebarValidation
+          id={type.id}
+          key={type.id}
+          data-test={`sidebar-button-${kebabCase(type.title)}`}
+          onClick={handleSidebarButtonClick}
+          hasError={errors.length}
+        >
+          <Title>
+            {titleText(type.id, type.title, validation.enabled, inclusive)}
+          </Title>
+          {enabled && !isNull(value) && <Detail>{value}</Detail>}
+        </SidebarValidation>
       );
-      const error = pendingErrors[0];
-      pendingErrors = [];
 
-      validationButtons.push(
+      if (errors.length) {
+        // Some errors are specific to the individual validation entry - some are for the group
+        const individualErrors = [];
+        errors.forEach(error => {
+          const target = [
+            "ERR_NO_VALUE",
+            "ERR_REFERENCE_MOVED",
+            "ERR_REFERENCE_DELETED",
+          ].includes(error.errorCode)
+            ? individualErrors
+            : groupErrors;
+          target.push(error);
+        });
+
+        if (individualErrors.length) {
+          // Only display one error message - prioritise ERR_NO_VALUE
+          individualErrors.sort(({ errorCode }) =>
+            errorCode === "ERR_NO_VALUE" ? -1 : 0
+          );
+          const error = individualErrors[0];
+
+          validationComponents.push(
+            <PropertiesError role="alert" icon={WarningIcon} key={error.id}>
+              <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
+              {errorCodes[error.errorCode]}
+            </PropertiesError>
+          );
+        }
+      }
+    }
+
+    // Render group errors after group
+    if (groupErrors.length) {
+      const error = groupErrors[0];
+      validationComponents.push(
         <PropertiesError role="alert" icon={WarningIcon} key={error.id}>
           <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
           {errorCodes[error.errorCode]}
         </PropertiesError>
       );
     }
-  });
+  }
 
   return (
     <ValidationContext.Provider value={{ answer }}>
-      {validationButtons}
+      {validationComponents}
       <ModalWithNav
         id={modalId}
         onClose={handleModalClose}
