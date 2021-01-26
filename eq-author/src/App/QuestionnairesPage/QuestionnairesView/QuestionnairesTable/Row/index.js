@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useState, useRef, useEffect } from "react";
 
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
@@ -116,6 +116,8 @@ const propTypes = {
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
   exit: PropTypes.bool,
   enter: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  isLastOnPage: PropTypes.bool,
 };
 
 export const Row = ({ questionnaire, questionnaire: {
@@ -127,10 +129,28 @@ export const Row = ({ questionnaire, questionnaire: {
   displayName,
   updatedAt,
   permission,
-}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire }) => {
+}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus, isLastOnPage }) => {
 
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [transitionOut, setTransitionOut] = useState(false);
+
+  const rowRef = useRef();
+  const focusLink = () => {
+    rowRef.current.getElementsByTagName("a")[0].focus();
+  }
+
+  useEffect(() => {
+    if (autoFocus) {
+      focusLink();
+    }
+  });
+
+  // componentDidUpdate(prevProps) {
+  //   if (!prevProps.autoFocus && this.props.autoFocus) {
+  //     this.focusLink();
+  //   }
+  // }
 
   const handleClick = () => {
     history.push(
@@ -165,10 +185,12 @@ export const Row = ({ questionnaire, questionnaire: {
   const handleDeleteQuestionnaire = e => {
     e.stopPropagation();
     setShowDeleteModal(true);
+    setTransitionOut(isLastOnPage);
   };
 
   const handleModalClose = () => {
     setShowDeleteModal(false);
+    setTransitionOut(false);
   };
 
   const handleModalConfirm = () => {
@@ -181,6 +203,7 @@ export const Row = ({ questionnaire, questionnaire: {
     return (
       <>
         <TR
+          ref={rowRef}
           onFocus={handleFocus}
           onBlur={handleBlur}
           linkHasFocus={linkHasFocus}
