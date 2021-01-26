@@ -25,6 +25,7 @@ import {
   DURATION_ERROR_MESSAGE,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
+  ERR_OFFSET_NO_VALUE,
   ERR_NO_VALUE,
   ERR_REFERENCE_MOVED,
   ERR_REFERENCE_DELETED,
@@ -146,6 +147,7 @@ const errorCodes = {
   ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
   ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
   ERR_NO_VALUE: ERR_NO_VALUE,
+  ERR_OFFSET_NO_VALUE,
   ERR_REFERENCE_MOVED,
   ERR_REFERENCE_DELETED,
 };
@@ -220,6 +222,7 @@ const AnswerValidation = ({ answer }) => {
             "ERR_NO_VALUE",
             "ERR_REFERENCE_MOVED",
             "ERR_REFERENCE_DELETED",
+            "ERR_OFFSET_NO_VALUE",
           ].includes(error.errorCode)
             ? individualErrors
             : groupErrors;

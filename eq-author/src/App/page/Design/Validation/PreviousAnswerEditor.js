@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { get } from "lodash";
 import ValidationError from "components/ValidationError";
 
-import FieldWithInclude from "../FieldWithInclude";
+import FieldWithInclude from "./FieldWithInclude";
 import * as entityTypes from "constants/validation-entity-types";
-import PreviousAnswerContentPicker from "../PreviousAnswerContentPicker";
+import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
 
 import {
   ERR_REFERENCE_DELETED,
@@ -30,30 +29,35 @@ const PreviousAnswerEditor = ({
     .map(e => e.errorCode)
     .find(errorCode => Object.keys(errorMessages).includes(errorCode));
 
-  return (
-    <FieldWithInclude
-      id="inclusive"
-      name="inclusive"
-      onChange={onChangeUpdate}
-      checked={validation.inclusive}
-    >
+  const contentPicker = (
+    <>
       <PreviousAnswerContentPicker
         answerId={answer.id}
         onSubmit={onChangeUpdate}
-        selectedContentDisplayName={get(
-          validation.previousAnswer,
-          "displayName"
-        )}
-        selectedId={get(validation.previousAnswer, "id")}
+        selectedContentDisplayName={validation?.previousAnswer?.displayName}
+        selectedId={validation?.previousAnswer?.id}
         path={`answer.validation.${readKey}.availablePreviousAnswers`}
         data-test="content-picker-select"
-        hasError={errorCode}
+        hasError={Boolean(errorCode)}
       />
       {errorCode && (
         <ValidationError right={false}>
           {errorMessages[errorCode]}
         </ValidationError>
       )}
+    </>
+  );
+
+  return validation?.__typename?.includes("Date") ? (
+    contentPicker
+  ) : (
+    <FieldWithInclude
+      id="inclusive"
+      name="inclusive"
+      onChange={onChangeUpdate}
+      checked={validation.inclusive}
+    >
+      {contentPicker}
     </FieldWithInclude>
   );
 };
@@ -71,20 +75,6 @@ PreviousAnswerEditor.propTypes = {
   }).isRequired,
   answer: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    properties: PropTypes.shape({
-      unit: PropTypes.string,
-    }),
-    validationErrorInfo: PropTypes.shape({
-      errors: PropTypes.arrayOf(
-        PropTypes.shape({
-          errorCode: PropTypes.string,
-          field: PropTypes.string,
-          id: PropTypes.string,
-          type: PropTypes.string,
-        })
-      ),
-    }),
   }).isRequired,
   readKey: PropTypes.string.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,

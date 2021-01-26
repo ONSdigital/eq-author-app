@@ -10,8 +10,14 @@ exports[`Custom Editor should render 1`] = `
   <GetAvailablePreviewAnswersQuery
     answerId="1"
     data-test="content-picker-select"
+    hasError={true}
     onSubmit={[MockFunction]}
     path="answer.validation.read.availablePreviousAnswers"
   />
+  <ValidationError
+    right={false}
+  >
+    Answer required
+  </ValidationError>
 </FieldWithInclude>
 `;
