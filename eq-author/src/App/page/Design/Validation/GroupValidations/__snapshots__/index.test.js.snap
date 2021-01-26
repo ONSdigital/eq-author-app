@@ -18,7 +18,8 @@ exports[`GroupValidations should render 1`] = `
   <ValidationError
     right={true}
   >
-    Value required
+     
+    Value is required
   </ValidationError>
   <GroupValidations__GroupValidationModal
     isOpen={false}
@@ -26,18 +27,14 @@ exports[`GroupValidations should render 1`] = `
   >
     <Apollo(TotalValidation)
       errors={
-        Object {
-          "errors": Array [
-            Object {
-              "errorCode": "ERR_TOTAL_NO_VALUE",
-              "field": "totalValidation",
-              "id": "pages-1-totalValidation",
-              "type": "pages",
-            },
-          ],
-          "id": "1",
-          "totalCount": 1,
-        }
+        Array [
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "totalValidation",
+            "id": "pages-1-totalValidation",
+            "type": "pages",
+          },
+        ]
       }
       total={
         Object {

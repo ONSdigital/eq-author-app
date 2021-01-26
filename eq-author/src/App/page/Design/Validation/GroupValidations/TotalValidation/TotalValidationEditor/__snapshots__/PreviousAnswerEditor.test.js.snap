@@ -15,6 +15,7 @@ exports[`Custom Editor should render 1`] = `
       }
     }
     data-test="content-picker-select"
+    hasError={false}
     onSubmit={[MockFunction]}
     path="availablePreviousAnswers"
     selectedContentDisplayName="My answer"

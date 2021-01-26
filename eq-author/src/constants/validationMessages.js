@@ -92,6 +92,7 @@ export const MIN_INCLUSIVE_TEXT = "must be more than";
 export const MAX_INCLUSIVE_TEXT = "must be less than";
 
 export const ERR_TOTAL_NO_VALUE = "Value required";
+export const ERR_OFFSET_NO_VALUE = "Value is required";
 export const ERR_NO_VALUE = "Value is required";
 export const ERR_REFERENCE_DELETED =
   "Answer required. The answer used in this validation has been deleted.";
