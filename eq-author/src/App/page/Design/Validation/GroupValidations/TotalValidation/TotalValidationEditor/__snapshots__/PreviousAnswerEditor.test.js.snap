@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Custom Editor should render 1`] = `
+exports[`TotalValidation: Previous Answer Editor should render 1`] = `
 <Field
   disabled={false}
   last={false}
