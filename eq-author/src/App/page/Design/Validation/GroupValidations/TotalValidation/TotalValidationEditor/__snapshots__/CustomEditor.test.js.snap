@@ -11,7 +11,7 @@ exports[`Custom Editor should render 1`] = `
       default={null}
       hasError={
         Object {
-          "errorCode": "ERR_TOTAL_NO_VALUE",
+          "errorCode": "ERR_NO_VALUE",
           "field": "totalValidation",
           "id": "pages-1-totalValidation",
           "type": "pages",
@@ -28,7 +28,7 @@ exports[`Custom Editor should render 1`] = `
     />
   </Field>
   <CustomEditor__StyledError>
-    Value required
+    Value is required
   </CustomEditor__StyledError>
 </Fragment>
 `;

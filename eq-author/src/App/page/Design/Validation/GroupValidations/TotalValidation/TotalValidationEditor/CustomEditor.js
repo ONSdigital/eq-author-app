@@ -6,7 +6,7 @@ import { find } from "lodash";
 import { colors } from "constants/theme";
 
 import { Field, Number } from "components/Forms";
-import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
+import { ERR_NO_VALUE } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
 const LargerNumber = styled(Number)`
@@ -30,11 +30,11 @@ const CustomEditor = props => {
   const { total, type, onUpdate, onChange, errors } = props;
 
   const hasError = find(errors.errors, error =>
-    error.errorCode.includes("ERR_TOTAL_NO_VALUE")
+    error.errorCode.includes("ERR_NO_VALUE")
   );
 
   const handleError = () => {
-    return <StyledError>{ERR_TOTAL_NO_VALUE}</StyledError>;
+    return <StyledError>{ERR_NO_VALUE}</StyledError>;
   };
   return (
     <>

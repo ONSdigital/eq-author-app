@@ -2,7 +2,7 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 
 import CustomEditor from "./CustomEditor";
-import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
+import { ERR_NO_VALUE } from "constants/validationMessages";
 
 describe("Custom Editor", () => {
   let props;
@@ -16,7 +16,7 @@ describe("Custom Editor", () => {
         id: "1",
         errors: [
           {
-            errorCode: "ERR_TOTAL_NO_VALUE",
+            errorCode: "ERR_NO_VALUE",
             field: "totalValidation",
             id: "pages-1-totalValidation",
             type: "pages",
@@ -55,7 +55,7 @@ describe("Custom Editor", () => {
       "CustomEditor__StyledError"
     );
 
-    expect(wrapper.text()).toEqual(ERR_TOTAL_NO_VALUE);
+    expect(wrapper.text()).toEqual(ERR_NO_VALUE);
   });
 
   it("should display error styling when error present", () => {
