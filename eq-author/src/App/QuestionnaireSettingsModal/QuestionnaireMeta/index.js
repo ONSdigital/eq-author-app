@@ -141,7 +141,6 @@ export const StatelessQuestionnaireMeta = ({
           Cancel
         </Button>
         <Button
-          onClick={onSubmit}
           type="submit"
           variant="primary"
           disabled={!(questionnaire.title && questionnaire.type)}

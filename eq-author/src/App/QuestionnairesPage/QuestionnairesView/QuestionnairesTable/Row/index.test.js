@@ -16,9 +16,6 @@ import {
   QuestionnaireLink,
 } from "./";
 
-// const mockQuestionnaire = buildQuestionnaire({ sectionCount: 2 });
-
-
 describe("Row", () => {
   let props;
 
@@ -32,14 +29,6 @@ describe("Row", () => {
     );
 
   beforeEach(() => {
-    // wrapper = shallow(
-    //   <Row
-    //   onDeleteQuestionnaire={jest.fn()}
-    //   onDuplicateQuestionnaire={jest.fn()}
-    //   history={jest.fn()}
-    //   questionnaire={mockQuestionnaire}
-    //   />
-    // );
 
     props = {
       onDeleteQuestionnaire: jest.fn(),
@@ -73,22 +62,6 @@ describe("Row", () => {
     const { getByText } = renderRow(props);
     expect(getByText("Test title")).toBeTruthy();
   });
-
-  // it("should auto focus when it receives autofocus", () => {
-  //   const wrapper = shallow(<Row {...props} />);
-
-  //   const focus = jest.fn();
-  //   const getElementsByTagName = jest.fn(() => [{ focus }]);
-  //   const instance = wrapper.instance();
-  //   instance.rowRef = { current: { getElementsByTagName } };
-
-  //   wrapper.setProps({
-  //     autoFocus: true,
-  //   });
-
-  //   expect(getElementsByTagName).toHaveBeenCalled();
-  //   expect(focus).toHaveBeenCalled();
-  // });
 
   it("should handle row focus state change correctly", () => {
     const { getByTestId } = renderRow(props);
@@ -129,25 +102,6 @@ describe("Row", () => {
     tableLink.simulate("click", { stopPropagation });
     expect(stopPropagation).toHaveBeenCalled();
   });
-
-  // it("should only grab focus once", () => {
-  //   const wrapper = shallow(<Row {...props} />);
-
-  //   const focus = jest.fn();
-  //   const getElementsByTagName = jest.fn(() => [{ focus }]);
-  //   const instance = wrapper.instance();
-  //   instance.rowRef = { current: { getElementsByTagName } };
-
-  //   wrapper.setProps({
-  //     autoFocus: true,
-  //   });
-
-  //   wrapper.setProps({
-  //     autoFocus: true,
-  //   });
-
-  //   expect(focus).toHaveBeenCalledTimes(1);
-  // });
 
   it("should allow duplication of a Questionnaire", () => {
     let wrapper = shallow(<Row {...props} />);

@@ -1,5 +1,4 @@
 import React, {useState } from "react";
-// import React, {useState, useRef, useEffect } from "react";
 
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
@@ -19,7 +18,6 @@ import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
 
 import FormattedDate from "./FormattedDate";
-
 import questionConfirmationIcon from "./icon-questionnaire.svg";
 
 export const QuestionnaireLink = styled(NavLink)`
@@ -118,8 +116,6 @@ const propTypes = {
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
   exit: PropTypes.bool,
   enter: PropTypes.bool,
-  autoFocus: PropTypes.bool,
-  isLastOnPage: PropTypes.bool,
 };
 
 export const Row = ({ questionnaire, questionnaire: {
@@ -132,12 +128,9 @@ export const Row = ({ questionnaire, questionnaire: {
   updatedAt,
   permission,
 }, history, onDeleteQuestionnaire, onDuplicateQuestionnaire }) => {
-// }, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus, isLastOnPage }) => {
-
 
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // const [transitionOut, setTransitionOut] = useState(false);
 
   const handleClick = () => {
     history.push(
@@ -172,12 +165,10 @@ export const Row = ({ questionnaire, questionnaire: {
   const handleDeleteQuestionnaire = e => {
     e.stopPropagation();
     setShowDeleteModal(true);
-    // setTransitionOut(!isLastOnPage);
   };
 
   const handleModalClose = () => {
     setShowDeleteModal(false);
-    // setTransitionOut(false);
   };
 
   const handleModalConfirm = () => {
@@ -185,61 +176,11 @@ export const Row = ({ questionnaire, questionnaire: {
     onDeleteQuestionnaire(questionnaire);
   };
 
-   // rowRef = React.createRef();
-
-  // focusLink() {
-  //   this.rowRef.current.getElementsByTagName("a")[0].focus();
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (!prevProps.autoFocus && this.props.autoFocus) {
-  //     this.focusLink();
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   if (this.props.autoFocus) {
-  //     this.focusLink();
-  //   }
-  // }
-
-  // const rowRef = useRef()
-  // const focusLink = () => rowRef.current.getElementsByTagName("a")[0].focus();
-
-  // useEffect(() => {
-  //   if(autoFocus) {
-  //     focusLink()
-  //   }
-  // }, [rowRef]);
-
-  // This hook will check if didMountRef.current is true. 
-  // If true, it means that the component has just updated and therefore the hook needs to be executed. 
-  // If false, the component has just mounted, do the mounting stuff and set didMountRef.current to true 
-  // so as to know that future re-renderings are triggered by updates
-
-  // const firstRender = useRef(true);
-
-  // const didMountRef = useRef(true)
-  // const prevFocus = useRef();
-  // useEffect(() => {
-  //   prevFocus.current = autoFocus;
-  //   if (didMountRef.current) {
-  //     if (!prevFocus.current && autoFocus) {
-  //       focusLink();
-  //     }
-  //   } else {
-  //     if(autoFocus) {
-  //       focusLink()
-  //     }
-  //     didMountRef.current = false}
-  // }, []);
-
     const hasWritePermisson = permission === WRITE;
 
     return (
       <>
         <TR
-          // ref={rowRef}
           onFocus={handleFocus}
           onBlur={handleBlur}
           linkHasFocus={linkHasFocus}
