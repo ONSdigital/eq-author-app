@@ -161,12 +161,6 @@ export const Row = ({ questionnaire, questionnaire: {
     }
   });
 
-  // componentDidUpdate(prevProps) {
-  //   if (!prevProps.autoFocus && this.props.autoFocus) {
-  //     this.focusLink();
-  //   }
-  // }
-
   const handleClick = () => {
     history.push(
       buildQuestionnairePath({
