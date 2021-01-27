@@ -8,7 +8,7 @@ describe("verifyServiceRequest", () => {
   let validKey, invalidKey, auth;
   beforeAll(() => {
     process.env.KEYS_FILE = "./keys.test.yml";
-    const keysYaml = yaml.safeLoad(fs.readFileSync("./keys.test.yml", "utf8"));
+    const keysYaml = yaml.load(fs.readFileSync("./keys.test.yml", "utf8"));
     const keysJson = JSON.parse(JSON.stringify(keysYaml));
     validKey = keysJson.keys.publisher.value;
     invalidKey = keysJson.keys.notPublisher.value;
