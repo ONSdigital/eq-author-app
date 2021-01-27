@@ -44,7 +44,6 @@ const EditReply = props => {
           onClick={() => handleSaveReply(item)}
           data-test={`btn-save-reply-${index}`}
         >
-          {console.log(`btn-save-reply-${index}`)}
           Add
         </Button>
         <Button

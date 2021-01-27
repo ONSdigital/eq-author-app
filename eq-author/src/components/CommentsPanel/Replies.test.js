@@ -90,10 +90,10 @@ describe("Replies", () => {
     const { getByText, getByTestId } = defaultSetup();
     expect(getByText(props.repliesItem.commentText)).toBeVisible();
     expect(
-      getByTestId(`btn-edit-reply-${props.index}-${props.repliesIndex}`)
+      getByTestId(`btn-edit-${props.index}-${props.repliesIndex}`)
     ).toBeVisible();
     expect(
-      getByTestId(`btn-delete-reply-${props.index}-${props.repliesIndex}`)
+      getByTestId(`btn-delete-${props.index}-${props.repliesIndex}`)
     ).toBeVisible();
   });
 
@@ -102,11 +102,11 @@ describe("Replies", () => {
 
     expect(getByText(props.repliesItem.commentText)).toBeVisible();
     expect(
-      getByText(`Edited: ${moment(props.repliesItem.editedTime)}`)
+      getByText(`Edited: ${moment(props.repliesItem.editedTime).calendar()}`)
     ).toBeVisible();
 
     fireEvent.click(
-      getByTestId(`btn-edit-reply-${props.index}-${props.repliesIndex}`)
+      getByTestId(`btn-edit-${props.index}-${props.repliesIndex}`)
     );
 
     expect(handleEditReply).toHaveBeenCalledTimes(1);
@@ -117,7 +117,7 @@ describe("Replies", () => {
     const { getByTestId, handleDeleteReply } = defaultSetup();
 
     fireEvent.click(
-      getByTestId(`btn-delete-reply-${props.index}-${props.repliesIndex}`)
+      getByTestId(`btn-delete-${props.index}-${props.repliesIndex}`)
     );
 
     expect(handleDeleteReply).toHaveBeenCalledTimes(1);

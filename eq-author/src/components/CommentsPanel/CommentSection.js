@@ -142,7 +142,6 @@ const CommentSection = props => {
             </Button>
           </>
         )}
-        {/* TEST */}{" "}
       </CommentFooterContainer>
       {hasReplies && (
         <StyledAccordion

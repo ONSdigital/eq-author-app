@@ -84,7 +84,6 @@ const Replies = props => {
               onClick={() => handleSaveEditReply(item, repliesItem)}
               data-test={`btn-save-editedReply-${index}-${repliesIndex}`}
             >
-              {console.log(`btn-save-editedReply-${index}-${repliesIndex}`)}
               Save
             </Button>
             <Button

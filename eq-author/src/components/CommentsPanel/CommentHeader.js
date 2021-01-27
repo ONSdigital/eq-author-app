@@ -75,7 +75,7 @@ const CommentHeader = props => {
                 : handleEdit(shared.id, shared.commentText)
             }
             data-test={`btn-edit-${index}${
-              repliesIndex ? `-${repliesIndex}` : ""
+              repliesIndex >= 0 ? `-${repliesIndex}` : ""
             }`}
           />
         </ToolTipWrapper>
@@ -84,7 +84,7 @@ const CommentHeader = props => {
             isHidden={shared.user.id !== myId}
             onClick={() => handleDelete(item, repliesItem)}
             data-test={`btn-delete-${index}${
-              repliesIndex ? `-${repliesIndex}` : ""
+              repliesIndex >= 0 ? `-${repliesIndex}` : ""
             }`}
           />
         </ToolTipWrapper>
@@ -98,10 +98,9 @@ CommentHeader.propTypes = {
   getInitials: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   repliesIndex: PropTypes.number,
-  // don't forget to do this
-  repliesItem: PropTypes.object,
-  shared: PropTypes.object,
-  item: PropTypes.object,
+  repliesItem: PropTypes.instanceOf(Object).isRequired,
+  shared: PropTypes.instanceOf(Object).isRequired,
+  item: PropTypes.instanceOf(Object).isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };
