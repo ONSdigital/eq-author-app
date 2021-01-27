@@ -146,8 +146,7 @@ const errorCodes = {
 
 const renderError = error => (
   <ValidationError right={false} key={error.id}>
-    {" "}
-    {errorCodes[error.errorCode]}{" "}
+    {errorCodes[error.errorCode]}
   </ValidationError>
 );
 
