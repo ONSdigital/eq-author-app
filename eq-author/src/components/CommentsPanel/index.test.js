@@ -333,6 +333,37 @@ describe("Comments Panel", () => {
   });
 
   describe("Replies", () => {
+    it("should create a new reply", async () => {
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
+
+      await act(async () => {
+        await flushPromises();
+        const reply = getByTestId("btn-reply-comment-1");
+        fireEvent.click(reply);
+      });
+
+      await act(async () => {
+        await flushPromises();
+        fireEvent.change(getByTestId("reply-txtArea-1"), {
+          target: {
+            value: "This is a test ADD reply",
+          },
+        });
+      });
+
+      await act(async () => {
+        await fireEvent.click(getByTestId(`btn-save-reply-1`));
+      });
+
+      expect(vars.createReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+    });
+
     it("should update a reply", async () => {
       const { getByText, getByTestId } = renderWithContext(
         <CommentsPanel componentId={"P1"} />,
