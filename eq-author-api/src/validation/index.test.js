@@ -701,6 +701,41 @@ describe("schema validation", () => {
           );
         });
 
+        it("should return an error if referenced answer deleted / moved", () => {
+          questionnaire.sections[0].folders[0].pages[0].answers.push({
+            ...answer,
+            id: "a2",
+          });
+          questionnaire.sections[0].folders[0].pages[0].answers[0].validation = {
+            earliestDate: {
+              enabled: true,
+              entityType: "PreviousAnswer",
+              previousAnswer: "a2",
+              relativePosition: "Before",
+            },
+            latestDate: {
+              enabled: false,
+            },
+          };
+
+          let errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_MOVED" }),
+            ])
+          );
+
+          questionnaire.sections[0].folders[0].pages[0].answers.splice(1, 1);
+          questionnaire.updatedAt = new Date();
+
+          errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_DELETED" }),
+            ])
+          );
+        });
+
         it("should validate if qCode is missing", () => {
           const answer = {
             id: "a1",
