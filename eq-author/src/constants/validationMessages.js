@@ -95,8 +95,7 @@ export const ERR_OFFSET_NO_VALUE = "Value is required";
 export const ERR_NO_VALUE = "Value is required";
 export const ERR_REFERENCE_DELETED =
   "Answer required. The answer used in this validation has been deleted.";
-export const ERR_REFERENCE_MOVED =
-  "Answer required. This answer used in this validation has been moved.";
+export const ERR_REFERENCE_MOVED = "Answer must be from a previous question";
 
 export const SELECTION_REQUIRED = "Selection required";
 
