@@ -18,6 +18,7 @@ const {
   getSkipConditionById,
   getSkipConditions,
   getAllExpressionGroups,
+  returnValidationErrors,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -63,28 +64,8 @@ Resolvers.BinaryExpression2 = {
       }
     }, getAllExpressionGroups(ctx));
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const expressionErrors = ctx.validationErrorInfo.filter(
-      ({ expressionId }) => id === expressionId
-    );
-
-    if (!expressionErrors) {
-      const noErrors = {
-        id,
-        errors: [],
-        totalCount: 0,
-      };
-      return noErrors;
-    }
-
-    const errors = {
-      id,
-      errors: expressionErrors,
-      totalCount: expressionErrors.length,
-    };
-
-    return errors;
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    returnValidationErrors(ctx, id, ({ expressionId }) => id === expressionId),
 };
 
 Resolvers.LeftSide2 = {
@@ -269,7 +250,6 @@ Resolvers.Mutation = {
     {
       const routingExpressionGroups = getExpressionGroups(ctx);
       const skipConditions = getSkipConditions(ctx);
-
       const expressionGroup = find(
         expressionGroup => {
           if (some({ id: input.id }, expressionGroup.expressions)) {

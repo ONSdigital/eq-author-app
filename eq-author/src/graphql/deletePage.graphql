@@ -1,8 +1,11 @@
 mutation DeletePage($input: DeletePageInput!) {
   deletePage(input: $input) {
     id
-    pages {
+    folders {
       id
+      pages {
+        id
+      }
     }
   }
 }

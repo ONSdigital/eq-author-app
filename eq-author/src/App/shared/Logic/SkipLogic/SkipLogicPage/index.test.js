@@ -17,6 +17,9 @@ describe("Skip Condition Page", () => {
     section: {
       position: 0,
     },
+    folder: {
+      position: 0,
+    },
     skipConditions: null,
     validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
   };

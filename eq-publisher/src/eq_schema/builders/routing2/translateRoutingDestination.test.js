@@ -13,13 +13,31 @@ describe("Translation of a routing destination", () => {
     });
   });
   it("should translate an absolute destination to another Section", () => {
-    const authorDestination = {
-      section: {
-        id: "2",
+    const ctx = {
+      questionnaireJson: {
+        sections: [
+          {
+            id: "2",
+            folders: [
+              {
+                id: "folder-1",
+              },
+            ],
+          },
+        ],
       },
     };
-    expect(translateRoutingDestination(authorDestination)).toMatchObject({
-      group: "group2",
+
+    const authorDestination = {
+      section: {
+        id: ctx.questionnaireJson.sections[0].id,
+      },
+    };
+
+    expect(
+      translateRoutingDestination(authorDestination, null, ctx)
+    ).toMatchObject({
+      group: "group" + ctx.questionnaireJson.sections[0].folders[0].id,
     });
   });
   it("should translate a next page destination", () => {
@@ -37,7 +55,7 @@ describe("Translation of a routing destination", () => {
     };
     expect(
       translateRoutingDestination(authorDestination, "2", { questionnaireJson })
-    ).toMatchObject({ group: "group2" });
+    ).toMatchObject({ group: "groupfolder-2" });
   });
 
   it("should translate a next page destination when last page in questionnaire", () => {

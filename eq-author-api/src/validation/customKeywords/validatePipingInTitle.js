@@ -5,6 +5,7 @@ const {
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const { flatMap, compact } = require("lodash/fp");
 const createValidationError = require("../createValidationError");
+const { getPath } = require("../utils");
 
 const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
 
@@ -36,14 +37,21 @@ module.exports = function(ajv) {
         return true;
       }
 
-      const splitDataPath = dataPath.split("/");
-      const currentPage =
-        questionnaire.sections[splitDataPath[2]].pages[splitDataPath[4]];
+      const { sections, folders, pages } = getPath(dataPath);
 
-      const allPagesForQuestionnaire = flatMap(
-        section => section.pages,
+      const currentPage =
+        questionnaire.sections[sections].folders[folders].pages[pages];
+
+      const foldersArray = flatMap(
+        section => section.folders,
         questionnaire.sections
       );
+
+      const allPagesForQuestionnaire = flatMap(
+        folder => folder.pages,
+        foldersArray
+      );
+
       const allAnswersForQuestionnaire = compact(
         flatMap(page => page.answers, allPagesForQuestionnaire)
       );

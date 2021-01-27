@@ -19,9 +19,11 @@ const NavList = styled.ol`
 `;
 
 const PageNav = ({ section, questionnaire }) => {
-  const pages = section.pages
-    .reduce((list, page) => [...list, page, page.confirmation], [])
-    .filter(Boolean);
+  const pages = section.folders.flatMap(({ pages }) =>
+    pages
+      .reduce((list, page) => [...list, page, page.confirmation], [])
+      .filter(Boolean)
+  );
 
   return (
     <TransitionGroup component={NavList}>
@@ -61,9 +63,12 @@ PageNav.fragments = {
   PageNav: gql`
     fragment PageNav on Section {
       id
-      pages {
-        ...PageNavItem
-        ...PageConfirmationNavItem
+      folders {
+        id
+        pages {
+          ...PageNavItem
+          ...PageConfirmationNavItem
+        }
       }
     }
     ${PageNavItem.fragments.PageNavItem}

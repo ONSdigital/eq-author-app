@@ -15,6 +15,10 @@ query GetSkipLogic($input: QueryInput!) {
         id
         position
       }
+      folder {
+        id
+        position
+      }
       validationErrorInfo {
         ...ValidationErrorInfo
       }

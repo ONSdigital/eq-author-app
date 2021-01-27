@@ -61,7 +61,7 @@ export const UnwrappedDate = ({
         data-autofocus
         bold
         errorValidationMsg={getValidationError({
-          field: "label",
+          field: name,
           label: errorLabel,
           requiredMsg: DATE_LABEL_REQUIRED,
         })}

@@ -15,7 +15,9 @@ const isPipeableType = answer => {
 
 const getAllAnswers = questionnaire =>
   flatMap(questionnaire.sections, section =>
-    compact(flatMap(section.pages, page => page.answers))
+    flatMap(section.folders, folder =>
+      compact(flatMap(folder.pages, page => page.answers))
+    )
   );
 
 const getAnswer = (ctx, answerId) => {
