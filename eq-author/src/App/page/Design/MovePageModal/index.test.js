@@ -72,3 +72,23 @@ describe("MovePageModal", () => {
     );
   });
 });
+
+describe("MovePageModal: questionnaire not loaded", () => {
+  it("shouldn't render if questionnaire not yet available", () => {
+    useQuestionnaire.mockImplementation(() => ({
+      questionnaire: undefined,
+    }));
+
+    const wrapper = shallow(
+      <MovePageModal
+        isOpen
+        onClose={jest.fn()}
+        sectionId={null}
+        page={null}
+        onMovePage={jest.fn()}
+      />
+    );
+
+    expect(wrapper.isEmptyRender()).toBe(true);
+  });
+});
