@@ -26,7 +26,6 @@ export const mapMutateToProps = ({ mutate }) => ({
   onUpdateOption: option =>
     mutate({
       variables: { input: filter(updateOptionInput, option) },
-      refetchQueries: ["GetPage"],
     }),
 });
 

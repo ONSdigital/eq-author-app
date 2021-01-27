@@ -4,6 +4,7 @@ import { flowRight } from "lodash";
 import { withShowToast } from "components/Toasts";
 import deletePageMutation from "graphql/deletePage.graphql";
 import fragment from "graphql/sectionFragment.graphql";
+import getSectionQuery from "graphql/getSection.graphql";
 import getNextPage from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
 
@@ -16,33 +17,38 @@ const getCachedSection = (client, id) =>
 const handleDeletion = (
   {
     history,
-    onAddQuestionPage,
     match: {
       params: { questionnaireId },
     },
   },
-  section,
+  { folders },
   nextPage
 ) => {
-  if (section.pages.length === 0) {
-    return onAddQuestionPage(section.id);
-  }
+  const newPageCreated = folders.length === 1 && folders[0].pages.length === 1;
 
   history.push(
     buildPagePath({
       questionnaireId,
-      pageId: nextPage.id,
+      pageId: newPageCreated ? folders[0].pages[0].id : nextPage.id,
     })
   );
 };
 
-export const mapMutateToProps = ({ ownProps, mutate }) => ({
+export const mapMutateToProps = props => ({
   onDeletePage(page) {
+    const { ownProps, mutate } = props;
     const { client } = ownProps;
     const cachedSection = getCachedSection(client, page.section.id);
-    const nextPage = getNextPage(cachedSection.pages, page.id);
+    const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
+    const nextPage = getNextPage(cachedPages, page.id);
     const mutation = mutate({
       variables: { input: { id: page.id } },
+      refetchQueries: [
+        {
+          query: getSectionQuery,
+          variables: { input: { sectionId: page.section.id } },
+        },
+      ],
     });
 
     return mutation

@@ -221,83 +221,88 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
-        pages {
+        folders {
           id
-          title
-          pageType
-          ... on CalculatedSummaryPage {
-            totalTitle
-            summaryAnswers {
-              id
-            }
-            availableSummaryAnswers {
-              id
-            }
-          }
-          ... on QuestionPage {
-            description
-            descriptionEnabled
-            guidance
-            guidanceEnabled
-            definitionLabel
-            definitionContent
-            definitionEnabled
-            additionalInfoLabel
-            additionalInfoContent
-            additionalInfoEnabled
-            confirmation {
-              id
-              title
-              qCode
-              positive {
-                label
-                description
+          alias
+          enabled
+          pages {
+            id
+            title
+            pageType
+            ... on CalculatedSummaryPage {
+              totalTitle
+              summaryAnswers {
+                id
               }
-              negative {
-                label
-                description
+              availableSummaryAnswers {
+                id
+              }
+            }
+            ... on QuestionPage {
+              description
+              descriptionEnabled
+              guidance
+              guidanceEnabled
+              definitionLabel
+              definitionContent
+              definitionEnabled
+              additionalInfoLabel
+              additionalInfoContent
+              additionalInfoEnabled
+              confirmation {
+                id
+                title
+                qCode
+                positive {
+                  label
+                  description
+                }
+                negative {
+                  label
+                  description
+                }
+                skipConditions {
+                  ...ExpressionGroup
+                }
+              }
+              answers {
+                ...answerFragment
+                ... on MultipleChoiceAnswer {
+                  options {
+                    ...optionFragment
+                  }
+                  mutuallyExclusiveOption {
+                    ...optionFragment
+                  }
+                }
+              }
+              routing {
+                rules {
+                  expressionGroup {
+                    operator
+                    ...ExpressionGroup
+                  }
+                  destination {
+                    ...destination2Fragment
+                  }
+                }
+                else {
+                  ...destination2Fragment
+                }
               }
               skipConditions {
                 ...ExpressionGroup
               }
-            }
-            answers {
-              ...answerFragment
-              ... on MultipleChoiceAnswer {
-                options {
-                  ...optionFragment
-                }
-                mutuallyExclusiveOption {
-                  ...optionFragment
-                }
-              }
-            }
-            routing {
-              rules {
-                expressionGroup {
-                  operator
-                  ...ExpressionGroup
-                }
-                destination {
-                  ...destination2Fragment
-                }
-              }
-              else {
-                ...destination2Fragment
-              }
-            }
-            skipConditions {
-              ...ExpressionGroup
-            }
-            totalValidation {
-              id
-              enabled
-              entityType
-              custom
-              previousAnswer {
+              totalValidation {
                 id
+                enabled
+                entityType
+                custom
+                previousAnswer {
+                  id
+                }
+                condition
               }
-              condition
             }
           }
         }

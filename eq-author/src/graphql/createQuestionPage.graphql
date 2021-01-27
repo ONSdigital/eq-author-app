@@ -12,6 +12,9 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     }
     section {
       id
+      folders {
+        id
+      }
     }
     confirmation {
       id

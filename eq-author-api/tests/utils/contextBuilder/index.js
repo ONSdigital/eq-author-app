@@ -9,8 +9,8 @@ const {
   reviewQuestionnaire,
 } = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
-const { createSection, deleteSection } = require("./section");
-const { deletePage } = require("./page");
+const { createSection } = require("./section");
+const { createFolder } = require("./folder");
 const { createQuestionPage } = require("./page/questionPage");
 const { createAnswer, updateAnswer } = require("./answer");
 const {
@@ -27,6 +27,10 @@ const {
   updateQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 const { createCollapsible } = require("./collapsible");
+const {
+  getFolderById,
+  getSectionById,
+} = require("../../../schema/resolvers/utils");
 
 const buildRouting = require("./buildRouting");
 
@@ -63,8 +67,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   });
 
   const { questionnaire } = ctx;
-
-  await deleteSection(ctx, questionnaire.sections[0].id);
+  ctx.questionnaire.sections = [];
 
   if (Array.isArray(sections)) {
     for (let section of sections) {
@@ -74,69 +77,83 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
         ...section,
       });
 
-      await deletePage(ctx, createdSection.pages[0].id);
+      getSectionById(ctx, createdSection.id).folders = [];
 
-      if (Array.isArray(section.pages)) {
-        for (let page of section.pages) {
-          if (page.pageType === "calculatedSummary") {
-            await createCalculatedSummaryPage(ctx, {
-              sectionId: createdSection.id,
-            });
-          } else {
-            const createdPage = await createQuestionPage(ctx, {
-              title: "QuestionPage title",
-              sectionId: createdSection.id,
-              ...page,
-            });
-            if (page.confirmation) {
-              const createdQuestionConfirmation = await createQuestionConfirmation(
-                ctx,
-                {
-                  pageId: createdPage.id,
-                  ...page.confirmation,
-                }
-              );
-              if (Object.keys(page.confirmation).length > 0) {
-                await updateQuestionConfirmation(ctx, {
-                  ...page.confirmation,
-                  id: createdQuestionConfirmation.id,
-                });
-              }
-            }
-            if (Array.isArray(page.answers)) {
-              for (let answer of page.answers) {
-                const createdAnswer = await createAnswer(ctx, {
-                  questionPageId: createdPage.id,
-                  ...answer,
-                });
-                if (answer.properties) {
-                  await updateAnswer(ctx, {
-                    id: createdAnswer.id,
-                    properties: answer.properties,
-                  });
-                }
-                if (Array.isArray(answer.options)) {
-                  const count = answer.type === RADIO ? 2 : 1;
-                  for (let i = 0; i < count; ++i) {
-                    await deleteOption(ctx, {
-                      id: createdAnswer.options[i].id,
-                    });
-                  }
+      if (Array.isArray(section.folders)) {
+        for (let folder of section.folders) {
+          const createdFolder = await createFolder(ctx, {
+            sectionId: createdSection.id,
+            ...folder,
+          });
 
-                  for (let option of answer.options) {
-                    await createOption(ctx, {
-                      answerId: createdAnswer.id,
-                      ...option,
-                      hasAdditionalAnswer: Boolean(option.additionalAnswer),
+          getFolderById(ctx, createdFolder.id).pages = [];
+
+          if (Array.isArray(folder.pages)) {
+            for (let page of folder.pages) {
+              if (page.pageType === "calculatedSummary") {
+                await createCalculatedSummaryPage(ctx, {
+                  sectionId: createdSection.id,
+                });
+              } else {
+                const createdPage = await createQuestionPage(ctx, {
+                  title: "QuestionPage title",
+                  sectionId: createdSection.id,
+                  folderId: createdFolder.id,
+                  ...page,
+                });
+
+                if (page.confirmation) {
+                  const createdQuestionConfirmation = await createQuestionConfirmation(
+                    ctx,
+                    {
+                      pageId: createdPage.id,
+                      ...page.confirmation,
+                    }
+                  );
+                  if (Object.keys(page.confirmation).length > 0) {
+                    await updateQuestionConfirmation(ctx, {
+                      ...page.confirmation,
+                      id: createdQuestionConfirmation.id,
                     });
                   }
                 }
+                if (Array.isArray(page.answers)) {
+                  for (let answer of page.answers) {
+                    const createdAnswer = await createAnswer(ctx, {
+                      questionPageId: createdPage.id,
+                      ...answer,
+                    });
 
-                if (answer.mutuallyExclusiveOption) {
-                  await createMutuallyExclusiveOption(ctx, {
-                    ...answer.mutuallyExclusiveOption,
-                    answerId: createdAnswer.id,
-                  });
+                    if (answer.properties) {
+                      await updateAnswer(ctx, {
+                        id: createdAnswer.id,
+                        properties: answer.properties,
+                      });
+                    }
+                    if (Array.isArray(answer.options)) {
+                      const count = answer.type === RADIO ? 2 : 1;
+                      for (let i = 0; i < count; ++i) {
+                        await deleteOption(ctx, {
+                          id: createdAnswer.options[i].id,
+                        });
+                      }
+
+                      for (let option of answer.options) {
+                        await createOption(ctx, {
+                          answerId: createdAnswer.id,
+                          ...option,
+                          hasAdditionalAnswer: Boolean(option.additionalAnswer),
+                        });
+                      }
+                    }
+
+                    if (answer.mutuallyExclusiveOption) {
+                      await createMutuallyExclusiveOption(ctx, {
+                        ...answer.mutuallyExclusiveOption,
+                        answerId: createdAnswer.id,
+                      });
+                    }
+                  }
                 }
               }
             }
@@ -202,7 +219,6 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
       );
     }
   }
-
   return ctx;
 };
 

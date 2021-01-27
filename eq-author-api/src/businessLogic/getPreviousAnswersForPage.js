@@ -7,7 +7,10 @@ module.exports = (
   includeSelf = false,
   answerTypes = PIPING_ANSWER_TYPES
 ) => {
-  const allPages = flatMap(section => section.pages, questionnaire.sections);
+  const allPages = flatMap(
+    ({ pages }) => pages,
+    flatMap(({ folders }) => folders, questionnaire.sections)
+  );
   const allPagesAndConfirmations = flatMap(
     page => (page.confirmation ? [page, page.confirmation] : [page]),
     allPages
@@ -23,7 +26,7 @@ module.exports = (
   );
 
   const pagesToInclude = includeSelf
-    ? [currentPage, ...pagesBeforeCurrent]
+    ? [...pagesBeforeCurrent, currentPage]
     : pagesBeforeCurrent;
 
   const answers = compact(flatMap(page => page.answers, pagesToInclude));

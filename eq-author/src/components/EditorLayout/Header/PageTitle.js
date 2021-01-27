@@ -24,7 +24,7 @@ const Title = styled.h1`
 
 const PageTitle = ({ children }) => (
   <Wrapper>
-      <Title data-test="questionnaire-title">{children}&nbsp;</Title>
+    <Title data-test="questionnaire-title">{children}&nbsp;</Title>
   </Wrapper>
 );
 

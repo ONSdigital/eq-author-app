@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, find, flatMap, flowRight } from "lodash";
+import { get, find, flowRight } from "lodash";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -81,31 +81,48 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     } = this.props;
     const { entityName, entityId } = match.params;
 
-    let sectionId, position;
-    if (entityName === SECTION) {
-      sectionId = entityId;
-      position = 0;
-    } else if (entityName === PAGE) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { id: entityId });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+    let sectionId, position, selectedPage, selectedSection, selectedFolder;
+
+    switch (entityName) {
+      case SECTION:
+        sectionId = entityId;
+        position = 0;
+        break;
+
+      case QUESTION_CONFIRMATION:
+      // Fall through
+      case PAGE:
+        for (const section of questionnaire.sections) {
+          for (const folder of section.folders) {
+            for (const page of folder.pages) {
+              const comparatorID =
+                entityName === QUESTION_CONFIRMATION
+                  ? page.confirmation.id
+                  : page.id;
+              if (comparatorID === entityId) {
+                selectedPage = page;
+                selectedSection = section;
+                selectedFolder = folder;
+                break;
+              }
+            }
+          }
         }
-      }
-    } else if (entityName === QUESTION_CONFIRMATION) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { confirmation: { id: entityId } });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+
+        if (selectedPage) {
+          sectionId = selectedSection.id;
+          position = selectedSection.folders.indexOf(selectedFolder) + 1;
         }
-      }
+
+        break;
+
+      // case FOLDER:
+      // TODO
+
+      default:
+        throw new Error("Unrecognised entity name.");
     }
+
     if (pageType === "QuestionPage") {
       onAddQuestionPage(sectionId, position);
     } else {
@@ -180,7 +197,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       return false;
     }
 
-    const pages = flatMap(questionnaire.sections, "pages");
+    const pages = questionnaire.sections.flatMap(({ folders }) =>
+      folders.flatMap(folder => folder.pages)
+    );
     const page = find(pages, { id: pageId });
     if (!page || page.confirmation || page.pageType !== "QuestionPage") {
       return false;
@@ -216,7 +235,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   </MainNav>
                   <NavigationSidebar
                     data-test="side-nav"
-                    loading={loading}
                     onAddSection={this.props.onAddSection}
                     onAddQuestionPage={this.handleAddPage("QuestionPage")}
                     canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
@@ -339,80 +357,83 @@ export const VALIDATION_QUERY = gql`
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        pages {
+        folders {
           id
-          validationErrorInfo {
-            ...ValidationErrorInfo
-          }
-          ... on QuestionPage {
-            confirmation {
-              id
-              validationErrorInfo {
-                ...ValidationErrorInfo
-              }
+          pages {
+            id
+            validationErrorInfo {
+              ...ValidationErrorInfo
             }
-            answers {
-              ... on BasicAnswer {
+            ... on QuestionPage {
+              confirmation {
                 id
-                validation {
-                  ... on NumberValidation {
-                    minValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+              }
+              answers {
+                ... on BasicAnswer {
+                  id
+                  validation {
+                    ... on NumberValidation {
+                      minValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      maxValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                    maxValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                  }
-                  ... on DateValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateRangeValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                  }
-                  ... on DateRangeValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      minDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    minDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    maxDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      maxDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
                   }
                 }
-              }
-              ... on MultipleChoiceAnswer {
-                id
+                ... on MultipleChoiceAnswer {
+                  id
+                }
               }
             }
           }

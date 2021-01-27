@@ -11,7 +11,7 @@ const getPositionModalTrigger = wrapper =>
   wrapper.find(byTestAttr("position-modal-trigger"));
 
 describe("PositionModal", () => {
-  const options = buildSections(5);
+  const options = buildSections({ sectionCount: 5 });
 
   const createWrapper = (props = {}, render = shallow) =>
     render(
@@ -27,6 +27,15 @@ describe("PositionModal", () => {
 
   it("should render", () => {
     expect(createWrapper({})).toMatchSnapshot();
+  });
+
+  it("should open when trigger clicked", () => {
+    const wrapper = createWrapper();
+
+    getPositionModalTrigger(wrapper)
+      .first()
+      .simulate("click");
+    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(true);
   });
 
   it("should close Modals on confirm", () => {
@@ -67,7 +76,6 @@ describe("PositionModal", () => {
   it("calls onMove when confirmed", () => {
     const onMove = jest.fn();
     const onClose = jest.fn();
-    const options = buildSections(5);
     const position = 2;
 
     const wrapper = createWrapper({ options, onMove, onClose });
@@ -79,7 +87,7 @@ describe("PositionModal", () => {
     });
 
     expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
-    expect(onMove).toHaveBeenCalledWith(position);
+    expect(onMove).toHaveBeenCalledWith({ position, folderId: null });
   });
 
   it("resets the position if Modals is closed", () => {

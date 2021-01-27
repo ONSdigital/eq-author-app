@@ -1,37 +1,32 @@
-const { find, findIndex, merge, some, takeRightWhile } = require("lodash");
-const { getName } = require("../../../utils/getName");
-const { v4: uuidv4 } = require("uuid");
+const { merge } = require("lodash");
 
-const { getPageById, getSectionByPageId } = require("../utils");
+const { getName } = require("../../../utils/getName");
+
+const {
+  getPageById,
+  getSectionByPageId,
+  getFolderById,
+  getFoldersBySectionId,
+  createFolder,
+  createQuestionPage,
+  getFolderByPageId,
+} = require("../utils");
 const { createMutation } = require("../createMutation");
 
 const {
   ROUTING_ANSWER_TYPES,
 } = require("../../../constants/routingAnswerTypes");
 
+const availableRoutingDestinations = require("../../../src/businessLogic/availableRoutingDestinations");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const Resolvers = {};
 
-const createQuestionPage = (input = {}) => ({
-  id: uuidv4(),
-  pageType: "QuestionPage",
-  title: "",
-  description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [],
-  routing: null,
-  alias: null,
-  ...input,
-});
-
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    return findIndex(section.pages, { id });
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex(page => page.id === id);
   },
   displayName: page => getName(page, "QuestionPage"),
   availablePipingAnswers: ({ id }, args, ctx) =>
@@ -45,31 +40,16 @@ Resolvers.QuestionPage = {
       ROUTING_ANSWER_TYPES
     ),
   availableRoutingDestinations: ({ id }, args, ctx) => {
-    const section = find(ctx.questionnaire.sections, section => {
-      if (section.pages && some(section.pages, { id })) {
-        return section;
-      }
-    });
-
-    const pages = takeRightWhile(section.pages, page => page.id !== id);
-    const sections = takeRightWhile(
-      ctx.questionnaire.sections,
-      futureSection => futureSection.id !== section.id
-    );
-
-    const logicalDestinations = [
-      {
-        logicalDestination: "NextPage",
-      },
-      {
-        logicalDestination: "EndOfQuestionnaire",
-      },
-    ];
+    const {
+      logicalDestinations,
+      sections,
+      questionPages,
+    } = availableRoutingDestinations(ctx.questionnaire, id);
 
     return {
       logicalDestinations,
       sections,
-      pages,
+      pages: questionPages,
     };
   },
   validationErrorInfo: ({ id }, args, ctx) => {
@@ -94,13 +74,20 @@ Resolvers.QuestionPage = {
 Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
-      const section = find(ctx.questionnaire.sections, {
-        id: pageInput.sectionId,
-      });
       const page = createQuestionPage(pageInput);
-      const insertionPosition =
-        typeof position === "number" ? position : section.pages.length;
-      section.pages.splice(insertionPosition, 0, page);
+      const { folderId, sectionId } = pageInput;
+
+      if (folderId) {
+        const folder = getFolderById(ctx, folderId);
+        const insertPosition = position > -1 ? position : folder.pages.length;
+        folder.pages.splice(insertPosition, 0, page);
+      } else {
+        const folders = getFoldersBySectionId(ctx, sectionId);
+        const insertPosition = position > -1 ? position : folders.length;
+        const folder = createFolder({ pages: [page] });
+        folders.splice(insertPosition, 0, folder);
+      }
+
       return page;
     }
   ),

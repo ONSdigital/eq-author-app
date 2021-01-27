@@ -101,12 +101,22 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
+type Folder {
+  id: ID!
+  alias: String
+  enabled: Boolean!
+  pages: [Page]
+  skipConditions: [ExpressionGroup2]
+  position: Int!
+  section: Section
+}
+
 type Section {
   id: ID!
   title: String!
   alias: String
   displayName: String!
-  pages: [Page]
+  folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
   introductionTitle: String
@@ -122,6 +132,7 @@ interface Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  folder: Folder!
   section: Section!
   position: Int!
   availablePipingAnswers: [Answer!]!
@@ -146,6 +157,7 @@ type QuestionPage implements Page & Skippable {
   pageType: PageType!
   answers: [Answer]
   section: Section!
+  folder: Folder!
   position: Int!
   definitionLabel: String
   definitionContent: String
@@ -172,6 +184,7 @@ type CalculatedSummaryPage implements Page {
   pageType: PageType!
   qCode: String
   section: Section!
+  folder: Folder!
   position: Int!
   availableSummaryAnswers: [Answer!]!
   summaryAnswers: [Answer!]!
@@ -494,6 +507,7 @@ type Destination2 {
   id: ID!
   section: Section
   page: Page
+  folder: Folder
   logical: LogicalDestination2
 }
 
@@ -666,7 +680,6 @@ input DeleteSkipConditionsInput {
   parentId: ID!
 }
 
-
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -680,6 +693,13 @@ type Mutation {
   deleteSection(input: DeleteSectionInput!): Questionnaire
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
+
+  createFolder(input: CreateFolderInput!): Folder
+  updateFolder(input: UpdateFolderInput!): Folder
+  deleteFolder(input: DeleteFolderInput!): Questionnaire
+  moveFolder(input: MoveFolderInput!): Folder
+  duplicateFolder(input: DuplicateFolderInput!): Folder
+
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page
   deletePage(input: DeletePageInput!): Section!
@@ -865,6 +885,27 @@ input DuplicateSectionInput {
   position: Int!
 }
 
+input CreateFolderInput {
+  sectionId: ID!
+  alias: String
+  position: Int
+}
+
+input UpdateFolderInput {
+  folderId: ID!
+  alias: String
+  enabled: Boolean
+}
+
+input DeleteFolderInput {
+  id: ID!
+}
+
+input DuplicateFolderInput {
+  id: ID!
+  position: Int!
+}
+
 input UpdatePageInput {
   id: ID!
   title: String!
@@ -923,6 +964,7 @@ input CreateQuestionPageInput {
   guidance: String
   guidanceEnabled: Boolean
   sectionId: ID!
+  folderId: ID
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -950,6 +992,7 @@ input UpdateQuestionPageInput {
 
 input CreateCalculatedSummaryPageInput {
   sectionId: ID!
+  folderId: ID
   position: Int
 }
 
@@ -1033,15 +1076,21 @@ input DeleteOptionInput {
   id: ID!
 }
 
-input MovePageInput {
-  id: ID!
-  sectionId: ID!
-  position: Int!
-}
-
 input MoveSectionInput {
   id: ID!
   questionnaireId: ID!
+  position: Int!
+}
+
+input MoveFolderInput {
+  id: ID!
+  position: Int!
+}
+
+input MovePageInput {
+  id: ID!
+  sectionId: ID!
+  folderId: ID
   position: Int!
 }
 

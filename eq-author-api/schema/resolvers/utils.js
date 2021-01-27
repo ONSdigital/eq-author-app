@@ -11,14 +11,40 @@ const getSections = ctx => ctx.questionnaire.sections;
 
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
-const getSectionByPageId = (ctx, pageId) =>
+const getSectionByFolderId = (ctx, folderId) =>
   find(getSections(ctx), section => {
-    if (section.pages && some(section.pages, { id: pageId })) {
+    if (section.folders && some(section.folders, { id: folderId })) {
       return section;
     }
   });
 
-const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
+const getSectionByPageId = (ctx, pageId) =>
+  find(getSections(ctx), section =>
+    some(section.folders, folder => {
+      if (folder.pages && some(folder.pages, { id: pageId })) {
+        return section;
+      }
+    })
+  );
+
+const getFolders = ctx => flatMap(getSections(ctx), ({ folders }) => folders);
+
+const getFoldersBySectionId = (ctx, id) => getSectionById(ctx, id).folders;
+
+const getFolderById = (ctx, id) => find(getFolders(ctx), { id });
+
+const getFolderByPageId = (ctx, id) =>
+  find(getFolders(ctx), ({ pages }) => pages && some(pages, { id }));
+
+const getPages = ctx => flatMap(getFolders(ctx), ({ pages }) => pages);
+
+const getPagesBySectionId = (ctx, id) =>
+  flatMap(getSectionById(ctx, id).folders, ({ pages }) => pages);
+
+const getPagesByFolderId = (ctx, id) => getFolderById(ctx, id).pages;
+
+const getPagesFromSection = section =>
+  flatMap(section.folders, ({ pages }) => pages);
 
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
 
@@ -135,6 +161,7 @@ const getAnswerByValidationId = (ctx, validationId) =>
       validation => validation.id === validationId
     )
   );
+
 const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
   const answer = getAnswerByValidationId(ctx, validationId);
   const currentPage = getPageByAnswerId(ctx, answer.id);
@@ -182,14 +209,121 @@ const remapAllNestedIds = entity => {
   });
 };
 
+const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
+
+const returnValidationErrors = (ctx, id, ...conditions) => {
+  const errors = conditions.reduce((acc, condition) => {
+    acc.push(...getValidationErrorInfo(ctx).filter(condition));
+    return acc;
+  }, []);
+
+  if (!errors.length) {
+    return {
+      id,
+      errors: [],
+      totalCount: 0,
+    };
+  }
+
+  return {
+    id,
+    errors,
+    totalCount: errors.length,
+  };
+};
+
+const createQuestionPage = (input = {}) => ({
+  id: uuidv4(),
+  pageType: "QuestionPage",
+  title: "",
+  description: "",
+  descriptionEnabled: false,
+  guidanceEnabled: false,
+  definitionEnabled: false,
+  additionalInfoEnabled: false,
+  answers: [],
+  routing: null,
+  alias: null,
+  ...input,
+});
+
+const createCalculatedSummary = (input = {}) => ({
+  id: uuidv4(),
+  title: "",
+  pageType: "CalculatedSummaryPage",
+  summaryAnswers: [],
+  ...input,
+});
+
+const createFolder = (input = {}) => ({
+  id: uuidv4(),
+  alias: "",
+  enabled: false,
+  pages: [createQuestionPage()],
+  skipConditions: null,
+  ...input,
+});
+
+const createSection = (input = {}) => ({
+  id: uuidv4(),
+  title: "",
+  introductionEnabled: false,
+  folders: [createFolder()],
+  alias: "",
+  ...input,
+});
+
+const getPosition = (position, comparator) =>
+  typeof position === "number" ? position : comparator.length;
+
+const getMovePosition = (section, pageId, position) => {
+  if (!section.folders) {
+    throw new Error("Section doesn't have a folder");
+  }
+
+  let pointer = 0;
+  let positionMap = {};
+
+  for (let i = 0; i < section.folders.length; i++) {
+    for (let j = 0; j < section.folders[i].pages.length; j++) {
+      const page = section.folders[i].pages[j];
+      if (page.id === pageId) {
+        positionMap.previous = {
+          folderIndex: i,
+          pageIndex: j,
+          page,
+        };
+      }
+      if (pointer === position) {
+        positionMap.next = { folderIndex: i };
+      }
+      pointer++;
+    }
+  }
+
+  const { previous, next } = positionMap;
+  return { previous, next };
+};
+
 module.exports = {
+  getSections,
   getSectionById,
+  getSectionByFolderId,
   getSectionByPageId,
 
+  getFolders,
+  getFoldersBySectionId,
+  getFolderById,
+  getFolderByPageId,
+
   getPages,
+  getPagesBySectionId,
+  getPagesByFolderId,
+  getPagesFromSection,
   getPageById,
   getPageByConfirmationId,
   getPageByValidationId,
+  getPageByAnswerId,
 
   getAnswers,
   getAnswerById,
@@ -215,6 +349,8 @@ module.exports = {
   getSkippables,
 
   getValidationById,
+  getValidationErrorInfo,
+  returnValidationErrors,
 
   getAvailablePreviousAnswersForValidation,
   getAvailableMetadataForValidation,
@@ -223,4 +359,12 @@ module.exports = {
 
   getSkipConditionById,
   getSkipConditions,
+
+  createQuestionPage,
+  createCalculatedSummary,
+  createFolder,
+  createSection,
+
+  getPosition,
+  getMovePosition,
 };
