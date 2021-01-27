@@ -19,11 +19,6 @@ import {
 
 import CommentHeader from "./CommentHeader";
 
-// TEST
-// const ReplyButton = styled(Button)`
-/* display: ${props => (props.isHidden ? "none" : "block")}; */
-// `;
-
 const StyledAccordion = styled(CommentAccordion)`
   background-color: blue;
 `;
@@ -80,7 +75,6 @@ const CommentSection = props => {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
-      {/* TEST THIS */}
       {canEditComment ? (
         <StyledTextArea
           id={item.id}
@@ -95,9 +89,7 @@ const CommentSection = props => {
         />
       ) : (
         <>
-          {/* TEST */}
           <CommentsDiv>{item.commentText}</CommentsDiv>
-          {/* END TEST */}
           {item.editedTime && (
             <DateWrapper>
               <DateField>
@@ -108,7 +100,6 @@ const CommentSection = props => {
         </>
       )}
       <CommentFooterContainer>
-        {/* {activeReplyId !== item.id && activeCommentId !== item.id && ( */}
         {!canEditReply && !canEditComment && (
           <Button
             id={`replyBtn-${item.id}`}
@@ -165,8 +156,6 @@ const CommentSection = props => {
           {displayReplies}
         </StyledAccordion>
       )}
-      {/* END TEST */}
-      {/* {activeReplyId === item.id && replies.length === 0 && ( */}
       {canEditReply && replies.length === 0 && (
         <EditReply
           replyCount={replies.length}

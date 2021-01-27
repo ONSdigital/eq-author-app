@@ -98,7 +98,7 @@ CommentHeader.propTypes = {
   getInitials: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   repliesIndex: PropTypes.number,
-  repliesItem: PropTypes.instanceOf(Object).isRequired,
+  repliesItem: PropTypes.instanceOf(Object),
   shared: PropTypes.instanceOf(Object).isRequired,
   item: PropTypes.instanceOf(Object).isRequired,
   handleEdit: PropTypes.func.isRequired,

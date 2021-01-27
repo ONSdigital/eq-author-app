@@ -93,9 +93,6 @@ const editStateSetup = () => {
   return { ...utils, save, cancel, textarea };
 };
 
-// const
-//
-
 describe("CommentSection", () => {
   it("should render", () => {
     const { getByTestId } = defaultSetup();

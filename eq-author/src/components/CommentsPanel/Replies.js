@@ -104,7 +104,7 @@ const Replies = props => {
 };
 
 Replies.propTypes = {
-  repliesItem: PropTypes.instanceOf(Object).isRequired, // change replies item to shape
+  repliesItem: PropTypes.instanceOf(Object).isRequired,
   myId: PropTypes.string.isRequired,
   getInitials: PropTypes.func.isRequired,
   handleEditReply: PropTypes.func.isRequired,

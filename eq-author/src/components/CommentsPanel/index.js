@@ -222,7 +222,6 @@ const getInitials = name => {
 };
 
 const CommentsPanel = ({ componentId, me: { id: myId } }) => {
-  // refactor this into a reducer
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [activeCommentId, setActiveCommentId] = useState("");
@@ -248,19 +247,15 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [deleteReply] = useMutation(REPLY_DELETE, {});
   const [updateReply] = useMutation(REPLY_UPDATE, {});
 
-  // leave this one till last
-  // might be able to mock it out
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
       id: componentId,
     },
     onSubscriptionData: () => {
-      // hard to test maybe
       refetch();
     },
   });
 
-  // TEST
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -272,7 +267,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     commentRef.focus();
   }, [commentRef]);
 
-  // TEST
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -305,7 +299,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
-  // check if handle delete is fired
   const handleDelete = event => {
     const commentId = event.id;
     if (commentId && myId === event.user.id) {
@@ -322,7 +315,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
-  // TEST
   const handleSaveEdit = event => {
     const commentId = event.id;
     if (editComment) {
@@ -340,7 +332,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     }
   };
 
-  // TEST
   const handleSaveReply = event => {
     const commentId = event.id;
     createReply({
@@ -356,7 +347,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
-  // TEST
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
     const replyId = repliesItem.id;
