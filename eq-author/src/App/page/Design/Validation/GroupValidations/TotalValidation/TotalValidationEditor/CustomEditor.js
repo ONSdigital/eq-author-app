@@ -48,18 +48,14 @@ CustomEditor.propTypes = {
   type: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    id: PropTypes.string,
-    errors: PropTypes.arrayOf(
-      PropTypes.shape({
-        errorCode: PropTypes.string,
-        field: PropTypes.string,
-        id: PropTypes.string,
-        type: PropTypes.string,
-      })
-    ),
-    totalCount: PropTypes.number,
-  }),
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      errorCode: PropTypes.string,
+      field: PropTypes.string,
+      id: PropTypes.string,
+      type: PropTypes.string,
+    })
+  ),
 };
 
 export default CustomEditor;
