@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 
 import EditComment from "./EditComment";
@@ -19,4 +19,15 @@ it("should set setActiveReplyId", async () => {
   expect(getByTestId("comment-txt-area")).toHaveFocus();
   expect(props.setActiveReplyId).toHaveBeenCalledTimes(1);
   expect(props.setActiveReplyId).toHaveBeenCalledWith("");
+});
+
+it("should setComment", () => {
+  const { getByTestId } = render(<EditComment {...props} />);
+
+  fireEvent.change(getByTestId("comment-txt-area"), {
+    target: { value: "goodbye" },
+  });
+
+  expect(props.setComment).toHaveBeenCalledTimes(1);
+  expect(props.setComment).toHaveBeenCalledWith("goodbye");
 });

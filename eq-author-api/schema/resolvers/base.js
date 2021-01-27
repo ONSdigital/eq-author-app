@@ -203,13 +203,9 @@ const Resolvers = {
     users: () => listUsers(),
     comments: async (root, { id }, ctx) => {
       const questionnaireId = ctx.questionnaire.id;
-      const { comments } = await getCommentsForQuestionnaire(
-        questionnaireId
-      );
-      let sortedComments = comments[id] || [];
-      sortedComments.sort(
-        (a, b) => b.createdTime - a.createdTime
-      );
+      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
+      const sortedComments = comments[id] || [];
+      sortedComments.sort((a, b) => b.createdTime - a.createdTime);
       return sortedComments;
     },
     getAvailableAnswers: (root, { input }, ctx) =>

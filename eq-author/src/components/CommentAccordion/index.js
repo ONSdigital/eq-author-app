@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -67,54 +67,46 @@ export const Button = styled.button`
   }
 `;
 
-export const DisplayContent = styled.div`
-  display: ${props => (props.isOpen ? "block" : "none")};
-`;
-
-class CommentAccordion extends Component {
-  state = { isOpen: false, height: "auto" };
-
-  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
-
-  render() {
-    const { children, title } = this.props;
-    const { isOpen } = this.state;
-    const replyTitle = title > 1 ? " Replies" : " Reply";
-
-    return (
-      <>
-        <Header>
-          <Title>
-            <Button
-              isOpen={isOpen}
-              onClick={this.handleToggle}
-              aria-expanded={isOpen}
-              aria-controls={`accordion-${title}`}
-              data-test={`accordion-${title}-button`}
-            >
-              {!isOpen && "Show "}
-              {isOpen && "Hide "}
-              {title}
-              {replyTitle}
-            </Button>
-          </Title>
-        </Header>
-        <Body
-          id={`accordion-${title}`}
-          data-test={`accordion-${title}-body`}
+const CommentAccordion = ({
+  children,
+  title,
+  isOpen,
+  setIsOpen,
+  inProgress,
+}) => (
+  <>
+    <Header>
+      <Title>
+        <Button
           isOpen={isOpen}
-          aria-hidden={!isOpen}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls={`accordion-${title}`}
+          data-test={`accordion-${title}-button`}
         >
-          <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
-        </Body>
-      </>
-    );
-  }
-}
+          {`${isOpen ? "Hide" : "Show"} ${title} ${
+            title > 1 ? " replies" : " reply"
+          } ${inProgress ? " (reply in progress)" : ""}`}
+        </Button>
+      </Title>
+    </Header>
+    <Body
+      id={`accordion-${title}`}
+      data-test={`accordion-${title}-body`}
+      isOpen={isOpen}
+      aria-hidden={!isOpen}
+    >
+      {isOpen && <>{children}</>}
+    </Body>
+  </>
+);
 
 CommentAccordion.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  inProgress: PropTypes.bool.isRequired,
 };
 
 export default CommentAccordion;

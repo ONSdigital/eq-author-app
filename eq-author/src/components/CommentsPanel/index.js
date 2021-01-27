@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { useSubscription } from "react-apollo";
-import { get } from "lodash";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
@@ -9,23 +8,24 @@ import PropTypes from "prop-types";
 import { withMe } from "App/MeContext";
 import TextArea from "react-textarea-autosize";
 
-import COMMENT_QUERY from "./commentsQuery.graphql";
-import COMMENT_ADD from "./createNewComment.graphql";
-import COMMENT_DELETE from "./deleteComment.graphql";
-import COMMENT_UPDATE from "./updateComment.graphql";
-import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
-import REPLY_ADD from "./createNewReply.graphql";
-import REPLY_DELETE from "./deleteReply.graphql";
-import REPLY_UPDATE from "./updateReply.graphql";
+import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
+import COMMENT_ADD from "./graphql/createNewComment.graphql";
+import COMMENT_DELETE from "./graphql/deleteComment.graphql";
+import COMMENT_UPDATE from "./graphql/updateComment.graphql";
+import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
+import REPLY_ADD from "./graphql/createNewReply.graphql";
+import REPLY_DELETE from "./graphql/deleteReply.graphql";
+import REPLY_UPDATE from "./graphql/updateReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
 import DeleteButton from "components/buttons/DeleteButton";
+import Tooltip from "components/Forms/Tooltip";
 import { sharedStyles } from "components/Forms/css";
+
 import { Field } from "components/Forms";
-import Button from "components/buttons/Button";
 import Replies from "./Replies";
 import CommentSection from "./CommentSection";
 import EditComment from "./EditComment";
@@ -34,10 +34,6 @@ import IconEdit from "./icon-edit.svg";
 export const Reply = styled.div`
   padding-top: 0.5em;
   padding-left: ${props => (props.indent ? "1em" : "0")};
-`;
-
-export const SaveButton = styled(Button)`
-  padding: 0.3em 0.8em 0.4em;
 `;
 
 export const CommentsDiv = styled.div`
@@ -77,8 +73,14 @@ export const CommentHeaderContainer = styled(Field)`
 export const CommentFooterContainer = styled(Field)`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  margin-bottom: 5px;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+  button {
+    margin-right: 0.5em;
+  }
 `;
 
 export const AvatarWrapper = styled.div`
@@ -120,7 +122,6 @@ export const NameWrapper = styled.div`
 export const DateWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: start;
   flex-grow: 2;
 `;
 
@@ -197,17 +198,42 @@ export const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
+export const ToolTipWrapper = ({ children, content }) => {
+  return (
+    <Tooltip
+      content={content}
+      place="top"
+      offset={{ bottom: 8 }}
+      key={`${content}-key`}
+    >
+      {children}
+    </Tooltip>
+  );
+};
+
+const getInitials = name => {
+  if (name !== null) {
+    const initials = name.replace(/[^a-zA-Z- ]/g, "").match(/\b\w/g);
+    return initials
+      .join("")
+      .substring(0, 3)
+      .toUpperCase();
+  }
+};
+
 const CommentsPanel = ({ componentId, me: { id: myId } }) => {
+  // refactor this into a reducer
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [activeCommentId, setActiveCommentId] = useState("");
   const [commentRef, setCommentRef] = useState();
-  const firstRender = useRef(true);
 
   const [reply, setReply] = useState("");
   const [editReply, setEditReply] = useState("");
   const [activeReplyId, setActiveReplyId] = useState("");
   const [replyRef, setReplyRef] = useState();
+
+  const firstRender = useRef(true);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -222,15 +248,19 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [deleteReply] = useMutation(REPLY_DELETE, {});
   const [updateReply] = useMutation(REPLY_UPDATE, {});
 
+  // leave this one till last
+  // might be able to mock it out
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
       id: componentId,
     },
     onSubscriptionData: () => {
+      // hard to test maybe
       refetch();
     },
   });
 
+  // TEST
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -242,6 +272,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     commentRef.focus();
   }, [commentRef]);
 
+  // TEST
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -250,7 +281,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     if (!activeReplyId) {
       return;
     }
-    replyRef.focus();
+    replyRef && replyRef.focus();
   }, [replyRef]);
 
   const handleEdit = (id, commentText) => {
@@ -274,6 +305,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
+  // check if handle delete is fired
   const handleDelete = event => {
     const commentId = event.id;
     if (commentId && myId === event.user.id) {
@@ -290,6 +322,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
+  // TEST
   const handleSaveEdit = event => {
     const commentId = event.id;
     if (editComment) {
@@ -307,10 +340,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     }
   };
 
-  const handleReply = id => {
-    setActiveReplyId(id);
-  };
-
+  // TEST
   const handleSaveReply = event => {
     const commentId = event.id;
     createReply({
@@ -326,6 +356,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     setActiveReplyId("");
   };
 
+  // TEST
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
     const replyId = repliesItem.id;
@@ -369,16 +400,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     }
   };
 
-  const getInitials = name => {
-    if (name !== null) {
-      const initials = name.replace(/[^a-zA-Z- ]/g, "").match(/\b\w/g);
-      return initials
-        .join("")
-        .substring(0, 3)
-        .toUpperCase();
-    }
-  };
-
   if (loading) {
     return <Loading height="100%">Comments loading…</Loading>;
   }
@@ -386,7 +407,7 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  const comments = get(data, "comments", []);
+  const { comments = [] } = data;
 
   const displayComments = comments.map((item, index) => {
     const { replies } = comments[index];
@@ -411,11 +432,15 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
           setEditReply={setEditReply}
           editReply={editReply}
           handleSaveEditReply={handleSaveEditReply}
+          replyCount={replies.length}
+          setReply={setReply}
+          reply={reply}
+          handleSaveReply={handleSaveReply}
+          setActiveReplyId={setActiveReplyId}
         />
       );
     });
 
-    const repliesCount = displayReplies.length.toString();
     return (
       <CommentSection
         key={item.id}
@@ -428,17 +453,17 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
         editComment={editComment}
         setEditComment={setEditComment}
         displayReplies={displayReplies}
-        repliesCount={repliesCount}
         replies={replies}
         setReply={setReply}
         setReplyRef={setReplyRef}
         reply={reply}
         activeReplyId={activeReplyId}
         handleSaveReply={handleSaveReply}
-        handleReply={handleReply}
         handleSaveEdit={handleSaveEdit}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        setActiveReplyId={setActiveReplyId}
+        setActiveCommentId={setActiveCommentId}
       />
     );
   });
@@ -457,6 +482,11 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
 CommentsPanel.propTypes = {
   componentId: PropTypes.string.isRequired,
   me: CustomPropTypes.me.isRequired,
+};
+
+ToolTipWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+  content: PropTypes.string.isRequired,
 };
 
 export default withMe(withRouter(CommentsPanel));

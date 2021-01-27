@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import "moment/locale/en-gb";
@@ -10,32 +10,26 @@ import EditReply from "./EditReply";
 
 import {
   CommentAddSection,
-  CommentHeaderContainer,
-  AvatarWrapper,
-  AvatarOuter,
-  AvatarInner,
-  NameWrapper,
-  FlexLabel,
   DateField,
-  EditButton,
-  DeleteComment,
   StyledTextArea,
   CommentsDiv,
   DateWrapper,
   CommentFooterContainer,
-  SaveButton,
 } from "./index";
 
-const ReplyButton = styled(Button)`
-  padding: 0.3em 0.8em 0.4em;
-  display: ${props => (props.isHidden ? "none" : "block")};
-`;
+import CommentHeader from "./CommentHeader";
+
+// TEST
+// const ReplyButton = styled(Button)`
+/* display: ${props => (props.isHidden ? "none" : "block")}; */
+// `;
 
 const StyledAccordion = styled(CommentAccordion)`
   background-color: blue;
 `;
 
 const CommentSection = props => {
+  const [accordionOpen, setAccordionOpen] = useState(false);
   const {
     myId,
     getInitials,
@@ -46,47 +40,48 @@ const CommentSection = props => {
     editComment,
     setEditComment,
     displayReplies,
-    repliesCount,
     replies,
     setReply,
     setReplyRef,
     reply,
     activeReplyId,
     handleSaveReply,
-    handleReply,
     handleSaveEdit,
     handleEdit,
     handleDelete,
+    setActiveReplyId,
+    setActiveCommentId,
   } = props;
 
   const editCommentName = `edit-comment-${index}`;
 
+  const handleClick = id => {
+    setAccordionOpen(true);
+    setActiveReplyId(id);
+  };
+
+  const handleCancel = () => {
+    setReply("");
+    setActiveCommentId("");
+  };
+
+  const canEditComment = activeCommentId === item.id;
+  const canEditReply = activeReplyId === item.id;
+  const hasReplies = displayReplies.length > 0;
+
   return (
-    <CommentAddSection>
-      <CommentHeaderContainer>
-        <AvatarWrapper>
-          <AvatarOuter avatarColor={item.user.id === myId}>
-            <AvatarInner>{getInitials(item.user.name)}</AvatarInner>
-          </AvatarOuter>
-        </AvatarWrapper>
-        <NameWrapper>
-          <FlexLabel>{item.user.displayName}</FlexLabel>
-          <DateField>{moment(item.createdTime).calendar()}</DateField>
-        </NameWrapper>
-        <EditButton
-          isHidden={item.user.id !== myId}
-          onClick={() => handleEdit(item.id, item.commentText)}
-          data-test={`btn-edit-comment-${index}`}
-        />
-        <DeleteComment
-          isHidden={item.user.id !== myId}
-          onClick={() => handleDelete(item)}
-          data-test={`btn-delete-comment-${index}`}
-        />
-      </CommentHeaderContainer>
-      {activeCommentId !== item.id ? (
-        <CommentsDiv>{item.commentText}</CommentsDiv>
-      ) : (
+    <CommentAddSection data-test="comment-add-section">
+      <CommentHeader
+        myId={myId}
+        getInitials={getInitials}
+        index={index}
+        item={item}
+        shared={item}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      {/* TEST THIS */}
+      {canEditComment ? (
         <StyledTextArea
           id={item.id}
           inputRef={tag => {
@@ -98,49 +93,91 @@ const CommentSection = props => {
           onChange={({ target }) => setEditComment(target.value)}
           data-test={`edit-comment-txtArea-${index}`}
         />
+      ) : (
+        <>
+          {/* TEST */}
+          <CommentsDiv>{item.commentText}</CommentsDiv>
+          {/* END TEST */}
+          {item.editedTime && (
+            <DateWrapper>
+              <DateField>
+                Edited: {moment(item.editedTime).calendar()}
+              </DateField>
+            </DateWrapper>
+          )}
+        </>
       )}
       <CommentFooterContainer>
-        {item.editedTime && (
-          <DateWrapper>
-            <DateField>Edited: {moment(item.editedTime).calendar()}</DateField>
-          </DateWrapper>
-        )}
-        {activeReplyId !== item.id && (
-          <ReplyButton
+        {/* {activeReplyId !== item.id && activeCommentId !== item.id && ( */}
+        {!canEditReply && !canEditComment && (
+          <Button
             id={`replyBtn-${item.id}`}
-            isHidden={activeCommentId === item.id}
             variant="greyed"
-            medium
-            onClick={() => handleReply(item.id)}
+            small-medium
+            onClick={() => handleClick(item.id)}
             data-test={`btn-reply-comment-${index}`}
           >
             Reply
-          </ReplyButton>
+          </Button>
         )}
-        {activeCommentId === item.id && (
-          <SaveButton
-            id={index}
-            medium
-            onClick={() => handleSaveEdit(item)}
-            data-test={`btn-save-editedComment-${index}`}
-          >
-            Save
-          </SaveButton>
+        {canEditComment && (
+          <>
+            <Button
+              id={index}
+              small-medium
+              variant="greyed"
+              onClick={() => handleSaveEdit(item)}
+              data-test={`btn-save-editedComment-${index}`}
+            >
+              Save
+            </Button>
+            <Button
+              id={index}
+              small-medium
+              variant="greyed"
+              onClick={() => handleCancel(item)}
+              data-test={`btn-cancel-editedComment-${index}`}
+            >
+              Cancel
+            </Button>
+          </>
         )}
+        {/* TEST */}{" "}
       </CommentFooterContainer>
-      {displayReplies.length > 0 && (
-        <StyledAccordion title={repliesCount}>{displayReplies}</StyledAccordion>
+      {hasReplies && (
+        <StyledAccordion
+          title={`${displayReplies.length}`}
+          isOpen={accordionOpen}
+          setIsOpen={setAccordionOpen}
+          inProgress={canEditReply && !accordionOpen}
+        >
+          {canEditReply && replies.length > 0 && (
+            <EditReply
+              replyCount={replies.length}
+              item={item}
+              setReplyRef={setReplyRef}
+              setReply={setReply}
+              reply={reply}
+              index={index}
+              handleSaveReply={handleSaveReply}
+              setActiveReplyId={setActiveReplyId}
+            />
+          )}
+          {displayReplies}
+        </StyledAccordion>
       )}
-
-      {activeReplyId === item.id && (
+      {/* END TEST */}
+      {/* {activeReplyId === item.id && replies.length === 0 && ( */}
+      {canEditReply && replies.length === 0 && (
         <EditReply
-          replies={replies}
+          replyCount={replies.length}
           item={item}
           setReplyRef={setReplyRef}
           setReply={setReply}
           reply={reply}
           index={index}
           handleSaveReply={handleSaveReply}
+          setActiveReplyId={setActiveReplyId}
         />
       )}
     </CommentAddSection>
@@ -159,15 +196,15 @@ CommentSection.propTypes = {
   editComment: PropTypes.string.isRequired,
   setEditComment: PropTypes.func.isRequired,
   displayReplies: PropTypes.instanceOf(Array).isRequired,
-  repliesCount: PropTypes.string.isRequired,
   replies: PropTypes.instanceOf(Array).isRequired,
   setReply: PropTypes.func.isRequired,
   reply: PropTypes.string.isRequired,
   handleSaveReply: PropTypes.func.isRequired,
-  handleReply: PropTypes.func.isRequired,
+  setActiveReplyId: PropTypes.func.isRequired,
   handleSaveEdit: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  setActiveCommentId: PropTypes.func.isRequired,
 };
 
 export default CommentSection;
