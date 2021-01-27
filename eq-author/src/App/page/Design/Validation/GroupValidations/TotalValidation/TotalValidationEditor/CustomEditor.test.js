@@ -2,7 +2,7 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 
 import CustomEditor from "./CustomEditor";
-import { ERR_NO_VALUE } from "constants/validationMessages";
+import ValidationError from "components/ValidationError";
 
 describe("Custom Editor", () => {
   let props;
@@ -12,18 +12,14 @@ describe("Custom Editor", () => {
         id: "1",
         custom: 5,
       },
-      errors: {
-        id: "1",
-        errors: [
-          {
-            errorCode: "ERR_NO_VALUE",
-            field: "totalValidation",
-            id: "pages-1-totalValidation",
-            type: "pages",
-          },
-        ],
-        totalCount: 1,
-      },
+      errors: [
+        {
+          errorCode: "ERR_NO_VALUE",
+          field: "totalValidation",
+          id: "pages-1-totalValidation",
+          type: "pages",
+        },
+      ],
       type: "Currency",
       onChange: jest.fn(),
       onUpdate: jest.fn(),
@@ -51,11 +47,8 @@ describe("Custom Editor", () => {
   });
 
   it("should display validation message when error present", () => {
-    const wrapper = shallow(<CustomEditor {...props} />).find(
-      "CustomEditor__StyledError"
-    );
-
-    expect(wrapper.text()).toEqual(ERR_NO_VALUE);
+    const wrapper = shallow(<CustomEditor {...props} />).find(ValidationError);
+    expect(wrapper.find(ValidationError)).toHaveLength(1);
   });
 
   it("should display error styling when error present", () => {
