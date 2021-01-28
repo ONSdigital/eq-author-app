@@ -401,5 +401,30 @@ describe("Comments Panel", () => {
       expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
       expect(getByText("This is an edited reply")).toBeTruthy();
     });
+
+    it("should be able to delete an existing reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
+
+      await act(async () => {
+        await flushPromises();
+        const accordion = getByTestId("accordion-2-button");
+        fireEvent.click(accordion);
+      });
+
+      const reply = getByText("Query reply body2");
+      expect(reply).toBeTruthy();
+
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-delete-0-1"));
+      });
+
+      expect(vars.deleteReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+    });
   });
 });
