@@ -92,7 +92,6 @@ const UnwrappedDateValidation = ({
             />
           ) : (
             <RelativePositionText>
-              {" "}
               {validation.relativePosition.toLowerCase()}{" "}
             </RelativePositionText>
           )}
