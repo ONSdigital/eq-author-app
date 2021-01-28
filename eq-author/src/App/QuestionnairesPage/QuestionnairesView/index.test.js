@@ -308,21 +308,28 @@ describe("QuestionnairesView", () => {
           buildQuestionnaire(1, { createdAt: "2019-01-01T12:36:50.984Z" }),
         ];
 
-        const { getByText, getByTitle, getAllByTitle, getByTestId } = render(
+        const {
+          getByText,
+          getByTitle,
+          getAllByTitle,
+          getByTestId,
+          queryByTestId,
+        } = render(
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
-
         const sortTitleButton = getByText("Title");
         fireEvent.click(sortTitleButton);
 
-        // Delete Questionnaire 2
+        // // Delete Questionnaire 2
         const deleteButton = getAllByTitle("Delete")[1];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
         await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
 
-        expect(getByTitle("Questionnaire 3")).toEqual(document.activeElement);
+        expect(queryByTestId("btn-delete-modal")).toBeNull();
+
+        expect(getByTitle("Questionnaire 3")).toHaveFocus();
       });
 
       it("should not re-focus the row after switching page", async () => {

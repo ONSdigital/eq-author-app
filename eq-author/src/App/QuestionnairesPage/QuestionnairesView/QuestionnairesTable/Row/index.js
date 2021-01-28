@@ -149,7 +149,7 @@ export const Row = ({
     if (autoFocus) {
       focusLink();
     }
-  }, []);
+  }, [autoFocus]);
 
   function usePrevious(value) {
     const ref = useRef();
