@@ -201,9 +201,9 @@ const Resolvers = {
     comments: async (root, { id }, ctx) => {
       const questionnaireId = ctx.questionnaire.id;
       const { comments } = await getCommentsForQuestionnaire(questionnaireId);
-      const sortedComments = comments[id] || [];
-      sortedComments.sort((a, b) => b.createdTime - a.createdTime);
-      return sortedComments;
+      return comments[id]
+        ? comments[id].sort((a, b) => b.createdTime - a.createdTime)
+        : [];
     },
     getAvailableAnswers: (root, { input }, ctx) =>
       getPreviousAnswersForPage(
