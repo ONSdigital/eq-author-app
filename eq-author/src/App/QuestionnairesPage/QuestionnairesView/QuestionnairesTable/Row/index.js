@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
@@ -120,30 +120,36 @@ const propTypes = {
   isLastOnPage: PropTypes.bool,
 };
 
-export const Row = ({ questionnaire, questionnaire: {
-  id,
-  shortTitle,
-  createdBy,
-  title,
-  createdAt,
-  displayName,
-  updatedAt,
-  permission,
-}, history, onDeleteQuestionnaire, onDuplicateQuestionnaire, autoFocus }) => {
-
+export const Row = ({
+  questionnaire,
+  questionnaire: {
+    id,
+    shortTitle,
+    createdBy,
+    title,
+    createdAt,
+    displayName,
+    updatedAt,
+    permission,
+  },
+  history,
+  onDeleteQuestionnaire,
+  onDuplicateQuestionnaire,
+  autoFocus,
+}) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const rowRef = useRef();
   const focusLink = () => {
     rowRef.current.getElementsByTagName("a")[0].focus();
-  }
+  };
 
   useEffect(() => {
     if (autoFocus) {
       focusLink();
     }
-  });
+  }, []);
 
   function usePrevious(value) {
     const ref = useRef();
@@ -153,13 +159,12 @@ export const Row = ({ questionnaire, questionnaire: {
     return ref.current;
   }
 
-  const prevAutoFocus = usePrevious(autoFocus)
-
+  const prevAutoFocus = usePrevious(autoFocus);
   useEffect(() => {
     if (!prevAutoFocus && autoFocus) {
       focusLink();
     }
-  });
+  }, [prevAutoFocus]);
 
   const handleClick = () => {
     history.push(
@@ -205,78 +210,78 @@ export const Row = ({ questionnaire, questionnaire: {
     onDeleteQuestionnaire(questionnaire);
   };
 
-    const hasWritePermisson = permission === WRITE;
+  const hasWritePermisson = permission === WRITE;
 
-    return (
-      <>
-        <TR
-          ref={rowRef}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          linkHasFocus={linkHasFocus}
-          onClick={handleClick}
-          data-test="table-row"
-        >
-          <TD>
-            <QuestionnaireLink
-              data-test="anchor-questionnaire-title"
-              title={displayName}
-              onClick={handleLinkClick}
-              to={buildQuestionnairePath({
-                questionnaireId: id,
-              })}
-            >
-              {shortTitle && (
-                <ShortTitle>
-                  <Truncated>{shortTitle}</Truncated>
-                </ShortTitle>
-              )}
-              <Truncated>{title}</Truncated>
-            </QuestionnaireLink>
-          </TD>
-          <TD>
-            <FormattedDate date={createdAt} />
-          </TD>
-          <TD>
-            <FormattedDate date={updatedAt} />
-          </TD>
+  return (
+    <>
+      <TR
+        ref={rowRef}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        linkHasFocus={linkHasFocus}
+        onClick={handleClick}
+        data-test="table-row"
+      >
+        <TD>
+          <QuestionnaireLink
+            data-test="anchor-questionnaire-title"
+            title={displayName}
+            onClick={handleLinkClick}
+            to={buildQuestionnairePath({
+              questionnaireId: id,
+            })}
+          >
+            {shortTitle && (
+              <ShortTitle>
+                <Truncated>{shortTitle}</Truncated>
+              </ShortTitle>
+            )}
+            <Truncated>{title}</Truncated>
+          </QuestionnaireLink>
+        </TD>
+        <TD>
+          <FormattedDate date={createdAt} />
+        </TD>
+        <TD>
+          <FormattedDate date={updatedAt} />
+        </TD>
 
-          <TD>{createdBy.displayName}</TD>
-          <TD>
-            <Permissions>
-              <Permission>View</Permission>
-              <Permission disabled={!hasWritePermisson}>Edit</Permission>
-            </Permissions>
-          </TD>
-          <TD>
-            <div onFocus={handleButtonFocus} data-test="action-btn-group">
-              <ButtonGroup>
-                <DuplicateQuestionnaireButton
-                  data-test="btn-duplicate-questionnaire"
-                  onClick={handleDuplicateQuestionnaire}
-                />
-                <IconButtonDelete
-                  hideText
-                  data-test="btn-delete-questionnaire"
-                  onClick={handleDeleteQuestionnaire}
-                  disabled={!hasWritePermisson}
-                />
-              </ButtonGroup>
-            </div>
-          </TD>
-        </TR>
+        <TD>{createdBy.displayName}</TD>
+        <TD>
+          <Permissions>
+            <Permission>View</Permission>
+            <Permission disabled={!hasWritePermisson}>Edit</Permission>
+          </Permissions>
+        </TD>
+        <TD>
+          <div onFocus={handleButtonFocus} data-test="action-btn-group">
+            <ButtonGroup>
+              <DuplicateQuestionnaireButton
+                data-test="btn-duplicate-questionnaire"
+                onClick={handleDuplicateQuestionnaire}
+              />
+              <IconButtonDelete
+                hideText
+                data-test="btn-delete-questionnaire"
+                onClick={handleDeleteQuestionnaire}
+                disabled={!hasWritePermisson}
+              />
+            </ButtonGroup>
+          </div>
+        </TD>
+      </TR>
 
-        <DeleteConfirmDialog
-          isOpen={showDeleteModal}
-          onClose={handleModalClose}
-          onDelete={handleModalConfirm}
-          title={displayName}
-          alertText="This questionnaire including all sections and questions will be deleted."
-          icon={questionConfirmationIcon}
-          data-test="delete-questionnaire"
-        />
-      </>
-    );
+      <DeleteConfirmDialog
+        isOpen={showDeleteModal}
+        onClose={handleModalClose}
+        onDelete={handleModalConfirm}
+        title={displayName}
+        alertText="This questionnaire including all sections and questions will be deleted."
+        icon={questionConfirmationIcon}
+        data-test="delete-questionnaire"
+      />
+    </>
+  );
 };
 
 Row.propTypes = propTypes;
