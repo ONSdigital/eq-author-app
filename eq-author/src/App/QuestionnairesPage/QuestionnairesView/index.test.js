@@ -320,7 +320,7 @@ describe("QuestionnairesView", () => {
         const sortTitleButton = getByText("Title");
         fireEvent.click(sortTitleButton);
 
-        // // Delete Questionnaire 2
+        // Delete Questionnaire 2
         const deleteButton = getAllByTitle("Delete")[1];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
