@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const SIGNING_ALGORITHM = "RS256";
 const keysFile = process.env.KEYS_FILE || "./keys.yml";
-const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
+const keysYaml = yaml.load(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 const signingKey = keysJson.keys.publisherAuthSigningKey.value;
 
