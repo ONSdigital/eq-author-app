@@ -92,7 +92,7 @@ const UnwrappedDateValidation = ({
             />
           ) : (
             <RelativePositionText>
-              {validation.relativePosition.toLowerCase()}{" "}
+              {validation.relativePosition.toLowerCase()}
             </RelativePositionText>
           )}
           <PathEnd />
