@@ -228,6 +228,7 @@
         {
           "if": {
             "properties": {
+              "enabled": { "const": true },
               "entityType": { "const": "PreviousAnswer" },
               "previousAnswer": { "type": "string" }
             },
