@@ -28,8 +28,11 @@ const createMutation = mutation => async (root, args, ctx) => {
     await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
   }
 
-  const updatedQuestionnaire = await saveQuestionnaire(ctx.questionnaire);
-  ctx.validationErrorInfo = validateQuestionnaire(updatedQuestionnaire);
+  await saveQuestionnaire(ctx.questionnaire);
+  ctx.validationErrorInfo = validateQuestionnaire({
+    ...ctx.questionnaire,
+    updatedAt: new Date(),
+  });
 
   if (hasBeenUnpublished) {
     pubsub.publish("publishStatusUpdated", {
