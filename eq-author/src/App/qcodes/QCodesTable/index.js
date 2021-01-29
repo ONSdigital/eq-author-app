@@ -11,6 +11,8 @@ import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
+import { organiseAnswers, flattenAnswers, removeHtml } from "../../../utils/getAllAnswersFlatMap"
+
 import Loading from "components/Loading";
 import Error from "components/Error";
 import ValidationError from "components/ValidationError";
@@ -92,114 +94,7 @@ const questionMatrix = {
   [DURATION]: "Duration",
 };
 
-const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
 
-const organiseAnswers = sections => {
-  const questions = sections
-    .map(({ folders }) => folders.map(({ pages }) => pages))
-    .flat(2);
-
-  let answerRows = [];
-
-  for (const item of questions) {
-    const { title, alias, answers, confirmation } = item;
-
-    if (answers) {
-      const extraCheck = answers.reduce((acc, item) => {
-        if (
-          item.hasOwnProperty("options") &&
-          item.options &&
-          item.type !== RADIO
-        ) {
-          const optionLabel = item.options.map(option => ({
-            ...option,
-            type: "CheckboxOption",
-            option: true,
-          }));
-
-          acc.push(...optionLabel);
-        }
-
-        if (
-          item.hasOwnProperty("mutuallyExclusiveOption") &&
-          item.mutuallyExclusiveOption
-        ) {
-          acc.push({
-            ...item.mutuallyExclusiveOption,
-            type: "MutuallyExclusiveOption",
-            option: true,
-          });
-        }
-        if (
-          item.hasOwnProperty("secondaryLabel") &&
-          item.hasOwnProperty("secondaryQCode") &&
-          item.secondaryLabel
-        ) {
-          acc.push({
-            id: item.id,
-            label: item.secondaryLabel,
-            qCode: item.secondaryQCode,
-            type: item.type,
-            validationErrorInfo: item.validationErrorInfo,
-            secondary: true,
-          });
-        }
-        return acc;
-      }, []);
-
-      const answersAndOptions = [...answers, ...extraCheck];
-
-      answerRows.push({
-        title,
-        alias,
-        answers: answersAndOptions,
-      });
-    }
-
-    if (confirmation) {
-      const {
-        id,
-        title,
-        alias,
-        qCode,
-        validationErrorInfo,
-        __typename: type,
-      } = confirmation;
-
-      answerRows.push({
-        title: title,
-        alias,
-        answers: [{ id, qCode, type, validationErrorInfo }],
-      });
-    }
-  }
-
-  return { answers: answerRows };
-};
-
-const flattenAnswers = data => {
-  const answers = data.reduce((acc, item) => {
-    const answer = item.answers.map((ans, index) => {
-      if (index > 0) {
-        return {
-          title: item.title,
-          alias: item.alias,
-          nested: true,
-          ...ans,
-        };
-      } else {
-        return {
-          title: item.title,
-          alias: item.alias,
-          ...ans,
-        };
-      }
-    });
-    acc.push(...answer);
-    return acc;
-  }, []);
-  return answers;
-};
 
 const handleBlurReducer = ({ type, payload, mutation }) => {
   const {
@@ -334,6 +229,7 @@ const Row = memo(props => {
 });
 
 const RowBuilder = answers => {
+
   const duplicates = answers.reduce((acc, item) => {
     if (
       acc.hasOwnProperty(item.qCode) &&
@@ -349,10 +245,12 @@ const RowBuilder = answers => {
   }, {});
 
   return answers.map((item, index) => {
-    let noValQCodeError = find(
-      get(item, "validationErrorInfo.errors"),
-      ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
-    );
+    let noValQCodeError = false;
+    item.qCode ? noValQCodeError = false : noValQCodeError = true;
+    // let noValQCodeError = find(
+    //   get(item, "validationErrorInfo.errors"),
+    //   ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
+    // );
 
     return (
       <Row
@@ -375,9 +273,10 @@ Row.propTypes = {
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
   nested: PropTypes.bool,
-  noValQCodeError: PropTypes.object, // eslint-disable-line
+  noValQCodeError: PropTypes.bool, // eslint-disable-line
 };
 
+//Pass this data down from MainNavigation ???
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   if (loading) {
     return <Loading height="38rem">Page loading…</Loading>;
