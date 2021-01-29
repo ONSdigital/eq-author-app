@@ -1,0 +1,207 @@
+{
+  "$id": "http://example.com/schemas/logic.json",
+  "definitions": {
+    "routingRule": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "destination": {
+          "properties": {
+            "logical": {
+              "not": {
+                "const": "Default"
+              }
+            }
+          },
+          "errorMessage": "ERR_DESTINATION_REQUIRED"
+        },
+        "expressionGroup": {
+          "$ref": "#/definitions/expressionGroup"
+        }
+      },
+      "validateRoutingRule": {
+        "$data": "/sections"
+      }
+    },
+    "expressionGroup": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "And",
+            "Or"
+          ]
+        },
+        "expressions": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/expression"
+              },
+              {
+                "$ref": "#/definitions/expression-unanswered"
+              }
+            ]
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "operator": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "const": "And"
+              }
+            ]
+          }
+        }
+      },
+      "then": {
+        "validateRoutingLogicalAND": true
+      }
+    },
+    "expression": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "condition": {
+          "allOf": [
+            {
+              "validateMultipleChoiceCondition": "condition"
+            },
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            }
+          ]
+        },
+        "left": {
+          "type": "object",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": [
+                "answerId"
+              ]
+            }
+          ],
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED",
+          "validateLeftHandSide": "left"
+        }
+      },
+      "if": {
+        "properties": {
+          "condition": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "right": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": [
+                  "Custom",
+                  "SelectedOptions"
+                ]
+              },
+              "optionIds": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customValue": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+          }
+        }
+      },
+      "validateExpression": "validateExpression",
+      "required": [
+        "condition"
+      ]
+    },
+    "expression-unanswered": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "condition": {
+          "enum": [
+            "Unanswered"
+          ]
+        },
+        "left": {
+          "type": "object",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": [
+                "answerId"
+              ]
+            }
+          ],
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        }
+      }
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "expressions": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "$ref": "#/definitions/expression-unanswered"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

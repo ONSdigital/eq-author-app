@@ -1,0 +1,34 @@
+{
+  "$id": "http://example.com/schemas/option.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "additionalAnswer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "properties": {
+          "$ref": "answer.json#/definitions/properties"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "label"
+  ]
+}
