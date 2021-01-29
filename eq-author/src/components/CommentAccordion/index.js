@@ -7,14 +7,11 @@ import chevron from "./icon-chevron.svg";
 const Header = styled.div`
   padding-left: 1em;
   color: ${colors.blue};
-  text-decoration: underline;
-  &:hover {
-    color: ${colors.grey};
-  }
 `;
 
 export const Title = styled.h2`
-  font-size: 0.75em;
+  font-size: 0.85em;
+  font-weight: normal;
   letter-spacing: 0.05em;
   vertical-align: middle;
 
@@ -32,10 +29,15 @@ export const Body = styled.div`
   height: ${props => (props.isOpen ? "auto" : "0")};
 `;
 
+export const ReplyInProgress = styled.div`
+  padding: 0 0.25em;
+  color: ${colors.grey};
+`;
+
 export const Button = styled.button`
   appearance: none;
   border: none;
-  font-size: 1.2em;
+  font-size: 1.05em;
   width: 100%;
   margin: 0;
   padding: 0.5em 0.25em;
@@ -47,6 +49,7 @@ export const Button = styled.button`
   position: relative;
   background: transparent;
   cursor: pointer;
+  text-decoration: underline;
 
   &:focus {
     outline: 2px solid ${colors.orange};
@@ -67,6 +70,7 @@ export const Button = styled.button`
   }
 `;
 
+// <ReplyInProgress>{inProgress ? "Reply in progress" : ""}</ReplyInProgress>
 const CommentAccordion = ({
   children,
   title,
@@ -86,8 +90,11 @@ const CommentAccordion = ({
         >
           {`${isOpen ? "Hide" : "Show"} ${title} ${
             title > 1 ? " replies" : " reply"
-          } ${inProgress ? " (reply in progress)" : ""}`}
+          } `}
         </Button>
+        <ReplyInProgress>
+          {inProgress ? "Reply in progress" : ""}
+        </ReplyInProgress>
       </Title>
     </Header>
     <Body
