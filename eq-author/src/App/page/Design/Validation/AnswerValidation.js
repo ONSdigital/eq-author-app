@@ -208,7 +208,9 @@ const AnswerValidation = ({ answer }) => {
           <Title>
             {titleText(type.id, type.title, validation.enabled, inclusive)}
           </Title>
-          {enabled && !isNull(value) && <Detail>{value}</Detail>}
+          {enabled && value !== undefined && value !== null && (
+            <Detail>{value}</Detail>
+          )}
         </SidebarValidation>
       );
 
