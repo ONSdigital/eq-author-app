@@ -14,8 +14,13 @@ import { DATE } from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 import PathEnd from "../path-end.svg?inline";
 
-import { StyledError, RelativePositionText, ConnectedPath, Now } from "./components";
-import PreviousAnswerEditor from "./PreviousAnswerEditor";
+import {
+  StyledError,
+  RelativePositionText,
+  ConnectedPath,
+  Now,
+} from "./components";
+import PreviousAnswerEditor from "../PreviousAnswerEditor";
 import MetadataEditor from "./MetadataEditor";
 import CustomEditor from "./CustomEditor";
 import PositionPicker from "./PositionPicker.js";
@@ -32,14 +37,23 @@ const getUnits = format => {
     default:
       return [YEARS];
   }
-}
+};
 
-const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, onUpdate, onChangeUpdate, readKey }) => {
+const UnwrappedDateValidation = ({
+  validation,
+  answer,
+  displayName,
+  onChange,
+  onUpdate,
+  onChangeUpdate,
+  readKey,
+}) => {
+  const availableUnits = getUnits(
+    answer.properties.format ? answer.properties.format : "dd/mm/yyyy"
+  );
 
-  const availableUnits = getUnits(answer.properties.format ? answer.properties.format : "dd/mm/yyyy");
-
-  const hasError = find(validation.validationErrorInfo.errors, error =>
-    error.errorCode.includes("ERR_NO_VALUE")
+  const hasDurationError = find(validation.validationErrorInfo.errors, error =>
+    error.errorCode.includes("ERR_OFFSET_NO_VALUE")
   );
 
   return (
@@ -56,7 +70,7 @@ const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, on
             units={availableUnits}
             onChange={onChange}
             onUpdate={onUpdate}
-            hasError={hasError}
+            hasError={hasDurationError}
           />
         </Column>
       </Grid>
@@ -65,15 +79,22 @@ const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, on
           <ConnectedPath />
         </Column>
         <Column cols={END_COL_SIZE}>
-          {hasError && <StyledError>{ERR_NO_VALUE}</StyledError>}
+          {hasDurationError && <StyledError>{ERR_NO_VALUE}</StyledError>}
         </Column>
       </Grid>
       <Grid>
         <AlignedColumn cols={START_COL_SIZE}>
-          {answer.type === DATE
-            ? <PositionPicker value={validation.relativePosition} onChange={onChange} onUpdate={onUpdate} />
-            : <RelativePositionText> {validation.relativePosition.toLowerCase()} </RelativePositionText>
-          }
+          {answer.type === DATE ? (
+            <PositionPicker
+              value={validation.relativePosition}
+              onChange={onChange}
+              onUpdate={onUpdate}
+            />
+          ) : (
+            <RelativePositionText>
+              {validation.relativePosition.toLowerCase()}
+            </RelativePositionText>
+          )}
           <PathEnd />
         </AlignedColumn>
         <Column cols={9}>
@@ -88,17 +109,18 @@ const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, on
             onUpdate={onUpdate}
             onChangeUpdate={onChangeUpdate}
             Custom={CustomEditor}
-            {...(answer.type === DATE ?
-              {
-                PreviousAnswer: PreviousAnswerEditor,
-                Now: Now
-              } : {})}
+            {...(answer.type === DATE
+              ? {
+                  PreviousAnswer: PreviousAnswerEditor,
+                  Now: Now,
+                }
+              : {})}
           />
         </Column>
       </Grid>
     </div>
   );
-}
+};
 
 UnwrappedDateValidation.propTypes = {
   validation: PropTypes.shape({

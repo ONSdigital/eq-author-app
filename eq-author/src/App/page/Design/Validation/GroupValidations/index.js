@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { get, isNil, some } from "lodash";
+import { get, isNil } from "lodash";
 import PropTypes from "prop-types";
 
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
@@ -10,7 +10,11 @@ import ValidationError from "components/ValidationError";
 
 import { CURRENCY, PERCENTAGE } from "constants/answer-types";
 import { colors } from "constants/theme";
-import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
+import {
+  ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
+} from "constants/validationMessages";
 
 import TotalValidation from "./TotalValidation";
 
@@ -42,7 +46,7 @@ const Details = styled.div`
 
 export const GroupValidationModal = styled(ModalDialog)`
   .Modal {
-    width: 40em;
+    width: 50em;
     height: 23em;
   }
 `;
@@ -58,6 +62,12 @@ const CONDITION = {
   Equal: "equal to",
   LessOrEqual: "less than or equal to",
   LessThan: "less than",
+};
+
+const errorMessages = {
+  ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
 };
 
 class GroupValidations extends Component {
@@ -129,13 +139,10 @@ class GroupValidations extends Component {
   render() {
     const { totalValidation: total, validationError: errors } = this.props;
 
-    const hasError = some(errors.errors, error =>
-      error.errorCode.includes("ERR_TOTAL_NO_VALUE")
+    const totalValidationErrors = errors.errors.filter(
+      ({ field }) => field === "totalValidation"
     );
-
-    const handleError = () => {
-      return <ValidationError right>{ERR_TOTAL_NO_VALUE}</ValidationError>;
-    };
+    const error = totalValidationErrors?.[0];
 
     return (
       <>
@@ -143,12 +150,16 @@ class GroupValidations extends Component {
           onClick={this.handleButtonClick}
           data-test="sidebar-button-total-value"
           disabled={!total}
-          hasError={hasError}
+          hasError={Boolean(error)}
         >
           <TotalIcon />
           <Details>{this.renderContents() || <Title>Total</Title>}</Details>
         </TotalButton>
-        {hasError && handleError()}
+        {error && (
+          <ValidationError right>
+            {errorMessages[error.errorCode]}
+          </ValidationError>
+        )}
         <GroupValidationModal
           isOpen={this.state.isModalOpen}
           onClose={this.handleModalClose}
@@ -156,7 +167,7 @@ class GroupValidations extends Component {
           <TotalValidation
             total={total}
             type={this.props.type}
-            errors={errors}
+            errors={totalValidationErrors}
           />
           <Buttons>
             <Button onClick={this.handleModalClose}>Done</Button>

@@ -29,6 +29,9 @@ const {
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
   ERR_LOGICAL_AND,
+  ERR_NO_VALUE,
+  ERR_REFERENCE_DELETED,
+  ERR_REFERENCE_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -685,6 +688,52 @@ describe("schema validation", () => {
 
             expect(pageErrors).toHaveLength(0);
           });
+        });
+
+        it("should return an error if date offset not set", () => {
+          answer.validation.latestDate.offset.value = null;
+
+          const errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_OFFSET_NO_VALUE" }),
+            ])
+          );
+        });
+
+        it("should return an error if referenced answer deleted / moved", () => {
+          questionnaire.sections[0].folders[0].pages[0].answers.push({
+            ...answer,
+            id: "a2",
+          });
+          questionnaire.sections[0].folders[0].pages[0].answers[0].validation = {
+            earliestDate: {
+              enabled: true,
+              entityType: "PreviousAnswer",
+              previousAnswer: "a2",
+              relativePosition: "Before",
+            },
+            latestDate: {
+              enabled: false,
+            },
+          };
+
+          let errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_MOVED" }),
+            ])
+          );
+
+          questionnaire.sections[0].folders[0].pages[0].answers.splice(1, 1);
+          questionnaire.updatedAt = new Date();
+
+          errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_DELETED" }),
+            ])
+          );
         });
 
         it("should validate if qCode is missing", () => {
@@ -1875,6 +1924,85 @@ describe("schema validation", () => {
 
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(0);
+    });
+  });
+
+  describe("totalValidation", () => {
+    const validateTotalValidation = attributes => {
+      questionnaire.sections[0].folders[0].pages[1].totalValidation = {
+        id: "totalvalidation-rule-1",
+        enabled: true,
+        entityType:
+          attributes.previousAnswer !== undefined ? "PreviousAnswer" : "Custom",
+        condition: "Equal",
+        ...attributes,
+      };
+      questionnaire.updatedAt = new Date();
+      return validation(questionnaire);
+    };
+
+    describe("using a custom numerical value", () => {
+      it("should not return an error for a valid rule", () => {
+        const errors = validateTotalValidation({
+          custom: 42,
+        });
+        expect(errors.length).toBe(0);
+      });
+
+      it("should return an error when custom value not set", () => {
+        const errors = validateTotalValidation({
+          custom: null,
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
+      });
+    });
+
+    describe("using a reference to previous answer", () => {
+      it("should not return an error for a valid rule", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_1",
+        });
+        expect(errors.length).toBe(0);
+      });
+
+      it("should return an error when previous answer reference not set", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: null,
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
+      });
+
+      it("should return an error when previous answer reference doesn't exist", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: "i-dont-exist-anymore",
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_DELETED);
+      });
+
+      it("should return an error when previous answer reference comes after current question", () => {
+        questionnaire.sections[0].folders[0].pages.push({
+          id: "page_3",
+          title: "Dummy moved page",
+          answers: [
+            {
+              id: "answer_3",
+              type: NUMBER,
+              label: "Number",
+              qCode: "qCode5",
+            },
+          ],
+        });
+
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_3",
+        });
+
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_MOVED);
+      });
     });
   });
 });

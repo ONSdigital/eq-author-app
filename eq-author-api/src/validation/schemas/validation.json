@@ -1,0 +1,257 @@
+{
+  "$id": "http://example.com/schemas/validation.json",
+  "definitions": {
+    "numericValidations": {
+      "if": {
+        "properties": {
+          "minValue": {
+            "properties": {
+              "enabled": {
+                "const": true
+              },
+              "entityType": { "const": "Custom" },
+              "custom": {
+                "not": { "type": "null" }
+              }
+            }
+          },
+          "maxValue": {
+            "properties": {
+              "enabled": {
+                "const": true
+              },
+              "entityType": { "const": "Custom" },
+              "custom": {
+                "not": { "type": "null" }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "minValue": {
+            "type": "object",
+            "properties": {
+              "custom": {
+                "maximum": {
+                  "$data": "2/maxValue/custom"
+                },
+                "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "minValue": { "$ref": "#/definitions/validationEntry" },
+        "maxValue": { "$ref": "#/definitions/validationEntry" }
+      }
+    },
+    "dateValidations": {
+      "type": "object",
+      "properties": {
+        "earliestDate": { "$ref": "#/definitions/dateValidationEntry" },
+        "latestDate": { "$ref": "#/definitions/dateValidationEntry" }
+      },
+      "if": {
+        "properties": {
+          "earliestDate": {
+            "properties": {
+              "enabled": { "const": true },
+              "entityType": {
+                "enum": ["Custom", "Metadata"]
+              }
+            }
+          },
+          "latestDate": {
+            "properties": {
+              "enabled": { "const": true },
+              "entityType": {
+                "enum": ["Custom", "Metadata"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "earliestDate": {
+            "type": "object",
+            "properties": {
+              "custom": {
+                "validateLatestAfterEarliest": {
+                  "$data": "2/latestDate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dateValidationEntry": {
+      "type": "object",
+      "if": {
+        "properties": {
+          "enabled": { "const": true }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "offset": {
+                "type": "object",
+                "properties": {
+                  "value": { "not": { "type": "null" } }
+                }
+              }
+            },
+            "errorMessage": "ERR_OFFSET_NO_VALUE"
+          },
+          {
+            "$ref": "#/definitions/validationEntry"
+          }
+        ]
+      }
+    },
+    "dateRangeValidations": {
+      "type": "object",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "minDuration": {
+                "properties": {
+                  "enabled": { "const": true }
+                }
+              },
+              "maxDuration": {
+                "properties": {
+                  "enabled": { "const": true }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "minDuration": {
+                "type": "object",
+                "properties": {
+                  "duration": {
+                    "validateDuration": {
+                      "$data": "2/maxDuration"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/dateValidations"
+        }
+      ],
+      "properties": {
+        "minDuration": { "$ref": "#/definitions/validationEntry" },
+        "maxDuration": { "$ref": "#/definitions/validationEntry" }
+      }
+    },
+    "validationEntry": {
+      "type": "object",
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "properties": {
+                "enabled": { "const": false }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Now" }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Custom" },
+                "custom": {
+                  "not": { "type": "null" }
+                }
+              },
+              "required": ["custom"]
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Custom" },
+                "duration": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "not": { "type": "null" } }
+                  }
+                }
+              },
+              "required": ["duration"]
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Now" }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": {
+                  "const": "PreviousAnswer"
+                },
+                "previousAnswer": {
+                  "not": { "type": "null" }
+                }
+              }
+            },
+            {
+              "properties": {
+                "enabled": { "const": true },
+                "entityType": { "const": "Metadata" },
+                "metadata": {
+                  "not": { "type": "null" }
+                }
+              }
+            }
+          ],
+          "errorMessage": "ERR_NO_VALUE"
+        },
+        {
+          "if": {
+            "properties": {
+              "enabled": { "const": true },
+              "entityType": { "const": "PreviousAnswer" },
+              "previousAnswer": { "type": "string" }
+            },
+            "required": ["previousAnswer"]
+          },
+          "then": {
+            "allOf": [
+              {
+                "idExists": {
+                  "$data": "0/previousAnswer"
+                },
+                "errorMessage": "ERR_REFERENCE_DELETED"
+              },
+              {
+                "idPreceedsCurrentEntity": {
+                  "$data": "0/previousAnswer"
+                },
+                "errorMessage": "ERR_REFERENCE_MOVED"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
