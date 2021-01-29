@@ -6,6 +6,7 @@ import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight } from "lodash";
+import { organiseAnswers, flattenAnswers } from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -52,6 +53,8 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
+
+export const QCodeContext = React.createContext([]);
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -223,50 +226,64 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
+    let flatten;
+
+    // Ideally memoise - might need to memoise based on questionnaire.updatedAt
+    // rather than "questionnaire" - since afaik that would still run every time
+    // (questionnaire object reference will change on each query result)
+    if (questionnaire) {
+      const sections = questionnaire.sections;
+      const { answers } = organiseAnswers(sections);
+      flatten = flattenAnswers(answers);
+      console.log("flattened answers", flatten);
+    }
+
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <BaseLayout questionnaire={questionnaire}>
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <NavColumn cols={3} gutters={false}>
-                  <MainNav>
-                    <MainNavigation />
-                  </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
-                </NavColumn>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                      ...sharingRoutes,
-                      ...settingsRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
-                </Column>
+                <QCodeContext.Provider value={flatten}>
+                  <NavColumn cols={3} gutters={false}>
+                    <MainNav>
+                      <MainNavigation />
+                    </MainNav>
+                    <NavigationSidebar
+                      data-test="side-nav"
+                      onAddSection={this.props.onAddSection}
+                      onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                      canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      onAddCalculatedSummaryPage={this.handleAddPage(
+                        "CalculatedSummaryPage"
+                      )}
+                      canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      questionnaire={questionnaire}
+                      canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                      onAddQuestionConfirmation={
+                        this.handleAddQuestionConfirmation
+                      }
+                    />
+                  </NavColumn>
+                  <Column cols={9} gutters={false}>
+                    <Switch location={location}>
+                      {[
+                        ...pageRoutes,
+                        ...sectionRoutes,
+                        ...questionConfirmationRoutes,
+                        ...introductionRoutes,
+                        ...metadataRoutes,
+                        ...historyRoutes,
+                        ...publishRoutes,
+                        ...reviewRoutes,
+                        ...qcodeRoutes,
+                        ...sharingRoutes,
+                        ...settingsRoutes,
+                      ]}
+                      <Route path="*" render={this.renderRedirect} />
+                    </Switch>
+                  </Column>
+                </QCodeContext.Provider>
               </Grid>
             </Titled>
           </ScrollPane>
@@ -286,6 +303,7 @@ const withMutations = flowRight(
 const QUESTIONNAIRE_QUERY = gql`
   query GetQuestionnaire($input: QueryInput!) {
     questionnaire(input: $input) {
+      updatedAt
       introduction {
         id
       }
@@ -293,6 +311,23 @@ const QUESTIONNAIRE_QUERY = gql`
       totalErrorCount
       qCodeErrorCount
       ...NavigationSidebar
+      sections {
+        id
+        folders {
+          id
+          pages {
+            id
+            ... on QuestionPage {
+              answers {
+                id
+                ... on BasicAnswer {
+                  qCode
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
   ${NavigationSidebar.fragments.NavigationSidebar}

@@ -1,4 +1,4 @@
-import React, { useState, profiler } from "react";
+import React, { useState, profiler, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, get, find } from "lodash";
@@ -31,12 +31,7 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
-import { useQuery } from "@apollo/react-hooks";
-import GET_ALL_ANSWERS from "../../qcodes/QCodesTable/graphql/getAllAnswers.graphql";
-import Error from "components/Error";
-import Loading from "components/Loading";
-
-import { organiseAnswers, flattenAnswers } from "../../../utils/getAllAnswersFlatMap"
+import { QCodeContext } from "App/QuestionnaireDesignPage";
 
 import {
   buildQcodesPath,
@@ -80,6 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+  const flattenedAnswers = useContext(QCodeContext);
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -92,175 +88,150 @@ export const UnwrappedMainNavigation = props => {
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-    }`;
+  }`;
 
+  ///////////////////////////////////////////////////////// WIP ///////////////////////////////////////////
 
-///////////////////////////////////////////////////////// WIP ///////////////////////////////////////////
+  const questionnaireId = (questionnaire || {}).id;
 
-    const questionnaireId = (questionnaire || {}).id;
+  console.log("From context: ", flattenedAnswers);
+  const emptyQCode =
+    flattenedAnswers &&
+    find(flattenedAnswers, obj => obj.qCode === "" || obj.qCode === null);
 
-    //could we use getAnswers from utils in API repo instead????
+  function onRenderCallback(
+    id, // the "id" prop of the Profiler tree that has just committed
+    phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+    actualDuration, // time spent rendering the committed update
+    baseDuration, // estimated time to render the entire subtree without memoization
+    startTime, // when React began rendering this update
+    commitTime, // when React committed this update
+    interactions // the Set of interactions belonging to this update
+  ) {
+    console.log(id, phase, actualDuration, baseDuration, interactions);
+  }
 
-    const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
-      variables: { input: { questionnaireId } },
-      fetchPolicy: "network-only",
-    });
-  
-    if (loading) {
-      return <Loading height="100%">Questionnaire answers loading…</Loading>;
-    }
-    if (error) {
-      return <Error>Oops! Something went wrong</Error>;
-    }
-
-    let emptyQCode;
-
-    if (data.questionnaire) {
-      const { sections } = get(data, "questionnaire", []);
-
-      console.log('sections', sections);
-
-      const { answers } = organiseAnswers(sections);
-
-      const flatten = flattenAnswers(answers);
-      console.log('flattened answers', flatten);
-
-      //todo - Rather just load emptyQCode with a bool
-      emptyQCode = find(flatten, obj => obj.qCode === "" || obj.qCode === null);
-      console.log('emptyQCode----------------', emptyQCode);
-    }
-
-    function onRenderCallback(
-      id, // the "id" prop of the Profiler tree that has just committed
-      phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
-      actualDuration, // time spent rendering the committed update
-      baseDuration, // estimated time to render the entire subtree without memoization
-      startTime, // when React began rendering this update
-      commitTime, // when React committed this update
-      interactions // the Set of interactions belonging to this update
-    ) {
-      console.log(id, phase, actualDuration, baseDuration, interactions)
-    }
-
-///////////////////////////////////////////////////////// WIP - end ///////////////////////////////////////////
-
+  ///////////////////////////////////////////////////////// WIP - end ///////////////////////////////////////////
 
   return (
     <>
-    <React.Profiler id="MainNavigation" onRender={onRenderCallback}>
-      <StyledMainNavigation data-test="main-navigation">
-        <Flex>
-          <UtilityBtns>
-            {questionnaire && (
-              <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <RouteButton variant="navigation" small to="/">
-                  <IconText nav icon={homeIcon}>
-                    Home
-                  </IconText>
-                </RouteButton>
-                <LinkButton
-                  href={previewUrl}
-                  variant="navigation-modal"
-                  data-test="btn-preview"
-                  small
-                  disabled={questionnaire.totalErrorCount > 0}
+      <React.Profiler id="MainNavigation" onRender={onRenderCallback}>
+        <StyledMainNavigation data-test="main-navigation">
+          <Flex>
+            <UtilityBtns>
+              {questionnaire && (
+                <ButtonGroup
+                  vertical
+                  align="centre"
+                  margin="0.em"
+                  gutter="0.em"
                 >
-                  <IconText nav icon={viewIcon}>
-                    View survey
-                  </IconText>
-                </LinkButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "settings" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={buildSettingsPath(match.params)}
-                  small
-                  data-test="btn-settings"
-                  disabled={title === "Settings"}
-                >
-                  <IconText nav icon={settingsIcon}>
-                    Settings
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "sharing" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-sharing"
-                  to={buildSharingPath(match.params)}
-                >
-                  <IconText nav icon={shareIcon}>
-                    Sharing
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "history" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-history"
-                  to={buildHistoryPath(match.params)}
-                >
-                  <IconText nav icon={historyIcon}>
-                    History
-                  </IconText>
-                </RouteButton>
+                  <RouteButton variant="navigation" small to="/">
+                    <IconText nav icon={homeIcon}>
+                      Home
+                    </IconText>
+                  </RouteButton>
+                  <LinkButton
+                    href={previewUrl}
+                    variant="navigation-modal"
+                    data-test="btn-preview"
+                    small
+                    disabled={questionnaire.totalErrorCount > 0}
+                  >
+                    <IconText nav icon={viewIcon}>
+                      View survey
+                    </IconText>
+                  </LinkButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "settings" && "navigation-on") ||
+                      "navigation"
+                    }
+                    to={buildSettingsPath(match.params)}
+                    small
+                    data-test="btn-settings"
+                    disabled={title === "Settings"}
+                  >
+                    <IconText nav icon={settingsIcon}>
+                      Settings
+                    </IconText>
+                  </RouteButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "sharing" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-sharing"
+                    to={buildSharingPath(match.params)}
+                  >
+                    <IconText nav icon={shareIcon}>
+                      Sharing
+                    </IconText>
+                  </RouteButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "history" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-history"
+                    to={buildHistoryPath(match.params)}
+                  >
+                    <IconText nav icon={historyIcon}>
+                      History
+                    </IconText>
+                  </RouteButton>
 
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "metadata" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-metadata"
-                  to={buildMetadataPath(match.params)}
-                >
-                  <IconText nav icon={metadataIcon}>
-                    Metadata
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "qcodes" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={buildQcodesPath(match.params)}
-                  small
-                  data-test="btn-qcodes"
-                  disabled={
-                    title === "QCodes" || questionnaire.totalErrorCount > 0
-                  }
-                >
-                  <IconText nav icon={qcodeIcon}>
-                    QCodes
-                  </IconText>
-                  
-                  {/* {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null} */}
-                  {emptyQCode ? <SmallBadge data-test="small-badge" /> : null}
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "metadata" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-metadata"
+                    to={buildMetadataPath(match.params)}
+                  >
+                    <IconText nav icon={metadataIcon}>
+                      Metadata
+                    </IconText>
+                  </RouteButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "qcodes" && "navigation-on") ||
+                      "navigation"
+                    }
+                    to={buildQcodesPath(match.params)}
+                    small
+                    data-test="btn-qcodes"
+                    disabled={
+                      title === "QCodes" || questionnaire.totalErrorCount > 0
+                    }
+                  >
+                    <IconText nav icon={qcodeIcon}>
+                      QCodes
+                    </IconText>
 
-                </RouteButton>
-                {me && <UserProfile nav signOut left client={client} />}
-              </ButtonGroup>
-            )}
-          </UtilityBtns>
-        </Flex>
-        {children}
-      </StyledMainNavigation>
-      
-      
-      {questionnaire && (
-        <>
-          <UpdateQuestionnaireSettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setSettingsModalOpen(false)}
-            questionnaire={questionnaire}
-          />
-        </>
-      )}
+                    {/* {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null} */}
+                    {emptyQCode ? <SmallBadge data-test="small-badge" /> : null}
+                  </RouteButton>
+                  {me && <UserProfile nav signOut left client={client} />}
+                </ButtonGroup>
+              )}
+            </UtilityBtns>
+          </Flex>
+          {children}
+        </StyledMainNavigation>
+
+        {questionnaire && (
+          <>
+            <UpdateQuestionnaireSettingsModal
+              isOpen={isSettingsModalOpen}
+              onClose={() => setSettingsModalOpen(false)}
+              questionnaire={questionnaire}
+            />
+          </>
+        )}
       </React.Profiler>
     </>
   );
