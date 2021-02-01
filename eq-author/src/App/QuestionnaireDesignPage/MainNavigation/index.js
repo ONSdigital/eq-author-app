@@ -94,7 +94,7 @@ export const UnwrappedMainNavigation = props => {
 
   const questionnaireId = (questionnaire || {}).id;
 
-  console.log("From context: ", flattenedAnswers);
+  console.log("From context: Main NAV", flattenedAnswers);
   const emptyQCode =
     flattenedAnswers &&
     find(flattenedAnswers, obj => obj.qCode === "" || obj.qCode === null);

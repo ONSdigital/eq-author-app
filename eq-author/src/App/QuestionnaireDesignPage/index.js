@@ -226,7 +226,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
-    let flatten;
+    let flattenedAnswers;
 
     // Ideally memoise - might need to memoise based on questionnaire.updatedAt
     // rather than "questionnaire" - since afaik that would still run every time
@@ -234,8 +234,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     if (questionnaire) {
       const sections = questionnaire.sections;
       const { answers } = organiseAnswers(sections);
-      flatten = flattenAnswers(answers);
-      console.log("flattened answers", flatten);
+      console.log('Context answers', answers)
+      flattenedAnswers = flattenAnswers(answers);
+      console.log("flattened answers - DesignPage", flattenedAnswers);
     }
 
     return (
@@ -244,7 +245,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <QCodeContext.Provider value={flatten}>
+                <QCodeContext.Provider value={flattenedAnswers}>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />
@@ -318,13 +319,55 @@ const QUESTIONNAIRE_QUERY = gql`
           pages {
             id
             ... on QuestionPage {
+              alias
+              confirmation {
+              id
+              displayName
+              title
+              qCode
+              }
               answers {
                 id
+                label
+                type
                 ... on BasicAnswer {
+                  qCode
+                  secondaryQCode
+                }
+                ... on MultipleChoiceAnswer {
+                options {
+                  id
+                  label
+                  qCode
+                }
+                mutuallyExclusiveOption {
+                  id
+                  label
                   qCode
                 }
               }
+              }
             }
+            ... on CalculatedSummaryPage {
+            id
+            title
+            alias
+            totalTitle
+            displayName
+            pageType
+            qCode
+            summaryAnswers {
+              id
+              displayName
+              label
+              qCode
+            }
+            section {
+              id
+              id
+              title
+            }
+          }
           }
         }
       }
