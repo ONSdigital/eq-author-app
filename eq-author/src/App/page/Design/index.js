@@ -90,7 +90,9 @@ export class UnwrappedPageRoute extends React.Component {
     return (
       <EditorLayout
         onAddQuestionPage={this.handleAddPage}
-        renderPanel={() => <PropertiesPanel page={page} />}
+        renderPanel={() =>
+          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
+        }
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
         validationErrorInfo={page && page.validationErrorInfo}
