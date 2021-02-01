@@ -70,7 +70,6 @@ export const Button = styled.button`
   }
 `;
 
-// <ReplyInProgress>{inProgress ? "Reply in progress" : ""}</ReplyInProgress>
 const CommentAccordion = ({
   children,
   title,

@@ -137,13 +137,7 @@ describe("CommentSection", () => {
       activeReplyId: "commentId",
     });
 
-    expect(
-      getByText(
-        `Show ${replyLength} ${
-          replyLength > 1 ? "replies" : "reply"
-        } (reply in progress)`
-      )
-    ).toBeVisible();
+    expect(getByText(`Reply in progress`)).toBeVisible();
   });
 
   it("should show reply edit", () => {
