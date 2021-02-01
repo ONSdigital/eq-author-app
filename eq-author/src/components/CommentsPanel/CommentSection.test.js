@@ -130,7 +130,6 @@ describe("CommentSection", () => {
   });
 
   it("should show accordion edit in progress", () => {
-    const replyLength = props.displayReplies.length;
     const { getByText } = modifiedSetup({
       ...props,
       activeCommentId: "commentId",
