@@ -5,6 +5,7 @@ import { TransitionGroup } from "react-transition-group";
 import { get, uniqueId, flow, some } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import { withRouter } from "react-router-dom";
+import Tooltip from "components/Forms/Tooltip";
 
 import CustomPropTypes from "custom-prop-types";
 
@@ -372,20 +373,24 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           </Column>
           <Column gutters={false} cols={2.5}>
             <ActionButtons data-test="action-btns">
-              <RemoveButton
-                onClick={this.handleDeleteClick}
-                disabled={isOnlyExpression}
-                data-test="btn-remove"
-              >
-                <IconText icon={IconMinus} hideText>
-                  Remove
-                </IconText>
-              </RemoveButton>
-              <AddButton onClick={this.handleAddClick} data-test="btn-add">
-                <IconText icon={IconPlus} hideText>
-                  Add
-                </IconText>
-              </AddButton>
+              <Tooltip content="Remove condition" place="top">
+                <RemoveButton
+                  onClick={this.handleDeleteClick}
+                  disabled={isOnlyExpression}
+                  data-test="btn-remove"
+                >
+                  <IconText icon={IconMinus} hideText>
+                    Remove condition
+                  </IconText>
+                </RemoveButton>
+              </Tooltip>
+              <Tooltip content="Add condition" place="top">
+                <AddButton onClick={this.handleAddClick} data-test="btn-add">
+                  <IconText icon={IconPlus} hideText>
+                    Add condition
+                  </IconText>
+                </AddButton>
+              </Tooltip>
             </ActionButtons>
           </Column>
         </Grid>

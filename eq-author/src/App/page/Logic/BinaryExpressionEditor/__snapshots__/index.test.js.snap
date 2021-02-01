@@ -37,29 +37,39 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       <BinaryExpressionEditor__ActionButtons
         data-test="action-btns"
       >
-        <BinaryExpressionEditor__RemoveButton
-          data-test="btn-remove"
-          disabled={false}
-          onClick={[Function]}
+        <Tooltip
+          content="Remove condition"
+          place="top"
         >
-          <IconText
-            hideText={true}
-            icon={[Function]}
+          <BinaryExpressionEditor__RemoveButton
+            data-test="btn-remove"
+            disabled={false}
+            onClick={[Function]}
           >
-            Remove
-          </IconText>
-        </BinaryExpressionEditor__RemoveButton>
-        <BinaryExpressionEditor__AddButton
-          data-test="btn-add"
-          onClick={[Function]}
+            <IconText
+              hideText={true}
+              icon={[Function]}
+            >
+              Remove condition
+            </IconText>
+          </BinaryExpressionEditor__RemoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Add condition"
+          place="top"
         >
-          <IconText
-            hideText={true}
-            icon={[Function]}
+          <BinaryExpressionEditor__AddButton
+            data-test="btn-add"
+            onClick={[Function]}
           >
-            Add
-          </IconText>
-        </BinaryExpressionEditor__AddButton>
+            <IconText
+              hideText={true}
+              icon={[Function]}
+            >
+              Add condition
+            </IconText>
+          </BinaryExpressionEditor__AddButton>
+        </Tooltip>
       </BinaryExpressionEditor__ActionButtons>
     </Column>
   </Grid>
