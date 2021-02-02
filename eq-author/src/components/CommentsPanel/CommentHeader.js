@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import moment from "moment";
 import "moment/locale/en-gb";
 
@@ -9,37 +8,13 @@ import {
   AvatarWrapper,
   AvatarOuter,
   AvatarInner,
-  NameWrapper,
-  DateField,
+  CommentMetadata,
+  DatePosted,
   EditButton,
   DeleteComment,
   ToolTipWrapper,
+  Author,
 } from "./index";
-
-export const FlexLabel = styled.div`
-  font-size: 1em;
-  align-items: center;
-  height: 20px;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 180px;
-
-  @media (max-width: 1700px) {
-    width: 138px;
-  }
-
-  @media (max-width: 1500px) {
-    width: 120px;
-    font-size: 0.9em;
-  }
-  text-overflow: ellipsis;
-`;
-
-const FlexLabelReplies = styled(FlexLabel)`
-  @media (max-width: 1700px) {
-    width: 107px;
-  }
-`;
 
 const CommentHeader = props => {
   const {
@@ -62,10 +37,10 @@ const CommentHeader = props => {
             <AvatarInner>{getInitials(shared.user.name)}</AvatarInner>
           </AvatarOuter>
         </AvatarWrapper>
-        <NameWrapper>
-          <FlexLabelReplies>{shared.user.displayName}</FlexLabelReplies>
-          <DateField>{moment(shared.createdTime).calendar()}</DateField>
-        </NameWrapper>
+        <CommentMetadata>
+          <Author>{shared.user.displayName}</Author>
+          <DatePosted>{moment(shared.createdTime).calendar()}</DatePosted>
+        </CommentMetadata>
         <ToolTipWrapper content={"Edit"}>
           <EditButton
             isHidden={shared.user.id !== myId}

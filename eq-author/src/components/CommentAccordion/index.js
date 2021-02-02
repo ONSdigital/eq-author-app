@@ -29,11 +29,6 @@ export const Body = styled.div`
   height: ${props => (props.isOpen ? "auto" : "0")};
 `;
 
-export const ReplyInProgress = styled.div`
-  padding: 0 0.25em;
-  color: ${colors.grey};
-`;
-
 export const Button = styled.button`
   appearance: none;
   border: none;
@@ -91,9 +86,7 @@ const CommentAccordion = ({
             title > 1 ? " replies" : " reply"
           } `}
         </Button>
-        <ReplyInProgress>
-          {inProgress ? "Reply in progress" : ""}
-        </ReplyInProgress>
+        {inProgress}
       </Title>
     </Header>
     <Body

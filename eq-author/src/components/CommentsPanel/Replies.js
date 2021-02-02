@@ -4,7 +4,7 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import {
   Reply,
-  DateField,
+  DatePosted,
   StyledTextArea,
   CommentsDiv,
   DateWrapper,
@@ -57,9 +57,9 @@ const Replies = props => {
           <CommentsDiv>{repliesItem.commentText}</CommentsDiv>
           {repliesItem.editedTime && (
             <DateWrapper>
-              <DateField>
+              <DatePosted>
                 Edited: {moment(repliesItem.editedTime).calendar()}
-              </DateField>
+              </DatePosted>
             </DateWrapper>
           )}
         </>

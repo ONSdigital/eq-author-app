@@ -110,7 +110,7 @@ export const AvatarInner = styled.div`
   padding: 22% 0;
 `;
 
-export const NameWrapper = styled.div`
+export const CommentMetadata = styled.div`
   display: flex;
   flex-direction: column;
   -webkit-flex-direction: column;
@@ -173,26 +173,32 @@ export const EditButton = styled.button`
   }
 `;
 
-export const FlexLabel = styled.div`
+export const FlexLabel = styled.label`
   font-size: 1em;
   align-items: center;
-  height: 20px;
+  height: 1.25em;
   overflow: hidden;
   white-space: nowrap;
-  width: 180px;
+  width: 11.25em;
 
-  @media (max-width: 1700px) {
-    width: 138px;
+  @media (max-width: 106.25em) {
+    width: 8.625em;
   }
 
-  @media (max-width: 1500px) {
-    width: 120px;
+  @media (max-width: 93.75em) {
+    width: 7.5em;
     font-size: 0.9em;
   }
   text-overflow: ellipsis;
 `;
 
-export const DateField = styled("span")`
+export const Author = styled(FlexLabel)`
+  @media (max-width: 106.25em) {
+    width: 6.6875em;
+  }
+`;
+
+export const DatePosted = styled("span")`
   font-weight: normal;
   font-size: 0.8em;
   color: ${colors.grey};

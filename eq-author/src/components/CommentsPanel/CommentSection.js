@@ -5,12 +5,13 @@ import "moment/locale/en-gb";
 import styled from "styled-components";
 import Button from "components/buttons/Button";
 import CommentAccordion from "components/CommentAccordion";
+import { colors } from "constants/theme";
 
 import EditReply from "./EditReply";
 
 import {
   CommentAddSection,
-  DateField,
+  DatePosted,
   StyledTextArea,
   CommentsDiv,
   DateWrapper,
@@ -20,7 +21,7 @@ import {
 import CommentHeader from "./CommentHeader";
 
 const StyledAccordion = styled(CommentAccordion)`
-  background-color: blue;
+  background-color: ${colors.blue};
 `;
 
 const CommentSection = props => {
@@ -64,6 +65,17 @@ const CommentSection = props => {
   const canEditReply = activeReplyId === item.id;
   const hasReplies = displayReplies.length > 0;
 
+  const ReplyInProgress = styled.label`
+    padding: 0 0.25em;
+    color: ${colors.grey};
+  `;
+
+  const inProgress = (canEditReply, accordionOpen) => {
+    if (canEditReply && !accordionOpen) {
+      return <ReplyInProgress>Reply in progress</ReplyInProgress>;
+    }
+  };
+
   return (
     <CommentAddSection data-test="comment-add-section">
       <CommentHeader
@@ -92,9 +104,9 @@ const CommentSection = props => {
           <CommentsDiv>{item.commentText}</CommentsDiv>
           {item.editedTime && (
             <DateWrapper>
-              <DateField>
+              <DatePosted>
                 Edited: {moment(item.editedTime).calendar()}
-              </DateField>
+              </DatePosted>
             </DateWrapper>
           )}
         </>
@@ -139,7 +151,7 @@ const CommentSection = props => {
           title={`${displayReplies.length}`}
           isOpen={accordionOpen}
           setIsOpen={setAccordionOpen}
-          inProgress={canEditReply && !accordionOpen}
+          inProgress={inProgress(canEditReply, accordionOpen)}
         >
           {canEditReply && replies.length > 0 && (
             <EditReply
