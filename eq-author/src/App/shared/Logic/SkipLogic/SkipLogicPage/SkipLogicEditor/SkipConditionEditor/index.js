@@ -116,12 +116,9 @@ const SkipConditionEditor = ({
               <Transition key={expression.id}>
                 <BinaryExpressionEditor
                   expression={expression}
-                  expressionGroupId={expressionGroup.id}
+                  expressionGroup={expressionGroup}
                   label={index > 0 ? LABEL_AND : LABEL_IF}
-                  isOnlyExpression={expressionGroup.expressions.length === 1}
-                  isLastExpression={
-                    index === expressionGroup.expressions.length - 1
-                  }
+                  expressionIndex={index}
                   canAddCondition={
                     !existingRadioConditions[expression?.left?.id]
                   }

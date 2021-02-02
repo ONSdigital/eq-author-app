@@ -158,12 +158,11 @@ export const UnwrappedRuleEditor = ({
               const component = (
                 <Transition key={expression.id}>
                   <BinaryExpressionEditor
-                    operator={expressionGroup.operator}
                     expression={expression}
+                    expressionGroup={expressionGroup}
                     expressionGroupId={expressionGroup.id}
                     label={index > 0 ? expressionGroup.operator : ifLabel}
-                    isOnlyExpression={expressions.length === 1}
-                    isLastExpression={index === expressions.length - 1}
+                    expressionIndex={index}
                     canAddCondition={
                       !existingRadioConditions[expression.left?.id]
                     }
