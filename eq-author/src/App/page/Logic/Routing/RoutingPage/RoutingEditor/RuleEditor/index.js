@@ -5,7 +5,7 @@ import { TransitionGroup } from "react-transition-group";
 import { propType } from "graphql-anywhere";
 import { flow } from "lodash/fp";
 
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
@@ -30,9 +30,7 @@ const Expressions = styled.div`
 `;
 
 const Rule = styled.div`
-  &:not(:first-of-type) {
-    margin-top: 2em;
-  }
+  margin-bottom: 2em;
 `;
 
 export const Title = styled.h2`
@@ -156,7 +154,7 @@ export const UnwrappedRuleEditor = ({
           <TransitionGroup>
             {expressions.map((expression, index) => {
               const component = (
-                <Transition key={expression.id}>
+                <Transition key={expression.id} exit={false}>
                   <BinaryExpressionEditor
                     expression={expression}
                     expressionGroup={expressionGroup}

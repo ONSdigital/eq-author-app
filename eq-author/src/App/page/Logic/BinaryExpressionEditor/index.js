@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { get, flow, some } from "lodash/fp";
+import { flow, some } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import Tooltip from "components/Forms/Tooltip";
 
@@ -91,7 +91,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [UNIT]: NumberAnswerSelector,
 };
 
-const UnwrappedBinaryExpressionEditor = ({
+export const UnwrappedBinaryExpressionEditor = ({
   expression,
   expressionIndex,
   expressionGroup,
@@ -123,14 +123,18 @@ const UnwrappedBinaryExpressionEditor = ({
     condition({ expression, canAddCondition, expressionGroup })
   )?.message;
 
-  const groupErrorMessage = binaryExpressionErrors?.[expression?.expressionGroup
-                                              ?.validationErrorInfo
-                                              ?.errors
-                                              ?.filter(({ field }) => expression?.left?.id === field)
-                                              ?.[0]];
+  const groupErrorMessage = binaryExpressionErrors?.[
+    expression?.expressionGroup
+              ?.validationErrorInfo
+              ?.errors
+              ?.filter(({ field }) => expression?.left?.id === field)
+              ?.[0]
+  ];
 
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
   const shouldRenderEditor = Editor && !expression.left.reason && !answerPickerError;
+
+  const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
 
   return (
     <>
@@ -143,9 +147,9 @@ const UnwrappedBinaryExpressionEditor = ({
         <Column gutters={false} cols={8}>
           <ContentPicker
             path="getAvailableAnswers"
-            selectedContentDisplayName={get("left.displayName", expression)}
+            selectedContentDisplayName={expression?.left?.displayName}
             onSubmit={handleLeftSideChange}
-            selectedId={get("left.id", expression)}
+            selectedId={expression?.left?.id}
             data-test="routing-answer-picker"
             includeSelf={includeSelf}
             hasError={answerPickerError}
@@ -183,7 +187,7 @@ const UnwrappedBinaryExpressionEditor = ({
       }
       <Grid>
         <Column gutters={false} cols={1.5}>
-          <ConnectedPath pathEnd={expressionIndex === expressionGroup.expressions.length - 1} />
+          <ConnectedPath pathEnd={isLastExpression} />
         </Column>
         <Column gutters={false} cols={8}>
           <Transition in={shouldRenderEditor} mountOnEnter unmountOnExit timeout={400}>

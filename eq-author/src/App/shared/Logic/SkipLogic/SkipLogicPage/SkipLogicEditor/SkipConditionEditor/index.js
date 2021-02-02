@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";

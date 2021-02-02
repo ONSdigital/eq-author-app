@@ -7,7 +7,7 @@ import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import transformNestedFragments from "utils/transformNestedFragments";
@@ -55,7 +55,7 @@ export class UnwrappedRoutingEditor extends React.Component {
 
     return (
       <>
-        <TransitionGroup>
+        <TransitionGroup component={null}>
           {routing.rules.map((rule, index) => (
             <Transition key={rule.id}>
               <RuleEditor
