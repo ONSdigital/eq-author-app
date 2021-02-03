@@ -11,7 +11,7 @@ import {
 
 import { byTestAttr } from "tests/utils/selectors";
 
-import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
+import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from ".";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
@@ -20,8 +20,27 @@ import { binaryExpressionErrors } from "constants/validationMessages";
 import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
-  let defaultProps;
+  let defaultProps, expression, expressionGroup;
   beforeEach(() => {
+    expression = {
+      id: "1",
+      left: {
+        id: "2",
+        type: RADIO,
+      },
+      condition: "Equal",
+      right: null,
+      validationErrorInfo: {
+        id: "6dd",
+        errors: [],
+        totalCount: 0,
+      },
+    };
+
+    expressionGroup = {
+      expressions: [expression]
+    };
+
     defaultProps = {
       deleteBinaryExpression: jest.fn(),
       updateLeftSide: jest.fn(),
@@ -30,21 +49,8 @@ describe("BinaryExpressionEditor", () => {
       createBinaryExpression: jest.fn(),
       isOnlyExpression: false,
       isLastExpression: false,
-      expressionGroupId: "1",
-      expression: {
-        id: "1",
-        left: {
-          id: "2",
-          type: RADIO,
-        },
-        condition: "Equal",
-        right: null,
-        validationErrorInfo: {
-          id: "6dd",
-          errors: [],
-          totalCount: 0,
-        },
-      },
+      expressionGroup,
+      expression,
       canAddCondition: true,
       match: {
         params: {

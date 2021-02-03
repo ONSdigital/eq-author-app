@@ -51,8 +51,12 @@ const Header = styled.div`
 const SmallSelect = styled(Select)`
   display: inline-block;
   width: auto;
-  margin: 0 0.5em;
+  margin-bottom: 1.5em;
   line-height: 1.25;
+`;
+
+const StyledLabel = styled(Label)`
+  margin: 0.9em 0 1.5em 0.5em;
 `;
 
 const RemoveRuleButton = styled(Button).attrs({
@@ -89,103 +93,98 @@ export const UnwrappedRuleEditor = ({
 
   const existingRadioConditions = {};
 
-  const handleDeleteClick = () => {
-    deleteRule(rule.id);
-  };
+  const handleDeleteClick = () => deleteRule(rule.id);
 
-  const handleDestinationChange = destination => {
-    updateRule({
-      ...rule,
-      destination,
-    });
-  };
+  const handleDestinationChange = destination =>
+    updateRule({...rule, destination});
+
+  const handleGroupOperatorChange = ({value: operator}) =>
+        updateExpressionGroup({
+          id: expressionGroup.id,
+          operator
+        });
 
   const validationErrors = validationErrorInfo.totalCount
     ? validationErrorInfo.errors
     : [];
 
-  const matchSelectErrors = expressions.filter(expression => {
-    const { totalCount, errors } = expression.validationErrorInfo;
-
-    if (!expression.validationErrorInfo || !totalCount) {
-      return false;
-    }
-
-    const expressionGroupOperatorErrors = errors.filter(
+  const hasGroupOperatorError = expressions.filter(expression =>
+    expression?.validationErrorInfo?.errors?.find(
       ({ field }) => field === "groupOperator"
-    );
+    )).length;
 
-    return expressionGroupOperatorErrors.length > 0;
-  }).length;
+  const groupOperatorSelect = (
+    <SmallSelect
+      name="match"
+      id="match"
+      data-test="match-select"
+      defaultValue={expressionGroup.operator}
+      hasError={hasGroupOperatorError}
+      onChange={handleGroupOperatorChange}
+    >
+      <option value="Or">OR</option>
+      <option value="And">AND</option>
+    </SmallSelect>
+  );
 
   return (
-    <>
-      <Rule data-test="routing-rule" className={className}>
-        <Header>
-          <Label inline>
-            Match
-            <SmallSelect
-              name="match"
-              id="match"
-              data-test="match-select"
-              defaultValue={expressionGroup.operator}
-              hasError={matchSelectErrors}
-              onChange={({ value }) => {
-                updateExpressionGroup({
-                  id: expressionGroup.id,
-                  operator: value,
-                });
-              }}
-            >
-              <option value="Or">Any of</option>
-              <option value="And">All of</option>
-            </SmallSelect>
-            the following rules
-          </Label>
-
-          <RemoveRuleButton
-            onClick={handleDeleteClick}
-            data-test="btn-remove-rule"
-          >
-            Remove rule
-          </RemoveRuleButton>
-        </Header>
-        <Expressions>
-          <TransitionGroup>
-            {expressions.map((expression, index) => {
-              const component = (
-                <Transition key={expression.id} exit={false}>
-                  <BinaryExpressionEditor
-                    expression={expression}
-                    expressionGroup={expressionGroup}
-                    expressionGroupId={expressionGroup.id}
-                    label={index > 0 ? expressionGroup.operator : ifLabel}
-                    expressionIndex={index}
-                    canAddCondition={
-                      !existingRadioConditions[expression.left?.id]
-                    }
-                    includeSelf
-                  />
-                </Transition>
-              );
-              if (expression.left?.type === RADIO) {
-                existingRadioConditions[expression.left?.id] = true;
+    <Rule data-test="routing-rule" className={className}>
+      <Header>
+        <Label inline> Routing logic rules </Label>
+        <RemoveRuleButton
+          onClick={handleDeleteClick}
+          data-test="btn-remove-rule"
+        >
+          Remove rule
+        </RemoveRuleButton>
+      </Header>
+      <Expressions>
+        <TransitionGroup>
+          {expressions.map((expression, index) => {
+            let groupOperatorComponent = null;
+            if(expressions.length > 1) {
+              if(index === 0) {
+                groupOperatorComponent = groupOperatorSelect;
               }
-              return component;
-            })}
-          </TransitionGroup>
-        </Expressions>
+              else if (index < expressions.length - 1) {
+                groupOperatorComponent = <StyledLabel inline>
+                                           { expressionGroup.operator.toUpperCase() }
+                                         </StyledLabel>;
+              }
+            }
 
-        <DestinationSelector
-          id={rule.id}
-          label={LABEL_THEN}
-          onChange={handleDestinationChange}
-          value={destination}
-          data-test="select-then"
-          validationErrors={validationErrors}
-        />
-      </Rule>
-    </>
+            const component = (
+              <Transition key={expression.id} exit={false}>
+                <BinaryExpressionEditor
+                  expression={expression}
+                  expressionGroup={expressionGroup}
+                  expressionGroupId={expressionGroup.id}
+                  label={index > 0 ? "IF" : ifLabel}
+                  expressionIndex={index}
+                  canAddCondition={
+                    !existingRadioConditions[expression.left?.id]
+                  }
+                  groupOperatorComponent={groupOperatorComponent}
+                  includeSelf
+                />
+              </Transition>
+            );
+            if (expression.left?.type === RADIO) {
+              existingRadioConditions[expression.left?.id] = true;
+            }
+            return component;
+          })}
+        </TransitionGroup>
+      </Expressions>
+      <DestinationSelector
+        id={rule.id}
+        label={LABEL_THEN}
+        onChange={handleDestinationChange}
+        value={destination}
+        data-test="select-then"
+        validationErrors={validationErrors}
+      />
+    </Rule>
   );
 };
 

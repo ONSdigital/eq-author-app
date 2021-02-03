@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BinaryExpressionEditor should render consistently 1`] = `
-<div>
+<Fragment>
   <Grid
     align="center"
     fillHeight={true}
@@ -10,41 +10,43 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={1.5}
       gutters={false}
     >
-      <BinaryExpressionEditor__Label
+      <components__StyledLabel
         data-test="routing-binary-expression-if-label"
-        htmlFor="RoutingCondition1"
+        inline={true}
       >
         If
-      </BinaryExpressionEditor__Label>
+      </components__StyledLabel>
     </Column>
     <Column
       cols={8}
       gutters={false}
     >
-      <BinaryExpressionEditor__Flex>
-        <BinaryExpressionEditor__ContentPicker
-          data-test="routing-answer-picker"
-          onSubmit={[Function]}
-          path="getAvailableAnswers"
-          selectedId="2"
-        />
-      </BinaryExpressionEditor__Flex>
+      <withRouter(RoutingAnswerContentPicker)
+        data-test="routing-answer-picker"
+        onSubmit={[Function]}
+        path="getAvailableAnswers"
+        selectedId="2"
+      />
     </Column>
     <Column
       cols={2.5}
       gutters={false}
     >
-      <BinaryExpressionEditor__ActionButtons
+      <components__ActionButtons
         data-test="action-btns"
+        horizontal={true}
       >
         <Tooltip
           content="Remove condition"
           place="top"
         >
-          <BinaryExpressionEditor__RemoveButton
+          <components__RemoveButton
             data-test="btn-remove"
-            disabled={false}
+            disabled={true}
             onClick={[Function]}
+            small={true}
+            type="button"
+            variant="primary"
           >
             <IconText
               hideText={true}
@@ -52,15 +54,18 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
             >
               Remove condition
             </IconText>
-          </BinaryExpressionEditor__RemoveButton>
+          </components__RemoveButton>
         </Tooltip>
         <Tooltip
           content="Add condition"
           place="top"
         >
-          <BinaryExpressionEditor__AddButton
+          <components__AddButton
             data-test="btn-add"
             onClick={[Function]}
+            small={true}
+            type="button"
+            variant="primary"
           >
             <IconText
               hideText={true}
@@ -68,71 +73,56 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
             >
               Add condition
             </IconText>
-          </BinaryExpressionEditor__AddButton>
+          </components__AddButton>
         </Tooltip>
-      </BinaryExpressionEditor__ActionButtons>
+      </components__ActionButtons>
     </Column>
   </Grid>
-  <BinaryExpressionEditor__DefaultRouteDiv
-    hasPadding={false}
+  <Grid
+    align="top"
+    fillHeight={true}
   >
-    <Grid
-      align="top"
-      fillHeight={true}
+    <Column
+      cols={1.5}
+      gutters={false}
     >
-      <Column
-        cols={1.5}
-        gutters={false}
+      <components__ConnectedPath />
+    </Column>
+    <Column
+      cols={8}
+      gutters={false}
+    >
+      <Transition
+        in={true}
+        mountOnEnter={true}
+        timeout={400}
+        unmountOnExit={true}
       >
-        <BinaryExpressionEditor__ConnectedPath
-          pathEnd={false}
+        <MultipleChoiceAnswerOptionsSelector
+          expression={
+            Object {
+              "condition": "Equal",
+              "id": "1",
+              "left": Object {
+                "id": "2",
+                "type": "Radio",
+              },
+              "right": null,
+              "validationErrorInfo": Object {
+                "errors": Array [],
+                "id": "6dd",
+                "totalCount": 0,
+              },
+            }
+          }
+          onConditionChange={[Function]}
+          onRightChange={[Function]}
         />
-      </Column>
-      <Column
-        cols={8}
-        gutters={false}
-      >
-        <BinaryExpressionEditor__StyledTransition
-          data-test="transition-condition"
-          isHidden={false}
-        >
-          <TransitionGroup
-            childFactory={[Function]}
-            component="div"
-          >
-            <Transition__RoutingComponentTransition
-              key="answer"
-              timeout={200}
-            >
-              <MultipleChoiceAnswerOptionsSelector
-                expression={
-                  Object {
-                    "condition": "Equal",
-                    "id": "1",
-                    "left": Object {
-                      "id": "2",
-                      "type": "Radio",
-                    },
-                    "right": null,
-                    "validationErrorInfo": Object {
-                      "errors": Array [],
-                      "id": "6dd",
-                      "totalCount": 0,
-                    },
-                  }
-                }
-                groupErrorMessage={null}
-                onConditionChange={[Function]}
-                onRightChange={[Function]}
-              />
-            </Transition__RoutingComponentTransition>
-          </TransitionGroup>
-        </BinaryExpressionEditor__StyledTransition>
-      </Column>
-      <Column
-        cols={2.5}
-      />
-    </Grid>
-  </BinaryExpressionEditor__DefaultRouteDiv>
-</div>
+      </Transition>
+    </Column>
+    <Column
+      cols={2.5}
+    />
+  </Grid>
+</Fragment>
 `;

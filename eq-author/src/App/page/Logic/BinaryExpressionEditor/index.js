@@ -103,6 +103,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   deleteBinaryExpression,
   canAddCondition,
   includeSelf,
+  groupOperatorComponent,
 }) => {
   const handleLeftSideChange = contentPickerResult =>
         updateLeftSide(expression, contentPickerResult.value.id);
@@ -187,7 +188,7 @@ export const UnwrappedBinaryExpressionEditor = ({
       }
       <Grid>
         <Column gutters={false} cols={1.5}>
-          <ConnectedPath pathEnd={isLastExpression} />
+          <ConnectedPath pathEnd={isLastExpression || groupOperatorComponent} />
         </Column>
         <Column gutters={false} cols={8}>
           <Transition in={shouldRenderEditor} mountOnEnter unmountOnExit timeout={400}>
@@ -197,6 +198,7 @@ export const UnwrappedBinaryExpressionEditor = ({
               onConditionChange={handleUpdateCondition}
               groupErrorMessage={groupErrorMessage}
             />
+            { groupOperatorComponent }
           </Transition>
         </Column>
         <Column cols={2.5} />

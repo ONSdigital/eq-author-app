@@ -17,9 +17,9 @@ import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
 
-export const LABEL_IF = "If";
+export const LABEL_IF = "IF";
 export const LABEL_ELSE = "Else";
-export const LABEL_ELSE_IF = "Else if";
+export const LABEL_ELSE_IF = "Else IF";
 
 const AddRuleButton = styled(Button)`
   display: block;
