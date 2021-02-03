@@ -32,7 +32,7 @@ class Section {
     // Map folders to eq-runner "groups"
     // No need to make a group for each; we merge disabled (hidden) folders together where possible
     this.groups = mergeDisabledFolders(section.folders).map(
-      folder => new Group(getText(folder.title), folder, ctx)
+      folder => new Group(getText(section.title), folder, ctx)
     );
 
     if (section.introductionTitle || section.introductionContent) {
