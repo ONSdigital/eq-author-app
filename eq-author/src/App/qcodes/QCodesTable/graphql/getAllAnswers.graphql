@@ -17,9 +17,7 @@ query GetAnswers($input: QueryInput!) {
               displayName
               title
               qCode
-              validationErrorInfo {
-                ...ValidationErrorInfo
-              }
+              §
             }
             answers {
               id
@@ -72,7 +70,6 @@ query GetAnswers($input: QueryInput!) {
               qCode
             }
             section {
-              id
               id
               title
             }

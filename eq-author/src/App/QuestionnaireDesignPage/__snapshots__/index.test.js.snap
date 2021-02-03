@@ -205,6 +205,98 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                               "kind": "Field",
                                               "name": Object {
                                                 "kind": "Name",
+                                                "value": "id",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "title",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "alias",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "confirmation",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "id",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "displayName",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "title",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "qCode",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
                                                 "value": "answers",
                                               },
                                               "selectionSet": Object {
@@ -222,6 +314,50 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "selectionSet": undefined,
                                                   },
                                                   Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "label",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "type",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "qCode",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "properties",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
                                                     "directives": Array [],
                                                     "kind": "InlineFragment",
                                                     "selectionSet": Object {
@@ -234,7 +370,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                           "kind": "Field",
                                                           "name": Object {
                                                             "kind": "Name",
-                                                            "value": "qCode",
+                                                            "value": "secondaryQCode",
                                                           },
                                                           "selectionSet": undefined,
                                                         },
@@ -248,6 +384,118 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                       },
                                                     },
                                                   },
+                                                  Object {
+                                                    "directives": Array [],
+                                                    "kind": "InlineFragment",
+                                                    "selectionSet": Object {
+                                                      "kind": "SelectionSet",
+                                                      "selections": Array [
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "options",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "id",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "label",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "qCode",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                            ],
+                                                          },
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "mutuallyExclusiveOption",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "id",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "label",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "qCode",
+                                                                },
+                                                                "selectionSet": undefined,
+                                                              },
+                                                            ],
+                                                          },
+                                                        },
+                                                      ],
+                                                    },
+                                                    "typeCondition": Object {
+                                                      "kind": "NamedType",
+                                                      "name": Object {
+                                                        "kind": "Name",
+                                                        "value": "MultipleChoiceAnswer",
+                                                      },
+                                                    },
+                                                  },
                                                 ],
                                               },
                                             },
@@ -258,6 +506,206 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                           "name": Object {
                                             "kind": "Name",
                                             "value": "QuestionPage",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "directives": Array [],
+                                        "kind": "InlineFragment",
+                                        "selectionSet": Object {
+                                          "kind": "SelectionSet",
+                                          "selections": Array [
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "id",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "title",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "alias",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "totalTitle",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "displayName",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "pageType",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "qCode",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "summaryAnswers",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "id",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "displayName",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "label",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "qCode",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "section",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "id",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "id",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "title",
+                                                    },
+                                                    "selectionSet": undefined,
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          ],
+                                        },
+                                        "typeCondition": Object {
+                                          "kind": "NamedType",
+                                          "name": Object {
+                                            "kind": "Name",
+                                            "value": "CalculatedSummaryPage",
                                           },
                                         },
                                       },
@@ -1336,7 +1784,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2389,
+        "end": 3435,
         "start": 0,
       },
     }

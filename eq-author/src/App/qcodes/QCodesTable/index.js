@@ -277,22 +277,23 @@ Row.propTypes = {
 
 //Pass this data down from MainNavigation ???
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
-  // if (loading) {
-  //   return <Loading height="38rem">Page loading…</Loading>;
-  // }
+  if (loading) {
+    return <Loading height="38rem">Page loading…</Loading>;
+  }
 
-  // if (error) {
-  //   return <Error>Oops! Something went wrong</Error>;
-  // }
+  if (error) {
+    return <Error>Oops! Something went wrong</Error>;
+  }
 
   const { sections } = data.questionnaire;
   const { answers } = organiseAnswers(sections);
   console.log('QCode answers', answers);
+
   const flatten = flattenAnswers(answers);
-  console.log("flatten from within QCODE: ", flatten);
+  console.log("flatten from within QCODE QUERY: OLD------", flatten);
 
   const flattenedAnswers = useContext(QCodeContext);
-  console.log("From context: QCode flattened", flattenedAnswers);
+  console.log("QCode table flattened - From context:", flattenedAnswers);
 
   return (
     <Table data-test="qcodes-table">
@@ -305,6 +306,7 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
+      {/* OLD render from getAllAnswers.graphql */}
       {/* <StyledTableBody>{RowBuilder(flatten)}</StyledTableBody> */}
       <StyledTableBody>{RowBuilder(flattenedAnswers)}</StyledTableBody>
 
@@ -320,17 +322,17 @@ UnwrappedQCodeTable.propTypes = {
   }),
 };
 
-// export default withApollo(props => (
-//   <Query
-//     query={GET_ALL_ANSWERS}
-//     variables={{
-//       input: {
-//         questionnaireId: props.questionnaireId,
-//       },
-//     }}
-//   >
-//     {innerprops => <UnwrappedQCodeTable {...innerprops} {...props} />}
-//   </Query>
-// ));
+export default withApollo(props => (
+  <Query
+    query={GET_ALL_ANSWERS}
+    variables={{
+      input: {
+        questionnaireId: props.questionnaireId,
+      },
+    }}
+  >
+    {innerprops => <UnwrappedQCodeTable {...innerprops} {...props} />}
+  </Query>
+));
 
-export default UnwrappedQCodeTable;
+// export default UnwrappedQCodeTable;

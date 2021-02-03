@@ -75,6 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+  // console.log('questionnaire.totalErrorCount', questionnaire.totalErrorCount);
   const flattenedAnswers = useContext(QCodeContext);
 
   const { me } = useMe();
@@ -92,9 +93,10 @@ export const UnwrappedMainNavigation = props => {
 
   ///////////////////////////////////////////////////////// WIP ///////////////////////////////////////////
 
-  const questionnaireId = (questionnaire || {}).id;
+  // const questionnaireId = (questionnaire || {}).id;
 
-  console.log("From context: Main NAV", flattenedAnswers);
+  console.log("Main NAV - From context: ", flattenedAnswers);
+
   const emptyQCode =
     flattenedAnswers &&
     find(flattenedAnswers, obj => obj.qCode === "" || obj.qCode === null);
@@ -108,7 +110,7 @@ export const UnwrappedMainNavigation = props => {
     commitTime, // when React committed this update
     interactions // the Set of interactions belonging to this update
   ) {
-    console.log(id, phase, actualDuration, baseDuration, interactions);
+    // console.log(id, phase, actualDuration, baseDuration, interactions);
   }
 
   ///////////////////////////////////////////////////////// WIP - end ///////////////////////////////////////////

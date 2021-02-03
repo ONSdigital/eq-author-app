@@ -232,9 +232,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     // rather than "questionnaire" - since afaik that would still run every time
     // (questionnaire object reference will change on each query result)
     if (questionnaire) {
+      console.log('questionnaire----------', questionnaire);
       const sections = questionnaire.sections;
       const { answers } = organiseAnswers(sections);
-      console.log('Context answers', answers)
+      console.log('answers from context', answers);
+
       flattenedAnswers = flattenAnswers(answers);
       console.log("flattened answers - DesignPage", flattenedAnswers);
     }
@@ -310,70 +312,94 @@ const QUESTIONNAIRE_QUERY = gql`
       }
       publishStatus
       totalErrorCount
-      qCodeErrorCount
       ...NavigationSidebar
       sections {
         id
         folders {
           id
           pages {
-            id
             ... on QuestionPage {
+              id
+              title
               alias
               confirmation {
-              id
-              displayName
-              title
-              qCode
+                id
+                displayName
+                title
+                qCode
               }
               answers {
                 id
                 label
+                secondaryLabel
                 type
+                # qCode
+                properties
                 ... on BasicAnswer {
                   qCode
                   secondaryQCode
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
                 }
                 ... on MultipleChoiceAnswer {
-                options {
-                  id
-                  label
-                  qCode
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                  options {
+                    id
+                    label
+                    qCode
+                    validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                  }
+                  mutuallyExclusiveOption {
+                    id
+                    label
+                    qCode
+                    validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                  }
                 }
-                mutuallyExclusiveOption {
-                  id
-                  label
-                  qCode
-                }
-              }
               }
             }
             ... on CalculatedSummaryPage {
-            id
-            title
-            alias
-            totalTitle
-            displayName
-            pageType
-            qCode
-            summaryAnswers {
-              id
-              displayName
-              label
-              qCode
-            }
-            section {
-              id
               id
               title
+              alias
+              totalTitle
+              displayName
+              pageType
+              qCode
+              summaryAnswers {
+                id
+                displayName
+                label
+                qCode
+              }
+              section {
+                id
+                title
+              }
             }
-          }
           }
         }
       }
     }
   }
   ${NavigationSidebar.fragments.NavigationSidebar}
+  fragment ValidationErrorInfo on ValidationErrorInfo {
+  id
+  errors {
+    id
+    type
+    field
+    errorCode
+  }
+  totalCount
+}
 `;
 
 export const withQuestionnaire = Component => {
@@ -429,7 +455,6 @@ export const VALIDATION_QUERY = gql`
     validationUpdated(id: $id) {
       id
       totalErrorCount
-      qCodeErrorCount
       sections {
         id
         validationErrorInfo {
