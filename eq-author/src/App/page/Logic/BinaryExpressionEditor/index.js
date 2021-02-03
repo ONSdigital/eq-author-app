@@ -124,17 +124,17 @@ export const UnwrappedBinaryExpressionEditor = ({
     condition({ expression, canAddCondition, expressionGroup })
   )?.message;
 
-  const groupErrorMessage = binaryExpressionErrors?.[
+  const groupErrorMessage = binaryExpressionErrors[
     expression?.expressionGroup
               ?.validationErrorInfo
               ?.errors
               ?.filter(({ field }) => expression?.left?.id === field)
               ?.[0]
+              ?.errorCode
   ];
 
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
   const shouldRenderEditor = Editor && !expression.left.reason && !answerPickerError;
-
   const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
 
   return (
@@ -209,6 +209,8 @@ export const UnwrappedBinaryExpressionEditor = ({
 
 UnwrappedBinaryExpressionEditor.fragments = [fragment];
 
+const expressionPropType = propType(fragment);
+
 UnwrappedBinaryExpressionEditor.propTypes = {
   expression: propType(fragment).isRequired,
   label: PropTypes.string.isRequired,
@@ -220,6 +222,10 @@ UnwrappedBinaryExpressionEditor.propTypes = {
   updateRightSide: PropTypes.func.isRequired,
   updateBinaryExpression: PropTypes.func.isRequired,
   includeSelf: PropTypes.bool,
+  expressionGroup: PropTypes.shape({
+    expression: PropTypes.arrayOf(expressionPropType),
+  }),
+  groupOperatorComponent: PropTypes.node,
 };
 
 const withMutations = flow(
