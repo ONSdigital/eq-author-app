@@ -351,16 +351,16 @@ const QUESTIONNAIRE_QUERY = gql`
                     label
                     qCode
                     validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
+                      ...ValidationErrorInfo
+                    }
                   }
                   mutuallyExclusiveOption {
                     id
                     label
                     qCode
                     validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
+                      ...ValidationErrorInfo
+                    }
                   }
                 }
               }
