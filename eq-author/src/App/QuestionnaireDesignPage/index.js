@@ -477,6 +477,9 @@ export const VALIDATION_QUERY = gql`
               answers {
                 ... on BasicAnswer {
                   id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
                   validation {
                     ... on NumberValidation {
                       minValue {
@@ -536,6 +539,9 @@ export const VALIDATION_QUERY = gql`
                 }
                 ... on MultipleChoiceAnswer {
                   id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
                 }
               }
             }
