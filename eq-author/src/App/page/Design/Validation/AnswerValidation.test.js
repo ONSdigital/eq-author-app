@@ -225,78 +225,36 @@ describe("AnswerValidation", () => {
         });
 
         it("should display correct values when unit type is null", () => {
-          props = {
-            ...props,
-            answer: {
-              id: "1",
-              validation: {
-                [validation]: {
-                  enabled: true,
-                  inclusive: false,
-                  previousAnswer: {
-                    displayName: "foobar",
+          const wrapper = type => {
+            const properties = {};
+            if (type === UNIT) {
+              properties.unit = null;
+            }
+            return render({
+              ...props,
+              answer: {
+                id: "1",
+                type: type,
+                properties,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    custom: 5,
+                    entityType: "Custom",
                   },
                 },
               },
-            },
+            });
           };
 
-          props.answer.type = UNIT;
-
-          const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
-
-          if (validation === VALIDATIONS[0]) {
+          NUMBER_TYPES.forEach(type => {
             expect(
-              getAllByText(`Max value ${MAX_INCLUSIVE_TEXT}`)
-            ).toBeTruthy();
-          }
-
-          if (validation === VALIDATIONS[1]) {
-            expect(
-              getAllByText(`Min value ${MIN_INCLUSIVE_TEXT}`)
-            ).toBeTruthy();
-          }
+              wrapper(type)
+                .find(SidebarButton)
+                .find(Detail)
+            ).toMatchSnapshot();
+          });
         });
-
-        // it("should display correct minimum and maximum values when unit type is null", () => {
-        //   props = {
-        //     ...props,
-        //     answer: {
-        //       id: "1",
-        //       type: UNIT,
-        //       validation: {
-        //         [validation]: {
-        //           enabled: true,
-        //           inclusive: false,
-        //           custom: 3,
-        //           previousAnswer: {
-        //             displayName: `foobar`,
-        //           },
-        //         },
-        //       },
-        //       // minValue: {
-        //       //   enabled: true,
-        //       //   unit: null,
-        //       //   value: 3,
-        //       //   validationErrorInfo: { errors: [] },
-        //       // }
-        //     },
-        //   };
-
-        //     const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
-
-        //     if (validation === VALIDATIONS[0]) {
-        //       expect(
-        //         getAllByText(`3`)
-        //       ).toBeTruthy();
-        //     }
-
-        //     if (validation === VALIDATIONS[1]) {
-        //       expect(
-        //         getAllByText(`3`)
-        //       ).toBeTruthy();
-        //     }
-        //   });
       });
     });
   });
@@ -333,34 +291,6 @@ describe("AnswerValidation", () => {
     const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
     expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
-  });
-
-  it("should display correct minimum and maximum values when unit type is null", () => {
-    //   props = {
-    //     answer: {
-    //       id: "1",
-    //       type: UNIT,
-    //       validation: {
-    //         minValue: {
-    //           enabled: true,
-    //           unit: null,
-    //           value: 2,
-    //           validationErrorInfo: { errors: [] },
-    //         },
-    //         maxValue: {
-    //           enabled: true,
-    //           unit: null,
-    //           value: 5,
-    //           validationErrorInfo: { errors: [] },
-    //         },
-    //       },
-    //     },
-    //   };
-    //   // const { getByTestId } = rtlRender(<AnswerValidation {...props} />);
-    //   // expect(getByTestId('sidebar-button-min-value')).toEqual('2');
-    //   const { getByText } = rtlRender(<AnswerValidation {...props} />);
-    //   expect(getByText(EARLIEST_BEFORE_LATEST_DATE)).toBeTruthy();
-    // })
   });
 
   describe("Date validation preview", () => {
