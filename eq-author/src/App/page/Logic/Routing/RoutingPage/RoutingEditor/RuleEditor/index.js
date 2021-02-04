@@ -62,7 +62,7 @@ const SmallSelect = styled(Select)`
   line-height: 1.25;
 `;
 
-const StyledLabel = styled(Label)`
+export const GroupOperatorLabel = styled(Label)`
   margin: 0.5em 0 0 0.5em;
 `;
 
@@ -172,9 +172,9 @@ export const UnwrappedRuleEditor = ({
                 groupOperatorComponent = groupOperatorSelect;
               }
               else if (index < expressions.length - 1) {
-                groupOperatorComponent = <StyledLabel inline>
+                groupOperatorComponent = <GroupOperatorLabel inline>
                                            { expressionGroup.operator?.toUpperCase() }
-                                         </StyledLabel>;
+                                         </GroupOperatorLabel>;
               }
             }
 

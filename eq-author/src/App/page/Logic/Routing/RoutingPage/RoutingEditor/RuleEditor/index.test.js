@@ -249,4 +249,21 @@ describe("RuleEditor", () => {
       operator: null
     });
   });
+
+  it("should render static label rather than select element for third expression's group operator", () => {
+    defaultProps.rule.expressionGroup.expressions = [
+      {...expression, id: "eeny" },
+      {...expression, id: "meeny" },
+    ];
+    let wrapper = shallow(<RuleEditor {...defaultProps} />);
+    let expressionEditor = wrapper.find(BinaryExpressionEditor).first();
+    expect(expressionEditor.props().groupOperatorComponent.props.children).not.toBe("AND");
+
+    defaultProps.rule.expressionGroup.expressions.push({
+      ...expression, id: "miny"
+    });
+    wrapper = shallow(<RuleEditor {...defaultProps} />);
+    expressionEditor = wrapper.find(BinaryExpressionEditor).at(1);
+    expect(expressionEditor.props().groupOperatorComponent.props.children).toBe("AND");
+  });
 });
