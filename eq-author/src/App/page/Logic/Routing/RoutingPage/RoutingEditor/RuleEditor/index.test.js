@@ -224,4 +224,29 @@ describe("RuleEditor", () => {
 
     expect(dropdown).toHaveStyle(`border: 2px solid ${colors.red}`);
   });
+
+  it("should delete expression group's operator iff penultimate expression deleted", () => {
+    defaultProps.rule.expressionGroup.expressions = [expression];
+    const wrapper = shallow(<RuleEditor {...defaultProps} />);
+    const expressionEditor = wrapper.find(BinaryExpressionEditor);
+
+    expressionEditor.simulate("expressionDeleted", {
+      id: "expression-group",
+      expressions: [
+        { id: "first-expression-standing" }, { id: "last-expression-standing" }
+      ],
+    });
+
+    expect(defaultProps.updateExpressionGroup).not.toHaveBeenCalled();
+
+    expressionEditor.simulate("expressionDeleted", {
+      id: "expression-group",
+      expressions: [ { id: "last-expression-standing" } ],
+    });
+
+    expect(defaultProps.updateExpressionGroup).toHaveBeenCalledWith({
+      id: "expression-group",
+      operator: null
+    });
+  });
 });
