@@ -8,10 +8,6 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 
-export const Expression = styled.div`
-  margin-bottom: 2em;
-`;
-
 export const StyledLabel = styled(Label)`
   width: 100%;
   text-align: center;

@@ -43,7 +43,7 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
-import { ActionButtons, RemoveButton, AddButton, StyledLabel, ConnectedPath, Expression } from "./components";
+import { ActionButtons, RemoveButton, AddButton, StyledLabel, ConnectedPath } from "./components";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {
@@ -137,8 +137,10 @@ export const UnwrappedBinaryExpressionEditor = ({
   const shouldRenderEditor = Editor && !expression.left.reason && !answerPickerError;
   const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
 
+  console.log(expressionGroup);
+
   return (
-    <Expression>
+    <>
       <Grid align="center">
         <Column gutters={false} cols={1.5}>
           <StyledLabel data-test="routing-binary-expression-if-label" inline>
@@ -175,7 +177,8 @@ export const UnwrappedBinaryExpressionEditor = ({
                 small
                 onClick={handleAddClick}
                 data-test="btn-add"
-                disabled={!shouldRenderEditor}
+                disabled={!shouldRenderEditor ||
+                          (expressionGroup?.expressions?.length > 1 && !expressionGroup?.operator)}
               >
                 <IconText icon={IconPlus} hideText>
                   Add condition
@@ -217,7 +220,7 @@ export const UnwrappedBinaryExpressionEditor = ({
         </Column>
         <Column cols={2.5} />
       </Grid>
-    </Expression>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import { TransitionGroup } from "react-transition-group";
 import { propType } from "graphql-anywhere";
 import { flow } from "lodash/fp";
 
-import Transition from "components/transitions/BounceTransition";
+import BounceTransition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
@@ -33,6 +33,10 @@ const Expressions = styled.div`
 `;
 
 const Rule = styled.div`
+  margin-bottom: 2em;
+`;
+
+const Transition = styled(BounceTransition)`
   margin-bottom: 2em;
 `;
 
