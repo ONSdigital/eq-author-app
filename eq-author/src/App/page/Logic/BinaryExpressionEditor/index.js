@@ -104,12 +104,13 @@ export const UnwrappedBinaryExpressionEditor = ({
   canAddCondition,
   includeSelf,
   groupOperatorComponent,
+  onExpressionDeleted = () => null,
 }) => {
   const handleLeftSideChange = contentPickerResult =>
         updateLeftSide(expression, contentPickerResult.value.id);
 
   const handleDeleteClick = () =>
-        deleteBinaryExpression(expression.id);
+    deleteBinaryExpression(expression.id, onExpressionDeleted);
 
   const handleAddClick = () =>
         createBinaryExpression(expressionGroup.id);
@@ -136,8 +137,6 @@ export const UnwrappedBinaryExpressionEditor = ({
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
   const shouldRenderEditor = Editor && !expression.left.reason && !answerPickerError;
   const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
-
-  console.log(expressionGroup);
 
   return (
     <>
@@ -243,6 +242,7 @@ UnwrappedBinaryExpressionEditor.propTypes = {
     expression: PropTypes.arrayOf(expressionPropType),
   }),
   groupOperatorComponent: PropTypes.node,
+  onExpressionDeleted: PropTypes.func,
 };
 
 const withMutations = flow(

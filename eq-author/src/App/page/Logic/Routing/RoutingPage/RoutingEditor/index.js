@@ -19,7 +19,7 @@ import RuleEditor from "./RuleEditor";
 
 export const LABEL_IF = "IF";
 export const LABEL_ELSE = "Else";
-export const LABEL_ELSE_IF = "Else IF";
+export const LABEL_ELSE_IF = "ELSE IF";
 
 const AddRuleButton = styled(Button)`
   display: block;

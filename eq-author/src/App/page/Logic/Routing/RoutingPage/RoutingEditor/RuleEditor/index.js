@@ -63,7 +63,7 @@ const SmallSelect = styled(Select)`
 `;
 
 const StyledLabel = styled(Label)`
-  margin: 0.9em 0 1.5em 0.5em;
+  margin: 0.5em 0 0 0.5em;
 `;
 
 const RemoveRuleButton = styled(Button).attrs({
@@ -110,6 +110,19 @@ export const UnwrappedRuleEditor = ({
           id: expressionGroup.id,
           operator
         });
+
+  const handleExpressionDeletion = ({ expressionGroup }) => {
+    // Reset expressionGroup.operator to null when penultimate expression deleted
+    // Necessary in order to reset state & validation of "Select AND/OR" element
+    // expressionGroup is the old state (pre-deletion)
+
+    if(expressionGroup.expressions.length === 2) {
+      updateExpressionGroup({
+        id: expressionGroup.id,
+        operator: null,
+      });
+    }
+  };
 
   const validationErrors = validationErrorInfo.totalCount
     ? validationErrorInfo.errors
@@ -182,6 +195,7 @@ export const UnwrappedRuleEditor = ({
                   }
                   groupOperatorComponent={groupOperatorComponent}
                   includeSelf
+                  onExpressionDeleted={handleExpressionDeletion}
                 />
               </Transition>
             );
