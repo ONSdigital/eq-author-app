@@ -306,107 +306,117 @@ const withMutations = flowRight(
 const QUESTIONNAIRE_QUERY = gql`
   query GetQuestionnaire($input: QueryInput!) {
     questionnaire(input: $input) {
-      updatedAt
       introduction {
         id
       }
       publishStatus
       totalErrorCount
       ...NavigationSidebar
-      sections {
-        id
-        folders {
-          id
-          pages {
-            id
-            ... on QuestionPage {
-              id
-              title
-              alias
-              confirmation {
-                id
-                title
-                displayName
-                qCode
-                validationErrorInfo {
-                  ...ValidationErrorInfo
-                }
-              }
-              answers {
-                id
-                label
-                secondaryLabel
-                type
-                properties
-                ... on BasicAnswer {
-                  qCode
-                  secondaryQCode
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
-                }
-                ... on MultipleChoiceAnswer {
-                  options {
-                    id
-                    label
-                    qCode
-                    validationErrorInfo {
-                      ...ValidationErrorInfo
-                    }
-                  }
-                  mutuallyExclusiveOption {
-                    id
-                    label
-                    qCode
-                    validationErrorInfo {
-                      ...ValidationErrorInfo
-                    }
-                  }
-                }
-              }
-            }
-            ... on CalculatedSummaryPage {
-              id
-              title
-              alias
-              totalTitle
-              displayName
-              pageType
-              qCode
-              summaryAnswers {
-                id
-                displayName
-                label
-                qCode
-              }
-              section {
-                id
-                title
-              }
-              validationErrorInfo {
-                ...ValidationErrorInfo
-              }
-            }
-          }
-        }
-        validationErrorInfo {
-          ...ValidationErrorInfo
-        }
-      }
     }
   }
   ${NavigationSidebar.fragments.NavigationSidebar}
-  fragment ValidationErrorInfo on ValidationErrorInfo {
-    id
-    errors {
-      id
-      type
-      field
-      errorCode
-    }
-    totalCount
-  }
 `;
+
+// const QUESTIONNAIRE_QUERY = gql`
+//   query GetQuestionnaire($input: QueryInput!) {
+//     questionnaire(input: $input) {
+//       updatedAt
+//       introduction {
+//         id
+//       }
+//       publishStatus
+//       totalErrorCount
+//       ...NavigationSidebar
+//       sections {
+//         id
+//         folders {
+//           id
+//           pages {
+//             ... on QuestionPage {
+//               id
+//               title
+//               alias
+//               confirmation {
+//                 id
+//                 title
+//                 displayName
+//                 qCode
+//                 validationErrorInfo {
+//                   ...ValidationErrorInfo
+//                 }
+//               }
+//               answers {
+//                 id
+//                 label
+//                 secondaryLabel
+//                 type
+//                 properties
+//                 ... on BasicAnswer {
+//                   qCode
+//                   secondaryQCode
+//                   validationErrorInfo {
+//                     ...ValidationErrorInfo
+//                   }
+//                 }
+//                 ... on MultipleChoiceAnswer {
+//                   options {
+//                     id
+//                     label
+//                     qCode
+//                     validationErrorInfo {
+//                       ...ValidationErrorInfo
+//                     }
+//                   }
+//                   mutuallyExclusiveOption {
+//                     id
+//                     label
+//                     qCode
+//                     validationErrorInfo {
+//                       ...ValidationErrorInfo
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//             ... on CalculatedSummaryPage {
+//               id
+//               title
+//               alias
+//               totalTitle
+//               displayName
+//               pageType
+//               qCode
+//               summaryAnswers {
+//                 id
+//                 displayName
+//                 label
+//                 qCode
+//               }
+//               section {
+//                 id
+//                 title
+//               }
+//               validationErrorInfo {
+//                 ...ValidationErrorInfo
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   ${NavigationSidebar.fragments.NavigationSidebar}
+//   fragment ValidationErrorInfo on ValidationErrorInfo {
+//     id
+//     errors {
+//       id
+//       type
+//       field
+//       errorCode
+//     }
+//     totalCount
+//   }
+// `;
 
 export const withQuestionnaire = Component => {
   const WrappedComponent = props => (

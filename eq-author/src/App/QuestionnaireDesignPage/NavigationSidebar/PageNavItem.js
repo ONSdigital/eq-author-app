@@ -85,6 +85,35 @@ UnwrappedPageNavItem.fragments = {
         confirmation {
           id
         }
+        answers {
+          id
+          label
+          secondaryLabel
+          type
+          properties
+          ... on BasicAnswer {
+            qCode
+            secondaryQCode
+          }
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+              label
+              qCode
+                    # validationErrorInfo {
+                    #   ...ValidationErrorInfo
+                    # }
+            }
+            mutuallyExclusiveOption {
+              id
+              label
+              qCode
+                    # validationErrorInfo {
+                    #   ...ValidationErrorInfo
+                    # }
+            }
+          }
+        }
       }
     }
   `,
