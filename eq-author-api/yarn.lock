@@ -1443,9 +1443,9 @@ apollo-link@^1.2.12, apollo-link@^1.2.14:
     zen-observable-ts "^0.8.21"
 
 apollo-opentracing@latest:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-2.0.0.tgz#6bd03426761b85b7958b55f47abbbdeab5893b8a"
-  integrity sha512-uAP664K2Qau5FCo30ozpi08BdnbgwMvoE7guD5r5cLd9Yj6Ym2SMBL2/3E/ieTAXMJoGbL3sKr1NYe4Nyi1slA==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-2.1.0.tgz#a54ffb28ec12a850af6df5a3871ba8866a335c76"
+  integrity sha512-vcTraZf/5V1IeRXUvulyYHY0TdUsDWvQ4u9hRo0tDM7RGhSmGF9M/yRWvLwxNz1pmPVaZ7CWgdICmhsJbjRAaA==
   dependencies:
     apollo-server-plugin-base "^0.10.1"
     apollo-server-types "^0.6.0"
@@ -1532,14 +1532,7 @@ apollo-server-express@latest:
     subscriptions-transport-ws "^0.9.16"
     type-is "^1.6.16"
 
-apollo-server-plugin-base@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.10.1.tgz#b053d43b1ff5f728735ed35095cf4427657bfa9f"
-  integrity sha512-XChCBDNyfByWqVXptsjPwrwrCj5cxMmNbchZZi8KXjtJ0hN2C/9BMNlInJd6bVGXvUbkRJYUakfKCfO5dZmwIg==
-  dependencies:
-    apollo-server-types "^0.6.0"
-
-apollo-server-plugin-base@^0.10.4:
+apollo-server-plugin-base@^0.10.1, apollo-server-plugin-base@^0.10.4:
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.10.4.tgz#fbf73f64f95537ca9f9639dd7c535eb5eeb95dcd"
   integrity sha512-HRhbyHgHFTLP0ImubQObYhSgpmVH4Rk1BinnceZmwudIVLKrqayIVOELdyext/QnSmmzg5W7vF3NLGBcVGMqDg==
