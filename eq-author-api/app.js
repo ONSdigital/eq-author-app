@@ -6,7 +6,7 @@ const { createApp } = require("./server");
 
 const { PORT = 4000 } = process.env;
 const server = createApp();
-
+console.log("asda");
 server.listen(PORT, "0.0.0.0", () => {
   logger.info(`🚢  Listening on port ${PORT}`);
 });
