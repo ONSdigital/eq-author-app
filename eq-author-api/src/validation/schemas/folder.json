@@ -1,0 +1,15 @@
+{
+  "$id": "http://example.com/schemas/folder.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "$ref": "page.json"
+      }
+    }
+  }
+}
