@@ -64,8 +64,8 @@ jobs:
       - name: Build new docker image
         run: pushd eq-author; docker build -t onsdigital/eq-author:$TAG .; popd
         env:
-          TAG: ${{github.HEAD_REF}}
+          TAG: ${{github.sha}}
       - name: Push new docker image
         run: pushd eq-author; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-author:$TAG; popd
         env:
-          TAG: ${{github.HEAD_REF}}
+          TAG: ${{github.sha}}
