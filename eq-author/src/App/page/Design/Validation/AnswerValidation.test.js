@@ -77,7 +77,7 @@ describe("AnswerValidation", () => {
 
     setTimeout(() => {
       const modal = wrapper.find(ModalWithNav);
-      expect(modal.prop("isOpen")).toBe(true)
+      expect(modal.prop("isOpen")).toBe(true);
     }, 1000);
   });
 
@@ -223,42 +223,144 @@ describe("AnswerValidation", () => {
             }
           });
         });
+
+        it("should display correct values when unit type is null", () => {
+          props = {
+            ...props,
+            answer: {
+              id: "1",
+              validation: {
+                [validation]: {
+                  enabled: true,
+                  inclusive: false,
+                  previousAnswer: {
+                    displayName: "foobar",
+                  },
+                },
+              },
+            },
+          };
+
+          props.answer.type = UNIT;
+
+          const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+
+          if (validation === VALIDATIONS[0]) {
+            expect(
+              getAllByText(`Max value ${MAX_INCLUSIVE_TEXT}`)
+            ).toBeTruthy();
+          }
+
+          if (validation === VALIDATIONS[1]) {
+            expect(
+              getAllByText(`Min value ${MIN_INCLUSIVE_TEXT}`)
+            ).toBeTruthy();
+          }
+        });
+
+        // it("should display correct minimum and maximum values when unit type is null", () => {
+        //   props = {
+        //     ...props,
+        //     answer: {
+        //       id: "1",
+        //       type: UNIT,
+        //       validation: {
+        //         [validation]: {
+        //           enabled: true,
+        //           inclusive: false,
+        //           custom: 3,
+        //           previousAnswer: {
+        //             displayName: `foobar`,
+        //           },
+        //         },
+        //       },
+        //       // minValue: {
+        //       //   enabled: true,
+        //       //   unit: null,
+        //       //   value: 3,
+        //       //   validationErrorInfo: { errors: [] },
+        //       // }
+        //     },
+        //   };
+
+        //     const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+
+        //     if (validation === VALIDATIONS[0]) {
+        //       expect(
+        //         getAllByText(`3`)
+        //       ).toBeTruthy();
+        //     }
+
+        //     if (validation === VALIDATIONS[1]) {
+        //       expect(
+        //         getAllByText(`3`)
+        //       ).toBeTruthy();
+        //     }
+        //   });
       });
     });
+  });
 
-    it("should render an error message when numeric input is null", () => {
-      const error = [
-        {
-          errorCode: "ERR_NO_VALUE",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when numeric input is null", () => {
+    const error = [
+      {
+        errorCode: "ERR_NO_VALUE",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
-    });
+    expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
+  });
 
-    it("should render an error message when min val > max Val", () => {
-      const error = [
-        {
-          errorCode: "ERR_MIN_LARGER_THAN_MAX",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when min val > max Val", () => {
+    const error = [
+      {
+        errorCode: "ERR_MIN_LARGER_THAN_MAX",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
-    });
+    expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
+  });
+
+  it("should display correct minimum and maximum values when unit type is null", () => {
+    //   props = {
+    //     answer: {
+    //       id: "1",
+    //       type: UNIT,
+    //       validation: {
+    //         minValue: {
+    //           enabled: true,
+    //           unit: null,
+    //           value: 2,
+    //           validationErrorInfo: { errors: [] },
+    //         },
+    //         maxValue: {
+    //           enabled: true,
+    //           unit: null,
+    //           value: 5,
+    //           validationErrorInfo: { errors: [] },
+    //         },
+    //       },
+    //     },
+    //   };
+    //   // const { getByTestId } = rtlRender(<AnswerValidation {...props} />);
+    //   // expect(getByTestId('sidebar-button-min-value')).toEqual('2');
+    //   const { getByText } = rtlRender(<AnswerValidation {...props} />);
+    //   expect(getByText(EARLIEST_BEFORE_LATEST_DATE)).toBeTruthy();
+    // })
   });
 
   describe("Date validation preview", () => {
