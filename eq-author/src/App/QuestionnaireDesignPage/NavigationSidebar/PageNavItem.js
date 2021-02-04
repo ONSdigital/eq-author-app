@@ -82,8 +82,10 @@ UnwrappedPageNavItem.fragments = {
         totalCount
       }
       ... on QuestionPage {
+        alias
         confirmation {
           id
+          qCode
         }
         answers {
           id

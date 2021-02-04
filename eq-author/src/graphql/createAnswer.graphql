@@ -61,12 +61,15 @@ mutation createAnswer($input: CreateAnswerInput!) {
     ... on MultipleChoiceAnswer {
       options {
         ...Option
+        qCode
         validationErrorInfo {
           ...ValidationErrorInfo
         }
       }
       mutuallyExclusiveOption {
         id
+        label
+        qCode
       }
       validationErrorInfo {
         ...ValidationErrorInfo
