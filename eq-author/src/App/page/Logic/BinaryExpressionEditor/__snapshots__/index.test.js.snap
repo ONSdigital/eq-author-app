@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BinaryExpressionEditor should render consistently 1`] = `
-<components__Expression>
+<Fragment>
   <Grid
     align="center"
     fillHeight={true}
@@ -144,5 +144,5 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={2.5}
     />
   </Grid>
-</components__Expression>
+</Fragment>
 `;
