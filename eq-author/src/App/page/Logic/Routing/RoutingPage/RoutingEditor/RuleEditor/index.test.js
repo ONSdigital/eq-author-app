@@ -4,7 +4,7 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import { colors } from "constants/theme";
 
 import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
-import { RADIO, CHECKBOX, NUMBER } from "constants/answer-types";
+import { RADIO, NUMBER } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
 import { destinationErrors } from "constants/validationMessages";
 
