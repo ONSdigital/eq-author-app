@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, flushPromises, act } from "tests/utils/rtl";
 
-import commentsSubscription from "components/CommentsPanel/commentSubscription.graphql";
+import commentsSubscription from "components/CommentsPanel/graphql/commentSubscription.graphql";
 import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
