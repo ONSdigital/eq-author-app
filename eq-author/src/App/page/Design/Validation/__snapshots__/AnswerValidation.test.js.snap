@@ -1,12 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should display correct values when unit type is null 1`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview maxValue should display correct values when unit type is null 2`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview maxValue should display correct values when unit type is null 3`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview maxValue should display correct values when unit type is null 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should display when unit type is null 1`] = `null`;
 
 exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 1`] = `null`;
 
@@ -32,13 +26,7 @@ exports[`AnswerValidation Numeric answer validation preview maxValue should rend
 
 exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should display correct values when unit type is null 1`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview minValue should display correct values when unit type is null 2`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview minValue should display correct values when unit type is null 3`] = `null`;
-
-exports[`AnswerValidation Numeric answer validation preview minValue should display correct values when unit type is null 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should display when unit type is null 1`] = `null`;
 
 exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 1`] = `null`;
 

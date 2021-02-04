@@ -224,17 +224,15 @@ describe("AnswerValidation", () => {
           });
         });
 
-        it("should display correct values when unit type is null", () => {
-          const wrapper = type => {
+        it("should display when unit type is null", () => {
+          const wrapper = () => {
             const properties = {};
-            if (type === UNIT) {
-              properties.unit = null;
-            }
+            properties.unit = null;
             return render({
               ...props,
               answer: {
                 id: "1",
-                type: type,
+                type: UNIT,
                 properties,
                 validation: {
                   [validation]: {
@@ -247,13 +245,11 @@ describe("AnswerValidation", () => {
             });
           };
 
-          NUMBER_TYPES.forEach(type => {
-            expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
-            ).toMatchSnapshot();
-          });
+          expect(
+            wrapper(UNIT)
+              .find(SidebarButton)
+              .find(Detail)
+          ).toMatchSnapshot();
         });
       });
     });
