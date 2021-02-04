@@ -119,6 +119,7 @@ const Autocomplete = ({
       const clickedElement = event.currentTarget;
       setSelectedOption(clickedElement.innerText);
       updateOption(clickedElement);
+      setQuery("");
     },
     [selectedIndex, isOpen]
   );
@@ -245,7 +246,7 @@ const Autocomplete = ({
           </ListItem>
         );
       }),
-    [query, options, filterOptions, categories]
+    [query, options, filterOptions, categories, handleClick, selectedOption]
   );
 
   return (
