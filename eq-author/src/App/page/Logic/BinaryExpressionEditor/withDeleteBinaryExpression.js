@@ -10,7 +10,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           id,
         },
       },
-      onCompleted
+      update: (_, result) => onCompleted(result?.data?.deleteBinaryExpression2),
     });
   },
 });

@@ -69,9 +69,9 @@ describe("BinaryExpressionEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should disable the delete expression button when isOnlyExpression is true", () => {
+  it("should disable the delete expression button when there's only one expression", () => {
     const wrapper = shallow(
-      <BinaryExpressionEditor {...defaultProps} isOnlyExpression />
+      <BinaryExpressionEditor {...defaultProps} />
     );
     expect(
       wrapper.find(byTestAttr("btn-remove")).prop("disabled")
@@ -104,7 +104,8 @@ describe("BinaryExpressionEditor", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
-      defaultProps.expression.id
+      defaultProps.expression.id,
+      expect.any(Function),
     );
   });
 

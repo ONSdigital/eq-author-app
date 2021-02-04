@@ -111,12 +111,11 @@ export const UnwrappedRuleEditor = ({
           operator
         });
 
-  const handleExpressionDeletion = ({ expressionGroup }) => {
+  const handleExpressionDeletion = expressionGroup => {
     // Reset expressionGroup.operator to null when penultimate expression deleted
     // Necessary in order to reset state & validation of "Select AND/OR" element
-    // expressionGroup is the old state (pre-deletion)
 
-    if(expressionGroup.expressions.length === 2) {
+    if(expressionGroup.expressions.length === 1) {
       updateExpressionGroup({
         id: expressionGroup.id,
         operator: null,
@@ -144,7 +143,7 @@ export const UnwrappedRuleEditor = ({
         hasError={groupOperatorError}
         onChange={handleGroupOperatorChange}
       >
-        <option value={null} disabled selected hidden> Select AND/OR </option>
+        <option value={null} disabled hidden> Select AND/OR </option>
         <option value="Or">OR</option>
         <option value="And">AND</option>
       </SmallSelect>

@@ -18,6 +18,7 @@ describe("withDeleteBinaryExpression", () => {
       props.deleteBinaryExpression("id");
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { id: "id" } },
+        update: expect.any(Function),
       });
     });
   });
