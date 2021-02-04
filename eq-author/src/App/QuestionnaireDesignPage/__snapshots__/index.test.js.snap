@@ -105,17 +105,6 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                       "selectionSet": undefined,
                     },
                     Object {
-                      "alias": undefined,
-                      "arguments": Array [],
-                      "directives": Array [],
-                      "kind": "Field",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "qCodeErrorCount",
-                      },
-                      "selectionSet": undefined,
-                    },
-                    Object {
                       "directives": Array [],
                       "kind": "FragmentSpread",
                       "name": Object {
@@ -261,7 +250,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "displayName",
+                                                      "value": "title",
                                                     },
                                                     "selectionSet": undefined,
                                                   },
@@ -272,7 +261,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "title",
+                                                      "value": "displayName",
                                                     },
                                                     "selectionSet": undefined,
                                                   },
@@ -286,6 +275,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                       "value": "qCode",
                                                     },
                                                     "selectionSet": undefined,
+                                                  },
+                                                  Object {
+                                                    "alias": undefined,
+                                                    "arguments": Array [],
+                                                    "directives": Array [],
+                                                    "kind": "Field",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "validationErrorInfo",
+                                                    },
+                                                    "selectionSet": Object {
+                                                      "kind": "SelectionSet",
+                                                      "selections": Array [
+                                                        Object {
+                                                          "directives": Array [],
+                                                          "kind": "FragmentSpread",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "ValidationErrorInfo",
+                                                          },
+                                                        },
+                                                      ],
+                                                    },
                                                   },
                                                 ],
                                               },
@@ -331,7 +343,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "type",
+                                                      "value": "secondaryLabel",
                                                     },
                                                     "selectionSet": undefined,
                                                   },
@@ -342,7 +354,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "qCode",
+                                                      "value": "type",
                                                     },
                                                     "selectionSet": undefined,
                                                   },
@@ -370,9 +382,43 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                           "kind": "Field",
                                                           "name": Object {
                                                             "kind": "Name",
+                                                            "value": "qCode",
+                                                          },
+                                                          "selectionSet": undefined,
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
                                                             "value": "secondaryQCode",
                                                           },
                                                           "selectionSet": undefined,
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validationErrorInfo",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "FragmentSpread",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "ValidationErrorInfo",
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
                                                         },
                                                       ],
                                                     },
@@ -435,6 +481,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                                 },
                                                                 "selectionSet": undefined,
                                                               },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "validationErrorInfo",
+                                                                },
+                                                                "selectionSet": Object {
+                                                                  "kind": "SelectionSet",
+                                                                  "selections": Array [
+                                                                    Object {
+                                                                      "directives": Array [],
+                                                                      "kind": "FragmentSpread",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "ValidationErrorInfo",
+                                                                      },
+                                                                    },
+                                                                  ],
+                                                                },
+                                                              },
                                                             ],
                                                           },
                                                         },
@@ -482,6 +551,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                                   "value": "qCode",
                                                                 },
                                                                 "selectionSet": undefined,
+                                                              },
+                                                              Object {
+                                                                "alias": undefined,
+                                                                "arguments": Array [],
+                                                                "directives": Array [],
+                                                                "kind": "Field",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "validationErrorInfo",
+                                                                },
+                                                                "selectionSet": Object {
+                                                                  "kind": "SelectionSet",
+                                                                  "selections": Array [
+                                                                    Object {
+                                                                      "directives": Array [],
+                                                                      "kind": "FragmentSpread",
+                                                                      "name": Object {
+                                                                        "kind": "Name",
+                                                                        "value": "ValidationErrorInfo",
+                                                                      },
+                                                                    },
+                                                                  ],
+                                                                },
                                                               },
                                                             ],
                                                           },
@@ -681,20 +773,32 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                                     "kind": "Field",
                                                     "name": Object {
                                                       "kind": "Name",
-                                                      "value": "id",
-                                                    },
-                                                    "selectionSet": undefined,
-                                                  },
-                                                  Object {
-                                                    "alias": undefined,
-                                                    "arguments": Array [],
-                                                    "directives": Array [],
-                                                    "kind": "Field",
-                                                    "name": Object {
-                                                      "kind": "Name",
                                                       "value": "title",
                                                     },
                                                     "selectionSet": undefined,
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "validationErrorInfo",
+                                              },
+                                              "selectionSet": Object {
+                                                "kind": "SelectionSet",
+                                                "selections": Array [
+                                                  Object {
+                                                    "directives": Array [],
+                                                    "kind": "FragmentSpread",
+                                                    "name": Object {
+                                                      "kind": "Name",
+                                                      "value": "ValidationErrorInfo",
+                                                    },
                                                   },
                                                 ],
                                               },
@@ -710,6 +814,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                                         },
                                       },
                                     ],
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "validationErrorInfo",
+                            },
+                            "selectionSet": Object {
+                              "kind": "SelectionSet",
+                              "selections": Array [
+                                Object {
+                                  "directives": Array [],
+                                  "kind": "FragmentSpread",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "ValidationErrorInfo",
                                   },
                                 },
                               ],
@@ -1781,10 +1908,111 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
             },
           },
         },
+        Object {
+          "directives": Array [],
+          "kind": "FragmentDefinition",
+          "name": Object {
+            "kind": "Name",
+            "value": "ValidationErrorInfo",
+          },
+          "selectionSet": Object {
+            "kind": "SelectionSet",
+            "selections": Array [
+              Object {
+                "alias": undefined,
+                "arguments": Array [],
+                "directives": Array [],
+                "kind": "Field",
+                "name": Object {
+                  "kind": "Name",
+                  "value": "id",
+                },
+                "selectionSet": undefined,
+              },
+              Object {
+                "alias": undefined,
+                "arguments": Array [],
+                "directives": Array [],
+                "kind": "Field",
+                "name": Object {
+                  "kind": "Name",
+                  "value": "errors",
+                },
+                "selectionSet": Object {
+                  "kind": "SelectionSet",
+                  "selections": Array [
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "id",
+                      },
+                      "selectionSet": undefined,
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "type",
+                      },
+                      "selectionSet": undefined,
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "field",
+                      },
+                      "selectionSet": undefined,
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "errorCode",
+                      },
+                      "selectionSet": undefined,
+                    },
+                  ],
+                },
+              },
+              Object {
+                "alias": undefined,
+                "arguments": Array [],
+                "directives": Array [],
+                "kind": "Field",
+                "name": Object {
+                  "kind": "Name",
+                  "value": "totalCount",
+                },
+                "selectionSet": undefined,
+              },
+            ],
+          },
+          "typeCondition": Object {
+            "kind": "NamedType",
+            "name": Object {
+              "kind": "Name",
+              "value": "ValidationErrorInfo",
+            },
+          },
+        },
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 3435,
+        "end": 4194,
         "start": 0,
       },
     }
@@ -1883,17 +2111,6 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                       "name": Object {
                         "kind": "Name",
                         "value": "totalErrorCount",
-                      },
-                      "selectionSet": undefined,
-                    },
-                    Object {
-                      "alias": undefined,
-                      "arguments": Array [],
-                      "directives": Array [],
-                      "kind": "Field",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "qCodeErrorCount",
                       },
                       "selectionSet": undefined,
                     },
@@ -2095,6 +2312,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                             "value": "id",
                                                           },
                                                           "selectionSet": undefined,
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validationErrorInfo",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "FragmentSpread",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "ValidationErrorInfo",
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
                                                         },
                                                         Object {
                                                           "alias": undefined,
@@ -2578,6 +2818,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                           },
                                                           "selectionSet": undefined,
                                                         },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validationErrorInfo",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "FragmentSpread",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "ValidationErrorInfo",
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
+                                                        },
                                                       ],
                                                     },
                                                     "typeCondition": Object {
@@ -2744,7 +3007,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2871,
+        "end": 3055,
         "start": 0,
       },
     }

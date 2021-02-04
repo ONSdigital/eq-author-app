@@ -951,9 +951,6 @@ const Resolvers = {
       return "Read";
     },
     totalErrorCount: (questionnaire, args, ctx) => {
-      // const validationErrorsQCode = ctx.validationErrorInfo.filter(
-      //   ({ field }) => field === "qCode" || field === "secondaryQCode"
-      // );
       return ctx.validationErrorInfo.length;
     },
   },

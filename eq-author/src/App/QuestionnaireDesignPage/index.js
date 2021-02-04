@@ -318,22 +318,25 @@ const QUESTIONNAIRE_QUERY = gql`
         folders {
           id
           pages {
+            id
             ... on QuestionPage {
               id
               title
               alias
               confirmation {
                 id
-                displayName
                 title
+                displayName
                 qCode
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
               }
               answers {
                 id
                 label
                 secondaryLabel
                 type
-                # qCode
                 properties
                 ... on BasicAnswer {
                   qCode
@@ -343,9 +346,6 @@ const QUESTIONNAIRE_QUERY = gql`
                   }
                 }
                 ... on MultipleChoiceAnswer {
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
                   options {
                     id
                     label
@@ -383,23 +383,29 @@ const QUESTIONNAIRE_QUERY = gql`
                 id
                 title
               }
+              validationErrorInfo {
+                ...ValidationErrorInfo
+              }
             }
           }
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }
   }
   ${NavigationSidebar.fragments.NavigationSidebar}
   fragment ValidationErrorInfo on ValidationErrorInfo {
-  id
-  errors {
     id
-    type
-    field
-    errorCode
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
   }
-  totalCount
-}
 `;
 
 export const withQuestionnaire = Component => {
