@@ -229,6 +229,11 @@ export const smallButton = css`
   padding: 0;
 `;
 
+export const smallMediumButton = css`
+  padding: 0.4em 0.6em;
+  font-size: 0.9em;
+`;
+
 const Button = styled.button`
   display: inline-flex;
   flex: 0 0 auto;
@@ -279,6 +284,7 @@ const Button = styled.button`
   ${props => props.variant === "nav-addMenu" && navAddMenuButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
+  ${props => props["small-medium"] && smallMediumButton};
 `;
 
 Button.propTypes = {
