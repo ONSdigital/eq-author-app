@@ -43,7 +43,7 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
-import { ActionButtons, RemoveButton, AddButton, StyledLabel, ConnectedPath } from "./components";
+import { ActionButtons, RemoveButton, AddButton, StyledLabel, ConnectedPath, Expression } from "./components";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {
@@ -138,7 +138,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
 
   return (
-    <>
+    <Expression>
       <Grid align="center">
         <Column gutters={false} cols={1.5}>
           <StyledLabel data-test="routing-binary-expression-if-label" inline>
@@ -171,7 +171,12 @@ export const UnwrappedBinaryExpressionEditor = ({
               </RemoveButton>
             </Tooltip>
             <Tooltip content="Add condition" place="top">
-              <AddButton small onClick={handleAddClick} data-test="btn-add">
+              <AddButton
+                small
+                onClick={handleAddClick}
+                data-test="btn-add"
+                disabled={!shouldRenderEditor}
+              >
                 <IconText icon={IconPlus} hideText>
                   Add condition
                 </IconText>
@@ -201,12 +206,18 @@ export const UnwrappedBinaryExpressionEditor = ({
                   groupErrorMessage={groupErrorMessage}
                 />
             }
-            { groupOperatorComponent }
           </Transition>
         </Column>
         <Column cols={2.5} />
       </Grid>
-    </>
+      <Grid>
+        <Column cols={1.5} />
+        <Column cols={8}>
+          { groupOperatorComponent }
+        </Column>
+        <Column cols={2.5} />
+      </Grid>
+    </Expression>
   );
 };
 

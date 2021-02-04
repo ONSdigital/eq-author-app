@@ -29,12 +29,6 @@
         "id": {
           "type": "string"
         },
-        "operator": {
-          "enum": [
-            "And",
-            "Or"
-          ]
-        },
         "expressions": {
           "type": "array",
           "items": {
@@ -58,6 +52,30 @@
       },
       "then": {
         "validateRoutingLogicalAND": true
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "operator": {
+              "enum": ["And", "Or"]
+            }
+          }
+        },
+        {
+          "properties": {
+            "expressions": {
+              "maxItems": 1
+            },
+            "operator": {
+              "type": "null"
+            }
+          }
+        }
+      ],
+      "errorMessage": {
+        "properties": {
+          "operator": "ERR_VALUE_REQUIRED"
+        }
       }
     },
     "expression": {

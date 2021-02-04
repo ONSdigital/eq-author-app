@@ -116,6 +116,10 @@ export const binaryExpressionErrors = {
   ERR_LOGICAL_AND: "AND conditions must not conflict",
 };
 
+export const expressionGroupErrors = {
+  ERR_VALUE_REQUIRED: "Selection required",
+};
+
 export const leftSideErrors = {
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE: {
     errorCode: "ERR_LEFTSIDE_NO_LONGER_AVAILABLE",

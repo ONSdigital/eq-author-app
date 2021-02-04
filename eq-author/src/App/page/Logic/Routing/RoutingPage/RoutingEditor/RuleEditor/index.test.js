@@ -189,26 +189,27 @@ describe("RuleEditor", () => {
     defaultProps.rule.expressionGroup.expressions = [
       {
         ...expression,
-        validationErrorInfo: {
-          id: "1-2-3",
-          errors: [
-            {
-              errorCode: "There's an error with the group operator!",
-              field: "groupOperator",
-              id: "123-456-789",
-              type: "expression",
-              __typename: "ValidationError",
-            },
-          ],
-          totalCount: 1,
-          __typename: "ValidationErrorInfo",
-        },
       },
       {
         ...expression,
         id: "3",
       }
     ];
+
+    defaultProps.rule.expressionGroup.validationErrorInfo = {
+      id: "1-2-3",
+      errors: [
+        {
+          errorCode: "ERR_VALUE_REQUIRED",
+          field: "operator",
+          id: "123-456-789",
+          type: "expressionGroup",
+          __typename: "ValidationError",
+        },
+      ],
+      totalCount: 1,
+      __typename: "ValidationErrorInfo",
+    };
 
     const { getByTestId } = render(<RuleEditor {...defaultProps} />, {
       route: "/q/1/page/2",

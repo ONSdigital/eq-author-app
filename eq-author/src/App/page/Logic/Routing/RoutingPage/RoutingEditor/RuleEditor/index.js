@@ -20,6 +20,9 @@ import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 
+import { expressionGroupErrors } from "constants/validationMessages";
+import ValidationError from "components/ValidationError";
+
 const LABEL_THEN = "Then";
 
 const Expressions = styled.div`
@@ -51,7 +54,7 @@ const Header = styled.div`
 const SmallSelect = styled(Select)`
   display: inline-block;
   width: auto;
-  margin-bottom: 1.5em;
+  margin-bottom: 0;
   line-height: 1.25;
 `;
 
@@ -108,23 +111,32 @@ export const UnwrappedRuleEditor = ({
     ? validationErrorInfo.errors
     : [];
 
-  const hasGroupOperatorError = expressions.filter(expression =>
-    expression?.validationErrorInfo?.errors?.find(
-      ({ field }) => field === "groupOperator"
-    )).length;
+  const groupOperatorError = expressionGroupErrors[
+    expressionGroup.validationErrorInfo?.errors?.find(
+      ({ field }) => field === "operator"
+    )?.errorCode
+  ];
 
   const groupOperatorSelect = (
-    <SmallSelect
-      name="match"
-      id="match"
-      data-test="match-select"
-      defaultValue={expressionGroup.operator}
-      hasError={hasGroupOperatorError}
-      onChange={handleGroupOperatorChange}
-    >
-      <option value="Or">OR</option>
-      <option value="And">AND</option>
-    </SmallSelect>
+    <>
+      <SmallSelect
+        name="match"
+        id="match"
+        data-test="match-select"
+        defaultValue={expressionGroup.operator}
+        hasError={groupOperatorError}
+        onChange={handleGroupOperatorChange}
+      >
+        <option value={null} disabled selected hidden> Select AND/OR </option>
+        <option value="Or">OR</option>
+        <option value="And">AND</option>
+      </SmallSelect>
+      { groupOperatorError &&
+        <ValidationError right={false}>
+          { groupOperatorError }
+        </ValidationError>
+      }
+    </>
   );
 
   return (
@@ -148,7 +160,7 @@ export const UnwrappedRuleEditor = ({
               }
               else if (index < expressions.length - 1) {
                 groupOperatorComponent = <StyledLabel inline>
-                                           { expressionGroup.operator.toUpperCase() }
+                                           { expressionGroup.operator?.toUpperCase() }
                                          </StyledLabel>;
               }
             }
