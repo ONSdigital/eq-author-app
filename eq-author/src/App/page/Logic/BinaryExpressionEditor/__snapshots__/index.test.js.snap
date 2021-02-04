@@ -102,6 +102,11 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
           expression={
             Object {
               "condition": "Equal",
+              "expressionGroup": Object {
+                "expressions": Array [
+                  [Circular],
+                ],
+              },
               "id": "1",
               "left": Object {
                 "id": "2",

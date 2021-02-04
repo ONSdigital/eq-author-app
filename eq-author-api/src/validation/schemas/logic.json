@@ -52,14 +52,7 @@
       "if": {
         "properties": {
           "operator": {
-            "anyOf": [
-              {
-                "type": "null"
-              },
-              {
-                "const": "And"
-              }
-            ]
+            "const": "And"
           }
         }
       },

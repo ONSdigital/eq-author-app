@@ -55,7 +55,10 @@ const Transition = ({ children, ...otherProps }) => {
 
 Transition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
 };
 
 Transition.defaultProps = {

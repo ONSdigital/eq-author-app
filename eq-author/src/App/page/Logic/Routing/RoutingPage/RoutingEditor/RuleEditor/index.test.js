@@ -4,7 +4,7 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import { colors } from "constants/theme";
 
 import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
-import { RADIO, CHECKBOX } from "constants/answer-types";
+import { RADIO, CHECKBOX, NUMBER } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
 import { destinationErrors } from "constants/validationMessages";
 
@@ -16,9 +16,25 @@ import { byTestAttr } from "tests/utils/selectors";
 const { ERR_DESTINATION_DELETED } = destinationErrors;
 
 describe("RuleEditor", () => {
-  let defaultProps;
+  let defaultProps, expression;
 
   beforeEach(() => {
+    expression = {
+      id: "2",
+      left: {
+        id: "answerId",
+        type: NUMBER,
+      },
+      condition: null,
+      right: {},
+      validationErrorInfo: {
+        id: "1-2-3",
+        errors: [],
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
+    };
+
     defaultProps = {
       rule: {
         id: "ruleId",
@@ -69,23 +85,18 @@ describe("RuleEditor", () => {
   it("should pass down the correct prop when a second 'And' condition is invalid", () => {
     defaultProps.rule.expressionGroup.expressions = [
       {
-        id: "2",
+        ...expression,
         left: {
           id: "binaryExpressionId",
           type: RADIO,
         },
-        validationErrorInfo: {
-          totalCount: 0,
-        },
       },
       {
+        ...expression,
         id: "3",
         left: {
           id: "binaryExpressionId",
           type: RADIO,
-        },
-        validationErrorInfo: {
-          totalCount: 0,
         },
       },
     ];
@@ -107,7 +118,15 @@ describe("RuleEditor", () => {
     ).toBe(false);
   });
 
-  it("should call updateExpressionGroup with 'Or' when Any of was selected", async () => {
+  it("should call updateExpressionGroup with 'Or' when OR is selected", async () => {
+    defaultProps.rule.expressionGroup.expressions = [
+      expression,
+      {
+        ...expression,
+        id: "3",
+      },
+    ];
+
     const { getByTestId } = render(<RuleEditor {...defaultProps} />, {
       route: "/q/1/page/2",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
@@ -167,32 +186,31 @@ describe("RuleEditor", () => {
   });
 
   it("should highlight the operator dropdown when there is an error related to the operator", async () => {
-    const newProps = defaultProps;
-    newProps.rule.expressionGroup.expressions[0] = {
-      id: "2",
-      left: {
-        id: "binaryExpressionId",
-        type: CHECKBOX,
+    defaultProps.rule.expressionGroup.expressions = [
+      {
+        ...expression,
+        validationErrorInfo: {
+          id: "1-2-3",
+          errors: [
+            {
+              errorCode: "There's an error with the group operator!",
+              field: "groupOperator",
+              id: "123-456-789",
+              type: "expression",
+              __typename: "ValidationError",
+            },
+          ],
+          totalCount: 1,
+          __typename: "ValidationErrorInfo",
+        },
       },
-      condition: AND,
-      right: {},
-      validationErrorInfo: {
-        id: "1-2-3",
-        errors: [
-          {
-            errorCode: "There's an error with the group operator!",
-            field: "groupOperator",
-            id: "123-456-789",
-            type: "expression",
-            __typename: "ValidationError",
-          },
-        ],
-        totalCount: 1,
-        __typename: "ValidationErrorInfo",
-      },
-    };
+      {
+        ...expression,
+        id: "3",
+      }
+    ];
 
-    const { getByTestId } = render(<RuleEditor {...newProps} />, {
+    const { getByTestId } = render(<RuleEditor {...defaultProps} />, {
       route: "/q/1/page/2",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
     });

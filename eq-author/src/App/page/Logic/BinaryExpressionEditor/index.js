@@ -192,12 +192,15 @@ export const UnwrappedBinaryExpressionEditor = ({
         </Column>
         <Column gutters={false} cols={8}>
           <Transition in={shouldRenderEditor} mountOnEnter unmountOnExit timeout={400}>
-            <Editor
-              expression={expression}
-              onRightChange={handleUpdateRightSide}
-              onConditionChange={handleUpdateCondition}
-              groupErrorMessage={groupErrorMessage}
-            />
+            {
+              Editor &&
+                <Editor
+                  expression={expression}
+                  onRightChange={handleUpdateRightSide}
+                  onConditionChange={handleUpdateCondition}
+                  groupErrorMessage={groupErrorMessage}
+                />
+            }
             { groupOperatorComponent }
           </Transition>
         </Column>
@@ -213,7 +216,7 @@ const expressionPropType = propType(fragment);
 
 UnwrappedBinaryExpressionEditor.propTypes = {
   expression: propType(fragment).isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   expressionIndex: PropTypes.number.isRequired,
   updateLeftSide: PropTypes.func.isRequired,
   deleteBinaryExpression: PropTypes.func.isRequired,
