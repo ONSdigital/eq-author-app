@@ -93,8 +93,8 @@ UnwrappedPageNavItem.fragments = {
           secondaryLabel
           type
           properties
+          qCode
           ... on BasicAnswer {
-            qCode
             secondaryQCode
           }
           ... on MultipleChoiceAnswer {
@@ -102,17 +102,11 @@ UnwrappedPageNavItem.fragments = {
               id
               label
               qCode
-                    # validationErrorInfo {
-                    #   ...ValidationErrorInfo
-                    # }
             }
             mutuallyExclusiveOption {
               id
               label
               qCode
-                    # validationErrorInfo {
-                    #   ...ValidationErrorInfo
-                    # }
             }
           }
         }

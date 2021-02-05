@@ -2,20 +2,16 @@ import React, { useState, useCallback, memo, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { withApollo, Query, useMutation } from "react-apollo";
-import { find, get } from "lodash";
+import { useMutation } from "react-apollo";
 
-import GET_ALL_ANSWERS from "./graphql/getAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
-import { organiseAnswers, flattenAnswers, removeHtml } from "../../../utils/getAllAnswersFlatMap"
+import { removeHtml } from "../../../utils/getAllAnswersFlatMap"
 import { QCodeContext } from "App/QuestionnaireDesignPage";
 
-import Loading from "components/Loading";
-import Error from "components/Error";
 import ValidationError from "components/ValidationError";
 
 import {
@@ -246,10 +242,6 @@ const RowBuilder = answers => {
   return answers.map((item, index) => {
     let noValQCodeError = false;
     item.qCode ? noValQCodeError = false : noValQCodeError = true;
-    // let noValQCodeError = find(
-    //   get(item, "validationErrorInfo.errors"),
-    //   ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
-    // );
 
     return (
       <Row
@@ -275,7 +267,9 @@ Row.propTypes = {
   noValQCodeError: PropTypes.bool, // eslint-disable-line
 };
 
-export const UnwrappedQCodeTable = ({ loading, error, data }) => {
+export const UnwrappedQCodeTable = () => {
+
+// export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   // if (loading) {
   //   return <Loading height="38rem">Page loading…</Loading>;
   // }
@@ -292,7 +286,7 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   // console.log("flatten from within QCODE QUERY: OLD------", flatten);
 
   const flattenedAnswers = useContext(QCodeContext);
-  console.log("QCode table flattened - From context:", flattenedAnswers);
+  // console.log("QCode table flattened - From context:", flattenedAnswers);
 
   return (
     <Table data-test="qcodes-table">

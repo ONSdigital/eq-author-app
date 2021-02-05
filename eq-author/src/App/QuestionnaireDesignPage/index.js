@@ -228,15 +228,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
     let flattenedAnswers;
 
-    // Ideally memoise - might need to memoise based on questionnaire.updatedAt
-    // rather than "questionnaire" - since afaik that would still run every time
-    // (questionnaire object reference will change on each query result)
     if (questionnaire) {
-      console.log('questionnaire----------', questionnaire);
       const sections = questionnaire.sections;
       const { answers } = organiseAnswers(sections);
-      console.log('answers from context', answers);
-
       flattenedAnswers = flattenAnswers(answers);
       console.log("flattened answers - DesignPage", flattenedAnswers);
     }
@@ -316,107 +310,6 @@ const QUESTIONNAIRE_QUERY = gql`
   }
   ${NavigationSidebar.fragments.NavigationSidebar}
 `;
-
-// const QUESTIONNAIRE_QUERY = gql`
-//   query GetQuestionnaire($input: QueryInput!) {
-//     questionnaire(input: $input) {
-//       updatedAt
-//       introduction {
-//         id
-//       }
-//       publishStatus
-//       totalErrorCount
-//       ...NavigationSidebar
-//       sections {
-//         id
-//         folders {
-//           id
-//           pages {
-//             ... on QuestionPage {
-//               id
-//               title
-//               alias
-//               confirmation {
-//                 id
-//                 title
-//                 displayName
-//                 qCode
-//                 validationErrorInfo {
-//                   ...ValidationErrorInfo
-//                 }
-//               }
-//               answers {
-//                 id
-//                 label
-//                 secondaryLabel
-//                 type
-//                 properties
-//                 ... on BasicAnswer {
-//                   qCode
-//                   secondaryQCode
-//                   validationErrorInfo {
-//                     ...ValidationErrorInfo
-//                   }
-//                 }
-//                 ... on MultipleChoiceAnswer {
-//                   options {
-//                     id
-//                     label
-//                     qCode
-//                     validationErrorInfo {
-//                       ...ValidationErrorInfo
-//                     }
-//                   }
-//                   mutuallyExclusiveOption {
-//                     id
-//                     label
-//                     qCode
-//                     validationErrorInfo {
-//                       ...ValidationErrorInfo
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//             ... on CalculatedSummaryPage {
-//               id
-//               title
-//               alias
-//               totalTitle
-//               displayName
-//               pageType
-//               qCode
-//               summaryAnswers {
-//                 id
-//                 displayName
-//                 label
-//                 qCode
-//               }
-//               section {
-//                 id
-//                 title
-//               }
-//               validationErrorInfo {
-//                 ...ValidationErrorInfo
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-//   ${NavigationSidebar.fragments.NavigationSidebar}
-//   fragment ValidationErrorInfo on ValidationErrorInfo {
-//     id
-//     errors {
-//       id
-//       type
-//       field
-//       errorCode
-//     }
-//     totalCount
-//   }
-// `;
 
 export const withQuestionnaire = Component => {
   const WrappedComponent = props => (
