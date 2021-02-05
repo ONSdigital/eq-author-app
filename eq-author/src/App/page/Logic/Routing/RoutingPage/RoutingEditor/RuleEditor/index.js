@@ -41,7 +41,7 @@ const Transition = styled(BounceTransition)`
 `;
 
 const GroupOperatorValidationError = styled(ValidationError)`
-  margin-bottom: 0;'
+  margin-bottom: 0;
 `;
 
 export const Title = styled.h2`
