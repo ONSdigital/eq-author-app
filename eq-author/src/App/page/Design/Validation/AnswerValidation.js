@@ -57,13 +57,7 @@ const formatValue = (value, { type, properties }) => {
     return `£${value}`;
   }
   if (type === UNIT) {
-    let valueWithUnit;
-    unitConversion[properties.unit] == null
-      ? (valueWithUnit = `${value}`)
-      : (valueWithUnit = `${value} ${
-          unitConversion[properties.unit].abbreviation
-        }`);
-    return valueWithUnit;
+    return `${value} ${unitConversion[properties.unit]?.abbreviation || ""}`;
   }
   return value;
 };
