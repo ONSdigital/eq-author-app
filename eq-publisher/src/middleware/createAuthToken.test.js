@@ -39,7 +39,7 @@ describe("createAuthToken", () => {
 
     it("should be signed using a private key", () => {
       createAuthToken(req, res, next);
-      const keysYaml = yaml.safeLoad(fs.readFileSync("./keys.yml", "utf8"));
+      const keysYaml = yaml.load(fs.readFileSync("./keys.yml", "utf8"));
       const keysJson = JSON.parse(JSON.stringify(keysYaml));
       const publicKey = keysJson.keys.publisherAuthPublicKey.value;
       expect(

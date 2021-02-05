@@ -5,17 +5,17 @@ const yaml = require("js-yaml");
 const fs = require("fs");
 
 const keysFile = "./keys.test.yml";
-const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
+const keysYaml = yaml.load(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
 const { createUser } = require("../../db/datastore");
 
 jest.mock("./verifyJwtToken", () => {
   const jwt = require("jsonwebtoken");
-  return jest.fn(accessToken => {
+  return jest.fn((accessToken) => {
     const jwtToken = jwt.decode(accessToken);
 
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       resolve(jwtToken.id !== "invalid.token");
     });
   });
