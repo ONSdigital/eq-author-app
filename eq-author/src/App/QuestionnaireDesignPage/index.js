@@ -232,7 +232,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       const sections = questionnaire.sections;
       const { answers } = organiseAnswers(sections);
       flattenedAnswers = flattenAnswers(answers);
-      console.log("flattened answers - DesignPage", flattenedAnswers);
+      // console.log("flattened answers - DesignPage", flattenedAnswers);
     }
 
     return (
