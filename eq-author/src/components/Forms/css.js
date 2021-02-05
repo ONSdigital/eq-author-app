@@ -41,7 +41,8 @@ export const sharedStyles = css`
 
   &:focus {
     outline: none;
-    border: 1px solid ${colors.primary};
+    border-style: solid;
+    border-color: ${colors.primary};
   }
 
   &[disabled] {

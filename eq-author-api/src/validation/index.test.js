@@ -1224,18 +1224,11 @@ describe("schema validation", () => {
   });
 
   describe("Routing validation", () => {
+    let defaultRouting;
     beforeEach(() => {
       questionnaire.sections[0].folders[0].pages[0].routing = null;
       questionnaire.sections[0].folders[0].pages[0].skipConditions = null;
-    });
-    it("should validate empty routing rules", () => {
-      const expressionId = "express-1";
-
-      const routing = validation(questionnaire);
-
-      expect(routing.length).toBe(0);
-
-      questionnaire.sections[0].folders[0].pages[0].routing = {
+      defaultRouting = {
         id: "1",
         else: {
           id: "else-1",
@@ -1253,7 +1246,7 @@ describe("schema validation", () => {
               operator: "And",
               expressions: [
                 {
-                  id: expressionId,
+                  id: "expression-1",
                   condition: "Equal",
                   left: {
                     type: "Null",
@@ -1266,7 +1259,15 @@ describe("schema validation", () => {
           },
         ],
       };
+    });
 
+    it("should validate empty routing rules", () => {
+      let routingErrors = validation(questionnaire);
+      expect(routingErrors.length).toBe(0);
+    });
+
+    it("should validate when answer not selected", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors.length).toBe(1);
@@ -1275,48 +1276,33 @@ describe("schema validation", () => {
     });
 
     it("should validate left hand Answer is after routing question", () => {
-      const expressionId = "express-1";
-
-      const routing = validation(questionnaire);
-
-      expect(routing).toHaveLength(0);
-
-      questionnaire.sections[0].folders[0].pages[0].routing = {
-        id: "1",
-        else: {
-          id: "else-1",
-          logical: "NextPage",
-        },
-        rules: [
-          {
-            id: "rule-1",
-            destination: {
-              id: "dest-1",
-              logical: "NextPage",
-            },
-            expressionGroup: {
-              id: "group-1",
-              operator: "And",
-              expressions: [
-                {
-                  id: expressionId,
-                  condition: "Equal",
-                  left: {
-                    type: "Answer",
-                    answerId: "answer_2",
-                  },
-                },
-              ],
-            },
-          },
-        ],
+      defaultRouting.rules[0].expressionGroup.expressions[0].left = {
+        type: "Answer",
+        answerId: "answer_2"
       };
-
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors).toHaveLength(1);
       expect(routingErrors[0].id).toMatch(uuidRejex);
       expect(routingErrors[0].errorCode).toBe(ERR_LEFTSIDE_NO_LONGER_AVAILABLE);
+    });
+
+    it("should validate expression group operator - can't be null if multiple expressions exist", () => {
+      defaultRouting.rules[0].expressionGroup.expressions.push({
+        ...defaultRouting.rules[0].expressionGroup.expressions[0],
+        id: "expr-2",
+      });
+      defaultRouting.rules[0].expressionGroup.operator = null;
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          errorCode: "ERR_VALUE_REQUIRED",
+          field: "operator",
+        })]
+      ));
     });
 
     it("should validate empty skip conditions", () => {
@@ -1384,9 +1370,6 @@ describe("schema validation", () => {
     it("should validate exclusive or checkbox with and condition", () => {
       const expressionId = "express-1";
 
-      const routing = validation(questionnaire);
-
-      expect(routing).toHaveLength(0);
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_1",
         qCode: "qcode1",
@@ -1411,41 +1394,26 @@ describe("schema validation", () => {
         ],
       };
 
-      questionnaire.sections[0].folders[0].pages[0].routing = {
-        id: "1",
-        else: {
-          id: "else-1",
-          logical: "NextPage",
-        },
-        rules: [
+      defaultRouting.rules[0].expressionGroup = {
+        id: "group-1",
+        operator: "Or",
+        expressions: [
           {
-            id: "rule-1",
-            destination: {
-              id: "dest-1",
-              logical: "NextPage",
+            id: expressionId,
+            condition: "AllOf",
+            left: {
+              type: "Answer",
+              answerId: "answer_12",
             },
-            expressionGroup: {
-              id: "group-1",
-              operator: "OR",
-              expressions: [
-                {
-                  id: expressionId,
-                  condition: "AllOf",
-                  left: {
-                    type: "Answer",
-                    answerId: "answer_12",
-                  },
-                  right: {
-                    type: "SelectedOptions",
-                    optionIds: ["option-1", "option-3"],
-                  },
-                },
-              ],
+            right: {
+              type: "SelectedOptions",
+              optionIds: ["option-1", "option-3"],
             },
           },
         ],
-      };
+      }
 
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors).toHaveLength(1);

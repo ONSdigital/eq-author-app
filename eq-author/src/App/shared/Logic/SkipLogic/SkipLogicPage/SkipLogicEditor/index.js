@@ -6,7 +6,7 @@ import { TransitionGroup } from "react-transition-group";
 import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import { propType } from "graphql-anywhere";
 import fragment from "./fragment.graphql";
 import SkipConditionEditor from "./SkipConditionEditor";

@@ -1,70 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RuleEditor should render 1`] = `
-<Fragment>
-  <RuleEditor__Rule
-    data-test="routing-rule"
-  >
-    <RuleEditor__Header>
-      <Label
-        bold={true}
-        inline={true}
-      >
-        Match
-        <RuleEditor__SmallSelect
-          data-test="match-select"
-          defaultValue="And"
-          hasError={0}
-          id="match"
-          name="match"
-          onChange={[Function]}
-        >
-          <option
-            value="Or"
-          >
-            Any of
-          </option>
-          <option
-            value="And"
-          >
-            All of
-          </option>
-        </RuleEditor__SmallSelect>
-        the following rules
-      </Label>
-      <RuleEditor__RemoveRuleButton
-        data-test="btn-remove-rule"
-        onClick={[Function]}
-        type="button"
-        variant="primary"
-      >
-        Remove rule
-      </RuleEditor__RemoveRuleButton>
-    </RuleEditor__Header>
-    <RuleEditor__Expressions>
-      <TransitionGroup
-        childFactory={[Function]}
-        component="div"
-      />
-    </RuleEditor__Expressions>
-    <withRouter(UnwrappedDestinationSelector)
-      data-test="select-then"
-      id="ruleId"
-      label="Then"
-      onChange={[Function]}
-      validationErrors={Array []}
-      value={
-        Object {
-          "id": "1",
-          "logical": null,
-          "page": Object {
-            "displayName": "Page",
-            "id": "pageId",
-          },
-          "section": null,
-        }
-      }
+<RuleEditor__Rule
+  data-test="routing-rule"
+>
+  <RuleEditor__Header>
+    <Label
+      bold={true}
+      inline={true}
+    >
+       Routing logic rules 
+    </Label>
+    <RuleEditor__RemoveRuleButton
+      data-test="btn-remove-rule"
+      onClick={[Function]}
+      type="button"
+      variant="primary"
+    >
+      Remove rule
+    </RuleEditor__RemoveRuleButton>
+  </RuleEditor__Header>
+  <RuleEditor__Expressions>
+    <TransitionGroup
+      childFactory={[Function]}
+      component="div"
     />
-  </RuleEditor__Rule>
-</Fragment>
+  </RuleEditor__Expressions>
+  <withRouter(UnwrappedDestinationSelector)
+    data-test="select-then"
+    id="ruleId"
+    label="Then"
+    onChange={[Function]}
+    validationErrors={Array []}
+    value={
+      Object {
+        "id": "1",
+        "logical": null,
+        "page": Object {
+          "displayName": "Page",
+          "id": "pageId",
+        },
+        "section": null,
+      }
+    }
+  />
+</RuleEditor__Rule>
 `;

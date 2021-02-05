@@ -1,3 +1,4 @@
+import React from "react";
 import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -10,47 +11,58 @@ const handleExit = node => {
   node.style.height = `${height}px`;
 };
 
-const RoutingComponentTransition = styled(CSSTransition).attrs(() => ({
-  classNames: "component",
+const TransitionWrapper = styled(CSSTransition).attrs(() => ({
+  classNames: "bounce",
   onExit: () => handleExit,
 }))`
   position: relative;
 
-  &.component-enter {
+  &.bounce-enter {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.9);
     z-index: 200;
   }
 
-  &.component-enter-active {
+  &.bounce-enter-active {
     opacity: 1;
     transform: scale(1);
     transition: opacity ${timeout}ms ease-out,
       transform ${timeout}ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  &.component-exit {
+  &.bounce-exit {
     opacity: 1;
     transform: scale(1);
   }
 
-  &.component-exit-active {
+  &.bounce-exit-active {
     opacity: 0;
     height: 0 !important;
-    transform: scale(0.95);
+    transform: scale(0.9);
     transition: opacity ${halfTimeout}ms ease-out,
       height ${halfTimeout}ms ease-in ${halfTimeout}ms,
       transform ${halfTimeout}ms ease-in;
   }
 `;
 
-RoutingComponentTransition.propTypes = {
-  timeout: PropTypes.number,
-  children: PropTypes.element,
+const Transition = ({ children, ...otherProps }) => {
+  return (
+    <TransitionWrapper {...otherProps}>
+      <div>{children}</div>
+    </TransitionWrapper>
+  );
 };
 
-RoutingComponentTransition.defaultProps = {
+Transition.propTypes = {
+  timeout: PropTypes.number,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+};
+
+Transition.defaultProps = {
   timeout: 200,
 };
 
-export default RoutingComponentTransition;
+export default Transition;
