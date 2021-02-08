@@ -784,7 +784,7 @@ input DeleteRoutingRule2Input {
 
 input UpdateExpressionGroup2Input {
   id: ID!
-  operator: RoutingOperator2!
+  operator: RoutingOperator2
 }
 
 input CreateBinaryExpression2Input {

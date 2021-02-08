@@ -257,7 +257,7 @@ describe("components/Autocomplete", () => {
 
     expect(getByTestId(inputId)).toHaveAttribute(
       "aria-activedescendant",
-      "autocomplete-input"
+      "false"
     );
   });
 

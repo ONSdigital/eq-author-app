@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -7,14 +7,11 @@ import chevron from "./icon-chevron.svg";
 const Header = styled.div`
   padding-left: 1em;
   color: ${colors.blue};
-  text-decoration: underline;
-  &:hover {
-    color: ${colors.grey};
-  }
 `;
 
 export const Title = styled.h2`
-  font-size: 0.75em;
+  font-size: 0.85em;
+  font-weight: normal;
   letter-spacing: 0.05em;
   vertical-align: middle;
 
@@ -35,7 +32,7 @@ export const Body = styled.div`
 export const Button = styled.button`
   appearance: none;
   border: none;
-  font-size: 1.2em;
+  font-size: 1.05em;
   width: 100%;
   margin: 0;
   padding: 0.5em 0.25em;
@@ -47,6 +44,7 @@ export const Button = styled.button`
   position: relative;
   background: transparent;
   cursor: pointer;
+  text-decoration: underline;
 
   &:focus {
     outline: 2px solid ${colors.orange};
@@ -67,54 +65,47 @@ export const Button = styled.button`
   }
 `;
 
-export const DisplayContent = styled.div`
-  display: ${props => (props.isOpen ? "block" : "none")};
-`;
-
-class CommentAccordion extends Component {
-  state = { isOpen: false, height: "auto" };
-
-  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
-
-  render() {
-    const { children, title } = this.props;
-    const { isOpen } = this.state;
-    const replyTitle = title > 1 ? " Replies" : " Reply";
-
-    return (
-      <>
-        <Header>
-          <Title>
-            <Button
-              isOpen={isOpen}
-              onClick={this.handleToggle}
-              aria-expanded={isOpen}
-              aria-controls={`accordion-${title}`}
-              data-test={`accordion-${title}-button`}
-            >
-              {!isOpen && "Show "}
-              {isOpen && "Hide "}
-              {title}
-              {replyTitle}
-            </Button>
-          </Title>
-        </Header>
-        <Body
-          id={`accordion-${title}`}
-          data-test={`accordion-${title}-body`}
+const CommentAccordion = ({
+  children,
+  title,
+  isOpen,
+  setIsOpen,
+  inProgress,
+}) => (
+  <>
+    <Header>
+      <Title>
+        <Button
           isOpen={isOpen}
-          aria-hidden={!isOpen}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls={`accordion-${title}`}
+          data-test={`accordion-${title}-button`}
         >
-          <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
-        </Body>
-      </>
-    );
-  }
-}
+          {`${isOpen ? "Hide" : "Show"} ${title} ${
+            title > 1 ? " replies" : " reply"
+          } `}
+        </Button>
+        {inProgress}
+      </Title>
+    </Header>
+    <Body
+      id={`accordion-${title}`}
+      data-test={`accordion-${title}-body`}
+      isOpen={isOpen}
+      aria-hidden={!isOpen}
+    >
+      {isOpen && <>{children}</>}
+    </Body>
+  </>
+);
 
 CommentAccordion.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  inProgress: PropTypes.bool.isRequired,
 };
 
 export default CommentAccordion;

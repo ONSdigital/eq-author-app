@@ -5,4 +5,5 @@ fragment SkipConditionEditor on ExpressionGroup2 {
   expressions{
     ...BinaryExpressionEditor
   }
+  operator
 }

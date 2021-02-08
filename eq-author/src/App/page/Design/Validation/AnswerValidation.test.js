@@ -77,7 +77,7 @@ describe("AnswerValidation", () => {
 
     setTimeout(() => {
       const modal = wrapper.find(ModalWithNav);
-      expect(modal.prop("isOpen")).toBe(true)
+      expect(modal.prop("isOpen")).toBe(true);
     }, 1000);
   });
 
@@ -223,42 +223,70 @@ describe("AnswerValidation", () => {
             }
           });
         });
+
+        it("should display when unit type is null", () => {
+          const wrapper = () => {
+            const properties = {};
+            properties.unit = null;
+            return render({
+              ...props,
+              answer: {
+                id: "1",
+                type: UNIT,
+                properties,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    custom: 5,
+                    entityType: "Custom",
+                  },
+                },
+              },
+            });
+          };
+
+          expect(
+            wrapper(UNIT)
+              .find(SidebarButton)
+              .find(Detail)
+          ).toMatchSnapshot();
+        });
       });
     });
+  });
 
-    it("should render an error message when numeric input is null", () => {
-      const error = [
-        {
-          errorCode: "ERR_NO_VALUE",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when numeric input is null", () => {
+    const error = [
+      {
+        errorCode: "ERR_NO_VALUE",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
-    });
+    expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
+  });
 
-    it("should render an error message when min val > max Val", () => {
-      const error = [
-        {
-          errorCode: "ERR_MIN_LARGER_THAN_MAX",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when min val > max Val", () => {
+    const error = [
+      {
+        errorCode: "ERR_MIN_LARGER_THAN_MAX",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
-    });
+    expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
   });
 
   describe("Date validation preview", () => {

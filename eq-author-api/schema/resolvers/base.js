@@ -200,10 +200,15 @@ const Resolvers = {
     users: () => listUsers(),
     comments: async (root, { id }, ctx) => {
       const questionnaireId = ctx.questionnaire.id;
-      const questionnareComments = await getCommentsForQuestionnaire(
-        questionnaireId
-      );
-      return questionnareComments.comments[id] || [];
+      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
+     
+     if (comments[id]){
+         comments[id].sort((a, b) => b.createdTime - a.createdTime)
+         
+         return comments[id]
+    }
+    
+    return []
     },
     getAvailableAnswers: (root, { input }, ctx) =>
       getPreviousAnswersForPage(

@@ -70,7 +70,8 @@ exports[`ToggleSwitch should render 1`] = `
 
 .c1:focus {
   outline: none;
-  border: 1px solid #3B7A9E;
+  border-style: solid;
+  border-color: #3B7A9E;
 }
 
 .c1[disabled] {
@@ -267,7 +268,8 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
 
 .c1:focus {
   outline: none;
-  border: 1px solid #3B7A9E;
+  border-style: solid;
+  border-color: #3B7A9E;
 }
 
 .c1[disabled] {
