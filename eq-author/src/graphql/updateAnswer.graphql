@@ -24,9 +24,9 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
                     id
                     label
                     qCode
-                    validationErrorInfo {
-                      ...ValidationErrorInfo
-                    }
+                  }
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
                   }
               }
     page {

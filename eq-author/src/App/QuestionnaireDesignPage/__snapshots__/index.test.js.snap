@@ -2542,7 +2542,13 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           fillHeight={true}
         >
           <ContextProvider
-            value={Array []}
+            value={
+              Object {
+                "duplicateQCode": false,
+                "duplicates": Object {},
+                "flattenedAnswers": Array [],
+              }
+            }
           >
             <QuestionnaireDesignPage__NavColumn
               cols={3}

@@ -54,7 +54,7 @@ const MainNav = styled.div`
   background-color: ${colors.darkerBlack};
 `;
 
-export const QCodeContext = React.createContext([]);
+export const QCodeContext = React.createContext();
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -227,11 +227,35 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
 
     let flattenedAnswers;
+    let duplicates;
+    let duplicateQCode = false;
 
     if (questionnaire) {
       const sections = questionnaire.sections;
       const { answers } = organiseAnswers(sections);
       flattenedAnswers = flattenAnswers(answers);
+
+      duplicates = flattenedAnswers.reduce((acc, item) => {
+        if (
+          acc.hasOwnProperty(item.qCode) &&
+          item.qCode !== "" &&
+          item.qCode !== null
+        ) {
+          acc[item.qCode]++;
+        }
+        if (!acc[item.qCode]) {
+          acc[item.qCode] = 1;
+        }
+        return acc;
+      }, {});
+
+      if (duplicates) {
+        for (let key in duplicates) {
+          if (duplicates[key] > 1) {
+            duplicateQCode = true;
+          }
+        }
+      }
     }
 
     return (
@@ -240,7 +264,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <QCodeContext.Provider value={flattenedAnswers}>
+                <QCodeContext.Provider value={{flattenedAnswers, duplicates, duplicateQCode}}>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />

@@ -223,35 +223,22 @@ const Row = memo(props => {
   );
 });
 
-const RowBuilder = answers => {
+const RowBuilder = (answers, duplicates) => {
 
-  const duplicates = answers.reduce((acc, item) => {
-    if (
-      acc.hasOwnProperty(item.qCode) &&
-      item.qCode !== "" &&
-      item.qCode !== null
-    ) {
-      acc[item.qCode]++;
-    }
-    if (!acc[item.qCode]) {
-      acc[item.qCode] = 1;
-    }
-    return acc;
-  }, {});
-
-  return answers.map((item, index) => {
-    let noValQCodeError = false;
-    item.qCode ? noValQCodeError = false : noValQCodeError = true;
-
-    return (
-      <Row
-        key={`${item.id}-${index}`}
-        {...item}
-        error={duplicates[item.qCode] > 1}
-        noValQCodeError={noValQCodeError}
-      />
-    );
-  });
+  if(answers) {
+    return answers.map((item, index) => {
+      let noValQCodeError = false;
+      item.qCode ? noValQCodeError = false : noValQCodeError = true;
+      return (
+        <Row
+          key={`${item.id}-${index}`}
+          {...item}
+          error={duplicates[item.qCode] > 1}
+          noValQCodeError={noValQCodeError}
+        />
+      );
+    });
+  }
 };
 
 Row.propTypes = {
@@ -269,7 +256,7 @@ Row.propTypes = {
 
 export const UnwrappedQCodeTable = () => {
 
-  const flattenedAnswers = useContext(QCodeContext);
+  const {flattenedAnswers, duplicates }  = useContext(QCodeContext);
 
   return (
     <Table data-test="qcodes-table">
@@ -282,7 +269,7 @@ export const UnwrappedQCodeTable = () => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <StyledTableBody>{RowBuilder(flattenedAnswers)}</StyledTableBody>
+      <StyledTableBody>{RowBuilder(flattenedAnswers, duplicates)}</StyledTableBody>
 
     </Table>
   );

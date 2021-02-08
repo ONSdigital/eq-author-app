@@ -21,7 +21,7 @@ const dummyQcodes = {
 };
 
 describe("Qcode Table", () => {
-  let user, mocks, queryWasCalled, props, questionnaireId, flattenedAnswers;
+  let user, mocks, queryWasCalled, props, questionnaireId, flattenedAnswers, duplicates;
 
   beforeEach(() => {
     questionnaireId = "35b17858-cfac-4c66-80da-434ed2f995c3";
@@ -289,6 +289,8 @@ describe("Qcode Table", () => {
       } 
   ];
 
+  duplicates = {123: 2};
+
     props = {
       loading: false,
     };
@@ -321,6 +323,12 @@ describe("Qcode Table", () => {
                 qCode: "187",
                 secondaryQCode: "",
                 __typename: "BasicAnswer",
+                validationErrorInfo: {
+                  errors: [],
+                  id: "errID110",
+                  totalCount: 0,
+                  __typename: "ValidationErrorInfo"
+                },
               },
             },
           };
@@ -345,6 +353,12 @@ describe("Qcode Table", () => {
                 qCode: "",
                 secondaryQCode: "187",
                 __typename: "BasicAnswer",
+                validationErrorInfo: {
+                  errors: [],
+                  id: "errID111",
+                  totalCount: 0,
+                  __typename: "ValidationErrorInfo"
+                },
               },
             },
           };
@@ -368,6 +382,12 @@ describe("Qcode Table", () => {
                 id: "option-cb-1",
                 qCode: "187",
                 __typename: "BasicAnswer",
+                validationErrorInfo: {
+                  errors: [],
+                  id: "errID112",
+                  totalCount: 0,
+                  __typename: "ValidationErrorInfo"
+                },
               },
             },
           };
@@ -391,6 +411,12 @@ describe("Qcode Table", () => {
                 id: "option-cb-2",
                 qCode: "187",
                 __typename: "BasicAnswer",
+                validationErrorInfo: {
+                  errors: [],
+                  id: "errID113",
+                  totalCount: 0,
+                  __typename: "ValidationErrorInfo"
+                },
               },
             },
           };
@@ -414,6 +440,12 @@ describe("Qcode Table", () => {
                 id: "conf-q-1",
                 qCode: "187",
                 __typename: "BasicAnswer",
+                validationErrorInfo: {
+                  errors: [],
+                  id: "errID114",
+                  totalCount: 0,
+                  __typename: "ValidationErrorInfo"
+                },
               },
             },
           };
@@ -425,7 +457,7 @@ describe("Qcode Table", () => {
   const renderWithContext = (Component, rest) =>
     render(
       <MeContext.Provider value={{ me: user }}>
-          <QCodeContext.Provider value={flattenedAnswers}>
+          <QCodeContext.Provider value={{flattenedAnswers, duplicates}}>
             {Component}
           </QCodeContext.Provider>
       </MeContext.Provider>,

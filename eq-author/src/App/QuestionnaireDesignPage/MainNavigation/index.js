@@ -75,7 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
-  const flattenedAnswers = useContext(QCodeContext);
+  const {flattenedAnswers, duplicateQCode }  = useContext(QCodeContext);
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -191,7 +191,7 @@ export const UnwrappedMainNavigation = props => {
                     <IconText nav icon={qcodeIcon}>
                       QCodes
                     </IconText>
-                    {emptyQCode ? <SmallBadge data-test="small-badge" /> : null}
+                    {emptyQCode || duplicateQCode === true ? <SmallBadge data-test="small-badge" /> : null}
                   </RouteButton>
                   {me && <UserProfile nav signOut left client={client} />}
                 </ButtonGroup>
