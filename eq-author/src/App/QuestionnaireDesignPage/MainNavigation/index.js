@@ -75,7 +75,6 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
-  // console.log('questionnaire.totalErrorCount', questionnaire.totalErrorCount);
   const flattenedAnswers = useContext(QCodeContext);
 
   const { me } = useMe();
