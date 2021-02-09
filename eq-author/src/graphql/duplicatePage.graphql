@@ -15,8 +15,8 @@ mutation duplicatePage($input: DuplicatePageInput!) {
           secondaryLabel
           type
           properties
-          qCode
         ... on BasicAnswer {
+            qCode
             secondaryQCode
           }
           ... on MultipleChoiceAnswer {

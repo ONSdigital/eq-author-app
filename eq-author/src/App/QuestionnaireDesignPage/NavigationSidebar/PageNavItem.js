@@ -93,8 +93,8 @@ UnwrappedPageNavItem.fragments = {
           secondaryLabel
           type
           properties
-          qCode
           ... on BasicAnswer {
+            qCode
             secondaryQCode
           }
           ... on MultipleChoiceAnswer {

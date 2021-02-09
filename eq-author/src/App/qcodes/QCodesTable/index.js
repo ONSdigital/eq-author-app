@@ -257,7 +257,7 @@ Row.propTypes = {
 export const UnwrappedQCodeTable = () => {
 
   const {flattenedAnswers, duplicates }  = useContext(QCodeContext);
-
+console.log('flattenedAnswers', flattenedAnswers);
   return (
     <Table data-test="qcodes-table">
       <TableHead>
