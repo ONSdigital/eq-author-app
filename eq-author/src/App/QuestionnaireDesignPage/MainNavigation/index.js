@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight } from "lodash";
@@ -31,7 +31,7 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
-import { QCodeContext } from "App/QuestionnaireDesignPage";
+import { useQCodeContext } from "components/QCodeContext";
 
 import {
   buildQcodesPath,
@@ -75,7 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
-  const {flattenedAnswers, duplicateQCode }  = useContext(QCodeContext);
+  const {flattenedAnswers, duplicateQCode }  = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(

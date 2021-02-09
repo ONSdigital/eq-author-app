@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo, useContext } from "react";
+import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -10,7 +10,7 @@ import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
 import { removeHtml } from "../../../utils/getAllAnswersFlatMap"
-import { QCodeContext } from "App/QuestionnaireDesignPage";
+import { useQCodeContext } from "components/QCodeContext";
 
 import ValidationError from "components/ValidationError";
 
@@ -227,14 +227,12 @@ const RowBuilder = (answers, duplicates) => {
 
   if(answers) {
     return answers.map((item, index) => {
-      let noValQCodeError = false;
-      item.qCode ? noValQCodeError = false : noValQCodeError = true;
       return (
         <Row
           key={`${item.id}-${index}`}
           {...item}
           error={duplicates[item.qCode] > 1}
-          noValQCodeError={noValQCodeError}
+          noValQCodeError={!item.qCode}
         />
       );
     });
@@ -256,8 +254,8 @@ Row.propTypes = {
 
 export const UnwrappedQCodeTable = () => {
 
-  const {flattenedAnswers, duplicates }  = useContext(QCodeContext);
-  
+  const {flattenedAnswers, duplicates }  = useQCodeContext();
+
   return (
     <Table data-test="qcodes-table">
       <TableHead>

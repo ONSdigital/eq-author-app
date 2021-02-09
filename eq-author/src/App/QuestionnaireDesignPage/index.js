@@ -42,6 +42,7 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
+import { QCodeContext } from "components/QCodeContext";
 
 const NavColumn = styled(Column)`
   background-color: ${colors.darkerBlack};
@@ -53,9 +54,6 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-
-export const QCodeContext = React.createContext();
-
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddQuestionPage: PropTypes.func.isRequired,
