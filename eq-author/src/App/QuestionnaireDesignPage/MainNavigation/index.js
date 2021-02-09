@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight, find } from "lodash";
+import { flowRight } from "lodash";
 
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
@@ -90,9 +90,7 @@ export const UnwrappedMainNavigation = props => {
     (questionnaire || {}).id
   }`;
 
-  const emptyQCode =
-    flattenedAnswers &&
-    find(flattenedAnswers, obj => obj.qCode === "" || obj.qCode === null);
+  const emptyQCode = flattenedAnswers?.find(({type, qCode}) => type !== "Checkbox" && !qCode);
 
   return (
     <>

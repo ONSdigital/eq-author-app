@@ -5,7 +5,6 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     ...Answer
     ... on BasicAnswer {
-      qCode
       secondaryQCode
       validationErrorInfo {
         ...ValidationErrorInfo
