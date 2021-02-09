@@ -3,7 +3,8 @@ import { render, flushPromises } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
 import { act } from "react-dom/test-utils";
-import { QCodeContext } from "App/QuestionnaireDesignPage";
+import { QCodeContext } from "components/QCodeContext";
+
 
 describe("MainNavigation", () => {
   let props, user, mocks, questionnaire, flattenedAnswers, duplicateQCode;

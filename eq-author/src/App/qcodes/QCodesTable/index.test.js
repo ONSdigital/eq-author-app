@@ -6,7 +6,7 @@ import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 
 import { MeContext } from "App/MeContext";
-import { QCodeContext } from "App/QuestionnaireDesignPage";
+import { QCodeContext } from "components/QCodeContext";
 import { UnwrappedQCodeTable } from "./index";
 
 import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
