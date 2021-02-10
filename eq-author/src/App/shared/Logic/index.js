@@ -10,6 +10,8 @@ import { Grid, Column } from "components/Grid";
 import EditorLayout from "components/EditorLayout";
 import CustomPropTypes from "custom-prop-types";
 
+import { LogicBadge } from "components/Badge";
+
 const activeClassName = "active";
 
 const LogicMainCanvas = styled.div`
@@ -66,21 +68,6 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
-const Badge = styled.span`
-  border-radius: 0.7em;
-  border: 1px solid ${colors.white};
-  background-color: ${colors.red};
-  color: white;
-  padding: 0.15em 0.3em;
-  font-weight: normal;
-  z-index: 2;
-  margin-left: auto;
-  line-height: 1;
-  font-size: 0.9rem;
-  pointer-events: none;
-  height: 1.4em;
-`;
-
 const TABS = [
   {
     key: `routing`,
@@ -116,7 +103,9 @@ const LogicPage = ({ children, page }) => (
                   <LogicLink exact to={key} activeClassName="active" replace>
                     {label}
                     {errors?.length > 0 && (
-                      <Badge data-test="badge-withCount">{errors.length}</Badge>
+                      <LogicBadge data-test="badge-withCount">
+                        {errors.length}
+                      </LogicBadge>
                     )}
                   </LogicLink>
                 </li>
