@@ -40,6 +40,8 @@ if (config.REACT_APP_SENTRY_DSN) {
 
 let store;
 
+const a = arg => a;
+
 const getStore = () => store;
 
 const cache = createApolloCache({
