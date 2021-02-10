@@ -48,11 +48,11 @@ exports[`Logic Page should render 1`] = `
               to="routing"
             >
               Routing logic
-              <Logic__Badge
+              <Badge__LogicBadge
                 data-test="badge-withCount"
               >
                 1
-              </Logic__Badge>
+              </Badge__LogicBadge>
             </Logic__LogicLink>
           </li>
           <li
@@ -66,11 +66,11 @@ exports[`Logic Page should render 1`] = `
               to="skip"
             >
               Skip logic
-              <Logic__Badge
+              <Badge__LogicBadge
                 data-test="badge-withCount"
               >
                 1
-              </Logic__Badge>
+              </Badge__LogicBadge>
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>

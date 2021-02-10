@@ -8,7 +8,7 @@ exports[`Tabs should enable the Logic tab when prop is passed 1`] = `
   key="logic"
   to="/q/1/page/3/routing"
 >
-  <Tabs__SmallBadge
+  <Badge__TabsSmallBadge
     data-test="small-badge"
   />
   Logic
@@ -49,7 +49,7 @@ exports[`Tabs should render a confirmation link when provided 1`] = `
       data-test="logic"
       key="logic"
     >
-      <Tabs__SmallBadge
+      <Badge__TabsSmallBadge
         data-test="small-badge"
       />
       Logic
@@ -81,7 +81,7 @@ exports[`Tabs should render link to section if params are for a section 1`] = `
       data-test="logic"
       key="logic"
     >
-      <Tabs__SmallBadge
+      <Badge__TabsSmallBadge
         data-test="small-badge"
       />
       Logic
@@ -113,7 +113,7 @@ exports[`Tabs should render with design tab enabled by default 1`] = `
       data-test="logic"
       key="logic"
     >
-      <Tabs__SmallBadge
+      <Badge__TabsSmallBadge
         data-test="small-badge"
       />
       Logic
