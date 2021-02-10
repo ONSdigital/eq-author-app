@@ -78,7 +78,6 @@ const Badge = styled.span`
   line-height: 1;
   font-size: 0.9rem;
   pointer-events: none;
-  width: 1.4em;
   height: 1.4em;
 `;
 
