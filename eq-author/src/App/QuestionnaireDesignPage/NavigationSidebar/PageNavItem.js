@@ -74,11 +74,11 @@ UnwrappedPageNavItem.fragments = {
       validationErrorInfo {
         id
         errors {
-        id
-        type
-        field
-        errorCode
-      }
+          id
+          type
+          field
+          errorCode
+        }
         totalCount
       }
       ... on QuestionPage {

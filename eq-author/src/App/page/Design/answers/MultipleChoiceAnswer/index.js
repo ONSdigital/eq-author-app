@@ -238,8 +238,8 @@ UnwrappedMultipleChoiceAnswer.fragments = {
           }
         }
         validationErrorInfo {
-            ...ValidationErrorInfo
-          }
+          ...ValidationErrorInfo
+        }
       }
     }
     ${Option.fragments.Option}

@@ -85,7 +85,7 @@ export const UnwrappedMainNavigation = props => {
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-    }`;
+  }`;
 
   return (
     <>
@@ -179,7 +179,9 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null}
+                  {questionnaire.qCodeErrorCount > 0 ? (
+                    <SmallBadge data-test="small-badge" />
+                  ) : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>
@@ -188,7 +190,7 @@ export const UnwrappedMainNavigation = props => {
         </Flex>
         {children}
       </StyledMainNavigation>
-      
+
       {questionnaire && (
         <>
           <UpdateQuestionnaireSettingsModal

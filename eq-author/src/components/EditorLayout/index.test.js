@@ -67,7 +67,11 @@ describe("Editor Layout", () => {
   });
 
   it("should NOT render right hand panel if singleColumnLayout is true", () => {
-    const wrapper = shallow(<EditorLayout {...props} singleColumnLayout >Content</EditorLayout>);
+    const wrapper = shallow(
+      <EditorLayout {...props} singleColumnLayout>
+        Content
+      </EditorLayout>
+    );
 
     expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(0);
   });

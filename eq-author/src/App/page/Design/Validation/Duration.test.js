@@ -6,7 +6,6 @@ import { Select } from "components/Forms";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 const UNITS = [DAYS, MONTHS, YEARS];
 
-
 const render = props => shallow(<Duration {...props} />);
 
 describe("Duration", () => {

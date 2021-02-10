@@ -1278,7 +1278,7 @@ describe("schema validation", () => {
     it("should validate left hand Answer is after routing question", () => {
       defaultRouting.rules[0].expressionGroup.expressions[0].left = {
         type: "Answer",
-        answerId: "answer_2"
+        answerId: "answer_2",
       };
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
@@ -1297,12 +1297,14 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors).toEqual(expect.arrayContaining([
-        expect.objectContaining({
-          errorCode: "ERR_VALUE_REQUIRED",
-          field: "operator",
-        })]
-      ));
+      expect(routingErrors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            errorCode: "ERR_VALUE_REQUIRED",
+            field: "operator",
+          }),
+        ])
+      );
     });
 
     it("should validate empty skip conditions", () => {
@@ -1411,7 +1413,7 @@ describe("schema validation", () => {
             },
           },
         ],
-      }
+      };
 
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
