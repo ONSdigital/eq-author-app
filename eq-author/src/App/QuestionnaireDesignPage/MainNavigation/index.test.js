@@ -53,7 +53,8 @@ describe("MainNavigation", () => {
       },
     ];
     flattenedAnswers = [ 
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         id: 'ans-p1-1',
         description: '',
@@ -65,7 +66,8 @@ describe("MainNavigation", () => {
         questionPageId: 'qp-1',
         secondaryLabel: null 
       },
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         nested: true,
         id: 'ans-p1-2',
@@ -78,7 +80,8 @@ describe("MainNavigation", () => {
         questionPageId: 'qp-1',
         secondaryLabel: null 
       },
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         nested: true,
         id: 'ans-p1-3',
@@ -91,7 +94,8 @@ describe("MainNavigation", () => {
         questionPageId: 'qp-1',
         secondaryLabel: null 
       },
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         nested: true,
         id: 'ans-p1-4',
@@ -104,7 +108,8 @@ describe("MainNavigation", () => {
         questionPageId: 'qp-1',
         secondaryLabel: null 
       },
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         nested: true,
         id: 'ans-p1-5',
@@ -119,13 +124,12 @@ describe("MainNavigation", () => {
       },
     ];
     duplicateQCode = false;
-    // duplicates = {qCode3: 2};
   });
 
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
-         <QCodeContext.Provider value={{flattenedAnswers, duplicateQCode}}>
+         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
       </MeContext.Provider>,
@@ -159,7 +163,7 @@ describe("MainNavigation", () => {
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
-        <QCodeContext.Provider value={{flattenedAnswers, duplicateQCode}}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
       </MeContext.Provider>,
@@ -196,7 +200,7 @@ describe("MainNavigation", () => {
     
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
-        <QCodeContext.Provider value={{flattenedAnswers, duplicateQCode}}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
       </MeContext.Provider>,
@@ -217,7 +221,7 @@ describe("MainNavigation", () => {
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
-        <QCodeContext.Provider value={{flattenedAnswers, duplicateQCode}}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
       </MeContext.Provider>,

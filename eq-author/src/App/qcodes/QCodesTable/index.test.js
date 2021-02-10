@@ -27,7 +27,8 @@ describe("Qcode Table", () => {
     questionnaireId = "35b17858-cfac-4c66-80da-434ed2f995c3";
 
     flattenedAnswers = [ 
-      { title: '<p>Questions 1</p>',
+      { 
+        title: '<p>Questions 1</p>',
         alias: undefined,
         id: 'ans-p1-1',
         description: '',
@@ -289,7 +290,7 @@ describe("Qcode Table", () => {
       } 
   ];
 
-  duplicates = {123: 2};
+  duplicates = { 123: 2 };
 
     props = {
       loading: false,

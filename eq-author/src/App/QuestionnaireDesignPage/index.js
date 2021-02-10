@@ -262,7 +262,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <QCodeContext.Provider value={{flattenedAnswers, duplicates, duplicateQCode}}>
+                <QCodeContext.Provider value={{ flattenedAnswers, duplicates, duplicateQCode }}>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />

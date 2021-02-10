@@ -75,7 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
-  const {flattenedAnswers, duplicateQCode }  = useQCodeContext();
+  const { flattenedAnswers, duplicateQCode }  = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(

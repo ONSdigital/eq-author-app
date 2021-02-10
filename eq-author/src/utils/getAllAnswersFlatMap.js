@@ -1,7 +1,5 @@
 /* eslint-disable no-loop-func */
-import {
-    RADIO,
-  } from "constants/answer-types";
+import { RADIO } from "constants/answer-types";
 
 export const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
 

@@ -225,7 +225,7 @@ const Row = memo(props => {
 
 const RowBuilder = (answers, duplicates) => {
 
-  if(answers) {
+  if (answers) {
     return answers.map((item, index) => {
       return (
         <Row
@@ -249,12 +249,12 @@ Row.propTypes = {
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
   nested: PropTypes.bool,
-  noValQCodeError: PropTypes.bool, // eslint-disable-line
+  noValQCodeError: PropTypes.bool,
 };
 
 export const UnwrappedQCodeTable = () => {
 
-  const {flattenedAnswers, duplicates }  = useQCodeContext();
+  const { flattenedAnswers, duplicates }  = useQCodeContext();
 
   return (
     <Table data-test="qcodes-table">
