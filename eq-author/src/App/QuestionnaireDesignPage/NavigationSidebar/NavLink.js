@@ -7,7 +7,7 @@ import { rgba } from "polished";
 import { colors } from "constants/theme";
 import IconText from "components/IconText";
 import Truncated from "components/Truncated";
-import { NavBadge, NavSmallBadge } from "components/Badge";
+import Badge from "components/Badge";
 
 export const activeClassName = "active";
 
@@ -72,13 +72,17 @@ const NavLink = ({
     </IconText>
 
     {isSection && !isOpen && (sectionTotalErrors || errorCount) !== 0 ? (
-      <NavSmallBadge data-test="badge-NoCount-closed" />
+      <Badge variant="nav-small" data-test="badge-NoCount-closed" />
     ) : null}
     {isSection && isOpen && errorCount !== 0 ? (
-      <NavBadge data-test="badge-withCount">{errorCount}</NavBadge>
+      <Badge variant="nav" data-test="badge-withCount">
+        {errorCount}
+      </Badge>
     ) : null}
     {!isSection && errorCount ? (
-      <NavBadge data-test="badge-withCount">{errorCount}</NavBadge>
+      <Badge variant="nav" data-test="badge-withCount">
+        {errorCount}
+      </Badge>
     ) : null}
   </Link>
 );

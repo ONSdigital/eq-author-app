@@ -17,7 +17,7 @@ import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 
-import { MainNavSmallBadge } from "components/Badge";
+import Badge from "components/Badge";
 
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
@@ -166,7 +166,7 @@ export const UnwrappedMainNavigation = props => {
                     QCodes
                   </IconText>
                   {questionnaire.qCodeErrorCount > 0 ? (
-                    <MainNavSmallBadge data-test="small-badge" />
+                    <Badge variant="main-nav-small" data-test="small-badge" />
                   ) : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}

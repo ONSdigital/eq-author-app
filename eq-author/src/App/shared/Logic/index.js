@@ -10,7 +10,7 @@ import { Grid, Column } from "components/Grid";
 import EditorLayout from "components/EditorLayout";
 import CustomPropTypes from "custom-prop-types";
 
-import { LogicBadge } from "components/Badge";
+import Badge from "components/Badge";
 
 const activeClassName = "active";
 
@@ -103,9 +103,9 @@ const LogicPage = ({ children, page }) => (
                   <LogicLink exact to={key} activeClassName="active" replace>
                     {label}
                     {errors?.length > 0 && (
-                      <LogicBadge data-test="badge-withCount">
+                      <Badge variant="logic" data-test="badge-withCount">
                         {errors.length}
-                      </LogicBadge>
+                      </Badge>
                     )}
                   </LogicLink>
                 </li>

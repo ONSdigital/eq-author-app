@@ -10,7 +10,7 @@ import {
   buildLogicPath,
 } from "utils/UrlUtils";
 
-import { TabsSmallBadge } from "components/Badge";
+import Badge from "components/Badge";
 
 export const activeClassName = "active";
 
@@ -112,7 +112,7 @@ export const UnwrappedTabs = props => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
-                <TabsSmallBadge data-test="small-badge" />
+                <Badge variant="tabs-small" data-test="small-badge" />
               ) : null}
               {children}
             </Component>
