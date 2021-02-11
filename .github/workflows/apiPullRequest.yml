@@ -37,8 +37,6 @@ jobs:
           fail_ci_if_error: true
 
   Build:
-    if: contains( github.event.pull_request.labels.*.name, 'dependencies') != true
-
     runs-on: ubuntu-latest
 
     needs: Tests
