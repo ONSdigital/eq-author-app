@@ -18,7 +18,26 @@ describe("withDeleteBinaryExpression", () => {
       props.deleteBinaryExpression("id");
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { id: "id" } },
+        update: expect.any(Function),
       });
+    });
+
+    it("should pass on result to onCompleted callback", () => {
+      const onCompleted = jest.fn();
+      const mockExpressionGroup = {
+        id: "expression-group-1",
+        expressions: []
+      };
+
+      mutate.mockImplementation(({ update }) =>
+        update(null, {
+          data: {
+            deleteBinaryExpression2: mockExpressionGroup
+          }
+        }));
+
+      props.deleteBinaryExpression("my-least-favourite-expression", onCompleted);
+      expect(onCompleted).toHaveBeenCalledWith(mockExpressionGroup);
     });
   });
 });
