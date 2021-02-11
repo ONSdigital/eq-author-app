@@ -14,7 +14,7 @@ const openStyle = css`
 `;
 
 export const PickerWrapper = styled.div`
-  ${props => (props.open ? openStyle : null)};
+  ${(props) => (props.open ? openStyle : null)};
   margin-bottom: 3px;
 `;
 
@@ -50,7 +50,7 @@ const ContentPickerSingle = ({
         open={open}
         labelledBy={`${title}-title`}
       >
-        {data.map(option => {
+        {data.map((option) => {
           return (
             <PickerOption
               key={option.id}

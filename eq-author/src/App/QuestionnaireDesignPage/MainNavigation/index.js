@@ -71,7 +71,7 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
-export const UnwrappedMainNavigation = props => {
+export const UnwrappedMainNavigation = (props) => {
   const { questionnaire, title, children, client, match } = props;
 
   const { me } = useMe();

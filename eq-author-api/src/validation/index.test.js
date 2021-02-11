@@ -317,7 +317,7 @@ describe("schema validation", () => {
   describe("Answer validation", () => {
     describe("basic answer", () => {
       it("should ensure that the label is populated", () => {
-        BASIC_ANSWERS.forEach(type => {
+        BASIC_ANSWERS.forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -655,7 +655,7 @@ describe("schema validation", () => {
         });
 
         it("should not return an error if one of the two is disabled", () => {
-          ["earliestDate", "latestDate", "none"].forEach(entity => {
+          ["earliestDate", "latestDate", "none"].forEach((entity) => {
             const answer = {
               id: "a1",
               type: DATE,
@@ -783,7 +783,7 @@ describe("schema validation", () => {
           });
 
           it("Date Range - should not validate if one of the two is disabled", () => {
-            ["earliestDate", "latestDate", "none"].forEach(entity => {
+            ["earliestDate", "latestDate", "none"].forEach((entity) => {
               const answer = {
                 id: "a1",
                 type: DATE_RANGE,
@@ -960,7 +960,7 @@ describe("schema validation", () => {
 
     describe("currency, number, percentage and unit answers", () => {
       it("should ensure that max value is always larger than min value", () => {
-        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -1028,7 +1028,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is disabled", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1080,7 +1080,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is a previous answer", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1132,7 +1132,7 @@ describe("schema validation", () => {
       });
 
       it("should validate if qCode is missing", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1898,7 +1898,7 @@ describe("schema validation", () => {
   });
 
   describe("totalValidation", () => {
-    const validateTotalValidation = attributes => {
+    const validateTotalValidation = (attributes) => {
       questionnaire.sections[0].folders[0].pages[1].totalValidation = {
         id: "totalvalidation-rule-1",
         enabled: true,

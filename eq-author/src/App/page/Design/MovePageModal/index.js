@@ -67,7 +67,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
 
   const handleSectionChange = ({ value }) => setSelectedSectionId(value);
 
-  const handleSectionConfirm = e => {
+  const handleSectionConfirm = (e) => {
     e.preventDefault();
     setIsSectionSelectOpen(false);
   };
@@ -115,7 +115,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
               value={selectedSection.id}
               onChange={handleSectionChange}
             >
-              {questionnaire.sections.map(section => (
+              {questionnaire.sections.map((section) => (
                 <Option key={section.id} value={section.id}>
                   {section.displayName}
                 </Option>

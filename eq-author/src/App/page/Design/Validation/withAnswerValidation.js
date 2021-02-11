@@ -1,7 +1,7 @@
 import React from "react";
 import ValidationContext from "./ValidationContext";
 
-export default validationName => Component => props => (
+export default (validationName) => (Component) => (props) => (
   <ValidationContext.Consumer>
     {({ answer }) => {
       let propsWithValidation = {

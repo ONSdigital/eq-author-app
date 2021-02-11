@@ -16,7 +16,7 @@ const propWhitelist = [
   "disabled",
   "data-test",
 ];
-const RouteLink = props => <Link {...pick(propWhitelist, props)} />;
+const RouteLink = (props) => <Link {...pick(propWhitelist, props)} />;
 
 const StyledRouteLink = Button.withComponent(RouteLink);
 

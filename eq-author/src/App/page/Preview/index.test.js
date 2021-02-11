@@ -9,7 +9,7 @@ import QuestionPagePreview from "./QuestionPagePreview";
 
 describe("page previews", () => {
   let page;
-  const render = props => shallow(<PreviewPageRoute {...props} />);
+  const render = (props) => shallow(<PreviewPageRoute {...props} />);
 
   it("should show loading spinner while request in flight", () => {
     const wrapper = render({ loading: true });

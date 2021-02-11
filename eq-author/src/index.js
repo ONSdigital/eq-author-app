@@ -40,8 +40,6 @@ if (config.REACT_APP_SENTRY_DSN) {
 
 let store;
 
-const a = arg => a;
-
 const getStore = () => store;
 
 const cache = createApolloCache({
@@ -96,7 +94,7 @@ const networkLink = split(
 );
 
 const headersLink = setContext((_, { headers }) =>
-  getHeaders(headers).then(headers => ({
+  getHeaders(headers).then((headers) => ({
     headers,
   }))
 );

@@ -9,7 +9,7 @@ const PAGE_SIZE = 16;
 const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   const possibleNextIndex =
     questionnaires.indexOf(
-      questionnaires.find(q => q.id === deletedQuestionnaire.id)
+      questionnaires.find((q) => q.id === deletedQuestionnaire.id)
     ) + 1;
 
   // If the last one is being removed then focus the one before that
@@ -23,8 +23,8 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   return (questionnaires[nextIndex] || {}).id;
 };
 
-const sortQuestionnaires = state => questionnaires => {
-  const sortedQuestionnaires = sortBy(questionnaires, questionnaire =>
+const sortQuestionnaires = (state) => (questionnaires) => {
+  const sortedQuestionnaires = sortBy(questionnaires, (questionnaire) =>
     get(questionnaire, state.currentSortColumn).toUpperCase()
   );
   if (state.currentSortOrder === SORT_ORDER.ASCENDING) {
@@ -33,23 +33,23 @@ const sortQuestionnaires = state => questionnaires => {
   return reverse(sortedQuestionnaires);
 };
 
-const filterQuestionnairesBySearch = state => questionnaires => {
+const filterQuestionnairesBySearch = (state) => (questionnaires) => {
   const searchTerm = state.searchTerm.toLowerCase();
   return questionnaires.filter(
-    q =>
+    (q) =>
       q.title.toLowerCase().includes(searchTerm) ||
       (q.shortTitle || "").toLowerCase().includes(searchTerm)
   );
 };
 
-const filterQuestionnairesByOwnership = state => questionnaires => {
+const filterQuestionnairesByOwnership = (state) => (questionnaires) => {
   if (!state.isFiltered) {
     return questionnaires;
   }
-  return questionnaires.filter(q => q.permission === WRITE);
+  return questionnaires.filter((q) => q.permission === WRITE);
 };
 
-const buildState = state => {
+const buildState = (state) => {
   const questionnaires = flowRight([
     filterQuestionnairesBySearch(state),
     filterQuestionnairesByOwnership(state),
@@ -67,7 +67,7 @@ const buildState = state => {
   };
 };
 
-export const buildInitialState = questionnaires => state =>
+export const buildInitialState = (questionnaires) => (state) =>
   buildState({ ...state, searchTerm: "", apiQuestionnaires: questionnaires });
 
 export const ACTIONS = {

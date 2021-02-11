@@ -92,7 +92,7 @@ export class UnconnectedSavingIndicator extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isSaving: isSaving(state),
     hasError: hasError(state),

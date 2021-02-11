@@ -13,7 +13,7 @@ const props = {
   index: 0,
 };
 
-const setup = props => {
+const setup = (props) => {
   const setReplyRef = jest.fn();
   const setReply = jest.fn();
   const handleSaveReply = jest.fn();

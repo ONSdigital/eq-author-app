@@ -28,7 +28,7 @@ const StyledNavLink = styled.div`
   }
 `;
 
-const getIcon = pageType => {
+const getIcon = (pageType) => {
   if (pageType === "CalculatedSummaryPage") {
     return CalculatedIcon;
   }

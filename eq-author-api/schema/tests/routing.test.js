@@ -822,7 +822,7 @@ describe("routing", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([
+      expect(sections.map((s) => s.id)).toEqual([
         secondSectionId,
         firstSectionId,
       ]);

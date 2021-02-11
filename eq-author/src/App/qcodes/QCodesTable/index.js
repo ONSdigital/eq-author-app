@@ -92,9 +92,9 @@ const questionMatrix = {
   [DURATION]: "Duration",
 };
 
-const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
+const removeHtml = (html) => html && html.replace(/(<([^>]+)>)/gi, "");
 
-const organiseAnswers = sections => {
+const organiseAnswers = (sections) => {
   const questions = sections
     .map(({ folders }) => folders.map(({ pages }) => pages))
     .flat(2);
@@ -111,7 +111,7 @@ const organiseAnswers = sections => {
           item.options &&
           item.type !== RADIO
         ) {
-          const optionLabel = item.options.map(option => ({
+          const optionLabel = item.options.map((option) => ({
             ...option,
             type: "CheckboxOption",
             option: true,
@@ -177,7 +177,7 @@ const organiseAnswers = sections => {
   return { answers: answerRows };
 };
 
-const flattenAnswers = data => {
+const flattenAnswers = (data) => {
   const answers = data.reduce((acc, item) => {
     const answer = item.answers.map((ans, index) => {
       if (index > 0) {
@@ -209,7 +209,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
     updateAnswer,
   } = mutation;
 
-  const mutationVariables = inputValues => {
+  const mutationVariables = (inputValues) => {
     return {
       variables: {
         input: {
@@ -224,7 +224,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   if (questionMatrix[type] === questionMatrix.QuestionConfirmation) {
     updateConfirmation(mutationVariables({ id, qCode }));
   } else if (questionMatrix[type] === questionMatrix.CalculatedSummaryPage) {
-    const summaryAnswers = payload.summaryAnswers.map(item => item.id);
+    const summaryAnswers = payload.summaryAnswers.map((item) => item.id);
     const update = { id, qCode, summaryAnswers };
 
     updateCalculatedSummaryPage(mutationVariables(update));
@@ -239,7 +239,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   }
 };
 
-const Row = memo(props => {
+const Row = memo((props) => {
   const {
     id,
     title,
@@ -251,7 +251,7 @@ const Row = memo(props => {
     noValQCodeError,
   } = props;
   const commonFields = useCallback(
-    fields => {
+    (fields) => {
       const [qCode, setQcode] = useState(initialQcode);
 
       const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
@@ -288,7 +288,7 @@ const Row = memo(props => {
             <SpacedTableColumn>
               <ErrorWrappedInput
                 value={qCode}
-                onChange={e => setQcode(e.value)}
+                onChange={(e) => setQcode(e.value)}
                 onBlur={() => handleBlur(id, type, qCode)}
                 name={`${id}-qcode-entry`}
                 data-test={`${id}-test-input`}
@@ -333,7 +333,7 @@ const Row = memo(props => {
   );
 });
 
-const RowBuilder = answers => {
+const RowBuilder = (answers) => {
   const duplicates = answers.reduce((acc, item) => {
     if (
       acc.hasOwnProperty(item.qCode) &&
@@ -415,7 +415,7 @@ UnwrappedQCodeTable.propTypes = {
   }),
 };
 
-export default withApollo(props => (
+export default withApollo((props) => (
   <Query
     query={GET_ALL_ANSWERS}
     variables={{
@@ -424,6 +424,6 @@ export default withApollo(props => (
       },
     }}
   >
-    {innerprops => <UnwrappedQCodeTable {...innerprops} {...props} />}
+    {(innerprops) => <UnwrappedQCodeTable {...innerprops} {...props} />}
   </Query>
 ));

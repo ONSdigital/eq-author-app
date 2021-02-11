@@ -106,7 +106,7 @@ export const UnwrappedRuleEditor = ({
 
   const handleDeleteClick = () => deleteRule(rule.id);
 
-  const handleDestinationChange = destination =>
+  const handleDestinationChange = (destination) =>
     updateRule({ ...rule, destination });
 
   const handleGroupOperatorChange = ({ value: operator }) =>
@@ -115,7 +115,7 @@ export const UnwrappedRuleEditor = ({
       operator,
     });
 
-  const handleExpressionDeletion = expressionGroup => {
+  const handleExpressionDeletion = (expressionGroup) => {
     if (expressionGroup?.expressions?.length === 1) {
       updateExpressionGroup({
         id: expressionGroup.id,

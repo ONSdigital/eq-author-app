@@ -512,14 +512,14 @@ describe("Qcode Table", () => {
       "Answer label",
       "Qcode",
     ];
-    fieldHeadings.forEach(heading => expect(getByText(heading)).toBeTruthy());
+    fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
 
   it("Should render rows equivalent to the amount of Questions", () => {
     const { getAllByText, getByText, getAllByTestId } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
-    const renderedQuestions = getAllByText(content =>
+    const renderedQuestions = getAllByText((content) =>
       content.startsWith("Questions")
     );
 

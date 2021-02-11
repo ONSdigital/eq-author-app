@@ -13,7 +13,7 @@ import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 //eslint-disable-next-line react/prop-types
 jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
-  const handleInputChange = event =>
+  const handleInputChange = (event) =>
     onUpdate({
       value: event.target.value,
     });

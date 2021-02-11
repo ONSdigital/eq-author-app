@@ -104,17 +104,11 @@ describe("RuleEditor", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .first()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).first().prop("canAddCondition")
     ).toBe(true);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .last()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).last().prop("canAddCondition")
     ).toBe(false);
   });
 

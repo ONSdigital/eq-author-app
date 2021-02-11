@@ -17,10 +17,10 @@ const pageTypeMappings = {
 
 const getLastPage = flow(getOr([], "pages"), last);
 
-const processPipedTitle = ctx =>
+const processPipedTitle = (ctx) =>
   flow(convertPipes(ctx), getInnerHTMLWithPiping);
 
-const processPipedText = ctx => flow(convertPipes(ctx), unescapePiping);
+const processPipedText = (ctx) => flow(convertPipes(ctx), unescapePiping);
 
 const isLastPageInSection = (page, ctx) =>
   flow(getOr([], "sections"), map(getLastPage), some({ id: page.id }))(ctx);
@@ -71,7 +71,7 @@ class Block {
       this.type = "CalculatedSummary";
       this.calculation = {
         calculation_type: "sum",
-        answers_to_calculate: page.summaryAnswers.map(o => `answer${o.id}`),
+        answers_to_calculate: page.summaryAnswers.map((o) => `answer${o.id}`),
         titles: [
           {
             value: processPipedTitle(ctx)(page.totalTitle),

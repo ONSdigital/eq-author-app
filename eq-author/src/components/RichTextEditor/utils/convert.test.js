@@ -3,7 +3,7 @@ import { toHTML, fromHTML } from "components/RichTextEditor/utils/convert";
 import { convertToRaw, EditorState } from "draft-js";
 import Raw from "draft-js-raw-content-state";
 
-const stateToRaw = state => convertToRaw(state.getCurrentContent());
+const stateToRaw = (state) => convertToRaw(state.getCurrentContent());
 
 // https://github.com/facebook/draft-js/issues/702
 jest.mock("draft-js/lib/generateRandomKey", () => () => "123");

@@ -12,10 +12,10 @@ const { createUser } = require("../../db/datastore");
 
 jest.mock("./verifyJwtToken", () => {
   const jwt = require("jsonwebtoken");
-  return jest.fn(accessToken => {
+  return jest.fn((accessToken) => {
     const jwtToken = jwt.decode(accessToken);
 
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       resolve(jwtToken.id !== "invalid.token");
     });
   });

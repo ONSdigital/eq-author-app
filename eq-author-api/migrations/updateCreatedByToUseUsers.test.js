@@ -8,7 +8,7 @@ const { createUser } = require("../db/datastore");
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
 describe("updateCreatedByToUseUsers", () => {
-  const buildQuestionnaire = createdBy => ({
+  const buildQuestionnaire = (createdBy) => ({
     id: "1",
     title: "Test Questionnaire",
     createdBy,

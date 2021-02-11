@@ -50,7 +50,7 @@ const formatErrorMessage = (error, questionnaire) => {
   return newErrorMessage;
 };
 
-module.exports = questionnaire => {
+module.exports = (questionnaire) => {
   validate(questionnaire);
 
   if (!validate.errors) {

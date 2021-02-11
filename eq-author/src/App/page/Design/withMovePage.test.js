@@ -88,7 +88,7 @@ describe("withMovePage", () => {
 
         args.from.sectionId = fromSection.id;
 
-        mutate = options => {
+        mutate = (options) => {
           update = options.update;
         };
         await mapMutateToProps({ mutate }).onMovePage(args);
@@ -97,7 +97,7 @@ describe("withMovePage", () => {
 
         const updatedFromSection = {
           ...fromSection,
-          folders: fromSection.folders.map(folder => ({
+          folders: fromSection.folders.map((folder) => ({
             ...folder,
             pages: folder.pages.filter(({ id }) => id !== args.to.id),
           })),

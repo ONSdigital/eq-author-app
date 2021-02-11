@@ -3,7 +3,7 @@ import createQuestionnaireQuery from "graphql/createQuestionnaire.graphql";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 
-export const redirectToDesigner = history => ({ data }) => {
+export const redirectToDesigner = (history) => ({ data }) => {
   const questionnaire = data.createQuestionnaire;
 
   if (questionnaire.introduction) {
@@ -28,7 +28,7 @@ export const redirectToDesigner = history => ({ data }) => {
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
-  onCreateQuestionnaire: questionnaire => {
+  onCreateQuestionnaire: (questionnaire) => {
     const input = {
       ...questionnaire,
     };

@@ -1,4 +1,4 @@
-export const isPrintableKeyCode = keyCode => {
+export const isPrintableKeyCode = (keyCode) => {
   return (
     (keyCode > 47 && keyCode < 58) || // number keys
     keyCode === 32 ||

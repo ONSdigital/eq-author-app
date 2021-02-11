@@ -2,12 +2,12 @@ const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const { getPages } = require("../../schema/resolvers/utils");
 
 const onSectionDeleted = (ctx, removedSection) => {
-  removedSection.folders.forEach(folder => {
+  removedSection.folders.forEach((folder) => {
     onFolderDeleted(ctx, folder);
   });
 
   const allPages = getPages(ctx);
-  allPages.forEach(page => {
+  allPages.forEach((page) => {
     if (!page.routing) {
       return;
     }
@@ -16,7 +16,7 @@ const onSectionDeleted = (ctx, removedSection) => {
       elseRoute.sectionId = null;
     }
 
-    page.routing.rules.map(rule => {
+    page.routing.rules.map((rule) => {
       if (rule.destination.sectionId === removedSection.id) {
         rule.destination.sectionId = null;
       }

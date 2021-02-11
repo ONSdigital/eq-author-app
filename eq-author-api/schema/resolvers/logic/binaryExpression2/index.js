@@ -55,7 +55,7 @@ Resolvers.BinaryExpression2 = {
     return null;
   },
   expressionGroup: async ({ id }, args, ctx) => {
-    return find(expressionGroup => {
+    return find((expressionGroup) => {
       if (
         expressionGroup.expressions &&
         some({ id }, expressionGroup.expressions)
@@ -83,7 +83,7 @@ Resolvers.LeftSide2 = {
 };
 
 Resolvers.RightSide2 = {
-  __resolveType: right => {
+  __resolveType: (right) => {
     if (right.type === "Custom") {
       return "CustomValue2";
     }
@@ -102,7 +102,7 @@ Resolvers.SelectedOptions2 = {
     return intersectionBy(
       "id",
       getOptions(ctx),
-      map(optionId => ({ id: optionId }), right.optionIds)
+      map((optionId) => ({ id: optionId }), right.optionIds)
     );
   },
 };
@@ -251,7 +251,7 @@ Resolvers.Mutation = {
       const routingExpressionGroups = getExpressionGroups(ctx);
       const skipConditions = getSkipConditions(ctx);
       const expressionGroup = find(
-        expressionGroup => {
+        (expressionGroup) => {
           if (some({ id: input.id }, expressionGroup.expressions)) {
             return expressionGroup;
           }

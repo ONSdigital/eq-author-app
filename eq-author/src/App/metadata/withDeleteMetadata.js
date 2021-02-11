@@ -18,7 +18,7 @@ export const fragment = gql`
   }
 `;
 
-export const deleteUpdater = (questionnaireId, metadataId) => proxy => {
+export const deleteUpdater = (questionnaireId, metadataId) => (proxy) => {
   const id = `Questionnaire${questionnaireId}`;
   const questionnaire = proxy.readFragment({ id, fragment });
 

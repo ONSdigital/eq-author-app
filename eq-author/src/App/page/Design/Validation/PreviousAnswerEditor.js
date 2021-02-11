@@ -26,8 +26,8 @@ const PreviousAnswerEditor = ({
   const { errors } = validation.validationErrorInfo;
 
   const errorCode = errors
-    .map(e => e.errorCode)
-    .find(errorCode => Object.keys(errorMessages).includes(errorCode));
+    .map((e) => e.errorCode)
+    .find((errorCode) => Object.keys(errorMessages).includes(errorCode));
 
   const contentPicker = (
     <PreviousAnswerContentPicker

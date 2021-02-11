@@ -29,7 +29,7 @@ const StyledError = styled(ValidationError)`
   width: 60%;
 `;
 
-const CustomEditor = props => {
+const CustomEditor = (props) => {
   const {
     onUpdate,
     answer,
@@ -39,7 +39,7 @@ const CustomEditor = props => {
     onCustomNumberValueChange,
   } = props;
 
-  const hasError = find(validation.validationErrorInfo.errors, error =>
+  const hasError = find(validation.validationErrorInfo.errors, (error) =>
     error.errorCode.includes("ERR_NO_VALUE")
   );
 

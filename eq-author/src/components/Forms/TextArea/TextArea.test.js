@@ -11,7 +11,7 @@ describe("components/Forms/TextArea", () => {
     changeHandler = jest.fn();
   });
 
-  it("should render correctly", function() {
+  it("should render correctly", function () {
     expect(
       render(
         <TextArea

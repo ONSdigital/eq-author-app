@@ -38,7 +38,7 @@ describe("PageRoute", () => {
   });
 
   describe("data fetching", () => {
-    const render = props =>
+    const render = (props) =>
       shallow(
         <UnwrappedPageRoute match={match} {...mockHandlers} {...props} />
       );

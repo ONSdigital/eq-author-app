@@ -6,7 +6,7 @@ const { createMutation } = require("../../../createMutation");
 const { getPages } = require("../../../utils");
 
 Resolvers.ExpressionGroup2 = {
-  expressions: expressionGroup => expressionGroup.expressions,
+  expressions: (expressionGroup) => expressionGroup.expressions,
   validationErrorInfo: ({ id }, args, ctx) => {
     const expressionGroupErrors = ctx.validationErrorInfo.filter(
       ({ expressionGroupId, skipConditionId }) =>
@@ -38,10 +38,10 @@ Resolvers.Mutation = {
       const expressionGroup = find(
         { id },
         flatMap(
-          rule => get("expressionGroup", rule),
+          (rule) => get("expressionGroup", rule),
           flatMap(
-            routing => get("rules", routing),
-            flatMap(page => get("routing", page), getPages(ctx))
+            (routing) => get("rules", routing),
+            flatMap((page) => get("routing", page), getPages(ctx))
           )
         )
       );

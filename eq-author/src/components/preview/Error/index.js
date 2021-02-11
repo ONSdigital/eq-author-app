@@ -20,9 +20,9 @@ const Error = styled.div`
   color: ${colors.previewError};
   font-size: 1em;
   font-weight: bold;
-  margin-bottom: ${props => (props.margin ? "1em" : "0")};
-  ${props => props.small && small};
-  ${props => props.large && large};
+  margin-bottom: ${(props) => (props.margin ? "1em" : "0")};
+  ${(props) => props.small && small};
+  ${(props) => props.large && large};
 `;
 
 Error.defaultProps = {

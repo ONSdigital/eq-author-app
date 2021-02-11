@@ -2,7 +2,7 @@ import getEntities from "components/RichTextEditor/utils/getEntities";
 import Raw from "draft-js-raw-content-state";
 
 describe("getEntities", () => {
-  const findEntities = entityType => {
+  const findEntities = (entityType) => {
     const contentState = new Raw()
       .addBlock("hello")
       .addEntity({ type: "ENTITY_A", mutability: "IMMUTABLE" }, 0, 1)
@@ -28,7 +28,7 @@ describe("getEntities", () => {
 
   it("should return the entity itself", () => {
     const entities = findEntities("ENTITY_A");
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       expect(entity).toMatchObject({
         entity: expect.objectContaining({
           type: "ENTITY_A",
@@ -40,7 +40,7 @@ describe("getEntities", () => {
 
   it("should return metadata about the entity", () => {
     const entities = findEntities("ENTITY_A");
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       expect(entity).toMatchObject({
         start: expect.any(Number),
         end: expect.any(Number),

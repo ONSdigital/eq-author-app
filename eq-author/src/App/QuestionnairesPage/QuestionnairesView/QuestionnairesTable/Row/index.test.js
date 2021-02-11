@@ -19,7 +19,7 @@ import {
 describe("Row", () => {
   let props;
 
-  const renderRow = props =>
+  const renderRow = (props) =>
     render(
       <table>
         <tbody>
