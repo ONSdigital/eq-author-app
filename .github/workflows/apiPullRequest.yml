@@ -35,7 +35,7 @@ jobs:
           flags: API
           name: API
           fail_ci_if_error: true
-  
+
   Build:
     if: contains( github.event.pull_request.labels.*.name, 'dependencies') != true
 
@@ -58,8 +58,8 @@ jobs:
       - name: Build new docker image
         run: pushd eq-author-api; docker build -t onsdigital/eq-author-api:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
         env:
-          TAG: ${{github.sha}}
+          TAG: ${{ github.event.pull_request.head.sha }}
       - name: Push new docker image
         run: pushd eq-author-api; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-author-api:$TAG; popd
         env:
-          TAG: ${{github.sha}}
+          TAG: ${{ github.event.pull_request.head.sha }}

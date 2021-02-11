@@ -59,13 +59,13 @@ jobs:
         run: pushd eq-author; yarn build; popd
         env:
           REACT_APP_EQ_AUTHOR_VERSION: $(git rev-parse HEAD)
-      - name: Build Storybook (Design system) for deployment 
+      - name: Build Storybook (Design system) for deployment
         run: pushd eq-author; yarn build-storybook -o ../docs --docs; popd
       - name: Build new docker image
         run: pushd eq-author; docker build -t onsdigital/eq-author:$TAG .; popd
         env:
-          TAG: ${{github.sha}}
+          TAG: ${{ github.event.pull_request.head.sha }}
       - name: Push new docker image
         run: pushd eq-author; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-author:$TAG; popd
         env:
-          TAG: ${{github.sha}}
+          TAG: ${{ github.event.pull_request.head.sha }}
