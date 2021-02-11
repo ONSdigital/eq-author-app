@@ -52,6 +52,25 @@ describe("MainNavigation", () => {
     ];
   });
 
+  it("should display error badge when there are errors", async () => {
+    props.questionnaire.qCodeErrorCount = 1;
+
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <UnwrappedMainNavigation {...props} />
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
+
+    await act(async () => {
+      flushPromises();
+    });
+
+    expect(getByTestId("small-badge")).toBeTruthy();
+  });
+
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
