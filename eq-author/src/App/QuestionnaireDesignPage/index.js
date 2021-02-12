@@ -6,7 +6,7 @@ import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight } from "lodash";
-import { organiseAnswers, flattenAnswers } from "utils/getAllAnswersFlatMap";
+import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -233,19 +233,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       const { answers } = organiseAnswers(sections);
       flattenedAnswers = flattenAnswers(answers);
 
-      duplicates = flattenedAnswers.reduce((acc, item) => {
-        if (
-          acc.hasOwnProperty(item.qCode) &&
-          item.qCode !== "" &&
-          item.qCode !== null
-        ) {
-          acc[item.qCode]++;
-        }
-        if (!acc[item.qCode]) {
-          acc[item.qCode] = 1;
-        }
-        return acc;
-      }, {});
+      duplicates = duplicatesAnswers(flattenedAnswers);
 
       if (duplicates) {
         for (let key in duplicates) {

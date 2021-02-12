@@ -2,7 +2,7 @@ import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import { organiseAnswers, flattenAnswers } from "utils/getAllAnswersFlatMap";
+import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
 
 import {
   SECTION,
@@ -28,7 +28,7 @@ describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let confirmation, page, section, questionnaire, validations, sectionsForFlatAnswers, answerList, flatAnswersTest;
+  let confirmation, page, section, questionnaire, validations, sectionsForFlatAnswers, answerList, flatAnswersTest, duplicateTest;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire();
@@ -435,7 +435,7 @@ describe("QuestionnaireDesignPage", () => {
                       decimals: 0
                     },
                     length: 1,
-                    qCode: "",
+                    qCode: "Duplicate",
                     secondaryQCode: "sec QCode1",
                     __typename: "BasicAnswer",
                     title: "<p>Q1</p>",
@@ -467,7 +467,7 @@ describe("QuestionnaireDesignPage", () => {
                       required: false,
                       decimals: 0
                     },
-                    qCode: "",
+                    qCode: "Duplicate",
                     secondaryQCode: null,
                     __typename: "BasicAnswer",
                     length: 1,
@@ -545,7 +545,7 @@ describe("QuestionnaireDesignPage", () => {
               "decimals": 0
             },
             "length": 1,
-            "qCode": "",
+            "qCode": "Duplicate",
             "secondaryQCode": "sec QCode1",
             "__typename": "BasicAnswer",
             "title": "<p>Q1</p>"
@@ -573,7 +573,7 @@ describe("QuestionnaireDesignPage", () => {
               "required": false,
               "decimals": 0
             },
-            "qCode": "",
+            "qCode": "Duplicate",
             "secondaryQCode": null,
             "__typename": "BasicAnswer",
             "length": 1,
@@ -645,7 +645,7 @@ describe("QuestionnaireDesignPage", () => {
                 "decimals": 0
         },
         "length": 1,
-        "qCode": "",
+        "qCode": "Duplicate",
         "secondaryQCode": "sec QCode1",
         "__typename": "BasicAnswer"
       },
@@ -670,7 +670,7 @@ describe("QuestionnaireDesignPage", () => {
                 "required": false,
                 "decimals": 0
         },
-        "qCode": "",
+        "qCode": "Duplicate",
         "secondaryQCode": null,
         "__typename": "BasicAnswer",
         "length": 1
@@ -727,17 +727,27 @@ describe("QuestionnaireDesignPage", () => {
         "option": true
       }
     ];
+
+    duplicateTest = {
+      Duplicate: 2, 
+      'sec QCode1': 1, 
+      '': 1, 
+      null: 1,
+    };
     
-    it("should organiseAnswers into a list", () => {
+    it("it should organiseAnswers into a list", () => {
       const answersListTest = organiseAnswers(sectionsForFlatAnswers);
-  
       expect(answersListTest.answers).toEqual(answerList);
     });
 
-    it("should flatten answers", () => {
+    it("it should flatten answers", () => {
       const flattenedAnswers = flattenAnswers( answerList );
-  
       expect(flattenedAnswers).toEqual(flatAnswersTest);
+    });
+
+    it("it should list duplicate answers", () => {
+      const duplicates = duplicatesAnswers( flatAnswersTest );
+      expect(duplicates).toEqual(duplicateTest);
     });
   });
 
