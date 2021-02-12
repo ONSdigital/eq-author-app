@@ -1,5 +1,5 @@
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import getPreviousContent from "./getPreviousAnswers";
+import getPreviousContent from "./getContentBeforePage";
 
 const questionnaire = buildQuestionnaire({
   sectionCount: 2,
