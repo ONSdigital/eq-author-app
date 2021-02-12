@@ -112,7 +112,7 @@ export const UnwrappedTabs = props => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
-                <Badge variant="tabs-small" data-test="small-badge" />
+                <Badge variant="tabs" small data-test="small-badge" />
               ) : null}
               {children}
             </Component>

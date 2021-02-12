@@ -23,37 +23,28 @@ export const navBadge = css`
   line-height: 1;
   font-size: 0.9rem;
   height: 20px;
+  display: ${props => (props.small ? `inline-flex` : ``)};
 `;
 
-export const navSmallBadge = css`
-  border-radius: 50%;
-  display: inline-flex;
-  width: 0.75em;
-  height: 0.75em;
-  margin: 0;
-  padding: 0;
-`;
-
-export const mainNavSmallBadge = css`
-  border-radius: 50%;
+export const mainNavBadge = css`
   border: 1px solid ${colors.white};
-  width: 0.75em;
-  height: 0.75em;
   margin: 0;
-  padding: 0;
   position: absolute;
   top: 2px;
   right: 2px;
 `;
 
-export const tabsSmallBadge = css`
-  border-radius: 50%;
+export const tabsBadge = css`
   border: 1px solid ${colors.white};
   display: inline-flex;
+  margin: 0 5px 0 0;
+`;
+
+export const smallBadge = css`
   width: 0.75em;
   height: 0.75em;
-  margin: 0 5px 0 0;
   padding: 0;
+  border-radius: 50%;
 `;
 
 const Badge = styled.span`
@@ -64,9 +55,9 @@ const Badge = styled.span`
 
   ${props => props.variant === "logic" && logicBadge};
   ${props => props.variant === "nav" && navBadge};
-  ${props => props.variant === "nav-small" && navSmallBadge};
-  ${props => props.variant === "main-nav-small" && mainNavSmallBadge};
-  ${props => props.variant === "tabs-small" && tabsSmallBadge};
+  ${props => props.variant === "main-nav" && mainNavBadge};
+  ${props => props.variant === "tabs" && tabsBadge};
+  ${props => props.small && smallBadge};
 `;
 
 Badge.propTypes = {

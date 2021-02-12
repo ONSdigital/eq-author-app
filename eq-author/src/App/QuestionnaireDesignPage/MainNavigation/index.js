@@ -166,7 +166,7 @@ export const UnwrappedMainNavigation = props => {
                     QCodes
                   </IconText>
                   {questionnaire.qCodeErrorCount > 0 ? (
-                    <Badge variant="main-nav-small" data-test="small-badge" />
+                    <Badge variant="main-nav" small data-test="small-badge" />
                   ) : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
