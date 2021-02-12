@@ -1,41 +1,36 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { get } from "lodash";
+import React, { useMemo } from "react";
 
 import ContentPickerSelect from "components/ContentPickerSelect/index";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 
-import shapeTree from "components/ContentPicker/shapeTree";
-import AvailablePreviousAnswersQuery from "./AvailablePreviousAnswersQuery";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useCurrentPageId } from "components/RouterContext";
+import getContentBeforePage from "utils/getContentBeforePage";
 
-export const UnwrappedPreviousAnswerContentPicker = ({
-  data,
-  path,
-  ...otherProps
-}) => (
+export const PreviousAnswerContentPicker = (props) => {
+  const { questionnaire } = useQuestionnaire();
+  const pageId = useCurrentPageId();
+
+  const sections = useMemo(
+    () =>
+      getContentBeforePage({
+        questionnaire,
+        pageId,
+      }),
+    [questionnaire, pageId]
+  );
+
+  return (
     <ContentPickerSelect
       name="previousAnswer"
       contentTypes={[ANSWER]}
-      answerData={shapeTree(get(data, path))}
-      {...otherProps}
+      answerData={sections}
+      {...props}
     />
   );
-
-UnwrappedPreviousAnswerContentPicker.propTypes = {
-  data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired,
 };
 
-const GetAvailablePreviewAnswersQuery = props => (
-  <AvailablePreviousAnswersQuery answerId={props.answerId}>
-    {innerProps => (
-      <UnwrappedPreviousAnswerContentPicker {...innerProps} {...props} />
-    )}
-  </AvailablePreviousAnswersQuery>
-);
+const UnwrappedPreviousAnswerContentPicker = PreviousAnswerContentPicker;
 
-GetAvailablePreviewAnswersQuery.propTypes = {
-  answerId: PropTypes.string.isRequired,
-};
-
-export default GetAvailablePreviewAnswersQuery;
+export default PreviousAnswerContentPicker;
+export { UnwrappedPreviousAnswerContentPicker };

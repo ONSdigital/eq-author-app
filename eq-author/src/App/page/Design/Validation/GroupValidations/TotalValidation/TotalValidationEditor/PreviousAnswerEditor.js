@@ -26,7 +26,6 @@ const PreviousAnswerEditor = ({ total, onChangeUpdate, errors }) => {
       <PreviousAnswerContentPicker
         onSubmit={onChangeUpdate}
         selectedContentDisplayName={get(total.previousAnswer, "displayName")}
-        data={total}
         path="availablePreviousAnswers"
         data-test="content-picker-select"
         hasError={Boolean(error)}
@@ -39,6 +38,7 @@ const PreviousAnswerEditor = ({ total, onChangeUpdate, errors }) => {
     </Field>
   );
 };
+
 PreviousAnswerEditor.propTypes = {
   total: PropTypes.shape({
     previousAnswer: PropTypes.shape({
