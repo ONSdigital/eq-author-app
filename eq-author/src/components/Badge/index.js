@@ -5,23 +5,13 @@ import PropTypes from "prop-types";
 import { propTypes } from "./propTypes";
 
 export const logicBadge = css`
-  border-radius: 0.7em;
   border: 1px solid ${colors.white};
-  color: white;
   padding: 0.15em 0.3em;
-  margin-left: auto;
-  line-height: 1;
-  font-size: 0.9rem;
   height: 1.4em;
 `;
 
 export const navBadge = css`
-  border-radius: 0.7em;
-  color: white;
   padding: 0.2em 0.4em;
-  margin-left: auto;
-  line-height: 1;
-  font-size: 0.9rem;
   height: 20px;
   display: ${props => (props.small ? `inline-flex` : ``)};
 `;
@@ -47,6 +37,14 @@ export const smallBadge = css`
   border-radius: 50%;
 `;
 
+export const largeBadge = css`
+  border-radius: 0.7em;
+  color: white;
+  line-height: 1;
+  margin-left: auto;
+  font-size: 0.9rem;
+`;
+
 const Badge = styled.span`
   background-color: ${colors.red};
   font-weight: normal;
@@ -58,6 +56,7 @@ const Badge = styled.span`
   ${props => props.variant === "main-nav" && mainNavBadge};
   ${props => props.variant === "tabs" && tabsBadge};
   ${props => props.small && smallBadge};
+  ${props => props.large && largeBadge};
 `;
 
 Badge.propTypes = {
