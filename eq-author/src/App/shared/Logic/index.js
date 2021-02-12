@@ -103,7 +103,7 @@ const LogicPage = ({ children, page }) => (
                   <LogicLink exact to={key} activeClassName="active" replace>
                     {label}
                     {errors?.length > 0 && (
-                      <Badge variant="logic" large data-test="badge-withCount">
+                      <Badge variant="logic" data-test="badge-withCount">
                         {errors.length}
                       </Badge>
                     )}

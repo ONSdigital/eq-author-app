@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { colors } from "constants/theme";
 
-import PropTypes from "prop-types";
 import { propTypes } from "./propTypes";
 
 export const logicBadge = css`
@@ -37,7 +36,7 @@ export const smallBadge = css`
   border-radius: 50%;
 `;
 
-export const largeBadge = css`
+export const mediumBadge = css`
   border-radius: 0.7em;
   color: white;
   line-height: 1;
@@ -56,17 +55,15 @@ const Badge = styled.span`
   ${props => props.variant === "main-nav" && mainNavBadge};
   ${props => props.variant === "tabs" && tabsBadge};
   ${props => props.small && smallBadge};
-  ${props => props.large && largeBadge};
+  ${props => props.medium && mediumBadge};
 `;
 
 Badge.propTypes = {
   ...propTypes,
-  type: PropTypes.oneOf(["badge"]),
 };
 
 Badge.defaultProps = {
-  type: "badge",
-  variant: "logic",
+  medium: "true",
 };
 
 export default Badge;
