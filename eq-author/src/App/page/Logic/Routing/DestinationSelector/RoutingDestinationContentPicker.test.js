@@ -103,7 +103,7 @@ function setup({ selected, ...extra }) {
 
   const clickOpen = () =>
     fireEvent.click(utils.getByTestId("content-picker-select"));
-  const clickByText = text => fireEvent.click(utils.getByText(text));
+  const clickByText = (text) => fireEvent.click(utils.getByText(text));
   const clickSubmit = () => fireEvent.click(utils.getByText("Confirm"));
 
   return {

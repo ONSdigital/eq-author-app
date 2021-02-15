@@ -10,7 +10,7 @@ const SmallerNumber = styled(Number)`
   width: 4em;
 
   ${NumberInput} {
-    ${props =>
+    ${(props) =>
       props.hasDecimalInconsistency &&
       css`
         border-color: ${colors.red};

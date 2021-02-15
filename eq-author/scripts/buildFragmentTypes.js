@@ -15,7 +15,7 @@ if (!pathToSave) {
 
 const writeFile = (path, contents) => {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path, contents, function(err) {
+    fs.writeFile(path, contents, function (err) {
       if (err) {
         reject(err);
       } else {
@@ -39,15 +39,15 @@ const fragmentMatcherQuery = `
   }
 `;
 
-const fetchIntrospectionFragmentMatcher = typeDefs => {
+const fetchIntrospectionFragmentMatcher = (typeDefs) => {
   const schema = makeExecutableSchema({
     typeDefs,
     resolverValidationOptions: { requireResolversForResolveType: false },
   });
 
-  return graphql(schema, fragmentMatcherQuery).then(result => {
+  return graphql(schema, fragmentMatcherQuery).then((result) => {
     result.data.__schema.types = result.data.__schema.types.filter(
-      type => type.possibleTypes !== null
+      (type) => type.possibleTypes !== null
     );
 
     return result.data;
@@ -55,15 +55,15 @@ const fetchIntrospectionFragmentMatcher = typeDefs => {
 };
 
 const generateIntrospectionFragmentMatcher = (schema, outPath) => {
-  return fetchIntrospectionFragmentMatcher(schema).then(result =>
+  return fetchIntrospectionFragmentMatcher(schema).then((result) =>
     writeFile(outPath, JSON.stringify(result))
   );
 };
 
 generateIntrospectionFragmentMatcher(schema, pathToSave)
-  .then(res => {
+  .then((res) => {
     logger.info("Fragment types file built at " + pathToSave);
   })
-  .catch(e => {
+  .catch((e) => {
     logger.error("Fragment types file build failed: ", e);
   });

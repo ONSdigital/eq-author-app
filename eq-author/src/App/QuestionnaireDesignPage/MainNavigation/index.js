@@ -73,9 +73,9 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
-export const UnwrappedMainNavigation = props => {
+export const UnwrappedMainNavigation = (props) => {
   const { questionnaire, title, children, client, match } = props;
-  const { flattenedAnswers, duplicateQCode }  = useQCodeContext();
+  const { flattenedAnswers, duplicateQCode } = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -90,124 +90,123 @@ export const UnwrappedMainNavigation = props => {
     (questionnaire || {}).id
   }`;
 
-  const emptyQCode = flattenedAnswers?.find(({type, qCode}) => type !== "Checkbox" && !qCode);
+  const emptyQCode = flattenedAnswers?.find(
+    ({ type, qCode }) => type !== "Checkbox" && !qCode
+  );
 
   return (
     <>
-        <StyledMainNavigation data-test="main-navigation">
-          <Flex>
-            <UtilityBtns>
-              {questionnaire && (
-                <ButtonGroup
-                  vertical
-                  align="centre"
-                  margin="0.em"
-                  gutter="0.em"
+      <StyledMainNavigation data-test="main-navigation">
+        <Flex>
+          <UtilityBtns>
+            {questionnaire && (
+              <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
+                <RouteButton variant="navigation" small to="/">
+                  <IconText nav icon={homeIcon}>
+                    Home
+                  </IconText>
+                </RouteButton>
+                <LinkButton
+                  href={previewUrl}
+                  variant="navigation-modal"
+                  data-test="btn-preview"
+                  small
+                  disabled={questionnaire.totalErrorCount > 0}
                 >
-                  <RouteButton variant="navigation" small to="/">
-                    <IconText nav icon={homeIcon}>
-                      Home
-                    </IconText>
-                  </RouteButton>
-                  <LinkButton
-                    href={previewUrl}
-                    variant="navigation-modal"
-                    data-test="btn-preview"
-                    small
-                    disabled={questionnaire.totalErrorCount > 0}
-                  >
-                    <IconText nav icon={viewIcon}>
-                      View survey
-                    </IconText>
-                  </LinkButton>
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "settings" && "navigation-on") ||
-                      "navigation"
-                    }
-                    to={buildSettingsPath(match.params)}
-                    small
-                    data-test="btn-settings"
-                    disabled={title === "Settings"}
-                  >
-                    <IconText nav icon={settingsIcon}>
-                      Settings
-                    </IconText>
-                  </RouteButton>
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "sharing" && "navigation-on") ||
-                      "navigation"
-                    }
-                    small
-                    data-test="btn-sharing"
-                    to={buildSharingPath(match.params)}
-                  >
-                    <IconText nav icon={shareIcon}>
-                      Sharing
-                    </IconText>
-                  </RouteButton>
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "history" && "navigation-on") ||
-                      "navigation"
-                    }
-                    small
-                    data-test="btn-history"
-                    to={buildHistoryPath(match.params)}
-                  >
-                    <IconText nav icon={historyIcon}>
-                      History
-                    </IconText>
-                  </RouteButton>
+                  <IconText nav icon={viewIcon}>
+                    View survey
+                  </IconText>
+                </LinkButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "settings" && "navigation-on") ||
+                    "navigation"
+                  }
+                  to={buildSettingsPath(match.params)}
+                  small
+                  data-test="btn-settings"
+                  disabled={title === "Settings"}
+                >
+                  <IconText nav icon={settingsIcon}>
+                    Settings
+                  </IconText>
+                </RouteButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "sharing" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-sharing"
+                  to={buildSharingPath(match.params)}
+                >
+                  <IconText nav icon={shareIcon}>
+                    Sharing
+                  </IconText>
+                </RouteButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "history" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-history"
+                  to={buildHistoryPath(match.params)}
+                >
+                  <IconText nav icon={historyIcon}>
+                    History
+                  </IconText>
+                </RouteButton>
 
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "metadata" && "navigation-on") ||
-                      "navigation"
-                    }
-                    small
-                    data-test="btn-metadata"
-                    to={buildMetadataPath(match.params)}
-                  >
-                    <IconText nav icon={metadataIcon}>
-                      Metadata
-                    </IconText>
-                  </RouteButton>
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "qcodes" && "navigation-on") ||
-                      "navigation"
-                    }
-                    to={buildQcodesPath(match.params)}
-                    small
-                    data-test="btn-qcodes"
-                    disabled={
-                      title === "QCodes" || questionnaire.totalErrorCount > 0
-                    }
-                  >
-                    <IconText nav icon={qcodeIcon}>
-                      QCodes
-                    </IconText>
-                    {emptyQCode || duplicateQCode === true ? <SmallBadge data-test="small-badge" /> : null}
-                  </RouteButton>
-                  {me && <UserProfile nav signOut left client={client} />}
-                </ButtonGroup>
-              )}
-            </UtilityBtns>
-          </Flex>
-          {children}
-        </StyledMainNavigation>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "metadata" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-metadata"
+                  to={buildMetadataPath(match.params)}
+                >
+                  <IconText nav icon={metadataIcon}>
+                    Metadata
+                  </IconText>
+                </RouteButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "qcodes" && "navigation-on") ||
+                    "navigation"
+                  }
+                  to={buildQcodesPath(match.params)}
+                  small
+                  data-test="btn-qcodes"
+                  disabled={
+                    title === "QCodes" || questionnaire.totalErrorCount > 0
+                  }
+                >
+                  <IconText nav icon={qcodeIcon}>
+                    QCodes
+                  </IconText>
+                  {emptyQCode || duplicateQCode === true ? (
+                    <SmallBadge data-test="small-badge" />
+                  ) : null}
+                </RouteButton>
+                {me && <UserProfile nav signOut left client={client} />}
+              </ButtonGroup>
+            )}
+          </UtilityBtns>
+        </Flex>
+        {children}
+      </StyledMainNavigation>
 
-        {questionnaire && (
-          <>
-            <UpdateQuestionnaireSettingsModal
-              isOpen={isSettingsModalOpen}
-              onClose={() => setSettingsModalOpen(false)}
-              questionnaire={questionnaire}
-            />
-          </>
-        )}
+      {questionnaire && (
+        <>
+          <UpdateQuestionnaireSettingsModal
+            isOpen={isSettingsModalOpen}
+            onClose={() => setSettingsModalOpen(false)}
+            questionnaire={questionnaire}
+          />
+        </>
+      )}
     </>
   );
 };

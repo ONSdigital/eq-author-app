@@ -11,12 +11,12 @@ describe("SavingIndicator", () => {
     currentTime = 0;
   });
 
-  const advanceByTime = amount => {
+  const advanceByTime = (amount) => {
     currentTime += amount;
     jest.runTimersToTime(currentTime);
   };
 
-  const findIndicator = wrapper =>
+  const findIndicator = (wrapper) =>
     wrapper.find(`[data-test="saving-indicator"]`);
 
   it("should render when starting saving", () => {

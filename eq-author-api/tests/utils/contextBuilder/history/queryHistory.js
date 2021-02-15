@@ -19,7 +19,7 @@ query History($input: QueryInput!) {
   }
 `;
 
-const queryHistory = async ctx => {
+const queryHistory = async (ctx) => {
   const result = await executeQuery(
     getHistoryQuery,
     { input: { questionnaireId: ctx.questionnaire.id } },

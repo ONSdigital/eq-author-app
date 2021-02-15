@@ -58,7 +58,7 @@ export const ParentMenuItem = styled(MenuItem)`
     right: 0.5em;
     opacity: 0.5;
   }
-  ${props =>
+  ${(props) =>
     props["aria-selected"] &&
     css`
       background-color: ${colors.lighterGrey};
@@ -76,7 +76,7 @@ export const SubMenuItem = styled(MenuItem)`
   --colorSecondary: ${colors.textLight};
   --colorTertiary: ${colors.text};
 
-  ${props =>
+  ${(props) =>
     props["aria-selected"] &&
     css`
       background-color: ${colors.primary};
@@ -150,7 +150,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
   return (
     <MenuItemList>
       {data &&
-        data.map(section => {
+        data.map((section) => {
           const sectionSelected = isSelected(section);
 
           return (
@@ -161,7 +161,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
               }}
               aria-selected={sectionSelected}
               tabIndex={sectionSelected ? "" : "0"}
-              onKeyUp={event => onEnterUp(event, section)}
+              onKeyUp={(event) => onEnterUp(event, section)}
             >
               {section.displayName}
             </ParentMenuItem>
@@ -187,8 +187,8 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
 
   return (
     <MenuItemList>
-      {data.map(page =>
-        page.answers.map(item => {
+      {data.map((page) =>
+        page.answers.map((item) => {
           const enabledProps =
             isDisabled && isDisabled(item)
               ? {
@@ -198,7 +198,7 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
                   "aria-selected": isSelected(item),
                   onClick: () => onSelected(item),
                   tabIndex: 0,
-                  onKeyUp: event => onEnterUp(event, item),
+                  onKeyUp: (event) => onEnterUp(event, item),
                 };
 
           return (
@@ -233,7 +233,7 @@ SubMenu.propTypes = {
 };
 
 const FlatSectionMenu = ({ data, ...otherProps }) =>
-  data.map(section => (
+  data.map((section) => (
     <div key={section.id}>
       <SectionTitle>{section.displayName}</SectionTitle>
       <SubMenu data={section.pages} {...otherProps} />

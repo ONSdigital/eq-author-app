@@ -50,7 +50,7 @@ export default (state = initialState, action) => {
   }
 };
 
-export const isSaving = state => get(state, "saving.pendingRequestCount") > 0;
-export const isOffline = state => get(state, "saving.offline");
-export const hasApiError = state => get(state, "saving.apiDownError");
-export const hasError = state => isOffline(state) || hasApiError(state);
+export const isSaving = (state) => get(state, "saving.pendingRequestCount") > 0;
+export const isOffline = (state) => get(state, "saving.offline");
+export const hasApiError = (state) => get(state, "saving.apiDownError");
+export const hasError = (state) => isOffline(state) || hasApiError(state);

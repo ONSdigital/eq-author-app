@@ -75,7 +75,7 @@ const OptionLabel = styled.label`
     /* margin-right: 1em; */
   }
 
-  ${props => props.checked && optionChecked};
+  ${(props) => props.checked && optionChecked};
 `;
 
 const OptionLabelText = styled.div`
@@ -91,7 +91,7 @@ const Option = ({
   onChange,
   ...otherProps
 }) => {
-  const onEnterUp = event => {
+  const onEnterUp = (event) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
       onChange({ target: { value: id } });
@@ -104,7 +104,7 @@ const Option = ({
     <OptionLabel
       checked={isChecked}
       tabIndex={isChecked ? "" : "0"}
-      onKeyUp={event => onEnterUp(event)}
+      onKeyUp={(event) => onEnterUp(event)}
     >
       <Icon />
       <OptionLabelText>{children}</OptionLabelText>

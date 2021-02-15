@@ -8,7 +8,7 @@ const listQuestionnairesQuery = `
   }
 `;
 
-const listQuestionnaires = async user => {
+const listQuestionnaires = async (user) => {
   const result = await executeQuery(listQuestionnairesQuery, {}, { user });
   return result.data.questionnaires;
 };

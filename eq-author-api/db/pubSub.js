@@ -6,7 +6,7 @@ const REDIS_OPTIONS = {
   host: process.env.REDIS_DOMAIN_NAME,
   port: process.env.REDIS_PORT,
   // eslint-disable-next-line camelcase
-  retry_strategy: options => {
+  retry_strategy: (options) => {
     // reconnect after
     return clamp(options.attempt * 100, 1000, 10000);
   },

@@ -15,7 +15,7 @@ const colorChange = keyframes`
 `;
 
 const Container = styled.div`
-  height: ${props => props.height};
+  height: ${(props) => props.height};
   display: flex;
   align-items: center;
   justify-content: center;

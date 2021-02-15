@@ -78,18 +78,12 @@ const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
   x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
   x.type.toLowerCase().includes(query.toLowerCase().trim()) ||
-  query
-    .toLowerCase()
-    .trim()
-    .startsWith(x.unit.toLowerCase()) ||
-  query
-    .toLowerCase()
-    .trim()
-    .startsWith(x.abbreviation.toLowerCase());
+  query.toLowerCase().trim().startsWith(x.unit.toLowerCase()) ||
+  query.toLowerCase().trim().startsWith(x.abbreviation.toLowerCase());
 
 const filterUnitOptions = (options, query) => {
   const common = Object.values(options)
-    .filter(x => filterCondition(x, query))
+    .filter((x) => filterCondition(x, query))
     .map((option, index) => (
       <span key={`unit-option-${index}`} value={option.unit}>
         {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
@@ -119,7 +113,7 @@ const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
 const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
 
-const isNumeric = answerType =>
+const isNumeric = (answerType) =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
 const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
@@ -151,7 +145,7 @@ export const UnwrappedGroupedAnswerProperties = ({
   updateAnswersOfType,
 }) => {
   const answersByType = groupBy("type", page.answers);
-  return Object.keys(answersByType).map(answerType => {
+  return Object.keys(answersByType).map((answerType) => {
     let groupedFields = null;
     let groupValidations = null;
     const answers = answersByType[answerType];
@@ -176,7 +170,7 @@ export const UnwrappedGroupedAnswerProperties = ({
             <Decimal
               id={id}
               data-test="decimals"
-              onBlur={decimals => {
+              onBlur={(decimals) => {
                 updateAnswersOfType(answerType, page.id, {
                   decimals,
                 });
@@ -197,7 +191,7 @@ export const UnwrappedGroupedAnswerProperties = ({
                   options={unitConversion}
                   filter={filterUnitOptions}
                   placeholder={"Select a unit type"}
-                  updateOption={element => {
+                  updateOption={(element) => {
                     updateAnswersOfType(answerType, page.id, {
                       unit:
                         element && element.children[0]?.getAttribute("value"),
@@ -294,7 +288,7 @@ export const UnwrappedGroupedAnswerProperties = ({
     return (
       <Accordion title={`${answerType} properties`} key={answerType}>
         <Padding>{groupedFields}</Padding>
-        {answers.map(answer => {
+        {answers.map((answer) => {
           return (
             <AnswerPropertiesContainer key={getIdForObject(answer)}>
               <Padding>

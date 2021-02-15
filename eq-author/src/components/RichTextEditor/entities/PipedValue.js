@@ -35,7 +35,7 @@ PipedValueSerialized.propTypes = {
   }).isRequired,
 };
 
-export const findPipedEntities = contentState =>
+export const findPipedEntities = (contentState) =>
   getEntities(contentState, ENTITY_TYPE);
 
 export const createPipedEntity = (create, entity) => {

@@ -5,13 +5,13 @@ import { flowRight } from "lodash";
 
 import getAnswersQuery from "graphql/getAnswers.graphql";
 
-export const UnwrappedWithFetchAnswers = WrappedComponent => {
+export const UnwrappedWithFetchAnswers = (WrappedComponent) => {
   return class extends React.Component {
     static propTypes = {
       client: CustomPropTypes.apolloClient.isRequired,
     };
 
-    fetchAnswers = ids => {
+    fetchAnswers = (ids) => {
       return this.props.client
         .query({ query: getAnswersQuery, variables: { ids } })
         .then(({ data: { answers } }) => answers);

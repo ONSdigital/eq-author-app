@@ -1,4 +1,4 @@
-module.exports = input => ({
+module.exports = (input) => ({
   type: "Answer",
   answerId: "",
   nullReason: "",

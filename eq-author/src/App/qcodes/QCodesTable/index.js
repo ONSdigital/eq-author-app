@@ -9,7 +9,7 @@ import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
-import { removeHtml } from "../../../utils/getAllAnswersFlatMap"
+import { removeHtml } from "../../../utils/getAllAnswersFlatMap";
 import { useQCodeContext } from "components/QCodeContext";
 
 import ValidationError from "components/ValidationError";
@@ -99,7 +99,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
     updateAnswer,
   } = mutation;
 
-  const mutationVariables = inputValues => {
+  const mutationVariables = (inputValues) => {
     return {
       variables: {
         input: {
@@ -114,7 +114,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   if (questionMatrix[type] === questionMatrix.QuestionConfirmation) {
     updateConfirmation(mutationVariables({ id, qCode }));
   } else if (questionMatrix[type] === questionMatrix.CalculatedSummaryPage) {
-    const summaryAnswers = payload.summaryAnswers.map(item => item.id);
+    const summaryAnswers = payload.summaryAnswers.map((item) => item.id);
     const update = { id, qCode, summaryAnswers };
 
     updateCalculatedSummaryPage(mutationVariables(update));
@@ -129,7 +129,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   }
 };
 
-const Row = memo(props => {
+const Row = memo((props) => {
   const {
     id,
     title,
@@ -141,7 +141,7 @@ const Row = memo(props => {
     noValQCodeError,
   } = props;
   const commonFields = useCallback(
-    fields => {
+    (fields) => {
       const [qCode, setQcode] = useState(initialQcode);
 
       const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
@@ -178,7 +178,7 @@ const Row = memo(props => {
             <SpacedTableColumn>
               <ErrorWrappedInput
                 value={qCode}
-                onChange={e => setQcode(e.value)}
+                onChange={(e) => setQcode(e.value)}
                 onBlur={() => handleBlur(id, type, qCode)}
                 name={`${id}-qcode-entry`}
                 data-test={`${id}-test-input`}
@@ -224,7 +224,6 @@ const Row = memo(props => {
 });
 
 const RowBuilder = (answers, duplicates) => {
-
   if (answers) {
     return answers.map((item, index) => {
       return (
@@ -253,8 +252,7 @@ Row.propTypes = {
 };
 
 export const UnwrappedQCodeTable = () => {
-
-  const { flattenedAnswers, duplicates }  = useQCodeContext();
+  const { flattenedAnswers, duplicates } = useQCodeContext();
 
   return (
     <Table data-test="qcodes-table">
@@ -267,8 +265,9 @@ export const UnwrappedQCodeTable = () => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <StyledTableBody>{RowBuilder(flattenedAnswers, duplicates)}</StyledTableBody>
-
+      <StyledTableBody>
+        {RowBuilder(flattenedAnswers, duplicates)}
+      </StyledTableBody>
     </Table>
   );
 };

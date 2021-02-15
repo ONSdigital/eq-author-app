@@ -11,7 +11,7 @@ const createValidationError = require("../createValidationError");
 
 const { getPath } = require("../utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateLeftHandSide", {
     validate: function isValid(
       otherFields,
@@ -40,7 +40,7 @@ module.exports = function(ajv) {
         );
 
         const leftAnswerInPreviousAnswers = previousAnswersForPage.some(
-          el => el.id === leftAnswerId
+          (el) => el.id === leftAnswerId
         );
 
         if (!leftAnswerInPreviousAnswers) {

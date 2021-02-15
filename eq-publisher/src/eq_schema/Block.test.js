@@ -6,7 +6,7 @@ const { NUMBER } = require("../constants/answerTypes");
 const ctx = {};
 
 describe("Block", () => {
-  const createBlockJSON = block =>
+  const createBlockJSON = (block) =>
     Object.assign(
       {
         id: 1,
@@ -206,7 +206,7 @@ describe("Block", () => {
   describe("skip conditions", () => {
     let mockQuestionnaireWithSkip, newCtx;
     beforeEach(() => {
-      const buildSkipConditions = questionnaire => {
+      const buildSkipConditions = (questionnaire) => {
         const newQuestionnaire = JSON.parse(JSON.stringify(questionnaire));
         const pages = newQuestionnaire.sections[0].folders[0].pages;
         const answers = pages.map(({ answers }) => answers[0]);

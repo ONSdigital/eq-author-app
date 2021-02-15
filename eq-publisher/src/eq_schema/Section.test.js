@@ -2,7 +2,7 @@ const Block = require("./Block");
 const Section = require("./Section");
 
 describe("Section", () => {
-  const createSectionJSON = options =>
+  const createSectionJSON = (options) =>
     Object.assign(
       {
         id: "1",

@@ -56,7 +56,7 @@ export const TR = styled.tr`
   height: 3.2em;
   position: relative;
 
-  ${props =>
+  ${(props) =>
     props.linkHasFocus &&
     css`
       box-shadow: 0 0 0 3px ${colors.tertiary};
@@ -102,7 +102,7 @@ const Permission = styled.li`
   :not(:last-of-type) {
     margin-right: 0.5em;
   }
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       background: ${colors.lightGrey};
@@ -182,21 +182,21 @@ export const Row = ({
     setLinkHasFocus(false);
   };
 
-  const handleButtonFocus = e => {
+  const handleButtonFocus = (e) => {
     setLinkHasFocus(false);
     e.stopPropagation();
   };
 
-  const handleLinkClick = e => {
+  const handleLinkClick = (e) => {
     e.stopPropagation();
   };
 
-  const handleDuplicateQuestionnaire = e => {
+  const handleDuplicateQuestionnaire = (e) => {
     e.stopPropagation();
     onDuplicateQuestionnaire(questionnaire);
   };
 
-  const handleDeleteQuestionnaire = e => {
+  const handleDeleteQuestionnaire = (e) => {
     e.stopPropagation();
     setShowDeleteModal(true);
   };
