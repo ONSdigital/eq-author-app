@@ -3,6 +3,7 @@ fragment QuestionConfirmation on QuestionConfirmation {
   id
   title
   displayName
+  qCode
   positive {
     id
     label
