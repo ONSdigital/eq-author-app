@@ -89,6 +89,8 @@ UnwrappedPageNavItem.fragments = {
           id
           displayName
           type
+          secondaryLabel
+          secondaryLabelDefault
         }
       }
     }

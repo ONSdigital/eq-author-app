@@ -11,6 +11,12 @@ mutation duplicatePage($input: DuplicatePageInput!) {
     ... on QuestionPage {
       answers {
         id
+        type
+        displayName
+        ... on BasicAnswer {
+          secondaryLabel
+          secondaryLabelDefault
+        }
       }
       section {
         id

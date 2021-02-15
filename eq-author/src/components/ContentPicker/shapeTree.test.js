@@ -1,4 +1,4 @@
-import shapeTree, { shapePageTree } from "components/ContentPicker/shapeTree";
+import shapeTree from "components/ContentPicker/shapeTree";
 
 const answerTree = [
   {
@@ -323,9 +323,6 @@ describe("shapeTree", () => {
     expect(shapeTree(answerTree)).toEqual(expectedAnswerTree);
   });
 
-  it("should correctly reverse page, section tree", () => {
-    expect(shapePageTree(questionTree)).toEqual(expectedQuestionTree);
-  });
   it("should correctly reverse answer, page tree", () => {
     expect(shapeTree(AnswerPageTree, "page")).toEqual(expectedAnswerPageTree);
   });

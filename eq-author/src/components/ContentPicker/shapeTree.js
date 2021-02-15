@@ -54,29 +54,4 @@ const shapeTree = (answers, topLevel = "section") =>
     []
   );
 
-export const shapePageTree = answers =>
-  reduce(
-    answers,
-    (result, value) => {
-      const page = pick(value, ["id", "displayName"]);
-      const section = pick(value.section, ["id", "displayName"]);
-
-      if (!find(result, { id: section.id })) {
-        result.push(section);
-      }
-
-      const currentSection = find(result, { id: section.id });
-
-      if (!find(currentSection.pages, { id: page.id })) {
-        if (!isArray(currentSection.pages)) {
-          currentSection.pages = [];
-        }
-        currentSection.pages.push(page);
-      }
-
-      return result;
-    },
-    []
-  );
-
 export default shapeTree;

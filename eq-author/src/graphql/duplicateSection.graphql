@@ -20,6 +20,12 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
           guidance
           answers {
             id
+            type
+            displayName
+            ... on BasicAnswer {
+              secondaryLabel
+              secondaryLabelDefault
+            }
           }
           confirmation {
             id
