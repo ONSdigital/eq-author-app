@@ -956,18 +956,7 @@ const Resolvers = {
       return "Read";
     },
     totalErrorCount: (questionnaire, args, ctx) => {
-      //remove qcode errors from total here - important as Qcode errors don't count to total
-      // otherwise error totals get confusing for users!!!!!!
-      const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
-      );
-      return ctx.validationErrorInfo.length - validationErrorsQCode.length;
-    },
-    qCodeErrorCount: (questionnaire, args, ctx) => {
-      const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
-      );
-      return validationErrorsQCode.length;
+      return ctx.validationErrorInfo.length;
     },
   },
 
@@ -1068,10 +1057,6 @@ const Resolvers = {
         ({ answerId }) => id === answerId
       );
 
-      const answerErrorsQCode = answerErrors.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
-      );
-
       if (!answerErrors) {
         return {
           id,
@@ -1083,7 +1068,7 @@ const Resolvers = {
       return {
         id,
         errors: answerErrors,
-        totalCount: answerErrors.length - answerErrorsQCode.length,
+        totalCount: answerErrors.length,
       };
     },
   },
@@ -1101,14 +1086,10 @@ const Resolvers = {
         ({ answerId }) => id === answerId
       );
 
-      const qCodeErrorCount = answerErrors.filter(
-        ({ field }) => field === "qCode"
-      ).length;
-
       return {
         id,
         errors: answerErrors,
-        totalCount: answerErrors.length - qCodeErrorCount,
+        totalCount: answerErrors.length,
       };
     },
   },
@@ -1354,14 +1335,10 @@ const Resolvers = {
         ({ confirmationId }) => id === confirmationId
       );
 
-      const qCodeErrors = confirmationQuestionErrors.filter(
-        ({ field }) => field === "qCode"
-      );
-
       return {
         id,
         errors: confirmationQuestionErrors,
-        totalCount: confirmationQuestionErrors.length - qCodeErrors.length,
+        totalCount: confirmationQuestionErrors.length,
       };
     },
   },
