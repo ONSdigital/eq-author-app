@@ -10,7 +10,7 @@ export default {
 
 const button = (label = "Button") => <Button>{label}</Button>;
 
-const Template = args => <ButtonGroup {...args} />;
+const Template = (args) => <ButtonGroup {...args} />;
 
 export const Horizontal = Template.bind({});
 Horizontal.args = {

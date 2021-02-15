@@ -40,7 +40,7 @@ const MetadataTable = ({
         </TableRow>
       </TableHead>
       <TableBody>
-        {metadata.map(row => (
+        {metadata.map((row) => (
           <Row
             key={row.id}
             metadata={row}

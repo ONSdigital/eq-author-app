@@ -109,7 +109,7 @@ function setup({ data, isSelected, ...extra }) {
       code,
     });
 
-  const click = name => fireEvent.click(utils.getByText(name));
+  const click = (name) => fireEvent.click(utils.getByText(name));
 
   return {
     ...utils,

@@ -86,24 +86,9 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
       <MultipleChoiceAnswerOptionsSelector {...defaultProps} />
     );
 
-    expect(
-      wrapper
-        .find(ToggleChip)
-        .first()
-        .prop("checked")
-    ).toBeTruthy();
-    expect(
-      wrapper
-        .find(ToggleChip)
-        .at(1)
-        .prop("checked")
-    ).toBeTruthy();
-    expect(
-      wrapper
-        .find(ToggleChip)
-        .last()
-        .prop("checked")
-    ).toBeFalsy();
+    expect(wrapper.find(ToggleChip).first().prop("checked")).toBeTruthy();
+    expect(wrapper.find(ToggleChip).at(1).prop("checked")).toBeTruthy();
+    expect(wrapper.find(ToggleChip).last().prop("checked")).toBeFalsy();
   });
 
   it("should show error message when right side empty", async () => {

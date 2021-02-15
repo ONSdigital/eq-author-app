@@ -9,7 +9,7 @@ export const buildPages = ({
   folderNumber = 1,
   pageCount = DEFAULT_PAGE_COUNT,
 } = {}) =>
-  times(pageCount, i => {
+  times(pageCount, (i) => {
     const id = `${sectionNumber}.${folderNumber}.${i + 1}`;
 
     return {
@@ -35,7 +35,7 @@ export const buildFolders = ({
   folderCount = DEFAULT_FOLDER_COUNT,
   pageCount = DEFAULT_PAGE_COUNT,
 } = {}) =>
-  times(folderCount, i => {
+  times(folderCount, (i) => {
     const id = `${sectionNumber}.${i + 1}`;
 
     return {
@@ -56,7 +56,7 @@ export const buildSections = ({
   folderCount = DEFAULT_FOLDER_COUNT,
   pageCount = DEFAULT_PAGE_COUNT,
 } = {}) =>
-  times(sectionCount, i => ({
+  times(sectionCount, (i) => ({
     id: `${i + 1}`,
     title: `Section ${i + 1}`,
     displayName: `Section ${i + 1}`,
@@ -71,7 +71,7 @@ export const buildSections = ({
     },
   }));
 
-export const buildQuestionnaire = options => ({
+export const buildQuestionnaire = (options) => ({
   id: "questionnaire",
   title: "questionnaire",
   displayName: "questionnaire",

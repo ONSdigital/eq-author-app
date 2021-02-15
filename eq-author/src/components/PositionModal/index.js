@@ -20,7 +20,7 @@ const Trigger = styled.button.attrs({ type: "button" })`
   width: 100%;
   font-size: 1em;
   padding: 0.5rem 2em 0.5rem 0.5rem;
-  background: ${colors.white} url('${Icon}') no-repeat right center;
+  background: ${colors.white} url("${Icon}") no-repeat right center;
   border: solid 1px ${colors.borders};
   text-align: left;
   border-radius: ${radius};
@@ -53,7 +53,7 @@ const PositionModal = ({ options, onMove, selected }) => {
 
   const handleChange = ({ value }) => setSelectedPosition(parseInt(value, 10));
 
-  const handleConfirm = e => {
+  const handleConfirm = (e) => {
     e.preventDefault();
     setIsOpen(false);
     onMove({

@@ -100,7 +100,7 @@ describe("withCreateSection", () => {
     });
 
     it("should redirect", () => {
-      return props.onAddSection().then(result => {
+      return props.onAddSection().then((result) => {
         expect(result).toEqual(newSection);
         expect(history.push).toHaveBeenCalled();
       });

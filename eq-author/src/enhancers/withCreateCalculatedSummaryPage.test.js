@@ -79,7 +79,7 @@ describe("withCreateCalculatedSummaryPage", () => {
     });
 
     it("should redirect and return the new page", () => {
-      return props.onAddCalculatedSummaryPage(section.id, 0).then(result => {
+      return props.onAddCalculatedSummaryPage(section.id, 0).then((result) => {
         expect(result).toEqual(newPage);
         expect(history.push).toHaveBeenCalled();
       });

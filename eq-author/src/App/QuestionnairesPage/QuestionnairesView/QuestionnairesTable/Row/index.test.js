@@ -19,7 +19,7 @@ import {
 describe("Row", () => {
   let props;
 
-  const renderRow = props =>
+  const renderRow = (props) =>
     render(
       <table>
         <tbody>
@@ -29,7 +29,6 @@ describe("Row", () => {
     );
 
   beforeEach(() => {
-
     props = {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
@@ -74,7 +73,7 @@ describe("Row", () => {
 
   it("should handle button focus state change correctly", () => {
     const wrapper = shallow(<Row {...props} />);
-    
+
     const tableRow = wrapper.find(TR);
     const actionButton = wrapper.find("[data-test='action-btn-group']");
     const stopPropagation = jest.fn();

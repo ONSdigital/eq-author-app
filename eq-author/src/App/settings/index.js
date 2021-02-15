@@ -10,7 +10,7 @@ export default [
   <Route
     key="settings"
     path="/q/:questionnaireId/settings"
-    render={props => (
+    render={(props) => (
       <Query
         query={getQuestionnaireQuery}
         variables={{

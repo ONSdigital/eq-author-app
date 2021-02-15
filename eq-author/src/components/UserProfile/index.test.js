@@ -20,7 +20,7 @@ describe("UserProfile", () => {
     signOut = jest.fn();
   });
 
-  const renderWithContext = component =>
+  const renderWithContext = (component) =>
     render(
       <MeContext.Provider value={{ me, signOut }}>
         {component}

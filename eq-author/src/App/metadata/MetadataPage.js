@@ -120,7 +120,7 @@ const MetadataPage = ({
   },
 }) => (
   <GetMetadataQuery questionnaireId={questionnaireId}>
-    {props => <MetadataPageContent {...props} />}
+    {(props) => <MetadataPageContent {...props} />}
   </GetMetadataQuery>
 );
 

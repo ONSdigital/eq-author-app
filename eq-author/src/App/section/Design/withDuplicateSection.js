@@ -4,10 +4,9 @@ import { get, tap } from "lodash/fp";
 import duplicateSectionMutation from "graphql/duplicateSection.graphql";
 import { buildSectionPath } from "utils/UrlUtils";
 
-export const redirectToNewPage = ({
-  history,
-  match: { params },
-}) => section => {
+export const redirectToNewPage = ({ history, match: { params } }) => (
+  section
+) => {
   const { id } = section;
   history.push(
     buildSectionPath({

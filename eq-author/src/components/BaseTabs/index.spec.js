@@ -90,7 +90,10 @@ describe("Base Tabs", () => {
   });
 
   it("will only call render for the tab being rendered", () => {
-    const tabsWithStubbedRender = tabs.map(t => ({ ...t, render: jest.fn() }));
+    const tabsWithStubbedRender = tabs.map((t) => ({
+      ...t,
+      render: jest.fn(),
+    }));
     shallow(
       <BaseTabs
         buttonRender={renderButton}
@@ -106,7 +109,10 @@ describe("Base Tabs", () => {
   });
 
   it("will render the first item as selected when no active id is passed", () => {
-    const tabsWithStubbedRender = tabs.map(t => ({ ...t, render: jest.fn() }));
+    const tabsWithStubbedRender = tabs.map((t) => ({
+      ...t,
+      render: jest.fn(),
+    }));
     const wrapper = shallow(
       <BaseTabs
         buttonRender={renderButton}

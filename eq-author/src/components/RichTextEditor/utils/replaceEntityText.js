@@ -5,7 +5,7 @@ const getEntityRange = (block, entityKey) => {
 
   // get the range for the entity key
   block.findEntityRanges(
-    char => char.getEntity() === entityKey,
+    (char) => char.getEntity() === entityKey,
     (start, end) => {
       range = { start, end };
     }

@@ -27,8 +27,8 @@ export const Body = styled.div`
   padding-left: 1.85em;
   overflow: hidden;
   transition: opacity 200ms ease-in-out;
-  opacity: ${props => (props.isOpen ? "1" : "0")};
-  height: ${props => (props.isOpen ? "auto" : "0")};
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
+  height: ${(props) => (props.isOpen ? "auto" : "0")};
 `;
 
 export const Button = styled.button`
@@ -55,7 +55,7 @@ export const Button = styled.button`
     height: 1rem;
     transform-origin: 50% 50%;
     transition: transform 200ms ease-out;
-    transform: rotate(${props => (props.isOpen ? "0deg" : "-90deg")});
+    transform: rotate(${(props) => (props.isOpen ? "0deg" : "-90deg")});
   }
 `;
 
@@ -81,7 +81,7 @@ export const SectionTitle = styled.div`
 `;
 
 export const DisplayContent = styled.div`
-  display: ${props => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
 const propTypes = {
@@ -95,7 +95,7 @@ const propTypes = {
   },
 };
 
-const SectionAccordion = props => {
+const SectionAccordion = (props) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const {
@@ -112,13 +112,13 @@ const SectionAccordion = props => {
   }, [isOpenProp]);
 
   const handleClick = () => {
-    setIsOpen(isOpen => !isOpen);
+    setIsOpen((isOpen) => !isOpen);
     handleChange({ isOpen: !isOpen, id: identity });
   };
 
-  const onEnterUp = event => {
+  const onEnterUp = (event) => {
     if (event.keyCode === 13 || event.keyCode === 32) {
-      setIsOpen(isOpen => !isOpen);
+      setIsOpen((isOpen) => !isOpen);
       handleChange({ isOpen: !isOpen, id: identity });
     }
   };
@@ -127,7 +127,7 @@ const SectionAccordion = props => {
     <>
       <Header>
         <Title
-          onKeyUp={event => onEnterUp(event)}
+          onKeyUp={(event) => onEnterUp(event)}
           data-test={`accordion-${titleName}-titleContainer`}
         >
           <Button

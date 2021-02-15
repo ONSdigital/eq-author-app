@@ -70,7 +70,7 @@ export const SECTION_QUERY = gql`
   ${SectionEditor.fragments.Section}
 `;
 
-export default withApollo(props => (
+export default withApollo((props) => (
   <Query
     query={SECTION_QUERY}
     variables={{
@@ -80,6 +80,8 @@ export default withApollo(props => (
       },
     }}
   >
-    {innerProps => <UnwrappedPreviewSectionRoute {...innerProps} {...props} />}
+    {(innerProps) => (
+      <UnwrappedPreviewSectionRoute {...innerProps} {...props} />
+    )}
   </Query>
 ));

@@ -36,7 +36,7 @@ export const Description = styled.div`
   color: ${textStyle};
 `;
 
-const DialogMessage = props => {
+const DialogMessage = (props) => {
   const { heading, subheading, description, ...otherProps } = props;
 
   return (

@@ -3,9 +3,9 @@ const { flatMap, get, set } = require("lodash");
 module.exports = function dropDatatypeFieldFromPipedValues(questionnaire) {
   const regex = /\s?data-type="[^"]*"/g;
 
-  const sections = flatMap(questionnaire.sections, section => section);
-  const pages = flatMap(questionnaire.sections, section =>
-    flatMap(section.pages, page => page)
+  const sections = flatMap(questionnaire.sections, (section) => section);
+  const pages = flatMap(questionnaire.sections, (section) =>
+    flatMap(section.pages, (page) => page)
   );
 
   const PIPEABLE_PAGE_FIELDS = [
@@ -25,14 +25,14 @@ module.exports = function dropDatatypeFieldFromPipedValues(questionnaire) {
     }
   };
 
-  pages.forEach(page => {
-    PIPEABLE_PAGE_FIELDS.forEach(prop => {
+  pages.forEach((page) => {
+    PIPEABLE_PAGE_FIELDS.forEach((prop) => {
       removePipe(page, prop);
     });
   });
 
-  sections.forEach(section => {
-    PIPEABLE_SECTION_FIELDS.forEach(prop => {
+  sections.forEach((section) => {
+    PIPEABLE_SECTION_FIELDS.forEach((prop) => {
       removePipe(section, prop);
     });
   });

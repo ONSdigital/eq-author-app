@@ -101,7 +101,7 @@ describe("section", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([
+      expect(sections.map((s) => s.id)).toEqual([
         secondSectionId,
         sectionToMoveId,
       ]);
@@ -117,7 +117,7 @@ describe("section", () => {
         position: 0,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([
+      expect(sections.map((s) => s.id)).toEqual([
         sectionToMoveId,
         firstSectionId,
       ]);

@@ -79,7 +79,7 @@ class Questionnaire {
   }
 
   buildSections(sections, ctx) {
-    return sections.map(section => new Section(section, ctx));
+    return sections.map((section) => new Section(section, ctx));
   }
 
   buildSummaryOrConfirmation(summary, collapsible) {
@@ -90,7 +90,7 @@ class Questionnaire {
   }
 
   buildMetadata(metadata) {
-    const getValidator = type => {
+    const getValidator = (type) => {
       switch (type) {
         case "Date":
           return "date";

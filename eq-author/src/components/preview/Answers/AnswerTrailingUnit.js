@@ -5,7 +5,7 @@ import { Field, UnitInput, Label } from "./elements";
 import { PERCENTAGE } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 
-const getUnit = answer => {
+const getUnit = (answer) => {
   if (answer.type === PERCENTAGE) {
     return "%";
   }

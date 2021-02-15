@@ -3,7 +3,7 @@ import duplicatePageMutation from "graphql/duplicatePage.graphql";
 import { buildPagePath } from "utils/UrlUtils";
 import { get, tap } from "lodash/fp";
 
-export const redirectToNewPage = ({ history, match: { params } }) => page => {
+export const redirectToNewPage = ({ history, match: { params } }) => (page) => {
   const { id } = page;
   history.push(
     buildPagePath({

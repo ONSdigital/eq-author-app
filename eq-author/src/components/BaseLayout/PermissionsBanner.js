@@ -56,7 +56,7 @@ export const PermissionsBanner = ({ questionnaire }) => {
     return null;
   }
 
-  const renderWarningBox = message => (
+  const renderWarningBox = (message) => (
     <TransitionGroup>
       <StyledExpansionTransition finalHeight="3.5em">
         <Banner>

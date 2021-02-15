@@ -12,7 +12,7 @@ const input = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  moveAnswer: answer =>
+  moveAnswer: (answer) =>
     mutate({
       variables: { input: filter(input, answer) },
     }),

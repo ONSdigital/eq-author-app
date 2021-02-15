@@ -46,21 +46,21 @@ const {
 
 const ERROR_SITUATIONS = [
   {
-    condition: errors =>
+    condition: (errors) =>
       some(errors, {
         errorCode: CALCSUM_TITLE_NOT_ENTERED.errorCode,
       }),
     message: () => CALCSUM_TITLE_NOT_ENTERED.message,
   },
   {
-    condition: errors =>
+    condition: (errors) =>
       some(errors, {
         errorCode: PIPING_TITLE_MOVED.errorCode,
       }),
     message: () => PIPING_TITLE_MOVED.message,
   },
   {
-    condition: errors =>
+    condition: (errors) =>
       some(errors, {
         errorCode: PIPING_TITLE_DELETED.errorCode,
       }),
@@ -68,7 +68,7 @@ const ERROR_SITUATIONS = [
   },
 ];
 
-export const CalculatedSummaryPageEditor = props => {
+export const CalculatedSummaryPageEditor = (props) => {
   const {
     page,
     fetchAnswers,

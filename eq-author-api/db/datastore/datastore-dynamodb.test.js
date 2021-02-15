@@ -12,7 +12,7 @@ describe("Datastore dynamo", () => {
 
   const RealDate = Date;
 
-  const mockDate = isoDate => {
+  const mockDate = (isoDate) => {
     global.Date = class extends RealDate {
       constructor(...theArgs) {
         if (theArgs.length) {
@@ -47,10 +47,10 @@ describe("Datastore dynamo", () => {
       }
       static queryOne() {
         return {
-          descending: function() {
+          descending: function () {
             return this;
           },
-          consistent: function() {
+          consistent: function () {
             return this;
           },
           exec: getModelExec,
@@ -115,7 +115,7 @@ describe("Datastore dynamo", () => {
     });
 
     it("should update the list table with the latest version number", async () => {
-      justListFields.mockImplementation(obj =>
+      justListFields.mockImplementation((obj) =>
         pick(obj, ["id", "prop1", "updatedAt"])
       );
 
@@ -184,7 +184,7 @@ describe("Datastore dynamo", () => {
       });
 
       const getMergeResult = async (ourChange, theirChange) => {
-        getModelExec.mockImplementation(callback => {
+        getModelExec.mockImplementation((callback) => {
           callback(
             null,
             new QuestionnaireVersionsModel({

@@ -317,7 +317,7 @@ describe("schema validation", () => {
   describe("Answer validation", () => {
     describe("basic answer", () => {
       it("should ensure that the label is populated", () => {
-        BASIC_ANSWERS.forEach(type => {
+        BASIC_ANSWERS.forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -591,7 +591,7 @@ describe("schema validation", () => {
         });
 
         it("should not return an error if one of the two is disabled", () => {
-          ["earliestDate", "latestDate", "none"].forEach(entity => {
+          ["earliestDate", "latestDate", "none"].forEach((entity) => {
             const answer = {
               id: "a1",
               type: DATE,
@@ -687,7 +687,7 @@ describe("schema validation", () => {
           });
 
           it("Date Range - should not validate if one of the two is disabled", () => {
-            ["earliestDate", "latestDate", "none"].forEach(entity => {
+            ["earliestDate", "latestDate", "none"].forEach((entity) => {
               const answer = {
                 id: "a1",
                 type: DATE_RANGE,
@@ -801,7 +801,7 @@ describe("schema validation", () => {
 
     describe("currency, number, percentage and unit answers", () => {
       it("should ensure that max value is always larger than min value", () => {
-        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -869,7 +869,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is disabled", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -921,7 +921,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is a previous answer", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1067,7 +1067,7 @@ describe("schema validation", () => {
     it("should validate left hand Answer is after routing question", () => {
       defaultRouting.rules[0].expressionGroup.expressions[0].left = {
         type: "Answer",
-        answerId: "answer_2"
+        answerId: "answer_2",
       };
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
@@ -1086,12 +1086,14 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors).toEqual(expect.arrayContaining([
-        expect.objectContaining({
-          errorCode: "ERR_VALUE_REQUIRED",
-          field: "operator",
-        })]
-      ));
+      expect(routingErrors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            errorCode: "ERR_VALUE_REQUIRED",
+            field: "operator",
+          }),
+        ])
+      );
     });
 
     it("should validate empty skip conditions", () => {
@@ -1200,7 +1202,7 @@ describe("schema validation", () => {
             },
           },
         ],
-      }
+      };
 
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
@@ -1685,7 +1687,7 @@ describe("schema validation", () => {
   });
 
   describe("totalValidation", () => {
-    const validateTotalValidation = attributes => {
+    const validateTotalValidation = (attributes) => {
       questionnaire.sections[0].folders[0].pages[1].totalValidation = {
         id: "totalvalidation-rule-1",
         enabled: true,

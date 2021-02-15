@@ -1,7 +1,7 @@
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 import { mapMutateToProps, handleUpdate } from "./withDuplicateQuestionnaire";
 
-const nextId = previousId => `${parseInt(previousId, 10) + 1}`;
+const nextId = (previousId) => `${parseInt(previousId, 10) + 1}`;
 
 describe("withDuplicateQuestionnaire", () => {
   let ownProps,

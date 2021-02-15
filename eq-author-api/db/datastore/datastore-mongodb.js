@@ -100,7 +100,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   };
 };
 
-const getQuestionnaire = async id => {
+const getQuestionnaire = async (id) => {
   try {
     const collection = dbo.collection("versions");
     const questionnaire = await collection.findOne(
@@ -133,7 +133,7 @@ const getQuestionnaire = async id => {
   }
 };
 
-const getQuestionnaireMetaById = async id => {
+const getQuestionnaireMetaById = async (id) => {
   try {
     const collection = dbo.collection("questionnaires");
     const questionnaire = await collection.findOne({ id: id });
@@ -151,7 +151,7 @@ const getQuestionnaireMetaById = async id => {
   }
 };
 
-const saveQuestionnaire = async changedQuestionnaire => {
+const saveQuestionnaire = async (changedQuestionnaire) => {
   const { id } = changedQuestionnaire;
 
   try {
@@ -191,7 +191,7 @@ const saveQuestionnaire = async changedQuestionnaire => {
   }
 };
 
-const deleteQuestionnaire = async id => {
+const deleteQuestionnaire = async (id) => {
   try {
     const collection = dbo.collection("questionnaires");
     await collection.deleteOne({ id: id });
@@ -203,7 +203,7 @@ const deleteQuestionnaire = async id => {
   }
 };
 
-const createUser = async user => {
+const createUser = async (user) => {
   let { id, name, email } = user;
 
   try {
@@ -230,7 +230,7 @@ const createUser = async user => {
   return { ...user, id, name };
 };
 
-const getUserByExternalId = async externalId => {
+const getUserByExternalId = async (externalId) => {
   try {
     if (!externalId) {
       throw new Error("Cannot find user without required field 'externalId'");
@@ -252,7 +252,7 @@ const getUserByExternalId = async externalId => {
   }
 };
 
-const getUserById = async id => {
+const getUserById = async (id) => {
   try {
     const collection = dbo.collection("users");
     const user = await collection.findOne({ id: id });
@@ -281,7 +281,7 @@ const listQuestionnaires = async () => {
     }
 
     const transformedQuestionnaires = questionnaires
-      .map(q => ({ ...q, editors: q.editors || [] }))
+      .map((q) => ({ ...q, editors: q.editors || [] }))
       .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
 
     return transformedQuestionnaires;
@@ -292,7 +292,7 @@ const listQuestionnaires = async () => {
   }
 };
 
-const createComments = async questionnaireId => {
+const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
       throw new Error(
@@ -329,7 +329,7 @@ const listUsers = async () => {
   }
 };
 
-const saveMetadata = async metadata => {
+const saveMetadata = async (metadata) => {
   const { id } = metadata;
 
   if (!id) {
@@ -382,7 +382,7 @@ const createHistoryEvent = async (qid, event) => {
   }
 };
 
-const updateUser = async changedUser => {
+const updateUser = async (changedUser) => {
   const { id } = changedUser;
   try {
     if (!id) {
@@ -401,7 +401,7 @@ const updateUser = async changedUser => {
   }
 };
 
-const saveComments = async updatedCommentsObject => {
+const saveComments = async (updatedCommentsObject) => {
   const { questionnaireId, comments: updatedComments } = updatedCommentsObject;
   try {
     if (!questionnaireId) {
@@ -427,7 +427,7 @@ const saveComments = async updatedCommentsObject => {
   }
 };
 
-const getCommentsForQuestionnaire = async questionnaireId => {
+const getCommentsForQuestionnaire = async (questionnaireId) => {
   try {
     const collection = dbo.collection("comments");
     const comments = await collection.findOne({
