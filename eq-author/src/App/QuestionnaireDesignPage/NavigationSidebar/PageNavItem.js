@@ -82,8 +82,33 @@ UnwrappedPageNavItem.fragments = {
         totalCount
       }
       ... on QuestionPage {
+        alias
         confirmation {
           id
+          qCode
+        }
+        answers {
+          id
+          label
+          secondaryLabel
+          type
+          properties
+          qCode
+          ... on BasicAnswer {
+            secondaryQCode
+          }
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+              label
+              qCode
+            }
+            mutuallyExclusiveOption {
+              id
+              label
+              qCode
+            }
+          }
         }
       }
     }

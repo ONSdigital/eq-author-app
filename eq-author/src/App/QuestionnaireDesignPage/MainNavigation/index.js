@@ -31,6 +31,8 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
+import { useQCodeContext } from "components/QCodeContext";
+
 import {
   buildQcodesPath,
   buildMetadataPath,
@@ -73,6 +75,7 @@ const SmallBadge = styled.span`
 
 export const UnwrappedMainNavigation = (props) => {
   const { questionnaire, title, children, client, match } = props;
+  const { flattenedAnswers, duplicateQCode } = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -86,6 +89,10 @@ export const UnwrappedMainNavigation = (props) => {
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
   }`;
+
+  const emptyQCode = flattenedAnswers?.find(
+    ({ type, qCode }) => type !== "Checkbox" && !qCode
+  );
 
   return (
     <>
@@ -179,7 +186,7 @@ export const UnwrappedMainNavigation = (props) => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {questionnaire.qCodeErrorCount > 0 ? (
+                  {emptyQCode || duplicateQCode === true ? (
                     <SmallBadge data-test="small-badge" />
                   ) : null}
                 </RouteButton>

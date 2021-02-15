@@ -56,17 +56,11 @@ Resolvers.QuestionPage = {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
     );
-    //remove qcode errors from total here - important as Qcode errors don't count to total
-    // otherwise error totals get confusing for users!!!!!!
-
-    const answerErrorsQCode = pageErrors.filter(
-      ({ field }) => field === "qCode" || field === "secondaryQCode"
-    );
 
     return {
       id,
       errors: pageErrors,
-      totalCount: pageErrors.length - answerErrorsQCode.length,
+      totalCount: pageErrors.length,
     };
   },
 };
