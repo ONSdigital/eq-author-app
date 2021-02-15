@@ -16,7 +16,6 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
-
 import Badge from "components/Badge";
 
 import { withQuestionnaire } from "components/QuestionnaireContext";
@@ -32,6 +31,8 @@ import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
+
+import { useQCodeContext } from "components/QCodeContext";
 
 import {
   buildQcodesPath,
@@ -59,6 +60,7 @@ export const UtilityBtns = styled.div`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+  const { flattenedAnswers, duplicateQCode } = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -72,6 +74,10 @@ export const UnwrappedMainNavigation = props => {
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
   }`;
+
+  const emptyQCode = flattenedAnswers?.find(
+    ({ type, qCode }) => type !== "Checkbox" && !qCode
+  );
 
   return (
     <>
@@ -165,7 +171,7 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {questionnaire.qCodeErrorCount > 0 ? (
+                  {emptyQCode || duplicateQCode === true ? (
                     <Badge variant="main-nav" small data-test="small-badge" />
                   ) : null}
                 </RouteButton>

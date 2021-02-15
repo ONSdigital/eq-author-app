@@ -126,11 +126,14 @@ describe("MainNavigation", () => {
   });
 
   it("should display error badge when there are errors", async () => {
+    flattenedAnswers[0].qCode = "";
     props.questionnaire.qCodeErrorCount = 1;
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
-        <UnwrappedMainNavigation {...props} />
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
       </MeContext.Provider>,
       {
         mocks,
