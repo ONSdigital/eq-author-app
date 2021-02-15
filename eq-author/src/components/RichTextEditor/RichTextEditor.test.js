@@ -32,7 +32,7 @@ const content = `
   </ul>
 `;
 
-describe("components/RichTextEditor", function() {
+describe("components/RichTextEditor", function () {
   beforeEach(() => {
     props = {
       onUpdate: jest.fn(),
@@ -261,7 +261,7 @@ describe("components/RichTextEditor", function() {
   });
 
   describe("piping", () => {
-    const toRaw = wrapper =>
+    const toRaw = (wrapper) =>
       convertToRaw(wrapper.state("editorState").getCurrentContent());
 
     const createEntity = (type, mutability, data) => ({

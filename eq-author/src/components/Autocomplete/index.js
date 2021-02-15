@@ -13,7 +13,7 @@ import {
 import { keyCodes } from "constants/keyCodes";
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
 
-const focusEl = element => element && element.focus();
+const focusEl = (element) => element && element.focus();
 
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
@@ -48,7 +48,7 @@ const Autocomplete = ({
   }, [defaultValue]);
 
   const onArrowDown = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       const isLarger = (categories && categories.length) > filterOptions.length;
 
@@ -70,7 +70,7 @@ const Autocomplete = ({
   );
 
   const onArrowUp = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       const decreaseIndex = selectedIndex === -1 ? -1 : selectedIndex - 1;
@@ -94,7 +94,7 @@ const Autocomplete = ({
   }, [selectedIndex]);
 
   const handleSelect = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       onSelect();
@@ -103,7 +103,7 @@ const Autocomplete = ({
   );
 
   const handleInputChange = useCallback(
-    event => {
+    (event) => {
       setQuery(event.value);
 
       if (selectedOption) {
@@ -114,7 +114,7 @@ const Autocomplete = ({
   );
 
   const handleClick = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       const clickedElement = event.currentTarget;
       setSelectedOption(clickedElement.innerText);
@@ -125,7 +125,7 @@ const Autocomplete = ({
   );
 
   const handleOtherKeyDown = useCallback(
-    event => {
+    (event) => {
       const inputElement = comboElements.current.get(-1);
       const eventIsOnInput = event.target === inputElement;
       if (!eventIsOnInput) {
@@ -139,7 +139,7 @@ const Autocomplete = ({
   );
 
   const handleBlur = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
         if (selectedOption === null) {
@@ -153,7 +153,7 @@ const Autocomplete = ({
   );
 
   const handleKeyDown = useCallback(
-    event => {
+    (event) => {
       if (isOpen && filterOptions.length) {
         const { key } = event;
         const { ArrowDown, ArrowUp, Enter, Space } = keyCodes;
@@ -209,7 +209,7 @@ const Autocomplete = ({
     () =>
       filter && typeof filter === "function"
         ? filter(options, query)
-        : [options.filter(option => option.toLowerCase().includes(query))],
+        : [options.filter((option) => option.toLowerCase().includes(query))],
     [query, options]
   );
 
@@ -237,10 +237,10 @@ const Autocomplete = ({
             aria-selected={selectedIndex === index ? "true" : "false"}
             tabIndex="-1"
             role="option"
-            ref={optionEl => {
+            ref={(optionEl) => {
               comboElements.current.set(index, optionEl);
             }}
-            onClick={event => handleClick(event)}
+            onClick={(event) => handleClick(event)}
           >
             {option}
           </ListItem>
@@ -253,8 +253,8 @@ const Autocomplete = ({
     <>
       <Wrapper
         data-test="autocomplete"
-        onKeyDown={event => handleKeyDown(event)}
-        onBlur={e => handleBlur(e)}
+        onKeyDown={(event) => handleKeyDown(event)}
+        onBlur={(e) => handleBlur(e)}
         onClick={() => setIsOpen(true)}
       >
         <Status
@@ -276,10 +276,10 @@ const Autocomplete = ({
           aria-label="Auto complete input"
           aria-owns={"autocomplete-listbox"}
           autoComplete="off"
-          forwardRef={inputEl => {
+          forwardRef={(inputEl) => {
             comboElements.current.set(-1, inputEl);
           }}
-          onChange={event => handleInputChange(event)}
+          onChange={(event) => handleInputChange(event)}
           onFocus={() => setIsOpen(true)}
           placeholder={placeholder}
           role="combobox"

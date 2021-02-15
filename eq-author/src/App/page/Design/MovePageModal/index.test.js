@@ -10,10 +10,10 @@ jest.mock("components/QuestionnaireContext", () => ({
   useQuestionnaire: jest.fn(),
 }));
 
-const getSectionModal = wrapper =>
+const getSectionModal = (wrapper) =>
   wrapper.find(byTestAttr("section-select-modal"));
 
-const getSectionItem = wrapper =>
+const getSectionItem = (wrapper) =>
   wrapper.find(byTestAttr("section-item-select"));
 
 const mockQuestionnaire = buildQuestionnaire({ sectionCount: 2 });
@@ -43,10 +43,7 @@ describe("MovePageModal", () => {
   });
 
   it("opens section select Modals when correct button is clicked", () => {
-    wrapper
-      .find("MovePageModal__Trigger")
-      .first()
-      .simulate("click");
+    wrapper.find("MovePageModal__Trigger").first().simulate("click");
 
     expect(getSectionModal(wrapper).prop("isOpen")).toBe(true);
   });

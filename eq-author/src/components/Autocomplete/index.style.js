@@ -36,7 +36,7 @@ export const Wrapper = styled.div`
 `;
 
 export const RoundedInput = styled(Input)`
-  background: white url('${Icon}') no-repeat left center;
+  background: white url("${Icon}") no-repeat left center;
   border-radius: ${radius};
   box-sizing: border-box;
   padding-left: 2em;
@@ -79,13 +79,13 @@ const commonListStateStyling = css`
 `;
 
 export const ListItem = styled.li`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.category ? colors.lightMediumGrey : colors.white};
   color: ${colors.darkGrey};
   display: block;
   padding: 0.3em;
   padding-left: 0.5em;
-  ${props =>
+  ${(props) =>
     !props.category &&
     css`
       &:hover {

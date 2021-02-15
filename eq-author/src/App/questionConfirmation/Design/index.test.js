@@ -37,7 +37,7 @@ describe("QuestionConfirmationRoute", () => {
     },
   };
 
-  const render = props => {
+  const render = (props) => {
     return shallow(
       <QuestionConfirmationRoute
         {...mockHandlers}

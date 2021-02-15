@@ -12,7 +12,7 @@ const {
   UNPUBLISHED,
 } = require("../../constants/publishStatus");
 
-const createMutation = mutation => async (root, args, ctx) => {
+const createMutation = (mutation) => async (root, args, ctx) => {
   let hasBeenUnpublished;
   enforceHasWritePermission(ctx.questionnaire, ctx.user);
   if (ctx.questionnaire.publishStatus === AWAITING_APPROVAL) {

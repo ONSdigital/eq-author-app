@@ -8,7 +8,7 @@ const {
 
 let googlePublicKeys = {};
 
-const fetchUpdatedKeys = async logger => {
+const fetchUpdatedKeys = async (logger) => {
   logger.info(
     `Fetching latest Google Serice Keys from ${VERIFY_PUBLIC_KEYS_URL}`
   );
@@ -55,9 +55,9 @@ const verifyToken = (accessToken, header, userId, logger) => {
   }
 };
 
-module.exports = async function(accessToken, header, userId, logger) {
+module.exports = async function (accessToken, header, userId, logger) {
   // Verify against Google public keys
-  return new Promise(async resolve => {
+  return new Promise(async (resolve) => {
     let isVerified = verifyToken(accessToken, header, userId, logger);
 
     if (!isVerified || googlePublicKeys.error) {

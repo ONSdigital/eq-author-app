@@ -37,7 +37,8 @@ const StyledItem = styled.div`
 `;
 
 const EditHeader = styled.div`
-  background-color: ${props => (props.active ? colors.blue : colors.darkGrey)};
+  background-color: ${(props) =>
+    props.active ? colors.blue : colors.darkGrey};
   color: ${colors.white};
 `;
 
@@ -112,7 +113,7 @@ const ActionButton = styled(Button)`
   margin-bottom: 1em;
 `;
 
-const formatDate = date => moment(date).format("DD/MM/YYYY [at] HH:mm");
+const formatDate = (date) => moment(date).format("DD/MM/YYYY [at] HH:mm");
 
 const RTEWrapper = styled.div`
   margin: 0 2em 0 1em;
@@ -148,7 +149,7 @@ const HistoryItem = ({
             <RichTextEditor
               id={`update-note-textbox`}
               name="note"
-              onUpdate={e => setNoteState(e.value)}
+              onUpdate={(e) => setNoteState(e.value)}
               label=""
               multiline
               value={noteState}

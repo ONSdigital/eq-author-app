@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 
 import VALIDATION_MESSAGES from "constants/validationMessages";
 
-const withValidationError = entityPropName => WrappedComponent => {
+const withValidationError = (entityPropName) => (WrappedComponent) => {
   class ValidationError extends React.Component {
     static propTypes = {
       enableValidationMessage: PropTypes.bool,
@@ -29,7 +29,7 @@ const withValidationError = entityPropName => WrappedComponent => {
       }
 
       const fieldMessage = messages.find(
-        m => m.field === field && m.type === (type ?? m.type)
+        (m) => m.field === field && m.type === (type ?? m.type)
       );
 
       if (!fieldMessage) {

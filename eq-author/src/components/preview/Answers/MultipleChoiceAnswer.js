@@ -35,8 +35,8 @@ export const Input = styled.input`
   top: 1em;
   left: 1em;
 
-  ${props => props.type === RADIO && radioInput};
-  ${props => props.error && inputWithError};
+  ${(props) => props.type === RADIO && radioInput};
+  ${(props) => props.error && inputWithError};
 `;
 
 const OptionLabel = styled.label`
@@ -74,7 +74,7 @@ export const OptionItem = styled.div`
   margin-bottom: 0.25em;
   word-wrap: break-word;
 
-  ${props => props.error && optionItemError};
+  ${(props) => props.error && optionItemError};
 `;
 
 const SelectAll = styled.div`

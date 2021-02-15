@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 
 const Animated = styled.div`
   transform-origin: bottom left;
-  transition: transform ${props => props.duration / 2}ms;
+  transition: transform ${(props) => props.duration / 2}ms;
 
   > * > * {
-    transition: opacity ${props => props.duration / 2}ms
-      ${props => props.duration / 2}ms;
+    transition: opacity ${(props) => props.duration / 2}ms
+      ${(props) => props.duration / 2}ms;
   }
 
   &.scale-enter {
@@ -30,11 +30,11 @@ const Animated = styled.div`
 
   &.scale-exit {
     transform: scale(1);
-    transition: transform ${props => props.duration / 2}ms
-      ${props => props.duration / 2}ms;
+    transition: transform ${(props) => props.duration / 2}ms
+      ${(props) => props.duration / 2}ms;
 
     > * > * {
-      transition: opacity ${props => props.duration / 2}ms;
+      transition: opacity ${(props) => props.duration / 2}ms;
       opacity: 1;
     }
   }

@@ -6,13 +6,13 @@ const ToastTransition = styled(CSSTransition).attrs({
   classNames: "toast",
 })`
   transition-property: transform, opacity;
-  transition-duration: ${props => props.timeout * 0.66}ms;
+  transition-duration: ${(props) => props.timeout * 0.66}ms;
 
   &.toast-enter {
     opacity: 0;
     transform: translateY(50%);
     transition-timing-function: cubic-bezier(0.73, 0.02, 0.32, 1.49);
-    transition-delay: ${props => props.timeout * 0.33}ms;
+    transition-delay: ${(props) => props.timeout * 0.33}ms;
   }
 
   &.toast-enter.toast-enter-active {

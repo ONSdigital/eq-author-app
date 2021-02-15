@@ -5,7 +5,7 @@ import DurationPreview from "./DurationPreview";
 
 import { DAYS } from "constants/durations";
 
-const render = props => shallow(<DurationPreview {...props} />);
+const render = (props) => shallow(<DurationPreview {...props} />);
 
 describe("Duration Error", () => {
   let wrapper, props;

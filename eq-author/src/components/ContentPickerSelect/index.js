@@ -57,7 +57,7 @@ export const ContentSelected = styled(Truncated)`
   line-height: 1.3;
 `;
 
-const ContentPickerSelect = props => {
+const ContentPickerSelect = (props) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
   const {
     loading,
@@ -73,7 +73,7 @@ const ContentPickerSelect = props => {
   } = props;
   const isDisabled = loading || !isNil(error) || disabled;
 
-  const handlePickerSubmit = selected => {
+  const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
     props.onSubmit({ name, value: selected });
   };

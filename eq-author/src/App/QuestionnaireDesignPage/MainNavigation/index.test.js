@@ -15,6 +15,7 @@ describe("MainNavigation", () => {
     signOut,
     onSubmit;
 
+
   beforeEach(() => {
     signOut = jest.fn();
     onSubmit = jest.fn();

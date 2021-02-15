@@ -88,7 +88,7 @@ describe("BinaryExpressionEditor", () => {
 
   it("should render number editor correctly", () => {
     const answerTypes = [CURRENCY, NUMBER, PERCENTAGE];
-    answerTypes.forEach(answerType => {
+    answerTypes.forEach((answerType) => {
       defaultProps.expression.left.type = answerType;
       const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
       expect(wrapper.find(NumberAnswerSelector)).toBeTruthy();

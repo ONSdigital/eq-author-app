@@ -120,7 +120,7 @@ const {
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
-const createNewQuestionnaire = input => {
+const createNewQuestionnaire = (input) => {
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",
@@ -153,7 +153,7 @@ const createNewQuestionnaire = input => {
   };
 };
 
-const publishCommentUpdates = componentId => {
+const publishCommentUpdates = (componentId) => {
   pubsub.publish("commentsUpdated", {
     componentId,
   });
@@ -164,7 +164,7 @@ const Resolvers = {
     questionnaires: async (root, args, ctx) => {
       const questionnaires = await listQuestionnaires();
 
-      return questionnaires.filter(questionnaire => {
+      return questionnaires.filter((questionnaire) => {
         if (ctx.user.admin === true || questionnaire.isPublic) {
           return true;
         }
@@ -327,7 +327,7 @@ const Resolvers = {
       const user = ctx.user;
       const metadata = await getQuestionnaireMetaById(input.questionnaireId);
       const history = metadata.history;
-      const noteToDelete = history.find(item => item.id === input.id);
+      const noteToDelete = history.find((item) => item.id === input.id);
 
       if (!user.admin && user.id !== noteToDelete.userId) {
         throw new Error("User doesnt have access");
@@ -336,7 +336,7 @@ const Resolvers = {
         throw new Error("Cannot delete system event message");
       }
 
-      remove(metadata.history, item => item.id === noteToDelete.id);
+      remove(metadata.history, (item) => item.id === noteToDelete.id);
 
       await saveMetadata(metadata);
       return metadata.history;
@@ -430,9 +430,9 @@ const Resolvers = {
     }),
     updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
-      const additionalAnswers = flatMap(answers, answer =>
+      const additionalAnswers = flatMap(answers, (answer) =>
         answer.options
-          ? flatMap(answer.options, option => option.additionalAnswer)
+          ? flatMap(answer.options, (option) => option.additionalAnswer)
           : null
       );
 
@@ -451,8 +451,8 @@ const Resolvers = {
     updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
         const page = getPageById(ctx, questionPageId);
-        const answersOfType = page.answers.filter(a => a.type === type);
-        answersOfType.forEach(answer => {
+        const answersOfType = page.answers.filter((a) => a.type === type);
+        answersOfType.forEach((answer) => {
           answer.properties = {
             ...answer.properties,
             ...properties,
@@ -503,7 +503,7 @@ const Resolvers = {
     }),
     moveOption: createMutation((_, { input: { id, position } }, ctx) => {
       const answers = getAnswers(ctx);
-      const answer = find(answers, answer => {
+      const answer = find(answers, (answer) => {
         if (answer.options && some(answer.options, { id })) {
           return answer;
         }
@@ -526,7 +526,7 @@ const Resolvers = {
     deleteOption: createMutation((_, { input }, ctx) => {
       const answers = getAnswers(ctx);
 
-      const answer = find(answers, answer => {
+      const answer = find(answers, (answer) => {
         if (answer.options && some(answer.options, { id: input.id })) {
           return answer;
         }
@@ -534,11 +534,11 @@ const Resolvers = {
 
       const removedOption = first(remove(answer.options, { id: input.id }));
 
-      getExpressions(ctx).forEach(expression => {
+      getExpressions(ctx).forEach((expression) => {
         if (expression.right && expression.right.optionIds) {
           remove(
             expression.right.optionIds,
-            value => value === removedOption.id
+            (value) => value === removedOption.id
           );
         }
       });
@@ -596,7 +596,7 @@ const Resolvers = {
         })
       );
 
-      ctx.questionnaire.metadata.forEach(row => {
+      ctx.questionnaire.metadata.forEach((row) => {
         if (row.fallbackKey === deletedMetadata.key) {
           row.fallbackKey = null;
         }
@@ -632,7 +632,7 @@ const Resolvers = {
         let confirmationPage;
         let pageId;
 
-        pages.map(page => {
+        pages.map((page) => {
           if (page.confirmation && page.confirmation.id === id) {
             confirmationPage = page.confirmation;
             pageId = page.id;
@@ -653,7 +653,7 @@ const Resolvers = {
       let confirmationPage;
       let pageContainingConfirmation;
 
-      pages.map(page => {
+      pages.map((page) => {
         if (page.confirmation && page.confirmation.id === input.id) {
           confirmationPage = page.confirmation;
           pageContainingConfirmation = page;
@@ -734,7 +734,7 @@ const Resolvers = {
           body: JSON.stringify(requestBody),
           headers: { "Content-Type": "application/json" },
         })
-          .then(async res => {
+          .then(async (res) => {
             if (res.status === 200) {
               ctx.questionnaire.publishStatus = PUBLISHED;
               await createHistoryEvent(
@@ -744,7 +744,7 @@ const Resolvers = {
             }
             return res.json();
           })
-          .catch(e => {
+          .catch((e) => {
             throw Error(e);
           });
       }
@@ -939,15 +939,15 @@ const Resolvers = {
   },
 
   Questionnaire: {
-    sections: questionnaire => questionnaire.sections,
-    createdBy: questionnaire => getUserById(questionnaire.createdBy),
-    questionnaireInfo: questionnaire => questionnaire,
-    metadata: questionnaire => questionnaire.metadata,
-    displayName: questionnaire =>
+    sections: (questionnaire) => questionnaire.sections,
+    createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
+    questionnaireInfo: (questionnaire) => questionnaire,
+    metadata: (questionnaire) => questionnaire.metadata,
+    displayName: (questionnaire) =>
       questionnaire.shortTitle || questionnaire.title,
-    editors: questionnaire =>
+    editors: (questionnaire) =>
       Promise.all(
-        (questionnaire.editors || []).map(editorId => getUserById(editorId))
+        (questionnaire.editors || []).map((editorId) => getUserById(editorId))
       ),
     permission: (questionnaire, args, ctx) => {
       if (hasWritePermission(questionnaire, ctx.user)) {
@@ -965,7 +965,7 @@ const Resolvers = {
   },
 
   User: {
-    displayName: user => user.name || user.email,
+    displayName: (user) => user.name || user.email,
   },
 
   Comment: {
@@ -977,7 +977,7 @@ const Resolvers = {
   },
 
   QuestionnaireInfo: {
-    totalSectionCount: questionnaire => questionnaire.sections.length,
+    totalSectionCount: (questionnaire) => questionnaire.sections.length,
   },
 
   Skippable: {
@@ -986,7 +986,7 @@ const Resolvers = {
   },
 
   Section: {
-    folders: section => section.folders,
+    folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     title: (section, args, ctx) =>
       ctx.questionnaire.navigation ? section.title : "",
@@ -1017,7 +1017,7 @@ const Resolvers = {
   },
 
   LogicalDestination: {
-    id: destination => destination.logicalDestination,
+    id: (destination) => destination.logicalDestination,
   },
 
   Answer: {
@@ -1034,23 +1034,23 @@ const Resolvers = {
     page: ({ id }, args, ctx) => {
       const pages = getPages(ctx);
 
-      const parentPage = find(pages, page =>
-        some(page.answers, answer => answer.id === id)
+      const parentPage = find(pages, (page) =>
+        some(page.answers, (answer) => answer.id === id)
       );
 
       return parentPage;
     },
-    validation: answer =>
+    validation: (answer) =>
       ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer
         : null,
-    displayName: answer => getName(answer, "BasicAnswer"),
+    displayName: (answer) => getName(answer, "BasicAnswer"),
 
     // secondaryLabel needed for some answer types e.g. DateRage: label->From field, secodaryLabel->To field.
     // need to define a default for secondaryLabel for use in piping. If label exists then displayName doesn't contain default.
     // If secondaryLabel is set to default, then the default is displayed in answer label instead of leaving it blank
     // Have defined a secondaryLabelDefault field to fallback on if secondaryLabel is empty
-    secondaryLabelDefault: answer =>
+    secondaryLabelDefault: (answer) =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
       const answerErrors = ctx.validationErrorInfo.filter(
@@ -1077,10 +1077,10 @@ const Resolvers = {
     page: (answer, args, ctx) => {
       return getPageByAnswerId(ctx, answer.id);
     },
-    options: answer => answer.options.filter(o => !o.mutuallyExclusive),
-    mutuallyExclusiveOption: answer =>
+    options: (answer) => answer.options.filter((o) => !o.mutuallyExclusive),
+    mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),
-    displayName: answer => getName(answer, "MultipleChoiceAnswer"),
+    displayName: (answer) => getName(answer, "MultipleChoiceAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
       const answerErrors = ctx.validationErrorInfo.filter(
         ({ answerId }) => id === answerId
@@ -1097,20 +1097,20 @@ const Resolvers = {
   Option: {
     answer: (option, args, ctx) => {
       const answers = getAnswers(ctx);
-      return find(answers, answer => {
+      return find(answers, (answer) => {
         if (answer.options && some(answer.options, { id: option.id })) {
           return answer;
         }
       });
     },
-    displayName: option => getName(option, "Option"),
-    additionalAnswer: option => option.additionalAnswer,
+    displayName: (option) => getName(option, "Option"),
+    additionalAnswer: (option) => option.additionalAnswer,
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ optionId }) => id === optionId),
   },
 
   ValidationType: {
-    __resolveType: answer => {
+    __resolveType: (answer) => {
       const validationEntity = getValidationEntity(answer.type);
       switch (validationEntity) {
         case "number":
@@ -1153,20 +1153,20 @@ const Resolvers = {
   },
 
   NumberValidation: {
-    minValue: answer => answer.validation.minValue,
-    maxValue: answer => answer.validation.maxValue,
+    minValue: (answer) => answer.validation.minValue,
+    maxValue: (answer) => answer.validation.maxValue,
   },
 
   DateValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
-    latestDate: answer => answer.validation.latestDate,
+    earliestDate: (answer) => answer.validation.earliestDate,
+    latestDate: (answer) => answer.validation.latestDate,
   },
 
   DateRangeValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
-    latestDate: answer => answer.validation.latestDate,
-    minDuration: answer => answer.validation.minDuration,
-    maxDuration: answer => answer.validation.maxDuration,
+    earliestDate: (answer) => answer.validation.earliestDate,
+    latestDate: (answer) => answer.validation.latestDate,
+    minDuration: (answer) => answer.validation.minDuration,
+    maxDuration: (answer) => answer.validation.maxDuration,
   },
 
   MinValueValidationRule: {
@@ -1321,11 +1321,12 @@ const Resolvers = {
       }
       return new Date(dateValue);
     },
-    displayName: metadata => getName(metadata, "Metadata"),
+    displayName: (metadata) => getName(metadata, "Metadata"),
   },
 
   QuestionConfirmation: {
-    displayName: confirmation => getName(confirmation, "QuestionConfirmation"),
+    displayName: (confirmation) =>
+      getName(confirmation, "QuestionConfirmation"),
     page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForPage(ctx.questionnaire, id),

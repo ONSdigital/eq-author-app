@@ -8,7 +8,7 @@ describe("timer", () => {
   const TIMEOUT = 1000;
   let t, handleDone, currentTime;
 
-  const advanceByTime = amount => {
+  const advanceByTime = (amount) => {
     currentTime += amount;
     jest.runTimersToTime(amount);
   };

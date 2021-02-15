@@ -26,17 +26,21 @@ describe("withDeleteBinaryExpression", () => {
       const onCompleted = jest.fn();
       const mockExpressionGroup = {
         id: "expression-group-1",
-        expressions: []
+        expressions: [],
       };
 
       mutate.mockImplementation(({ update }) =>
         update(null, {
           data: {
-            deleteBinaryExpression2: mockExpressionGroup
-          }
-        }));
+            deleteBinaryExpression2: mockExpressionGroup,
+          },
+        })
+      );
 
-      props.deleteBinaryExpression("my-least-favourite-expression", onCompleted);
+      props.deleteBinaryExpression(
+        "my-least-favourite-expression",
+        onCompleted
+      );
       expect(onCompleted).toHaveBeenCalledWith(mockExpressionGroup);
     });
   });

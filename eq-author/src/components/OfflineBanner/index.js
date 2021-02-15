@@ -48,7 +48,7 @@ const errorMessage = {
     "You're currently offline and any changes you make won't be saved. Check your connection and try again.",
 };
 
-export const UnconnectedOfflineBanner = props => {
+export const UnconnectedOfflineBanner = (props) => {
   return (
     <TransitionGroup>
       {props.hasError && (
@@ -70,7 +70,7 @@ UnconnectedOfflineBanner.propTypes = {
   hasError: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOffline: isOffline(state),
   apiError: hasApiError(state),
   hasError: hasError(state),

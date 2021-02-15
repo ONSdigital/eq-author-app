@@ -46,7 +46,7 @@ UnwrappedRoutingAnswerContentPicker.propTypes = {
   path: PropTypes.string.isRequired,
 };
 
-const RoutingAnswerContentPicker = props => (
+const RoutingAnswerContentPicker = (props) => (
   <Query
     query={GET_AVAILABLE_ANSWERS}
     variables={{
@@ -58,7 +58,7 @@ const RoutingAnswerContentPicker = props => (
     }}
     fetchPolicy="cache-and-network"
   >
-    {innerProps => (
+    {(innerProps) => (
       <UnwrappedRoutingAnswerContentPicker {...innerProps} {...props} />
     )}
   </Query>

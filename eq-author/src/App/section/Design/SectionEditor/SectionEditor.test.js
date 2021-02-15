@@ -102,12 +102,9 @@ describe("SectionEditor", () => {
       },
     };
     const wrapper = render({ section });
-    expect(
-      wrapper
-        .find(RichTextEditor)
-        .first()
-        .prop("disabled")
-    ).toEqual(false);
+    expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(
+      false
+    );
   });
 
   it("should disable the section title when navigation is disabled", () => {
@@ -119,12 +116,7 @@ describe("SectionEditor", () => {
       },
     };
     const wrapper = render({ section });
-    expect(
-      wrapper
-        .find(RichTextEditor)
-        .first()
-        .prop("disabled")
-    ).toEqual(true);
+    expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(true);
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {

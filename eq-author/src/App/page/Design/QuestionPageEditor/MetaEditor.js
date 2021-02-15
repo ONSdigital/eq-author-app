@@ -56,7 +56,7 @@ export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
-  errorMsg = field =>
+  errorMsg = (field) =>
     getErrorByField(field, this.props.page.validationErrorInfo.errors);
 
   render() {

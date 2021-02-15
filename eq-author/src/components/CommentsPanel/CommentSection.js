@@ -24,7 +24,7 @@ const StyledAccordion = styled(CommentAccordion)`
   background-color: ${colors.blue};
 `;
 
-const CommentSection = props => {
+const CommentSection = (props) => {
   const [accordionOpen, setAccordionOpen] = useState(false);
   const {
     myId,
@@ -51,7 +51,7 @@ const CommentSection = props => {
 
   const editCommentName = `edit-comment-${index}`;
 
-  const handleClick = id => {
+  const handleClick = (id) => {
     setAccordionOpen(true);
     setActiveReplyId(id);
   };
@@ -79,7 +79,7 @@ const CommentSection = props => {
       {canEditComment ? (
         <StyledTextArea
           id={item.id}
-          inputRef={tag => {
+          inputRef={(tag) => {
             setCommentRef(tag);
           }}
           value={editComment}

@@ -19,7 +19,7 @@ With input:
 ${JSON.stringify(args, null, 2)}
 Resulted in:
 
-${response.errors.map(e => e.message).join("\n----\n")}
+${response.errors.map((e) => e.message).join("\n----\n")}
     `);
   }
   if (ctx.questionnaire) {

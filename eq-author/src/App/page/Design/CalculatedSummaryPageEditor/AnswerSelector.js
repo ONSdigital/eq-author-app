@@ -74,7 +74,7 @@ const AnswerList = styled.ul`
 const AnswerListItem = styled.li`
   margin: 0 0 0.5em;
   width: 100%;
-  
+
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -131,7 +131,7 @@ const ChipText = styled.div`
 export const ErrorContext = styled.div`
   position: relative;
 
-  ${props =>
+  ${(props) =>
     props.isInvalid &&
     css`
       margin-bottom: 2.5em;
@@ -152,8 +152,8 @@ export class UnwrappedAnswerSelector extends Component {
       page: { summaryAnswers },
     } = this.props;
     const newSelectedValues = summaryAnswers.filter(
-      selectedSummaryAnswer =>
-        !find(answers, answer => answer.id === selectedSummaryAnswer.id)
+      (selectedSummaryAnswer) =>
+        !find(answers, (answer) => answer.id === selectedSummaryAnswer.id)
     );
     onUpdateCalculatedSummaryPage({
       id: page.id,
@@ -169,7 +169,7 @@ export class UnwrappedAnswerSelector extends Component {
     this.setState({ showPicker: false });
   };
 
-  handlePickerSubmit = answers => {
+  handlePickerSubmit = (answers) => {
     const { onUpdateCalculatedSummaryPage, page } = this.props;
 
     this.setState({ showPicker: false });
@@ -196,9 +196,19 @@ export class UnwrappedAnswerSelector extends Component {
     let errorMsg;
 
     if (unit !== undefined) {
-      errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${unit.toLowerCase()}`, 20, 19);
+      errorMsg = buildLabelError(
+        CALCSUM_ANSWER_NOT_SELECTED,
+        `${unit.toLowerCase()}`,
+        20,
+        19
+      );
     } else {
-    errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${answers[0].type.toLowerCase()}`, 20, 19);
+      errorMsg = buildLabelError(
+        CALCSUM_ANSWER_NOT_SELECTED,
+        `${answers[0].type.toLowerCase()}`,
+        20,
+        19
+      );
     }
 
     const isInvalid = unitInconsistencyError || minOfTwoAnswersError;
@@ -222,7 +232,7 @@ export class UnwrappedAnswerSelector extends Component {
             </SectionHeader>
             <ErrorContext isInvalid={isInvalid}>
               <AnswerList>
-                {answers.map(answer => (
+                {answers.map((answer) => (
                   <AnswerListItem key={answer.id}>
                     <AnswerChip
                       onRemove={() => this.handleRemoveAnswers([answer])}
@@ -254,7 +264,6 @@ export class UnwrappedAnswerSelector extends Component {
   }
 
   renderEmptyState(availableSummaryAnswers) {
-
     const { getValidationError } = this.props;
     const isAvailableAnswers = availableSummaryAnswers.length > 0;
 

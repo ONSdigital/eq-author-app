@@ -16,7 +16,7 @@ const ActionButton = styled(Button)`
   }
 `;
 
-const DialogActionButtons = props => {
+const DialogActionButtons = (props) => {
   const {
     primaryAction,
     primaryActionText,

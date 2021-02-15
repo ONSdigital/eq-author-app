@@ -165,7 +165,7 @@ const HistoryPageContent = ({ match }) => {
                     },
                   })
                 }
-                handleDeleteNote={itemId =>
+                handleDeleteNote={(itemId) =>
                   deleteNote({
                     variables: {
                       input: {

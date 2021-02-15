@@ -6,7 +6,7 @@ const createValidationError = require("../createValidationError");
 
 const { getOptionById } = require("../../../schema/resolvers/utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateMultipleChoiceCondition", {
     validate: function isValid(
       otherFields,
@@ -26,11 +26,11 @@ module.exports = function(ajv) {
         parentData.right.optionIds
       ) {
         const selectedCheckboxOptions = parentData.right.optionIds.map(
-          optionId => getOptionById({ questionnaire }, optionId)
+          (optionId) => getOptionById({ questionnaire }, optionId)
         );
 
         const mutuallyExclusiveOption = selectedCheckboxOptions.filter(
-          option => option && option.mutuallyExclusive
+          (option) => option && option.mutuallyExclusive
         ).length;
 
         if (

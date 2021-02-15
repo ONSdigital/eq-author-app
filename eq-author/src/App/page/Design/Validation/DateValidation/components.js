@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Select} from "components/Forms";
+import { Input, Select } from "components/Forms";
 import Path from "../path.svg?inline";
 import ValidationTitle from "../ValidationTitle";
 import ValidationError from "components/ValidationError";
@@ -34,7 +34,15 @@ const StyledError = styled(ValidationError)`
   width: 60%;
 `;
 
-const Now = () =>
-  <StartDateText>The date the respondent begins the survey</StartDateText>;
+const Now = () => (
+  <StartDateText>The date the respondent begins the survey</StartDateText>
+);
 
-export { StyledError, RelativePositionText, RelativePositionSelect, ConnectedPath, DateInput, Now};
+export {
+  StyledError,
+  RelativePositionText,
+  RelativePositionSelect,
+  ConnectedPath,
+  DateInput,
+  Now,
+};

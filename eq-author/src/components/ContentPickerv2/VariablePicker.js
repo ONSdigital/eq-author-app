@@ -107,7 +107,7 @@ const VariablePicker = ({ onSelected, isSelected }) => {
                 aria-selected={isSelected(totalObject)}
                 aria-label={"total"}
                 tabIndex="0"
-                onKeyUp={event => onEnterUp(event, totalObject)}
+                onKeyUp={(event) => onEnterUp(event, totalObject)}
               >
                 <Col>
                   <MenuItemTitle>

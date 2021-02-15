@@ -34,7 +34,7 @@ const Paragraph = styled.p`
 
 const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
-  ${props =>
+  ${(props) =>
     props.isFirstQuestion &&
     `
      pointer-events: none;

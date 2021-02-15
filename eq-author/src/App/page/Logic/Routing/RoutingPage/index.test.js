@@ -83,7 +83,7 @@ describe("Routing Page", () => {
     page = questionnaire.sections[0].folders[0].pages[0];
   });
 
-  const renderWithContext = children =>
+  const renderWithContext = (children) =>
     render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         {children}

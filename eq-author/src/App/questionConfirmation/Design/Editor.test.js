@@ -33,7 +33,7 @@ describe("Editor", () => {
       },
     };
 
-    const render = props =>
+    const render = (props) =>
       shallow(<Editor {...mockHandlers} {...defaultProps} {...props} />);
 
     beforeEach(() => {

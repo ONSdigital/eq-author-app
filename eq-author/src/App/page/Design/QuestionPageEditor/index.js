@@ -55,11 +55,11 @@ export class UnwrappedQuestionPageEditor extends React.Component {
     enableValidationMessage: PropTypes.bool,
   };
 
-  handleDeleteAnswer = answerId => {
+  handleDeleteAnswer = (answerId) => {
     this.props.onDeleteAnswer(this.props.page.id, answerId);
   };
 
-  handleAddAnswer = answerType => {
+  handleAddAnswer = (answerType) => {
     const { match, onAddAnswer } = this.props;
 
     return onAddAnswer(match.params.pageId, answerType).then(focusOnEntity);

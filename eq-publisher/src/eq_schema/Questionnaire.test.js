@@ -10,7 +10,7 @@ const Summary = require("./block-types/Summary");
 const Section = require("./Section");
 
 describe("Questionnaire", () => {
-  const createQuestionnaireJSON = questionnaire =>
+  const createQuestionnaireJSON = (questionnaire) =>
     Object.assign(
       {
         id: "1",

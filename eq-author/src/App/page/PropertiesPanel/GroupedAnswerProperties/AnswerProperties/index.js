@@ -27,7 +27,7 @@ export class UnwrappedAnswerProperties extends React.Component {
     onUpdateValidationRule: PropTypes.func.isRequired,
   };
 
-  handleChange = propName => ({ value }) => {
+  handleChange = (propName) => ({ value }) => {
     const {
       id,
       properties: currentProperties,
