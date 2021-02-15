@@ -6,6 +6,11 @@ import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight } from "lodash";
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -41,6 +46,7 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
+import { QCodeContext } from "components/QCodeContext";
 
 const NavColumn = styled(Column)`
   background-color: ${colors.darkerBlack};
@@ -52,7 +58,6 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddQuestionPage: PropTypes.func.isRequired,
@@ -223,50 +228,74 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
+    let flattenedAnswers;
+    let duplicates;
+    let duplicateQCode = false;
+
+    if (questionnaire) {
+      const sections = questionnaire.sections;
+      const { answers } = organiseAnswers(sections);
+      flattenedAnswers = flattenAnswers(answers);
+
+      duplicates = duplicatesAnswers(flattenedAnswers);
+
+      if (duplicates) {
+        for (let key in duplicates) {
+          if (duplicates[key] > 1) {
+            duplicateQCode = true;
+          }
+        }
+      }
+    }
+
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <BaseLayout questionnaire={questionnaire}>
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <NavColumn cols={3} gutters={false}>
-                  <MainNav>
-                    <MainNavigation />
-                  </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
-                </NavColumn>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                      ...sharingRoutes,
-                      ...settingsRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
-                </Column>
+                <QCodeContext.Provider
+                  value={{ flattenedAnswers, duplicates, duplicateQCode }}
+                >
+                  <NavColumn cols={3} gutters={false}>
+                    <MainNav>
+                      <MainNavigation />
+                    </MainNav>
+                    <NavigationSidebar
+                      data-test="side-nav"
+                      onAddSection={this.props.onAddSection}
+                      onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                      canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      onAddCalculatedSummaryPage={this.handleAddPage(
+                        "CalculatedSummaryPage"
+                      )}
+                      canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      questionnaire={questionnaire}
+                      canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                      onAddQuestionConfirmation={
+                        this.handleAddQuestionConfirmation
+                      }
+                    />
+                  </NavColumn>
+                  <Column cols={9} gutters={false}>
+                    <Switch location={location}>
+                      {[
+                        ...pageRoutes,
+                        ...sectionRoutes,
+                        ...questionConfirmationRoutes,
+                        ...introductionRoutes,
+                        ...metadataRoutes,
+                        ...historyRoutes,
+                        ...publishRoutes,
+                        ...reviewRoutes,
+                        ...qcodeRoutes,
+                        ...sharingRoutes,
+                        ...settingsRoutes,
+                      ]}
+                      <Route path="*" render={this.renderRedirect} />
+                    </Switch>
+                  </Column>
+                </QCodeContext.Provider>
               </Grid>
             </Titled>
           </ScrollPane>
@@ -291,7 +320,6 @@ const QUESTIONNAIRE_QUERY = gql`
       }
       publishStatus
       totalErrorCount
-      qCodeErrorCount
       metadata {
         id
         displayName
@@ -361,7 +389,6 @@ export const VALIDATION_QUERY = gql`
     validationUpdated(id: $id) {
       id
       totalErrorCount
-      qCodeErrorCount
       sections {
         id
         validationErrorInfo {
@@ -384,6 +411,9 @@ export const VALIDATION_QUERY = gql`
               answers {
                 ... on BasicAnswer {
                   id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
                   validation {
                     ... on NumberValidation {
                       minValue {
@@ -443,6 +473,9 @@ export const VALIDATION_QUERY = gql`
                 }
                 ... on MultipleChoiceAnswer {
                   id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
                 }
               }
             }

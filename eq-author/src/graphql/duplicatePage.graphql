@@ -11,11 +11,26 @@ mutation duplicatePage($input: DuplicatePageInput!) {
     ... on QuestionPage {
       answers {
         id
+        label
+        secondaryLabel
+        secondaryLabelDefault
         type
-        displayName
+        properties
+        qCode
         ... on BasicAnswer {
-          secondaryLabel
-          secondaryLabelDefault
+          secondaryQCode
+        }
+        ... on MultipleChoiceAnswer {
+          options {
+            id
+            label
+            qCode
+          }
+          mutuallyExclusiveOption {
+            id
+            label
+            qCode
+          }
         }
       }
       section {
@@ -29,6 +44,7 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       }
       confirmation {
         id
+        qCode
         displayName
         validationErrorInfo {
           ...ValidationErrorInfo
