@@ -17,6 +17,7 @@ mutation CreateSection($input: CreateSectionInput!) {
           displayName
           guidance
           pageType
+          alias
           answers {
             id
           }
