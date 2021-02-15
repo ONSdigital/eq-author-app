@@ -6,7 +6,11 @@ import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight } from "lodash";
-import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -73,7 +77,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     showMovePageDialog: false,
   };
 
-  handleAddPage = pageType => () => {
+  handleAddPage = (pageType) => () => {
     const {
       onAddQuestionPage,
       onAddCalculatedSummaryPage,
@@ -199,7 +203,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
 
     const pages = questionnaire.sections.flatMap(({ folders }) =>
-      folders.flatMap(folder => folder.pages)
+      folders.flatMap((folder) => folder.pages)
     );
     const page = find(pages, { id: pageId });
     if (!page || page.confirmation || page.pageType !== "QuestionPage") {
@@ -250,7 +254,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <QCodeContext.Provider value={{ flattenedAnswers, duplicates, duplicateQCode }}>
+                <QCodeContext.Provider
+                  value={{ flattenedAnswers, duplicates, duplicateQCode }}
+                >
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />
@@ -320,8 +326,8 @@ const QUESTIONNAIRE_QUERY = gql`
   ${NavigationSidebar.fragments.NavigationSidebar}
 `;
 
-export const withQuestionnaire = Component => {
-  const WrappedComponent = props => (
+export const withQuestionnaire = (Component) => {
+  const WrappedComponent = (props) => (
     <Query
       query={QUESTIONNAIRE_QUERY}
       variables={{
@@ -332,7 +338,7 @@ export const withQuestionnaire = Component => {
       fetchPolicy="network-only"
       errorPolicy="all"
     >
-      {innerProps => (
+      {(innerProps) => (
         <Component
           {...innerProps}
           {...props}
@@ -354,8 +360,8 @@ export const withQuestionnaire = Component => {
   return WrappedComponent;
 };
 
-export const withAuthCheck = Component => {
-  const WrappedComponent = props => {
+export const withAuthCheck = (Component) => {
+  const WrappedComponent = (props) => {
     if (
       get(props, "error.networkError.bodyText") ===
       ERR_UNAUTHORIZED_QUESTIONNAIRE
@@ -471,13 +477,13 @@ export const VALIDATION_QUERY = gql`
   ${ValidationErrorInfo}
 `;
 
-export const withValidations = Component => {
-  const WrappedComponent = props => (
+export const withValidations = (Component) => {
+  const WrappedComponent = (props) => (
     <Subscription
       subscription={VALIDATION_QUERY}
       variables={{ id: props.match.params.questionnaireId }}
     >
-      {subscriptionProps => (
+      {(subscriptionProps) => (
         <Component
           {...props}
           validations={get(subscriptionProps, "data.validationUpdated")}

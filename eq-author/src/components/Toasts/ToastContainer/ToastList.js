@@ -31,7 +31,7 @@ export default class ToastContainer extends React.Component {
     transition: DefaultTransition,
   };
 
-  renderChild = child => {
+  renderChild = (child) => {
     const { transition: Transition } = this.props;
 
     return (

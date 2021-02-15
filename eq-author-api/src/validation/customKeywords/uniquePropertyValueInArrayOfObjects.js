@@ -1,6 +1,6 @@
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("uniquePropertyValueInArrayOfObjects", {
     validate: function uniqueLabelFn(
       propertyName,
@@ -19,7 +19,7 @@ module.exports = function(ajv) {
       }
 
       const entitiesWithSameValue = parentData.filter(
-        d => d[propertyName] === entityValue
+        (d) => d[propertyName] === entityValue
       );
 
       if (entitiesWithSameValue.length <= 1) {

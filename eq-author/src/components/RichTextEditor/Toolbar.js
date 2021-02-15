@@ -60,7 +60,7 @@ const Separator = styled.div`
   margin: 0.4em 0.7rem;
 `;
 const ToolbarPanel = styled.div`
-  position: ${props => (props.visible ? "sticky" : "relative")};
+  position: ${(props) => (props.visible ? "sticky" : "relative")};
   top: 0;
   z-index: 3;
   background-color: ${colors.lighterGrey};
@@ -99,7 +99,7 @@ class ToolBar extends React.Component {
     }),
   };
 
-  renderButton = button => {
+  renderButton = (button) => {
     const { title, icon: Icon, id } = button;
     const { isActiveControl, onToggle, controls, visible } = this.props;
 

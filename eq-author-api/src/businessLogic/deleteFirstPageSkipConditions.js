@@ -1,4 +1,4 @@
-module.exports = ctx => {
+module.exports = (ctx) => {
   if (
     ctx.questionnaire &&
     ctx.questionnaire.sections[0] &&

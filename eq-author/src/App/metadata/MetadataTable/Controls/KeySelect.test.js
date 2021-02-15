@@ -8,14 +8,11 @@ const render = (props = {}) => mount(<KeySelect {...props} />);
 
 describe("KeySelect", () => {
   let props, wrapper;
-  const callStateChange = changes =>
+  const callStateChange = (changes) =>
     wrapper.find(Typeahead).prop("onStateChange")(changes);
 
   const simulateInputBlur = () =>
-    wrapper
-      .find("[data-test='key-input']")
-      .last()
-      .simulate("blur");
+    wrapper.find("[data-test='key-input']").last().simulate("blur");
 
   beforeEach(() => {
     props = {

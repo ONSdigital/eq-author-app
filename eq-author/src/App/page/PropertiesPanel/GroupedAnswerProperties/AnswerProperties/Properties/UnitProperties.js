@@ -13,7 +13,7 @@ const UnitProperties = ({ unit, ...otherProps }) => {
       {!unit && <option value={``}>{"Select a type"}</option>}
       {map(sortedUnits, (unit, unitType) => (
         <optgroup label={unitType} key={unitType}>
-          {map(unit, unitConfig => {
+          {map(unit, (unitConfig) => {
             const optionLabel = `(${unitConfig.abbreviation}) ${unitConfig.unit}`;
             return (
               <option value={`${unitConfig.unit}`} key={unitConfig.unit}>

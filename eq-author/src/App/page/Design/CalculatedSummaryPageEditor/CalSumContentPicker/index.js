@@ -90,23 +90,23 @@ const CalSumContentPicker = ({
     onClose();
   };
 
-  const updateSelectedAnswers = answer => {
-    if (selectedAnswers.map(ans => ans.id).indexOf(answer.id) === -1) {
+  const updateSelectedAnswers = (answer) => {
+    if (selectedAnswers.map((ans) => ans.id).indexOf(answer.id) === -1) {
       setSelectedAnswers([...selectedAnswers, answer]);
     } else {
       const updatedSelectedAnswers = selectedAnswers.filter(
-        ans => ans.id !== answer.id
+        (ans) => ans.id !== answer.id
       );
       setSelectedAnswers(updatedSelectedAnswers);
     }
   };
 
-  const isSelected = answer =>
+  const isSelected = (answer) =>
     selectedAnswers.findIndex(
-      selectedAnswer => selectedAnswer.id === answer.id
+      (selectedAnswer) => selectedAnswer.id === answer.id
     ) !== -1;
 
-  const isDisabled = answer => {
+  const isDisabled = (answer) => {
     if (selectedAnswers.map(({ id }) => id).includes(answer.id)) {
       return;
     }
@@ -129,7 +129,7 @@ const CalSumContentPicker = ({
             <ModalSubtitle>
               <Types>
                 <span>Allowed answer types:</span>
-                {validTypes.map(type => (
+                {validTypes.map((type) => (
                   <Type key={type}>{type}</Type>
                 ))}
               </Types>

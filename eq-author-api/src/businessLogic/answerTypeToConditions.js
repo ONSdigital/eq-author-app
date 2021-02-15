@@ -25,10 +25,10 @@ const answerConditions = {
   ],
 };
 
-const isAnswerTypeSupported = answerType =>
+const isAnswerTypeSupported = (answerType) =>
   Boolean(answerConditions[answerType]);
 
-const getDefault = answerType => answerConditions[answerType][0];
+const getDefault = (answerType) => answerConditions[answerType][0];
 
 const isValid = (answerType, condition) =>
   (answerConditions[answerType] || []).includes(condition);

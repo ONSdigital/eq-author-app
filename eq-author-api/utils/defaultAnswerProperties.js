@@ -20,5 +20,5 @@ const defaultAnswerPropertiesMap = {
   [TEXTAREA]: { required: false, maxLength: "2000" },
 };
 
-module.exports = type =>
+module.exports = (type) =>
   getOr({ required: false }, type, defaultAnswerPropertiesMap);

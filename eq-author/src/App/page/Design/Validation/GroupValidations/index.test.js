@@ -149,11 +149,6 @@ describe("GroupValidations", () => {
       "ValidationError"
     );
 
-    expect(
-      wrapper
-        .shallow()
-        .text()
-        .includes(ERR_NO_VALUE)
-    ).toBeTruthy();
+    expect(wrapper.shallow().text().includes(ERR_NO_VALUE)).toBeTruthy();
   });
 });

@@ -3,7 +3,7 @@ import Modal from "components/modals/Modal";
 import Dialog from "components/Dialog";
 import PropTypes from "prop-types";
 
-const ModalDialog = props => {
+const ModalDialog = (props) => {
   const { children, onClose, isOpen, ...otherProps } = props;
 
   return (

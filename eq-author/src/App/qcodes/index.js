@@ -6,6 +6,6 @@ export default [
   <Route
     key="qcodes"
     path="/q/:questionnaireId/qcodes"
-    render={props => <QcodesPage {...props} />}
+    render={(props) => <QcodesPage {...props} />}
   />,
 ];

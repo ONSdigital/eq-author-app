@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Reply, StyledTextArea, CommentFooterContainer } from ".";
 import Button from "components/buttons/Button";
 
-const EditReply = props => {
+const EditReply = (props) => {
   const {
     replyCount,
     item,
@@ -24,7 +24,7 @@ const EditReply = props => {
     <Reply indent={replyCount}>
       <StyledTextArea
         id={`reply-${item.id}`}
-        inputRef={tag => {
+        inputRef={(tag) => {
           setReplyRef(tag);
         }}
         value={reply}

@@ -16,7 +16,7 @@ const MultipleChoice = styled.div`
   width: 1.4em;
   display: inline-block;
   margin: 2em 1em 0 0;
-  border-radius: ${props => get(borderRadii, props.type, "initial")};
+  border-radius: ${(props) => get(borderRadii, props.type, "initial")};
   flex: 0 0 auto;
 `;
 

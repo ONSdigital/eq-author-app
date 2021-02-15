@@ -6,6 +6,6 @@ export default [
   <Route
     key="publish"
     path="/q/:questionnaireId/publish"
-    render={props => <PublishPage {...props} />}
+    render={(props) => <PublishPage {...props} />}
   />,
 ];

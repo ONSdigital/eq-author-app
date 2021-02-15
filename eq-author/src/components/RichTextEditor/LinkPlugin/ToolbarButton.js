@@ -87,7 +87,7 @@ const LinkToolbarButton = ({
 
   const selectedFragments = getFragmentFromSelection(editorState);
   const selectedText = selectedFragments
-    ? selectedFragments.map(x => x.getText()).join("\n")
+    ? selectedFragments.map((x) => x.getText()).join("\n")
     : "";
 
   const contentState = editorState.getCurrentContent();

@@ -51,9 +51,13 @@ export const ActionButton = styled(Button)`
 `;
 
 export const RemoveButton = styled(ActionButton)`
-  &:hover { background: ${colors.red}; }
+  &:hover {
+    background: ${colors.red};
+  }
 `;
 
 export const AddButton = styled(ActionButton)`
-  &:hover { background: ${colors.green}; }
- `;
+  &:hover {
+    background: ${colors.green};
+  }
+`;

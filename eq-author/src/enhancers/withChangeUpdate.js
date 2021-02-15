@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const withChangeUpdate = WrappedComponent => {
+const withChangeUpdate = (WrappedComponent) => {
   return class extends React.Component {
     static propTypes = {
       onChange: PropTypes.func.isRequired,
@@ -12,7 +12,7 @@ const withChangeUpdate = WrappedComponent => {
     static fragments = WrappedComponent.fragments;
     static displayName = `withChangeUpdate(${WrappedComponent.displayName})`;
 
-    handleUpdate = update => this.props.onChange(update, this.props.onUpdate);
+    handleUpdate = (update) => this.props.onChange(update, this.props.onUpdate);
 
     render() {
       return (

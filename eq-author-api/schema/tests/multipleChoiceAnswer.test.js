@@ -148,8 +148,8 @@ describe("multiple choice answer", () => {
         properties: expect.any(Object),
       });
       expect(queriedAnswer.options).toHaveLength(2);
-      expect(queriedAnswer.options.map(o => o.id)).toEqual(
-        answer.options.map(o => o.id)
+      expect(queriedAnswer.options.map((o) => o.id)).toEqual(
+        answer.options.map((o) => o.id)
       );
     });
 

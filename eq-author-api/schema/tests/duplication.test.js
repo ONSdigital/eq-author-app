@@ -75,7 +75,7 @@ describe("Duplication", () => {
     });
 
     it("should copy page with answers and question confirmation", () => {
-      const cleanObject = obj => {
+      const cleanObject = (obj) => {
         const objectWithUnchangedFields = omit(
           JSON.parse(JSON.stringify(obj)),
           [
