@@ -23,6 +23,7 @@ describe("MainNavigation", () => {
       displayName: "Batman",
       name: "Bruce",
       email: "IAmBatman@dccomics.com",
+      __typename: "User",
       picture: "",
       admin: true,
     };
@@ -208,7 +209,7 @@ describe("MainNavigation", () => {
     flattenedAnswers[0].qCode = "";
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
@@ -229,7 +230,7 @@ describe("MainNavigation", () => {
     duplicateQCode = true;
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
