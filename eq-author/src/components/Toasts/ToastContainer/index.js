@@ -14,7 +14,7 @@ const OuterContainer = styled.div`
   bottom: 0;
   text-align: center;
   min-width: 10em;
-  margin-bottom: ${props => (props.hasMargin ? "0.5em" : "0")};
+  margin-bottom: ${(props) => (props.hasMargin ? "0.5em" : "0")};
   z-index: 99999999;
 `;
 

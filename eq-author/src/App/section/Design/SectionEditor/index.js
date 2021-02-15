@@ -42,7 +42,8 @@ const IntroCanvas = styled.div`
   border-radius: ${radius} ${radius};
 `;
 
-const hasNavigation = section => get(section, ["questionnaire", "navigation"]);
+const hasNavigation = (section) =>
+  get(section, ["questionnaire", "navigation"]);
 
 export class SectionEditor extends React.Component {
   static propTypes = {

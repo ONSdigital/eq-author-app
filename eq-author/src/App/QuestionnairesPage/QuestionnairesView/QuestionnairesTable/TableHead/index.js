@@ -11,7 +11,7 @@ import { SORT_ORDER } from "../../constants";
 
 const TH = styled.th`
   color: ${colors.darkGrey};
-  width: ${props => props.colWidth};
+  width: ${(props) => props.colWidth};
   border-bottom: 1px solid #e2e2e2;
   font-weight: normal;
   font-size: 0.9em;
@@ -42,9 +42,9 @@ const SortButton = styled(Button)`
     display: inline-block;
     width: 16px;
     height: 16px;
-    opacity: ${props => (props.active ? "0.8" : "0.2")};
+    opacity: ${(props) => (props.active ? "0.8" : "0.2")};
     transform: rotate(
-      ${props => (props.order === SORT_ORDER.ASCENDING ? "180deg" : "0deg")}
+      ${(props) => (props.order === SORT_ORDER.ASCENDING ? "180deg" : "0deg")}
     );
     transition: transform 150ms ease-out;
     position: relative;
@@ -107,7 +107,7 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
-const TableHead = props => {
+const TableHead = (props) => {
   return (
     <thead>
       <tr>

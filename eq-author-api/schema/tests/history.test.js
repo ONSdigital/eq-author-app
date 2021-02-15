@@ -80,7 +80,7 @@ describe("history", () => {
 
       expect(notes).toHaveLength(2);
 
-      const noteToDelete = notes.find(note => note.bodyText === "I am note");
+      const noteToDelete = notes.find((note) => note.bodyText === "I am note");
 
       notes = await deleteHistoryNote(ctx, {
         id: noteToDelete.id,
@@ -100,7 +100,7 @@ describe("history", () => {
         bodyText: "I am note",
       });
 
-      const noteToDelete = notes.find(note => note.bodyText === "I am note");
+      const noteToDelete = notes.find((note) => note.bodyText === "I am note");
       ctx.user.id = "uid-234";
 
       await expect(
@@ -119,7 +119,7 @@ describe("history", () => {
       ctx = await buildContext({}, user);
       notes = await queryHistory(ctx);
 
-      const systemNote = notes.find(note => note.type === "system");
+      const systemNote = notes.find((note) => note.type === "system");
 
       await expect(
         deleteHistoryNote(ctx, {
@@ -140,7 +140,7 @@ describe("history", () => {
 
       expect(notes).toHaveLength(2);
 
-      const noteToDelete = notes.find(note => note.bodyText === "I am note");
+      const noteToDelete = notes.find((note) => note.bodyText === "I am note");
       ctx.user.id = "uid-234";
       ctx.user.admin = true;
 
@@ -240,7 +240,7 @@ describe("history", () => {
         id: ctx.questionnaire.id,
         bodyText: "I am note",
       });
-      const noteToUpdate = notes.find(note => note.bodyText === "I am note");
+      const noteToUpdate = notes.find((note) => note.bodyText === "I am note");
 
       notes = await updateHistoryNote(ctx, {
         id: noteToUpdate.id,
@@ -260,7 +260,7 @@ describe("history", () => {
         bodyText: "I am note",
       });
 
-      const noteToUpdate = notes.find(note => note.bodyText === "I am note");
+      const noteToUpdate = notes.find((note) => note.bodyText === "I am note");
 
       ctx.user.id = "uid-234";
 
@@ -281,7 +281,7 @@ describe("history", () => {
       ctx = await buildContext({}, user);
       notes = await queryHistory(ctx);
 
-      const systemNote = notes.find(note => note.type === "system");
+      const systemNote = notes.find((note) => note.type === "system");
 
       await expect(
         updateHistoryNote(ctx, {
@@ -302,7 +302,7 @@ describe("history", () => {
         bodyText: "I am note",
       });
 
-      const noteToDelete = notes.find(note => note.bodyText === "I am note");
+      const noteToDelete = notes.find((note) => note.bodyText === "I am note");
       ctx.user.id = "uid-234";
       ctx.user.admin = true;
 

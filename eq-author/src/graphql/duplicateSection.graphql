@@ -16,19 +16,37 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
         displayName
         pageType
         ... on QuestionPage {
+          alias
           description
           guidance
           answers {
             id
             type
             displayName
+            label
+            secondaryLabel
+            secondaryLabelDefault
+            qCode
+            properties
             ... on BasicAnswer {
-              secondaryLabel
-              secondaryLabelDefault
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                id
+                label
+                qCode
+              }
+              mutuallyExclusiveOption {
+                id
+                label
+                qCode
+              }
             }
           }
           confirmation {
             id
+            qCode
             displayName
             validationErrorInfo {
               ...ValidationErrorInfo

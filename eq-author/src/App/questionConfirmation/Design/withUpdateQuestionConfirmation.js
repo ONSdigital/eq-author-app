@@ -23,7 +23,7 @@ const inputStructure = gql`
 const filterToWrite = partial(filter, inputStructure);
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateQuestionConfirmation: questionConfirmation =>
+  onUpdateQuestionConfirmation: (questionConfirmation) =>
     mutate({
       variables: {
         input: filterToWrite(questionConfirmation),

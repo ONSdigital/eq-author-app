@@ -15,8 +15,8 @@ export const Container = styled.div`
 
 export const Layer = styled.div`
   position: absolute;
-  ${props => `${props.horizontalAlignment}: ${props.offsetX}`};
-  ${props => `${props.verticalAlignment}: ${props.offsetY}`};
+  ${(props) => `${props.horizontalAlignment}: ${props.offsetX}`};
+  ${(props) => `${props.verticalAlignment}: ${props.offsetY}`};
   z-index: 10;
 `;
 
@@ -34,7 +34,7 @@ Layer.propTypes = {
   offsetY: PropTypes.string,
 };
 
-const DefaultTransition = props => (
+const DefaultTransition = (props) => (
   <CSSTransition {...props} timeout={0} classNames="" />
 );
 
@@ -74,13 +74,13 @@ class Popout extends React.Component {
     this.unbindRootCloseHandlers();
   }
 
-  handleKeyUp = e => {
+  handleKeyUp = (e) => {
     if (e.keyCode === ESC_KEY_CODE) {
       this.handleClose();
     }
   };
 
-  handleDocumentClick = e => {
+  handleDocumentClick = (e) => {
     if (!findDOMNode(this).contains(e.target)) {
       this.handleClose();
     }
@@ -127,7 +127,7 @@ class Popout extends React.Component {
           onClick: this.handleToggleOpen,
           "aria-haspopup": true,
           "aria-expanded": this.props.open,
-          ref: trigger => (this.trigger = trigger),
+          ref: (trigger) => (this.trigger = trigger),
         })}
 
         <TransitionGroup

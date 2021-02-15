@@ -25,8 +25,8 @@ export const Title = styled.h2`
 export const Body = styled.div`
   overflow: hidden;
   transition: opacity 100ms ease-in-out;
-  opacity: ${props => (props.isOpen ? "1" : "0")};
-  height: ${props => (props.isOpen ? "auto" : "0")};
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
+  height: ${(props) => (props.isOpen ? "auto" : "0")};
 `;
 
 export const Button = styled.button`
@@ -61,7 +61,7 @@ export const Button = styled.button`
     height: 1rem;
     transform-origin: 50% 50%;
     transition: transform 200ms ease-out;
-    transform: rotate(${props => (props.isOpen ? "0deg" : "-90deg")});
+    transform: rotate(${(props) => (props.isOpen ? "0deg" : "-90deg")});
   }
 `;
 

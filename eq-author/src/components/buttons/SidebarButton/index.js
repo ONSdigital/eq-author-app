@@ -43,7 +43,7 @@ const SidebarButton = styled.button.attrs({ role: "button" })`
     background: ${colors.lighterGrey};
   }
 
-  ${props =>
+  ${(props) =>
     props.hasError
       ? css`
           border-color: ${colors.red};

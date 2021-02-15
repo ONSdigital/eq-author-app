@@ -13,8 +13,8 @@ const pageFragment = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateCalculatedSummaryPage: page => {
-    const ids = page.summaryAnswers.map(o => o.id);
+  onUpdateCalculatedSummaryPage: (page) => {
+    const ids = page.summaryAnswers.map((o) => o.id);
     const data = filter(pageFragment, page);
     return mutate({
       variables: { input: { ...data, summaryAnswers: ids } },

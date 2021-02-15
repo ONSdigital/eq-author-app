@@ -15,7 +15,7 @@ const propTypes = {
   },
 };
 
-const SharePage = props => {
+const SharePage = (props) => {
   const { questionnaireId } = props.match.params;
   return (
     <Container>

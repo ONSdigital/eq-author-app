@@ -32,36 +32,36 @@ const Duration = ({
   onUpdate,
   hasError,
 }) => (
-    <Grid>
-      <Column cols={2}>
-        <DurationNumber
-          id={`${name}-value`}
-          name={`${name}.value`}
-          value={value}
-          onChange={onChange}
-          onBlur={onUpdate}
-          max={99999}
-          min={0}
-          hasError={hasError}
-        />
-      </Column>
-      <Column cols={4}>
-        <Select
-          id={`${name}-unit`}
-          name={`${name}.unit`}
-          value={unit}
-          onChange={onChange}
-          onBlur={onUpdate}
-        >
-          {units.map(unit => (
-            <option key={unit} value={unit}>
-              {unit.toLowerCase()}
-            </option>
-          ))}
-        </Select>
-      </Column>
-    </Grid>
-  );
+  <Grid>
+    <Column cols={2}>
+      <DurationNumber
+        id={`${name}-value`}
+        name={`${name}.value`}
+        value={value}
+        onChange={onChange}
+        onBlur={onUpdate}
+        max={99999}
+        min={0}
+        hasError={hasError}
+      />
+    </Column>
+    <Column cols={4}>
+      <Select
+        id={`${name}-unit`}
+        name={`${name}.unit`}
+        value={unit}
+        onChange={onChange}
+        onBlur={onUpdate}
+      >
+        {units.map((unit) => (
+          <option key={unit} value={unit}>
+            {unit.toLowerCase()}
+          </option>
+        ))}
+      </Select>
+    </Column>
+  </Grid>
+);
 
 Duration.propTypes = {
   name: PropTypes.string.isRequired,

@@ -26,7 +26,7 @@ const props = {
   reply: "",
 };
 
-const setup = props => {
+const setup = (props) => {
   const setCommentRef = jest.fn();
   const setEditComment = jest.fn();
   const setReply = jest.fn();
@@ -78,7 +78,7 @@ const defaultSetup = () => {
   return { ...utils, reply };
 };
 
-const modifiedSetup = changes => {
+const modifiedSetup = (changes) => {
   const utils = setup({ ...props, ...changes });
   return { ...utils };
 };

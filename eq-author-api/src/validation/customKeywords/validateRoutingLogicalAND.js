@@ -9,9 +9,9 @@ const {
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
 
-const areUnanswered = e => e.condition === "Unanswered";
+const areUnanswered = (e) => e.condition === "Unanswered";
 
-module.exports = ajv => {
+module.exports = (ajv) => {
   ajv.addKeyword("validateRoutingLogicalAND", {
     validate: function isValid(
       otherFields,
@@ -29,7 +29,7 @@ module.exports = ajv => {
           expressions.length > 1 && answerId && answerId.length
       );
 
-      const addError = answerId => invalidAnswerIds.add(answerId);
+      const addError = (answerId) => invalidAnswerIds.add(answerId);
 
       potentialConflicts.forEach(([answerId, expressions]) => {
         // Handle invalid combination of "Unanswered" with any answer-requiring condition
@@ -117,7 +117,9 @@ module.exports = ajv => {
 
         // Validate equals are all contained within upper / lower bounds
         if (
-          Array.from(equalitySet).some(n => n <= lowerLimit || n >= upperLimit)
+          Array.from(equalitySet).some(
+            (n) => n <= lowerLimit || n >= upperLimit
+          )
         ) {
           return addError(answerId);
         }
@@ -128,7 +130,7 @@ module.exports = ajv => {
         const possibleAnswers = rangeWidth / precision;
         if (
           Array.from(nonequalitySet).filter(
-            nonequalityValue =>
+            (nonequalityValue) =>
               nonequalityValue > lowerLimit && nonequalityValue < upperLimit
           ).length >= possibleAnswers
         ) {
@@ -136,7 +138,7 @@ module.exports = ajv => {
         }
       });
 
-      isValid.errors = Array.from(invalidAnswerIds).map(answerId =>
+      isValid.errors = Array.from(invalidAnswerIds).map((answerId) =>
         createValidationError(
           dataPath,
           answerId,

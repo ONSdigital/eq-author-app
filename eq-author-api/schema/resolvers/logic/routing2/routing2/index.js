@@ -23,17 +23,17 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 const Resolvers = {};
 
 Resolvers.Routing2 = {
-  else: routing => routing.else,
+  else: (routing) => routing.else,
   page: ({ id }, args, ctx) => {
     const pages = getPages(ctx);
-    return find(page => {
+    return find((page) => {
       if (page.routing && page.routing.id === id) {
         return page;
       }
     }, pages);
   },
 
-  rules: routing => {
+  rules: (routing) => {
     return routing.rules;
   },
 };

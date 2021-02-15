@@ -5,7 +5,8 @@ import { StatelessAdditionalInfo } from "./AdditionalInfo";
 
 import { TEXTFIELD } from "constants/answer-types";
 
-const createWrapper = props => shallow(<StatelessAdditionalInfo {...props} />);
+const createWrapper = (props) =>
+  shallow(<StatelessAdditionalInfo {...props} />);
 
 describe("AdditionalInfo", () => {
   let wrapper, props;

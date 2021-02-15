@@ -60,7 +60,7 @@ const descriptionControls = {
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
-  margin-bottom: ${props => (props.open ? "0.4em" : "2em")};
+  margin-bottom: ${(props) => (props.open ? "0.4em" : "2em")};
   > * {
     margin-bottom: 0;
   }

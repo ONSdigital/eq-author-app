@@ -30,7 +30,4 @@ export const PreviousAnswerContentPicker = (props) => {
   );
 };
 
-const UnwrappedPreviousAnswerContentPicker = PreviousAnswerContentPicker;
-
 export default PreviousAnswerContentPicker;
-export { UnwrappedPreviousAnswerContentPicker };

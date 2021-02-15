@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import DisabledMessage from "./DisabledMessage";
 
-const render = props => shallow(<DisabledMessage {...props} />);
+const render = (props) => shallow(<DisabledMessage {...props} />);
 
 describe("AnswerValidation", () => {
   let props, wrapper;

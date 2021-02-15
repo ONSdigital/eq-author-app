@@ -87,7 +87,7 @@ class Answer {
     }
 
     if (!isNil(answer.options)) {
-      this.options = answer.options.map(option =>
+      this.options = answer.options.map((option) =>
         Answer.buildOption(option, answer)
       );
     }

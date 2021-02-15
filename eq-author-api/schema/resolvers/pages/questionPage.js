@@ -26,9 +26,9 @@ Resolvers.QuestionPage = {
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const folder = getFolderByPageId(ctx, id);
-    return folder.pages.findIndex(page => page.id === id);
+    return folder.pages.findIndex((page) => page.id === id);
   },
-  displayName: page => getName(page, "QuestionPage"),
+  displayName: (page) => getName(page, "QuestionPage"),
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,

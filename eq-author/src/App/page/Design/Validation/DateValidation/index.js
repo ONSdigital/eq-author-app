@@ -28,7 +28,7 @@ import PositionPicker from "./PositionPicker.js";
 const START_COL_SIZE = 3;
 const END_COL_SIZE = 12 - START_COL_SIZE;
 
-const getUnits = format => {
+const getUnits = (format) => {
   switch (format) {
     case "dd/mm/yyyy":
       return [DAYS, MONTHS, YEARS];
@@ -52,8 +52,9 @@ const UnwrappedDateValidation = ({
     answer.properties.format ? answer.properties.format : "dd/mm/yyyy"
   );
 
-  const hasDurationError = find(validation.validationErrorInfo.errors, error =>
-    error.errorCode.includes("ERR_OFFSET_NO_VALUE")
+  const hasDurationError = find(
+    validation.validationErrorInfo.errors,
+    (error) => error.errorCode.includes("ERR_OFFSET_NO_VALUE")
   );
 
   return (

@@ -9,7 +9,7 @@ describe("loadQuestionnaire", () => {
       header: jest.fn().mockReturnValue(questionnaire.id),
     };
     const res = {};
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       loadQuestionnaire(req, res, resolve);
     });
     expect(req.questionnaire && req.questionnaire.id).toEqual(questionnaire.id);
@@ -20,7 +20,7 @@ describe("loadQuestionnaire", () => {
       header: jest.fn().mockReturnValue(null),
     };
     const res = {};
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       loadQuestionnaire(req, res, resolve);
     });
     expect(req.questionnaire).toEqual(undefined);
@@ -31,7 +31,7 @@ describe("loadQuestionnaire", () => {
       header: jest.fn().mockReturnValue("missingId"),
     };
     const res = {};
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       loadQuestionnaire(req, res, resolve);
     });
     expect(req.questionnaire).toEqual(undefined);

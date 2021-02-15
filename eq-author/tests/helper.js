@@ -1,17 +1,17 @@
-export const findPageElements = selector => {
+export const findPageElements = (selector) => {
   return browser.elements(selector).value;
 };
 
-export const exists = selector => browser.isExisting(selector);
+export const exists = (selector) => browser.isExisting(selector);
 
 export const getPageTitle = () => browser.getTitle();
-export const getPageHTML = element => browser.getHTML(element);
+export const getPageHTML = (element) => browser.getHTML(element);
 
-export const getElementText = element => {
+export const getElementText = (element) => {
   return browser.elementIdText(element.ELEMENT).value;
 };
 
-export const goToUrl = url => {
+export const goToUrl = (url) => {
   browser.url(url);
 };
 

@@ -7,7 +7,7 @@ import REPLY_ADD from "./graphql/createNewReply.graphql";
 import REPLY_DELETE from "./graphql/deleteReply.graphql";
 import REPLY_UPDATE from "./graphql/updateReply.graphql";
 
-const mocks = vars => [
+const mocks = (vars) => [
   {
     request: {
       query: COMMENT_QUERY,
