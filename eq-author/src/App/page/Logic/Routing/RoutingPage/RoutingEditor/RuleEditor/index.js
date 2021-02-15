@@ -161,7 +161,6 @@ export const UnwrappedRuleEditor = ({
   );
 
   return (
-    // console.log("HI", expressionGroup),
     <Rule data-test="routing-rule" className={className}>
       <Header>
         <Label inline> Routing logic rules </Label>
