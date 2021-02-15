@@ -2,8 +2,6 @@ import React from "react";
 import { UnwrappedRoutingPage as RoutingPage, messages } from "./";
 import { render, screen, fireEvent } from "tests/utils/rtl";
 import QuestionnaireContext from "components/QuestionnaireContext";
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import { QueryStore } from "apollo-client/data/queries";
 
 // Avoid testing as deeply as DestinationSelector (requires significantly more props & setup)
 jest.mock("../DestinationSelector", () => () => <br />);
