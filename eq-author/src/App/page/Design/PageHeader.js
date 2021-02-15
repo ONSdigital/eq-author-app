@@ -20,7 +20,7 @@ import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
 import withDuplicatePage from "./withDuplicatePage";
 import { Toolbar, Buttons } from "./EditorToolbar";
-import IconMove from "./EditorToolbar/icon-move.svg?inline";
+import IconMove from "assets/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
 
 const ShortCodeLabel = styled(Label)`

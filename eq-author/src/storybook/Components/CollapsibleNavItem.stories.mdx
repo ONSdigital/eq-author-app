@@ -1,0 +1,66 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import CollapsibleNavItem from "../../components/CollapsibleNavItem";
+
+<Meta
+  title="Components/Collapsible Navigation Item"
+  component={CollapsibleNavItem}
+/>
+
+# Collapsible Navigation Item
+
+The collapsible navigation item component is used to simplify a navigation bar by allowing the user to reveal certain routes only if they need it.
+
+## Example
+
+<Canvas>
+  <Story name="Primary">
+    <div id="example-container" style={{width:"25%"}}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/">
+          Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+## Variants
+
+<Canvas>
+  <Story name="Active">
+    <div id="example-container" style={{width:"25%"}}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" active>
+          Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Bordered">
+    <div id="example-container" style={{width:"25%"}}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" bordered>
+          Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Defaulted open">
+    <div id="example-container" style={{width:"25%"}}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" defaultOpen>
+          Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Error">
+    <div id="example-container" style={{width:"25%"}}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" errorCount={1}>
+          Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>

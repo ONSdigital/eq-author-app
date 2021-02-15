@@ -75,7 +75,7 @@ describe("Checkbox routing", () => {
 
   expressionGroup = {
     id: "1",
-    expressions: [ expression ]
+    expressions: [expression],
   };
 
   match = {

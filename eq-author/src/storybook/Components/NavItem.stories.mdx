@@ -1,0 +1,55 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import NavigationItem from "../../components/NavItem";
+
+<Meta
+  title="Components/Navigation Item"
+  component={NavigationItem}
+/>
+
+# Navigation Item
+
+## Example
+
+<Canvas>
+  <Story name="Primary">
+    <div id="example-container" style={{width:"25%"}}>
+      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/">
+          Inctum, laoreet enim a
+      </NavigationItem>
+    </div>
+  </Story>
+</Canvas>
+
+## Variants
+
+<Canvas>
+  <Story name="Active">
+    <div id="example-container" style={{width:"25%"}}>
+      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" active>
+          Inctum, laoreet enim a
+      </NavigationItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Bordered">
+    <div id="example-container" style={{width:"25%"}}>
+      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" bordered>
+          Inctum, laoreet enim a
+      </NavigationItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Error">
+    <div id="example-container" style={{width:"25%"}}>
+      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" errorCount={3}>
+          Inctum, laoreet enim a
+      </NavigationItem>
+    </div>
+  </Story>
+</Canvas>
+

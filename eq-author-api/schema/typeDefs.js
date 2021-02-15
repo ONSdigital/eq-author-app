@@ -638,6 +638,7 @@ type Query {
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History!]!
   section(input: QueryInput!): Section
+  folder(input: QueryInput!): Folder
   page(input: QueryInput!): Page
   answer(input: QueryInput!): Answer
   answers(ids: [ID]!): [Answer]
@@ -656,6 +657,7 @@ input QueryInput {
   id: ID
   questionnaireId: ID
   sectionId: ID
+  folderId: ID
   pageId: ID
   confirmationId: ID
   answerId: ID
@@ -888,6 +890,7 @@ input CreateFolderInput {
   sectionId: ID!
   alias: String
   position: Int
+  enabled: Boolean
 }
 
 input UpdateFolderInput {

@@ -10,6 +10,7 @@ exports[`NavigationHeader should render 1`] = `
       canAddQuestionPage={true}
       data-test="add-menu"
       onAddCalculatedSummaryPage={[Function]}
+      onAddFolder={[Function]}
       onAddMenuToggle={[Function]}
       onAddQuestionConfirmation={[Function]}
       onAddQuestionPage={[Function]}

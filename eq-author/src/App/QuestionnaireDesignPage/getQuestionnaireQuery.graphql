@@ -1,0 +1,147 @@
+query GetQuestionnaire($input: QueryInput!) {
+  questionnaire(input: $input) {
+    introduction {
+      id
+    }
+    publishStatus
+    totalErrorCount
+    ...NavigationSidebar
+  }
+}
+fragment NavigationSidebar on Questionnaire {
+  id
+  ...SectionNav
+  ...NavigationHeader
+  ...Introduction
+}
+fragment NavigationHeader on Questionnaire {
+  ...QuestionnaireSettingsModal
+}
+fragment QuestionnaireSettingsModal on Questionnaire {
+  ...Questionnaire
+}
+fragment Questionnaire on Questionnaire {
+  id
+  title
+  description
+  surveyId
+  theme
+  navigation
+  summary
+  collapsibleSummary
+  type
+  shortTitle
+  displayName
+  createdBy {
+    id
+    picture
+    name
+    email
+  }
+  editors {
+    id
+    picture
+    name
+    email
+  }
+  isPublic
+  permission
+}
+fragment SectionNav on Questionnaire {
+  id
+  sections {
+    ...Sections
+  }
+}
+fragment Sections on Section {
+  id
+  title
+  displayName
+  questionnaire {
+    id
+  }
+  validationErrorInfo {
+    id
+    totalCount
+  }
+  ...PageNav
+}
+fragment PageNav on Section {
+  id
+  folders {
+    id
+    enabled
+    alias
+    position
+    pages {
+      ...Pages
+      ...ConfirmationPages
+    }
+  }
+}
+fragment Pages on Page {
+  id
+  title
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+  ... on QuestionPage {
+    answers {
+      ...Answers
+    }
+    confirmation {
+      id
+    }
+  }
+}
+
+fragment Answers on Answer {
+  id
+  displayName
+  description
+  guidance
+  qCode
+  label
+  secondaryLabel
+  secondaryLabelDefault
+  type
+  properties
+  ... on MultipleChoiceAnswer {
+    options {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
+  }
+}
+
+fragment ConfirmationPages on QuestionPage {
+  id
+  confirmation {
+    id
+    displayName
+    validationErrorInfo {
+      id
+      totalCount
+    }
+  }
+}
+fragment Introduction on Questionnaire {
+  id
+  introduction {
+    id
+  }
+}

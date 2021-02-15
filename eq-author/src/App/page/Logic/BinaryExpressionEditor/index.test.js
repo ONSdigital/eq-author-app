@@ -38,7 +38,7 @@ describe("BinaryExpressionEditor", () => {
     };
 
     expressionGroup = {
-      expressions: [expression]
+      expressions: [expression],
     };
 
     expression.expressionGroup = expressionGroup;
@@ -70,9 +70,7 @@ describe("BinaryExpressionEditor", () => {
   });
 
   it("should disable the delete expression button when there's only one expression", () => {
-    const wrapper = shallow(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     expect(
       wrapper.find(byTestAttr("btn-remove")).prop("disabled")
     ).toBeTruthy();
@@ -105,7 +103,7 @@ describe("BinaryExpressionEditor", () => {
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression.id,
-      expect.any(Function),
+      expect.any(Function)
     );
   });
 
@@ -191,10 +189,7 @@ describe("BinaryExpressionEditor", () => {
     defaultProps.expressionGroup.operator = OR;
 
     render(
-      <BinaryExpressionEditor
-        {...defaultProps}
-        canAddCondition={false}
-      />
+      <BinaryExpressionEditor {...defaultProps} canAddCondition={false} />
     );
 
     await act(async () => {
