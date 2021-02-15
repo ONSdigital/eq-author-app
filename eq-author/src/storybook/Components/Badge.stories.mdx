@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Badge from "components/Badge";
+import RouteButton from "components/buttons/Button/RouteButton";
 
 <Meta title="Components/Badge" component={Badge} />
 
@@ -35,7 +36,9 @@ Displays errors in questionnaires to users
 
 <Canvas>
   <Story name="Nav Main">
-    <Badge variant="main-nav" small />
+    <RouteButton>
+      <Badge variant="main-nav" small />
+    </RouteButton>
   </Story>
 </Canvas>
 
