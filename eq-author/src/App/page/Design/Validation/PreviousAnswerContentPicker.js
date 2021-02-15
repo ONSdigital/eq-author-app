@@ -13,13 +13,13 @@ export const UnwrappedPreviousAnswerContentPicker = ({
   path,
   ...otherProps
 }) => (
-    <ContentPickerSelect
-      name="previousAnswer"
-      contentTypes={[ANSWER]}
-      answerData={shapeTree(get(data, path))}
-      {...otherProps}
-    />
-  );
+  <ContentPickerSelect
+    name="previousAnswer"
+    contentTypes={[ANSWER]}
+    answerData={shapeTree(get(data, path))}
+    {...otherProps}
+  />
+);
 
 UnwrappedPreviousAnswerContentPicker.propTypes = {
   data: PropTypes.object, // eslint-disable-line

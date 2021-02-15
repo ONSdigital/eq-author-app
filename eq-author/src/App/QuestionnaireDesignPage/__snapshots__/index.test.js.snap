@@ -1409,7 +1409,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2531,
+        "end": 2541,
         "start": 0,
       },
     }

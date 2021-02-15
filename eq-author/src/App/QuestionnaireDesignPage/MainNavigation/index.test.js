@@ -218,7 +218,6 @@ describe("MainNavigation", () => {
 
   it("should provide the validation error dot for the QCodes tab if there is an empty qCode", async () => {
     flattenedAnswers[0].qCode = "";
-    props.questionnaire.qCodeErrorCount = 1;
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>

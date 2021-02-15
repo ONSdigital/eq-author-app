@@ -6,7 +6,11 @@ import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight } from "lodash";
-import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -250,7 +254,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <QCodeContext.Provider value={{ flattenedAnswers, duplicates, duplicateQCode }}>
+                <QCodeContext.Provider
+                  value={{ flattenedAnswers, duplicates, duplicateQCode }}
+                >
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />

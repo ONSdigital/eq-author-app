@@ -36,7 +36,7 @@ export const Wrapper = styled.div`
 `;
 
 export const RoundedInput = styled(Input)`
-  background: white url('${Icon}') no-repeat left center;
+  background: white url("${Icon}") no-repeat left center;
   border-radius: ${radius};
   box-sizing: border-box;
   padding-left: 2em;

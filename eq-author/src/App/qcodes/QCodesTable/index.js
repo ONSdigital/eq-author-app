@@ -9,7 +9,7 @@ import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
-import { removeHtml } from "../../../utils/getAllAnswersFlatMap"
+import { removeHtml } from "../../../utils/getAllAnswersFlatMap";
 import { useQCodeContext } from "components/QCodeContext";
 
 import ValidationError from "components/ValidationError";
@@ -224,7 +224,6 @@ const Row = memo(props => {
 });
 
 const RowBuilder = (answers, duplicates) => {
-
   if (answers) {
     return answers.map((item, index) => {
       return (
@@ -253,8 +252,7 @@ Row.propTypes = {
 };
 
 export const UnwrappedQCodeTable = () => {
-
-  const { flattenedAnswers, duplicates }  = useQCodeContext();
+  const { flattenedAnswers, duplicates } = useQCodeContext();
 
   return (
     <Table data-test="qcodes-table">
@@ -267,8 +265,9 @@ export const UnwrappedQCodeTable = () => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <StyledTableBody>{RowBuilder(flattenedAnswers, duplicates)}</StyledTableBody>
-
+      <StyledTableBody>
+        {RowBuilder(flattenedAnswers, duplicates)}
+      </StyledTableBody>
     </Table>
   );
 };

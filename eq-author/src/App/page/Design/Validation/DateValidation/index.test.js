@@ -36,8 +36,8 @@ describe("Date Validation", () => {
               field: "custom",
               id: "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
               type: "validation",
-            }
-          ]
+            },
+          ],
         },
       },
       answer: {

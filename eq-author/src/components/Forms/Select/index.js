@@ -7,7 +7,7 @@ import { colors } from "constants/theme";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
 const loading = css`
-  background: white url('${loader}') no-repeat right 0.4em center;
+  background: white url("${loader}") no-repeat right 0.4em center;
   background-size: 20px;
   pointer-events: none;
   opacity: 0.8;
@@ -17,7 +17,7 @@ export const SimpleSelect = styled.select`
   ${sharedStyles};
   display: inline-block;
   padding: 0.5em 2em 0.5em 0.75em;
-  background: white url('${Icon}') no-repeat right center;
+  background: white url("${Icon}") no-repeat right center;
   appearance: none;
   position: relative;
   transition: opacity 100ms ease-in-out;
