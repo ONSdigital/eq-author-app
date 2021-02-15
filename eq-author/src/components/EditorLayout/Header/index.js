@@ -30,6 +30,9 @@ const Flex = styled.div`
 
 const Subtitle = styled.div`
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const UtilityBtns = styled.div`

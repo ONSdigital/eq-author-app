@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
@@ -116,12 +116,9 @@ const SkipConditionEditor = ({
               <Transition key={expression.id}>
                 <BinaryExpressionEditor
                   expression={expression}
-                  expressionGroupId={expressionGroup.id}
+                  expressionGroup={expressionGroup}
                   label={index > 0 ? LABEL_AND : LABEL_IF}
-                  isOnlyExpression={expressionGroup.expressions.length === 1}
-                  isLastExpression={
-                    index === expressionGroup.expressions.length - 1
-                  }
+                  expressionIndex={index}
                   canAddCondition={
                     !existingRadioConditions[expression?.left?.id]
                   }

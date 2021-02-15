@@ -209,6 +209,66 @@ const remapAllNestedIds = entity => {
   });
 };
 
+// Transforms questionnaire into a hash map, mapping IDs to absolute positions
+// Thereafter allows O(1) lookup to check if IDs exist & get their positions
+const generateOrderedIdMap = ({ questionnaire }) => {
+  const map = new Map();
+
+  const traverseIds = obj => {
+    if (typeof obj !== "object") {
+      return;
+    }
+
+    Object.keys(obj).forEach(key => {
+      if (obj[key]) {
+        if (key === "id" && typeof obj[key] === "string") {
+          map.set(obj[key], map.size);
+        }
+
+        if (typeof obj[key] === "object") {
+          traverseIds(obj[key]);
+        }
+      }
+    });
+  };
+
+  traverseIds(questionnaire);
+  return map;
+};
+
+// Memoized interface to generateOrderedIdMap
+// Only re-compute ordered ID hash map when necessary (different questionnaire / questionnaire has changed)
+const getOrderedIdMap = ctx => {
+  if (getOrderedIdMap.lastInvokation) {
+    const {
+      questionnaireId,
+      updatedAt,
+      result,
+    } = getOrderedIdMap.lastInvokation;
+    if (
+      ctx.questionnaire.id === questionnaireId &&
+      ctx.questionnaire.updatedAt === updatedAt
+    ) {
+      return result;
+    }
+  }
+
+  getOrderedIdMap.lastInvokation = {
+    questionnaireId: ctx.questionnaire.id,
+    updatedAt: ctx.questionnaire.updatedAt,
+    result: generateOrderedIdMap(ctx),
+  };
+
+  return getOrderedIdMap.lastInvokation.result;
+};
+
+// Efficiently check if questionnaire contains entity with given id
+const idExists = (ctx, id) => getOrderedIdMap(ctx).get(id) !== undefined;
+
+// Efficiently get absolute position in questionnaire for entity with given id
+// Later pages, answers etc. have higher values than earlier pages, answers, etc.
+const getAbsolutePositionById = (ctx, id) => getOrderedIdMap(ctx).get(id);
+
 const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
 
 const returnValidationErrors = (ctx, id, ...conditions) => {
@@ -311,11 +371,13 @@ module.exports = {
   getSectionByFolderId,
   getSectionByPageId,
 
+  idExists,
+  getAbsolutePositionById,
+
   getFolders,
   getFoldersBySectionId,
   getFolderById,
   getFolderByPageId,
-
   getPages,
   getPagesBySectionId,
   getPagesByFolderId,

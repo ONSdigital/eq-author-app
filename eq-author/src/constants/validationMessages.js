@@ -91,8 +91,12 @@ export const DURATION_ERROR_MESSAGE =
 export const MIN_INCLUSIVE_TEXT = "must be more than";
 export const MAX_INCLUSIVE_TEXT = "must be less than";
 
-export const ERR_TOTAL_NO_VALUE = "Value required";
+export const ERR_OFFSET_NO_VALUE = "Value is required";
 export const ERR_NO_VALUE = "Value is required";
+export const ERR_REFERENCE_DELETED =
+  "Answer required. The answer used in this validation has been deleted.";
+export const ERR_REFERENCE_MOVED = "Answer must be from a previous question";
+
 export const SELECTION_REQUIRED = "Selection required";
 
 export const OPERATOR_REQUIRED = "Choose an operator";
@@ -110,6 +114,10 @@ export const binaryExpressionErrors = {
     message: "Answer required",
   },
   ERR_LOGICAL_AND: "AND conditions must not conflict",
+};
+
+export const expressionGroupErrors = {
+  ERR_VALUE_REQUIRED: "Selection required",
 };
 
 export const leftSideErrors = {

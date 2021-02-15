@@ -29,6 +29,9 @@ const {
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
   ERR_LOGICAL_AND,
+  ERR_NO_VALUE,
+  ERR_REFERENCE_DELETED,
+  ERR_REFERENCE_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -355,38 +358,6 @@ describe("schema validation", () => {
         });
       });
 
-      it("should validate if qCode is missing", () => {
-        const answer = {
-          id: "a1",
-          type: NUMBER,
-          label: "some answer",
-          qCode: "",
-          secondaryQCode: "secQCode1",
-        };
-
-        const questionnaire = {
-          id: "q1",
-          sections: [
-            {
-              id: "s1",
-              folders: [
-                {
-                  pages: [
-                    {
-                      id: "p1",
-                      answers: [answer],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        };
-        const pageErrors = validation(questionnaire);
-
-        expect(pageErrors).toHaveLength(1);
-      });
-
       it("should recognize mismatched decimals in validation references", () => {
         questionnaire = {
           id: "1",
@@ -524,38 +495,6 @@ describe("schema validation", () => {
             type: "answer",
           });
         });
-
-        it("should validate if qCode is missing", () => {
-          const answer = {
-            id: "a1",
-            type: "TextField",
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
-
-          expect(pageErrors).toHaveLength(1);
-        });
       });
     });
 
@@ -687,36 +626,50 @@ describe("schema validation", () => {
           });
         });
 
-        it("should validate if qCode is missing", () => {
-          const answer = {
-            id: "a1",
-            type: DATE,
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
+        it("should return an error if date offset not set", () => {
+          answer.validation.latestDate.offset.value = null;
+
+          const errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_OFFSET_NO_VALUE" }),
+            ])
+          );
+        });
+
+        it("should return an error if referenced answer deleted / moved", () => {
+          questionnaire.sections[0].folders[0].pages[0].answers.push({
+            ...answer,
+            id: "a2",
+          });
+          questionnaire.sections[0].folders[0].pages[0].answers[0].validation = {
+            earliestDate: {
+              enabled: true,
+              entityType: "PreviousAnswer",
+              previousAnswer: "a2",
+              relativePosition: "Before",
+            },
+            latestDate: {
+              enabled: false,
+            },
           };
 
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
+          let errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_MOVED" }),
+            ])
+          );
 
-          expect(pageErrors).toHaveLength(1);
+          questionnaire.sections[0].folders[0].pages[0].answers.splice(1, 1);
+          questionnaire.updatedAt = new Date();
+
+          errors = validation(questionnaire);
+          expect(errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({ errorCode: "ERR_REFERENCE_DELETED" }),
+            ])
+          );
         });
       });
 
@@ -768,71 +721,8 @@ describe("schema validation", () => {
               expect(pageErrors).toHaveLength(0);
             });
           });
-
-          it("should validate if qCode is missing", () => {
-            const answer = {
-              id: "a1",
-              type: DATE_RANGE,
-              label: "some answer",
-              qCode: "",
-              secondaryQCode: "secQCode1",
-            };
-
-            const questionnaire = {
-              id: "q1",
-              sections: [
-                {
-                  id: "s1",
-                  folders: [
-                    {
-                      pages: [
-                        {
-                          id: "p1",
-                          answers: [answer],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            };
-            const pageErrors = validation(questionnaire);
-
-            expect(pageErrors).toHaveLength(1);
-          });
-
-          it("should validate if secondaryQCode is missing", () => {
-            const answer = {
-              id: "a1",
-              type: DATE_RANGE,
-              label: "some answer",
-              qCode: "",
-              secondaryQCode: "secQCode1",
-            };
-
-            const questionnaire = {
-              id: "q1",
-              sections: [
-                {
-                  id: "s1",
-                  folders: [
-                    {
-                      pages: [
-                        {
-                          id: "p1",
-                          answers: [answer],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            };
-            const pageErrors = validation(questionnaire);
-
-            expect(pageErrors).toHaveLength(1);
-          });
         });
+
         describe("Min duration and max duration", () => {
           it("Date Range - should validate that latest date is always after earlier date", () => {
             questionnaire.sections[0].folders[0].pages[0].answers = [
@@ -1081,58 +971,6 @@ describe("schema validation", () => {
           expect(pageErrors).toHaveLength(0);
         });
       });
-
-      it("should validate if qCode is missing", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
-          const answer = {
-            id: "a1",
-            type: NUMBER,
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
-            validation: {
-              minValue: {
-                id: "123",
-                enabled: entity === "minValue",
-                custom: 50,
-                inclusive: true,
-                entityType: "Custom",
-                previousAnswer: null,
-              },
-              maxValue: {
-                id: "321",
-                enabled: entity === "maxValue",
-                custom: 40,
-                inclusive: true,
-                entityType: "PreviousAnswer",
-                previousAnswer: { displayName: "a previous answer", id: "1" },
-              },
-            },
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
-
-          expect(pageErrors).toHaveLength(1);
-        });
-      });
     });
   });
 
@@ -1175,18 +1013,11 @@ describe("schema validation", () => {
   });
 
   describe("Routing validation", () => {
+    let defaultRouting;
     beforeEach(() => {
       questionnaire.sections[0].folders[0].pages[0].routing = null;
       questionnaire.sections[0].folders[0].pages[0].skipConditions = null;
-    });
-    it("should validate empty routing rules", () => {
-      const expressionId = "express-1";
-
-      const routing = validation(questionnaire);
-
-      expect(routing.length).toBe(0);
-
-      questionnaire.sections[0].folders[0].pages[0].routing = {
+      defaultRouting = {
         id: "1",
         else: {
           id: "else-1",
@@ -1204,7 +1035,7 @@ describe("schema validation", () => {
               operator: "And",
               expressions: [
                 {
-                  id: expressionId,
+                  id: "expression-1",
                   condition: "Equal",
                   left: {
                     type: "Null",
@@ -1217,7 +1048,15 @@ describe("schema validation", () => {
           },
         ],
       };
+    });
 
+    it("should validate empty routing rules", () => {
+      let routingErrors = validation(questionnaire);
+      expect(routingErrors.length).toBe(0);
+    });
+
+    it("should validate when answer not selected", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors.length).toBe(1);
@@ -1226,48 +1065,33 @@ describe("schema validation", () => {
     });
 
     it("should validate left hand Answer is after routing question", () => {
-      const expressionId = "express-1";
-
-      const routing = validation(questionnaire);
-
-      expect(routing).toHaveLength(0);
-
-      questionnaire.sections[0].folders[0].pages[0].routing = {
-        id: "1",
-        else: {
-          id: "else-1",
-          logical: "NextPage",
-        },
-        rules: [
-          {
-            id: "rule-1",
-            destination: {
-              id: "dest-1",
-              logical: "NextPage",
-            },
-            expressionGroup: {
-              id: "group-1",
-              operator: "And",
-              expressions: [
-                {
-                  id: expressionId,
-                  condition: "Equal",
-                  left: {
-                    type: "Answer",
-                    answerId: "answer_2",
-                  },
-                },
-              ],
-            },
-          },
-        ],
+      defaultRouting.rules[0].expressionGroup.expressions[0].left = {
+        type: "Answer",
+        answerId: "answer_2"
       };
-
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors).toHaveLength(1);
       expect(routingErrors[0].id).toMatch(uuidRejex);
       expect(routingErrors[0].errorCode).toBe(ERR_LEFTSIDE_NO_LONGER_AVAILABLE);
+    });
+
+    it("should validate expression group operator - can't be null if multiple expressions exist", () => {
+      defaultRouting.rules[0].expressionGroup.expressions.push({
+        ...defaultRouting.rules[0].expressionGroup.expressions[0],
+        id: "expr-2",
+      });
+      defaultRouting.rules[0].expressionGroup.operator = null;
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          errorCode: "ERR_VALUE_REQUIRED",
+          field: "operator",
+        })]
+      ));
     });
 
     it("should validate empty skip conditions", () => {
@@ -1335,9 +1159,6 @@ describe("schema validation", () => {
     it("should validate exclusive or checkbox with and condition", () => {
       const expressionId = "express-1";
 
-      const routing = validation(questionnaire);
-
-      expect(routing).toHaveLength(0);
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_1",
         qCode: "qcode1",
@@ -1362,41 +1183,26 @@ describe("schema validation", () => {
         ],
       };
 
-      questionnaire.sections[0].folders[0].pages[0].routing = {
-        id: "1",
-        else: {
-          id: "else-1",
-          logical: "NextPage",
-        },
-        rules: [
+      defaultRouting.rules[0].expressionGroup = {
+        id: "group-1",
+        operator: "Or",
+        expressions: [
           {
-            id: "rule-1",
-            destination: {
-              id: "dest-1",
-              logical: "NextPage",
+            id: expressionId,
+            condition: "AllOf",
+            left: {
+              type: "Answer",
+              answerId: "answer_12",
             },
-            expressionGroup: {
-              id: "group-1",
-              operator: "OR",
-              expressions: [
-                {
-                  id: expressionId,
-                  condition: "AllOf",
-                  left: {
-                    type: "Answer",
-                    answerId: "answer_12",
-                  },
-                  right: {
-                    type: "SelectedOptions",
-                    optionIds: ["option-1", "option-3"],
-                  },
-                },
-              ],
+            right: {
+              type: "SelectedOptions",
+              optionIds: ["option-1", "option-3"],
             },
           },
         ],
-      };
+      }
 
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
       expect(routingErrors).toHaveLength(1);
@@ -1875,6 +1681,85 @@ describe("schema validation", () => {
 
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(0);
+    });
+  });
+
+  describe("totalValidation", () => {
+    const validateTotalValidation = attributes => {
+      questionnaire.sections[0].folders[0].pages[1].totalValidation = {
+        id: "totalvalidation-rule-1",
+        enabled: true,
+        entityType:
+          attributes.previousAnswer !== undefined ? "PreviousAnswer" : "Custom",
+        condition: "Equal",
+        ...attributes,
+      };
+      questionnaire.updatedAt = new Date();
+      return validation(questionnaire);
+    };
+
+    describe("using a custom numerical value", () => {
+      it("should not return an error for a valid rule", () => {
+        const errors = validateTotalValidation({
+          custom: 42,
+        });
+        expect(errors.length).toBe(0);
+      });
+
+      it("should return an error when custom value not set", () => {
+        const errors = validateTotalValidation({
+          custom: null,
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
+      });
+    });
+
+    describe("using a reference to previous answer", () => {
+      it("should not return an error for a valid rule", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_1",
+        });
+        expect(errors.length).toBe(0);
+      });
+
+      it("should return an error when previous answer reference not set", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: null,
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_NO_VALUE);
+      });
+
+      it("should return an error when previous answer reference doesn't exist", () => {
+        const errors = validateTotalValidation({
+          previousAnswer: "i-dont-exist-anymore",
+        });
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_DELETED);
+      });
+
+      it("should return an error when previous answer reference comes after current question", () => {
+        questionnaire.sections[0].folders[0].pages.push({
+          id: "page_3",
+          title: "Dummy moved page",
+          answers: [
+            {
+              id: "answer_3",
+              type: NUMBER,
+              label: "Number",
+              qCode: "qCode5",
+            },
+          ],
+        });
+
+        const errors = validateTotalValidation({
+          previousAnswer: "answer_3",
+        });
+
+        expect(errors.length).toBe(1);
+        expect(errors[0].errorCode).toBe(ERR_REFERENCE_MOVED);
+      });
     });
   });
 });

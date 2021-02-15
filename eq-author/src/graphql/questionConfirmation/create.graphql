@@ -8,6 +8,7 @@ mutation CreateQuestionConfirmation($input: CreateQuestionConfirmationInput!) {
       id
       confirmation {
         id
+        qCode
       }
     }
     validationErrorInfo {

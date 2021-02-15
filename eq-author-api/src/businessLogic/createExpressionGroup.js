@@ -3,7 +3,7 @@ const createExpression = require("./createExpression");
 
 module.exports = input => ({
   id: uuidv4(),
-  operator: "Or",
+  operator: null,
   expressions: [createExpression()],
   ...input,
 });

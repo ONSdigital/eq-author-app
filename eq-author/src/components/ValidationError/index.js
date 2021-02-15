@@ -28,7 +28,7 @@ const ValidationError = ({ children, right, className, test }) => (
 );
 
 ValidationError.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   right: PropTypes.bool,
   className: PropTypes.string,
   test: PropTypes.string,

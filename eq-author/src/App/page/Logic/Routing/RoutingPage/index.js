@@ -9,7 +9,7 @@ import NoRouting, {
   Title,
   Paragraph,
 } from "App/shared/Logic/Routing/NoRouting";
-import Transition from "../Transition";
+import Transition from "components/transitions/BounceTransition";
 
 import withCreateRouting from "./withCreateRouting";
 import fragment from "./fragment.graphql";
