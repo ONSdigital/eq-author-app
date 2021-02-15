@@ -55,7 +55,7 @@ export const Label = styled.label`
   padding: 0 1em 0 0;
   cursor: pointer;
 
-  ${props => (props.checked ? labelStyles.checked : labelStyles.unchecked)};
+  ${(props) => (props.checked ? labelStyles.checked : labelStyles.unchecked)};
 
   &:focus-within {
     box-shadow: 0 0 0 3px ${colors.tertiary};
@@ -65,7 +65,7 @@ export const Label = styled.label`
 const Text = styled(Truncated)`
   line-height: 1.3;
   display: inline-block;
-  max-width: ${props => props.maxWidth}em;
+  max-width: ${(props) => props.maxWidth}em;
 `;
 
 Text.defaultProps = {
@@ -83,7 +83,8 @@ const Input = styled.input`
   border-radius: 1em;
   border: 2px solid;
 
-  ${props => (props.checked ? checkboxStyle.checked : checkboxStyle.unchecked)};
+  ${(props) =>
+    props.checked ? checkboxStyle.checked : checkboxStyle.unchecked};
 
   &:focus {
     opacity: 1;

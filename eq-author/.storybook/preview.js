@@ -7,7 +7,7 @@ export const parameters = {
 };
 
 export const decorators = [
-  Story => (
+  (Story) => (
     <Router history={createMemoryHistory({ initialEntries: ["/"] })}>
       <Route path="/">
         <Story />

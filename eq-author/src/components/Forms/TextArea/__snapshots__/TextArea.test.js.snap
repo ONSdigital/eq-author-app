@@ -45,7 +45,8 @@ exports[`components/Forms/TextArea should render correctly 1`] = `
 
 .c0:focus {
   outline: none;
-  border: 1px solid #3B7A9E;
+  border-style: solid;
+  border-color: #3B7A9E;
 }
 
 .c0[disabled] {

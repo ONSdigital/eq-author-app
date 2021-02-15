@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { reject, includes, isUndefined } from "lodash";
+import { reject, includes } from "lodash";
 
 import Typeahead from "components/Forms/Typeahead";
 import {
@@ -24,7 +24,7 @@ export const suggestedKeys = [
   { value: "country" },
 ];
 
-export const removeUsedKeys = usedKeys =>
+export const removeUsedKeys = (usedKeys) =>
   reject(suggestedKeys, ({ value }) => includes(usedKeys, value));
 
 class KeySelect extends Component {
@@ -35,20 +35,17 @@ class KeySelect extends Component {
   handleBlur = () => {
     const { name, onChange, onUpdate } = this.props;
     const { value } = this.state;
-    onChange({ name, value }, () => onUpdate());
+    onChange({ name, value }, onUpdate);
   };
 
-  handleStateChange = changes => {
+  handleStateChange = (changes) => {
     const { name, onChange, onUpdate } = this.props;
     const { inputValue: value, selectedItem } = changes;
 
-    if (isUndefined(value)) {
-      return;
-    }
     if (selectedItem) {
-      onChange({ name, value: selectedItem.value }, () => onUpdate());
+      onChange({ name, value: selectedItem.value }, onUpdate);
     }
-    if (/^[a-z0-9-_]+$/i.test(value) || !value) {
+    if (/^[a-z0-9-_]+$/i.test(value) || value === "") {
       this.setState(() => ({ value }));
     }
   };

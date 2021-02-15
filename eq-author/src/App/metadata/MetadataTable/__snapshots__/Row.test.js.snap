@@ -30,23 +30,23 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
         Array [
           Object {
             "label": "Text",
-            "type": "Text",
+            "value": "Text",
           },
           Object {
             "label": "Text (Optional)",
-            "type": "Text_Optional",
+            "value": "Text_Optional",
           },
           Object {
             "label": "Date",
-            "type": "Date",
+            "value": "Date",
           },
           Object {
             "label": "Language",
-            "type": "Language",
+            "value": "Language",
           },
           Object {
             "label": "Region",
-            "type": "Region",
+            "value": "Region",
           },
         ]
       }
@@ -59,6 +59,14 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
       value="text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>
@@ -101,23 +109,23 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
         Array [
           Object {
             "label": "Text",
-            "type": "Text",
+            "value": "Text",
           },
           Object {
             "label": "Text (Optional)",
-            "type": "Text_Optional",
+            "value": "Text_Optional",
           },
           Object {
             "label": "Date",
-            "type": "Date",
+            "value": "Date",
           },
           Object {
             "label": "Language",
-            "type": "Language",
+            "value": "Language",
           },
           Object {
             "label": "Region",
-            "type": "Region",
+            "value": "Region",
           },
         ]
       }
@@ -131,6 +139,14 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
       onChange={[MockFunction]}
       type="date"
       value="2018-09-17"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>
@@ -173,23 +189,23 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
         Array [
           Object {
             "label": "Text",
-            "type": "Text",
+            "value": "Text",
           },
           Object {
             "label": "Text (Optional)",
-            "type": "Text_Optional",
+            "value": "Text_Optional",
           },
           Object {
             "label": "Date",
-            "type": "Date",
+            "value": "Date",
           },
           Object {
             "label": "Language",
-            "type": "Language",
+            "value": "Language",
           },
           Object {
             "label": "Region",
-            "type": "Region",
+            "value": "Region",
           },
         ]
       }
@@ -203,14 +219,37 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "GB_ENG",
-          "GB_GBN",
-          "GB_NIR",
-          "GB_SCT",
-          "GB_WLS",
+          Object {
+            "label": "GB_ENG",
+            "value": "GB_ENG",
+          },
+          Object {
+            "label": "GB_GBN",
+            "value": "GB_GBN",
+          },
+          Object {
+            "label": "GB_NIR",
+            "value": "GB_NIR",
+          },
+          Object {
+            "label": "GB_SCT",
+            "value": "GB_SCT",
+          },
+          Object {
+            "label": "GB_WLS",
+            "value": "GB_WLS",
+          },
         ]
       }
       value="GB_ENG"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>
@@ -253,23 +292,23 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
         Array [
           Object {
             "label": "Text",
-            "type": "Text",
+            "value": "Text",
           },
           Object {
             "label": "Text (Optional)",
-            "type": "Text_Optional",
+            "value": "Text_Optional",
           },
           Object {
             "label": "Date",
-            "type": "Date",
+            "value": "Date",
           },
           Object {
             "label": "Language",
-            "type": "Language",
+            "value": "Language",
           },
           Object {
             "label": "Region",
-            "type": "Region",
+            "value": "Region",
           },
         ]
       }
@@ -283,11 +322,25 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "en",
-          "cy",
+          Object {
+            "label": "en",
+            "value": "en",
+          },
+          Object {
+            "label": "cy",
+            "value": "cy",
+          },
         ]
       }
       value="cy"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>
@@ -330,23 +383,23 @@ exports[`MetadataTable should render 1`] = `
         Array [
           Object {
             "label": "Text",
-            "type": "Text",
+            "value": "Text",
           },
           Object {
             "label": "Text (Optional)",
-            "type": "Text_Optional",
+            "value": "Text_Optional",
           },
           Object {
             "label": "Date",
-            "type": "Date",
+            "value": "Date",
           },
           Object {
             "label": "Language",
-            "type": "Language",
+            "value": "Language",
           },
           Object {
             "label": "Region",
-            "type": "Region",
+            "value": "Region",
           },
         ]
       }
@@ -359,6 +412,14 @@ exports[`MetadataTable should render 1`] = `
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
       value="text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <FallbackSelect
+      name="fallbackKey"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={Array []}
     />
   </TableColumn>
   <TableColumn>

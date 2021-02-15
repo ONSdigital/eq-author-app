@@ -5,7 +5,7 @@ const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createTotalValidation = require("./createTotalValidation");
 
 const createOrRemoveAnswerGroup = (page, newAnswer) => {
-  const answerTypes = uniq(page.answers.map(a => a.type));
+  const answerTypes = uniq(page.answers.map((a) => a.type));
   if (answerTypes.length > 1) {
     page.totalValidation = null;
     return;
@@ -16,7 +16,7 @@ const createOrRemoveAnswerGroup = (page, newAnswer) => {
   }
 
   const numberOfAnswersOfType = page.answers.filter(
-    answer => answer.type === newAnswer.type
+    (answer) => answer.type === newAnswer.type
   ).length;
   if (numberOfAnswersOfType !== 2) {
     return;

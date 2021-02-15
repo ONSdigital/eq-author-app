@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/QuestionPageEditor/AnswerTransition should render 1`] = `
+<BounceTransition__TransitionWrapper
+  timeout={200}
+>
+  <div>
+    <div>
+      Content
+    </div>
+  </div>
+</BounceTransition__TransitionWrapper>
+`;

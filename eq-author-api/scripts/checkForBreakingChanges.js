@@ -39,7 +39,7 @@ if (breakages.length === 0) {
   logger.error(chalk.red("Breaking changes found"));
   logger.error("Please deprecate these fields instead of removing:");
 
-  breakages.forEach(breakage => {
+  breakages.forEach((breakage) => {
     logger.error(`  ${breakage.type}: ${breakage.description}`);
   });
   logger.info();

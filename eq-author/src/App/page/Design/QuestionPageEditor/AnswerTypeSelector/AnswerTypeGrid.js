@@ -70,7 +70,7 @@ class AnswerTypeGrid extends React.Component {
     doNotShowDR: PropTypes.bool,
   };
 
-  handleSelect = type => {
+  handleSelect = (type) => {
     this.props.onClose();
     this.props.onSelect(type);
   };
@@ -79,7 +79,7 @@ class AnswerTypeGrid extends React.Component {
     findDOMNode(this.button).focus();
   };
 
-  saveButtonRef = button => {
+  saveButtonRef = (button) => {
     this.button = button;
   };
 

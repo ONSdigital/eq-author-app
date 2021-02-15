@@ -8,8 +8,11 @@ const getSectionQuery = `
       alias
       displayName
       position
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
       questionnaire {
         id

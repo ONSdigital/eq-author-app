@@ -4,14 +4,14 @@ exports[`components/RoutingRuleSet should render children 1`] = `
 <Fragment>
   <TransitionGroup
     childFactory={[Function]}
-    component="div"
+    component={null}
   >
-    <Transition__RoutingComponentTransition
+    <Transition
       key="2"
       timeout={200}
     >
       <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
-        ifLabel="If"
+        ifLabel="IF"
         key="2"
         rule={
           Object {
@@ -19,7 +19,7 @@ exports[`components/RoutingRuleSet should render children 1`] = `
           }
         }
       />
-    </Transition__RoutingComponentTransition>
+    </Transition>
   </TransitionGroup>
   <RoutingEditor__AddRuleButton
     data-test="btn-add-rule"

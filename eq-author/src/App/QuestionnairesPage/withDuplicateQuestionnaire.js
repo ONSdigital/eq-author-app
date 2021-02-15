@@ -14,7 +14,7 @@ export const mapMutateToProps = ({ mutate, ownProps }) => ({
       variables: { input: { id } },
     })
       .then(get("data.duplicateQuestionnaire"))
-      .then(questionnaire => {
+      .then((questionnaire) => {
         if (questionnaire.introduction) {
           ownProps.history.push(
             buildIntroductionPath({
@@ -26,13 +26,10 @@ export const mapMutateToProps = ({ mutate, ownProps }) => ({
           return;
         }
 
-        const section = questionnaire.sections[0];
-        const page = section.pages[0];
-
         ownProps.history.push(
           buildPagePath({
             questionnaireId: questionnaire.id,
-            pageId: page.id,
+            pageId: questionnaire.sections[0].folders[0].pages[0].id,
             modifier,
           })
         );

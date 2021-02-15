@@ -1,4 +1,4 @@
-module.exports = ajv => {
+module.exports = (ajv) => {
   require("./uniquePropertyValueInArrayOfObjects")(ajv);
   require("./requiredWhenQuestionnaireSetting")(ajv);
   require("./requiredWhenOtherFieldsPopulated")(ajv);
@@ -13,4 +13,6 @@ module.exports = ajv => {
   require("./validateRoutingRules")(ajv);
   require("./validateRoutingLogicalAND")(ajv);
   require("./validatePipingInTitle")(ajv);
+  require("./idExists")(ajv);
+  require("./idPreceedsCurrentEntity")(ajv);
 };

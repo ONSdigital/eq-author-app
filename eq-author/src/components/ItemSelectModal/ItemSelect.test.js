@@ -7,7 +7,7 @@ describe("PositionModal/ItemSelect", () => {
   const createWrapper = (props = {}, render = shallow) =>
     render(
       <ItemSelect {...props} name="foo">
-        {times(5, i => (
+        {times(5, (i) => (
           <Option value={String(i)} key={i}>
             {i}
           </Option>

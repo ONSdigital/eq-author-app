@@ -36,10 +36,11 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - REDIS_DOMAIN_NAME=redis
       - REDIS_PORT=6379
-      - DATABASE=dynamodb
+      - DATABASE=mongodb
       - FIRESTORE_EMULATOR_HOST=host.docker.internal:8070
       - FIRESTORE_PROJECT_ID=eq-author-api
       - GOOGLE_AUTH_PROJECT_ID=eq-author-api
+      - MONGO_URL=mongodb://root:example@mongo:27017/dev_author?authSource=admin
     entrypoint:
       - yarn
       - start:dev
@@ -71,3 +72,21 @@ services:
       - 14250
       - 14268
       - 16686:16686
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example

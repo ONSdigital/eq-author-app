@@ -12,7 +12,7 @@ const {
   UNPUBLISHED,
 } = require("../../constants/publishStatus");
 
-const createMutation = mutation => async (root, args, ctx) => {
+const createMutation = (mutation) => async (root, args, ctx) => {
   let hasBeenUnpublished;
   enforceHasWritePermission(ctx.questionnaire, ctx.user);
   if (ctx.questionnaire.publishStatus === AWAITING_APPROVAL) {
@@ -27,8 +27,13 @@ const createMutation = mutation => async (root, args, ctx) => {
     hasBeenUnpublished = true;
     await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
   }
+
   await saveQuestionnaire(ctx.questionnaire);
-  ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
+  ctx.validationErrorInfo = validateQuestionnaire({
+    ...ctx.questionnaire,
+    updatedAt: new Date(),
+  });
+
   if (hasBeenUnpublished) {
     pubsub.publish("publishStatusUpdated", {
       questionnaire: ctx.questionnaire,

@@ -30,6 +30,22 @@ exports[`IntroductionEditor should render 1`] = `
         testSelector="txt-intro-title"
         value="title"
       />
+      <IntroductionEditor__InlineField
+        open={false}
+      >
+        <Label
+          bold={true}
+        >
+          Additional guidance panel
+        </Label>
+        <ToggleSwitch
+          checked={false}
+          hideLabels={false}
+          id="toggle-additional-guidance-panel"
+          name="toggle-additional-guidance-panel"
+          onChange={[Function]}
+        />
+      </IntroductionEditor__InlineField>
       <RichTextEditor
         autoFocus={false}
         controls={

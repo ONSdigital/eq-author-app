@@ -9,7 +9,7 @@ describe("constants/validationMessages", () => {
   let label = "Field Label";
 
   it("should return validation message with correct label", () => {
-    [ERR_VALID_REQUIRED, ERR_UNIQUE_REQUIRED].forEach(messageTemplate => {
+    [ERR_VALID_REQUIRED, ERR_UNIQUE_REQUIRED].forEach((messageTemplate) => {
       const validationMessage = messageTemplate({ label, requiredMsg: label });
       expect(validationMessage).toEqual(expect.stringMatching(label));
     });

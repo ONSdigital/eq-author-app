@@ -31,7 +31,7 @@ const Connector = styled(PathEnd)`
 const Flex = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 
 const Pills = styled(ValidationPills)`
@@ -48,9 +48,9 @@ export const TotalValidationEditor = ({
 }) => {
   return (
     <Grid>
-      <Column cols={6}>
+      <Column cols={4}>
         <Flex>
-          <ValidationTitle style={{ margin: "0 1em 0 0" }}>
+          <ValidationTitle style={{ margin: "0 1em 0 1em" }}>
             Total
           </ValidationTitle>
           <label htmlFor="condition">
@@ -74,7 +74,7 @@ export const TotalValidationEditor = ({
         </Flex>
         <Connector />
       </Column>
-      <Column cols={6}>
+      <Column cols={8}>
         <Pills
           entityType={total.entityType}
           onEntityTypeChange={onChangeUpdate}
@@ -95,18 +95,14 @@ export const TotalValidationEditor = ({
 
 TotalValidationEditor.propTypes = {
   total: propType(totalFragment).isRequired,
-  errors: PropTypes.shape({
-    id: PropTypes.string,
-    errors: PropTypes.arrayOf(
-      PropTypes.shape({
-        errorCode: PropTypes.string,
-        field: PropTypes.string,
-        id: PropTypes.string,
-        type: PropTypes.string,
-      })
-    ),
-    totalCount: PropTypes.number,
-  }),
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      errorCode: PropTypes.string,
+      field: PropTypes.string,
+      id: PropTypes.string,
+      type: PropTypes.string,
+    })
+  ),
   type: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

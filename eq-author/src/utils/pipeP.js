@@ -6,7 +6,7 @@ const pipeP = (...args) => {
   const [initial, ...rest] = args;
 
   return rest.reduce((a, b) => {
-    return function() {
+    return function () {
       return Promise.resolve(a.apply(null, arguments)).then(b);
     };
   }, initial);

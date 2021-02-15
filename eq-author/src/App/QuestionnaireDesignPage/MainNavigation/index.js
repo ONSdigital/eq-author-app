@@ -2,18 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight } from "lodash";
-// import { flowRight, get } from "lodash";
 
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
-
 import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
-// import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
-
 import { useMe } from "App/MeContext";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
@@ -28,8 +24,6 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
-// import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
-// import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/review-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
@@ -37,8 +31,9 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
+import { useQCodeContext } from "components/QCodeContext";
+
 import {
-  // buildPublishPath,
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
@@ -78,8 +73,9 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
-export const UnwrappedMainNavigation = props => {
+export const UnwrappedMainNavigation = (props) => {
   const { questionnaire, title, children, client, match } = props;
+  const { flattenedAnswers, duplicateQCode } = useQCodeContext();
 
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -92,7 +88,11 @@ export const UnwrappedMainNavigation = props => {
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-    }`;
+  }`;
+
+  const emptyQCode = flattenedAnswers?.find(
+    ({ type, qCode }) => type !== "Checkbox" && !qCode
+  );
 
   return (
     <>
@@ -171,7 +171,6 @@ export const UnwrappedMainNavigation = props => {
                     Metadata
                   </IconText>
                 </RouteButton>
-                {/* {renderPublishReviewButton()} */}
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "qcodes" && "navigation-on") ||
@@ -187,7 +186,9 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null}
+                  {emptyQCode || duplicateQCode === true ? (
+                    <SmallBadge data-test="small-badge" />
+                  ) : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>
@@ -196,6 +197,7 @@ export const UnwrappedMainNavigation = props => {
         </Flex>
         {children}
       </StyledMainNavigation>
+
       {questionnaire && (
         <>
           <UpdateQuestionnaireSettingsModal

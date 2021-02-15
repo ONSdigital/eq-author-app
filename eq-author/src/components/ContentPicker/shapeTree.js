@@ -54,7 +54,7 @@ const shapeTree = (answers, topLevel = "section") =>
     []
   );
 
-export const shapePageTree = answers =>
+export const shapePageTree = (answers) =>
   reduce(
     answers,
     (result, value) => {

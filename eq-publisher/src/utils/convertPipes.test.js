@@ -18,22 +18,36 @@ const createContext = (metadata = []) => ({
     metadata,
     sections: [
       {
-        pages: [
+        folders: [
           {
-            answers: [
-              { id: `0151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
-              { id: `1151378b-579d-40bf-b4d4-a378c573706a`, type: CURRENCY },
-              { id: `2151378b-579d-40bf-b4d4-a378c573706a`, type: DATE_RANGE },
-              { id: `3151378b-579d-40bf-b4d4-a378c573706a`, type: DATE },
-              { id: `4151378b-579d-40bf-b4d4-a378c573706a`, type: NUMBER },
+            pages: [
               {
-                id: `5151378b-579d-40bf-b4d4-a378c573706a`,
-                type: UNIT,
-                properties: { required: false, decimals: 0, unit: "Metres" },
+                answers: [
+                  { id: `0151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                  {
+                    id: `1151378b-579d-40bf-b4d4-a378c573706a`,
+                    type: CURRENCY,
+                  },
+                  {
+                    id: `2151378b-579d-40bf-b4d4-a378c573706a`,
+                    type: DATE_RANGE,
+                  },
+                  { id: `3151378b-579d-40bf-b4d4-a378c573706a`, type: DATE },
+                  { id: `4151378b-579d-40bf-b4d4-a378c573706a`, type: NUMBER },
+                  {
+                    id: `5151378b-579d-40bf-b4d4-a378c573706a`,
+                    type: UNIT,
+                    properties: {
+                      required: false,
+                      decimals: 0,
+                      unit: "Metres",
+                    },
+                  },
+                ],
               },
+              {},
             ],
           },
-          {},
         ],
       },
     ],
@@ -43,7 +57,7 @@ const createContext = (metadata = []) => ({
 describe("getAllAnswers", () => {
   it("should retrieve all answers when one page is empty", () => {
     expect(getAllAnswers(createContext().questionnaireJson)).toEqual(
-      createContext().questionnaireJson.sections[0].pages[0].answers
+      createContext().questionnaireJson.sections[0].folders[0].pages[0].answers
     );
   });
 });
@@ -160,6 +174,16 @@ describe("convertPipes", () => {
       const html = createPipe({ pipeType: "metadata" });
       const metadata = [{ id: "456", key: "my_metadata", type: "Text" }];
       expect(convertPipes(createContext(metadata))(html)).toEqual("");
+    });
+
+    it("should add fallback metadata if available", () => {
+      const html = createPipe({ id: "42", pipeType: "metadata" });
+      const metadata = [
+        { id: "42", key: "skeleton", type: "Text", fallbackKey: "cruciform" },
+      ];
+      expect(convertPipes(createContext(metadata))(html)).toEqual(
+        "{{ first_non_empty_item(metadata['skeleton'], metadata['cruciform']) }}"
+      );
     });
 
     describe("formatting", () => {

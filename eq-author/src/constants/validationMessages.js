@@ -72,7 +72,8 @@ export const characterErrors = {
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
-export const CALCSUM_ANSWER_NOT_SELECTED = "Select at least two answers to be calculated";
+export const CALCSUM_ANSWER_NOT_SELECTED =
+  "Select at least two answers to be calculated";
 export const CALCSUM_SUMMARY_ANSWERS_THE_SAME =
   "Select answers that are the same unit type";
 export const DATE_LABEL_REQUIRED = "Enter a date label";
@@ -90,9 +91,15 @@ export const DURATION_ERROR_MESSAGE =
 export const MIN_INCLUSIVE_TEXT = "must be more than";
 export const MAX_INCLUSIVE_TEXT = "must be less than";
 
-export const ERR_TOTAL_NO_VALUE = "Value required";
+export const ERR_OFFSET_NO_VALUE = "Value is required";
 export const ERR_NO_VALUE = "Value is required";
-export const SELECTION_REQUIRED = "Unit type required";
+export const ERR_REFERENCE_DELETED =
+  "Answer required. The answer used in this validation has been deleted.";
+export const ERR_REFERENCE_MOVED = "Answer must be from a previous question";
+
+export const SELECTION_REQUIRED = "Selection required";
+
+export const OPERATOR_REQUIRED = "Choose an operator";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
@@ -107,6 +114,10 @@ export const binaryExpressionErrors = {
     message: "Answer required",
   },
   ERR_LOGICAL_AND: "AND conditions must not conflict",
+};
+
+export const expressionGroupErrors = {
+  ERR_VALUE_REQUIRED: "Selection required",
 };
 
 export const leftSideErrors = {
@@ -148,6 +159,10 @@ export const destinationErrors = {
     errorCode: "ERR_DESTINATION_DELETED",
     message: "This destination has been deleted. Select a new destination.",
   },
+  ERR_DESTINATION_REQUIRED: {
+    errorCode: "ERR_DESTINATION_REQUIRED",
+    message: "Destination required",
+  },
   ERR_ANSWER_NOT_SELECTED: {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
@@ -165,6 +180,7 @@ export const buildLabelError = (mainString, insString, pos, pos2) => {
   ) {
     return "Label error";
   }
-  const newLabelError = mainString.slice(0, pos) + insString + mainString.slice(pos2);
+  const newLabelError =
+    mainString.slice(0, pos) + insString + mainString.slice(pos2);
   return newLabelError;
 };

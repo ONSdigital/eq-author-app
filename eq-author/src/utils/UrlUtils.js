@@ -24,7 +24,7 @@ export const generatePath = curry(rrGeneratePath, 2);
 
 export const buildQuestionnairePath = generatePath(Routes.QUESTIONNAIRE);
 
-const sanitiseTab = allowedTabs => tab => {
+const sanitiseTab = (allowedTabs) => (tab) => {
   if (!tab) {
     return allowedTabs[0];
   }
@@ -63,7 +63,7 @@ export const buildConfirmationPath = ({ confirmationId, tab, ...rest }) => {
   }
   return generatePath(Routes.QUESTIONNAIRE)({
     ...rest,
-    tab: sanitiseTab(["design", "preview"])(tab),
+    tab: sanitiseTab(["design", "routing", "skip", "logic", "preview"])(tab),
     entityId: confirmationId,
     entityName: QUESTION_CONFIRMATION,
   });
@@ -120,7 +120,7 @@ export const buildSharingPath = ({ questionnaireId }) => {
   });
 };
 
-const buildTabSwitcher = tab => params => {
+const buildTabSwitcher = (tab) => (params) => {
   let builder;
   if (params.entityId) {
     builder = buildQuestionnairePath;

@@ -1,17 +1,18 @@
-const { find, some, head, takeRightWhile, get } = require("lodash/fp");
+const { head, takeRightWhile, get } = require("lodash/fp");
 const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
 
-module.exports = (questionnaire, pageId) => {
-  const currentSection = find(section => {
-    if (section.pages && some({ id: pageId }, section.pages)) {
-      return section;
-    }
-  });
+const {
+  getSectionByPageId,
+  getPages,
+} = require("../../schema/resolvers/utils");
 
+module.exports = (questionnaire, pageId) => {
+  const currentSection = getSectionByPageId(questionnaire, pageId);
   const pagesAfterCurrent = takeRightWhile(
-    page => page.id !== pageId,
-    currentSection.pages
+    (page) => page.id !== pageId,
+    getPages({ questionnaire })
   );
+
   if (pagesAfterCurrent.length) {
     return {
       pageId: get("id", head(pagesAfterCurrent)),
@@ -19,9 +20,10 @@ module.exports = (questionnaire, pageId) => {
   }
 
   const sectionsAfterCurrent = takeRightWhile(
-    section => section.id !== currentSection.id,
+    (section) => section.id !== currentSection.id,
     questionnaire.sections
   );
+
   if (sectionsAfterCurrent.length) {
     return {
       sectionId: get("id", head(sectionsAfterCurrent)),

@@ -1,7 +1,10 @@
+import { css } from "styled-components";
+
 export const colors = {
   blue: "#3B7A9E",
   paleBlue: "#f0f1f9",
   lightBlue: "#61BDE0",
+  mediumBlue: "#397596",
   darkBlue: "#5F7682",
   darkerBlue: "#003c57",
   grey: "#999999",
@@ -33,6 +36,17 @@ colors.bordersLight = colors.lightGrey;
 colors.previewError = colors.grey;
 
 export const radius = "4px";
+
+export const focusStyle = css`
+  border-color: ${colors.blue};
+  outline-color: ${colors.blue};
+  box-shadow: 0 0 0 3px ${colors.tertiary};
+`;
+
+export const disabledStyle = css`
+  opacity: 0.6;
+  pointer-events: none;
+`;
 
 export default {
   colors,

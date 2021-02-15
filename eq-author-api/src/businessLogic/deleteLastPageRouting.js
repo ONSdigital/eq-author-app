@@ -1,16 +1,11 @@
-module.exports = ctx => {
-    if (
-        ctx.questionnaire &&
-        ctx.questionnaire.sections[0] &&
-        ctx.questionnaire.sections[0].pages[0]
-    ) {
-        const nSections = ctx.questionnaire.sections.length;
-        const nPages = ctx.questionnaire.sections[nSections - 1].pages.length;
+const { last } = require("lodash");
 
-        if (ctx.questionnaire.sections[nSections - 1].pages[nPages - 1] &&
-            ctx.questionnaire.sections[nSections - 1].pages[nPages - 1].routing) {
-          
-            delete ctx.questionnaire.sections[nSections - 1].pages[nPages - 1].routing;
-        }
-      }
+module.exports = (ctx) => {
+  const lastSection = ctx.questionnaire && last(ctx.questionnaire.sections);
+  const lastFolder = lastSection && last(lastSection.folders);
+  const lastPage = lastFolder && last(lastFolder.pages);
+
+  if (lastPage && lastPage.routing) {
+    delete lastPage.routing;
+  }
 };

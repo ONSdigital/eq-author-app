@@ -1,19 +1,33 @@
-    # import "./RoutingEditor/fragment.graphql"
-    
-    fragment RoutingPage on QuestionPage {
+# import "./RoutingEditor/fragment.graphql"
+
+fragment RoutingPage on QuestionPage {
+  id
+  position
+  routing {
+    ...RoutingEditor
+  }
+  folder {
+    id
+    position
+    pages {
       id
-      position
-      routing {
-        ...RoutingEditor
-      }
-      validationErrorInfo {
-        id
-        errors {
-          id
-          type
-          field
-          errorCode
-        }
-        totalCount
-      }
     }
+  }
+  section {
+    id
+    position
+    folders {
+      id
+    }
+  }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+}

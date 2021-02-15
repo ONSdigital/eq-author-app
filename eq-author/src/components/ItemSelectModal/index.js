@@ -28,7 +28,7 @@ const BodyWrapper = styled.div`
   max-height: 18em;
 `;
 
-const Body = props => (
+const Body = (props) => (
   <ScrollPane>
     <BodyWrapper {...props} />
   </ScrollPane>

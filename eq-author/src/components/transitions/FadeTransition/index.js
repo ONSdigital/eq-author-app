@@ -6,7 +6,7 @@ const FadeTransition = styled(CSSTransition).attrs({
   classNames: "fade",
 })`
   transition-property: opacity;
-  transition-duration: ${props => props.timeout}ms;
+  transition-duration: ${(props) => props.timeout}ms;
   transition-timing-function: ease-in-out;
 
   &.fade-enter,

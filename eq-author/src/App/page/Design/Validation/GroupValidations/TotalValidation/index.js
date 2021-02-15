@@ -43,18 +43,14 @@ TotalValidation.propTypes = {
   total: propType(totalFragment).isRequired,
   type: PropTypes.string.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    id: PropTypes.string,
-    errors: PropTypes.arrayOf(
-      PropTypes.shape({
-        errorCode: PropTypes.string,
-        field: PropTypes.string,
-        id: PropTypes.string,
-        type: PropTypes.string,
-      })
-    ),
-    totalCount: PropTypes.number,
-  }),
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      errorCode: PropTypes.string,
+      field: PropTypes.string,
+      id: PropTypes.string,
+      type: PropTypes.string,
+    })
+  ),
 };
 
 export default withToggleValidationRule(TotalValidation);

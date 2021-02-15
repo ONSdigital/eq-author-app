@@ -18,6 +18,7 @@ const {
   getSkipConditionById,
   getSkipConditions,
   getAllExpressionGroups,
+  returnValidationErrors,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -54,7 +55,7 @@ Resolvers.BinaryExpression2 = {
     return null;
   },
   expressionGroup: async ({ id }, args, ctx) => {
-    return find(expressionGroup => {
+    return find((expressionGroup) => {
       if (
         expressionGroup.expressions &&
         some({ id }, expressionGroup.expressions)
@@ -63,28 +64,8 @@ Resolvers.BinaryExpression2 = {
       }
     }, getAllExpressionGroups(ctx));
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const expressionErrors = ctx.validationErrorInfo.filter(
-      ({ expressionId }) => id === expressionId
-    );
-
-    if (!expressionErrors) {
-      const noErrors = {
-        id,
-        errors: [],
-        totalCount: 0,
-      };
-      return noErrors;
-    }
-
-    const errors = {
-      id,
-      errors: expressionErrors,
-      totalCount: expressionErrors.length,
-    };
-
-    return errors;
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    returnValidationErrors(ctx, id, ({ expressionId }) => id === expressionId),
 };
 
 Resolvers.LeftSide2 = {
@@ -102,7 +83,7 @@ Resolvers.LeftSide2 = {
 };
 
 Resolvers.RightSide2 = {
-  __resolveType: right => {
+  __resolveType: (right) => {
     if (right.type === "Custom") {
       return "CustomValue2";
     }
@@ -121,7 +102,7 @@ Resolvers.SelectedOptions2 = {
     return intersectionBy(
       "id",
       getOptions(ctx),
-      map(optionId => ({ id: optionId }), right.optionIds)
+      map((optionId) => ({ id: optionId }), right.optionIds)
     );
   },
 };
@@ -269,9 +250,8 @@ Resolvers.Mutation = {
     {
       const routingExpressionGroups = getExpressionGroups(ctx);
       const skipConditions = getSkipConditions(ctx);
-
       const expressionGroup = find(
-        expressionGroup => {
+        (expressionGroup) => {
           if (some({ id: input.id }, expressionGroup.expressions)) {
             return expressionGroup;
           }

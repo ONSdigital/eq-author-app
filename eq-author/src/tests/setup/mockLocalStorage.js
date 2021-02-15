@@ -1,18 +1,18 @@
-export default (function() {
-  var localStorageMock = (function() {
+export default (function () {
+  var localStorageMock = (function () {
     var store = {};
 
     return {
-      getItem: function(key) {
+      getItem: function (key) {
         return store[key] || null;
       },
-      setItem: function(key, value) {
+      setItem: function (key, value) {
         store[key] = value.toString();
       },
-      clear: function() {
+      clear: function () {
         store = {};
       },
-      removeItem: function(key) {
+      removeItem: function (key) {
         delete store[key];
       },
     };

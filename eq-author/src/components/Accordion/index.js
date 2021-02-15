@@ -29,8 +29,8 @@ export const Title = styled.h2`
 export const Body = styled.div`
   overflow: hidden;
   transition: opacity 100ms ease-in-out;
-  opacity: ${props => (props.open ? "1" : "0")};
-  height: ${props => (props.open ? "auto" : "0")};
+  opacity: ${(props) => (props.open ? "1" : "0")};
+  height: ${(props) => (props.open ? "auto" : "0")};
 `;
 
 const Container = styled.div`
@@ -73,12 +73,12 @@ export const Button = styled.button`
     height: 1rem;
     transform-origin: 50% 50%;
     transition: transform 200ms ease-out;
-    transform: rotate(${props => (props.open ? "0deg" : "-90deg")});
+    transform: rotate(${(props) => (props.open ? "0deg" : "-90deg")});
   }
 `;
 
 export const DisplayContent = styled.div`
-  display: ${props => (props.open ? "block" : "none")};
+  display: ${(props) => (props.open ? "block" : "none")};
 `;
 
 class Accordion extends Component {

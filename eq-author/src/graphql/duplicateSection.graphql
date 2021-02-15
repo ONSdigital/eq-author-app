@@ -1,32 +1,60 @@
 #import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
     ...Section
     position
     displayName
-    pages {
-      id
-      title
-      position
-      displayName
-      pageType
-      ... on QuestionPage {
-        description
-        guidance
-        answers {
-          id
-        }
-        confirmation {
-          id
-          displayName
+    folders {
+      ...Folder
+      pages {
+        id
+        title
+        position
+        displayName
+        pageType
+        ... on QuestionPage {
+          alias
+          description
+          guidance
+          answers {
+            id
+            type
+            displayName
+            label
+            secondaryLabel
+            secondaryLabelDefault
+            qCode
+            properties
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                id
+                label
+                qCode
+              }
+              mutuallyExclusiveOption {
+                id
+                label
+                qCode
+              }
+            }
+          }
+          confirmation {
+            id
+            qCode
+            displayName
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }
-        }
-        validationErrorInfo {
-          ...ValidationErrorInfo
         }
       }
     }

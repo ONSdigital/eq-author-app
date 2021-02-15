@@ -1,13 +1,31 @@
 const { convertExpressionGroup } = require("./index");
-const mockQuestionnaire = require("./basicQuestionnaireJSON");
+const mockQuestionnaire = require("../../basicQuestionnaireJSON");
 const { CHECKBOX, CURRENCY } = require("../../../constants/answerTypes");
 
 describe("Expression group", () => {
   describe("Standard expressions", () => {
     let ctx;
     beforeEach(() => {
+      const questionnaire = mockQuestionnaire;
+      Object.assign(questionnaire.sections[0].folders[0].pages[1].answers[0], {
+        options: [
+          {
+            id: "a",
+            label: "optionA",
+          },
+          {
+            id: "b",
+            label: "optionB",
+          },
+        ],
+        mutuallyExclusiveOption: {
+          id: "c",
+          label: "optionC",
+        },
+      });
+
       ctx = {
-        questionnaireJson: JSON.parse(JSON.stringify(mockQuestionnaire)),
+        questionnaireJson: questionnaire,
       };
     });
 

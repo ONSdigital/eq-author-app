@@ -4,7 +4,7 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("requiredWhenOtherFieldsPopulated", {
     validate: function isValid(
       otherFields,
@@ -17,7 +17,7 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
-      const otherFieldsPopulated = otherFields.filter(field => {
+      const otherFieldsPopulated = otherFields.filter((field) => {
         return parentData[field];
       });
 

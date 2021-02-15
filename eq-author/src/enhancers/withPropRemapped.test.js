@@ -10,7 +10,7 @@ describe("withPropRemapped", () => {
     const EnhancedComponent = withPropRemapped(
       "onSpecificUpdate",
       "onUpdate",
-      thing => `prefix-${thing}`
+      (thing) => `prefix-${thing}`
     )(Component);
     const onSpecificUpdateStub = jest.fn();
     const wrapper = shallow(

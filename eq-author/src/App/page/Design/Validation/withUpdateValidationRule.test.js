@@ -30,7 +30,6 @@ describe("withUpdateValidationRule", () => {
           },
         },
       },
-      refetchQueries: ["GetPage"],
     });
   });
 });

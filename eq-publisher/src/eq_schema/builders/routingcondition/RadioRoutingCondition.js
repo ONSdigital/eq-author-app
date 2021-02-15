@@ -1,6 +1,6 @@
 const { xor, flow, flatMap, keyBy, map } = require("lodash/fp");
 
-const getAllOptions = condition => {
+const getAllOptions = (condition) => {
   return condition.answer.options;
 };
 
@@ -18,7 +18,7 @@ class RadioRoutingCondition {
       map("id", this.condition.answer.options)
     );
     return unselectedIds
-      .map(id => ({
+      .map((id) => ({
         id: `answer${this.condition.answer.id}`,
         condition: "not equals",
         value: this.optionsById[id].label,

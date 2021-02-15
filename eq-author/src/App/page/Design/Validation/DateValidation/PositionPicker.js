@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { RelativePositionSelect } from "./components";
 
-const RELATIVE_POSITIONS = ["before", "after"];
+const RELATIVE_POSITIONS = ["Before", "After"];
 
-const PositionPicker = ({value, onChange, onUpdate}) =>
+const PositionPicker = ({ value, onChange, onUpdate }) => (
   <RelativePositionSelect
     name="relativePosition"
     value={value}
@@ -12,17 +12,18 @@ const PositionPicker = ({value, onChange, onUpdate}) =>
     onBlur={onUpdate}
     data-test="relative-position-select"
   >
-    {RELATIVE_POSITIONS.map(position => (
+    {RELATIVE_POSITIONS.map((position) => (
       <option key={position} value={position}>
-        {position}
+        {position.toLowerCase()}
       </option>
     ))}
-  </RelativePositionSelect>;
+  </RelativePositionSelect>
+);
 
 PositionPicker.propTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default PositionPicker;

@@ -50,6 +50,8 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: Theme
   navigation: Boolean
   surveyId: String
@@ -71,7 +73,6 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
-  qCodeErrorCount: Int!
 }
 enum HistoryEventTypes {
   system
@@ -99,12 +100,22 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
+type Folder {
+  id: ID!
+  alias: String
+  enabled: Boolean!
+  pages: [Page]
+  skipConditions: [ExpressionGroup2]
+  position: Int!
+  section: Section
+}
+
 type Section {
   id: ID!
   title: String!
   alias: String
   displayName: String!
-  pages: [Page]
+  folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
   introductionTitle: String
@@ -120,6 +131,7 @@ interface Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  folder: Folder!
   section: Section!
   position: Int!
   availablePipingAnswers: [Answer!]!
@@ -127,7 +139,12 @@ interface Page {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionPage implements Page {
+interface Skippable {
+  id: ID!
+  skipConditions: [ExpressionGroup2]
+}
+
+type QuestionPage implements Page & Skippable {
   id: ID!
   title: String!
   alias: String
@@ -139,6 +156,7 @@ type QuestionPage implements Page {
   pageType: PageType!
   answers: [Answer]
   section: Section!
+  folder: Folder!
   position: Int!
   definitionLabel: String
   definitionContent: String
@@ -165,6 +183,7 @@ type CalculatedSummaryPage implements Page {
   pageType: PageType!
   qCode: String
   section: Section!
+  folder: Folder!
   position: Int!
   availableSummaryAnswers: [Answer!]!
   summaryAnswers: [Answer!]!
@@ -181,7 +200,7 @@ type ConfirmationOption {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type QuestionConfirmation {
+type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
@@ -192,6 +211,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  skipConditions: [ExpressionGroup2]
 }
 
 interface Answer {
@@ -445,6 +465,7 @@ enum Theme {
 type Metadata {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -485,6 +506,7 @@ type Destination2 {
   id: ID!
   section: Section
   page: Page
+  folder: Folder
   logical: LogicalDestination2
 }
 
@@ -581,6 +603,8 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   legalBasis: LegalBasis!
   secondaryTitle: String!
   secondaryDescription: String!
@@ -625,12 +649,15 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
+  skippable(input: QueryInput!): Skippable
 }
 
 input QueryInput {
+  id: ID
   questionnaireId: ID
   sectionId: ID
   pageId: ID
+  confirmationId: ID
   answerId: ID
   optionId: ID
 }
@@ -641,7 +668,7 @@ input GetAvailableAnswersInput {
 }
 
 input CreateSkipConditionInput {
-  pageId: ID!
+  parentId: ID!
 }
 
 input DeleteSkipConditionInput {
@@ -649,9 +676,8 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  pageId: ID!
+  parentId: ID!
 }
-
 
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
@@ -666,6 +692,13 @@ type Mutation {
   deleteSection(input: DeleteSectionInput!): Questionnaire
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
+
+  createFolder(input: CreateFolderInput!): Folder
+  updateFolder(input: UpdateFolderInput!): Folder
+  deleteFolder(input: DeleteFolderInput!): Questionnaire
+  moveFolder(input: MoveFolderInput!): Folder
+  duplicateFolder(input: DuplicateFolderInput!): Folder
+
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page
   deletePage(input: DeletePageInput!): Section!
@@ -716,9 +749,9 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
-  deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
-  deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
+  createSkipCondition(input: CreateSkipConditionInput!): Skippable
+  deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
+  deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
 }
 
 input CreateRouting2Input {
@@ -751,7 +784,7 @@ input DeleteRoutingRule2Input {
 
 input UpdateExpressionGroup2Input {
   id: ID!
-  operator: RoutingOperator2!
+  operator: RoutingOperator2
 }
 
 input CreateBinaryExpression2Input {
@@ -785,6 +818,8 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String!
   navigation: Boolean
   surveyId: String!
@@ -798,6 +833,8 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   theme: String
   legalBasis: LegalBasis
   navigation: Boolean
@@ -843,6 +880,27 @@ input DeleteSectionInput {
 }
 
 input DuplicateSectionInput {
+  id: ID!
+  position: Int!
+}
+
+input CreateFolderInput {
+  sectionId: ID!
+  alias: String
+  position: Int
+}
+
+input UpdateFolderInput {
+  folderId: ID!
+  alias: String
+  enabled: Boolean
+}
+
+input DeleteFolderInput {
+  id: ID!
+}
+
+input DuplicateFolderInput {
   id: ID!
   position: Int!
 }
@@ -905,6 +963,7 @@ input CreateQuestionPageInput {
   guidance: String
   guidanceEnabled: Boolean
   sectionId: ID!
+  folderId: ID
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -932,6 +991,7 @@ input UpdateQuestionPageInput {
 
 input CreateCalculatedSummaryPageInput {
   sectionId: ID!
+  folderId: ID
   position: Int
 }
 
@@ -1015,15 +1075,21 @@ input DeleteOptionInput {
   id: ID!
 }
 
-input MovePageInput {
-  id: ID!
-  sectionId: ID!
-  position: Int!
-}
-
 input MoveSectionInput {
   id: ID!
   questionnaireId: ID!
+  position: Int!
+}
+
+input MoveFolderInput {
+  id: ID!
+  position: Int!
+}
+
+input MovePageInput {
+  id: ID!
+  sectionId: ID!
+  folderId: ID
   position: Int!
 }
 
@@ -1106,6 +1172,7 @@ input DeleteMetadataInput {
 input UpdateMetadataInput {
   id: ID!
   key: String
+  fallbackKey: String
   alias: String
   type: MetadataType!
   dateValue: Date
@@ -1138,6 +1205,8 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  additionalGuidancePanelSwitch: Boolean!
+  additionalGuidancePanel: String
   description: String!
   legalBasis: LegalBasis!
   secondaryTitle: String!

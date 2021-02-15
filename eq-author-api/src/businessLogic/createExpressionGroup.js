@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require("uuid");
 const createExpression = require("./createExpression");
 
-module.exports = input => ({
+module.exports = (input) => ({
   id: uuidv4(),
-  operator: "Or",
+  operator: null,
   expressions: [createExpression()],
   ...input,
 });

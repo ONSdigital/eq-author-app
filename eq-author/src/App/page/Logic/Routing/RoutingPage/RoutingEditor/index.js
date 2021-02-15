@@ -7,7 +7,7 @@ import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 
-import Transition from "App/page/Logic/Routing/Transition";
+import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import transformNestedFragments from "utils/transformNestedFragments";
@@ -17,9 +17,9 @@ import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
 
-export const LABEL_IF = "If";
+export const LABEL_IF = "IF";
 export const LABEL_ELSE = "Else";
-export const LABEL_ELSE_IF = "Else if";
+export const LABEL_ELSE_IF = "ELSE IF";
 
 const AddRuleButton = styled(Button)`
   display: block;
@@ -43,7 +43,7 @@ export class UnwrappedRoutingEditor extends React.Component {
     this.props.createRule(this.props.routing.id);
   };
 
-  handleElseChange = destination => {
+  handleElseChange = (destination) => {
     this.props.updateRouting({
       ...this.props.routing,
       else: destination,
@@ -55,7 +55,7 @@ export class UnwrappedRoutingEditor extends React.Component {
 
     return (
       <>
-        <TransitionGroup>
+        <TransitionGroup component={null}>
           {routing.rules.map((rule, index) => (
             <Transition key={rule.id}>
               <RuleEditor

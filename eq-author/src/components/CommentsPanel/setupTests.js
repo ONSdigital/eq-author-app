@@ -1,13 +1,13 @@
-import COMMENT_QUERY from "./commentsQuery.graphql";
-import COMMENT_ADD from "./createNewComment.graphql";
-import COMMENT_DELETE from "./deleteComment.graphql";
-import COMMENT_UPDATE from "./updateComment.graphql";
-import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
-import REPLY_ADD from "./createNewReply.graphql";
-import REPLY_DELETE from "./deleteReply.graphql";
-import REPLY_UPDATE from "./updateReply.graphql";
+import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
+import COMMENT_ADD from "./graphql/createNewComment.graphql";
+import COMMENT_DELETE from "./graphql/deleteComment.graphql";
+import COMMENT_UPDATE from "./graphql/updateComment.graphql";
+import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
+import REPLY_ADD from "./graphql/createNewReply.graphql";
+import REPLY_DELETE from "./graphql/deleteReply.graphql";
+import REPLY_UPDATE from "./graphql/updateReply.graphql";
 
-const mocks = vars => [
+const mocks = (vars) => [
   {
     request: {
       query: COMMENT_QUERY,

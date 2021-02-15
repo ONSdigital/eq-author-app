@@ -4,7 +4,7 @@ const { omit, set, last } = require("lodash/fp");
 const { DATE, DATE_RANGE, NUMBER } = require("../constants/answerTypes");
 
 describe("Question", () => {
-  const createQuestionJSON = options =>
+  const createQuestionJSON = (options) =>
     Object.assign(
       {
         id: 1,
@@ -474,10 +474,17 @@ describe("Question", () => {
         metadata,
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
-                  { id: `7151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                pages: [
+                  {
+                    answers: [
+                      {
+                        id: `7151378b-579d-40bf-b4d4-a378c573706a`,
+                        type: "Text",
+                      },
+                    ],
+                  },
                 ],
               },
             ],
@@ -630,7 +637,7 @@ describe("Question", () => {
       expect(question).toMatchObject({
         mandatory: true,
       });
-      question.answers.map(answer => {
+      question.answers.map((answer) => {
         expect(answer).toMatchObject({
           mandatory: false,
         });
@@ -747,7 +754,7 @@ describe("Question", () => {
         })
       );
 
-      expect(question.answers.map(a => a.id)).toEqual(["answer1", "answer2"]);
+      expect(question.answers.map((a) => a.id)).toEqual(["answer1", "answer2"]);
     });
 
     it("should always output the calculation type as sum", () => {

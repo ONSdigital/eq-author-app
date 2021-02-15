@@ -17,7 +17,7 @@ const Button = styled.button`
   outline: none;
   flex: 1 1 auto;
 
-  order: ${props => props.order};
+  order: ${(props) => props.order};
 
   &:hover {
     border-color: ${colors.borders};

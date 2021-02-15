@@ -13,14 +13,14 @@ import Error from "components/Error";
 import RoutingPage from "./RoutingPage";
 import transformNestedFragments from "utils/transformNestedFragments";
 import { buildPagePath } from "utils/UrlUtils";
-import Logic from "../../Logic";
+import Logic from "App/shared/Logic";
 
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 
 export class UnwrappedQuestionRoutingRoute extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      questionPage: propType(
+      page: propType(
         transformNestedFragments(
           RoutingPage.fragments[0],
           RoutingPage.fragments.slice(1)
@@ -64,7 +64,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    return <Logic {...this.props}>{this.renderContent()}</Logic>;
+    return <Logic page={this.props.data?.page}>{this.renderContent()}</Logic>;
   }
 }
 
@@ -84,13 +84,15 @@ const query = gql`
 `;
 const ROUTING_QUERY = transformNestedFragments(query, RoutingPage.fragments);
 
-const QueryingRoute = props => (
+const QueryingRoute = (props) => (
   <Query
     query={ROUTING_QUERY}
     variables={{ input: props.match.params }}
     fetchPolicy="cache-and-network"
   >
-    {innerProps => <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />}
+    {(innerProps) => (
+      <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />
+    )}
   </Query>
 );
 QueryingRoute.propTypes = {

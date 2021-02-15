@@ -9,29 +9,16 @@ import {
   accordionGroupReducer,
 } from "./";
 import { SynchronousPromise } from "synchronous-promise";
+import {
+  buildQuestionnaire,
+  buildSections,
+} from "tests/utils/createMockQuestionnaire";
 
 describe("NavigationSidebar", () => {
   let props;
   beforeEach(() => {
-    const page = {
-      id: "2",
-      title: "Page",
-      position: 0,
-      validationErrorInfo: {
-        totalCount: 5,
-      },
-    };
-    const section = {
-      id: "3",
-      title: "Section",
-      pages: [page],
-      validationErrorInfo: { totalCount: 0 },
-    };
-    const questionnaire = {
-      id: "1",
-      title: "Questionnaire",
-      sections: [section],
-    };
+    const questionnaire = buildQuestionnaire();
+    const section = questionnaire.sections[0];
     props = {
       questionnaire,
       onAddSection: jest.fn(() => SynchronousPromise.resolve(questionnaire)),
@@ -51,9 +38,11 @@ describe("NavigationSidebar", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should only render container if loading", () => {
-    const wrapper = shallow(<NavigationSidebar {...props} loading />);
-    expect(wrapper).toMatchSnapshot();
+  it("should only render container if loading and no questionnaire data available", () => {
+    const wrapper = shallow(
+      <NavigationSidebar {...props} questionnaire={null} loading />
+    );
+    expect(wrapper.children()).toHaveLength(0);
   });
 
   it("should allow sections to be added", () => {
@@ -80,12 +69,9 @@ describe("NavigationSidebar", () => {
   });
 
   it("should have all accordions open on default and then close them", () => {
-    const extraSection = {
-      id: "3",
-      title: "Section",
-      pages: [{ id: "4", title: "Page", position: 0 }],
-    };
+    const extraSection = buildSections();
     props.questionnaire.sections.concat(extraSection);
+
     const wrapper = shallow(<NavigationSidebar {...props} />);
     const toggleAll = wrapper.find("[data-test='toggle-all-accordions']");
 
@@ -103,7 +89,7 @@ describe("NavigationSidebar", () => {
     jest.spyOn(console, "error").mockImplementation(() => jest.fn());
     const { queryAllByTestId } = render(<NavigationSidebar {...props} />);
 
-    const firstAccordion = queryAllByTestId("accordion-undefined-button")[0];
+    const firstAccordion = queryAllByTestId("accordion-Section 1-button")[0];
 
     expect(firstAccordion.getAttribute("aria-expanded")).toBe("true");
     fireEvent.click(firstAccordion);
@@ -175,7 +161,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(newArray.length).toBe(testArray.length);
-      expect(newArray.every(item => item.isOpen === false)).toBeTruthy();
+      expect(newArray.every((item) => item.isOpen === false)).toBeTruthy();
     });
     it("should update an existing array", () => {
       const updatedArray = accordionGroupReducer(array, {
@@ -184,7 +170,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(updatedArray.length).toEqual(array.length);
-      expect(updatedArray.find(item => item.id === 0).isOpen).toBeFalsy();
+      expect(updatedArray.find((item) => item.id === 0).isOpen).toBeFalsy();
     });
     it("should create and update an array of values", () => {
       const testArray = [1, 2];
@@ -194,7 +180,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(newArray.length).toBe(testArray.length);
-      expect(newArray.find(item => item.id === 0).isOpen).toBeFalsy();
+      expect(newArray.find((item) => item.id === 0).isOpen).toBeFalsy();
       expect(newArray).toEqual([
         { id: 1, isOpen: true },
         { id: 0, isOpen: false },

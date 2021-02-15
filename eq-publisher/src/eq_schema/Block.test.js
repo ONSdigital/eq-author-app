@@ -6,7 +6,7 @@ const { NUMBER } = require("../constants/answerTypes");
 const ctx = {};
 
 describe("Block", () => {
-  const createBlockJSON = block =>
+  const createBlockJSON = (block) =>
     Object.assign(
       {
         id: 1,
@@ -111,10 +111,17 @@ describe("Block", () => {
         metadata,
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
-                  { id: `7151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                pages: [
+                  {
+                    answers: [
+                      {
+                        id: `7151378b-579d-40bf-b4d4-a378c573706a`,
+                        type: "Text",
+                      },
+                    ],
+                  },
                 ],
               },
             ],
@@ -199,9 +206,9 @@ describe("Block", () => {
   describe("skip conditions", () => {
     let mockQuestionnaireWithSkip, newCtx;
     beforeEach(() => {
-      const buildSkipConditions = questionnaire => {
+      const buildSkipConditions = (questionnaire) => {
         const newQuestionnaire = JSON.parse(JSON.stringify(questionnaire));
-        const pages = newQuestionnaire.sections[0].pages;
+        const pages = newQuestionnaire.sections[0].folders[0].pages;
         const answers = pages.map(({ answers }) => answers[0]);
         answers[0].type = NUMBER;
 
@@ -232,7 +239,7 @@ describe("Block", () => {
     });
     it("should translate skip conditions correctly", () => {
       const block = new Block(
-        mockQuestionnaireWithSkip.sections[0].pages[1],
+        mockQuestionnaireWithSkip.sections[0].folders[0].pages[1],
         null,
         newCtx
       );

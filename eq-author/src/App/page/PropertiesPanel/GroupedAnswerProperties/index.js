@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { groupBy, kebabCase, getOr} from "lodash/fp";
+import { groupBy, kebabCase, getOr } from "lodash/fp";
+import { flatMap } from "lodash";
 
 import Accordion from "components/Accordion";
+import { Autocomplete } from "components/Autocomplete";
 import IconText from "components/IconText";
 import {
   CURRENCY,
@@ -12,6 +14,7 @@ import {
   DURATION,
   TEXTAREA,
 } from "constants/answer-types";
+import { unitConversion } from "constants/unit-types";
 import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
 
@@ -23,7 +26,6 @@ import InlineField from "./InlineField";
 import MultiLineField from "./MultiLineField";
 import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 import {
-  UnitProperties,
   DurationProperties,
   TextProperties,
 } from "./AnswerProperties/Properties";
@@ -72,11 +74,40 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
-export const UnitPropertiesStyled = styled(UnitProperties)`
-  ${({ hasUnitError }) => hasUnitError && `
-  border-color: ${colors.red};
-`}
-`;
+const filterCondition = (x, query) =>
+  x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
+  x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
+  x.type.toLowerCase().includes(query.toLowerCase().trim()) ||
+  query.toLowerCase().trim().startsWith(x.unit.toLowerCase()) ||
+  query.toLowerCase().trim().startsWith(x.abbreviation.toLowerCase());
+
+const filterUnitOptions = (options, query) => {
+  const common = Object.values(options)
+    .filter((x) => filterCondition(x, query))
+    .map((option, index) => (
+      <span key={`unit-option-${index}`} value={option.unit}>
+        {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+      </span>
+    ));
+  if (!query.length) {
+    const categorized = flatMap(
+      groupBy("type", unitConversion),
+      (item, index) => [index, ...item]
+    );
+    const categories = categorized.map((option, index) =>
+      typeof option === "string" ? (
+        <span category="true">{option}</span>
+      ) : (
+        <span key={`unit-option-${index}`} value={option.unit}>
+          {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+        </span>
+      )
+    );
+    return [common, categories];
+  }
+
+  return [common];
+};
 
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
@@ -156,19 +187,29 @@ export const UnwrappedGroupedAnswerProperties = ({
           {answerType === UNIT && (
             <>
               <MultiLineField id="unit" label={"Type"}>
-                <UnitPropertiesStyled
-                  id="unit"
-                  onChange={({ value: unit }) => {
+                <Autocomplete
+                  options={unitConversion}
+                  filter={filterUnitOptions}
+                  placeholder={"Select a unit type"}
+                  updateOption={(element) => {
                     updateAnswersOfType(answerType, page.id, {
-                      unit,
+                      unit:
+                        element && element.children[0]?.getAttribute("value"),
                     });
                   }}
-                  hasUnitError={hasUnitError}
-                  unit={answers[0].properties.unit}
+                  hasError={hasUnitError}
+                  defaultValue={
+                    answers[0].properties.unit
+                      ? `${answers[0].properties.unit} (${
+                          unitConversion[answers[0].properties.unit]
+                            .abbreviation
+                        })`
+                      : ""
+                  }
                 />
               </MultiLineField>
               {hasUnitError && (
-                <ValidationWarningUnit 
+                <ValidationWarningUnit
                   icon={ValidationErrorIcon}
                   data-test="unitRequired"
                 >

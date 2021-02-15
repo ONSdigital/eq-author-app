@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import MoveModal from "components/MoveModal";
 import PropTypes from "prop-types";
@@ -11,6 +11,8 @@ import Icon from "assets/icon-select.svg";
 
 import { colors, radius } from "constants/theme";
 import Truncated from "components/Truncated";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
 const Label = styled.label`
   display: block;
@@ -25,8 +27,8 @@ const Trigger = styled.button.attrs({ type: "button" })`
   font-size: 1em;
   padding: 0.5rem;
   padding-right: 2em;
-  background: white url('${Icon}') no-repeat right center;
-  border: solid 1px #aeaeae;
+  background: ${colors.white} url("${Icon}") no-repeat right center;
+  border: solid 1px ${colors.borders};
   text-align: left;
   border-radius: ${radius};
   color: ${colors.black};
@@ -37,64 +39,40 @@ const Trigger = styled.button.attrs({ type: "button" })`
   }
 `;
 
-class MovePageModal extends React.Component {
-  static propTypes = {
-    sectionId: PropTypes.string.isRequired,
-    page: CustomPropTypes.page,
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onMovePage: PropTypes.func.isRequired,
+const propTypes = {
+  sectionId: PropTypes.string.isRequired,
+  page: CustomPropTypes.page,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onMovePage: PropTypes.func.isRequired,
+};
+
+const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
+  const { questionnaire } = useQuestionnaire();
+  const [isSectionSelectOpen, setIsSectionSelectOpen] = useState(false);
+  const [selectedSectionId, setSelectedSectionId] = useState(sectionId);
+  const [previousSelectedSectionId, setPreviousSelectedSectionId] = useState(
+    null
+  );
+
+  const handleCloseSectionSelect = () => {
+    setIsSectionSelectOpen(false);
+    setSelectedSectionId(previousSelectedSectionId);
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isSectionSelectOpen: false,
-      selectedSectionId: props.sectionId,
-      previousSelectedSectionId: null,
-    };
-  }
-
-  handleCloseSectionSelect = () => {
-    this.setState({
-      isSectionSelectOpen: false,
-      selectedSectionId: this.state.previousSelectedSectionId,
-    });
+  const handleOpenSectionSelect = () => {
+    setIsSectionSelectOpen(true);
+    setPreviousSelectedSectionId(selectedSectionId);
   };
 
-  handleOpenSectionSelect = () => {
-    this.setState({
-      isSectionSelectOpen: true,
-      previousSelectedSectionId: this.state.selectedSectionId,
-    });
-  };
+  const handleSectionChange = ({ value }) => setSelectedSectionId(value);
 
-  handleSectionChange = ({ value }) => {
-    this.setState({
-      selectedSectionId: value,
-    });
-  };
-
-  handleSectionConfirm = e => {
+  const handleSectionConfirm = (e) => {
     e.preventDefault();
-    this.setState({
-      isSectionSelectOpen: false,
-    });
+    setIsSectionSelectOpen(false);
   };
 
-  getSelectedSection() {
-    const { questionnaire } = this.props;
-    const { selectedSectionId } = this.state;
-
-    return find(questionnaire.sections, { id: selectedSectionId });
-  }
-
-  handlePageMove = position => {
-    const { page, onMovePage, sectionId } = this.props;
-    const { selectedSectionId } = this.state;
-
+  const handlePageMove = ({ position }) => {
     onMovePage({
       from: {
         id: page.id,
@@ -109,57 +87,53 @@ class MovePageModal extends React.Component {
     });
   };
 
-  renderSectionSelect(section) {
-    const { questionnaire } = this.props;
-    const { isSectionSelectOpen } = this.state;
+  const sectionButtonId = uniqueId("MovePageModal");
+  const selectedSection = useMemo(
+    () =>
+      questionnaire && find(questionnaire.sections, { id: selectedSectionId }),
+    [questionnaire, selectedSectionId]
+  );
 
-    return (
-      <ItemSelectModal
-        title="Section"
-        data-test={"section-select-modal"}
-        isOpen={isSectionSelectOpen}
-        onClose={this.handleCloseSectionSelect}
-        onConfirm={this.handleSectionConfirm}
-      >
-        <ItemSelect
-          data-test="section-item-select"
-          name="section"
-          value={section.id}
-          onChange={this.handleSectionChange}
-        >
-          {questionnaire.sections.map(section => (
-            <Option key={section.id} value={section.id}>
-              {section.displayName}
-            </Option>
-          ))}
-        </ItemSelect>
-      </ItemSelectModal>
-    );
-  }
+  return useMemo(
+    () =>
+      questionnaire ? (
+        <MoveModal title={"Move question"} isOpen={isOpen} onClose={onClose}>
+          <Label htmlFor={sectionButtonId}>Section</Label>
+          <Trigger id={sectionButtonId} onClick={handleOpenSectionSelect}>
+            <Truncated>{selectedSection.displayName}</Truncated>
+          </Trigger>
+          <ItemSelectModal
+            title="Section"
+            data-test={"section-select-modal"}
+            isOpen={isSectionSelectOpen}
+            onClose={handleCloseSectionSelect}
+            onConfirm={handleSectionConfirm}
+          >
+            <ItemSelect
+              data-test="section-item-select"
+              name="section"
+              value={selectedSection.id}
+              onChange={handleSectionChange}
+            >
+              {questionnaire.sections.map((section) => (
+                <Option key={section.id} value={section.id}>
+                  {section.displayName}
+                </Option>
+              ))}
+            </ItemSelect>
+          </ItemSelectModal>
+          <PositionModal
+            data-test={"page-position-modal"}
+            options={selectedSection.folders.flatMap(({ pages }) => pages)}
+            onMove={handlePageMove}
+            selected={page}
+          />
+        </MoveModal>
+      ) : null,
+    [selectedSection, questionnaire, page, isOpen, isSectionSelectOpen]
+  );
+};
 
-  render() {
-    const { page } = this.props;
-    const selectedSection = this.getSelectedSection();
-    const sectionButtonId = uniqueId("MovePageModal");
-
-    return (
-      <MoveModal title={"Move question"} {...this.props}>
-        <Label htmlFor={sectionButtonId}>Section</Label>
-        <Trigger id={sectionButtonId} onClick={this.handleOpenSectionSelect}>
-          <Truncated>{selectedSection.displayName}</Truncated>
-        </Trigger>
-        {this.renderSectionSelect(selectedSection)}
-
-        <PositionModal
-          data-test={"page-position-modal"}
-          options={selectedSection.pages}
-          onMove={this.handlePageMove}
-          selected={page}
-          {...this.props}
-        />
-      </MoveModal>
-    );
-  }
-}
+MovePageModal.propTypes = propTypes;
 
 export default MovePageModal;

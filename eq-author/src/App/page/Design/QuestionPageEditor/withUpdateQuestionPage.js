@@ -4,7 +4,7 @@ import pageFragment from "graphql/fragments/page.graphql";
 import { filter } from "graphql-anywhere";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateQuestionPage: page => {
+  onUpdateQuestionPage: (page) => {
     const data = filter(pageFragment, page);
     return mutate({
       variables: { input: data },

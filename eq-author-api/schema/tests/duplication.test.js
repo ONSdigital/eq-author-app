@@ -22,10 +22,12 @@ const {
   duplicatePage,
 } = require("../../tests/utils/contextBuilder/page");
 
+const { getFolderByPageId } = require("../resolvers/utils");
+
 const { getQuestionnaire } = require("../../db/datastore");
 
 describe("Duplication", () => {
-  let ctx, questionnaire, section;
+  let ctx, questionnaire, section, folder;
   let config = {
     shortTitle: "short title",
     navigation: true,
@@ -33,11 +35,15 @@ describe("Duplication", () => {
       {
         title: "section-title-1",
         alias: "section-alias-alias-1",
-        pages: [
+        folders: [
           {
-            title: "page-title-1",
-            alias: "page-alias-alias-1",
-            answers: [],
+            pages: [
+              {
+                title: "page-title-1",
+                alias: "page-alias-alias-1",
+                answers: [],
+              },
+            ],
           },
         ],
       },
@@ -48,6 +54,7 @@ describe("Duplication", () => {
     ctx = await buildContext(config);
     questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
+    folder = last(section.folders);
   });
 
   afterEach(async () => {
@@ -58,7 +65,7 @@ describe("Duplication", () => {
     let page, pageCopy;
 
     beforeEach(async () => {
-      page = await queryPage(ctx, last(section.pages).id);
+      page = await queryPage(ctx, last(folder.pages).id);
       let { id } = await duplicatePage(ctx, page);
       pageCopy = await queryPage(ctx, id);
     });
@@ -68,7 +75,7 @@ describe("Duplication", () => {
     });
 
     it("should copy page with answers and question confirmation", () => {
-      const cleanObject = obj => {
+      const cleanObject = (obj) => {
         const objectWithUnchangedFields = omit(
           JSON.parse(JSON.stringify(obj)),
           [
@@ -98,7 +105,16 @@ describe("Duplication", () => {
       expect(pageCopy.title).toEqual(`Copy of ${page.title}`);
     });
 
-    it("should correctly increment position", () => {
+    it("should be created in new folder if parent folder disabled", () => {
+      expect(pageCopy.position).toEqual(0);
+    });
+
+    it("should be created in same folder if parent folder enabled", async () => {
+      const folder = getFolderByPageId(ctx, page.id);
+      folder.enabled = true;
+      let { id } = await duplicatePage(ctx, page);
+      pageCopy = await queryPage(ctx, id);
+
       expect(pageCopy.position).toEqual(page.position + 1);
     });
   });
@@ -126,7 +142,7 @@ describe("Duplication", () => {
             "title",
             "displayName",
             "position",
-            "pages",
+            "folders",
             "availablePipingAnswers",
           ])
         )
@@ -134,9 +150,11 @@ describe("Duplication", () => {
     });
 
     it("should copy the page but not id", () => {
-      expect(sectionCopy.pages[0].id).not.toEqual(queriedSection.pages[0].id);
-      expect(sectionCopy.pages[0]).toMatchObject(
-        omit(queriedSection.pages[0], "id")
+      expect(sectionCopy.folders[0].pages[0].id).not.toEqual(
+        queriedSection.folders[0].pages[0].id
+      );
+      expect(sectionCopy.folders[0].pages[0]).toMatchObject(
+        omit(queriedSection.folders[0].pages[0], "id")
       );
     });
 

@@ -3,33 +3,25 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import { propType } from "graphql-anywhere";
-import { flow, get } from "lodash/fp";
+import { flow } from "lodash/fp";
 
-import Transition from "App/page/Logic/Routing/Transition";
-import Button from "components/buttons/Button";
-
-import { colors } from "constants/theme";
-
+import BounceTransition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
-
-import { RADIO } from "constants/answer-types";
-
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
+
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
+import Button from "components/buttons/Button";
 
+import { colors } from "constants/theme";
+import { RADIO } from "constants/answer-types";
+
+import { expressionGroupErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
-import { destinationErrors } from "constants/validationMessages";
-
-const RepositionedValidationError = styled(ValidationError)`
-  justify-content: unset;
-  padding-left: 36.5%;
-  margin-top: 0;
-`;
 
 const LABEL_THEN = "Then";
 
@@ -41,9 +33,15 @@ const Expressions = styled.div`
 `;
 
 const Rule = styled.div`
-  &:not(:first-of-type) {
-    margin-top: 2em;
-  }
+  margin-bottom: 2em;
+`;
+
+const Transition = styled(BounceTransition)`
+  margin-bottom: 2em;
+`;
+
+const GroupOperatorValidationError = styled(ValidationError)`
+  margin-bottom: 0;
 `;
 
 export const Title = styled.h2`
@@ -64,8 +62,12 @@ const Header = styled.div`
 const SmallSelect = styled(Select)`
   display: inline-block;
   width: auto;
-  margin: 0 0.5em;
+  margin-bottom: 0;
   line-height: 1.25;
+`;
+
+export const GroupOperatorLabel = styled(Label)`
+  margin: 0.5em 0 0 0.5em;
 `;
 
 const RemoveRuleButton = styled(Button).attrs({
@@ -76,150 +78,154 @@ const RemoveRuleButton = styled(Button).attrs({
   padding: 0.2em;
 `;
 
-export class UnwrappedRuleEditor extends React.Component {
-  static fragments = [fragment, ...BinaryExpressionEditor.fragments];
+const RuleEditorProps = {
+  rule: propType(fragment).isRequired,
+  ifLabel: PropTypes.string,
+  deleteRule: PropTypes.func.isRequired,
+  updateRule: PropTypes.func.isRequired,
+  updateExpressionGroup: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
 
-  static propTypes = {
-    rule: propType(fragment).isRequired,
-    ifLabel: PropTypes.string,
-    deleteRule: PropTypes.func.isRequired,
-    updateRule: PropTypes.func.isRequired,
-    updateExpressionGroup: PropTypes.func.isRequired,
-    className: PropTypes.string,
-  };
+export const UnwrappedRuleEditor = ({
+  rule,
+  ifLabel = "If",
+  deleteRule,
+  updateRule,
+  updateExpressionGroup,
+  className,
+}) => {
+  const {
+    destination,
+    expressionGroup,
+    expressionGroup: { expressions },
+    validationErrorInfo,
+  } = rule;
 
-  static defaultProps = {
-    ifLabel: "If",
-  };
+  const existingRadioConditions = {};
 
-  handleDeleteClick = () => {
-    this.props.deleteRule(this.props.rule.id);
-  };
+  const handleDeleteClick = () => deleteRule(rule.id);
 
-  handleDestinationChange = destination => {
-    this.props.updateRule({
-      ...this.props.rule,
-      destination,
+  const handleDestinationChange = (destination) =>
+    updateRule({ ...rule, destination });
+
+  const handleGroupOperatorChange = ({ value: operator }) =>
+    updateExpressionGroup({
+      id: expressionGroup.id,
+      operator,
     });
+
+  const handleExpressionDeletion = (expressionGroup) => {
+    if (expressionGroup?.expressions?.length === 1) {
+      updateExpressionGroup({
+        id: expressionGroup.id,
+        operator: null,
+      });
+    }
   };
 
-  render() {
-    const {
-      className,
-      ifLabel,
-      rule,
-      rule: {
-        destination,
-        expressionGroup: { expressions },
-      },
-    } = this.props;
+  const validationErrors = validationErrorInfo.totalCount
+    ? validationErrorInfo.errors
+    : [];
 
-    const existingRadioConditions = {};
+  const groupOperatorError =
+    expressionGroupErrors[
+      expressionGroup.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "operator"
+      )?.errorCode
+    ];
 
-    const validationErrorInfo = rule.validationErrorInfo;
+  const groupOperatorSelect = (
+    <>
+      <SmallSelect
+        name="match"
+        id="match"
+        data-test="match-select"
+        defaultValue={expressionGroup.operator}
+        hasError={groupOperatorError}
+        onChange={handleGroupOperatorChange}
+      >
+        <option value={null} selected disabled hidden>
+          {" "}
+          Select AND/OR{" "}
+        </option>
+        <option value="Or">OR</option>
+        <option value="And">AND</option>
+      </SmallSelect>
+      {groupOperatorError && (
+        <GroupOperatorValidationError right={false}>
+          {groupOperatorError}
+        </GroupOperatorValidationError>
+      )}
+    </>
+  );
 
-    const validationErrors = validationErrorInfo.totalCount
-      ? validationErrorInfo.errors
-      : [];
-
-    const matchSelectErrors = expressions.filter(({ validationErrorInfo }) => {
-      if (!validationErrorInfo || !validationErrorInfo.totalCount) {
-        return false;
-      }
-      const expressionGroupOperatorErrors = validationErrorInfo.errors.filter(
-        ({ field }) => field === "groupOperator"
-      );
-
-      if (expressionGroupOperatorErrors.length) {
-        return true;
-      }
-
-      return false;
-    }).length;
-
-    return (
-      <>
-        <Rule data-test="routing-rule" className={className}>
-          <Header>
-            <Label inline>
-              Match
-              <SmallSelect
-                name="match"
-                id="match"
-                data-test="match-select"
-                defaultValue={rule.expressionGroup.operator}
-                hasError={matchSelectErrors}
-                onChange={({ value }) => {
-                  this.props.updateExpressionGroup({
-                    id: rule.expressionGroup.id,
-                    operator: value,
-                  });
-                }}
-              >
-                <option value="Or">Any of</option>
-                <option value="And">All of</option>
-              </SmallSelect>
-              the following rules
-            </Label>
-
-            <RemoveRuleButton
-              onClick={this.handleDeleteClick}
-              data-test="btn-remove-rule"
-            >
-              Remove rule
-            </RemoveRuleButton>
-          </Header>
-          <Expressions>
-            <TransitionGroup>
-              {expressions.map((expression, index) => {
-                const component = (
-                  <Transition key={expression.id}>
-                    <BinaryExpressionEditor
-                      operator={rule.expressionGroup.operator}
-                      expression={expression}
-                      expressionGroupId={rule.expressionGroup.id}
-                      label={
-                        index > 0 ? rule.expressionGroup.operator : ifLabel
-                      }
-                      isOnlyExpression={expressions.length === 1}
-                      isLastExpression={index === expressions.length - 1}
-                      canAddCondition={
-                        !existingRadioConditions[get("left.id", expression)]
-                      }
-                      includeSelf
-                    />
-                  </Transition>
+  return (
+    <Rule data-test="routing-rule" className={className}>
+      <Header>
+        <Label inline> Routing logic rules </Label>
+        <RemoveRuleButton
+          onClick={handleDeleteClick}
+          data-test="btn-remove-rule"
+        >
+          Remove rule
+        </RemoveRuleButton>
+      </Header>
+      <Expressions>
+        <TransitionGroup>
+          {expressions.map((expression, index) => {
+            let groupOperatorComponent = null;
+            if (expressions.length > 1) {
+              if (index === 0) {
+                groupOperatorComponent = groupOperatorSelect;
+              } else if (index < expressions.length - 1) {
+                groupOperatorComponent = (
+                  <GroupOperatorLabel inline>
+                    {expressionGroup.operator?.toUpperCase()}
+                  </GroupOperatorLabel>
                 );
-                if (get("left.type", expression) === RADIO) {
-                  existingRadioConditions[get("left.id", expression)] = true;
-                }
-                return component;
-              })}
-            </TransitionGroup>
-          </Expressions>
+              }
+            }
 
-          <DestinationSelector
-            id={rule.id}
-            label={LABEL_THEN}
-            onChange={this.handleDestinationChange}
-            value={destination}
-            data-test="select-then"
-            validationErrors={validationErrors}
-          />
-        </Rule>
-        {validationErrors.length > 0 &&
-          validationErrors[0].field === "destination" && (
-            <RepositionedValidationError
-              right
-              test="destination-validation-error"
-            >
-              <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
-            </RepositionedValidationError>
-          )}
-      </>
-    );
-  }
-}
+            const component = (
+              <Transition key={expression.id} exit={false}>
+                <BinaryExpressionEditor
+                  expression={expression}
+                  expressionGroup={expressionGroup}
+                  expressionGroupId={expressionGroup.id}
+                  label={index > 0 ? "IF" : ifLabel}
+                  expressionIndex={index}
+                  canAddCondition={
+                    !existingRadioConditions[expression.left?.id]
+                  }
+                  groupOperatorComponent={groupOperatorComponent}
+                  includeSelf
+                  onExpressionDeleted={handleExpressionDeletion}
+                />
+              </Transition>
+            );
+            if (expression.left?.type === RADIO) {
+              existingRadioConditions[expression.left?.id] = true;
+            }
+            return component;
+          })}
+        </TransitionGroup>
+      </Expressions>
+      <DestinationSelector
+        id={rule.id}
+        label={LABEL_THEN}
+        onChange={handleDestinationChange}
+        value={destination}
+        data-test="select-then"
+        validationErrors={validationErrors}
+      />
+    </Rule>
+  );
+};
+
+UnwrappedRuleEditor.propTypes = RuleEditorProps;
+
+UnwrappedRuleEditor.fragments = [fragment, ...BinaryExpressionEditor.fragments];
 
 const withMutations = flow(
   withDeleteRule,

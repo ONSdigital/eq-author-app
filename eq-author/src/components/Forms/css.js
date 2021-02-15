@@ -1,11 +1,5 @@
 import { css } from "styled-components";
-import { colors } from "constants/theme";
-
-export const focusStyle = css`
-  border-color: ${colors.blue};
-  outline-color: ${colors.blue};
-  box-shadow: 0 0 0 3px ${colors.tertiary};
-`;
+import { colors, focusStyle } from "constants/theme";
 
 const invalidStyle = css`
   border-color: ${colors.red};
@@ -47,7 +41,8 @@ export const sharedStyles = css`
 
   &:focus {
     outline: none;
-    border: 1px solid ${colors.primary};
+    border-style: solid;
+    border-color: ${colors.primary};
   }
 
   &[disabled] {
@@ -55,5 +50,5 @@ export const sharedStyles = css`
     pointer-events: none;
   }
 
-  ${props => props.invalid && invalidStyle};
+  ${(props) => props.invalid && invalidStyle};
 `;

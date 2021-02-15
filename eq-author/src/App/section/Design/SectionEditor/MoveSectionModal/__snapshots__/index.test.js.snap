@@ -7,71 +7,118 @@ exports[`MoveSectionModal should render 1`] = `
   onMoveSection={[MockFunction]}
   questionnaire={
     Object {
-      "id": "1",
+      "displayName": "questionnaire",
+      "id": "questionnaire",
       "sections": Array [
         Object {
           "displayName": "Section 1",
-          "id": "1",
-          "pages": Array [
+          "folders": Array [
             Object {
-              "displayName": "Page 1.1",
+              "alias": "Folder 1.1",
+              "enabled": false,
               "id": "1.1",
+              "pages": Array [
+                Object {
+                  "alias": "1.1.1",
+                  "displayName": "Page 1.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "1.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "1",
+                  },
+                  "title": "Page 1.1.1",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
+                },
+              ],
               "position": 0,
-              "title": "Page 1.1",
-            },
-            Object {
-              "displayName": "Page 1.2",
-              "id": "1.2",
-              "position": 1,
-              "title": "Page 1.2",
             },
           ],
+          "id": "1",
           "position": 0,
           "title": "Section 1",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
+          },
         },
         Object {
           "displayName": "Section 2",
-          "id": "2",
-          "pages": Array [
+          "folders": Array [
             Object {
-              "displayName": "Page 2.1",
+              "alias": "Folder 2.1",
+              "enabled": false,
               "id": "2.1",
+              "pages": Array [
+                Object {
+                  "alias": "2.1.1",
+                  "displayName": "Page 2.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "2.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "2",
+                  },
+                  "title": "Page 2.1.1",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
+                },
+              ],
               "position": 0,
-              "title": "Page 2.1",
-            },
-            Object {
-              "displayName": "Page 2.2",
-              "id": "2.2",
-              "position": 1,
-              "title": "Page 2.2",
             },
           ],
+          "id": "2",
           "position": 1,
           "title": "Section 2",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
+          },
         },
       ],
+      "title": "questionnaire",
     }
   }
   section={
     Object {
       "displayName": "Section 1",
-      "id": "1",
-      "pages": Array [
+      "folders": Array [
         Object {
-          "displayName": "Page 1.1",
+          "alias": "Folder 1.1",
+          "enabled": false,
           "id": "1.1",
+          "pages": Array [
+            Object {
+              "alias": "1.1.1",
+              "displayName": "Page 1.1.1",
+              "folder": Object {
+                "id": "1",
+              },
+              "id": "1.1.1",
+              "position": 0,
+              "section": Object {
+                "id": "1",
+              },
+              "title": "Page 1.1.1",
+              "validationErrorInfo": Object {
+                "totalCount": 2,
+              },
+            },
+          ],
           "position": 0,
-          "title": "Page 1.1",
-        },
-        Object {
-          "displayName": "Page 1.2",
-          "id": "1.2",
-          "position": 1,
-          "title": "Page 1.2",
         },
       ],
+      "id": "1",
       "position": 0,
       "title": "Section 1",
+      "validationErrorInfo": Object {
+        "totalCount": 0,
+      },
     }
   }
   title="Move section"
@@ -85,135 +132,227 @@ exports[`MoveSectionModal should render 1`] = `
       Array [
         Object {
           "displayName": "Section 1",
-          "id": "1",
-          "pages": Array [
+          "folders": Array [
             Object {
-              "displayName": "Page 1.1",
+              "alias": "Folder 1.1",
+              "enabled": false,
               "id": "1.1",
+              "pages": Array [
+                Object {
+                  "alias": "1.1.1",
+                  "displayName": "Page 1.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "1.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "1",
+                  },
+                  "title": "Page 1.1.1",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
+                },
+              ],
               "position": 0,
-              "title": "Page 1.1",
-            },
-            Object {
-              "displayName": "Page 1.2",
-              "id": "1.2",
-              "position": 1,
-              "title": "Page 1.2",
             },
           ],
+          "id": "1",
           "position": 0,
           "title": "Section 1",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
+          },
         },
         Object {
           "displayName": "Section 2",
-          "id": "2",
-          "pages": Array [
+          "folders": Array [
             Object {
-              "displayName": "Page 2.1",
+              "alias": "Folder 2.1",
+              "enabled": false,
               "id": "2.1",
+              "pages": Array [
+                Object {
+                  "alias": "2.1.1",
+                  "displayName": "Page 2.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "2.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "2",
+                  },
+                  "title": "Page 2.1.1",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
+                },
+              ],
               "position": 0,
-              "title": "Page 2.1",
-            },
-            Object {
-              "displayName": "Page 2.2",
-              "id": "2.2",
-              "position": 1,
-              "title": "Page 2.2",
             },
           ],
+          "id": "2",
           "position": 1,
           "title": "Section 2",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
+          },
         },
       ]
     }
     questionnaire={
       Object {
-        "id": "1",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
             "displayName": "Section 1",
-            "id": "1",
-            "pages": Array [
+            "folders": Array [
               Object {
-                "displayName": "Page 1.1",
+                "alias": "Folder 1.1",
+                "enabled": false,
                 "id": "1.1",
+                "pages": Array [
+                  Object {
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
+                    "id": "1.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
+                  },
+                ],
                 "position": 0,
-                "title": "Page 1.1",
-              },
-              Object {
-                "displayName": "Page 1.2",
-                "id": "1.2",
-                "position": 1,
-                "title": "Page 1.2",
               },
             ],
+            "id": "1",
             "position": 0,
             "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
           Object {
             "displayName": "Section 2",
-            "id": "2",
-            "pages": Array [
+            "folders": Array [
               Object {
-                "displayName": "Page 2.1",
+                "alias": "Folder 2.1",
+                "enabled": false,
                 "id": "2.1",
+                "pages": Array [
+                  Object {
+                    "alias": "2.1.1",
+                    "displayName": "Page 2.1.1",
+                    "folder": Object {
+                      "id": "1",
+                    },
+                    "id": "2.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "2",
+                    },
+                    "title": "Page 2.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
+                  },
+                ],
                 "position": 0,
-                "title": "Page 2.1",
-              },
-              Object {
-                "displayName": "Page 2.2",
-                "id": "2.2",
-                "position": 1,
-                "title": "Page 2.2",
               },
             ],
+            "id": "2",
             "position": 1,
             "title": "Section 2",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
+        "title": "questionnaire",
       }
     }
     section={
       Object {
         "displayName": "Section 1",
-        "id": "1",
-        "pages": Array [
+        "folders": Array [
           Object {
-            "displayName": "Page 1.1",
+            "alias": "Folder 1.1",
+            "enabled": false,
             "id": "1.1",
+            "pages": Array [
+              Object {
+                "alias": "1.1.1",
+                "displayName": "Page 1.1.1",
+                "folder": Object {
+                  "id": "1",
+                },
+                "id": "1.1.1",
+                "position": 0,
+                "section": Object {
+                  "id": "1",
+                },
+                "title": "Page 1.1.1",
+                "validationErrorInfo": Object {
+                  "totalCount": 2,
+                },
+              },
+            ],
             "position": 0,
-            "title": "Page 1.1",
-          },
-          Object {
-            "displayName": "Page 1.2",
-            "id": "1.2",
-            "position": 1,
-            "title": "Page 1.2",
           },
         ],
+        "id": "1",
         "position": 0,
         "title": "Section 1",
+        "validationErrorInfo": Object {
+          "totalCount": 0,
+        },
       }
     }
     selected={
       Object {
         "displayName": "Section 1",
-        "id": "1",
-        "pages": Array [
+        "folders": Array [
           Object {
-            "displayName": "Page 1.1",
+            "alias": "Folder 1.1",
+            "enabled": false,
             "id": "1.1",
+            "pages": Array [
+              Object {
+                "alias": "1.1.1",
+                "displayName": "Page 1.1.1",
+                "folder": Object {
+                  "id": "1",
+                },
+                "id": "1.1.1",
+                "position": 0,
+                "section": Object {
+                  "id": "1",
+                },
+                "title": "Page 1.1.1",
+                "validationErrorInfo": Object {
+                  "totalCount": 2,
+                },
+              },
+            ],
             "position": 0,
-            "title": "Page 1.1",
-          },
-          Object {
-            "displayName": "Page 1.2",
-            "id": "1.2",
-            "position": 1,
-            "title": "Page 1.2",
           },
         ],
+        "id": "1",
         "position": 0,
         "title": "Section 1",
+        "validationErrorInfo": Object {
+          "totalCount": 0,
+        },
       }
     }
   />

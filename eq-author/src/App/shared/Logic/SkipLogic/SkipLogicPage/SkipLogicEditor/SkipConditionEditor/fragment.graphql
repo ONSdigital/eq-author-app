@@ -1,0 +1,9 @@
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
+
+fragment SkipConditionEditor on ExpressionGroup2 {
+  id
+  expressions{
+    ...BinaryExpressionEditor
+  }
+  operator
+}

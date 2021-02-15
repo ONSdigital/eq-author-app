@@ -8,6 +8,7 @@ const fragment = gql`
   {
     id
     key
+    fallbackKey
     alias
     type
     dateValue
@@ -29,11 +30,12 @@ const updateMetadataMutation = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateMetadata: metadata =>
+  onUpdateMetadata: (metadata) =>
     mutate({
       variables: {
         input: filter(fragment, metadata),
       },
+      refetchQueries: ["GetQuestionnaireWithMetadata"],
     }),
 });
 

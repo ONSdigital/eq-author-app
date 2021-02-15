@@ -9,7 +9,6 @@ import { propType } from "graphql-anywhere";
 
 const Wrapper = styled.div`
   padding: 2em;
-  max-width: 40em;
   p {
     margin: 0 0 1em;
   }
@@ -34,11 +33,13 @@ const ContentBlock = styled.div`
     font-size: 1em;
     font-weight: normal;
   }
+  word-break: break-word;
 `;
 
 const TitleBlock = styled.h1`
   font-size: 1.4em;
   margin: 0 0 1em;
+  word-break: break-word;
 `;
 
 const SectionIntroPreview = ({

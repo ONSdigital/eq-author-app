@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { withRouter, NavLink } from "react-router-dom";
@@ -17,7 +18,6 @@ import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
 
 import FormattedDate from "./FormattedDate";
-
 import questionConfirmationIcon from "./icon-questionnaire.svg";
 
 export const QuestionnaireLink = styled(NavLink)`
@@ -56,7 +56,7 @@ export const TR = styled.tr`
   height: 3.2em;
   position: relative;
 
-  ${props =>
+  ${(props) =>
     props.linkHasFocus &&
     css`
       box-shadow: 0 0 0 3px ${colors.tertiary};
@@ -102,198 +102,188 @@ const Permission = styled.li`
   :not(:last-of-type) {
     margin-right: 0.5em;
   }
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       background: ${colors.lightGrey};
     `}
 `;
 
-export class Row extends React.Component {
-  static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
-    history: CustomPropTypes.history.isRequired,
-    onDeleteQuestionnaire: PropTypes.func.isRequired,
-    onDuplicateQuestionnaire: PropTypes.func.isRequired,
-    exit: PropTypes.bool,
-    enter: PropTypes.bool,
-    autoFocus: PropTypes.bool,
-    isLastOnPage: PropTypes.bool,
+const propTypes = {
+  questionnaire: CustomPropTypes.questionnaire.isRequired,
+  history: CustomPropTypes.history.isRequired,
+  onDeleteQuestionnaire: PropTypes.func.isRequired,
+  onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  exit: PropTypes.bool,
+  enter: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  isLastOnPage: PropTypes.bool,
+};
+
+export const Row = ({
+  questionnaire,
+  questionnaire: {
+    id,
+    shortTitle,
+    createdBy,
+    title,
+    createdAt,
+    displayName,
+    updatedAt,
+    permission,
+  },
+  history,
+  onDeleteQuestionnaire,
+  onDuplicateQuestionnaire,
+  autoFocus,
+}) => {
+  const [linkHasFocus, setLinkHasFocus] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const rowRef = useRef();
+  const focusLink = () => {
+    rowRef.current.getElementsByTagName("a")[0].focus();
   };
 
-  state = {
-    linkHasFocus: false,
-    disabled: true,
-    showDeleteModal: false,
-    transitionOut: false,
-  };
-
-  rowRef = React.createRef();
-
-  focusLink() {
-    this.rowRef.current.getElementsByTagName("a")[0].focus();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.autoFocus && this.props.autoFocus) {
-      this.focusLink();
+  useEffect(() => {
+    if (autoFocus) {
+      focusLink();
     }
+  }, [autoFocus]);
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
   }
 
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      this.focusLink();
+  const prevAutoFocus = usePrevious(autoFocus);
+  useEffect(() => {
+    if (!prevAutoFocus && autoFocus) {
+      focusLink();
     }
-  }
+  }, [prevAutoFocus]);
 
-  handleClick = () => {
-    this.props.history.push(
+  const handleClick = () => {
+    history.push(
       buildQuestionnairePath({
-        questionnaireId: this.props.questionnaire.id,
+        questionnaireId: questionnaire.id,
       })
     );
   };
 
-  handleFocus = () => {
-    this.setState({
-      linkHasFocus: true,
-    });
+  const handleFocus = () => {
+    setLinkHasFocus(true);
   };
 
-  handleBlur = () => {
-    this.setState({
-      linkHasFocus: false,
-    });
+  const handleBlur = () => {
+    setLinkHasFocus(false);
   };
 
-  handleButtonFocus = e => {
-    this.setState({
-      linkHasFocus: false,
-    });
+  const handleButtonFocus = (e) => {
+    setLinkHasFocus(false);
     e.stopPropagation();
   };
 
-  handleLinkClick = e => {
+  const handleLinkClick = (e) => {
     e.stopPropagation();
   };
 
-  handleDuplicateQuestionnaire = e => {
+  const handleDuplicateQuestionnaire = (e) => {
     e.stopPropagation();
-    this.props.onDuplicateQuestionnaire(this.props.questionnaire);
+    onDuplicateQuestionnaire(questionnaire);
   };
 
-  handleDeleteQuestionnaire = e => {
+  const handleDeleteQuestionnaire = (e) => {
     e.stopPropagation();
-    this.setState({
-      showDeleteModal: true,
-      transitionOut: !this.props.isLastOnPage,
-    });
+    setShowDeleteModal(true);
   };
 
-  handleModalClose = () => {
-    this.setState({ showDeleteModal: false, transitionOut: false });
+  const handleModalClose = () => {
+    setShowDeleteModal(false);
   };
 
-  handleModalConfirm = () => {
-    this.setState({ showDeleteModal: false });
-    this.props.onDeleteQuestionnaire(this.props.questionnaire);
+  const handleModalConfirm = () => {
+    setShowDeleteModal(false);
+    onDeleteQuestionnaire(questionnaire);
   };
 
-  render() {
-    const {
-      questionnaire: {
-        id,
-        shortTitle,
-        createdBy,
-        title,
-        createdAt,
-        displayName,
-        updatedAt,
-        permission,
-      },
-    } = this.props;
+  const hasWritePermisson = permission === WRITE;
 
-    /* eslint-disable no-unused-vars */
-    //doing this as an easy way to extract non-dom props so styled-components will stop complaining https://github.com/styled-components/styled-components/issues/2218
-    const {
-      onDeleteQuestionnaire,
-      onDuplicateQuestionnaire,
-      ...rest
-    } = this.props;
-    /* eslint-enable no-unused-vars */
+  return (
+    <>
+      <TR
+        ref={rowRef}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        linkHasFocus={linkHasFocus}
+        onClick={handleClick}
+        data-test="table-row"
+      >
+        <TD>
+          <QuestionnaireLink
+            data-test="anchor-questionnaire-title"
+            title={displayName}
+            onClick={handleLinkClick}
+            to={buildQuestionnairePath({
+              questionnaireId: id,
+            })}
+          >
+            {shortTitle && (
+              <ShortTitle>
+                <Truncated>{shortTitle}</Truncated>
+              </ShortTitle>
+            )}
+            <Truncated>{title}</Truncated>
+          </QuestionnaireLink>
+        </TD>
+        <TD>
+          <FormattedDate date={createdAt} />
+        </TD>
+        <TD>
+          <FormattedDate date={updatedAt} />
+        </TD>
 
-    const hasWritePermisson = permission === WRITE;
+        <TD>{createdBy.displayName}</TD>
+        <TD>
+          <Permissions>
+            <Permission>View</Permission>
+            <Permission disabled={!hasWritePermisson}>Edit</Permission>
+          </Permissions>
+        </TD>
+        <TD>
+          <div onFocus={handleButtonFocus} data-test="action-btn-group">
+            <ButtonGroup>
+              <DuplicateQuestionnaireButton
+                data-test="btn-duplicate-questionnaire"
+                onClick={handleDuplicateQuestionnaire}
+              />
+              <IconButtonDelete
+                hideText
+                data-test="btn-delete-questionnaire"
+                onClick={handleDeleteQuestionnaire}
+                disabled={!hasWritePermisson}
+              />
+            </ButtonGroup>
+          </div>
+        </TD>
+      </TR>
 
-    return (
-      <>
-        <TR
-          ref={this.rowRef}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          linkHasFocus={this.state.linkHasFocus}
-          onClick={this.handleClick}
-          data-test="table-row"
-        >
-          <TD>
-            <QuestionnaireLink
-              data-test="anchor-questionnaire-title"
-              title={displayName}
-              onClick={this.handleLinkClick}
-              to={buildQuestionnairePath({
-                questionnaireId: id,
-              })}
-            >
-              {shortTitle && (
-                <ShortTitle>
-                  <Truncated>{shortTitle}</Truncated>
-                </ShortTitle>
-              )}
-              <Truncated>{title}</Truncated>
-            </QuestionnaireLink>
-          </TD>
-          <TD>
-            <FormattedDate date={createdAt} />
-          </TD>
-          <TD>
-            <FormattedDate date={updatedAt} />
-          </TD>
+      <DeleteConfirmDialog
+        isOpen={showDeleteModal}
+        onClose={handleModalClose}
+        onDelete={handleModalConfirm}
+        title={displayName}
+        alertText="This questionnaire including all sections and questions will be deleted."
+        icon={questionConfirmationIcon}
+        data-test="delete-questionnaire"
+      />
+    </>
+  );
+};
 
-          <TD>{createdBy.displayName}</TD>
-          <TD>
-            <Permissions>
-              <Permission>View</Permission>
-              <Permission disabled={!hasWritePermisson}>Edit</Permission>
-            </Permissions>
-          </TD>
-          <TD>
-            <div onFocus={this.handleButtonFocus} data-test="action-btn-group">
-              <ButtonGroup>
-                <DuplicateQuestionnaireButton
-                  data-test="btn-duplicate-questionnaire"
-                  onClick={this.handleDuplicateQuestionnaire}
-                />
-                <IconButtonDelete
-                  hideText
-                  data-test="btn-delete-questionnaire"
-                  onClick={this.handleDeleteQuestionnaire}
-                  disabled={!hasWritePermisson}
-                />
-              </ButtonGroup>
-            </div>
-          </TD>
-        </TR>
-        <DeleteConfirmDialog
-          isOpen={this.state.showDeleteModal}
-          onClose={this.handleModalClose}
-          onDelete={this.handleModalConfirm}
-          title={displayName}
-          alertText="This questionnaire including all sections and questions will be deleted."
-          icon={questionConfirmationIcon}
-          data-test="delete-questionnaire"
-        />
-      </>
-    );
-  }
-}
+Row.propTypes = propTypes;
 
 export default withRouter(Row);

@@ -28,7 +28,7 @@ const StyledNavLink = styled.div`
   }
 `;
 
-const getIcon = pageType => {
+const getIcon = (pageType) => {
   if (pageType === "CalculatedSummaryPage") {
     return CalculatedIcon;
   }
@@ -74,16 +74,41 @@ UnwrappedPageNavItem.fragments = {
       validationErrorInfo {
         id
         errors {
-        id
-        type
-        field
-        errorCode
-      }
+          id
+          type
+          field
+          errorCode
+        }
         totalCount
       }
       ... on QuestionPage {
+        alias
         confirmation {
           id
+          qCode
+        }
+        answers {
+          id
+          label
+          secondaryLabel
+          type
+          properties
+          qCode
+          ... on BasicAnswer {
+            secondaryQCode
+          }
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+              label
+              qCode
+            }
+            mutuallyExclusiveOption {
+              id
+              label
+              qCode
+            }
+          }
         }
       }
     }

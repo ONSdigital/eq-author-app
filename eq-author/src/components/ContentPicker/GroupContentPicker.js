@@ -30,7 +30,7 @@ const generateDefaultState = (selectedObj, config) => {
   }
   let openLevel;
   let selectedItem;
-  forEach(selectedObj, value => {
+  forEach(selectedObj, (value) => {
     if (value === null) {
       return;
     }
@@ -76,8 +76,8 @@ export default class GroupContentPicker extends React.Component {
 
   state = generateDefaultState(this.props.selectedObj, this.props.config);
 
-  handleTitleClick = level => {
-    this.setState(state => {
+  handleTitleClick = (level) => {
+    this.setState((state) => {
       let openLevel = level;
       if (state.openLevel === level) {
         openLevel = null;
@@ -122,7 +122,7 @@ export default class GroupContentPicker extends React.Component {
             selected={isOpen}
             selectedOption={(selectedItem || {}).id}
             onTitleClick={() => this.handleTitleClick(level)}
-            onOptionClick={option => this.handleOptionClick(level, option)}
+            onOptionClick={(option) => this.handleOptionClick(level, option)}
             childKey={config[level].childKey}
             data-test={`${id}-picker`}
             disabled={isDisabled}

@@ -6,6 +6,7 @@ const getMetadataQuery = `
       metadata {
         id
         key
+        fallbackKey
         alias
         type
         dateValue
@@ -18,7 +19,7 @@ const getMetadataQuery = `
   }
 `;
 
-const queryMetadata = async ctx => {
+const queryMetadata = async (ctx) => {
   const result = await executeQuery(getMetadataQuery, { input: {} }, ctx);
   return result.data.questionnaire.metadata;
 };

@@ -22,6 +22,59 @@ import SectionRoute, { UnwrappedSectionRoute, SECTION_QUERY } from "./";
 const questionnaireId = "1";
 const sectionId = "2";
 
+const section = {
+  __typename: "Section",
+  id: sectionId,
+  title: "foo",
+  alias: "foo-alias",
+  introductionTitle: "",
+  introductionContent: "",
+  displayName: "foo",
+  position: 0,
+  folders: [
+    {
+      __typename: "Folder",
+      id: "folder-1",
+      alias: "",
+      enabled: false,
+      position: 0,
+      pages: [
+        {
+          __typename: "QuestionPage",
+          id: "3",
+          title: "bar",
+          alias: "bar alias",
+          displayName: "bar",
+          position: 0,
+        },
+        {
+          __typename: "QuestionPage",
+          id: "4",
+          title: "blah",
+          alias: "blah alias",
+          displayName: "blah",
+          position: 1,
+        },
+      ],
+    },
+  ],
+  questionnaire: {
+    __typename: "Questionnaire",
+    id: questionnaireId,
+    navigation: true,
+    questionnaireInfo: {
+      __typename: "QuestionnaireInfo",
+      totalSectionCount: 1,
+    },
+  },
+  validationErrorInfo: {
+    id: "1",
+    totalCount: 0,
+    errors: [],
+    __typename: "ValidationErrorInfo",
+  },
+};
+
 const moveSectionMock = {
   request: {
     query: GET_QUESTIONNAIRE_QUERY,
@@ -56,96 +109,19 @@ const moveSectionMock = {
         },
         editors: [],
         __typename: "Questionnaire",
-        sections: [
-          {
-            __typename: "Section",
-            id: sectionId,
-            title: "foo",
-            alias: "foo-alias",
-            introductionTitle: "",
-            introductionContent: "",
-            displayName: "foo",
-            position: 0,
-            pages: [
-              {
-                __typename: "QuestionPage",
-                id: "3",
-                title: "bar",
-                alias: "bar alias",
-                displayName: "bar",
-                position: 0,
-              },
-              {
-                __typename: "QuestionPage",
-                id: "4",
-                title: "blah",
-                alias: "blah alias",
-                displayName: "blah",
-                position: 1,
-              },
-            ],
-            questionnaire: {
-              __typename: "Questionnaire",
-              id: questionnaireId,
-              navigation: true,
-              questionnaireInfo: {
-                __typename: "QuestionnaireInfo",
-                totalSectionCount: 1,
-              },
-            },
-            validationErrorInfo: {
-              id: "1",
-              totalCount: 0,
-              errors: [],
-              __typename: "ValidationErrorInfo",
-            },
-          },
-          {
-            __typename: "Section",
-            id: "3",
-            title: "foo",
-            alias: "foo-alias",
-            displayName: "foo",
-            introductionTitle: "",
-            introductionContent: "",
-            position: 1,
-            pages: [
-              {
-                __typename: "QuestionPage",
-                id: "5",
-                title: "bar",
-                alias: "bar alias",
-                displayName: "bar",
-                position: 0,
-              },
-              {
-                __typename: "QuestionPage",
-                id: "6",
-                title: "blah",
-                alias: "blah alias",
-                displayName: "blah",
-                position: 1,
-              },
-            ],
-            questionnaire: {
-              __typename: "Questionnaire",
-              id: questionnaireId,
-              navigation: true,
-              questionnaireInfo: {
-                __typename: "QuestionnaireInfo",
-                totalSectionCount: 1,
-              },
-            },
-            validationErrorInfo: {
-              id: "1",
-              totalCount: 0,
-              errors: [],
-              __typename: "ValidationErrorInfo",
-            },
-          },
-        ],
+        sections: [section, section],
       },
     },
+  },
+};
+
+const mockSectionQuery = {
+  request: {
+    query: SECTION_QUERY,
+    variables: { input: { questionnaireId, sectionId } },
+  },
+  result: {
+    data: { section },
   },
 };
 
@@ -207,7 +183,7 @@ describe("SectionRoute", () => {
   });
 
   describe("data fetching", () => {
-    const render = mocks =>
+    const render = (mocks) =>
       mount(
         <MeContext.Provider value={{ me: user }}>
           <Router history={history}>
@@ -222,43 +198,11 @@ describe("SectionRoute", () => {
       );
 
     it("should show loading spinner while request in flight", async () => {
-      const mock = {
-        request: {
-          query: SECTION_QUERY,
-          variables: { input: { questionnaireId, sectionId } },
-        },
-        result: {
-          data: {
-            section: {
-              __typename: "Section",
-              id: sectionId,
-              title: "foo",
-              alias: "foo-alias",
-              displayName: "foo",
-              description: "bar",
-              introductionTitle: "",
-              introductionContent: "",
-              position: 0,
-              questionnaire: {
-                __typename: "Questionnaire",
-                id: questionnaireId,
-                navigation: true,
-                questionnaireInfo: {
-                  __typename: "QuestionnaireInfo",
-                  totalSectionCount: 1,
-                },
-              },
-              validationErrorInfo: {
-                id: "1",
-                totalCount: 0,
-                errors: [],
-                __typename: "ValidationErrorInfo",
-              },
-            },
-          },
-        },
-      };
-      const wrapper = render([mock, moveSectionMock, publishStatusMock]);
+      const wrapper = render([
+        mockSectionQuery,
+        moveSectionMock,
+        publishStatusMock,
+      ]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
       await act(async () => {
@@ -267,47 +211,8 @@ describe("SectionRoute", () => {
     });
 
     it("should render the editor once loaded", async () => {
-      const mock = {
-        request: {
-          query: SECTION_QUERY,
-          variables: { input: { questionnaireId, sectionId } },
-        },
-        result: {
-          data: {
-            section: {
-              __typename: "Section",
-              id: sectionId,
-              title: "foo",
-              alias: "foo-alias",
-              displayName: "foo",
-              description: "bar",
-              introductionTitle: "",
-              introductionContent: "",
-              position: 0,
-              questionnaire: {
-                __typename: "Questionnaire",
-                id: "1",
-                navigation: true,
-                questionnaireInfo: {
-                  __typename: "QuestionnaireInfo",
-                  totalSectionCount: 1,
-                },
-              },
-              validationErrorInfo: {
-                id: "1",
-                totalCount: 0,
-                errors: [],
-                __typename: "ValidationErrorInfo",
-              },
-            },
-          },
-        },
-      };
-
       const wrapper = render([
-        mock,
-        mock,
-        moveSectionMock,
+        mockSectionQuery,
         moveSectionMock,
         publishStatusMock,
       ]);
@@ -324,7 +229,7 @@ describe("SectionRoute", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
-          variables: { input: { questionnaireId: "1", sectionId: "2" } },
+          variables: { input: { questionnaireId, sectionId } },
         },
         error: new Error("something went wrong"),
       };
@@ -344,7 +249,7 @@ describe("SectionRoute", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
-          variables: { input: { questionnaireId: "1", sectionId: "2" } },
+          variables: { input: { questionnaireId, sectionId } },
         },
         result: {
           data: null,
@@ -371,30 +276,6 @@ describe("SectionRoute", () => {
       onMoveSection: jest.fn(),
       onUpdate: jest.fn(),
       onChange: jest.fn(),
-    };
-
-    const section = {
-      id: "1",
-      title: "foo",
-      alias: "foo alias",
-      description: "bar",
-      introduction: null,
-      position: 0,
-      introductionTitle: "",
-      introductionContent: "",
-      questionnaire: {
-        id: "1",
-        navigation: true,
-        questionnaireInfo: {
-          totalSectionCount: 1,
-        },
-      },
-      validationErrorInfo: {
-        id: "1",
-        totalCount: 0,
-        errors: [],
-        __typename: "ValidationErrorInfo",
-      },
     };
 
     const render = (props = {}) =>
@@ -424,15 +305,9 @@ describe("SectionRoute", () => {
         ...mockHandlers,
       });
 
-      wrapper
-        .find(`[data-test="btn-delete"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-delete"]`).first().simulate("click");
 
-      wrapper
-        .find(`[data-test="btn-delete-modal"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-delete-modal"]`).first().simulate("click");
 
       expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
       await act(async () => {
@@ -448,10 +323,7 @@ describe("SectionRoute", () => {
         ...mockHandlers,
       });
 
-      wrapper
-        .find(`[data-test="btn-add-page"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-add-page"]`).first().simulate("click");
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         match.params.sectionId,

@@ -1,0 +1,12 @@
+{
+  "$id": "http://example.com/schemas/questionnaire.json",
+  "type": "object",
+  "properties": {
+    "sections": {
+      "type": "array",
+      "items": {
+        "$ref": "section.json"
+      }
+    }
+  }
+}

@@ -1,28 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Question Routing Route should redirect if the pageType is not valid 1`] = `
-<UnwrappedLogicPage
-  data={
+<LogicPage
+  page={
     Object {
-      "page": Object {
-        "displayName": "Untitled Page",
+      "displayName": "Untitled Page",
+      "id": "1",
+      "pageType": "NoRoutingHere",
+      "routing": null,
+      "section": Object {
         "id": "1",
-        "pageType": "NoRoutingHere",
-        "routing": null,
-        "section": Object {
+        "questionnaire": Object {
           "id": "1",
-          "questionnaire": Object {
-            "id": "1",
-          },
         },
-      },
-    }
-  }
-  loading={false}
-  match={
-    Object {
-      "params": Object {
-        "questionnaireId": "1",
       },
     }
   }
@@ -30,5 +20,5 @@ exports[`Question Routing Route should redirect if the pageType is not valid 1`]
   <Redirect
     to="/q/1/page/1/design"
   />
-</UnwrappedLogicPage>
+</LogicPage>
 `;

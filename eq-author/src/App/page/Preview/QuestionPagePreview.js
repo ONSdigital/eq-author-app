@@ -20,7 +20,6 @@ import Panel from "components/Panel";
 
 const Container = styled.div`
   padding: 2em;
-  max-width: 40em;
   font-size: 1.1em;
   p {
     margin: 0 0 1em;
@@ -43,10 +42,12 @@ const Container = styled.div`
 
 export const Description = styled.div`
   margin-bottom: 1em;
+  word-wrap: break-word;
 `;
 
 const Guidance = styled.div`
   margin-bottom: 2em;
+  word-wrap: break-word;
 `;
 
 const Box = styled.div`
@@ -68,6 +69,7 @@ export const DetailsTitle = styled.div`
   align-items: center;
   color: ${colors.primary};
   margin-bottom: 0.5em;
+  word-wrap: break-word;
 
   &::before {
     width: 32px;
@@ -83,6 +85,7 @@ export const DetailsContent = styled.div`
   border-left: 2px solid #999;
   margin-left: 6px;
   padding: 0.2em 0 0.2em 1em;
+  word-wrap: break-word;
 `;
 
 const QuestionPagePreview = ({ page }) => {
@@ -160,7 +163,7 @@ const QuestionPagePreview = ({ page }) => {
 
           {answers.length ? (
             <Answers>
-              {answers.map(answer => (
+              {answers.map((answer) => (
                 <Answer key={answer.id} answer={answer} />
               ))}
             </Answers>
