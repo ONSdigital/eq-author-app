@@ -17,7 +17,7 @@ describe("SkipConditionEditor", () => {
   beforeEach(() => {
     defaultProps = {
       pageId: "1",
-      expressionGroup: { id: "expGrpId", expressions: [] },
+      expressionGroup: { id: "expGrpId", operator: "AND", expressions: [] },
       expressionGroupIndex: 0,
       deleteSkipCondition: jest.fn(),
       deleteSkipConditions: jest.fn(),

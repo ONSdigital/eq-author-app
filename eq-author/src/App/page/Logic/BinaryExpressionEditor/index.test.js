@@ -38,10 +38,14 @@ describe("BinaryExpressionEditor", () => {
     };
 
     expressionGroup = {
-      expressions: [expression]
+      expressions: [expression],
     };
 
-    expression.expressionGroup = expressionGroup;
+    expression.expressionGroup = {
+      id: "1",
+      validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+      __typename: "ExpressionGroup2",
+    };
 
     defaultProps = {
       deleteBinaryExpression: jest.fn(),
@@ -53,6 +57,7 @@ describe("BinaryExpressionEditor", () => {
       isLastExpression: false,
       expressionGroup,
       expression,
+      expressionIndex: 0,
       canAddCondition: true,
       match: {
         params: {
@@ -70,9 +75,7 @@ describe("BinaryExpressionEditor", () => {
   });
 
   it("should disable the delete expression button when there's only one expression", () => {
-    const wrapper = shallow(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     expect(
       wrapper.find(byTestAttr("btn-remove")).prop("disabled")
     ).toBeTruthy();
@@ -105,7 +108,7 @@ describe("BinaryExpressionEditor", () => {
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression.id,
-      expect.any(Function),
+      expect.any(Function)
     );
   });
 
@@ -191,10 +194,7 @@ describe("BinaryExpressionEditor", () => {
     defaultProps.expressionGroup.operator = OR;
 
     render(
-      <BinaryExpressionEditor
-        {...defaultProps}
-        canAddCondition={false}
-      />
+      <BinaryExpressionEditor {...defaultProps} canAddCondition={false} />
     );
 
     await act(async () => {
@@ -276,6 +276,7 @@ describe("BinaryExpressionEditor", () => {
 
   it("should pass on shared expressionGroup messages when group errors are present", async () => {
     defaultProps.expression.expressionGroup = {
+      id: "1",
       validationErrorInfo: {
         id: "err-1",
         totalCount: 1,
@@ -301,13 +302,15 @@ describe("BinaryExpressionEditor", () => {
 
   it("shouldn't pass on shared expressionGroup messages when group errors are present for a different answerId", async () => {
     defaultProps.expression.expressionGroup = {
+      id: "1",
       validationErrorInfo: {
+        id: "1",
         totalCount: 1,
         errors: [
           {
             errorCode: "ERR_LOGICAL_AND",
             field: "different_answer_id",
-            id: "exp_1",
+            id: "1",
             type: "expressions",
           },
         ],

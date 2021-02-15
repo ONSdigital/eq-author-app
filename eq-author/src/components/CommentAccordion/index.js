@@ -65,6 +65,13 @@ export const Button = styled.button`
   }
 `;
 
+const ReplyInProgress = styled.label`
+  padding: 0 0.25em;
+  color: ${colors.grey};
+`;
+
+export const replyInProgress = "Reply in progress";
+
 const CommentAccordion = ({
   children,
   title,
@@ -86,7 +93,9 @@ const CommentAccordion = ({
             title > 1 ? " replies" : " reply"
           } `}
         </Button>
-        {inProgress}
+        {inProgress && !isOpen && (
+          <ReplyInProgress>{replyInProgress}</ReplyInProgress>
+        )}
       </Title>
     </Header>
     <Body

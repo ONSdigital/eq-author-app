@@ -71,7 +71,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "2",
                       type: CURRENCY,
                       questionPageId: "qp-1",
-
                       secondaryLabel: null,
                     },
                     {
@@ -83,7 +82,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "3",
                       type: UNIT,
                       questionPageId: "qp-1",
-
                       secondaryLabel: null,
                     },
                     {
@@ -95,7 +93,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "4",
                       type: PERCENTAGE,
                       questionPageId: "qp-1",
-
                       secondaryLabel: null,
                     },
                     {
@@ -107,7 +104,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "5",
                       type: DURATION,
                       questionPageId: "qp-1",
-
                       secondaryLabel: null,
                     },
                     {
@@ -119,7 +115,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "5",
                       type: NUMBER,
                       questionPageId: "qp-1",
-
                       secondaryLabel: null,
                     },
                     {
@@ -172,7 +167,6 @@ describe("Qcode Table", () => {
                       secondaryQCode: "6",
                       type: DATE,
                       questionPageId: "qp-2",
-
                       secondaryLabel: null,
                     },
                   ],
@@ -362,6 +356,12 @@ describe("Qcode Table", () => {
                 id: "ans-p1-1",
                 qCode: "187",
                 secondaryQCode: "",
+                validationErrorInfo: {
+                  id: "1",
+                  errors: [],
+                  totalCount: 0,
+                  __typename: "ValidationError",
+                },
                 __typename: "BasicAnswer",
               },
             },
@@ -386,6 +386,12 @@ describe("Qcode Table", () => {
                 id: "ans-p3-1",
                 qCode: "",
                 secondaryQCode: "187",
+                validationErrorInfo: {
+                  id: "1",
+                  errors: [],
+                  totalCount: 0,
+                  __typename: "ValidationError",
+                },
                 __typename: "BasicAnswer",
               },
             },
@@ -409,6 +415,12 @@ describe("Qcode Table", () => {
               updateOption: {
                 id: "option-cb-1",
                 qCode: "187",
+                validationErrorInfo: {
+                  id: "1",
+                  errors: [],
+                  totalCount: 0,
+                  __typename: "ValidationError",
+                },
                 __typename: "BasicAnswer",
               },
             },
@@ -432,6 +444,12 @@ describe("Qcode Table", () => {
               updateOption: {
                 id: "option-cb-2",
                 qCode: "187",
+                validationErrorInfo: {
+                  id: "1",
+                  errors: [],
+                  totalCount: 0,
+                  __typename: "ValidationError",
+                },
                 __typename: "BasicAnswer",
               },
             },
@@ -455,6 +473,12 @@ describe("Qcode Table", () => {
               updateQuestionConfirmation: {
                 id: "conf-q-1",
                 qCode: "187",
+                validationErrorInfo: {
+                  id: "1",
+                  errors: [],
+                  totalCount: 0,
+                  __typename: "ValidationError",
+                },
                 __typename: "BasicAnswer",
               },
             },

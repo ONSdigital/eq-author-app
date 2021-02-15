@@ -1,13 +1,13 @@
 import React from "react";
-import { render, flushPromises } from "tests/utils/rtl";
+import { render, flushPromises, act } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
-import { act } from "react-dom/test-utils";
-//import { SynchronousPromise } from "synchronous-promise";
 
 describe("MainNavigation", () => {
-  let props, user, mocks, questionnaire;
+  let props, user, mocks, questionnaire, signOut, onSubmit;
   beforeEach(() => {
+    signOut = jest.fn();
+    onSubmit = jest.fn();
     user = {
       id: "123",
       displayName: "Batman",
@@ -30,6 +30,8 @@ describe("MainNavigation", () => {
       questionnaire,
       match: { params: { modifier: "", questionnaireId: questionnaire.id } },
       loading: false,
+      signOut,
+      onSubmit,
     };
     mocks = [
       {
@@ -54,7 +56,7 @@ describe("MainNavigation", () => {
 
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <UnwrappedMainNavigation {...props} />
       </MeContext.Provider>,
       {
@@ -72,7 +74,6 @@ describe("MainNavigation", () => {
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
-    // const publishBtn = getByTestId("btn-publish");
 
     expect(viewSurveyBtn).not.toBeDisabled();
     expect(settingsBtn).not.toBeDisabled();
@@ -80,14 +81,13 @@ describe("MainNavigation", () => {
     expect(historyBtn).not.toBeDisabled();
     expect(metadataBtn).not.toBeDisabled();
     expect(qcodesBtn).not.toBeDisabled();
-    // expect(publishBtn).not.toBeDisabled();
   });
 
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
     props.questionnaire.totalErrorCount = 1;
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <UnwrappedMainNavigation {...props} />
       </MeContext.Provider>,
       {
@@ -109,7 +109,6 @@ describe("MainNavigation", () => {
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
-    // const publishBtn = getByTestId("btn-publish");
 
     expect(viewSurveyBtn.hasAttribute("disabled")).toBeTruthy();
     expect(settingsBtn.hasAttribute("disabled")).toBeFalsy();
@@ -117,6 +116,5 @@ describe("MainNavigation", () => {
     expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
     expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
     expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
-    // expect(publishBtn.hasAttribute("disabled")).toBeTruthy();
   });
 });

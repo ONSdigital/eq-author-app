@@ -83,7 +83,7 @@ describe("MovePageModal: questionnaire not loaded", () => {
       <MovePageModal
         isOpen
         onClose={jest.fn()}
-        sectionId={null}
+        sectionId="1"
         page={null}
         onMovePage={jest.fn()}
       />

@@ -5,8 +5,6 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from "react-router-dom";
 
-import CustomPropTypes from "custom-prop-types";
-
 import ContentPickerSelect from "components/ContentPickerSelect";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 import shapeTree from "components/ContentPicker/shapeTree";
@@ -67,7 +65,12 @@ const RoutingAnswerContentPicker = props => (
 );
 
 RoutingAnswerContentPicker.propTypes = {
-  match: CustomPropTypes.match.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      confirmationId: PropTypes.string,
+      pageId: PropTypes.string,
+    }),
+  }),
   includeSelf: PropTypes.bool,
 };
 

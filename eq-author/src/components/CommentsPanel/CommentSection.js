@@ -65,17 +65,6 @@ const CommentSection = props => {
   const canEditReply = activeReplyId === item.id;
   const hasReplies = displayReplies.length > 0;
 
-  const ReplyInProgress = styled.label`
-    padding: 0 0.25em;
-    color: ${colors.grey};
-  `;
-
-  const inProgress = (canEditReply, accordionOpen) => {
-    if (canEditReply && !accordionOpen) {
-      return <ReplyInProgress>Reply in progress</ReplyInProgress>;
-    }
-  };
-
   return (
     <CommentAddSection data-test="comment-add-section">
       <CommentHeader
@@ -151,7 +140,7 @@ const CommentSection = props => {
           title={`${displayReplies.length}`}
           isOpen={accordionOpen}
           setIsOpen={setAccordionOpen}
-          inProgress={inProgress(canEditReply, accordionOpen)}
+          inProgress={canEditReply}
         >
           {canEditReply && replies.length > 0 && (
             <EditReply

@@ -28,7 +28,11 @@ describe("AnswerSelector", () => {
       position: 2,
       displayName: "Foo",
       totalTitle: "",
-      section: { id: "1", displayName: "This Section" },
+      section: {
+        id: "1",
+        displayName: "This Section",
+        questionnaire: { id: "1", metadata: [] },
+      },
       summaryAnswers: [],
       availableSummaryAnswers: [],
     };

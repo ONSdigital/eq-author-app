@@ -5,6 +5,8 @@ import "moment/locale/en-gb";
 
 import CommentSection from "./CommentSection";
 
+import { replyInProgress } from "components/CommentAccordion";
+
 const props = {
   myId: "",
   index: 0,
@@ -136,7 +138,7 @@ describe("CommentSection", () => {
       activeReplyId: "commentId",
     });
 
-    expect(getByText(`Reply in progress`)).toBeVisible();
+    expect(getByText(replyInProgress)).toBeVisible();
   });
 
   it("should show reply edit", () => {
