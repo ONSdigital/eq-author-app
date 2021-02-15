@@ -6,7 +6,12 @@
       "if": {
         "properties": {
           "type": {
-            "not": { "enum": ["Checkbox", "Radio"] }
+            "not": {
+              "enum": [
+                "Checkbox",
+                "Radio"
+              ]
+            }
           }
         }
       },
@@ -18,7 +23,12 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Number", "Percentage", "Currency", "Unit"]
+            "enum": [
+              "Number",
+              "Percentage",
+              "Currency",
+              "Unit"
+            ]
           }
         }
       },
@@ -29,7 +39,9 @@
     {
       "if": {
         "properties": {
-          "type": { "const": "Checkbox" }
+          "type": {
+            "const": "Checkbox"
+          }
         }
       },
       "then": {
@@ -39,7 +51,9 @@
     {
       "if": {
         "properties": {
-          "type": { "const": "Radio" }
+          "type": {
+            "const": "Radio"
+          }
         }
       },
       "then": {
@@ -49,7 +63,9 @@
     {
       "if": {
         "properties": {
-          "type": { "const": "Date" }
+          "type": {
+            "const": "Date"
+          }
         }
       },
       "then": {
@@ -59,7 +75,9 @@
     {
       "if": {
         "properties": {
-          "type": { "const": "DateRange" }
+          "type": {
+            "const": "DateRange"
+          }
         }
       },
       "then": {
@@ -70,9 +88,6 @@
   "definitions": {
     "basicAnswer": {
       "properties": {
-        "qCode": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
         "label": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
@@ -97,11 +112,6 @@
           "type": "array",
           "items": {
             "type": "object",
-            "properties": {
-              "qCode": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            },
             "allOf": [
               {
                 "$ref": "option.json"
@@ -109,26 +119,19 @@
               {
                 "uniquePropertyValueInArrayOfObjects": "label"
               }
-            ],
-            "required": ["qCode"],
-            "errorMessage": {
-              "required": {
-                "qCode": "ERR_QCODE_REQUIRED"
-              }
-            }
+            ]
           }
         },
         "mutuallyExclusiveOption": {
           "$ref": "option.json"
         }
       },
-      "required": ["options"]
+      "required": [
+        "options"
+      ]
     },
     "radioAnswer": {
       "properties": {
-        "qCode": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
         "options": {
           "type": "array",
           "items": {
@@ -146,12 +149,9 @@
           "$ref": "option.json"
         }
       },
-      "required": ["options", "qCode"],
-      "errorMessage": {
-        "required": {
-          "qCode": "ERR_QCODE_REQUIRED"
-        }
-      }
+      "required": [
+        "options"
+      ]
     },
     "dateAnswer": {
       "properties": {
@@ -162,24 +162,11 @@
     },
     "dateRangeAnswer": {
       "properties": {
-        "secondaryQCode": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        },
         "secondaryLabel": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
         "validation": {
           "$ref": "validation.json#/definitions/dateRangeValidations"
-        }
-      },
-      "required": [
-        "qCode",
-        "secondaryQCode"
-      ],
-      "errorMessage": {
-        "required": {
-          "qCode": "ERR_QCODE_REQUIRED",
-          "secondaryQCode": "ERR_SECONDARY_QCODE_REQUIRED"
         }
       }
     },
