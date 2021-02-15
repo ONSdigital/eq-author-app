@@ -49,8 +49,9 @@ describe("Routes/SkipLogic", () => {
 
   it("should show error message if page not found", async () => {
     renderWithMocks(defaultMatch);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(screen.getByText("Something went wrong")).toBeTruthy();
+    await waitFor(() =>
+      expect(screen.getByText("Something went wrong")).toBeTruthy()
+    );
   });
 
   it("should show SkipLogicPage for page if retrieved successfully", async () => {
@@ -78,7 +79,8 @@ describe("Routes/SkipLogic", () => {
         totalCount: 0,
       },
     });
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(screen.getByText("Mock skip logic page")).toBeTruthy();
+    await waitFor(() =>
+      expect(screen.getByText("Mock skip logic page")).toBeTruthy()
+    );
   });
 });
