@@ -1,10 +1,20 @@
 import React from "react";
-import { render, flushPromises, act } from "tests/utils/rtl";
+import { render, flushPromises } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
+import { act } from "react-dom/test-utils";
+import { QCodeContext } from "components/QCodeContext";
 
 describe("MainNavigation", () => {
-  let props, user, mocks, questionnaire, signOut, onSubmit;
+  let props,
+    user,
+    mocks,
+    questionnaire,
+    flattenedAnswers,
+    duplicateQCode,
+    signOut,
+    onSubmit;
+
   beforeEach(() => {
     signOut = jest.fn();
     onSubmit = jest.fn();
@@ -52,12 +62,86 @@ describe("MainNavigation", () => {
         },
       },
     ];
+    flattenedAnswers = [
+      {
+        title: "<p>Questions 1</p>",
+        alias: undefined,
+        id: "ans-p1-1",
+        description: "",
+        guidance: "",
+        label: "num1",
+        qCode: "123",
+        secondaryQCode: "1",
+        type: "Number",
+        questionPageId: "qp-1",
+        secondaryLabel: null,
+      },
+      {
+        title: "<p>Questions 1</p>",
+        alias: undefined,
+        nested: true,
+        id: "ans-p1-2",
+        description: "",
+        guidance: "",
+        label: "curr1",
+        qCode: "123",
+        secondaryQCode: "2",
+        type: "Currency",
+        questionPageId: "qp-1",
+        secondaryLabel: null,
+      },
+      {
+        title: "<p>Questions 1</p>",
+        alias: undefined,
+        nested: true,
+        id: "ans-p1-3",
+        description: "",
+        guidance: "",
+        label: "Un1",
+        qCode: "1",
+        secondaryQCode: "3",
+        type: "Unit",
+        questionPageId: "qp-1",
+        secondaryLabel: null,
+      },
+      {
+        title: "<p>Questions 1</p>",
+        alias: undefined,
+        nested: true,
+        id: "ans-p1-4",
+        description: "",
+        guidance: "",
+        label: "Per1",
+        qCode: "www",
+        secondaryQCode: "4",
+        type: "Percentage",
+        questionPageId: "qp-1",
+        secondaryLabel: null,
+      },
+      {
+        title: "<p>Questions 1</p>",
+        alias: undefined,
+        nested: true,
+        id: "ans-p1-5",
+        description: "",
+        guidance: "",
+        label: "Dur1",
+        qCode: "qCode3",
+        secondaryQCode: "5",
+        type: "Duration",
+        questionPageId: "qp-1",
+        secondaryLabel: null,
+      },
+    ];
+    duplicateQCode = false;
   });
 
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user, signOut }}>
-        <UnwrappedMainNavigation {...props} />
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
       </MeContext.Provider>,
       {
         mocks,
@@ -88,7 +172,9 @@ describe("MainNavigation", () => {
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user, signOut }}>
-        <UnwrappedMainNavigation {...props} />
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
       </MeContext.Provider>,
       {
         mocks,
@@ -116,5 +202,47 @@ describe("MainNavigation", () => {
     expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
     expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
     expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
+  });
+
+  it("should provide the validation error dot for the QCodes tab if there is an empty qCode", async () => {
+    flattenedAnswers[0].qCode = "";
+
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
+
+    await act(async () => {
+      flushPromises();
+    });
+
+    expect(getByTestId("small-badge")).toBeTruthy();
+  });
+
+  it("should provide the validation error dot for the QCodes tab if there are duplicate qCodes", async () => {
+    duplicateQCode = true;
+
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
+
+    await act(async () => {
+      flushPromises();
+    });
+
+    expect(getByTestId("small-badge")).toBeTruthy();
   });
 });

@@ -5,10 +5,29 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     ...Answer
     ... on BasicAnswer {
+      secondaryQCode
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
+    ... on MultipleChoiceAnswer {
+                 options {
+                    id
+                    label
+                    qCode
+                    validationErrorInfo {
+                      ...ValidationErrorInfo
+                    }
+                  }
+                  mutuallyExclusiveOption {
+                    id
+                    label
+                    qCode
+                  }
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+              }
     page {
       id
       validationErrorInfo {
