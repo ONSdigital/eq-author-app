@@ -26,7 +26,6 @@ const PreviousAnswerEditor = ({ total, onChangeUpdate, errors }) => {
       <PreviousAnswerContentPicker
         onSubmit={onChangeUpdate}
         selectedContentDisplayName={get(total.previousAnswer, "displayName")}
-        path="availablePreviousAnswers"
         data-test="content-picker-select"
         hasError={Boolean(error)}
       />

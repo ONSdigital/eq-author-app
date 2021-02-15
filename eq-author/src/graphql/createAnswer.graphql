@@ -7,7 +7,6 @@
 #import "./fragments/min-duration-validation-rule.graphql"
 #import "./fragments/max-duration-validation-rule.graphql"
 #import "./fragments/total-validation-rule.graphql"
-#import "./fragments/available-answers.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
@@ -76,9 +75,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
       id
       totalValidation {
         ...TotalValidationRule
-        availablePreviousAnswers {
-          ...AvailableAnswers
-        }
       }
       answers {
         id
