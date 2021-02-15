@@ -71,15 +71,9 @@ const TABS = [
     key: "logic",
     children: "Logic",
     url: match => buildLogicPath(match.params),
-    isActive: (match, location) => {
-      if (
-        location.pathname.includes("routing") ||
-        location.pathname.includes("skip")
-      ) {
-        return true;
-      }
-      return false;
-    },
+    isActive: (match, location) =>
+      location.pathname.includes("routing") ||
+      location.pathname.includes("skip"),
   },
 ];
 

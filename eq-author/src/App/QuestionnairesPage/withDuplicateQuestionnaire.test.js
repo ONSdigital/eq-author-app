@@ -42,9 +42,14 @@ describe("withDuplicateQuestionnaire", () => {
           sections: [
             {
               id: "2",
-              pages: [
+              folders: [
                 {
-                  id: "3",
+                  id: "folder-1",
+                  pages: [
+                    {
+                      id: "3",
+                    },
+                  ],
                 },
               ],
             },

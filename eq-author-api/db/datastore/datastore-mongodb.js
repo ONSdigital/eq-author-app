@@ -16,7 +16,7 @@ const createIndexes = async () => {
   logger.info(`Questionnaire Index created: ${result}`);
 
   collection = dbo.collection("versions");
-  result = await collection.createIndex({ id: 1, createdAt: -1 });
+  result = await collection.createIndex({ id: 1, updatedAt: -1 });
   logger.info(`versions Index created: ${result}`);
 
   collection = dbo.collection("comments");
@@ -105,7 +105,7 @@ const getQuestionnaire = async id => {
     const collection = dbo.collection("versions");
     const questionnaire = await collection.findOne(
       { id: id },
-      { sort: { createdAt: -1 } }
+      { sort: { updatedAt: -1 } }
     );
 
     if (!questionnaire) {
@@ -161,8 +161,7 @@ const saveQuestionnaire = async changedQuestionnaire => {
       );
     }
 
-    const createdAt = new Date();
-    const updatedAt = createdAt;
+    const updatedAt = new Date();
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
@@ -182,7 +181,6 @@ const saveQuestionnaire = async changedQuestionnaire => {
     await collection.insertOne({
       ...updatedQuestionnaire,
       updatedAt,
-      createdAt,
     });
 
     return { ...updatedQuestionnaire, updatedAt };
@@ -435,6 +433,9 @@ const getCommentsForQuestionnaire = async questionnaireId => {
     const comments = await collection.findOne({
       questionnaireId: questionnaireId,
     });
+    if (!comments) {
+      return createComments(questionnaireId);
+    }
     return comments;
   } catch (error) {
     logger.error(

@@ -12,6 +12,7 @@ describe("Introduction", () => {
       secondaryTitle: `<p>Information you need ${piping}</p>`,
       secondaryDescription:
         "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",
+
       collapsibles: [
         {
           id: "d45bf1dd-f286-40ca-b6a2-fe0014574c36",
@@ -45,6 +46,32 @@ describe("Introduction", () => {
     expect(introduction.primary_content).toMatchObject([
       {
         content: [
+          {
+            list: [
+              "Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. ",
+              "You can provide info estimates if actual figures aren&#x2019;t available.",
+              "We will treat your data securely and confidentially.",
+              "{{ metadata['some_metadata'] }}",
+            ],
+          },
+        ],
+        id: "primary",
+        type: "Basic",
+      },
+    ]);
+  });
+
+  it("should define the additional_content", () => {
+    apiData.additionalGuidancePanelSwitch = true;
+    apiData.additionalGuidancePanel = "Big string full of content";
+    const introduction = new Introduction(apiData, context);
+    expect(introduction.primary_content).toMatchObject([
+      {
+        content: [
+          {
+            description:
+              "<div class='panel panel--simple panel--info'><div class='panel__body'>Big string full of content</div></div>",
+          },
           {
             list: [
               "Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. ",

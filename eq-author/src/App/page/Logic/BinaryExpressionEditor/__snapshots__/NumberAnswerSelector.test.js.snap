@@ -18,6 +18,11 @@ exports[`NumberAnswerSelector should render 1`] = `
       onChange={[Function]}
     >
       <option
+        value={null}
+      >
+        Select an operator
+      </option>
+      <option
         value="Equal"
       >
         (=) Equal to
@@ -100,6 +105,11 @@ exports[`NumberAnswerSelector should render a currency 1`] = `
       onChange={[Function]}
     >
       <option
+        value={null}
+      >
+        Select an operator
+      </option>
+      <option
         value="Equal"
       >
         (=) Equal to
@@ -181,6 +191,11 @@ exports[`NumberAnswerSelector should render a percentage 1`] = `
       name="condition-select"
       onChange={[Function]}
     >
+      <option
+        value={null}
+      >
+        Select an operator
+      </option>
       <option
         value="Equal"
       >

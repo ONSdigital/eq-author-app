@@ -64,7 +64,7 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
           "Variables",
         ]
       }
-      autoFocus={false}
+      autoFocus={true}
       controls={
         Object {
           "emphasis": true,
@@ -217,7 +217,7 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
           "Variables",
         ]
       }
-      autoFocus={false}
+      autoFocus={true}
       controls={
         Object {
           "emphasis": true,
@@ -370,7 +370,7 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
           "Variables",
         ]
       }
-      autoFocus={false}
+      autoFocus={true}
       controls={
         Object {
           "emphasis": true,
@@ -516,7 +516,7 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
           "Variables",
         ]
       }
-      autoFocus={false}
+      autoFocus={true}
       controls={
         Object {
           "emphasis": true,

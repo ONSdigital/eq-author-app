@@ -1,0 +1,51 @@
+const executeQuery = require("../../executeQuery");
+const { filter } = require("graphql-anywhere");
+const gql = require("graphql-tag");
+
+const createFolderMutation = `
+  mutation CreateFolder($input: CreateFolderInput!) {
+    createFolder(input: $input) {
+        id
+        alias
+        enabled
+        pages {
+            id
+        }
+        position
+        section {
+         id
+        }
+    }
+  }
+`;
+
+const createFolder = async (ctx, input) => {
+  const result = await executeQuery(
+    createFolderMutation,
+    {
+      input: filter(
+        gql`
+          {
+            sectionId
+            alias
+            enabled
+            position
+          }
+        `,
+        input
+      ),
+    },
+    ctx
+  );
+
+  if (result.errors) {
+    throw new Error(result.errors[0].message);
+  }
+
+  return result.data.createFolder;
+};
+
+module.exports = {
+  createFolderMutation,
+  createFolder,
+};

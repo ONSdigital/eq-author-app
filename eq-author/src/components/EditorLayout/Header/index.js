@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, get } from "lodash";
@@ -12,7 +12,6 @@ import { withQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
 import PageTitle from "./PageTitle";
-import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
 
 const StyledHeader = styled.header`
@@ -31,6 +30,9 @@ const Flex = styled.div`
 
 const Subtitle = styled.div`
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const UtilityBtns = styled.div`
@@ -48,9 +50,6 @@ const SavingContainer = styled.div`
 
 export const UnconnectedHeader = props => {
   const { questionnaire, title, children, match } = props;
-  const [isSettingsModalOpen, setSettingsModalOpen] = useState(
-    match.params.modifier === "settings"
-  );
 
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
@@ -70,15 +69,6 @@ export const UnconnectedHeader = props => {
           <SavingIndicator isUnauthorized={permission !== "Write"} />
         </SavingContainer>
       </StyledHeader>
-      {questionnaire && (
-        <>
-          <UpdateQuestionnaireSettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setSettingsModalOpen(false)}
-            questionnaire={questionnaire}
-          />
-        </>
-      )}
     </>
   );
 };

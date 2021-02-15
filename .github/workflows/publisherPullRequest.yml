@@ -1,6 +1,6 @@
 name: Publisher Pull Request
 
-on: [pull_request]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   Tests:
@@ -35,7 +35,7 @@ jobs:
           flags: Publisher
           name: Publisher
           fail_ci_if_error: true
-        
+
   Build:
     if: contains( github.event.pull_request.labels.*.name, 'dependencies') != true
 
@@ -58,8 +58,8 @@ jobs:
       - name: Build new docker image
         run: pushd eq-publisher; docker build -t onsdigital/eq-publisher:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
         env:
-          TAG: ${{github.HEAD_REF}}
+          TAG: ${{ github.event.pull_request.head.sha }}
       - name: Push new docker image
         run: pushd eq-publisher; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-publisher:$TAG; popd
         env:
-          TAG: ${{github.HEAD_REF}}
+          TAG: ${{ github.event.pull_request.head.sha }}

@@ -68,7 +68,7 @@ export class UnwrappedPageRoute extends React.Component {
   handleAddPage = () => {
     const { page } = this.props;
 
-    this.props.onAddQuestionPage(page.section.id, page.position + 1);
+    this.props.onAddQuestionPage(page.section.id, page.folder.position + 1);
   };
 
   renderContent = () => {
@@ -90,7 +90,9 @@ export class UnwrappedPageRoute extends React.Component {
     return (
       <EditorLayout
         onAddQuestionPage={this.handleAddPage}
-        renderPanel={() => <PropertiesPanel page={page} />}
+        renderPanel={() =>
+          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
+        }
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
         validationErrorInfo={page && page.validationErrorInfo}
@@ -112,6 +114,10 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
+      folder {
+        id
+        position
+      }
     }
   }
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}

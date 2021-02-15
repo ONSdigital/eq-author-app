@@ -1,27 +1,32 @@
 #import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
 
 mutation CreateSection($input: CreateSectionInput!) {
   createSection(input: $input) {
     ...Section
     position
     displayName
-    pages {
-      id
-      title
-      position
-      ... on QuestionPage {
-        displayName
-        guidance
-        pageType
-        answers {
-          id
-        }
-        confirmation {
-          id
-        }
-        validationErrorInfo {
-          ...ValidationErrorInfo
+    folders {
+      ...Folder
+      pages {
+        id
+        title
+        position
+        ... on QuestionPage {
+          displayName
+          guidance
+          pageType
+          alias
+          answers {
+            id
+          }
+          confirmation {
+            id
+          }
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
         }
       }
     }

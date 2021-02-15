@@ -11,14 +11,40 @@ const getSections = ctx => ctx.questionnaire.sections;
 
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
-const getSectionByPageId = (ctx, pageId) =>
+const getSectionByFolderId = (ctx, folderId) =>
   find(getSections(ctx), section => {
-    if (section.pages && some(section.pages, { id: pageId })) {
+    if (section.folders && some(section.folders, { id: folderId })) {
       return section;
     }
   });
 
-const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
+const getSectionByPageId = (ctx, pageId) =>
+  find(getSections(ctx), section =>
+    some(section.folders, folder => {
+      if (folder.pages && some(folder.pages, { id: pageId })) {
+        return section;
+      }
+    })
+  );
+
+const getFolders = ctx => flatMap(getSections(ctx), ({ folders }) => folders);
+
+const getFoldersBySectionId = (ctx, id) => getSectionById(ctx, id).folders;
+
+const getFolderById = (ctx, id) => find(getFolders(ctx), { id });
+
+const getFolderByPageId = (ctx, id) =>
+  find(getFolders(ctx), ({ pages }) => pages && some(pages, { id }));
+
+const getPages = ctx => flatMap(getFolders(ctx), ({ pages }) => pages);
+
+const getPagesBySectionId = (ctx, id) =>
+  flatMap(getSectionById(ctx, id).folders, ({ pages }) => pages);
+
+const getPagesByFolderId = (ctx, id) => getFolderById(ctx, id).pages;
+
+const getPagesFromSection = section =>
+  flatMap(section.folders, ({ pages }) => pages);
 
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
 
@@ -46,6 +72,10 @@ const getConfirmations = ctx =>
 
 const getConfirmationById = (ctx, id) => find(getConfirmations(ctx), { id });
 
+const getSkippableById = (ctx, id) =>
+  getConfirmationById(ctx, id) || getPageById(ctx, id);
+const getSkippables = ctx => [...getConfirmations(ctx), ...getPages(ctx)];
+
 const getAnswers = ctx => compact(flatMap(getPages(ctx), page => page.answers));
 
 const getAnswerById = (ctx, id) => find(getAnswers(ctx), { id });
@@ -64,7 +94,7 @@ const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
 const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
 
 const getSkipConditions = ctx =>
-  flatMap(filter(getPages(ctx), "skipConditions"), "skipConditions");
+  flatMap(filter(getSkippables(ctx), "skipConditions"), "skipConditions");
 
 const getSkipConditionById = (ctx, id) => {
   const skipConditions = getSkipConditions(ctx);
@@ -131,6 +161,7 @@ const getAnswerByValidationId = (ctx, validationId) =>
       validation => validation.id === validationId
     )
   );
+
 const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
   const answer = getAnswerByValidationId(ctx, validationId);
   const currentPage = getPageByAnswerId(ctx, answer.id);
@@ -178,14 +209,183 @@ const remapAllNestedIds = entity => {
   });
 };
 
+// Transforms questionnaire into a hash map, mapping IDs to absolute positions
+// Thereafter allows O(1) lookup to check if IDs exist & get their positions
+const generateOrderedIdMap = ({ questionnaire }) => {
+  const map = new Map();
+
+  const traverseIds = obj => {
+    if (typeof obj !== "object") {
+      return;
+    }
+
+    Object.keys(obj).forEach(key => {
+      if (obj[key]) {
+        if (key === "id" && typeof obj[key] === "string") {
+          map.set(obj[key], map.size);
+        }
+
+        if (typeof obj[key] === "object") {
+          traverseIds(obj[key]);
+        }
+      }
+    });
+  };
+
+  traverseIds(questionnaire);
+  return map;
+};
+
+// Memoized interface to generateOrderedIdMap
+// Only re-compute ordered ID hash map when necessary (different questionnaire / questionnaire has changed)
+const getOrderedIdMap = ctx => {
+  if (getOrderedIdMap.lastInvokation) {
+    const {
+      questionnaireId,
+      updatedAt,
+      result,
+    } = getOrderedIdMap.lastInvokation;
+    if (
+      ctx.questionnaire.id === questionnaireId &&
+      ctx.questionnaire.updatedAt === updatedAt
+    ) {
+      return result;
+    }
+  }
+
+  getOrderedIdMap.lastInvokation = {
+    questionnaireId: ctx.questionnaire.id,
+    updatedAt: ctx.questionnaire.updatedAt,
+    result: generateOrderedIdMap(ctx),
+  };
+
+  return getOrderedIdMap.lastInvokation.result;
+};
+
+// Efficiently check if questionnaire contains entity with given id
+const idExists = (ctx, id) => getOrderedIdMap(ctx).get(id) !== undefined;
+
+// Efficiently get absolute position in questionnaire for entity with given id
+// Later pages, answers etc. have higher values than earlier pages, answers, etc.
+const getAbsolutePositionById = (ctx, id) => getOrderedIdMap(ctx).get(id);
+
+const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
+
+const returnValidationErrors = (ctx, id, ...conditions) => {
+  const errors = conditions.reduce((acc, condition) => {
+    acc.push(...getValidationErrorInfo(ctx).filter(condition));
+    return acc;
+  }, []);
+
+  if (!errors.length) {
+    return {
+      id,
+      errors: [],
+      totalCount: 0,
+    };
+  }
+
+  return {
+    id,
+    errors,
+    totalCount: errors.length,
+  };
+};
+
+const createQuestionPage = (input = {}) => ({
+  id: uuidv4(),
+  pageType: "QuestionPage",
+  title: "",
+  description: "",
+  descriptionEnabled: false,
+  guidanceEnabled: false,
+  definitionEnabled: false,
+  additionalInfoEnabled: false,
+  answers: [],
+  routing: null,
+  alias: null,
+  ...input,
+});
+
+const createCalculatedSummary = (input = {}) => ({
+  id: uuidv4(),
+  title: "",
+  pageType: "CalculatedSummaryPage",
+  summaryAnswers: [],
+  ...input,
+});
+
+const createFolder = (input = {}) => ({
+  id: uuidv4(),
+  alias: "",
+  enabled: false,
+  pages: [createQuestionPage()],
+  skipConditions: null,
+  ...input,
+});
+
+const createSection = (input = {}) => ({
+  id: uuidv4(),
+  title: "",
+  introductionEnabled: false,
+  folders: [createFolder()],
+  alias: "",
+  ...input,
+});
+
+const getPosition = (position, comparator) =>
+  typeof position === "number" ? position : comparator.length;
+
+const getMovePosition = (section, pageId, position) => {
+  if (!section.folders) {
+    throw new Error("Section doesn't have a folder");
+  }
+
+  let pointer = 0;
+  let positionMap = {};
+
+  for (let i = 0; i < section.folders.length; i++) {
+    for (let j = 0; j < section.folders[i].pages.length; j++) {
+      const page = section.folders[i].pages[j];
+      if (page.id === pageId) {
+        positionMap.previous = {
+          folderIndex: i,
+          pageIndex: j,
+          page,
+        };
+      }
+      if (pointer === position) {
+        positionMap.next = { folderIndex: i };
+      }
+      pointer++;
+    }
+  }
+
+  const { previous, next } = positionMap;
+  return { previous, next };
+};
+
 module.exports = {
+  getSections,
   getSectionById,
+  getSectionByFolderId,
   getSectionByPageId,
 
+  idExists,
+  getAbsolutePositionById,
+
+  getFolders,
+  getFoldersBySectionId,
+  getFolderById,
+  getFolderByPageId,
   getPages,
+  getPagesBySectionId,
+  getPagesByFolderId,
+  getPagesFromSection,
   getPageById,
   getPageByConfirmationId,
   getPageByValidationId,
+  getPageByAnswerId,
 
   getAnswers,
   getAnswerById,
@@ -207,7 +407,12 @@ module.exports = {
   getConfirmations,
   getConfirmationById,
 
+  getSkippableById,
+  getSkippables,
+
   getValidationById,
+  getValidationErrorInfo,
+  returnValidationErrors,
 
   getAvailablePreviousAnswersForValidation,
   getAvailableMetadataForValidation,
@@ -216,4 +421,12 @@ module.exports = {
 
   getSkipConditionById,
   getSkipConditions,
+
+  createQuestionPage,
+  createCalculatedSummary,
+  createFolder,
+  createSection,
+
+  getPosition,
+  getMovePosition,
 };

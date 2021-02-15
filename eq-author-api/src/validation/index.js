@@ -3,12 +3,15 @@ const createValidationError = require("./createValidationError");
 
 const schemas = require("./schemas");
 
-const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
-
-require("ajv-errors")(ajv);
+const ajv = new Ajv({
+  allErrors: true,
+  jsonPointers: true,
+  $data: true,
+  strictKeywords: true,
+});
 require("./customKeywords")(ajv);
 require("ajv-keywords")(ajv, "select");
-
+require("ajv-errors")(ajv);
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
 const formatErrorMessage = (error, questionnaire) => {
@@ -23,18 +26,7 @@ const formatErrorMessage = (error, questionnaire) => {
   const { dataPath, message } = error;
 
   const splitDataPath = dataPath.split("/");
-      let field = ""
-      
-      switch(message) {
-          case "ERR_QCODE_REQUIRED":
-             field = "qCode";
-             break;
-         case "ERR_SECONDARY_QCODE_REQUIRED":
-             field = "secondaryQCode";
-             break;
-         default:
-             field = splitDataPath.pop();  
-      }
+  const field = splitDataPath.pop();
 
   const newErrorMessage = createValidationError(
     splitDataPath,

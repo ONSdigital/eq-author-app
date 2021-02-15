@@ -161,7 +161,8 @@ exports[`Option should render a checkbox 1`] = `
 
 .c7:focus {
   outline: none;
-  border: 1px solid #3B7A9E;
+  border-style: solid;
+  border-color: #3B7A9E;
 }
 
 .c7[disabled] {
@@ -694,7 +695,7 @@ exports[`Option should render a checkbox 1`] = `
                                                   ";box-shadow:0 0 0 3px ",
                                                   "#FDBD56",
                                                   ";",
-                                                  ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border:1px solid ",
+                                                  ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
                                                   "#3B7A9E",
                                                   ";}&[disabled]{opacity:0.8;pointer-events:none;}",
                                                   [Function],
@@ -992,7 +993,7 @@ exports[`Option should render a checkbox 1`] = `
                                             ";box-shadow:0 0 0 3px ",
                                             "#FDBD56",
                                             ";",
-                                            ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border:1px solid ",
+                                            ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
                                             "#3B7A9E",
                                             ";}&[disabled]{opacity:0.8;pointer-events:none;}",
                                             [Function],

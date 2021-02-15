@@ -1,0 +1,71 @@
+{
+  "$id": "http://example.com/schemas/confirmationPage.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "$ref": "logic.json#/definitions/expressionGroup"
+      }
+    },
+    "positive": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "if": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "then": {
+            "not": {
+              "const": {
+                "$data": "2/negative/label"
+              }
+            },
+            "errorMessage": "ERR_UNIQUE_REQUIRED"
+          },
+          "else": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "required": [
+        "label"
+      ]
+    },
+    "negative": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "if": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "then": {
+            "not": {
+              "const": {
+                "$data": "2/positive/label"
+              }
+            },
+            "errorMessage": "ERR_UNIQUE_REQUIRED"
+          },
+          "else": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "positive"
+  ]
+}

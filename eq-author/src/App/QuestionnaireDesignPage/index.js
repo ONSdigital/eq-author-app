@@ -5,7 +5,8 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, find, flatMap, flowRight } from "lodash";
+import { get, find, flowRight } from "lodash";
+import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -41,6 +42,7 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
+import { QCodeContext } from "components/QCodeContext";
 
 const NavColumn = styled(Column)`
   background-color: ${colors.darkerBlack};
@@ -52,7 +54,6 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddQuestionPage: PropTypes.func.isRequired,
@@ -81,31 +82,48 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     } = this.props;
     const { entityName, entityId } = match.params;
 
-    let sectionId, position;
-    if (entityName === SECTION) {
-      sectionId = entityId;
-      position = 0;
-    } else if (entityName === PAGE) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { id: entityId });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+    let sectionId, position, selectedPage, selectedSection, selectedFolder;
+
+    switch (entityName) {
+      case SECTION:
+        sectionId = entityId;
+        position = 0;
+        break;
+
+      case QUESTION_CONFIRMATION:
+      // Fall through
+      case PAGE:
+        for (const section of questionnaire.sections) {
+          for (const folder of section.folders) {
+            for (const page of folder.pages) {
+              const comparatorID =
+                entityName === QUESTION_CONFIRMATION
+                  ? page.confirmation.id
+                  : page.id;
+              if (comparatorID === entityId) {
+                selectedPage = page;
+                selectedSection = section;
+                selectedFolder = folder;
+                break;
+              }
+            }
+          }
         }
-      }
-    } else if (entityName === QUESTION_CONFIRMATION) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { confirmation: { id: entityId } });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+
+        if (selectedPage) {
+          sectionId = selectedSection.id;
+          position = selectedSection.folders.indexOf(selectedFolder) + 1;
         }
-      }
+
+        break;
+
+      // case FOLDER:
+      // TODO
+
+      default:
+        throw new Error("Unrecognised entity name.");
     }
+
     if (pageType === "QuestionPage") {
       onAddQuestionPage(sectionId, position);
     } else {
@@ -180,7 +198,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       return false;
     }
 
-    const pages = flatMap(questionnaire.sections, "pages");
+    const pages = questionnaire.sections.flatMap(({ folders }) =>
+      folders.flatMap(folder => folder.pages)
+    );
     const page = find(pages, { id: pageId });
     if (!page || page.confirmation || page.pageType !== "QuestionPage") {
       return false;
@@ -204,51 +224,72 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
+    let flattenedAnswers;
+    let duplicates;
+    let duplicateQCode = false;
+
+    if (questionnaire) {
+      const sections = questionnaire.sections;
+      const { answers } = organiseAnswers(sections);
+      flattenedAnswers = flattenAnswers(answers);
+
+      duplicates = duplicatesAnswers(flattenedAnswers);
+
+      if (duplicates) {
+        for (let key in duplicates) {
+          if (duplicates[key] > 1) {
+            duplicateQCode = true;
+          }
+        }
+      }
+    }
+
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <BaseLayout questionnaire={questionnaire}>
           <ScrollPane>
             <Titled title={this.getTitle}>
               <Grid>
-                <NavColumn cols={3} gutters={false}>
-                  <MainNav>
-                    <MainNavigation />
-                  </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    loading={loading}
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
-                </NavColumn>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                      ...sharingRoutes,
-                      ...settingsRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
-                </Column>
+                <QCodeContext.Provider value={{ flattenedAnswers, duplicates, duplicateQCode }}>
+                  <NavColumn cols={3} gutters={false}>
+                    <MainNav>
+                      <MainNavigation />
+                    </MainNav>
+                    <NavigationSidebar
+                      data-test="side-nav"
+                      onAddSection={this.props.onAddSection}
+                      onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                      canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      onAddCalculatedSummaryPage={this.handleAddPage(
+                        "CalculatedSummaryPage"
+                      )}
+                      canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      questionnaire={questionnaire}
+                      canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                      onAddQuestionConfirmation={
+                        this.handleAddQuestionConfirmation
+                      }
+                    />
+                  </NavColumn>
+                  <Column cols={9} gutters={false}>
+                    <Switch location={location}>
+                      {[
+                        ...pageRoutes,
+                        ...sectionRoutes,
+                        ...questionConfirmationRoutes,
+                        ...introductionRoutes,
+                        ...metadataRoutes,
+                        ...historyRoutes,
+                        ...publishRoutes,
+                        ...reviewRoutes,
+                        ...qcodeRoutes,
+                        ...sharingRoutes,
+                        ...settingsRoutes,
+                      ]}
+                      <Route path="*" render={this.renderRedirect} />
+                    </Switch>
+                  </Column>
+                </QCodeContext.Provider>
               </Grid>
             </Titled>
           </ScrollPane>
@@ -273,7 +314,6 @@ const QUESTIONNAIRE_QUERY = gql`
       }
       publishStatus
       totalErrorCount
-      qCodeErrorCount
       ...NavigationSidebar
     }
   }
@@ -333,80 +373,94 @@ export const VALIDATION_QUERY = gql`
     validationUpdated(id: $id) {
       id
       totalErrorCount
-      qCodeErrorCount
       sections {
         id
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        pages {
+        folders {
           id
-          validationErrorInfo {
-            ...ValidationErrorInfo
-          }
-          ... on QuestionPage {
-            answers {
-              ... on BasicAnswer {
+          pages {
+            id
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+            ... on QuestionPage {
+              confirmation {
                 id
-                validation {
-                  ... on NumberValidation {
-                    minValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    maxValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+              }
+              answers {
+                ... on BasicAnswer {
+                  id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
                   }
-                  ... on DateValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                  validation {
+                    ... on NumberValidation {
+                      minValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      maxValue {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
-                  }
-                  ... on DateRangeValidation {
-                    earliestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                    ... on DateRangeValidation {
+                      earliestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    latestDate {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      latestDate {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    minDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      minDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
-                    }
-                    maxDuration {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
+                      maxDuration {
+                        id
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
                       }
                     }
                   }
                 }
-              }
-              ... on MultipleChoiceAnswer {
-                id
+                ... on MultipleChoiceAnswer {
+                  id
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                }
               }
             }
           }

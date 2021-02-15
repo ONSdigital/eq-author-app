@@ -1,0 +1,191 @@
+{
+  "$id": "http://example.com/schemas/answer.json",
+  "type": "object",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "not": {
+              "enum": [
+                "Checkbox",
+                "Radio"
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/basicAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "Number",
+              "Percentage",
+              "Currency",
+              "Unit"
+            ]
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/numericAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "Checkbox"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/checkboxAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "Radio"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/radioAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "Date"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/dateAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "DateRange"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/dateRangeAnswer"
+      }
+    }
+  ],
+  "definitions": {
+    "basicAnswer": {
+      "properties": {
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "properties": {
+          "$ref": "#/definitions/properties"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    },
+    "numericAnswer": {
+      "properties": {
+        "validation": {
+          "$ref": "validation.json#/definitions/numericValidations"
+        }
+      }
+    },
+    "checkboxAnswer": {
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "option.json"
+              },
+              {
+                "uniquePropertyValueInArrayOfObjects": "label"
+              }
+            ]
+          }
+        },
+        "mutuallyExclusiveOption": {
+          "$ref": "option.json"
+        }
+      },
+      "required": [
+        "options"
+      ]
+    },
+    "radioAnswer": {
+      "properties": {
+        "options": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "option.json"
+              },
+              {
+                "uniquePropertyValueInArrayOfObjects": "label"
+              }
+            ]
+          }
+        },
+        "mutuallyExclusiveOption": {
+          "$ref": "option.json"
+        }
+      },
+      "required": [
+        "options"
+      ]
+    },
+    "dateAnswer": {
+      "properties": {
+        "validation": {
+          "$ref": "validation.json#/definitions/dateValidations"
+        }
+      }
+    },
+    "dateRangeAnswer": {
+      "properties": {
+        "secondaryLabel": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "validation": {
+          "$ref": "validation.json#/definitions/dateRangeValidations"
+        }
+      }
+    },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "decimals": {
+          "linkedDecimalValidation": {
+            "$data": "/sections"
+          }
+        },
+        "maxLength": {
+          "type": "string",
+          "textLengthInRange": "maxLength"
+        },
+        "unit": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      }
+    }
+  }
+}

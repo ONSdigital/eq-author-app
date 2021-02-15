@@ -7,9 +7,9 @@ mutation deleteSkipConditions($input: DeleteSkipConditionsInput!) {
   }
 }`;
 
-const deleteSkipConditions = async (ctx, page) => {
+const deleteSkipConditions = async (ctx, parent) => {
   const input = {
-    pageId: page.id,
+    parentId: parent.id,
   };
   const result = await executeQuery(
     deleteSkipConditionsMutation,
