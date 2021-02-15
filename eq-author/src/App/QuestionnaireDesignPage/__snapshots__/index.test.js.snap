@@ -94,17 +94,6 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                       "selectionSet": undefined,
                     },
                     Object {
-                      "alias": undefined,
-                      "arguments": Array [],
-                      "directives": Array [],
-                      "kind": "Field",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "qCodeErrorCount",
-                      },
-                      "selectionSet": undefined,
-                    },
-                    Object {
                       "directives": Array [],
                       "kind": "FragmentSpread",
                       "name": Object {
@@ -974,6 +963,17 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                       "kind": "Field",
                       "name": Object {
                         "kind": "Name",
+                        "value": "alias",
+                      },
+                      "selectionSet": undefined,
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
                         "value": "confirmation",
                       },
                       "selectionSet": Object {
@@ -989,6 +989,237 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                               "value": "id",
                             },
                             "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "qCode",
+                            },
+                            "selectionSet": undefined,
+                          },
+                        ],
+                      },
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "answers",
+                      },
+                      "selectionSet": Object {
+                        "kind": "SelectionSet",
+                        "selections": Array [
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "id",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "label",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "secondaryLabel",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "type",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "properties",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "alias": undefined,
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "qCode",
+                            },
+                            "selectionSet": undefined,
+                          },
+                          Object {
+                            "directives": Array [],
+                            "kind": "InlineFragment",
+                            "selectionSet": Object {
+                              "kind": "SelectionSet",
+                              "selections": Array [
+                                Object {
+                                  "alias": undefined,
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "secondaryQCode",
+                                  },
+                                  "selectionSet": undefined,
+                                },
+                              ],
+                            },
+                            "typeCondition": Object {
+                              "kind": "NamedType",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "BasicAnswer",
+                              },
+                            },
+                          },
+                          Object {
+                            "directives": Array [],
+                            "kind": "InlineFragment",
+                            "selectionSet": Object {
+                              "kind": "SelectionSet",
+                              "selections": Array [
+                                Object {
+                                  "alias": undefined,
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "options",
+                                  },
+                                  "selectionSet": Object {
+                                    "kind": "SelectionSet",
+                                    "selections": Array [
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "id",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "label",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "qCode",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                    ],
+                                  },
+                                },
+                                Object {
+                                  "alias": undefined,
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "mutuallyExclusiveOption",
+                                  },
+                                  "selectionSet": Object {
+                                    "kind": "SelectionSet",
+                                    "selections": Array [
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "id",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "label",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "qCode",
+                                        },
+                                        "selectionSet": undefined,
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
+                            "typeCondition": Object {
+                              "kind": "NamedType",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "MultipleChoiceAnswer",
+                              },
+                            },
                           },
                         ],
                       },
@@ -1178,7 +1409,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2065,
+        "end": 2531,
         "start": 0,
       },
     }
@@ -1277,17 +1508,6 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                       "name": Object {
                         "kind": "Name",
                         "value": "totalErrorCount",
-                      },
-                      "selectionSet": undefined,
-                    },
-                    Object {
-                      "alias": undefined,
-                      "arguments": Array [],
-                      "directives": Array [],
-                      "kind": "Field",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "qCodeErrorCount",
                       },
                       "selectionSet": undefined,
                     },
@@ -1489,6 +1709,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                             "value": "id",
                                                           },
                                                           "selectionSet": undefined,
+                                                        },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validationErrorInfo",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "FragmentSpread",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "ValidationErrorInfo",
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
                                                         },
                                                         Object {
                                                           "alias": undefined,
@@ -1972,6 +2215,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                                           },
                                                           "selectionSet": undefined,
                                                         },
+                                                        Object {
+                                                          "alias": undefined,
+                                                          "arguments": Array [],
+                                                          "directives": Array [],
+                                                          "kind": "Field",
+                                                          "name": Object {
+                                                            "kind": "Name",
+                                                            "value": "validationErrorInfo",
+                                                          },
+                                                          "selectionSet": Object {
+                                                            "kind": "SelectionSet",
+                                                            "selections": Array [
+                                                              Object {
+                                                                "directives": Array [],
+                                                                "kind": "FragmentSpread",
+                                                                "name": Object {
+                                                                  "kind": "Name",
+                                                                  "value": "ValidationErrorInfo",
+                                                                },
+                                                              },
+                                                            ],
+                                                          },
+                                                        },
                                                       ],
                                                     },
                                                     "typeCondition": Object {
@@ -2138,7 +2404,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2871,
+        "end": 3055,
         "start": 0,
       },
     }
@@ -2275,190 +2541,200 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           align="top"
           fillHeight={true}
         >
-          <QuestionnaireDesignPage__NavColumn
-            cols={3}
-            gutters={false}
-          >
-            <QuestionnaireDesignPage__MainNav>
-              <Component />
-            </QuestionnaireDesignPage__MainNav>
-            <withRouter(UnwrappedNavigationSidebar)
-              canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={false}
-              canAddQuestionPage={true}
-              data-test="side-nav"
-              onAddCalculatedSummaryPage={[Function]}
-              onAddQuestionConfirmation={[Function]}
-              onAddQuestionPage={[Function]}
-              onAddSection={[MockFunction]}
-              questionnaire={
-                Object {
-                  "displayName": "questionnaire",
-                  "id": "questionnaire",
-                  "sections": Array [
-                    Object {
-                      "displayName": "Section 1",
-                      "folders": Array [
-                        Object {
-                          "alias": "Folder 1.1",
-                          "enabled": false,
-                          "id": "1.1",
-                          "pages": Array [
-                            Object {
-                              "alias": "1.1.1",
-                              "displayName": "Page 1.1.1",
-                              "folder": Object {
-                                "id": "1",
-                              },
-                              "id": "1.1.1",
-                              "position": 0,
-                              "section": Object {
-                                "id": "1",
-                              },
-                              "title": "Page 1.1.1",
-                              "validationErrorInfo": Object {
-                                "totalCount": 2,
-                              },
-                            },
-                          ],
-                          "position": 0,
-                        },
-                      ],
-                      "id": "1",
-                      "position": 0,
-                      "title": "Section 1",
-                      "validationErrorInfo": Object {
-                        "totalCount": 0,
-                      },
-                    },
-                  ],
-                  "title": "questionnaire",
-                }
+          <ContextProvider
+            value={
+              Object {
+                "duplicateQCode": false,
+                "duplicates": Object {},
+                "flattenedAnswers": Array [],
               }
-            />
-          </QuestionnaireDesignPage__NavColumn>
-          <Column
-            cols={9}
-            gutters={false}
+            }
           >
-            <Switch>
-              <Route
-                component={[Function]}
-                key="page-design"
-                path="/q/:questionnaireId/page/:pageId/design/:modifier?"
+            <QuestionnaireDesignPage__NavColumn
+              cols={3}
+              gutters={false}
+            >
+              <QuestionnaireDesignPage__MainNav>
+                <Component />
+              </QuestionnaireDesignPage__MainNav>
+              <withRouter(UnwrappedNavigationSidebar)
+                canAddCalculatedSummaryPage={true}
+                canAddQuestionConfirmation={false}
+                canAddQuestionPage={true}
+                data-test="side-nav"
+                onAddCalculatedSummaryPage={[Function]}
+                onAddQuestionConfirmation={[Function]}
+                onAddQuestionPage={[Function]}
+                onAddSection={[MockFunction]}
+                questionnaire={
+                  Object {
+                    "displayName": "questionnaire",
+                    "id": "questionnaire",
+                    "sections": Array [
+                      Object {
+                        "displayName": "Section 1",
+                        "folders": Array [
+                          Object {
+                            "alias": "Folder 1.1",
+                            "enabled": false,
+                            "id": "1.1",
+                            "pages": Array [
+                              Object {
+                                "alias": "1.1.1",
+                                "displayName": "Page 1.1.1",
+                                "folder": Object {
+                                  "id": "1",
+                                },
+                                "id": "1.1.1",
+                                "position": 0,
+                                "section": Object {
+                                  "id": "1",
+                                },
+                                "title": "Page 1.1.1",
+                                "validationErrorInfo": Object {
+                                  "totalCount": 2,
+                                },
+                              },
+                            ],
+                            "position": 0,
+                          },
+                        ],
+                        "id": "1",
+                        "position": 0,
+                        "title": "Section 1",
+                        "validationErrorInfo": Object {
+                          "totalCount": 0,
+                        },
+                      },
+                    ],
+                    "title": "questionnaire",
+                  }
+                }
               />
-              <Route
-                component={[Function]}
-                key="page-preview"
-                path="/q/:questionnaireId/page/:pageId/preview"
-              />
-              <Route
-                key="page-logic"
-                path="/q/:questionnaireId/page/:pageId/logic"
-              >
-                <Redirect
-                  to="routing"
+            </QuestionnaireDesignPage__NavColumn>
+            <Column
+              cols={9}
+              gutters={false}
+            >
+              <Switch>
+                <Route
+                  component={[Function]}
+                  key="page-design"
+                  path="/q/:questionnaireId/page/:pageId/design/:modifier?"
                 />
-              </Route>
-              <Route
-                component={[Function]}
-                key="page-logic-routing"
-                path="/q/:questionnaireId/page/:pageId/routing"
-              />
-              <Route
-                component={[Function]}
-                key="page-logic-skip"
-                path="/q/:questionnaireId/page/:pageId/skip"
-              />
-              <Route
-                component={[Function]}
-                key="section-design"
-                path="/q/:questionnaireId/section/:sectionId/design"
-              />
-              <Route
-                component={[Function]}
-                key="section-preview"
-                path="/q/:questionnaireId/section/:sectionId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-design"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-preview"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
-              />
-              <Route
-                key="confirmation-logic"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/logic"
-              >
-                <Redirect
-                  to="routing"
+                <Route
+                  component={[Function]}
+                  key="page-preview"
+                  path="/q/:questionnaireId/page/:pageId/preview"
                 />
-              </Route>
-              <Route
-                component={[Function]}
-                key="confirmation-logic-routing"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-logic-skip"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/skip"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-design"
-                path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-preview"
-                path="/q/:questionnaireId/introduction/:introductionId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="metadata"
-                path="/q/:questionnaireId/metadata"
-              />
-              <Route
-                component={[Function]}
-                key="history"
-                path="/q/:questionnaireId/history"
-              />
-              <Route
-                key="publish"
-                path="/q/:questionnaireId/publish"
-                render={[Function]}
-              />
-              <Route
-                component={[Function]}
-                key="review"
-                path="/q/:questionnaireId/review"
-              />
-              <Route
-                key="qcodes"
-                path="/q/:questionnaireId/qcodes"
-                render={[Function]}
-              />
-              <Route
-                key="sharing"
-                path="/q/:questionnaireId/sharing"
-                render={[Function]}
-              />
-              <Route
-                key="settings"
-                path="/q/:questionnaireId/settings"
-                render={[Function]}
-              />
-              <Route
-                path="*"
-                render={[Function]}
-              />
-            </Switch>
-          </Column>
+                <Route
+                  key="page-logic"
+                  path="/q/:questionnaireId/page/:pageId/logic"
+                >
+                  <Redirect
+                    to="routing"
+                  />
+                </Route>
+                <Route
+                  component={[Function]}
+                  key="page-logic-routing"
+                  path="/q/:questionnaireId/page/:pageId/routing"
+                />
+                <Route
+                  component={[Function]}
+                  key="page-logic-skip"
+                  path="/q/:questionnaireId/page/:pageId/skip"
+                />
+                <Route
+                  component={[Function]}
+                  key="section-design"
+                  path="/q/:questionnaireId/section/:sectionId/design"
+                />
+                <Route
+                  component={[Function]}
+                  key="section-preview"
+                  path="/q/:questionnaireId/section/:sectionId/preview"
+                />
+                <Route
+                  component={[Function]}
+                  key="confirmation-design"
+                  path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
+                />
+                <Route
+                  component={[Function]}
+                  key="confirmation-preview"
+                  path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
+                />
+                <Route
+                  key="confirmation-logic"
+                  path="/q/:questionnaireId/question-confirmation/:confirmationId/logic"
+                >
+                  <Redirect
+                    to="routing"
+                  />
+                </Route>
+                <Route
+                  component={[Function]}
+                  key="confirmation-logic-routing"
+                  path="/q/:questionnaireId/question-confirmation/:confirmationId/routing"
+                />
+                <Route
+                  component={[Function]}
+                  key="confirmation-logic-skip"
+                  path="/q/:questionnaireId/question-confirmation/:confirmationId/skip"
+                />
+                <Route
+                  component={[Function]}
+                  key="introduction-design"
+                  path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
+                />
+                <Route
+                  component={[Function]}
+                  key="introduction-preview"
+                  path="/q/:questionnaireId/introduction/:introductionId/preview"
+                />
+                <Route
+                  component={[Function]}
+                  key="metadata"
+                  path="/q/:questionnaireId/metadata"
+                />
+                <Route
+                  component={[Function]}
+                  key="history"
+                  path="/q/:questionnaireId/history"
+                />
+                <Route
+                  key="publish"
+                  path="/q/:questionnaireId/publish"
+                  render={[Function]}
+                />
+                <Route
+                  component={[Function]}
+                  key="review"
+                  path="/q/:questionnaireId/review"
+                />
+                <Route
+                  key="qcodes"
+                  path="/q/:questionnaireId/qcodes"
+                  render={[Function]}
+                />
+                <Route
+                  key="sharing"
+                  path="/q/:questionnaireId/sharing"
+                  render={[Function]}
+                />
+                <Route
+                  key="settings"
+                  path="/q/:questionnaireId/settings"
+                  render={[Function]}
+                />
+                <Route
+                  path="*"
+                  render={[Function]}
+                />
+              </Switch>
+            </Column>
+          </ContextProvider>
         </Grid>
       </GetContext>
     </ScrollPane>
