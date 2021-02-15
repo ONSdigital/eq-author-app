@@ -91,6 +91,7 @@ UnwrappedPageNavItem.fragments = {
           id
           label
           secondaryLabel
+          secondaryLabelDefault
           type
           properties
           qCode
@@ -109,13 +110,6 @@ UnwrappedPageNavItem.fragments = {
               qCode
             }
           }
-        }
-        answers {
-          id
-          displayName
-          type
-          secondaryLabel
-          secondaryLabelDefault
         }
       }
     }

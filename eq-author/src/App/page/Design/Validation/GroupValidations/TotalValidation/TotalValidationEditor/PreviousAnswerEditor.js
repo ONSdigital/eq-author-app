@@ -10,7 +10,7 @@ import {
   ERR_REFERENCE_MOVED,
 } from "constants/validationMessages";
 
-import { UnwrappedPreviousAnswerContentPicker as PreviousAnswerContentPicker } from "../../../PreviousAnswerContentPicker";
+import PreviousAnswerContentPicker from "../../../PreviousAnswerContentPicker";
 
 export const errorMessages = {
   ERR_NO_VALUE: "Answer required",

@@ -43,14 +43,9 @@ const PipingMenu = ({
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-<<<<<<< HEAD
   const handleButtonClick = (pickerContent) => {
     setPickerContent(pickerContent);
     setIsPickerOpen(true);
-=======
-  handleButtonClick = (pickerContent) => {
-    this.setState({ pickerContent, isPickerOpen: true });
->>>>>>> master
   };
 
   const handlePickerClose = () => setIsPickerOpen(false);
@@ -60,7 +55,6 @@ const PipingMenu = ({
     onItemChosen(...args);
   };
 
-<<<<<<< HEAD
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
 
@@ -77,119 +71,6 @@ const PipingMenu = ({
   );
 
   const metadataData = questionnaire?.metadata || [];
-=======
-  render() {
-    const {
-      answerData,
-      metadataData,
-      disabled,
-      loading,
-      canFocus,
-      allowableTypes,
-    } = this.props;
-    const { pickerContent } = this.state;
-    const data = pickerContent === METADATA ? metadataData : answerData;
-
-    return (
-      <React.Fragment>
-        {allowableTypes.includes(ANSWER) && (
-          <MenuButton
-            title="Pipe answer"
-            disabled={loading || disabled || isEmpty(answerData)}
-            onClick={() => this.handleButtonClick(ANSWER)}
-            canFocus={canFocus}
-            data-test="piping-button"
-          >
-            <IconPiping />
-          </MenuButton>
-        )}
-        {allowableTypes.includes(METADATA) && (
-          <MenuButton
-            title="Pipe metadata"
-            disabled={loading || disabled || isEmpty(metadataData)}
-            onClick={() => this.handleButtonClick(METADATA)}
-            canFocus={canFocus}
-            data-test="piping-button-metadata"
-          >
-            <IconPipingMetadata />
-          </MenuButton>
-        )}
-        {allowableTypes.includes(VARIABLES) && (
-          <MenuButton
-            title="Pipe variable"
-            disabled={loading || disabled}
-            onClick={() => this.handleButtonClick(VARIABLES)}
-            canFocus={canFocus}
-            data-test="piping-button-variable"
-          >
-            <IconPipingVariable />
-          </MenuButton>
-        )}
-        <ContentPicker
-          isOpen={this.state.isPickerOpen}
-          data={data}
-          startingSelectedAnswers={[]}
-          onClose={this.handlePickerClose}
-          onSubmit={this.handlePickerSubmit}
-          data-test="picker"
-          singleItemSelect
-          contentType={pickerContent}
-        />
-      </React.Fragment>
-    );
-  }
-}
-
-const calculateEntityName = ({
-  sectionId,
-  pageId,
-  confirmationId,
-  introductionId,
-}) => {
-  if (confirmationId) {
-    return "questionConfirmation";
-  }
-  if (pageId) {
-    return "page";
-  }
-  if (sectionId) {
-    return "section";
-  }
-  if (introductionId) {
-    return "questionnaireIntroduction";
-  }
-};
-
-const postProcessPipingContent = (entity) => {
-  if (!entity) {
-    return false;
-  }
-
-  const processedAnswers = [];
-
-  entity.availablePipingAnswers.forEach((answer) => {
-    if (answer.type === "DateRange") {
-      processedAnswers.push({
-        ...answer,
-        id: `${answer.id}from`,
-      });
-
-      processedAnswers.push({
-        ...answer,
-        id: `${answer.id}to`,
-        displayName: answer.secondaryLabel || answer.secondaryLabelDefault,
-      });
-    } else {
-      processedAnswers.push(answer);
-    }
-  });
-
-  return {
-    ...entity,
-    availablePipingAnswers: processedAnswers,
-  };
-};
->>>>>>> master
 
   return (
     <React.Fragment>
