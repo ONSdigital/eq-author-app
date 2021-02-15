@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const withSaveTracking = connect(null, { startRequest, endRequest });
 
-const withEntityEditor = entityPropName => WrappedComponent => {
+const withEntityEditor = (entityPropName) => (WrappedComponent) => {
   class EntityEditor extends React.Component {
     static propTypes = {
       [entityPropName]: PropTypes.object.isRequired, // eslint-disable-line
@@ -82,7 +82,7 @@ const withEntityEditor = entityPropName => WrappedComponent => {
       this.unmounted = true;
     }
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
       e.preventDefault();
 
       this.dirtyField = null;

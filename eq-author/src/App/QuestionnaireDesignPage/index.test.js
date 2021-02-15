@@ -2,7 +2,11 @@ import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import { organiseAnswers, flattenAnswers, duplicatesAnswers } from "utils/getAllAnswersFlatMap";
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
 
 import {
   SECTION,
@@ -28,7 +32,15 @@ describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let confirmation, page, section, questionnaire, validations, sectionsForFlatAnswers, answerList, flatAnswersTest, duplicateTest;
+  let confirmation,
+    page,
+    section,
+    questionnaire,
+    validations,
+    sectionsForFlatAnswers,
+    answerList,
+    flatAnswersTest,
+    duplicateTest;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire();
@@ -401,14 +413,12 @@ describe("QuestionnaireDesignPage", () => {
   });
 
   describe("getAllAnswersFlatMap", () => {
-
     sectionsForFlatAnswers = [
       {
         id: "4b0280df-c345-4c20-ada2-806105de87d6",
         title: "<p>sect1</p>",
         displayName: "sect1",
-        questionnaire: 
-        {
+        questionnaire: {
           id: "bbb6f10d-4f95-4f96-8c66-1e777653dd4f",
           __typename: "Questionnaire",
         },
@@ -432,19 +442,19 @@ describe("QuestionnaireDesignPage", () => {
                     type: "Number",
                     properties: {
                       required: false,
-                      decimals: 0
+                      decimals: 0,
                     },
                     length: 1,
                     qCode: "Duplicate",
                     secondaryQCode: "sec QCode1",
                     __typename: "BasicAnswer",
                     title: "<p>Q1</p>",
-                  }
+                  },
                 ],
-                __typename: "QuestionPage"
-              }
+                __typename: "QuestionPage",
+              },
             ],
-            __typename: "Folder"
+            __typename: "Folder",
           },
           {
             id: "14f7b1ef-b26c-4f6f-bdb6-37eff316b4d9",
@@ -465,19 +475,19 @@ describe("QuestionnaireDesignPage", () => {
                     type: "Number",
                     properties: {
                       required: false,
-                      decimals: 0
+                      decimals: 0,
                     },
                     qCode: "Duplicate",
                     secondaryQCode: null,
                     __typename: "BasicAnswer",
                     length: 1,
                     title: "<p>Q2</p>",
-                  }
+                  },
                 ],
-                __typename: "QuestionPage"
-              }
+                __typename: "QuestionPage",
+              },
             ],
-            __typename: "Folder"
+            __typename: "Folder",
           },
           {
             id: "600bdaed-eb6f-4541-8e8f-d9895afaba57",
@@ -497,7 +507,7 @@ describe("QuestionnaireDesignPage", () => {
                     secondaryLabel: null,
                     type: "Checkbox",
                     properties: {
-                      required: false
+                      required: false,
                     },
                     qCode: "",
                     length: 2,
@@ -506,249 +516,246 @@ describe("QuestionnaireDesignPage", () => {
                         id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
                         label: "checkbox 1",
                         qCode: null,
-                        __typename: "Option"
+                        __typename: "Option",
                       },
                       {
                         id: "1e3eb896-be3d-4048-be69-269e125f5628",
                         label: "checkbox 2",
                         qCode: null,
-                        __typename: "Option"
-                      }
+                        __typename: "Option",
+                      },
                     ],
                     mutuallyExclusiveOption: null,
-                    __typename: "MultipleChoiceAnswer"
-                  }
+                    __typename: "MultipleChoiceAnswer",
+                  },
                 ],
-                __typename: "QuestionPage"
-              }
+                __typename: "QuestionPage",
+              },
             ],
-            __typename: "Folder"
-          }
+            __typename: "Folder",
+          },
         ],
-        __typename: "Section"
-      }
+        __typename: "Section",
+      },
     ];
 
     answerList = [
       {
-        "title": "<p>Q1</p>",
-        "alias": null,
-        "answers": [
+        title: "<p>Q1</p>",
+        alias: null,
+        answers: [
           {
-            "id": "ID-Q1-1",
-            "label": "num1",
-            "secondaryLabel": "sec label1",
-            "type": "Number",
-            "properties": 
-            {
-              "required": false,
-              "decimals": 0
+            id: "ID-Q1-1",
+            label: "num1",
+            secondaryLabel: "sec label1",
+            type: "Number",
+            properties: {
+              required: false,
+              decimals: 0,
             },
-            "length": 1,
-            "qCode": "Duplicate",
-            "secondaryQCode": "sec QCode1",
-            "__typename": "BasicAnswer",
-            "title": "<p>Q1</p>"
+            length: 1,
+            qCode: "Duplicate",
+            secondaryQCode: "sec QCode1",
+            __typename: "BasicAnswer",
+            title: "<p>Q1</p>",
           },
           {
-            "id": "ID-Q1-1",
-            "label": "sec label1",
-            "qCode": "sec QCode1",
-            "type": "Number",
-            "secondary": true
-          }
-        ]
+            id: "ID-Q1-1",
+            label: "sec label1",
+            qCode: "sec QCode1",
+            type: "Number",
+            secondary: true,
+          },
+        ],
       },
       {
-        "title": "<p>Q2</p>",
-        "alias": null,
-        "answers": [
+        title: "<p>Q2</p>",
+        alias: null,
+        answers: [
           {
-            "id": "ID-Q2-1",
-            "label": "num2",
-            "secondaryLabel": null,
-            "type": "Number",
-            "properties": 
-            {
-              "required": false,
-              "decimals": 0
+            id: "ID-Q2-1",
+            label: "num2",
+            secondaryLabel: null,
+            type: "Number",
+            properties: {
+              required: false,
+              decimals: 0,
             },
-            "qCode": "Duplicate",
-            "secondaryQCode": null,
-            "__typename": "BasicAnswer",
-            "length": 1,
-            "title": "<p>Q2</p>"
-          }
-        ]
+            qCode: "Duplicate",
+            secondaryQCode: null,
+            __typename: "BasicAnswer",
+            length: 1,
+            title: "<p>Q2</p>",
+          },
+        ],
       },
       {
-        "title": "<p>q2 - chkbox</p>",
-        "alias": null,
-        "answers": [
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        answers: [
           {
-            "id": "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
-            "label": "",
-            "secondaryLabel": null,
-            "type": "Checkbox",
-            "properties": {
-                    "required": false
+            id: "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
+            label: "",
+            secondaryLabel: null,
+            type: "Checkbox",
+            properties: {
+              required: false,
             },
-            "qCode": "",
-            "length": 2,
-            "options": [
+            qCode: "",
+            length: 2,
+            options: [
               {
-                "id": "7ded7fad-2e4d-4c74-815e-395993ae35c0",
-                "label": "checkbox 1",
-                "qCode": null,
-                "__typename": "Option"
+                id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+                label: "checkbox 1",
+                qCode: null,
+                __typename: "Option",
               },
               {
-                "id": "1e3eb896-be3d-4048-be69-269e125f5628",
-                "label": "checkbox 2",
-                "qCode": null,
-                "__typename": "Option"
-              }
+                id: "1e3eb896-be3d-4048-be69-269e125f5628",
+                label: "checkbox 2",
+                qCode: null,
+                __typename: "Option",
+              },
             ],
-            "mutuallyExclusiveOption": null,
-            "__typename": "MultipleChoiceAnswer"
+            mutuallyExclusiveOption: null,
+            __typename: "MultipleChoiceAnswer",
           },
           {
-            "id": "7ded7fad-2e4d-4c74-815e-395993ae35c0",
-            "label": "checkbox 1",
-            "qCode": null,
-            "__typename": "Option",
-            "type": "CheckboxOption",
-            "option": true
+            id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+            label: "checkbox 1",
+            qCode: null,
+            __typename: "Option",
+            type: "CheckboxOption",
+            option: true,
           },
           {
-            "id": "1e3eb896-be3d-4048-be69-269e125f5628",
-            "label": "checkbox 2",
-            "qCode": null,
-            "__typename": "Option",
-            "type": "CheckboxOption",
-            "option": true
-          }
-        ]
-      }
+            id: "1e3eb896-be3d-4048-be69-269e125f5628",
+            label: "checkbox 2",
+            qCode: null,
+            __typename: "Option",
+            type: "CheckboxOption",
+            option: true,
+          },
+        ],
+      },
     ];
 
-    flatAnswersTest = [ 
+    flatAnswersTest = [
       {
-        "title": "<p>Q1</p>",
-        "alias": null,
-        "id": "ID-Q1-1",
-        "label": "num1",
-        "secondaryLabel": "sec label1",
-        "type": "Number",
-        "properties": {
-                "required": false,
-                "decimals": 0
+        title: "<p>Q1</p>",
+        alias: null,
+        id: "ID-Q1-1",
+        label: "num1",
+        secondaryLabel: "sec label1",
+        type: "Number",
+        properties: {
+          required: false,
+          decimals: 0,
         },
-        "length": 1,
-        "qCode": "Duplicate",
-        "secondaryQCode": "sec QCode1",
-        "__typename": "BasicAnswer"
+        length: 1,
+        qCode: "Duplicate",
+        secondaryQCode: "sec QCode1",
+        __typename: "BasicAnswer",
       },
       {
-        "title": "<p>Q1</p>",
-        "alias": null,
-        "nested": true,
-        "id": "ID-Q1-1",
-        "label": "sec label1",
-        "qCode": "sec QCode1",
-        "type": "Number",
-        "secondary": true
+        title: "<p>Q1</p>",
+        alias: null,
+        nested: true,
+        id: "ID-Q1-1",
+        label: "sec label1",
+        qCode: "sec QCode1",
+        type: "Number",
+        secondary: true,
       },
       {
-        "title": "<p>Q2</p>",
-        "alias": null,
-        "id": "ID-Q2-1",
-        "label": "num2",
-        "secondaryLabel": null,
-        "type": "Number",
-        "properties": {
-                "required": false,
-                "decimals": 0
+        title: "<p>Q2</p>",
+        alias: null,
+        id: "ID-Q2-1",
+        label: "num2",
+        secondaryLabel: null,
+        type: "Number",
+        properties: {
+          required: false,
+          decimals: 0,
         },
-        "qCode": "Duplicate",
-        "secondaryQCode": null,
-        "__typename": "BasicAnswer",
-        "length": 1
+        qCode: "Duplicate",
+        secondaryQCode: null,
+        __typename: "BasicAnswer",
+        length: 1,
       },
       {
-        "title": "<p>q2 - chkbox</p>",
-        "alias": null,
-        "id": "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
-        "label": "",
-        "secondaryLabel": null,
-        "type": "Checkbox",
-        "properties": {
-                "required": false
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        id: "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
+        label: "",
+        secondaryLabel: null,
+        type: "Checkbox",
+        properties: {
+          required: false,
         },
-        "qCode": "",
-        "length": 2,
-        "options": [
+        qCode: "",
+        length: 2,
+        options: [
           {
-            "id": "7ded7fad-2e4d-4c74-815e-395993ae35c0",
-            "label": "checkbox 1",
-            "qCode": null,
-            "__typename": "Option"
+            id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+            label: "checkbox 1",
+            qCode: null,
+            __typename: "Option",
           },
           {
-            "id": "1e3eb896-be3d-4048-be69-269e125f5628",
-            "label": "checkbox 2",
-            "qCode": null,
-            "__typename": "Option"
-          }
+            id: "1e3eb896-be3d-4048-be69-269e125f5628",
+            label: "checkbox 2",
+            qCode: null,
+            __typename: "Option",
+          },
         ],
-        "mutuallyExclusiveOption": null,
-        "__typename": "MultipleChoiceAnswer"
+        mutuallyExclusiveOption: null,
+        __typename: "MultipleChoiceAnswer",
       },
       {
-        "title": "<p>q2 - chkbox</p>",
-        "alias": null,
-        "nested": true,
-        "id": "7ded7fad-2e4d-4c74-815e-395993ae35c0",
-        "label": "checkbox 1",
-        "qCode": null,
-        "__typename": "Option",
-        "type": "CheckboxOption",
-        "option": true
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        nested: true,
+        id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+        label: "checkbox 1",
+        qCode: null,
+        __typename: "Option",
+        type: "CheckboxOption",
+        option: true,
       },
       {
-        "title": "<p>q2 - chkbox</p>",
-        "alias": null,
-        "nested": true,
-        "id": "1e3eb896-be3d-4048-be69-269e125f5628",
-        "label": "checkbox 2",
-        "qCode": null,
-        "__typename": "Option",
-        "type": "CheckboxOption",
-        "option": true
-      }
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        nested: true,
+        id: "1e3eb896-be3d-4048-be69-269e125f5628",
+        label: "checkbox 2",
+        qCode: null,
+        __typename: "Option",
+        type: "CheckboxOption",
+        option: true,
+      },
     ];
 
     duplicateTest = {
-      Duplicate: 2, 
-      'sec QCode1': 1, 
-      '': 1, 
+      Duplicate: 2,
+      "sec QCode1": 1,
+      "": 1,
       null: 1,
     };
-    
+
     it("it should organiseAnswers into a list", () => {
       const answersListTest = organiseAnswers(sectionsForFlatAnswers);
       expect(answersListTest.answers).toEqual(answerList);
     });
 
     it("it should flatten answers", () => {
-      const flattenedAnswers = flattenAnswers( answerList );
+      const flattenedAnswers = flattenAnswers(answerList);
       expect(flattenedAnswers).toEqual(flatAnswersTest);
     });
 
     it("it should list duplicate answers", () => {
-      const duplicates = duplicatesAnswers( flatAnswersTest );
+      const duplicates = duplicatesAnswers(flatAnswersTest);
       expect(duplicates).toEqual(duplicateTest);
     });
   });
-
 });

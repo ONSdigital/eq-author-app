@@ -92,7 +92,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     const mutation = mutate(options);
 
     return mutation
-      .then(data => handleDeletion(ownProps, data, questionnaire))
+      .then((data) => handleDeletion(ownProps, data, questionnaire))
       .then(() => displayToast(ownProps, questionnaire))
       .then(() => mutation);
   },

@@ -25,8 +25,8 @@ const ContentPickerAccordionHeader = styled(Button)`
   border-radius: ${radius};
   font-size: 1em;
   text-align: left;
-  ${props => props.disabled && titleStyles.disabled};
-  ${props => props.selected && titleStyles.selected};
+  ${(props) => props.disabled && titleStyles.disabled};
+  ${(props) => props.selected && titleStyles.selected};
 `;
 
 ContentPickerAccordionHeader.propTypes = {

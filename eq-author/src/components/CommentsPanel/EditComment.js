@@ -27,7 +27,7 @@ const StyledScrollPane = styled(ScrollPane)`
   height: auto;
 `;
 
-const EditComment = props => {
+const EditComment = (props) => {
   const {
     displayComments,
     comment,

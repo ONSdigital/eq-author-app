@@ -15,7 +15,7 @@ it("resovles valid JSON", () => {
 
   const obj = { foo: "bar" };
 
-  return readFileAsJson(createJsonFile(obj)).then(data => {
+  return readFileAsJson(createJsonFile(obj)).then((data) => {
     expect(data).toEqual(obj);
   });
 });
@@ -23,7 +23,7 @@ it("resovles valid JSON", () => {
 it("rejects invalid JSON", () => {
   expect.assertions(1);
 
-  return readFileAsJson(createTextFile("LOL")).catch(e => {
+  return readFileAsJson(createTextFile("LOL")).catch((e) => {
     expect(e).toBeInstanceOf(Error);
   });
 });

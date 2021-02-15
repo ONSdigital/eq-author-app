@@ -20,7 +20,7 @@ const inputFilter = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  updateCollapsible: collapsible => {
+  updateCollapsible: (collapsible) => {
     const data = filter(inputFilter, collapsible);
     return mutate({
       variables: { input: data },

@@ -19,7 +19,7 @@ const VALID_TYPES = [
 describe("AnswerTypeToCondition", () => {
   describe("isAnswerTypeSupported()", () => {
     it("should return true for valid answer types", () => {
-      Object.values(answerTypes).forEach(type => {
+      Object.values(answerTypes).forEach((type) => {
         const expected = VALID_TYPES.includes(type);
         expect(isAnswerTypeSupported(type)).toEqual(expected);
       });
@@ -36,7 +36,7 @@ describe("AnswerTypeToCondition", () => {
         [answerTypes.UNIT]: conditions.SELECT,
         [answerTypes.CHECKBOX]: conditions.ALL_OF,
       };
-      VALID_TYPES.forEach(type => {
+      VALID_TYPES.forEach((type) => {
         expect(getDefault(type)).toEqual(expectedDefaults[type]);
       });
     });

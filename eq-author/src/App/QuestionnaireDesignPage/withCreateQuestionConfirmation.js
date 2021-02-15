@@ -5,10 +5,9 @@ import createQuestionPageMutation from "graphql/questionConfirmation/create.grap
 
 import { buildConfirmationPath } from "utils/UrlUtils";
 
-export const redirectToNewPage = ({
-  history,
-  match: { params },
-}) => questionConfirmation => {
+export const redirectToNewPage = ({ history, match: { params } }) => (
+  questionConfirmation
+) => {
   const { id } = questionConfirmation;
   history.push(
     buildConfirmationPath({

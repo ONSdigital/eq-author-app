@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import HelpModal from "./HelpModal";
 
-const render = props => shallow(<HelpModal {...props} />);
+const render = (props) => shallow(<HelpModal {...props} />);
 
 describe("HelpModal", () => {
   let props, onClose, wrapper;

@@ -84,13 +84,15 @@ const query = gql`
 `;
 const ROUTING_QUERY = transformNestedFragments(query, RoutingPage.fragments);
 
-const QueryingRoute = props => (
+const QueryingRoute = (props) => (
   <Query
     query={ROUTING_QUERY}
     variables={{ input: props.match.params }}
     fetchPolicy="cache-and-network"
   >
-    {innerProps => <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />}
+    {(innerProps) => (
+      <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />
+    )}
   </Query>
 );
 QueryingRoute.propTypes = {

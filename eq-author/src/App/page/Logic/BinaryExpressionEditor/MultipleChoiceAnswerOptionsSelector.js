@@ -134,16 +134,16 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       newSelectedOptions = [...this.selectedOptionIds, id];
     } else {
       newSelectedOptions = this.selectedOptionIds.filter(
-        selectedId => selectedId !== id
+        (selectedId) => selectedId !== id
       );
     }
     this.props.onRightChange({ selectedOptions: newSelectedOptions });
   };
 
-  handleCheckboxUnselect = id => {
+  handleCheckboxUnselect = (id) => {
     const { expression } = this.props;
     const selectedOptions = expression.right.options
-      .filter(option => option.id !== id)
+      .filter((option) => option.id !== id)
       .map(({ id }) => id);
     this.props.onRightChange({ selectedOptions });
   };
@@ -162,7 +162,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
     const error = find(
       expression.validationErrorInfo.errors,
-      error =>
+      (error) =>
         error.errorCode.includes("ERR_RIGHTSIDE") ||
         error.errorCode.includes(
           "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
@@ -199,7 +199,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
           {expression.condition !== answerConditions.UNANSWERED &&
-            options.map(option => (
+            options.map((option) => (
               <ToggleChip
                 key={option.id}
                 name={option.id}
@@ -238,7 +238,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
           {expression.condition !== answerConditions.UNANSWERED && (
             <>
               <TransitionGroup component={SelectedOptions}>
-                {get(expression, "right.options", []).map(option => {
+                {get(expression, "right.options", []).map((option) => {
                   const isMutuallyExclusive =
                     expression.left.mutuallyExclusiveOption &&
                     option.id === expression.left.mutuallyExclusiveOption.id;

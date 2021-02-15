@@ -59,7 +59,7 @@ describe("updateMetadataValue", () => {
       },
     ];
     const updatedQuestionnaire = updateMetadataValue({ metadata });
-    updatedQuestionnaire.metadata.forEach(metadata => {
+    updatedQuestionnaire.metadata.forEach((metadata) => {
       expect(metadata).not.toHaveProperty("value");
     });
     expect(updatedQuestionnaire.metadata[0].textValue).toEqual("new Value");

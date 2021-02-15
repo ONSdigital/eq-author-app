@@ -8,7 +8,7 @@ const getEntityKeyValue = require("../../../utils/getEntityByKeyValue");
 const createValidationError = require("../createValidationError");
 const { getPath } = require("../utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("linkedDecimalValidation", {
     $data: true,
     validate: function isValid(
@@ -30,7 +30,7 @@ module.exports = function(ajv) {
 
       const minValidation = currentAnswerValidation.minValue;
       const maxValidation = currentAnswerValidation.maxValue;
-      [minValidation, maxValidation].forEach(validation => {
+      [minValidation, maxValidation].forEach((validation) => {
         if (
           validation &&
           validation.enabled &&

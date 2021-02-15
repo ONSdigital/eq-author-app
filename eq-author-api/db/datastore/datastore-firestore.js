@@ -49,10 +49,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   });
 
   try {
-    await db
-      .collection("questionnaires")
-      .doc(id)
-      .set(baseQuestionnaire);
+    await db.collection("questionnaires").doc(id).set(baseQuestionnaire);
 
     await db
       .collection("questionnaires")
@@ -73,7 +70,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   };
 };
 
-const getQuestionnaire = async id => {
+const getQuestionnaire = async (id) => {
   try {
     const questionnaireSnapshot = await db
       .collection("questionnaires")
@@ -86,7 +83,7 @@ const getQuestionnaire = async id => {
       logger.info("No questionnaires found");
       return null;
     }
-    const transformedQuestionnaires = questionnaireSnapshot.docs.map(doc => ({
+    const transformedQuestionnaires = questionnaireSnapshot.docs.map((doc) => ({
       ...doc.data(),
       editors: doc.data().editors || [],
       createdAt: doc.data().createdAt.toDate(),
@@ -102,7 +99,7 @@ const getQuestionnaire = async id => {
   }
 };
 
-const getQuestionnaireMetaById = async id => {
+const getQuestionnaireMetaById = async (id) => {
   try {
     const questionnaireSnapshot = await db
       .collection("questionnaires")
@@ -116,7 +113,7 @@ const getQuestionnaireMetaById = async id => {
 
     const questionnaire = {
       ...questionnaireSnapshot.data(),
-      history: questionnaireSnapshot.data().history.map(historyItem => ({
+      history: questionnaireSnapshot.data().history.map((historyItem) => ({
         ...historyItem,
         time: historyItem.time.toDate(),
       })),
@@ -131,7 +128,7 @@ const getQuestionnaireMetaById = async id => {
   }
 };
 
-const saveQuestionnaire = async changedQuestionnaire => {
+const saveQuestionnaire = async (changedQuestionnaire) => {
   const { id } = changedQuestionnaire;
 
   try {
@@ -185,7 +182,7 @@ const listQuestionnaires = async () => {
     }
 
     const questionnaires = questionnairesSnapshot.docs
-      .map(doc => ({
+      .map((doc) => ({
         ...doc.data(),
         editors: doc.data().editors || [],
         createdAt: doc.data().createdAt.toDate(),
@@ -201,12 +198,9 @@ const listQuestionnaires = async () => {
   }
 };
 
-const deleteQuestionnaire = async id => {
+const deleteQuestionnaire = async (id) => {
   try {
-    await db
-      .collection("questionnaires")
-      .doc(id)
-      .delete();
+    await db.collection("questionnaires").doc(id).delete();
     return;
   } catch (error) {
     logger.error(`Unable to delete questionnaire with ID: ${id}`);
@@ -215,7 +209,7 @@ const deleteQuestionnaire = async id => {
   }
 };
 
-const createUser = async user => {
+const createUser = async (user) => {
   let { id, name, email } = user;
 
   try {
@@ -244,7 +238,7 @@ const createUser = async user => {
   return { ...user, id, name };
 };
 
-const getUserByExternalId = async externalId => {
+const getUserByExternalId = async (externalId) => {
   try {
     if (!externalId) {
       throw new Error("Cannot find user without required field 'externalId'");
@@ -270,12 +264,9 @@ const getUserByExternalId = async externalId => {
   }
 };
 
-const getUserById = async id => {
+const getUserById = async (id) => {
   try {
-    const userSnapshot = await db
-      .collection("users")
-      .doc(id)
-      .get();
+    const userSnapshot = await db.collection("users").doc(id).get();
 
     if (userSnapshot.empty) {
       logger.info("No users found");
@@ -299,7 +290,7 @@ const listUsers = async () => {
       return [];
     }
 
-    return usersSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    return usersSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (error) {
     logger.error(`Unable to get a list of all users`);
     logger.error(error);
@@ -338,7 +329,7 @@ const createHistoryEvent = async (qid, event) => {
   }
 };
 
-const saveMetadata = async metadata => {
+const saveMetadata = async (metadata) => {
   const { id } = metadata;
 
   if (!id) {
@@ -361,7 +352,7 @@ const saveMetadata = async metadata => {
   }
 };
 
-const createComments = async questionnaireId => {
+const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
       throw new Error(
@@ -369,10 +360,7 @@ const createComments = async questionnaireId => {
       );
     }
     const defaultComments = { questionnaireId, comments: {} };
-    await db
-      .collection("comments")
-      .doc(questionnaireId)
-      .set(defaultComments);
+    await db.collection("comments").doc(questionnaireId).set(defaultComments);
     return defaultComments;
   } catch (error) {
     logger.error(
@@ -383,7 +371,7 @@ const createComments = async questionnaireId => {
   }
 };
 
-const getCommentsForQuestionnaire = async questionnaireId => {
+const getCommentsForQuestionnaire = async (questionnaireId) => {
   try {
     const commentsSnapshot = await db
       .collection("comments")
@@ -393,9 +381,9 @@ const getCommentsForQuestionnaire = async questionnaireId => {
     const data = commentsSnapshot.data();
 
     const listOfComponents = Object.keys(data.comments);
-    listOfComponents.forEach(component => {
+    listOfComponents.forEach((component) => {
       const componentComments = data.comments[component];
-      data.comments[component] = componentComments.map(comment => {
+      data.comments[component] = componentComments.map((comment) => {
         let editedTime;
         if (comment.editedTime) {
           editedTime = comment.editedTime.toDate();
@@ -403,7 +391,7 @@ const getCommentsForQuestionnaire = async questionnaireId => {
           editedTime = null;
         }
 
-        const replies = comment.replies.map(reply => {
+        const replies = comment.replies.map((reply) => {
           let editedTime;
           if (reply.editedTime) {
             editedTime = reply.editedTime.toDate();
@@ -436,7 +424,7 @@ const getCommentsForQuestionnaire = async questionnaireId => {
   }
 };
 
-const saveComments = async updatedCommentsObject => {
+const saveComments = async (updatedCommentsObject) => {
   const { questionnaireId, comments: updatedComments } = updatedCommentsObject;
   try {
     if (!questionnaireId) {
@@ -458,16 +446,13 @@ const saveComments = async updatedCommentsObject => {
   }
 };
 
-const updateUser = async changedUser => {
+const updateUser = async (changedUser) => {
   const { id } = changedUser;
   try {
     if (!id) {
       throw new Error("Cannot update user without required field: id");
     }
-    const existingUser = await db
-      .collection("users")
-      .doc(id)
-      .get();
+    const existingUser = await db.collection("users").doc(id).get();
     const user = Object.assign(changedUser, existingUser);
     await db
       .collection("users")

@@ -1,6 +1,6 @@
 const { getAbsolutePositionById } = require("../../../schema/resolvers/utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("idPreceedsCurrentEntity", {
     $data: true,
     validate: (

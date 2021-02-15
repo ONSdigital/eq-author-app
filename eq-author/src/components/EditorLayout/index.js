@@ -59,7 +59,7 @@ const EditorLayout = ({
   validationErrorInfo,
   ...otherProps
 }) => (
-  <Titled title={existingTitle => `${existingTitle} - ${title}`}>
+  <Titled title={(existingTitle) => `${existingTitle} - ${title}`}>
     <Container>
       <Header title={title}>
         <Tabs

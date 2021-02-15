@@ -43,7 +43,7 @@ export class UnwrappedRoutingEditor extends React.Component {
     this.props.createRule(this.props.routing.id);
   };
 
-  handleElseChange = destination => {
+  handleElseChange = (destination) => {
     this.props.updateRouting({
       ...this.props.routing,
       else: destination,

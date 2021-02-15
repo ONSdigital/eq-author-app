@@ -58,7 +58,7 @@ export class Menu extends React.Component {
     isPickerOpen: false,
   };
 
-  handleButtonClick = pickerContent => {
+  handleButtonClick = (pickerContent) => {
     this.setState({ pickerContent, isPickerOpen: true });
   };
 
@@ -155,14 +155,14 @@ const calculateEntityName = ({
   }
 };
 
-const postProcessPipingContent = entity => {
+const postProcessPipingContent = (entity) => {
   if (!entity) {
     return false;
   }
 
   const processedAnswers = [];
 
-  entity.availablePipingAnswers.forEach(answer => {
+  entity.availablePipingAnswers.forEach((answer) => {
     if (answer.type === "DateRange") {
       processedAnswers.push({
         ...answer,

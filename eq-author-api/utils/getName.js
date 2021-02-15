@@ -16,7 +16,7 @@ const defaultNames = {
 const getName = (entity, typeName) => {
   const title = find(
     pick(entity, ["alias", "title", "label", "key"]),
-    value => {
+    (value) => {
       if (!value) {
         return false;
       }

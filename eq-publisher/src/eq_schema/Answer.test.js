@@ -16,7 +16,7 @@ const Question = require("./Question");
 const { CENTIMETER, unitConversion } = require("../constants/unit-types");
 
 describe("Answer", () => {
-  const createAnswerJSON = answer =>
+  const createAnswerJSON = (answer) =>
     Object.assign(
       {
         id: 1,
@@ -156,7 +156,7 @@ describe("Answer", () => {
 
     describe("Min value", () => {
       it("should add a min value validation rule for number types", () => {
-        [NUMBER, PERCENTAGE, CURRENCY].forEach(type => {
+        [NUMBER, PERCENTAGE, CURRENCY].forEach((type) => {
           const answer = new Answer(
             createAnswerJSON({
               type,
@@ -184,7 +184,7 @@ describe("Answer", () => {
 
     describe("Max value", () => {
       it("should add a max value validation rule for number types", () => {
-        [NUMBER, PERCENTAGE, CURRENCY].forEach(type => {
+        [NUMBER, PERCENTAGE, CURRENCY].forEach((type) => {
           const answer = new Answer(
             createAnswerJSON({
               type,
@@ -780,7 +780,7 @@ describe("Answer", () => {
         })
       );
 
-      answer.options.forEach(option => {
+      answer.options.forEach((option) => {
         expect(option).not.toHaveProperty("child_answer_id");
       });
     });

@@ -43,10 +43,7 @@ describe("Content Picker Single", () => {
 
   it("should call onOptionClick with id and option when option is clicked", () => {
     const wrapper = shallow(<ContentPickerSingle {...props} />);
-    wrapper
-      .find("PickerOption")
-      .at(1)
-      .simulate("click");
+    wrapper.find("PickerOption").at(1).simulate("click");
     expect(props.onOptionClick).toHaveBeenCalledWith({
       displayName: "Option Label 2",
       id: "2",
@@ -61,18 +58,8 @@ describe("Content Picker Single", () => {
     const wrapper = shallow(
       <ContentPickerSingle {...props} data={data} childKey="children" />
     );
-    expect(
-      wrapper
-        .find("PickerOption")
-        .at(0)
-        .prop("disabled")
-    ).toBe(false);
-    expect(
-      wrapper
-        .find("PickerOption")
-        .at(1)
-        .prop("disabled")
-    ).toBe(true);
+    expect(wrapper.find("PickerOption").at(0).prop("disabled")).toBe(false);
+    expect(wrapper.find("PickerOption").at(1).prop("disabled")).toBe(true);
   });
 
   describe("PickerWrapper", () => {

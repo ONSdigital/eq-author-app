@@ -3,11 +3,11 @@ function readFileAsJson(file) {
     throw new TypeError("Must be instance of File or Blob");
   }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const fileReader = new FileReader();
 
-    fileReader.onerror = e => reject(e.target.error);
-    fileReader.onload = e => {
+    fileReader.onerror = (e) => reject(e.target.error);
+    fileReader.onload = (e) => {
       try {
         resolve(JSON.parse(e.target.result));
       } catch (error) {
