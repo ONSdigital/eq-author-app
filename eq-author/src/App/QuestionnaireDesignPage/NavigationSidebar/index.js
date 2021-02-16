@@ -303,7 +303,7 @@ const UnwrappedNavigationSidebar = ({
             data-test="nav-section-header"
           />
           <OpenAllSectionsBtn onClick={() => toggleSections(!openSections)}>
-            {`${openSections ? "Open" : "Close"} all sections`}
+            {`${openSections ? "Close" : "Open"} all sections`}
           </OpenAllSectionsBtn>
           <NavigationScrollPane>
             <NavList>
