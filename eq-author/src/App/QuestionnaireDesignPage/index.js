@@ -83,6 +83,8 @@ export const getSectionByPageId = (questionnaire, id) =>
   find(getSections(questionnaire), ({ folders }) =>
     some(folders, ({ pages }) => some(pages, { id }))
   );
+export const getPageById = (questionnaire, id) =>
+  find(getPages(questionnaire), { id });
 export const getPageByConfirmationId = (questionnaire, id) =>
   find(getPages(questionnaire), ({ confirmation }) => confirmation.id === id);
 
@@ -115,11 +117,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
       return false;
     }
 
-    const pages = questionnaire.sections.flatMap(({ folders }) =>
-      folders.flatMap((folder) => folder.pages)
-    );
-
-    const page = find(pages, { id: pageId });
+    const page = getPageById(questionnaire, pageId);
 
     if (!page || page.confirmation || page.pageType !== "QuestionPage") {
       return false;
