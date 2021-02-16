@@ -34,7 +34,7 @@ const FolderDesignPage = ({ match }) => {
     return (
       <EditorPage>
         <Panel>
-          <Loading height="38rem" />;
+          <Loading height="38rem" />
         </Panel>
       </EditorPage>
     );
