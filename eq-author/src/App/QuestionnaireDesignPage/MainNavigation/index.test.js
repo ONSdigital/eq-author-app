@@ -6,14 +6,25 @@ import { act } from "react-dom/test-utils";
 import { QCodeContext } from "components/QCodeContext";
 
 describe("MainNavigation", () => {
-  let props, user, mocks, questionnaire, flattenedAnswers, duplicateQCode;
+  let props,
+    user,
+    mocks,
+    questionnaire,
+    flattenedAnswers,
+    duplicateQCode,
+    signOut,
+    onSubmit;
+
 
   beforeEach(() => {
+    signOut = jest.fn();
+    onSubmit = jest.fn();
     user = {
       id: "123",
       displayName: "Batman",
       name: "Bruce",
       email: "IAmBatman@dccomics.com",
+      __typename: "User",
       picture: "",
       admin: true,
     };
@@ -31,6 +42,8 @@ describe("MainNavigation", () => {
       questionnaire,
       match: { params: { modifier: "", questionnaireId: questionnaire.id } },
       loading: false,
+      signOut,
+      onSubmit,
     };
     mocks = [
       {
@@ -127,7 +140,7 @@ describe("MainNavigation", () => {
 
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
@@ -147,7 +160,6 @@ describe("MainNavigation", () => {
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
-    // const publishBtn = getByTestId("btn-publish");
 
     expect(viewSurveyBtn).not.toBeDisabled();
     expect(settingsBtn).not.toBeDisabled();
@@ -161,7 +173,7 @@ describe("MainNavigation", () => {
     props.questionnaire.totalErrorCount = 1;
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
@@ -198,7 +210,7 @@ describe("MainNavigation", () => {
     flattenedAnswers[0].qCode = "";
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
@@ -219,7 +231,7 @@ describe("MainNavigation", () => {
     duplicateQCode = true;
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>

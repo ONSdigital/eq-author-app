@@ -4,7 +4,7 @@ import {
   render,
   fireEvent,
   waitForElementToBeRemoved,
-  wait,
+  waitFor,
   screen,
 } from "tests/utils/rtl";
 
@@ -75,7 +75,7 @@ describe("Answer Type Selector", () => {
   it("should focus on menu once Popout has entered", async () => {
     const { getByText } = render(<AnswerTypeSelector {...props} />);
     fireEvent.click(getByText(/add an answer/i));
-    await wait(() => {
+    await waitFor(() => {
       expect(document.activeElement.getAttribute("data-test")).toMatch(
         /btn-answer-type/
       );
