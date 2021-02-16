@@ -137,6 +137,28 @@ describe("MainNavigation", () => {
     duplicateQCode = false;
   });
 
+  it("should display error badge when there are errors", async () => {
+    flattenedAnswers[0].qCode = "";
+    props.questionnaire.qCodeErrorCount = 1;
+
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
+
+    await act(async () => {
+      flushPromises();
+    });
+
+    expect(getByTestId("small-badge")).toBeTruthy();
+  });
+
   it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user, signOut }}>
@@ -228,6 +250,7 @@ describe("MainNavigation", () => {
 
   it("should provide the validation error dot for the QCodes tab if there are duplicate qCodes", async () => {
     duplicateQCode = true;
+    props.questionnaire.qCodeErrorCount = 1;
 
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user, signOut }}>

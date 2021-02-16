@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, act, flushPromises } from "tests/utils/rtl";
+import { render, act, flushPromises, waitFor } from "tests/utils/rtl";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import { MeContext } from "App/MeContext";
@@ -84,7 +84,7 @@ describe("Folder design page", () => {
   it("Can render", async () => {
     const { getByTestId } = renderFolderDesignPage({});
 
-await waitFor(() => expect(getByTestId("folders-page")).toBeVisible());
+    await waitFor(() => expect(getByTestId("folders-page")).toBeVisible());
   });
 
   it("Should show the error page if there is an error getting the folder from db", async () => {

@@ -19,9 +19,9 @@ describe("Navigation item", () => {
 
   describe("Error", () => {
     it("Should not show the error badge if there are none", () => {
-      const { getByTestId } = renderNavItem({});
+      const { queryByTestId } = renderNavItem({});
 
-expect(queryByTestId("NavItem-error")).not.toBeVisible();
+      expect(queryByTestId("NavItem-error")).toBeNull();
     });
 
     it("Should show the error badge if there are any", () => {
