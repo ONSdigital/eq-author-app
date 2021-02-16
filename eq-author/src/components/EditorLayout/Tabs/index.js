@@ -10,6 +10,8 @@ import {
   buildLogicPath,
 } from "utils/UrlUtils";
 
+import Badge from "components/Badge";
+
 export const activeClassName = "active";
 
 const TabsContainer = styled.nav`
@@ -40,20 +42,6 @@ export const Tab = styled(NavLink)`
 
 const DisabledTab = styled(Tab.withComponent("span"))`
   opacity: 0.2;
-`;
-
-const SmallBadge = styled.span`
-  border-radius: 50%;
-  background-color: ${colors.red};
-  border: 1px solid ${colors.white};
-  font-weight: normal;
-  z-index: 2;
-  display: inline-flex;
-  pointer-events: none;
-  width: 0.75em;
-  height: 0.75em;
-  margin: 0 5px 0 0;
-  padding: 0;
 `;
 
 const TABS = [
@@ -124,7 +112,7 @@ export const UnwrappedTabs = (props) => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
-                <SmallBadge data-test="small-badge" />
+                <Badge variant="tabs" small data-test="small-badge" />
               ) : null}
               {children}
             </Component>
