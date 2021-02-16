@@ -4,20 +4,20 @@ import ContentPickerSelect from "components/ContentPickerSelect/index";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { useCurrentPageId } from "components/RouterContext";
-import getContentBeforePage from "utils/getContentBeforePage";
+import { useParams } from "react-router-dom";
+import getContentBeforePage from "utils/getContentBeforeEntity";
 
 export const PreviousAnswerContentPicker = (props) => {
   const { questionnaire } = useQuestionnaire();
-  const pageId = useCurrentPageId();
+  const selectedPageParams = useParams();
 
   const sections = useMemo(
     () =>
       getContentBeforePage({
         questionnaire,
-        pageId,
+        ...selectedPageParams,
       }),
-    [questionnaire, pageId]
+    [questionnaire, selectedPageParams]
   );
 
   return (

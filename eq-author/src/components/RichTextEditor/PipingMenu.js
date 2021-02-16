@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { isEmpty } from "lodash";
 
 import ContentPicker from "components/ContentPickerv2";
-import { useCurrentPageId } from "components/RouterContext";
+import { useParams } from "react-router-dom";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import getContentBeforePage from "utils/getContentBeforePage";
+import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import IconPiping from "components/RichTextEditor/icon-piping.svg?inline";
 import IconPipingMetadata from "components/RichTextEditor/icon-piping-metadata.svg?inline";
@@ -43,6 +43,9 @@ const PipingMenu = ({
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
+  const { questionnaire } = useQuestionnaire();
+  const params = useParams();
+
   const handleButtonClick = (pickerContent) => {
     setPickerContent(pickerContent);
     setIsPickerOpen(true);
@@ -55,19 +58,16 @@ const PipingMenu = ({
     onItemChosen(...args);
   };
 
-  const { questionnaire } = useQuestionnaire();
-  const pageId = useCurrentPageId();
-
   const answerData = useMemo(
     () =>
-      questionnaire && pageId
-        ? getContentBeforePage({
+      questionnaire && params
+        ? getContentBeforeEntity({
             questionnaire,
-            pageId,
             preprocess: splitDateRangeAnswers,
+            ...params,
           })
         : [],
-    [questionnaire, pageId]
+    [questionnaire, params]
   );
 
   const metadataData = questionnaire?.metadata || [];
@@ -123,22 +123,19 @@ const PipingMenu = ({
 
 PipingMenu.propTypes = PipingMenuPropTypes;
 
-export const splitDateRangeAnswers = (entity) => {
-  if (entity.type === "DateRange") {
-    return [
-      {
-        ...entity,
-        id: `${entity.id}from`,
-      },
-      {
-        ...entity,
-        id: `${entity.id}to`,
-        displayName: entity.secondaryLabel || entity.secondaryLabelDefault,
-      },
-    ];
-  }
-
-  return entity;
-};
+export const splitDateRangeAnswers = (entity) =>
+  entity.type === "DateRange"
+    ? [
+        {
+          ...entity,
+          id: `${entity.id}from`,
+        },
+        {
+          ...entity,
+          id: `${entity.id}to`,
+          displayName: entity.secondaryLabel || entity.secondaryLabelDefault,
+        },
+      ]
+    : entity;
 
 export default PipingMenu;

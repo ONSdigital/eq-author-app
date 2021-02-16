@@ -1,9 +1,18 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedPreviousAnswerContentPicker } from "./PreviousAnswerContentPicker";
+import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
 
 const render = (props = {}) =>
-  shallow(<UnwrappedPreviousAnswerContentPicker {...props} />);
+  shallow(<PreviousAnswerContentPicker {...props} />);
 
 describe("PreviousAnswerContentPicker", () => {
   let props, wrapper;
