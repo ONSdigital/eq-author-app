@@ -92,6 +92,7 @@ const UnwrappedNavigationSidebar = ({
   match: {
     params: { entityId },
   },
+  history,
 }) => {
   const [openSections, toggleSections] = useState(true);
 
@@ -127,14 +128,15 @@ const UnwrappedNavigationSidebar = ({
             <NavItem
               key={pageId}
               title={displayName}
-              titleUrl={`#${buildPagePath({
+              titleUrl={buildPagePath({
                 questionnaireId: questionnaire.id,
                 pageId,
                 tab: "design",
-              })}`}
-              active={isCurrentPage(pageId, entityId)}
+              })}
+              disabled={isCurrentPage(pageId, entityId)}
               icon={IconQuestionPage}
               errorCount={validationErrorInfo.totalCount}
+              history={history}
             />
           </li>
         </NavItemTransition>
@@ -147,14 +149,15 @@ const UnwrappedNavigationSidebar = ({
             <NavItem
               key={pageId}
               title={displayName}
-              titleUrl={`#${buildPagePath({
+              titleUrl={buildPagePath({
                 questionnaireId: questionnaire.id,
                 pageId,
                 tab: "design",
-              })}`}
-              active={isCurrentPage(pageId, entityId)}
+              })}
+              disabled={isCurrentPage(pageId, entityId)}
               icon={IconSummaryPage}
               errorCount={validationErrorInfo.totalCount}
+              history={history}
             />
           </li>
         </NavItemTransition>
@@ -170,13 +173,14 @@ const UnwrappedNavigationSidebar = ({
             <NavItem
               key={confirmation.displayName}
               title={confirmation.displayName}
-              titleUrl={`#${buildConfirmationPath({
+              titleUrl={buildConfirmationPath({
                 questionnaireId: questionnaire.id,
                 confirmationId: confirmation.id,
                 tab: "design",
-              })}`}
-              active={isCurrentPage(confirmation.id, entityId)}
+              })}
+              disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
+              history={history}
             />
           </li>
         </NavItemTransition>
@@ -198,14 +202,15 @@ const UnwrappedNavigationSidebar = ({
                 <CollapsibleNavItem
                   key={`folder-${folderId}enabled`}
                   title={alias || "Untitled folder"}
-                  titleUrl={`#${buildFolderPath({
+                  titleUrl={buildFolderPath({
                     questionnaireId: questionnaire.id,
                     folderId,
                     tab: "design",
-                  })}`}
-                  active={isCurrentPage(folderId, entityId)}
+                  })}
+                  disabled={isCurrentPage(folderId, entityId)}
                   icon={IconFolder}
                   errorCount={calculatePageErrors(pages)}
+                  history={history}
                   open
                 >
                   <NavList>
@@ -250,18 +255,19 @@ const UnwrappedNavigationSidebar = ({
               <CollapsibleNavItem
                 key={`section-${sectionId}`}
                 title={displayName}
-                titleUrl={`#${buildSectionPath({
+                titleUrl={buildSectionPath({
                   questionnaireId: questionnaire.id,
                   sectionId,
                   tab: "design",
-                })}`}
+                })}
                 bordered
                 errorCount={
                   validationErrorInfo.totalCount +
                   calculatePageErrors(allPagesInSection)
                 }
-                active={isCurrentPage(sectionId, entityId)}
+                disabled={isCurrentPage(sectionId, entityId)}
                 icon={IconSection}
+                history={history}
                 open={openSections}
               >
                 <NavList>{buildFolderList(folders)}</NavList>
@@ -306,16 +312,17 @@ const UnwrappedNavigationSidebar = ({
                   <Introduction
                     key={"introduction"}
                     title="Introduction"
-                    titleUrl={`#${buildIntroductionPath({
+                    titleUrl={buildIntroductionPath({
                       questionnaireId: questionnaire.id,
                       introductionId: questionnaire.introduction.id,
                       tab: "design",
-                    })}`}
-                    active={isCurrentPage(
+                    })}
+                    disabled={isCurrentPage(
                       questionnaire.introduction.id,
                       entityId
                     )}
                     icon={PageIcon}
+                    history={history}
                     style={{ marginLeft: "1.5em" }}
                   />
                 </li>
@@ -341,6 +348,7 @@ UnwrappedNavigationSidebar.propTypes = {
   onAddFolder: PropTypes.func.isRequired,
   canAddFolder: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line
+  history: CustomPropTypes.history.isRequired,
 };
 
 export default flowRight(withRouter)(UnwrappedNavigationSidebar);

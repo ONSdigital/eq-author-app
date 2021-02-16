@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -16,17 +17,19 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const Title = styled.a`
+const Title = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
   font-size: 0.9em;
   margin: 0;
-  color: ${({ active }) => (active ? colors.black : colors.white)};
+  color: ${colors.white};
   font-weight: bold;
   text-decoration: none;
-  background-color: ${({ active }) => (active ? colors.orange : "transparent")};
+  background-color: transparent;
   padding-right: 1em;
+  border: none;
+  cursor: pointer;
 
   ${({ bordered }) => {
     if (bordered) {
@@ -41,17 +44,29 @@ const Title = styled.a`
     background: rgba(0, 0, 0, 0.2);
   }
 
+  &:focus {
+    outline: 2px solid ${colors.orange};
+  }
+
+  &:disabled {
+    background: ${colors.orange};
+    outline: none;
+    color: ${colors.black};
+
+    svg {
+      path {
+        fill: ${colors.black};
+      }
+    }
+  }
+
   svg {
     width: 32px;
     height: 32px;
     margin-right: 5px;
     path {
-      fill: ${({ active }) => (active ? colors.black : colors.white)};
+      fill: ${colors.white};
     }
-  }
-
-  &:focus {
-    outline: 2px solid ${colors.orange};
   }
 `;
 
@@ -101,9 +116,10 @@ const CollapsibleNavItem = ({
   open,
   bordered,
   errorCount,
-  active,
+  disabled,
   className,
   children,
+  history,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
 
@@ -125,8 +141,8 @@ const CollapsibleNavItem = ({
           data-test="CollapsibleNavItem-toggle-button"
         />
         <Title
-          href={titleUrl}
-          active={active}
+          onClick={() => history.push(titleUrl)}
+          disabled={disabled}
           bordered={bordered}
           data-test="CollapsibleNavItem-title"
         >
@@ -155,7 +171,8 @@ const CollapsibleNavItem = ({
 CollapsibleNavItem.propTypes = {
   title: PropTypes.string.isRequired,
   titleUrl: PropTypes.string.isRequired,
-  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  history: CustomPropTypes.history.isRequired,
   bordered: PropTypes.bool,
   errorCount: PropTypes.number,
   children: PropTypes.node.isRequired,
