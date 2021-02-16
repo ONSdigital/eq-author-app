@@ -37,6 +37,10 @@ const Title = styled.a`
     }
   }}
 
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
   svg {
     width: 32px;
     height: 32px;
@@ -78,6 +82,7 @@ const ToggleCollapsibleNavItemButton = styled.button`
     transition: transform 200ms ease-out;
     transform: rotate(${(props) => (props.isOpen ? "0deg" : "-90deg")});
   }
+
   &:focus {
     outline: 2px solid ${colors.orange};
   }

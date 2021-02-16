@@ -36,6 +36,10 @@ const Title = styled.a`
     }
   }
 
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
   &:focus {
     outline: 2px solid ${colors.orange};
   }
