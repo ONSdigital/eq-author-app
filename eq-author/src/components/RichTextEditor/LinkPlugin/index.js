@@ -48,7 +48,7 @@ DecoratedLink.propTypes = {
 };
 
 const linkStrategy = (contentBlock, callback, contentState) => {
-  contentBlock.findEntityRanges(character => {
+  contentBlock.findEntityRanges((character) => {
     const entityRef = character.getEntity();
     return (
       entityRef !== null &&

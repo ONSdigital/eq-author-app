@@ -20,7 +20,7 @@ const inputStructure = gql`
 const filterToInput = partial(filter, inputStructure);
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateQuestionnaire: questionnaire =>
+  onUpdateQuestionnaire: (questionnaire) =>
     mutate({
       variables: { input: filterToInput(questionnaire) },
     }),

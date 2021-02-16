@@ -1,9 +1,9 @@
 /* eslint-disable no-loop-func */
 import { RADIO } from "constants/answer-types";
 
-export const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
+export const removeHtml = (html) => html && html.replace(/(<([^>]+)>)/gi, "");
 
-export const organiseAnswers = sections => {
+export const organiseAnswers = (sections) => {
   const questions = sections
     .map(({ folders }) => folders.map(({ pages }) => pages))
     .flat(2);
@@ -20,7 +20,7 @@ export const organiseAnswers = sections => {
           item.options &&
           item.type !== RADIO
         ) {
-          const optionLabel = item.options.map(option => ({
+          const optionLabel = item.options.map((option) => ({
             ...option,
             type: "CheckboxOption",
             option: true,
@@ -86,7 +86,7 @@ export const organiseAnswers = sections => {
   return { answers: answerRows };
 };
 
-export const flattenAnswers = data => {
+export const flattenAnswers = (data) => {
   const answers = data.reduce((acc, item) => {
     const answer = item.answers.map((ans, index) => {
       if (index > 0) {
@@ -110,7 +110,7 @@ export const flattenAnswers = data => {
   return answers;
 };
 
-export const duplicatesAnswers = flattenedAnswers => {
+export const duplicatesAnswers = (flattenedAnswers) => {
   const duplicates = flattenedAnswers.reduce((acc, item) => {
     if (
       acc.hasOwnProperty(item.qCode) &&

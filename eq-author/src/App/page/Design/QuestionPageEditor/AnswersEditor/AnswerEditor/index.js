@@ -82,7 +82,7 @@ class AnswerEditor extends React.Component {
     this.props.onDeleteAnswer(this.props.answer.id);
   };
 
-  formatIncludes = x => fp.flow(fp.get("properties.format"), fp.includes(x));
+  formatIncludes = (x) => fp.flow(fp.get("properties.format"), fp.includes(x));
 
   renderAnswer(answer) {
     const { type } = answer;

@@ -25,7 +25,7 @@ const availableTabMatrix = {
   CalculatedSummaryPage: { design: true, preview: true },
 };
 
-const deriveAvailableTabs = page =>
+const deriveAvailableTabs = (page) =>
   isEmpty(page) ? {} : availableTabMatrix[page.pageType];
 
 export class UnwrappedPageRoute extends React.Component {
@@ -124,7 +124,7 @@ export const PAGE_QUERY = gql`
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 
-const PageRoute = props => {
+const PageRoute = (props) => {
   return (
     <Query
       query={PAGE_QUERY}
@@ -136,7 +136,7 @@ const PageRoute = props => {
         },
       }}
     >
-      {innerProps => {
+      {(innerProps) => {
         return (
           <WrappedPageRoute
             {...innerProps}

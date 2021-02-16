@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 
-const timeout = props => props.timeout;
-const halfTimeout = props => props.timeout / 2;
+const timeout = (props) => props.timeout;
+const halfTimeout = (props) => props.timeout / 2;
 
-const onExit = node => {
+const onExit = (node) => {
   const { height } = node.getBoundingClientRect();
   node.style.height = `${height}px`;
 };

@@ -28,7 +28,11 @@ describe("AnswerSelector", () => {
       position: 2,
       displayName: "Foo",
       totalTitle: "",
-      section: { id: "1", displayName: "This Section" },
+      section: {
+        id: "1",
+        displayName: "This Section",
+        questionnaire: { id: "1", metadata: [] },
+      },
       summaryAnswers: [],
       availableSummaryAnswers: [],
     };
@@ -98,10 +102,7 @@ describe("AnswerSelector", () => {
     page.summaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper.find(AnswerChip)).toHaveLength(3);
-    wrapper
-      .find(AnswerChip)
-      .first()
-      .simulate("remove");
+    wrapper.find(AnswerChip).first().simulate("remove");
     expect(mockHandlers.onUpdateCalculatedSummaryPage).toHaveBeenCalledWith({
       id: "2",
       summaryAnswers: [answers[1], answers[2]],

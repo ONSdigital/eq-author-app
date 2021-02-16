@@ -87,7 +87,7 @@ export class StatelessOption extends Component {
     this.props.onDelete(this.props.option.id);
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     if (e.keyCode === ENTER_KEY) {
       this.props.onEnterKey(e);
     }

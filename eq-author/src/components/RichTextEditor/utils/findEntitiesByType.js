@@ -1,6 +1,6 @@
-export default entityType => {
+export default (entityType) => {
   return function findEntitiesByType(contentBlock, callback, contentState) {
-    contentBlock.findEntityRanges(character => {
+    contentBlock.findEntityRanges((character) => {
       const entityKey = character.getEntity();
       return (
         character.getEntity() !== null &&

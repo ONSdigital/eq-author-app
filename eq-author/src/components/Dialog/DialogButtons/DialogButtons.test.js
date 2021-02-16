@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import DialogButtons from "./";
 
-const renderButtons = props => {
+const renderButtons = (props) => {
   return render(<DialogButtons {...props} />);
 };
 

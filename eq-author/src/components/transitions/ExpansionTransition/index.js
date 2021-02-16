@@ -6,7 +6,7 @@ const ExpansionTransition = styled(CSSTransition).attrs({
   classNames: "expansion",
 })`
   transition-property: height;
-  transition-duration: ${props => props.timeout}ms;
+  transition-duration: ${(props) => props.timeout}ms;
   transition-timing-function: ease-in-out;
 
   &.expansion-enter {
@@ -14,11 +14,11 @@ const ExpansionTransition = styled(CSSTransition).attrs({
   }
 
   &.expansion-enter.expansion-enter-active {
-    height: ${props => props.finalHeight};
+    height: ${(props) => props.finalHeight};
   }
 
   &.expansion-exit {
-    height: ${props => props.finalHeight};
+    height: ${(props) => props.finalHeight};
   }
 
   &.expansion-exit.expansion-exit-active {

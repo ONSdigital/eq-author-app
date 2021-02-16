@@ -26,12 +26,12 @@ class Group {
   filterContext(currentId, ctx) {
     ctx.routingGotos = reject(
       ctx.routingGotos,
-      rule => rule.group === currentId
+      (rule) => rule.group === currentId
     );
   }
 
   buildSkipConditions(currentId, ctx) {
-    return reject(ctx.routingGotos, goto => goto.groupId === currentId).map(
+    return reject(ctx.routingGotos, (goto) => goto.groupId === currentId).map(
       ({ when }) => ({
         when,
       })
@@ -40,7 +40,7 @@ class Group {
 
   buildBlocks(folder, ctx) {
     return flatten(
-      folder.pages.map(page => {
+      folder.pages.map((page) => {
         const block = new Block(page, folder.id, ctx);
         if (page.confirmation) {
           return [

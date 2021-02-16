@@ -35,7 +35,7 @@ const getQuestionnaireQuery = `
   }
 `;
 
-const queryQuestionnaire = async ctx => {
+const queryQuestionnaire = async (ctx) => {
   const result = await executeQuery(getQuestionnaireQuery, { input: {} }, ctx);
   if (ctx.questionnaireValidationErrors) {
     return {

@@ -106,7 +106,7 @@ export const UnwrappedRuleEditor = ({
 
   const handleDeleteClick = () => deleteRule(rule.id);
 
-  const handleDestinationChange = destination =>
+  const handleDestinationChange = (destination) =>
     updateRule({ ...rule, destination });
 
   const handleGroupOperatorChange = ({ value: operator }) =>
@@ -115,7 +115,7 @@ export const UnwrappedRuleEditor = ({
       operator,
     });
 
-  const handleExpressionDeletion = expressionGroup => {
+  const handleExpressionDeletion = (expressionGroup) => {
     if (expressionGroup?.expressions?.length === 1) {
       updateExpressionGroup({
         id: expressionGroup.id,
@@ -145,7 +145,7 @@ export const UnwrappedRuleEditor = ({
         hasError={groupOperatorError}
         onChange={handleGroupOperatorChange}
       >
-        <option value={null} selected disabled hidden>
+        <option value={null} disabled hidden>
           {" "}
           Select AND/OR{" "}
         </option>

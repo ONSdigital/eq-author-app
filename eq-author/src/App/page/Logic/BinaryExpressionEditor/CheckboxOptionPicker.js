@@ -82,7 +82,7 @@ const handler = (checkedOptions, setCheckedOptions) => ({ name, value }) => {
   if (value) {
     setCheckedOptions([...checkedOptions, name]);
   } else {
-    setCheckedOptions(checkedOptions.filter(id => id !== name));
+    setCheckedOptions(checkedOptions.filter((id) => id !== name));
   }
 };
 
@@ -100,7 +100,7 @@ const CheckboxOptionPicker = ({ expression, onClose, onRightChange }) => {
     <>
       <Title>Choose options</Title>
       <Scroll>
-        {answer.options.map(option => (
+        {answer.options.map((option) => (
           <Option
             key={option.id}
             option={option}

@@ -184,10 +184,7 @@ describe("Answer Editor", () => {
       ...mockMutations,
     });
 
-    wrapper
-      .find(DeleteButton)
-      .first()
-      .simulate("click");
+    wrapper.find(DeleteButton).first().simulate("click");
     expect(mockMutations.onDeleteAnswer).toHaveBeenCalledWith(mockAnswer.id);
   });
 
@@ -223,7 +220,7 @@ describe("Answer Editor", () => {
   it("should correctly calculates date format", () => {
     const formats = ["yyyy", "mm/yyyy", "dd/mm/yyyy"];
 
-    map(formats, format => {
+    map(formats, (format) => {
       const wrapper = createWrapper({
         answer: {
           ...mockAnswer,

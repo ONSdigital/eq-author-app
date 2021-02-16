@@ -60,28 +60,28 @@ const TABS = [
   {
     key: "design",
     children: "Design",
-    url: match => buildDesignPath(match.params),
+    url: (match) => buildDesignPath(match.params),
   },
   {
     key: "preview",
     children: "Preview",
-    url: match => buildPreviewPath(match.params),
+    url: (match) => buildPreviewPath(match.params),
   },
   {
     key: "logic",
     children: "Logic",
-    url: match => buildLogicPath(match.params),
+    url: (match) => buildLogicPath(match.params),
     isActive: (match, location) =>
       location.pathname.includes("routing") ||
       location.pathname.includes("skip"),
   },
 ];
 
-export const UnwrappedTabs = props => {
+export const UnwrappedTabs = (props) => {
   const { match, validationErrorInfo } = props;
 
   const tabErrors = useCallback(
-    tabKey => {
+    (tabKey) => {
       if (validationErrorInfo === null || validationErrorInfo === undefined) {
         return null;
       }

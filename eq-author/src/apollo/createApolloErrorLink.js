@@ -32,11 +32,12 @@ export const errorHandler = (getStore, error) => {
     }
   }
   if (graphQLErrors) {
-    graphQLErrors.forEach(error => {
+    graphQLErrors.forEach((error) => {
       setSentryTag("graphQLError");
       sendSentryError(error);
     });
   }
 };
 
-export default getStore => onError(errors => errorHandler(getStore, errors));
+export default (getStore) =>
+  onError((errors) => errorHandler(getStore, errors));

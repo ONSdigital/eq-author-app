@@ -115,7 +115,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   groupOperatorComponent,
   onExpressionDeleted = () => null,
 }) => {
-  const handleLeftSideChange = contentPickerResult =>
+  const handleLeftSideChange = (contentPickerResult) =>
     updateLeftSide(expression, contentPickerResult.value.id);
 
   const handleDeleteClick = () =>
@@ -123,10 +123,10 @@ export const UnwrappedBinaryExpressionEditor = ({
 
   const handleAddClick = () => createBinaryExpression(expressionGroup.id);
 
-  const handleUpdateRightSide = updateField =>
+  const handleUpdateRightSide = (updateField) =>
     updateRightSide(expression, updateField);
 
-  const handleUpdateCondition = condition =>
+  const handleUpdateCondition = (condition) =>
     updateBinaryExpression(expression, condition);
 
   const answerPickerError = ANSWER_PICKER_ERROR_SITUATIONS.find(

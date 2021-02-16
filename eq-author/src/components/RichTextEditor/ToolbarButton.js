@@ -46,7 +46,7 @@ const StyledToolbarButton = styled.button.attrs({ type: "button" })`
     pointer-events: none;
   }
 
-  ${props => props.active && activeState};
+  ${(props) => props.active && activeState};
 `;
 
 const ToolbarButton = ({

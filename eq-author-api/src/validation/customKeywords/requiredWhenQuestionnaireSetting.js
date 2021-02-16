@@ -4,7 +4,7 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("requiredWhenQuestionnaireSetting", {
     validate: function validate(
       settingName,

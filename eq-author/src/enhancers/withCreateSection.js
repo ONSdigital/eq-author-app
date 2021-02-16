@@ -3,7 +3,7 @@ import createSectionMutation from "graphql/createSection.graphql";
 import { buildSectionPath } from "utils/UrlUtils";
 import { get, tap } from "lodash/fp";
 
-export const redirectToNewSection = ownProps => section => {
+export const redirectToNewSection = (ownProps) => (section) => {
   const {
     history,
     match: { params },

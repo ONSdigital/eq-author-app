@@ -49,7 +49,7 @@ const FilterButton = styled.label`
     box-shadow: 0 0 0 3px ${colors.tertiary};
   }
 
-  ${props =>
+  ${(props) =>
     props.checked &&
     css`
       color: white;

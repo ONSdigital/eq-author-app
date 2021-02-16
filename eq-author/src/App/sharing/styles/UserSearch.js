@@ -38,7 +38,7 @@ export const SearchResult = styled.li`
   padding: 0.3em;
   height: 2em;
   cursor: pointer;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.selected ? colors.lighterGrey : "transparent"};
 
   &:not(:last-of-type) {
