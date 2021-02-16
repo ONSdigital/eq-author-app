@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { propType } from "graphql-anywhere";
-import { find } from "lodash";
 import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
 import { MenuItemType } from "components/ContentPickerv2/Menu";
 import CalSumContentPicker from "./CalSumContentPicker";
-import shapeTree from "components/ContentPicker/shapeTree";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";
@@ -18,6 +16,12 @@ import {
   CALCSUM_SUMMARY_ANSWERS_THE_SAME,
   buildLabelError,
 } from "constants/validationMessages";
+
+import getContentBeforeEntity from "utils/getContentBeforeEntity";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useParams } from "react-router-dom";
+
+import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
 
 import AnswerChip from "./AnswerChip";
 import iconInfo from "./icon-info.svg";
@@ -140,81 +144,51 @@ export const ErrorContext = styled.div`
     `}
 `;
 
-export class UnwrappedAnswerSelector extends Component {
-  state = {
-    showPicker: false,
-  };
+const UnwrappedAnswerSelector = ({
+  onUpdateCalculatedSummaryPage,
+  page,
+  getValidationError,
+}) => {
+  const [showPicker, setShowPicker] = useState(false);
+  const { questionnaire } = useQuestionnaire();
+  const params = useParams();
+  const { summaryAnswers } = page;
 
-  handleRemoveAnswers(answers) {
-    const {
-      onUpdateCalculatedSummaryPage,
-      page,
-      page: { summaryAnswers },
-    } = this.props;
-    const newSelectedValues = summaryAnswers.filter(
-      (selectedSummaryAnswer) =>
-        !find(answers, (answer) => answer.id === selectedSummaryAnswer.id)
-    );
+  const handleRemoveAnswers = (answers) =>
     onUpdateCalculatedSummaryPage({
       id: page.id,
-      summaryAnswers: newSelectedValues,
+      summaryAnswers: summaryAnswers.filter(
+        ({ id }) => !answers.find((answer) => answer.id === id)
+      ),
     });
-  }
 
-  handlePickerOpen = () => {
-    this.setState({ showPicker: true });
-  };
+  const handlePickerOpen = () => setShowPicker(true);
+  const handlePickerClose = () => setShowPicker(false);
 
-  handlePickerClose = () => {
-    this.setState({ showPicker: false });
-  };
-
-  handlePickerSubmit = (answers) => {
-    const { onUpdateCalculatedSummaryPage, page } = this.props;
-
-    this.setState({ showPicker: false });
+  const handlePickerSubmit = (answers) => {
+    handlePickerClose();
     onUpdateCalculatedSummaryPage({
       id: page.id,
       summaryAnswers: answers,
     });
   };
 
-  renderAnswers(answers, answerType) {
-    const unitInconsistencyError = this.props.getValidationError({
+  const renderAnswers = (answers, answerType) => {
+    const unitInconsistencyError = getValidationError({
       field: "summaryAnswers",
       message: CALCSUM_SUMMARY_ANSWERS_THE_SAME,
     });
 
-    const minOfTwoAnswersError = this.props.getValidationError({
+    const minOfTwoAnswersError = getValidationError({
       field: "summaryAnswers",
       message: CALCSUM_ANSWER_NOT_SELECTED,
     });
 
-    const { section } = this.props.page;
+    const { section } = page;
     const unit = answers[0].properties.unit;
 
-    let errorMsg;
-
-    if (unit !== undefined) {
-      errorMsg = buildLabelError(
-        CALCSUM_ANSWER_NOT_SELECTED,
-        `${unit.toLowerCase()}`,
-        20,
-        19
-      );
-    } else {
-      errorMsg = buildLabelError(
-        CALCSUM_ANSWER_NOT_SELECTED,
-        `${answers[0].type.toLowerCase()}`,
-        20,
-        19
-      );
-    }
-
-    const isInvalid = unitInconsistencyError || minOfTwoAnswersError;
-
     return (
-      <div>
+      <>
         <SectionList>
           <SectionListItem key={section.id}>
             <SectionHeader>
@@ -223,20 +197,18 @@ export class UnwrappedAnswerSelector extends Component {
               </SectionTitle>
               <RemoveAllButton
                 data-test="remove-all"
-                onClick={() => {
-                  this.handleRemoveAnswers(answers);
-                }}
+                onClick={() => handleRemoveAnswers(answers)}
               >
                 Remove all
               </RemoveAllButton>
             </SectionHeader>
-            <ErrorContext isInvalid={isInvalid}>
+            <ErrorContext
+              isInvalid={unitInconsistencyError || minOfTwoAnswersError}
+            >
               <AnswerList>
                 {answers.map((answer) => (
                   <AnswerListItem key={answer.id}>
-                    <AnswerChip
-                      onRemove={() => this.handleRemoveAnswers([answer])}
-                    >
+                    <AnswerChip onRemove={() => handleRemoveAnswers([answer])}>
                       <ChipText>{answer.displayName}</ChipText>
                       {answer.properties.unit && (
                         <TypeChip key={answer.properties.unit}>
@@ -248,87 +220,105 @@ export class UnwrappedAnswerSelector extends Component {
                   </AnswerListItem>
                 ))}
               </AnswerList>
-              {minOfTwoAnswersError && <ErrorInline>{errorMsg}</ErrorInline>}
+              {minOfTwoAnswersError && (
+                <ErrorInline>
+                  {buildLabelError(
+                    CALCSUM_ANSWER_NOT_SELECTED,
+                    (unit || answers[0].type).toLowerCase(),
+                    20,
+                    19
+                  )}
+                </ErrorInline>
+              )}
             </ErrorContext>
           </SectionListItem>
         </SectionList>
         <SelectButton
           variant="secondary"
-          onClick={this.handlePickerOpen}
+          onClick={handlePickerOpen}
           data-test="answer-selector"
         >
-          Select another {(answerType || "answer").toLowerCase()} answer
+          Select another {answerType?.toLowerCase() || ""} answer
         </SelectButton>
-      </div>
+      </>
     );
-  }
+  };
 
-  renderEmptyState(availableSummaryAnswers) {
-    const { getValidationError } = this.props;
-    const isAvailableAnswers = availableSummaryAnswers.length > 0;
-
+  const renderEmptyState = (availableSummaryAnswers) => {
     const errorValidationMsg = getValidationError({
       field: "summaryAnswers",
       message: CALCSUM_ANSWER_NOT_SELECTED,
     });
 
-    const title = isAvailableAnswers
+    const title = availableSummaryAnswers.length
       ? "No answers selected"
       : "No answers available";
-    const text = isAvailableAnswers
+    const text = availableSummaryAnswers.length
       ? "Select an answer using the button below."
       : "There are no answers to provide a calculated summary.";
     return (
-      <div>
-        <Empty>
-          <EmptyTitle>{title}</EmptyTitle>
-          <EmptyText>{text}</EmptyText>
-          <ErrorContainer>
-            <EmptyButton
-              small
-              onClick={this.handlePickerOpen}
-              data-test="answer-selector-empty"
-              disabled={!isAvailableAnswers}
-            >
-              Select an answer
-            </EmptyButton>
-            <ErrorInline>{errorValidationMsg}</ErrorInline>
-          </ErrorContainer>
-        </Empty>
-      </div>
+      <Empty>
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyText>{text}</EmptyText>
+        <ErrorContainer>
+          <EmptyButton
+            small
+            onClick={handlePickerOpen}
+            data-test="answer-selector-empty"
+            disabled={!availableSummaryAnswers.length}
+          >
+            Select an answer
+          </EmptyButton>
+          <ErrorInline>{errorValidationMsg}</ErrorInline>
+        </ErrorContainer>
+      </Empty>
     );
+  };
+
+  const availableSummaryAnswers = useMemo(
+    () =>
+      (
+        questionnaire &&
+        params &&
+        getContentBeforeEntity({
+          questionnaire,
+          preprocess: filterAvailableAnswers,
+          ...params,
+        })
+      )?.filter((section) => section.id === page.section.id) || [],
+    [questionnaire, params]
+  );
+
+  return (
+    <Box>
+      <Answers>
+        {summaryAnswers.length
+          ? renderAnswers(summaryAnswers, summaryAnswers?.[0]?.type)
+          : renderEmptyState(availableSummaryAnswers)}
+        <CalSumContentPicker
+          isOpen={showPicker}
+          onClose={handlePickerClose}
+          onSubmit={handlePickerSubmit}
+          startingSelectedAnswers={summaryAnswers}
+          data={availableSummaryAnswers}
+        />
+      </Answers>
+    </Box>
+  );
+};
+
+export const filterAvailableAnswers = (entity) => {
+  if (
+    entity.__typename === "BasicAnswer" ||
+    entity.__typeName === "MultipleChoiceAnswer"
+  ) {
+    return [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type)
+      ? entity
+      : [];
   }
 
-  render() {
-    const {
-      page: { summaryAnswers, availableSummaryAnswers },
-    } = this.props;
-
-    let answerType;
-    if (summaryAnswers.length > 0) {
-      answerType = summaryAnswers[0].type;
-    }
-
-    return (
-      <div>
-        <Box>
-          <Answers>
-            {summaryAnswers.length > 0
-              ? this.renderAnswers(summaryAnswers, answerType)
-              : this.renderEmptyState(availableSummaryAnswers)}
-            <CalSumContentPicker
-              isOpen={this.state.showPicker}
-              onClose={this.handlePickerClose}
-              onSubmit={this.handlePickerSubmit}
-              startingSelectedAnswers={summaryAnswers}
-              data={shapeTree(availableSummaryAnswers)}
-            />
-          </Answers>
-        </Box>
-      </div>
-    );
-  }
-}
+  return entity;
+};
 
 UnwrappedAnswerSelector.fragments = {
   AnswerSelector: gql`
@@ -337,33 +327,12 @@ UnwrappedAnswerSelector.fragments = {
       section {
         id
         displayName
-        questionnaire {
-          id
-          metadata {
-            id
-            displayName
-          }
-        }
       }
       summaryAnswers {
         id
         displayName
         type
         properties
-      }
-      availableSummaryAnswers {
-        id
-        displayName
-        type
-        properties
-        page {
-          id
-          displayName
-          section {
-            id
-            displayName
-          }
-        }
       }
     }
   `,
