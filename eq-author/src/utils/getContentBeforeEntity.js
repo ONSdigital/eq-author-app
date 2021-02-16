@@ -88,5 +88,5 @@ export default ({
     preprocess,
   });
 
-  return contentBeforeEntity?.[0]?.folders?.length ? contentBeforeEntity : [];
+  return contentBeforeEntity.filter(({ folders }) => folders.length);
 };
