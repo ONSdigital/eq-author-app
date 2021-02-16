@@ -29,7 +29,7 @@ export const Title = styled.h2`
 `;
 
 export const Body = styled.div`
-  display: ${props => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
   margin-left: 0.1em;
   padding: 0 0 0 0.5em;
@@ -86,7 +86,7 @@ const Collapsible = ({ title, defaultOpen, className, children }) => {
         <Title data-test="collapsible-title">
           <ToggleCollapsibleButton
             isOpen={isOpen}
-            onClick={() => setIsOpen(isOpen => !isOpen)}
+            onClick={() => setIsOpen((isOpen) => !isOpen)}
             aria-expanded={isOpen}
             aria-controls="collapsible-body"
             data-test="collapsible-toggle-button"

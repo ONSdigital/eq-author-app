@@ -7,7 +7,7 @@ const Panel = styled.div`
   border-radius: ${radius};
   background-color: ${colors.white};
   border: 1px solid ${colors.bordersLight};
-  max-width: ${props => props.maxWidth};
+  max-width: ${(props) => props.maxWidth};
 
   & > h2 {
     margin-left: 2em;

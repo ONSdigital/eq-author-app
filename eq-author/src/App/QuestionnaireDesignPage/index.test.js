@@ -329,15 +329,17 @@ describe("QuestionnaireDesignPage", () => {
     it("should display existing title if loading", () => {
       wrapper.setProps({ loading: true });
 
-      const getTitle = wrapper.findWhere(n => n.name() === "GetContext").props()
-        .title;
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
 
       expect(getTitle()).toEqual("");
     });
 
     it("should display questionnaire title if no longer loading", () => {
-      const getTitle = wrapper.findWhere(n => n.name() === "GetContext").props()
-        .title;
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
 
       expect(getTitle()).toEqual(questionnaire.title);
     });

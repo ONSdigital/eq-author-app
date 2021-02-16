@@ -43,8 +43,8 @@ const ShortCodeEditor = ({ shortCode: shortCodeFromDb, onUpdate }) => {
           autoComplete="off"
           name="shortCode"
           placeholder=""
-          onChange={e => setShortCode(e.target.value)}
-          onBlur={e => onUpdate(e.target.value)}
+          onChange={(e) => setShortCode(e.target.value)}
+          onBlur={(e) => onUpdate(e.target.value)}
           value={shortCode || ""}
         />
         <CharacterCounter value={shortCode} limit={24} />

@@ -3,7 +3,7 @@ import createFolderMutation from "graphql/createFolder.graphql";
 import { get, tap } from "lodash/fp";
 import { buildFolderPath } from "utils/UrlUtils";
 
-export const redirectToNewFolder = ownProps => folder => {
+export const redirectToNewFolder = (ownProps) => (folder) => {
   const {
     history,
     match: { params },

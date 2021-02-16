@@ -64,7 +64,7 @@ const FolderDesignPage = ({ match }) => {
     folder: { id, alias },
   } = data;
 
-  const shortCodeOnUpdate = alias => {
+  const shortCodeOnUpdate = (alias) => {
     return saveShortCode({
       variables: { input: { folderId: id, alias } },
     });

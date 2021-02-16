@@ -100,7 +100,7 @@ const UnwrappedNavigationSidebar = ({
     onAddSection(questionnaire.id);
   }, [questionnaire]);
 
-  const calculatePageErrors = pages => {
+  const calculatePageErrors = (pages) => {
     let count = 0;
 
     pages.map(
@@ -183,7 +183,7 @@ const UnwrappedNavigationSidebar = ({
     return components;
   };
 
-  const buildFolderList = folders => {
+  const buildFolderList = (folders) => {
     const components = folders.map(
       ({ id: folderId, enabled, alias, pages }) => {
         if (enabled) {
@@ -211,7 +211,7 @@ const UnwrappedNavigationSidebar = ({
                       key={`transition-group-pages`}
                       component={null}
                     >
-                      {pages.map(page => buildPageList(page))}
+                      {pages.map((page) => buildPageList(page))}
                     </TransitionGroup>
                   </NavList>
                 </CollapsibleNavItem>
@@ -220,7 +220,7 @@ const UnwrappedNavigationSidebar = ({
           );
         }
         if (!enabled) {
-          return pages.map(page => buildPageList(page));
+          return pages.map((page) => buildPageList(page));
         }
 
         return null;
@@ -234,7 +234,7 @@ const UnwrappedNavigationSidebar = ({
     );
   };
 
-  const buildSectionsList = sections => {
+  const buildSectionsList = (sections) => {
     const components = sections.map(
       ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
         const allPagesInSection = folders.flatMap(({ pages }) => pages);
