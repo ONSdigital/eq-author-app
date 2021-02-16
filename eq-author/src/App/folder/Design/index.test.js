@@ -84,11 +84,7 @@ describe("Folder design page", () => {
   it("Can render", async () => {
     const { getByTestId } = renderFolderDesignPage({});
 
-    await act(async () => {
-      await flushPromises();
-    });
-
-    expect(getByTestId("folders-page")).toBeVisible();
+await waitFor(() => expect(getByTestId("folders-page")).toBeVisible());
   });
 
   it("Should show the error page if there is an error getting the folder from db", async () => {
