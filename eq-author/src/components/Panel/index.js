@@ -8,17 +8,6 @@ const Panel = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.bordersLight};
   max-width: ${(props) => props.maxWidth};
-
-  & > h2 {
-    margin-left: 2em;
-    margin-right: 2em;
-    font-size: 1em;
-  }
-
-  & > p {
-    margin-left: 2em;
-    margin-right: 2em;
-  }
 `;
 
 const InformationPanel = ({ children }) => {

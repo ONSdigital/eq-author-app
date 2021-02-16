@@ -21,6 +21,19 @@ const Guidance = styled(Collapsible)`
   margin-right: 2em;
 `;
 
+const StyledPanel = styled(Panel)`
+  & > h2 {
+    margin-left: 2em;
+    margin-right: 2em;
+    font-size: 1em;
+  }
+
+  & > p {
+    margin-left: 2em;
+    margin-right: 2em;
+  }
+`;
+
 const FolderDesignPage = ({ match }) => {
   const { folderId } = match.params;
 
@@ -72,7 +85,7 @@ const FolderDesignPage = ({ match }) => {
 
   return (
     <EditorPage title={alias || "Untitled folder"}>
-      <Panel data-test="folders-page">
+      <StyledPanel data-test="folders-page">
         <EditorToolbar
           shortCode={alias}
           shortCodeOnUpdate={shortCodeOnUpdate}
@@ -104,7 +117,7 @@ const FolderDesignPage = ({ match }) => {
             within folders if they meet the conditions you have applied.
           </p>
         </Guidance>
-      </Panel>
+      </StyledPanel>
     </EditorPage>
   );
 };
