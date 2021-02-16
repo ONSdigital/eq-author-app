@@ -60,7 +60,7 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
 })`
-  margin: 0.425em 0 0.425em 1.8em;
+  margin: 0.8em 0 0.425em 2.2em;
   border: 1px solid white;
   top: 1px; /* adjust for misalignment caused by PopoutContainer */
   padding: 0.5em;
@@ -74,6 +74,8 @@ const OpenAllSectionsBtn = styled(Button).attrs({
 
 const Introduction = styled(NavItem)`
   margin-left: 2em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
 `;
 
 const UnwrappedNavigationSidebar = ({

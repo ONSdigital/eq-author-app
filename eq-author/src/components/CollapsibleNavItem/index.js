@@ -8,7 +8,7 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 
 const Wrapper = styled.div`
-  ${({ bordered }) => (bordered ? `margin-bottom: 1em` : null)}
+  margin-bottom: 0.5em;
 `;
 
 const Header = styled.div`
@@ -86,6 +86,7 @@ const ToggleCollapsibleNavItemButton = styled.button`
 const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-left: 2em;
+  margin-top: 0.5em;
 `;
 
 const CollapsibleNavItem = ({
