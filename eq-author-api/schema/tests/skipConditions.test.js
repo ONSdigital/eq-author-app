@@ -200,7 +200,7 @@ describe("skip conditions", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([section2.id, section1.id]);
+      expect(sections.map((s) => s.id)).toEqual([section2.id, section1.id]);
 
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();

@@ -22,7 +22,7 @@ const ColumnContainer = styled.div`
 `;
 
 const Column = styled.div`
-  width: ${props => props.width}%;
+  width: ${(props) => props.width}%;
 `;
 
 export const tabTitles = {
@@ -34,7 +34,7 @@ export const tabTitles = {
 const { Enter, Space } = keyCodes;
 
 const otherDestinations = ({ pages, logicalDestinations }) => {
-  const dest = logicalDestinations.map(item => {
+  const dest = logicalDestinations.map((item) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
@@ -45,7 +45,7 @@ const otherDestinations = ({ pages, logicalDestinations }) => {
   return dest;
 };
 
-const buildTabs = data => ({
+const buildTabs = (data) => ({
   current: {
     title: tabTitles.current,
     destinations: data.pages,
@@ -76,7 +76,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
               key={index}
               onClick={() => setSelectedTab(index)}
               tabIndex={"0"}
-              onKeyUp={event =>
+              onKeyUp={(event) =>
                 (event.key === Enter || event.key === Space) &&
                 setSelectedTab(index)
               }
@@ -90,13 +90,13 @@ const Menu = ({ data, onSelected, isSelected }) => {
       <Column width={56}>
         <ScrollPane>
           <MenuItemList>
-            {tabs[selectedTab].destinations.map(dest => (
+            {tabs[selectedTab].destinations.map((dest) => (
               <SubMenuItem
                 key={dest.id}
                 aria-selected={isSelected(dest)}
                 onClick={() => onSelected(dest)}
                 tabIndex={0}
-                onKeyUp={event =>
+                onKeyUp={(event) =>
                   (event.key === Enter || event.key === Space) &&
                   onSelected(dest)
                 }

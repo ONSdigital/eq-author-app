@@ -23,8 +23,8 @@ const {
   updateComment,
 } = require("../../tests/utils/contextBuilder/comments");
 
-const wait = timeout =>
-  new Promise(resolve => setTimeout(() => resolve("timeout"), timeout));
+const wait = (timeout) =>
+  new Promise((resolve) => setTimeout(() => resolve("timeout"), timeout));
 
 jest.mock("node-fetch");
 const fetch = require("node-fetch");

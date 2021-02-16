@@ -7,7 +7,7 @@ const {
 } = require("../../../constants/validationErrorCodes");
 const { getPath } = require("../utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("calculatedSummaryUnitConsistency", {
     $data: true,
     validate: function isValid(
@@ -25,7 +25,7 @@ module.exports = function(ajv) {
 
       const pages = flatMap(
         otherFields[sections].folders,
-        folder => folder.pages
+        (folder) => folder.pages
       );
 
       const currentSectionAnswers = pages.reduce(
@@ -34,11 +34,11 @@ module.exports = function(ajv) {
         []
       );
 
-      const selectedAnswers = currentSectionAnswers.filter(answer =>
+      const selectedAnswers = currentSectionAnswers.filter((answer) =>
         parentData.summaryAnswers.includes(answer.id)
       );
 
-      const units = selectedAnswers.map(selectedAnswer =>
+      const units = selectedAnswers.map((selectedAnswer) =>
         get(selectedAnswer, "properties.unit")
       );
 

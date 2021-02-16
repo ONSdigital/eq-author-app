@@ -7,7 +7,7 @@ import { Answer } from "./";
 
 describe("Answers", () => {
   it("should render a component for each answer type", () => {
-    Object.values(AnswerTypes).forEach(type => {
+    Object.values(AnswerTypes).forEach((type) => {
       if (
         [
           AnswerTypes.DATE,

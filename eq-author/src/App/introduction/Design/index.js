@@ -57,14 +57,14 @@ const INTRODUCTION_QUERY = transformNestedFragments(
   IntroductionEditor.fragments
 );
 
-const IntroductionDesignWithData = props => (
+const IntroductionDesignWithData = (props) => (
   <Query
     query={INTRODUCTION_QUERY}
     variables={{
       id: props.match.params.introductionId,
     }}
   >
-    {queryProps => <IntroductionDesign {...props} {...queryProps} />}
+    {(queryProps) => <IntroductionDesign {...props} {...queryProps} />}
   </Query>
 );
 IntroductionDesignWithData.propTypes = {

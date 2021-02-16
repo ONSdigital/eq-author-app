@@ -53,7 +53,7 @@ const QuestionnairesView = ({
     questionnairesRef.current = questionnaires;
   }
 
-  const handleDeleteQuestionnaire = questionnaire => {
+  const handleDeleteQuestionnaire = (questionnaire) => {
     dispatch({
       type: ACTIONS.DELETE_QUESTIONNAIRE,
       payload: questionnaire,
@@ -61,7 +61,7 @@ const QuestionnairesView = ({
     onDeleteQuestionnaire(questionnaire.id);
   };
 
-  const handleSortQuestionnaires = sortColumn => {
+  const handleSortQuestionnaires = (sortColumn) => {
     dispatch({
       type: ACTIONS.SORT_COLUMN,
       payload: sortColumn,
@@ -79,14 +79,14 @@ const QuestionnairesView = ({
     });
   };
 
-  const onToggleFilter = isFiltered =>
+  const onToggleFilter = (isFiltered) =>
     dispatch({
       type: ACTIONS.TOGGLE_FILTER,
       payload: { isFiltered },
     });
 
   const onSearchChange = useCallback(
-    searchTerm => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
+    (searchTerm) => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
     [dispatch]
   );
 
@@ -125,7 +125,7 @@ const QuestionnairesView = ({
         totalCount={state.questionnaires.length}
         pageCount={state.pages.length}
         currentPageIndex={state.currentPageIndex}
-        onPageChange={newPage =>
+        onPageChange={(newPage) =>
           dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
         }
       />

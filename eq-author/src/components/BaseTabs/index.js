@@ -33,7 +33,7 @@ const BaseTabs = ({
   return (
     <React.Fragment>
       <TabList>
-        {tabs.map(item =>
+        {tabs.map((item) =>
           renderButton({ onChange, activeId: activeTabId, buttonRender }, item)
         )}
       </TabList>

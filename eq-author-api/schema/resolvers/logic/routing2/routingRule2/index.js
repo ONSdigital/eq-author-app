@@ -29,12 +29,12 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 const Resolvers = {};
 
 Resolvers.RoutingRule2 = {
-  destination: routingRule => routingRule.destination,
-  expressionGroup: routingRule => routingRule.expressionGroup,
+  destination: (routingRule) => routingRule.destination,
+  expressionGroup: (routingRule) => routingRule.expressionGroup,
   routing: ({ id }, args, ctx) => {
     const pages = getPages(ctx);
-    const allRouting = flatMap(page => page.routing, pages).filter(Boolean);
-    const routing = find(routing => {
+    const allRouting = flatMap((page) => page.routing, pages).filter(Boolean);
+    const routing = find((routing) => {
       if (some({ id }, routing.rules)) {
         return routing;
       }
@@ -81,7 +81,7 @@ Resolvers.Mutation = {
 
       const routingRule = getRoutingRuleById(ctx, id);
 
-      const page = find(page => {
+      const page = find((page) => {
         if (page.routing && some({ id }, page.routing.rules)) {
           return page;
         }
@@ -110,7 +110,7 @@ Resolvers.Mutation = {
   ),
   deleteRoutingRule2: createMutation((root, { input }, ctx) => {
     const pages = getPages(ctx);
-    const page = find(page => {
+    const page = find((page) => {
       const routing = page.routing || { rules: [] };
       if (some({ id: input.id }, routing.rules)) {
         return page;

@@ -1,6 +1,6 @@
 const { RADIO } = require("../../constants/answerTypes");
 
-module.exports = firstAnswer => {
+module.exports = (firstAnswer) => {
   if (!firstAnswer) {
     return;
   }

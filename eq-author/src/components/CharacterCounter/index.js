@@ -3,10 +3,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
-const getLength = value => (value ? value.length : 0);
+const getLength = (value) => (value ? value.length : 0);
 
 export const Counter = styled.span`
-  color: ${props =>
+  color: ${(props) =>
     props.limit - getLength(props.value) < 0 ? colors.red : colors.lightGrey};
   padding: 0 0.3em;
   background: none;

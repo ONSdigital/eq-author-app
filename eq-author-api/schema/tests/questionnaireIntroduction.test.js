@@ -53,8 +53,8 @@ describe("questionnaire", () => {
 
       expect(introduction.availablePipingAnswers).toEqual([]);
       expect(introduction.availablePipingMetadata).not.toHaveLength(0);
-      expect(introduction.availablePipingMetadata.map(md => md.id)).toEqual(
-        questionnaire.metadata.map(md => md.id)
+      expect(introduction.availablePipingMetadata.map((md) => md.id)).toEqual(
+        questionnaire.metadata.map((md) => md.id)
       );
     });
   });

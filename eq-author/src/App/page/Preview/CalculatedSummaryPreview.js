@@ -97,7 +97,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
           {page.summaryAnswers.length > 0 ? (
             <Summary>
-              {page.summaryAnswers.map(answer => (
+              {page.summaryAnswers.map((answer) => (
                 <SummaryItem key={answer.id}>
                   <Grid>
                     <Column cols={7}>

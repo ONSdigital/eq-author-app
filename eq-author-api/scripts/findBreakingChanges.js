@@ -8,12 +8,12 @@ const {
 } = require("graphql");
 
 const tail = ([, ...rest]) => rest;
-const re = re => data => re.exec(data);
-const flow = (...fns) => arg => fns.reduce((acc, fn) => fn(acc), arg);
-const get = prop => obj => obj[prop];
-const startsWith = needle => haystack => haystack.indexOf(needle) === 0;
+const re = (re) => (data) => re.exec(data);
+const flow = (...fns) => (arg) => fns.reduce((acc, fn) => fn(acc), arg);
+const get = (prop) => (obj) => obj[prop];
+const startsWith = (needle) => (haystack) => haystack.indexOf(needle) === 0;
 
-const parseEnumBreakage = data => {
+const parseEnumBreakage = (data) => {
   const stripFullStops = /\./g;
   const words = data.replace(stripFullStops, "").split(" ");
   return [words[0], words[words.length - 1]];
@@ -22,22 +22,22 @@ const parseEnumBreakage = data => {
 const isIntrospectionType = flow(get("name"), startsWith("__"));
 const parseBreakage = flow(get("description"), re(/^(.*?)\.(.*?) /), tail);
 
-const findDeprecatedDirective = directives => {
+const findDeprecatedDirective = (directives) => {
   if (directives.length === 0) {
     return false;
   } else {
     const deprecatedDirectives = directives.filter(
-      directive => directive.name.value === "deprecated"
+      (directive) => directive.name.value === "deprecated"
     );
     return deprecatedDirectives.length > 0;
   }
 };
 
-const findDeprecatedFields = schema => {
+const findDeprecatedFields = (schema) => {
   const deprecatedFields = [];
   const typeMap = schema.getTypeMap();
 
-  Object.keys(typeMap).forEach(typeName => {
+  Object.keys(typeMap).forEach((typeName) => {
     const type = typeMap[typeName];
 
     if (
@@ -54,7 +54,7 @@ const findDeprecatedFields = schema => {
 
     if (isEnumType(type)) {
       const values = type.getValues();
-      values.map(value => {
+      values.map((value) => {
         if (value.isDeprecated) {
           deprecatedFields.push({
             field: value.name,
@@ -65,7 +65,7 @@ const findDeprecatedFields = schema => {
     } else {
       const fields = type.getFields();
 
-      Object.keys(fields).forEach(fieldName => {
+      Object.keys(fields).forEach((fieldName) => {
         const field = fields[fieldName];
         if (
           field.isDeprecated ||
@@ -77,7 +77,7 @@ const findDeprecatedFields = schema => {
           });
         }
         if (field.hasOwnProperty("args") && field.args.length > 0) {
-          field.args.map(arg => {
+          field.args.map((arg) => {
             if (findDeprecatedDirective(arg.astNode.directives)) {
               deprecatedFields.push({
                 field: fieldName,
@@ -93,7 +93,7 @@ const findDeprecatedFields = schema => {
 };
 
 const filterOutDeprecatedFields = (breakages, deprecated) => {
-  return breakages.filter(breakage => {
+  return breakages.filter((breakage) => {
     if (
       [
         BreakingChangeType.FIELD_REMOVED,
@@ -108,7 +108,7 @@ const filterOutDeprecatedFields = (breakages, deprecated) => {
         [type, field] = parseBreakage(breakage);
       }
       const isDeprecatedField = deprecated.some(
-        x => x.type === type && x.field === field
+        (x) => x.type === type && x.field === field
       );
 
       return !isDeprecatedField;

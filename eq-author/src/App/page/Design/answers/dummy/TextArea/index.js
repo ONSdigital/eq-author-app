@@ -10,7 +10,7 @@ const DummyTextArea = styled.div`
   position: relative;
   background-color: transparent;
   width: 50%;
-  height: ${props => props.rows + 2}em;
+  height: ${(props) => props.rows + 2}em;
   pointer-events: none;
 `;
 

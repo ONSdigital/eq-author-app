@@ -38,10 +38,10 @@ const highlighSearchTerm = (...args) =>
 const UserSearch = ({ users, onUserSelect }) => {
   const [user, setUser] = useState(null);
 
-  const addUser = target => {
+  const addUser = (target) => {
     setUser(target);
   };
-  const onAdd = clearSelection => {
+  const onAdd = (clearSelection) => {
     onUserSelect(user);
     clearSelection();
   };
@@ -50,7 +50,7 @@ const UserSearch = ({ users, onUserSelect }) => {
       <Downshift
         initialIsOpen={false}
         onSelect={addUser}
-        itemToString={user => (user ? user.name || user.email : "")}
+        itemToString={(user) => (user ? user.name || user.email : "")}
       >
         {({
           getInputProps,
@@ -83,7 +83,7 @@ const UserSearch = ({ users, onUserSelect }) => {
                 <SearchResults {...getMenuProps()}>
                   {isOpen &&
                     users
-                      .filter(user => {
+                      .filter((user) => {
                         if (!inputValue) {
                           return false;
                         }

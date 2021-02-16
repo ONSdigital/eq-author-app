@@ -12,7 +12,7 @@ const ErrorText = styled.span`
   width: 100%;
 `;
 
-export const ErrorMessage = type => (
+export const ErrorMessage = (type) => (
   <ErrorText data-test="no-previous-answers">
     {`There are no previous ${type} to pick from`}
   </ErrorText>

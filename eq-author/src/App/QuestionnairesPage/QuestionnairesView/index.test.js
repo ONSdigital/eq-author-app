@@ -17,7 +17,7 @@ import { UNPUBLISHED } from "constants/publishStatus";
 
 jest.mock("lodash", () => ({
   ...jest.requireActual("lodash"),
-  debounce: jest.fn(fn => fn),
+  debounce: jest.fn((fn) => fn),
 }));
 
 describe("QuestionnairesView", () => {
@@ -451,7 +451,7 @@ describe("QuestionnairesView", () => {
       });
 
       it("should not be able to delete a read only questionnaire", () => {
-        props.questionnaires = props.questionnaires.slice(0, 1).map(q => ({
+        props.questionnaires = props.questionnaires.slice(0, 1).map((q) => ({
           ...q,
           permission: READ,
         }));

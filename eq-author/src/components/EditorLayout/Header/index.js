@@ -48,7 +48,7 @@ const SavingContainer = styled.div`
   bottom: 0.5em;
 `;
 
-export const UnconnectedHeader = props => {
+export const UnconnectedHeader = (props) => {
   const { questionnaire, title, children, match } = props;
 
   useSubscription(publishStatusSubscription, {

@@ -1,13 +1,13 @@
 const addFolders = require("./addFolders");
 
 describe("", () => {
-  const questionnaireContext = sections => ({
+  const questionnaireContext = (sections) => ({
     id: "questionnaire-1",
     sections,
   });
 
   const sectionInput = (array, input = null) =>
-    array.map(item => ({ ...item, ...input }));
+    array.map((item) => ({ ...item, ...input }));
 
   let defaultSections = [
     {
@@ -33,7 +33,7 @@ describe("", () => {
     const questionnaire = questionnaireContext(sections);
     const addedFolders = addFolders(questionnaire);
 
-    addedFolders.sections.forEach(section => {
+    addedFolders.sections.forEach((section) => {
       expect(section.folders).toBeTruthy();
       expect(section.pages).toBeUndefined();
     });

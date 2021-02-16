@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 
-const timeout = props => props.timeout;
+const timeout = (props) => props.timeout;
 
-const onExit = node => {
+const onExit = (node) => {
   const { height } = node.getBoundingClientRect();
   node.style.height = `${height}px`;
 };
@@ -37,10 +37,10 @@ const OptionTransition = styled(CSSTransition).attrs(() => ({
     opacity: 0;
     height: 0 !important;
     transform: scale(0.9);
-    transition: opacity ${props => props.timeout / 2}ms ease-out,
-      height ${props => props.timeout / 2}ms ease-in
-        ${props => props.timeout / 2}ms,
-      transform ${props => props.timeout / 2}ms ease-in;
+    transition: opacity ${(props) => props.timeout / 2}ms ease-out,
+      height ${(props) => props.timeout / 2}ms ease-in
+        ${(props) => props.timeout / 2}ms,
+      transform ${(props) => props.timeout / 2}ms ease-in;
   }
 `;
 

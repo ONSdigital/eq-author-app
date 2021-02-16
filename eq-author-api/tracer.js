@@ -6,7 +6,7 @@ const promClient = require("prom-client");
 
 let tracer;
 
-const createTracer = logger => {
+const createTracer = (logger) => {
   if (!tracer) {
     const config = {
       serviceName: process.env.JAEGER_SERVICE_NAME,
@@ -30,7 +30,7 @@ const createTracer = logger => {
 };
 
 module.exports = {
-  tracer: logger => ({
+  tracer: (logger) => ({
     localTracer: createTracer(logger),
     serverTracer: createTracer(logger),
   }),

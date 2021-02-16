@@ -3,7 +3,7 @@ import withChangeHandler from "components/Forms/withChangeHandler";
 import { shallow } from "enzyme";
 
 describe("withChangeHandler", () => {
-  const Input = props => <input type="text" {...props} />;
+  const Input = (props) => <input type="text" {...props} />;
   Input.displayName = "Input";
 
   const EnhancedInput = withChangeHandler(Input);
@@ -42,7 +42,7 @@ describe("withChangeHandler", () => {
   });
 
   it("should handle checkboxes", () => {
-    const Checkbox = props => <input type="checkbox" {...props} />;
+    const Checkbox = (props) => <input type="checkbox" {...props} />;
     const EnhancedCheckbox = withChangeHandler(Checkbox);
 
     const component = shallow(

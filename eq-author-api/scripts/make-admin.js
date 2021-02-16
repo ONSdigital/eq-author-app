@@ -19,7 +19,7 @@ program
   .option("-r, --remove", "remove the admin role")
   .parse(process.argv);
 
-const formatError = arg => `Missing ${arg}. See -h for usage info.`;
+const formatError = (arg) => `Missing ${arg}. See -h for usage info.`;
 
 const makeAdmin = async (
   projectName,
@@ -58,7 +58,7 @@ makeAdmin(
   program.serviceAccountKey,
   program.remove
 )
-  .then(isAdmin => {
+  .then((isAdmin) => {
     logger.info(
       `User ${program.uid} in ${program.projectName} is ${
         isAdmin === true ? "now" : "no longer"
@@ -66,7 +66,7 @@ makeAdmin(
     );
     process.exit(0);
   })
-  .catch(e => {
+  .catch((e) => {
     logger.fatal(e);
     process.exit(1);
   });

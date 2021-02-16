@@ -13,22 +13,22 @@ export const UnwrappedPreviousAnswerContentPicker = ({
   path,
   ...otherProps
 }) => (
-    <ContentPickerSelect
-      name="previousAnswer"
-      contentTypes={[ANSWER]}
-      answerData={shapeTree(get(data, path))}
-      {...otherProps}
-    />
-  );
+  <ContentPickerSelect
+    name="previousAnswer"
+    contentTypes={[ANSWER]}
+    answerData={shapeTree(get(data, path))}
+    {...otherProps}
+  />
+);
 
 UnwrappedPreviousAnswerContentPicker.propTypes = {
   data: PropTypes.object, // eslint-disable-line
   path: PropTypes.string.isRequired,
 };
 
-const GetAvailablePreviewAnswersQuery = props => (
+const GetAvailablePreviewAnswersQuery = (props) => (
   <AvailablePreviousAnswersQuery answerId={props.answerId}>
-    {innerProps => (
+    {(innerProps) => (
       <UnwrappedPreviousAnswerContentPicker {...innerProps} {...props} />
     )}
   </AvailablePreviousAnswersQuery>

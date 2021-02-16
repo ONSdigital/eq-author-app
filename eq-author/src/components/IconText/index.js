@@ -9,7 +9,7 @@ const IconWithText = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: ${props => (props.hideText ? 0 : "0.5em")};
+  padding-right: ${(props) => (props.hideText ? 0 : "0.5em")};
   line-height: 1.3;
   color: var(--color-text);
   width: 100%;

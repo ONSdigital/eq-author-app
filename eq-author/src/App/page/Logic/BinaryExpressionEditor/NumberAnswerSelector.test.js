@@ -72,7 +72,7 @@ describe("NumberAnswerSelector", () => {
   });
 
   it("should not show the number input field when unanswered is chosen on a numeric type", () => {
-    [NUMBER, UNIT, CURRENCY, PERCENTAGE].forEach(type => {
+    [NUMBER, UNIT, CURRENCY, PERCENTAGE].forEach((type) => {
       defaultProps.expression.left.type = type;
 
       // Ensure the input field is shown

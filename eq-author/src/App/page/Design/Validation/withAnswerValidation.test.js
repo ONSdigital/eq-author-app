@@ -6,7 +6,7 @@ describe("withAnswerValidation", () => {
     jest.resetModules();
   });
 
-  const getWithAnswerValidationWithContext = answer => {
+  const getWithAnswerValidationWithContext = (answer) => {
     jest.doMock("./ValidationContext", () => ({
       Consumer: ({ children }) => children({ answer }),
     }));

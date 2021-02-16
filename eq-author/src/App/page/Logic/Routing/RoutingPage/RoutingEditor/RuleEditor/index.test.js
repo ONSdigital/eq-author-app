@@ -104,17 +104,11 @@ describe("RuleEditor", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .first()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).first().prop("canAddCondition")
     ).toBe(true);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .last()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).last().prop("canAddCondition")
     ).toBe(false);
   });
 
@@ -193,7 +187,7 @@ describe("RuleEditor", () => {
       {
         ...expression,
         id: "3",
-      }
+      },
     ];
 
     defaultProps.rule.expressionGroup.validationErrorInfo = {
@@ -233,7 +227,8 @@ describe("RuleEditor", () => {
     expressionEditor.simulate("expressionDeleted", {
       id: "expression-group",
       expressions: [
-        { id: "first-expression-standing" }, { id: "last-expression-standing" }
+        { id: "first-expression-standing" },
+        { id: "last-expression-standing" },
       ],
     });
 
@@ -241,29 +236,34 @@ describe("RuleEditor", () => {
 
     expressionEditor.simulate("expressionDeleted", {
       id: "expression-group",
-      expressions: [ { id: "last-expression-standing" } ],
+      expressions: [{ id: "last-expression-standing" }],
     });
 
     expect(defaultProps.updateExpressionGroup).toHaveBeenCalledWith({
       id: "expression-group",
-      operator: null
+      operator: null,
     });
   });
 
   it("should render static label rather than select element for third expression's group operator", () => {
     defaultProps.rule.expressionGroup.expressions = [
-      {...expression, id: "eeny" },
-      {...expression, id: "meeny" },
+      { ...expression, id: "eeny" },
+      { ...expression, id: "meeny" },
     ];
     let wrapper = shallow(<RuleEditor {...defaultProps} />);
     let expressionEditor = wrapper.find(BinaryExpressionEditor).first();
-    expect(expressionEditor.props().groupOperatorComponent.props.children).not.toBe("AND");
+    expect(
+      expressionEditor.props().groupOperatorComponent.props.children
+    ).not.toBe("AND");
 
     defaultProps.rule.expressionGroup.expressions.push({
-      ...expression, id: "miny"
+      ...expression,
+      id: "miny",
     });
     wrapper = shallow(<RuleEditor {...defaultProps} />);
     expressionEditor = wrapper.find(BinaryExpressionEditor).at(1);
-    expect(expressionEditor.props().groupOperatorComponent.props.children).toBe("AND");
+    expect(expressionEditor.props().groupOperatorComponent.props.children).toBe(
+      "AND"
+    );
   });
 });

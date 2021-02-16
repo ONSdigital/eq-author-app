@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import Property from "./Property";
 
-const render = props => shallow(<Property {...props} />);
+const render = (props) => shallow(<Property {...props} />);
 
 describe("Property", () => {
   let props, wrapper;

@@ -12,13 +12,13 @@ import getAvailableRoutingDestinations from "./getAvailableRoutingDestinations.g
 
 import { destinationKey, EndOfQuestionnaire } from "constants/destinations";
 
-const logicalDisplayName = logical =>
+const logicalDisplayName = (logical) =>
   destinationKey[logical] || destinationKey[EndOfQuestionnaire];
 
-const absoluteDisplayName = selected =>
+const absoluteDisplayName = (selected) =>
   (selected.section || selected.page).displayName;
 
-const selectedDisplayName = selected => {
+const selectedDisplayName = (selected) => {
   const { page, section, logical } = selected;
 
   if (!page && !section && !logical) {
@@ -51,7 +51,7 @@ export const RoutingDestinationContentPicker = ({
     sections,
   });
 
-  const handlePickerSubmit = selected => {
+  const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
     onSubmit({ name: "routingDestination", value: selected });
   };

@@ -4,7 +4,7 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateDuration", {
     $data: true,
     validate: function isValid(
@@ -24,7 +24,7 @@ module.exports = function(ajv) {
         years: "Years",
       };
 
-      const getNewDate = duration => {
+      const getNewDate = (duration) => {
         const { unit, value } = duration;
         const { days, months, years } = durationUnitTypes;
 

@@ -8,7 +8,7 @@ const { some } = require("lodash");
 const createValidationError = require("../createValidationError");
 const { getPath } = require("../utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateRoutingRule", {
     $data: true,
     validate: function isValid(

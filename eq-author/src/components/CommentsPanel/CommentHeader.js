@@ -16,7 +16,7 @@ import {
   Author,
 } from "./index";
 
-const CommentHeader = props => {
+const CommentHeader = (props) => {
   const {
     myId,
     getInitials,

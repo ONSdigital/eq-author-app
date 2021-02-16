@@ -31,17 +31,17 @@ export const NumberInput = styled(Input)`
     appearance: textfield;
   }
 
-  ${props => props.valueType === CURRENCY && "padding-left: 1.4em"}
-  ${props => props.valueType === PERCENTAGE && "padding-right: 1.6em"}
+  ${(props) => props.valueType === CURRENCY && "padding-left: 1.4em"}
+  ${(props) => props.valueType === PERCENTAGE && "padding-right: 1.6em"}
 `;
 
 const UnitSymbol = styled.div`
   position: absolute;
   opacity: 0.5;
-  ${props => (props.trailing ? "right: 0.5em" : "left: 0.5em")}
+  ${(props) => (props.trailing ? "right: 0.5em" : "left: 0.5em")}
 `;
 
-const Number = props => {
+const Number = (props) => {
   const {
     id,
     onChange,

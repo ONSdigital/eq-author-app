@@ -2,7 +2,7 @@
 const { defaultTypeValueNames } = require("../utils/defaultMetadata");
 
 module.exports = function updateMetadataValue(questionnaire) {
-  questionnaire.metadata.map(metadata => {
+  questionnaire.metadata.map((metadata) => {
     if (!metadata.value) {
       return;
     }

@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 
 import * as entityTypes from "constants/validation-entity-types";
 
-const formatDate = dateString =>
-  dateString
-    .split("-")
-    .reverse()
-    .join("/");
+const formatDate = (dateString) => dateString.split("-").reverse().join("/");
 
 const DatePreview = ({
   relativePosition,

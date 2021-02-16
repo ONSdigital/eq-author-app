@@ -68,7 +68,7 @@ const MIGRATIONS_INDEX_PATH = "migrations/index.js";
   await fs.writeFile(MIGRATIONS_INDEX_PATH, updatedMigrationList);
 
   logger.info(`${name} migration successfully created`);
-})().catch(e => {
+})().catch((e) => {
   logger.fatal(e);
   process.exit(1);
 });
