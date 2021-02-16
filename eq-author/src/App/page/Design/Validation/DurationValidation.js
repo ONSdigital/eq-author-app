@@ -19,7 +19,7 @@ const StyledError = styled(ValidationError)`
   width: 60%;
 `;
 
-const DurationValidation = props => {
+const DurationValidation = (props) => {
   const {
     validation: { duration },
     displayName,

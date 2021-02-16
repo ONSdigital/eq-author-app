@@ -106,7 +106,7 @@ export const accordionGroupReducer = (array, action) => {
     }
     case update: {
       const { event } = action.payload;
-      return array.filter(item => item.id !== event.id).concat(event);
+      return array.filter((item) => item.id !== event.id).concat(event);
     }
     case createAndUpdate: {
       const { isOpen, event } = action.payload;
@@ -115,7 +115,7 @@ export const accordionGroupReducer = (array, action) => {
           isOpen: isOpen,
           id: index,
         }))
-        .filter(item => item.id !== event.id)
+        .filter((item) => item.id !== event.id)
         .concat(event);
     }
     default:
@@ -128,7 +128,7 @@ const sidebarInitialState = {
   isOpen: { open: true },
 };
 
-export const UnwrappedNavigationSidebar = props => {
+export const UnwrappedNavigationSidebar = (props) => {
   const [state, dispatch] = useReducer(sidebarReducer, sidebarInitialState);
 
   let accordionsRef = useRef(null);
@@ -161,7 +161,7 @@ export const UnwrappedNavigationSidebar = props => {
     dispatch({ type: sidebarActionTypes.handleClick });
   };
 
-  const handleAccordionChange = event => {
+  const handleAccordionChange = (event) => {
     let accordions;
 
     if (accordionsRef.current) {
@@ -181,7 +181,7 @@ export const UnwrappedNavigationSidebar = props => {
 
     accordionsRef.current = accordions;
 
-    const allOpen = accordionsRef.current.every(item => item.isOpen === true);
+    const allOpen = accordionsRef.current.every((item) => item.isOpen === true);
 
     if (allOpen !== state.label) {
       dispatch({

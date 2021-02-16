@@ -50,7 +50,7 @@ const situations = {
 };
 
 const getErrorByField = (field, validationErrors) => {
-  const error = validationErrors.find(error => error.field === field);
+  const error = validationErrors.find((error) => error.field === field);
 
   return situations[field]?.[error?.errorCode] ?? null;
 };

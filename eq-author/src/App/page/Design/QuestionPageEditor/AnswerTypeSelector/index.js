@@ -38,7 +38,7 @@ const ErrorContext = styled.div`
   position: relative;
   margin-bottom: 1em;
 
-  ${props =>
+  ${(props) =>
     props.isInvalid &&
     css`
       border: 1px solid ${colors.red};
@@ -59,11 +59,11 @@ class AnswerTypeSelector extends React.Component {
     open: false,
   };
 
-  handleOpenToggle = open => {
+  handleOpenToggle = (open) => {
     this.setState({ open });
   };
 
-  handleSelect = type => {
+  handleSelect = (type) => {
     this.props.onSelect(type);
   };
 
@@ -71,7 +71,7 @@ class AnswerTypeSelector extends React.Component {
     this.grid.focusMenuItem();
   };
 
-  saveGridRef = grid => {
+  saveGridRef = (grid) => {
     this.grid = grid;
   };
 

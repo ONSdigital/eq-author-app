@@ -22,7 +22,6 @@ const UpdateQuestionnaireSettingsModal = ({
 UpdateQuestionnaireSettingsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onUpdateQuestionnaire: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func,
 };
 
 export default withUpdateQuestionnaire(UpdateQuestionnaireSettingsModal);

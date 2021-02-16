@@ -75,7 +75,7 @@ const UserItem = ({ user, onRemove }) => {
 
 const UserList = ({ editors, owner, onRemove }) => (
   <List>
-    {[{ ...owner, isOwner: true }, ...editors].map(user => (
+    {[{ ...owner, isOwner: true }, ...editors].map((user) => (
       <UserItem key={user.id} user={user} onRemove={onRemove} />
     ))}
   </List>

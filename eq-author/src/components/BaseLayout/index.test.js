@@ -46,7 +46,7 @@ describe("base layout", () => {
       ...rest
     );
 
-  it("should render the children", function() {
+  it("should render the children", function () {
     const { getByText } = renderWithContext(
       <BaseLayout {...props}>Children</BaseLayout>
     );

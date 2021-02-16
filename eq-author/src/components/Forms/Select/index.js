@@ -36,7 +36,7 @@ export const SimpleSelect = styled.select`
     pointer-events: none;
   }
 
-  ${props => props.loading && loading}
+  ${(props) => props.loading && loading}
 `;
 
 export default withChangeHandler(SimpleSelect);

@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 
-const createWrapper = props => shallow(<MultipleFieldEditor {...props} />);
+const createWrapper = (props) => shallow(<MultipleFieldEditor {...props} />);
 
 describe("MultipleFieldEditor", () => {
   let wrapper, props;

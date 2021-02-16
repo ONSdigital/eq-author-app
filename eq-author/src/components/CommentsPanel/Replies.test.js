@@ -24,7 +24,7 @@ const props = {
   editReply: "",
 };
 
-const setup = props => {
+const setup = (props) => {
   const setReply = jest.fn();
   const setActiveReplyId = jest.fn();
   const handleEditReply = jest.fn();
@@ -66,7 +66,7 @@ const defaultSetup = () => {
   return { ...utils };
 };
 
-const modifiedSetup = changes => {
+const modifiedSetup = (changes) => {
   const utils = setup({ ...props, ...changes });
   return { ...utils };
 };

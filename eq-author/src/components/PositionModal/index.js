@@ -53,7 +53,7 @@ const PositionModal = ({ options, onMove, selected }) => {
 
   const handleChange = ({ value }) => setSelectedPosition(parseInt(value, 10));
 
-  const handleConfirm = e => {
+  const handleConfirm = (e) => {
     e.preventDefault();
     setIsOpen(false);
     onMove({

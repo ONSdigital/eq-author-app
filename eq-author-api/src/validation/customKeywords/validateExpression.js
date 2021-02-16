@@ -11,7 +11,7 @@ const {
   getExpressionGroupByExpressionId,
 } = require("../../../schema/resolvers/utils");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateExpression", {
     validate: function isValid(
       otherFields,
@@ -54,7 +54,7 @@ module.exports = function(ajv) {
           return true;
         }
 
-        const selectedOptions = entityData.right.optionIds.map(optionId =>
+        const selectedOptions = entityData.right.optionIds.map((optionId) =>
           getOptionById({ questionnaire }, optionId)
         );
 

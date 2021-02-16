@@ -4,13 +4,13 @@ const { sanitiseMetadata } = require("../utils/sanitiseMetadata");
 const { getQuestionnaire } = require("../db/datastore");
 const { defaultTypeValueNames } = require("../utils/defaultMetadata");
 
-const buildClaims = metadata => {
+const buildClaims = (metadata) => {
   const result = {
     claims: {},
     errors: [],
   };
 
-  metadata.map(metadata => {
+  metadata.map((metadata) => {
     const { key, id, type } = metadata;
     if (isNil(key) || key.trim() === "") {
       result.errors.push(id);

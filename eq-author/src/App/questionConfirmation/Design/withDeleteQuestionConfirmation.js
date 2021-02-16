@@ -30,7 +30,7 @@ export const redirectToParentPage = (
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
-  onDeleteQuestionConfirmation: questionConfirmation =>
+  onDeleteQuestionConfirmation: (questionConfirmation) =>
     mutate({
       variables: {
         input: filterToInput(questionConfirmation),

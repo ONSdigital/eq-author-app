@@ -50,9 +50,9 @@ describe("MultipleChoiceAnswer", () => {
 
   let mockHandlers = {};
 
-  const createAnswer = numberOptions => ({
+  const createAnswer = (numberOptions) => ({
     ...answer,
-    options: times(numberOptions, id => ({
+    options: times(numberOptions, (id) => ({
       id: id,
       label: "",
       description: "",
@@ -158,7 +158,7 @@ describe("MultipleChoiceAnswer", () => {
       const answer = createAnswer(minOptions);
       wrapper.setProps({ answer });
 
-      wrapper.find(Option).forEach(option => {
+      wrapper.find(Option).forEach((option) => {
         expect(option.prop("hasDeleteButton")).toBe(false);
       });
     });
@@ -167,7 +167,7 @@ describe("MultipleChoiceAnswer", () => {
       const answer = createAnswer(minOptions + 1);
       wrapper.setProps({ answer });
 
-      wrapper.find(Option).forEach(option => {
+      wrapper.find(Option).forEach((option) => {
         expect(option.prop("hasDeleteButton")).toBe(true);
       });
     });
@@ -221,7 +221,7 @@ describe("MultipleChoiceAnswer", () => {
         other: optionWithAnswer,
       };
       wrapper = createWrapper({ answer: moreThanTwoOptions, minOptions });
-      wrapper.find(Option).forEach(option => {
+      wrapper.find(Option).forEach((option) => {
         expect(option.prop("hasDeleteButton")).toBe(true);
       });
     });
@@ -232,7 +232,7 @@ describe("MultipleChoiceAnswer", () => {
         other: optionWithAnswer,
       };
       wrapper = createWrapper({ answer: twoOptionsExactly, minOptions });
-      wrapper.find(Option).forEach(option => {
+      wrapper.find(Option).forEach((option) => {
         expect(option.prop("hasDeleteButton")).toBe(false);
       });
     });
@@ -263,12 +263,9 @@ describe("MultipleChoiceAnswer", () => {
     it("exclusive should always be the final option", () => {
       wrapper = createWrapper({ answer: answerWithExclusive });
 
-      expect(
-        wrapper
-          .find(Option)
-          .last()
-          .props().option.label
-      ).toEqual("I am mutually exclusive");
+      expect(wrapper.find(Option).last().props().option.label).toEqual(
+        "I am mutually exclusive"
+      );
     });
 
     it("can add Exclusive option", () => {

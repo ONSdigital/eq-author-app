@@ -53,7 +53,7 @@ const Duration = ({
         onChange={onChange}
         onBlur={onUpdate}
       >
-        {units.map(unit => (
+        {units.map((unit) => (
           <option key={unit} value={unit}>
             {unit.toLowerCase()}
           </option>

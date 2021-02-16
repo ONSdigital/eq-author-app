@@ -94,7 +94,7 @@ const networkLink = split(
 );
 
 const headersLink = setContext((_, { headers }) =>
-  getHeaders(headers).then(headers => ({
+  getHeaders(headers).then((headers) => ({
     headers,
   }))
 );

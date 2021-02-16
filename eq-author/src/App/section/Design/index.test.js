@@ -183,7 +183,7 @@ describe("SectionRoute", () => {
   });
 
   describe("data fetching", () => {
-    const render = mocks =>
+    const render = (mocks) =>
       mount(
         <MeContext.Provider value={{ me: user }}>
           <Router history={history}>
@@ -305,15 +305,9 @@ describe("SectionRoute", () => {
         ...mockHandlers,
       });
 
-      wrapper
-        .find(`[data-test="btn-delete"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-delete"]`).first().simulate("click");
 
-      wrapper
-        .find(`[data-test="btn-delete-modal"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-delete-modal"]`).first().simulate("click");
 
       expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
       await act(async () => {
@@ -329,10 +323,7 @@ describe("SectionRoute", () => {
         ...mockHandlers,
       });
 
-      wrapper
-        .find(`[data-test="btn-add-page"]`)
-        .first()
-        .simulate("click");
+      wrapper.find(`[data-test="btn-add-page"]`).first().simulate("click");
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         match.params.sectionId,

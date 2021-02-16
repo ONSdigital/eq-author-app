@@ -18,7 +18,7 @@ const answerConfig = {
   title: "Answer",
 };
 
-export const AnswerContentPicker = props => {
+export const AnswerContentPicker = (props) => {
   const { levels } = props;
   let config = [sectionConfig, pageConfig, answerConfig];
   if (!levels) {
@@ -44,7 +44,7 @@ const metadataConfig = [
   },
 ];
 
-export const MetadataContentPicker = props => (
+export const MetadataContentPicker = (props) => (
   <ContentPicker {...props} config={metadataConfig} />
 );
 
@@ -60,6 +60,6 @@ const questionConfig = [
   },
 ];
 
-export const QuestionContentPicker = props => (
+export const QuestionContentPicker = (props) => (
   <ContentPicker {...props} config={questionConfig} />
 );

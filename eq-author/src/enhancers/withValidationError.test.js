@@ -28,7 +28,7 @@ describe("withValidationError", () => {
     },
   };
 
-  const createErrorProps = validationErrorInfo => {
+  const createErrorProps = (validationErrorInfo) => {
     return {
       ...props,
       page: {

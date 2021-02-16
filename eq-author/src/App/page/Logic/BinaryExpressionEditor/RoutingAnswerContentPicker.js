@@ -5,8 +5,6 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from "react-router-dom";
 
-import CustomPropTypes from "custom-prop-types";
-
 import ContentPickerSelect from "components/ContentPickerSelect";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 import shapeTree from "components/ContentPicker/shapeTree";
@@ -48,7 +46,7 @@ UnwrappedRoutingAnswerContentPicker.propTypes = {
   path: PropTypes.string.isRequired,
 };
 
-const RoutingAnswerContentPicker = props => (
+const RoutingAnswerContentPicker = (props) => (
   <Query
     query={GET_AVAILABLE_ANSWERS}
     variables={{
@@ -60,14 +58,19 @@ const RoutingAnswerContentPicker = props => (
     }}
     fetchPolicy="cache-and-network"
   >
-    {innerProps => (
+    {(innerProps) => (
       <UnwrappedRoutingAnswerContentPicker {...innerProps} {...props} />
     )}
   </Query>
 );
 
 RoutingAnswerContentPicker.propTypes = {
-  match: CustomPropTypes.match.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      confirmationId: PropTypes.string,
+      pageId: PropTypes.string,
+    }),
+  }),
   includeSelf: PropTypes.bool,
 };
 

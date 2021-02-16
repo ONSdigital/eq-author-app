@@ -131,7 +131,7 @@ const ChipText = styled.div`
 export const ErrorContext = styled.div`
   position: relative;
 
-  ${props =>
+  ${(props) =>
     props.isInvalid &&
     css`
       margin-bottom: 2.5em;
@@ -152,8 +152,8 @@ export class UnwrappedAnswerSelector extends Component {
       page: { summaryAnswers },
     } = this.props;
     const newSelectedValues = summaryAnswers.filter(
-      selectedSummaryAnswer =>
-        !find(answers, answer => answer.id === selectedSummaryAnswer.id)
+      (selectedSummaryAnswer) =>
+        !find(answers, (answer) => answer.id === selectedSummaryAnswer.id)
     );
     onUpdateCalculatedSummaryPage({
       id: page.id,
@@ -169,7 +169,7 @@ export class UnwrappedAnswerSelector extends Component {
     this.setState({ showPicker: false });
   };
 
-  handlePickerSubmit = answers => {
+  handlePickerSubmit = (answers) => {
     const { onUpdateCalculatedSummaryPage, page } = this.props;
 
     this.setState({ showPicker: false });
@@ -232,7 +232,7 @@ export class UnwrappedAnswerSelector extends Component {
             </SectionHeader>
             <ErrorContext isInvalid={isInvalid}>
               <AnswerList>
-                {answers.map(answer => (
+                {answers.map((answer) => (
                   <AnswerListItem key={answer.id}>
                     <AnswerChip
                       onRemove={() => this.handleRemoveAnswers([answer])}

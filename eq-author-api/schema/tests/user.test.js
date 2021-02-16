@@ -8,7 +8,7 @@ describe("Users", () => {
         buildContext(null, { name: "User 1" }),
         buildContext(null, { name: "User 2" }),
       ]);
-      const createdUsers = contexts.map(ctx => ctx.user);
+      const createdUsers = contexts.map((ctx) => ctx.user);
 
       const result = await executeQuery(`
       query {
@@ -18,8 +18,10 @@ describe("Users", () => {
         }
       }`);
 
-      createdUsers.forEach(createdUser => {
-        const resultUser = result.data.users.find(u => u.id === createdUser.id);
+      createdUsers.forEach((createdUser) => {
+        const resultUser = result.data.users.find(
+          (u) => u.id === createdUser.id
+        );
         expect(resultUser).toMatchObject({
           id: createdUser.id,
           name: createdUser.name,

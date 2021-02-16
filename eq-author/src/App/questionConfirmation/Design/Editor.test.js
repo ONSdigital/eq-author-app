@@ -12,6 +12,7 @@ describe("Editor", () => {
         id: "1",
         displayName: "Confirmation name",
         title: "My first confirmation",
+        qCode: "",
         page: {
           id: "1",
           displayName: "My question",
@@ -32,7 +33,7 @@ describe("Editor", () => {
       },
     };
 
-    const render = props =>
+    const render = (props) =>
       shallow(<Editor {...mockHandlers} {...defaultProps} {...props} />);
 
     beforeEach(() => {

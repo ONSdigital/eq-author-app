@@ -2,10 +2,10 @@
 const AND = "And";
 
 module.exports = function addExpressionOperator(questionnaire) {
-  questionnaire.sections.map(section => {
-    section.pages.map(page => {
+  questionnaire.sections.map((section) => {
+    section.pages.map((page) => {
       if (page.routing) {
-        page.routing.rules.map(rule => {
+        page.routing.rules.map((rule) => {
           if (!rule.expressionGroup.operator) {
             rule.expressionGroup.operator = AND;
           }

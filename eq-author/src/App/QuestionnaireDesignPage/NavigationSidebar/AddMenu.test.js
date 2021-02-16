@@ -12,7 +12,7 @@ describe("AddMenu", () => {
     onAddCalculatedSummaryPage: jest.fn(),
   };
 
-  const createWrapper = props => {
+  const createWrapper = (props) => {
     const defaultProps = {
       addMenuOpen: true,
       canAddQuestionConfirmation: true,

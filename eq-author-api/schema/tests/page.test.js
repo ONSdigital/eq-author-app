@@ -31,7 +31,7 @@ const {
   getSectionByFolderId,
 } = require("../resolvers/utils");
 
-const getFirstPage = questionnaire =>
+const getFirstPage = (questionnaire) =>
   questionnaire.sections[0].folders[0].pages[0];
 
 const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;

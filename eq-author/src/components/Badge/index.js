@@ -12,7 +12,7 @@ export const logicBadge = css`
 export const navBadge = css`
   padding: 0.2em 0.4em;
   height: 20px;
-  display: ${props => (props.small ? `inline-flex` : ``)};
+  display: ${(props) => (props.small ? `inline-flex` : ``)};
 `;
 
 export const mainNavBadge = css`
@@ -50,12 +50,12 @@ const Badge = styled.span`
   z-index: 2;
   pointer-events: none;
 
-  ${props => props.variant === "logic" && logicBadge};
-  ${props => props.variant === "nav" && navBadge};
-  ${props => props.variant === "main-nav" && mainNavBadge};
-  ${props => props.variant === "tabs" && tabsBadge};
-  ${props => props.small && smallBadge};
-  ${props => props.medium && mediumBadge};
+  ${(props) => props.variant === "logic" && logicBadge};
+  ${(props) => props.variant === "nav" && navBadge};
+  ${(props) => props.variant === "main-nav" && mainNavBadge};
+  ${(props) => props.variant === "tabs" && tabsBadge};
+  ${(props) => props.small && smallBadge};
+  ${(props) => props.medium && mediumBadge};
 `;
 
 Badge.propTypes = {

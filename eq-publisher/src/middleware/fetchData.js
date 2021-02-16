@@ -1,6 +1,6 @@
 const { get, set } = require("lodash");
 
-const fetchData = getQuestionnaire => async (req, res, next) => {
+const fetchData = (getQuestionnaire) => async (req, res, next) => {
   let result;
 
   try {

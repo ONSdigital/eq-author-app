@@ -26,9 +26,9 @@ UnwrappedPreviousAnswerContentPicker.propTypes = {
   path: PropTypes.string.isRequired,
 };
 
-const GetAvailablePreviewAnswersQuery = props => (
+const GetAvailablePreviewAnswersQuery = (props) => (
   <AvailablePreviousAnswersQuery answerId={props.answerId}>
-    {innerProps => (
+    {(innerProps) => (
       <UnwrappedPreviousAnswerContentPicker {...innerProps} {...props} />
     )}
   </AvailablePreviousAnswersQuery>

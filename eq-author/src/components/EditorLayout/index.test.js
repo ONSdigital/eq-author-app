@@ -33,10 +33,7 @@ describe("Editor Layout", () => {
       </EditorLayout>
     );
 
-    wrapper
-      .find(byTestAttr("btn-add-page"))
-      .first()
-      .simulate("click");
+    wrapper.find(byTestAttr("btn-add-page")).first().simulate("click");
 
     expect(onAddQuestionPage).toHaveBeenCalled();
   });

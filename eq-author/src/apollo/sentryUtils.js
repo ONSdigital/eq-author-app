@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/browser";
 import jwt from "jsonwebtoken";
 
-export const setSentryUser = token => {
+export const setSentryUser = (token) => {
   if (token) {
     const decodedToken = jwt.decode(token);
     Sentry.setUser({
@@ -16,11 +16,11 @@ export const setSentryUser = token => {
   }
 };
 
-export const setSentryTag = errorType => {
+export const setSentryTag = (errorType) => {
   Sentry.setTag("error_type", errorType);
 };
 
-export const sendSentryError = error => {
+export const sendSentryError = (error) => {
   Sentry.captureException(error);
 };
 

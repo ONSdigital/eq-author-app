@@ -82,7 +82,7 @@ Option.propTypes = {
 
 const ItemSelect = ({ children, value, name, onChange, ...otherProps }) => (
   <div {...otherProps}>
-    {React.Children.map(children, child =>
+    {React.Children.map(children, (child) =>
       React.cloneElement(child, {
         onChange,
         name,
