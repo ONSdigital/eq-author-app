@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "assets/icon-chevron.svg";
 
+import Badge from "components/Badge";
+import VisuallyHidden from "components/VisuallyHidden";
+
 const Wrapper = styled.div`
   ${({ bordered }) => (bordered ? `margin-bottom: 1em` : null)}
 `;
@@ -23,6 +26,7 @@ const Title = styled.a`
   font-weight: bold;
   text-decoration: none;
   background-color: ${({ active }) => (active ? colors.orange : "transparent")};
+  padding-right: 1em;
 
   ${({ bordered }) => {
     if (bordered) {
@@ -47,19 +51,6 @@ const Title = styled.a`
   }
 `;
 
-const ErrorBadgeNoCount = styled.span`
-  margin-top: 0.1em;
-  margin-left: auto;
-  border-radius: 50%;
-  background-color: ${colors.red};
-  width: 0.75em;
-  height: 0.75em;
-  margin-right: 1.3em;
-
-  span {
-    display: none;
-  }
-`;
 const ToggleCollapsibleNavItemButton = styled.button`
   appearance: none;
   border: none;
@@ -136,9 +127,11 @@ const CollapsibleNavItem = ({
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
           {title}
           {!isOpen && errorCount > 0 ? (
-            <ErrorBadgeNoCount data-test="CollapsibleNavItem-error">
-              <span>Error</span>
-            </ErrorBadgeNoCount>
+            <Badge variant="nav" small data-test="CollapsibleNavItem-error">
+              <VisuallyHidden>
+                <span>Error</span>
+              </VisuallyHidden>
+            </Badge>
           ) : null}
         </Title>
       </Header>
