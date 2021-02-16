@@ -95,6 +95,7 @@ UnwrappedPageNavItem.fragments = {
           type
           properties
           qCode
+          displayName
           ... on BasicAnswer {
             secondaryQCode
           }
