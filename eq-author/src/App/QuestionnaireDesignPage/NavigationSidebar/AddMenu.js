@@ -178,7 +178,7 @@ AddMenu.propTypes = {
   canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
   addMenuOpen: PropTypes.bool.isRequired,
   onAddFolder: PropTypes.func.isRequired,
-  canAddFolder: PropTypes.func.isRequired,
+  canAddFolder: PropTypes.bool.isRequired,
 };
 
 export default AddMenu;
