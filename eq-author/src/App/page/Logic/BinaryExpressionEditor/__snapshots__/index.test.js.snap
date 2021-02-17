@@ -21,7 +21,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={8}
       gutters={false}
     >
-      <withRouter(RoutingAnswerContentPicker)
+      <RoutingAnswerContentPicker
         data-test="routing-answer-picker"
         onSubmit={[Function]}
         path="getAvailableAnswers"

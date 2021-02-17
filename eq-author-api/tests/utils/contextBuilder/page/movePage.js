@@ -18,12 +18,6 @@ const movePageMutation = `
         }
       }
       position
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
       ... on QuestionPage {
         description
         guidance
@@ -38,9 +32,6 @@ const movePageMutation = `
           id
         }
         routing {
-          id
-        }
-        availableRoutingAnswers {
           id
         }
         availableRoutingDestinations {
