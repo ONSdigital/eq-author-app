@@ -1,6 +1,5 @@
 const { filter } = require("graphql-anywhere");
 const gql = require("graphql-tag");
-const { get, last } = require("lodash");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 

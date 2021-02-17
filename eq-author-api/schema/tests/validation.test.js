@@ -6,10 +6,7 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const {
-  createAnswer,
-  updateAnswer,
-} = require("../../tests/utils/contextBuilder/answer");
+const { createAnswer } = require("../../tests/utils/contextBuilder/answer");
 
 const { createMetadata } = require("../../tests/utils/contextBuilder/metadata");
 
