@@ -4,9 +4,7 @@ const QuestionnaireContext = createContext({
   questionnaire: null,
 });
 
-const PageContext = createContext({
-  page: null,
-});
+const PageContext = createContext(null);
 
 export const PageContextProvider = ({ value, children }) =>
   useMemo(

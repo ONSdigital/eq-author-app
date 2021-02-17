@@ -35,7 +35,7 @@ const getContentBeforeEntity = (
           return sections;
         }
 
-        const answers = page.answers.flatMap(preprocessAnswers);
+        const answers = page?.answers?.flatMap(preprocessAnswers) || [];
         if (!answers.length) {
           continue;
         }
