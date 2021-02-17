@@ -36,16 +36,14 @@ const getContentBeforeEntity = (
         }
 
         const answers = page?.answers?.flatMap(preprocessAnswers) || [];
-        if (!answers.length) {
-          continue;
+        if (answers.length) {
+          sections[sections.length - 1].folders[
+            sections[sections.length - 1].folders.length - 1
+          ].pages.push({
+            ...page,
+            answers,
+          });
         }
-
-        sections[sections.length - 1].folders[
-          sections[sections.length - 1].folders.length - 1
-        ].pages.push({
-          ...page,
-          answers,
-        });
 
         if (
           (page.id === id && includeTarget) ||
