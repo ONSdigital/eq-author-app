@@ -190,9 +190,6 @@ const getPageQuery = `
             id
           }
           condition
-          availablePreviousAnswers {
-            id
-          }
         }
       }
     }
