@@ -21,7 +21,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
           options: [
             { label: "a", id: "1" },
             { label: "b", id: "2" },
-            { id: "3" },
+            { label: "c", id: "3" },
           ],
         },
         right: null,

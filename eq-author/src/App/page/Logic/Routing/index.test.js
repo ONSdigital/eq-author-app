@@ -46,9 +46,42 @@ describe("Question Routing Route", () => {
   it("should render the RoutingPage when data is loaded", () => {
     const page = {
       id: "1",
+      position: 1,
+      folder: {
+        id: 1,
+        position: 1,
+        pages: [
+          {
+            id: "Page 1",
+            displayName: "Page 1",
+            position: 1,
+            answers: [
+              {
+                id: "Percentage 1",
+                displayName: "Percentage 1",
+                type: "Percentage",
+                properties: {},
+              },
+            ],
+          },
+        ],
+      },
       pageType: "QuestionPage",
       displayName: "Untitled Page",
       routing: null,
+      section: {
+        folders: [],
+        id: "1",
+        position: 1,
+        questionnaire: {
+          id: "1",
+        },
+      },
+      validationErrorInfo: {
+        id: "1",
+        errors: [],
+        totalCount: 0,
+      },
     };
     const wrapper = shallow(
       <UnwrappedQuestionRoutingRoute
@@ -67,14 +100,41 @@ describe("Question Routing Route", () => {
   it("should redirect if the pageType is not valid", () => {
     const page = {
       id: "1",
+      position: 1,
+      folder: {
+        id: 1,
+        position: 1,
+        pages: [
+          {
+            id: "Page 1",
+            displayName: "Page 1",
+            position: 1,
+            answers: [
+              {
+                id: "Percentage 1",
+                displayName: "Percentage 1",
+                type: "Percentage",
+                properties: {},
+              },
+            ],
+          },
+        ],
+      },
       pageType: "NoRoutingHere",
       displayName: "Untitled Page",
       routing: null,
       section: {
+        folders: [],
         id: "1",
+        position: 1,
         questionnaire: {
           id: "1",
         },
+      },
+      validationErrorInfo: {
+        id: "1",
+        errors: [],
+        totalCount: 0,
       },
     };
     const wrapper = shallow(

@@ -12,6 +12,7 @@ describe("Editor", () => {
         id: "1",
         displayName: "Confirmation name",
         title: "My first confirmation",
+        qCode: "",
         page: {
           id: "1",
           displayName: "My question",

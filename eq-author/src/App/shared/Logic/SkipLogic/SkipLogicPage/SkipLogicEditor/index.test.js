@@ -8,6 +8,7 @@ describe("components/SkipConditionSet", () => {
     skipConditions: [
       {
         id: "2",
+        operator: "AND",
         expressions: [{ id: "3" }],
       },
     ],
