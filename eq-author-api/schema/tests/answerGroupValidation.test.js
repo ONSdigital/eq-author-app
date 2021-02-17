@@ -61,7 +61,6 @@ describe("Answer group validation", () => {
         enabled: false,
         custom: null,
         previousAnswer: null,
-        availablePreviousAnswers: [],
       });
     });
 
@@ -371,11 +370,6 @@ describe("Answer group validation", () => {
         previousAnswer: {
           id: previousAnswerId,
         },
-        availablePreviousAnswers: [
-          {
-            id: previousAnswerId,
-          },
-        ],
       });
     });
   });

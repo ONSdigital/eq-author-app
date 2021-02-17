@@ -161,8 +161,6 @@ describe("section", () => {
         displayName: expect.any(String),
         folders: expect.any(Array),
         questionnaire: expect.any(Object),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
       });
     });
 
@@ -183,18 +181,6 @@ describe("section", () => {
 
     it("should resolve questionnaire", () => {
       expect(queriedSection.questionnaire.id).toEqual(questionnaire.id);
-    });
-
-    it("should resolve availablePipingAnswers", () => {
-      expect(last(queriedSection.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(last(queriedSection.availablePipingMetadata).id).toEqual(
-        questionnaire.metadata[0].id
-      );
     });
   });
 
