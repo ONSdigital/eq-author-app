@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { get } from "lodash";
-import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+import { get } from "lodash";
 import { withRouter } from "react-router-dom";
 
 import ContentPickerSelect from "components/ContentPickerSelect";
@@ -28,41 +28,32 @@ const GET_AVAILABLE_ANSWERS = gql`
   }
 `;
 
-export const UnwrappedRoutingAnswerContentPicker = ({
-  data,
+export const RoutingAnswerContentPicker = ({
+  match,
+  includeSelf,
   path,
   ...otherProps
-}) => (
-  <ContentPickerSelect
-    name="answerId"
-    contentTypes={[ANSWER]}
-    answerData={shapeTree(get(data, path))}
-    {...otherProps}
-  />
-);
-
-UnwrappedRoutingAnswerContentPicker.propTypes = {
-  data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  path: PropTypes.string.isRequired,
-};
-
-const RoutingAnswerContentPicker = (props) => (
-  <Query
-    query={GET_AVAILABLE_ANSWERS}
-    variables={{
+}) => {
+  const { loading, error, data } = useQuery(GET_AVAILABLE_ANSWERS, {
+    variables: {
       input: {
-        pageId: props.match.params.confirmationId || props.match.params.pageId,
-        includeSelf:
-          Boolean(props.match.params.confirmationId) || props.includeSelf,
+        pageId: match.params.confirmationId || match.params.pageId,
+        includeSelf: Boolean(match.params.confirmationId) || includeSelf,
       },
-    }}
-    fetchPolicy="cache-and-network"
-  >
-    {(innerProps) => (
-      <UnwrappedRoutingAnswerContentPicker {...innerProps} {...props} />
-    )}
-  </Query>
-);
+    },
+    fetchPolicy: "cache-and-network",
+  });
+  return (
+    <ContentPickerSelect
+      name="answerId"
+      contentTypes={[ANSWER]}
+      answerData={shapeTree(get(data, path))}
+      loading={loading}
+      error={error}
+      {...otherProps}
+    />
+  );
+};
 
 RoutingAnswerContentPicker.propTypes = {
   match: PropTypes.shape({
@@ -72,6 +63,7 @@ RoutingAnswerContentPicker.propTypes = {
     }),
   }),
   includeSelf: PropTypes.bool,
+  path: PropTypes.string.isRequired,
 };
 
 export default withRouter(RoutingAnswerContentPicker);
