@@ -20,6 +20,8 @@ import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
+import { PageContextProvider } from "components/QuestionnaireContext";
+
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true },
@@ -88,17 +90,19 @@ export class UnwrappedPageRoute extends React.Component {
   render() {
     const { page } = this.props;
     return (
-      <EditorLayout
-        onAddQuestionPage={this.handleAddPage}
-        renderPanel={() =>
-          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
-        }
-        title={(page || {}).displayName || ""}
-        {...deriveAvailableTabs(page)}
-        validationErrorInfo={page && page.validationErrorInfo}
-      >
-        <Panel>{this.renderContent()}</Panel>
-      </EditorLayout>
+      <PageContextProvider value={page}>
+        <EditorLayout
+          onAddQuestionPage={this.handleAddPage}
+          renderPanel={() =>
+            page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
+          }
+          title={(page || {}).displayName || ""}
+          {...deriveAvailableTabs(page)}
+          validationErrorInfo={page && page.validationErrorInfo}
+        >
+          <Panel>{this.renderContent()}</Panel>
+        </EditorLayout>
+      </PageContextProvider>
     );
   }
 }
