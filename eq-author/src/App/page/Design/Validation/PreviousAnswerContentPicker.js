@@ -8,8 +8,10 @@ import { useCurrentPageId } from "components/RouterContext";
 import getContentBeforePage from "utils/getContentBeforeEntity";
 import PropTypes from "prop-types";
 
+import allAnswerTypes from "constants/answer-types";
+
 export const PreviousAnswerContentPicker = ({
-  preprocessAnswers = (x) => x,
+  allowedAnswerTypes = allAnswerTypes,
   ...props
 }) => {
   const { questionnaire } = useQuestionnaire();
@@ -22,7 +24,8 @@ export const PreviousAnswerContentPicker = ({
         getContentBeforePage({
           questionnaire,
           id,
-          preprocessAnswers,
+          preprocessAnswers: (answer) =>
+            allowedAnswerTypes.includes(answer.type) ? answer : [],
         })) ||
       [],
     [questionnaire, id]
@@ -39,7 +42,7 @@ export const PreviousAnswerContentPicker = ({
 };
 
 PreviousAnswerContentPicker.propTypes = {
-  preprocessAnswers: PropTypes.func,
+  allowedAnswerTypes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default PreviousAnswerContentPicker;
