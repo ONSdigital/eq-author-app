@@ -69,6 +69,7 @@ export const ContentSelected = styled.span`
 
 const ContentSelectedTitle = styled(Truncated)`
   font-weight: 600;
+  line-height: 1.2em;
 `;
 
 const formatTitle = ({ page: { alias = "", title } = {} }) =>
