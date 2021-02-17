@@ -17,7 +17,11 @@ export const errorMessages = {
   ERR_REFERENCE_MOVED,
 };
 
-const PreviousAnswerEditor = ({ onChangeUpdate, validation }) => {
+const PreviousAnswerEditor = ({
+  onChangeUpdate,
+  validation,
+  answer: { type },
+}) => {
   const { errors } = validation.validationErrorInfo;
 
   const errorCode = errors
@@ -31,6 +35,7 @@ const PreviousAnswerEditor = ({ onChangeUpdate, validation }) => {
       selectedId={validation?.previousAnswer?.id}
       data-test="content-picker-select"
       hasError={Boolean(errorCode)}
+      allowedAnswerTypes={[type]}
     />
   );
 
@@ -72,6 +77,9 @@ PreviousAnswerEditor.propTypes = {
   }).isRequired,
   readKey: PropTypes.string.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  answer: PropTypes.shape({
+    type: PropTypes.string.isReqeuired,
+  }).isRequired,
 };
 
 export default PreviousAnswerEditor;
