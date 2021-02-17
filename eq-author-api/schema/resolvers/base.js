@@ -59,8 +59,6 @@ const {
   getOptionById,
   getConfirmationById,
   getValidationById,
-  getAvailablePreviousAnswersForValidation,
-  getAvailableMetadataForValidation,
   getSkippables,
   getSkippableById,
   remapAllNestedIds,
@@ -73,8 +71,6 @@ const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
-const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
-const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
@@ -210,13 +206,6 @@ const Resolvers = {
 
       return [];
     },
-    getAvailableAnswers: (root, { input }, ctx) =>
-      getPreviousAnswersForPage(
-        ctx.questionnaire,
-        input.pageId,
-        input.includeSelf,
-        ROUTING_ANSWER_TYPES
-      ),
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
   },
 
@@ -997,9 +986,6 @@ const Resolvers = {
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForSection(ctx.questionnaire, id),
-    availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1176,8 +1162,6 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1193,8 +1177,6 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const maxValueErrors = ({ validationId }) => id === validationId;
       return returnValidationErrors(ctx, id, maxValueErrors);
@@ -1212,10 +1194,6 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1235,10 +1213,6 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const latestDateErrors = ({ validationId }) => id === validationId;
       return returnValidationErrors(ctx, id, latestDateErrors);
@@ -1266,14 +1240,6 @@ const Resolvers = {
   TotalValidationRule: {
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) => {
-      return [];
-      const page = getPageByValidationId(ctx, id);
-      const answerType = page.answers[0].type;
-      return getPreviousAnswersForPage(ctx.questionnaire, page.id, false, [
-        answerType,
-      ]);
-    },
   },
 
   Metadata: {
@@ -1290,14 +1256,10 @@ const Resolvers = {
     displayName: (confirmation) =>
       getName(confirmation, "QuestionConfirmation"),
     page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForPage(ctx.questionnaire, id),
-    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) => {
       const confirmationQuestionErrors = ctx.validationErrorInfo.filter(
         ({ confirmationId }) => id === confirmationId
       );
-
       return {
         id,
         errors: confirmationQuestionErrors,

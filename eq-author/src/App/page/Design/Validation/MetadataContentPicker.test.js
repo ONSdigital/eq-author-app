@@ -1,9 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedMetadataContentPicker } from "./MetadataContentPicker";
+import MetadataContentPicker from "./MetadataContentPicker";
 
-const render = (props = {}) =>
-  shallow(<UnwrappedMetadataContentPicker {...props} />);
+const render = (props = {}) => shallow(<MetadataContentPicker {...props} />);
 
 describe("MetadataContentPicker", () => {
   let props, wrapper;
