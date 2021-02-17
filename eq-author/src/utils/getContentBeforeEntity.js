@@ -47,7 +47,10 @@ const getContentBeforeEntity = (
           answers,
         });
 
-        if (page.id === id && includeTarget) {
+        if (
+          (page.id === id && includeTarget) ||
+          page?.confirmation?.id === id
+        ) {
           return sections;
         }
       }
