@@ -35,6 +35,5 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
   name="previousAnswer"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="foobar"
-  selectedMetadataDisplayName="Select metadata"
 />
 `;
