@@ -321,7 +321,6 @@ const UnwrappedNavigationSidebar = ({
                     )}
                     icon={PageIcon}
                     history={history}
-                    style={{ marginLeft: "1.5em" }}
                   />
                 </li>
               )}
