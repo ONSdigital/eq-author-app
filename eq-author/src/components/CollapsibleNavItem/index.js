@@ -7,6 +7,7 @@ import chevron from "assets/icon-chevron.svg";
 
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
+import Truncated from "components/Truncated";
 
 const Wrapper = styled.div`
   margin-bottom: 0.5em;
@@ -109,6 +110,10 @@ const Body = styled.div`
   margin-top: 0.5em;
 `;
 
+const StyledTruncated = styled(Truncated)`
+  text-align: left;
+`;
+
 const CollapsibleNavItem = ({
   icon: Icon,
   title,
@@ -148,7 +153,7 @@ const CollapsibleNavItem = ({
           data-test="CollapsibleNavItem-title"
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
-          {title}
+          <StyledTruncated>{title}</StyledTruncated>
           {isOpen && selfErrorCount > 0 && (
             <Badge variant="nav" medium data-test="NavItem-error">
               <VisuallyHidden>

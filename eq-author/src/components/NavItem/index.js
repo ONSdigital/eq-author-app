@@ -7,6 +7,7 @@ import { colors } from "constants/theme";
 
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
+import Truncated from "components/Truncated";
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,6 +58,10 @@ const Title = styled.button`
   }
 `;
 
+const StyledTruncated = styled(Truncated)`
+  text-align: left;
+`;
+
 const NavItem = ({
   icon: Icon,
   title,
@@ -76,7 +81,7 @@ const NavItem = ({
         data-test="NavItem-title"
       >
         {Icon && <Icon data-test="NavItem-icon" />}
-        {title}
+        <StyledTruncated>{title}</StyledTruncated>
         {errorCount > 0 && (
           <Badge variant="nav" medium data-test="NavItem-error">
             <VisuallyHidden>
