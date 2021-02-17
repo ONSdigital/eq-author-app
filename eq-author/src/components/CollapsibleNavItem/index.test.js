@@ -71,7 +71,7 @@ describe("Collapsible navigation item", () => {
     });
 
     it("Should show the error dot if the collapsible is closed and there are errors", () => {
-      const { getByTestId } = renderCollapsibleNavItem({ errorCount: 1 });
+      const { getByTestId } = renderCollapsibleNavItem({ childErrorCount: 1 });
 
       expect(getByTestId("CollapsibleNavItem-body")).not.toBeVisible();
       expect(getByTestId("CollapsibleNavItem-error")).toBeVisible();
