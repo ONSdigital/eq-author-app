@@ -25,12 +25,6 @@ const getPageQuery = `
         id
       }
       position
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
       validationErrorInfo {
         errors {
           id
@@ -41,9 +35,6 @@ const getPageQuery = `
         totalCount
       }
       ... on CalculatedSummaryPage {
-        availableSummaryAnswers {
-          id
-        }
         summaryAnswers {
           id
         }
@@ -66,9 +57,6 @@ const getPageQuery = `
         additionalInfoContent
         additionalInfoEnabled
         confirmation {
-          id
-        }
-        availableRoutingAnswers {
           id
         }
         availableRoutingDestinations {

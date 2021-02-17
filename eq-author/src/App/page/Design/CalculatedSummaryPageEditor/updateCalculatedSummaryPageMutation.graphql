@@ -23,20 +23,6 @@ mutation UpdateCalculatedSummaryPage(
         }
       }
     }
-    availableSummaryAnswers {
-      id
-      displayName
-      type
-      properties
-      page {
-        id
-        displayName
-        section {
-          id
-          displayName
-        }
-      }
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }
