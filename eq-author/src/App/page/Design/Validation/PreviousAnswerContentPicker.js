@@ -4,20 +4,28 @@ import ContentPickerSelect from "components/ContentPickerSelect/index";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { useParams } from "react-router-dom";
+import { useCurrentPageId } from "components/RouterContext";
 import getContentBeforePage from "utils/getContentBeforeEntity";
+import PropTypes from "prop-types";
 
-export const PreviousAnswerContentPicker = (props) => {
+export const PreviousAnswerContentPicker = ({
+  preprocessAnswers = (x) => x,
+  ...props
+}) => {
   const { questionnaire } = useQuestionnaire();
-  const selectedPageParams = useParams();
+  const id = useCurrentPageId();
 
   const sections = useMemo(
     () =>
-      getContentBeforePage({
-        questionnaire,
-        ...selectedPageParams,
-      }),
-    [questionnaire, selectedPageParams]
+      (questionnaire &&
+        id &&
+        getContentBeforePage({
+          questionnaire,
+          id,
+          preprocessAnswers,
+        })) ||
+      [],
+    [questionnaire, id]
   );
 
   return (
@@ -28,6 +36,10 @@ export const PreviousAnswerContentPicker = (props) => {
       {...props}
     />
   );
+};
+
+PreviousAnswerContentPicker.propTypes = {
+  preprocessAnswers: PropTypes.func,
 };
 
 export default PreviousAnswerContentPicker;

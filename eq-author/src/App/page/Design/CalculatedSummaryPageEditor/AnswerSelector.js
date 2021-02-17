@@ -19,7 +19,7 @@ import {
 
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { useParams } from "react-router-dom";
+import { useCurrentPageId } from "components/RouterContext";
 
 import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
 
@@ -151,7 +151,7 @@ const UnwrappedAnswerSelector = ({
 }) => {
   const [showPicker, setShowPicker] = useState(false);
   const { questionnaire } = useQuestionnaire();
-  const params = useParams();
+  const pageId = useCurrentPageId();
   const { summaryAnswers } = page;
 
   const handleRemoveAnswers = (answers) =>
@@ -279,14 +279,14 @@ const UnwrappedAnswerSelector = ({
     () =>
       (
         questionnaire &&
-        params &&
+        pageId &&
         getContentBeforeEntity({
           questionnaire,
-          preprocess: filterAvailableAnswers,
-          ...params,
+          id: pageId,
+          preprocessAnswers: filterAvailableAnswers,
         })
       )?.filter((section) => section.id === page.section.id) || [],
-    [questionnaire, params]
+    [questionnaire, pageId]
   );
 
   return (
@@ -307,18 +307,8 @@ const UnwrappedAnswerSelector = ({
   );
 };
 
-export const filterAvailableAnswers = (entity) => {
-  if (
-    entity.__typename === "BasicAnswer" ||
-    entity.__typeName === "MultipleChoiceAnswer"
-  ) {
-    return [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type)
-      ? entity
-      : [];
-  }
-
-  return entity;
-};
+export const filterAvailableAnswers = (entity) =>
+  [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type) ? entity : [];
 
 UnwrappedAnswerSelector.fragments = {
   AnswerSelector: gql`

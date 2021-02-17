@@ -1,92 +1,66 @@
-const filterPages = (pages, pageId, confirmationId, preprocess) => {
-  const results = [];
+const identity = (x) => x;
 
-  for (const page of pages) {
-    if (page.id === pageId) {
-      return [results, true];
-    }
-
-    results.push(
-      preprocess({
-        ...page,
-        answers: page?.answers?.flatMap(preprocess),
-      })
-    );
-
-    if (page.confirmation?.id === confirmationId) {
-      return [results, true];
-    }
-  }
-
-  return [results, false];
-};
-
-const identity = (entity) => entity;
-
-const getContentBeforeEntity = ({
+const getContentBeforeEntity = (
   questionnaire,
-  pageId,
-  confirmationId,
-  folderId,
-  sectionId,
-  preprocess,
-}) => {
-  const contentBeforeEntity = [];
+  id,
+  preprocessAnswers,
+  includeTarget
+) => {
+  const sections = [];
 
   for (const section of questionnaire.sections) {
-    if (section.id === sectionId) {
-      return contentBeforeEntity;
+    if (section.id === id) {
+      return sections;
     }
 
-    const sectionContentBeforeEntity = {
-      ...preprocess(section),
+    sections.push({
+      ...section,
       folders: [],
-    };
-
-    contentBeforeEntity.push(sectionContentBeforeEntity);
+    });
 
     for (const folder of section.folders) {
-      if (folder.id === folderId) {
-        return contentBeforeEntity;
+      if (folder.id === id) {
+        return sections;
       }
 
-      const [pages, folderContainsPage] = filterPages(
-        folder.pages,
-        pageId,
-        confirmationId,
-        preprocess
-      );
+      sections[sections.length - 1].folders.push({
+        ...folder,
+        pages: [],
+      });
 
-      if (pages.length) {
-        sectionContentBeforeEntity.folders.push({
-          ...preprocess(folder),
-          pages,
+      for (const page of folder.pages) {
+        if (page.id === id && !includeTarget) {
+          return sections;
+        }
+
+        sections[sections.length - 1].folders[
+          sections[sections.length - 1].folders.length - 1
+        ].pages.push({
+          ...page,
+          answers: page.answers.flatMap(preprocessAnswers),
         });
-      }
 
-      if (folderContainsPage) {
-        return contentBeforeEntity;
+        if (page.id === id && includeTarget) {
+          return sections;
+        }
       }
     }
   }
+
+  return sections;
 };
 
 export default ({
   questionnaire,
-  pageId = null,
-  confirmationId = null,
-  sectionId = null,
-  folderId = null,
-  preprocess = identity,
-}) => {
-  const contentBeforeEntity = getContentBeforeEntity({
-    questionnaire,
-    pageId,
-    confirmationId,
-    folderId,
-    sectionId,
-    preprocess,
-  });
-
-  return contentBeforeEntity.filter(({ folders }) => folders.length);
-};
+  id,
+  preprocessAnswers = identity,
+  includeTargetPage = false,
+}) =>
+  questionnaire?.introduction?.id === id
+    ? []
+    : getContentBeforeEntity(
+        questionnaire,
+        id,
+        preprocessAnswers,
+        includeTargetPage
+      ).filter(({ folders }) => folders.length);

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { isEmpty } from "lodash";
 
 import ContentPicker from "components/ContentPickerv2";
-import { useParams } from "react-router-dom";
+import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
@@ -44,8 +44,7 @@ const PipingMenu = ({
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const { questionnaire } = useQuestionnaire();
-  const params = useParams();
-
+  const pageId = useCurrentPageId();
   const handleButtonClick = (pickerContent) => {
     setPickerContent(pickerContent);
     setIsPickerOpen(true);
@@ -60,20 +59,20 @@ const PipingMenu = ({
 
   const answerData = useMemo(
     () =>
-      questionnaire && params
+      questionnaire && pageId
         ? getContentBeforeEntity({
             questionnaire,
-            preprocess: splitDateRangeAnswers,
-            ...params,
+            preprocessAnswers: splitDateRangeAnswers,
+            id: pageId,
           })
         : [],
-    [questionnaire, params]
+    [questionnaire, pageId]
   );
 
   const metadataData = questionnaire?.metadata || [];
 
   return (
-    <React.Fragment>
+    <>
       {allowableTypes.includes(ANSWER) && (
         <MenuButton
           title="Pipe answer"
@@ -117,7 +116,7 @@ const PipingMenu = ({
         singleItemSelect
         contentType={pickerContent}
       />
-    </React.Fragment>
+    </>
   );
 };
 
