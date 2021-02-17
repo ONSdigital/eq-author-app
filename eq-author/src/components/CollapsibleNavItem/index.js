@@ -115,7 +115,8 @@ const CollapsibleNavItem = ({
   titleUrl,
   open,
   bordered,
-  errorCount,
+  selfErrorCount,
+  childErrorCount,
   disabled,
   className,
   children,
@@ -148,7 +149,15 @@ const CollapsibleNavItem = ({
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
           {title}
-          {!isOpen && errorCount > 0 ? (
+          {isOpen && selfErrorCount > 0 && (
+            <Badge variant="nav" medium data-test="NavItem-error">
+              <VisuallyHidden>
+                <span>Amount of errors:</span>
+              </VisuallyHidden>
+              {selfErrorCount}
+            </Badge>
+          )}
+          {!isOpen && childErrorCount + selfErrorCount > 0 ? (
             <Badge variant="nav" small data-test="CollapsibleNavItem-error">
               <VisuallyHidden>
                 <span>Error</span>
@@ -174,7 +183,7 @@ CollapsibleNavItem.propTypes = {
   disabled: PropTypes.bool,
   history: CustomPropTypes.history.isRequired,
   bordered: PropTypes.bool,
-  errorCount: PropTypes.number,
+  childErrorCount: PropTypes.number,
   children: PropTypes.node.isRequired,
   defaultOpen: PropTypes.bool,
   className: PropTypes.string,

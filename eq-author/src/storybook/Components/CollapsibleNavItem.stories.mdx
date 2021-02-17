@@ -15,9 +15,9 @@ The collapsible navigation item component is used to simplify a navigation bar b
 
 <Canvas>
   <Story name="Primary">
-    <div id="example-container" style={{width:"25%"}}>
+    <div id="example-container" style={{ width: "25%" }}>
       <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/">
-          Inctum, laoreet enim a
+        Inctum, laoreet enim a
       </CollapsibleNavItem>
     </div>
   </Story>
@@ -26,10 +26,14 @@ The collapsible navigation item component is used to simplify a navigation bar b
 ## Variants
 
 <Canvas>
-  <Story name="Active">
-    <div id="example-container" style={{width:"25%"}}>
-      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" active>
-          Inctum, laoreet enim a
+  <Story name="Disabled">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        disabled
+      >
+        Inctum, laoreet enim a
       </CollapsibleNavItem>
     </div>
   </Story>
@@ -37,9 +41,13 @@ The collapsible navigation item component is used to simplify a navigation bar b
 
 <Canvas>
   <Story name="Bordered">
-    <div id="example-container" style={{width:"25%"}}>
-      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" bordered>
-          Inctum, laoreet enim a
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        bordered
+      >
+        Inctum, laoreet enim a
       </CollapsibleNavItem>
     </div>
   </Story>
@@ -47,19 +55,58 @@ The collapsible navigation item component is used to simplify a navigation bar b
 
 <Canvas>
   <Story name="Defaulted open">
-    <div id="example-container" style={{width:"25%"}}>
-      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" defaultOpen>
-          Inctum, laoreet enim a
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        defaultOpen
+      >
+        Inctum, laoreet enim a
       </CollapsibleNavItem>
     </div>
   </Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Error">
-    <div id="example-container" style={{width:"25%"}}>
-      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/" errorCount={1}>
-          Inctum, laoreet enim a
+  <Story name="Self errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        selfErrorCount={1}
+        childErrorCount={0}
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Child errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        selfErrorCount={0}
+        childErrorCount={1}
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Self and child errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        childErrorCount={1}
+        selfErrorCount={1}
+      >
+        Inctum, laoreet enim a
       </CollapsibleNavItem>
     </div>
   </Story>

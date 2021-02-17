@@ -209,7 +209,7 @@ const UnwrappedNavigationSidebar = ({
                   })}
                   disabled={isCurrentPage(folderId, entityId)}
                   icon={IconFolder}
-                  errorCount={calculatePageErrors(pages)}
+                  childErrorCount={calculatePageErrors(pages)}
                   history={history}
                   open
                 >
@@ -261,10 +261,8 @@ const UnwrappedNavigationSidebar = ({
                   tab: "design",
                 })}
                 bordered
-                errorCount={
-                  validationErrorInfo.totalCount +
-                  calculatePageErrors(allPagesInSection)
-                }
+                selfErrorCount={validationErrorInfo.totalCount}
+                childErrorCount={calculatePageErrors(allPagesInSection)}
                 disabled={isCurrentPage(sectionId, entityId)}
                 icon={IconSection}
                 history={history}
