@@ -6,11 +6,23 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
       displayName
       type
       properties
+      page {
+        id
+        alias
+        displayName
+        title
+      }
     }
     ... on MultipleChoiceAnswer {
       id
       displayName
       type
+      page {
+        id
+        alias
+        displayName
+        title
+      }
       mutuallyExclusiveOption {
         id
         label
