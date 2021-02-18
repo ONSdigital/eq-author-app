@@ -2,6 +2,7 @@ import React from "react";
 
 import { PageContextProvider, usePage } from "./";
 import { render, screen } from "tests/utils/rtl";
+
 const PageContextClient = () => {
   const pageContext = usePage();
   return <h1>{pageContext?.id}</h1>;

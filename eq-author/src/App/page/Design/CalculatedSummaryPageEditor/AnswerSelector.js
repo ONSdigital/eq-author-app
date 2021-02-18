@@ -248,16 +248,16 @@ export const UnwrappedAnswerSelector = ({
       message: CALCSUM_ANSWER_NOT_SELECTED,
     });
 
-    const title = availableSummaryAnswers.length
-      ? "No answers selected"
-      : "No answers available";
-    const text = availableSummaryAnswers.length
-      ? "Select an answer using the button below."
-      : "There are no answers to provide a calculated summary.";
     return (
       <Empty>
-        <EmptyTitle>{title}</EmptyTitle>
-        <EmptyText>{text}</EmptyText>
+        <EmptyTitle>{`No answers ${
+          availableSummaryAnswers.length ? "selected" : "available"
+        }`}</EmptyTitle>
+        <EmptyText>
+          {availableSummaryAnswers.length
+            ? "Select an answer using the button below."
+            : "There are no answers to provide a calculated summary."}
+        </EmptyText>
         <ErrorContainer>
           <EmptyButton
             small
