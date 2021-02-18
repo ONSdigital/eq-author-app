@@ -1,5 +1,7 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/option.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/section.graphql"
 #import "./fragments/min-value-validation-rule.graphql"
 #import "./fragments/max-value-validation-rule.graphql"
 #import "./fragments/earliest-date-validation-rule.graphql"
@@ -83,6 +85,12 @@ mutation createAnswer($input: CreateAnswerInput!) {
       displayName
       position
       pageType
+      folder {
+        ...Folder
+        section {
+          ...Section
+        }
+      }
       totalValidation {
         ...TotalValidationRule
         availablePreviousAnswers {
@@ -90,7 +98,7 @@ mutation createAnswer($input: CreateAnswerInput!) {
         }
       }
       answers {
-        id
+        ...Answer
       }
       validationErrorInfo {
         ...ValidationErrorInfo

@@ -6,6 +6,8 @@ fragment Option on Option {
   description
   label
   qCode
+  value
+  displayName
   additionalAnswer {
     ...Answer
     ... on BasicAnswer {
