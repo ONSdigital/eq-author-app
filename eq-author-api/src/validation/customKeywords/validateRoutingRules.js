@@ -45,9 +45,9 @@ module.exports = function (ajv) {
 
       if (
         (pageId &&
-          getAbsolutePositionById({ questionnaire }, pageId) > pagePosition) ||
+          getAbsolutePositionById({ questionnaire }, pageId) < pagePosition) ||
         (sectionId &&
-          getAbsolutePositionById({ questionnaire }, sectionId) > pagePosition)
+          getAbsolutePositionById({ questionnaire }, sectionId) < pagePosition)
       ) {
         const err = createValidationError(
           dataPath,
