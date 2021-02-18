@@ -23,7 +23,6 @@ describe("utils/getPreviousAnswers", () => {
       pageId: questionnaire.sections[1].folders[1].pages[0].id,
     });
 
-    console.log(previousContent);
     expect(previousContent.length).toBe(2);
   });
 });

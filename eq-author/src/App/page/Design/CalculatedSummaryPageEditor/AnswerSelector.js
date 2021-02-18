@@ -144,7 +144,7 @@ export const ErrorContext = styled.div`
     `}
 `;
 
-const UnwrappedAnswerSelector = ({
+export const UnwrappedAnswerSelector = ({
   onUpdateCalculatedSummaryPage,
   page,
   getValidationError,

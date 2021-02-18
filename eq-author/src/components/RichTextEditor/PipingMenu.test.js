@@ -2,12 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
 
-import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
-
-import {
-  Menu,
-  UnwrappedPipingMenu,
-} from "components/RichTextEditor/PipingMenu";
+import PipingMenu from "components/RichTextEditor/PipingMenu";
 
 import {
   ANSWER,
@@ -22,7 +17,7 @@ describe("PipingMenu", () => {
 
   const render = (props = {}) => {
     return shallow(
-      <Menu
+      <PipingMenu
         match={createMatch("1", "1", "1")}
         onItemChosen={handleItemChosen}
         answerData={answerData}
@@ -224,7 +219,7 @@ describe("PipingMenu", () => {
       };
 
       const wrapper = shallow(
-        <UnwrappedPipingMenu
+        <PipingMenu
           match={match}
           canFocus
           entityName={name}
@@ -303,7 +298,7 @@ describe("PipingMenu", () => {
       };
 
       const wrapper = shallow(
-        <UnwrappedPipingMenu
+        <PipingMenu
           match={match}
           canFocus
           entityName={name}
@@ -375,7 +370,7 @@ describe("PipingMenu", () => {
     };
 
     const wrapper = shallow(
-      <UnwrappedPipingMenu
+      <PipingMenu
         match={match}
         canFocus
         entityName={name}

@@ -17,10 +17,6 @@ const {
 
 const { DATE, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
 const {
-  NEXT_PAGE,
-  END_OF_QUESTIONNAIRE,
-} = require("../../constants/logicalDestinations");
-const {
   getSectionByPageId,
   getPageById,
   getPages,
