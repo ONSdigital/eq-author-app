@@ -10,7 +10,7 @@ import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
 const Wrapper = styled.div`
-  margin-bottom: 0.5em;
+  margin-bottom: ${({ isBordered }) => (isBordered ? "0.5em" : "0")};
 `;
 
 const Header = styled.div`
@@ -137,6 +137,7 @@ const CollapsibleNavItem = ({
       className={className}
       bordered={bordered}
       data-test="CollapsibleNavItem"
+      isBordered={bordered}
     >
       <Header data-test="CollapsibleNavItem-header">
         <ToggleCollapsibleNavItemButton
