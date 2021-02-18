@@ -135,7 +135,6 @@ const CollapsibleNavItem = ({
   return (
     <Wrapper
       className={className}
-      bordered={bordered}
       data-test="CollapsibleNavItem"
       isBordered={bordered}
     >
