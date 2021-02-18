@@ -6,9 +6,24 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 import { useCurrentPageId } from "components/RouterContext";
 
 const mockQuestionnaire = buildQuestionnaire({
-  sectionCount: 2,
+  sectionCount: 1,
   pageCount: 2,
 });
+
+mockQuestionnaire.sections[0].folders[0].pages[0].answers = [
+  {
+    id: "ans-1",
+    displayName: "Answer 1",
+    properties: {},
+    type: "Number",
+  },
+  {
+    id: "ans-2",
+    displayName: "Answer 2",
+    properties: {},
+    type: "Number",
+  },
+];
 
 jest.mock("components/QuestionnaireContext", () => ({
   useQuestionnaire: jest.fn(),
@@ -18,23 +33,16 @@ jest.mock("components/RouterContext", () => ({
   useCurrentPageId: jest.fn(),
 }));
 
-const render = (props = {}) =>
-  shallow(<PreviousAnswerContentPicker {...props} />);
+useQuestionnaire.mockImplementation(() => ({
+  questionnaire: mockQuestionnaire,
+}));
+useCurrentPageId.mockImplementation(() => "1.1.2");
 
 describe("PreviousAnswerContentPicker", () => {
-  let props, wrapper;
-
-  jest.useMockImplementation(useQuestionnaire, () => ({
-    questionnaire: mockQuestionnaire,
-  }));
-
-  jest.useMockImplementation(
-    useCurrentPageId,
-    () => mockQuestionnaire.sections[1].folders[0].pages[1].id
-  );
+  let wrapper;
 
   beforeEach(() => {
-    wrapper = render(props);
+    wrapper = shallow(<PreviousAnswerContentPicker onSubmit={jest.fn()} />);
   });
 
   it("should render", () => {

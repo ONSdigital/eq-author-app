@@ -1,112 +1,129 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AnswerSelector should render when there are available summary answers 1`] = `
-<div>
-  <AnswerSelector__Box>
-    <AnswerSelector__Answers>
-      <div>
-        <AnswerSelector__Empty>
-          <AnswerSelector__EmptyTitle>
-            No answers selected
-          </AnswerSelector__EmptyTitle>
-          <AnswerSelector__EmptyText>
-            Select an answer using the button below.
-          </AnswerSelector__EmptyText>
-          <AnswerSelector__ErrorContainer>
-            <AnswerSelector__EmptyButton
-              data-test="answer-selector-empty"
-              disabled={false}
-              onClick={[Function]}
-              small={true}
-              type="button"
-              variant="primary"
-            >
-              Select an answer
-            </AnswerSelector__EmptyButton>
-            <ErrorInline />
-          </AnswerSelector__ErrorContainer>
-        </AnswerSelector__Empty>
-      </div>
-      <CalSumContentPicker
-        data={
-          Array [
-            Object {
-              "displayName": "Section 1",
-              "id": 1,
-              "pages": Array [
-                Object {
-                  "answers": Array [
-                    Object {
-                      "displayName": "Answer 1",
-                      "id": 1,
-                      "properties": Object {},
-                      "type": "Number",
+<AnswerSelector__Box>
+  <AnswerSelector__Answers>
+    <AnswerSelector__Empty>
+      <AnswerSelector__EmptyTitle>
+        No answers selected
+      </AnswerSelector__EmptyTitle>
+      <AnswerSelector__EmptyText>
+        Select an answer using the button below.
+      </AnswerSelector__EmptyText>
+      <AnswerSelector__ErrorContainer>
+        <AnswerSelector__EmptyButton
+          data-test="answer-selector-empty"
+          disabled={false}
+          onClick={[Function]}
+          small={true}
+          type="button"
+          variant="primary"
+        >
+          Select an answer
+        </AnswerSelector__EmptyButton>
+        <ErrorInline />
+      </AnswerSelector__ErrorContainer>
+    </AnswerSelector__Empty>
+    <CalSumContentPicker
+      data={
+        Array [
+          Object {
+            "displayName": "Section 1",
+            "folders": Array [
+              Object {
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
+                  Object {
+                    "alias": "1.1.1",
+                    "answers": Array [
+                      Object {
+                        "displayName": "Answer 1",
+                        "id": 1,
+                        "properties": Object {},
+                        "type": "Number",
+                      },
+                      Object {
+                        "displayName": "Answer 2",
+                        "id": 2,
+                        "properties": Object {},
+                        "type": "Number",
+                      },
+                      Object {
+                        "displayName": "Answer 3",
+                        "id": 3,
+                        "properties": Object {},
+                        "type": "Number",
+                      },
+                    ],
+                    "displayName": "Page 1.1.1",
+                    "folder": Object {
+                      "id": "1",
                     },
-                    Object {
-                      "displayName": "Answer 2",
-                      "id": 2,
-                      "properties": Object {},
-                      "type": "Number",
+                    "id": "1.1.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
                     },
-                    Object {
-                      "displayName": "Answer 3",
-                      "id": 3,
-                      "properties": Object {},
-                      "type": "Number",
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
                     },
-                  ],
-                  "displayName": "Foo",
-                  "id": "1",
-                },
-              ],
+                  },
+                ],
+                "position": 0,
+              },
+            ],
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
             },
-          ]
-        }
-        isOpen={false}
-        onClose={[Function]}
-        onSubmit={[Function]}
-        startingSelectedAnswers={Array []}
-      />
-    </AnswerSelector__Answers>
-  </AnswerSelector__Box>
-</div>
+          },
+        ]
+      }
+      isOpen={false}
+      onClose={[Function]}
+      onSubmit={[Function]}
+      startingSelectedAnswers={Array []}
+    />
+  </AnswerSelector__Answers>
+</AnswerSelector__Box>
 `;
 
 exports[`AnswerSelector should render when there are no available summary answers 1`] = `
-<div>
-  <AnswerSelector__Box>
-    <AnswerSelector__Answers>
-      <div>
-        <AnswerSelector__Empty>
-          <AnswerSelector__EmptyTitle>
-            No answers available
-          </AnswerSelector__EmptyTitle>
-          <AnswerSelector__EmptyText>
-            There are no answers to provide a calculated summary.
-          </AnswerSelector__EmptyText>
-          <AnswerSelector__ErrorContainer>
-            <AnswerSelector__EmptyButton
-              data-test="answer-selector-empty"
-              disabled={true}
-              onClick={[Function]}
-              small={true}
-              type="button"
-              variant="primary"
-            >
-              Select an answer
-            </AnswerSelector__EmptyButton>
-            <ErrorInline />
-          </AnswerSelector__ErrorContainer>
-        </AnswerSelector__Empty>
-      </div>
-      <CalSumContentPicker
-        data={Array []}
-        isOpen={false}
-        onClose={[Function]}
-        onSubmit={[Function]}
-        startingSelectedAnswers={Array []}
-      />
-    </AnswerSelector__Answers>
-  </AnswerSelector__Box>
-</div>
+<AnswerSelector__Box>
+  <AnswerSelector__Answers>
+    <AnswerSelector__Empty>
+      <AnswerSelector__EmptyTitle>
+        No answers available
+      </AnswerSelector__EmptyTitle>
+      <AnswerSelector__EmptyText>
+        There are no answers to provide a calculated summary.
+      </AnswerSelector__EmptyText>
+      <AnswerSelector__ErrorContainer>
+        <AnswerSelector__EmptyButton
+          data-test="answer-selector-empty"
+          disabled={true}
+          onClick={[Function]}
+          small={true}
+          type="button"
+          variant="primary"
+        >
+          Select an answer
+        </AnswerSelector__EmptyButton>
+        <ErrorInline />
+      </AnswerSelector__ErrorContainer>
+    </AnswerSelector__Empty>
+    <CalSumContentPicker
+      data={Array []}
+      isOpen={false}
+      onClose={[Function]}
+      onSubmit={[Function]}
+      startingSelectedAnswers={Array []}
+    />
+  </AnswerSelector__Answers>
+</AnswerSelector__Box>
 `;

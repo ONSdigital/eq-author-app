@@ -127,7 +127,6 @@ export const RoutingDestinationContentPicker = ({
 
 RoutingDestinationContentPicker.propTypes = {
   id: PropTypes.string,
-  pageId: PropTypes.string.isRequired,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
 };

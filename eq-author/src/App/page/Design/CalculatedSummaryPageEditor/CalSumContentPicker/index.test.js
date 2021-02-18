@@ -14,70 +14,74 @@ describe("CalculatedSummary content picker", () => {
       {
         id: "section 1",
         displayName: "Untitled Section",
-        pages: [
+        folders: [
           {
-            id: "Page 1",
-            displayName: "Page 1",
-            answers: [
+            pages: [
               {
-                id: "Percentage 1",
-                displayName: "Percentage 1",
-                type: "Percentage",
-                properties: {},
+                id: "Page 1",
+                displayName: "Page 1",
+                answers: [
+                  {
+                    id: "Percentage 1",
+                    displayName: "Percentage 1",
+                    type: "Percentage",
+                    properties: {},
+                  },
+                  {
+                    id: "Number 1",
+                    displayName: "Number 1",
+                    type: "Number",
+                    properties: {},
+                  },
+                  {
+                    id: "Currency 1",
+                    displayName: "Currency 1",
+                    type: "Currency",
+                    properties: {},
+                  },
+                  {
+                    id: "Unit 1",
+                    displayName: "Unit 1",
+                    type: "Unit",
+                    properties: { unit: "meters" },
+                  },
+                ],
               },
               {
-                id: "Number 1",
-                displayName: "Number 1",
-                type: "Number",
-                properties: {},
-              },
-              {
-                id: "Currency 1",
-                displayName: "Currency 1",
-                type: "Currency",
-                properties: {},
-              },
-              {
-                id: "Unit 1",
-                displayName: "Unit 1",
-                type: "Unit",
-                properties: { unit: "meters" },
-              },
-            ],
-          },
-          {
-            id: "Page 2",
-            displayName: "Page 2",
-            answers: [
-              {
-                id: "Percentage 2",
-                displayName: "Percentage 2",
-                type: "Percentage",
-                properties: {},
-              },
-              {
-                id: "Currency 2",
-                displayName: "Currency 2",
-                type: "Currency",
-                properties: {},
-              },
-              {
-                id: "Number 2",
-                displayName: "Number 2",
-                type: "Number",
-                properties: {},
-              },
-              {
-                id: "Unit 2",
-                displayName: "Unit 2",
-                type: "Unit",
-                properties: { unit: "centimeters" },
-              },
-              {
-                id: "Unit 3",
-                displayName: "Unit 3",
-                type: "Unit",
-                properties: { unit: "centimeters" },
+                id: "Page 2",
+                displayName: "Page 2",
+                answers: [
+                  {
+                    id: "Percentage 2",
+                    displayName: "Percentage 2",
+                    type: "Percentage",
+                    properties: {},
+                  },
+                  {
+                    id: "Currency 2",
+                    displayName: "Currency 2",
+                    type: "Currency",
+                    properties: {},
+                  },
+                  {
+                    id: "Number 2",
+                    displayName: "Number 2",
+                    type: "Number",
+                    properties: {},
+                  },
+                  {
+                    id: "Unit 2",
+                    displayName: "Unit 2",
+                    type: "Unit",
+                    properties: { unit: "centimeters" },
+                  },
+                  {
+                    id: "Unit 3",
+                    displayName: "Unit 3",
+                    type: "Unit",
+                    properties: { unit: "centimeters" },
+                  },
+                ],
               },
             ],
           },

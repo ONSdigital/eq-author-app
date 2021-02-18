@@ -29,16 +29,20 @@ const answerData = [
   {
     id: "section-1",
     title: "",
-    pages: [
+    folders: [
       {
-        id: "page-1",
-        pageType: "QuestionPage",
-        title: "<p>Question one</p>",
-        answers: [
+        pages: [
           {
-            id: "answer-1",
-            displayName: "Answer 1",
-            type: "Number",
+            id: "page-1",
+            pageType: "QuestionPage",
+            title: "<p>Question one</p>",
+            answers: [
+              {
+                id: "answer-1",
+                displayName: "Answer 1",
+                type: "Number",
+              },
+            ],
           },
         ],
       },

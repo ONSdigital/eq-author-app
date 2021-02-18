@@ -26,9 +26,11 @@ const SectionMenu = ({
 }) => {
   const defaultSelectedSection = firstSelectedItemId
     ? find(data, {
-        folders: {
-          pages: [{ answers: [{ id: firstSelectedItemId }] }],
-        },
+        folders: [
+          {
+            pages: [{ answers: [{ id: firstSelectedItemId }] }],
+          },
+        ],
       })
     : data[0];
 

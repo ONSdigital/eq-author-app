@@ -19,7 +19,6 @@ import {
 
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { useCurrentPageId } from "components/RouterContext";
 
 import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
 
@@ -151,7 +150,6 @@ export const UnwrappedAnswerSelector = ({
 }) => {
   const [showPicker, setShowPicker] = useState(false);
   const { questionnaire } = useQuestionnaire();
-  const pageId = useCurrentPageId();
   const { summaryAnswers } = page;
 
   const handleRemoveAnswers = (answers) =>
@@ -279,14 +277,13 @@ export const UnwrappedAnswerSelector = ({
     () =>
       (
         questionnaire &&
-        pageId &&
         getContentBeforeEntity({
           questionnaire,
-          id: pageId,
+          id: page.id,
           preprocessAnswers: filterAvailableAnswers,
         })
       )?.filter((section) => section.id === page.section.id) || [],
-    [questionnaire, pageId]
+    [questionnaire, page.id]
   );
 
   return (
