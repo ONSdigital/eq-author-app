@@ -1425,6 +1425,8 @@ describe("schema validation", () => {
         ],
       });
 
+      questionnaire.updatedAt = new Date();
+
       const validationErrors = validation(questionnaire);
 
       expect(validationErrors[0]).toMatchObject({
