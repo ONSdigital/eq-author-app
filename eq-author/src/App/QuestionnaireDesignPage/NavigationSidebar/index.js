@@ -166,10 +166,10 @@ const UnwrappedNavigationSidebar = ({
     if (confirmation) {
       components.push(
         <NavItemTransition
-          key={`transition-page-${pageId}`}
+          key={`transition-page-${pageId}-confirmation`}
           onEntered={scrollIntoView}
         >
-          <li key={`page-${pageId}`}>
+          <li key={`page-${pageId}-confirmation`}>
             <NavItem
               key={confirmation.displayName}
               title={confirmation.displayName}
