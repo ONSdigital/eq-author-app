@@ -1,29 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { isNil } from "lodash";
 
-import { ANSWER } from "./content-types";
-import ContentPicker from "components/ContentPickerv2";
+import { stripHtmlToText } from "utils/stripHTML";
 
+import ContentPicker from "components/ContentPickerv2";
 import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
-
-import { colors } from "constants/theme";
+import Tooltip from "components/Forms/Tooltip";
 
 import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
+
+import { useTruncation } from "./useTruncation";
+
+import { ANSWER } from "./content-types";
+import { colors, focusStyle } from "constants/theme";
 
 export const ContentSelectButton = styled(Button).attrs({
   variant: "tertiary",
 })`
+  padding: 0.5em 2em 0.5em 0.75em;
   font-size: 1em;
   font-weight: normal;
-  padding: 0.5em 0.75em;
   border: ${({ hasError }) =>
     hasError ? `3px solid ${colors.negative}` : `1px solid ${colors.borders}`};
   background-color: ${colors.white};
-  height: 2.5em;
   width: 100%;
   justify-content: space-between;
 
@@ -38,74 +41,133 @@ export const ContentSelectButton = styled(Button).attrs({
     margin: auto;
     opacity: 0.7;
   }
+
   &:hover {
     border-color: ${colors.blue};
     outline-color: ${colors.blue};
-
     color: ${colors.blue};
+
     &::after {
       opacity: 1;
     }
   }
+
+  &:focus {
+    ${focusStyle}
+  }
 `;
 
-export const ContentSelected = styled(Truncated)`
+export const ContentSelected = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
   color: ${colors.text};
-  max-width: 18em;
-  padding-right: 1em;
+  padding-right: 2em;
   text-align: left;
-  line-height: 1.3;
+  overflow: hidden;
 `;
 
-const ContentPickerSelect = (props) => {
+const ContentSelectedTitle = styled(Truncated)`
+  font-weight: 600;
+  line-height: 1.2em;
+`;
+
+const formatTitle = ({ page: { alias = "", title } = {} }) =>
+  `${alias ? `${alias} -` : ""} ${stripHtmlToText(title)}`;
+
+export const contentPickerSelectID = "content-picker-select";
+export const contentPickerID = "content-picker";
+export const defaultContentName = "Select an answer";
+export const defaultMetadataName = "Select metadata";
+
+const ContentPickerSelect = ({
+  loading,
+  error,
+  disabled,
+  answerData,
+  metadataData,
+  contentTypes,
+  name,
+  selectedContentDisplayName = defaultContentName,
+  selectedMetadataDisplayName = defaultMetadataName,
+  onSubmit,
+  ...otherProps
+}) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
-  const {
-    loading,
-    error,
-    disabled,
-    answerData,
-    metadataData,
-    contentTypes,
-    name,
-    selectedContentDisplayName,
-    selectedMetadataDisplayName,
-    ...otherProps
-  } = props;
-  const isDisabled = loading || !isNil(error) || disabled;
+  const [isTruncated, elementToTruncate] = useTruncation();
+  const [data, contentSelectButtonText] =
+    contentTypes[0] === ANSWER
+      ? [answerData, selectedContentDisplayName]
+      : [metadataData, selectedMetadataDisplayName];
+
+  const buildTitle = (selectedContent) =>
+    typeof selectedContent === "string" ? (
+      selectedContent
+    ) : (
+      <>
+        <ContentSelectedTitle ref={elementToTruncate}>
+          {formatTitle(selectedContent)}
+        </ContentSelectedTitle>
+        <span>{`${selectedContent.displayName}`}</span>
+      </>
+    );
+
+  const contentSelectButton = useCallback(
+    () => (
+      <ContentSelectButton
+        data-test={contentPickerSelectID}
+        onClick={() => setPickerOpen(true)}
+        disabled={loading || !isNil(error) || disabled}
+        {...otherProps}
+      >
+        <ContentSelected>{buildTitle(contentSelectButtonText)}</ContentSelected>
+      </ContentSelectButton>
+    ),
+    [loading, contentSelectButtonText, error, disabled]
+  );
 
   const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
-    props.onSubmit({ name, value: selected });
+    onSubmit({ name, value: selected });
   };
-
-  const data = contentTypes[0] === ANSWER ? answerData : metadataData;
-
-  const contentSelectButtonText = metadataData
-    ? selectedMetadataDisplayName
-    : selectedContentDisplayName;
 
   return (
     <>
-      <ContentSelectButton
-        data-test="content-picker-select"
-        onClick={() => setPickerOpen(true)}
-        disabled={isDisabled}
-        {...otherProps}
-      >
-        <ContentSelected>{contentSelectButtonText}</ContentSelected>
-      </ContentSelectButton>
+      {isTruncated ? (
+        <Tooltip
+          content={
+            contentSelectButtonText?.page
+              ? formatTitle(contentSelectButtonText)
+              : contentSelectButtonText
+          }
+          place="top"
+          offset={{ top: 0, bottom: 10 }}
+          event="mouseover"
+          eventOff="mouseleave"
+        >
+          {contentSelectButton()}
+        </Tooltip>
+      ) : (
+        contentSelectButton()
+      )}
+
       <ContentPicker
         isOpen={isPickerOpen}
         data={data || []}
         startingSelectedAnswers={[]}
         onClose={() => setPickerOpen(false)}
         onSubmit={handlePickerSubmit}
-        data-test="picker"
+        data-test={contentPickerID}
         singleItemSelect
         contentType={contentTypes[0]}
       />
     </>
   );
+};
+
+const idAndName = {
+  id: PropTypes.string,
+  displayName: PropTypes.string,
 };
 
 ContentPickerSelect.propTypes = {
@@ -116,39 +178,21 @@ ContentPickerSelect.propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
   }),
   selectedObj: PropTypes.shape({
-    section: PropTypes.shape({
-      id: PropTypes.string,
-      displayName: PropTypes.string,
-    }),
-    page: PropTypes.shape({
-      id: PropTypes.string,
-      displayName: PropTypes.string,
-    }),
+    section: PropTypes.shape(idAndName),
+    page: PropTypes.shape(idAndName),
     logical: PropTypes.string,
   }),
   selectedId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  selectedContentDisplayName: PropTypes.string,
+  selectedContentDisplayName: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   selectedMetadataDisplayName: PropTypes.string,
   name: PropTypes.string.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  answerData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-    })
-  ),
-  metadataData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-    })
-  ),
-};
-
-ContentPickerSelect.defaultProps = {
-  selectedContentDisplayName: "Select an answer",
-  selectedMetadataDisplayName: "Select metadata",
+  answerData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
+  metadataData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
 };
 
 export default ContentPickerSelect;
