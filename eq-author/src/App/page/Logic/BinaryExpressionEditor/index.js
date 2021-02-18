@@ -158,7 +158,11 @@ export const UnwrappedBinaryExpressionEditor = ({
         <Column gutters={false} cols={8}>
           <ContentPicker
             path="getAvailableAnswers"
-            selectedContentDisplayName={expression?.left?.displayName}
+            selectedContentDisplayName={
+              expression?.left.hasOwnProperty("displayName")
+                ? expression.left
+                : undefined
+            }
             onSubmit={handleLeftSideChange}
             selectedId={expression?.left?.id}
             data-test="routing-answer-picker"
