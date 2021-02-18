@@ -26,6 +26,45 @@ exports[`Answers should render a component for each answer type: Currency 1`] = 
 </Answers__AnswerWrapper>
 `;
 
+exports[`Answers should render a component for each answer type: Date 1`] = `
+<Answers__AnswerWrapper>
+  <DateAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Date",
+      }
+    }
+  />
+</Answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type: DateRange 1`] = `
+<Answers__AnswerWrapper>
+  <DateRangeAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "DateRange",
+      }
+    }
+  />
+</Answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type: Duration 1`] = `
+<Answers__AnswerWrapper>
+  <DurationAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Duration",
+      }
+    }
+  />
+</Answers__AnswerWrapper>
+`;
+
 exports[`Answers should render a component for each answer type: Number 1`] = `
 <Answers__AnswerWrapper>
   <TextAnswer

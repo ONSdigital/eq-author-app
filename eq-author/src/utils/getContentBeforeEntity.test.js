@@ -5,24 +5,25 @@ const questionnaire = buildQuestionnaire({
   sectionCount: 2,
   folderCount: 2,
   pageCount: 2,
+  answerCount: 2,
 });
 
 describe("utils/getPreviousAnswers", () => {
   it("should return empty array when no pages preceed the target page", () => {
-    const previousContent = getPreviousContent({
+    const previousSections = getPreviousContent({
       questionnaire,
-      pageId: questionnaire.sections[0].folders[0].pages[0].id,
+      id: questionnaire.sections[0].folders[0].pages[0].id,
     });
 
-    expect(previousContent.length).toBe(0);
+    expect(previousSections.length).toBe(0);
   });
 
   it("should return questionnaire tree up to but not including target page", () => {
-    const previousContent = getPreviousContent({
+    const previousSections = getPreviousContent({
       questionnaire,
-      pageId: questionnaire.sections[1].folders[1].pages[0].id,
+      id: questionnaire.sections[1].folders[1].pages[0].id,
     });
 
-    expect(previousContent.length).toBe(2);
+    expect(previousSections.length).toBe(2);
   });
 });
