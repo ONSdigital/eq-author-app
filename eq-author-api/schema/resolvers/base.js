@@ -203,7 +203,16 @@ const Resolvers = {
       const { comments } = await getCommentsForQuestionnaire(questionnaireId);
 
       if (comments[id]) {
-        comments[id].sort((a, b) => b.createdTime - a.createdTime);
+        comments[id].sort(
+          // (a, b) => b.createdTime - a.createdTime
+          (a, b) =>
+            b.createdTime.toString().localeCompare(a.createdTime.toString())
+        );
+
+        console.log(
+          "\n\ncomments:---------------------",
+          JSON.stringify(comments[id], null, 7)
+        );
 
         return comments[id];
       }
