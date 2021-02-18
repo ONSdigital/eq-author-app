@@ -28,6 +28,7 @@ describe("Answers", () => {
       PERCENTAGE,
       UNIT,
       DURATION,
+      CURRENCY,
     ].forEach((type) => {
       const wrapper = shallow(
         <Answer answer={{ type, properties: {}, options: [] }} />

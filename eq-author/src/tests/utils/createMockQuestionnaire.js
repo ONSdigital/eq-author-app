@@ -12,7 +12,7 @@ export const buildAnswers = ({
   answerCount = DEFAULT_ANSWER_COUNT,
 } = {}) =>
   times(answerCount, (i) => {
-    const id = `${sectionNumber}.${folderNumber}.${i + 1}`;
+    const id = `${sectionNumber}.${folderNumber}.${pageNumber}.${i + 1}`;
 
     return {
       id,
