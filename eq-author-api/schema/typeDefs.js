@@ -160,7 +160,6 @@ type QuestionPage implements Page & Skippable {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean!
-  availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
   skipConditions: [ExpressionGroup2]
@@ -270,12 +269,6 @@ enum LogicalDestinations {
 type LogicalDestination {
   id: ID!
   logicalDestination: LogicalDestinations!
-}
-
-type AvailableRoutingDestinations {
-  logicalDestinations: [LogicalDestination]!
-  pages: [Page]!
-  sections: [Section]!
 }
 
 type ValidationError {

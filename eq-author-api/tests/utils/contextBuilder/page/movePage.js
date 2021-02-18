@@ -34,11 +34,6 @@ const movePageMutation = `
         routing {
           id
         }
-        availableRoutingDestinations {
-          logicalDestinations {
-            id
-          }
-        } 
       }
     }
   }

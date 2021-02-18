@@ -13,7 +13,6 @@ const {
 } = require("../utils");
 const { createMutation } = require("../createMutation");
 
-const availableRoutingDestinations = require("../../../src/businessLogic/availableRoutingDestinations");
 const Resolvers = {};
 
 Resolvers.QuestionPage = {
@@ -24,19 +23,6 @@ Resolvers.QuestionPage = {
     return folder.pages.findIndex((page) => page.id === id);
   },
   displayName: (page) => getName(page, "QuestionPage"),
-  availableRoutingDestinations: ({ id }, args, ctx) => {
-    const {
-      logicalDestinations,
-      sections,
-      questionPages,
-    } = availableRoutingDestinations(ctx.questionnaire, id);
-
-    return {
-      logicalDestinations,
-      sections,
-      pages: questionPages,
-    };
-  },
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")

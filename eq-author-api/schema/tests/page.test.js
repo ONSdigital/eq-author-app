@@ -406,7 +406,6 @@ describe("page", () => {
         additionalInfoLabel: expect.any(String),
         additionalInfoContent: expect.any(String),
         additionalInfoEnabled: expect.any(Boolean),
-        availableRoutingDestinations: expect.any(Object),
         confirmation: expect.any(Object) || null,
         routing: expect.any(Object) || null,
       });
@@ -430,19 +429,6 @@ describe("page", () => {
       expect(queriedPage.folder.id).toEqual(
         questionnaire.sections[0].folders[0].id
       );
-    });
-
-    it("should resolve availableRoutingDestinations", () => {
-      expect(queriedPage.availableRoutingDestinations).toEqual({
-        logicalDestinations: [
-          {
-            id: NEXT_PAGE,
-          },
-          {
-            id: END_OF_QUESTIONNAIRE,
-          },
-        ],
-      });
     });
 
     it("should resolve confirmation", () => {

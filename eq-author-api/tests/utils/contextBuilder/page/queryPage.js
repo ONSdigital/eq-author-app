@@ -59,11 +59,6 @@ const getPageQuery = `
         confirmation {
           id
         }
-        availableRoutingDestinations {
-          logicalDestinations {
-            id
-          }
-        }
         routing {
           rules {
             expressionGroup {
