@@ -12,7 +12,6 @@ import {
   DATE,
   DATE_RANGE,
   UNIT,
-  DURATION,
 } from "constants/answer-types";
 
 import { Answer } from "./";
@@ -27,7 +26,6 @@ describe("Answers", () => {
       NUMBER,
       PERCENTAGE,
       UNIT,
-      DURATION,
       CURRENCY,
     ].forEach((type) => {
       const wrapper = shallow(

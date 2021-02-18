@@ -6,6 +6,7 @@ exports[`Answers should render a component for each answer type: Checkbox 1`] = 
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Checkbox",
       }
     }
@@ -19,46 +20,8 @@ exports[`Answers should render a component for each answer type: Currency 1`] = 
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Currency",
-      }
-    }
-  />
-</Answers__AnswerWrapper>
-`;
-
-exports[`Answers should render a component for each answer type: Date 1`] = `
-<Answers__AnswerWrapper>
-  <DateAnswer
-    answer={
-      Object {
-        "options": Array [],
-        "type": "Date",
-      }
-    }
-  />
-</Answers__AnswerWrapper>
-`;
-
-exports[`Answers should render a component for each answer type: DateRange 1`] = `
-<Answers__AnswerWrapper>
-  <DateRangeAnswer
-    answer={
-      Object {
-        "options": Array [],
-        "type": "DateRange",
-      }
-    }
-  />
-</Answers__AnswerWrapper>
-`;
-
-exports[`Answers should render a component for each answer type: Duration 1`] = `
-<Answers__AnswerWrapper>
-  <DurationAnswer
-    answer={
-      Object {
-        "options": Array [],
-        "type": "Duration",
       }
     }
   />
@@ -71,6 +34,7 @@ exports[`Answers should render a component for each answer type: Number 1`] = `
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Number",
       }
     }
@@ -84,6 +48,7 @@ exports[`Answers should render a component for each answer type: Percentage 1`] 
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Percentage",
       }
     }
@@ -97,6 +62,7 @@ exports[`Answers should render a component for each answer type: Radio 1`] = `
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Radio",
       }
     }
@@ -110,6 +76,7 @@ exports[`Answers should render a component for each answer type: TextArea 1`] = 
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "TextArea",
       }
     }
@@ -123,6 +90,7 @@ exports[`Answers should render a component for each answer type: TextField 1`] =
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "TextField",
       }
     }
@@ -136,6 +104,7 @@ exports[`Answers should render a component for each answer type: Unit 1`] = `
     answer={
       Object {
         "options": Array [],
+        "properties": Object {},
         "type": "Unit",
       }
     }
