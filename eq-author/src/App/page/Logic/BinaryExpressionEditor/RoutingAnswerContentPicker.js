@@ -10,6 +10,9 @@ import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import { ROUTING_ANSWER_TYPES } from "constants/answer-types";
 
+export const preprocessAnswers = (answer) =>
+  ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [];
+
 const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
@@ -20,8 +23,7 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
         questionnaire,
         id: pageId,
         includeTargetPage: includeSelf,
-        preprocessAnswers: (answer) =>
-          ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [],
+        preprocessAnswers,
       }),
     [questionnaire, pageId]
   );

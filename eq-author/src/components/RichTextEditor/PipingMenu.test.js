@@ -1,13 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
-import PipingMenu from "components/RichTextEditor/PipingMenu";
+import PipingMenu, {
+  splitDateRangeAnswers,
+} from "components/RichTextEditor/PipingMenu";
 
 import {
   ANSWER,
   METADATA,
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
+
+import { DATE_RANGE, NUMBER } from "constants/answer-types";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import { useCurrentPageId } from "components/RouterContext";
@@ -128,5 +132,31 @@ describe("PipingMenu", () => {
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(false);
   });
 
-  // TODO - add tests for splitDateRangeAnswers
+  describe("splitDateRangeAnswers", () => {
+    it("should split date range answers into entries for to / from", () => {
+      const answers = [
+        { id: 0, type: DATE_RANGE, secondaryLabel: "my-fave-secondary-label" },
+        { id: 1, type: NUMBER },
+      ];
+
+      const processedAnswers = answers.map(splitDateRangeAnswers);
+
+      expect(processedAnswers[0]).toHaveLength(2);
+      expect(processedAnswers[0]).toEqual([
+        {
+          id: "0from",
+          type: DATE_RANGE,
+          secondaryLabel: answers[0].secondaryLabel,
+        },
+        {
+          id: "0to",
+          type: DATE_RANGE,
+          secondaryLabel: answers[0].secondaryLabel,
+          displayName: answers[0].secondaryLabel,
+        },
+      ]);
+
+      expect(processedAnswers[1]).toEqual(answers[1]);
+    });
+  });
 });

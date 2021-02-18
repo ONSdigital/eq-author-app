@@ -2,7 +2,11 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { render } from "tests/utils/rtl";
 
-import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
+import { DATE_RANGE, NUMBER, UNIT, DURATION } from "constants/answer-types";
+
+import RoutingAnswerContentPicker, {
+  preprocessAnswers,
+} from "./RoutingAnswerContentPicker";
 
 const data = {
   availableAnswers: [
@@ -49,5 +53,24 @@ describe("RoutingAnswerContentPicker", () => {
   it("should render", () => {
     const { getByText, testName } = defaultSetup();
     expect(getByText(testName)).toBeVisible();
+  });
+
+  describe("preprocessAnswers", () => {
+    it("should remove answers which aren't valid for routing", () => {
+      const answers = [
+        { type: DATE_RANGE },
+        { type: NUMBER },
+        { type: UNIT },
+        { type: DURATION },
+      ];
+      const processedAnswers = answers.map(preprocessAnswers);
+
+      expect(
+        processedAnswers.find(({ type }) => type === DURATION)
+      ).toBeFalsy();
+      expect(
+        processedAnswers.find(({ type }) => type === DATE_RANGE)
+      ).toBeFalsy();
+    });
   });
 });
