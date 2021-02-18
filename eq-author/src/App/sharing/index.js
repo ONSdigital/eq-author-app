@@ -6,6 +6,6 @@ export default [
   <Route
     key="sharing"
     path="/q/:questionnaireId/sharing"
-    render={props => <SharePage {...props} />}
+    render={(props) => <SharePage {...props} />}
   />,
 ];

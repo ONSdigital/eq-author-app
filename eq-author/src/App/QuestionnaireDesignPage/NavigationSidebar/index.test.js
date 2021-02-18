@@ -161,7 +161,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(newArray.length).toBe(testArray.length);
-      expect(newArray.every(item => item.isOpen === false)).toBeTruthy();
+      expect(newArray.every((item) => item.isOpen === false)).toBeTruthy();
     });
     it("should update an existing array", () => {
       const updatedArray = accordionGroupReducer(array, {
@@ -170,7 +170,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(updatedArray.length).toEqual(array.length);
-      expect(updatedArray.find(item => item.id === 0).isOpen).toBeFalsy();
+      expect(updatedArray.find((item) => item.id === 0).isOpen).toBeFalsy();
     });
     it("should create and update an array of values", () => {
       const testArray = [1, 2];
@@ -180,7 +180,7 @@ describe("NavigationSidebar", () => {
       });
 
       expect(newArray.length).toBe(testArray.length);
-      expect(newArray.find(item => item.id === 0).isOpen).toBeFalsy();
+      expect(newArray.find((item) => item.id === 0).isOpen).toBeFalsy();
       expect(newArray).toEqual([
         { id: 1, isOpen: true },
         { id: 0, isOpen: false },

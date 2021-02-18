@@ -4,7 +4,7 @@ const {
 } = require("../db/datastore");
 const { merge } = require("lodash");
 
-module.exports = logger => ({ currentVersion, migrations }) => async (
+module.exports = (logger) => ({ currentVersion, migrations }) => async (
   req,
   res,
   next

@@ -30,8 +30,8 @@ describe("Custom Editor", () => {
               field: "custom",
               id: "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
               type: "validation",
-            }
-          ]
+            },
+          ],
         },
       },
       displayName: "foobar",
@@ -51,9 +51,7 @@ describe("Custom Editor", () => {
 
   it("should trigger onUpdate when the number input is blurred", () => {
     const wrapper = shallow(<CustomEditor {...props} />);
-    wrapper
-      .find("[data-test='numeric-value-input']")
-      .simulate("blur");
+    wrapper.find("[data-test='numeric-value-input']").simulate("blur");
     expect(props.onUpdate).toHaveBeenCalled();
   });
 

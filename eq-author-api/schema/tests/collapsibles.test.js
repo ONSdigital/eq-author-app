@@ -112,7 +112,7 @@ describe("questionnaire", () => {
       questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
-        c => c.id
+        (c) => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
@@ -120,7 +120,7 @@ describe("questionnaire", () => {
         id: collapsible2Id,
         position: 0,
       });
-      expect(result.introduction.collapsibles.map(c => c.id)).toEqual([
+      expect(result.introduction.collapsibles.map((c) => c.id)).toEqual([
         collapsible2Id,
         collapsible1Id,
       ]);
@@ -136,7 +136,7 @@ describe("questionnaire", () => {
       questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
-        c => c.id
+        (c) => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
@@ -144,7 +144,7 @@ describe("questionnaire", () => {
         id: collapsible1Id,
         position: 1,
       });
-      expect(result.introduction.collapsibles.map(c => c.id)).toEqual([
+      expect(result.introduction.collapsibles.map((c) => c.id)).toEqual([
         collapsible2Id,
         collapsible1Id,
       ]);
@@ -162,7 +162,7 @@ describe("questionnaire", () => {
       questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
-        c => c.id
+        (c) => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
@@ -170,7 +170,7 @@ describe("questionnaire", () => {
         id: collapsible1Id,
       });
 
-      expect(introduction.collapsibles.map(c => c.id)).toEqual([
+      expect(introduction.collapsibles.map((c) => c.id)).toEqual([
         collapsible2Id,
       ]);
     });

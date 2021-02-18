@@ -11,7 +11,7 @@ const mockCertPrivate = fs.readFileSync(
 
 const FIREBASE_ID = process.env.FIREBASE_PROJECT_ID || "TEST_FIREBASE_ID";
 
-const createSignedToken = userId => {
+const createSignedToken = (userId) => {
   const payload = {
     sub: userId,
     aud: FIREBASE_ID,

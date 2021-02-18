@@ -34,7 +34,7 @@ const SectionMenu = ({
     defaultSelectedSection
   );
 
-  const showNewSection = section => {
+  const showNewSection = (section) => {
     if (!multiselect) {
       onSelected();
     }
@@ -54,7 +54,7 @@ const SectionMenu = ({
             data={data}
             {...otherProps}
             onSelected={showNewSection}
-            isSelected={item => selectedSection.id === item.id}
+            isSelected={(item) => selectedSection.id === item.id}
           />
         </ScrollPane>
       </Column>

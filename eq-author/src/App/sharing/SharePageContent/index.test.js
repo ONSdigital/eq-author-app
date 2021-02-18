@@ -81,7 +81,7 @@ describe("Share Page", () => {
   it("should have shareable link", async () => {
     const originalExecCommand = document.execCommand;
     let selectedText = "no text selected";
-    document.execCommand = command => {
+    document.execCommand = (command) => {
       if (command === "copy") {
         // jsdom has not implemented textselection so we we have do the next best thing
         selectedText = document.querySelector("[data-test='share-link']")

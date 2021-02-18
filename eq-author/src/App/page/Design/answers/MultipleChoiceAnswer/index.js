@@ -69,11 +69,11 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
     open: false,
   };
 
-  handleOptionDelete = optionId => {
+  handleOptionDelete = (optionId) => {
     this.props.onDeleteOption(optionId, this.props.answer.id);
   };
 
-  handleAddOption = e => {
+  handleAddOption = (e) => {
     e.preventDefault();
     e.stopPropagation();
     return this.props
@@ -81,7 +81,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
       .then(focusOnEntity);
   };
 
-  handleAddExclusive = e => {
+  handleAddExclusive = (e) => {
     e.preventDefault();
     e.stopPropagation();
     return this.props
@@ -90,19 +90,19 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
       .then(focusOnEntity);
   };
 
-  handleAddOther = e => {
+  handleAddOther = (e) => {
     e.preventDefault();
     return this.props
       .onAddOption(this.props.answer.id, { hasAdditionalAnswer: true })
-      .then(res => {
+      .then((res) => {
         this.handleToggleOpen(false);
         return res;
       })
-      .then(res => res.option)
+      .then((res) => res.option)
       .then(focusOnEntity);
   };
 
-  handleToggleOpen = open => {
+  handleToggleOpen = (open) => {
     this.setState({
       open,
     });
@@ -238,8 +238,8 @@ UnwrappedMultipleChoiceAnswer.fragments = {
           }
         }
         validationErrorInfo {
-            ...ValidationErrorInfo
-          }
+          ...ValidationErrorInfo
+        }
       }
     }
     ${Option.fragments.Option}

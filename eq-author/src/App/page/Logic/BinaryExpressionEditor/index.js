@@ -43,42 +43,51 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
-import { ActionButtons, RemoveButton, AddButton, StyledLabel, ConnectedPath } from "./components";
+import {
+  ActionButtons,
+  RemoveButton,
+  AddButton,
+  StyledLabel,
+  ConnectedPath,
+} from "./components";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {
-    condition: ({expression}) => expression.left.reason === SELECTED_ANSWER_DELETED,
+    condition: ({ expression }) =>
+      expression.left.reason === SELECTED_ANSWER_DELETED,
     message: binaryExpressionErrors.ANSWER_DELETED,
   },
   {
-    condition: ({expression}) => expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
-    message: binaryExpressionErrors.NO_ROUTABLE_ANSWERS_AVAILABLE
+    condition: ({ expression }) =>
+      expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
+    message: binaryExpressionErrors.NO_ROUTABLE_ANSWERS_AVAILABLE,
   },
   {
-    condition: ({canAddCondition, expressionGroup}) => !canAddCondition && expressionGroup.operator === "Or",
-    message: binaryExpressionErrors.NO_OR_ON_MULTIPLE_RADIO
+    condition: ({ canAddCondition, expressionGroup }) =>
+      !canAddCondition && expressionGroup.operator === "Or",
+    message: binaryExpressionErrors.NO_OR_ON_MULTIPLE_RADIO,
   },
   {
-    condition: ({canAddCondition}) => !canAddCondition,
-    message: binaryExpressionErrors.AND_NOT_VALID_WITH_RADIO
+    condition: ({ canAddCondition }) => !canAddCondition,
+    message: binaryExpressionErrors.AND_NOT_VALID_WITH_RADIO,
   },
   {
-    condition: ({expression}) =>
+    condition: ({ expression }) =>
       some(
         { errorCode: binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.errorCode },
         expression.validationErrorInfo.errors
       ),
-    message: binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.message
+    message: binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.message,
   },
   {
-    condition:({expression}) =>
+    condition: ({ expression }) =>
       some(
         {
           errorCode: leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.errorCode,
         },
         expression.validationErrorInfo.errors
       ),
-    message: leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.message
+    message: leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.message,
   },
 ];
 
@@ -106,37 +115,37 @@ export const UnwrappedBinaryExpressionEditor = ({
   groupOperatorComponent,
   onExpressionDeleted = () => null,
 }) => {
-  const handleLeftSideChange = contentPickerResult =>
-        updateLeftSide(expression, contentPickerResult.value.id);
+  const handleLeftSideChange = (contentPickerResult) =>
+    updateLeftSide(expression, contentPickerResult.value.id);
 
   const handleDeleteClick = () =>
     deleteBinaryExpression(expression.id, onExpressionDeleted);
 
-  const handleAddClick = () =>
-        createBinaryExpression(expressionGroup.id);
+  const handleAddClick = () => createBinaryExpression(expressionGroup.id);
 
-  const handleUpdateRightSide = updateField =>
-        updateRightSide(expression, updateField);
+  const handleUpdateRightSide = (updateField) =>
+    updateRightSide(expression, updateField);
 
-  const handleUpdateCondition = condition =>
-        updateBinaryExpression(expression, condition);
+  const handleUpdateCondition = (condition) =>
+    updateBinaryExpression(expression, condition);
 
-  const answerPickerError = ANSWER_PICKER_ERROR_SITUATIONS.find(({ condition }) =>
-    condition({ expression, canAddCondition, expressionGroup })
+  const answerPickerError = ANSWER_PICKER_ERROR_SITUATIONS.find(
+    ({ condition }) =>
+      condition({ expression, canAddCondition, expressionGroup })
   )?.message;
 
-  const groupErrorMessage = binaryExpressionErrors[
-    expression?.expressionGroup
-              ?.validationErrorInfo
-              ?.errors
-              ?.filter(({ field }) => expression?.left?.id === field)
-              ?.[0]
-              ?.errorCode
-  ];
+  const groupErrorMessage =
+    binaryExpressionErrors[
+      expression?.expressionGroup?.validationErrorInfo?.errors?.filter(
+        ({ field }) => expression?.left?.id === field
+      )?.[0]?.errorCode
+    ];
 
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
-  const shouldRenderEditor = Editor && !expression.left.reason && !answerPickerError;
-  const isLastExpression = expressionIndex === expressionGroup.expressions.length - 1;
+  const shouldRenderEditor =
+    Editor && !expression.left.reason && !answerPickerError;
+  const isLastExpression =
+    expressionIndex === expressionGroup.expressions.length - 1;
 
   return (
     <>
@@ -149,7 +158,11 @@ export const UnwrappedBinaryExpressionEditor = ({
         <Column gutters={false} cols={8}>
           <ContentPicker
             path="getAvailableAnswers"
-            selectedContentDisplayName={expression?.left?.displayName}
+            selectedContentDisplayName={
+              expression?.left.hasOwnProperty("displayName")
+                ? expression.left
+                : undefined
+            }
             onSubmit={handleLeftSideChange}
             selectedId={expression?.left?.id}
             data-test="routing-answer-picker"
@@ -176,8 +189,11 @@ export const UnwrappedBinaryExpressionEditor = ({
                 small
                 onClick={handleAddClick}
                 data-test="btn-add"
-                disabled={!shouldRenderEditor ||
-                          (expressionGroup?.expressions?.length > 1 && !expressionGroup?.operator)}
+                disabled={
+                  !shouldRenderEditor ||
+                  (expressionGroup?.expressions?.length > 1 &&
+                    !expressionGroup?.operator)
+                }
               >
                 <IconText icon={IconPlus} hideText>
                   Add condition
@@ -187,36 +203,37 @@ export const UnwrappedBinaryExpressionEditor = ({
           </ActionButtons>
         </Column>
       </Grid>
-      {
-        answerPickerError &&
-          <ValidationError icon={WarningIcon}>
-            {answerPickerError}
-          </ValidationError>
-      }
+      {answerPickerError && (
+        <ValidationError icon={WarningIcon}>
+          {answerPickerError}
+        </ValidationError>
+      )}
       <Grid>
         <Column gutters={false} cols={1.5}>
           <ConnectedPath pathEnd={isLastExpression || groupOperatorComponent} />
         </Column>
         <Column gutters={false} cols={8}>
-          <Transition in={shouldRenderEditor} mountOnEnter unmountOnExit timeout={400}>
-            {
-              Editor &&
-                <Editor
-                  expression={expression}
-                  onRightChange={handleUpdateRightSide}
-                  onConditionChange={handleUpdateCondition}
-                  groupErrorMessage={groupErrorMessage}
-                />
-            }
+          <Transition
+            in={shouldRenderEditor}
+            mountOnEnter
+            unmountOnExit
+            timeout={400}
+          >
+            {Editor && (
+              <Editor
+                expression={expression}
+                onRightChange={handleUpdateRightSide}
+                onConditionChange={handleUpdateCondition}
+                groupErrorMessage={groupErrorMessage}
+              />
+            )}
           </Transition>
         </Column>
         <Column cols={2.5} />
       </Grid>
       <Grid>
         <Column cols={1.5} />
-        <Column cols={8}>
-          { groupOperatorComponent }
-        </Column>
+        <Column cols={8}>{groupOperatorComponent}</Column>
         <Column cols={2.5} />
       </Grid>
     </>

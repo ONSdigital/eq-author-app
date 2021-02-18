@@ -10,6 +10,8 @@ import {
   buildLogicPath,
 } from "utils/UrlUtils";
 
+import Badge from "components/Badge";
+
 export const activeClassName = "active";
 
 const TabsContainer = styled.nav`
@@ -42,46 +44,32 @@ const DisabledTab = styled(Tab.withComponent("span"))`
   opacity: 0.2;
 `;
 
-const SmallBadge = styled.span`
-  border-radius: 50%;
-  background-color: ${colors.red};
-  border: 1px solid ${colors.white};
-  font-weight: normal;
-  z-index: 2;
-  display: inline-flex;
-  pointer-events: none;
-  width: 0.75em;
-  height: 0.75em;
-  margin: 0 5px 0 0;
-  padding: 0;
-`;
-
 const TABS = [
   {
     key: "design",
     children: "Design",
-    url: match => buildDesignPath(match.params),
+    url: (match) => buildDesignPath(match.params),
   },
   {
     key: "preview",
     children: "Preview",
-    url: match => buildPreviewPath(match.params),
+    url: (match) => buildPreviewPath(match.params),
   },
   {
     key: "logic",
     children: "Logic",
-    url: match => buildLogicPath(match.params),
+    url: (match) => buildLogicPath(match.params),
     isActive: (match, location) =>
       location.pathname.includes("routing") ||
       location.pathname.includes("skip"),
   },
 ];
 
-export const UnwrappedTabs = props => {
+export const UnwrappedTabs = (props) => {
   const { match, validationErrorInfo } = props;
 
   const tabErrors = useCallback(
-    tabKey => {
+    (tabKey) => {
       if (validationErrorInfo === null || validationErrorInfo === undefined) {
         return null;
       }
@@ -124,7 +112,7 @@ export const UnwrappedTabs = props => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
-                <SmallBadge data-test="small-badge" />
+                <Badge variant="tabs" small data-test="small-badge" />
               ) : null}
               {children}
             </Component>

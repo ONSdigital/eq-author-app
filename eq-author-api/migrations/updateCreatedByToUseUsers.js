@@ -6,7 +6,7 @@ const { UserModel } = require("../db/datastore");
 
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
-const getUserByName = name =>
+const getUserByName = (name) =>
   new Promise((resolve, reject) => {
     UserModel.scan({ name: { eq: name } }).exec((err, user) => {
       if (err) {
@@ -16,7 +16,7 @@ const getUserByName = name =>
     });
   });
 
-const getUserByEmail = email =>
+const getUserByEmail = (email) =>
   new Promise((resolve, reject) => {
     UserModel.scan({ email: { eq: email } }).exec((err, user) => {
       if (err) {
@@ -26,7 +26,7 @@ const getUserByEmail = email =>
     });
   });
 
-const updateCreatedByToUseUsers = async questionnaire => {
+const updateCreatedByToUseUsers = async (questionnaire) => {
   const { createdBy } = questionnaire;
 
   const user =

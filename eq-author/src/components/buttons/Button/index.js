@@ -269,22 +269,22 @@ const Button = styled.button`
     opacity: 0.6;
   }
 
-  ${props => props.variant === "primary" && primaryButton};
-  ${props => props.variant === "secondary" && secondaryButton};
-  ${props => props.variant === "tertiary" && tertiaryButton};
-  ${props => props.variant === "tertiary-light" && tertiaryLightButton};
-  ${props => props.variant === "positive" && positiveButton};
-  ${props => props.variant === "negative" && negativeButton};
-  ${props => props.variant === "navigation" && navigationButton};
-  ${props => props.variant === "navigation-modal" && navigationModalButton};
-  ${props => props.variant === "navigation-on" && navigationOnButton};
-  ${props => props.variant === "signout" && signoutButton};
-  ${props => props.variant === "greyed" && greyedButton};
-  ${props => props.variant === "nav-header" && navHeaderButton};
-  ${props => props.variant === "nav-addMenu" && navAddMenuButton};
-  ${props => props.medium && mediumButton};
-  ${props => props.small && smallButton};
-  ${props => props["small-medium"] && smallMediumButton};
+  ${(props) => props.variant === "primary" && primaryButton};
+  ${(props) => props.variant === "secondary" && secondaryButton};
+  ${(props) => props.variant === "tertiary" && tertiaryButton};
+  ${(props) => props.variant === "tertiary-light" && tertiaryLightButton};
+  ${(props) => props.variant === "positive" && positiveButton};
+  ${(props) => props.variant === "negative" && negativeButton};
+  ${(props) => props.variant === "navigation" && navigationButton};
+  ${(props) => props.variant === "navigation-modal" && navigationModalButton};
+  ${(props) => props.variant === "navigation-on" && navigationOnButton};
+  ${(props) => props.variant === "signout" && signoutButton};
+  ${(props) => props.variant === "greyed" && greyedButton};
+  ${(props) => props.variant === "nav-header" && navHeaderButton};
+  ${(props) => props.variant === "nav-addMenu" && navAddMenuButton};
+  ${(props) => props.medium && mediumButton};
+  ${(props) => props.small && smallButton};
+  ${(props) => props["small-medium"] && smallMediumButton};
 `;
 
 Button.propTypes = {

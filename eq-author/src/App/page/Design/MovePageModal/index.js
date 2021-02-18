@@ -27,7 +27,7 @@ const Trigger = styled.button.attrs({ type: "button" })`
   font-size: 1em;
   padding: 0.5rem;
   padding-right: 2em;
-  background: ${colors.white} url('${Icon}') no-repeat right center;
+  background: ${colors.white} url("${Icon}") no-repeat right center;
   border: solid 1px ${colors.borders};
   text-align: left;
   border-radius: ${radius};
@@ -67,7 +67,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
 
   const handleSectionChange = ({ value }) => setSelectedSectionId(value);
 
-  const handleSectionConfirm = e => {
+  const handleSectionConfirm = (e) => {
     e.preventDefault();
     setIsSectionSelectOpen(false);
   };
@@ -115,7 +115,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
               value={selectedSection.id}
               onChange={handleSectionChange}
             >
-              {questionnaire.sections.map(section => (
+              {questionnaire.sections.map((section) => (
                 <Option key={section.id} value={section.id}>
                   {section.displayName}
                 </Option>

@@ -113,7 +113,7 @@ const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
 );
 
 const createDefaultBusinessSurveyMetadata = () =>
-  DEFAULT_BUSINESS_SURVEY_METADATA.map(metadata => ({
+  DEFAULT_BUSINESS_SURVEY_METADATA.map((metadata) => ({
     id: uuidv4(),
     ...metadata,
   }));

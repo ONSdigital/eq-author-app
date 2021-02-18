@@ -32,8 +32,8 @@ const AliasEditor = ({ onChange, onUpdate, alias }) => (
       autoComplete="off"
       name="alias"
       placeholder=""
-      onChange={e => onChange(e.target)}
-      onBlur={e => onUpdate(e.target)}
+      onChange={(e) => onChange(e.target)}
+      onBlur={(e) => onUpdate(e.target)}
       value={alias || ""}
     />
     <CharacterCounter value={alias} limit={24} />

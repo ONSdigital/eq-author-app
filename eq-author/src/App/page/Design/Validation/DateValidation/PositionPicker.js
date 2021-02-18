@@ -12,7 +12,7 @@ const PositionPicker = ({ value, onChange, onUpdate }) => (
     onBlur={onUpdate}
     data-test="relative-position-select"
   >
-    {RELATIVE_POSITIONS.map(position => (
+    {RELATIVE_POSITIONS.map((position) => (
       <option key={position} value={position}>
         {position.toLowerCase()}
       </option>

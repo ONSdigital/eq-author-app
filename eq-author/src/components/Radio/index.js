@@ -19,7 +19,7 @@ export const RadioLabel = styled.label`
   flex-direction: column;
   color: ${colors.textLight};
   position: relative;
-  background: ${props =>
+  background: ${(props) =>
     props.selected ? `${colors.lighterGrey}` : `${colors.white}`};
 
   &:hover {

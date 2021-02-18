@@ -24,7 +24,7 @@ const signIn = (setSignInSuccess, history, user) => {
       method: "POST",
       headers: { authorization: `Bearer ${user.ra}` },
     })
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
@@ -37,7 +37,7 @@ const signIn = (setSignInSuccess, history, user) => {
       );
       setSignInSuccess(true);
     })
-    .catch(e => {
+    .catch((e) => {
       setSentryUser(user.ra);
       setSentryTag("Signing in error");
       sendSentryError(e);
@@ -79,7 +79,7 @@ const ContextProvider = ({ history, client, children }) => {
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
     });
@@ -98,7 +98,7 @@ const ContextProvider = ({ history, client, children }) => {
   }, [firebaseUser, awaitingFirebase]);
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
-      {innerProps => {
+      {(innerProps) => {
         const me = get(innerProps, "data.me");
         const isSigningIn =
           awaitingFirebase ||
@@ -132,8 +132,8 @@ ContextProvider.propTypes = {
 
 export const MeProvider = flowRight(withApollo, withRouter)(ContextProvider);
 
-export const withMe = Component => {
-  const InnerComponent = props => (
+export const withMe = (Component) => {
+  const InnerComponent = (props) => (
     <MeContext.Consumer>
       {({ me, signIn, signOut, isSigningIn }) => (
         <Component

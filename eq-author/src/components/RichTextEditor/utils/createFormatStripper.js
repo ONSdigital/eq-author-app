@@ -25,5 +25,5 @@ export default function createFormatStripper(controls) {
     }
   });
 
-  return editorState => filterEditorState(filterConfiguration, editorState);
+  return (editorState) => filterEditorState(filterConfiguration, editorState);
 }

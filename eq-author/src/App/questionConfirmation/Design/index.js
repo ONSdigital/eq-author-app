@@ -130,12 +130,12 @@ const CONFIRMATION_QUERY = gql`
   ${ValidationErrorInfoFragment}
 `;
 
-export default withConfirmationEditing(props => (
+export default withConfirmationEditing((props) => (
   <Query
     query={CONFIRMATION_QUERY}
     variables={{ id: props.match.params.confirmationId }}
   >
-    {queryProps => (
+    {(queryProps) => (
       <UnwrappedQuestionConfirmationRoute {...props} {...queryProps} />
     )}
   </Query>

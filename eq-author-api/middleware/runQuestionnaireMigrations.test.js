@@ -125,11 +125,11 @@ describe("runQuestionnaireMigrations", () => {
     req.questionnaire.version = 1;
 
     let migrationOne = jest.fn(() => req.questionnaire);
-    let migrationTwo = jest.fn(questionnaire => {
+    let migrationTwo = jest.fn((questionnaire) => {
       questionnaire.title = "foo";
       return questionnaire;
     });
-    let migrationThree = jest.fn(questionnaire => {
+    let migrationThree = jest.fn((questionnaire) => {
       questionnaire.description = "bar";
       return questionnaire;
     });

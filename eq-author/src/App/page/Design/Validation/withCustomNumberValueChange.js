@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { inRange, isNaN } from "lodash";
 
-const withCustomNumberValueChange = WrappedComponent => {
+const withCustomNumberValueChange = (WrappedComponent) => {
   return class extends React.Component {
     static defaultProps = {
       limit: 999999999,

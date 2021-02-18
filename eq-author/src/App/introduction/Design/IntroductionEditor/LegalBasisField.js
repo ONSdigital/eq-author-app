@@ -55,7 +55,7 @@ const OPTIONS = [
 
 const LegalBasisField = ({ name, value, onChange, ...rest }) => (
   <RadioField {...rest}>
-    {OPTIONS.map(option => (
+    {OPTIONS.map((option) => (
       <LegalOption
         key={option.value}
         name={name}
