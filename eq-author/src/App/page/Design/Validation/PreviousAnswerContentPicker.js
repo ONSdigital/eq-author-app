@@ -19,15 +19,12 @@ export const PreviousAnswerContentPicker = ({
 
   const sections = useMemo(
     () =>
-      (questionnaire &&
-        id &&
-        getContentBeforePage({
-          questionnaire,
-          id,
-          preprocessAnswers: (answer) =>
-            allowedAnswerTypes.includes(answer.type) ? answer : [],
-        })) ||
-      [],
+      getContentBeforePage({
+        questionnaire,
+        id,
+        preprocessAnswers: (answer) =>
+          allowedAnswerTypes.includes(answer.type) ? answer : [],
+      }),
     [questionnaire, id]
   );
 

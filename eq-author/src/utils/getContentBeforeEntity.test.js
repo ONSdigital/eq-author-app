@@ -42,4 +42,34 @@ describe("utils/getPreviousAnswers", () => {
 
     expect(previousSections).toHaveLength(2);
   });
+
+  it("should return questionnaire tree up to but not including target section", () => {
+    const previousSections = getPreviousContent({
+      questionnaire,
+      id: questionnaire.sections[1].id,
+    });
+
+    expect(previousSections).toHaveLength(1);
+  });
+
+  it("should return questionnaire tree up to but not including target folder", () => {
+    const previousSections = getPreviousContent({
+      questionnaire,
+      id: questionnaire.sections[1].folders[1].id,
+    });
+
+    expect(previousSections).toHaveLength(2);
+    expect(previousSections[1].folders).toHaveLength(1);
+  });
+
+  it("should return questionnaire tree up to and including target page when includeTargetPage truthy", () => {
+    const previousSections = getPreviousContent({
+      questionnaire,
+      id: questionnaire.sections[1].folders[1].pages[1].id,
+      includeTargetPage: true,
+    });
+
+    expect(previousSections).toHaveLength(2);
+    expect(previousSections[1].folders[1].pages).toHaveLength(2);
+  });
 });
