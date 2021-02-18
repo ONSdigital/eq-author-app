@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import ContentPickerSelect from "components/ContentPickerSelect";
 import { METADATA } from "components/ContentPickerSelect/content-types";
 import { useQuestionnaire } from "components/QuestionnaireContext";
@@ -19,11 +18,6 @@ export const MetadataContentPicker = ({ ...otherProps }) => {
       {...otherProps}
     />
   );
-};
-
-MetadataContentPicker.propTypes = {
-  data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired,
 };
 
 export default MetadataContentPicker;

@@ -41,7 +41,6 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
 
 RoutingAnswerContentPicker.propTypes = {
   includeSelf: PropTypes.bool,
-  path: PropTypes.string.isRequired,
 };
 
 export default RoutingAnswerContentPicker;

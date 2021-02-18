@@ -3,7 +3,7 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight, isEmpty } from "lodash";
+import { flowRight, isEmpty } from "lodash";
 import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
@@ -88,21 +88,19 @@ export class UnwrappedPageRoute extends React.Component {
   };
 
   render() {
-    const { page } = this.props;
+    const page = this.props.page || {};
     return (
-      <PageContextProvider value={page}>
-        <EditorLayout
-          onAddQuestionPage={this.handleAddPage}
-          renderPanel={() =>
-            page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
-          }
-          title={(page || {}).displayName || ""}
-          {...deriveAvailableTabs(page)}
-          validationErrorInfo={page && page.validationErrorInfo}
-        >
-          <Panel>{this.renderContent()}</Panel>
-        </EditorLayout>
-      </PageContextProvider>
+      <EditorLayout
+        onAddQuestionPage={this.handleAddPage}
+        renderPanel={() =>
+          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
+        }
+        title={(page || {}).displayName || ""}
+        {...deriveAvailableTabs(page)}
+        validationErrorInfo={page && page.validationErrorInfo}
+      >
+        <Panel>{this.renderContent()}</Panel>
+      </EditorLayout>
     );
   }
 }
@@ -141,12 +139,11 @@ const PageRoute = (props) => {
       }}
     >
       {(innerProps) => {
+        const page = innerProps?.data?.page;
         return (
-          <WrappedPageRoute
-            {...innerProps}
-            {...props}
-            page={get(innerProps, "data.page", {})}
-          />
+          <PageContextProvider value={page}>
+            <WrappedPageRoute {...innerProps} {...props} page={page} />
+          </PageContextProvider>
         );
       }}
     </Query>

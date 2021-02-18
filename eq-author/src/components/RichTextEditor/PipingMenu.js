@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { isEmpty } from "lodash";
 
 import ContentPicker from "components/ContentPickerv2";
 import { useCurrentPageId } from "components/RouterContext";
@@ -76,7 +75,7 @@ const PipingMenu = ({
       {allowableTypes.includes(ANSWER) && (
         <MenuButton
           title="Pipe answer"
-          disabled={disabled || isEmpty(answerData)}
+          disabled={disabled || !answerData.length}
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
           data-test="piping-button"
@@ -87,7 +86,7 @@ const PipingMenu = ({
       {allowableTypes.includes(METADATA) && (
         <MenuButton
           title="Pipe metadata"
-          disabled={disabled || isEmpty(metadataData)}
+          disabled={disabled || !metadataData.length}
           onClick={() => handleButtonClick(METADATA)}
           canFocus={canFocus}
           data-test="piping-button-metadata"
