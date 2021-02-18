@@ -58,13 +58,11 @@ const PipingMenu = ({
 
   const answerData = useMemo(
     () =>
-      questionnaire && pageId
-        ? getContentBeforeEntity({
-            questionnaire,
-            preprocessAnswers: splitDateRangeAnswers,
-            id: pageId,
-          })
-        : [],
+      getContentBeforeEntity({
+        questionnaire,
+        preprocessAnswers: splitDateRangeAnswers,
+        id: pageId,
+      }),
     [questionnaire, pageId]
   );
 

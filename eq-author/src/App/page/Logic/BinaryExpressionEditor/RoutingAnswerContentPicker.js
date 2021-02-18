@@ -16,16 +16,13 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
 
   const previousAnswers = useMemo(
     () =>
-      (questionnaire &&
-        pageId &&
-        getContentBeforeEntity({
-          questionnaire,
-          id: pageId,
-          includeTargetPage: includeSelf,
-          preprocessAnswers: (answer) =>
-            ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [],
-        })) ||
-      [],
+      getContentBeforeEntity({
+        questionnaire,
+        id: pageId,
+        includeTargetPage: includeSelf,
+        preprocessAnswers: (answer) =>
+          ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [],
+      }),
     [questionnaire, pageId]
   );
 

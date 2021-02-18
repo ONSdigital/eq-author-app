@@ -71,14 +71,17 @@ export default ({
   id,
   preprocessAnswers = identity,
   includeTargetPage = false,
-}) =>
-  stripEmpty(
-    questionnaire?.introduction?.id === id
-      ? []
-      : getContentBeforeEntity(
-          questionnaire,
-          id,
-          preprocessAnswers,
-          includeTargetPage
-        ).filter(({ folders }) => folders.length)
+} = {}) => {
+  if (!questionnaire || !id || questionnaire?.introduction?.id === id) {
+    return [];
+  }
+
+  return stripEmpty(
+    getContentBeforeEntity(
+      questionnaire,
+      id,
+      preprocessAnswers,
+      includeTargetPage
+    ).filter(({ folders }) => folders.length)
   );
+};
