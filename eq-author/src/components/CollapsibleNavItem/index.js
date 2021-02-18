@@ -107,7 +107,6 @@ const ToggleCollapsibleNavItemButton = styled.button`
 const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-left: 2em;
-  margin-top: 0.5em;
 `;
 
 const StyledTruncated = styled(Truncated)`
