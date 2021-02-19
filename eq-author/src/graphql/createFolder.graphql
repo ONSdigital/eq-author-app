@@ -7,23 +7,26 @@ mutation CreateFolder($input: CreateFolderInput!) {
     section {
       id
       folders {
-        ...Folder
+        id
         pages {
           ...Page
           position
+          displayName
+          pageType
           ... on QuestionPage {
-            displayName
             guidance
-            pageType
             answers {
               id
             }
             confirmation {
               id
             }
-            validationErrorInfo {
+          }
+          ... on CalculatedSummaryPage {
+            id
+          }
+          validationErrorInfo {
               ...ValidationErrorInfo
-            }
           }
         }
       }

@@ -16,6 +16,24 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
         ...Folder
         pages {
           ...Page
+          position
+          displayName
+          pageType
+          ... on QuestionPage {
+            guidance
+            answers {
+              id
+            }
+            confirmation {
+              id
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+          }
+          validationErrorInfo {
+              ...ValidationErrorInfo
+          }
         }
       }
     }
