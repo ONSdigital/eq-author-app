@@ -402,8 +402,13 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
 
   const { comments = [] } = data;
 
-  const displayComments = comments.map((item, index) => {
-    const { replies } = comments[index];
+  let sortedComments = comments.slice() || [];
+  sortedComments = sortedComments.sort((a, b) =>
+    b.createdTime.toString().localeCompare(a.createdTime.toString())
+  );
+
+  const displayComments = sortedComments.map((item, index) => {
+    const { replies } = sortedComments[index];
     let sortedReplies = replies.slice() || [];
     sortedReplies = sortedReplies.sort((a, b) =>
       b.createdTime > a.createdTime ? 1 : -1
