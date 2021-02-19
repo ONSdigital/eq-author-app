@@ -113,7 +113,7 @@ const FolderDesignPage = ({ match }) => {
           </p>
           <p>
             Folders do not appear as sections when respondents are completing
-            the questionnaire; respondents only see the questions contains
+            the questionnaire; respondents only see the questions contained
             within folders if they meet the conditions you have applied.
           </p>
         </Guidance>
