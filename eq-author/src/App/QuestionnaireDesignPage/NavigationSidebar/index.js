@@ -180,6 +180,7 @@ const UnwrappedNavigationSidebar = ({
               })}
               disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
+              errorCount={confirmation.validationErrorInfo.totalCount}
               history={history}
             />
           </li>
