@@ -1350,8 +1350,8 @@ describe("schema validation", () => {
       });
     });
 
-    it("should return an error if the destination has been moved to an invalid location", () => {
-      questionnaire.sections[0].folders[0].pages[0].routing = {
+    it("should return an error if the destination has been moved before the routing page", () => {
+      questionnaire.sections[0].folders[0].pages[1].routing = {
         id: "routing_1",
         else: {
           id: "else_1",
@@ -1362,7 +1362,7 @@ describe("schema validation", () => {
             id: "rule_1",
             destination: {
               id: "destination_1",
-              pageId: "page_4",
+              pageId: "page_1",
             },
             expressionGroup: {
               id: "expressionGroup_1",
@@ -1388,52 +1388,17 @@ describe("schema validation", () => {
         ],
       };
 
-      questionnaire.sections.push({
-        id: "section_2",
-        title: "section_2",
-        folders: [
-          {
-            pages: [
-              {
-                id: "page_3",
-                title: "page title",
-                answers: [
-                  {
-                    id: "answer_3",
-                    type: NUMBER,
-                    label: "Number",
-                  },
-                ],
-                routing: null,
-                skipConditions: null,
-              },
-              {
-                id: "page_4",
-                title: "page title",
-                answers: [
-                  {
-                    id: "answer_4",
-                    type: NUMBER,
-                    label: "Number",
-                  },
-                ],
-                routing: null,
-                skipConditions: null,
-              },
-            ],
-          },
-        ],
-      });
+      questionnaire.updatedAt = new Date();
 
       const validationErrors = validation(questionnaire);
 
+      expect(validationErrors).toHaveLength(1);
       expect(validationErrors[0]).toMatchObject({
         id: uuidRejex,
         type: "routing",
         field: "destination",
         errorCode: ERR_DESTINATION_MOVED,
       });
-      expect(validationErrors).toHaveLength(1);
     });
 
     describe("Validating AND in routing rules", () => {

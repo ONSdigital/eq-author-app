@@ -15,6 +15,8 @@ import transformNestedFragments from "utils/transformNestedFragments";
 import { buildPagePath } from "utils/UrlUtils";
 import Logic from "App/shared/Logic";
 
+import { PageContextProvider } from "components/QuestionnaireContext";
+
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 
 export class UnwrappedQuestionRoutingRoute extends React.Component {
@@ -64,7 +66,12 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    return <Logic page={this.props.data?.page}>{this.renderContent()}</Logic>;
+    const page = this.props.data?.page;
+    return (
+      <PageContextProvider value={page}>
+        <Logic page={page}>{this.renderContent()}</Logic>
+      </PageContextProvider>
+    );
   }
 }
 

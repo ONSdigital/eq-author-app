@@ -3,7 +3,7 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight, isEmpty } from "lodash";
+import { flowRight, isEmpty } from "lodash";
 import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
@@ -19,6 +19,8 @@ import PropertiesPanel from "../PropertiesPanel";
 import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
+
+import { PageContextProvider } from "components/QuestionnaireContext";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
@@ -86,7 +88,7 @@ export class UnwrappedPageRoute extends React.Component {
   };
 
   render() {
-    const { page } = this.props;
+    const page = this.props.page || {};
     return (
       <EditorLayout
         onAddQuestionPage={this.handleAddPage}
@@ -137,12 +139,11 @@ const PageRoute = (props) => {
       }}
     >
       {(innerProps) => {
+        const page = innerProps?.data?.page;
         return (
-          <WrappedPageRoute
-            {...innerProps}
-            {...props}
-            page={get(innerProps, "data.page", {})}
-          />
+          <PageContextProvider value={page}>
+            <WrappedPageRoute {...innerProps} {...props} page={page} />
+          </PageContextProvider>
         );
       }}
     </Query>

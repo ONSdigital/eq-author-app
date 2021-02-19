@@ -4,6 +4,7 @@ fragment Answer on Answer {
   guidance
   label
   secondaryLabel
+  secondaryLabelDefault
   type
   properties
   displayName

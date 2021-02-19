@@ -320,6 +320,16 @@ const QUESTIONNAIRE_QUERY = gql`
       }
       publishStatus
       totalErrorCount
+      metadata {
+        id
+        displayName
+        type
+        key
+        dateValue
+        regionValue
+        languageValue
+        textValue
+      }
       ...NavigationSidebar
     }
   }

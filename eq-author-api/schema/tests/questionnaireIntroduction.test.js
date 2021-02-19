@@ -40,22 +40,7 @@ describe("questionnaire", () => {
         legalBasis: expect.any(String),
         tertiaryTitle: expect.any(String),
         tertiaryDescription: expect.any(String),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
       });
-    });
-
-    it("should return the available piping metadata but no answers", async () => {
-      const introduction = await queryQuestionnaireIntroduction(
-        ctx,
-        questionnaire.introduction.id
-      );
-
-      expect(introduction.availablePipingAnswers).toEqual([]);
-      expect(introduction.availablePipingMetadata).not.toHaveLength(0);
-      expect(introduction.availablePipingMetadata.map((md) => md.id)).toEqual(
-        questionnaire.metadata.map((md) => md.id)
-      );
     });
   });
 

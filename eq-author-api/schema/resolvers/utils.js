@@ -2,11 +2,6 @@ const { compact, get, filter, find, flatMap, some } = require("lodash");
 const deepMap = require("deep-map");
 const { v4: uuidv4 } = require("uuid");
 
-const { DATE, DATE_RANGE, UNIT } = require("../../constants/answerTypes");
-const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
-
-const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
-
 const getSections = (ctx) => ctx.questionnaire.sections;
 
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
@@ -155,42 +150,6 @@ const getValidationById = (ctx, id) => {
   });
 
   return find([...answerValidations, ...pageValidations], { id: id });
-};
-
-const getAnswerByValidationId = (ctx, validationId) =>
-  getAnswers(ctx).find((answer) =>
-    Object.values(answer.validation).find(
-      (validation) => validation.id === validationId
-    )
-  );
-
-const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
-  const answer = getAnswerByValidationId(ctx, validationId);
-  const currentPage = getPageByAnswerId(ctx, answer.id);
-
-  const previousAnswers = getPreviousAnswersForPage(
-    ctx.questionnaire,
-    currentPage.id,
-    false,
-    [answer.type]
-  );
-
-  if (answer.type === UNIT) {
-    return previousAnswers.filter(
-      (previousAnswer) =>
-        previousAnswer.properties.unit === answer.properties.unit
-    );
-  }
-  return previousAnswers;
-};
-
-const getAvailableMetadataForValidation = (ctx, validationId) => {
-  const answer = getAnswerByValidationId(ctx, validationId);
-  if (answer.type === DATE || answer.type === DATE_RANGE) {
-    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
-  } else {
-    return []; //Currently do not support validation against any other types
-  }
 };
 
 const remapAllNestedIds = (entity) => {
@@ -415,9 +374,6 @@ module.exports = {
   getValidationById,
   getValidationErrorInfo,
   returnValidationErrors,
-
-  getAvailablePreviousAnswersForValidation,
-  getAvailableMetadataForValidation,
 
   remapAllNestedIds,
 

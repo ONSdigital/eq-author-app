@@ -203,7 +203,7 @@ const AnswerValidation = ({ answer }) => {
           key={type.id}
           data-test={`sidebar-button-${kebabCase(type.title)}`}
           onClick={handleSidebarButtonClick}
-          hasError={errors.length}
+          hasError={errors.length || groupErrors.length}
         >
           <Title>
             {titleText(type.id, type.title, validation.enabled, inclusive)}

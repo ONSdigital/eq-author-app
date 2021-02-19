@@ -28,6 +28,7 @@ exports[`NavigationSidebar should render 1`] = `
                 "pages": Array [
                   Object {
                     "alias": "1.1.1",
+                    "answers": Array [],
                     "displayName": "Page 1.1.1",
                     "folder": Object {
                       "id": "1",
@@ -91,6 +92,7 @@ exports[`NavigationSidebar should render 1`] = `
                       "pages": Array [
                         Object {
                           "alias": "1.1.1",
+                          "answers": Array [],
                           "displayName": "Page 1.1.1",
                           "folder": Object {
                             "id": "1",

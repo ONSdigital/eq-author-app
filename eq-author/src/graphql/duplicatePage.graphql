@@ -11,26 +11,27 @@ mutation duplicatePage($input: DuplicatePageInput!) {
     ... on QuestionPage {
       answers {
         id
-          label
-          secondaryLabel
-          type
-          properties
-          qCode
+        label
+        secondaryLabel
+        secondaryLabelDefault
+        type
+        properties
+        qCode
         ... on BasicAnswer {
-            secondaryQCode
+          secondaryQCode
+        }
+        ... on MultipleChoiceAnswer {
+          options {
+            id
+            label
+            qCode
           }
-          ... on MultipleChoiceAnswer {
-            options {
-              id
-              label
-              qCode
-            }
-            mutuallyExclusiveOption {
-              id
-              label
-              qCode
-            }
+          mutuallyExclusiveOption {
+            id
+            label
+            qCode
           }
+        }
       }
       section {
         id
