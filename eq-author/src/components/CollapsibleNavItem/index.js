@@ -41,6 +41,14 @@ const Title = styled.button`
     }
   }}
 
+  ${({ isOpen, bordered }) => {
+    if (isOpen && bordered) {
+      return `
+        margin-bottom: 0.5em;
+      `;
+    }
+  }}
+
   &:hover {
     background: rgba(0, 0, 0, 0.2);
   }
@@ -149,6 +157,7 @@ const CollapsibleNavItem = ({
           onClick={() => history.push(titleUrl)}
           disabled={disabled}
           bordered={bordered}
+          isOpen={isOpen}
           data-test="CollapsibleNavItem-title"
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
