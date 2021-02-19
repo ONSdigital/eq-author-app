@@ -5,10 +5,11 @@ import styled from "styled-components";
 import Button from "components/buttons/Button";
 import Popout, { Container, Layer } from "components/Popout";
 import IconPlus from "./icon-plus.svg?inline";
-import IconSection from "./icon-section.svg?inline";
-import IconQuestion from "./icon-questionpage.svg?inline";
-import IconSummary from "./icon-summarypage.svg?inline";
-import IconConfirmation from "./icon-playback.svg?inline";
+import IconSection from "assets/icon-section.svg?inline";
+import IconQuestion from "assets/icon-questionpage.svg?inline";
+import IconSummary from "assets/icon-summarypage.svg?inline";
+import IconConfirmation from "assets/icon-playback.svg?inline";
+import IconFolder from "assets/icon-folder.svg?inline";
 
 import IconText from "components/IconText";
 import { radius, colors } from "constants/theme";
@@ -25,24 +26,9 @@ const AddMenuWindow = styled.div`
 `;
 
 const AddMenuButton = styled(Button).attrs({
-  variant: "nav-addMenu",
+  variant: "add-content-menu",
   medium: true,
-})`
-  justify-content: left;
-  font-size: 0.9em;
-  padding: 0.2em 1.6em;
-  white-space: nowrap;
-
-  &[disabled] {
-    span {
-      svg {
-        path {
-          fill: ${colors.disabledGreyOnOrange};
-        }
-      }
-    }
-  }
-`;
+})``;
 
 const AddButton = styled(Button).attrs({
   variant: "nav-header",
@@ -63,6 +49,9 @@ const StyledIconText = styled(IconText)`
 
   svg {
     margin-right: 1em;
+    width: 32px;
+    height: 32px;
+
     path {
       fill: ${colors.black};
     }
@@ -105,6 +94,8 @@ const AddMenu = ({
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
+  onAddFolder,
+  canAddFolder,
   ...otherProps
 }) => {
   const addBtn = (
@@ -142,6 +133,16 @@ const AddMenu = ({
           </AddMenuButton>
           <AddMenuButton
             primary
+            data-test="btn-add-folder"
+            onClick={onAddFolder}
+            disabled={!canAddFolder}
+          >
+            <StyledIconText icon={IconFolder} data-hook="icon-folder">
+              Folder
+            </StyledIconText>
+          </AddMenuButton>
+          <AddMenuButton
+            primary
             data-test="btn-add-question-confirmation"
             onClick={onAddQuestionConfirmation}
             disabled={!canAddQuestionConfirmation}
@@ -176,6 +177,8 @@ AddMenu.propTypes = {
   onAddCalculatedSummaryPage: PropTypes.func.isRequired,
   canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
   addMenuOpen: PropTypes.bool.isRequired,
+  onAddFolder: PropTypes.func.isRequired,
+  canAddFolder: PropTypes.bool.isRequired,
 };
 
 export default AddMenu;

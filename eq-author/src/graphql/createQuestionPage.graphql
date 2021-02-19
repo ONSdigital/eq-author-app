@@ -1,6 +1,6 @@
 #import "./fragments/page.graphql"
 #import "./fragments/validationErrorInfo.graphql"
-
+#import "./fragments/folder.graphql"
 mutation createQuestionPage($input: CreateQuestionPageInput!) {
   createQuestionPage(input: $input) {
     ...Page
@@ -15,7 +15,28 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     section {
       id
       folders {
-        id
+        ...Folder
+        pages {
+          ...Page
+          position
+          displayName
+          pageType
+          ... on QuestionPage {
+            guidance
+            answers {
+              id
+            }
+            confirmation {
+              id
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+          }
+          validationErrorInfo {
+              ...ValidationErrorInfo
+          }
+        }
       }
     }
     confirmation {

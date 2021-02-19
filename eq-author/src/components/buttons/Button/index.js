@@ -202,6 +202,11 @@ export const navAddMenuButton = css`
   border: none;
   border-radius: 0;
 
+  justify-content: left;
+  font-size: 0.9em;
+  padding: 0.2em 1.6em;
+  white-space: nowrap;
+
   &:hover {
     --color-bg: ${colors.greyedOrange};
     border-radius: 0;
@@ -218,6 +223,14 @@ export const navAddMenuButton = css`
   &[disabled] {
     --color-text: ${colors.disabledGreyOnOrange};
     opacity: 1;
+
+    span {
+      svg {
+        path {
+          fill: ${colors.disabledGreyOnOrange};
+        }
+      }
+    }
   }
 `;
 
@@ -281,7 +294,7 @@ const Button = styled.button`
   ${(props) => props.variant === "signout" && signoutButton};
   ${(props) => props.variant === "greyed" && greyedButton};
   ${(props) => props.variant === "nav-header" && navHeaderButton};
-  ${(props) => props.variant === "nav-addMenu" && navAddMenuButton};
+  ${(props) => props.variant === "add-content-menu" && navAddMenuButton};
   ${(props) => props.medium && mediumButton};
   ${(props) => props.small && smallButton};
   ${(props) => props["small-medium"] && smallMediumButton};

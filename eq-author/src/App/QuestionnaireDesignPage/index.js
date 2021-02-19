@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, find, flowRight } from "lodash";
+import { get, find, flowRight, flatMap, some } from "lodash";
 import {
   organiseAnswers,
   flattenAnswers,
@@ -15,11 +15,15 @@ import {
 import { colors } from "constants/theme";
 import styled from "styled-components";
 import { Grid, Column } from "components/Grid";
-import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import MainNavigation from "./MainNavigation";
-import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import {
+  SECTION,
+  PAGE,
+  QUESTION_CONFIRMATION,
+  FOLDER,
+} from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
@@ -27,6 +31,7 @@ import {
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 import ScrollPane from "components/ScrollPane";
+import Loading from "components/Loading";
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
@@ -38,11 +43,14 @@ import reviewRoutes from "App/review";
 import qcodeRoutes from "App/qcodes";
 import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
+import folderRoutes from "App/folder";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
+import withCreateFolder from "enhancers/withCreateFolder";
 import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
+import QUESTIONNAIRE_QUERY from "./getQuestionnaireQuery.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
@@ -58,32 +66,75 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-export class UnwrappedQuestionnaireDesignPage extends Component {
-  static propTypes = {
-    onAddQuestionPage: PropTypes.func.isRequired,
-    onAddCalculatedSummaryPage: PropTypes.func.isRequired,
-    onCreateQuestionConfirmation: PropTypes.func.isRequired,
-    onAddSection: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    match: CustomPropTypes.match.isRequired,
-    questionnaire: CustomPropTypes.questionnaire,
-    location: PropTypes.object, // eslint-disable-line
-    error: PropTypes.object, // eslint-disable-line
-    validations: PropTypes.object, // eslint-disable-line
+
+export const getSections = (questionnaire) => questionnaire.sections;
+export const getFolders = (questionnaire) =>
+  flatMap(getSections(questionnaire), ({ folders }) => folders);
+export const getPages = (questionnaire) =>
+  flatMap(getFolders(questionnaire), ({ pages }) => pages);
+
+export const getFolderById = (questionnaire, folderId) =>
+  find(getFolders(questionnaire), ({ id }) => id === folderId);
+export const getFolderByPageId = (questionnaire, id) =>
+  find(getFolders(questionnaire), ({ pages }) => some(pages, { id }));
+export const getSectionByFolderId = (questionnaire, id) =>
+  find(getSections(questionnaire), ({ folders }) => some(folders, { id }));
+export const getSectionByPageId = (questionnaire, id) =>
+  find(getSections(questionnaire), ({ folders }) =>
+    some(folders, ({ pages }) => some(pages, { id }))
+  );
+export const getPageById = (questionnaire, id) =>
+  find(getPages(questionnaire), { id });
+export const getPageByConfirmationId = (questionnaire, id) =>
+  find(getPages(questionnaire), ({ confirmation }) => confirmation.id === id);
+
+export const UnwrappedQuestionnaireDesignPage = ({
+  onAddSection,
+  onAddFolder,
+  onAddQuestionPage,
+  onAddCalculatedSummaryPage,
+  onCreateQuestionConfirmation,
+  match,
+  questionnaire,
+  loading,
+  error,
+  location,
+}) => {
+  const canAddQuestionAndCalculatedSummmaryPages = () => {
+    const { entityName } = match.params;
+
+    return !loading && ["page", "section"].includes(entityName);
   };
 
-  state = {
-    showDeleteConfirmDialog: false,
-    showMovePageDialog: false,
+  const canAddQuestionConfirmation = () => {
+    const { entityName, entityId: pageId } = match.params;
+
+    if (loading || !questionnaire) {
+      return false;
+    }
+
+    if (entityName !== "page") {
+      return false;
+    }
+
+    const page = getPageById(questionnaire, pageId);
+
+    if (!page || page.confirmation || page.pageType !== "QuestionPage") {
+      return false;
+    }
+
+    return true;
   };
 
-  handleAddPage = (pageType) => () => {
-    const {
-      onAddQuestionPage,
-      onAddCalculatedSummaryPage,
-      match,
-      questionnaire,
-    } = this.props;
+  const canAddFolder = () => {
+    const { entityName } = match.params;
+
+    return !loading && !["introduction"].includes(entityName);
+  };
+
+  const getTitle = () => (loading ? "" : questionnaire.title);
+
+  const handleAddPage = (pageType) => () => {
     const { entityName, entityId } = match.params;
 
     let sectionId, position, selectedPage, selectedSection, selectedFolder;
@@ -95,7 +146,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         break;
 
       case QUESTION_CONFIRMATION:
-      // Fall through
       case PAGE:
         for (const section of questionnaire.sections) {
           for (const folder of section.folders) {
@@ -121,9 +171,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
         break;
 
-      // case FOLDER:
-      // TODO
-
       default:
         throw new Error("Unrecognised entity name.");
     }
@@ -135,14 +182,43 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
   };
 
-  getTitle = () => {
-    const { loading, questionnaire } = this.props;
-    return loading ? "" : `${questionnaire.title}`;
+  const handleAddFolder = () => () => {
+    const { entityName, entityId } = match.params;
+
+    let position, sectionId, page;
+
+    switch (entityName) {
+      case SECTION:
+        onAddFolder(entityId, 0);
+        break;
+      case FOLDER:
+        ({ position } = getFolderById(questionnaire, entityId));
+        ({ id: sectionId } = getSectionByFolderId(questionnaire, entityId));
+        onAddFolder(sectionId, position + 1);
+        break;
+      case PAGE:
+        ({ position } = getFolderByPageId(questionnaire, entityId));
+        ({ id: sectionId } = getSectionByPageId(questionnaire, entityId));
+        onAddFolder(sectionId, position + 1);
+        break;
+      case QUESTION_CONFIRMATION:
+        page = getPageByConfirmationId(questionnaire, entityId);
+        ({ position } = getFolderByPageId(questionnaire, page.id));
+        ({ id: sectionId } = getSectionByPageId(questionnaire, page.id));
+        onAddFolder(sectionId, position + 1);
+        break;
+      default:
+        throw new Error(
+          `Adding a folder when focused on entity ${entityName} with ID ${entityId} is not supported.`
+        );
+    }
+  };
+  const handleAddQuestionConfirmation = () => {
+    const { entityId: pageId } = match.params;
+    onCreateQuestionConfirmation(pageId);
   };
 
-  renderRedirect = () => {
-    const { loading, questionnaire } = this.props;
-
+  const renderRedirect = () => {
     if (loading) {
       return (
         <Grid>
@@ -174,167 +250,109 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     );
   };
 
-  canAddQuestionAndCalculatedSummmaryPages() {
-    const {
-      match: {
-        params: { entityName },
-      },
-      loading,
-    } = this.props;
-
-    return !loading && ["page", "section"].includes(entityName);
+  if (!loading && !error && !questionnaire) {
+    throw new Error(ERR_PAGE_NOT_FOUND);
   }
 
-  canAddQuestionConfirmation() {
-    const {
-      questionnaire,
-      match: {
-        params: { entityName, entityId: pageId },
-      },
-      loading,
-    } = this.props;
+  let flattenedAnswers;
+  let duplicates;
+  let duplicateQCode = false;
 
-    if (loading || !questionnaire) {
-      return false;
-    }
+  if (questionnaire) {
+    const sections = questionnaire.sections;
+    const { answers } = organiseAnswers(sections);
 
-    if (entityName !== "page") {
-      return false;
-    }
+    flattenedAnswers = flattenAnswers(answers);
 
-    const pages = questionnaire.sections.flatMap(({ folders }) =>
-      folders.flatMap((folder) => folder.pages)
-    );
-    const page = find(pages, { id: pageId });
-    if (!page || page.confirmation || page.pageType !== "QuestionPage") {
-      return false;
-    }
-    return true;
-  }
+    duplicates = duplicatesAnswers(flattenedAnswers);
 
-  handleAddQuestionConfirmation = () => {
-    const {
-      match: {
-        params: { entityId: pageId },
-      },
-    } = this.props;
-    this.props.onCreateQuestionConfirmation(pageId);
-  };
-
-  render() {
-    const { loading, questionnaire, error, location } = this.props;
-
-    if (!loading && !error && !questionnaire) {
-      throw new Error(ERR_PAGE_NOT_FOUND);
-    }
-
-    let flattenedAnswers;
-    let duplicates;
-    let duplicateQCode = false;
-
-    if (questionnaire) {
-      const sections = questionnaire.sections;
-      const { answers } = organiseAnswers(sections);
-      flattenedAnswers = flattenAnswers(answers);
-
-      duplicates = duplicatesAnswers(flattenedAnswers);
-
-      if (duplicates) {
-        for (let key in duplicates) {
-          if (duplicates[key] > 1) {
-            duplicateQCode = true;
-          }
+    if (duplicates) {
+      for (let key in duplicates) {
+        if (duplicates[key] > 1) {
+          duplicateQCode = true;
         }
       }
     }
-
-    return (
-      <QuestionnaireContext.Provider value={{ questionnaire }}>
-        <BaseLayout questionnaire={questionnaire}>
-          <ScrollPane>
-            <Titled title={this.getTitle}>
-              <Grid>
-                <QCodeContext.Provider
-                  value={{ flattenedAnswers, duplicates, duplicateQCode }}
-                >
-                  <NavColumn cols={3} gutters={false}>
-                    <MainNav>
-                      <MainNavigation />
-                    </MainNav>
-                    <NavigationSidebar
-                      data-test="side-nav"
-                      onAddSection={this.props.onAddSection}
-                      onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                      canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                      onAddCalculatedSummaryPage={this.handleAddPage(
-                        "CalculatedSummaryPage"
-                      )}
-                      canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                      questionnaire={questionnaire}
-                      canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                      onAddQuestionConfirmation={
-                        this.handleAddQuestionConfirmation
-                      }
-                    />
-                  </NavColumn>
-                  <Column cols={9} gutters={false}>
-                    <Switch location={location}>
-                      {[
-                        ...pageRoutes,
-                        ...sectionRoutes,
-                        ...questionConfirmationRoutes,
-                        ...introductionRoutes,
-                        ...metadataRoutes,
-                        ...historyRoutes,
-                        ...publishRoutes,
-                        ...reviewRoutes,
-                        ...qcodeRoutes,
-                        ...sharingRoutes,
-                        ...settingsRoutes,
-                      ]}
-                      <Route path="*" render={this.renderRedirect} />
-                    </Switch>
-                  </Column>
-                </QCodeContext.Provider>
-              </Grid>
-            </Titled>
-          </ScrollPane>
-        </BaseLayout>
-      </QuestionnaireContext.Provider>
-    );
   }
-}
+
+  return (
+    <QuestionnaireContext.Provider value={{ questionnaire }}>
+      <BaseLayout questionnaire={questionnaire}>
+        <ScrollPane>
+          <Titled title={getTitle}>
+            <Grid>
+              <QCodeContext.Provider
+                value={{ flattenedAnswers, duplicates, duplicateQCode }}
+              >
+                <NavColumn cols={3} gutters={false}>
+                  <MainNav>
+                    <MainNavigation />
+                  </MainNav>
+                  <NavigationSidebar
+                    data-test="side-nav"
+                    onAddSection={onAddSection}
+                    onAddQuestionPage={handleAddPage("QuestionPage")}
+                    canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
+                    onAddCalculatedSummaryPage={handleAddPage(
+                      "CalculatedSummaryPage"
+                    )}
+                    canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
+                    questionnaire={questionnaire}
+                    canAddQuestionConfirmation={canAddQuestionConfirmation()}
+                    onAddQuestionConfirmation={handleAddQuestionConfirmation}
+                    canAddFolder={canAddFolder()}
+                    onAddFolder={handleAddFolder()}
+                  />
+                </NavColumn>
+                <Column cols={9} gutters={false}>
+                  <Switch location={location}>
+                    {[
+                      ...pageRoutes,
+                      ...sectionRoutes,
+                      ...questionConfirmationRoutes,
+                      ...introductionRoutes,
+                      ...metadataRoutes,
+                      ...historyRoutes,
+                      ...publishRoutes,
+                      ...reviewRoutes,
+                      ...qcodeRoutes,
+                      ...sharingRoutes,
+                      ...settingsRoutes,
+                      ...folderRoutes,
+                    ]}
+                    <Route path="*" render={renderRedirect} />
+                  </Switch>
+                </Column>
+              </QCodeContext.Provider>
+            </Grid>
+          </Titled>
+        </ScrollPane>
+      </BaseLayout>
+    </QuestionnaireContext.Provider>
+  );
+};
+
+UnwrappedQuestionnaireDesignPage.propTypes = {
+  onAddQuestionPage: PropTypes.func.isRequired,
+  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
+  onCreateQuestionConfirmation: PropTypes.func.isRequired,
+  onAddSection: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  match: CustomPropTypes.match.isRequired,
+  questionnaire: CustomPropTypes.questionnaire,
+  location: PropTypes.object, // eslint-disable-line
+  error: PropTypes.object, // eslint-disable-line
+  validations: PropTypes.object, // eslint-disable-line
+  onAddFolder: PropTypes.func.isRequired,
+};
 
 const withMutations = flowRight(
   withCreateSection,
   withCreateQuestionPage,
   withCreateQuestionConfirmation,
-  withCreateCalculatedSummaryPage
+  withCreateCalculatedSummaryPage,
+  withCreateFolder
 );
-
-const QUESTIONNAIRE_QUERY = gql`
-  query GetQuestionnaire($input: QueryInput!) {
-    questionnaire(input: $input) {
-      introduction {
-        id
-      }
-      publishStatus
-      totalErrorCount
-      metadata {
-        id
-        displayName
-        type
-        key
-        dateValue
-        regionValue
-        languageValue
-        textValue
-      }
-      ...NavigationSidebar
-    }
-  }
-  ${NavigationSidebar.fragments.NavigationSidebar}
-`;
 
 export const withQuestionnaire = (Component) => {
   const WrappedComponent = (props) => (

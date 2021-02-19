@@ -9,7 +9,7 @@ import fp from "lodash/fp";
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
-import IconMove from "App/page/Design/EditorToolbar/icon-move.svg?inline";
+import IconMove from "assets/icon-move.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import EditorLayout from "components/EditorLayout";

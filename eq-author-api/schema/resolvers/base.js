@@ -174,6 +174,7 @@ const Resolvers = {
         ({ history }) => history
       ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
+    folder: (root, { input }, ctx) => getFolderById(ctx, input.folderId),
     page: (root, { input }, ctx) =>
       getPageById(ctx, input.pageId, input.includeSelf),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
@@ -364,9 +365,9 @@ const Resolvers = {
       return remappedSection;
     }),
     createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder();
+      const folder = createFolder(input);
       const section = getSectionById(ctx, input.sectionId);
-      section.folders.push(folder);
+      section.folders.splice(input.position, 0, folder);
       return folder;
     }),
     updateFolder: createMutation((root, { input }, ctx) => {

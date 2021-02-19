@@ -1,22 +1,19 @@
 #import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/folder.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 
 mutation duplicatePage($input: DuplicatePageInput!) {
   duplicatePage(input: $input) {
     ...Page
     id
+    title
     displayName
     position
     pageType
     ... on QuestionPage {
       answers {
-        id
-        label
-        secondaryLabel
-        secondaryLabelDefault
-        type
-        properties
-        qCode
+        ...Answer
         ... on BasicAnswer {
           secondaryQCode
         }
@@ -36,7 +33,7 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       section {
         id
         folders {
-          id
+          ...Folder
           pages {
             id
           }

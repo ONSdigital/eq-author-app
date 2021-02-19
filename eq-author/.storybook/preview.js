@@ -4,6 +4,22 @@ import { createMemoryHistory } from "history";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
+  backgrounds: {
+    values: [
+      {
+        name: "Black",
+        value: "#222",
+      },
+      {
+        name: "Grey",
+        value: "#333",
+      },
+      {
+        name: "White",
+        value: "#FFF",
+      },
+    ],
+  },
 };
 
 export const decorators = [

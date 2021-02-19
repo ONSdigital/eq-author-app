@@ -28,7 +28,6 @@ export const organiseAnswers = (sections) => {
 
           acc.push(...optionLabel);
         }
-
         if (
           item.hasOwnProperty("mutuallyExclusiveOption") &&
           item.mutuallyExclusiveOption
@@ -39,6 +38,7 @@ export const organiseAnswers = (sections) => {
             option: true,
           });
         }
+
         if (
           item.hasOwnProperty("secondaryLabel") &&
           item.hasOwnProperty("secondaryQCode") &&
