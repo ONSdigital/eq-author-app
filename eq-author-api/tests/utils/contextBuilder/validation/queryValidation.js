@@ -55,9 +55,6 @@ const getValidationQuery = `
     custom
     inclusive
     entityType
-    availablePreviousAnswers {
-      id
-    }
   }
   
   fragment MaxValueValidationRule on MaxValueValidationRule {
@@ -66,9 +63,6 @@ const getValidationQuery = `
     custom
     inclusive
     entityType
-    availablePreviousAnswers {
-      id
-    }
   }
 
   fragment ValidationErrorInfo on ValidationErrorInfo {
@@ -92,12 +86,6 @@ const getValidationQuery = `
       unit
     }
     relativePosition
-    availablePreviousAnswers {
-      id
-    }
-    availableMetadata {
-      id
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }
@@ -113,12 +101,6 @@ const getValidationQuery = `
       unit
     }
     relativePosition
-    availablePreviousAnswers {
-      id
-    }
-    availableMetadata {
-      id
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

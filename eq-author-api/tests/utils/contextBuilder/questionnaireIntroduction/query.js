@@ -16,12 +16,6 @@ const queryIntroductionQuery = `
       legalBasis
       tertiaryTitle
       tertiaryDescription
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
     }
   }
 `;

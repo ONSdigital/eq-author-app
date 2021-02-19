@@ -3,7 +3,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 
 import SectionMenu from "./SectionMenu";
 
-describe("Content Picker Answer Picker", () => {
+describe("Content Picker Answer Picker - Section Menu", () => {
   let props;
 
   const renderSectionMenu = () => render(<SectionMenu {...props} />);
@@ -11,15 +11,19 @@ describe("Content Picker Answer Picker", () => {
   const section1 = {
     id: "sec1",
     displayName: "section 1",
-    pages: [
+    folders: [
       {
-        id: "Page 1",
-        displayName: "Page 1",
-        answers: [
+        pages: [
           {
-            id: "Percentage 1",
-            displayName: "Percentage 1",
-            type: "Percentage",
+            id: "Page 1",
+            displayName: "Page 1",
+            answers: [
+              {
+                id: "Percentage 1",
+                displayName: "Percentage 1",
+                type: "Percentage",
+              },
+            ],
           },
         ],
       },
@@ -29,15 +33,19 @@ describe("Content Picker Answer Picker", () => {
   const section2 = {
     id: "sec2",
     displayName: "section 2",
-    pages: [
+    folders: [
       {
-        id: "Page2-1",
-        displayName: "Page 2-1",
-        answers: [
+        pages: [
           {
-            id: "Percentage2",
-            displayName: "Percentage 2",
-            type: "Percentage",
+            id: "Page2-1",
+            displayName: "Page 2-1",
+            answers: [
+              {
+                id: "Percentage2",
+                displayName: "Percentage 2",
+                type: "Percentage",
+              },
+            ],
           },
         ],
       },

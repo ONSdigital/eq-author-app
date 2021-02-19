@@ -9,7 +9,6 @@
 #import "./fragments/min-duration-validation-rule.graphql"
 #import "./fragments/max-duration-validation-rule.graphql"
 #import "./fragments/total-validation-rule.graphql"
-#import "./fragments/available-answers.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/page.graphql"
 
@@ -93,9 +92,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
       }
       totalValidation {
         ...TotalValidationRule
-        availablePreviousAnswers {
-          ...AvailableAnswers
-        }
       }
       answers {
         ...Answer

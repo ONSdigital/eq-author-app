@@ -236,7 +236,10 @@ const FlatSectionMenu = ({ data, ...otherProps }) =>
   data.map((section) => (
     <div key={section.id}>
       <SectionTitle>{section.displayName}</SectionTitle>
-      <SubMenu data={section.pages} {...otherProps} />
+      <SubMenu
+        data={section.folders.flatMap(({ pages }) => pages)}
+        {...otherProps}
+      />
     </div>
   ));
 

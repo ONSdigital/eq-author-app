@@ -1,41 +1,45 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { get } from "lodash";
+import React, { useMemo } from "react";
 
 import ContentPickerSelect from "components/ContentPickerSelect/index";
 import { ANSWER } from "components/ContentPickerSelect/content-types";
 
-import shapeTree from "components/ContentPicker/shapeTree";
-import AvailablePreviousAnswersQuery from "./AvailablePreviousAnswersQuery";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useCurrentPageId } from "components/RouterContext";
+import getContentBeforePage from "utils/getContentBeforeEntity";
+import PropTypes from "prop-types";
 
-export const UnwrappedPreviousAnswerContentPicker = ({
-  data,
-  path,
-  ...otherProps
-}) => (
-  <ContentPickerSelect
-    name="previousAnswer"
-    contentTypes={[ANSWER]}
-    answerData={shapeTree(get(data, path))}
-    {...otherProps}
-  />
-);
+import allAnswerTypes from "constants/answer-types";
 
-UnwrappedPreviousAnswerContentPicker.propTypes = {
-  data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired,
+export const PreviousAnswerContentPicker = ({
+  allowedAnswerTypes = allAnswerTypes,
+  ...props
+}) => {
+  const { questionnaire } = useQuestionnaire();
+  const id = useCurrentPageId();
+
+  const sections = useMemo(
+    () =>
+      getContentBeforePage({
+        questionnaire,
+        id,
+        preprocessAnswers: (answer) =>
+          allowedAnswerTypes.includes(answer.type) ? answer : [],
+      }),
+    [questionnaire, id]
+  );
+
+  return (
+    <ContentPickerSelect
+      name="previousAnswer"
+      contentTypes={[ANSWER]}
+      answerData={sections}
+      {...props}
+    />
+  );
 };
 
-const GetAvailablePreviewAnswersQuery = (props) => (
-  <AvailablePreviousAnswersQuery answerId={props.answerId}>
-    {(innerProps) => (
-      <UnwrappedPreviousAnswerContentPicker {...innerProps} {...props} />
-    )}
-  </AvailablePreviousAnswersQuery>
-);
-
-GetAvailablePreviewAnswersQuery.propTypes = {
-  answerId: PropTypes.string.isRequired,
+PreviousAnswerContentPicker.propTypes = {
+  allowedAnswerTypes: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default GetAvailablePreviewAnswersQuery;
+export default PreviousAnswerContentPicker;

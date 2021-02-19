@@ -26,7 +26,11 @@ const SectionMenu = ({
 }) => {
   const defaultSelectedSection = firstSelectedItemId
     ? find(data, {
-        pages: [{ answers: [{ id: firstSelectedItemId }] }],
+        folders: [
+          {
+            pages: [{ answers: [{ id: firstSelectedItemId }] }],
+          },
+        ],
       })
     : data[0];
 
@@ -61,7 +65,7 @@ const SectionMenu = ({
       <Column>
         <ScrollPane background>
           <SubMenu
-            data={selectedSection.pages}
+            data={selectedSection.folders.flatMap(({ pages }) => pages)}
             onSelected={onSelected}
             isSelected={isSelected}
             {...otherProps}

@@ -157,7 +157,6 @@ export const UnwrappedBinaryExpressionEditor = ({
         </Column>
         <Column gutters={false} cols={8}>
           <ContentPicker
-            path="getAvailableAnswers"
             selectedContentDisplayName={
               expression?.left.hasOwnProperty("displayName")
                 ? expression.left

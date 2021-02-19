@@ -1,40 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { get } from "lodash";
-
 import ContentPickerSelect from "components/ContentPickerSelect";
 import { METADATA } from "components/ContentPickerSelect/content-types";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
-import AvailableMetadataQuery from "./AvailableMetadataQuery";
+import { DATE } from "constants/metadata-types";
 
-export const UnwrappedMetadataContentPicker = ({
-  data,
-  path,
-  ...otherProps
-}) => (
-  <ContentPickerSelect
-    name="metadata"
-    contentTypes={[METADATA]}
-    metadataData={get(data, path)}
-    {...otherProps}
-  />
-);
+export const MetadataContentPicker = ({ ...otherProps }) => {
+  const { questionnaire } = useQuestionnaire();
 
-UnwrappedMetadataContentPicker.propTypes = {
-  data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired,
+  return (
+    <ContentPickerSelect
+      name="metadata"
+      contentTypes={[METADATA]}
+      metadataData={
+        questionnaire?.metadata?.filter(({ type }) => type === DATE.value) || []
+      }
+      {...otherProps}
+    />
+  );
 };
 
-const GetAvailableMetadataQuery = (props) => (
-  <AvailableMetadataQuery answerId={props.answerId}>
-    {(innerProps) => (
-      <UnwrappedMetadataContentPicker {...innerProps} {...props} />
-    )}
-  </AvailableMetadataQuery>
-);
-
-GetAvailableMetadataQuery.propTypes = {
-  answerId: PropTypes.string.isRequired,
-};
-
-export default GetAvailableMetadataQuery;
+export default MetadataContentPicker;

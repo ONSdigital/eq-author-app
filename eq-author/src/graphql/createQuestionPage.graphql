@@ -9,6 +9,8 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     pageType
     answers {
       id
+      displayName
+      type
     }
     section {
       id
