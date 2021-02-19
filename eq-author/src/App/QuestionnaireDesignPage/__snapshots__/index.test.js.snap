@@ -1528,109 +1528,6 @@ fragment Introduction on Questionnaire {
                       },
                     },
                     Object {
-                      "alias": undefined,
-                      "arguments": Array [],
-                      "directives": Array [],
-                      "kind": "Field",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "metadata",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "id",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "displayName",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "type",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "key",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "dateValue",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "regionValue",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "languageValue",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "textValue",
-                            },
-                            "selectionSet": undefined,
-                          },
-                        ],
-                      },
-                    },
-                    Object {
                       "directives": Array [],
                       "kind": "FragmentSpread",
                       "name": Object {
@@ -2641,18 +2538,7 @@ fragment Introduction on Questionnaire {
                             "kind": "Field",
                             "name": Object {
                               "kind": "Name",
-                              "value": "secondaryLabelDefault",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "type",
+                              "value": "description",
                             },
                           },
                           Object {
@@ -2671,157 +2557,6 @@ fragment Introduction on Questionnaire {
                             "name": Object {
                               "kind": "Name",
                               "value": "qCode",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "alias": undefined,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "displayName",
-                            },
-                            "selectionSet": undefined,
-                          },
-                          Object {
-                            "directives": Array [],
-                            "kind": "InlineFragment",
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "alias": undefined,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "secondaryQCode",
-                                  },
-                                  "selectionSet": undefined,
-                                },
-                              ],
-                            },
-                            "typeCondition": Object {
-                              "kind": "NamedType",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "BasicAnswer",
-                              },
-                            },
-                          },
-                          Object {
-                            "directives": Array [],
-                            "kind": "InlineFragment",
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "alias": undefined,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "options",
-                                  },
-                                  "selectionSet": Object {
-                                    "kind": "SelectionSet",
-                                    "selections": Array [
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "id",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "label",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "qCode",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                    ],
-                                  },
-                                },
-                                Object {
-                                  "alias": undefined,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "mutuallyExclusiveOption",
-                                  },
-                                  "selectionSet": Object {
-                                    "kind": "SelectionSet",
-                                    "selections": Array [
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "id",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "label",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                      Object {
-                                        "alias": undefined,
-                                        "arguments": Array [],
-                                        "directives": Array [],
-                                        "kind": "Field",
-                                        "name": Object {
-                                          "kind": "Name",
-                                          "value": "qCode",
-                                        },
-                                        "selectionSet": undefined,
-                                      },
-                                    ],
-                                  },
-                                },
-                              ],
-                            },
-                            "typeCondition": Object {
-                              "kind": "NamedType",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "MultipleChoiceAnswer",
-                              },
                             },
                           },
                         ],
@@ -2995,7 +2730,162 @@ fragment Introduction on Questionnaire {
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2754,
+        "end": 1947,
+        "source": Object {
+          "body": "query GetQuestionnaire($input: QueryInput!) {
+  questionnaire(input: $input) {
+    introduction {
+      id
+    }
+    publishStatus
+    totalErrorCount
+    ...NavigationSidebar
+  }
+}
+fragment NavigationSidebar on Questionnaire {
+  id
+  ...SectionNav
+  ...NavigationHeader
+  ...Introduction
+}
+fragment NavigationHeader on Questionnaire {
+  ...QuestionnaireSettingsModal
+}
+fragment QuestionnaireSettingsModal on Questionnaire {
+  ...Questionnaire
+}
+fragment Questionnaire on Questionnaire {
+  id
+  title
+  description
+  surveyId
+  theme
+  navigation
+  summary
+  collapsibleSummary
+  type
+  shortTitle
+  displayName
+  createdBy {
+    id
+    picture
+    name
+    email
+  }
+  editors {
+    id
+    picture
+    name
+    email
+  }
+  isPublic
+  permission
+}
+fragment SectionNav on Questionnaire {
+  id
+  sections {
+    ...Sections
+  }
+}
+fragment Sections on Section {
+  id
+  title
+  displayName
+  questionnaire {
+    id
+  }
+  validationErrorInfo {
+    id
+    totalCount
+  }
+  ...PageNav
+}
+fragment PageNav on Section {
+  id
+  folders {
+    id
+    enabled
+    alias
+    position
+    pages {
+      ...Pages
+      ...ConfirmationPages
+    }
+  }
+}
+fragment Pages on Page {
+  id
+  title
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+  ... on QuestionPage {
+    answers {
+      ...Answers
+    }
+    confirmation {
+      id
+    }
+  }
+}
+
+fragment Answers on Answer {
+  id
+  displayName
+  description
+  guidance
+  qCode
+  label
+  secondaryLabel
+  secondaryLabelDefault
+  type
+  properties
+  ... on MultipleChoiceAnswer {
+    options {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
+  }
+}
+
+fragment ConfirmationPages on QuestionPage {
+  id
+  confirmation {
+    id
+    displayName
+    validationErrorInfo {
+      id
+      totalCount
+    }
+  }
+}
+fragment Introduction on Questionnaire {
+  id
+  introduction {
+    id
+  }
+}
+",
+          "locationOffset": Object {
+            "column": 1,
+            "line": 1,
+          },
+          "name": "GraphQL request",
+        },
         "start": 0,
       },
     }
