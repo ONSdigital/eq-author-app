@@ -1,5 +1,4 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
-#import "./fragments/page.graphql"
 #import "./fragments/folder.graphql"
 mutation CreateCalculatedSummaryPage(
   $input: CreateCalculatedSummaryPageInput!
@@ -15,7 +14,7 @@ mutation CreateCalculatedSummaryPage(
       folders {
         ...Folder
         pages {
-          ...Page
+          id
         }
       }
     }
