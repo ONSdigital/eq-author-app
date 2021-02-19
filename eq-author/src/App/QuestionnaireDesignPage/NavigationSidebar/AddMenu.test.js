@@ -2,6 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 import AddMenu from "./AddMenu";
 
+// TODO
+// Convert these to rtl
 describe("AddMenu", () => {
   let mockHandlers = {
     onAdd: jest.fn(),
