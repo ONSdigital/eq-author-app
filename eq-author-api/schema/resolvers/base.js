@@ -203,11 +203,8 @@ const Resolvers = {
       const { comments } = await getCommentsForQuestionnaire(questionnaireId);
 
       if (comments[id]) {
-        comments[id].sort((a, b) => b.createdTime - a.createdTime);
-
         return comments[id];
       }
-
       return [];
     },
     getAvailableAnswers: (root, { input }, ctx) =>
