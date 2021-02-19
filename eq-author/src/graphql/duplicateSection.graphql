@@ -29,7 +29,10 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
             ... on MultipleChoiceAnswer {
               options {
                 id
+                displayName
                 label
+                description
+                value
                 qCode
               }
               mutuallyExclusiveOption {

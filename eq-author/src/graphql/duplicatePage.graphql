@@ -20,7 +20,10 @@ mutation duplicatePage($input: DuplicatePageInput!) {
         ... on MultipleChoiceAnswer {
           options {
             id
+            displayName
             label
+            description
+            value
             qCode
           }
           mutuallyExclusiveOption {
