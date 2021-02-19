@@ -17,14 +17,13 @@ const EditorToolbar = ({
   onDuplicate,
   onDelete,
   disableMove,
-  disableDuplicate,
   disableDelete,
 }) => (
   <Toolbar>
     <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
     <Buttons>
       <MoveButton disabled={disableMove} onClick={onMove} />
-      <DuplicateButton disabled={disableDuplicate} onClick={onDuplicate} />
+      <DuplicateButton onClick={onDuplicate} />
       <DeleteButton disabled={disableDelete} onClick={onDelete} />
     </Buttons>
   </Toolbar>
@@ -38,7 +37,6 @@ EditorToolbar.propTypes = {
   onDelete: PropTypes.func.isRequired,
   disableMove: PropTypes.bool,
   disableDelete: PropTypes.bool,
-  disableDuplicate: PropTypes.bool,
 };
 
 export default EditorToolbar;
