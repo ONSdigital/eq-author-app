@@ -36,6 +36,7 @@ export const buildPages = ({
       displayName: `Page ${id}`,
       alias: id,
       position: i,
+      pageType: "QuestionPage",
       validationErrorInfo: {
         totalCount: 2,
       },
@@ -66,7 +67,7 @@ export const buildFolders = ({
     return {
       id,
       alias: `Folder ${id}`,
-      enabled: false,
+      enabled: i === 1,
       position: i,
       pages: buildPages({
         sectionNumber,

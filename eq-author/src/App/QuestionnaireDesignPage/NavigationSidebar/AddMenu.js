@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
@@ -84,86 +85,132 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
-const AddMenu = ({
-  addMenuOpen,
-  onAddMenuToggle,
-  onAddQuestionPage,
-  canAddQuestionPage,
-  onAddSection,
-  onAddCalculatedSummaryPage,
-  canAddCalculatedSummaryPage,
-  onAddQuestionConfirmation,
-  canAddQuestionConfirmation,
-  onAddFolder,
-  canAddFolder,
-  ...otherProps
-}) => {
-  const addBtn = (
-    <AddButton data-test="btn-add">
-      <StyledIconTextAdd icon={IconPlus}>Add content</StyledIconTextAdd>
-    </AddButton>
-  );
+export const AddContent = "Add content";
+// TODO not sure if this is the best way to do this
+export const isFolderTitle = (title, isInside = true) =>
+  `${isInside ? "inside" : "outside"} ${title}`;
+
+const AddBtn = (
+  <AddButton data-test="btn-add">
+    <StyledIconTextAdd icon={IconPlus}>{AddContent}</StyledIconTextAdd>
+  </AddButton>
+);
+
+const usePrevious = (props) => {
+  const reference = React.useRef();
+  React.useEffect(() => {
+    reference.current = props;
+  });
+
+  return reference.current;
+};
+
+// {
+// addMenuOpen,
+// onAddMenuToggle,
+// onAddQuestionPage,
+// canAddQuestionPage,
+// onAddSection,
+// onAddCalculatedSummaryPage,
+// canAddCalculatedSummaryPage,
+// onAddQuestionConfirmation,
+// canAddQuestionConfirmation,
+// onAddFolder,
+// canAddFolder,
+// ...otherProps
+// }
+const AddMenu = (props) => {
+  // Need this to determine if I'm on a folder page
+  const { entityType } = useParams();
+  const previous = usePrevious(props);
+  const {
+    addMenuOpen,
+    onAddMenuToggle,
+    onAddQuestionPage,
+    canAddQuestionPage,
+    onAddSection,
+    onAddCalculatedSummaryPage,
+    canAddCalculatedSummaryPage,
+    onAddQuestionConfirmation,
+    canAddQuestionConfirmation,
+    onAddFolder,
+    canAddFolder,
+    ...otherProps
+  } = props;
+
+  // using this to check prop changes
+  console.log("before", previous);
+  console.log("after", props);
+  // testing perf with this
+  const onRenderCB = (id, phase, actualDuration, baseDuration) => {
+    console.log(id, phase, actualDuration, baseDuration);
+  };
+  // thinking of pulling all of this out and rendering based off entity type
+  // need to check if it's available instantly
+  //
   return (
-    <div {...otherProps}>
-      <Popout
-        open={addMenuOpen}
-        trigger={addBtn}
-        onToggleOpen={onAddMenuToggle}
-        horizontalAlignment="left"
-        verticalAlignment="top"
-        transition={PopupTransition}
-        container={PopoutContainer}
-        layer={PopoutLayer}
-      >
-        <AddMenuWindow data-test="addmenu-window">
-          <AddMenuButton
-            primary
-            onClick={onAddQuestionPage}
-            data-test="btn-add-question-page"
-            disabled={!canAddQuestionPage}
-          >
-            <StyledIconText icon={IconQuestion}>Question</StyledIconText>
-          </AddMenuButton>
-          <AddMenuButton
-            primary
-            onClick={onAddSection}
-            data-test="btn-add-section"
-          >
-            <StyledIconText icon={IconSection}>Section</StyledIconText>
-          </AddMenuButton>
-          <AddMenuButton
-            primary
-            data-test="btn-add-folder"
-            onClick={onAddFolder}
-            disabled={!canAddFolder}
-          >
-            <StyledIconText icon={IconFolder} data-hook="icon-folder">
-              Folder
-            </StyledIconText>
-          </AddMenuButton>
-          <AddMenuButton
-            primary
-            data-test="btn-add-question-confirmation"
-            onClick={onAddQuestionConfirmation}
-            disabled={!canAddQuestionConfirmation}
-          >
-            <StyledIconText icon={IconConfirmation}>
-              Confirmation question
-            </StyledIconText>
-          </AddMenuButton>
-          <AddMenuButton
-            primary
-            onClick={onAddCalculatedSummaryPage}
-            data-test="btn-add-calculated-summary"
-            disabled={!canAddCalculatedSummaryPage}
-          >
-            <StyledIconText icon={IconSummary}>
-              Calculated summary
-            </StyledIconText>
-          </AddMenuButton>
-        </AddMenuWindow>
-      </Popout>
-    </div>
+    <React.Profiler id="test" onRender={onRenderCB}>
+      <div {...otherProps}>
+        <Popout
+          open={addMenuOpen}
+          trigger={AddBtn}
+          onToggleOpen={onAddMenuToggle}
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          transition={PopupTransition}
+          container={PopoutContainer}
+          layer={PopoutLayer}
+        >
+          <AddMenuWindow data-test="addmenu-window">
+            <AddMenuButton
+              primary
+              onClick={onAddQuestionPage}
+              data-test="btn-add-question-page"
+              disabled={!canAddQuestionPage}
+            >
+              <StyledIconText icon={IconQuestion}>Question</StyledIconText>
+            </AddMenuButton>
+            <AddMenuButton
+              primary
+              onClick={onAddSection}
+              data-test="btn-add-section"
+            >
+              <StyledIconText icon={IconSection}>Section</StyledIconText>
+            </AddMenuButton>
+            <AddMenuButton
+              primary
+              data-test="btn-add-folder"
+              onClick={onAddFolder}
+              disabled={!canAddFolder}
+            >
+              <StyledIconText icon={IconFolder} data-hook="icon-folder">
+                Folder
+              </StyledIconText>
+            </AddMenuButton>
+            <AddMenuButton
+              primary
+              data-test="btn-add-question-confirmation"
+              onClick={onAddQuestionConfirmation}
+              disabled={!canAddQuestionConfirmation}
+            >
+              <StyledIconText icon={IconConfirmation}>
+                Confirmation question
+              </StyledIconText>
+            </AddMenuButton>
+            <AddMenuButton
+              primary
+              onClick={onAddCalculatedSummaryPage}
+              data-test="btn-add-calculated-summary"
+              disabled={!canAddCalculatedSummaryPage}
+            >
+              <StyledIconText icon={IconSummary}>
+                Calculated summary
+              </StyledIconText>
+            </AddMenuButton>
+          </AddMenuWindow>
+        </Popout>
+      </div>
+    </React.Profiler>
   );
 };
 
