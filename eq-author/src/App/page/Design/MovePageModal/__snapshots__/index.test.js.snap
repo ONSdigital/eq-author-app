@@ -61,6 +61,7 @@ exports[`MovePageModal should render 1`] = `
             "id": "1",
           },
           "id": "1.1.1",
+          "pageType": "QuestionPage",
           "position": 0,
           "section": Object {
             "id": "1",
@@ -81,6 +82,7 @@ exports[`MovePageModal should render 1`] = `
           "id": "1",
         },
         "id": "1.1.1",
+        "pageType": "QuestionPage",
         "position": 0,
         "section": Object {
           "id": "1",
