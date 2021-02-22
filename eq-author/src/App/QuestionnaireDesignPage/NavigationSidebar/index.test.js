@@ -7,8 +7,6 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import NavigationSidebar from ".";
 import { isFolderTitle } from "./AddMenu";
 
-// TODO finish up these tests on monday
-// Have separated them out now
 const props = {
   questionnaire: buildQuestionnaire({ folderCount: 2 }),
   onAddQuestionPage: jest.fn(),
