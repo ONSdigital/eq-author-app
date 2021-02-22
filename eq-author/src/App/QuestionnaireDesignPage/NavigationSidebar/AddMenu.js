@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
-
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "components/buttons/Button";
 import Popout, { Container, Layer } from "components/Popout";
@@ -118,10 +118,10 @@ const usePrevious = (props) => {
 // canAddFolder,
 // ...otherProps
 // }
+// const previous = usePrevious(props);
 const AddMenu = (props) => {
-  // Need this to determine if I'm on a folder page
-  const { entityType } = useParams();
-  const previous = usePrevious(props);
+  const { entityName } = useParams();
+  const isFolder = entityName === "folder";
   const {
     addMenuOpen,
     onAddMenuToggle,
@@ -137,16 +137,106 @@ const AddMenu = (props) => {
     ...otherProps
   } = props;
 
-  // using this to check prop changes
-  console.log("before", previous);
-  console.log("after", props);
+  // const [isEntity, buttons] = () => {
+  //   switch (entityName) {
+  //     case value:
+
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // }
+
   // testing perf with this
   const onRenderCB = (id, phase, actualDuration, baseDuration) => {
     console.log(id, phase, actualDuration, baseDuration);
   };
-  // thinking of pulling all of this out and rendering based off entity type
-  // need to check if it's available instantly
+
+  // I want it to be able to do a thing'
+  // It picks an entity type
   //
+
+  let buttons = {
+    default: [
+      {
+        handleClick: onAddQuestionPage,
+        disabled: !canAddQuestionPage,
+        dataTest: "btn-add-question-page",
+        icon: IconQuestion,
+        text: "Question",
+      },
+      {
+        handleClick: onAddSection,
+        disabled: false,
+        dataTest: "btn-add-section",
+        icon: IconSection,
+        text: "Section",
+      },
+      {
+        handleClick: onAddFolder,
+        disabled: !canAddFolder,
+        dataTest: "btn-add-folder",
+        icon: IconFolder,
+        text: "Folder",
+      },
+      {
+        handleClick: onAddQuestionConfirmation,
+        disabled: !canAddQuestionConfirmation,
+        dataTest: "btn-add-question-confirmation",
+        icon: IconConfirmation,
+        text: "Confirmation question",
+      },
+      {
+        handleClick: onAddCalculatedSummaryPage,
+        disabled: !canAddCalculatedSummaryPage,
+        dataTest: "btn-add-calculated-summary",
+        icon: IconSummary,
+        text: "Calculated summary",
+      },
+    ],
+  };
+
+  if (isFolder) {
+    buttons.extra = [
+      {
+        handleClick: onAddQuestionPage,
+        disabled: !canAddQuestionPage,
+        dataTest: "btn-add-question-page",
+        icon: IconQuestion,
+        text: "Question",
+      },
+      {
+        handleClick: onAddCalculatedSummaryPage,
+        disabled: !canAddCalculatedSummaryPage,
+        dataTest: "btn-add-calculated-summary",
+        icon: IconSummary,
+        text: "Calculated summary",
+      },
+    ];
+  }
+
+  const folderStuff = useCallback(() => {
+    return (
+      <>
+        <div>Inside</div>
+        {buttons.extra.map(
+          ({ handleClick, disabled, dataTest, icon, text }) => (
+            <AddMenuButton
+              key={dataTest}
+              data-test={dataTest}
+              disabled={disabled}
+              onClick={handleClick}
+            >
+              <StyledIconText icon={icon}>{text}</StyledIconText>
+            </AddMenuButton>
+          )
+        )}
+        <div>Outside</div>
+      </>
+    );
+  }, [entityName]);
+
   return (
     <React.Profiler id="test" onRender={onRenderCB}>
       <div {...otherProps}>
@@ -161,51 +251,19 @@ const AddMenu = (props) => {
           layer={PopoutLayer}
         >
           <AddMenuWindow data-test="addmenu-window">
-            <AddMenuButton
-              primary
-              onClick={onAddQuestionPage}
-              data-test="btn-add-question-page"
-              disabled={!canAddQuestionPage}
-            >
-              <StyledIconText icon={IconQuestion}>Question</StyledIconText>
-            </AddMenuButton>
-            <AddMenuButton
-              primary
-              onClick={onAddSection}
-              data-test="btn-add-section"
-            >
-              <StyledIconText icon={IconSection}>Section</StyledIconText>
-            </AddMenuButton>
-            <AddMenuButton
-              primary
-              data-test="btn-add-folder"
-              onClick={onAddFolder}
-              disabled={!canAddFolder}
-            >
-              <StyledIconText icon={IconFolder} data-hook="icon-folder">
-                Folder
-              </StyledIconText>
-            </AddMenuButton>
-            <AddMenuButton
-              primary
-              data-test="btn-add-question-confirmation"
-              onClick={onAddQuestionConfirmation}
-              disabled={!canAddQuestionConfirmation}
-            >
-              <StyledIconText icon={IconConfirmation}>
-                Confirmation question
-              </StyledIconText>
-            </AddMenuButton>
-            <AddMenuButton
-              primary
-              onClick={onAddCalculatedSummaryPage}
-              data-test="btn-add-calculated-summary"
-              disabled={!canAddCalculatedSummaryPage}
-            >
-              <StyledIconText icon={IconSummary}>
-                Calculated summary
-              </StyledIconText>
-            </AddMenuButton>
+            {isFolder && folderStuff()}
+            {buttons.default.map(
+              ({ handleClick, disabled, dataTest, icon, text }) => (
+                <AddMenuButton
+                  key={dataTest}
+                  data-test={dataTest}
+                  disabled={disabled}
+                  onClick={handleClick}
+                >
+                  <StyledIconText icon={icon}>{text}</StyledIconText>
+                </AddMenuButton>
+              )
+            )}
           </AddMenuWindow>
         </Popout>
       </div>
