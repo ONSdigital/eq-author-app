@@ -1,83 +1,81 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 import AddMenu from "./AddMenu";
 
-// TODO
-// Convert these to rtl
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(() => ({ entityType: "section" })),
+}));
+
+const defaultProps = {
+  addMenuOpen: true,
+  canAddQuestionConfirmation: true,
+  canAddCalculatedSummaryPage: true,
+  canAddQuestionPage: true,
+  onAddMenuToggle: jest.fn(),
+  onAddQuestionPage: jest.fn(),
+  onAddSection: jest.fn(),
+  onAddQuestionConfirmation: jest.fn(),
+  onAddCalculatedSummaryPage: jest.fn(),
+  onAddFolder: jest.fn(),
+  canAddFolder: true,
+};
+
+const defaultSetup = (newProps = {}) => {
+  const props = { ...defaultProps, ...newProps };
+
+  const utils = render(<AddMenu {...props} />);
+
+  return { ...utils, ...props };
+};
+
 describe("AddMenu", () => {
-  let mockHandlers = {
-    onAdd: jest.fn(),
-    onAddMenuToggle: jest.fn(),
-    onAddQuestionPage: jest.fn(),
-    onAddSection: jest.fn(),
-    onAddQuestionConfirmation: jest.fn(),
-    onAddCalculatedSummaryPage: jest.fn(),
-  };
-
-  const createWrapper = (props) => {
-    const defaultProps = {
-      addMenuOpen: true,
-      canAddQuestionConfirmation: true,
-      canAddCalculatedSummaryPage: true,
-      canAddQuestionPage: true,
-    };
-    return shallow(<AddMenu {...defaultProps} {...mockHandlers} {...props} />);
-  };
-
   it("should render", () => {
-    expect(createWrapper({ addMenuOpen: false })).toMatchSnapshot();
+    const { getByTestId, queryByTestId } = defaultSetup({
+      addMenuOpen: false,
+    });
+    expect(getByTestId("add-menu")).toBeVisible();
+    expect(queryByTestId("addmenu-window")).toBeNull();
   });
 
   it("should allow a page to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="btn-add-question-page"]').simulate("click");
-    expect(mockHandlers.onAddQuestionPage).toHaveBeenCalled();
-  });
-
-  it("should allow a section to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="btn-add-section"]').simulate("click");
-    expect(mockHandlers.onAddSection).toHaveBeenCalled();
-  });
-
-  it("should allow a question confirmation to be added", () => {
-    const wrapper = createWrapper();
-    wrapper
-      .find('[data-test="btn-add-question-confirmation"]')
-      .simulate("click");
-    expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
-  });
-
-  it("should allow a calculated summary to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="btn-add-calculated-summary"]').simulate("click");
-    expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalled();
-  });
-
-  it("should disable the question confirmation button when you cant add question confirmations", () => {
-    const wrapper = createWrapper({ canAddQuestionConfirmation: false });
-    expect(
-      wrapper.find('[data-test="btn-add-question-confirmation"]').props()
-    ).toMatchObject({
-      disabled: true,
-    });
+    const { getByTestId, onAddQuestionPage } = defaultSetup();
+    fireEvent.click(getByTestId("btn-add-question-page"));
+    expect(onAddQuestionPage).toHaveBeenCalled();
   });
 
   it("should disable the Add Question Page button when you cant add question pages", () => {
-    const wrapper = createWrapper({ canAddQuestionPage: false });
-    expect(
-      wrapper.find('[data-test="btn-add-question-page"]').props()
-    ).toMatchObject({
-      disabled: true,
-    });
+    const { getByTestId } = defaultSetup({ canAddQuestionPage: false });
+    expect(getByTestId("btn-add-question-page")).toBeDisabled();
+  });
+
+  it("should allow a section to be added", () => {
+    const { getByTestId, onAddSection } = defaultSetup();
+    fireEvent.click(getByTestId("btn-add-section"));
+    expect(onAddSection).toHaveBeenCalled();
+  });
+
+  it("should allow a question confirmation to be added", () => {
+    const { getByTestId, onAddQuestionConfirmation } = defaultSetup();
+    fireEvent.click(getByTestId("btn-add-question-confirmation"));
+    expect(onAddQuestionConfirmation).toHaveBeenCalled();
+  });
+
+  it("should disable the question confirmation button when you cant add question confirmations", () => {
+    const { getByTestId } = defaultSetup({ canAddQuestionConfirmation: false });
+    expect(getByTestId("btn-add-question-confirmation")).toBeDisabled();
+  });
+
+  it("should allow a calculated summary to be added", () => {
+    const { getByTestId, onAddCalculatedSummaryPage } = defaultSetup();
+    fireEvent.click(getByTestId("btn-add-calculated-summary"));
+    expect(onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
 
   it("should disable the Add Calculated Summary button when you cant add question calculated summaries", () => {
-    const wrapper = createWrapper({ canAddCalculatedSummaryPage: false });
-    expect(
-      wrapper.find('[data-test="btn-add-calculated-summary"]').props()
-    ).toMatchObject({
-      disabled: true,
+    const { getByTestId } = defaultSetup({
+      canAddCalculatedSummaryPage: false,
     });
+    expect(getByTestId("btn-add-calculated-summary")).toBeDisabled();
   });
 });
