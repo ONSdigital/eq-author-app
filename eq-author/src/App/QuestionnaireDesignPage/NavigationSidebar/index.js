@@ -193,7 +193,6 @@ const UnwrappedNavigationSidebar = ({
   };
 
   const buildFolderList = (folders) => {
-    console.log(folders, "whats");
     const components = folders.map(
       ({ id: folderId, enabled, alias, pages }) => {
         if (enabled) {
@@ -231,17 +230,12 @@ const UnwrappedNavigationSidebar = ({
           );
         }
         if (!enabled) {
-          console.log(
-            "am i in here",
-            pages.map((page) => buildPageList(page))
-          );
           return pages.map((page) => buildPageList(page));
         }
 
         return null;
       }
     );
-    console.log(components);
     return (
       <TransitionGroup key={`transition-group-section-items`} component={null}>
         {components.flat(2)}
