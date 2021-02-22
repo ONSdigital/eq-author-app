@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
@@ -110,9 +109,6 @@ const AddMenu = ({
   canAddFolder,
   ...otherProps
 }) => {
-  // Need this to determine if I'm on a folder page
-  const { entityType } = useParams();
-
   return (
     <div {...otherProps} data-test="add-menu">
       <Popout
