@@ -5,7 +5,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import NavigationSidebar from ".";
-import { isFolderTitle } from "./AddMenu";
+// import { isFolderTitle } from "./AddMenu";
 
 const props = {
   questionnaire: buildQuestionnaire({ folderCount: 2 }),
