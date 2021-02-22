@@ -42,7 +42,7 @@
     "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "moment": "latest",
     "mongodb": "^3.6.4",
     "node-fetch": "latest",
