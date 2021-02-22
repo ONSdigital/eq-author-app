@@ -94,7 +94,6 @@ const UnwrappedNavigationSidebar = ({
   },
   history,
 }) => {
-  console.log(questionnaire);
   const [openSections, toggleSections] = useState(true);
 
   const isCurrentPage = (navItemId, currentPageId) =>
@@ -121,7 +120,6 @@ const UnwrappedNavigationSidebar = ({
     pageType,
     validationErrorInfo,
   }) => {
-    console.log(pageId);
     const components = [];
     if (pageType === "QuestionPage") {
       components.push(
