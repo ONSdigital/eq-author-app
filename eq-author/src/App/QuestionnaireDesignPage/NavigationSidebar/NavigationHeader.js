@@ -7,7 +7,7 @@ import { colors } from "constants/theme";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
-import AddMenu from "./AddMenu";
+import AddMenu from "./AddMenu/AddMenu";
 
 const StyledAddMenu = styled(AddMenu)`
   width: 100%;
