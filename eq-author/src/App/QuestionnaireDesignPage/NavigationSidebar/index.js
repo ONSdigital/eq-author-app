@@ -234,6 +234,7 @@ const UnwrappedNavigationSidebar = ({
         return null;
       }
     );
+
     return (
       <TransitionGroup key={`transition-group-section-items`} component={null}>
         {components.flat(2)}
