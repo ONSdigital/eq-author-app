@@ -34,6 +34,17 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
+const ContentCategory = styled.div`
+  padding: 0.2em 0.8em;
+  padding-right: 0;
+  div {
+    padding: 0.2em 0.8em;
+    color: ${colors.orange};
+    font-weight: 600;
+    background-color: ${colors.black};
+  }
+`;
+
 export const isFolderTitle = (title, isInside = true) =>
   `${isInside ? "inside" : "outside"} ${title}`;
 
@@ -91,47 +102,53 @@ const AddMenu = ({
     },
   ];
 
+  const onRenderCB = (id, update, duration, actual) => {
+    console.log(id, update, duration, actual);
+  };
+
   return (
-    <div {...otherProps}>
-      <Popout
-        open={addMenuOpen}
-        trigger={MenuAddButton}
-        onToggleOpen={onAddMenuToggle}
-        horizontalAlignment="left"
-        verticalAlignment="top"
-        transition={PopupTransition}
-        container={PopoutContainer}
-        layer={PopoutLayer}
-      >
-        <AddMenuWindow data-test="addmenu-window">
-          {entityName === "folder" && (
-            <FolderAddSubMenu>
-              {[
-                {
-                  handleClick: onAddQuestionPage,
-                  disabled: !canAddQuestionPage,
-                  dataTest: "btn-add-question-page",
-                  icon: IconQuestion,
-                  text: "Question",
-                },
-                {
-                  handleClick: onAddCalculatedSummaryPage,
-                  disabled: !canAddCalculatedSummaryPage,
-                  dataTest: "btn-add-calculated-summary",
-                  icon: IconSummary,
-                  text: "Calculated summary",
-                },
-              ].map((item) => (
-                <MenuButton key={`${item.dataTest}-folder`} {...item} />
-              ))}
-            </FolderAddSubMenu>
-          )}
-          {defaultButtons.map((item) => (
-            <MenuButton key={item.dataTest} {...item} />
-          ))}
-        </AddMenuWindow>
-      </Popout>
-    </div>
+    <React.Profiler id="test" onRender={onRenderCB}>
+      <>
+        <Popout
+          open={addMenuOpen}
+          trigger={MenuAddButton}
+          onToggleOpen={onAddMenuToggle}
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          transition={PopupTransition}
+          container={PopoutContainer}
+          layer={PopoutLayer}
+        >
+          <AddMenuWindow data-test="addmenu-window">
+            {entityName === "folder" && (
+              <FolderAddSubMenu>
+                {[
+                  {
+                    handleClick: onAddQuestionPage,
+                    disabled: !canAddQuestionPage,
+                    dataTest: "btn-add-question-page",
+                    icon: IconQuestion,
+                    text: "Question",
+                  },
+                  {
+                    handleClick: onAddCalculatedSummaryPage,
+                    disabled: !canAddCalculatedSummaryPage,
+                    dataTest: "btn-add-calculated-summary",
+                    icon: IconSummary,
+                    text: "Calculated summary",
+                  },
+                ].map((item) => (
+                  <MenuButton key={`${item.dataTest}-folder`} {...item} />
+                ))}
+              </FolderAddSubMenu>
+            )}
+            {defaultButtons.map((item) => (
+              <MenuButton key={item.dataTest} {...item} />
+            ))}
+          </AddMenuWindow>
+        </Popout>
+      </>
+    </React.Profiler>
   );
 };
 
@@ -152,9 +169,13 @@ AddMenu.propTypes = {
 const FolderAddSubMenu = ({ children }) => {
   return (
     <>
-      <div>Inside</div>
+      <ContentCategory>
+        <div>Inside</div>
+      </ContentCategory>
       {children}
-      <div>Outside</div>
+      <ContentCategory>
+        <div>Outside</div>
+      </ContentCategory>
     </>
   );
 };
