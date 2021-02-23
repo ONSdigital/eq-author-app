@@ -11,7 +11,9 @@ import { radius, colors } from "constants/theme";
 const AddMenuButton = styled(Button).attrs({
   variant: "add-content-menu",
   medium: true,
-})``;
+})`
+  padding: 0.2em 0.8em;
+`;
 
 export const AddButton = styled(Button).attrs({
   variant: "nav-header",
