@@ -20,9 +20,10 @@ import QuestionnaireContext from "components/QuestionnaireContext";
 import MainNavigation from "./MainNavigation";
 import {
   SECTION,
+  FOLDER,
   PAGE,
   QUESTION_CONFIRMATION,
-  FOLDER,
+  INTRODUCTION,
 } from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
@@ -100,48 +101,52 @@ export const UnwrappedQuestionnaireDesignPage = ({
   error,
   location,
 }) => {
-  const canAddQuestionAndCalculatedSummmaryPages = () => {
-    const { entityName } = match.params;
+  const { entityName, entityId } = match.params;
 
-    return !loading && ["page", "section"].includes(entityName);
+  const canAddQuestionAndCalculatedSummmaryPages = () => {
+    return !loading && [PAGE, FOLDER, SECTION].includes(entityName);
   };
 
   const canAddQuestionConfirmation = () => {
-    const { entityName, entityId: pageId } = match.params;
-
-    if (loading || !questionnaire) {
+    if (loading || !questionnaire || entityName !== PAGE) {
       return false;
     }
 
-    if (entityName !== "page") {
-      return false;
-    }
+    const page = getPageById(questionnaire, entityId);
 
-    const page = getPageById(questionnaire, pageId);
-
-    if (!page || page.confirmation || page.pageType !== "QuestionPage") {
-      return false;
-    }
-
-    return true;
+    // TODO make this constant
+    return !page || page.confirmation || page.pageType !== "QuestionPage";
   };
 
   const canAddFolder = () => {
-    const { entityName } = match.params;
-
-    return !loading && !["introduction"].includes(entityName);
+    return !loading && ![INTRODUCTION].includes(entityName);
   };
 
-  const getTitle = () => (loading ? "" : questionnaire.title);
-
-  const handleAddPage = (pageType) => () => {
-    const { entityName, entityId } = match.params;
-
-    let sectionId, position, selectedPage, selectedSection, selectedFolder;
+  // section id
+  // position
+  // position
+  const handleAddPage = (pageType) => (inNout) => {
+    let sectionId,
+      folderId,
+      position,
+      selectedPage,
+      selectedSection,
+      selectedFolder;
 
     switch (entityName) {
       case SECTION:
         sectionId = entityId;
+        position = 0;
+        break;
+
+      case FOLDER:
+        // remove the page type stuff
+        // so we can have two separate functions that handle pages and calc
+        console.log(inNout, "wassup", pageType);
+        // this will be fine until I need to differentiate between inside and out
+        console.log(getFolderById(questionnaire, entityId), "what do i get");
+        sectionId = getSectionByFolderId(questionnaire, entityId).id;
+        folderId = entityId;
         position = 0;
         break;
 
@@ -176,7 +181,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
     }
 
     if (pageType === "QuestionPage") {
-      onAddQuestionPage(sectionId, position);
+      onAddQuestionPage(sectionId, position, folderId);
     } else {
       onAddCalculatedSummaryPage(sectionId, position);
     }
@@ -213,9 +218,9 @@ export const UnwrappedQuestionnaireDesignPage = ({
         );
     }
   };
+
   const handleAddQuestionConfirmation = () => {
-    const { entityId: pageId } = match.params;
-    onCreateQuestionConfirmation(pageId);
+    onCreateQuestionConfirmation(entityId);
   };
 
   const renderRedirect = () => {
@@ -279,7 +284,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
     <QuestionnaireContext.Provider value={{ questionnaire }}>
       <BaseLayout questionnaire={questionnaire}>
         <ScrollPane>
-          <Titled title={getTitle}>
+          <Titled title={() => (loading ? "" : questionnaire.title)}>
             <Grid>
               <QCodeContext.Provider
                 value={{ flattenedAnswers, duplicates, duplicateQCode }}
