@@ -6,8 +6,6 @@ const {
   getPageById,
   getSectionByPageId,
   getFolderById,
-  getFoldersBySectionId,
-  createFolder,
   createQuestionPage,
   getFolderByPageId,
 } = require("../utils");
