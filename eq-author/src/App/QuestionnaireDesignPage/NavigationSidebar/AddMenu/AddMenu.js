@@ -66,7 +66,7 @@ const AddMenu = ({
 
   let defaultButtons = [
     {
-      handleClick: onAddQuestionPage,
+      handleClick: () => onAddQuestionPage(),
       disabled: !canAddQuestionPage,
       dataTest: "btn-add-question-page",
       icon: IconQuestion,
@@ -124,7 +124,7 @@ const AddMenu = ({
               <FolderAddSubMenu>
                 {[
                   {
-                    handleClick: onAddQuestionPage,
+                    handleClick: () => onAddQuestionPage(true),
                     disabled: !canAddQuestionPage,
                     dataTest: "btn-add-question-page",
                     icon: IconQuestion,
@@ -137,13 +137,13 @@ const AddMenu = ({
                     icon: IconSummary,
                     text: "Calculated summary",
                   },
-                ].map((item) => (
-                  <MenuButton key={`${item.dataTest}-folder`} {...item} />
+                ].map((props) => (
+                  <MenuButton key={`${props.dataTest}-folder`} {...props} />
                 ))}
               </FolderAddSubMenu>
             )}
-            {defaultButtons.map((item) => (
-              <MenuButton key={item.dataTest} {...item} />
+            {defaultButtons.map((props) => (
+              <MenuButton key={props.dataTest} {...props} />
             ))}
           </AddMenuWindow>
         </Popout>
