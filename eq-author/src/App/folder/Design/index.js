@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useCreateFolder } from "hooks/useCreateFolder";
+import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 
 import PropTypes from "prop-types";
 
@@ -36,6 +38,9 @@ const StyledPanel = styled(Panel)`
 
 const FolderDesignPage = ({ match }) => {
   const { folderId } = match.params;
+
+  const [addFolder, addFolderAndPage] = useCreateFolder();
+  const [onAddQuestionPage] = useCreateQuestionPage();
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
@@ -74,7 +79,7 @@ const FolderDesignPage = ({ match }) => {
   }
 
   const {
-    folder: { id, alias },
+    folder: { id, alias, position, section },
   } = data;
 
   const shortCodeOnUpdate = (alias) => {
@@ -118,6 +123,16 @@ const FolderDesignPage = ({ match }) => {
           </p>
         </Guidance>
       </StyledPanel>
+      <button onClick={() => onAddQuestionPage({ folderId, position: 0 })}>
+        Inside
+      </button>
+      <button
+        onClick={() =>
+          addFolderAndPage({ sectionId: section.id, position: position + 1 })
+        }
+      >
+        Outside
+      </button>
     </EditorPage>
   );
 };

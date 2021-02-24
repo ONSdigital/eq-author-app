@@ -313,7 +313,7 @@ UnwrappedQuestionnaireDesignPage.propTypes = {
   location: PropTypes.object, // eslint-disable-line
   error: PropTypes.object, // eslint-disable-line
   validations: PropTypes.object, // eslint-disable-line
-  addFolder: PropTypes.func.isRequired,
+  onAddFolder: PropTypes.func.isRequired,
 };
 
 const withMutations = flowRight(
