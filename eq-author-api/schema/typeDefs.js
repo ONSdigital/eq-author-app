@@ -925,14 +925,14 @@ input UpdateReplyInput {
 }
 
 input CreateQuestionPageInput {
-  title: String!
+  title: String
   alias: String
   description: String
   descriptionEnabled: Boolean
   guidance: String
   guidanceEnabled: Boolean
-  sectionId: ID!
-  folderId: ID
+  sectionId: ID
+  folderId: ID!
   position: Int
   definitionLabel: String
   definitionContent: String
