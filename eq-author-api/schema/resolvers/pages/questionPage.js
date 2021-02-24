@@ -40,19 +40,9 @@ Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
       const page = createQuestionPage(pageInput);
-      const { folderId, sectionId } = pageInput;
-
-      if (folderId) {
-        const folder = getFolderById(ctx, folderId);
-        const insertPosition = position > -1 ? position : folder.pages.length;
-        folder.pages.splice(insertPosition, 0, page);
-      } else {
-        const folders = getFoldersBySectionId(ctx, sectionId);
-        const insertPosition = position > -1 ? position : folders.length;
-        const folder = createFolder({ pages: [page] });
-        folders.splice(insertPosition, 0, folder);
-      }
-
+      const { folderId } = pageInput;
+      const folder = getFolderById(ctx, folderId);
+      folder.pages.splice(position || folder.pages.length, 0, page);
       return page;
     }
   ),
