@@ -67,10 +67,10 @@ const MainNav = styled.div`
   background-color: ${colors.darkerBlack};
 `;
 
-export const getSections = questionnaire => questionnaire.sections;
-export const getFolders = questionnaire =>
+export const getSections = (questionnaire) => questionnaire.sections;
+export const getFolders = (questionnaire) =>
   flatMap(getSections(questionnaire), ({ folders }) => folders);
-export const getPages = questionnaire =>
+export const getPages = (questionnaire) =>
   flatMap(getFolders(questionnaire), ({ pages }) => pages);
 
 export const getFolderById = (questionnaire, folderId) =>
@@ -134,7 +134,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
 
   const getTitle = () => (loading ? "" : questionnaire.title);
 
-  const handleAddPage = pageType => () => {
+  const handleAddPage = (pageType) => () => {
     const { entityName, entityId } = match.params;
 
     let sectionId, position, selectedPage, selectedSection, selectedFolder;
@@ -354,8 +354,8 @@ const withMutations = flowRight(
   withCreateFolder
 );
 
-export const withQuestionnaire = Component => {
-  const WrappedComponent = props => (
+export const withQuestionnaire = (Component) => {
+  const WrappedComponent = (props) => (
     <Query
       query={QUESTIONNAIRE_QUERY}
       variables={{
@@ -366,7 +366,7 @@ export const withQuestionnaire = Component => {
       fetchPolicy="network-only"
       errorPolicy="all"
     >
-      {innerProps => (
+      {(innerProps) => (
         <Component
           {...innerProps}
           {...props}
@@ -388,8 +388,8 @@ export const withQuestionnaire = Component => {
   return WrappedComponent;
 };
 
-export const withAuthCheck = Component => {
-  const WrappedComponent = props => {
+export const withAuthCheck = (Component) => {
+  const WrappedComponent = (props) => {
     if (
       get(props, "error.networkError.bodyText") ===
       ERR_UNAUTHORIZED_QUESTIONNAIRE
@@ -505,13 +505,13 @@ export const VALIDATION_QUERY = gql`
   ${ValidationErrorInfo}
 `;
 
-export const withValidations = Component => {
-  const WrappedComponent = props => (
+export const withValidations = (Component) => {
+  const WrappedComponent = (props) => (
     <Subscription
       subscription={VALIDATION_QUERY}
       variables={{ id: props.match.params.questionnaireId }}
     >
-      {subscriptionProps => (
+      {(subscriptionProps) => (
         <Component
           {...props}
           validations={get(subscriptionProps, "data.validationUpdated")}
