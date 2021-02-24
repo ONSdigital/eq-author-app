@@ -33,26 +33,30 @@ export const UnwrappedNavigationHeader = ({
   const toggleAddContentMenu = () =>
     setAddContentMenuState(!addContentMenuState);
 
-  const handleAddQuestionPage = () => {
-    onAddQuestionPage();
+  const handleAddQuestionPage = (createInsideFolder = null) => {
+    onAddQuestionPage(createInsideFolder);
     toggleAddContentMenu();
   };
 
+  // TODO add cb to see if this helps renders?
   const handleAddSection = () => {
     onAddSection();
     toggleAddContentMenu();
   };
 
+  // TODO add cb to see if this helps renders?
   const handleAddQuestionConfirmation = () => {
     onAddQuestionConfirmation();
     toggleAddContentMenu();
   };
 
+  // TODO add cb to see if this helps renders?
   const handleAddCalculatedSummaryPage = () => {
     onAddCalculatedSummaryPage();
     toggleAddContentMenu();
   };
 
+  // TODO add cb to see if this helps renders?
   const handleAddFolder = () => {
     onAddFolder();
     toggleAddContentMenu();

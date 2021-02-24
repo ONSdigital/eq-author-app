@@ -46,7 +46,8 @@ import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
 import folderRoutes from "App/folder";
 
-import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
+import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import { useCreateFolder } from "hooks/useCreateFolder";
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
 import withCreateFolder from "enhancers/withCreateFolder";
@@ -91,8 +92,6 @@ export const getPageByConfirmationId = (questionnaire, id) =>
 
 export const UnwrappedQuestionnaireDesignPage = ({
   onAddSection,
-  onAddFolder,
-  onAddQuestionPage,
   onAddCalculatedSummaryPage,
   onCreateQuestionConfirmation,
   match,
@@ -101,6 +100,9 @@ export const UnwrappedQuestionnaireDesignPage = ({
   error,
   location,
 }) => {
+  const [onAddQuestionPage] = useCreateQuestionPage();
+  const [addFolder, addFolderAndPage] = useCreateFolder();
+
   const { entityName, entityId } = match.params;
 
   const canAddQuestionAndCalculatedSummmaryPages = () => {
@@ -122,95 +124,58 @@ export const UnwrappedQuestionnaireDesignPage = ({
     return !loading && ![INTRODUCTION].includes(entityName);
   };
 
-  // section id
-  // position
-  // position
-  const handleAddPage = (pageType) => (inNout) => {
-    let sectionId,
-      folderId,
-      position,
-      selectedPage,
-      selectedSection,
-      selectedFolder;
-
+  const handleAddPage = (createInsideFolder) => {
     switch (entityName) {
       case SECTION:
-        sectionId = entityId;
-        position = 0;
-        break;
-
-      case FOLDER:
-        // remove the page type stuff
-        // so we can have two separate functions that handle pages and calc
-        console.log(inNout, "wassup", pageType);
-        // this will be fine until I need to differentiate between inside and out
-        console.log(getFolderById(questionnaire, entityId), "what do i get");
-        sectionId = getSectionByFolderId(questionnaire, entityId).id;
-        folderId = entityId;
-        position = 0;
-        break;
-
-      case QUESTION_CONFIRMATION:
+        return addFolderAndPage({
+          sectionId: entityId,
+          position: 0,
+        });
       case PAGE:
-        for (const section of questionnaire.sections) {
-          for (const folder of section.folders) {
-            for (const page of folder.pages) {
-              const comparatorID =
-                entityName === QUESTION_CONFIRMATION
-                  ? page.confirmation.id
-                  : page.id;
-              if (comparatorID === entityId) {
-                selectedPage = page;
-                selectedSection = section;
-                selectedFolder = folder;
-                break;
-              }
-            }
-          }
+        return addFolderAndPage({
+          sectionId: getSectionByPageId(questionnaire, entityId).id,
+          position: getFolderByPageId(questionnaire, entityId).position + 1,
+        });
+      case FOLDER:
+        if (createInsideFolder) {
+          return onAddQuestionPage({
+            folderId: entityId,
+            position: 0,
+          });
         }
-
-        if (selectedPage) {
-          sectionId = selectedSection.id;
-          position = selectedSection.folders.indexOf(selectedFolder) + 1;
-        }
-
-        break;
-
+        return addFolderAndPage({
+          sectionId: getSectionByFolderId(questionnaire, entityId).id,
+          position: getFolderById(questionnaire, entityId).position + 1,
+        });
       default:
-        throw new Error("Unrecognised entity name.");
-    }
-
-    if (pageType === "QuestionPage") {
-      onAddQuestionPage(sectionId, position, folderId);
-    } else {
-      onAddCalculatedSummaryPage(sectionId, position);
+        break;
     }
   };
 
-  const handleAddFolder = () => () => {
+  const handleAddFolder = () => {
     const { entityName, entityId } = match.params;
 
     let position, sectionId, page;
 
     switch (entityName) {
       case SECTION:
-        onAddFolder(entityId, 0);
+        addFolder({ sectionId: entityId, position: 0, enabled: true });
         break;
       case FOLDER:
         ({ position } = getFolderById(questionnaire, entityId));
         ({ id: sectionId } = getSectionByFolderId(questionnaire, entityId));
-        onAddFolder(sectionId, position + 1);
+        addFolder({ sectionId, position: position + 1, enabled: true });
         break;
       case PAGE:
         ({ position } = getFolderByPageId(questionnaire, entityId));
         ({ id: sectionId } = getSectionByPageId(questionnaire, entityId));
-        onAddFolder(sectionId, position + 1);
+        addFolder({ sectionId, position: position + 1, enabled: true });
         break;
       case QUESTION_CONFIRMATION:
         page = getPageByConfirmationId(questionnaire, entityId);
         ({ position } = getFolderByPageId(questionnaire, page.id));
         ({ id: sectionId } = getSectionByPageId(questionnaire, page.id));
-        onAddFolder(sectionId, position + 1);
+        addFolder({ sectionId, position: position + 1, enabled: true });
         break;
       default:
         throw new Error(
@@ -296,17 +261,17 @@ export const UnwrappedQuestionnaireDesignPage = ({
                   <NavigationSidebar
                     data-test="side-nav"
                     onAddSection={onAddSection}
-                    onAddQuestionPage={handleAddPage("QuestionPage")}
+                    onAddQuestionPage={handleAddPage}
                     canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
+                    // onAddCalculatedSummaryPage={handleAddPage(
+                    //   "CalculatedSummaryPage"
+                    // )}
                     canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
                     questionnaire={questionnaire}
                     canAddQuestionConfirmation={canAddQuestionConfirmation()}
                     onAddQuestionConfirmation={handleAddQuestionConfirmation}
                     canAddFolder={canAddFolder()}
-                    onAddFolder={handleAddFolder()}
+                    onAddFolder={handleAddFolder}
                   />
                 </NavColumn>
                 <Column cols={9} gutters={false}>
@@ -348,12 +313,12 @@ UnwrappedQuestionnaireDesignPage.propTypes = {
   location: PropTypes.object, // eslint-disable-line
   error: PropTypes.object, // eslint-disable-line
   validations: PropTypes.object, // eslint-disable-line
-  onAddFolder: PropTypes.func.isRequired,
+  addFolder: PropTypes.func.isRequired,
 };
 
 const withMutations = flowRight(
   withCreateSection,
-  withCreateQuestionPage,
+  // withCreateQuestionPage,
   withCreateQuestionConfirmation,
   withCreateCalculatedSummaryPage,
   withCreateFolder
