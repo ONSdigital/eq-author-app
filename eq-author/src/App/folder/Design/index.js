@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useCreateFolder } from "hooks/useCreateFolder";
+import { useCreatePageWithFolder } from "hooks/useCreateFolder";
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 
 import PropTypes from "prop-types";
@@ -14,6 +14,10 @@ import Panel from "components/Panel";
 import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
+import Button from "components/buttons/Button";
+import IconText from "components/IconText";
+
+import AddPage from "assets/icon-add-page.svg?inline";
 
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
@@ -39,8 +43,8 @@ const StyledPanel = styled(Panel)`
 const FolderDesignPage = ({ match }) => {
   const { folderId } = match.params;
 
-  const [addFolder, addFolderAndPage] = useCreateFolder();
-  const [onAddQuestionPage] = useCreateQuestionPage();
+  const addPageWithFolder = useCreatePageWithFolder();
+  const onAddQuestionPage = useCreateQuestionPage();
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
@@ -123,16 +127,24 @@ const FolderDesignPage = ({ match }) => {
           </p>
         </Guidance>
       </StyledPanel>
-      <button onClick={() => onAddQuestionPage({ folderId, position: 0 })}>
-        Inside
-      </button>
-      <button
-        onClick={() =>
-          addFolderAndPage({ sectionId: section.id, position: position + 1 })
-        }
+      <Button
+        variant="tertiary"
+        small
+        onClick={() => onAddQuestionPage({ folderId, position: 0 })}
+        data-test="btn-add-page"
       >
-        Outside
-      </button>
+        <IconText icon={AddPage}>Add question inside folder</IconText>
+      </Button>
+      <Button
+        variant="tertiary"
+        small
+        onClick={() =>
+          addPageWithFolder({ sectionId: section.id, position: position + 1 })
+        }
+        data-test="btn-add-page"
+      >
+        <IconText icon={AddPage}>Add question outside folder</IconText>
+      </Button>
     </EditorPage>
   );
 };
