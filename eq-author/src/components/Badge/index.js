@@ -38,14 +38,14 @@ export const smallBadge = css`
 
 export const mediumBadge = css`
   border-radius: 0.7em;
-  color: white;
   line-height: 1;
   margin-left: auto;
   font-size: 0.9rem;
 `;
 
 const Badge = styled.span`
-  background-color: ${colors.red};
+  background-color: ${colors.red} !important;
+  color: ${colors.white} !important;
   font-weight: normal;
   z-index: 2;
   pointer-events: none;
