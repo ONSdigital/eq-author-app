@@ -1,17 +1,11 @@
 import { useParams, useHistory } from "react-router-dom";
 import { buildFolderPath, buildPagePath } from "utils/UrlUtils";
 
-export const useRedirectToPage = () => {
+const useRedirect = (buildPath) => {
   const history = useHistory();
   const { questionnaireId } = useParams();
-
-  return (pageId) => history.push(buildPagePath({ questionnaireId, pageId }));
+  return (target) => history.push(buildPath({ questionnaireId, ...target }));
 };
 
-export const useRedirectToFolder = () => {
-  const history = useHistory();
-  const { questionnaireId } = useParams();
-
-  return (folderId) =>
-    history.push(buildFolderPath({ questionnaireId, folderId }));
-};
+export const useRedirectToPage = () => useRedirect(buildPagePath);
+export const useRedirectToFolder = () => useRedirect(buildFolderPath);

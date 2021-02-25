@@ -11,6 +11,6 @@ export const useCreateQuestionPage = () => {
     onAddQuestionPage({
       variables: { input },
     }).then(({ data: { createQuestionPage } }) =>
-      redirectToPage(createQuestionPage.id)
+      redirectToPage({ pageId: createQuestionPage.id })
     );
 };

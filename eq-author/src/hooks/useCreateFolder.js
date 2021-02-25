@@ -15,12 +15,16 @@ export const useCreateFolder = () => {
   const redirectToFolder = useRedirectToFolder();
   const createFolder = useCreateFolderMutation();
   return (input) =>
-    createFolder(input, (newFolder) => redirectToFolder(newFolder.id));
+    createFolder(input, (newFolder) =>
+      redirectToFolder({ folderId: newFolder.id })
+    );
 };
 
 export const useCreatePageWithFolder = () => {
   const redirectToPage = useRedirectToPage();
   const createFolder = useCreateFolderMutation();
   return (input) =>
-    createFolder(input, (newFolder) => redirectToPage(newFolder.pages[0].id));
+    createFolder(input, (newFolder) =>
+      redirectToPage({ pageId: newFolder.pages[0].id })
+    );
 };
