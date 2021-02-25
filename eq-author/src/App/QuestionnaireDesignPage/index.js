@@ -1,38 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import styled from "styled-components";
 import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flowRight, flatMap, some } from "lodash";
-import {
-  organiseAnswers,
-  flattenAnswers,
-  duplicatesAnswers,
-} from "utils/getAllAnswersFlatMap";
 
-import { colors } from "constants/theme";
-import styled from "styled-components";
-import { Grid, Column } from "components/Grid";
-import BaseLayout from "components/BaseLayout";
-import QuestionnaireContext from "components/QuestionnaireContext";
-import MainNavigation from "./MainNavigation";
-import {
-  SECTION,
-  FOLDER,
-  PAGE,
-  QUESTION_CONFIRMATION,
-  INTRODUCTION,
-} from "constants/entities";
-import {
-  ERR_PAGE_NOT_FOUND,
-  ERR_UNAUTHORIZED_QUESTIONNAIRE,
-} from "constants/error-codes";
-
-import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
-import ScrollPane from "components/ScrollPane";
-import Loading from "components/Loading";
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
@@ -46,17 +21,47 @@ import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
 import folderRoutes from "App/folder";
 
+import {
+  useCreateFolder,
+  useCreatePageWithFolder,
+} from "hooks/useCreateFolder";
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
-import { useCreateFolder } from "hooks/useCreateFolder";
+
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
-import withCreateFolder from "enhancers/withCreateFolder";
-import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
-import QUESTIONNAIRE_QUERY from "./getQuestionnaireQuery.graphql";
-
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
+
+import MainNavigation from "./MainNavigation";
 import NavigationSidebar from "./NavigationSidebar";
 import { QCodeContext } from "components/QCodeContext";
+import { Grid, Column } from "components/Grid";
+import BaseLayout from "components/BaseLayout";
+import QuestionnaireContext from "components/QuestionnaireContext";
+import ScrollPane from "components/ScrollPane";
+import Loading from "components/Loading";
+
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
+import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
+
+import QUESTIONNAIRE_QUERY from "./getQuestionnaireQuery.graphql";
+import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
+
+import { colors } from "constants/theme";
+import {
+  SECTION,
+  FOLDER,
+  PAGE,
+  QUESTION_CONFIRMATION,
+  INTRODUCTION,
+} from "constants/entities";
+import {
+  ERR_PAGE_NOT_FOUND,
+  ERR_UNAUTHORIZED_QUESTIONNAIRE,
+} from "constants/error-codes";
 
 const NavColumn = styled(Column)`
   background-color: ${colors.darkerBlack};
@@ -100,8 +105,12 @@ export const UnwrappedQuestionnaireDesignPage = ({
   error,
   location,
 }) => {
-  const [onAddQuestionPage] = useCreateQuestionPage();
-  const [addFolder, addFolderAndPage] = useCreateFolder();
+  // TODO make sure calculated summary works
+  // Make sure that the conf q works too
+  // Fix animation when adding a question inside folder
+  const onAddQuestionPage = useCreateQuestionPage();
+  const addFolder = useCreateFolder();
+  const addFolderWithPage = useCreatePageWithFolder();
 
   const { entityName, entityId } = match.params;
 
@@ -127,14 +136,14 @@ export const UnwrappedQuestionnaireDesignPage = ({
   const handleAddPage = (createInsideFolder) => {
     switch (entityName) {
       case SECTION:
-        return addFolderAndPage({
+        return addFolderWithPage({
           sectionId: entityId,
           position: 0,
         });
       case PAGE:
-        return addFolderAndPage({
-          sectionId: getSectionByPageId(questionnaire, entityId).id,
-          position: getFolderByPageId(questionnaire, entityId).position + 1,
+        return onAddQuestionPage({
+          folderId: getFolderByPageId(questionnaire, entityId).id,
+          position: getPageById(questionnaire, entityId).position + 1,
         });
       case FOLDER:
         if (createInsideFolder) {
@@ -143,7 +152,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
             position: 0,
           });
         }
-        return addFolderAndPage({
+        return addFolderWithPage({
           sectionId: getSectionByFolderId(questionnaire, entityId).id,
           position: getFolderById(questionnaire, entityId).position + 1,
         });
@@ -263,6 +272,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
                     onAddSection={onAddSection}
                     onAddQuestionPage={handleAddPage}
                     canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
+                    // TODO don't forget this
                     // onAddCalculatedSummaryPage={handleAddPage(
                     //   "CalculatedSummaryPage"
                     // )}
@@ -303,7 +313,6 @@ export const UnwrappedQuestionnaireDesignPage = ({
 };
 
 UnwrappedQuestionnaireDesignPage.propTypes = {
-  onAddQuestionPage: PropTypes.func.isRequired,
   onAddCalculatedSummaryPage: PropTypes.func.isRequired,
   onCreateQuestionConfirmation: PropTypes.func.isRequired,
   onAddSection: PropTypes.func.isRequired,
@@ -313,15 +322,12 @@ UnwrappedQuestionnaireDesignPage.propTypes = {
   location: PropTypes.object, // eslint-disable-line
   error: PropTypes.object, // eslint-disable-line
   validations: PropTypes.object, // eslint-disable-line
-  onAddFolder: PropTypes.func.isRequired,
 };
 
 const withMutations = flowRight(
   withCreateSection,
-  // withCreateQuestionPage,
   withCreateQuestionConfirmation,
-  withCreateCalculatedSummaryPage,
-  withCreateFolder
+  withCreateCalculatedSummaryPage
 );
 
 export const withQuestionnaire = (Component) => {
