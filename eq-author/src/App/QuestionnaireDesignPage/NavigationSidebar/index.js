@@ -60,8 +60,7 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
 })`
-  margin-bottom: 0.5em;
-  margin-left: 2em;
+  margin: 0 0 0.5em 2em;
   border: 1px solid white;
   padding: 0.5em;
   align-self: baseline;
