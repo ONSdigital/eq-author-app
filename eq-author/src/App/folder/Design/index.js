@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
@@ -12,9 +12,19 @@ import Panel from "components/Panel";
 import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import withDeleteFolder from "./withDeleteFolder";
+import { buildFolderPath, buildSectionPath } from "utils/UrlUtils";
+import onCompleteDelete from "./onCompleteDelete";
+// import getNextFolder from "utils/getNextOnDelete";
+import getNextSection from "utils/getNextOnDelete";
 
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
+
+// import questionConfirmationIcon from "./icon-questionnaire.svg";
+import IconFolder from "assets/icon-folder.svg?inline";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -34,14 +44,26 @@ const StyledPanel = styled(Panel)`
   }
 `;
 
-const FolderDesignPage = ({ match }) => {
-  const { folderId } = match.params;
+const FolderDesignPage = ({ match, history }) => {
+  const { folderId, questionnaireId } = match.params;
+
+  // console.log("match1", match);
+  // console.log("history1", history);
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
+  console.log("data ,,,,,", data);
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+
+  const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
+    // onCompleted: onCompleteDelete,
+    onCompleted: (data) => {
+      onCompleteDelete(data, history, folderId, questionnaireId);
+    },
+  });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   if (loading) {
     return (
@@ -83,6 +105,22 @@ const FolderDesignPage = ({ match }) => {
     });
   };
 
+  const handleDeleteFolder = (e) => {
+    e.stopPropagation();
+    setShowDeleteModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleModalConfirm = () => {
+    setShowDeleteModal(false);
+    return deleteFolder({
+      variables: { input: { id } },
+    });
+  };
+
   return (
     <EditorPage title={alias || "Untitled folder"}>
       <StyledPanel data-test="folders-page">
@@ -91,10 +129,13 @@ const FolderDesignPage = ({ match }) => {
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
           onDuplicate={() => alert("onDuplicate")}
-          onDelete={() => alert("onDelete")}
+          onDelete={handleDeleteFolder}
           disableMove
           disableDuplicate
-          disableDelete
+          showDeleteModal={showDeleteModal}
+          handleModalClose={handleModalClose}
+          handleModalConfirm={handleModalConfirm}
+          // disableDelete
           key={`toolbar-folder-${folderId}`}
         />
         <h2>Folders</h2>
@@ -124,6 +165,7 @@ const FolderDesignPage = ({ match }) => {
 
 FolderDesignPage.propTypes = {
   match: PropTypes.object.isRequired, // eslint-disable-line
+  // onDeleteFolder: PropTypes.func.isRequired,
 };
 
 export default FolderDesignPage;

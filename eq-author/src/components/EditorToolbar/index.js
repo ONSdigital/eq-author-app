@@ -10,6 +10,8 @@ import DuplicateButton from "components/buttons/DuplicateButton";
 import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
 
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+
 const EditorToolbar = ({
   shortCode,
   shortCodeOnUpdate,
@@ -19,15 +21,30 @@ const EditorToolbar = ({
   disableMove,
   disableDuplicate,
   disableDelete,
+  showDeleteModal,
+  handleModalClose,
+  handleModalConfirm,
 }) => (
-  <Toolbar>
-    <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
-    <Buttons>
-      <MoveButton disabled={disableMove} onClick={onMove} />
-      <DuplicateButton disabled={disableDuplicate} onClick={onDuplicate} />
-      <DeleteButton disabled={disableDelete} onClick={onDelete} />
-    </Buttons>
-  </Toolbar>
+  <>
+    <Toolbar>
+      <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
+      <Buttons>
+        <MoveButton disabled={disableMove} onClick={onMove} />
+        <DuplicateButton disabled={disableDuplicate} onClick={onDuplicate} />
+        <DeleteButton disabled={disableDelete} onClick={onDelete} />
+      </Buttons>
+    </Toolbar>
+
+    <DeleteConfirmDialog
+      isOpen={showDeleteModal}
+      onClose={handleModalClose}
+      onDelete={handleModalConfirm}
+      // title={displayName}
+      alertText="All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.."
+      // icon={IconFolder}
+      data-test="delete-questionnaire"
+    />
+  </>
 );
 
 EditorToolbar.propTypes = {
@@ -39,6 +56,9 @@ EditorToolbar.propTypes = {
   disableMove: PropTypes.bool,
   disableDelete: PropTypes.bool,
   disableDuplicate: PropTypes.bool,
+  handleModalConfirm: PropTypes.func.isRequired,
+  handleModalClose: PropTypes.func.isRequired,
+  showDeleteModal: PropTypes.bool.isRequired,
 };
 
 export default EditorToolbar;

@@ -81,6 +81,7 @@ export class UnwrappedSectionRoute extends React.Component {
     const {
       params: { sectionId },
     } = match;
+    console.log("onDeleteSection", onDeleteSection);
 
     this.handleCloseDeleteConfirmDialog(() => onDeleteSection(sectionId));
   };

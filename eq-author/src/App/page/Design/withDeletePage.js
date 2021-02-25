@@ -36,11 +36,19 @@ const handleDeletion = (
 
 export const mapMutateToProps = (props) => ({
   onDeletePage(page) {
+    console.log("delete page props:::", props);
+
     const { ownProps, mutate } = props;
     const { client } = ownProps;
     const cachedSection = getCachedSection(client, page.section.id);
+    console.log("cachedSection", cachedSection);
+
     const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
+    console.log("cachedPages", cachedPages);
+
     const nextPage = getNextPage(cachedPages, page.id);
+    console.log("nextPage", nextPage);
+
     const mutation = mutate({
       variables: { input: { id: page.id } },
       refetchQueries: [

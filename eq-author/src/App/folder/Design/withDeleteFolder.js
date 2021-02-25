@@ -3,7 +3,7 @@ import { find, flowRight } from "lodash";
 import gql from "graphql-tag";
 import { withShowToast } from "components/Toasts";
 
-import deleteSectionMutation from "graphql/deleteSection.graphql";
+import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 import getNextSection from "utils/getNextOnDelete";
 import { buildSectionPath } from "utils/UrlUtils";
@@ -31,15 +31,15 @@ export const handleDeletion = (
   { data },
   oldQuestionnaire
 ) => {
+  console.log("data", data);
+  console.log("oldQuestionnaire", oldQuestionnaire);
+  console.log("history", history);
+
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
-  console.log("oldQuestionnaire", oldQuestionnaire);
-  console.log("nextSection", nextSection);
-
   const newSectionCreated = oldQuestionnaire.sections.length === 1;
-  console.log("newSectionCreated", newSectionCreated);
 
   history.push(
     buildSectionPath({
@@ -73,12 +73,12 @@ export const displayToast = (ownProps, questionnaire) => {
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
-  onDeleteSection(sectionId) {
+  onDeleteFolder(folderId) {
     const {
       match: { params },
       client,
     } = ownProps;
-    const section = { id: sectionId };
+    const folder = { id: folderId };
 
     const questionnaire = client.readFragment({
       id: `Questionnaire${params.questionnaireId}`,
@@ -86,7 +86,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     });
 
     const options = {
-      variables: { input: section },
+      variables: { input: folder },
     };
 
     if (questionnaire.sections.length === 1) {
@@ -104,7 +104,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
 export default flowRight(
   withShowToast,
-  graphql(deleteSectionMutation, {
+  graphql(DELETE_FOLDER_MUTATION, {
     props: mapMutateToProps,
   })
 );
