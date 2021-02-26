@@ -9,6 +9,14 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
+const Title = styled(Truncated)`
+  color: ${colors.white};
+  flex: 0 1 75%;
+  margin-right: 0.5em;
+  text-align: left;
+  text-decoration: none;
+`;
+
 const Button = styled.button`
   display: flex;
   align-items: center;
@@ -53,14 +61,6 @@ const Button = styled.button`
       fill: ${colors.white};
     }
   }
-`;
-
-const Title = styled(Truncated)`
-  color: ${colors.white};
-  flex: 0 1 75%;
-  margin-right: 0.5em;
-  text-align: left;
-  text-decoration: none;
 `;
 
 const NavItem = ({

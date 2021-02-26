@@ -18,6 +18,14 @@ const Header = styled.div`
   align-items: center;
 `;
 
+const Title = styled(Truncated)`
+  color: ${colors.white};
+  flex: 0 1 75%;
+  margin-right: 0.5em;
+  text-align: left;
+  text-decoration: none;
+`;
+
 const Button = styled.button`
   align-items: center;
   background-color: transparent;
@@ -79,14 +87,6 @@ const Button = styled.button`
     }
     width: 32px;
   }
-`;
-
-const Title = styled(Truncated)`
-  color: ${colors.white};
-  flex: 0 1 75%;
-  margin-right: 0.5em;
-  text-align: left;
-  text-decoration: none;
 `;
 
 const ToggleCollapsibleNavItemButton = styled.button`
