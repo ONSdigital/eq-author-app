@@ -24,6 +24,7 @@ const Title = styled(Truncated)`
   margin-right: 0.5em;
   text-align: left;
   text-decoration: none;
+  font-weight: bold;
 `;
 
 const Button = styled.button`

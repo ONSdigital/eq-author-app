@@ -75,6 +75,11 @@ const OpenAllSectionsBtn = styled(Button).attrs({
 const IntroductionListItem = styled.li`
   padding-left: 2em;
   margin-bottom: 0.5em;
+  margin-top: 2px;
+
+  span {
+    font-weight: bold;
+  }
 `;
 
 const UnwrappedNavigationSidebar = ({
