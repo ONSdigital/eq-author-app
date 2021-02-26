@@ -47,10 +47,6 @@ const StyledAddMenu = styled(AddMenu)`
   width: 100%;
 `;
 
-const QuestionnaireContent = styled.div`
-  border-bottom: solid 1px ${colors.darkGrey};
-`;
-
 export const UnwrappedNavigationHeader = ({
   onAddSection,
   onCreateQuestionConfirmation,
@@ -211,24 +207,21 @@ export const UnwrappedNavigationHeader = ({
   };
 
   return (
-    <>
-      <QuestionnaireContent>
-        <StyledAddMenu
-          data-test="add-menu"
-          addMenuOpen={addContentMenuState}
-          onAddMenuToggle={toggleAddContentMenu}
-          onAddQuestionPage={handleAddQuestionPage}
-          canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
-          onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
-          canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
-          onAddSection={handleAddSection}
-          onAddQuestionConfirmation={handleAddQuestionConfirmation}
-          canAddQuestionConfirmation={canAddQuestionConfirmation()}
-          onAddFolder={handleAddFolder}
-          canAddFolder={![INTRODUCTION].includes(entityName)}
-        />
-      </QuestionnaireContent>
-    </>
+    <StyledAddMenu
+      data-test="add-menu"
+      addMenuOpen={addContentMenuState}
+      onAddMenuToggle={toggleAddContentMenu}
+      onAddQuestionPage={handleAddQuestionPage}
+      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
+      onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
+      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
+      onAddSection={handleAddSection}
+      onAddQuestionConfirmation={handleAddQuestionConfirmation}
+      canAddQuestionConfirmation={canAddQuestionConfirmation()}
+      onAddFolder={handleAddFolder}
+      canAddFolder={![INTRODUCTION].includes(entityName)}
+      isFolder={entityName === FOLDER}
+    />
   );
 };
 
