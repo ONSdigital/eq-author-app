@@ -3,23 +3,23 @@ import createQuestionPageMutation from "graphql/createQuestionPage.graphql";
 import { buildPagePath } from "utils/UrlUtils";
 import { get, tap } from "lodash/fp";
 
+// TODO need to axe this
 export const redirectToNewPage = ({ history, match: { params } }) => (page) => {
-  const { id, section } = page;
+  const { id } = page;
   history.push(
     buildPagePath({
       questionnaireId: params.questionnaireId,
-      sectionId: section.id,
       pageId: id,
     })
   );
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
-  onAddQuestionPage(sectionId, position) {
+  onAddQuestionPage(folderId, position) {
     const page = {
       title: "",
       description: "",
-      sectionId,
+      folderId,
       position,
     };
 
