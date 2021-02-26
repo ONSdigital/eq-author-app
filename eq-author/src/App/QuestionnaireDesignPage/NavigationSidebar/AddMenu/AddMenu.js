@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Popout, { Container, Layer } from "components/Popout";
@@ -60,10 +59,8 @@ const AddMenu = ({
   canAddQuestionConfirmation,
   onAddFolder,
   canAddFolder,
-  ...otherProps
+  isFolder,
 }) => {
-  const { entityName } = useParams();
-
   let defaultButtons = [
     {
       handleClick: () => onAddQuestionPage(),
@@ -120,7 +117,7 @@ const AddMenu = ({
           layer={PopoutLayer}
         >
           <AddMenuWindow data-test="addmenu-window">
-            {entityName === "folder" && (
+            {isFolder && (
               <FolderAddSubMenu>
                 {[
                   {
@@ -164,6 +161,7 @@ AddMenu.propTypes = {
   addMenuOpen: PropTypes.bool.isRequired,
   onAddFolder: PropTypes.func.isRequired,
   canAddFolder: PropTypes.bool.isRequired,
+  isFolder: PropTypes.bool.isRequired,
 };
 
 const FolderAddSubMenu = ({ children }) => {
