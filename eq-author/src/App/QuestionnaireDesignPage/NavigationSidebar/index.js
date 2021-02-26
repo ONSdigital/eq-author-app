@@ -121,6 +121,7 @@ const UnwrappedNavigationSidebar = ({
     validationErrorInfo,
   }) => {
     const components = [];
+    // TODO make this a constant
     if (pageType === "QuestionPage") {
       components.push(
         <NavItemTransition key={`transition-page-${pageId}`}>
@@ -142,6 +143,7 @@ const UnwrappedNavigationSidebar = ({
         </NavItemTransition>
       );
     }
+    // TODO make this a const
     if (pageType === "CalculatedSummaryPage") {
       components.push(
         <NavItemTransition key={`transition-page-${pageId}`}>
