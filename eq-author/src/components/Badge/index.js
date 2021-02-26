@@ -45,7 +45,7 @@ export const mediumBadge = css`
 `;
 
 const Badge = styled.span`
-  background-color: ${colors.red} !important;
+  background-color: ${colors.red};
   color: ${colors.white};
   font-weight: normal;
   z-index: 2;
