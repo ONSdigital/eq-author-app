@@ -40,7 +40,9 @@ Resolvers.Mutation = {
       const page = createQuestionPage(pageInput);
       const { folderId } = pageInput;
       const folder = getFolderById(ctx, folderId);
-      folder.pages.splice(position || folder.pages.length, 0, page);
+      // TODO 0 evaluates to false
+      // why do I need folder.pages.length?
+      folder.pages.splice(position, 0, page);
       return page;
     }
   ),
