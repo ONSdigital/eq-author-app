@@ -13,6 +13,7 @@ export const navBadge = css`
   padding: 0.2em 0.4em;
   height: 20px;
   display: ${(props) => (props.small ? `inline-flex` : ``)};
+  margin-right: ${(props) => (props.small ? `0.3em` : ``)};
 `;
 
 export const mainNavBadge = css`

@@ -86,7 +86,7 @@ export const getSectionByPageId = (questionnaire, id) =>
 export const getPageById = (questionnaire, id) =>
   find(getPages(questionnaire), { id });
 export const getPageByConfirmationId = (questionnaire, id) =>
-  find(getPages(questionnaire), ({ confirmation }) => confirmation.id === id);
+  find(getPages(questionnaire), ({ confirmation }) => confirmation?.id === id);
 
 export const UnwrappedQuestionnaireDesignPage = ({
   onAddSection,
