@@ -1,38 +1,33 @@
-import { buildFolderPath, buildSectionPath } from "utils/UrlUtils";
-import getNextSection from "utils/getNextOnDelete";
+import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
 
 const onCompleteDelete = (
   response,
-  ownProps,
   history,
-  folderId,
-  questionnaireId
+  questionnaireId,
+  sectionId,
+  folderPosition
 ) => {
-  console.log("history", history);
-  console.log("data2", response);
-  console.log("ownProps", ownProps);
-
-  const questionnaire = response.deleteFolder;
-  console.log("questionnaire.sections", questionnaire.sections);
-
-  // const nextFolder = getNextFolder(Questionnaire.sections, sectionId);
-  const nextSection = getNextSection(
-    questionnaire.sections[0].folders,
-    folderId
+  const sections = response.deleteFolder.sections;
+  const sectionIndex = sections.findIndex(
+    (sections) => sections.id === sectionId
   );
-  console.log("nextSection", nextSection);
 
-  // const newSectionCreated = oldQuestionnaire.sections.length === 1;
+  const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
 
-  history.push(
-    buildSectionPath({
-      questionnaireId: questionnaireId,
-      sectionId: questionnaire.sections[0].id,
-      // sectionId: newSectionCreated
-      //   ? questionnaire.sections[0].id
-      //   : nextSection.id,
-    })
-  );
+  const previousPage = pages[folderPosition - 1];
+
+  const buildPath =
+    folderPosition === 0
+      ? buildSectionPath({
+          questionnaireId: questionnaireId,
+          sectionId: sectionId,
+        })
+      : buildPagePath({
+          questionnaireId: questionnaireId,
+          pageId: previousPage.id,
+        });
+
+  history.push(buildPath);
 };
 
 export default onCompleteDelete;

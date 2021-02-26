@@ -2,5 +2,9 @@ query GetFolderQuery($input: QueryInput!) {
   folder(input: $input) {
     id
     alias
+    position
+    section {
+      id
+    }
   }
 }
