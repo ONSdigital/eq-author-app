@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, find, flowRight, flatMap, some } from "lodash";
+import { get, flowRight } from "lodash";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -50,6 +50,16 @@ import {
 } from "utils/getAllAnswersFlatMap";
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
+import {
+  getFolders,
+  getPageById,
+  getFolderById,
+  getFolderByPageId,
+  getSectionByFolderId,
+  getSectionByPageId,
+  getPageByConfirmationId,
+} from "utils/questionnaireUtils";
+
 import QUESTIONNAIRE_QUERY from "./getQuestionnaireQuery.graphql";
 import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
@@ -76,27 +86,6 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-
-export const getSections = (questionnaire) => questionnaire.sections;
-export const getFolders = (questionnaire) =>
-  flatMap(getSections(questionnaire), ({ folders }) => folders);
-export const getPages = (questionnaire) =>
-  flatMap(getFolders(questionnaire), ({ pages }) => pages);
-
-export const getFolderById = (questionnaire, folderId) =>
-  find(getFolders(questionnaire), ({ id }) => id === folderId);
-export const getFolderByPageId = (questionnaire, id) =>
-  find(getFolders(questionnaire), ({ pages }) => some(pages, { id }));
-export const getSectionByFolderId = (questionnaire, id) =>
-  find(getSections(questionnaire), ({ folders }) => some(folders, { id }));
-export const getSectionByPageId = (questionnaire, id) =>
-  find(getSections(questionnaire), ({ folders }) =>
-    some(folders, ({ pages }) => some(pages, { id }))
-  );
-export const getPageById = (questionnaire, id) =>
-  find(getPages(questionnaire), { id });
-export const getPageByConfirmationId = (questionnaire, id) =>
-  find(getPages(questionnaire), ({ confirmation }) => confirmation.id === id);
 
 export const UnwrappedQuestionnaireDesignPage = ({
   onAddSection,
