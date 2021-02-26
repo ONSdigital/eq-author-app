@@ -25,7 +25,10 @@ import {
   useCreateFolder,
   useCreatePageWithFolder,
 } from "hooks/useCreateFolder";
-import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import {
+  useCreateQuestionPage,
+  useCreateCalculatedSummaryPage,
+} from "hooks/useCreateQuestionPage";
 
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
@@ -97,7 +100,6 @@ export const getPageByConfirmationId = (questionnaire, id) =>
 
 export const UnwrappedQuestionnaireDesignPage = ({
   onAddSection,
-  onAddCalculatedSummaryPage,
   onCreateQuestionConfirmation,
   match,
   questionnaire,
@@ -108,7 +110,12 @@ export const UnwrappedQuestionnaireDesignPage = ({
   // TODO make sure calculated summary works
   // Make sure that the conf q works too
   // Fix animation when adding a question inside folder
+
+  // The order in which I would like to do things right now
+  // First get calculated summaries working again
+  // then get rid of all of this junk
   const onAddQuestionPage = useCreateQuestionPage();
+  const onAddCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
   const addFolderWithPage = useCreatePageWithFolder();
 
@@ -133,6 +140,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
     return !loading && ![INTRODUCTION].includes(entityName);
   };
 
+  // keep this the exact same
   const handleAddPage = (createInsideFolder) => {
     switch (entityName) {
       case SECTION:
@@ -155,6 +163,36 @@ export const UnwrappedQuestionnaireDesignPage = ({
         return addFolderWithPage({
           sectionId: getSectionByFolderId(questionnaire, entityId).id,
           position: getFolderById(questionnaire, entityId).position + 1,
+        });
+      default:
+        break;
+    }
+  };
+
+  const handleAddCalculatedSummaryPage = (createInsideFolder) => {
+    switch (entityName) {
+      case SECTION:
+        return addFolderWithPage({
+          sectionId: entityId,
+          position: getFolders(questionnaire).length + 1,
+          isCalcSum: true,
+        });
+      case PAGE:
+        return onAddCalculatedSummaryPage({
+          folderId: getFolderByPageId(questionnaire, entityId).id,
+          position: getPageById(questionnaire, entityId).position + 1,
+        });
+      case FOLDER:
+        if (createInsideFolder) {
+          return onAddCalculatedSummaryPage({
+            folderId: entityId,
+            position: getFolderById(questionnaire, entityId).pages.length + 1,
+          });
+        }
+        return addFolderWithPage({
+          sectionId: getSectionByFolderId(questionnaire, entityId).id,
+          position: getFolderById(questionnaire, entityId).position + 1,
+          isCalcSum: true,
         });
       default:
         break;
@@ -272,16 +310,13 @@ export const UnwrappedQuestionnaireDesignPage = ({
                     onAddSection={onAddSection}
                     onAddQuestionPage={handleAddPage}
                     canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
-                    // TODO don't forget this
-                    // onAddCalculatedSummaryPage={handleAddPage(
-                    //   "CalculatedSummaryPage"
-                    // )}
+                    onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
                     canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
                     canAddQuestionConfirmation={canAddQuestionConfirmation()}
                     onAddQuestionConfirmation={handleAddQuestionConfirmation}
                     canAddFolder={canAddFolder()}
                     onAddFolder={handleAddFolder}
+                    questionnaire={questionnaire}
                   />
                 </NavColumn>
                 <Column cols={9} gutters={false}>

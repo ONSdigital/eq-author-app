@@ -51,8 +51,8 @@ export const UnwrappedNavigationHeader = ({
   };
 
   // TODO add cb to see if this helps renders?
-  const handleAddCalculatedSummaryPage = () => {
-    onAddCalculatedSummaryPage();
+  const handleAddCalculatedSummaryPage = (createInsideFolder = null) => {
+    onAddCalculatedSummaryPage(createInsideFolder);
     toggleAddContentMenu();
   };
 

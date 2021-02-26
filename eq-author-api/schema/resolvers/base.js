@@ -364,12 +364,16 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-    createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder(input);
-      const section = getSectionById(ctx, input.sectionId);
-      section.folders.splice(input.position, 0, folder);
-      return folder;
-    }),
+    // TODO rudimentary dear watson
+    // Might need to split this out
+    createFolder: createMutation(
+      (root, { input: { isCalcSum, position, ...params } }, ctx) => {
+        const folder = createFolder(params, isCalcSum);
+        const section = getSectionById(ctx, params.sectionId);
+        section.folders.splice(position, 0, folder);
+        return folder;
+      }
+    ),
     updateFolder: createMutation((root, { input }, ctx) => {
       const folder = getFolderById(ctx, input.folderId);
       merge(folder, input);

@@ -94,7 +94,7 @@ const AddMenu = ({
       text: "Confirmation question",
     },
     {
-      handleClick: onAddCalculatedSummaryPage,
+      handleClick: () => onAddCalculatedSummaryPage(),
       disabled: !canAddCalculatedSummaryPage,
       dataTest: "btn-add-calculated-summary",
       icon: IconSummary,
@@ -131,7 +131,7 @@ const AddMenu = ({
                     text: "Question",
                   },
                   {
-                    handleClick: onAddCalculatedSummaryPage,
+                    handleClick: () => onAddCalculatedSummaryPage(true),
                     disabled: !canAddCalculatedSummaryPage,
                     dataTest: "btn-add-calculated-summary",
                     icon: IconSummary,
