@@ -60,7 +60,7 @@ const Button = styled.button`
     background: ${colors.orange};
     outline: none;
 
-    > span {
+    ${Title} {
       color: ${colors.black};
     }
 
