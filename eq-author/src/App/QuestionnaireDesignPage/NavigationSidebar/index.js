@@ -89,10 +89,6 @@ const NavigationSidebar = ({ questionnaire }) => {
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  // const handleAddSection = useCallback(() => {
-  //   onAddSection(questionnaire.id);
-  // }, [questionnaire]);
-
   const calculatePageErrors = (pages) =>
     pages.reduce(
       (acc, { validationErrorInfo }) => (acc += validationErrorInfo.totalCount),
