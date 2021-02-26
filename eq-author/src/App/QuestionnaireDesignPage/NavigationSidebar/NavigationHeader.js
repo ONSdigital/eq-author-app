@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
-import { withRouter, useParams } from "react-router-dom";
+import styled from "styled-components";
 import gql from "graphql-tag";
+import { flowRight } from "lodash";
+
+import { withRouter, useParams } from "react-router-dom";
 import {
   useCreateFolder,
   useCreatePageWithFolder,
 } from "hooks/useCreateFolder";
+
 import { useQuestionnaire } from "components/QuestionnaireContext";
+
 import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import { colors } from "constants/theme";
+
 import {
   getFolders,
   getPageById,
@@ -22,6 +26,8 @@ import {
   getSectionByPageId,
   getPageByConfirmationId,
 } from "utils/questionnaireUtils";
+
+import { colors } from "constants/theme";
 import {
   SECTION,
   FOLDER,
@@ -29,14 +35,12 @@ import {
   QUESTION_CONFIRMATION,
   INTRODUCTION,
 } from "constants/entities";
-import { flowRight } from "lodash";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
+import AddMenu from "./AddMenu/AddMenu";
 
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../withCreateQuestionConfirmation";
-
-import AddMenu from "./AddMenu/AddMenu";
 
 const QuestionPage = "QuestionPage";
 const StyledAddMenu = styled(AddMenu)`
@@ -51,7 +55,8 @@ export const UnwrappedNavigationHeader = ({
   onAddSection,
   onCreateQuestionConfirmation,
 }) => {
-  const questionnaire = useQuestionnaire();
+  // TODO tidy this up
+  const { questionnaire } = useQuestionnaire();
   const addQuestionPage = useCreateQuestionPage();
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
@@ -59,9 +64,11 @@ export const UnwrappedNavigationHeader = ({
   const { entityName, entityId } = useParams();
   const [addContentMenuState, setAddContentMenuState] = useState(false);
 
-  const canAddQuestionAndCalculatedSummmaryPages = () => {
-    return [PAGE, FOLDER, SECTION].includes(entityName);
-  };
+  const toggleAddContentMenu = () =>
+    setAddContentMenuState(!addContentMenuState);
+
+  const canAddQuestionAndCalculatedSummmaryPages = () =>
+    [PAGE, FOLDER, SECTION].includes(entityName);
 
   const canAddQuestionConfirmation = () => {
     if (entityName !== PAGE) {
@@ -70,15 +77,10 @@ export const UnwrappedNavigationHeader = ({
 
     const page = getPageById(questionnaire, entityId);
 
-    // TODO make this constant
     return !page || page.confirmation || page.pageType !== QuestionPage;
   };
 
-  const canAddFolder = () => {
-    return ![INTRODUCTION].includes(entityName);
-  };
-
-  // keep this the exact same
+  // TODO this needs to be looked at
   const onAddQuestionPage = (createInsideFolder) => {
     switch (entityName) {
       case SECTION:
@@ -138,42 +140,46 @@ export const UnwrappedNavigationHeader = ({
   };
 
   const onAddFolder = () => {
-    let position, sectionId, page;
+    let page, params;
 
     switch (entityName) {
       case SECTION:
-        addFolder({ sectionId: entityId, position: 0, enabled: true });
+        params = { sectionId: entityId, position: 0, enabled: true };
         break;
       case FOLDER:
-        ({ position } = getFolderById(questionnaire, entityId));
-        ({ id: sectionId } = getSectionByFolderId(questionnaire, entityId));
-        addFolder({ sectionId, position: position + 1, enabled: true });
+        params = {
+          sectionId: getSectionByFolderId(questionnaire, entityId).id,
+          position: getFolderById(questionnaire, entityId).position + 1,
+          enabled: true,
+        };
         break;
       case PAGE:
-        ({ position } = getFolderByPageId(questionnaire, entityId));
-        ({ id: sectionId } = getSectionByPageId(questionnaire, entityId));
-        addFolder({ sectionId, position: position + 1, enabled: true });
+        params = {
+          sectionId: getSectionByPageId(questionnaire, entityId).id,
+          position: getFolderByPageId(questionnaire, entityId).position + 1,
+          enabled: true,
+        };
         break;
       case QUESTION_CONFIRMATION:
         page = getPageByConfirmationId(questionnaire, entityId);
-        ({ position } = getFolderByPageId(questionnaire, page.id));
-        ({ id: sectionId } = getSectionByPageId(questionnaire, page.id));
-        addFolder({ sectionId, position: position + 1, enabled: true });
+        params = {
+          sectionId: getSectionByPageId(questionnaire, page.id).id,
+          position: getFolderByPageId(questionnaire, page.id).position + 1,
+          enabled: true,
+        };
         break;
       default:
         throw new Error(
           `Adding a folder when focused on entity ${entityName} with ID ${entityId} is not supported.`
         );
     }
+    addFolder(params);
   };
 
   // TODO
   const onAddQuestionConfirmation = () => {
     onCreateQuestionConfirmation(entityId);
   };
-
-  const toggleAddContentMenu = () =>
-    setAddContentMenuState(!addContentMenuState);
 
   const handleAddQuestionPage = (createInsideFolder = null) => {
     onAddQuestionPage(createInsideFolder);
@@ -208,6 +214,7 @@ export const UnwrappedNavigationHeader = ({
     <>
       <QuestionnaireContent>
         <StyledAddMenu
+          data-test="add-menu"
           addMenuOpen={addContentMenuState}
           onAddMenuToggle={toggleAddContentMenu}
           onAddQuestionPage={handleAddQuestionPage}
@@ -216,10 +223,9 @@ export const UnwrappedNavigationHeader = ({
           canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
           onAddSection={handleAddSection}
           onAddQuestionConfirmation={handleAddQuestionConfirmation}
-          canAddQuestionConfirmation={canAddQuestionConfirmation}
+          canAddQuestionConfirmation={canAddQuestionConfirmation()}
           onAddFolder={handleAddFolder}
-          canAddFolder={canAddFolder}
-          data-test="add-menu"
+          canAddFolder={![INTRODUCTION].includes(entityName)}
         />
       </QuestionnaireContent>
     </>
@@ -227,12 +233,9 @@ export const UnwrappedNavigationHeader = ({
 };
 
 UnwrappedNavigationHeader.propTypes = {
-  onAddQuestionPage: PropTypes.func.isRequired,
-  canAddQuestionPage: PropTypes.bool.isRequired,
   onAddSection: PropTypes.func.isRequired,
   onCreateQuestionConfirmation: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  questionnaire: PropTypes.object.isRequired,
+  // questionnaire: PropTypes.object.isRequired,
 };
 
 UnwrappedNavigationHeader.fragments = {

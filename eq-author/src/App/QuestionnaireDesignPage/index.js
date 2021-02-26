@@ -168,9 +168,6 @@ export const UnwrappedQuestionnaireDesignPage = ({
 };
 
 UnwrappedQuestionnaireDesignPage.propTypes = {
-  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
-  onCreateQuestionConfirmation: PropTypes.func.isRequired,
-  onAddSection: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   match: CustomPropTypes.match.isRequired,
   questionnaire: CustomPropTypes.questionnaire,
