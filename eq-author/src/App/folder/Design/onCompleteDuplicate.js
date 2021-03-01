@@ -14,7 +14,7 @@ const onCompleteDuplicate = (
 
   const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
 
-  const previousPage = pages[folderPosition - 1];
+  const nextPage = pages[folderPosition + 1];
 
   const buildPath =
     folderPosition === 0
@@ -24,7 +24,7 @@ const onCompleteDuplicate = (
         })
       : buildPagePath({
           questionnaireId: questionnaireId,
-          pageId: previousPage.id,
+          pageId: nextPage.id,
         });
 
   history.push(buildPath);

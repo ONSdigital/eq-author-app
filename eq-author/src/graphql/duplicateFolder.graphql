@@ -1,4 +1,3 @@
-#import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
@@ -9,69 +8,51 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
     ...Folder
     position
     id
-    folders {
-      ...Folder
-      pages {
-        ...Page
-        position
-        displayName
-        pageType
-        title
-        ... on QuestionPage {
-          alias
-          description
-          guidance
-          answers {
-            ...Answer
-            ... on BasicAnswer {
-              secondaryQCode
-            }
-            ... on MultipleChoiceAnswer {
-              options {
-                id
-                displayName
-                label
-                description
-                value
-                qCode
-              }
-              mutuallyExclusiveOption {
-                id
-                label
-                qCode
-              }
-            }
+    pages {
+      ...Page
+      position
+      displayName
+      pageType
+      title
+      ... on QuestionPage {
+        alias
+        description
+        guidance
+        answers {
+          ...Answer
+          ... on BasicAnswer {
+            secondaryQCode
           }
-          confirmation {
-            id
-            qCode
-            displayName
-            validationErrorInfo {
-              ...ValidationErrorInfo
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+              displayName
+              label
+              description
+              value
+              qCode
+            }
+            mutuallyExclusiveOption {
+              id
+              label
+              qCode
             }
           }
         }
-        ... on CalculatedSummaryPage {
+        confirmation {
           id
-        }
-        validationErrorInfo {
-          ...ValidationErrorInfo
+          qCode
+          displayName
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
         }
       }
-    }
-    questionnaire {
-      id
-      questionnaireInfo {
-        totalSectionCount
-      }
-      sections {
+      ... on CalculatedSummaryPage {
         id
-        folders {
-          id
-          pages {
-            id
-          }
-        }
+      }
+      validationErrorInfo {
+        ...ValidationErrorInfo
       }
     }
   }

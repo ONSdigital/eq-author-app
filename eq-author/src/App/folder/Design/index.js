@@ -120,7 +120,6 @@ const FolderDesignPage = ({ history, match }) => {
           onDuplicate={handleDuplicateFolder}
           onDelete={() => alert("onDelete")}
           disableMove
-          disableDuplicate
           disableDelete
           key={`toolbar-folder-${folderId}`}
         />
