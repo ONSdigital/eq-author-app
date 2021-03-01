@@ -73,6 +73,17 @@ describe("Folder design page", () => {
             folder: {
               id: firstFolder.id,
               alias: firstFolder.alias,
+              position: firstFolder.position,
+              pages: [
+                {
+                  id: firstFolder.pages[0].id,
+                  __typename: "QuestionPage",
+                },
+              ],
+              section: {
+                id: firstFolder.section.id,
+                __typename: "Section",
+              },
               __typename: "Folder",
             },
           },
