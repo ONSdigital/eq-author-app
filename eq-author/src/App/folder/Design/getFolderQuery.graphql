@@ -3,6 +3,9 @@ query GetFolderQuery($input: QueryInput!) {
     id
     alias
     position
+    pages {
+      id
+    }
     section {
       id
     }

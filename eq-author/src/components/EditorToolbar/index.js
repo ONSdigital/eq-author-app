@@ -12,9 +12,6 @@ import DeleteButton from "components/buttons/IconButtonDelete";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
-// import questionConfirmationIcon from "./icon-questionnaire.svg";
-// import IconFolder from "assets/icon-folder.svg?inline";
-
 const EditorToolbar = ({
   shortCode,
   shortCodeOnUpdate,
@@ -27,6 +24,8 @@ const EditorToolbar = ({
   showDeleteModal,
   handleModalClose,
   handleModalConfirm,
+  displayName,
+  icon,
 }) => (
   <>
     <Toolbar>
@@ -42,9 +41,9 @@ const EditorToolbar = ({
       isOpen={showDeleteModal}
       onClose={handleModalClose}
       onDelete={handleModalConfirm}
-      // title={displayName}
+      title={displayName}
       alertText="All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.."
-      // icon={IconFolder}
+      icon={icon}
       data-test="delete-questionnaire"
     />
   </>
@@ -62,6 +61,8 @@ EditorToolbar.propTypes = {
   handleModalConfirm: PropTypes.func.isRequired,
   handleModalClose: PropTypes.func.isRequired,
   showDeleteModal: PropTypes.bool.isRequired,
+  displayName: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default EditorToolbar;

@@ -13,7 +13,6 @@ const onCompleteDelete = (
   );
 
   const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
-
   const previousPage = pages[folderPosition - 1];
 
   const buildPath =

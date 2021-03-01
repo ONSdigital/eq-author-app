@@ -17,6 +17,8 @@ import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
+import iconFolder from "./icon-dialog-folder.svg";
+
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
   margin-right: 2em;
@@ -42,14 +44,14 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
   });
 
-  let sectionId, folderPosition;
+  let sectionId, folderPosition, pages;
   if (data) {
     sectionId = data.folder.section.id;
     folderPosition = data.folder.position;
+    pages = data.folder.pages;
   }
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
-
   const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
     onCompleted: (data) => {
       onCompleteDelete(
@@ -57,7 +59,8 @@ const FolderDesignPage = ({ history, match }) => {
         history,
         questionnaireId,
         sectionId,
-        folderPosition
+        folderPosition,
+        pages
       );
     },
   });
@@ -133,8 +136,11 @@ const FolderDesignPage = ({ history, match }) => {
           showDeleteModal={showDeleteModal}
           handleModalClose={handleModalClose}
           handleModalConfirm={handleModalConfirm}
-          // disableDelete
           key={`toolbar-folder-${folderId}`}
+          displayName={
+            data.folder.alias ? data.folder.alias : "Untitled folder"
+          }
+          icon={iconFolder}
         />
         <h2>Folders</h2>
         <p>
