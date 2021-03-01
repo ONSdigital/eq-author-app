@@ -18,6 +18,12 @@ const Header = styled.div`
   align-items: center;
 `;
 
+const hoverStyling = `
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
 const Title = styled(Truncated)`
   color: ${colors.white};
   flex: 0 1 75%;
@@ -57,9 +63,7 @@ const Button = styled.button`
     }
   }}
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.2);
-  }
+  ${hoverStyling}
 
   &:focus {
     outline: 2px solid ${colors.orange};
@@ -115,12 +119,12 @@ const ToggleCollapsibleNavItemButton = styled.button`
     height: 1rem;
     transform-origin: 50% 50%;
     transition: transform 200ms ease-out;
-    transform: rotate(${(props) => (props.isOpen ? "0deg" : "-90deg")});
+    transform: rotate(${({ isOpen }) => (isOpen ? "0deg" : "-90deg")});
   }
-
   &:focus {
     outline: 2px solid ${colors.orange};
   }
+  ${hoverStyling}
 `;
 
 const Body = styled.div`
