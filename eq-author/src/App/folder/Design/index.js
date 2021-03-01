@@ -94,7 +94,7 @@ const FolderDesignPage = ({ history, match }) => {
   }
 
   const {
-    folder: { id, alias },
+    folder: { id, position, alias },
   } = data;
 
   const shortCodeOnUpdate = (alias) => {
@@ -106,7 +106,7 @@ const FolderDesignPage = ({ history, match }) => {
   const handleDuplicateFolder = (e) => {
     e.stopPropagation();
     return duplicateFolder({
-      variables: { input: { id } },
+      variables: { input: { id, position } },
     });
   };
 
