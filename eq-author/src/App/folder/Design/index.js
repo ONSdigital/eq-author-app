@@ -3,7 +3,6 @@ import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 
 import Loading from "components/Loading";
@@ -13,8 +12,11 @@ import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
 
+import onCompleteDuplicate from "./onCompleteDuplicate";
+
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -34,14 +36,32 @@ const StyledPanel = styled(Panel)`
   }
 `;
 
-const FolderDesignPage = ({ match }) => {
-  const { folderId } = match.params;
+const FolderDesignPage = ({ history, match }) => {
+  const { folderId, questionnaireId } = match.params;
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
 
+  let sectionId, folderPosition;
+  if (data) {
+    sectionId = data.folder.section.id;
+    folderPosition = data.folder.position;
+  }
+
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+
+  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
+    onCompleted: (data) => {
+      onCompleteDuplicate(
+        data,
+        history,
+        questionnaireId,
+        sectionId,
+        folderPosition
+      );
+    },
+  });
 
   if (loading) {
     return (
@@ -83,6 +103,13 @@ const FolderDesignPage = ({ match }) => {
     });
   };
 
+  const handleDuplicateFolder = (e) => {
+    e.stopPropagation();
+    return duplicateFolder({
+      variables: { input: { id } },
+    });
+  };
+
   return (
     <EditorPage title={alias || "Untitled folder"}>
       <StyledPanel data-test="folders-page">
@@ -90,7 +117,7 @@ const FolderDesignPage = ({ match }) => {
           shortCode={alias}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
-          onDuplicate={() => alert("onDuplicate")}
+          onDuplicate={handleDuplicateFolder}
           onDelete={() => alert("onDelete")}
           disableMove
           disableDuplicate
@@ -124,6 +151,9 @@ const FolderDesignPage = ({ match }) => {
 
 FolderDesignPage.propTypes = {
   match: PropTypes.object.isRequired, // eslint-disable-line
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default FolderDesignPage;
