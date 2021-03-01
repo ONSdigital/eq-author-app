@@ -9,15 +9,6 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
-const Wrapper = styled.div`
-  margin-bottom: ${({ isBordered }) => (isBordered ? "0.5em" : "0")};
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const hoverStyling = `
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
@@ -46,22 +37,9 @@ const Button = styled.button`
   overflow: hidden;
   width: 100%;
 
-  ${({ bordered }) => {
-    if (bordered) {
-      return `
-        border-top: 1px solid ${colors.grey}
-        border-bottom: 1px solid ${colors.grey}
-      `;
-    }
-  }}
-
-  ${({ isOpen, bordered }) => {
-    if (isOpen && bordered) {
-      return `
-        margin-bottom: 0.5em;
-      `;
-    }
-  }}
+  border-top: ${({ bordered }) => (bordered ? `1px solid ${colors.grey}` : "")};
+  border-bottom: ${({ bordered }) =>
+    bordered ? `1px solid ${colors.grey}` : ""};
 
   ${hoverStyling}
 
@@ -108,9 +86,7 @@ const ToggleCollapsibleNavItemButton = styled.button`
   background: transparent;
   cursor: pointer;
   text-align: left;
-  &:focus {
-    outline: none;
-  }
+
   &::before {
     content: "";
     background: url(${chevron});
@@ -121,15 +97,27 @@ const ToggleCollapsibleNavItemButton = styled.button`
     transition: transform 200ms ease-out;
     transform: rotate(${({ isOpen }) => (isOpen ? "0deg" : "-90deg")});
   }
+
   &:focus {
     outline: 2px solid ${colors.orange};
   }
   ${hoverStyling}
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-left: 2em;
+
+  margin-top: ${({ bordered }) => (bordered ? `0.45em` : "")};
+`;
+
+const Wrapper = styled.div`
+  margin-bottom: ${({ bordered }) => (bordered ? "0.5em" : "0")};
 `;
 
 const CollapsibleNavItem = ({
@@ -155,7 +143,7 @@ const CollapsibleNavItem = ({
     <Wrapper
       className={className}
       data-test="CollapsibleNavItem"
-      isBordered={bordered}
+      bordered={bordered}
     >
       <Header data-test="CollapsibleNavItem-header">
         <ToggleCollapsibleNavItemButton
@@ -168,7 +156,6 @@ const CollapsibleNavItem = ({
           onClick={() => history.push(titleUrl)}
           disabled={disabled}
           bordered={bordered}
-          isOpen={isOpen}
           data-test="CollapsibleNavItem-title"
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
@@ -193,6 +180,7 @@ const CollapsibleNavItem = ({
       <Body
         data-test={`CollapsibleNavItem-body`}
         isOpen={isOpen}
+        bordered={bordered}
         aria-hidden={!isOpen}
       >
         {children}
