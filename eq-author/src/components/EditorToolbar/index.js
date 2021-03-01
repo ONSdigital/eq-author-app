@@ -13,7 +13,8 @@ import DeleteButton from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 // import questionConfirmationIcon from "./icon-questionnaire.svg";
-import IconFolder from "assets/icon-folder.svg?inline";
+// import IconFolder from "assets/icon-folder.svg?inline";
+
 const EditorToolbar = ({
   shortCode,
   shortCodeOnUpdate,
