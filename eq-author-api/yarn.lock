@@ -5273,9 +5273,9 @@ jsprim@^1.2.2:
     verror "1.10.0"
 
 jsrsasign@latest:
-  version "10.1.5"
-  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-10.1.5.tgz#d59127cf76f5d12211a7849fafdb7e0cddab6139"
-  integrity sha512-xlCtvZ+S2fPnw6YQyPkgMZ1dgMJ02bmK5Rt1umpo/KThBP6Zzq9awzXU71NEw1NYxXmLFnjorpQYKLZzMdF3lg==
+  version "10.1.12"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-10.1.12.tgz#5df3e9198596f44833ae8b7aa1c637b8d449019a"
+  integrity sha512-1IWDl3DQOxXJpShE+Sb7vYOw3RhclqkqLuLagScuQrxgzwpCcp2DJcRzW92O4eSCPqMWoGdNJVfY3TKMb/JBZQ==
 
 jsx-ast-utils@^1.4.0:
   version "1.4.1"
