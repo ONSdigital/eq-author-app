@@ -24,19 +24,27 @@ const hoverStyling = `
   }
 `;
 
-const Title = styled.button`
-  display: flex;
+const Title = styled(Truncated)`
+  color: ${colors.white};
+  flex: 0 1 75%;
+  margin-right: 0.5em;
+  text-align: left;
+  text-decoration: none;
+  font-weight: bold;
+`;
+
+const Button = styled.button`
   align-items: center;
-  width: 100%;
+  background-color: transparent;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
   font-size: 0.9em;
   margin: 0;
-  color: ${colors.white};
-  font-weight: bold;
-  text-decoration: none;
-  background-color: transparent;
   padding-right: 1em;
-  border: none;
-  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
 
   ${({ bordered }) => {
     if (bordered) {
@@ -64,9 +72,12 @@ const Title = styled.button`
   &:disabled {
     background: ${colors.orange};
     outline: none;
-    color: ${colors.black};
 
-    svg {
+    ${Title} {
+      color: ${colors.black};
+    }
+
+    > svg {
       path {
         fill: ${colors.black};
       }
@@ -74,12 +85,12 @@ const Title = styled.button`
   }
 
   svg {
-    width: 32px;
     height: 32px;
     margin-right: 5px;
     path {
       fill: ${colors.white};
     }
+    width: 32px;
   }
 `;
 
@@ -121,10 +132,6 @@ const Body = styled.div`
   margin-left: 2em;
 `;
 
-const StyledTruncated = styled(Truncated)`
-  text-align: left;
-`;
-
 const CollapsibleNavItem = ({
   icon: Icon,
   title,
@@ -157,7 +164,7 @@ const CollapsibleNavItem = ({
           aria-expanded={isOpen}
           data-test="CollapsibleNavItem-toggle-button"
         />
-        <Title
+        <Button
           onClick={() => history.push(titleUrl)}
           disabled={disabled}
           bordered={bordered}
@@ -165,7 +172,7 @@ const CollapsibleNavItem = ({
           data-test="CollapsibleNavItem-title"
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
-          <StyledTruncated>{title}</StyledTruncated>
+          <Title>{title}</Title>
           {isOpen && selfErrorCount > 0 && (
             <Badge variant="nav" medium data-test="NavItem-error">
               <VisuallyHidden>
@@ -181,7 +188,7 @@ const CollapsibleNavItem = ({
               </VisuallyHidden>
             </Badge>
           ) : null}
-        </Title>
+        </Button>
       </Header>
       <Body
         data-test={`CollapsibleNavItem-body`}
