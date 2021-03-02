@@ -1,6 +1,6 @@
 import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
 
-const onCompleteDelete = (
+export const onCompleteDelete = (
   response,
   history,
   questionnaireId,
