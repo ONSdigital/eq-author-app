@@ -41,7 +41,7 @@ import AddMenu from "./AddMenu/AddMenu";
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../withCreateQuestionConfirmation";
 
-const QuestionPage = "QuestionPage";
+import { QuestionPage } from "constants/page-types";
 
 const StyledAddMenu = styled(AddMenu)`
   width: 100%;
