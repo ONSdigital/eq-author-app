@@ -52,13 +52,13 @@ export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
 }) => {
   // TODO tidy this up
+  const [addContentMenuState, setAddContentMenuState] = useState(false);
+  const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
   const addQuestionPage = useCreateQuestionPage();
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
   const addFolderWithPage = useCreatePageWithFolder();
-  const { entityName, entityId } = useParams();
-  const [addContentMenuState, setAddContentMenuState] = useState(false);
 
   const toggleAddContentMenu = () =>
     setAddContentMenuState(!addContentMenuState);
@@ -70,10 +70,9 @@ export const UnwrappedNavigationHeader = ({
     if (entityName !== PAGE) {
       return false;
     }
-
     const page = getPageById(questionnaire, entityId);
 
-    return !page || page.confirmation || page.pageType !== QuestionPage;
+    return !(!page || page.pageType !== QuestionPage || page.confirmation);
   };
 
   // TODO this needs to be looked at
