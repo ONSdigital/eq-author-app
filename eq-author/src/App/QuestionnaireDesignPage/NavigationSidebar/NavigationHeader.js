@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
-import { withRouter, useParams } from "react-router-dom";
 import {
   useCreateFolder,
   useCreatePageWithFolder,
@@ -27,7 +27,6 @@ import {
   getPageByConfirmationId,
 } from "utils/questionnaireUtils";
 
-import { colors } from "constants/theme";
 import {
   SECTION,
   FOLDER,
@@ -51,8 +50,7 @@ export const UnwrappedNavigationHeader = ({
   onAddSection,
   onCreateQuestionConfirmation,
 }) => {
-  // TODO tidy this up
-  const [addContentMenuState, setAddContentMenuState] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
   const addQuestionPage = useCreateQuestionPage();
@@ -60,8 +58,7 @@ export const UnwrappedNavigationHeader = ({
   const addFolder = useCreateFolder();
   const addFolderWithPage = useCreatePageWithFolder();
 
-  const toggleAddContentMenu = () =>
-    setAddContentMenuState(!addContentMenuState);
+  const toggleAddContentMenu = () => setOpenMenu(!openMenu);
 
   const canAddQuestionAndCalculatedSummmaryPages = () =>
     [PAGE, FOLDER, SECTION].includes(entityName);
@@ -75,66 +72,71 @@ export const UnwrappedNavigationHeader = ({
     return !(!page || page.pageType !== QuestionPage || page.confirmation);
   };
 
-  // TODO this needs to be looked at
-  const onAddQuestionPage = (createInsideFolder) => {
-    switch (entityName) {
-      case SECTION:
-        return addFolderWithPage({
-          sectionId: entityId,
-          position: 0,
-        });
-      case PAGE:
-        return addQuestionPage({
-          folderId: getFolderByPageId(questionnaire, entityId).id,
-          position: getPageById(questionnaire, entityId).position + 1,
-        });
-      case FOLDER:
-        if (createInsideFolder) {
-          return addQuestionPage({
-            folderId: entityId,
+  const onAddQuestionPage = useCallback(
+    (createInsideFolder) => {
+      switch (entityName) {
+        case SECTION:
+          return addFolderWithPage({
+            sectionId: entityId,
             position: 0,
           });
-        }
-        return addFolderWithPage({
-          sectionId: getSectionByFolderId(questionnaire, entityId).id,
-          position: getFolderById(questionnaire, entityId).position + 1,
-        });
-      default:
-        break;
-    }
-  };
-
-  const onAddCalculatedSummaryPage = (createInsideFolder) => {
-    switch (entityName) {
-      case SECTION:
-        return addFolderWithPage({
-          sectionId: entityId,
-          position: getFolders(questionnaire).length + 1,
-          isCalcSum: true,
-        });
-      case PAGE:
-        return addCalculatedSummaryPage({
-          folderId: getFolderByPageId(questionnaire, entityId).id,
-          position: getPageById(questionnaire, entityId).position + 1,
-        });
-      case FOLDER:
-        if (createInsideFolder) {
-          return addCalculatedSummaryPage({
-            folderId: entityId,
-            position: getFolderById(questionnaire, entityId).pages.length + 1,
+        case PAGE:
+          return addQuestionPage({
+            folderId: getFolderByPageId(questionnaire, entityId).id,
+            position: getPageById(questionnaire, entityId).position + 1,
           });
-        }
-        return addFolderWithPage({
-          sectionId: getSectionByFolderId(questionnaire, entityId).id,
-          position: getFolderById(questionnaire, entityId).position + 1,
-          isCalcSum: true,
-        });
-      default:
-        break;
-    }
-  };
+        case FOLDER:
+          if (createInsideFolder) {
+            return addQuestionPage({
+              folderId: entityId,
+              position: 0,
+            });
+          }
+          return addFolderWithPage({
+            sectionId: getSectionByFolderId(questionnaire, entityId).id,
+            position: getFolderById(questionnaire, entityId).position + 1,
+          });
+        default:
+          break;
+      }
+    },
+    [openMenu]
+  );
 
-  const onAddFolder = () => {
+  const onAddCalculatedSummaryPage = useCallback(
+    (createInsideFolder) => {
+      switch (entityName) {
+        case SECTION:
+          return addFolderWithPage({
+            sectionId: entityId,
+            position: getFolders(questionnaire).length + 1,
+            isCalcSum: true,
+          });
+        case PAGE:
+          return addCalculatedSummaryPage({
+            folderId: getFolderByPageId(questionnaire, entityId).id,
+            position: getPageById(questionnaire, entityId).position + 1,
+          });
+        case FOLDER:
+          if (createInsideFolder) {
+            return addCalculatedSummaryPage({
+              folderId: entityId,
+              position: getFolderById(questionnaire, entityId).pages.length + 1,
+            });
+          }
+          return addFolderWithPage({
+            sectionId: getSectionByFolderId(questionnaire, entityId).id,
+            position: getFolderById(questionnaire, entityId).position + 1,
+            isCalcSum: true,
+          });
+        default:
+          break;
+      }
+    },
+    [openMenu]
+  );
+
+  const onAddFolder = useCallback(() => {
     let page, params;
 
     switch (entityName) {
@@ -169,9 +171,8 @@ export const UnwrappedNavigationHeader = ({
         );
     }
     addFolder(params);
-  };
+  }, [openMenu]);
 
-  // TODO
   const onAddQuestionConfirmation = () => {
     onCreateQuestionConfirmation(entityId);
   };
@@ -181,25 +182,21 @@ export const UnwrappedNavigationHeader = ({
     toggleAddContentMenu();
   };
 
-  // TODO add cb to see if this helps renders?
   const handleAddSection = () => {
     onAddSection();
     toggleAddContentMenu();
   };
 
-  // TODO add cb to see if this helps renders?
   const handleAddQuestionConfirmation = () => {
     onAddQuestionConfirmation();
     toggleAddContentMenu();
   };
 
-  // TODO add cb to see if this helps renders?
   const handleAddCalculatedSummaryPage = (createInsideFolder = null) => {
     onAddCalculatedSummaryPage(createInsideFolder);
     toggleAddContentMenu();
   };
 
-  // TODO add cb to see if this helps renders?
   const handleAddFolder = () => {
     onAddFolder();
     toggleAddContentMenu();
@@ -208,18 +205,21 @@ export const UnwrappedNavigationHeader = ({
   return (
     <StyledAddMenu
       data-test="add-menu"
-      addMenuOpen={addContentMenuState}
+      addMenuOpen={openMenu}
       onAddMenuToggle={toggleAddContentMenu}
       onAddQuestionPage={handleAddQuestionPage}
-      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
       onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
-      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
       onAddSection={handleAddSection}
       onAddQuestionConfirmation={handleAddQuestionConfirmation}
-      canAddQuestionConfirmation={canAddQuestionConfirmation()}
       onAddFolder={handleAddFolder}
+      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
+      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
+      canAddQuestionConfirmation={canAddQuestionConfirmation()}
       canAddFolder={![INTRODUCTION].includes(entityName)}
       isFolder={entityName === FOLDER}
+      folderTitle={
+        entityName === FOLDER && getFolderById(questionnaire, entityId).alias
+      }
     />
   );
 };
@@ -227,7 +227,6 @@ export const UnwrappedNavigationHeader = ({
 UnwrappedNavigationHeader.propTypes = {
   onAddSection: PropTypes.func.isRequired,
   onCreateQuestionConfirmation: PropTypes.func.isRequired,
-  // questionnaire: PropTypes.object.isRequired,
 };
 
 UnwrappedNavigationHeader.fragments = {
@@ -245,4 +244,4 @@ const WrappedHeader = flowRight([
   withCreateSection,
 ])(UnwrappedNavigationHeader);
 
-export default withRouter(WrappedHeader);
+export default WrappedHeader;

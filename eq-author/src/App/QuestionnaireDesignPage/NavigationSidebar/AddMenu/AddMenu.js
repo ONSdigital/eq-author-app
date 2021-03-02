@@ -12,6 +12,7 @@ import IconFolder from "assets/icon-folder.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
+import { FolderAddSubMenu } from "./FolderSubMenu";
 
 import { colors } from "constants/theme";
 
@@ -33,20 +34,6 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
-const ContentCategory = styled.div`
-  padding: 0.2em 0.8em;
-  padding-right: 0;
-  div {
-    padding: 0.2em 0.8em;
-    color: ${colors.orange};
-    font-weight: 600;
-    background-color: ${colors.black};
-  }
-`;
-
-export const isFolderTitle = (title, isInside = true) =>
-  `${isInside ? "inside" : "outside"} ${title}`;
-
 const AddMenu = ({
   addMenuOpen,
   onAddMenuToggle,
@@ -60,8 +47,9 @@ const AddMenu = ({
   onAddFolder,
   canAddFolder,
   isFolder,
+  folderTitle,
 }) => {
-  let defaultButtons = [
+  const defaultButtons = [
     {
       handleClick: () => onAddQuestionPage(),
       disabled: !canAddQuestionPage,
@@ -99,53 +87,47 @@ const AddMenu = ({
     },
   ];
 
-  const onRenderCB = (id, update, duration, actual) => {
-    console.log(id, update, duration, actual);
-  };
-
   return (
-    <React.Profiler id="test" onRender={onRenderCB}>
-      <>
-        <Popout
-          open={addMenuOpen}
-          trigger={MenuAddButton}
-          onToggleOpen={onAddMenuToggle}
-          horizontalAlignment="left"
-          verticalAlignment="top"
-          transition={PopupTransition}
-          container={PopoutContainer}
-          layer={PopoutLayer}
-        >
-          <AddMenuWindow data-test="addmenu-window">
-            {isFolder && (
-              <FolderAddSubMenu>
-                {[
-                  {
-                    handleClick: () => onAddQuestionPage(true),
-                    disabled: !canAddQuestionPage,
-                    dataTest: "btn-add-question-page",
-                    icon: IconQuestion,
-                    text: "Question",
-                  },
-                  {
-                    handleClick: () => onAddCalculatedSummaryPage(true),
-                    disabled: !canAddCalculatedSummaryPage,
-                    dataTest: "btn-add-calculated-summary",
-                    icon: IconSummary,
-                    text: "Calculated summary",
-                  },
-                ].map((props) => (
-                  <MenuButton key={`${props.dataTest}-folder`} {...props} />
-                ))}
-              </FolderAddSubMenu>
-            )}
-            {defaultButtons.map((props) => (
-              <MenuButton key={props.dataTest} {...props} />
-            ))}
-          </AddMenuWindow>
-        </Popout>
-      </>
-    </React.Profiler>
+    <>
+      <Popout
+        open={addMenuOpen}
+        trigger={MenuAddButton}
+        onToggleOpen={onAddMenuToggle}
+        horizontalAlignment="left"
+        verticalAlignment="top"
+        transition={PopupTransition}
+        container={PopoutContainer}
+        layer={PopoutLayer}
+      >
+        <AddMenuWindow data-test="addmenu-window">
+          {isFolder && (
+            <FolderAddSubMenu folderTitle={folderTitle}>
+              {[
+                {
+                  handleClick: () => onAddQuestionPage(true),
+                  disabled: !canAddQuestionPage,
+                  dataTest: "btn-add-question-page",
+                  icon: IconQuestion,
+                  text: "Question",
+                },
+                {
+                  handleClick: () => onAddCalculatedSummaryPage(true),
+                  disabled: !canAddCalculatedSummaryPage,
+                  dataTest: "btn-add-calculated-summary",
+                  icon: IconSummary,
+                  text: "Calculated summary",
+                },
+              ].map((item) => (
+                <MenuButton key={`${item.dataTest}-folder`} {...item} />
+              ))}
+            </FolderAddSubMenu>
+          )}
+          {defaultButtons.map((item) => (
+            <MenuButton key={item.dataTest} {...item} />
+          ))}
+        </AddMenuWindow>
+      </Popout>
+    </>
   );
 };
 
@@ -162,24 +144,7 @@ AddMenu.propTypes = {
   onAddFolder: PropTypes.func.isRequired,
   canAddFolder: PropTypes.bool.isRequired,
   isFolder: PropTypes.bool.isRequired,
-};
-
-const FolderAddSubMenu = ({ children }) => {
-  return (
-    <>
-      <ContentCategory>
-        <div>Inside</div>
-      </ContentCategory>
-      {children}
-      <ContentCategory>
-        <div>Outside</div>
-      </ContentCategory>
-    </>
-  );
-};
-
-FolderAddSubMenu.propTypes = {
-  children: PropTypes.node.isRequired,
+  folderTitle: PropTypes.string,
 };
 
 export default AddMenu;

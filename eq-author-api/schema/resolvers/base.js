@@ -364,8 +364,6 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-    // TODO rudimentary dear watson
-    // Might need to split this out
     createFolder: createMutation(
       (root, { input: { isCalcSum, position, ...params } }, ctx) => {
         const folder = createFolder(params, isCalcSum);
