@@ -60,22 +60,26 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
 })`
-  margin: 0.8em 0 0.425em 2.2em;
+  margin: 0 0 0.5em 2em;
   border: 1px solid white;
-  top: 1px; /* adjust for misalignment caused by PopoutContainer */
   padding: 0.5em;
   align-self: baseline;
   font-size: 0.9em;
+
   &:focus {
     outline: 3px solid #fdbd56;
     outline-offset: -3px;
   }
 `;
 
-const Introduction = styled(NavItem)`
-  margin-left: 2em;
+const IntroductionListItem = styled.li`
+  padding-left: 2em;
   margin-bottom: 0.5em;
-  margin-top: 0.5em;
+  margin-top: 2px;
+
+  span {
+    font-weight: bold;
+  }
 `;
 
 const QuestionPage = "QuestionPage";
@@ -257,8 +261,8 @@ const NavigationSidebar = ({ questionnaire }) => {
           <NavigationScrollPane>
             <NavList>
               {questionnaire.introduction && (
-                <li>
-                  <Introduction
+                <IntroductionListItem>
+                  <NavItem
                     key={"introduction"}
                     title="Introduction"
                     titleUrl={buildIntroductionPath({
@@ -273,7 +277,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                     icon={PageIcon}
                     history={history}
                   />
-                </li>
+                </IntroductionListItem>
               )}
               {buildSectionsList(questionnaire.sections)}
             </NavList>

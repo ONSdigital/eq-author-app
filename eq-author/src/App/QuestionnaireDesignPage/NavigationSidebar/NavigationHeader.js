@@ -45,6 +45,7 @@ const QuestionPage = "QuestionPage";
 
 const StyledAddMenu = styled(AddMenu)`
   width: 100%;
+  margin-bottom: 0.5em;
 `;
 
 export const UnwrappedNavigationHeader = ({
