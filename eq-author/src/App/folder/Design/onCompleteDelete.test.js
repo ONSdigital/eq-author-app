@@ -2,7 +2,7 @@ import { onCompleteDelete } from "./onCompleteDelete";
 import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
 
 describe("onCompleteDelete", () => {
-  let props, response, history, questionnaireId, sectionId, folderPosition;
+  let response, history, questionnaireId, sectionId, folderPosition;
 
   beforeEach(() => {
     response = {
