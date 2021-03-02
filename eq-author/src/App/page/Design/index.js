@@ -1,115 +1,29 @@
 import React from "react";
-import { withApollo, Query } from "react-apollo";
+import { withApollo } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
+import { flowRight } from "lodash";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
-import PropTypes from "prop-types";
-import { flowRight, isEmpty } from "lodash";
-import { propType } from "graphql-anywhere";
+
+import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import { PageContextProvider } from "components/QuestionnaireContext";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
 import EditorLayout from "components/EditorLayout";
-
 import Panel from "components/Panel";
-
-import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
-
 import PropertiesPanel from "../PropertiesPanel";
-
-import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
-import { PageContextProvider } from "components/QuestionnaireContext";
+import withFetchAnswers from "./withFetchAnswers";
+
+import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true },
 };
-
-const deriveAvailableTabs = (page) =>
-  isEmpty(page) ? {} : availableTabMatrix[page.pageType];
-
-export class UnwrappedPageRoute extends React.Component {
-  static propTypes = {
-    match: CustomPropTypes.match.isRequired,
-    onAddQuestionPage: PropTypes.func.isRequired,
-    error: PropTypes.object, // eslint-disable-line
-    loading: PropTypes.bool.isRequired,
-    page: PropTypes.shape({
-      questionPage: propType(QuestionPageEditor.fragments.QuestionPage),
-    }),
-  };
-
-  state = {
-    showDeleteConfirmDialog: false,
-    showMovePageDialog: false,
-    hasError: false,
-  };
-
-  renderPageType = () => {
-    const { page } = this.props;
-    if (page.pageType === "QuestionPage") {
-      return (
-        <QuestionPageEditor
-          key={page.id} // this is needed to reset the state of the RichTextEditors when moving between pages
-          {...this.props}
-        />
-      );
-    }
-    if (page.pageType === "CalculatedSummaryPage") {
-      return (
-        <CalculatedSummaryPageEditor
-          key={page.id} // this is needed to reset the state of the RichTextEditors when moving between pages
-          {...this.props}
-        />
-      );
-    }
-  };
-
-  handleAddPage = () => {
-    const { page } = this.props;
-
-    this.props.onAddQuestionPage(page.section.id, page.folder.position + 1);
-  };
-
-  renderContent = () => {
-    const { loading, page } = this.props;
-
-    if (!isEmpty(page)) {
-      return this.renderPageType();
-    }
-
-    if (loading) {
-      return <Loading height="38rem">Page loading…</Loading>;
-    }
-
-    return <Error>Something went wrong</Error>;
-  };
-
-  render() {
-    const page = this.props.page || {};
-    return (
-      <EditorLayout
-        onAddQuestionPage={this.handleAddPage}
-        renderPanel={() =>
-          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
-        }
-        title={(page || {}).displayName || ""}
-        {...deriveAvailableTabs(page)}
-        validationErrorInfo={page && page.validationErrorInfo}
-      >
-        <Panel>{this.renderContent()}</Panel>
-      </EditorLayout>
-    );
-  }
-}
-
-const WrappedPageRoute = flowRight(
-  withApollo,
-  withCreateQuestionPage,
-  withFetchAnswers
-)(UnwrappedPageRoute);
 
 export const PAGE_QUERY = gql`
   query GetPage($input: QueryInput!) {
@@ -126,37 +40,63 @@ export const PAGE_QUERY = gql`
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 
-const PageRoute = (props) => {
+export const UnwrappedPageRoute = (props) => {
+  const addQuestionPage = useCreateQuestionPage();
+  const { loading, error, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+    variables: {
+      input: {
+        questionnaireId: props.match.params.questionnaireId,
+        pageId: props.match.params.pageId,
+      },
+    },
+    fetchPolicy: "cache-and-network",
+  });
   return (
-    <Query
-      query={PAGE_QUERY}
-      fetchPolicy="cache-and-network"
-      variables={{
-        input: {
-          questionnaireId: props.match.params.questionnaireId,
-          pageId: props.match.params.pageId,
-        },
-      }}
-    >
-      {(innerProps) => {
-        const page = innerProps?.data?.page;
-        return (
-          <PageContextProvider value={page}>
-            <WrappedPageRoute {...innerProps} {...props} page={page} />
-          </PageContextProvider>
-        );
-      }}
-    </Query>
+    <PageContextProvider value={page}>
+      <EditorLayout
+        title={page?.displayName || ""}
+        onAddQuestionPage={() =>
+          addQuestionPage({
+            folderId: page.folder.id,
+            position: page.position + 1,
+          })
+        }
+        renderPanel={
+          page.pageType === QuestionPage && <PropertiesPanel page={page} />
+        }
+        validationErrorInfo={page?.validationErrorInfo}
+        {...(availableTabMatrix[page?.pageType] || {})}
+      >
+        <Panel>
+          {error && <Error>Something went wrong</Error>}
+          {loading && <Loading height="38rem">Page loading…</Loading>}
+          {page.pageType === QuestionPage && (
+            <QuestionPageEditor
+              key={page.id} // resets the state of the RichTextEditors when navigating pages
+              {...props}
+              page={page}
+            />
+          )}
+          {page.pageType === CalculatedSummaryPage && (
+            <CalculatedSummaryPageEditor
+              key={page.id} // resets the state of the RichTextEditors when navigating pages
+              {...props}
+              page={page}
+            />
+          )}
+        </Panel>
+      </EditorLayout>
+    </PageContextProvider>
   );
 };
 
-PageRoute.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      questionnaireId: PropTypes.string.isRequired,
-      pageId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+UnwrappedPageRoute.propTypes = {
+  match: CustomPropTypes.match.isRequired,
 };
 
-export default PageRoute;
+const WrappedPageRoute = flowRight(
+  withApollo,
+  withFetchAnswers
+)(UnwrappedPageRoute);
+
+export default WrappedPageRoute;
