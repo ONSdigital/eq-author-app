@@ -42,7 +42,7 @@ export const PAGE_QUERY = gql`
 
 export const UnwrappedPageRoute = (props) => {
   const addQuestionPage = useCreateQuestionPage();
-  const { loading, error, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+  let { error, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -61,7 +61,7 @@ export const UnwrappedPageRoute = (props) => {
             position: page.position + 1,
           })
         }
-        renderPanel={
+        renderPanel={() =>
           page.pageType === QuestionPage && <PropertiesPanel page={page} />
         }
         validationErrorInfo={page?.validationErrorInfo}
@@ -69,15 +69,14 @@ export const UnwrappedPageRoute = (props) => {
       >
         <Panel>
           {error && <Error>Something went wrong</Error>}
-          {loading && <Loading height="38rem">Page loading…</Loading>}
-          {page.pageType === QuestionPage && (
+          {!error && page.pageType === QuestionPage && (
             <QuestionPageEditor
               key={page.id} // resets the state of the RichTextEditors when navigating pages
               {...props}
               page={page}
             />
           )}
-          {page.pageType === CalculatedSummaryPage && (
+          {!error && page.pageType === CalculatedSummaryPage && (
             <CalculatedSummaryPageEditor
               key={page.id} // resets the state of the RichTextEditors when navigating pages
               {...props}
