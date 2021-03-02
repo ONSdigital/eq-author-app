@@ -42,6 +42,7 @@ import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../withCreateQuestionConfirmation";
 
 const QuestionPage = "QuestionPage";
+
 const StyledAddMenu = styled(AddMenu)`
   width: 100%;
 `;
@@ -57,8 +58,6 @@ export const UnwrappedNavigationHeader = ({
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
   const addFolderWithPage = useCreatePageWithFolder();
-
-  const toggleAddContentMenu = () => setOpenMenu(!openMenu);
 
   const canAddQuestionAndCalculatedSummmaryPages = () =>
     [PAGE, FOLDER, SECTION].includes(entityName);
@@ -173,40 +172,40 @@ export const UnwrappedNavigationHeader = ({
     addFolder(params);
   }, [openMenu]);
 
-  const onAddQuestionConfirmation = () => {
+  const onAddQuestionConfirmation = () =>
     onCreateQuestionConfirmation(entityId);
-  };
 
   const handleAddQuestionPage = (createInsideFolder = null) => {
     onAddQuestionPage(createInsideFolder);
-    toggleAddContentMenu();
+    setOpenMenu(!openMenu);
   };
 
   const handleAddSection = () => {
     onAddSection();
-    toggleAddContentMenu();
   };
 
   const handleAddQuestionConfirmation = () => {
     onAddQuestionConfirmation();
-    toggleAddContentMenu();
+    setOpenMenu(!openMenu);
   };
 
   const handleAddCalculatedSummaryPage = (createInsideFolder = null) => {
     onAddCalculatedSummaryPage(createInsideFolder);
-    toggleAddContentMenu();
+    setOpenMenu(!openMenu);
   };
 
   const handleAddFolder = () => {
     onAddFolder();
-    toggleAddContentMenu();
+    setOpenMenu(!openMenu);
   };
+
+  const isFolder = entityName === FOLDER;
 
   return (
     <StyledAddMenu
       data-test="add-menu"
       addMenuOpen={openMenu}
-      onAddMenuToggle={toggleAddContentMenu}
+      onAddMenuToggle={() => setOpenMenu(!openMenu)}
       onAddQuestionPage={handleAddQuestionPage}
       onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
       onAddSection={handleAddSection}
@@ -216,10 +215,8 @@ export const UnwrappedNavigationHeader = ({
       canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
       canAddQuestionConfirmation={canAddQuestionConfirmation()}
       canAddFolder={![INTRODUCTION].includes(entityName)}
-      isFolder={entityName === FOLDER}
-      folderTitle={
-        entityName === FOLDER && getFolderById(questionnaire, entityId).alias
-      }
+      isFolder={isFolder}
+      folderTitle={isFolder && getFolderById(questionnaire, entityId).alias}
     />
   );
 };
