@@ -33,6 +33,8 @@ import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import PageIcon from "./icon-survey-intro.svg?inline";
 import { TransitionGroup } from "react-transition-group";
 
+import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+
 const Container = styled.div`
   background: ${colors.black};
   color: ${colors.white};
@@ -81,9 +83,6 @@ const IntroductionListItem = styled.li`
     font-weight: bold;
   }
 `;
-
-const QuestionPage = "QuestionPage";
-const CalculatedSummaryPage = "CalculatedSummaryPage";
 
 const NavigationSidebar = ({ questionnaire }) => {
   const { entityId } = useParams();
