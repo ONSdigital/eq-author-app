@@ -75,7 +75,7 @@ const NavItem = ({
 }) => {
   return (
     <Button
-      className={className}
+      className={`${className} NavItem`}
       data-test="NavItem"
       onClick={() => history.push(titleUrl)}
       disabled={disabled}
