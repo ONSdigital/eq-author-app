@@ -22,6 +22,8 @@ import AddPage from "assets/icon-add-page.svg?inline";
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
 
+import { colors } from "constants/theme";
+
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
   margin-right: 2em;
@@ -38,6 +40,16 @@ const StyledPanel = styled(Panel)`
     margin-left: 2em;
     margin-right: 2em;
   }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 2em;
+  margin-top: 1.2em;
+`;
+const BorderedButton = styled(Button)`
+  border: 1px solid ${colors.primary};
+  padding: 0.5em;
 `;
 
 const FolderDesignPage = ({ match }) => {
@@ -127,24 +139,26 @@ const FolderDesignPage = ({ match }) => {
           </p>
         </Guidance>
       </StyledPanel>
-      <Button
-        variant="tertiary"
-        small
-        onClick={() => onAddQuestionPage({ folderId, position: 0 })}
-        data-test="btn-add-page"
-      >
-        <IconText icon={AddPage}>Add question inside folder</IconText>
-      </Button>
-      <Button
-        variant="tertiary"
-        small
-        onClick={() =>
-          addPageWithFolder({ sectionId: section.id, position: position + 1 })
-        }
-        data-test="btn-add-page"
-      >
-        <IconText icon={AddPage}>Add question outside folder</IconText>
-      </Button>
+      <ButtonGroup>
+        <BorderedButton
+          variant="tertiary"
+          small
+          onClick={() => onAddQuestionPage({ folderId, position: 0 })}
+          data-test="btn-add-page"
+        >
+          <IconText icon={AddPage}>Add question inside folder</IconText>
+        </BorderedButton>
+        <BorderedButton
+          variant="tertiary"
+          small
+          onClick={() =>
+            addPageWithFolder({ sectionId: section.id, position: position + 1 })
+          }
+          data-test="btn-add-page"
+        >
+          <IconText icon={AddPage}>Add question outside folder</IconText>
+        </BorderedButton>
+      </ButtonGroup>
     </EditorPage>
   );
 };
