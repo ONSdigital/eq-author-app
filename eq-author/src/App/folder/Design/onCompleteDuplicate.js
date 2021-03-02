@@ -7,12 +7,9 @@ const onCompleteDuplicate = (
   sectionId,
   folderPosition
 ) => {
-  const sections = response.duplicateFolder.sections;
-  const sectionIndex = sections.findIndex(
-    (sections) => sections.id === sectionId
-  );
+  const section = response.duplicateFolder.section;
 
-  const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
+  const pages = section.folders.flatMap(({ pages }) => pages);
 
   const nextPage = pages[folderPosition + 1];
 

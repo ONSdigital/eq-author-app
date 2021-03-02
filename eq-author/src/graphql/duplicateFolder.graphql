@@ -8,6 +8,15 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
     ...Folder
     position
     id
+    section {
+      id
+      folders {
+        id
+        pages {
+          id
+        }
+      }
+    }
     pages {
       ...Page
       position
