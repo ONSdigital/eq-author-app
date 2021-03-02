@@ -43,7 +43,9 @@ describe("QuestionnaireDesignPage", () => {
   let wrapper;
   let match;
   let confirmation,
+    confirmation2,
     page,
+    page2,
     folder,
     section,
     questionnaire,
@@ -58,9 +60,14 @@ describe("QuestionnaireDesignPage", () => {
     section = questionnaire.sections[0];
     folder = questionnaire.sections[0].folders[0];
     page = questionnaire.sections[0].folders[0].pages[0];
+    page2 = questionnaire.sections[0].folders[1].pages[0];
 
     confirmation = {
       id: "4",
+      title: "Confirmation",
+    };
+    confirmation2 = {
+      id: "5",
       title: "Confirmation",
     };
 
@@ -276,6 +283,8 @@ describe("QuestionnaireDesignPage", () => {
 
     it("should be able to add a page after the confirmation when on a confirmation page", () => {
       page.confirmation = confirmation;
+      page2.confirmation = confirmation2;
+
       wrapper.setProps({
         match: {
           params: {
@@ -290,7 +299,7 @@ describe("QuestionnaireDesignPage", () => {
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
-        page.position + 1
+        page2.position + 1
       );
     });
   });

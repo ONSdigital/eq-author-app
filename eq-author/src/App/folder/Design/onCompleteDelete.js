@@ -11,7 +11,6 @@ export const onCompleteDelete = (
   const sectionIndex = sections.findIndex(
     (sections) => sections.id === sectionId
   );
-
   const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
   const previousPage = pages[folderPosition - 1];
 

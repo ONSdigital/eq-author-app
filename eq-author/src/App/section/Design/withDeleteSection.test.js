@@ -92,7 +92,7 @@ describe("withDeleteSection", () => {
       it("should display number of deleted pages in toast", () => {
         return props.onDeleteSection(currentSection.id).then(() => {
           expect(showToast).toHaveBeenCalledWith(
-            expect.stringContaining("1 page")
+            expect.stringContaining("Section + 2 pages deleted")
           );
         });
       });

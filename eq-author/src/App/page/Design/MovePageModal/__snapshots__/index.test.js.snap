@@ -70,6 +70,23 @@ exports[`MovePageModal should render 1`] = `
             "totalCount": 2,
           },
         },
+        Object {
+          "alias": "1.2.1",
+          "answers": Array [],
+          "displayName": "Page 1.2.1",
+          "folder": Object {
+            "id": "2",
+          },
+          "id": "1.2.1",
+          "position": 0,
+          "section": Object {
+            "id": "1",
+          },
+          "title": "Page 1.2.1",
+          "validationErrorInfo": Object {
+            "totalCount": 2,
+          },
+        },
       ]
     }
     selected={

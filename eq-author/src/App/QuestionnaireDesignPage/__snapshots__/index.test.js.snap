@@ -4139,6 +4139,34 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                   "id": "1",
                 },
               },
+              Object {
+                "alias": "Folder 1.2",
+                "enabled": false,
+                "id": "1.2",
+                "pages": Array [
+                  Object {
+                    "alias": "1.2.1",
+                    "answers": Array [],
+                    "displayName": "Page 1.2.1",
+                    "folder": Object {
+                      "id": "2",
+                    },
+                    "id": "1.2.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.2.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
+                  },
+                ],
+                "position": 1,
+                "section": Object {
+                  "id": "2",
+                },
+              },
             ],
             "id": "1",
             "position": 0,
@@ -4188,6 +4216,34 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                 "position": 0,
                 "section": Object {
                   "id": "1",
+                },
+              },
+              Object {
+                "alias": "Folder 1.2",
+                "enabled": false,
+                "id": "1.2",
+                "pages": Array [
+                  Object {
+                    "alias": "1.2.1",
+                    "answers": Array [],
+                    "displayName": "Page 1.2.1",
+                    "folder": Object {
+                      "id": "2",
+                    },
+                    "id": "1.2.1",
+                    "position": 0,
+                    "section": Object {
+                      "id": "1",
+                    },
+                    "title": "Page 1.2.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
+                  },
+                ],
+                "position": 1,
+                "section": Object {
+                  "id": "2",
                 },
               },
             ],
@@ -4272,6 +4328,34 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                             "position": 0,
                             "section": Object {
                               "id": "1",
+                            },
+                          },
+                          Object {
+                            "alias": "Folder 1.2",
+                            "enabled": false,
+                            "id": "1.2",
+                            "pages": Array [
+                              Object {
+                                "alias": "1.2.1",
+                                "answers": Array [],
+                                "displayName": "Page 1.2.1",
+                                "folder": Object {
+                                  "id": "2",
+                                },
+                                "id": "1.2.1",
+                                "position": 0,
+                                "section": Object {
+                                  "id": "1",
+                                },
+                                "title": "Page 1.2.1",
+                                "validationErrorInfo": Object {
+                                  "totalCount": 2,
+                                },
+                              },
+                            ],
+                            "position": 1,
+                            "section": Object {
+                              "id": "2",
                             },
                           },
                         ],

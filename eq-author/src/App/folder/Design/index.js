@@ -175,4 +175,3 @@ FolderDesignPage.propTypes = {
 };
 
 export default FolderDesignPage;
-// export default flowRight(withApollo)(FolderDesignPage);
