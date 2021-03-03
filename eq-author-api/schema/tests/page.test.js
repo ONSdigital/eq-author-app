@@ -1,5 +1,3 @@
-const { last, get } = require("lodash");
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
@@ -18,10 +16,6 @@ const {
 } = require("../../tests/utils/contextBuilder/page/questionPage");
 
 const { DATE, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
-const {
-  NEXT_PAGE,
-  END_OF_QUESTIONNAIRE,
-} = require("../../constants/logicalDestinations");
 const {
   getSectionByPageId,
   getPageById,
@@ -408,10 +402,6 @@ describe("page", () => {
         additionalInfoLabel: expect.any(String),
         additionalInfoContent: expect.any(String),
         additionalInfoEnabled: expect.any(Boolean),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
-        availableRoutingAnswers: expect.any(Array),
-        availableRoutingDestinations: expect.any(Object),
         confirmation: expect.any(Object) || null,
         routing: expect.any(Object) || null,
       });
@@ -435,37 +425,6 @@ describe("page", () => {
       expect(queriedPage.folder.id).toEqual(
         questionnaire.sections[0].folders[0].id
       );
-    });
-
-    it("should resolve availablePipingAnswers", () => {
-      expect(last(queriedPage.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(last(queriedPage.availablePipingMetadata).id).toEqual(
-        last(questionnaire.metadata).id
-      );
-    });
-
-    it("should resolve availableRoutingAnswers", () => {
-      expect(last(queriedPage.availableRoutingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availableRoutingDestinations", () => {
-      expect(queriedPage.availableRoutingDestinations).toEqual({
-        logicalDestinations: [
-          {
-            id: NEXT_PAGE,
-          },
-          {
-            id: END_OF_QUESTIONNAIRE,
-          },
-        ],
-      });
     });
 
     it("should resolve confirmation", () => {

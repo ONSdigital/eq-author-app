@@ -27,7 +27,6 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const { DATE } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -53,14 +52,11 @@ const {
   getPageById,
   getPageByAnswerId,
   getPageByConfirmationId,
-  getPageByValidationId,
   getAnswers,
   getAnswerById,
   getOptionById,
   getConfirmationById,
   getValidationById,
-  getAvailablePreviousAnswersForValidation,
-  getAvailableMetadataForValidation,
   getSkippables,
   getSkippableById,
   remapAllNestedIds,
@@ -73,8 +69,6 @@ const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
-const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
-const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
@@ -180,6 +174,7 @@ const Resolvers = {
         ({ history }) => history
       ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
+    folder: (root, { input }, ctx) => getFolderById(ctx, input.folderId),
     page: (root, { input }, ctx) =>
       getPageById(ctx, input.pageId, input.includeSelf),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
@@ -203,20 +198,10 @@ const Resolvers = {
       const { comments } = await getCommentsForQuestionnaire(questionnaireId);
 
       if (comments[id]) {
-        comments[id].sort((a, b) => b.createdTime - a.createdTime);
-
         return comments[id];
       }
-
       return [];
     },
-    getAvailableAnswers: (root, { input }, ctx) =>
-      getPreviousAnswersForPage(
-        ctx.questionnaire,
-        input.pageId,
-        input.includeSelf,
-        ROUTING_ANSWER_TYPES
-      ),
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
   },
 
@@ -380,9 +365,9 @@ const Resolvers = {
       return remappedSection;
     }),
     createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder();
+      const folder = createFolder(input);
       const section = getSectionById(ctx, input.sectionId);
-      section.folders.push(folder);
+      section.folders.splice(input.position, 0, folder);
       return folder;
     }),
     updateFolder: createMutation((root, { input }, ctx) => {
@@ -997,9 +982,6 @@ const Resolvers = {
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForSection(ctx.questionnaire, id),
-    availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1176,8 +1158,6 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1193,24 +1173,9 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const maxValueErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.maxValue) {
-          const errorsShareParent = answer.validation.maxValue.id === id;
-          return (
-            validationProperty === "minValue" &&
-            errorsShareParent &&
-            errorCode === "ERR_MIN_LARGER_THAN_MAX"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, maxValueErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, maxValueErrors);
     },
   },
 
@@ -1225,10 +1190,6 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1248,26 +1209,9 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const latestDateErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.latestDate) {
-          const errorsShareParent = answer.validation.latestDate.id === id;
-          return (
-            validationProperty === "earliestDate" &&
-            errorsShareParent &&
-            errorCode === "ERR_EARLIEST_AFTER_LATEST"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, latestDateErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, latestDateErrors);
     },
   },
 
@@ -1285,33 +1229,13 @@ const Resolvers = {
     duration: ({ duration }) => duration,
     validationErrorInfo: ({ id }, args, ctx) => {
       const maxDurationErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.maxDuration) {
-          const errorsShareParent = answer.validation.maxDuration.id === id;
-          return (
-            validationProperty === "minDuration" &&
-            errorsShareParent &&
-            errorCode === "ERR_MAX_DURATION_TOO_SMALL"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, maxDurationErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, maxDurationErrors);
     },
   },
 
   TotalValidationRule: {
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) => {
-      const page = getPageByValidationId(ctx, id);
-      const answerType = page.answers[0].type;
-      return getPreviousAnswersForPage(ctx.questionnaire, page.id, false, [
-        answerType,
-      ]);
-    },
   },
 
   Metadata: {
@@ -1328,14 +1252,10 @@ const Resolvers = {
     displayName: (confirmation) =>
       getName(confirmation, "QuestionConfirmation"),
     page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForPage(ctx.questionnaire, id),
-    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) => {
       const confirmationQuestionErrors = ctx.validationErrorInfo.filter(
         ({ confirmationId }) => id === confirmationId
       );
-
       return {
         id,
         errors: confirmationQuestionErrors,

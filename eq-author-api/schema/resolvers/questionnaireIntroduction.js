@@ -45,10 +45,6 @@ Resolvers.Mutation = {
     return introduction;
   }),
 };
-Resolvers.QuestionnaireIntroduction = {
-  availablePipingMetadata: (root, args, ctx) => ctx.questionnaire.metadata,
-  availablePipingAnswers: () => [],
-};
 
 Resolvers.Collapsible = {
   introduction: (root, args, ctx) => ctx.questionnaire.introduction,

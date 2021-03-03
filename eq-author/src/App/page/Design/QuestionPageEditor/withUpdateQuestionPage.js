@@ -8,13 +8,6 @@ export const mapMutateToProps = ({ mutate }) => ({
     const data = filter(pageFragment, page);
     return mutate({
       variables: { input: data },
-      optimisticResponse: {
-        updateQuestionPage: {
-          ...page,
-          ...data,
-          __typename: "QuestionPage",
-        },
-      },
     });
   },
 });

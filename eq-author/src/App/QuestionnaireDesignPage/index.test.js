@@ -2,6 +2,7 @@ import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import { flatMap } from "lodash";
 import {
   organiseAnswers,
   flattenAnswers,
@@ -13,6 +14,7 @@ import {
   PAGE,
   QUESTION_CONFIRMATION,
   INTRODUCTION,
+  FOLDER,
 } from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
@@ -26,6 +28,14 @@ import {
   withAuthCheck,
   withValidations,
   withQuestionnaire,
+  getSections,
+  getFolders,
+  getPages,
+  getFolderById,
+  getFolderByPageId,
+  getSectionByFolderId,
+  getSectionByPageId,
+  getPageByConfirmationId,
 } from "./";
 
 describe("QuestionnaireDesignPage", () => {
@@ -34,6 +44,7 @@ describe("QuestionnaireDesignPage", () => {
   let match;
   let confirmation,
     page,
+    folder,
     section,
     questionnaire,
     validations,
@@ -45,6 +56,7 @@ describe("QuestionnaireDesignPage", () => {
   beforeEach(() => {
     questionnaire = buildQuestionnaire();
     section = questionnaire.sections[0];
+    folder = questionnaire.sections[0].folders[0];
     page = questionnaire.sections[0].folders[0].pages[0];
 
     confirmation = {
@@ -62,6 +74,7 @@ describe("QuestionnaireDesignPage", () => {
       onUpdateSection: jest.fn(),
       onAddQuestionPage: jest.fn(),
       onAddSection: jest.fn(),
+      onAddFolder: jest.fn(),
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
       onDeleteSection: jest.fn(),
@@ -90,28 +103,6 @@ describe("QuestionnaireDesignPage", () => {
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render spinner while loading", () => {
-    wrapper.setProps({ loading: true });
-
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
-  });
-
-  it("should render redirect when finished loading", () => {
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
-  });
-
-  it("should redirect to the introduction if it has one", () => {
-    wrapper.setProps({
-      questionnaire: {
-        ...questionnaire,
-        introduction: {
-          id: "1",
-        },
-      },
-    });
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
   it("should throw an error for invalid entity types", () => {
@@ -153,6 +144,12 @@ describe("QuestionnaireDesignPage", () => {
       ).toEqual(false);
     });
 
+    it("should disable adding folder page when on introduction page", () => {
+      expect(wrapper.find(NavigationSidebar).prop("canAddFolder")).toEqual(
+        false
+      );
+    });
+
     it("should disable adding confirmation question when on introduction page", () => {
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
@@ -163,6 +160,88 @@ describe("QuestionnaireDesignPage", () => {
       expect(
         wrapper.find(NavigationSidebar).prop("canAddCalculatedSummaryPage")
       ).toEqual(false);
+    });
+  });
+
+  describe("onAddFolder", () => {
+    it("Should be able to add a folder at the start when on a section", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: SECTION,
+            entityId: section.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(section.id, 0);
+    });
+
+    it("Should be able to add a folder below the current folder", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: FOLDER,
+            entityId: folder.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        folder.position + 1
+      );
+    });
+
+    it("Should be able to add a folder below the current page", () => {
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
+    });
+
+    it("Should be able to add a folder below the current confirmation page", () => {
+      page.confirmation = confirmation;
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: QUESTION_CONFIRMATION,
+            entityId: confirmation.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
+    });
+
+    it("Throws when it doesn't recognise the current entity", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: "BeBe Zahara Benet",
+            entityId: folder.id,
+          },
+        },
+      });
+
+      expect(() =>
+        wrapper.find(NavigationSidebar).simulate("addFolder")
+      ).toThrow();
     });
   });
 
@@ -206,6 +285,7 @@ describe("QuestionnaireDesignPage", () => {
           },
         },
       });
+
       wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
@@ -248,11 +328,20 @@ describe("QuestionnaireDesignPage", () => {
   describe("getTitle", () => {
     it("should display existing title if loading", () => {
       wrapper.setProps({ loading: true });
-      expect(wrapper.instance().getTitle()).toEqual("");
+
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
+
+      expect(getTitle()).toEqual("");
     });
 
     it("should display questionnaire title if no longer loading", () => {
-      expect(wrapper.instance().getTitle()).toEqual(questionnaire.title);
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
+
+      expect(getTitle()).toEqual(questionnaire.title);
     });
   });
 
@@ -412,6 +501,80 @@ describe("QuestionnaireDesignPage", () => {
     });
   });
 
+  describe("Helpers", () => {
+    it("Can get all sections in a questionnaire", () => {
+      expect(getSections(questionnaire)).toMatchObject(questionnaire.sections);
+    });
+
+    it("Can get all folders in a questionnaire", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+
+      expect(getFolders(questionnaire)).toMatchObject(folders);
+    });
+
+    it("Can get all pages in a questionnaire", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+      const pages = flatMap(folders, ({ pages }) => pages);
+
+      expect(getPages(questionnaire)).toMatchObject(pages);
+    });
+
+    it("Can get a folder by it's ID", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+
+      expect(getFolderById(questionnaire, firstFolder.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can get a folder by a page ID", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getFolderByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can get a section by a folder ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+
+      expect(getSectionByFolderId(questionnaire, firstFolder.id)).toMatchObject(
+        firstSection
+      );
+    });
+
+    it("Can get a section by a page ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getSectionByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstSection
+      );
+    });
+
+    it("Can get a page by a confirmation page ID", () => {
+      page.confirmation = confirmation;
+
+      const sections = questionnaire.sections;
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(
+        getPageByConfirmationId(questionnaire, confirmation.id)
+      ).toMatchObject(firstPage);
+    });
+  });
   describe("getAllAnswersFlatMap", () => {
     sectionsForFlatAnswers = [
       {

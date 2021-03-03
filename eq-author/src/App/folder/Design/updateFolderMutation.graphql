@@ -1,0 +1,6 @@
+mutation UpdateFolder($input: UpdateFolderInput!) {
+  updateFolder(input: $input) {
+    id
+    alias
+  }
+}

@@ -18,18 +18,15 @@ const NavItemTransition = styled(CSSTransition).attrs(() => ({
     opacity: 0;
     transform: translateX(-20px);
   }
-
   &.nav-item-enter-active {
     opacity: 1;
     transform: translateX(0);
     transition: opacity ${timeout}ms ease-out, transform ${timeout}ms ease-out;
   }
-
   &.nav-item-exit {
     opacity: 1;
     transform: translateX(0);
   }
-
   &.nav-item-exit-active {
     opacity: 0;
     transform: translateX(-20px);

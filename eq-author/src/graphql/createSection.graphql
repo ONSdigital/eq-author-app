@@ -1,6 +1,7 @@
 #import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
+#import "./fragments/questionnaire.graphql"
 
 mutation CreateSection($input: CreateSectionInput!) {
   createSection(input: $input) {
@@ -9,6 +10,7 @@ mutation CreateSection($input: CreateSectionInput!) {
     displayName
     folders {
       ...Folder
+      position
       pages {
         id
         title
@@ -34,7 +36,10 @@ mutation CreateSection($input: CreateSectionInput!) {
       ...ValidationErrorInfo
     }
     questionnaire {
-      id
+      ...Questionnaire
+      sections {
+        ...Section
+      }
       questionnaireInfo {
         totalSectionCount
       }

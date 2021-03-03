@@ -1,0 +1,113 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import CollapsibleNavItem from "../../components/CollapsibleNavItem";
+
+<Meta
+  title="Components/Collapsible Navigation Item"
+  component={CollapsibleNavItem}
+/>
+
+# Collapsible Navigation Item
+
+The collapsible navigation item component is used to simplify a navigation bar by allowing the user to reveal certain routes only if they need it.
+
+## Example
+
+<Canvas>
+  <Story name="Primary">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem title="Lorem ipsum dolor sit amet" titleUrl="/">
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+## Variants
+
+<Canvas>
+  <Story name="Disabled">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        disabled
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Bordered">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        bordered
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Defaulted open">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        defaultOpen
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Self errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        selfErrorCount={1}
+        childErrorCount={0}
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Child errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        selfErrorCount={0}
+        childErrorCount={1}
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Self and child errors">
+    <div id="example-container" style={{ width: "25%" }}>
+      <CollapsibleNavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        childErrorCount={1}
+        selfErrorCount={1}
+      >
+        Inctum, laoreet enim a
+      </CollapsibleNavItem>
+    </div>
+  </Story>
+</Canvas>
