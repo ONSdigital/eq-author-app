@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight, isFunction, isEmpty } from "lodash";
-import fp from "lodash/fp";
+import { get, flowRight, isEmpty } from "lodash";
+
+import { useCreatePageWithFolder } from "hooks/useCreateFolder";
 
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
@@ -15,7 +16,6 @@ import IconText from "components/IconText";
 import EditorLayout from "components/EditorLayout";
 import DuplicateButton from "components/buttons/DuplicateButton";
 
-import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 
 import withDeleteSection from "./withDeleteSection";
@@ -35,83 +35,50 @@ import sectionFragment from "graphql/fragments/section.graphql";
 import AliasEditor from "components/AliasEditor";
 import Panel from "components/Panel";
 
-export class UnwrappedSectionRoute extends React.Component {
-  static propTypes = {
-    match: CustomPropTypes.match.isRequired,
-    onUpdateSection: PropTypes.func.isRequired,
-    onDeleteSection: PropTypes.func.isRequired,
-    onAddQuestionPage: PropTypes.func.isRequired,
-    onMoveSection: PropTypes.func.isRequired,
-    onDuplicateSection: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    error: PropTypes.object, // eslint-disable-line
-    loading: PropTypes.bool.isRequired,
-    section: CustomPropTypes.section,
-  };
+const propTypes = {
+  match: CustomPropTypes.match.isRequired,
+  onUpdateSection: PropTypes.func.isRequired,
+  onDeleteSection: PropTypes.func.isRequired,
+  onAddQuestionPage: PropTypes.func.isRequired,
+  onMoveSection: PropTypes.func.isRequired,
+  onDuplicateSection: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  error: PropTypes.object, // eslint-disable-line
+  loading: PropTypes.bool.isRequired,
+  section: CustomPropTypes.section,
+};
+export const UnwrappedSectionRoute = (props) => {
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showMoveSectionDialog, setMoveSectionDialog] = useState(false);
+  const addFolderWithPage = useCreatePageWithFolder();
 
-  state = {
-    showDeleteConfirmDialog: false,
-    showMoveSectionDialog: false,
-  };
-
-  handleOpenMoveSectionDialog = () => {
-    this.setState({ showMoveSectionDialog: true });
-  };
-
-  handleCloseMoveSectionDialog = (cb) => {
-    this.setState({ showMoveSectionDialog: false }, isFunction(cb) ? cb : null);
-  };
-
-  handleMoveSection = (args) => {
-    this.handleCloseMoveSectionDialog(() => this.props.onMoveSection(args));
-  };
-
-  handleOpenDeleteConfirmDialog = () =>
-    this.setState({ showDeleteConfirmDialog: true });
-
-  handleCloseDeleteConfirmDialog = (cb) =>
-    this.setState(
-      { showDeleteConfirmDialog: false },
-      isFunction(cb) ? cb : null
-    );
-
-  handleDeleteSectionConfirm = () => {
-    const { onDeleteSection, match } = this.props;
-    const {
+  const {
+    match: {
       params: { sectionId },
-    } = match;
+    },
+    onUpdateSection,
+    onDeleteSection,
+    onMoveSection,
+    onDuplicateSection,
+    onChange,
+    onUpdate,
+    error,
+    loading,
+    section,
+  } = props;
 
-    this.handleCloseDeleteConfirmDialog(() => onDeleteSection(sectionId));
+  const handleMoveSection = (args) => {
+    setMoveSectionDialog(false);
+    onMoveSection(args);
   };
 
-  handleAddPage = () => {
-    const {
-      params: { sectionId },
-    } = this.props.match;
-    this.props.onAddQuestionPage(sectionId, 0);
+  const handleDeleteSectionConfirm = () => {
+    setShowDeleteConfirmDialog(false);
+    onDeleteSection(sectionId);
   };
 
-  handleDuplicateSection = () => {
-    const { onDuplicateSection, section } = this.props;
-    onDuplicateSection({
-      sectionId: section.id,
-      position: section.position + 1,
-    });
-  };
-
-  getSectionTitle = (section) => (title) => {
-    const sectionTitle = section.displayName;
-    return `${sectionTitle} - ${title}`;
-  };
-
-  isMoveSectionButtonDisabled = fp.flow(
-    fp.get("questionnaireInfo.totalSectionCount"),
-    fp.isEqual(1)
-  );
-
-  renderContent() {
-    const { loading, error, section, onUpdate, onChange } = this.props;
+  const renderContent = () => {
     if (loading) {
       return <Loading height="24.25rem">Section loading…</Loading>;
     }
@@ -122,35 +89,42 @@ export class UnwrappedSectionRoute extends React.Component {
       return <Error>Oops! Section could not be found</Error>;
     }
 
+    const { id, alias, questionnaire, position } = section;
+
     return (
       <>
         <Toolbar>
           <div>
             <Label htmlFor="alias">Short code</Label>
             <AliasEditor
-              alias={section.alias}
+              alias={alias}
               onUpdate={onUpdate}
               onChange={onChange}
             />
           </div>
           <Buttons>
             <Button
-              onClick={this.handleOpenMoveSectionDialog}
+              onClick={() => setMoveSectionDialog(true)}
               data-test="btn-move"
               variant="tertiary"
               small
-              disabled={this.isMoveSectionButtonDisabled(section.questionnaire)}
+              disabled={questionnaire.questionnaireInfo.totalSectionCount === 1}
             >
               <IconText icon={IconMove}>Move</IconText>
             </Button>
             <DuplicateButton
-              onClick={this.handleDuplicateSection}
+              onClick={() =>
+                onDuplicateSection({
+                  sectionId: id,
+                  position: position + 1,
+                })
+              }
               data-test="btn-duplicate-section"
             >
               Duplicate
             </DuplicateButton>
             <IconButtonDelete
-              onClick={this.handleOpenDeleteConfirmDialog}
+              onClick={() => setShowDeleteConfirmDialog(true)}
               data-test="btn-delete"
             >
               Delete
@@ -158,40 +132,39 @@ export class UnwrappedSectionRoute extends React.Component {
           </Buttons>
         </Toolbar>
         <SectionEditor
-          key={section.id}
-          onUpdate={this.props.onUpdateSection}
-          showDeleteConfirmDialog={this.state.showDeleteConfirmDialog}
-          onCloseDeleteConfirmDialog={this.handleCloseDeleteConfirmDialog}
-          onDeleteSectionConfirm={this.handleDeleteSectionConfirm}
-          showMoveSectionDialog={this.state.showMoveSectionDialog}
-          onCloseMoveSectionDialog={this.handleCloseMoveSectionDialog}
-          onMoveSectionDialog={this.handleMoveSection}
-          {...this.props}
+          key={id}
+          onUpdate={onUpdateSection}
+          showDeleteConfirmDialog={showDeleteConfirmDialog}
+          onCloseDeleteConfirmDialog={() => setShowDeleteConfirmDialog(false)}
+          onDeleteSectionConfirm={handleDeleteSectionConfirm}
+          showMoveSectionDialog={showMoveSectionDialog}
+          onCloseMoveSectionDialog={() => setMoveSectionDialog(false)}
+          onMoveSectionDialog={handleMoveSection}
+          {...props}
           section={section}
         />
       </>
     );
-  }
+  };
 
-  render() {
-    const { section = {} } = this.props;
-    const hasIntroductionContent = Boolean(
-      section.introductionTitle || section.introductionContent
-    );
+  const hasIntroductionContent = Boolean(
+    section.introductionTitle || section.introductionContent
+  );
 
-    return (
-      <EditorLayout
-        onAddQuestionPage={this.handleAddPage}
-        data-test="section-route"
-        preview={hasIntroductionContent}
-        title={section.displayName || ""}
-        validationErrorInfo={section.validationErrorInfo}
-      >
-        <Panel>{this.renderContent()}</Panel>
-      </EditorLayout>
-    );
-  }
-}
+  return (
+    <EditorLayout
+      onAddQuestionPage={() => addFolderWithPage({ sectionId, position: 0 })}
+      data-test="section-route"
+      preview={hasIntroductionContent}
+      title={section.displayName || ""}
+      validationErrorInfo={section.validationErrorInfo}
+    >
+      <Panel>{renderContent()}</Panel>
+    </EditorLayout>
+  );
+};
+
+UnwrappedSectionRoute.propTypes = propTypes;
 
 const withSectionEditing = flowRight(
   withApollo,
@@ -199,7 +172,6 @@ const withSectionEditing = flowRight(
   withDuplicateSection,
   withUpdateSection,
   withDeleteSection,
-  withCreateQuestionPage,
   withMoveSection,
   withPropRenamed("onUpdateSection", "onUpdate"),
   withEntityEditor("section", sectionFragment)
