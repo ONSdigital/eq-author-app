@@ -106,6 +106,28 @@ const NavigationSidebar = ({ questionnaire }) => {
     validationErrorInfo,
   }) => {
     const components = [];
+    components.push(
+      <NavItemTransition key={`transition-page-${pageId}`}>
+        <li key={`page-${pageId}`}>
+          <NavItem
+            key={pageId}
+            title={displayName}
+            titleUrl={buildPagePath({
+              questionnaireId: questionnaire.id,
+              pageId,
+              tab: "design",
+            })}
+            disabled={isCurrentPage(pageId, entityId)}
+            icon={
+              (pageType === QuestionPage && IconQuestionPage) ||
+              (pageType === CalculatedSummaryPage && IconSummaryPage)
+            }
+            errorCount={validationErrorInfo.totalCount}
+            history={history}
+          />
+        </li>
+      </NavItemTransition>
+    );
     if (confirmation) {
       components.push(
         <NavItemTransition
@@ -130,28 +152,7 @@ const NavigationSidebar = ({ questionnaire }) => {
         </NavItemTransition>
       );
     }
-    components.push(
-      <NavItemTransition key={`transition-page-${pageId}`}>
-        <li key={`page-${pageId}`}>
-          <NavItem
-            key={pageId}
-            title={displayName}
-            titleUrl={buildPagePath({
-              questionnaireId: questionnaire.id,
-              pageId,
-              tab: "design",
-            })}
-            disabled={isCurrentPage(pageId, entityId)}
-            icon={
-              (pageType === QuestionPage && IconQuestionPage) ||
-              (pageType === CalculatedSummaryPage && IconSummaryPage)
-            }
-            errorCount={validationErrorInfo.totalCount}
-            history={history}
-          />
-        </li>
-      </NavItemTransition>
-    );
+
     return components;
   };
 
