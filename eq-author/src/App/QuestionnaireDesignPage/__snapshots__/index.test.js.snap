@@ -4223,17 +4223,8 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               <QuestionnaireDesignPage__MainNav>
                 <Component />
               </QuestionnaireDesignPage__MainNav>
-              <withRouter(UnwrappedNavigationSidebar)
-                canAddCalculatedSummaryPage={true}
-                canAddFolder={true}
-                canAddQuestionConfirmation={true}
-                canAddQuestionPage={true}
+              <NavigationSidebar
                 data-test="side-nav"
-                onAddCalculatedSummaryPage={[Function]}
-                onAddFolder={[Function]}
-                onAddQuestionConfirmation={[Function]}
-                onAddQuestionPage={[Function]}
-                onAddSection={[MockFunction]}
                 questionnaire={
                   Object {
                     "displayName": "questionnaire",
