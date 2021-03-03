@@ -16,9 +16,9 @@ const getAbsoluteDestination = (destination, ctx) => {
 };
 
 const getNextPageDestination = (pageId, ctx) => {
-  const pages = flatMap(ctx.questionnaireJson.sections, section =>
-    flatMap(section.folders, folder =>
-      flatMap(folder.pages, page => ({
+  const pages = flatMap(ctx.questionnaireJson.sections, (section) =>
+    flatMap(section.folders, (folder) =>
+      flatMap(folder.pages, (page) => ({
         id: page.id,
         sectionId: section.id,
         folderId: folder.id,

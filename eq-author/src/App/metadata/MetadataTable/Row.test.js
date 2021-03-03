@@ -75,7 +75,7 @@ describe("MetadataTable", () => {
   });
 
   it("should correctly render different types of metadata", () => {
-    forEach(metadataTypes, metadata => {
+    forEach(metadataTypes, (metadata) => {
       expect(
         render({
           ...props,

@@ -36,12 +36,6 @@ const getQuestionConfirmationQuery = `
       page {
         id
       }
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
       validationErrorInfo {
         errors {
           id

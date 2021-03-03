@@ -50,6 +50,7 @@ exports[`QuestionConfirmationRoute should render 1`] = `
             "label": "Positive label",
             "validationErrorInfo": Array [],
           },
+          "qCode": "",
           "title": "My first confirmation",
         }
       }

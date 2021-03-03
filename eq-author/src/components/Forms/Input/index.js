@@ -70,11 +70,11 @@ const radioButton = css`
 
 const StyledInput = styled.input`
   ${sharedStyles};
-  ${props => props.type === "checkbox" && checkBox};
-  ${props => props.type === "radio" && radioButton};
+  ${(props) => props.type === "checkbox" && checkBox};
+  ${(props) => props.type === "radio" && radioButton};
 `;
 
-export const UncontrolledInput = props => {
+export const UncontrolledInput = (props) => {
   const { type, defaultValue, id, forwardRef, ...otherProps } = props;
   return (
     <StyledInput

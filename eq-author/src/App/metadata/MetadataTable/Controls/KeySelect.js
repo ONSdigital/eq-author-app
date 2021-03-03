@@ -24,7 +24,7 @@ export const suggestedKeys = [
   { value: "country" },
 ];
 
-export const removeUsedKeys = usedKeys =>
+export const removeUsedKeys = (usedKeys) =>
   reject(suggestedKeys, ({ value }) => includes(usedKeys, value));
 
 class KeySelect extends Component {
@@ -38,7 +38,7 @@ class KeySelect extends Component {
     onChange({ name, value }, onUpdate);
   };
 
-  handleStateChange = changes => {
+  handleStateChange = (changes) => {
     const { name, onChange, onUpdate } = this.props;
     const { inputValue: value, selectedItem } = changes;
 

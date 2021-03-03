@@ -27,7 +27,6 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const { DATE } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -53,14 +52,11 @@ const {
   getPageById,
   getPageByAnswerId,
   getPageByConfirmationId,
-  getPageByValidationId,
   getAnswers,
   getAnswerById,
   getOptionById,
   getConfirmationById,
   getValidationById,
-  getAvailablePreviousAnswersForValidation,
-  getAvailableMetadataForValidation,
   getSkippables,
   getSkippableById,
   remapAllNestedIds,
@@ -73,8 +69,6 @@ const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
-const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
-const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
@@ -120,7 +114,7 @@ const {
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
-const createNewQuestionnaire = input => {
+const createNewQuestionnaire = (input) => {
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",
@@ -153,7 +147,7 @@ const createNewQuestionnaire = input => {
   };
 };
 
-const publishCommentUpdates = componentId => {
+const publishCommentUpdates = (componentId) => {
   pubsub.publish("commentsUpdated", {
     componentId,
   });
@@ -164,7 +158,7 @@ const Resolvers = {
     questionnaires: async (root, args, ctx) => {
       const questionnaires = await listQuestionnaires();
 
-      return questionnaires.filter(questionnaire => {
+      return questionnaires.filter((questionnaire) => {
         if (ctx.user.admin === true || questionnaire.isPublic) {
           return true;
         }
@@ -180,6 +174,7 @@ const Resolvers = {
         ({ history }) => history
       ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
+    folder: (root, { input }, ctx) => getFolderById(ctx, input.folderId),
     page: (root, { input }, ctx) =>
       getPageById(ctx, input.pageId, input.includeSelf),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
@@ -201,22 +196,12 @@ const Resolvers = {
     comments: async (root, { id }, ctx) => {
       const questionnaireId = ctx.questionnaire.id;
       const { comments } = await getCommentsForQuestionnaire(questionnaireId);
-     
-     if (comments[id]){
-         comments[id].sort((a, b) => b.createdTime - a.createdTime)
-         
-         return comments[id]
-    }
-    
-    return []
+
+      if (comments[id]) {
+        return comments[id];
+      }
+      return [];
     },
-    getAvailableAnswers: (root, { input }, ctx) =>
-      getPreviousAnswersForPage(
-        ctx.questionnaire,
-        input.pageId,
-        input.includeSelf,
-        ROUTING_ANSWER_TYPES
-      ),
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
   },
 
@@ -327,7 +312,7 @@ const Resolvers = {
       const user = ctx.user;
       const metadata = await getQuestionnaireMetaById(input.questionnaireId);
       const history = metadata.history;
-      const noteToDelete = history.find(item => item.id === input.id);
+      const noteToDelete = history.find((item) => item.id === input.id);
 
       if (!user.admin && user.id !== noteToDelete.userId) {
         throw new Error("User doesnt have access");
@@ -336,7 +321,7 @@ const Resolvers = {
         throw new Error("Cannot delete system event message");
       }
 
-      remove(metadata.history, item => item.id === noteToDelete.id);
+      remove(metadata.history, (item) => item.id === noteToDelete.id);
 
       await saveMetadata(metadata);
       return metadata.history;
@@ -380,9 +365,9 @@ const Resolvers = {
       return remappedSection;
     }),
     createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder();
+      const folder = createFolder(input);
       const section = getSectionById(ctx, input.sectionId);
-      section.folders.push(folder);
+      section.folders.splice(input.position, 0, folder);
       return folder;
     }),
     updateFolder: createMutation((root, { input }, ctx) => {
@@ -430,9 +415,9 @@ const Resolvers = {
     }),
     updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
-      const additionalAnswers = flatMap(answers, answer =>
+      const additionalAnswers = flatMap(answers, (answer) =>
         answer.options
-          ? flatMap(answer.options, option => option.additionalAnswer)
+          ? flatMap(answer.options, (option) => option.additionalAnswer)
           : null
       );
 
@@ -451,8 +436,8 @@ const Resolvers = {
     updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
         const page = getPageById(ctx, questionPageId);
-        const answersOfType = page.answers.filter(a => a.type === type);
-        answersOfType.forEach(answer => {
+        const answersOfType = page.answers.filter((a) => a.type === type);
+        answersOfType.forEach((answer) => {
           answer.properties = {
             ...answer.properties,
             ...properties,
@@ -503,7 +488,7 @@ const Resolvers = {
     }),
     moveOption: createMutation((_, { input: { id, position } }, ctx) => {
       const answers = getAnswers(ctx);
-      const answer = find(answers, answer => {
+      const answer = find(answers, (answer) => {
         if (answer.options && some(answer.options, { id })) {
           return answer;
         }
@@ -526,7 +511,7 @@ const Resolvers = {
     deleteOption: createMutation((_, { input }, ctx) => {
       const answers = getAnswers(ctx);
 
-      const answer = find(answers, answer => {
+      const answer = find(answers, (answer) => {
         if (answer.options && some(answer.options, { id: input.id })) {
           return answer;
         }
@@ -534,11 +519,11 @@ const Resolvers = {
 
       const removedOption = first(remove(answer.options, { id: input.id }));
 
-      getExpressions(ctx).forEach(expression => {
+      getExpressions(ctx).forEach((expression) => {
         if (expression.right && expression.right.optionIds) {
           remove(
             expression.right.optionIds,
-            value => value === removedOption.id
+            (value) => value === removedOption.id
           );
         }
       });
@@ -596,7 +581,7 @@ const Resolvers = {
         })
       );
 
-      ctx.questionnaire.metadata.forEach(row => {
+      ctx.questionnaire.metadata.forEach((row) => {
         if (row.fallbackKey === deletedMetadata.key) {
           row.fallbackKey = null;
         }
@@ -632,7 +617,7 @@ const Resolvers = {
         let confirmationPage;
         let pageId;
 
-        pages.map(page => {
+        pages.map((page) => {
           if (page.confirmation && page.confirmation.id === id) {
             confirmationPage = page.confirmation;
             pageId = page.id;
@@ -653,7 +638,7 @@ const Resolvers = {
       let confirmationPage;
       let pageContainingConfirmation;
 
-      pages.map(page => {
+      pages.map((page) => {
         if (page.confirmation && page.confirmation.id === input.id) {
           confirmationPage = page.confirmation;
           pageContainingConfirmation = page;
@@ -734,7 +719,7 @@ const Resolvers = {
           body: JSON.stringify(requestBody),
           headers: { "Content-Type": "application/json" },
         })
-          .then(async res => {
+          .then(async (res) => {
             if (res.status === 200) {
               ctx.questionnaire.publishStatus = PUBLISHED;
               await createHistoryEvent(
@@ -744,7 +729,7 @@ const Resolvers = {
             }
             return res.json();
           })
-          .catch(e => {
+          .catch((e) => {
             throw Error(e);
           });
       }
@@ -939,15 +924,15 @@ const Resolvers = {
   },
 
   Questionnaire: {
-    sections: questionnaire => questionnaire.sections,
-    createdBy: questionnaire => getUserById(questionnaire.createdBy),
-    questionnaireInfo: questionnaire => questionnaire,
-    metadata: questionnaire => questionnaire.metadata,
-    displayName: questionnaire =>
+    sections: (questionnaire) => questionnaire.sections,
+    createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
+    questionnaireInfo: (questionnaire) => questionnaire,
+    metadata: (questionnaire) => questionnaire.metadata,
+    displayName: (questionnaire) =>
       questionnaire.shortTitle || questionnaire.title,
-    editors: questionnaire =>
+    editors: (questionnaire) =>
       Promise.all(
-        (questionnaire.editors || []).map(editorId => getUserById(editorId))
+        (questionnaire.editors || []).map((editorId) => getUserById(editorId))
       ),
     permission: (questionnaire, args, ctx) => {
       if (hasWritePermission(questionnaire, ctx.user)) {
@@ -956,18 +941,7 @@ const Resolvers = {
       return "Read";
     },
     totalErrorCount: (questionnaire, args, ctx) => {
-      //remove qcode errors from total here - important as Qcode errors don't count to total
-      // otherwise error totals get confusing for users!!!!!!
-      const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
-      );
-      return ctx.validationErrorInfo.length - validationErrorsQCode.length;
-    },
-    qCodeErrorCount: (questionnaire, args, ctx) => {
-      const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
-      );
-      return validationErrorsQCode.length;
+      return ctx.validationErrorInfo.length;
     },
   },
 
@@ -976,7 +950,7 @@ const Resolvers = {
   },
 
   User: {
-    displayName: user => user.name || user.email,
+    displayName: (user) => user.name || user.email,
   },
 
   Comment: {
@@ -988,7 +962,7 @@ const Resolvers = {
   },
 
   QuestionnaireInfo: {
-    totalSectionCount: questionnaire => questionnaire.sections.length,
+    totalSectionCount: (questionnaire) => questionnaire.sections.length,
   },
 
   Skippable: {
@@ -997,7 +971,7 @@ const Resolvers = {
   },
 
   Section: {
-    folders: section => section.folders,
+    folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     title: (section, args, ctx) =>
       ctx.questionnaire.navigation ? section.title : "",
@@ -1008,9 +982,6 @@ const Resolvers = {
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForSection(ctx.questionnaire, id),
-    availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1028,7 +999,7 @@ const Resolvers = {
   },
 
   LogicalDestination: {
-    id: destination => destination.logicalDestination,
+    id: (destination) => destination.logicalDestination,
   },
 
   Answer: {
@@ -1045,31 +1016,27 @@ const Resolvers = {
     page: ({ id }, args, ctx) => {
       const pages = getPages(ctx);
 
-      const parentPage = find(pages, page =>
-        some(page.answers, answer => answer.id === id)
+      const parentPage = find(pages, (page) =>
+        some(page.answers, (answer) => answer.id === id)
       );
 
       return parentPage;
     },
-    validation: answer =>
+    validation: (answer) =>
       ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer
         : null,
-    displayName: answer => getName(answer, "BasicAnswer"),
+    displayName: (answer) => getName(answer, "BasicAnswer"),
 
     // secondaryLabel needed for some answer types e.g. DateRage: label->From field, secodaryLabel->To field.
     // need to define a default for secondaryLabel for use in piping. If label exists then displayName doesn't contain default.
     // If secondaryLabel is set to default, then the default is displayed in answer label instead of leaving it blank
     // Have defined a secondaryLabelDefault field to fallback on if secondaryLabel is empty
-    secondaryLabelDefault: answer =>
+    secondaryLabelDefault: (answer) =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
       const answerErrors = ctx.validationErrorInfo.filter(
         ({ answerId }) => id === answerId
-      );
-
-      const answerErrorsQCode = answerErrors.filter(
-        ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
 
       if (!answerErrors) {
@@ -1083,7 +1050,7 @@ const Resolvers = {
       return {
         id,
         errors: answerErrors,
-        totalCount: answerErrors.length - answerErrorsQCode.length,
+        totalCount: answerErrors.length,
       };
     },
   },
@@ -1092,23 +1059,19 @@ const Resolvers = {
     page: (answer, args, ctx) => {
       return getPageByAnswerId(ctx, answer.id);
     },
-    options: answer => answer.options.filter(o => !o.mutuallyExclusive),
-    mutuallyExclusiveOption: answer =>
+    options: (answer) => answer.options.filter((o) => !o.mutuallyExclusive),
+    mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),
-    displayName: answer => getName(answer, "MultipleChoiceAnswer"),
+    displayName: (answer) => getName(answer, "MultipleChoiceAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
       const answerErrors = ctx.validationErrorInfo.filter(
         ({ answerId }) => id === answerId
       );
 
-      const qCodeErrorCount = answerErrors.filter(
-        ({ field }) => field === "qCode"
-      ).length;
-
       return {
         id,
         errors: answerErrors,
-        totalCount: answerErrors.length - qCodeErrorCount,
+        totalCount: answerErrors.length,
       };
     },
   },
@@ -1116,20 +1079,20 @@ const Resolvers = {
   Option: {
     answer: (option, args, ctx) => {
       const answers = getAnswers(ctx);
-      return find(answers, answer => {
+      return find(answers, (answer) => {
         if (answer.options && some(answer.options, { id: option.id })) {
           return answer;
         }
       });
     },
-    displayName: option => getName(option, "Option"),
-    additionalAnswer: option => option.additionalAnswer,
+    displayName: (option) => getName(option, "Option"),
+    additionalAnswer: (option) => option.additionalAnswer,
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ optionId }) => id === optionId),
   },
 
   ValidationType: {
-    __resolveType: answer => {
+    __resolveType: (answer) => {
       const validationEntity = getValidationEntity(answer.type);
       switch (validationEntity) {
         case "number":
@@ -1172,20 +1135,20 @@ const Resolvers = {
   },
 
   NumberValidation: {
-    minValue: answer => answer.validation.minValue,
-    maxValue: answer => answer.validation.maxValue,
+    minValue: (answer) => answer.validation.minValue,
+    maxValue: (answer) => answer.validation.maxValue,
   },
 
   DateValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
-    latestDate: answer => answer.validation.latestDate,
+    earliestDate: (answer) => answer.validation.earliestDate,
+    latestDate: (answer) => answer.validation.latestDate,
   },
 
   DateRangeValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
-    latestDate: answer => answer.validation.latestDate,
-    minDuration: answer => answer.validation.minDuration,
-    maxDuration: answer => answer.validation.maxDuration,
+    earliestDate: (answer) => answer.validation.earliestDate,
+    latestDate: (answer) => answer.validation.latestDate,
+    minDuration: (answer) => answer.validation.minDuration,
+    maxDuration: (answer) => answer.validation.maxDuration,
   },
 
   MinValueValidationRule: {
@@ -1195,8 +1158,6 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1212,24 +1173,9 @@ const Resolvers = {
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const maxValueErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.maxValue) {
-          const errorsShareParent = answer.validation.maxValue.id === id;
-          return (
-            validationProperty === "minValue" &&
-            errorsShareParent &&
-            errorCode === "ERR_MIN_LARGER_THAN_MAX"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, maxValueErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, maxValueErrors);
     },
   },
 
@@ -1244,10 +1190,6 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,
@@ -1267,26 +1209,9 @@ const Resolvers = {
       isNil(metadata)
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
-    availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx, id),
-    availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx, id),
     validationErrorInfo: ({ id }, args, ctx) => {
       const latestDateErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.latestDate) {
-          const errorsShareParent = answer.validation.latestDate.id === id;
-          return (
-            validationProperty === "earliestDate" &&
-            errorsShareParent &&
-            errorCode === "ERR_EARLIEST_AFTER_LATEST"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, latestDateErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, latestDateErrors);
     },
   },
 
@@ -1304,33 +1229,13 @@ const Resolvers = {
     duration: ({ duration }) => duration,
     validationErrorInfo: ({ id }, args, ctx) => {
       const maxDurationErrors = ({ validationId }) => id === validationId;
-      const sharedErrors = ({ validationProperty, errorCode, answerId }) => {
-        const answer = getAnswerById(ctx, answerId);
-        if (answer && answer.validation && answer.validation.maxDuration) {
-          const errorsShareParent = answer.validation.maxDuration.id === id;
-          return (
-            validationProperty === "minDuration" &&
-            errorsShareParent &&
-            errorCode === "ERR_MAX_DURATION_TOO_SMALL"
-          );
-        }
-        return false;
-      };
-
-      return returnValidationErrors(ctx, id, maxDurationErrors, sharedErrors);
+      return returnValidationErrors(ctx, id, maxDurationErrors);
     },
   },
 
   TotalValidationRule: {
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
-    availablePreviousAnswers: ({ id }, args, ctx) => {
-      const page = getPageByValidationId(ctx, id);
-      const answerType = page.answers[0].type;
-      return getPreviousAnswersForPage(ctx.questionnaire, page.id, false, [
-        answerType,
-      ]);
-    },
   },
 
   Metadata: {
@@ -1340,28 +1245,21 @@ const Resolvers = {
       }
       return new Date(dateValue);
     },
-    displayName: metadata => getName(metadata, "Metadata"),
+    displayName: (metadata) => getName(metadata, "Metadata"),
   },
 
   QuestionConfirmation: {
-    displayName: confirmation => getName(confirmation, "QuestionConfirmation"),
+    displayName: (confirmation) =>
+      getName(confirmation, "QuestionConfirmation"),
     page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForPage(ctx.questionnaire, id),
-    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) => {
       const confirmationQuestionErrors = ctx.validationErrorInfo.filter(
         ({ confirmationId }) => id === confirmationId
       );
-
-      const qCodeErrors = confirmationQuestionErrors.filter(
-        ({ field }) => field === "qCode"
-      );
-
       return {
         id,
         errors: confirmationQuestionErrors,
-        totalCount: confirmationQuestionErrors.length - qCodeErrors.length,
+        totalCount: confirmationQuestionErrors.length,
       };
     },
   },

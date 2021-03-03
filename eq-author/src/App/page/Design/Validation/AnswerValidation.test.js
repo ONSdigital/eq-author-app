@@ -70,10 +70,7 @@ describe("AnswerValidation", () => {
 
   it("should correctly update state when opening a Modal", () => {
     const wrapper = render(props);
-    wrapper
-      .find(SidebarValidation)
-      .first()
-      .simulate("click");
+    wrapper.find(SidebarValidation).first().simulate("click");
 
     setTimeout(() => {
       const modal = wrapper.find(ModalWithNav);
@@ -89,7 +86,7 @@ describe("AnswerValidation", () => {
   });
 
   describe("validation object array", () => {
-    validationTypes.forEach(validationType => {
+    validationTypes.forEach((validationType) => {
       it(`should render the ${validationType.title} validation`, () => {
         const wrapper = shallow(validationType.render());
 
@@ -101,10 +98,10 @@ describe("AnswerValidation", () => {
   describe("Numeric answer validation preview", () => {
     const NUMBER_TYPES = [PERCENTAGE, NUMBER, CURRENCY, UNIT];
     const VALIDATIONS = ["maxValue", "minValue"];
-    VALIDATIONS.forEach(validation => {
+    VALIDATIONS.forEach((validation) => {
       describe(validation, () => {
         it("should render custom values", () => {
-          const wrapper = type => {
+          const wrapper = (type) => {
             const properties = {};
             if (type === UNIT) {
               properties.unit = CENTIMETRES;
@@ -126,17 +123,15 @@ describe("AnswerValidation", () => {
             });
           };
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
 
         it("should not render when the custom value is null", () => {
-          const wrapper = type =>
+          const wrapper = (type) =>
             render({
               ...props,
               answer: {
@@ -152,17 +147,15 @@ describe("AnswerValidation", () => {
               },
             });
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
 
         it("should render previous answer", () => {
-          const wrapper = type =>
+          const wrapper = (type) =>
             render({
               ...props,
               answer: {
@@ -179,11 +172,9 @@ describe("AnswerValidation", () => {
               },
             });
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
@@ -205,7 +196,7 @@ describe("AnswerValidation", () => {
             },
           };
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             props.answer.type = type;
 
             const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
@@ -246,9 +237,7 @@ describe("AnswerValidation", () => {
           };
 
           expect(
-            wrapper(UNIT)
-              .find(SidebarButton)
-              .find(Detail)
+            wrapper(UNIT).find(SidebarButton).find(Detail)
           ).toMatchSnapshot();
         });
       });

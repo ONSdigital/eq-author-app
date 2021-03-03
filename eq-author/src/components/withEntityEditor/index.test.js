@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import { SynchronousPromise } from "synchronous-promise";
 import createMockStore from "tests/utils/createMockStore";
 
-const Component = props => <div {...props} />;
+const Component = (props) => <div {...props} />;
 
 describe("withEntityEditor", () => {
   let wrapper,

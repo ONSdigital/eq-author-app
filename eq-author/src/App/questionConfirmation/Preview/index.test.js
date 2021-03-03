@@ -11,6 +11,7 @@ describe("Question Confirmation Preview", () => {
       id: "1",
       displayName: "Hello world",
       title: "<p>Hello world</p>",
+      qCode: "",
       positive: {
         id: "1",
         label: "positive label",

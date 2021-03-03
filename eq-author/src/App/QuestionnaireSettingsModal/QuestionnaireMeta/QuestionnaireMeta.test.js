@@ -43,7 +43,7 @@ describe("QuestionnaireMeta", () => {
 
   it("should handle change event on child inputs", () => {
     const inputs = wrapper.find("[onChange]");
-    inputs.forEach(input => input.simulate("change"));
+    inputs.forEach((input) => input.simulate("change"));
 
     expect(inputs.length).toBeGreaterThan(0);
     expect(handleChange).toHaveBeenCalledTimes(inputs.length);

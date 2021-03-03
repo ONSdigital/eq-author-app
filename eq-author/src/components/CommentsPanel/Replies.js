@@ -15,7 +15,7 @@ import CommentHeader from "./CommentHeader";
 
 import Button from "components/buttons/Button";
 
-const Replies = props => {
+const Replies = (props) => {
   const {
     repliesItem,
     myId,
@@ -67,7 +67,7 @@ const Replies = props => {
         <>
           <StyledTextArea
             id={`editReply-${repliesItem.id}`}
-            inputRef={tag => {
+            inputRef={(tag) => {
               setReplyRef(tag);
             }}
             value={editReply}

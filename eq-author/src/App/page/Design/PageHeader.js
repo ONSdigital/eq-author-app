@@ -20,7 +20,7 @@ import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
 import withDuplicatePage from "./withDuplicatePage";
 import { Toolbar, Buttons } from "./EditorToolbar";
-import IconMove from "./EditorToolbar/icon-move.svg?inline";
+import IconMove from "assets/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
 
 const ShortCodeLabel = styled(Label)`
@@ -35,7 +35,7 @@ export class PageHeader extends React.Component {
     showMovePageDialog: false,
   };
 
-  handleDuplicatePage = e => {
+  handleDuplicatePage = (e) => {
     e.preventDefault();
     const { match, onDuplicatePage, page } = this.props;
     onDuplicatePage({
@@ -47,7 +47,7 @@ export class PageHeader extends React.Component {
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 
-  handleCloseDeleteConfirmDialog = cb =>
+  handleCloseDeleteConfirmDialog = (cb) =>
     this.setState(
       { showDeleteConfirmDialog: false },
       isFunction(cb) ? cb : null
@@ -62,15 +62,15 @@ export class PageHeader extends React.Component {
     this.setState({ showMovePageDialog: true });
   };
 
-  handleCloseMovePageDialog = cb => {
+  handleCloseMovePageDialog = (cb) => {
     this.setState({ showMovePageDialog: false }, isFunction(cb) ? cb : null);
   };
 
-  handleMovePage = args => {
+  handleMovePage = (args) => {
     this.handleCloseMovePageDialog(() => this.props.onMovePage(args));
   };
 
-  isMoveDisabled = questionnaire =>
+  isMoveDisabled = (questionnaire) =>
     questionnaire.sections[0].folders[0].pages.length <= 1 &&
     questionnaire.sections[0].folders.length <= 1 &&
     questionnaire.sections.length === 1;

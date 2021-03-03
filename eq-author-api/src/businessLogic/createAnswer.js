@@ -11,7 +11,7 @@ module.exports = (answer, page) => {
   let properties = getDefaultAnswerProperties(answer.type);
 
   if (get("answers", page)) {
-    const existingAnswerTypes = page.answers.map(a => a.type);
+    const existingAnswerTypes = page.answers.map((a) => a.type);
 
     if (existingAnswerTypes.includes(answer.type)) {
       const sharedProperties = find({ type: answer.type }, page.answers)
@@ -23,7 +23,7 @@ module.exports = (answer, page) => {
   const validation = {};
   if (includes(answer.type, flatten(values(answerTypeMap)))) {
     const validations = createDefaultValidationsForAnswer(answer);
-    validations.map(v => {
+    validations.map((v) => {
       validation[v.validationType] = {
         id: uuidv4(),
         enabled: false,

@@ -1,6 +1,6 @@
 const getUserFromHeaderBuilder = require("./getUserFromHeader");
 
-module.exports = logger => {
+module.exports = (logger) => {
   const getUserFromHeader = getUserFromHeaderBuilder(logger);
   return async (req, res, next) => {
     const authHeader = req.header(

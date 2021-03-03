@@ -5,7 +5,7 @@ import { byTestAttr } from "tests/utils/selectors";
 import HelpModal from "./HelpModal";
 import { UnwrappedQuestionProperties, HelpButton } from "./";
 
-const render = props => shallow(<UnwrappedQuestionProperties {...props} />);
+const render = (props) => shallow(<UnwrappedQuestionProperties {...props} />);
 
 describe("QuestionProperties", () => {
   let props, onUpdateQuestionPage, wrapper;
@@ -31,7 +31,7 @@ describe("QuestionProperties", () => {
     "definitionEnabled",
     "guidanceEnabled",
     "additionalInfoEnabled",
-  ])("should correctly call %s change handler", id => {
+  ])("should correctly call %s change handler", (id) => {
     let value = {
       name: "foo",
       value: "bar",

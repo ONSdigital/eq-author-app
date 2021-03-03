@@ -4,13 +4,12 @@ import { get } from "lodash";
 
 import MetadataContentPicker from "../MetadataContentPicker.js";
 
-const MetadataEditor = ({ onChangeUpdate, answer, validation, readKey }) => (
+const MetadataEditor = ({ onChangeUpdate, answer, validation }) => (
   <MetadataContentPicker
     answerId={answer.id}
     onSubmit={onChangeUpdate}
     selectedContentDisplayName={get(validation.previousAnswer, "displayName")}
     selectedId={get(validation.previousAnswer, "id")}
-    path={`answer.validation.${readKey}.availableMetadata`}
   />
 );
 
@@ -24,7 +23,6 @@ MetadataEditor.propTypes = {
   answer: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
-  readKey: PropTypes.string.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
 };
 

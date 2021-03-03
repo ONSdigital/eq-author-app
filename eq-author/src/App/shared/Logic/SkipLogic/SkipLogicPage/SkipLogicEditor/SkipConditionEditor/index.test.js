@@ -17,7 +17,7 @@ describe("SkipConditionEditor", () => {
   beforeEach(() => {
     defaultProps = {
       pageId: "1",
-      expressionGroup: { id: "expGrpId", expressions: [] },
+      expressionGroup: { id: "expGrpId", operator: "AND", expressions: [] },
       expressionGroupIndex: 0,
       deleteSkipCondition: jest.fn(),
       deleteSkipConditions: jest.fn(),
@@ -50,17 +50,11 @@ describe("SkipConditionEditor", () => {
     const wrapper = shallow(<SkipConditionEditor {...defaultProps} />);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .first()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).first().prop("canAddCondition")
     ).toBe(true);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .last()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).last().prop("canAddCondition")
     ).toBe(false);
   });
 });

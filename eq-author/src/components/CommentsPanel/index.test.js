@@ -232,7 +232,7 @@ describe("Comments Panel", () => {
     expect(comment).toBeTruthy();
 
     await act(async () => {
-      fireEvent.click(getByTestId("btn-delete-1"));
+      fireEvent.click(getByTestId("btn-delete-0"));
     });
 
     expect(vars.deleteWasCalled).toBeTruthy();
@@ -250,7 +250,7 @@ describe("Comments Panel", () => {
     await act(async () => {
       await flushPromises();
     });
-    const editCommentButton = getByTestId("btn-edit-0");
+    const editCommentButton = getByTestId("btn-edit-1");
 
     expect(editCommentButton).not.toBeVisible();
   });
@@ -266,7 +266,7 @@ describe("Comments Panel", () => {
     await act(async () => {
       await flushPromises();
     });
-    const deleteCommentButton = getByTestId("btn-delete-0");
+    const deleteCommentButton = getByTestId("btn-delete-1");
     expect(deleteCommentButton).not.toBeVisible();
   });
 
@@ -279,7 +279,7 @@ describe("Comments Panel", () => {
     await act(async () => {
       await flushPromises();
     });
-    const deleteCommentButton = getByTestId("btn-delete-1");
+    const deleteCommentButton = getByTestId("btn-delete-0");
     expect(deleteCommentButton).toBeVisible();
   });
 
@@ -292,7 +292,7 @@ describe("Comments Panel", () => {
     await act(async () => {
       await flushPromises();
     });
-    const editCommentButton = getByTestId("btn-edit-1");
+    const editCommentButton = getByTestId("btn-edit-0");
     expect(editCommentButton).toBeVisible();
   });
 
@@ -308,12 +308,12 @@ describe("Comments Panel", () => {
       await flushPromises();
     });
 
-    const editBtn = getByTestId("btn-edit-1");
+    const editBtn = getByTestId("btn-edit-0");
     act(() => {
       fireEvent.click(editBtn);
     });
 
-    const editCommentTxtArea = getByTestId("edit-comment-txtArea-1");
+    const editCommentTxtArea = getByTestId("edit-comment-txtArea-0");
 
     await act(async () => {
       fireEvent.change(editCommentTxtArea, {
@@ -321,7 +321,7 @@ describe("Comments Panel", () => {
       });
     });
 
-    const editSaveBtn = getByTestId("btn-save-editedComment-1");
+    const editSaveBtn = getByTestId("btn-save-editedComment-0");
     expect(editSaveBtn).toHaveStyle("display: inline-flex");
     await act(async () => {
       fireEvent.click(editSaveBtn);
@@ -343,13 +343,13 @@ describe("Comments Panel", () => {
 
       await act(async () => {
         await flushPromises();
-        const reply = getByTestId("btn-reply-comment-1");
+        const reply = getByTestId("btn-reply-comment-0");
         fireEvent.click(reply);
       });
 
       await act(async () => {
         await flushPromises();
-        fireEvent.change(getByTestId("reply-txtArea-1"), {
+        fireEvent.change(getByTestId("reply-txtArea-0"), {
           target: {
             value: "This is a test ADD reply",
           },
@@ -357,7 +357,7 @@ describe("Comments Panel", () => {
       });
 
       await act(async () => {
-        await fireEvent.click(getByTestId(`btn-save-reply-1`));
+        await fireEvent.click(getByTestId(`btn-save-reply-0`));
       });
 
       expect(vars.createReplyWasCalled).toBeTruthy();
@@ -379,11 +379,11 @@ describe("Comments Panel", () => {
 
       await act(async () => {
         await flushPromises();
-        const editReplyBtn = getByTestId("btn-edit-0-1");
+        const editReplyBtn = getByTestId("btn-edit-1-1");
         fireEvent.click(editReplyBtn);
       });
 
-      const editReplyTxtArea = getByTestId("reply-txtArea-0-1");
+      const editReplyTxtArea = getByTestId("reply-txtArea-1-1");
       await act(async () => {
         fireEvent.change(editReplyTxtArea, {
           target: {
@@ -392,7 +392,7 @@ describe("Comments Panel", () => {
         });
       });
 
-      const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
+      const editReplySaveBtn = getByTestId("btn-save-editedReply-1-1");
       expect(editReplySaveBtn).toBeVisible();
       await act(async () => {
         await fireEvent.click(editReplySaveBtn);
@@ -420,7 +420,7 @@ describe("Comments Panel", () => {
       expect(reply).toBeTruthy();
 
       await act(async () => {
-        await fireEvent.click(getByTestId("btn-delete-0-1"));
+        await fireEvent.click(getByTestId("btn-delete-1-1"));
       });
 
       expect(vars.deleteReplyWasCalled).toBeTruthy();

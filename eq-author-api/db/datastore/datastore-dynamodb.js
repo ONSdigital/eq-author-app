@@ -15,16 +15,16 @@ const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
-const omitTimestamps = questionnaire =>
+const omitTimestamps = (questionnaire) =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
 
 const diffPatcher = jsondiffpatch.create({
-  objectHash: obj => obj.id,
+  objectHash: (obj) => obj.id,
 });
 
 const saveModel = (model, options = {}) =>
   new Promise((resolve, reject) => {
-    model.save(options, err => {
+    model.save(options, (err) => {
       if (err) {
         reject(err);
       }
@@ -32,11 +32,11 @@ const saveModel = (model, options = {}) =>
     });
   });
 
-const saveMetadata = metadata => {
+const saveMetadata = (metadata) => {
   return saveModel(new QuestionnaireModel(metadata));
 };
 
-const createUser = user => {
+const createUser = (user) => {
   const { id, email, name, externalId, picture } = user;
   return saveModel(
     new UserModel({
@@ -49,7 +49,7 @@ const createUser = user => {
   );
 };
 
-const createComments = questionnaireId => {
+const createComments = (questionnaireId) => {
   return saveModel(
     new CommentsModel({
       questionnaireId,
@@ -58,10 +58,10 @@ const createComments = questionnaireId => {
   );
 };
 
-const saveComments = comments => saveModel(comments);
-const updateUser = user => saveModel(user);
+const saveComments = (comments) => saveModel(comments);
+const updateUser = (user) => saveModel(user);
 
-const getUserByExternalId = externalId =>
+const getUserByExternalId = (externalId) =>
   new Promise((resolve, reject) => {
     UserModel.scan({ externalId: { eq: externalId } }).exec((err, user) => {
       if (err) {
@@ -71,7 +71,7 @@ const getUserByExternalId = externalId =>
     });
   });
 
-const getUserById = id =>
+const getUserById = (id) =>
   new Promise((resolve, reject) => {
     UserModel.queryOne({ id: { eq: id } }).exec((err, user) => {
       if (err) {
@@ -95,7 +95,7 @@ const listUsers = () =>
       });
   });
 
-const getCommentsForQuestionnaire = questionnaireId =>
+const getCommentsForQuestionnaire = (questionnaireId) =>
   new Promise((resolve, reject) => {
     CommentsModel.scan({ questionnaireId: { eq: questionnaireId } }).exec(
       (err, comments) => {
@@ -145,7 +145,7 @@ const createHistoryEvent = (questionnaireId, historyEvent) =>
     );
   });
 
-const getQuestionnaireMetaById = id =>
+const getQuestionnaireMetaById = (id) =>
   new Promise((resolve, reject) => {
     QuestionnaireModel.queryOne({ id: { eq: id } }).exec(
       async (err, questionnaire) => {
@@ -158,7 +158,7 @@ const getQuestionnaireMetaById = id =>
     );
   });
 
-const getQuestionnaire = id =>
+const getQuestionnaire = (id) =>
   new Promise((resolve, reject) => {
     QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
       .descending()
@@ -261,9 +261,9 @@ const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
   }
 };
 
-const deleteQuestionnaire = id => {
+const deleteQuestionnaire = (id) => {
   return new Promise((resolve, reject) => {
-    QuestionnaireModel.delete({ id: id }, function(err) {
+    QuestionnaireModel.delete({ id: id }, function (err) {
       if (err) {
         reject(err);
       }
@@ -282,7 +282,7 @@ const listQuestionnaires = () => {
         }
 
         const transformedQuestionnaires = questionnaires
-          .map(q => ({ ...q, editors: q.editors || [] }))
+          .map((q) => ({ ...q, editors: q.editors || [] }))
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
         resolve(transformedQuestionnaires);
       });

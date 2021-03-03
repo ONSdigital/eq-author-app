@@ -81,14 +81,14 @@ describe("BasicAnswer", () => {
 
     it("should invoke update callback onBlur", () => {
       const inputFields = wrapper.find(WrappingInput);
-      inputFields.forEach(input => input.simulate("blur"));
+      inputFields.forEach((input) => input.simulate("blur"));
 
       expect(onUpdate).toHaveBeenCalledTimes(inputFields.length);
     });
 
     it("should invoke change callback onChange", () => {
       const inputFields = wrapper.find(WrappingInput);
-      inputFields.forEach(input => input.simulate("change"));
+      inputFields.forEach((input) => input.simulate("change"));
 
       expect(onChange).toHaveBeenCalledTimes(inputFields.length);
     });

@@ -9,7 +9,7 @@ describe("Group", () => {
     ...options,
   });
 
-  const createGroupJSON = options =>
+  const createGroupJSON = (options) =>
     Object.assign(
       {
         id: "1",
@@ -93,7 +93,7 @@ describe("Group", () => {
       });
 
       const runnerJson = groupsJson.map(
-        group => new Group(group.title, group, ctx)
+        (group) => new Group(group.title, group, ctx)
       );
 
       const expectedrunnerJson = [
@@ -148,7 +148,7 @@ describe("Group", () => {
       });
 
       const runnerJson = groupsJson.map(
-        group => new Group(group.title, group, ctx)
+        (group) => new Group(group.title, group, ctx)
       );
 
       const expectedrunnerJson = [

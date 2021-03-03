@@ -18,6 +18,21 @@ const { ERR_DESTINATION_DELETED } = destinationErrors;
 describe("RuleEditor", () => {
   let defaultProps, expression;
 
+  const validationErrorInfo = {
+    id: "1",
+    errors: [],
+    totalCount: 0,
+    __typename: "ValidationErrorInfo",
+  };
+
+  const expressionGroup = {
+    id: "1",
+    operator: AND,
+    expressions: [],
+    validationErrorInfo: validationErrorInfo,
+    __typename: "ExpressionGroup",
+  };
+
   beforeEach(() => {
     expression = {
       id: "2",
@@ -27,6 +42,7 @@ describe("RuleEditor", () => {
       },
       condition: null,
       right: {},
+      expressionGroup: expressionGroup,
       validationErrorInfo: {
         id: "1-2-3",
         errors: [],
@@ -38,7 +54,12 @@ describe("RuleEditor", () => {
     defaultProps = {
       rule: {
         id: "ruleId",
-        expressionGroup: { id: "expGrpId", operator: AND, expressions: [] },
+        expressionGroup: {
+          id: "expGrpId",
+          operator: AND,
+          expressions: [],
+          validationErrorInfo: validationErrorInfo,
+        },
         destination: {
           id: "1",
           page: {
@@ -48,12 +69,7 @@ describe("RuleEditor", () => {
           logical: null,
           section: null,
         },
-        validationErrorInfo: {
-          id: "1-2-3",
-          errors: [],
-          totalCount: 0,
-          __typename: "ValidationErrorInfo",
-        },
+        validationErrorInfo: validationErrorInfo,
       },
       deleteRule: jest.fn(),
       updateRule: jest.fn(),
@@ -104,17 +120,11 @@ describe("RuleEditor", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .first()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).first().prop("canAddCondition")
     ).toBe(true);
 
     expect(
-      wrapper
-        .find(BinaryExpressionEditor)
-        .last()
-        .prop("canAddCondition")
+      wrapper.find(BinaryExpressionEditor).last().prop("canAddCondition")
     ).toBe(false);
   });
 
@@ -193,7 +203,7 @@ describe("RuleEditor", () => {
       {
         ...expression,
         id: "3",
-      }
+      },
     ];
 
     defaultProps.rule.expressionGroup.validationErrorInfo = {
@@ -233,7 +243,8 @@ describe("RuleEditor", () => {
     expressionEditor.simulate("expressionDeleted", {
       id: "expression-group",
       expressions: [
-        { id: "first-expression-standing" }, { id: "last-expression-standing" }
+        { id: "first-expression-standing" },
+        { id: "last-expression-standing" },
       ],
     });
 
@@ -241,29 +252,34 @@ describe("RuleEditor", () => {
 
     expressionEditor.simulate("expressionDeleted", {
       id: "expression-group",
-      expressions: [ { id: "last-expression-standing" } ],
+      expressions: [{ id: "last-expression-standing" }],
     });
 
     expect(defaultProps.updateExpressionGroup).toHaveBeenCalledWith({
       id: "expression-group",
-      operator: null
+      operator: null,
     });
   });
 
   it("should render static label rather than select element for third expression's group operator", () => {
     defaultProps.rule.expressionGroup.expressions = [
-      {...expression, id: "eeny" },
-      {...expression, id: "meeny" },
+      { ...expression, id: "eeny" },
+      { ...expression, id: "meeny" },
     ];
     let wrapper = shallow(<RuleEditor {...defaultProps} />);
     let expressionEditor = wrapper.find(BinaryExpressionEditor).first();
-    expect(expressionEditor.props().groupOperatorComponent.props.children).not.toBe("AND");
+    expect(
+      expressionEditor.props().groupOperatorComponent.props.children
+    ).not.toBe("AND");
 
     defaultProps.rule.expressionGroup.expressions.push({
-      ...expression, id: "miny"
+      ...expression,
+      id: "miny",
     });
     wrapper = shallow(<RuleEditor {...defaultProps} />);
     expressionEditor = wrapper.find(BinaryExpressionEditor).at(1);
-    expect(expressionEditor.props().groupOperatorComponent.props.children).toBe("AND");
+    expect(expressionEditor.props().groupOperatorComponent.props.children).toBe(
+      "AND"
+    );
   });
 });

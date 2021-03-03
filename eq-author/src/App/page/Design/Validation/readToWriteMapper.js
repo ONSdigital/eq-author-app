@@ -27,7 +27,7 @@ const getMetadata = (entityType, metadata) => {
   return metadata.id;
 };
 
-export const dateReadToWriteMapper = outputKey => ({
+export const dateReadToWriteMapper = (outputKey) => ({
   id,
   customDate,
   previousAnswer,
@@ -45,12 +45,12 @@ export const dateReadToWriteMapper = outputKey => ({
   },
 });
 
-export const durationReadToWriteMapper = outputKey => ({ id, ...rest }) => ({
+export const durationReadToWriteMapper = (outputKey) => ({ id, ...rest }) => ({
   id,
   [outputKey]: { ...omit("enabled", rest) },
 });
 
-export const numericReadToWriteMapper = outputKey => ({
+export const numericReadToWriteMapper = (outputKey) => ({
   id,
   previousAnswer,
   entityType,

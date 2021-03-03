@@ -43,7 +43,7 @@ describe("addBusinessQuestionnaireIntroduction", () => {
 
     expect(
       addBusinessQuestionnaireIntroduction(questionnaire).metadata.map(
-        md => md.key
+        (md) => md.key
       )
     ).toEqual([
       "ru_name",

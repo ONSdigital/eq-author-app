@@ -26,7 +26,7 @@ export const TOGGLE_VALIDATION_RULE = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onToggleValidationRule: input =>
+  onToggleValidationRule: (input) =>
     mutate({
       variables: { input: filter(inputFilter, input) },
       refetchQueries: ["GetPage"],

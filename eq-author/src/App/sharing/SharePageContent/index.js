@@ -124,8 +124,8 @@ export const Sharing = ({ data, showToast }) => {
   );
 };
 
-const QueryWrapper = Component => {
-  const GetQuestionnaireWrapper = props => (
+const QueryWrapper = (Component) => {
+  const GetQuestionnaireWrapper = (props) => (
     <Query
       query={GET_QUESTIONNAIRE}
       variables={{
@@ -134,7 +134,7 @@ const QueryWrapper = Component => {
         },
       }}
     >
-      {innerprops => {
+      {(innerprops) => {
         if (innerprops.loading) {
           return <Loading height="38rem">Page loading…</Loading>;
         }

@@ -10,7 +10,7 @@ const FallbackSelect = ({
   defaultValue,
 }) => {
   const handleSelect = useCallback(
-    element => {
+    (element) => {
       onChange(
         {
           name,

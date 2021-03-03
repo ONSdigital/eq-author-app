@@ -1,100 +1,36 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import { RoutingDestinationContentPicker as DestinationContentPicker } from "./RoutingDestinationContentPicker";
-import { useQuery } from "@apollo/react-hooks";
+import { RoutingDestinationContentPicker } from "./RoutingDestinationContentPicker";
+
+import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+  usePage: jest.fn(),
+}));
 
 const props = {
   selected: { logical: "NextPage" },
 };
 
-const queryResult = {
-  loading: false,
-  data: () => ({
-    page: {
-      id: "5",
-      availableRoutingDestinations: {
-        logicalDestinations: [
-          {
-            id: "NextPage",
-            logicalDestination: "NextPage",
-            __typename: "LogicalDestination",
-          },
-          {
-            id: "EndOfQuestionnaire",
-            logicalDestination: "EndOfQuestionnaire",
-            __typename: "LogicalDestination",
-          },
-        ],
-        pages: [
-          {
-            id: "c9d80752-daba-4f31-9bd9-9f199182334c",
-            displayName: "s1q3",
-            section: {
-              id: "a1563df9-a671-4ac8-9958-4544eb9d6a64",
-              displayName: "section1",
-              __typename: "Section",
-            },
-            __typename: "QuestionPage",
-          },
-          {
-            id: "04c776d3-24ea-4630-ad2d-30b6a0c0e5f4",
-            displayName: "s1q4",
-            section: {
-              id: "a1563df9-a671-4ac8-9958-4544eb9d6a64",
-              displayName: "section1",
-              __typename: "Section",
-            },
-            __typename: "QuestionPage",
-          },
-        ],
-        sections: [
-          {
-            id: "0f6cfdcf-7876-41f6-80e9-143fb6b85e69",
-            displayName: "section2",
-            pages: [
-              {
-                id: "0f6cfdcf-7876-41f6-80e9-143fb6b85e69",
-                displayName: "s2q1",
-                __typename: "Section",
-              },
-            ],
-            __typename: "Section",
-          },
-          {
-            id: "d3ea428b-a30e-497f-aff3-6895560a1282",
-            displayName: "section3",
-            pages: [
-              {
-                id: "d3ea428b-a30e-497f-aff3-6895560a1282",
-                displayName: "s3q1",
-                __typename: "Section",
-              },
-            ],
-            __typename: "Section",
-          },
-        ],
-        __typename: "AvailableRoutingDestinations",
-      },
-    },
-  }),
-};
+const mockQuestionnaire = buildQuestionnaire({
+  sectionCount: 2,
+  pageCount: 2,
+});
 
-jest.mock("@apollo/react-hooks", () => ({
-  __esModule: true,
-  useQuery: jest.fn(),
+useQuestionnaire.mockImplementation(() => ({
+  questionnaire: mockQuestionnaire,
 }));
-
-useQuery.mockImplementation(() => ({
-  data: queryResult.data(),
-  loading: queryResult.loading,
-}));
+usePage.mockImplementation(
+  () => mockQuestionnaire.sections[0].folders[0].pages[0]
+);
 
 function setup({ selected, ...extra }) {
   const onSubmit = jest.fn();
 
   const utils = render(
-    <DestinationContentPicker
-      pageId={"2"}
+    <RoutingDestinationContentPicker
       selected={selected}
       onSubmit={onSubmit}
       {...extra}
@@ -103,7 +39,7 @@ function setup({ selected, ...extra }) {
 
   const clickOpen = () =>
     fireEvent.click(utils.getByTestId("content-picker-select"));
-  const clickByText = text => fireEvent.click(utils.getByText(text));
+  const clickByText = (text) => fireEvent.click(utils.getByText(text));
   const clickSubmit = () => fireEvent.click(utils.getByText("Confirm"));
 
   return {
@@ -135,21 +71,21 @@ describe("RoutingDestinationContentPicker", () => {
   it("should fire onSubmit with destination when confirming", () => {
     const { clickOpen, clickByText, clickSubmit, onSubmit } = defaultSetup();
     clickOpen();
-    clickByText("s1q4");
+    clickByText("Page 1.1.2");
     clickSubmit();
-    expect(onSubmit).toHaveBeenCalledWith({
-      name: "routingDestination",
-      value: {
-        id: "04c776d3-24ea-4630-ad2d-30b6a0c0e5f4",
-        displayName: "s1q4",
-        section: {
-          id: "a1563df9-a671-4ac8-9958-4544eb9d6a64",
-          displayName: "section1",
-          __typename: "Section",
-        },
-        __typename: "QuestionPage",
-      },
-    });
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: "routingDestination",
+        value: expect.objectContaining({
+          id: "1.1.2",
+          displayName: "Page 1.1.2",
+          section: expect.objectContaining({
+            id: "1",
+            displayName: "Section 1",
+          }),
+        }),
+      })
+    );
   });
 
   it("should close content picker", () => {
@@ -166,17 +102,6 @@ describe("RoutingDestinationContentPicker", () => {
     });
     clickOpen();
     expect(queryByText("Later sections")).toBeNull();
-  });
-
-  it("should render with no display name if loading and next page selected", () => {
-    useQuery.mockImplementationOnce(() => ({
-      data: queryResult.data(),
-      loading: !queryResult.loading,
-    }));
-
-    const { getByTestId } = defaultSetup();
-
-    expect(getByTestId("content-picker-select")).toHaveAttribute("disabled");
   });
 
   describe("displayName", () => {

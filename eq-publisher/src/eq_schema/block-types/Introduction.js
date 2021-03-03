@@ -5,12 +5,12 @@ const {
   getInnerHTMLWithPiping,
 } = require("../../utils/HTMLUtils");
 
-const processContent = ctx => flow(convertPipes(ctx), parseContent);
+const processContent = (ctx) => flow(convertPipes(ctx), parseContent);
 
 const getSimpleText = (content, ctx) =>
   flow(convertPipes(ctx), getInnerHTMLWithPiping)(content);
 
-const addPanel = additionalGuidancePanel =>
+const addPanel = (additionalGuidancePanel) =>
   `<div class='panel panel--simple panel--info'><div class='panel__body'>${additionalGuidancePanel}</div></div>`;
 
 const getComplexText = (content, ctx) => (
@@ -64,7 +64,7 @@ module.exports = class Introduction {
       title: getSimpleText(secondaryTitle, ctx),
       content: getComplexText(secondaryDescription, ctx)(),
       questions: collapsibles
-        .filter(collapsible => collapsible.title && collapsible.description)
+        .filter((collapsible) => collapsible.title && collapsible.description)
         .map(({ title, description }) => ({
           question: title,
           content: getComplexText(description, ctx)(),

@@ -7,6 +7,7 @@ import {
   buildDesignPath,
   buildPreviewPath,
   buildLogicPath,
+  buildFolderPath,
 } from "utils/UrlUtils";
 
 const questionnaireId = "1";
@@ -14,6 +15,7 @@ const sectionId = "2";
 const pageId = "3";
 const confirmationId = "4";
 const introductionId = "5";
+const folderId = "6";
 
 describe("buildQuestionnairePath", () => {
   it("builds a valid path", () => {
@@ -45,6 +47,19 @@ describe("buildSectionPath", () => {
       tab: "routing",
     });
     expect(path).toEqual(`/q/${questionnaireId}/section/${sectionId}/design`);
+  });
+});
+
+describe("Build folder path", () => {
+  it("Builds a valid path", () => {
+    const path = buildFolderPath({ questionnaireId, folderId });
+    expect(path).toEqual(`/q/${questionnaireId}/folder/${folderId}/design`);
+  });
+
+  it("Throws if any param is not supplied", () => {
+    expect(() => buildFolderPath({})).toThrow();
+    expect(() => buildFolderPath({ questionnaireId })).toThrow();
+    expect(() => buildFolderPath({ folderId })).toThrow();
   });
 });
 

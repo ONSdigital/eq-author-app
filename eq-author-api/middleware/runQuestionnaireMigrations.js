@@ -4,19 +4,13 @@ const {
 } = require("../db/datastore");
 const { merge } = require("lodash");
 
-module.exports = logger => ({ currentVersion, migrations }) => async (
+module.exports = (logger) => ({ currentVersion, migrations }) => async (
   req,
   res,
   next
 ) => {
-  if (!req.questionnaire) {
-    next();
-    return;
-  }
-
-  if (req.questionnaire.version === currentVersion) {
-    next();
-    return;
+  if (!req.questionnaire || req.questionnaire.version === currentVersion) {
+    return next();
   }
 
   try {

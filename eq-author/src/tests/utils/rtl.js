@@ -59,7 +59,7 @@ const customRender = (
   const queries = render(<Provider>{ui}</Provider>, renderOptions);
   return {
     ...queries,
-    rerender: ui => queries.rerender(<Provider>{ui}</Provider>),
+    rerender: (ui) => queries.rerender(<Provider>{ui}</Provider>),
     // adding `history` to the returned utilities to allow us
     // to reference it in our tests (just try to avoid using
     // this to test implementation details).

@@ -10,11 +10,11 @@ const { getExpressions } = require("../../schema/resolvers/utils");
 
 const removeAnswerFromExpressions = (ctx, answer) => {
   const expressions = filter(
-    expression => expression.left.answerId === answer.id,
+    (expression) => expression.left.answerId === answer.id,
     getExpressions(ctx)
   );
 
-  forEach(expression => {
+  forEach((expression) => {
     expression.left.answerId = undefined;
     expression.left.type = NULL;
     expression.left.nullReason = SELECTED_ANSWER_DELETED;
@@ -23,7 +23,7 @@ const removeAnswerFromExpressions = (ctx, answer) => {
 };
 
 const removeAnswerGroup = (page, removedAnswer) => {
-  const answerTypes = uniq(page.answers.map(a => a.type));
+  const answerTypes = uniq(page.answers.map((a) => a.type));
   const firstAnswerType = answerTypes[0];
   if (
     answerTypes.length === 1 &&
@@ -40,7 +40,7 @@ const removeAnswerGroup = (page, removedAnswer) => {
   }
 
   const numberOfType = page.answers.filter(
-    answer => answer.type === removedAnswer.type
+    (answer) => answer.type === removedAnswer.type
   ).length;
   if (numberOfType !== 1) {
     return;
