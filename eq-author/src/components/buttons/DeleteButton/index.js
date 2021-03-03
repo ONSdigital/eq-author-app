@@ -42,7 +42,7 @@ const StyledDeleteButton = styled.button`
     pointer-events: none;
   }
 
-  ${props => sizes[props.size]};
+  ${(props) => sizes[props.size]};
 `;
 
 const CloseIcon = styled(Icon)`
@@ -56,7 +56,7 @@ const CloseIcon = styled(Icon)`
   }
 `;
 
-const DeleteButton = props => (
+const DeleteButton = (props) => (
   <StyledDeleteButton role="button" {...props}>
     <CloseIcon />
   </StyledDeleteButton>

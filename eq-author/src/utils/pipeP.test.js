@@ -1,8 +1,8 @@
 import pipeP from "./pipeP";
 
-const addUnicorn = str => Promise.resolve(`${str} Unicorn`);
-const addRainbow = str => Promise.resolve(`${str} Rainbow`);
-const addNonPromise = str => `${str} Foo`;
+const addUnicorn = (str) => Promise.resolve(`${str} Unicorn`);
+const addRainbow = (str) => Promise.resolve(`${str} Rainbow`);
+const addNonPromise = (str) => `${str} Foo`;
 
 describe("pipeP", () => {
   it("throws if no arguments supplied", () => {

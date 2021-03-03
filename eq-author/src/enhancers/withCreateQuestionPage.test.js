@@ -76,7 +76,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     });
 
     it("should redirect and return the new page", () => {
-      return props.onAddQuestionPage(section.id).then(result => {
+      return props.onAddQuestionPage(section.id).then((result) => {
         expect(result).toEqual(newPage);
         expect(history.push).toHaveBeenCalled();
       });

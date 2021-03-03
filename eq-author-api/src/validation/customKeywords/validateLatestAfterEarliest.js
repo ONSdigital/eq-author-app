@@ -6,7 +6,7 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validateLatestAfterEarliest", {
     $data: true,
     validate: function isValid(
@@ -20,7 +20,7 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
-      const getDate = data => {
+      const getDate = (data) => {
         let date;
         if (data.metadata) {
           date = find(questionnaire.metadata, { id: data.metadata }).dateValue;
@@ -33,9 +33,7 @@ module.exports = function(ajv) {
             .subtract(data.offset.value, data.offset.unit)
             .unix();
         }
-        return moment(date)
-          .add(data.offset.value, data.offset.unit)
-          .unix();
+        return moment(date).add(data.offset.value, data.offset.unit).unix();
       };
 
       const a = getDate(otherFields);

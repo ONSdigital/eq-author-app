@@ -2,12 +2,19 @@ import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import { flatMap } from "lodash";
+import {
+  organiseAnswers,
+  flattenAnswers,
+  duplicatesAnswers,
+} from "utils/getAllAnswersFlatMap";
 
 import {
   SECTION,
   PAGE,
   QUESTION_CONFIRMATION,
   INTRODUCTION,
+  FOLDER,
 } from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
@@ -21,17 +28,35 @@ import {
   withAuthCheck,
   withValidations,
   withQuestionnaire,
+  getSections,
+  getFolders,
+  getPages,
+  getFolderById,
+  getFolderByPageId,
+  getSectionByFolderId,
+  getSectionByPageId,
+  getPageByConfirmationId,
 } from "./";
 
 describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let confirmation, page, section, questionnaire, validations;
+  let confirmation,
+    page,
+    folder,
+    section,
+    questionnaire,
+    validations,
+    sectionsForFlatAnswers,
+    answerList,
+    flatAnswersTest,
+    duplicateTest;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire();
     section = questionnaire.sections[0];
+    folder = questionnaire.sections[0].folders[0];
     page = questionnaire.sections[0].folders[0].pages[0];
 
     confirmation = {
@@ -49,6 +74,7 @@ describe("QuestionnaireDesignPage", () => {
       onUpdateSection: jest.fn(),
       onAddQuestionPage: jest.fn(),
       onAddSection: jest.fn(),
+      onAddFolder: jest.fn(),
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
       onDeleteSection: jest.fn(),
@@ -77,28 +103,6 @@ describe("QuestionnaireDesignPage", () => {
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render spinner while loading", () => {
-    wrapper.setProps({ loading: true });
-
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
-  });
-
-  it("should render redirect when finished loading", () => {
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
-  });
-
-  it("should redirect to the introduction if it has one", () => {
-    wrapper.setProps({
-      questionnaire: {
-        ...questionnaire,
-        introduction: {
-          id: "1",
-        },
-      },
-    });
-    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
   it("should throw an error for invalid entity types", () => {
@@ -140,6 +144,12 @@ describe("QuestionnaireDesignPage", () => {
       ).toEqual(false);
     });
 
+    it("should disable adding folder page when on introduction page", () => {
+      expect(wrapper.find(NavigationSidebar).prop("canAddFolder")).toEqual(
+        false
+      );
+    });
+
     it("should disable adding confirmation question when on introduction page", () => {
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
@@ -150,6 +160,88 @@ describe("QuestionnaireDesignPage", () => {
       expect(
         wrapper.find(NavigationSidebar).prop("canAddCalculatedSummaryPage")
       ).toEqual(false);
+    });
+  });
+
+  describe("onAddFolder", () => {
+    it("Should be able to add a folder at the start when on a section", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: SECTION,
+            entityId: section.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(section.id, 0);
+    });
+
+    it("Should be able to add a folder below the current folder", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: FOLDER,
+            entityId: folder.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        folder.position + 1
+      );
+    });
+
+    it("Should be able to add a folder below the current page", () => {
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
+    });
+
+    it("Should be able to add a folder below the current confirmation page", () => {
+      page.confirmation = confirmation;
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: QUESTION_CONFIRMATION,
+            entityId: confirmation.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addFolder");
+
+      expect(mockHandlers.onAddFolder).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
+    });
+
+    it("Throws when it doesn't recognise the current entity", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: "BeBe Zahara Benet",
+            entityId: folder.id,
+          },
+        },
+      });
+
+      expect(() =>
+        wrapper.find(NavigationSidebar).simulate("addFolder")
+      ).toThrow();
     });
   });
 
@@ -193,6 +285,7 @@ describe("QuestionnaireDesignPage", () => {
           },
         },
       });
+
       wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
@@ -235,11 +328,20 @@ describe("QuestionnaireDesignPage", () => {
   describe("getTitle", () => {
     it("should display existing title if loading", () => {
       wrapper.setProps({ loading: true });
-      expect(wrapper.instance().getTitle()).toEqual("");
+
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
+
+      expect(getTitle()).toEqual("");
     });
 
     it("should display questionnaire title if no longer loading", () => {
-      expect(wrapper.instance().getTitle()).toEqual(questionnaire.title);
+      const getTitle = wrapper
+        .findWhere((n) => n.name() === "GetContext")
+        .props().title;
+
+      expect(getTitle()).toEqual(questionnaire.title);
     });
   });
 
@@ -396,6 +498,427 @@ describe("QuestionnaireDesignPage", () => {
         const wrapper = shallow(<Component match={match} />);
         expect(wrapper).toMatchSnapshot();
       });
+    });
+  });
+
+  describe("Helpers", () => {
+    it("Can get all sections in a questionnaire", () => {
+      expect(getSections(questionnaire)).toMatchObject(questionnaire.sections);
+    });
+
+    it("Can get all folders in a questionnaire", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+
+      expect(getFolders(questionnaire)).toMatchObject(folders);
+    });
+
+    it("Can get all pages in a questionnaire", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+      const pages = flatMap(folders, ({ pages }) => pages);
+
+      expect(getPages(questionnaire)).toMatchObject(pages);
+    });
+
+    it("Can get a folder by it's ID", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+
+      expect(getFolderById(questionnaire, firstFolder.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can get a folder by a page ID", () => {
+      const folders = flatMap(questionnaire.sections, ({ folders }) => folders);
+
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getFolderByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can get a section by a folder ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+
+      expect(getSectionByFolderId(questionnaire, firstFolder.id)).toMatchObject(
+        firstSection
+      );
+    });
+
+    it("Can get a section by a page ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getSectionByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstSection
+      );
+    });
+
+    it("Can get a page by a confirmation page ID", () => {
+      page.confirmation = confirmation;
+
+      const sections = questionnaire.sections;
+      const folders = flatMap(sections, ({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(
+        getPageByConfirmationId(questionnaire, confirmation.id)
+      ).toMatchObject(firstPage);
+    });
+  });
+  describe("getAllAnswersFlatMap", () => {
+    sectionsForFlatAnswers = [
+      {
+        id: "4b0280df-c345-4c20-ada2-806105de87d6",
+        title: "<p>sect1</p>",
+        displayName: "sect1",
+        questionnaire: {
+          id: "bbb6f10d-4f95-4f96-8c66-1e777653dd4f",
+          __typename: "Questionnaire",
+        },
+        folders: [
+          {
+            id: "14f7b1ef-b26c-4f6f-bdb6-37eff316b4d9",
+            pages: [
+              {
+                id: "ff7e458d-028f-471c-a95d-2d3161da133e",
+                title: "<p>Q1</p>",
+                position: 0,
+                displayName: "Q1",
+                pageType: "QuestionPage",
+                alias: null,
+                confirmation: null,
+                answers: [
+                  {
+                    id: "ID-Q1-1",
+                    label: "num1",
+                    secondaryLabel: "sec label1",
+                    type: "Number",
+                    properties: {
+                      required: false,
+                      decimals: 0,
+                    },
+                    length: 1,
+                    qCode: "Duplicate",
+                    secondaryQCode: "sec QCode1",
+                    __typename: "BasicAnswer",
+                    title: "<p>Q1</p>",
+                  },
+                ],
+                __typename: "QuestionPage",
+              },
+            ],
+            __typename: "Folder",
+          },
+          {
+            id: "14f7b1ef-b26c-4f6f-bdb6-37eff316b4d9",
+            pages: [
+              {
+                id: "ff7e458d-028f-471c-a95d-2d3161da133e",
+                title: "<p>Q2</p>",
+                position: 0,
+                displayName: "Q2",
+                pageType: "QuestionPage",
+                alias: null,
+                confirmation: null,
+                answers: [
+                  {
+                    id: "ID-Q2-1",
+                    label: "num2",
+                    secondaryLabel: null,
+                    type: "Number",
+                    properties: {
+                      required: false,
+                      decimals: 0,
+                    },
+                    qCode: "Duplicate",
+                    secondaryQCode: null,
+                    __typename: "BasicAnswer",
+                    length: 1,
+                    title: "<p>Q2</p>",
+                  },
+                ],
+                __typename: "QuestionPage",
+              },
+            ],
+            __typename: "Folder",
+          },
+          {
+            id: "600bdaed-eb6f-4541-8e8f-d9895afaba57",
+            pages: [
+              {
+                id: "360002a6-eedb-4fa8-9d5c-51cdd6a78a18",
+                title: "<p>q2 - chkbox</p>",
+                position: 0,
+                displayName: "q2 - chkbox",
+                pageType: "QuestionPage",
+                alias: null,
+                confirmation: null,
+                answers: [
+                  {
+                    id: "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
+                    label: "",
+                    secondaryLabel: null,
+                    type: "Checkbox",
+                    properties: {
+                      required: false,
+                    },
+                    qCode: "",
+                    length: 2,
+                    options: [
+                      {
+                        id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+                        label: "checkbox 1",
+                        qCode: null,
+                        __typename: "Option",
+                      },
+                      {
+                        id: "1e3eb896-be3d-4048-be69-269e125f5628",
+                        label: "checkbox 2",
+                        qCode: null,
+                        __typename: "Option",
+                      },
+                    ],
+                    mutuallyExclusiveOption: null,
+                    __typename: "MultipleChoiceAnswer",
+                  },
+                ],
+                __typename: "QuestionPage",
+              },
+            ],
+            __typename: "Folder",
+          },
+        ],
+        __typename: "Section",
+      },
+    ];
+
+    answerList = [
+      {
+        title: "<p>Q1</p>",
+        alias: null,
+        answers: [
+          {
+            id: "ID-Q1-1",
+            label: "num1",
+            secondaryLabel: "sec label1",
+            type: "Number",
+            properties: {
+              required: false,
+              decimals: 0,
+            },
+            length: 1,
+            qCode: "Duplicate",
+            secondaryQCode: "sec QCode1",
+            __typename: "BasicAnswer",
+            title: "<p>Q1</p>",
+          },
+          {
+            id: "ID-Q1-1",
+            label: "sec label1",
+            qCode: "sec QCode1",
+            type: "Number",
+            secondary: true,
+          },
+        ],
+      },
+      {
+        title: "<p>Q2</p>",
+        alias: null,
+        answers: [
+          {
+            id: "ID-Q2-1",
+            label: "num2",
+            secondaryLabel: null,
+            type: "Number",
+            properties: {
+              required: false,
+              decimals: 0,
+            },
+            qCode: "Duplicate",
+            secondaryQCode: null,
+            __typename: "BasicAnswer",
+            length: 1,
+            title: "<p>Q2</p>",
+          },
+        ],
+      },
+      {
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        answers: [
+          {
+            id: "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
+            label: "",
+            secondaryLabel: null,
+            type: "Checkbox",
+            properties: {
+              required: false,
+            },
+            qCode: "",
+            length: 2,
+            options: [
+              {
+                id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+                label: "checkbox 1",
+                qCode: null,
+                __typename: "Option",
+              },
+              {
+                id: "1e3eb896-be3d-4048-be69-269e125f5628",
+                label: "checkbox 2",
+                qCode: null,
+                __typename: "Option",
+              },
+            ],
+            mutuallyExclusiveOption: null,
+            __typename: "MultipleChoiceAnswer",
+          },
+          {
+            id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+            label: "checkbox 1",
+            qCode: null,
+            __typename: "Option",
+            type: "CheckboxOption",
+            option: true,
+          },
+          {
+            id: "1e3eb896-be3d-4048-be69-269e125f5628",
+            label: "checkbox 2",
+            qCode: null,
+            __typename: "Option",
+            type: "CheckboxOption",
+            option: true,
+          },
+        ],
+      },
+    ];
+
+    flatAnswersTest = [
+      {
+        title: "<p>Q1</p>",
+        alias: null,
+        id: "ID-Q1-1",
+        label: "num1",
+        secondaryLabel: "sec label1",
+        type: "Number",
+        properties: {
+          required: false,
+          decimals: 0,
+        },
+        length: 1,
+        qCode: "Duplicate",
+        secondaryQCode: "sec QCode1",
+        __typename: "BasicAnswer",
+      },
+      {
+        title: "<p>Q1</p>",
+        alias: null,
+        nested: true,
+        id: "ID-Q1-1",
+        label: "sec label1",
+        qCode: "sec QCode1",
+        type: "Number",
+        secondary: true,
+      },
+      {
+        title: "<p>Q2</p>",
+        alias: null,
+        id: "ID-Q2-1",
+        label: "num2",
+        secondaryLabel: null,
+        type: "Number",
+        properties: {
+          required: false,
+          decimals: 0,
+        },
+        qCode: "Duplicate",
+        secondaryQCode: null,
+        __typename: "BasicAnswer",
+        length: 1,
+      },
+      {
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        id: "57f4d945-cd90-4596-8ec7-b7a1ef035c16",
+        label: "",
+        secondaryLabel: null,
+        type: "Checkbox",
+        properties: {
+          required: false,
+        },
+        qCode: "",
+        length: 2,
+        options: [
+          {
+            id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+            label: "checkbox 1",
+            qCode: null,
+            __typename: "Option",
+          },
+          {
+            id: "1e3eb896-be3d-4048-be69-269e125f5628",
+            label: "checkbox 2",
+            qCode: null,
+            __typename: "Option",
+          },
+        ],
+        mutuallyExclusiveOption: null,
+        __typename: "MultipleChoiceAnswer",
+      },
+      {
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        nested: true,
+        id: "7ded7fad-2e4d-4c74-815e-395993ae35c0",
+        label: "checkbox 1",
+        qCode: null,
+        __typename: "Option",
+        type: "CheckboxOption",
+        option: true,
+      },
+      {
+        title: "<p>q2 - chkbox</p>",
+        alias: null,
+        nested: true,
+        id: "1e3eb896-be3d-4048-be69-269e125f5628",
+        label: "checkbox 2",
+        qCode: null,
+        __typename: "Option",
+        type: "CheckboxOption",
+        option: true,
+      },
+    ];
+
+    duplicateTest = {
+      Duplicate: 2,
+      "sec QCode1": 1,
+      "": 1,
+      null: 1,
+    };
+
+    it("it should organiseAnswers into a list", () => {
+      const answersListTest = organiseAnswers(sectionsForFlatAnswers);
+      expect(answersListTest.answers).toEqual(answerList);
+    });
+
+    it("it should flatten answers", () => {
+      const flattenedAnswers = flattenAnswers(answerList);
+      expect(flattenedAnswers).toEqual(flatAnswersTest);
+    });
+
+    it("it should list duplicate answers", () => {
+      const duplicates = duplicatesAnswers(flatAnswersTest);
+      expect(duplicates).toEqual(duplicateTest);
     });
   });
 });

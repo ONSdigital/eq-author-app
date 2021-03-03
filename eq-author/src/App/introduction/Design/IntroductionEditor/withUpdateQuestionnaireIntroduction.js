@@ -36,7 +36,7 @@ const inputFilter = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  updateQuestionnaireIntroduction: introduction => {
+  updateQuestionnaireIntroduction: (introduction) => {
     const data = filter(inputFilter, introduction);
     return mutate({
       variables: { input: data },

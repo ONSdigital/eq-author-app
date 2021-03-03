@@ -234,9 +234,6 @@ exports.getQuestionnaire = `
               summaryAnswers {
                 id
               }
-              availableSummaryAnswers {
-                id
-              }
             }
             ... on QuestionPage {
               description

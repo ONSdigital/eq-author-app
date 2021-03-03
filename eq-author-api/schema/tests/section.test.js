@@ -1,6 +1,5 @@
 const { filter } = require("graphql-anywhere");
 const gql = require("graphql-tag");
-const { get, last } = require("lodash");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
@@ -101,7 +100,7 @@ describe("section", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([
+      expect(sections.map((s) => s.id)).toEqual([
         secondSectionId,
         sectionToMoveId,
       ]);
@@ -117,7 +116,7 @@ describe("section", () => {
         position: 0,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([
+      expect(sections.map((s) => s.id)).toEqual([
         sectionToMoveId,
         firstSectionId,
       ]);
@@ -161,8 +160,6 @@ describe("section", () => {
         displayName: expect.any(String),
         folders: expect.any(Array),
         questionnaire: expect.any(Object),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
       });
     });
 
@@ -183,18 +180,6 @@ describe("section", () => {
 
     it("should resolve questionnaire", () => {
       expect(queriedSection.questionnaire.id).toEqual(questionnaire.id);
-    });
-
-    it("should resolve availablePipingAnswers", () => {
-      expect(last(queriedSection.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(last(queriedSection.availablePipingMetadata).id).toEqual(
-        questionnaire.metadata[0].id
-      );
     });
   });
 

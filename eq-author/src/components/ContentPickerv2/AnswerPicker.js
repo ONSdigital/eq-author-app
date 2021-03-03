@@ -60,7 +60,10 @@ const AnswerPicker = ({ data, ...otherProps }) => {
       <ModalHeader>
         <ModalTitle>Select an answer</ModalTitle>
         <ModalToolbar>
-          <Options onChange={e => setOption(e.target.value)} option={option} />
+          <Options
+            onChange={(e) => setOption(e.target.value)}
+            option={option}
+          />
         </ModalToolbar>
       </ModalHeader>
       {contents}

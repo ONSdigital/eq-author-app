@@ -24,7 +24,7 @@ class SplitButton extends React.Component {
     open: false,
   };
 
-  handleToggleOpen = open => {
+  handleToggleOpen = (open) => {
     this.props.onToggleOpen(open);
   };
 

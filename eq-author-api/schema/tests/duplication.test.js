@@ -75,17 +75,10 @@ describe("Duplication", () => {
     });
 
     it("should copy page with answers and question confirmation", () => {
-      const cleanObject = obj => {
+      const cleanObject = (obj) => {
         const objectWithUnchangedFields = omit(
           JSON.parse(JSON.stringify(obj)),
-          [
-            "alias",
-            "title",
-            "displayName",
-            "position",
-            "availablePipingAnswers",
-            "availableRoutingAnswers",
-          ]
+          ["alias", "title", "displayName", "position"]
         );
         return deepMap(objectWithUnchangedFields, (value, key) => {
           if (key === "id") {
@@ -143,7 +136,6 @@ describe("Duplication", () => {
             "displayName",
             "position",
             "folders",
-            "availablePipingAnswers",
           ])
         )
       );

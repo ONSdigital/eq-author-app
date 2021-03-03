@@ -12,6 +12,7 @@ import {
   QCODES,
   SHARING,
   SETTINGS,
+  FOLDER,
 } from "../constants/entities";
 
 export const Routes = {
@@ -24,7 +25,7 @@ export const generatePath = curry(rrGeneratePath, 2);
 
 export const buildQuestionnairePath = generatePath(Routes.QUESTIONNAIRE);
 
-const sanitiseTab = allowedTabs => tab => {
+const sanitiseTab = (allowedTabs) => (tab) => {
   if (!tab) {
     return allowedTabs[0];
   }
@@ -44,6 +45,18 @@ export const buildSectionPath = ({ sectionId, tab, ...rest }) => {
     tab: sanitiseTab(["design", "preview"])(tab),
     entityId: sectionId,
     entityName: SECTION,
+  });
+};
+export const buildFolderPath = ({ folderId, tab, ...rest }) => {
+  if (!folderId) {
+    throw new Error("Folder id must be provided");
+  }
+
+  return generatePath(Routes.QUESTIONNAIRE)({
+    ...rest,
+    tab: sanitiseTab(["design"])(tab),
+    entityId: folderId,
+    entityName: FOLDER,
   });
 };
 export const buildPagePath = ({ pageId, tab, ...rest }) => {
@@ -120,7 +133,7 @@ export const buildSharingPath = ({ questionnaireId }) => {
   });
 };
 
-const buildTabSwitcher = tab => params => {
+const buildTabSwitcher = (tab) => (params) => {
   let builder;
   if (params.entityId) {
     builder = buildQuestionnairePath;
@@ -136,6 +149,9 @@ const buildTabSwitcher = tab => params => {
   }
   if (params.introductionId) {
     builder = buildIntroductionPath;
+  }
+  if (params.folderId) {
+    builder = buildFolderPath;
   }
   if (!builder) {
     throw new Error(

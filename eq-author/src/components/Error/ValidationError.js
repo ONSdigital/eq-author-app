@@ -9,12 +9,12 @@ import WarningIcon from "constants/icon-warning.svg?inline";
 
 const ErrorStyling = styled(IconText)`
   color: ${colors.red};
-  width: ${props => (props.right ? "100%" : "80%")};
+  width: ${(props) => (props.right ? "100%" : "80%")};
   justify-content: flex-end;
   margin: 0.5em 0;
 `;
 
-export const ValidationError = props => {
+export const ValidationError = (props) => {
   const { children, right, className } = props;
 
   return (

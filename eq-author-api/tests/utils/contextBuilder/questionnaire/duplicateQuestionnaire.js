@@ -29,7 +29,7 @@ const duplicateQuestionnaireMutation = `
   }
 `;
 
-const duplicateQuestionnaire = async ctx => {
+const duplicateQuestionnaire = async (ctx) => {
   const input = {
     id: ctx.questionnaire.id,
   };

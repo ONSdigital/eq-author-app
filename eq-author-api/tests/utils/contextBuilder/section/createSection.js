@@ -19,12 +19,6 @@ const createSectionMutation = `
       questionnaire {
         id
       }
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
     }
   }
 `;

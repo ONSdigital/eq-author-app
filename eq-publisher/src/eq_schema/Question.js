@@ -12,12 +12,13 @@ const findDateRange = flow(get("answers"), find({ type: DATE_RANGE }));
 
 const findMutuallyExclusive = flow(
   get("answers"),
-  find(answer => !isNil(get("mutuallyExclusiveOption", answer)))
+  find((answer) => !isNil(get("mutuallyExclusiveOption", answer)))
 );
 
-const processPipedText = ctx => flow(convertPipes(ctx), getInnerHTMLWithPiping);
+const processPipedText = (ctx) =>
+  flow(convertPipes(ctx), getInnerHTMLWithPiping);
 
-const processContent = ctx => flow(convertPipes(ctx), parseContent);
+const processContent = (ctx) => flow(convertPipes(ctx), parseContent);
 
 class Question {
   constructor(question, ctx) {
@@ -118,7 +119,7 @@ class Question {
   }
 
   buildAnswers(answers) {
-    return answers.map(answer => new Answer(answer));
+    return answers.map((answer) => new Answer(answer));
   }
 
   buildDateRangeAnswers(answer) {
@@ -181,7 +182,7 @@ class Question {
 
     return {
       calculation_type: "sum",
-      answers_to_calculate: answers.map(a => `answer${a.id}`),
+      answers_to_calculate: answers.map((a) => `answer${a.id}`),
       conditions: AUTHOR_TO_RUNNER_CONDITIONS[totalValidation.condition],
       ...rightSide,
     };

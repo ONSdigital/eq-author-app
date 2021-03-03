@@ -6,7 +6,7 @@ const { getUserByExternalId } = require("../../db/datastore");
 const verifyServiceRequest = require("./verifyServiceRequest");
 const verifyJwtToken = require("./verifyJwtToken");
 
-module.exports = logger => async authHeader => {
+module.exports = (logger) => async (authHeader) => {
   if (isNil(authHeader)) {
     logger.error("Request must contain a valid authorization header.");
     return;

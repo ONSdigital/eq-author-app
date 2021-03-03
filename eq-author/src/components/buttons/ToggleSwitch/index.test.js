@@ -5,7 +5,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 import { colors } from "constants/theme";
 import ToggleSwitch from "./";
 
-const renderComponent = props => {
+const renderComponent = (props) => {
   return render(<ToggleSwitch {...props} />);
 };
 

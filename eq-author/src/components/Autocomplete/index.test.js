@@ -16,12 +16,12 @@ const testList = ["a", "ab", "b", "c"];
 const filter = (options, query) => [
   Object.values(options)
     .filter(
-      x =>
+      (x) =>
         x.unit.toLowerCase().includes(query) ||
         x.abbreviation.toLowerCase().includes(query)
     )
     .map(
-      option => `${option.unit}
+      (option) => `${option.unit}
      ${option.abbreviation}`
     ),
 ];
@@ -33,7 +33,7 @@ const categoryFilter = (options, query) => {
   ];
   const common = noCats
     .filter(
-      x =>
+      (x) =>
         x.unit.toLowerCase().includes(query) ||
         x.abbreviation.toLowerCase().includes(query)
     )
@@ -62,7 +62,7 @@ const categoryFilter = (options, query) => {
 describe("components/Autocomplete", () => {
   let props, mocks;
 
-  const Component = props => {
+  const Component = (props) => {
     return <Autocomplete {...props} />;
   };
 

@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Badge from "components/Badge";
+import RouteButton from "components/buttons/Button/RouteButton";
+
+<Meta title="Components/Badge" component={Badge} />
+
+# Badge
+
+Displays errors in questionnaires to users
+
+## Logic
+
+<Canvas>
+  <Story name="Logic">
+    <Badge variant="logic">10</Badge>
+  </Story>
+</Canvas>
+
+## Navigation Link
+
+<Canvas>
+  <Story name="Nav Link">
+    <Badge variant="nav">10</Badge>
+  </Story>
+</Canvas>
+
+## Navigation Link (Small)
+
+<Canvas>
+  <Story name="Nav Link (Small)">
+    <Badge variant="nav" small />
+  </Story>
+</Canvas>
+
+## Main Navigation
+
+<Canvas>
+  <Story name="Nav Main">
+    <RouteButton>
+      <Badge variant="main-nav" small />
+    </RouteButton>
+  </Story>
+</Canvas>
+
+## Tabs
+
+<Canvas>
+  <Story name="Tabs">
+    <Badge variant="tabs" small />
+  </Story>
+</Canvas>

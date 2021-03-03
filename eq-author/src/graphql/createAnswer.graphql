@@ -1,5 +1,7 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/option.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/section.graphql"
 #import "./fragments/min-value-validation-rule.graphql"
 #import "./fragments/max-value-validation-rule.graphql"
 #import "./fragments/earliest-date-validation-rule.graphql"
@@ -7,13 +9,14 @@
 #import "./fragments/min-duration-validation-rule.graphql"
 #import "./fragments/max-duration-validation-rule.graphql"
 #import "./fragments/total-validation-rule.graphql"
-#import "./fragments/available-answers.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/page.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
   createAnswer(input: $input) {
     ...Answer
     ... on BasicAnswer {
+      secondaryQCode
       validation {
         ... on NumberValidation {
           minValue {
@@ -61,27 +64,37 @@ mutation createAnswer($input: CreateAnswerInput!) {
     ... on MultipleChoiceAnswer {
       options {
         ...Option
+        qCode
         validationErrorInfo {
           ...ValidationErrorInfo
         }
       }
       mutuallyExclusiveOption {
         id
+        label
+        qCode
       }
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
     page {
-      id
-      totalValidation {
-        ...TotalValidationRule
-        availablePreviousAnswers {
-          ...AvailableAnswers
+      ...Page
+      title
+      displayName
+      position
+      pageType
+      folder {
+        ...Folder
+        section {
+          ...Section
         }
       }
+      totalValidation {
+        ...TotalValidationRule
+      }
       answers {
-        id
+        ...Answer
       }
       validationErrorInfo {
         ...ValidationErrorInfo

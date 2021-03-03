@@ -1,16 +1,17 @@
+#import "./fragments/folder.graphql"
+
 mutation MovePage($input: MovePageInput!) {
   movePage(input: $input) {
     position
     id
     title
     folder {
-      id
+      ...Folder
     }
     section {
       id
       folders {
-        id
-        position
+        ...Folder
         pages {
           id
           position

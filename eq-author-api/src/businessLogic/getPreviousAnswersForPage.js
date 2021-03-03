@@ -12,7 +12,7 @@ module.exports = (
     flatMap(({ folders }) => folders, questionnaire.sections)
   );
   const allPagesAndConfirmations = flatMap(
-    page => (page.confirmation ? [page, page.confirmation] : [page]),
+    (page) => (page.confirmation ? [page, page.confirmation] : [page]),
     allPages
   );
 
@@ -29,10 +29,10 @@ module.exports = (
     ? [...pagesBeforeCurrent, currentPage]
     : pagesBeforeCurrent;
 
-  const answers = compact(flatMap(page => page.answers, pagesToInclude));
+  const answers = compact(flatMap((page) => page.answers, pagesToInclude));
 
   return filter(
-    answer => some(type => type === answer.type, answerTypes),
+    (answer) => some((type) => type === answer.type, answerTypes),
     answers
   );
 };

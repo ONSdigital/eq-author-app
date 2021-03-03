@@ -317,7 +317,7 @@ describe("schema validation", () => {
   describe("Answer validation", () => {
     describe("basic answer", () => {
       it("should ensure that the label is populated", () => {
-        BASIC_ANSWERS.forEach(type => {
+        BASIC_ANSWERS.forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -356,38 +356,6 @@ describe("schema validation", () => {
           const pageErrors2 = validation(questionnaire);
           expect(pageErrors2).toHaveLength(0);
         });
-      });
-
-      it("should validate if qCode is missing", () => {
-        const answer = {
-          id: "a1",
-          type: NUMBER,
-          label: "some answer",
-          qCode: "",
-          secondaryQCode: "secQCode1",
-        };
-
-        const questionnaire = {
-          id: "q1",
-          sections: [
-            {
-              id: "s1",
-              folders: [
-                {
-                  pages: [
-                    {
-                      id: "p1",
-                      answers: [answer],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        };
-        const pageErrors = validation(questionnaire);
-
-        expect(pageErrors).toHaveLength(1);
       });
 
       it("should recognize mismatched decimals in validation references", () => {
@@ -527,38 +495,6 @@ describe("schema validation", () => {
             type: "answer",
           });
         });
-
-        it("should validate if qCode is missing", () => {
-          const answer = {
-            id: "a1",
-            type: "TextField",
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
-
-          expect(pageErrors).toHaveLength(1);
-        });
       });
     });
 
@@ -655,7 +591,7 @@ describe("schema validation", () => {
         });
 
         it("should not return an error if one of the two is disabled", () => {
-          ["earliestDate", "latestDate", "none"].forEach(entity => {
+          ["earliestDate", "latestDate", "none"].forEach((entity) => {
             const answer = {
               id: "a1",
               type: DATE,
@@ -735,38 +671,6 @@ describe("schema validation", () => {
             ])
           );
         });
-
-        it("should validate if qCode is missing", () => {
-          const answer = {
-            id: "a1",
-            type: DATE,
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
-
-          expect(pageErrors).toHaveLength(1);
-        });
       });
 
       describe("date range answers", () => {
@@ -783,7 +687,7 @@ describe("schema validation", () => {
           });
 
           it("Date Range - should not validate if one of the two is disabled", () => {
-            ["earliestDate", "latestDate", "none"].forEach(entity => {
+            ["earliestDate", "latestDate", "none"].forEach((entity) => {
               const answer = {
                 id: "a1",
                 type: DATE_RANGE,
@@ -817,71 +721,8 @@ describe("schema validation", () => {
               expect(pageErrors).toHaveLength(0);
             });
           });
-
-          it("should validate if qCode is missing", () => {
-            const answer = {
-              id: "a1",
-              type: DATE_RANGE,
-              label: "some answer",
-              qCode: "",
-              secondaryQCode: "secQCode1",
-            };
-
-            const questionnaire = {
-              id: "q1",
-              sections: [
-                {
-                  id: "s1",
-                  folders: [
-                    {
-                      pages: [
-                        {
-                          id: "p1",
-                          answers: [answer],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            };
-            const pageErrors = validation(questionnaire);
-
-            expect(pageErrors).toHaveLength(1);
-          });
-
-          it("should validate if secondaryQCode is missing", () => {
-            const answer = {
-              id: "a1",
-              type: DATE_RANGE,
-              label: "some answer",
-              qCode: "",
-              secondaryQCode: "secQCode1",
-            };
-
-            const questionnaire = {
-              id: "q1",
-              sections: [
-                {
-                  id: "s1",
-                  folders: [
-                    {
-                      pages: [
-                        {
-                          id: "p1",
-                          answers: [answer],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            };
-            const pageErrors = validation(questionnaire);
-
-            expect(pageErrors).toHaveLength(1);
-          });
         });
+
         describe("Min duration and max duration", () => {
           it("Date Range - should validate that latest date is always after earlier date", () => {
             questionnaire.sections[0].folders[0].pages[0].answers = [
@@ -960,7 +801,7 @@ describe("schema validation", () => {
 
     describe("currency, number, percentage and unit answers", () => {
       it("should ensure that max value is always larger than min value", () => {
-        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach((type) => {
           const answer = {
             id: "a1",
             type,
@@ -1028,7 +869,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is disabled", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1080,7 +921,7 @@ describe("schema validation", () => {
       });
 
       it("should not validate if one of the two is a previous answer", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
+        ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
             type: NUMBER,
@@ -1128,58 +969,6 @@ describe("schema validation", () => {
           const pageErrors = validation(questionnaire);
 
           expect(pageErrors).toHaveLength(0);
-        });
-      });
-
-      it("should validate if qCode is missing", () => {
-        ["minValue", "maxValue", "none"].forEach(entity => {
-          const answer = {
-            id: "a1",
-            type: NUMBER,
-            label: "some answer",
-            qCode: "",
-            secondaryQCode: "secQCode1",
-            validation: {
-              minValue: {
-                id: "123",
-                enabled: entity === "minValue",
-                custom: 50,
-                inclusive: true,
-                entityType: "Custom",
-                previousAnswer: null,
-              },
-              maxValue: {
-                id: "321",
-                enabled: entity === "maxValue",
-                custom: 40,
-                inclusive: true,
-                entityType: "PreviousAnswer",
-                previousAnswer: { displayName: "a previous answer", id: "1" },
-              },
-            },
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                folders: [
-                  {
-                    pages: [
-                      {
-                        id: "p1",
-                        answers: [answer],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
-          const pageErrors = validation(questionnaire);
-
-          expect(pageErrors).toHaveLength(1);
         });
       });
     });
@@ -1278,7 +1067,7 @@ describe("schema validation", () => {
     it("should validate left hand Answer is after routing question", () => {
       defaultRouting.rules[0].expressionGroup.expressions[0].left = {
         type: "Answer",
-        answerId: "answer_2"
+        answerId: "answer_2",
       };
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
@@ -1297,12 +1086,14 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors).toEqual(expect.arrayContaining([
-        expect.objectContaining({
-          errorCode: "ERR_VALUE_REQUIRED",
-          field: "operator",
-        })]
-      ));
+      expect(routingErrors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            errorCode: "ERR_VALUE_REQUIRED",
+            field: "operator",
+          }),
+        ])
+      );
     });
 
     it("should validate empty skip conditions", () => {
@@ -1411,7 +1202,7 @@ describe("schema validation", () => {
             },
           },
         ],
-      }
+      };
 
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
       const routingErrors = validation(questionnaire);
@@ -1559,8 +1350,8 @@ describe("schema validation", () => {
       });
     });
 
-    it("should return an error if the destination has been moved to an invalid location", () => {
-      questionnaire.sections[0].folders[0].pages[0].routing = {
+    it("should return an error if the destination has been moved before the routing page", () => {
+      questionnaire.sections[0].folders[0].pages[1].routing = {
         id: "routing_1",
         else: {
           id: "else_1",
@@ -1571,7 +1362,7 @@ describe("schema validation", () => {
             id: "rule_1",
             destination: {
               id: "destination_1",
-              pageId: "page_4",
+              pageId: "page_1",
             },
             expressionGroup: {
               id: "expressionGroup_1",
@@ -1597,52 +1388,17 @@ describe("schema validation", () => {
         ],
       };
 
-      questionnaire.sections.push({
-        id: "section_2",
-        title: "section_2",
-        folders: [
-          {
-            pages: [
-              {
-                id: "page_3",
-                title: "page title",
-                answers: [
-                  {
-                    id: "answer_3",
-                    type: NUMBER,
-                    label: "Number",
-                  },
-                ],
-                routing: null,
-                skipConditions: null,
-              },
-              {
-                id: "page_4",
-                title: "page title",
-                answers: [
-                  {
-                    id: "answer_4",
-                    type: NUMBER,
-                    label: "Number",
-                  },
-                ],
-                routing: null,
-                skipConditions: null,
-              },
-            ],
-          },
-        ],
-      });
+      questionnaire.updatedAt = new Date();
 
       const validationErrors = validation(questionnaire);
 
+      expect(validationErrors).toHaveLength(1);
       expect(validationErrors[0]).toMatchObject({
         id: uuidRejex,
         type: "routing",
         field: "destination",
         errorCode: ERR_DESTINATION_MOVED,
       });
-      expect(validationErrors).toHaveLength(1);
     });
 
     describe("Validating AND in routing rules", () => {
@@ -1896,7 +1652,7 @@ describe("schema validation", () => {
   });
 
   describe("totalValidation", () => {
-    const validateTotalValidation = attributes => {
+    const validateTotalValidation = (attributes) => {
       questionnaire.sections[0].folders[0].pages[1].totalValidation = {
         id: "totalvalidation-rule-1",
         enabled: true,

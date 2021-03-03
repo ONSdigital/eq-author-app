@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const { createMutation } = require("./createMutation");
 
-const createCollapsible = options => ({
+const createCollapsible = (options) => ({
   id: uuidv4(),
   title: "",
   description: "",
@@ -28,7 +28,7 @@ Resolvers.Mutation = {
   }),
   updateCollapsible: createMutation((_, { input: { id, ...rest } }, ctx) => {
     const collapsible = ctx.questionnaire.introduction.collapsibles.find(
-      c => c.id === id
+      (c) => c.id === id
     );
     Object.assign(collapsible, rest);
     return collapsible;
@@ -44,10 +44,6 @@ Resolvers.Mutation = {
     remove(introduction.collapsibles, { id });
     return introduction;
   }),
-};
-Resolvers.QuestionnaireIntroduction = {
-  availablePipingMetadata: (root, args, ctx) => ctx.questionnaire.metadata,
-  availablePipingAnswers: () => [],
 };
 
 Resolvers.Collapsible = {

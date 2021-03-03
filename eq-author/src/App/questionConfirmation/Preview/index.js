@@ -130,12 +130,12 @@ const CONFIRMATION_QUERY = gql`
   ${ValidationErrorInfoFragment}
 `;
 
-export default withApollo(props => (
+export default withApollo((props) => (
   <Query
     query={CONFIRMATION_QUERY}
     variables={{ id: props.match.params.confirmationId }}
   >
-    {innerProps => (
+    {(innerProps) => (
       <UnwrappedPreviewConfirmationRoute {...innerProps} {...props} />
     )}
   </Query>

@@ -174,7 +174,7 @@ export const IntroductionPreview = ({ loading, data }) => {
           dangerouslySetInnerHTML={{ __html: secondaryDescription }}
         />
         {collapsibles
-          .filter(collapsible => collapsible.title && collapsible.description)
+          .filter((collapsible) => collapsible.title && collapsible.description)
           .map((collapsible, index) => (
             <Collapsibles key={index}>
               <CollapsiblesTitle
@@ -236,12 +236,12 @@ export const QUESTIONNAIRE_QUERY = gql`
   ${fragment}
 `;
 
-const IntroductionPreviewWithData = props => (
+const IntroductionPreviewWithData = (props) => (
   <Query
     query={QUESTIONNAIRE_QUERY}
     variables={{ id: props.match.params.introductionId }}
   >
-    {innerProps => <IntroductionPreview {...innerProps} {...props} />}
+    {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
   </Query>
 );
 IntroductionPreviewWithData.propTypes = {

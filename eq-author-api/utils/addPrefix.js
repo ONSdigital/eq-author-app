@@ -1,6 +1,6 @@
 const { replace, isEmpty, isNil } = require("lodash");
 
-const fn = group => (isNil(group) ? "" : group);
+const fn = (group) => (isNil(group) ? "" : group);
 
 module.exports = (value, prefix = "Copy of ") => {
   if (isNil(value) || isEmpty(value)) {

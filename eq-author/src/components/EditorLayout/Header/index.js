@@ -30,6 +30,9 @@ const Flex = styled.div`
 
 const Subtitle = styled.div`
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const UtilityBtns = styled.div`
@@ -45,7 +48,7 @@ const SavingContainer = styled.div`
   bottom: 0.5em;
 `;
 
-export const UnconnectedHeader = props => {
+export const UnconnectedHeader = (props) => {
   const { questionnaire, title, children, match } = props;
 
   useSubscription(publishStatusSubscription, {

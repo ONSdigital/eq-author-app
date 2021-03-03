@@ -1,6 +1,8 @@
 #import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
@@ -10,27 +12,50 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
     folders {
       ...Folder
       pages {
-        id
-        title
+        ...Page
         position
         displayName
         pageType
+        title
         ... on QuestionPage {
+          alias
           description
           guidance
           answers {
-            id
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                id
+                displayName
+                label
+                description
+                value
+                qCode
+              }
+              mutuallyExclusiveOption {
+                id
+                label
+                qCode
+              }
+            }
           }
           confirmation {
             id
+            qCode
             displayName
             validationErrorInfo {
               ...ValidationErrorInfo
             }
           }
-          validationErrorInfo {
-            ...ValidationErrorInfo
-          }
+        }
+        ... on CalculatedSummaryPage {
+            id
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }
@@ -41,6 +66,12 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
       }
       sections {
         id
+        folders {
+          id
+          pages {
+            id
+          }
+        }
       }
     }
   }

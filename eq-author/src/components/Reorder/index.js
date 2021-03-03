@@ -22,7 +22,7 @@ const move = ({ transform, scale }) => keyframes`
 `;
 
 export const Segment = styled.div`
-  z-index: ${props => props.movement.zIndex};
+  z-index: ${(props) => props.movement.zIndex};
   transform-origin: 50% 50%;
   animation: ${({ movement }) =>
     movement.transform !== 0 &&
@@ -33,7 +33,7 @@ export const Segment = styled.div`
     `};
 `;
 
-const startingStyles = items => items.map(() => ({ transform: 0 }));
+const startingStyles = (items) => items.map(() => ({ transform: 0 }));
 
 const Reorder = ({ list, onMove, children, Transition }) => {
   const OuterWrapper = Transition ? TransitionGroup : React.Fragment;
@@ -122,7 +122,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
           <InnerWrapper key={getIdForObject(item)}>
             <Segment
               id={getIdForObject(item)}
-              ref={node => handleRef(node, index)}
+              ref={(node) => handleRef(node, index)}
               movement={itemStyles[index]}
             >
               {children(itemProps, item)}

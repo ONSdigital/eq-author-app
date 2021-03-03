@@ -25,7 +25,7 @@ describe("Layout", () => {
     localStorage.removeItem("accessToken");
   });
 
-  const renderLayoutWithContext = props =>
+  const renderLayoutWithContext = (props) =>
     render(
       <MeContext.Provider value={{ me, signOut }}>
         <Layout {...props} />

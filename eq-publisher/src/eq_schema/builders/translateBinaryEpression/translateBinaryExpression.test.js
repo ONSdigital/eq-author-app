@@ -175,7 +175,7 @@ describe("Should build a runner representation of a binary expression", () => {
 
   describe("With Number based answers", () => {
     it("supports a custom value", () => {
-      [NUMBER, CURRENCY, PERCENTAGE].forEach(type => {
+      [NUMBER, CURRENCY, PERCENTAGE].forEach((type) => {
         const expression = {
           left: {
             id: "1",
@@ -197,7 +197,7 @@ describe("Should build a runner representation of a binary expression", () => {
     });
 
     it("can translate unanswered question routing from Author to Runner for all numeric types", () => {
-      [NUMBER, CURRENCY, PERCENTAGE, UNIT].forEach(type => {
+      [NUMBER, CURRENCY, PERCENTAGE, UNIT].forEach((type) => {
         const expression = {
           left: {
             id: "1",

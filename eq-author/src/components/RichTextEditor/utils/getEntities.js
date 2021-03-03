@@ -1,11 +1,11 @@
 function getEntities(contentState, entityType) {
   const entities = [];
 
-  contentState.getBlocksAsArray().forEach(block => {
+  contentState.getBlocksAsArray().forEach((block) => {
     let selectedEntity = null;
 
     block.findEntityRanges(
-      character => {
+      (character) => {
         const entityKey = character.getEntity();
 
         if (entityKey === null) {

@@ -19,6 +19,7 @@ exports[`components/SkipConditionSet should render children 1`] = `
               },
             ],
             "id": "2",
+            "operator": "AND",
           }
         }
         expressionGroupIndex={0}

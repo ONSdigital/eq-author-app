@@ -100,10 +100,7 @@ describe("Link plugin for RichTextEditor", () => {
       );
       const content = dummyState.getCurrentContent();
       const selection = dummyState.getSelection();
-      const firstBlockKey = content
-        .getBlockMap()
-        .first()
-        .getKey();
+      const firstBlockKey = content.getBlockMap().first().getKey();
       const lastBlock = content.getBlockMap().last();
       const lastBlockKey = lastBlock.getKey();
       const lengthOfLastBlock = lastBlock.getLength();

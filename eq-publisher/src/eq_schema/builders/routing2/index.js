@@ -12,7 +12,7 @@ const addRuleToContext = (goto, groupId, ctx) => {
 };
 
 module.exports = (routing, pageId, groupId, ctx) => {
-  const rules = flatMap(routing.rules, rule => {
+  const rules = flatMap(routing.rules, (rule) => {
     let runnerRules;
 
     const destination = translateRoutingDestination(
@@ -34,7 +34,7 @@ module.exports = (routing, pageId, groupId, ctx) => {
       ];
     } else {
       const expressions = convertExpressionGroup(rule.expressionGroup, ctx);
-      runnerRules = expressions.map(when => {
+      runnerRules = expressions.map((when) => {
         return {
           goto: {
             ...destination,
@@ -43,7 +43,7 @@ module.exports = (routing, pageId, groupId, ctx) => {
         };
       });
     }
-    runnerRules.map(expression => {
+    runnerRules.map((expression) => {
       addRuleToContext(expression.goto, groupId, ctx);
     });
     return runnerRules;
