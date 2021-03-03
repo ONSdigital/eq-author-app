@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import { colors, focusStyle } from "constants/theme";
 import chevronRight from "assets/icon-chevron-right-blue.svg";
 import chevronDown from "assets/icon-chevron-down-blue.svg";
 
@@ -74,6 +74,10 @@ const HideThisButton = styled(Button)`
 
   &:hover {
     background-color: ${colors.grey};
+  }
+
+  &:focus {
+    ${focusStyle}
   }
 `;
 
