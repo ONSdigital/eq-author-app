@@ -8,6 +8,7 @@ mutation CreateFolder($input: CreateFolderInput!) {
       id
       folders {
         id
+        position
         pages {
           ...Page
           position
@@ -26,7 +27,7 @@ mutation CreateFolder($input: CreateFolderInput!) {
             id
           }
           validationErrorInfo {
-              ...ValidationErrorInfo
+            ...ValidationErrorInfo
           }
         }
       }
