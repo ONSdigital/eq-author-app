@@ -10,14 +10,14 @@ const keysFile = process.env.KEYS_FILE || "./keys.yml";
 const getKeyByUse = (json, useCase) =>
   flow(
     keys,
-    map((kid) => assign(json[kid], { kid })),
-    find((keyObject) => keyObject.use === useCase)
+    map(kid => assign(json[kid], { kid })),
+    find(keyObject => keyObject.use === useCase)
   )(json);
 
 const keysYaml = yaml.load(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
-module.exports.generateToken = function (payload) {
+module.exports.generateToken = function(payload) {
   const signingKeyObject = getKeyByUse(keysJson.keys, "signing");
   const encryptionKeyObject = getKeyByUse(keysJson.keys, "encryption");
 
@@ -43,7 +43,7 @@ module.exports.generateToken = function (payload) {
   const webKey = JSONWebKey.fromPEM(encryptionKeyObject.value);
 
   return JWK.asKey(webKey.toJSON())
-    .then(function (jwk) {
+    .then(function(jwk) {
       const cfg = {
         contentAlg: "A256GCM",
       };
@@ -58,7 +58,7 @@ module.exports.generateToken = function (payload) {
       return jwe.update(signedJWT).final();
     })
     .then(
-      (result) =>
+      result =>
         `${result.protected}.${result.recipients[0].encrypted_key}.${result.iv}.${result.ciphertext}.${result.tag}`
     );
 };

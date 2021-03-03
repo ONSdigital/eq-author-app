@@ -61,10 +61,7 @@ describe("Date Error", () => {
         },
       });
       expect(
-        wrapper
-          .find(SidebarButtonDetail)
-          .at(0)
-          .prop("children")
+        wrapper.find(SidebarButtonDetail).at(0).prop("children")
       ).toMatchSnapshot();
     });
 
@@ -92,10 +89,7 @@ describe("Date Error", () => {
         },
       });
       expect(
-        wrapper
-          .find(SidebarButtonDetail)
-          .at(0)
-          .prop("children")
+        wrapper.find(SidebarButtonDetail).at(0).prop("children")
       ).toMatchSnapshot();
     });
 
@@ -123,10 +117,7 @@ describe("Date Error", () => {
         },
       });
       expect(
-        wrapper
-          .find(SidebarButtonDetail)
-          .at(0)
-          .prop("children")
+        wrapper.find(SidebarButtonDetail).at(0).prop("children")
       ).toMatchSnapshot();
     });
   });
@@ -159,10 +150,7 @@ describe("Date Error", () => {
       },
     });
     expect(
-      wrapper
-        .find(SidebarButtonDetail)
-        .at(0)
-        .prop("children")
+      wrapper.find(SidebarButtonDetail).at(0).prop("children")
     ).toMatchSnapshot();
   });
 
@@ -190,10 +178,7 @@ describe("Date Error", () => {
       },
     });
     expect(
-      wrapper
-        .find(SidebarButtonDetail)
-        .at(0)
-        .prop("children")
+      wrapper.find(SidebarButtonDetail).at(0).prop("children")
     ).toMatchSnapshot();
   });
 });

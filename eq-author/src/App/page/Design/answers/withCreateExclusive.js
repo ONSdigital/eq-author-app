@@ -2,7 +2,7 @@ import { graphql } from "react-apollo";
 import createExclusiveOptionMutation from "graphql/createMutuallyExclusiveOption.graphql";
 import fragment from "graphql/answerFragment.graphql";
 
-export const createUpdater = answerId => (proxy, result) => {
+export const createUpdater = (answerId) => (proxy, result) => {
   const id = `MultipleChoiceAnswer${answerId}`;
   const answer = proxy.readFragment({ id, fragment });
 
@@ -24,7 +24,7 @@ export const mapMutateToProps = ({ mutate }) => ({
     return mutate({
       variables: { input: option },
       update,
-    }).then(res => res.data.createMutuallyExclusiveOption);
+    }).then((res) => res.data.createMutuallyExclusiveOption);
   },
 });
 

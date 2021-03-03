@@ -30,7 +30,7 @@ const updateMetadataMutation = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateMetadata: metadata =>
+  onUpdateMetadata: (metadata) =>
     mutate({
       variables: {
         input: filter(fragment, metadata),

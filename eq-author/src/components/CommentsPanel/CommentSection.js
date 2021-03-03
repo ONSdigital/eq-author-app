@@ -24,7 +24,7 @@ const StyledAccordion = styled(CommentAccordion)`
   background-color: ${colors.blue};
 `;
 
-const CommentSection = props => {
+const CommentSection = (props) => {
   const [accordionOpen, setAccordionOpen] = useState(false);
   const {
     myId,
@@ -51,7 +51,7 @@ const CommentSection = props => {
 
   const editCommentName = `edit-comment-${index}`;
 
-  const handleClick = id => {
+  const handleClick = (id) => {
     setAccordionOpen(true);
     setActiveReplyId(id);
   };
@@ -64,17 +64,6 @@ const CommentSection = props => {
   const canEditComment = activeCommentId === item.id;
   const canEditReply = activeReplyId === item.id;
   const hasReplies = displayReplies.length > 0;
-
-  const ReplyInProgress = styled.label`
-    padding: 0 0.25em;
-    color: ${colors.grey};
-  `;
-
-  const inProgress = (canEditReply, accordionOpen) => {
-    if (canEditReply && !accordionOpen) {
-      return <ReplyInProgress>Reply in progress</ReplyInProgress>;
-    }
-  };
 
   return (
     <CommentAddSection data-test="comment-add-section">
@@ -90,7 +79,7 @@ const CommentSection = props => {
       {canEditComment ? (
         <StyledTextArea
           id={item.id}
-          inputRef={tag => {
+          inputRef={(tag) => {
             setCommentRef(tag);
           }}
           value={editComment}
@@ -151,7 +140,7 @@ const CommentSection = props => {
           title={`${displayReplies.length}`}
           isOpen={accordionOpen}
           setIsOpen={setAccordionOpen}
-          inProgress={inProgress(canEditReply, accordionOpen)}
+          inProgress={canEditReply}
         >
           {canEditReply && replies.length > 0 && (
             <EditReply

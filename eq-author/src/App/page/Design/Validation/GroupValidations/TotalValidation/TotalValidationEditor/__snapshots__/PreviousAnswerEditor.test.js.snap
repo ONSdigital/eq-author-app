@@ -5,19 +5,15 @@ exports[`TotalValidation: Previous Answer Editor should render 1`] = `
   disabled={false}
   last={false}
 >
-  <UnwrappedPreviousAnswerContentPicker
-    data={
-      Object {
-        "id": "1",
-        "previousAnswer": Object {
-          "displayName": "My answer",
-        },
-      }
+  <PreviousAnswerContentPicker
+    allowedAnswerTypes={
+      Array [
+        undefined,
+      ]
     }
     data-test="content-picker-select"
     hasError={false}
     onSubmit={[MockFunction]}
-    path="availablePreviousAnswers"
     selectedContentDisplayName="My answer"
   />
 </Field>

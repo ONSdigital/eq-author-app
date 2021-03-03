@@ -21,10 +21,9 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={8}
       gutters={false}
     >
-      <withRouter(RoutingAnswerContentPicker)
+      <RoutingAnswerContentPicker
         data-test="routing-answer-picker"
         onSubmit={[Function]}
-        path="getAvailableAnswers"
         selectedId="2"
       />
     </Column>
@@ -87,7 +86,9 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={1.5}
       gutters={false}
     >
-      <components__ConnectedPath />
+      <components__ConnectedPath
+        pathEnd={true}
+      />
     </Column>
     <Column
       cols={8}
@@ -104,9 +105,13 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
             Object {
               "condition": "Equal",
               "expressionGroup": Object {
-                "expressions": Array [
-                  [Circular],
-                ],
+                "__typename": "ExpressionGroup2",
+                "id": "1",
+                "validationErrorInfo": Object {
+                  "errors": Array [],
+                  "id": "1",
+                  "totalCount": 0,
+                },
               },
               "id": "1",
               "left": Object {

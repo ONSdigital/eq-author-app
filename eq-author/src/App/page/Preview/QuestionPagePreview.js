@@ -163,7 +163,7 @@ const QuestionPagePreview = ({ page }) => {
 
           {answers.length ? (
             <Answers>
-              {answers.map(answer => (
+              {answers.map((answer) => (
                 <Answer key={answer.id} answer={answer} />
               ))}
             </Answers>

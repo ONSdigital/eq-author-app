@@ -9,7 +9,7 @@ const { getPath } = require("../utils");
 
 const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
 
-module.exports = function(ajv) {
+module.exports = function (ajv) {
   ajv.addKeyword("validatePipingInTitle", {
     $data: true,
     validate: function isValid(
@@ -43,17 +43,17 @@ module.exports = function(ajv) {
         questionnaire.sections[sections].folders[folders].pages[pages];
 
       const foldersArray = flatMap(
-        section => section.folders,
+        (section) => section.folders,
         questionnaire.sections
       );
 
       const allPagesForQuestionnaire = flatMap(
-        folder => folder.pages,
+        (folder) => folder.pages,
         foldersArray
       );
 
       const allAnswersForQuestionnaire = compact(
-        flatMap(page => page.answers, allPagesForQuestionnaire)
+        flatMap((page) => page.answers, allPagesForQuestionnaire)
       );
 
       const previousAnswersForPage = getPreviousAnswersForPage(
@@ -65,14 +65,14 @@ module.exports = function(ajv) {
       let pipedAnswerDeleted = false;
       let pipedAnswerMoved = false;
 
-      pipedIdList.forEach(answerId => {
+      pipedIdList.forEach((answerId) => {
         const foundAnswerInPrevious = previousAnswersForPage.some(
-          el => el.id === answerId
+          (el) => el.id === answerId
         );
         if (!foundAnswerInPrevious) {
           pipedAnswerDeleted = true;
           const foundAnswerAfter = allAnswersForQuestionnaire.some(
-            el => el.id === answerId
+            (el) => el.id === answerId
           );
           if (foundAnswerAfter) {
             pipedAnswerMoved = true;

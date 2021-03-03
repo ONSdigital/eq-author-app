@@ -1,52 +1,48 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedPreviousAnswerContentPicker } from "./PreviousAnswerContentPicker";
+import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useCurrentPageId } from "components/RouterContext";
 
-const render = (props = {}) =>
-  shallow(<UnwrappedPreviousAnswerContentPicker {...props} />);
+const mockQuestionnaire = buildQuestionnaire({
+  sectionCount: 1,
+  pageCount: 2,
+});
+
+mockQuestionnaire.sections[0].folders[0].pages[0].answers = [
+  {
+    id: "ans-1",
+    displayName: "Answer 1",
+    properties: {},
+    type: "Number",
+  },
+  {
+    id: "ans-2",
+    displayName: "Answer 2",
+    properties: {},
+    type: "Number",
+  },
+];
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
+
+useQuestionnaire.mockImplementation(() => ({
+  questionnaire: mockQuestionnaire,
+}));
+useCurrentPageId.mockImplementation(() => "1.1.2");
 
 describe("PreviousAnswerContentPicker", () => {
-  let props, wrapper;
+  let wrapper;
 
   beforeEach(() => {
-    props = {
-      answerId: "1",
-      onSubmit: jest.fn(),
-      selectedContentDisplayName: "foobar",
-      path: "foo.bar",
-      data: {
-        foo: {
-          bar: [
-            {
-              id: "6",
-              displayName: "Date 1",
-              page: {
-                id: "1",
-                displayName: "Page (1.1)",
-                section: {
-                  id: "1",
-                  displayName: "Section (1)",
-                },
-              },
-            },
-            {
-              id: "7",
-              displayName: "Date 2",
-              page: {
-                id: "1",
-                displayName: "Page (1.1)",
-                section: {
-                  id: "1",
-                  displayName: "Section (1)",
-                },
-              },
-            },
-          ],
-        },
-      },
-    };
-
-    wrapper = render(props);
+    wrapper = shallow(<PreviousAnswerContentPicker onSubmit={jest.fn()} />);
   });
 
   it("should render", () => {

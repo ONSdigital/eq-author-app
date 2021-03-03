@@ -6,7 +6,7 @@ const surveyDetails = (details, bodyText) => {
   const surveyId = `Survey ID - ${wrapper("span", details[0].surveyId)}`;
   const wrappedId = wrapper("li", surveyId);
 
-  const formTypes = details.map(item => item.formType);
+  const formTypes = details.map((item) => item.formType);
   const joined = formTypes.join(", ");
   const wrappedFormType = wrapper("span", joined);
 

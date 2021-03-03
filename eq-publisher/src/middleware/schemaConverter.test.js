@@ -28,7 +28,7 @@ describe("schemaConverter", () => {
   });
 
   describe("when successful", () => {
-    it("should assign converted questionnaire for next middleware", done => {
+    it("should assign converted questionnaire for next middleware", (done) => {
       const converted = { title: "i've been converted" };
       const onSuccess = Promise.resolve(converted);
       converter.convert = jest.fn(() => onSuccess);
@@ -43,11 +43,11 @@ describe("schemaConverter", () => {
   });
 
   describe("when error occurs", () => {
-    it("should pass error to next middleware", done => {
+    it("should pass error to next middleware", (done) => {
       const ERROR = "FOO!!!";
       converter.convert = jest.fn(() => Promise.reject(ERROR));
 
-      next = err => {
+      next = (err) => {
         expect(err).toBe(ERROR);
         done();
       };

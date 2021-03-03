@@ -17,6 +17,7 @@ describe("Date", () => {
           type: "Date",
           properties: {},
           displayName: "Displayname",
+          qCode: "test",
         }}
         getValidationError={jest.fn()}
       />

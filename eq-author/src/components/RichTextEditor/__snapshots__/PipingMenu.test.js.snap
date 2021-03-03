@@ -29,43 +29,50 @@ exports[`PipingMenu should render 1`] = `
     <Component />
   </PipingMenu__MenuButton>
   <ContentPicker
-    contentType=""
+    contentType="Custom"
     data={
       Array [
         Object {
-          "displayName": "Answer 1",
+          "displayName": "Section 1",
+          "folders": Array [
+            Object {
+              "alias": "Folder 1.1",
+              "enabled": false,
+              "id": "1.1",
+              "pages": Array [
+                Object {
+                  "alias": "1.1.1",
+                  "answers": Array [
+                    Object {
+                      "displayName": "Answer 1",
+                      "id": "answer-1",
+                      "label": "Answer 1",
+                      "type": "Number",
+                    },
+                  ],
+                  "displayName": "Page 1.1.1",
+                  "folder": Object {
+                    "id": "1",
+                  },
+                  "id": "1.1.1",
+                  "position": 0,
+                  "section": Object {
+                    "id": "1",
+                  },
+                  "title": "Page 1.1.1",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
+                },
+              ],
+              "position": 0,
+            },
+          ],
           "id": "1",
-          "page": Object {
-            "displayName": "Page 1",
-            "id": "1",
-            "section": Object {
-              "displayName": "Section 1",
-              "id": "1",
-            },
-          },
-        },
-        Object {
-          "displayName": "Answer 2",
-          "id": "2",
-          "page": Object {
-            "displayName": "Page 1",
-            "id": "1",
-            "section": Object {
-              "displayName": "Section 1",
-              "id": "1",
-            },
-          },
-        },
-        Object {
-          "displayName": "3",
-          "id": "3",
-          "page": Object {
-            "displayName": "Page 2",
-            "id": "2",
-            "section": Object {
-              "displayName": "Section 2",
-              "id": "2",
-            },
+          "position": 0,
+          "title": "Section 1",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
           },
         },
       ]

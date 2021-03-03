@@ -370,7 +370,7 @@ describe("Settings page", () => {
 
       const toggle = Object.values(
         sectionNavigationToggle.children
-      ).reduce(child => (child.type === "checkbox" ? child : null));
+      ).reduce((child) => (child.type === "checkbox" ? child : null));
 
       expect(queryWasCalled).toBeFalsy();
 
@@ -395,7 +395,7 @@ describe("Settings page", () => {
 
       const toggle = Object.values(
         sectionNavigationToggle.children
-      ).reduce(child => (child.type === "checkbox" ? child : null));
+      ).reduce((child) => (child.type === "checkbox" ? child : null));
 
       expect(queryWasCalled).toBeFalsy();
 
@@ -420,7 +420,7 @@ describe("Settings page", () => {
 
       const toggle = Object.values(
         sectionNavigationToggle.children
-      ).reduce(child => (child.type === "checkbox" ? child : null));
+      ).reduce((child) => (child.type === "checkbox" ? child : null));
 
       expect(queryWasCalled).toBeFalsy();
 

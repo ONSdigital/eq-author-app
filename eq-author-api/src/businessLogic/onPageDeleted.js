@@ -5,12 +5,12 @@ const onPageDeleted = (ctx, section, removedPage) => {
   const allPages = getPages(ctx);
 
   if (removedPage.answers) {
-    removedPage.answers.forEach(answer => {
+    removedPage.answers.forEach((answer) => {
       onAnswerDeleted(ctx, removedPage, answer);
     });
   }
 
-  allPages.forEach(page => {
+  allPages.forEach((page) => {
     if (!page.routing) {
       return;
     }
@@ -20,7 +20,7 @@ const onPageDeleted = (ctx, section, removedPage) => {
       elseRoute.pageId = null;
     }
 
-    page.routing.rules.map(rule => {
+    page.routing.rules.map((rule) => {
       if (rule.destination.pageId === removedPage.id) {
         rule.destination.pageId = null;
       }

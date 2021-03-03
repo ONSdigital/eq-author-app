@@ -6,7 +6,8 @@ describe("OfflineBanner", () => {
   let renderComponent;
 
   beforeEach(() => {
-    renderComponent = props => render(<UnconnectedOfflineBanner {...props} />);
+    renderComponent = (props) =>
+      render(<UnconnectedOfflineBanner {...props} />);
   });
   it("should render if user is offline", () => {
     const { getByText } = renderComponent({

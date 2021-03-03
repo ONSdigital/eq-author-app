@@ -110,7 +110,7 @@ const Input = styled.div`
     margin-bottom: 0.25rem;
   }
 
-  ${props => sizes[props.size]};
+  ${(props) => sizes[props.size]};
 
   .DraftEditor-root {
     padding: 1rem;
@@ -118,8 +118,8 @@ const Input = styled.div`
 
   .public-DraftEditorPlaceholder-root {
     /* style placeholder based on prospective style */
-    ${props => props.placeholderStyle === "header-two" && heading}
-    ${props => props.placeholderStyle === "unordered-list-item" && list};
+    ${(props) => props.placeholderStyle === "header-two" && heading}
+    ${(props) => props.placeholderStyle === "unordered-list-item" && list};
     color: #a3a3a3;
   }
 `;
@@ -127,10 +127,10 @@ const Input = styled.div`
 const convertToHTML = toHTML({ ...pipedEntityToHTML, ...linkToHTML });
 const convertFromHTML = fromHTML({ ...htmlToPipedEntity, ...linkFromHTML });
 
-const getBlockStyle = block => block.getType();
+const getBlockStyle = (block) => block.getType();
 
-const getContentsOfPipingType = type => contents =>
-  contents.filter(content => content.entity.data.pipingType === type);
+const getContentsOfPipingType = (type) => (contents) =>
+  contents.filter((content) => content.entity.data.pipingType === type);
 
 const getAnswerPipes = getContentsOfPipingType("answers");
 const getMetadataPipes = getContentsOfPipingType("metadata");
@@ -139,13 +139,9 @@ function isHtml(string) {
   return !isNull(cheerio(trim(string)).html());
 }
 
-const filterEmptyTags = value => {
+const filterEmptyTags = (value) => {
   if (isHtml(value)) {
-    return cheerio(value)
-      .text()
-      .trim() === ""
-      ? ""
-      : value;
+    return cheerio(value).text().trim() === "" ? "" : value;
   } else {
     return value;
   }
@@ -298,8 +294,8 @@ class RichTextEditor extends React.Component {
       return;
     }
 
-    const processAnswerType = answers => {
-      return answers.map(answer => {
+    const processAnswerType = (answers) => {
+      return answers.map((answer) => {
         if (get("entity.data.type", answer) === "DateRange") {
           return {
             ...answer,
@@ -338,16 +334,16 @@ class RichTextEditor extends React.Component {
       mapValues("displayName")
     );
 
-    const replacePipesWithLabels = labels =>
+    const replacePipesWithLabels = (labels) =>
       pipes.reduce(
         replacePipedValues(labels, deletedPlaceholder),
         contentState
       );
 
-    const createNewEntryForMultipleValueEntities = answers => {
+    const createNewEntryForMultipleValueEntities = (answers) => {
       const processedEntries = [];
 
-      answers.forEach(answer => {
+      answers.forEach((answer) => {
         if (answer.type === "DateRange") {
           processedEntries.push(
             {
@@ -373,7 +369,7 @@ class RichTextEditor extends React.Component {
       createNewEntryForMultipleValueEntities,
       createIdToDisplayNameMap,
       replacePipesWithLabels,
-      contentState =>
+      (contentState) =>
         EditorState.push(editorState, contentState, "apply-entity"),
       this.handleChange
     );
@@ -387,7 +383,7 @@ class RichTextEditor extends React.Component {
     performUpdate(fetchAuthorEntities());
   }
 
-  handlePiping = answer => {
+  handlePiping = (answer) => {
     const { editorState } = this.state;
 
     const newContent = insertPipedValue(
@@ -420,7 +416,7 @@ class RichTextEditor extends React.Component {
     return convertToHTML(this.state.editorState);
   }
 
-  setEditorInstance = editorInstance => {
+  setEditorInstance = (editorInstance) => {
     this.editorInstance = editorInstance;
   };
 
@@ -430,7 +426,7 @@ class RichTextEditor extends React.Component {
     }
   };
 
-  handleMouseDown = e => {
+  handleMouseDown = (e) => {
     // prevent blur when mousedown on non-editor elements
     if (
       !this.editorInstance.getEditorRef().editor.contains(e.target) &&
@@ -440,7 +436,7 @@ class RichTextEditor extends React.Component {
     }
   };
 
-  handleChange = editorState => {
+  handleChange = (editorState) => {
     editorState = this.stripFormatting(editorState);
     return this.setState({ editorState });
   };
@@ -498,7 +494,7 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
-  handlePaste = text => {
+  handlePaste = (text) => {
     this.handleChange(
       EditorState.push(
         this.state.editorState,
@@ -555,10 +551,7 @@ class RichTextEditor extends React.Component {
             size={size}
             maxHeight={maxHeight}
             multiline={multiline}
-            placeholderStyle={contentState
-              .getBlockMap()
-              .first()
-              .getType()}
+            placeholderStyle={contentState.getBlockMap().first().getType()}
             invalid={Boolean(errorValidationMsg)}
           >
             <Toolbar

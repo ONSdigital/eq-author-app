@@ -5,7 +5,7 @@ import ContentPickerAccordionHeader from "components/ContentPicker/ContentPicker
 
 import { colors } from "constants/theme";
 
-const renderComponent = props =>
+const renderComponent = (props) =>
   render(
     <ContentPickerAccordionHeader {...props}>
       FooBar

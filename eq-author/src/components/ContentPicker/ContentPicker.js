@@ -66,9 +66,9 @@ export default class ContentPicker extends React.Component {
     return parentItem[config[parentLevel].childKey];
   }
 
-  handleTitleClick = level => {
+  handleTitleClick = (level) => {
     const { config } = this.props;
-    this.setState(state => {
+    this.setState((state) => {
       let openLevel = level;
       if (state.openLevel === level && state.selectedItems[level]) {
         openLevel = Math.min(state.selectedItems.length, config.length - 1);
@@ -81,7 +81,7 @@ export default class ContentPicker extends React.Component {
 
   handleOptionClick = (level, option) => {
     const { config } = this.props;
-    this.setState(state => ({
+    this.setState((state) => ({
       openLevel: Math.min(level + 1, config.length - 1),
       selectedItems: [...state.selectedItems.slice(0, level), option],
     }));
@@ -117,7 +117,7 @@ export default class ContentPicker extends React.Component {
           selected={isOpen}
           selectedOption={(selectedItem || {}).id}
           onTitleClick={() => this.handleTitleClick(level)}
-          onOptionClick={option => this.handleOptionClick(level, option)}
+          onOptionClick={(option) => this.handleOptionClick(level, option)}
           childKey={config[level].childKey}
           data-test={`${id}-picker`}
         />

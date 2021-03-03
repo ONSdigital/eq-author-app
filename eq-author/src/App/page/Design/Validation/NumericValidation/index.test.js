@@ -1,9 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import {
-  NUMBER,
-} from "constants/answer-types";
+import { NUMBER } from "constants/answer-types";
 
 import UnwrappedNumericValidation from "./";
 
@@ -27,8 +25,8 @@ describe("AnswerValidation", () => {
                   field: "custom",
                   id: "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
                   type: "validation",
-                }
-              ]
+                },
+              ],
             },
           },
           maxValue: {
@@ -42,8 +40,8 @@ describe("AnswerValidation", () => {
                 field: "custom",
                 id: "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
                 type: "validation",
-              }
-            ]
+              },
+            ],
           },
         },
       },
@@ -55,7 +53,9 @@ describe("AnswerValidation", () => {
   });
 
   it("should render", () => {
-    expect(shallow(<UnwrappedNumericValidation {...props} />)).toMatchSnapshot();
+    expect(
+      shallow(<UnwrappedNumericValidation {...props} />)
+    ).toMatchSnapshot();
   });
 
   // it("should trigger change update when the entity type is changed by the pill tabs", () => {

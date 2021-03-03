@@ -11,7 +11,7 @@ describe("getName", () => {
       label: "",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(defaultNames[typeName])
     );
   });
@@ -24,7 +24,7 @@ describe("getName", () => {
       key: "I am a key",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.alias)
     );
     entity = {
@@ -34,7 +34,7 @@ describe("getName", () => {
       key: "I am a key",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.title)
     );
 
@@ -45,7 +45,7 @@ describe("getName", () => {
       key: "I am a key",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.label)
     );
 
@@ -56,7 +56,7 @@ describe("getName", () => {
       key: "I am a key",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.key)
     );
   });
@@ -68,7 +68,7 @@ describe("getName", () => {
       label: "<p>I am a label</p>",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual("I am a title")
     );
   });
@@ -80,7 +80,7 @@ describe("getName", () => {
       label: "I am a label",
     };
 
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.label)
     );
   });
@@ -90,7 +90,7 @@ describe("getName", () => {
       alias: "<p> </p><p> </p>",
       label: "Some label",
     };
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.label)
     );
 
@@ -98,7 +98,7 @@ describe("getName", () => {
       alias: "  ",
       label: "Some label",
     };
-    map(keys(defaultNames), typeName =>
+    map(keys(defaultNames), (typeName) =>
       expect(getName(entity, typeName)).toEqual(entity.label)
     );
   });

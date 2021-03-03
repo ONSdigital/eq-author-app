@@ -11,7 +11,6 @@ import withPropRenamed from "enhancers/withPropRenamed";
 import withEntityEditor from "components/withEntityEditor";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
-import AvailableAnswersFragment from "graphql/fragments/available-answers.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 import PageHeader from "../PageHeader";
@@ -55,11 +54,11 @@ export class UnwrappedQuestionPageEditor extends React.Component {
     enableValidationMessage: PropTypes.bool,
   };
 
-  handleDeleteAnswer = answerId => {
+  handleDeleteAnswer = (answerId) => {
     this.props.onDeleteAnswer(this.props.page.id, answerId);
   };
 
-  handleAddAnswer = answerType => {
+  handleAddAnswer = (answerType) => {
     const { match, onAddAnswer } = this.props;
 
     return onAddAnswer(match.params.pageId, answerType).then(focusOnEntity);
@@ -167,9 +166,6 @@ UnwrappedQuestionPageEditor.fragments = {
       }
       totalValidation {
         ...TotalValidationRule
-        availablePreviousAnswers {
-          ...AvailableAnswers
-        }
       }
       validationErrorInfo {
         ...ValidationErrorInfo
@@ -177,7 +173,6 @@ UnwrappedQuestionPageEditor.fragments = {
     }
     ${ValidationErrorInfoFragment}
     ${TotalValidationRuleFragment}
-    ${AvailableAnswersFragment}
     ${AnswersEditor.fragments.AnswersEditor}
   `,
 };

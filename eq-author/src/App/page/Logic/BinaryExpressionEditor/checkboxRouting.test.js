@@ -42,6 +42,14 @@ describe("Checkbox routing", () => {
   ];
 
   expression = {
+    expressionGroup: {
+      id: "1",
+      validationErrorInfo: {
+        id: "1",
+        errors: [],
+        totalCount: 0,
+      },
+    },
     id: "1",
     left: {
       id: "Answer1",
@@ -75,7 +83,7 @@ describe("Checkbox routing", () => {
 
   expressionGroup = {
     id: "1",
-    expressions: [ expression ]
+    expressions: [expression],
   };
 
   match = {

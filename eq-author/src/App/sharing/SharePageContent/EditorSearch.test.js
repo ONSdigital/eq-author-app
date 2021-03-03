@@ -80,7 +80,7 @@ describe("Editor search", () => {
   it("should display owner", () => {
     const { queryByTestId } = renderEditorSearch(props);
     const testIds = ["user-item", "user-name", "user-owner", "user-email"];
-    const [user, name, owner, email] = testIds.map(id => queryByTestId(id));
+    const [user, name, owner, email] = testIds.map((id) => queryByTestId(id));
 
     expect(user).toBeTruthy();
     expect(name).toBeTruthy();
@@ -93,7 +93,7 @@ describe("Editor search", () => {
 
     const { queryByTestId } = renderEditorSearch(props);
     const testIds = ["user-item", "user-name", "user-owner", "user-email"];
-    const [user, name, owner, email] = testIds.map(id => queryByTestId(id));
+    const [user, name, owner, email] = testIds.map((id) => queryByTestId(id));
 
     expect(user).toBeTruthy();
     expect(name).toBeFalsy();
@@ -107,7 +107,9 @@ describe("Editor search", () => {
     const { queryAllByTestId } = renderEditorSearch(props);
 
     const testIds = ["user-item", "user-name", "user-owner", "user-email"];
-    const [user, name, owner, email] = testIds.map(id => queryAllByTestId(id));
+    const [user, name, owner, email] = testIds.map((id) =>
+      queryAllByTestId(id)
+    );
 
     expect(user.length).toEqual(4);
     expect(name.length).toEqual(4);
@@ -126,7 +128,9 @@ describe("Editor search", () => {
     );
 
     const testIds = ["user-item", "user-name", "user-owner", "user-email"];
-    const [user, name, owner, email] = testIds.map(id => queryAllByTestId(id));
+    const [user, name, owner, email] = testIds.map((id) =>
+      queryAllByTestId(id)
+    );
 
     expect(user.length).toEqual(4);
     expect(name.length).toEqual(4);
@@ -143,7 +147,7 @@ describe("Editor search", () => {
 
     expect(queryWasCalled).toBeTruthy();
 
-    const updatedEditors = editors.filter(editor => editor.name !== TARGET);
+    const updatedEditors = editors.filter((editor) => editor.name !== TARGET);
     props.editors = updatedEditors;
 
     rerender(<EditorSearch {...props} />);
@@ -153,7 +157,7 @@ describe("Editor search", () => {
       nameUpdated,
       ownerUpdated,
       emailUpdated,
-    ] = testIds.map(id => queryAllByTestId(id));
+    ] = testIds.map((id) => queryAllByTestId(id));
 
     expect(userUpdated.length).toEqual(3);
     expect(nameUpdated.length).toEqual(3);

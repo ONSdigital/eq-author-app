@@ -19,25 +19,23 @@ export const errorMessages = {
 
 const PreviousAnswerEditor = ({
   onChangeUpdate,
-  answer,
   validation,
-  readKey,
+  answer: { type },
 }) => {
   const { errors } = validation.validationErrorInfo;
 
   const errorCode = errors
-    .map(e => e.errorCode)
-    .find(errorCode => Object.keys(errorMessages).includes(errorCode));
+    .map((e) => e.errorCode)
+    .find((errorCode) => Object.keys(errorMessages).includes(errorCode));
 
   const contentPicker = (
     <PreviousAnswerContentPicker
-      answerId={answer.id}
       onSubmit={onChangeUpdate}
       selectedContentDisplayName={validation?.previousAnswer?.displayName}
       selectedId={validation?.previousAnswer?.id}
-      path={`answer.validation.${readKey}.availablePreviousAnswers`}
       data-test="content-picker-select"
       hasError={Boolean(errorCode)}
+      allowedAnswerTypes={[type]}
     />
   );
 
@@ -77,11 +75,11 @@ PreviousAnswerEditor.propTypes = {
     }),
     entityType: PropTypes.oneOf(Object.values(entityTypes)),
   }).isRequired,
-  answer: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-  }).isRequired,
   readKey: PropTypes.string.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  answer: PropTypes.shape({
+    type: PropTypes.string.isReqeuired,
+  }).isRequired,
 };
 
 export default PreviousAnswerEditor;

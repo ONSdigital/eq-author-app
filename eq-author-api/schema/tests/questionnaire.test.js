@@ -417,11 +417,11 @@ describe("questionnaire", () => {
       const questionnaires = await listQuestionnaires(user);
       const oldestIndex = findIndex(
         questionnaires,
-        q => q.id === oldestQuestionnaire.id
+        (q) => q.id === oldestQuestionnaire.id
       );
       const newestIndex = findIndex(
         questionnaires,
-        q => q.id === newestQuestionnaire.id
+        (q) => q.id === newestQuestionnaire.id
       );
       expect(oldestIndex > newestIndex).toEqual(true);
     });
@@ -440,10 +440,10 @@ describe("questionnaire", () => {
       const questionnaires = await listQuestionnaires(user);
 
       expect(
-        find(questionnaires, q => q.id === publicQuestionnaire.id)
+        find(questionnaires, (q) => q.id === publicQuestionnaire.id)
       ).toBeTruthy();
       expect(
-        find(questionnaires, q => q.id === privateQuestionnaire.id)
+        find(questionnaires, (q) => q.id === privateQuestionnaire.id)
       ).toBeFalsy();
     });
   });

@@ -2,8 +2,8 @@ import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const timeout = props => props.timeout;
-const quarterTimeout = props => props.timeout / 4;
+const timeout = (props) => props.timeout;
+const quarterTimeout = (props) => props.timeout / 4;
 
 const PopupTransition = styled(CSSTransition).attrs({
   classNames: "popup",

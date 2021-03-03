@@ -15,7 +15,7 @@ import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import Panel from "components/Panel";
 
-export const UnwrappedPreviewPageRoute = props => {
+export const UnwrappedPreviewPageRoute = (props) => {
   const { loading, data } = props;
   if (loading) {
     return (
@@ -55,7 +55,7 @@ export const PAGE_QUERY = gql`
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
 `;
 
-export default withApollo(props => (
+export default withApollo((props) => (
   <Query
     query={PAGE_QUERY}
     variables={{
@@ -65,6 +65,6 @@ export default withApollo(props => (
       },
     }}
   >
-    {innerProps => <UnwrappedPreviewPageRoute {...innerProps} {...props} />}
+    {(innerProps) => <UnwrappedPreviewPageRoute {...innerProps} {...props} />}
   </Query>
 ));

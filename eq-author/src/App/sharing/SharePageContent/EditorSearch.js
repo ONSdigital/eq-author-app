@@ -59,8 +59,8 @@ export const EditorSearch = ({
   showToast,
 }) => {
   const [mutateEditors] = useMutation(ADD_REMOVE_EDITOR);
-  const addUser = user => {
-    const isEditor = editors.some(editor => editor.id === user.id);
+  const addUser = (user) => {
+    const isEditor = editors.some((editor) => editor.id === user.id);
     let isOwner = "";
 
     if (user) {
@@ -72,7 +72,7 @@ export const EditorSearch = ({
           variables: {
             input: {
               id,
-              editors: updatedEditors.map(editor => editor.id),
+              editors: updatedEditors.map((editor) => editor.id),
             },
           },
         });
@@ -83,11 +83,11 @@ export const EditorSearch = ({
       showToast("You are trying to add an empty editor");
     }
   };
-  const removeUser = event => {
-    const updatedEditors = editors.filter(user => user.id !== event.id);
+  const removeUser = (event) => {
+    const updatedEditors = editors.filter((user) => user.id !== event.id);
     mutateEditors({
       variables: {
-        input: { id, editors: updatedEditors.map(editor => editor.id) },
+        input: { id, editors: updatedEditors.map((editor) => editor.id) },
       },
     });
   };
@@ -106,10 +106,10 @@ export const EditorSearch = ({
   );
 };
 
-const QueryWrapper = Component => {
-  const GetUserWrapper = props => (
+const QueryWrapper = (Component) => {
+  const GetUserWrapper = (props) => (
     <Query query={ALL_USERS}>
-      {innerprops => {
+      {(innerprops) => {
         if (innerprops.loading) {
           return <Loading height="38rem">Page loading…</Loading>;
         }

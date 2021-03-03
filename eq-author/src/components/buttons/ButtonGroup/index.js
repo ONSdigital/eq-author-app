@@ -14,7 +14,7 @@ const HorizontalGroup = css`
   flex-direction: row;
 
   > :not(:last-child) {
-    margin-right: ${props => (props.gutter ? props.gutter : "1em")};
+    margin-right: ${(props) => (props.gutter ? props.gutter : "1em")};
   }
 `;
 
@@ -25,9 +25,9 @@ const AlignRight = css`
 const StyledButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
-  ${props => props.vertical && VerticalGroup};
-  ${props => props.horizontal && HorizontalGroup};
-  ${props => props.align === "right" && AlignRight};
+  ${(props) => props.vertical && VerticalGroup};
+  ${(props) => props.horizontal && HorizontalGroup};
+  ${(props) => props.align === "right" && AlignRight};
 `;
 
 const ButtonGroup = ({ children, ...otherProps }) => (

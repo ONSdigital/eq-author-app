@@ -34,7 +34,7 @@ const handleDeletion = (
   );
 };
 
-export const mapMutateToProps = props => ({
+export const mapMutateToProps = (props) => ({
   onDeletePage(page) {
     const { ownProps, mutate } = props;
     const { client } = ownProps;

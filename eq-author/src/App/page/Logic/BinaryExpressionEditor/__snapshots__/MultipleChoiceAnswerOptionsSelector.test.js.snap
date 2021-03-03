@@ -46,10 +46,9 @@ exports[`MultipleChoiceAnswerOptionsSelector should render consistently 1`] = `
       key="3"
       name="3"
       onChange={[Function]}
+      title="c"
     >
-      <strong>
-        Unlabelled option
-      </strong>
+      c
     </withChangeHandler(ToggleChip)>
   </MultipleChoiceAnswerOptionsSelector__MultipleChoiceAnswerOptions>
 </Fragment>

@@ -18,7 +18,7 @@ class ValidationApi {
       .then(() => ({
         valid: true,
       }))
-      .catch(e => ({
+      .catch((e) => ({
         valid: false,
         errors: getValidationErrors(e),
       }));

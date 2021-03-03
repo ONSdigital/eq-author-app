@@ -9,7 +9,7 @@ const {
 module.exports = (questionnaire, pageId) => {
   const currentSection = getSectionByPageId(questionnaire, pageId);
   const pagesAfterCurrent = takeRightWhile(
-    page => page.id !== pageId,
+    (page) => page.id !== pageId,
     getPages({ questionnaire })
   );
 
@@ -20,7 +20,7 @@ module.exports = (questionnaire, pageId) => {
   }
 
   const sectionsAfterCurrent = takeRightWhile(
-    section => section.id !== currentSection.id,
+    (section) => section.id !== currentSection.id,
     questionnaire.sections
   );
 

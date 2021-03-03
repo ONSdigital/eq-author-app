@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "tests/utils/rtl";
 import ContentPickerButton from "components/ContentPicker/ContentPickerButton";
 
-const renderButton = props => render(<ContentPickerButton {...props} />);
+const renderButton = (props) => render(<ContentPickerButton {...props} />);
 
 describe("ContentPickerButton", () => {
   let props;

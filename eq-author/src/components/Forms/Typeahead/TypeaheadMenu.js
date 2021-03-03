@@ -47,12 +47,12 @@ const MenuItemText = styled.div`
   margin: 0.25em 0.1em;
   padding: 0.6em 1em;
   line-height: 1;
-  ${props => props.isActive && active};
-  ${props => props.isSelected && selected};
+  ${(props) => props.isActive && active};
+  ${(props) => props.isSelected && selected};
 `;
 
 export const filterItemsByInputValue = (items, inputValue) =>
-  items.filter(item => !inputValue || item.value.includes(inputValue));
+  items.filter((item) => !inputValue || item.value.includes(inputValue));
 
 const TypeaheadMenu = ({
   getMenuProps,

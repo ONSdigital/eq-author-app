@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const numCols = 12;
-const colWidth = num => `${(num / numCols) * 100}%`;
+const colWidth = (num) => `${(num / numCols) * 100}%`;
 
 const Column = styled.div.attrs(() => ({ "data-test": "column" }))`
   flex: 1 1 auto;

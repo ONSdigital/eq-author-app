@@ -18,12 +18,6 @@ const moveSectionMutation = `
       questionnaire {
         id
       }
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
     }
   }
 `;
