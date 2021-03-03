@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
@@ -183,6 +183,7 @@ export const UnwrappedNavigationHeader = ({
 
   const handleAddSection = () => {
     onAddSection();
+    setOpenMenu(!openMenu);
   };
 
   const handleAddQuestionConfirmation = () => {
@@ -242,4 +243,4 @@ const WrappedHeader = flowRight([
   withCreateSection,
 ])(UnwrappedNavigationHeader);
 
-export default WrappedHeader;
+export default withRouter(WrappedHeader);
