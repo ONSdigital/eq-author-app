@@ -9,19 +9,21 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
+const Title = styled(Truncated)`
+  color: ${colors.white};
+  flex: 0 1 75%;
+  margin-right: 0.5em;
+  text-align: left;
+  text-decoration: none;
 `;
 
-const Title = styled.button`
+const Button = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
   font-size: 0.9em;
   margin: 0;
   color: ${colors.white};
-  font-weight: bold;
   text-decoration: none;
   padding-right: 1em;
   background-color: transparent;
@@ -39,9 +41,12 @@ const Title = styled.button`
   &:disabled {
     background: ${colors.orange};
     outline: none;
-    color: ${colors.black};
 
-    svg {
+    ${Title} {
+      color: ${colors.black};
+    }
+
+    > svg {
       path {
         fill: ${colors.black};
       }
@@ -58,10 +63,6 @@ const Title = styled.button`
   }
 `;
 
-const StyledTruncated = styled(Truncated)`
-  text-align: left;
-`;
-
 const NavItem = ({
   icon: Icon,
   title,
@@ -73,25 +74,24 @@ const NavItem = ({
   history,
 }) => {
   return (
-    <Wrapper className={className} data-test="NavItem">
-      <Title
-        onClick={() => history.push(titleUrl)}
-        disabled={disabled}
-        bordered={bordered}
-        data-test="NavItem-title"
-      >
-        {Icon && <Icon data-test="NavItem-icon" />}
-        <StyledTruncated>{title}</StyledTruncated>
-        {errorCount > 0 && (
-          <Badge variant="nav" medium data-test="NavItem-error">
-            <VisuallyHidden>
-              <span>Amount of errors:</span>
-            </VisuallyHidden>
-            {errorCount}
-          </Badge>
-        )}
-      </Title>
-    </Wrapper>
+    <Button
+      className={`${className} NavItem`}
+      data-test="NavItem"
+      onClick={() => history.push(titleUrl)}
+      disabled={disabled}
+      bordered={bordered}
+    >
+      {Icon && <Icon data-test="NavItem-icon" />}
+      <Title data-test="NavItem-title">{title}</Title>
+      {errorCount > 0 && (
+        <Badge variant="nav" medium data-test="NavItem-error">
+          <VisuallyHidden>
+            <span>Amount of errors:</span>
+          </VisuallyHidden>
+          {errorCount}
+        </Badge>
+      )}
+    </Button>
   );
 };
 
