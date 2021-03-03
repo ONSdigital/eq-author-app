@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
-import { colors } from "constants/theme";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
@@ -11,10 +10,7 @@ import AddMenu from "./AddMenu";
 
 const StyledAddMenu = styled(AddMenu)`
   width: 100%;
-`;
-
-const QuestionnaireContent = styled.div`
-  border-bottom: solid 1px ${colors.darkGrey};
+  margin-bottom: 0.5em;
 `;
 
 export const UnwrappedNavigationHeader = ({
@@ -59,24 +55,20 @@ export const UnwrappedNavigationHeader = ({
   };
 
   return (
-    <>
-      <QuestionnaireContent>
-        <StyledAddMenu
-          addMenuOpen={addContentMenuState}
-          onAddMenuToggle={toggleAddContentMenu}
-          onAddQuestionPage={handleAddQuestionPage}
-          canAddQuestionPage={canAddQuestionPage}
-          onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
-          canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
-          onAddSection={handleAddSection}
-          onAddQuestionConfirmation={handleAddQuestionConfirmation}
-          canAddQuestionConfirmation={canAddQuestionConfirmation}
-          onAddFolder={handleAddFolder}
-          canAddFolder={canAddFolder}
-          data-test="add-menu"
-        />
-      </QuestionnaireContent>
-    </>
+    <StyledAddMenu
+      addMenuOpen={addContentMenuState}
+      onAddMenuToggle={toggleAddContentMenu}
+      onAddQuestionPage={handleAddQuestionPage}
+      canAddQuestionPage={canAddQuestionPage}
+      onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
+      canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
+      onAddSection={handleAddSection}
+      onAddQuestionConfirmation={handleAddQuestionConfirmation}
+      canAddQuestionConfirmation={canAddQuestionConfirmation}
+      onAddFolder={handleAddFolder}
+      canAddFolder={canAddFolder}
+      data-test="add-menu"
+    />
   );
 };
 
