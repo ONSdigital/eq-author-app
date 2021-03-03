@@ -22,7 +22,7 @@ const buildRadioAnswerBinaryExpression = ({ left, right, condition }) => {
   return {
     id: `answer${left.id}`,
     condition: "contains any",
-    values: right.options.map(op => op.label),
+    values: right.options.map((op) => op.label),
   };
 };
 
@@ -33,7 +33,7 @@ const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
   };
 
   if (condition !== authorConditions.UNANSWERED) {
-    returnVal.values = right.options.map(op => op.label);
+    returnVal.values = right.options.map((op) => op.label);
   }
 
   return returnVal;
@@ -52,7 +52,7 @@ const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
   return returnVal;
 };
 
-const translateBinaryExpression = binaryExpression => {
+const translateBinaryExpression = (binaryExpression) => {
   if (binaryExpression.left.type === RADIO) {
     return buildRadioAnswerBinaryExpression(binaryExpression);
   } else if (binaryExpression.left.type === CHECKBOX) {

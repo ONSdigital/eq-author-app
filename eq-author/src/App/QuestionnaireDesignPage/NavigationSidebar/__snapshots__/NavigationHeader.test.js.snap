@@ -1,20 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NavigationHeader should render 1`] = `
-<Fragment>
-  <NavigationHeader__QuestionnaireContent>
-    <NavigationHeader__StyledAddMenu
-      addMenuOpen={false}
-      canAddCalculatedSummaryPage={true}
-      canAddQuestionConfirmation={true}
-      canAddQuestionPage={true}
-      data-test="add-menu"
-      onAddCalculatedSummaryPage={[Function]}
-      onAddMenuToggle={[Function]}
-      onAddQuestionConfirmation={[Function]}
-      onAddQuestionPage={[Function]}
-      onAddSection={[Function]}
-    />
-  </NavigationHeader__QuestionnaireContent>
-</Fragment>
+<NavigationHeader__StyledAddMenu
+  addMenuOpen={false}
+  canAddCalculatedSummaryPage={true}
+  canAddQuestionConfirmation={true}
+  canAddQuestionPage={true}
+  data-test="add-menu"
+  onAddCalculatedSummaryPage={[Function]}
+  onAddFolder={[Function]}
+  onAddMenuToggle={[Function]}
+  onAddQuestionConfirmation={[Function]}
+  onAddQuestionPage={[Function]}
+  onAddSection={[Function]}
+/>
 `;

@@ -1,30 +1,20 @@
 import React from "react";
 import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
-import COMMENT_QUERY from "./commentsQuery.graphql";
-import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
+import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
+import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 
 import mocks from "./setupTests";
 import CommentsPanel from "./";
 
-describe("Comments Pane", () => {
+describe("Comments Panel", () => {
   let user, props;
   const vars = {};
-
-  const origWindow = window.HTMLElement.prototype.scrollIntoView;
 
   afterEach(async () => {
     await act(async () => {
       await flushPromises();
     });
-  });
-
-  beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = jest.fn();
-  });
-
-  afterAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = origWindow;
   });
 
   beforeEach(() => {
@@ -205,8 +195,8 @@ describe("Comments Pane", () => {
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 
-  it("should hide delete button if comments exist && comment user !== me", async () => {
-    const { getByTestId } = renderWithContext(
+  it("should handle editing a comment", async () => {
+    const { getByTestId, getByText } = renderWithContext(
       <CommentsPanel componentId={"P1"} />,
       {
         ...props,
@@ -216,23 +206,14 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    const deleteCommentButton = getByTestId("btn-delete-comment-0");
 
-    expect(deleteCommentButton).toHaveStyleRule("display: none;");
-  });
+    fireEvent.click(getByTestId("btn-edit-0"));
 
-  it("should render enabled delete button if comments exist && user === me", async () => {
-    const { getByTestId } = renderWithContext(
-      <CommentsPanel componentId={"P1"} />,
-      { ...props }
-    );
-
-    await act(async () => {
-      await flushPromises();
+    fireEvent.change(getByTestId("edit-comment-txtArea-0"), {
+      target: { value: "This is a test ADD comment" },
     });
-    const deleteCommentButton = getByTestId("btn-delete-comment-1");
 
-    expect(deleteCommentButton).toHaveStyleRule("display: block");
+    expect(getByText("This is a test ADD comment")).toBeTruthy();
   });
 
   it("should be able to delete an existing comment", async () => {
@@ -251,7 +232,7 @@ describe("Comments Pane", () => {
     expect(comment).toBeTruthy();
 
     await act(async () => {
-      fireEvent.click(getByTestId("btn-delete-comment-1"));
+      fireEvent.click(getByTestId("btn-delete-0"));
     });
 
     expect(vars.deleteWasCalled).toBeTruthy();
@@ -269,9 +250,37 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    const editCommentButton = getByTestId("btn-edit-comment-0");
+    const editCommentButton = getByTestId("btn-edit-1");
 
-    expect(editCommentButton).toHaveStyleRule("display: none;");
+    expect(editCommentButton).not.toBeVisible();
+  });
+
+  it("should hide delete button if comments exist && comment user !== me", async () => {
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+    const deleteCommentButton = getByTestId("btn-delete-1");
+    expect(deleteCommentButton).not.toBeVisible();
+  });
+
+  it("should render enabled delete button if comments exist && user === me", async () => {
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+    const deleteCommentButton = getByTestId("btn-delete-0");
+    expect(deleteCommentButton).toBeVisible();
   });
 
   it("should render enabled Edit button if comments exist && user === me", async () => {
@@ -283,29 +292,8 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    const editCommentButton = getByTestId("btn-edit-comment-1");
-
-    expect(editCommentButton).toHaveStyleRule("display: block");
-  });
-
-  it("should show a save button for an edit comment area when edit button is clicked", async () => {
-    const { getByTestId } = renderWithContext(
-      <CommentsPanel componentId={"P1"} />,
-      {
-        ...props,
-      }
-    );
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    fireEvent.click(getByTestId("btn-edit-comment-1"));
-
-    const editSaveBtn = getByTestId("btn-save-editedComment-1");
-
-    expect(editSaveBtn).toBeTruthy();
-    expect(editSaveBtn).toHaveStyle("display: inline-flex");
+    const editCommentButton = getByTestId("btn-edit-0");
+    expect(editCommentButton).toBeVisible();
   });
 
   it("should update a comment", async () => {
@@ -320,12 +308,12 @@ describe("Comments Pane", () => {
       await flushPromises();
     });
 
-    const editBtn = getByTestId("btn-edit-comment-1");
+    const editBtn = getByTestId("btn-edit-0");
     act(() => {
       fireEvent.click(editBtn);
     });
 
-    const editCommentTxtArea = getByTestId("edit-comment-txtArea-1");
+    const editCommentTxtArea = getByTestId("edit-comment-txtArea-0");
 
     await act(async () => {
       fireEvent.change(editCommentTxtArea, {
@@ -333,7 +321,7 @@ describe("Comments Pane", () => {
       });
     });
 
-    const editSaveBtn = getByTestId("btn-save-editedComment-1");
+    const editSaveBtn = getByTestId("btn-save-editedComment-0");
     expect(editSaveBtn).toHaveStyle("display: inline-flex");
     await act(async () => {
       fireEvent.click(editSaveBtn);
@@ -345,22 +333,6 @@ describe("Comments Pane", () => {
   });
 
   describe("Replies", () => {
-    it("should render a previous reply", async () => {
-      const { getByText } = renderWithContext(
-        <CommentsPanel componentId={"P1"} />,
-        {
-          ...props,
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-
-      expect(vars.queryWasCalled).toBeTruthy();
-      expect(getByText("Query reply body")).toBeTruthy();
-    });
-
     it("should create a new reply", async () => {
       const { getByTestId } = renderWithContext(
         <CommentsPanel componentId={"P1"} />,
@@ -371,12 +343,13 @@ describe("Comments Pane", () => {
 
       await act(async () => {
         await flushPromises();
-        await fireEvent.click(getByTestId("btn-reply-comment-1"));
+        const reply = getByTestId("btn-reply-comment-0");
+        fireEvent.click(reply);
       });
 
       await act(async () => {
         await flushPromises();
-        fireEvent.change(getByTestId("reply-txtArea-1"), {
+        fireEvent.change(getByTestId("reply-txtArea-0"), {
           target: {
             value: "This is a test ADD reply",
           },
@@ -384,102 +357,52 @@ describe("Comments Pane", () => {
       });
 
       await act(async () => {
-        await fireEvent.click(getByTestId("btn-save-reply-1"));
+        await fireEvent.click(getByTestId(`btn-save-reply-0`));
       });
 
       expect(vars.createReplyWasCalled).toBeTruthy();
       expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     });
 
-    it("should hide reply delete button if reply exist && comment user !== me", async () => {
-      const { getByTestId } = renderWithContext(
-        <CommentsPanel componentId={"P1"} />,
-        {
-          ...props,
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-      const deleteCommentButton = getByTestId("btn-delete-reply-0-0");
-
-      expect(deleteCommentButton).toHaveStyleRule("display: none;");
-    });
-
-    it("should render enabled delete button if reply exist && user === me", async () => {
-      const { getByTestId } = renderWithContext(
-        <CommentsPanel componentId={"P1"} />,
-        {
-          ...props,
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-      const deleteCommentButton = getByTestId("btn-delete-reply-0-1");
-
-      expect(deleteCommentButton).toHaveStyleRule("display: block");
-    });
-
-    it("should be able to delete an existing reply", async () => {
+    it("should update a reply", async () => {
       const { getByText, getByTestId } = renderWithContext(
         <CommentsPanel componentId={"P1"} />,
         {
           ...props,
         }
       );
+      await act(async () => {
+        await flushPromises();
+        const accordion = getByTestId("accordion-2-button");
+        fireEvent.click(accordion);
+      });
 
       await act(async () => {
         await flushPromises();
+        const editReplyBtn = getByTestId("btn-edit-1-1");
+        fireEvent.click(editReplyBtn);
       });
 
-      const reply = getByText("Query reply body2");
-      expect(reply).toBeTruthy();
-
+      const editReplyTxtArea = getByTestId("reply-txtArea-1-1");
       await act(async () => {
-        await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
+        fireEvent.change(editReplyTxtArea, {
+          target: {
+            value: "This is an edited reply",
+          },
+        });
       });
 
-      expect(vars.deleteReplyWasCalled).toBeTruthy();
+      const editReplySaveBtn = getByTestId("btn-save-editedReply-1-1");
+      expect(editReplySaveBtn).toBeVisible();
+      await act(async () => {
+        await fireEvent.click(editReplySaveBtn);
+      });
+      expect(vars.updateReplyWasCalled).toBeTruthy();
       expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
-      expect(reply).toBeTruthy();
+      expect(getByText("This is an edited reply")).toBeTruthy();
     });
 
-    it("should hide reply edit button if reply exist && comment user !== me", async () => {
-      const { getByTestId } = renderWithContext(
-        <CommentsPanel componentId={"P1"} />,
-        {
-          ...props,
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-      const editReplyButton = getByTestId("btn-edit-reply-0-0");
-
-      expect(editReplyButton).toHaveStyleRule("display: none;");
-    });
-
-    it("should render enabled edit reply button if reply exist && user === me", async () => {
-      const { getByTestId } = renderWithContext(
-        <CommentsPanel componentId={"P1"} />,
-        {
-          ...props,
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-      const editReplyButton = getByTestId("btn-delete-reply-0-1");
-
-      expect(editReplyButton).toHaveStyleRule("display: block");
-    });
-
-    it("should update a reply", async () => {
+    it("should be able to delete an existing reply", async () => {
       const { getByText, getByTestId } = renderWithContext(
         <CommentsPanel componentId={"P1"} />,
         {
@@ -493,31 +416,15 @@ describe("Comments Pane", () => {
         fireEvent.click(accordion);
       });
 
-      await act(async () => {
-        await flushPromises();
-        const editReplyBtn = getByTestId("btn-edit-reply-0-1");
-        fireEvent.click(editReplyBtn);
-      });
-
-      const editReplyTxtArea = getByTestId("reply-txtArea-0-1");
+      const reply = getByText("Query reply body2");
+      expect(reply).toBeTruthy();
 
       await act(async () => {
-        fireEvent.change(editReplyTxtArea, {
-          target: {
-            value: "This is an edited reply",
-          },
-        });
+        await fireEvent.click(getByTestId("btn-delete-1-1"));
       });
 
-      const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
-      expect(editReplySaveBtn).toHaveStyle("display: inline-flex");
-      await act(async () => {
-        await fireEvent.click(editReplySaveBtn);
-      });
-
-      expect(vars.updateReplyWasCalled).toBeTruthy();
+      expect(vars.deleteReplyWasCalled).toBeTruthy();
       expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
-      expect(getByText("This is an edited reply")).toBeTruthy();
     });
   });
 });

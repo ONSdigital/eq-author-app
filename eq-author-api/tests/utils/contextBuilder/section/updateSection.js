@@ -10,18 +10,14 @@ const updateSectionMutation = `
       position
       introductionTitle
       introductionContent
-      pages {
-        ... on QuestionPage {
-          id
+      folders {
+        pages {
+          ... on QuestionPage {
+            id
+          }
         }
       }
       questionnaire {
-        id
-      }
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
         id
       }
       validationErrorInfo {

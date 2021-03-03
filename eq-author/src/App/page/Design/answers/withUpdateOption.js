@@ -23,10 +23,9 @@ const updateOptionInput = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateOption: option =>
+  onUpdateOption: (option) =>
     mutate({
       variables: { input: filter(updateOptionInput, option) },
-      refetchQueries: ["GetPage"],
     }),
 });
 

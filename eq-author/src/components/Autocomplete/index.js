@@ -1,9 +1,3 @@
-/*
-[X] - Need to sort out the listing of results when using categories...
-[ ] - Fix the tests
-[ ] - Add styles
-*/
-
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -19,15 +13,16 @@ import {
 import { keyCodes } from "constants/keyCodes";
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
 
-const focusEl = element => element && element.focus();
+const focusEl = (element) => element && element.focus();
 
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   updateOption: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   filter: PropTypes.func,
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
+  borderless: PropTypes.bool,
 };
 
 const Autocomplete = ({
@@ -37,6 +32,7 @@ const Autocomplete = ({
   filter,
   placeholder,
   hasError,
+  borderless = false,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -45,8 +41,14 @@ const Autocomplete = ({
   // builds a list of elements
   const comboElements = useRef(new Map());
 
+  // Allow dynamically modifying the selected value from parent component
+  useEffect(() => {
+    setSelectedOption(defaultValue);
+    setIsOpen(false);
+  }, [defaultValue]);
+
   const onArrowDown = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       const isLarger = (categories && categories.length) > filterOptions.length;
 
@@ -68,7 +70,7 @@ const Autocomplete = ({
   );
 
   const onArrowUp = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       const decreaseIndex = selectedIndex === -1 ? -1 : selectedIndex - 1;
@@ -92,7 +94,7 @@ const Autocomplete = ({
   }, [selectedIndex]);
 
   const handleSelect = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       onSelect();
@@ -101,7 +103,7 @@ const Autocomplete = ({
   );
 
   const handleInputChange = useCallback(
-    event => {
+    (event) => {
       setQuery(event.value);
 
       if (selectedOption) {
@@ -112,17 +114,18 @@ const Autocomplete = ({
   );
 
   const handleClick = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       const clickedElement = event.currentTarget;
       setSelectedOption(clickedElement.innerText);
       updateOption(clickedElement);
+      setQuery("");
     },
     [selectedIndex, isOpen]
   );
 
   const handleOtherKeyDown = useCallback(
-    event => {
+    (event) => {
       const inputElement = comboElements.current.get(-1);
       const eventIsOnInput = event.target === inputElement;
       if (!eventIsOnInput) {
@@ -136,10 +139,11 @@ const Autocomplete = ({
   );
 
   const handleBlur = useCallback(
-    e => {
+    (e) => {
       e.stopPropagation();
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        if (query.length === 0 && selectedOption === null) {
+        if (selectedOption === null) {
+          setQuery("");
           updateOption("");
         }
         setIsOpen(false);
@@ -149,7 +153,7 @@ const Autocomplete = ({
   );
 
   const handleKeyDown = useCallback(
-    event => {
+    (event) => {
       if (isOpen && filterOptions.length) {
         const { key } = event;
         const { ArrowDown, ArrowUp, Enter, Space } = keyCodes;
@@ -205,12 +209,12 @@ const Autocomplete = ({
     () =>
       filter && typeof filter === "function"
         ? filter(options, query)
-        : [options.filter(option => option.toLowerCase().includes(query))],
-    [query]
+        : [options.filter((option) => option.toLowerCase().includes(query))],
+    [query, options]
   );
 
-  const hasCategories = useCallback(
-    (filterOptions, categories) =>
+  const results = React.useMemo(
+    () =>
       (categories || filterOptions).map((option, index) => {
         if (option.props?.category) {
           return (
@@ -233,24 +237,24 @@ const Autocomplete = ({
             aria-selected={selectedIndex === index ? "true" : "false"}
             tabIndex="-1"
             role="option"
-            ref={optionEl => {
+            ref={(optionEl) => {
               comboElements.current.set(index, optionEl);
             }}
-            onClick={event => handleClick(event)}
+            onClick={(event) => handleClick(event)}
           >
             {option}
           </ListItem>
         );
       }),
-    [query, options]
+    [query, options, filterOptions, categories, handleClick, selectedOption]
   );
 
   return (
     <>
       <Wrapper
         data-test="autocomplete"
-        onKeyDown={event => handleKeyDown(event)}
-        onBlur={e => handleBlur(e)}
+        onKeyDown={(event) => handleKeyDown(event)}
+        onBlur={(e) => handleBlur(e)}
         onClick={() => setIsOpen(true)}
       >
         <Status
@@ -272,16 +276,17 @@ const Autocomplete = ({
           aria-label="Auto complete input"
           aria-owns={"autocomplete-listbox"}
           autoComplete="off"
-          forwardRef={inputEl => {
+          forwardRef={(inputEl) => {
             comboElements.current.set(-1, inputEl);
           }}
-          onChange={event => handleInputChange(event)}
+          onChange={(event) => handleInputChange(event)}
           onFocus={() => setIsOpen(true)}
           placeholder={placeholder}
           role="combobox"
           type="text"
           value={selectedOption ? selectedOption : query}
           hasError={hasError}
+          borderless={borderless}
         />
         {isOpen && !selectedOption && (
           <DropDown
@@ -289,7 +294,7 @@ const Autocomplete = ({
             data-test="autocomplete-listbox"
             role="listbox"
           >
-            {hasCategories(filterOptions, categories)}
+            {results}
             {!filterOptions.length && <ListItem>No results found</ListItem>}
           </DropDown>
         )}
@@ -303,4 +308,4 @@ const Autocomplete = ({
 
 Autocomplete.propTypes = AutocompleteProps;
 
-export { Autocomplete };
+export { Autocomplete, AutocompleteProps };

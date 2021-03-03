@@ -14,7 +14,7 @@ const getKeyByUse = (json, useCase) =>
     find(keyObject => keyObject.use === useCase)
   )(json);
 
-const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
+const keysYaml = yaml.load(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
 module.exports.generateToken = function(payload) {

@@ -7,10 +7,13 @@ mutation UpdateAnswersOfType($input: UpdateAnswersOfTypeInput!) {
       id
       section {
         id
-        pages {
+        folders {
           id
-          validationErrorInfo {
-            ...ValidationErrorInfo
+          pages {
+            id
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
           }
         }
       }

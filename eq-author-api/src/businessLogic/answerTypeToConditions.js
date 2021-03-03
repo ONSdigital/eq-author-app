@@ -2,6 +2,7 @@ const answerTypes = require("../../constants/answerTypes");
 const conditions = require("../../constants/routingConditions");
 
 const NUMERIC_COMPARISONS = [
+  conditions.SELECT,
   conditions.EQUAL,
   conditions.NOT_EQUAL,
   conditions.GREATER_THAN,
@@ -24,10 +25,10 @@ const answerConditions = {
   ],
 };
 
-const isAnswerTypeSupported = answerType =>
+const isAnswerTypeSupported = (answerType) =>
   Boolean(answerConditions[answerType]);
 
-const getDefault = answerType => answerConditions[answerType][0];
+const getDefault = (answerType) => answerConditions[answerType][0];
 
 const isValid = (answerType, condition) =>
   (answerConditions[answerType] || []).includes(condition);

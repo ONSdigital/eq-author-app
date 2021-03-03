@@ -32,7 +32,7 @@ const QuestionnairesPage = ({
 }) => (
   <Layout title="Questionnaires">
     <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
-      {response => {
+      {(response) => {
         const { loading, error, data } = response;
 
         if (loading) {

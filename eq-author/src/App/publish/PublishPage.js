@@ -31,7 +31,7 @@ export const themes = [
 export const ErrorContext = styled.div`
   position: relative;
 
-  ${props =>
+  ${(props) =>
     props.isInvalid &&
     css`
       margin-bottom: 2em;
@@ -99,7 +99,7 @@ const LabeledCheckbox = ({ label, handleChange }) => (
     <Input
       id={`${label}-input`}
       type="checkbox"
-      onChange={e => handleChange(e, label)}
+      onChange={(e) => handleChange(e, label)}
     />
     <Label htmlFor={`${label}-input`}>{label}</Label>
   </ThemeSelector>
@@ -127,11 +127,11 @@ const PublishPage = ({ match, history }) => {
         { theme: label, formType: null, unique: true },
       ]);
     } else {
-      setVariants(variants.filter(variant => variant.theme !== label));
+      setVariants(variants.filter((variant) => variant.theme !== label));
     }
   };
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     const theme = event.name;
     const formType = event.value;
     const variantsArray = [];
@@ -165,8 +165,8 @@ const PublishPage = ({ match, history }) => {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
 
-  const identifyDuplicateVariants = variantsArray => {
-    const formTypes = variantsArray.map(variant => variant.formType);
+  const identifyDuplicateVariants = (variantsArray) => {
+    const formTypes = variantsArray.map((variant) => variant.formType);
     const sortedFormTypes = formTypes.sort();
     const listOfDuplicates = new Set();
 
@@ -176,7 +176,7 @@ const PublishPage = ({ match, history }) => {
       }
     });
 
-    const updatedVariants = variantsArray.map(variant => {
+    const updatedVariants = variantsArray.map((variant) => {
       if (listOfDuplicates.has(variant.formType)) {
         variant.unique = false;
       } else {
@@ -188,7 +188,7 @@ const PublishPage = ({ match, history }) => {
     return updatedVariants;
   };
 
-  const removeUniquness = variants => {
+  const removeUniquness = (variants) => {
     for (const variant of variants) {
       delete variant.unique;
     }
@@ -204,7 +204,7 @@ const PublishPage = ({ match, history }) => {
             <Label>Themes</Label>
             <Caption>Select themes to be used for this survey</Caption>
             <ThemeContainer>
-              {themes.map(theme => (
+              {themes.map((theme) => (
                 <LabeledCheckbox
                   id={`${theme}-selector`}
                   key={`${theme}-selector`}
@@ -221,7 +221,7 @@ const PublishPage = ({ match, history }) => {
             <Shadow>
               <Input
                 id="surveyId"
-                onChange={e => setSurveyId(e.value)}
+                onChange={(e) => setSurveyId(e.value)}
                 value={surveyId}
               />
             </Shadow>
@@ -233,14 +233,14 @@ const PublishPage = ({ match, history }) => {
                 <Label>Form type</Label>
                 <Caption>Enter relevant form types for selected themes</Caption>
                 <ThemeInputs>
-                  {map(variants, variant => (
+                  {map(variants, (variant) => (
                     <Shadow key={`${variant.theme}-entry`}>
                       <ErrorContext isInvalid={!variant.unique}>
                         <Label htmlFor={variant.theme}>{variant.theme}</Label>
 
                         <Input
                           id={`${variant.theme}`}
-                          onChange={e => handleInputChange(e)}
+                          onChange={(e) => handleInputChange(e)}
                           value={variant.formType}
                           data-test={`${variant.theme}-input`}
                         />

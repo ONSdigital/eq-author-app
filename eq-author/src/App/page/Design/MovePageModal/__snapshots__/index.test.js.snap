@@ -4,64 +4,6 @@ exports[`MovePageModal should render 1`] = `
 <MoveModal
   isOpen={true}
   onClose={[MockFunction]}
-  onMovePage={[MockFunction]}
-  page={
-    Object {
-      "displayName": "Page 1.1",
-      "id": "1.1",
-      "position": 0,
-      "title": "Page 1.1",
-    }
-  }
-  questionnaire={
-    Object {
-      "id": "1",
-      "sections": Array [
-        Object {
-          "displayName": "Section 1",
-          "id": "1",
-          "pages": Array [
-            Object {
-              "displayName": "Page 1.1",
-              "id": "1.1",
-              "position": 0,
-              "title": "Page 1.1",
-            },
-            Object {
-              "displayName": "Page 1.2",
-              "id": "1.2",
-              "position": 1,
-              "title": "Page 1.2",
-            },
-          ],
-          "position": 0,
-          "title": "Section 1",
-        },
-        Object {
-          "displayName": "Section 2",
-          "id": "2",
-          "pages": Array [
-            Object {
-              "displayName": "Page 2.1",
-              "id": "2.1",
-              "position": 0,
-              "title": "Page 2.1",
-            },
-            Object {
-              "displayName": "Page 2.2",
-              "id": "2.2",
-              "position": 1,
-              "title": "Page 2.2",
-            },
-          ],
-          "position": 1,
-          "title": "Section 2",
-        },
-      ],
-    }
-  }
-  sectionId="1"
-  selectedPosition={0}
   title="Move question"
 >
   <MovePageModal__Label
@@ -108,91 +50,47 @@ exports[`MovePageModal should render 1`] = `
   </ItemSelectModal>
   <PositionModal
     data-test="page-position-modal"
-    isOpen={true}
-    onClose={[MockFunction]}
     onMove={[Function]}
-    onMovePage={[MockFunction]}
     options={
       Array [
         Object {
-          "displayName": "Page 1.1",
-          "id": "1.1",
+          "alias": "1.1.1",
+          "answers": Array [],
+          "displayName": "Page 1.1.1",
+          "folder": Object {
+            "id": "1",
+          },
+          "id": "1.1.1",
           "position": 0,
-          "title": "Page 1.1",
-        },
-        Object {
-          "displayName": "Page 1.2",
-          "id": "1.2",
-          "position": 1,
-          "title": "Page 1.2",
+          "section": Object {
+            "id": "1",
+          },
+          "title": "Page 1.1.1",
+          "validationErrorInfo": Object {
+            "totalCount": 2,
+          },
         },
       ]
     }
-    page={
-      Object {
-        "displayName": "Page 1.1",
-        "id": "1.1",
-        "position": 0,
-        "title": "Page 1.1",
-      }
-    }
-    questionnaire={
-      Object {
-        "id": "1",
-        "sections": Array [
-          Object {
-            "displayName": "Section 1",
-            "id": "1",
-            "pages": Array [
-              Object {
-                "displayName": "Page 1.1",
-                "id": "1.1",
-                "position": 0,
-                "title": "Page 1.1",
-              },
-              Object {
-                "displayName": "Page 1.2",
-                "id": "1.2",
-                "position": 1,
-                "title": "Page 1.2",
-              },
-            ],
-            "position": 0,
-            "title": "Section 1",
-          },
-          Object {
-            "displayName": "Section 2",
-            "id": "2",
-            "pages": Array [
-              Object {
-                "displayName": "Page 2.1",
-                "id": "2.1",
-                "position": 0,
-                "title": "Page 2.1",
-              },
-              Object {
-                "displayName": "Page 2.2",
-                "id": "2.2",
-                "position": 1,
-                "title": "Page 2.2",
-              },
-            ],
-            "position": 1,
-            "title": "Section 2",
-          },
-        ],
-      }
-    }
-    sectionId="1"
     selected={
       Object {
-        "displayName": "Page 1.1",
-        "id": "1.1",
+        "alias": "1.1.1",
+        "answers": Array [],
+        "displayName": "Page 1.1.1",
+        "folder": Object {
+          "id": "1",
+        },
+        "id": "1.1.1",
         "position": 0,
-        "title": "Page 1.1",
+        "section": Object {
+          "id": "1",
+        },
+        "title": "Page 1.1.1",
+        "validationErrorInfo": Object {
+          "totalCount": 2,
+        },
       }
     }
-    selectedPosition={0}
   />
 </MoveModal>
 `;

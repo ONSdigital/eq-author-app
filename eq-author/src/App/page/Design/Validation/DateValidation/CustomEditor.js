@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { DateInput } from "./components.js";
 
-const CustomEditor = ({validation, onChange, onUpdate}) => (
+const CustomEditor = ({ validation, onChange, onUpdate }) => (
   <DateInput
     name="customDate"
     type="date"
@@ -17,10 +17,10 @@ const CustomEditor = ({validation, onChange, onUpdate}) => (
 
 CustomEditor.propTypes = {
   validation: PropTypes.shape({
-    customDate: PropTypes.string
+    customDate: PropTypes.string,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default CustomEditor;

@@ -51,7 +51,7 @@ export const UnwrappedMetadataPageContent = ({
   onDeleteMetadata,
   onUpdateMetadata,
 }) => {
-  if (loading) {
+  if (loading && !data) {
     return <Loading height="100%">Questionnaire metadata loading…</Loading>;
   }
 
@@ -120,7 +120,7 @@ const MetadataPage = ({
   },
 }) => (
   <GetMetadataQuery questionnaireId={questionnaireId}>
-    {props => <MetadataPageContent {...props} />}
+    {(props) => <MetadataPageContent {...props} />}
   </GetMetadataQuery>
 );
 

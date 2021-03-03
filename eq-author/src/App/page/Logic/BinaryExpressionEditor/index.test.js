@@ -11,7 +11,7 @@ import {
 
 import { byTestAttr } from "tests/utils/selectors";
 
-import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
+import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from ".";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
@@ -20,8 +20,33 @@ import { binaryExpressionErrors } from "constants/validationMessages";
 import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
-  let defaultProps;
+  let defaultProps, expression, expressionGroup;
   beforeEach(() => {
+    expression = {
+      id: "1",
+      left: {
+        id: "2",
+        type: RADIO,
+      },
+      condition: "Equal",
+      right: null,
+      validationErrorInfo: {
+        id: "6dd",
+        errors: [],
+        totalCount: 0,
+      },
+    };
+
+    expressionGroup = {
+      expressions: [expression],
+    };
+
+    expression.expressionGroup = {
+      id: "1",
+      validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+      __typename: "ExpressionGroup2",
+    };
+
     defaultProps = {
       deleteBinaryExpression: jest.fn(),
       updateLeftSide: jest.fn(),
@@ -30,21 +55,9 @@ describe("BinaryExpressionEditor", () => {
       createBinaryExpression: jest.fn(),
       isOnlyExpression: false,
       isLastExpression: false,
-      expressionGroupId: "1",
-      expression: {
-        id: "1",
-        left: {
-          id: "2",
-          type: RADIO,
-        },
-        condition: "Equal",
-        right: null,
-        validationErrorInfo: {
-          id: "6dd",
-          errors: [],
-          totalCount: 0,
-        },
-      },
+      expressionGroup,
+      expression,
+      expressionIndex: 0,
       canAddCondition: true,
       match: {
         params: {
@@ -61,10 +74,8 @@ describe("BinaryExpressionEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should disable the delete expression button when isOnlyExpression is true", () => {
-    const wrapper = shallow(
-      <BinaryExpressionEditor {...defaultProps} isOnlyExpression />
-    );
+  it("should disable the delete expression button when there's only one expression", () => {
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     expect(
       wrapper.find(byTestAttr("btn-remove")).prop("disabled")
     ).toBeTruthy();
@@ -77,7 +88,7 @@ describe("BinaryExpressionEditor", () => {
 
   it("should render number editor correctly", () => {
     const answerTypes = [CURRENCY, NUMBER, PERCENTAGE];
-    answerTypes.forEach(answerType => {
+    answerTypes.forEach((answerType) => {
       defaultProps.expression.left.type = answerType;
       const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
       expect(wrapper.find(NumberAnswerSelector)).toBeTruthy();
@@ -96,7 +107,8 @@ describe("BinaryExpressionEditor", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
-      defaultProps.expression.id
+      defaultProps.expression.id,
+      expect.any(Function)
     );
   });
 
@@ -179,12 +191,10 @@ describe("BinaryExpressionEditor", () => {
     ).toBeTruthy();
   });
   it("should display the correct error message when you can't add a second 'Or' condition", async () => {
+    defaultProps.expressionGroup.operator = OR;
+
     render(
-      <BinaryExpressionEditor
-        {...defaultProps}
-        canAddCondition={false}
-        operator={OR}
-      />
+      <BinaryExpressionEditor {...defaultProps} canAddCondition={false} />
     );
 
     await act(async () => {
@@ -233,18 +243,7 @@ describe("BinaryExpressionEditor", () => {
     expect(actionBtns).toHaveStyleRule("display: none;");
   });
 
-  it("should not show the condition when showing defaultRouting", async () => {
-    render(<BinaryExpressionEditor {...defaultProps} />);
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    const transition = screen.getByTestId("transition-condition");
-    expect(transition).toHaveStyleRule("display: none;");
-  });
-
-  it("should return empty div when default routing/skip condition", async () => {
+  it("should not show the expression editor when showing defaultRouting", async () => {
     defaultProps.expression.left.reason = DEFAULT_ROUTING;
     render(<BinaryExpressionEditor {...defaultProps} />);
 
@@ -252,8 +251,8 @@ describe("BinaryExpressionEditor", () => {
       await flushPromises();
     });
 
-    const options = screen.queryByTestId("options-selector");
-    expect(options).toBeFalsy();
+    const operatorSelect = screen.queryByText("Select an operator");
+    expect(operatorSelect).toBeFalsy();
   });
 
   it("should provide validation message when errors are present", async () => {
@@ -277,7 +276,9 @@ describe("BinaryExpressionEditor", () => {
 
   it("should pass on shared expressionGroup messages when group errors are present", async () => {
     defaultProps.expression.expressionGroup = {
+      id: "1",
       validationErrorInfo: {
+        id: "err-1",
         totalCount: 1,
         errors: [
           {
@@ -301,13 +302,15 @@ describe("BinaryExpressionEditor", () => {
 
   it("shouldn't pass on shared expressionGroup messages when group errors are present for a different answerId", async () => {
     defaultProps.expression.expressionGroup = {
+      id: "1",
       validationErrorInfo: {
+        id: "1",
         totalCount: 1,
         errors: [
           {
             errorCode: "ERR_LOGICAL_AND",
             field: "different_answer_id",
-            id: "exp_1",
+            id: "1",
             type: "expressions",
           },
         ],

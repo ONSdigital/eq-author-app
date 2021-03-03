@@ -19,9 +19,8 @@ import iconPage from "./icon-dialog-page.svg";
 import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
 import withDuplicatePage from "./withDuplicatePage";
-import MovePageQuery from "./MovePageModal/MovePageQuery";
 import { Toolbar, Buttons } from "./EditorToolbar";
-import IconMove from "./EditorToolbar/icon-move.svg?inline";
+import IconMove from "assets/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
 
 const ShortCodeLabel = styled(Label)`
@@ -35,9 +34,8 @@ export class PageHeader extends React.Component {
     showDeleteConfirmDialog: false,
     showMovePageDialog: false,
   };
-  π;
 
-  handleDuplicatePage = e => {
+  handleDuplicatePage = (e) => {
     e.preventDefault();
     const { match, onDuplicatePage, page } = this.props;
     onDuplicatePage({
@@ -49,7 +47,7 @@ export class PageHeader extends React.Component {
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 
-  handleCloseDeleteConfirmDialog = cb =>
+  handleCloseDeleteConfirmDialog = (cb) =>
     this.setState(
       { showDeleteConfirmDialog: false },
       isFunction(cb) ? cb : null
@@ -64,51 +62,24 @@ export class PageHeader extends React.Component {
     this.setState({ showMovePageDialog: true });
   };
 
-  handleCloseMovePageDialog = cb => {
+  handleCloseMovePageDialog = (cb) => {
     this.setState({ showMovePageDialog: false }, isFunction(cb) ? cb : null);
   };
 
-  handleMovePage = args => {
+  handleMovePage = (args) => {
     this.handleCloseMovePageDialog(() => this.props.onMovePage(args));
   };
 
-  isMoveDisabled = questionnaire => {
-    let id = null;
-    if (questionnaire.sections[0].pages.length) {
-      id = this.props.page.id === questionnaire.sections[0].pages[0].id;
-    }
-
-    const moreAnswers =
-      questionnaire.sections[0].pages.length > 1 ||
-      questionnaire.sections.length > 1;
-
-    return id && !moreAnswers;
-  };
-
-  renderMovePageModal = ({ loading, error, data }) => {
-    const { page } = this.props;
-    if (loading || error) {
-      return null;
-    }
-
-    return (
-      <MovePageModal
-        questionnaire={data.questionnaire}
-        isOpen={this.state.showMovePageDialog}
-        onClose={this.handleCloseMovePageDialog}
-        onMovePage={this.handleMovePage}
-        sectionId={page.section.id}
-        page={page}
-      />
-    );
-  };
+  isMoveDisabled = (questionnaire) =>
+    questionnaire.sections[0].folders[0].pages.length <= 1 &&
+    questionnaire.sections[0].folders.length <= 1 &&
+    questionnaire.sections.length === 1;
 
   render() {
     const {
       page,
       onChange,
       onUpdate,
-      match,
       isDuplicateDisabled,
       alertText,
       questionnaire,
@@ -157,9 +128,13 @@ export class PageHeader extends React.Component {
           icon={iconPage}
           data-test="delete-page"
         />
-        <MovePageQuery questionnaireId={match.params.questionnaireId}>
-          {this.renderMovePageModal}
-        </MovePageQuery>
+        <MovePageModal
+          isOpen={this.state.showMovePageDialog}
+          onClose={this.handleCloseMovePageDialog}
+          onMovePage={this.handleMovePage}
+          sectionId={page.section.id}
+          page={page}
+        />
       </>
     );
   }

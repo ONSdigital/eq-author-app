@@ -55,8 +55,9 @@ const ContentPicker = ({
     startingSelectedAnswers || []
   );
 
-  const isSelected = item =>
-    selectedItems.findIndex(selectedItem => selectedItem.id === item.id) !== -1;
+  const isSelected = (item) =>
+    selectedItems.findIndex((selectedItem) => selectedItem.id === item.id) !==
+    -1;
 
   const getFirstSelectedItemId = () => {
     if (!selectedItems.length) {
@@ -66,7 +67,7 @@ const ContentPicker = ({
     return selectedItems[0].id;
   };
 
-  const updateSelectedItemsSingle = item => {
+  const updateSelectedItemsSingle = (item) => {
     const updatedSelectedItems =
       !item ||
       (Object.keys(item).length === 1 && item.hasOwnProperty("pipingType")) ||
@@ -76,13 +77,13 @@ const ContentPicker = ({
     setSelectedItems(updatedSelectedItems);
   };
 
-  const updateSelectedItemsMultiple = item => {
+  const updateSelectedItemsMultiple = (item) => {
     let updatedSelectedItems;
     if (!item) {
       updatedSelectedItems = selectedItems;
     } else {
       updatedSelectedItems = isSelected(item)
-        ? selectedItems.filter(selectedItem => selectedItem.id !== item.id)
+        ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
         : [...selectedItems, item];
     }
 
@@ -107,7 +108,7 @@ const ContentPicker = ({
         return (
           <MetadataPicker
             onConfirm={handleConfirm}
-            onSelected={item =>
+            onSelected={(item) =>
               handleSelected({ ...item, pipingType: "metadata" })
             }
             isSelected={isSelected}
@@ -119,7 +120,7 @@ const ContentPicker = ({
         return (
           <AnswerPicker
             onConfirm={handleConfirm}
-            onSelected={item =>
+            onSelected={(item) =>
               handleSelected({ ...item, pipingType: "answers" })
             }
             isSelected={isSelected}
@@ -133,7 +134,7 @@ const ContentPicker = ({
         return (
           <VariablePicker
             onConfirm={handleConfirm}
-            onSelected={item =>
+            onSelected={(item) =>
               handleSelected({ ...item, pipingType: "variable" })
             }
             isSelected={isSelected}
@@ -145,9 +146,7 @@ const ContentPicker = ({
         return (
           <DestinationPicker
             onConfirm={handleConfirm}
-            onSelected={item => {
-              handleSelected(item);
-            }}
+            onSelected={(item) => handleSelected(item)}
             isSelected={isSelected}
             data={data}
           />
@@ -186,11 +185,14 @@ const ContentPicker = ({
 };
 
 ContentPicker.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    })
-  ),
+  data: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      })
+    ),
+  ]),
   startingSelectedAnswers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

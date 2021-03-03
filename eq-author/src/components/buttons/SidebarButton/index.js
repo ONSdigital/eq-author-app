@@ -43,21 +43,22 @@ const SidebarButton = styled.button.attrs({ role: "button" })`
     background: ${colors.lighterGrey};
   }
 
-  ${props =>
-    props.hasError &&
-    css`
-      border-color: ${colors.red};
-      &:focus,
-      &:focus-within {
-        border-color: ${colors.red};
-        outline-color: ${colors.red};
-        box-shadow: 0 0 0 2px ${colors.red};
-      }
-      &:hover {
-        border-color: ${colors.red};
-        outline-color: ${colors.red};
-      }
-    `}
+  ${(props) =>
+    props.hasError
+      ? css`
+          border-color: ${colors.red};
+          &:focus,
+          &:focus-within {
+            border-color: ${colors.red};
+            outline-color: ${colors.red};
+            box-shadow: 0 0 0 2px ${colors.red};
+          }
+          &:hover {
+            border-color: ${colors.red};
+            outline-color: ${colors.red};
+          }
+        `
+      : ""}
 `;
 
 export const Title = styled.span`

@@ -1,1 +1,1 @@
-export default id => document.getElementById(id).focus();
+export default (id) => document.getElementById(id).focus();

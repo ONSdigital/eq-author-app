@@ -10,7 +10,7 @@ describe("enhancers > withUpdatePage", () => {
       mutate = jest.fn();
       props = mapMutateToProps({ mutate });
       page = {
-        displayName: "123",
+        title: "123",
       };
     });
 
@@ -21,15 +21,7 @@ describe("enhancers > withUpdatePage", () => {
     it("should call mutate", () => {
       props.onUpdateQuestionPage(page);
       expect(mutate).toHaveBeenCalledWith({
-        variables: {
-          input: {},
-        },
-        optimisticResponse: {
-          updateQuestionPage: {
-            displayName: "123",
-            __typename: "QuestionPage",
-          },
-        },
+        variables: { input: { title: "123" } },
       });
     });
   });

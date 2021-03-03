@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import IconDelete from "./icon-delete.svg?inline";
+import IconDelete from "assets/icon-delete.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import Tooltip from "components/Forms/Tooltip";

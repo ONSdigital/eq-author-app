@@ -1,18 +1,20 @@
-const { find, some, takeRightWhile } = require("lodash/fp");
+const { takeRightWhile } = require("lodash/fp");
+const {
+  getSectionByPageId,
+  getPagesFromSection,
+} = require("../../schema/resolvers/utils");
 
 module.exports = (questionnaire, pageId) => {
-  const section = find(section => {
-    if (section.pages && some({ id: pageId }, section.pages)) {
-      return section;
-    }
-  }, questionnaire.sections);
+  const ctx = { questionnaire };
+  const section = getSectionByPageId(ctx, pageId);
 
   const questionPages = takeRightWhile(
-    page => page.id !== pageId,
-    section.pages
+    (page) => page.id !== pageId,
+    getPagesFromSection(section)
   );
+
   const sections = takeRightWhile(
-    futureSection => futureSection.id !== section.id,
+    (futureSection) => futureSection.id !== section.id,
     questionnaire.sections
   );
 

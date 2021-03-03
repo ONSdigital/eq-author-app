@@ -3,7 +3,7 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import { UnwrappedBinaryExpressionEditor } from "./";
 
 describe("Checkbox routing", () => {
-  let props, mockHandlers, options, expression, match;
+  let props, mockHandlers, options, expression, expressionGroup, match;
 
   mockHandlers = {
     updateLeftSide: jest.fn(),
@@ -42,6 +42,14 @@ describe("Checkbox routing", () => {
   ];
 
   expression = {
+    expressionGroup: {
+      id: "1",
+      validationErrorInfo: {
+        id: "1",
+        errors: [],
+        totalCount: 0,
+      },
+    },
     id: "1",
     left: {
       id: "Answer1",
@@ -73,13 +81,18 @@ describe("Checkbox routing", () => {
     },
   };
 
+  expressionGroup = {
+    id: "1",
+    expressions: [expression],
+  };
+
   match = {
     params: {
       questionnaireId: "1",
     },
   };
 
-  props = { expression, expressionGroupId: "1", match };
+  props = { expression, expressionGroup, match, expressionIndex: 0 };
 
   const renderRouting = () =>
     render(

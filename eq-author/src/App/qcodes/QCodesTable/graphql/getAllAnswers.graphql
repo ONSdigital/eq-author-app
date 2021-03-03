@@ -4,77 +4,82 @@ query GetAnswers($input: QueryInput!) {
   questionnaire(input: $input) {
     id
     sections {
-      pages {
-        ... on QuestionPage {
-          id
-          title
-          alias
-          confirmation {
+      id
+      folders {
+        id
+        enabled
+        pages {
+          ... on QuestionPage {
             id
-            displayName
             title
+            alias
+            confirmation {
+              id
+              displayName
+              title
+              qCode
+              validationErrorInfo {
+                ...ValidationErrorInfo
+              }
+            }
+            answers {
+              id
+              label
+              secondaryLabel
+              type
+              qCode
+              properties
+              ... on BasicAnswer {
+                secondaryQCode
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+              }
+              ... on MultipleChoiceAnswer {
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+                options {
+                  id
+                  label
+                  qCode
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                }
+                mutuallyExclusiveOption {
+                  id
+                  label
+                  qCode
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                }
+              }
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+            title
+            alias
+            totalTitle
+            displayName
+            pageType
             qCode
+            summaryAnswers {
+              id
+              displayName
+              label
+              qCode
+            }
+            section {
+              id
+              id
+              title
+            }
             validationErrorInfo {
-                 ...ValidationErrorInfo
-              }
-          }
-          answers {
-            id
-            label
-            secondaryLabel
-            type
-            qCode
-            properties
-            ... on BasicAnswer {
-              secondaryQCode
-              validationErrorInfo {
-                 ...ValidationErrorInfo
-              }
+              ...ValidationErrorInfo
             }
-            ... on MultipleChoiceAnswer {
-              validationErrorInfo {
-                 ...ValidationErrorInfo
-              }
-              options {
-                id
-                label
-                qCode
-                validationErrorInfo {
-                 ...ValidationErrorInfo
-              }
-              }
-              mutuallyExclusiveOption {
-                id
-                label
-                qCode
-                validationErrorInfo {
-                 ...ValidationErrorInfo
-              }
-              }
-            }
-          }
-        }
-        ... on CalculatedSummaryPage {
-          id
-          title
-          alias
-          totalTitle
-          displayName
-          pageType
-          qCode
-          summaryAnswers {
-            id
-            displayName
-            label
-            qCode
-          }
-          section {
-            id
-            id
-            title
-          }
-          validationErrorInfo {
-            ...ValidationErrorInfo
           }
         }
       }

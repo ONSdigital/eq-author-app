@@ -25,6 +25,8 @@ const {
   queryQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
+const { getFolderById } = require("../resolvers/utils");
+
 const config = {
   metadata: [{}],
   sections: [
@@ -32,13 +34,17 @@ const config = {
       title: "title-1",
       alias: "alias-1",
       position: 0,
-      pages: [
+      folders: [
         {
-          title: "page-1",
-          parentSection: "title-1",
-          answers: [
+          pages: [
             {
-              type: RADIO,
+              title: "page-1",
+              parentSection: "title-1",
+              answers: [
+                {
+                  type: RADIO,
+                },
+              ],
             },
           ],
         },
@@ -52,9 +58,9 @@ describe("skip conditions", () => {
 
   describe("expression group", () => {
     it("should create an expression group and default expresiion", async () => {
-      ctx = await buildContext(config);
-      let { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const page = questionnaire.sections[0].folders[0].pages[0];
 
       createSkipCondition(ctx, page);
       const result = await queryPage(ctx, page.id);
@@ -64,9 +70,9 @@ describe("skip conditions", () => {
     });
 
     it("should delete an existing expression group", async () => {
-      ctx = await buildContext(config);
-      let { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const page = questionnaire.sections[0].folders[0].pages[0];
       await createSkipCondition(ctx, page);
 
       expect(page.skipConditions.length).toBe(1);
@@ -76,9 +82,9 @@ describe("skip conditions", () => {
     });
 
     it("should delete all existing expression groups on a page", async () => {
-      ctx = await buildContext(config);
-      let { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const page = questionnaire.sections[0].folders[0].pages[0];
       createSkipCondition(ctx, page);
       createSkipCondition(ctx, page);
 
@@ -90,13 +96,13 @@ describe("skip conditions", () => {
   });
   describe("binary Expression", () => {
     it("should add a binary exporession to an existing expression group", async () => {
-      ctx = await buildContext(config);
-      let { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const page = questionnaire.sections[0].folders[0].pages[0];
 
       await createSkipCondition(ctx, page);
       const expressionGroup =
-        ctx.questionnaire.sections[0].pages[0].skipConditions[0];
+        ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions[0];
       await createBinaryExpression(ctx, expressionGroup);
       const result = await queryPage(ctx, page.id);
       expect(result.skipConditions[0].expressions[0].left.reason).toBe(
@@ -109,7 +115,11 @@ describe("skip conditions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}, {}],
+            folders: [
+              {
+                pages: [{}, {}],
+              },
+            ],
           },
         ],
       });
@@ -117,8 +127,8 @@ describe("skip conditions", () => {
     });
     it("should remove skip conditions on first page when a page is moved", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.pages[0];
-      const page2 = section.pages[1];
+      const folder = section.folders[0];
+      const [page1, page2] = folder.pages;
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -126,22 +136,24 @@ describe("skip conditions", () => {
         "DefaultSkipCondition"
       );
 
-      const {
-        section: { pages },
-      } = await movePage(ctx, {
-        id: page1.id,
+      await movePage(ctx, {
+        id: page2.id,
         sectionId: section.id,
-        position: 1,
+        folderId: folder.id,
+        position: 0,
       });
-      expect(pages.map(p => p.id)).toEqual([page2.id, page1.id]);
+
+      const reorderedPageIds = getFolderById(ctx, folder.id).pages.map(
+        ({ id }) => id
+      );
+      expect(reorderedPageIds).toEqual([page2.id, page1.id]);
 
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();
     });
     it("should remove skip conditions on first page when a page is deleted", async () => {
       const section = questionnaire.sections[0];
-      const page1 = section.pages[0];
-      const page2 = section.pages[1];
+      const [page1, page2] = section.folders[0].pages;
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -155,7 +167,6 @@ describe("skip conditions", () => {
 
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();
-
     });
   });
   describe("move or delete a section", () => {
@@ -163,10 +174,10 @@ describe("skip conditions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}],
+            folders: [{ pages: [{}] }],
           },
           {
-            pages: [{}],
+            folders: [{ pages: [{}] }],
           },
         ],
       });
@@ -175,7 +186,7 @@ describe("skip conditions", () => {
     it("should remove skip conditions on first page when a section is moved", async () => {
       const section1 = questionnaire.sections[0];
       const section2 = questionnaire.sections[1];
-      const page2 = section2.pages[0];
+      const page2 = section2.folders[0].pages[0];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);
@@ -189,7 +200,7 @@ describe("skip conditions", () => {
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
-      expect(sections.map(s => s.id)).toEqual([section2.id, section1.id]);
+      expect(sections.map((s) => s.id)).toEqual([section2.id, section1.id]);
 
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();
@@ -197,7 +208,7 @@ describe("skip conditions", () => {
     it("should remove skip conditions on first page when a sectyion is deleted", async () => {
       const section1 = questionnaire.sections[0];
       const section2 = questionnaire.sections[1];
-      const page2 = section2.pages[0];
+      const page2 = section2.folders[0].pages[0];
 
       await createSkipCondition(ctx, page2);
       var result = await queryPage(ctx, page2.id);

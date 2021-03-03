@@ -30,17 +30,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              pageType: "calculatedSummary",
+              pages: [
+                {
+                  pageType: "calculatedSummary",
+                },
+              ],
             },
           ],
         },
       ],
     });
     questionnaire = ctx.questionnaire;
-    const page = questionnaire.sections[0].pages[0];
-
+    const page = questionnaire.sections[0].folders[1].pages[0];
     const calculatedSummaryPage = await queryPage(ctx, page.id);
 
     expect(calculatedSummaryPage).toMatchObject({
@@ -54,16 +57,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -71,11 +78,12 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const page = questionnaire.sections[0].pages[1];
-
+    const page = questionnaire.sections[0].folders[1].pages[0];
     await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].pages[1].id,
-      summaryAnswers: [questionnaire.sections[0].pages[0].answers[0].id],
+      id: questionnaire.sections[0].folders[1].pages[0].id,
+      summaryAnswers: [
+        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
+      ],
     });
 
     const result = await queryPage(ctx, page.id);
@@ -83,7 +91,7 @@ describe("calculated Summary", () => {
     expect(result).toMatchObject({
       id: expect.any(String),
       summaryAnswers: [
-        { id: questionnaire.sections[0].pages[0].answers[0].id },
+        { id: questionnaire.sections[0].folders[0].pages[0].answers[0].id },
       ],
     });
   });
@@ -92,19 +100,23 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                    {
+                      type: NUMBER,
+                    },
+                  ],
                 },
                 {
-                  type: NUMBER,
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -112,19 +124,20 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const page = questionnaire.sections[0].pages[1];
-
+    const page = questionnaire.sections[0].folders[1].pages[0];
     await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].pages[1].id,
+      id: questionnaire.sections[0].folders[1].pages[0].id,
       summaryAnswers: [
-        questionnaire.sections[0].pages[0].answers[0].id,
-        questionnaire.sections[0].pages[0].answers[1].id,
+        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
+        questionnaire.sections[0].folders[0].pages[0].answers[1].id,
       ],
     });
 
     await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].pages[1].id,
-      summaryAnswers: [questionnaire.sections[0].pages[0].answers[0].id],
+      id: questionnaire.sections[0].folders[1].pages[0].id,
+      summaryAnswers: [
+        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
+      ],
     });
 
     const result = await queryPage(ctx, page.id);
@@ -132,166 +145,53 @@ describe("calculated Summary", () => {
     expect(result).toMatchObject({
       id: expect.any(String),
       summaryAnswers: [
-        { id: questionnaire.sections[0].pages[0].answers[0].id },
+        { id: questionnaire.sections[0].folders[0].pages[0].answers[0].id },
       ],
     });
   });
 
   it("should delete a calculated summary", async () => {
     ctx = await buildContext({
-      sections: [{ pages: [{ pageType: "calculatedSummary" }] }],
+      sections: [
+        {
+          folders: [
+            {
+              pages: [{ pageType: "calculatedSummary" }, {}],
+            },
+          ],
+        },
+      ],
     });
     questionnaire = ctx.questionnaire;
 
     const section = questionnaire.sections[0];
-    const page = section.pages[0];
+    const page = section.folders[1].pages[0];
 
     await deletePage(ctx, page.id);
 
     const result = await querySection(ctx, section.id);
 
-    expect(result.pages).toHaveLength(0);
-  });
-
-  it("should return a full list of all available summary answers", async () => {
-    ctx = await buildContext({
-      sections: [
-        {
-          pages: [
-            {
-              answers: [
-                {
-                  type: NUMBER,
-                },
-                {
-                  type: NUMBER,
-                },
-                {
-                  type: NUMBER,
-                },
-                {
-                  type: CURRENCY,
-                },
-                {
-                  type: UNIT,
-                },
-              ],
-            },
-            {
-              pageType: "calculatedSummary",
-            },
-            {
-              answers: [
-                {
-                  type: NUMBER,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    questionnaire = ctx.questionnaire;
-
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
-    const lastPageAnswer = questionnaire.sections[0].pages[2].answers[0].id;
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result).toMatchObject({
-      id: expect.any(String),
-      availableSummaryAnswers: [
-        { id: answersPage.answers[0].id },
-        { id: answersPage.answers[1].id },
-        { id: answersPage.answers[2].id },
-        { id: answersPage.answers[3].id },
-        { id: answersPage.answers[4].id },
-      ],
-    });
-
-    expect(result.availableSummaryAnswers).not.toContain({
-      id: lastPageAnswer,
-    });
-  });
-
-  it("should return more than one type of summary answers no answers have been selected", async () => {
-    ctx = await buildContext({
-      sections: [
-        {
-          pages: [
-            {
-              answers: [
-                {
-                  type: NUMBER,
-                },
-                {
-                  type: CURRENCY,
-                },
-                {
-                  type: NUMBER,
-                },
-                {
-                  type: CURRENCY,
-                },
-              ],
-            },
-            {
-              pageType: "calculatedSummary",
-            },
-            {
-              answers: [
-                {
-                  type: NUMBER,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    questionnaire = ctx.questionnaire;
-
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
-    const lastPageAnswer = questionnaire.sections[0].pages[2].answers[0].id;
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result).toMatchObject({
-      id: expect.any(String),
-      availableSummaryAnswers: [
-        { id: answersPage.answers[0].id },
-        { id: answersPage.answers[1].id },
-        { id: answersPage.answers[2].id },
-        { id: answersPage.answers[3].id },
-      ],
-    });
-
-    expect(result.availableSummaryAnswers).not.toContain({
-      id: lastPageAnswer,
-    });
+    expect(result.folders[0].pages).toHaveLength(1);
   });
 
   it("should error if an answer is added thats is not a numeric type", async () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: "Radio",
+                  answers: [
+                    {
+                      type: "Radio",
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -299,8 +199,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
     await expect(
       updateCalculatedSummaryPage(ctx, {
         id: calSumPage.id,
@@ -315,19 +215,23 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                    {
+                      type: CURRENCY,
+                    },
+                  ],
                 },
                 {
-                  type: CURRENCY,
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -335,8 +239,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
 
     await expect(
       updateCalculatedSummaryPage(ctx, {
@@ -352,16 +256,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -369,8 +277,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
@@ -388,16 +296,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -405,8 +317,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
@@ -424,20 +336,28 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
                 },
               ],
             },
           ],
         },
         {
-          pages: [
+          folders: [
             {
-              pageType: "calculatedSummary",
+              pages: [
+                {
+                  pageType: "calculatedSummary",
+                },
+              ],
             },
           ],
         },
@@ -445,8 +365,9 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[1].pages[0];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[1].folders[1].pages[0];
+
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -465,16 +386,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -482,8 +407,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -506,20 +431,28 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
                 },
               ],
             },
           ],
         },
         {
-          pages: [
+          folders: [
             {
-              pageType: "calculatedSummary",
+              pages: [
+                {
+                  pageType: "calculatedSummary",
+                },
+              ],
             },
           ],
         },
@@ -527,8 +460,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[1].pages[0];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[1].folders[1].pages[0];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -551,16 +484,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -568,8 +505,8 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const answersPage = questionnaire.sections[0].pages[0];
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answersPage = questionnaire.sections[0].folders[0].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -592,16 +529,20 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: NUMBER,
+                  answers: [
+                    {
+                      type: NUMBER,
+                    },
+                  ],
+                },
+                {
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
@@ -609,7 +550,7 @@ describe("calculated Summary", () => {
     });
     questionnaire = ctx.questionnaire;
 
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
     const result = await queryPage(ctx, calSumPage.id);
     expect(result.validationErrorInfo.totalCount).toEqual(2);
 
@@ -627,33 +568,37 @@ describe("calculated Summary", () => {
     ctx = await buildContext({
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  type: UNIT,
-                  properties: {
-                    unit: "meters",
-                  },
+                  answers: [
+                    {
+                      type: UNIT,
+                      properties: {
+                        unit: "meters",
+                      },
+                    },
+                    {
+                      type: UNIT,
+                      properties: {
+                        unit: "miles",
+                      },
+                    },
+                  ],
                 },
                 {
-                  type: UNIT,
-                  properties: {
-                    unit: "miles",
-                  },
+                  pageType: "calculatedSummary",
                 },
               ],
-            },
-            {
-              pageType: "calculatedSummary",
             },
           ],
         },
       ],
     });
     questionnaire = ctx.questionnaire;
-    const answers = questionnaire.sections[0].pages[0].answers;
-    const calSumPage = questionnaire.sections[0].pages[1];
+    const answers = questionnaire.sections[0].folders[0].pages[0].answers;
+    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,

@@ -16,7 +16,7 @@ import { UNPUBLISHED } from "constants/publishStatus";
 
 //eslint-disable-next-line react/prop-types
 jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
-  const handleInputChange = event =>
+  const handleInputChange = (event) =>
     onUpdate({
       value: event.target.value,
     });
@@ -192,7 +192,7 @@ describe("History page", () => {
     })
   );
 
-  const renderWithContext = component =>
+  const renderWithContext = (component) =>
     render(
       <MeContext.Provider value={{ me: user }}>
         <QuestionnaireContext.Provider value={props.data.questionnaire}>

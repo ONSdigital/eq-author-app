@@ -14,7 +14,7 @@ describe("createRightSide", () => {
   });
 
   it("should return undefined for answer types other than RADIO", () => {
-    NON_RADIO_ANSWERS.forEach(type => {
+    NON_RADIO_ANSWERS.forEach((type) => {
       expect(createRightSide({ type })).toBeUndefined();
     });
   });

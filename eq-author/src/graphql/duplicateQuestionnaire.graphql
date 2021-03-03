@@ -8,9 +8,14 @@ mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
       name
     }
     sections {
-      id
-      pages {
+      folders {
         id
+        enabled
+        alias
+        id
+        pages {
+          id
+        }
       }
     }
     introduction {

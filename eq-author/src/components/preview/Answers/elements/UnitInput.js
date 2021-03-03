@@ -18,7 +18,7 @@ export const Type = styled.div.attrs(() => ({ "data-test": "unit-type" }))`
   background-color: ${colors.lighterGrey};
   border-left: 1px solid ${colors.grey};
   border-right: 1px solid ${colors.grey};
-  border-radius: ${props => (props.trailing ? "0 3px 3px 0" : "3px 0 0 3px")};
+  border-radius: ${(props) => (props.trailing ? "0 3px 3px 0" : "3px 0 0 3px")};
   padding: 0.6em 1em;
   min-width: 2.9em;
   font-weight: 600;
@@ -26,7 +26,7 @@ export const Type = styled.div.attrs(() => ({ "data-test": "unit-type" }))`
   text-align: center;
   line-height: normal;
   position: absolute;
-  ${props => (props.trailing ? "right" : "left")}: 0;
+  ${(props) => (props.trailing ? "right" : "left")}: 0;
   top: 1px;
   z-index: 4;
   text-decoration: none;

@@ -23,8 +23,8 @@ const {
   updateComment,
 } = require("../../tests/utils/contextBuilder/comments");
 
-const wait = timeout =>
-  new Promise(resolve => setTimeout(() => resolve("timeout"), timeout));
+const wait = (timeout) =>
+  new Promise((resolve) => setTimeout(() => resolve("timeout"), timeout));
 
 jest.mock("node-fetch");
 const fetch = require("node-fetch");
@@ -52,13 +52,17 @@ describe("subscriptions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                title: "some value",
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                    label: "Some number",
+                    title: "some value",
+                    answers: [
+                      {
+                        type: NUMBER,
+                        label: "Some number",
+                      },
+                    ],
                   },
                 ],
               },
@@ -76,11 +80,13 @@ describe("subscriptions", () => {
             id
             sections {
               id
-              pages {
-                id
-                ... on QuestionPage {
-                  validationErrorInfo {
-                    totalCount
+              folders {
+                pages {
+                  id
+                  ... on QuestionPage {
+                    validationErrorInfo {
+                      totalCount
+                    }
                   }
                 }
               }
@@ -98,14 +104,15 @@ describe("subscriptions", () => {
         }
       );
 
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       await updateQuestionPage(ctx, {
         id: pageId,
         title: "",
       });
       const result = await iterator.next();
 
-      const pageData = result.value.data.validationUpdated.sections[0].pages[0];
+      const pageData =
+        result.value.data.validationUpdated.sections[0].folders[0].pages[0];
 
       expect(pageData).toMatchObject({
         id: pageId,
@@ -139,7 +146,7 @@ describe("subscriptions", () => {
         }
       );
 
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       await updateQuestionPage(ctx, {
         id: pageId,
         title: "",
@@ -164,7 +171,15 @@ describe("subscriptions", () => {
       `;
       const ctx2 = await buildContext({
         isPublic: false,
-        sections: [{ pages: [{}] }],
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
       });
       iterator = await executeSubscription(
         subscriptionQuery,
@@ -175,7 +190,7 @@ describe("subscriptions", () => {
           user: ctx.user,
         }
       );
-      const pageId = ctx2.questionnaire.sections[0].pages[0].id;
+      const pageId = ctx2.questionnaire.sections[0].folders[0].pages[0].id;
       await updateQuestionPage(ctx2, {
         id: pageId,
         title: "",
@@ -194,21 +209,25 @@ describe("subscriptions", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                pageType: "QuestionPage",
-                title: "question page",
-              },
-              {
-                pageType: "calculatedSummary",
-                title: "calcSum page",
+                pages: [
+                  {
+                    pageType: "QuestionPage",
+                    title: "question page",
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                    title: "calcSum page",
+                  },
+                ],
               },
             ],
           },
         ],
       });
       questionnaire = ctx.questionnaire;
-      createdQuestionPage = questionnaire.sections[0].pages[0];
+      createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
       componentId = createdQuestionPage.id;
     });
 
@@ -292,9 +311,13 @@ describe("subscriptions", () => {
           publishStatus: PUBLISHED,
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  title: "some value",
+                  pages: [
+                    {
+                      title: "some value",
+                    },
+                  ],
                 },
               ],
             },
@@ -306,7 +329,7 @@ describe("subscriptions", () => {
       iterator = await executeSubscription(publishStatusSubscription, {
         id: questionnaire.id,
       });
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       await updateQuestionPage(ctx, {
         id: pageId,
         title: "asd",

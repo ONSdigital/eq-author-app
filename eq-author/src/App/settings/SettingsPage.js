@@ -52,8 +52,8 @@ const VerticalSeparator = styled.div`
 `;
 
 const CollapsibleWrapper = styled.div`
-  opacity: ${props => (props.disabled ? "0.6" : "1")};
-  pointer-events: ${props => (props.disabled ? "none" : "auto")};
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
 
 const InlineField = styled(Field)`
@@ -134,7 +134,7 @@ const SettingsPage = ({ questionnaire }) => {
             <StyledInput
               value={questionnaireTitle}
               onChange={({ value }) => setQuestionnaireTitle(value)}
-              onBlur={e => handleTitleChange({ ...e.target })}
+              onBlur={(e) => handleTitleChange({ ...e.target })}
               data-test="change-questionnaire-title"
             />
           </Field>
@@ -148,7 +148,7 @@ const SettingsPage = ({ questionnaire }) => {
             <StyledInput
               value={questionnaireShortTitle}
               onChange={({ value }) => setQuestionnaireShortTitle(value)}
-              onBlur={e => handleShortTitleChange({ ...e.target })}
+              onBlur={(e) => handleShortTitleChange({ ...e.target })}
               data-test="change-questionnaire-short-title"
             />
           </Field>

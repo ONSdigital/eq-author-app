@@ -8,18 +8,14 @@ const queryIntroductionQuery = `
       description
       secondaryTitle
       secondaryDescription
+      additionalGuidancePanel
+      additionalGuidancePanelSwitch
       collapsibles {
         id
       }
       legalBasis
       tertiaryTitle
       tertiaryDescription
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
     }
   }
 `;

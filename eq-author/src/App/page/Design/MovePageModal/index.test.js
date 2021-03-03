@@ -3,61 +3,52 @@ import MovePageModal from ".";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
-const getSectionModal = wrapper =>
+jest.mock("components/QuestionnaireContext", () => ({
+  __esModule: true,
+  useQuestionnaire: jest.fn(),
+}));
+
+const getSectionModal = (wrapper) =>
   wrapper.find(byTestAttr("section-select-modal"));
 
-const getSectionItem = wrapper =>
+const getSectionItem = (wrapper) =>
   wrapper.find(byTestAttr("section-item-select"));
 
-const getPagePositionModal = wrapper =>
-  wrapper.find(byTestAttr("page-position-modal"));
+const mockQuestionnaire = buildQuestionnaire({ sectionCount: 2 });
+const currentSection = mockQuestionnaire.sections[0];
+const currentPage = currentSection.folders[0].pages[0];
+
+useQuestionnaire.mockImplementation(() => ({
+  questionnaire: mockQuestionnaire,
+}));
 
 describe("MovePageModal", () => {
-  const questionnaire = buildQuestionnaire();
-  const currentSection = questionnaire.sections[0];
-  const currentPage = currentSection.pages[0];
-
-  const createWrapper = (props = {}, render = shallow) =>
-    render(
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(
       <MovePageModal
         isOpen
         onClose={jest.fn()}
-        questionnaire={questionnaire}
         sectionId={currentSection.id}
         page={currentPage}
-        selectedPosition={0}
         onMovePage={jest.fn()}
-        {...props}
       />
     );
+  });
 
   it("should render", () => {
-    expect(createWrapper()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("opens section select Modals when correct button is clicked", () => {
-    const wrapper = createWrapper();
-
-    wrapper
-      .find("MovePageModal__Trigger")
-      .first()
-      .simulate("click");
+    wrapper.find("MovePageModal__Trigger").first().simulate("click");
 
     expect(getSectionModal(wrapper).prop("isOpen")).toBe(true);
   });
 
-  it("opens position select Modals when correct button is clicked", () => {
-    const wrapper = createWrapper();
-
-    getPagePositionModal(wrapper).simulate("click");
-
-    expect(getPagePositionModal(wrapper).prop("isOpen")).toBe(true);
-  });
-
   it("should close section select Modals on confirm", () => {
-    const wrapper = createWrapper();
-
     wrapper.find("MovePageModal__Trigger").simulate("click");
 
     getSectionModal(wrapper).simulate("confirm", {
@@ -68,13 +59,33 @@ describe("MovePageModal", () => {
   });
 
   it("should update selected section on change", () => {
-    const wrapper = createWrapper();
-    const selectedSection = questionnaire.sections[1];
+    const selectedSection = mockQuestionnaire.sections[1];
+    getSectionItem(wrapper).simulate("change", {
+      value: mockQuestionnaire.sections[1].id,
+    });
 
-    getSectionItem(wrapper).simulate("change", { value: selectedSection.id });
-
-    expect(wrapper.find("PositionModal").prop("options")).toBe(
-      selectedSection.pages
+    expect(wrapper.find("PositionModal").prop("options")).toStrictEqual(
+      selectedSection.folders.flatMap(({ pages }) => pages)
     );
+  });
+});
+
+describe("MovePageModal: questionnaire not loaded", () => {
+  it("shouldn't render if questionnaire not yet available", () => {
+    useQuestionnaire.mockImplementation(() => ({
+      questionnaire: undefined,
+    }));
+
+    const wrapper = shallow(
+      <MovePageModal
+        isOpen
+        onClose={jest.fn()}
+        sectionId="1"
+        page={null}
+        onMovePage={jest.fn()}
+      />
+    );
+
+    expect(wrapper.isEmptyRender()).toBe(true);
   });
 });

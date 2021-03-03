@@ -9,7 +9,7 @@ import fp from "lodash/fp";
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
-import IconMove from "App/page/Design/EditorToolbar/icon-move.svg?inline";
+import IconMove from "assets/icon-move.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import EditorLayout from "components/EditorLayout";
@@ -59,18 +59,18 @@ export class UnwrappedSectionRoute extends React.Component {
     this.setState({ showMoveSectionDialog: true });
   };
 
-  handleCloseMoveSectionDialog = cb => {
+  handleCloseMoveSectionDialog = (cb) => {
     this.setState({ showMoveSectionDialog: false }, isFunction(cb) ? cb : null);
   };
 
-  handleMoveSection = args => {
+  handleMoveSection = (args) => {
     this.handleCloseMoveSectionDialog(() => this.props.onMoveSection(args));
   };
 
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 
-  handleCloseDeleteConfirmDialog = cb =>
+  handleCloseDeleteConfirmDialog = (cb) =>
     this.setState(
       { showDeleteConfirmDialog: false },
       isFunction(cb) ? cb : null
@@ -100,7 +100,7 @@ export class UnwrappedSectionRoute extends React.Component {
     });
   };
 
-  getSectionTitle = section => title => {
+  getSectionTitle = (section) => (title) => {
     const sectionTitle = section.displayName;
     return `${sectionTitle} - ${title}`;
   };
@@ -225,7 +225,7 @@ export const SECTION_QUERY = gql`
   ${SectionEditor.fragments.Section}
 `;
 
-const SectionRoute = props => (
+const SectionRoute = (props) => (
   <Query
     query={SECTION_QUERY}
     variables={{
@@ -235,7 +235,7 @@ const SectionRoute = props => (
       },
     }}
   >
-    {innerProps => (
+    {(innerProps) => (
       <WrappedSectionRoute
         section={get(innerProps, "data.section", {})}
         {...innerProps}

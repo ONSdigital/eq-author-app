@@ -3,7 +3,7 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 
 const keysFile = process.env.KEYS_FILE || "./keys.yml";
-const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
+const keysYaml = yaml.load(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
 module.exports = (accessToken, serviceIdentifier) => {

@@ -9,6 +9,12 @@ import {
 
 import ContentPicker from "./";
 
+import {
+  destinationKey,
+  EndOfQuestionnaire,
+  NextPage,
+} from "constants/destinations";
+
 describe("Content picker", () => {
   let data, onClose, onSubmit, startingSelectedAnswers, props;
 
@@ -20,46 +26,51 @@ describe("Content picker", () => {
       {
         id: "section 1",
         displayName: "Untitled Section",
-        pages: [
+        folders: [
           {
-            id: "Page 1",
-            displayName: "Page 1",
-            answers: [
+            id: "folders 1",
+            pages: [
               {
-                id: "Percentage 1",
-                displayName: "Percentage 1",
-                type: "Percentage",
+                id: "Page 1",
+                displayName: "Page 1",
+                answers: [
+                  {
+                    id: "Percentage 1",
+                    displayName: "Percentage 1",
+                    type: "Percentage",
+                  },
+                  {
+                    id: "Number 1",
+                    displayName: "Number 1",
+                    type: "Number",
+                  },
+                  {
+                    id: "Currency 1",
+                    displayName: "Currency 1",
+                    type: "Currency",
+                  },
+                ],
               },
               {
-                id: "Number 1",
-                displayName: "Number 1",
-                type: "Number",
-              },
-              {
-                id: "Currency 1",
-                displayName: "Currency 1",
-                type: "Currency",
-              },
-            ],
-          },
-          {
-            id: "Page 2",
-            displayName: "Page 2",
-            answers: [
-              {
-                id: "Percentage 2",
-                displayName: "Percentage 2",
-                type: "Percentage",
-              },
-              {
-                id: "Currency 2",
-                displayName: "Currency 2",
-                type: "Currency",
-              },
-              {
-                id: "Number 2",
-                displayName: "Number 2",
-                type: "Number",
+                id: "Page 2",
+                displayName: "Page 2",
+                answers: [
+                  {
+                    id: "Percentage 2",
+                    displayName: "Percentage 2",
+                    type: "Percentage",
+                  },
+                  {
+                    id: "Currency 2",
+                    displayName: "Currency 2",
+                    type: "Currency",
+                  },
+                  {
+                    id: "Number 2",
+                    displayName: "Number 2",
+                    type: "Number",
+                  },
+                ],
               },
             ],
           },
@@ -106,7 +117,7 @@ describe("Content picker", () => {
     it("should call onSubmit with selected answers", () => {
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
 
       const answer1Item = getByText(answer1.displayName);
       const confirmButton = getByText("Confirm");
@@ -133,7 +144,7 @@ describe("Content picker", () => {
     it("should select item via keyboard enter", () => {
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
 
       const answer1Item = getByText(answer1.displayName);
       const confirmButton = getByText("Confirm");
@@ -150,7 +161,7 @@ describe("Content picker", () => {
     it("should not select item via any key other than enter", () => {
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
 
       const answer1Item = getByText(answer1.displayName);
       const confirmButton = getByText("Confirm");
@@ -164,8 +175,8 @@ describe("Content picker", () => {
     it("should only select 1 item at a time by default", () => {
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
-      const answer2 = data[0].pages[0].answers[1];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
+      const answer2 = data[0].folders[0].pages[0].answers[1];
 
       const answer1Item = getByText(answer1.displayName).closest("li");
       const answer2Item = getByText(answer2.displayName).closest("li");
@@ -189,7 +200,7 @@ describe("Content picker", () => {
     it("should unselect selected item", () => {
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
 
       const answer1Item = getByText(answer1.displayName).closest("li");
 
@@ -208,8 +219,8 @@ describe("Content picker", () => {
 
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
-      const answer2 = data[0].pages[0].answers[1];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
+      const answer2 = data[0].folders[0].pages[0].answers[1];
 
       const answer1Item = getByText(answer1.displayName).closest("li");
       const answer2Item = getByText(answer2.displayName).closest("li");
@@ -238,8 +249,8 @@ describe("Content picker", () => {
 
       const { getByText } = renderContentPicker();
 
-      const answer1 = data[0].pages[0].answers[0];
-      const answer2 = data[0].pages[0].answers[1];
+      const answer1 = data[0].folders[0].pages[0].answers[0];
+      const answer2 = data[0].folders[0].pages[0].answers[1];
 
       const answer1Item = getByText(answer1.displayName).closest("li");
       const answer2Item = getByText(answer2.displayName).closest("li");
@@ -536,10 +547,81 @@ describe("Content picker", () => {
       expect(variableItem).toHaveAttribute("aria-selected", "false");
     });
   });
+
   describe("destination content", () => {
     beforeEach(() => {
       props = {
         ...props,
+        data: {
+          logicalDestinations: [
+            {
+              id: NextPage,
+              displayName: destinationKey[NextPage],
+              logicalDestination: NextPage,
+            },
+            {
+              id: EndOfQuestionnaire,
+              displayName: destinationKey[EndOfQuestionnaire],
+              logicalDestination: EndOfQuestionnaire,
+            },
+          ],
+          pages: [
+            {
+              id: "1",
+              displayName: "Question one",
+              section: [
+                {
+                  id: "section-1",
+                  displayName: "Section one",
+                },
+              ],
+            },
+            {
+              id: "2",
+              displayName: "Question two",
+              section: [
+                {
+                  id: "section-1",
+                  displayName: "Section one",
+                },
+              ],
+            },
+            {
+              id: "3",
+              displayName: "Question three",
+              section: [
+                {
+                  id: "section-1",
+                  displayName: "Section one",
+                },
+              ],
+            },
+            {
+              id: "4",
+              displayName: "Question four",
+              section: [
+                {
+                  id: "section-1",
+                  displayName: "Section one",
+                },
+              ],
+            },
+          ],
+          sections: [
+            {
+              id: "section-2",
+              displayName: "Section two",
+            },
+            {
+              id: "section-3",
+              displayName: "Section three",
+            },
+            {
+              id: "section-4",
+              displayName: "Section four",
+            },
+          ],
+        },
         contentType: DESTINATION,
       };
     });
@@ -547,61 +629,23 @@ describe("Content picker", () => {
     it("should render destination picker when specified", () => {
       const { getByText } = renderContentPicker();
 
-      const modalHeader = getByText("Select a question");
+      const modalHeader = getByText("Select a destination");
       expect(modalHeader).toBeTruthy();
-    });
-
-    it("should handle undefined items with multiselect", () => {
-      const dummyAnswer = {
-        id: "Currency 4",
-        displayName: "Dummy to fail",
-      };
-      props.multiselect = true;
-      props.data[0].pages[0].answers = [
-        ...props.data[0].pages[0].answers,
-        dummyAnswer,
-      ];
-
-      const { getByText } = renderContentPicker();
-
-      const sections = getByText("Sections");
-
-      fireEvent.click(sections);
-
-      const endOfQuestionnaire = getByText("End of questionnaire");
-      fireEvent.click(endOfQuestionnaire);
-      const endOfQuestionnaireOption = getByText(
-        "The user will be taken to the last page in the questionnaire."
-      );
-      fireEvent.click(endOfQuestionnaireOption);
-
-      const untitledSection = getByText("Untitled Section");
-      fireEvent.click(untitledSection);
-
-      expect(endOfQuestionnaire).toBeTruthy();
     });
 
     it("should call onSubmit with selected question", () => {
       const { getByText } = renderContentPicker();
 
-      const destinationItem = getByText("Page 1");
+      const destinationItem = getByText("Question one");
       const confirmButton = getByText("Confirm");
 
       fireEvent.click(destinationItem);
       fireEvent.click(confirmButton);
 
       expect(onSubmit).toHaveBeenCalledWith({
-        id: "Page 1",
-        displayName: "Page 1",
-        answers: [
-          {
-            id: "Percentage 1",
-            displayName: "Percentage 1",
-            type: "Percentage",
-          },
-          { id: "Number 1", displayName: "Number 1", type: "Number" },
-          { id: "Currency 1", displayName: "Currency 1", type: "Currency" },
-        ],
+        displayName: "Question one",
+        id: "1",
+        section: [{ displayName: "Section one", id: "section-1" }],
       });
     });
   });

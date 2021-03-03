@@ -6,10 +6,7 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const {
-  createAnswer,
-  updateAnswer,
-} = require("../../tests/utils/contextBuilder/answer");
+const { createAnswer } = require("../../tests/utils/contextBuilder/answer");
 
 const { createMetadata } = require("../../tests/utils/contextBuilder/metadata");
 
@@ -41,24 +38,32 @@ const {
 } = require("../../constants/validationErrorCodes.js");
 
 describe("validation", () => {
-  let ctx, questionnaire, section, page;
+  let ctx, questionnaire, section, folder, page;
   let config = {
     metadata: [{ type: METADATA_TYPES.DATE }, { type: METADATA_TYPES.REGION }],
     sections: [
       {
-        pages: [
+        folders: [
           {
-            answers: [
-              { type: DATE },
-              { type: CURRENCY },
-              { type: UNIT },
-              { type: DATE_RANGE },
+            pages: [
+              {
+                answers: [
+                  { type: DATE },
+                  { type: CURRENCY },
+                  { type: UNIT },
+                  { type: DATE_RANGE },
+                ],
+              },
             ],
           },
         ],
       },
       {
-        pages: [{}],
+        folders: [
+          {
+            pages: [{}],
+          },
+        ],
       },
     ],
   };
@@ -67,7 +72,8 @@ describe("validation", () => {
     ctx = await buildContext(config);
     questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
-    page = last(section.pages);
+    folder = last(section.folders);
+    page = last(folder.pages);
   });
 
   afterAll(async () => {
@@ -112,18 +118,6 @@ describe("validation", () => {
       expect(currencyValidation.minValue).toHaveProperty("enabled", false);
       expect(currencyValidation.maxValue).toHaveProperty("enabled", false);
     });
-
-    it("provides a list of available previous answers", async () => {
-      const currencyAnswer = await createAnswer(ctx, {
-        questionPageId: page.id,
-        type: CURRENCY,
-      });
-      const currencyValidations = await queryValidation(ctx, currencyAnswer.id);
-
-      expect(currencyValidations.minValue.availablePreviousAnswers).toEqual([
-        { id: questionnaire.sections[0].pages[0].answers[1].id },
-      ]);
-    });
   });
 
   describe("Number and Currency", () => {
@@ -147,7 +141,6 @@ describe("validation", () => {
           inclusive: true,
           custom: null,
           entityType: CUSTOM,
-          availablePreviousAnswers: expect.any(Array),
         },
         maxValue: {
           id: maxValueId,
@@ -155,7 +148,6 @@ describe("validation", () => {
           inclusive: true,
           custom: null,
           entityType: CUSTOM,
-          availablePreviousAnswers: expect.any(Array),
         },
       });
       expect(currencyValidation).toEqual(
@@ -312,21 +304,6 @@ describe("validation", () => {
     });
   });
 
-  describe("Unit", () => {
-    it("should not show units of different unit types when selecting previous answer validation", async () => {
-      const answer = await createAnswer(ctx, {
-        questionPageId: page.id,
-        type: UNIT,
-      });
-      answer.properties = { unit: "Miles" };
-
-      await updateAnswer(ctx, answer);
-
-      const validation = await queryValidation(ctx, answer.id);
-      expect(validation.minValue.availablePreviousAnswers).toHaveLength(0);
-    });
-  });
-
   describe("Date", () => {
     let params;
 
@@ -421,20 +398,6 @@ describe("validation", () => {
       );
     });
 
-    it("should return a list of available metadata", async () => {
-      const answer = await createAnswer(ctx, {
-        questionPageId: page.id,
-        type: DATE,
-      });
-      const validation = await queryValidation(ctx, answer.id);
-      expect(validation.earliestDate.availableMetadata).toEqual([
-        { id: questionnaire.metadata[0].id },
-      ]);
-      expect(validation.latestDate.availableMetadata).toEqual([
-        { id: questionnaire.metadata[0].id },
-      ]);
-    });
-
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
         const answer = await createAnswer(ctx, {
@@ -469,22 +432,28 @@ describe("validation", () => {
           questionPageId: page.id,
           type: DATE,
         });
+
         const validation = await queryValidation(ctx, answer.id);
 
-        const result = await updateValidation(ctx, {
+        await expect(
+          updateValidation(ctx, {
+            id: validation.earliestDate.id,
+            earliestDateInput: {
+              ...params,
+              entityType: PREVIOUS_ANSWER,
+              previousAnswer: previousAnswer.id,
+            },
+          })
+        ).resolves.toEqual({
           id: validation.earliestDate.id,
-          earliestDateInput: {
-            ...params,
-            entityType: PREVIOUS_ANSWER,
-            previousAnswer: previousAnswer.id,
-          },
-        });
-
-        expect(result).toMatchObject({
+          offset: { value: 8, unit: "Months" },
           entityType: PREVIOUS_ANSWER,
+          customDate: null,
+          relativePosition: "After",
           previousAnswer: {
             id: previousAnswer.id,
           },
+          metadata: null,
         });
       });
 

@@ -41,7 +41,8 @@ export const sharedStyles = css`
 
   &:focus {
     outline: none;
-    border: 1px solid ${colors.primary};
+    border-style: solid;
+    border-color: ${colors.primary};
   }
 
   &[disabled] {
@@ -49,5 +50,5 @@ export const sharedStyles = css`
     pointer-events: none;
   }
 
-  ${props => props.invalid && invalidStyle};
+  ${(props) => props.invalid && invalidStyle};
 `;

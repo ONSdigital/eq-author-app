@@ -1,5 +1,3 @@
-const { get, last } = require("lodash");
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
@@ -26,13 +24,17 @@ describe("questionConfirmation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}],
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
           },
         ],
       });
       questionnaire = ctx.questionnaire;
       const questionConfirmation = await createQuestionConfirmation(ctx, {
-        pageId: questionnaire.sections[0].pages[0].id,
+        pageId: questionnaire.sections[0].folders[0].pages[0].id,
       });
       expect(questionConfirmation).toEqual(
         expect.objectContaining({
@@ -55,9 +57,13 @@ describe("questionConfirmation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                confirmation: {},
+                pages: [
+                  {
+                    confirmation: {},
+                  },
+                ],
               },
             ],
           },
@@ -65,7 +71,7 @@ describe("questionConfirmation", () => {
       });
       questionnaire = ctx.questionnaire;
       const update = {
-        id: questionnaire.sections[0].pages[0].confirmation.id,
+        id: questionnaire.sections[0].folders[0].pages[0].confirmation.id,
         title: "title-updated",
         negative: {
           label: "negative-label-updated",
@@ -93,23 +99,27 @@ describe("questionConfirmation", () => {
         metadata: [{}],
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                    confirmation: {
+                      positive: {
+                        label: "pos label",
+                        description: "pos desc",
+                      },
+                      negative: {
+                        label: "neg label",
+                        description: "neg desc",
+                      },
+                    },
                   },
                 ],
-                confirmation: {
-                  positive: {
-                    label: "pos label",
-                    description: "pos desc",
-                  },
-                  negative: {
-                    label: "neg label",
-                    description: "neg desc",
-                  },
-                },
               },
             ],
           },
@@ -119,7 +129,7 @@ describe("questionConfirmation", () => {
 
       queriedQuestionConfirmation = await queryQuestionConfirmation(
         ctx,
-        questionnaire.sections[0].pages[0].confirmation.id
+        questionnaire.sections[0].folders[0].pages[0].confirmation.id
       );
     });
 
@@ -130,14 +140,12 @@ describe("questionConfirmation", () => {
         page: expect.any(Object),
         positive: expect.any(Object),
         negative: expect.any(Object),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
       });
     });
 
     it("should resolve page", () => {
       expect(queriedQuestionConfirmation.page.id).toEqual(
-        questionnaire.sections[0].pages[0].id
+        questionnaire.sections[0].folders[0].pages[0].id
       );
     });
 
@@ -154,18 +162,6 @@ describe("questionConfirmation", () => {
         description: "neg desc",
       });
     });
-
-    it("should resolve availablePipingAnswers", () => {
-      expect(
-        last(queriedQuestionConfirmation.availablePipingAnswers).id
-      ).toEqual(get(questionnaire, "sections[0].pages[0].answers[0].id"));
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(
-        last(queriedQuestionConfirmation.availablePipingMetadata).id
-      ).toEqual(last(questionnaire.metadata).id);
-    });
   });
 
   describe("delete", () => {
@@ -173,9 +169,13 @@ describe("questionConfirmation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                confirmation: {},
+                pages: [
+                  {
+                    confirmation: {},
+                  },
+                ],
               },
             ],
           },
@@ -183,7 +183,8 @@ describe("questionConfirmation", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const confirmationId = questionnaire.sections[0].pages[0].confirmation.id;
+      const confirmationId =
+        questionnaire.sections[0].folders[0].pages[0].confirmation.id;
       await deleteQuestionConfirmation(ctx, confirmationId);
       const deletedQuestionConfirmation = await queryQuestionConfirmation(
         ctx,
@@ -201,23 +202,27 @@ describe("questionConfirmation", () => {
         metadata: [{}],
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                    confirmation: {
+                      positive: {
+                        label: "pos label",
+                        description: "pos desc",
+                      },
+                      negative: {
+                        label: "neg label",
+                        description: "neg desc",
+                      },
+                    },
                   },
                 ],
-                confirmation: {
-                  positive: {
-                    label: "pos label",
-                    description: "pos desc",
-                  },
-                  negative: {
-                    label: "neg label",
-                    description: "neg desc",
-                  },
-                },
               },
             ],
           },
@@ -228,7 +233,7 @@ describe("questionConfirmation", () => {
 
       queriedQuestionConfirmation = await queryQuestionConfirmation(
         ctx,
-        questionnaire.sections[0].pages[0].confirmation.id
+        questionnaire.sections[0].folders[0].pages[0].confirmation.id
       );
     });
 

@@ -1,34 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Question Routing Route should redirect if the pageType is not valid 1`] = `
-<UnwrappedLogicPage
-  data={
+<PageContextProvider
+  value={
     Object {
-      "page": Object {
-        "displayName": "Untitled Page",
-        "id": "1",
-        "pageType": "NoRoutingHere",
-        "routing": null,
-        "section": Object {
-          "id": "1",
-          "questionnaire": Object {
-            "id": "1",
+      "displayName": "Untitled Page",
+      "folder": Object {
+        "id": 1,
+        "pages": Array [
+          Object {
+            "answers": Array [
+              Object {
+                "displayName": "Percentage 1",
+                "id": "Percentage 1",
+                "properties": Object {},
+                "type": "Percentage",
+              },
+            ],
+            "displayName": "Page 1",
+            "id": "Page 1",
+            "position": 1,
           },
+        ],
+        "position": 1,
+      },
+      "id": "1",
+      "pageType": "NoRoutingHere",
+      "position": 1,
+      "routing": null,
+      "section": Object {
+        "folders": Array [],
+        "id": "1",
+        "position": 1,
+        "questionnaire": Object {
+          "id": "1",
         },
       },
-    }
-  }
-  loading={false}
-  match={
-    Object {
-      "params": Object {
-        "questionnaireId": "1",
+      "validationErrorInfo": Object {
+        "errors": Array [],
+        "id": "1",
+        "totalCount": 0,
       },
     }
   }
 >
-  <Redirect
-    to="/q/1/page/1/design"
-  />
-</UnwrappedLogicPage>
+  <LogicPage
+    page={
+      Object {
+        "displayName": "Untitled Page",
+        "folder": Object {
+          "id": 1,
+          "pages": Array [
+            Object {
+              "answers": Array [
+                Object {
+                  "displayName": "Percentage 1",
+                  "id": "Percentage 1",
+                  "properties": Object {},
+                  "type": "Percentage",
+                },
+              ],
+              "displayName": "Page 1",
+              "id": "Page 1",
+              "position": 1,
+            },
+          ],
+          "position": 1,
+        },
+        "id": "1",
+        "pageType": "NoRoutingHere",
+        "position": 1,
+        "routing": null,
+        "section": Object {
+          "folders": Array [],
+          "id": "1",
+          "position": 1,
+          "questionnaire": Object {
+            "id": "1",
+          },
+        },
+        "validationErrorInfo": Object {
+          "errors": Array [],
+          "id": "1",
+          "totalCount": 0,
+        },
+      }
+    }
+  >
+    <Redirect
+      to="/q/1/page/1/design"
+    />
+  </LogicPage>
+</PageContextProvider>
 `;

@@ -10,7 +10,7 @@ describe("components/Forms/Label", () => {
     wrapper = shallow(<Label>Name</Label>);
   });
 
-  it("should render correctly", function() {
+  it("should render correctly", function () {
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -32,7 +32,7 @@ describe("components/Forms/Input", () => {
     wrapper = shallow(<RadioLabel>Name</RadioLabel>);
   });
 
-  it("should render correctly", function() {
+  it("should render correctly", function () {
     expect(wrapper).toMatchSnapshot();
   });
 

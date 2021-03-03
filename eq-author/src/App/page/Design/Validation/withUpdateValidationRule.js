@@ -91,10 +91,9 @@ const INPUT_FRAGMENT = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateValidationRule: input =>
+  onUpdateValidationRule: (input) =>
     mutate({
       variables: { input: filter(INPUT_FRAGMENT, input) },
-      refetchQueries: ["GetPage"],
     }),
 });
 

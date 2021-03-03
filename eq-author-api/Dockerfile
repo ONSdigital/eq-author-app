@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:14-alpine
 
 RUN apk add --no-cache gcc python3 && \
   python3 -m ensurepip && \

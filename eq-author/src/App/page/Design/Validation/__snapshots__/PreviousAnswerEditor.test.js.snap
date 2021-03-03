@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Editor should render 1`] = `
+<Fragment>
+  <FieldWithInclude
+    checked={true}
+    id="inclusive"
+    name="inclusive"
+    onChange={[MockFunction]}
+  >
+    <PreviousAnswerContentPicker
+      allowedAnswerTypes={
+        Array [
+          "Number",
+        ]
+      }
+      data-test="content-picker-select"
+      hasError={true}
+      onSubmit={[MockFunction]}
+    />
+  </FieldWithInclude>
+  <ValidationError
+    right={false}
+  >
+    Answer required
+  </ValidationError>
+</Fragment>
+`;

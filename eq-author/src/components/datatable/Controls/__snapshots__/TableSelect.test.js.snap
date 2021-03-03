@@ -14,7 +14,7 @@ exports[`TableSelect should render 1`] = `
   outline: thin solid transparent;
   display: inline-block;
   padding: 0.5em 2em 0.5em 0.75em;
-  background: white url('icon-select.svg') no-repeat right center;
+  background: white url("icon-select.svg") no-repeat right center;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -56,7 +56,8 @@ exports[`TableSelect should render 1`] = `
 
 .c0:focus {
   outline: none;
-  border: 1px solid #3B7A9E;
+  border-style: solid;
+  border-color: #3B7A9E;
 }
 
 .c0[disabled] {

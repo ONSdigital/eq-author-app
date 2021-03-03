@@ -88,16 +88,10 @@ describe("Grouped Answer Properties", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(0)
+      accordions.at(0).find("[data-test='answer-title']").at(0)
     ).toMatchSnapshot();
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(1)
+      accordions.at(0).find("[data-test='answer-title']").at(1)
     ).toMatchSnapshot();
 
     expect(

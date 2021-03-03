@@ -3,24 +3,21 @@ const executeQuery = require("../../executeQuery");
 const movePageMutation = `
   mutation MovePage($input: MovePageInput!) {
     movePage(input: $input) {
-      id        
+      id
       title
       alias
-      displayName        
-      pageType        
+      displayName
+      pageType
       section {
         id
-        pages {
+        folders {
           id
+          pages {
+            id
+          }
         }
-      }        
-      position        
-      availablePipingAnswers {
-        id
       }
-      availablePipingMetadata {
-        id
-      }       
+      position
       ... on QuestionPage {
         description
         guidance
@@ -37,14 +34,6 @@ const movePageMutation = `
         routing {
           id
         }
-        availableRoutingAnswers {
-          id
-        }
-        availableRoutingDestinations {
-          logicalDestinations {
-            id
-          }
-        } 
       }
     }
   }

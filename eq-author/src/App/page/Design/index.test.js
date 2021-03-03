@@ -38,7 +38,7 @@ describe("PageRoute", () => {
   });
 
   describe("data fetching", () => {
-    const render = props =>
+    const render = (props) =>
       shallow(
         <UnwrappedPageRoute match={match} {...mockHandlers} {...props} />
       );
@@ -144,6 +144,10 @@ describe("PageRoute", () => {
         section: {
           id: 1,
         },
+        folder: {
+          id: 10,
+          position: 0,
+        },
         pageType: "QuestionPage",
       };
 
@@ -156,7 +160,7 @@ describe("PageRoute", () => {
 
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         page.section.id,
-        parseInt(page.position, 10) + 1
+        page.folder.position + 1
       );
     });
   });

@@ -1,34 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Custom Editor should render 1`] = `
-<Fragment>
-  <Field
-    disabled={false}
-    last={false}
+<Field
+  disabled={false}
+  last={false}
+>
+  <CustomEditor__LargerNumber
+    data-test="total-validation-number-input"
+    default={null}
+    hasError={1}
+    id="total-validation-custom"
+    max={999999999}
+    min={-999999999}
+    name="custom"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="Currency"
+    value={5}
+  />
+  <ValidationError
+    right={false}
   >
-    <CustomEditor__LargerNumber
-      data-test="total-validation-number-input"
-      default={null}
-      hasError={
-        Object {
-          "errorCode": "ERR_TOTAL_NO_VALUE",
-          "field": "totalValidation",
-          "id": "pages-1-totalValidation",
-          "type": "pages",
-        }
-      }
-      id="total-validation-custom"
-      max={999999999}
-      min={-999999999}
-      name="custom"
-      onBlur={[MockFunction]}
-      onChange={[MockFunction]}
-      type="Currency"
-      value={5}
-    />
-  </Field>
-  <CustomEditor__StyledError>
-    Value required
-  </CustomEditor__StyledError>
-</Fragment>
+     
+    Value is required
+     
+  </ValidationError>
+</Field>
 `;

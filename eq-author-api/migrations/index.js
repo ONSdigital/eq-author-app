@@ -13,6 +13,8 @@ const migrations = [
   require("./addHistoryToQuestionnaire"),
   require("./addTypeToHistoryEvent"),
   require("./updateDefaultTextAreaLength"),
+  require("./addFolders"),
+  require("./addGuidancePanelSwitch"),
 ];
 
 const currentVersion = migrations.length;

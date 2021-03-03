@@ -2,10 +2,10 @@ const translateBinaryExpression = require("../translateBinaryEpression/translate
 const { flatMap, filter, find, some } = require("lodash");
 
 const getMutallyExclusiveAnswer = (answerId, ctx) => {
-  const pages = flatMap(
-    filter(ctx.questionnaireJson.sections, "pages"),
-    "pages"
+  const pages = flatMap(ctx.questionnaireJson.sections, (section) =>
+    flatMap(section.folders, (folder) => folder.pages)
   );
+
   const answers = flatMap(filter(pages, "answers"), "answers");
   const answer = find(answers, { id: answerId });
   if (!answer) {
@@ -14,21 +14,21 @@ const getMutallyExclusiveAnswer = (answerId, ctx) => {
   return answer.mutuallyExclusiveOption;
 };
 
-const convertCheckboxExclusiveExpression = expression => {
+const convertCheckboxExclusiveExpression = (expression) => {
   let convertedExpression = JSON.parse(JSON.stringify(expression));
   convertedExpression.left.id = `${convertedExpression.left.id}-exclusive`;
   convertedExpression.right.options = filter(
     convertedExpression.right.options,
-    option => !some(convertedExpression.left.options, { id: option.id })
+    (option) => !some(convertedExpression.left.options, { id: option.id })
   );
   return convertedExpression;
 };
 
-const convertCheckboxExpression = expression => {
+const convertCheckboxExpression = (expression) => {
   let convertedExpression = JSON.parse(JSON.stringify(expression));
   convertedExpression.right.options = filter(
     convertedExpression.right.options,
-    option => some(convertedExpression.left.options, { id: option.id })
+    (option) => some(convertedExpression.left.options, { id: option.id })
   );
   return convertedExpression;
 };
@@ -48,7 +48,7 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       mutuallyExclusiveAnswer &&
       expression.left &&
       expression.right &&
-      some(expression.left.options, option =>
+      some(expression.left.options, (option) =>
         some(expression.right.options, { id: option.id })
       )
     ) {

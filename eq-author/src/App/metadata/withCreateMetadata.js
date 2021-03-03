@@ -27,7 +27,7 @@ export const fragment = gql`
 
 export const fragmentName = "QuestionnaireWithMetadata";
 
-export const createUpdater = questionnaireId => (proxy, result) => {
+export const createUpdater = (questionnaireId) => (proxy, result) => {
   const id = `Questionnaire${questionnaireId}`;
   const questionnaire = proxy.readFragment({ id, fragment, fragmentName });
 
@@ -52,6 +52,7 @@ export const mapMutateToProps = ({ mutate }) => ({
     return mutate({
       variables: { input: metadata },
       update,
+      refetchQueries: ["GetQuestionnaireWithMetadata"],
     });
   },
 });

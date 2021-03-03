@@ -70,14 +70,11 @@ describe("AnswerValidation", () => {
 
   it("should correctly update state when opening a Modal", () => {
     const wrapper = render(props);
-    wrapper
-      .find(SidebarValidation)
-      .first()
-      .simulate("click");
+    wrapper.find(SidebarValidation).first().simulate("click");
 
     setTimeout(() => {
       const modal = wrapper.find(ModalWithNav);
-      expect(modal.prop("isOpen")).toBe(true)
+      expect(modal.prop("isOpen")).toBe(true);
     }, 1000);
   });
 
@@ -89,7 +86,7 @@ describe("AnswerValidation", () => {
   });
 
   describe("validation object array", () => {
-    validationTypes.forEach(validationType => {
+    validationTypes.forEach((validationType) => {
       it(`should render the ${validationType.title} validation`, () => {
         const wrapper = shallow(validationType.render());
 
@@ -101,10 +98,10 @@ describe("AnswerValidation", () => {
   describe("Numeric answer validation preview", () => {
     const NUMBER_TYPES = [PERCENTAGE, NUMBER, CURRENCY, UNIT];
     const VALIDATIONS = ["maxValue", "minValue"];
-    VALIDATIONS.forEach(validation => {
+    VALIDATIONS.forEach((validation) => {
       describe(validation, () => {
         it("should render custom values", () => {
-          const wrapper = type => {
+          const wrapper = (type) => {
             const properties = {};
             if (type === UNIT) {
               properties.unit = CENTIMETRES;
@@ -126,17 +123,15 @@ describe("AnswerValidation", () => {
             });
           };
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
 
         it("should not render when the custom value is null", () => {
-          const wrapper = type =>
+          const wrapper = (type) =>
             render({
               ...props,
               answer: {
@@ -152,17 +147,15 @@ describe("AnswerValidation", () => {
               },
             });
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
 
         it("should render previous answer", () => {
-          const wrapper = type =>
+          const wrapper = (type) =>
             render({
               ...props,
               answer: {
@@ -179,11 +172,9 @@ describe("AnswerValidation", () => {
               },
             });
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             expect(
-              wrapper(type)
-                .find(SidebarButton)
-                .find(Detail)
+              wrapper(type).find(SidebarButton).find(Detail)
             ).toMatchSnapshot();
           });
         });
@@ -205,7 +196,7 @@ describe("AnswerValidation", () => {
             },
           };
 
-          NUMBER_TYPES.forEach(type => {
+          NUMBER_TYPES.forEach((type) => {
             props.answer.type = type;
 
             const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
@@ -223,42 +214,68 @@ describe("AnswerValidation", () => {
             }
           });
         });
+
+        it("should display when unit type is null", () => {
+          const wrapper = () => {
+            const properties = {};
+            properties.unit = null;
+            return render({
+              ...props,
+              answer: {
+                id: "1",
+                type: UNIT,
+                properties,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    custom: 5,
+                    entityType: "Custom",
+                  },
+                },
+              },
+            });
+          };
+
+          expect(
+            wrapper(UNIT).find(SidebarButton).find(Detail)
+          ).toMatchSnapshot();
+        });
       });
     });
+  });
 
-    it("should render an error message when numeric input is null", () => {
-      const error = [
-        {
-          errorCode: "ERR_NO_VALUE",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when numeric input is null", () => {
+    const error = [
+      {
+        errorCode: "ERR_NO_VALUE",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
-    });
+    expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
+  });
 
-    it("should render an error message when min val > max Val", () => {
-      const error = [
-        {
-          errorCode: "ERR_MIN_LARGER_THAN_MAX",
-          field: "custom",
-          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
-          type: "validation",
-          __typename: "ValidationError",
-        },
-      ];
-      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+  it("should render an error message when min val > max Val", () => {
+    const error = [
+      {
+        errorCode: "ERR_MIN_LARGER_THAN_MAX",
+        field: "custom",
+        id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+        type: "validation",
+        __typename: "ValidationError",
+      },
+    ];
+    props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+    const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
-    });
+    expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
   });
 
   describe("Date validation preview", () => {

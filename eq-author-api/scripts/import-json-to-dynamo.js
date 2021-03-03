@@ -8,7 +8,7 @@ if (!jsonPath) {
   throw new Error("Set DATA_DIR environment variable");
 }
 
-const importQuestionnaire = async contents => {
+const importQuestionnaire = async (contents) => {
   return createQuestionnaire({ ...contents, id: contents.id });
 };
 
@@ -18,7 +18,7 @@ const transformDestination = ({ section, page, ...rest }) => ({
   ...rest,
 });
 
-const transformBinaryExpression = binaryExpression => {
+const transformBinaryExpression = (binaryExpression) => {
   const { left, right, ...rest } = binaryExpression;
   if (left && left.__typename) {
     if (
@@ -37,7 +37,7 @@ const transformBinaryExpression = binaryExpression => {
     }
     if (right.__typename === "SelectedOptions2") {
       right.type = "SelectedOptions";
-      right.optionIds = right.options.map(o => o.id);
+      right.optionIds = right.options.map((o) => o.id);
     }
   }
 
@@ -48,7 +48,7 @@ const transformBinaryExpression = binaryExpression => {
   };
 };
 
-const transformRule = rule => {
+const transformRule = (rule) => {
   rule.destination = transformDestination(rule.destination);
   rule.expressionGroup.expressions = rule.expressionGroup.expressions.map(
     transformBinaryExpression
@@ -56,7 +56,7 @@ const transformRule = rule => {
   return rule;
 };
 
-const transformRouting = routing => {
+const transformRouting = (routing) => {
   if (!routing) {
     return routing;
   }
@@ -71,7 +71,7 @@ const transformValidation = ({ metadata, previousAnswer, ...rest }) => ({
   ...rest,
 });
 
-const transformAnswer = answer => {
+const transformAnswer = (answer) => {
   if (answer.childAnswers) {
     answer.secondaryLabel = answer.childAnswers[1].label;
   }
@@ -85,18 +85,18 @@ const transformAnswer = answer => {
   return answer;
 };
 
-const transformPage = page => ({
+const transformPage = (page) => ({
   ...page,
   routing: transformRouting(page.routing),
   answers: page.answers.map(transformAnswer),
 });
 
-const transformSection = section => ({
+const transformSection = (section) => ({
   ...section,
   pages: section.pages.map(transformPage),
 });
 
-const loadQuestionnaireJSON = async path => {
+const loadQuestionnaireJSON = async (path) => {
   const contents = JSON.parse(fs.readFileSync(path, "utf-8"));
   contents.type = "Business";
   contents.createdBy = contents.createdBy.name || "Unknown";
@@ -105,7 +105,7 @@ const loadQuestionnaireJSON = async path => {
   await importQuestionnaire(contents);
 };
 
-fs.readdir(jsonPath, async function(err, items) {
+fs.readdir(jsonPath, async function (err, items) {
   for (let i = 0; i < items.length; i++) {
     if (items[i][0] !== "." && items[i] !== "QuestionnaireList.json") {
       await loadQuestionnaireJSON(`${jsonPath}/${items[i]}`);

@@ -6,13 +6,13 @@ exports[`TotalValidationEditor should render 1`] = `
   fillHeight={true}
 >
   <Column
-    cols={6}
+    cols={4}
   >
     <TotalValidationEditor__Flex>
       <ValidationTitle
         style={
           Object {
-            "margin": "0 1em 0 0",
+            "margin": "0 1em 0 1em",
           }
         }
       >
@@ -62,7 +62,7 @@ exports[`TotalValidationEditor should render 1`] = `
     <TotalValidationEditor__Connector />
   </Column>
   <Column
-    cols={6}
+    cols={8}
   >
     <TotalValidationEditor__Pills
       Custom={[Function]}

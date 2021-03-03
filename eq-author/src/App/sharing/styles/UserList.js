@@ -81,13 +81,13 @@ export const UserSeparator = styled(Separator)`
 `;
 
 export const UserContainer = styled.div`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isOwner ? colors.black : colors.lightMediumGrey};
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 0.3em 0.5em;
-  ${props =>
+  ${(props) =>
     props.isOwner &&
     css`
       ${UserName} {

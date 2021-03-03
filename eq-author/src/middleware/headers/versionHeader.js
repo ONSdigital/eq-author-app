@@ -1,4 +1,4 @@
-export default headers => {
+export default (headers) => {
   const { REACT_APP_EQ_AUTHOR_VERSION } = process.env;
   return REACT_APP_EQ_AUTHOR_VERSION
     ? {

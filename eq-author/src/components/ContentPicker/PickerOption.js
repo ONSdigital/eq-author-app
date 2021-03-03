@@ -24,7 +24,7 @@ const PickerOption = styled(Button)`
     background: ${colors.primary};
   }
 
-  ${props => (props.selected ? selectedStyle : null)};
+  ${(props) => (props.selected ? selectedStyle : null)};
 `;
 
 PickerOption.propTypes = {

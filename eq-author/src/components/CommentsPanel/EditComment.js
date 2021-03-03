@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Label, Field } from "components/Forms";
 import ScrollPane from "components/ScrollPane";
-import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
 
 import { StyledTextArea, CommentAddSection } from "./index";
@@ -28,7 +27,7 @@ const StyledScrollPane = styled(ScrollPane)`
   height: auto;
 `;
 
-const EditComment = props => {
+const EditComment = (props) => {
   const {
     displayComments,
     comment,
@@ -40,10 +39,9 @@ const EditComment = props => {
   return (
     <CommentsPane>
       <CommentAddSection>
-        <StyledLabel>{"Comments"}</StyledLabel>
-      </CommentAddSection>
-      <StyledScrollPane>{displayComments}</StyledScrollPane>
-      <CommentAddSection>
+        <Field>
+          <StyledLabel>{"Comments"}</StyledLabel>
+        </Field>
         <Field>
           <StyledTextArea
             id="comments-txt-area"
@@ -56,17 +54,17 @@ const EditComment = props => {
             data-test="comment-txt-area"
           />
         </Field>
-        <ButtonGroup horizontal align="right">
-          <Button
-            disabled={!comment}
-            variant="primary"
-            onClick={handleSubmit}
-            data-test="btn-add-comment"
-          >
-            Add
-          </Button>
-        </ButtonGroup>
+        <Button
+          disabled={!comment}
+          variant="primary"
+          medium
+          onClick={handleSubmit}
+          data-test="btn-add-comment"
+        >
+          Add
+        </Button>
       </CommentAddSection>
+      <StyledScrollPane>{displayComments}</StyledScrollPane>
     </CommentsPane>
   );
 };

@@ -21,7 +21,7 @@ export const mapMutateToProps = ({ mutate }) => ({
 
     return mutate({
       variables: { input: answer },
-    }).then(res => res.data.createAnswer);
+    }).then((res) => res.data.createAnswer);
   },
 });
 

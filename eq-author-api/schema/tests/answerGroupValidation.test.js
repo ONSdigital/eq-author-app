@@ -26,11 +26,15 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -39,7 +43,7 @@ describe("Answer group validation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
@@ -57,7 +61,6 @@ describe("Answer group validation", () => {
         enabled: false,
         custom: null,
         previousAnswer: null,
-        availablePreviousAnswers: [],
       });
     });
 
@@ -65,14 +68,18 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                  },
-                  {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -81,7 +88,7 @@ describe("Answer group validation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).not.toBeNull();
@@ -99,17 +106,21 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                  },
-                  {
-                    type: NUMBER,
-                  },
-                  {
-                    type: CURRENCY,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: CURRENCY,
+                      },
+                    ],
                   },
                 ],
               },
@@ -118,7 +129,7 @@ describe("Answer group validation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
@@ -138,14 +149,18 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: CURRENCY,
-                  },
-                  {
-                    type: CURRENCY,
+                    answers: [
+                      {
+                        type: CURRENCY,
+                      },
+                      {
+                        type: CURRENCY,
+                      },
+                    ],
                   },
                 ],
               },
@@ -154,7 +169,7 @@ describe("Answer group validation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).not.toBeNull();
@@ -169,17 +184,21 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: CURRENCY,
-                  },
-                  {
-                    type: CURRENCY,
-                  },
-                  {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: CURRENCY,
+                      },
+                      {
+                        type: CURRENCY,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -189,7 +208,7 @@ describe("Answer group validation", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const pageId = questionnaire.sections[0].pages[0].id;
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
       const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
@@ -206,14 +225,18 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: PERCENTAGE,
-                  },
-                  {
-                    type: PERCENTAGE,
+                    answers: [
+                      {
+                        type: PERCENTAGE,
+                      },
+                      {
+                        type: PERCENTAGE,
+                      },
+                    ],
                   },
                 ],
               },
@@ -223,7 +246,7 @@ describe("Answer group validation", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       const totalValidation = page.totalValidation;
 
       expect(totalValidation.enabled).toBe(false);
@@ -242,14 +265,18 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: NUMBER,
-                  },
-                  {
-                    type: NUMBER,
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
                   },
                 ],
               },
@@ -259,7 +286,7 @@ describe("Answer group validation", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       const totalValidation = page.totalValidation;
 
       expect(totalValidation).toMatchObject({
@@ -290,17 +317,21 @@ describe("Answer group validation", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [{ type: PERCENTAGE }],
-              },
-              {
-                answers: [
+                pages: [
                   {
-                    type: PERCENTAGE,
+                    answers: [{ type: PERCENTAGE }],
                   },
                   {
-                    type: PERCENTAGE,
+                    answers: [
+                      {
+                        type: PERCENTAGE,
+                      },
+                      {
+                        type: PERCENTAGE,
+                      },
+                    ],
                   },
                 ],
               },
@@ -310,9 +341,10 @@ describe("Answer group validation", () => {
       });
       questionnaire = ctx.questionnaire;
 
-      const page = questionnaire.sections[0].pages[1];
+      const page = questionnaire.sections[0].folders[0].pages[1];
       const totalValidation = page.totalValidation;
-      const previousAnswerId = questionnaire.sections[0].pages[0].answers[0].id;
+      const previousAnswerId =
+        questionnaire.sections[0].folders[0].pages[0].answers[0].id;
 
       expect(totalValidation).toMatchObject({
         previousAnswer: null,
@@ -338,11 +370,6 @@ describe("Answer group validation", () => {
         previousAnswer: {
           id: previousAnswerId,
         },
-        availablePreviousAnswers: [
-          {
-            id: previousAnswerId,
-          },
-        ],
       });
     });
   });

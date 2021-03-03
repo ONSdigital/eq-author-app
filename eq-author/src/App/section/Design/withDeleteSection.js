@@ -1,7 +1,6 @@
 import { graphql } from "react-apollo";
 import { find, flowRight } from "lodash";
 import gql from "graphql-tag";
-
 import { withShowToast } from "components/Toasts";
 
 import deleteSectionMutation from "graphql/deleteSection.graphql";
@@ -13,8 +12,11 @@ const questionnaireFragment = gql`
   fragment DeleteSectionFragment on Questionnaire {
     sections {
       id
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
     }
   }
@@ -25,32 +27,38 @@ const pluralize = (count, word, plural = word + "s") => {
 };
 
 export const handleDeletion = (
-  { history, onAddSection, match: { params } },
+  { history, match: { params } },
   { data },
   oldQuestionnaire
 ) => {
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
-  if (questionnaire.sections.length === 0) {
-    return onAddSection();
-  }
-
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
-  const nextSectionPath = buildSectionPath({
-    questionnaireId,
-    sectionId: nextSection.id,
-  });
-  history.push(nextSectionPath);
+  const newSectionCreated = oldQuestionnaire.sections.length === 1;
+
+  history.push(
+    buildSectionPath({
+      questionnaireId,
+      sectionId: newSectionCreated
+        ? questionnaire.sections[0].id
+        : nextSection.id,
+    })
+  );
 };
 
 export const displayToast = (ownProps, questionnaire) => {
   const {
     match: { params },
   } = ownProps;
-  const numberOfDeletedPages = find(questionnaire.sections, {
+
+  const deletedSection = find(questionnaire.sections, {
     id: params.sectionId,
-  }).pages.length;
+  });
+
+  const numberOfDeletedPages = deletedSection.folders
+    .flatMap(({ pages }) => pages.length)
+    .reduce((acc, value) => acc + value);
 
   ownProps.showToast(
     `Section + ${numberOfDeletedPages} ${pluralize(
@@ -73,12 +81,18 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       fragment: questionnaireFragment,
     });
 
-    const mutation = mutate({
+    const options = {
       variables: { input: section },
-    });
+    };
+
+    if (questionnaire.sections.length === 1) {
+      options.refetchQueries = ["GetQuestionnaire"];
+    }
+
+    const mutation = mutate(options);
 
     return mutation
-      .then(data => handleDeletion(ownProps, data, questionnaire))
+      .then((data) => handleDeletion(ownProps, data, questionnaire))
       .then(() => displayToast(ownProps, questionnaire))
       .then(() => mutation);
   },

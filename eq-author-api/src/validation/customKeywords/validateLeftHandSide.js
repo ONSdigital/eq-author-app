@@ -9,7 +9,9 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function(ajv) {
+const { getPath } = require("../utils");
+
+module.exports = function (ajv) {
   ajv.addKeyword("validateLeftHandSide", {
     validate: function isValid(
       otherFields,
@@ -22,11 +24,10 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
-      const dataPathArr = dataPath.split("/");
-      const currentSectionIndex = dataPathArr[2];
-      const currentPageIndex = dataPathArr[4];
+      const { sections, folders, pages } = getPath(dataPath);
+
       const currentPage =
-        questionnaire.sections[currentSectionIndex].pages[currentPageIndex];
+        questionnaire.sections[sections].folders[folders].pages[pages];
 
       if (entityData && entityData.type === "Answer" && entityData.answerId) {
         const leftAnswerId = entityData.answerId;
@@ -39,7 +40,7 @@ module.exports = function(ajv) {
         );
 
         const leftAnswerInPreviousAnswers = previousAnswersForPage.some(
-          el => el.id === leftAnswerId
+          (el) => el.id === leftAnswerId
         );
 
         if (!leftAnswerInPreviousAnswers) {

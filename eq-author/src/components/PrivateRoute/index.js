@@ -25,9 +25,9 @@ const PrivateRoute = React.memo(
         </Layout>
       );
     } else if (me) {
-      render = props => <Component {...props} />;
+      render = (props) => <Component {...props} />;
     } else {
-      render = props => <Redirect to={createRedirect(props)} />;
+      render = (props) => <Redirect to={createRedirect(props)} />;
     }
 
     return <Route {...rest} render={render} />;

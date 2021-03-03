@@ -2,7 +2,6 @@
 
 exports[`MetadataContentPicker should render 1`] = `
 <ContentPickerSelect
-  answerId="1"
   contentTypes={
     Array [
       "Metadata",
@@ -11,18 +10,15 @@ exports[`MetadataContentPicker should render 1`] = `
   metadataData={
     Array [
       Object {
-        "displayName": "foobar1",
-        "id": "1",
-      },
-      Object {
-        "displayName": "foobar2",
-        "id": "2",
+        "alias": "Start Date",
+        "dateValue": "2016-05-01",
+        "id": "74c9ca55-dc3b-46da-b5eb-5eca48c4f443",
+        "key": "ref_p_start_date",
+        "type": "Date",
       },
     ]
   }
   name="metadata"
   onSubmit={[MockFunction]}
-  selectedContentDisplayName="foobar"
-  selectedMetadataDisplayName="Select metadata"
 />
 `;

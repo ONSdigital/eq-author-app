@@ -3,7 +3,7 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight, isEmpty } from "lodash";
+import { flowRight, isEmpty } from "lodash";
 import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
@@ -20,12 +20,14 @@ import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
+import { PageContextProvider } from "components/QuestionnaireContext";
+
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true },
 };
 
-const deriveAvailableTabs = page =>
+const deriveAvailableTabs = (page) =>
   isEmpty(page) ? {} : availableTabMatrix[page.pageType];
 
 export class UnwrappedPageRoute extends React.Component {
@@ -68,7 +70,7 @@ export class UnwrappedPageRoute extends React.Component {
   handleAddPage = () => {
     const { page } = this.props;
 
-    this.props.onAddQuestionPage(page.section.id, page.position + 1);
+    this.props.onAddQuestionPage(page.section.id, page.folder.position + 1);
   };
 
   renderContent = () => {
@@ -86,11 +88,13 @@ export class UnwrappedPageRoute extends React.Component {
   };
 
   render() {
-    const { page } = this.props;
+    const page = this.props.page || {};
     return (
       <EditorLayout
         onAddQuestionPage={this.handleAddPage}
-        renderPanel={() => <PropertiesPanel page={page} />}
+        renderPanel={() =>
+          page.pageType === "QuestionPage" && <PropertiesPanel page={page} />
+        }
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
         validationErrorInfo={page && page.validationErrorInfo}
@@ -112,13 +116,17 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
+      folder {
+        id
+        position
+      }
     }
   }
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 
-const PageRoute = props => {
+const PageRoute = (props) => {
   return (
     <Query
       query={PAGE_QUERY}
@@ -130,13 +138,12 @@ const PageRoute = props => {
         },
       }}
     >
-      {innerProps => {
+      {(innerProps) => {
+        const page = innerProps?.data?.page;
         return (
-          <WrappedPageRoute
-            {...innerProps}
-            {...props}
-            page={get(innerProps, "data.page", {})}
-          />
+          <PageContextProvider value={page}>
+            <WrappedPageRoute {...innerProps} {...props} page={page} />
+          </PageContextProvider>
         );
       }}
     </Query>

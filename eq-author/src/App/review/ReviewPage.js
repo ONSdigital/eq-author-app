@@ -48,7 +48,7 @@ const ReviewPage = ({ match, history }) => {
   const { me } = useMe();
   const { questionnaire } = useQuestionnaire();
 
-  const sendReview = review =>
+  const sendReview = (review) =>
     reviewQuestionnaire({
       variables: {
         input: {

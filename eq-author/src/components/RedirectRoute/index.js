@@ -6,7 +6,7 @@ import { generatePath } from "utils/UrlUtils";
 // react-router will eventually support something akin to this.
 // at that point we can drop this component
 const RedirectRoute = ({ to, from }) => {
-  const render = props => (
+  const render = (props) => (
     <Redirect to={generatePath(to)(props.match.params)} />
   );
 

@@ -11,6 +11,7 @@ export const Message = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  overflow: hidden;
 `;
 
 export const Heading = styled.h2`
@@ -24,6 +25,9 @@ export const Subheading = styled.h3`
   font-size: 1em;
   font-weight: normal;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const Description = styled.div`
@@ -32,7 +36,7 @@ export const Description = styled.div`
   color: ${textStyle};
 `;
 
-const DialogMessage = props => {
+const DialogMessage = (props) => {
   const { heading, subheading, description, ...otherProps } = props;
 
   return (

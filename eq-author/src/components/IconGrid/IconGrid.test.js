@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 
 let wrapper;
 
-describe("IconGrid", function() {
+describe("IconGrid", function () {
   beforeEach(() => {
     wrapper = shallow(<IconGrid>Child</IconGrid>);
   });

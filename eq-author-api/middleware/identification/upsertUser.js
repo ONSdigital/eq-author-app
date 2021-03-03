@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
       process.env.ALLOWED_EMAIL_LIST !== ""
     ) {
       const validEmails = process.env.ALLOWED_EMAIL_LIST.split(",");
-      const checkEmail = domain => user.email.includes(domain);
+      const checkEmail = (domain) => user.email.includes(domain);
       if (!validEmails.some(checkEmail, user.email)) {
         res.status(401).json({ status: "Email not in allowed email list" });
         return;

@@ -12,7 +12,7 @@ import ValidationTitle from "../ValidationTitle";
 import PathEnd from "../path-end.svg?inline";
 import withCustomNumberValueChange from "../withCustomNumberValueChange";
 import CustomEditor from "./CustomEditor";
-import PreviousAnswerEditor from "./PreviousAnswerEditor";
+import PreviousAnswerEditor from "../PreviousAnswerEditor";
 
 const Connector = styled(PathEnd)`
   display: block;

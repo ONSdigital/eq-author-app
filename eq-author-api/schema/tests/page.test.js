@@ -1,5 +1,3 @@
-const { last, get } = require("lodash");
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
@@ -19,11 +17,16 @@ const {
 
 const { DATE, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
 const {
-  NEXT_PAGE,
-  END_OF_QUESTIONNAIRE,
-} = require("../../constants/logicalDestinations");
+  getSectionByPageId,
+  getPageById,
+  getPages,
+  getFolderById,
+  getFolderByPageId,
+  getSectionByFolderId,
+} = require("../resolvers/utils");
 
-const getFirstPage = questionnaire => questionnaire.sections[0].pages[0];
+const getFirstPage = (questionnaire) =>
+  questionnaire.sections[0].folders[0].pages[0];
 
 const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
@@ -51,10 +54,10 @@ describe("page", () => {
         definitionEnabled: true,
         additionalInfoEnabled: true,
       });
+
       expect(createdPage).toMatchObject({
         title: "Title",
         description: "Description",
-        position: 0,
         descriptionEnabled: true,
         guidanceEnabled: true,
         definitionEnabled: true,
@@ -62,31 +65,69 @@ describe("page", () => {
       });
     });
 
-    it("should create at a given position", async () => {
+    it("should create at a given folder position", async () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}],
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
           },
         ],
       });
 
       questionnaire = ctx.questionnaire;
-      const section = questionnaire.sections[0];
+      const targetSection = questionnaire.sections[0];
+      const targetFolder = targetSection.folders[0];
 
-      const createdPage = await createQuestionPage(ctx, {
-        title: "Title",
-        description: "Description",
-        sectionId: section.id,
+      const { id: pageId } = await createQuestionPage(ctx, {
+        title: "Does Blathers like insects?",
+        description: "",
+        sectionId: targetSection.id,
+        folderId: targetFolder.id,
         position: 0,
       });
 
-      const readPage = await queryPage(ctx, createdPage.id);
-      expect(readPage).toMatchObject({
-        title: "Title",
-        description: "Description",
+      const readPage = getPageById(ctx, pageId);
+      const readFolder = getFolderByPageId(ctx, readPage.id);
+
+      expect(readPage.id).toEqual(pageId);
+      expect(readFolder.pages[0].id).toEqual(pageId);
+    });
+
+    it("should create at a given section position", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
+      });
+
+      questionnaire = ctx.questionnaire;
+      const targetSection = questionnaire.sections[0];
+
+      const { id: pageId } = await createQuestionPage(ctx, {
+        title: "Does Blathers like insects?",
+        description: "",
+        sectionId: targetSection.id,
         position: 0,
       });
+
+      const readPage = getPageById(ctx, pageId);
+      const readFolder = getFolderByPageId(ctx, readPage.id);
+      const readSection = getSectionByFolderId(ctx, readFolder.id);
+
+      expect(readPage.id).toEqual(pageId);
+      expect(readFolder.pages[0].id).toEqual(pageId);
+      expect(readSection.folders[0].pages[0].id).toEqual(pageId);
+      expect(readSection.folders.length).toEqual(2);
     });
   });
 
@@ -95,20 +136,24 @@ describe("page", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                title: "title-1",
-                alias: "alias-1",
-                description: "description-1",
-                descriptionEnabled: true,
-                guidance: "guidance-1",
-                guidanceEnabled: true,
-                definitionLabel: "definitionLabel-1",
-                definitionContent: "definitionContent-1",
-                definitionEnabled: true,
-                additionalInfoLabel: "additionalInfoLabel-1",
-                additionalInfoContent: "additionalInfoContent-1",
-                additionalInfoEnabled: true,
+                pages: [
+                  {
+                    title: "title-1",
+                    alias: "alias-1",
+                    description: "description-1",
+                    descriptionEnabled: true,
+                    guidance: "guidance-1",
+                    guidanceEnabled: true,
+                    definitionLabel: "definitionLabel-1",
+                    definitionContent: "definitionContent-1",
+                    definitionEnabled: true,
+                    additionalInfoLabel: "additionalInfoLabel-1",
+                    additionalInfoContent: "additionalInfoContent-1",
+                    additionalInfoEnabled: true,
+                  },
+                ],
               },
             ],
           },
@@ -142,76 +187,159 @@ describe("page", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [{}, {}],
+              folders: [
+                {
+                  pages: [{}, {}],
+                },
+              ],
+            },
+            {
+              folders: [
+                {
+                  pages: [{}],
+                },
+              ],
             },
           ],
         });
         questionnaire = ctx.questionnaire;
       });
 
-      it("should be able to move a page later", async () => {
+      it("should be able to move a page later in a folder", async () => {
         const section = questionnaire.sections[0];
-        const pageToMoveId = section.pages[0].id;
-        const secondPageId = section.pages[1].id;
+        const pageToMoveId = section.folders[0].pages[0].id;
+        const secondPageId = section.folders[0].pages[1].id;
+
+        expect(section.folders[0].pages[0].id).toEqual(pageToMoveId);
+        expect(section.folders[0].pages[1].id).toEqual(secondPageId);
 
         const {
-          section: { pages },
+          section: { folders },
+        } = await movePage(ctx, {
+          id: pageToMoveId,
+          sectionId: section.id,
+          folderId: section.folders[0].id,
+          position: 1,
+        });
+
+        expect(folders[0].pages[0].id).toEqual(secondPageId);
+        expect(folders[0].pages[1].id).toEqual(pageToMoveId);
+      });
+
+      it("should be able to move a page earlier in a folder", async () => {
+        const section = questionnaire.sections[0];
+        const firstPageId = section.folders[0].pages[0].id;
+        const pageToMoveId = section.folders[0].pages[1].id;
+
+        expect(section.folders[0].pages[0].id).toEqual(firstPageId);
+        expect(section.folders[0].pages[1].id).toEqual(pageToMoveId);
+
+        const {
+          section: { folders },
+        } = await movePage(ctx, {
+          id: pageToMoveId,
+          sectionId: section.id,
+          folderId: section.folders[0].id,
+          position: 0,
+        });
+
+        expect(folders[0].pages[0].id).toEqual(pageToMoveId);
+        expect(folders[0].pages[1].id).toEqual(firstPageId);
+      });
+
+      it("should replenish last disabled folder in section", async () => {
+        const [firstSection, secondSection] = questionnaire.sections;
+        const [sourceFolder] = secondSection.folders;
+
+        await movePage(ctx, {
+          id: sourceFolder.pages[0].id,
+          sectionId: firstSection.id,
+          position: 0,
+        });
+
+        const updatedSourceFolder = getFolderById(ctx, sourceFolder.id);
+        expect(updatedSourceFolder.pages).toHaveLength(1);
+      });
+
+      it("should be able to move a page later in a section", async () => {
+        const section = questionnaire.sections[0];
+        const pageToMoveId = section.folders[0].pages[0].id;
+        const secondPageId = section.folders[0].pages[1].id;
+
+        expect(section.folders[0].pages[0].id).toEqual(pageToMoveId);
+        expect(section.folders[0].pages[1].id).toEqual(secondPageId);
+
+        const {
+          section: { folders },
         } = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 1,
         });
-        expect(pages.map(p => p.id)).toEqual([secondPageId, pageToMoveId]);
+
+        expect(folders[0].pages[0].id).toEqual(secondPageId);
+        expect(folders[1].pages[0].id).toEqual(pageToMoveId);
       });
 
-      it("should be able to move a section earlier", async () => {
+      it("should be able to move a page earlier in a section", async () => {
         const section = questionnaire.sections[0];
-        const firstPageId = section.pages[0].id;
-        const pageToMoveId = section.pages[1].id;
+        const firstPageId = section.folders[0].pages[0].id;
+        const pageToMoveId = section.folders[0].pages[1].id;
+
+        expect(section.folders[0].pages[0].id).toEqual(firstPageId);
+        expect(section.folders[0].pages[1].id).toEqual(pageToMoveId);
 
         const {
-          section: { pages },
+          section: { folders },
         } = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 0,
         });
-        expect(pages.map(p => p.id)).toEqual([pageToMoveId, firstPageId]);
+
+        expect(folders[0].pages[0].id).toEqual(pageToMoveId);
+        expect(folders[1].pages[0].id).toEqual(firstPageId);
       });
     });
 
     describe("between sections", () => {
-      it("should be able to move sections to any position in another section", async () => {
+      it("should be able to move sections", async () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [{}, {}],
+              folders: [
+                {
+                  pages: [{}, {}],
+                },
+              ],
             },
             {
-              pages: [{}, {}],
+              folders: [
+                {
+                  pages: [{}, {}],
+                },
+              ],
             },
           ],
         });
         questionnaire = ctx.questionnaire;
-        const newSection = questionnaire.sections[1];
-        const originalPages = [...newSection.pages];
+        const { id: pageId, sectionId: sectionIdBeforeMove } = getFirstPage(
+          questionnaire
+        );
+        const { id: newSectionId } = questionnaire.sections[1];
 
-        const pageToMoveId = getFirstPage(questionnaire).id;
+        expect(sectionIdBeforeMove).not.toBe(newSectionId);
 
-        const {
-          section: { id, pages },
-        } = await movePage(ctx, {
-          id: pageToMoveId,
-          sectionId: newSection.id,
+        await movePage(ctx, {
+          id: pageId,
+          sectionId: newSectionId,
           position: 1,
         });
 
-        expect(id).toEqual(newSection.id);
-        expect(pages.map(p => p.id)).toEqual([
-          originalPages[0].id,
-          pageToMoveId,
-          originalPages[1].id,
-        ]);
+        const { id: sectionIdAfterMove } = getSectionByPageId(ctx, pageId);
+
+        expect(sectionIdAfterMove).not.toBe(sectionIdBeforeMove);
+        expect(sectionIdAfterMove).toBe(newSectionId);
       });
     });
   });
@@ -224,28 +352,32 @@ describe("page", () => {
         metadata: [{}],
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [{ type: NUMBER }],
-              },
-              {
-                title: "title-1",
-                alias: "alias-1",
-                description: "description-1",
-                guidance: "guidance-1",
-                definitionLabel: "definitionLabel-1",
-                definitionContent: "definitionContent-1",
-                additionalInfoLabel: "additionalInfoLabel-1",
-                additionalInfoContent: "additionalInfoContent-1",
-                confirmation: {},
-                answers: [{ type: DATE }],
+                pages: [
+                  {
+                    answers: [{ type: NUMBER }],
+                  },
+                  {
+                    title: "title-1",
+                    alias: "alias-1",
+                    description: "description-1",
+                    guidance: "guidance-1",
+                    definitionLabel: "definitionLabel-1",
+                    definitionContent: "definitionContent-1",
+                    additionalInfoLabel: "additionalInfoLabel-1",
+                    additionalInfoContent: "additionalInfoContent-1",
+                    confirmation: {},
+                    answers: [{ type: DATE }],
+                  },
+                ],
               },
             ],
           },
         ],
       });
       questionnaire = ctx.questionnaire;
-      setupPage = questionnaire.sections[0].pages[1];
+      setupPage = questionnaire.sections[0].folders[0].pages[1];
       queriedPage = await queryPage(ctx, setupPage.id);
     });
 
@@ -262,6 +394,7 @@ describe("page", () => {
         pageType: expect.any(String),
         answers: expect.any(Array),
         section: expect.any(Object),
+        folder: expect.any(Object),
         position: expect.any(Number),
         definitionLabel: expect.any(String),
         definitionContent: expect.any(String),
@@ -269,10 +402,6 @@ describe("page", () => {
         additionalInfoLabel: expect.any(String),
         additionalInfoContent: expect.any(String),
         additionalInfoEnabled: expect.any(Boolean),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
-        availableRoutingAnswers: expect.any(Array),
-        availableRoutingDestinations: expect.any(Object),
         confirmation: expect.any(Object) || null,
         routing: expect.any(Object) || null,
       });
@@ -292,35 +421,10 @@ describe("page", () => {
       expect(queriedPage.section.id).toEqual(questionnaire.sections[0].id);
     });
 
-    it("should resolve availablePipingAnswers", () => {
-      expect(last(queriedPage.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].pages[0].answers[0].id")
+    it("should resolve folder", () => {
+      expect(queriedPage.folder.id).toEqual(
+        questionnaire.sections[0].folders[0].id
       );
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(last(queriedPage.availablePipingMetadata).id).toEqual(
-        last(questionnaire.metadata).id
-      );
-    });
-
-    it("should resolve availableRoutingAnswers", () => {
-      expect(last(queriedPage.availableRoutingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availableRoutingDestinations", () => {
-      expect(queriedPage.availableRoutingDestinations).toEqual({
-        logicalDestinations: [
-          {
-            id: NEXT_PAGE,
-          },
-          {
-            id: END_OF_QUESTIONNAIRE,
-          },
-        ],
-      });
     });
 
     it("should resolve confirmation", () => {
@@ -330,12 +434,21 @@ describe("page", () => {
 
   describe("delete", () => {
     it("should delete a page", async () => {
-      ctx = await buildContext({ sections: [{ pages: [{}] }] });
+      ctx = await buildContext({ sections: [{ folders: [{ pages: [{}] }] }] });
       questionnaire = ctx.questionnaire;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       await deletePage(ctx, page.id);
       const deletedQuestionPage = await queryPage(ctx, page.id);
       expect(deletedQuestionPage).toBeNull();
+    });
+
+    it("should create a replacement page if final folder in section depleted of pages", async () => {
+      ctx = await buildContext({ sections: [{ folders: [{ pages: [{}] }] }] });
+      questionnaire = ctx.questionnaire;
+      const page = questionnaire.sections[0].folders[0].pages[0];
+      await deletePage(ctx, page.id);
+      const pages = getPages(ctx);
+      expect(pages).toHaveLength(1);
     });
   });
 
@@ -344,16 +457,20 @@ describe("page", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                title: "",
+                pages: [
+                  {
+                    title: "",
+                  },
+                ],
               },
             ],
           },
         ],
       });
       questionnaire = ctx.questionnaire;
-      const page = ctx.questionnaire.sections[0].pages[0];
+      const page = ctx.questionnaire.sections[0].folders[0].pages[0];
 
       const readPage = await queryPage(ctx, page.id);
 
@@ -372,17 +489,21 @@ describe("page", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: CHECKBOX,
-                    options: [
+                    answers: [
                       {
-                        label: "",
-                        qCode: "qCode1",
+                        type: CHECKBOX,
+                        options: [
+                          {
+                            label: "",
+                            qCode: "qCode1",
+                          },
+                          { label: "", type: CHECKBOX, qCode: "qCode 2" },
+                        ],
                       },
-                      { label: "", qCode: "qCode 2", },
                     ],
                   },
                 ],
@@ -393,10 +514,9 @@ describe("page", () => {
       });
 
       questionnaire = ctx.questionnaire;
-      const page = ctx.questionnaire.sections[0].pages[0];
+      const page = ctx.questionnaire.sections[0].folders[0].pages[0];
 
       const readPage = await queryPage(ctx, page.id);
-
       expect(readPage).toMatchObject({
         validationErrorInfo: {
           totalCount: 2,

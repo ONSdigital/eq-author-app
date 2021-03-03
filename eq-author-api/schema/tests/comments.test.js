@@ -31,17 +31,21 @@ describe("comments", () => {
       metadata: [{}],
       sections: [
         {
-          pages: [
-            {},
+          folders: [
             {
-              pageType: "calculatedSummary",
+              pages: [
+                {},
+                {
+                  pageType: "calculatedSummary",
+                },
+              ],
             },
           ],
         },
       ],
     });
     questionnaire = ctx.questionnaire;
-    createdQuestionPage = questionnaire.sections[0].pages[0];
+    createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
     componentId = createdQuestionPage.id;
   });
 
@@ -141,7 +145,7 @@ describe("comments", () => {
 
   it("should create a comment object if Questionnaire doesn't have one", async () => {
     const questionnaire = await createQuestionnaire(ctx.questionnaire, ctx);
-    const componentId = questionnaire.sections[0].pages[0].id;
+    const componentId = questionnaire.sections[0].folders[0].pages[0].id;
 
     const comment = await queryComments(ctx, componentId);
 

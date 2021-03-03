@@ -10,7 +10,7 @@ import ErrorInline from "components/ErrorInline";
 const ENTER_KEY = 13;
 
 const StyleContext = styled.div`
-  font-weight: ${props => (props.bold ? "bold" : "regular")};
+  font-weight: ${(props) => (props.bold ? "bold" : "regular")};
 `;
 
 const TextArea = styled(AutoResizeTextArea)`
@@ -36,12 +36,12 @@ class WrappingInput extends React.Component {
     bold: false,
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     e.target.value = e.target.value.replace(/\n/g, " ");
     this.props.onChange(e);
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     if (e.keyCode === ENTER_KEY) {
       e.preventDefault();
     }

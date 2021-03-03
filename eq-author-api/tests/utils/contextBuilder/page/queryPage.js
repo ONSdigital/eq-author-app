@@ -21,13 +21,10 @@ const getPageQuery = `
       section {
         id
       }
+      folder {
+        id
+      }
       position
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
       validationErrorInfo {
         errors {
           id
@@ -38,9 +35,6 @@ const getPageQuery = `
         totalCount
       }
       ... on CalculatedSummaryPage {
-        availableSummaryAnswers {
-          id
-        }
         summaryAnswers {
           id
         }
@@ -64,14 +58,6 @@ const getPageQuery = `
         additionalInfoEnabled
         confirmation {
           id
-        }
-        availableRoutingAnswers {
-          id
-        }
-        availableRoutingDestinations {
-          logicalDestinations {
-            id
-          }
         }
         routing {
           rules {
@@ -199,9 +185,6 @@ const getPageQuery = `
             id
           }
           condition
-          availablePreviousAnswers {
-            id
-          }
         }
       }
     }

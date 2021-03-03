@@ -1,14 +1,43 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/page.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     ...Answer
     ... on BasicAnswer {
+      secondaryQCode
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
-    displayName
+    ... on MultipleChoiceAnswer {
+                 options {
+                    id
+                    label
+                    qCode
+                    validationErrorInfo {
+                      ...ValidationErrorInfo
+                    }
+                  }
+                  mutuallyExclusiveOption {
+                    id
+                    label
+                    qCode
+                  }
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+              }
+    page {
+      ...Page
+      title
+      displayName
+      position
+      pageType
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

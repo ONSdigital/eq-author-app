@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SkipConditionSet should render children 1`] = `
+<Fragment>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <Transition
+      key="2"
+      timeout={200}
+    >
+      <SkipConditionEditor
+        expressionGroup={
+          Object {
+            "expressions": Array [
+              Object {
+                "id": "3",
+              },
+            ],
+            "id": "2",
+            "operator": "AND",
+          }
+        }
+        expressionGroupIndex={0}
+        key="2"
+        pageId="1"
+      />
+    </Transition>
+  </TransitionGroup>
+  <SkipLogicEditor__Footer />
+  <SkipLogicEditor__AddSkipConditionButton
+    data-test="btn-add-skip-condition"
+    onClick={[MockFunction]}
+    small={true}
+    type="button"
+    variant="secondary"
+  >
+    Add OR statement
+  </SkipLogicEditor__AddSkipConditionButton>
+</Fragment>
+`;

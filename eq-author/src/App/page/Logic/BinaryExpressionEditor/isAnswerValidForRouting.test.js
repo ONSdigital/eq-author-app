@@ -9,7 +9,7 @@ describe("isAnswerValidForRouting", () => {
       answerTypes.CURRENCY,
       answerTypes.RADIO,
     ];
-    Object.values(answerTypes).forEach(type => {
+    Object.values(answerTypes).forEach((type) => {
       expect(isAnswerValidForRouting({ type })).toEqual(
         ROUTABLE_TYPES.includes(type)
       );

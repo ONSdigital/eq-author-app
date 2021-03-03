@@ -10,7 +10,7 @@ const routingConditionConversions = {
   Unanswered: "not set",
 };
 
-const conditionConversion = authorCondition => {
+const conditionConversion = (authorCondition) => {
   const runnerCondition = routingConditionConversions[authorCondition];
   if (!runnerCondition) {
     throw new Error(`Unsupported author condition: ${authorCondition}`);

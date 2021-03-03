@@ -44,7 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.20",
     "moment": "latest",
-    "mongodb": "^3.6.3",
+    "mongodb": "^3.6.4",
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
@@ -52,7 +52,7 @@
     "prom-client": "latest",
     "request": "^2.88.2",
     "uuid": "latest",
-    "wait-on": "latest"
+    "wait-on": "5.2.1"
   },
   "jest": {
     "testEnvironment": "node",
