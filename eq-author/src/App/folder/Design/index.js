@@ -99,20 +99,10 @@ const FolderDesignPage = ({ history, match }) => {
     folder: { id, alias },
   } = data;
 
-  const shortCodeOnUpdate = (alias) => {
-    return saveShortCode({
+  const shortCodeOnUpdate = (alias) =>
+    saveShortCode({
       variables: { input: { folderId: id, alias } },
     });
-  };
-
-  const handleDeleteFolder = (e) => {
-    e.stopPropagation();
-    setShowDeleteModal(true);
-  };
-
-  const handleModalClose = () => {
-    setShowDeleteModal(false);
-  };
 
   const handleModalConfirm = () => {
     setShowDeleteModal(false);
@@ -129,11 +119,11 @@ const FolderDesignPage = ({ history, match }) => {
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
           onDuplicate={() => alert("onDuplicate")}
-          onDelete={handleDeleteFolder}
+          onDelete={() => setShowDeleteModal(true)}
           disableMove
           disableDuplicate
           showDeleteModal={showDeleteModal}
-          handleModalClose={handleModalClose}
+          handleModalClose={() => setShowDeleteModal(false)}
           handleModalConfirm={handleModalConfirm}
           key={`toolbar-folder-${folderId}`}
           displayName={
