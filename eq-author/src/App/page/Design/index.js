@@ -1,7 +1,7 @@
 import React from "react";
 import { withApollo } from "react-apollo";
 import { useQuery } from "@apollo/react-hooks";
-import { flowRight } from "lodash";
+import { flowRight, isEmpty } from "lodash";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 
@@ -18,7 +18,7 @@ import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
-import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+import { QuestionPage } from "constants/page-types";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
@@ -42,7 +42,7 @@ export const PAGE_QUERY = gql`
 
 export const UnwrappedPageRoute = (props) => {
   const addQuestionPage = useCreateQuestionPage();
-  let { error, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+  const { loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -51,6 +51,39 @@ export const UnwrappedPageRoute = (props) => {
     },
     fetchPolicy: "cache-and-network",
   });
+
+  const renderPageType = () => {
+    if (page.pageType === "QuestionPage") {
+      return (
+        <QuestionPageEditor
+          key={page.id} // resets the state of the RichTextEditors when navigating pages
+          {...props}
+          page={page}
+        />
+      );
+    }
+    if (page.pageType === "CalculatedSummaryPage") {
+      return (
+        <CalculatedSummaryPageEditor
+          key={page.id} // resets the state of the RichTextEditors when navigating pages
+          {...props}
+          page={page}
+        />
+      );
+    }
+  };
+
+  const renderContent = () => {
+    if (!isEmpty(page)) {
+      return renderPageType();
+    }
+
+    if (loading) {
+      return <Loading height="38rem">Page loading…</Loading>;
+    }
+
+    return <Error>Something went wrong</Error>;
+  };
   return (
     <PageContextProvider value={page}>
       <EditorLayout
@@ -67,23 +100,7 @@ export const UnwrappedPageRoute = (props) => {
         validationErrorInfo={page?.validationErrorInfo}
         {...(availableTabMatrix[page?.pageType] || {})}
       >
-        <Panel>
-          {error && <Error>Something went wrong</Error>}
-          {!error && page.pageType === QuestionPage && (
-            <QuestionPageEditor
-              key={page.id} // resets the state of the RichTextEditors when navigating pages
-              {...props}
-              page={page}
-            />
-          )}
-          {!error && page.pageType === CalculatedSummaryPage && (
-            <CalculatedSummaryPageEditor
-              key={page.id} // resets the state of the RichTextEditors when navigating pages
-              {...props}
-              page={page}
-            />
-          )}
-        </Panel>
+        <Panel>{renderContent()}</Panel>
       </EditorLayout>
     </PageContextProvider>
   );
