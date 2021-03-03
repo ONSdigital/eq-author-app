@@ -11,9 +11,9 @@ import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 
 import FolderDesignPage from "./";
 
-const mockQuestionnaire = buildQuestionnaire();
+const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 
-const firstFolder = mockQuestionnaire.sections[0].folders[0];
+const firstFolder = mockQuestionnaire.sections[0].folders[1];
 
 const mockUser = {
   id: "123",
@@ -73,6 +73,11 @@ describe("Folder design page", () => {
             folder: {
               id: firstFolder.id,
               alias: firstFolder.alias,
+              position: 1,
+              section: {
+                id: mockQuestionnaire.sections[0].id,
+                __typename: "Section",
+              },
               __typename: "Folder",
             },
           },
