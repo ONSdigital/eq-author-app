@@ -26,6 +26,7 @@ const AddMenuWindow = styled.div`
 
 const PopoutContainer = styled(Container)`
   width: 100%;
+  margin-bottom: 0.5em;
 `;
 
 const PopoutLayer = styled(Layer)`
