@@ -50,19 +50,6 @@ Resolvers.CalculatedSummaryPage = {
       : [];
   },
 
-  availableSummaryAnswers: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-
-    return getPreviousAnswersForPage({ sections: [section] }, id, true, [
-      NUMBER,
-      CURRENCY,
-      PERCENTAGE,
-      UNIT,
-    ]);
-  },
-  availablePipingAnswers: ({ id }, args, ctx) =>
-    getPreviousAnswersForPage(ctx.questionnaire, id),
-  availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
   validationErrorInfo: ({ id }, args, ctx) =>
     returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
 };

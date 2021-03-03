@@ -160,6 +160,7 @@ export const Row = ({
   }
 
   const prevAutoFocus = usePrevious(autoFocus);
+
   useEffect(() => {
     if (!prevAutoFocus && autoFocus) {
       focusLink();
@@ -259,6 +260,7 @@ export const Row = ({
               <DuplicateQuestionnaireButton
                 data-test="btn-duplicate-questionnaire"
                 onClick={handleDuplicateQuestionnaire}
+                hideText
               />
               <IconButtonDelete
                 hideText

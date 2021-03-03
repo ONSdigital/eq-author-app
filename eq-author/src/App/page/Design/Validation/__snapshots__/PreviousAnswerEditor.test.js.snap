@@ -8,12 +8,15 @@ exports[`Custom Editor should render 1`] = `
     name="inclusive"
     onChange={[MockFunction]}
   >
-    <GetAvailablePreviewAnswersQuery
-      answerId="1"
+    <PreviousAnswerContentPicker
+      allowedAnswerTypes={
+        Array [
+          "Number",
+        ]
+      }
       data-test="content-picker-select"
       hasError={true}
       onSubmit={[MockFunction]}
-      path="answer.validation.read.availablePreviousAnswers"
     />
   </FieldWithInclude>
   <ValidationError

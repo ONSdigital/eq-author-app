@@ -13,12 +13,6 @@ const {
 } = require("../utils");
 const { createMutation } = require("../createMutation");
 
-const {
-  ROUTING_ANSWER_TYPES,
-} = require("../../../constants/routingAnswerTypes");
-
-const availableRoutingDestinations = require("../../../src/businessLogic/availableRoutingDestinations");
-const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const Resolvers = {};
 
 Resolvers.QuestionPage = {
@@ -29,29 +23,6 @@ Resolvers.QuestionPage = {
     return folder.pages.findIndex((page) => page.id === id);
   },
   displayName: (page) => getName(page, "QuestionPage"),
-  availablePipingAnswers: ({ id }, args, ctx) =>
-    getPreviousAnswersForPage(ctx.questionnaire, id),
-  availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
-  availableRoutingAnswers: (page, args, ctx) =>
-    getPreviousAnswersForPage(
-      ctx.questionnaire,
-      page.id,
-      true,
-      ROUTING_ANSWER_TYPES
-    ),
-  availableRoutingDestinations: ({ id }, args, ctx) => {
-    const {
-      logicalDestinations,
-      sections,
-      questionPages,
-    } = availableRoutingDestinations(ctx.questionnaire, id);
-
-    return {
-      logicalDestinations,
-      sections,
-      pages: questionPages,
-    };
-  },
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")

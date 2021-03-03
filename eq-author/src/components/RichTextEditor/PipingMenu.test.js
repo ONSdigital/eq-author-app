@@ -1,12 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
-
-import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
-
-import {
-  Menu,
-  UnwrappedPipingMenu,
+import PipingMenu, {
+  splitDateRangeAnswers,
 } from "components/RichTextEditor/PipingMenu";
 
 import {
@@ -15,82 +11,64 @@ import {
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
 
+import { DATE_RANGE, NUMBER } from "constants/answer-types";
+
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import { useCurrentPageId } from "components/RouterContext";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 const PIPING_BUTTON_VALUE = byTestAttr("piping-button");
 
-describe("PipingMenu", () => {
-  let handleItemChosen, answerData, metadataData;
+const mockMetadata = [
+  {
+    id: "1",
+    displayName: "Metadata",
+  },
+];
 
-  const render = (props = {}) => {
+const mockQuestionnaire = buildQuestionnaire({
+  sectionCount: 1,
+  folderCount: 1,
+  pageCount: 2,
+});
+mockQuestionnaire.metadata = mockMetadata;
+mockQuestionnaire.sections[0].folders[0].pages[0].answers = [
+  {
+    id: "answer-1",
+    type: "Number",
+    displayName: "Answer 1",
+    label: "Answer 1",
+  },
+];
+
+describe("PipingMenu", () => {
+  let handleItemChosen = jest.fn();
+
+  const render = ({
+    currentPageId = "1.1.2",
+    questionnaire = mockQuestionnaire,
+    ...props
+  } = {}) => {
+    useCurrentPageId.mockImplementation(() => currentPageId);
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
+
     return shallow(
-      <Menu
-        match={createMatch("1", "1", "1")}
+      <PipingMenu
         onItemChosen={handleItemChosen}
-        answerData={answerData}
-        metadataData={metadataData}
-        entityName={"section"}
         allowableTypes={[ANSWER, METADATA, VARIABLES]}
         canFocus
         {...props}
       />
     );
   };
-
-  const createMatch = (questionnaireId, sectionId, pageId) => ({
-    params: {
-      questionnaireId,
-      sectionId,
-      pageId,
-    },
-  });
-
-  beforeEach(() => {
-    handleItemChosen = jest.fn();
-    answerData = [
-      {
-        id: "1",
-        displayName: "Answer 1",
-        page: {
-          id: "1",
-          displayName: "Page 1",
-          section: {
-            id: "1",
-            displayName: "Section 1",
-          },
-        },
-      },
-      {
-        id: "2",
-        displayName: "Answer 2",
-        page: {
-          id: "1",
-          displayName: "Page 1",
-          section: {
-            id: "1",
-            displayName: "Section 1",
-          },
-        },
-      },
-      {
-        id: "3",
-        displayName: "3",
-        page: {
-          id: "2",
-          displayName: "Page 2",
-          section: {
-            id: "2",
-            displayName: "Section 2",
-          },
-        },
-      },
-    ];
-
-    metadataData = [
-      {
-        id: "1",
-        displayName: "Metadata",
-      },
-    ];
-  });
 
   it("should render", () => {
     const wrapper = render();
@@ -104,17 +82,13 @@ describe("PipingMenu", () => {
     expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
-  it("should render as disabled when loading", () => {
-    const wrapper = render({
-      loading: true,
-    });
-    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
-  });
-
   it("should render as disabled when there is no answerData and metadataData", () => {
     const wrapper = render({
-      answerData: null,
-      metadataData: null,
+      questionnaire: {
+        ...mockQuestionnaire,
+        metadata: [],
+      },
+      currentPageId: "1.1.1",
     });
     expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
@@ -158,239 +132,31 @@ describe("PipingMenu", () => {
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(false);
   });
 
-  it("should pick the data depending on the page location", () => {
-    const entities = [
-      {
-        name: "questionConfirmation",
-        params: {
-          questionnaireId: "4",
-          sectionId: "3",
-          pageId: "2",
-          confirmationId: "1",
-        },
-      },
-      {
-        name: "page",
-        params: {
-          questionnaireId: "4",
-          sectionId: "3",
-          pageId: "2",
-        },
-      },
-      {
-        name: "section",
-        params: {
-          questionnaireId: "4",
-          sectionId: "3",
-        },
-      },
-      {
-        name: "questionnaireIntroduction",
-        params: {
-          questionnaireId: "4",
-          introductionId: "5",
-        },
-      },
-    ];
+  describe("splitDateRangeAnswers", () => {
+    it("should split date range answers into entries for to / from", () => {
+      const answers = [
+        { id: 0, type: DATE_RANGE, secondaryLabel: "my-fave-secondary-label" },
+        { id: 1, type: NUMBER },
+      ];
 
-    entities.forEach(({ name, params }) => {
-      const match = {
-        params,
-      };
-      const data = {
-        [name]: {
-          pageType: "QuestionPage",
-          availablePipingAnswers: [
-            {
-              id: "1",
-              displayName: "Answer 1",
-              page: {
-                id: "1",
-                displayName: "Page 1",
-                section: {
-                  id: "1",
-                  displayName: "Section 1",
-                },
-              },
-            },
-          ],
-          availablePipingMetadata: [
-            {
-              id: "1",
-              alias: "Metadata",
-            },
-          ],
-        },
-      };
+      const processedAnswers = answers.map(splitDateRangeAnswers);
 
-      const wrapper = shallow(
-        <UnwrappedPipingMenu
-          match={match}
-          canFocus
-          entityName={name}
-          entity={data[name]}
-          allowableTypes={[ANSWER, METADATA, VARIABLES]}
-        />
-      );
-      const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
+      expect(processedAnswers[0]).toHaveLength(2);
+      expect(processedAnswers[0]).toEqual([
         {
-          data,
-          onItemChosen: jest.fn(),
-        }
-      );
-
-      expect(result.props).toMatchObject({
-        answerData: [
-          {
-            id: "1",
-            displayName: "Section 1",
-            pages: [
-              {
-                id: "1",
-                displayName: "Page 1",
-                answers: [{ id: "1", displayName: "Answer 1" }],
-              },
-            ],
-          },
-        ],
-        metadataData: [
-          {
-            id: "1",
-            alias: "Metadata",
-          },
-        ],
-      });
-    });
-  });
-
-  it("should display both from & to options for Date Range", () => {
-    const entities = [
-      {
-        name: "page",
-        params: {
-          questionnaireId: "4",
-          sectionId: "3",
-          pageId: "2",
+          id: "0from",
+          type: DATE_RANGE,
+          secondaryLabel: answers[0].secondaryLabel,
         },
-      },
-    ];
-
-    entities.forEach(({ name, params }) => {
-      const match = {
-        params,
-      };
-      const data = {
-        [name]: {
-          pageType: "QuestionPage",
-          availablePipingAnswers: [
-            {
-              id: "1",
-              displayName: "From label",
-              secondaryLabel: "To label",
-              type: "DateRange",
-              page: {
-                id: "1",
-                displayName: "Page 1",
-                section: {
-                  id: "1",
-                  displayName: "Section 1",
-                },
-              },
-            },
-          ],
-          availablePipingMetadata: [],
-        },
-      };
-
-      const wrapper = shallow(
-        <UnwrappedPipingMenu
-          match={match}
-          canFocus
-          entityName={name}
-          entity={data[name]}
-          allowableTypes={[ANSWER, METADATA, VARIABLES]}
-        />
-      );
-      const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
         {
-          data,
-          onItemChosen: jest.fn(),
-        }
-      );
+          id: "0to",
+          type: DATE_RANGE,
+          secondaryLabel: answers[0].secondaryLabel,
+          displayName: answers[0].secondaryLabel,
+        },
+      ]);
 
-      expect(result.props).toMatchObject({
-        answerData: [
-          {
-            id: "1",
-            displayName: "Section 1",
-            pages: [
-              {
-                id: "1",
-                displayName: "Page 1",
-                answers: [
-                  { id: "1from", displayName: "From label" },
-                  { id: "1to", displayName: "To label" },
-                ],
-              },
-            ],
-          },
-        ],
-        metadataData: [],
-      });
-    });
-  });
-
-  it("should be empty if no entities given", () => {
-    const name = "nonExistantEntity";
-    const match = {
-      params: {
-        questionnaireId: "4",
-        sectionId: "3",
-        pageId: "2",
-        confirmationId: "1",
-      },
-    };
-
-    const data = {
-      [name]: {
-        pageType: "QuestionPage",
-        availablePipingAnswers: [
-          {
-            id: "1",
-            displayName: "From label",
-            secondaryLabel: "To label",
-            type: "DateRange",
-            page: {
-              id: "1",
-              displayName: "Page 1",
-              section: {
-                id: "1",
-                displayName: "Section 1",
-              },
-            },
-          },
-        ],
-        availablePipingMetadata: [],
-      },
-    };
-
-    const wrapper = shallow(
-      <UnwrappedPipingMenu
-        match={match}
-        canFocus
-        entityName={name}
-        entity={data[name]}
-        allowableTypes={[ANSWER, METADATA, VARIABLES]}
-      />
-    );
-    const result = wrapper.find(AvailablePipingContentQuery).prop("children")({
-      data,
-      onItemChosen: jest.fn(),
-    });
-
-    expect(result.props).toMatchObject({
-      answerData: [],
-      metadataData: undefined,
+      expect(processedAnswers[1]).toEqual(answers[1]);
     });
   });
 });

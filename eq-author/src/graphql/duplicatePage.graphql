@@ -1,41 +1,42 @@
 #import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/folder.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 
 mutation duplicatePage($input: DuplicatePageInput!) {
   duplicatePage(input: $input) {
     ...Page
     id
+    title
     displayName
     position
     pageType
     ... on QuestionPage {
       answers {
-        id
-          label
-          secondaryLabel
-          type
-          properties
-          qCode
+        ...Answer
         ... on BasicAnswer {
-            secondaryQCode
+          secondaryQCode
+        }
+        ... on MultipleChoiceAnswer {
+          options {
+            id
+            displayName
+            label
+            description
+            value
+            qCode
           }
-          ... on MultipleChoiceAnswer {
-            options {
-              id
-              label
-              qCode
-            }
-            mutuallyExclusiveOption {
-              id
-              label
-              qCode
-            }
+          mutuallyExclusiveOption {
+            id
+            label
+            qCode
           }
+        }
       }
       section {
         id
         folders {
-          id
+          ...Folder
           pages {
             id
           }

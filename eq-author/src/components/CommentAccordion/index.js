@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
-import chevron from "./icon-chevron.svg";
+import chevron from "assets/icon-chevron.svg";
 
 const Header = styled.div`
   padding-left: 1em;

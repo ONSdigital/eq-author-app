@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-playback</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon-playback" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline id="Path" fill="#4A4A4A" transform="translate(11.430000, 15.160000) rotate(-270.000000) translate(-11.430000, -15.160000) " points="16.45 14.77 16.45 11.41 18.09 11.41 18.09 16.41 8.09 16.41 8.09 18.91 4.77 15.59 8.09 12.27 8.09 14.77"></polyline>
+        <polyline id="Path" fill="#4A4A4A" transform="translate(20.570000, 16.840000) rotate(-270.000000) translate(-20.570000, -16.840000) " points="15.55 17.23 15.55 20.59 13.91 20.59 13.91 15.59 23.91 15.59 23.91 13.09 27.23 16.41 23.91 19.73 23.91 17.23"></polyline>
+    </g>
+</svg>
