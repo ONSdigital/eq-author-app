@@ -31,63 +31,6 @@ const mockUser = {
 
 let mocks, deleteWasCalled;
 
-// const data = {
-//   folder: {
-//     alias: "",
-//     id: "42fb2703-57ab-4021-bb5a-0c89231761f2",
-//     pages: [
-//       {
-//         id: "pageId1",
-//       },
-//     ],
-//     position: 1,
-//     section: {
-//       id: "d69a4834-0f63-4014-aecf-9528c4aa72bf",
-//       __typename: "Section",
-//     },
-//   },
-// };
-// const deletefolderdata = {
-//   deleteFolder: {
-//     id: mockQuestionnaire.id,
-//     sections: [
-//       {
-//         folders: [
-//           {
-//             id: "1.2",
-//             pages: [
-//               {
-//                 id: "1.2.1",
-//                 __typename: "QuestionPage",
-//               },
-//             ],
-//             __typename: "Folder",
-//           },
-//         ],
-//         id: "1",
-//         __typename: "Section",
-//       },
-//     ],
-//     __typename: "Questionnaire",
-//   },
-// };
-
-// jest.mock("@apollo/react-hooks", () => ({
-//   __esModule: true,
-//   useQuery: jest.fn(),
-//   useMutation: jest.fn(),
-// }));
-
-// useQuery.mockImplementation(() => ({
-//   data: data,
-//   loading: false,
-// }));
-
-// useMutation.mockImplementation(() => ({
-//   data: deletefolderdata,
-//   loading: false,
-// }));
-
 const renderFolderDesignPage = ({
   match = {
     params: {
@@ -257,8 +200,6 @@ describe("Folder design page", () => {
     await act(async () => {
       await fireEvent.click(getByTitle("Delete"));
     });
-
-    // expect(getByTestId("delete-confirm-modal")).toBeVisible();
 
     await act(async () => {
       await fireEvent.click(getByTestId("btn-delete-modal"));

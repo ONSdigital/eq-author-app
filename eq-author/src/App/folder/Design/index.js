@@ -45,11 +45,6 @@ const FolderDesignPage = ({ history, match }) => {
   });
 
   let sectionId, folderPosition, pages;
-  if (data) {
-    sectionId = data.folder.section.id;
-    folderPosition = data.folder.position;
-    pages = data.folder.pages;
-  }
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
   const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
@@ -95,6 +90,10 @@ const FolderDesignPage = ({ history, match }) => {
       </EditorPage>
     );
   }
+
+  sectionId = data.folder.section.id;
+  folderPosition = data.folder.position;
+  pages = data.folder.pages;
 
   const {
     folder: { id, alias },
