@@ -14,7 +14,7 @@ import iconFolder from "assets/icon-dialog-folder.svg";
 
 const deleteAlertText = {
   folder:
-    "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere...",
+    "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.",
 };
 
 const icons = {
