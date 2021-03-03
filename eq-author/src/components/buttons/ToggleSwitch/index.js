@@ -37,11 +37,11 @@ export const ToggleSwitchBackground = styled.div`
   height: ${backgroundSize.height}em;
   width: ${backgroundSize.width}em;
   top: ${(hitTarget.height - backgroundSize.height) / 2}em;
-  background: ${props =>
+  background: ${(props) =>
     props.checked ? backgroundColors.on : backgroundColors.off};
   border-radius: 2em;
   position: absolute;
-  border: ${props => (props.checked ? border.on : border.off)};
+  border: ${(props) => (props.checked ? border.on : border.off)};
   transition: background 100ms ease-out, border-color 100ms ease-in;
   outline: 1px solid transparent;
   cursor: pointer;
@@ -60,7 +60,7 @@ const ToggleSwitchKnob = styled.div`
   position: relative;
   will-change: transform;
   transform: translateX(
-    ${props => (props.checked ? backgroundSize.width - knobSize : 0)}em
+    ${(props) => (props.checked ? backgroundSize.width - knobSize : 0)}em
   );
   border-radius: 50%;
   transition: transform 100ms ease-in-out;
@@ -94,8 +94,8 @@ const FlexInline = styled.div`
 const ToggleLabel = styled.div`
   padding: 0 0.8em;
   align-items: center;
-  display: ${props => (props.isHidden ? "none" : "flex")};
-  color: ${props => (props.checked ? labelColors.on : labelColors.off)};
+  display: ${(props) => (props.isHidden ? "none" : "flex")};
+  color: ${(props) => (props.checked ? labelColors.on : labelColors.off)};
   font-weight: 600;
 `;
 
@@ -131,7 +131,7 @@ class ToggleSwitch extends React.Component {
     });
   };
 
-  inputRef = input => {
+  inputRef = (input) => {
     this.hiddenInput = input;
   };
 

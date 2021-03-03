@@ -8,15 +8,15 @@ const { unitConversion } = require("../constants/unit-types");
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
 
-const isPipeableType = answer => {
+const isPipeableType = (answer) => {
   const notPipeableDataTypes = ["TextArea", "Radio", "CheckBox"];
   return !includes(notPipeableDataTypes, answer.type);
 };
 
-const getAllAnswers = questionnaire =>
-  flatMap(questionnaire.sections, section =>
-    flatMap(section.folders, folder =>
-      compact(flatMap(folder.pages, page => page.answers))
+const getAllAnswers = (questionnaire) =>
+  flatMap(questionnaire.sections, (section) =>
+    flatMap(section.folders, (folder) =>
+      compact(flatMap(folder.pages, (page) => page.answers))
     )
   );
 
@@ -26,15 +26,15 @@ const getAnswer = (ctx, answerId) => {
   )[0];
 
   return getAllAnswers(ctx.questionnaireJson)
-    .filter(answer => isPipeableType(answer))
-    .find(answer => answer.id === uuid);
+    .filter((answer) => isPipeableType(answer))
+    .find((answer) => answer.id === uuid);
 };
 
 const FILTER_MAP = {
-  Number: value => `${value} | format_number`,
+  Number: (value) => `${value} | format_number`,
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
-  Date: value => `${value} | format_date`,
-  DateRange: value => `${value} | format_date`,
+  Date: (value) => `${value} | format_date`,
+  DateRange: (value) => `${value} | format_date`,
   Unit: (value, unit) => `format_unit('${unitConversion[unit]}',${value})`,
 };
 
@@ -90,11 +90,11 @@ const convertElementToPipe = ($elem, ctx) => {
   }
 };
 
-const parseHTML = html => {
+const parseHTML = (html) => {
   return cheerio.load(html)("body");
 };
 
-const convertPipes = ctx => html => {
+const convertPipes = (ctx) => (html) => {
   if (!html) {
     return html;
   }

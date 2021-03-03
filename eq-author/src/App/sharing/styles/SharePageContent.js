@@ -75,7 +75,7 @@ export const PublicLabel = styled.span`
   }
   font-weight: bold;
   font-size: 12px;
-  color: ${props => (props.isActive ? colors.black : colors.grey)};
+  color: ${(props) => (props.isActive ? colors.black : colors.grey)};
 `;
 
 export const ShareLinkButton = styled(Button)`

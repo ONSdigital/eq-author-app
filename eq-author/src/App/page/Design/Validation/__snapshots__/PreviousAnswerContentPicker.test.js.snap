@@ -5,28 +5,56 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
   answerData={
     Array [
       Object {
-        "displayName": "Section (1)",
-        "id": "1",
-        "pages": Array [
+        "displayName": "Section 1",
+        "folders": Array [
           Object {
-            "answers": Array [
+            "alias": "Folder 1.1",
+            "enabled": false,
+            "id": "1.1",
+            "pages": Array [
               Object {
-                "displayName": "Date 1",
-                "id": "6",
-              },
-              Object {
-                "displayName": "Date 2",
-                "id": "7",
+                "alias": "1.1.1",
+                "answers": Array [
+                  Object {
+                    "displayName": "Answer 1",
+                    "id": "ans-1",
+                    "properties": Object {},
+                    "type": "Number",
+                  },
+                  Object {
+                    "displayName": "Answer 2",
+                    "id": "ans-2",
+                    "properties": Object {},
+                    "type": "Number",
+                  },
+                ],
+                "displayName": "Page 1.1.1",
+                "folder": Object {
+                  "id": "1",
+                },
+                "id": "1.1.1",
+                "position": 0,
+                "section": Object {
+                  "id": "1",
+                },
+                "title": "Page 1.1.1",
+                "validationErrorInfo": Object {
+                  "totalCount": 2,
+                },
               },
             ],
-            "displayName": "Page (1.1)",
-            "id": "1",
+            "position": 0,
           },
         ],
+        "id": "1",
+        "position": 0,
+        "title": "Section 1",
+        "validationErrorInfo": Object {
+          "totalCount": 0,
+        },
       },
     ]
   }
-  answerId="1"
   contentTypes={
     Array [
       "Custom",
@@ -34,7 +62,5 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
   }
   name="previousAnswer"
   onSubmit={[MockFunction]}
-  selectedContentDisplayName="foobar"
-  selectedMetadataDisplayName="Select metadata"
 />
 `;

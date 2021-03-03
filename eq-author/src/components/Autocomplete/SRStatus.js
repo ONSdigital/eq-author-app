@@ -14,7 +14,7 @@ export const Status = ({
   id,
   length,
   tNoResults = () => "No search results",
-  tResults = length => {
+  tResults = (length) => {
     const words = {
       result: length === 1 ? "result" : "results",
       is: length === 1 ? "is" : "are",
@@ -28,7 +28,7 @@ export const Status = ({
   const bump = useRef(false);
 
   const debouncer = useCallback(
-    debounce(content => {
+    debounce((content) => {
       setContent(content);
       debounced.current = true;
       bump.current = !bump.current;

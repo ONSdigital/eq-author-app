@@ -9,12 +9,12 @@ module.exports = (questionnaire, pageId) => {
   const section = getSectionByPageId(ctx, pageId);
 
   const questionPages = takeRightWhile(
-    page => page.id !== pageId,
+    (page) => page.id !== pageId,
     getPagesFromSection(section)
   );
 
   const sections = takeRightWhile(
-    futureSection => futureSection.id !== section.id,
+    (futureSection) => futureSection.id !== section.id,
     questionnaire.sections
   );
 

@@ -19,15 +19,18 @@ const StyledError = styled(ValidationError)`
   width: 60%;
 `;
 
-const DurationValidation = props => {
-  const { validation: { duration },
+const DurationValidation = (props) => {
+  const {
+    validation: { duration },
     displayName,
     onChange,
     onUpdate,
-    validation, } = props;
+    validation,
+  } = props;
 
-  const hasError = find(validation.validationErrorInfo.errors, ({ errorCode }) =>
-    errorCode.includes("ERR_NO_VALUE")
+  const hasError = find(
+    validation.validationErrorInfo.errors,
+    ({ errorCode }) => errorCode.includes("ERR_NO_VALUE")
   );
 
   const handleError = () => {
@@ -52,15 +55,11 @@ const DurationValidation = props => {
         </Column>
       </Grid>
       <Grid>
-        <Column cols={3}>
-          {null}
-        </Column>
-        <Column cols={9}>
-          {hasError && handleError()}
-        </Column>
+        <Column cols={3}>{null}</Column>
+        <Column cols={9}>{hasError && handleError()}</Column>
       </Grid>
     </div>
-  )
+  );
 };
 
 DurationValidation.propTypes = {

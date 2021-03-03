@@ -1,4 +1,4 @@
-const getPath = path => {
+const getPath = (path) => {
   if (typeof path !== "string") {
     throw new Error("Path needs to be a string");
   }

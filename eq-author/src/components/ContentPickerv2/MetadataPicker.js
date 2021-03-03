@@ -90,7 +90,7 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
               </TableHeader>
 
               <MetaDataItemList>
-                {data.map(metadata => {
+                {data.map((metadata) => {
                   return (
                     <MetaDataItem
                       key={metadata.id}
@@ -98,7 +98,7 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
                       aria-selected={isSelected(metadata)}
                       aria-label={metadata.key}
                       tabIndex="0"
-                      onKeyUp={event => onEnterUp(event, metadata)}
+                      onKeyUp={(event) => onEnterUp(event, metadata)}
                     >
                       <Col>{metadata.key}</Col>
                       <Col>{metadata.displayName}</Col>

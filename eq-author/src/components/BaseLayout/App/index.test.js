@@ -14,7 +14,7 @@ const events = {};
 window.addEventListener = jest.fn((event, cb) => {
   events[event] = cb;
 });
-window.removeEventListener = jest.fn(event => {
+window.removeEventListener = jest.fn((event) => {
   delete events[event];
 });
 

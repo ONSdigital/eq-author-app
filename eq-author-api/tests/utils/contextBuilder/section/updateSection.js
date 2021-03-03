@@ -20,12 +20,6 @@ const updateSectionMutation = `
       questionnaire {
         id
       }
-      availablePipingAnswers {
-        id
-      }
-      availablePipingMetadata {
-        id
-      }
       validationErrorInfo {
         totalCount
         errors {

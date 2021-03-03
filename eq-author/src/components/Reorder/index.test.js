@@ -67,12 +67,7 @@ describe("Reorder", () => {
   it("does not blow up when the segment ref is null", () => {
     const wrapper = shallow(<Reorder {...props} />);
     expect(() =>
-      wrapper
-        .find(Segment)
-        .at(0)
-        .dive()
-        .props()
-        .forwardedRef(null)
+      wrapper.find(Segment).at(0).dive().props().forwardedRef(null)
     ).not.toThrow();
   });
 
@@ -160,7 +155,7 @@ describe("Reorder", () => {
       <div data-test="item">{item.id}</div>
     ));
 
-    const TestComponent = props => (
+    const TestComponent = (props) => (
       <TestProvider reduxProps={{ store }} apolloProps={{ mocks: [] }}>
         <Reorder {...props} />
       </TestProvider>
@@ -178,12 +173,7 @@ describe("Reorder", () => {
       });
     });
 
-    expect(
-      wrapper
-        .find("[data-test='item']")
-        .at(1)
-        .text()
-    ).toEqual("2");
+    expect(wrapper.find("[data-test='item']").at(1).text()).toEqual("2");
 
     act(() => {
       jest.runAllTimers();
@@ -193,12 +183,7 @@ describe("Reorder", () => {
       wrapper.mount();
     });
 
-    expect(
-      wrapper
-        .find("[data-test='item']")
-        .at(1)
-        .text()
-    ).toEqual("1");
+    expect(wrapper.find("[data-test='item']").at(1).text()).toEqual("1");
   });
 
   it("should render as reactFragment if no transition passed", () => {

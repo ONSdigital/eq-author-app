@@ -1,5 +1,3 @@
-const { get, last } = require("lodash");
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
@@ -142,8 +140,6 @@ describe("questionConfirmation", () => {
         page: expect.any(Object),
         positive: expect.any(Object),
         negative: expect.any(Object),
-        availablePipingAnswers: expect.any(Array),
-        availablePipingMetadata: expect.any(Array),
       });
     });
 
@@ -165,20 +161,6 @@ describe("questionConfirmation", () => {
         label: "neg label",
         description: "neg desc",
       });
-    });
-
-    it("should resolve availablePipingAnswers", () => {
-      expect(
-        last(queriedQuestionConfirmation.availablePipingAnswers).id
-      ).toEqual(
-        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
-      );
-    });
-
-    it("should resolve availablePipingMetadata", () => {
-      expect(
-        last(queriedQuestionConfirmation.availablePipingMetadata).id
-      ).toEqual(last(questionnaire.metadata).id);
     });
   });
 

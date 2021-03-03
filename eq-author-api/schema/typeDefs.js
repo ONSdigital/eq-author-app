@@ -73,7 +73,6 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
-  qCodeErrorCount: Int!
 }
 enum HistoryEventTypes {
   system
@@ -121,8 +120,6 @@ type Section {
   position: Int!
   introductionTitle: String
   introductionContent: String
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -135,8 +132,6 @@ interface Page {
   folder: Folder!
   section: Section!
   position: Int!
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -165,10 +160,6 @@ type QuestionPage implements Page & Skippable {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean!
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
-  availableRoutingAnswers: [Answer!]!
-  availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
   skipConditions: [ExpressionGroup2]
@@ -186,10 +177,7 @@ type CalculatedSummaryPage implements Page {
   section: Section!
   folder: Folder!
   position: Int!
-  availableSummaryAnswers: [Answer!]!
   summaryAnswers: [Answer!]!
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
 }
@@ -209,8 +197,6 @@ type QuestionConfirmation implements Skippable {
   qCode: String
   positive: ConfirmationOption!
   negative: ConfirmationOption!
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
   skipConditions: [ExpressionGroup2]
 }
@@ -285,12 +271,6 @@ type LogicalDestination {
   logicalDestination: LogicalDestinations!
 }
 
-type AvailableRoutingDestinations {
-  logicalDestinations: [LogicalDestination]!
-  pages: [Page]!
-  sections: [Section]!
-}
-
 type ValidationError {
   id: String!
   type: String!
@@ -343,7 +323,6 @@ type MinValueValidationRule implements ValidationRule {
   custom: Int
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
-  availablePreviousAnswers: [Answer!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -354,7 +333,6 @@ type MaxValueValidationRule implements ValidationRule {
   custom: Int
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
-  availablePreviousAnswers: [Answer!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -367,8 +345,6 @@ type EarliestDateValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   metadata: Metadata
   entityType: ValidationRuleEntityType!
-  availablePreviousAnswers: [Answer!]!
-  availableMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -381,8 +357,6 @@ type LatestDateValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   metadata: Metadata
   entityType: ValidationRuleEntityType!
-  availablePreviousAnswers: [Answer!]!
-  availableMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -423,7 +397,6 @@ type TotalValidationRule implements ValidationRule {
   custom: Int
   previousAnswer: Answer
   condition: ValidationCondition!
-  availablePreviousAnswers: [Answer!]!
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -612,8 +585,6 @@ type QuestionnaireIntroduction {
   collapsibles: [Collapsible!]!
   tertiaryTitle: String!
   tertiaryDescription: String!
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
 }
 
 type Reply {
@@ -639,6 +610,7 @@ type Query {
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History!]!
   section(input: QueryInput!): Section
+  folder(input: QueryInput!): Folder
   page(input: QueryInput!): Page
   answer(input: QueryInput!): Answer
   answers(ids: [ID]!): [Answer]
@@ -649,7 +621,6 @@ type Query {
   me: User!
   users: [User!]!
   comments(id: ID!): [Comment!]!
-  getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
   skippable(input: QueryInput!): Skippable
 }
 
@@ -657,15 +628,11 @@ input QueryInput {
   id: ID
   questionnaireId: ID
   sectionId: ID
+  folderId: ID
   pageId: ID
   confirmationId: ID
   answerId: ID
   optionId: ID
-}
-
-input GetAvailableAnswersInput {
-  pageId: ID
-  includeSelf: Boolean
 }
 
 input CreateSkipConditionInput {
@@ -889,6 +856,7 @@ input CreateFolderInput {
   sectionId: ID!
   alias: String
   position: Int
+  enabled: Boolean
 }
 
 input UpdateFolderInput {

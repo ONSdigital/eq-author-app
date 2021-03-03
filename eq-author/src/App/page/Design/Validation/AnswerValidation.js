@@ -67,7 +67,7 @@ export const validationTypes = [
     id: "minValue",
     title: "Min value",
     render: () => (
-      <MinValue>{props => <NumericValidation {...props} />}</MinValue>
+      <MinValue>{(props) => <NumericValidation {...props} />}</MinValue>
     ),
     types: [CURRENCY, NUMBER, PERCENTAGE, UNIT],
     preview: ({ custom, previousAnswer, entityType }, answer) =>
@@ -79,7 +79,7 @@ export const validationTypes = [
     id: "maxValue",
     title: "Max value",
     render: () => (
-      <MaxValue>{props => <NumericValidation {...props} />}</MaxValue>
+      <MaxValue>{(props) => <NumericValidation {...props} />}</MaxValue>
     ),
     types: [CURRENCY, NUMBER, PERCENTAGE, UNIT],
     preview: ({ custom, previousAnswer, entityType }, answer) =>
@@ -91,7 +91,7 @@ export const validationTypes = [
     id: "earliestDate",
     title: "Earliest date",
     render: () => (
-      <EarliestDate>{props => <DateValidation {...props} />}</EarliestDate>
+      <EarliestDate>{(props) => <DateValidation {...props} />}</EarliestDate>
     ),
     types: [DATE, DATE_RANGE],
     preview: DatePreview,
@@ -100,7 +100,7 @@ export const validationTypes = [
     id: "latestDate",
     title: "Latest date",
     render: () => (
-      <LatestDate>{props => <DateValidation {...props} />}</LatestDate>
+      <LatestDate>{(props) => <DateValidation {...props} />}</LatestDate>
     ),
     types: [DATE, DATE_RANGE],
     preview: DatePreview,
@@ -109,7 +109,7 @@ export const validationTypes = [
     id: "minDuration",
     title: "Min duration",
     render: () => (
-      <MinDuration>{props => <DurationValidation {...props} />}</MinDuration>
+      <MinDuration>{(props) => <DurationValidation {...props} />}</MinDuration>
     ),
     types: [DATE_RANGE],
     preview: DurationPreview,
@@ -118,14 +118,14 @@ export const validationTypes = [
     id: "maxDuration",
     title: "Max duration",
     render: () => (
-      <MaxDuration>{props => <DurationValidation {...props} />}</MaxDuration>
+      <MaxDuration>{(props) => <DurationValidation {...props} />}</MaxDuration>
     ),
     types: [DATE_RANGE],
     preview: DurationPreview,
   },
 ];
 
-const getValidationsForType = type =>
+const getValidationsForType = (type) =>
   validationTypes.filter(({ types }) => types.includes(type));
 
 export const SidebarValidation = styled(SidebarButton)`
@@ -144,7 +144,7 @@ const errorCodes = {
   ERR_REFERENCE_DELETED,
 };
 
-const renderError = error => (
+const renderError = (error) => (
   <ValidationError right={false} key={error.id}>
     {errorCodes[error.errorCode]}
   </ValidationError>
@@ -203,7 +203,7 @@ const AnswerValidation = ({ answer }) => {
           key={type.id}
           data-test={`sidebar-button-${kebabCase(type.title)}`}
           onClick={handleSidebarButtonClick}
-          hasError={errors.length}
+          hasError={errors.length || groupErrors.length}
         >
           <Title>
             {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -216,7 +216,7 @@ const AnswerValidation = ({ answer }) => {
 
       if (errors.length) {
         const individualErrors = [];
-        errors.forEach(error => {
+        errors.forEach((error) => {
           const target = [
             "ERR_NO_VALUE",
             "ERR_REFERENCE_MOVED",

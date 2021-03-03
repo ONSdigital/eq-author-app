@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 const MaxCharacters = styled(Input)`
   width: 5em;
-  border-color: ${props => (props.invalid ? colors.red : "")};
+  border-color: ${(props) => (props.invalid ? colors.red : "")};
   &[type="number"]::-webkit-inner-spin-button,
   &[type="number"]::-webkit-outer-spin-button {
     appearance: none;
@@ -42,7 +42,7 @@ const TextProperties = ({ maxLength, pageId, invalid, ...otherProps }) => {
       value={maxChar}
       id="maxCharInput"
       onBlur={handleBlur}
-      onChange={e => setMaxChar(e.value)}
+      onChange={(e) => setMaxChar(e.value)}
       data-test="maxCharacterInput"
       {...otherProps}
     />

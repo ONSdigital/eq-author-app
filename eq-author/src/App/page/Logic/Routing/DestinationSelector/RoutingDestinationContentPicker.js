@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { useQuery } from "@apollo/react-hooks";
+import { takeRightWhile } from "lodash";
 
 import {
   ContentSelectButton,
@@ -8,17 +8,21 @@ import {
 } from "components/ContentPickerSelect";
 import ContentPicker from "components/ContentPickerv2";
 
-import getAvailableRoutingDestinations from "./getAvailableRoutingDestinations.graphql";
+import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
-import { destinationKey, EndOfQuestionnaire } from "constants/destinations";
+import {
+  logicalDestinations,
+  destinationKey,
+  EndOfQuestionnaire,
+} from "constants/destinations";
 
-const logicalDisplayName = logical =>
+const logicalDisplayName = (logical) =>
   destinationKey[logical] || destinationKey[EndOfQuestionnaire];
 
-const absoluteDisplayName = selected =>
+const absoluteDisplayName = (selected) =>
   (selected.section || selected.page).displayName;
 
-const selectedDisplayName = selected => {
+const selectedDisplayName = (selected) => {
   const { page, section, logical } = selected;
 
   if (!page && !section && !logical) {
@@ -28,22 +32,59 @@ const selectedDisplayName = selected => {
   return logical ? logicalDisplayName(logical) : absoluteDisplayName(selected);
 };
 
+export const generateAvailableRoutingDestinations = (
+  questionnaire,
+  pageId,
+  sectionId
+) => {
+  if (!questionnaire?.sections || !pageId || !sectionId) {
+    return {
+      pages: [],
+      sections: [],
+    };
+  }
+
+  const currentSection = questionnaire.sections.find(
+    ({ id }) => id === sectionId
+  );
+  const routableSections = takeRightWhile(
+    questionnaire.sections,
+    ({ id }) => id !== sectionId
+  );
+  const currentSectionPages = currentSection.folders.flatMap(
+    ({ pages }) => pages
+  );
+  const routablePages = takeRightWhile(
+    currentSectionPages,
+    ({ id }) => id !== pageId
+  );
+  routablePages.forEach((page) => (page.section = currentSection));
+
+  return {
+    pages: routablePages || [],
+    sections: routableSections || [],
+  };
+};
+
 export const RoutingDestinationContentPicker = ({
   id,
-  pageId,
   selected,
   onSubmit,
   ...otherProps
 }) => {
-  const { loading, data } = useQuery(getAvailableRoutingDestinations, {
-    variables: { input: { pageId: pageId } },
-    fetchPolicy: "cache-and-network",
-  });
-
   const [isPickerOpen, setPickerOpen] = useState(false);
+  const { questionnaire } = useQuestionnaire();
+  const page = usePage();
+  const pageId = page?.id;
+  const sectionId = page?.section?.id;
 
-  const { pages = [], logicalDestinations = [], sections = [] } =
-    data?.page?.availableRoutingDestinations || [];
+  const availableRoutingDestinations = useMemo(
+    () =>
+      generateAvailableRoutingDestinations(questionnaire, pageId, sectionId),
+    [questionnaire, pageId, sectionId]
+  );
+
+  const { pages, sections } = availableRoutingDestinations;
 
   const displayName = selectedDisplayName(selected, {
     pages,
@@ -51,7 +92,7 @@ export const RoutingDestinationContentPicker = ({
     sections,
   });
 
-  const handlePickerSubmit = selected => {
+  const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
     onSubmit({ name: "routingDestination", value: selected });
   };
@@ -66,7 +107,7 @@ export const RoutingDestinationContentPicker = ({
       <ContentSelectButton
         data-test="content-picker-select"
         onClick={() => setPickerOpen(true)}
-        disabled={loading}
+        disabled={!questionnaire}
         {...otherProps}
       >
         <ContentSelected>{displayName}</ContentSelected>
@@ -86,7 +127,6 @@ export const RoutingDestinationContentPicker = ({
 
 RoutingDestinationContentPicker.propTypes = {
   id: PropTypes.string,
-  pageId: PropTypes.string.isRequired,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
 };

@@ -3,14 +3,21 @@ import { shallow } from "enzyme";
 
 import { NUMBER } from "constants/answer-types";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+
 import {
   UnwrappedAnswerSelector as AnswerSelector,
   ErrorContext,
 } from "./AnswerSelector";
 import AnswerChip from "./AnswerChip";
 
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 describe("AnswerSelector", () => {
-  let mockHandlers, page, answers;
+  let questionnaire, mockHandlers, page, answers;
   beforeEach(() => {
     mockHandlers = {
       fetchAnswers: jest.fn(),
@@ -20,6 +27,11 @@ describe("AnswerSelector", () => {
       onUpdateCalculatedSummaryPage: jest.fn(),
       getValidationError: jest.fn(),
     };
+
+    questionnaire = buildQuestionnaire({
+      sectionCount: 1,
+      pageCount: 1,
+    });
     page = {
       id: "2",
       title: "",
@@ -28,54 +40,45 @@ describe("AnswerSelector", () => {
       position: 2,
       displayName: "Foo",
       totalTitle: "",
-      section: { id: "1", displayName: "This Section" },
+      section: {
+        id: "1",
+        displayName: "This Section",
+        questionnaire: { id: "1", metadata: [] },
+      },
       summaryAnswers: [],
-      availableSummaryAnswers: [],
     };
+    questionnaire.sections[0].folders[0].pages.push(page);
     answers = [
       {
         id: 1,
         displayName: "Answer 1",
         type: NUMBER,
         properties: {},
-        page: {
-          id: "1",
-          displayName: "Foo",
-          section: { id: 1, displayName: "Section 1" },
-        },
       },
       {
         id: 2,
         displayName: "Answer 2",
         type: NUMBER,
         properties: {},
-        page: {
-          id: "1",
-          displayName: "Foo",
-          section: { id: 1, displayName: "Section 1" },
-        },
       },
       {
         id: 3,
         displayName: "Answer 3",
         type: NUMBER,
         properties: {},
-        page: {
-          id: "1",
-          displayName: "Foo",
-          section: { id: 1, displayName: "Section 1" },
-        },
       },
     ];
+    questionnaire.sections[0].folders[0].pages[0].answers = answers;
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
   });
 
   it("should render when there are no available summary answers", () => {
+    page.id = "1.1.1";
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should render when there are available summary answers", () => {
-    page.availableSummaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper).toMatchSnapshot();
   });
@@ -98,10 +101,7 @@ describe("AnswerSelector", () => {
     page.summaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper.find(AnswerChip)).toHaveLength(3);
-    wrapper
-      .find(AnswerChip)
-      .first()
-      .simulate("remove");
+    wrapper.find(AnswerChip).first().simulate("remove");
     expect(mockHandlers.onUpdateCalculatedSummaryPage).toHaveBeenCalledWith({
       id: "2",
       summaryAnswers: [answers[1], answers[2]],

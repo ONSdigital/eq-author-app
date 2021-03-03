@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Metadata Editor Should render 1`] = `
-<GetAvailableMetadataQuery
+<MetadataContentPicker
   answerId="1"
   onSubmit={[MockFunction]}
-  path="answer.validation.read.availableMetadata"
   selectedContentDisplayName="test"
 />
 `;

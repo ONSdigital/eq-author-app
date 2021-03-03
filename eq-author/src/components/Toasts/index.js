@@ -12,13 +12,13 @@ const ToastContext = createContext({
 
 const Toasts = ({ children }) => {
   const [toasts, setToasts] = useState([]);
-  const handleDismissToast = idToRemove => {
+  const handleDismissToast = (idToRemove) => {
     setToasts(toasts.filter(({ id }) => id !== idToRemove));
   };
   return (
     <ToastContext.Provider
       value={{
-        showToast: message => setToasts([...toasts, { message, id: ++id }]),
+        showToast: (message) => setToasts([...toasts, { message, id: ++id }]),
       }}
     >
       {children}
@@ -34,8 +34,8 @@ Toasts.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const withShowToast = Component => {
-  const WrappedComponent = props => (
+export const withShowToast = (Component) => {
+  const WrappedComponent = (props) => (
     <ToastContext.Consumer>
       {({ showToast }) => <Component {...props} showToast={showToast} />}
     </ToastContext.Consumer>

@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const { NOTICE_1 } = require("../constants/legalBases");
 
-module.exports = metadata => {
+module.exports = (metadata) => {
   return {
     id: uuidv4(),
     title: `<p>You are completing this for <span data-piped="metadata" data-id="${

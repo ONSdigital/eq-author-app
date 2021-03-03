@@ -106,17 +106,17 @@ export const UnwrappedRuleEditor = ({
 
   const handleDeleteClick = () => deleteRule(rule.id);
 
-  const handleDestinationChange = destination =>
-    updateRule({...rule, destination});
+  const handleDestinationChange = (destination) =>
+    updateRule({ ...rule, destination });
 
-  const handleGroupOperatorChange = ({value: operator}) =>
-        updateExpressionGroup({
-          id: expressionGroup.id,
-          operator
-        });
+  const handleGroupOperatorChange = ({ value: operator }) =>
+    updateExpressionGroup({
+      id: expressionGroup.id,
+      operator,
+    });
 
-  const handleExpressionDeletion = expressionGroup => {
-    if(expressionGroup?.expressions?.length === 1) {
+  const handleExpressionDeletion = (expressionGroup) => {
+    if (expressionGroup?.expressions?.length === 1) {
       updateExpressionGroup({
         id: expressionGroup.id,
         operator: null,
@@ -128,11 +128,12 @@ export const UnwrappedRuleEditor = ({
     ? validationErrorInfo.errors
     : [];
 
-  const groupOperatorError = expressionGroupErrors[
-    expressionGroup.validationErrorInfo?.errors?.find(
-      ({ field }) => field === "operator"
-    )?.errorCode
-  ];
+  const groupOperatorError =
+    expressionGroupErrors[
+      expressionGroup.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "operator"
+      )?.errorCode
+    ];
 
   const groupOperatorSelect = (
     <>
@@ -144,15 +145,18 @@ export const UnwrappedRuleEditor = ({
         hasError={groupOperatorError}
         onChange={handleGroupOperatorChange}
       >
-        <option value={null} selected disabled hidden> Select AND/OR </option>
+        <option value={null} disabled hidden>
+          {" "}
+          Select AND/OR{" "}
+        </option>
         <option value="Or">OR</option>
         <option value="And">AND</option>
       </SmallSelect>
-      { groupOperatorError &&
+      {groupOperatorError && (
         <GroupOperatorValidationError right={false}>
-          { groupOperatorError }
+          {groupOperatorError}
         </GroupOperatorValidationError>
-      }
+      )}
     </>
   );
 
@@ -171,14 +175,15 @@ export const UnwrappedRuleEditor = ({
         <TransitionGroup>
           {expressions.map((expression, index) => {
             let groupOperatorComponent = null;
-            if(expressions.length > 1) {
-              if(index === 0) {
+            if (expressions.length > 1) {
+              if (index === 0) {
                 groupOperatorComponent = groupOperatorSelect;
-              }
-              else if (index < expressions.length - 1) {
-                groupOperatorComponent = <GroupOperatorLabel inline>
-                                           { expressionGroup.operator?.toUpperCase() }
-                                         </GroupOperatorLabel>;
+              } else if (index < expressions.length - 1) {
+                groupOperatorComponent = (
+                  <GroupOperatorLabel inline>
+                    {expressionGroup.operator?.toUpperCase()}
+                  </GroupOperatorLabel>
+                );
               }
             }
 

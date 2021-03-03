@@ -26,7 +26,7 @@ describe("basic answer", () => {
   });
 
   describe("create", () => {
-    [NUMBER, CURRENCY, TEXTFIELD, DURATION].forEach(async type => {
+    [NUMBER, CURRENCY, TEXTFIELD, DURATION].forEach(async (type) => {
       it(`should create a ${type} answer`, async () => {
         ctx = await buildContext({
           sections: [
@@ -245,7 +245,7 @@ describe("basic answer", () => {
       questionnaire = ctx.questionnaire;
 
       const answers = questionnaire.sections[0].folders[0].pages[0].answers;
-      const currentAnswerOrder = answers.map(a => a.id);
+      const currentAnswerOrder = answers.map((a) => a.id);
 
       const answerToMoveId = currentAnswerOrder[0];
 
@@ -253,7 +253,7 @@ describe("basic answer", () => {
         id: answerToMoveId,
         position: 1,
       });
-      expect(movedAnswer.page.answers.map(a => a.id)).toEqual([
+      expect(movedAnswer.page.answers.map((a) => a.id)).toEqual([
         currentAnswerOrder[1],
         currentAnswerOrder[0], // The moved answer
         currentAnswerOrder[2],
@@ -283,13 +283,13 @@ describe("basic answer", () => {
       questionnaire = ctx.questionnaire;
 
       const answers = questionnaire.sections[0].folders[0].pages[0].answers;
-      const currentAnswerOrder = answers.map(a => a.id);
+      const currentAnswerOrder = answers.map((a) => a.id);
 
       const movedAnswer = await moveAnswer(ctx, {
         id: currentAnswerOrder[2],
         position: 1,
       });
-      expect(movedAnswer.page.answers.map(a => a.id)).toEqual([
+      expect(movedAnswer.page.answers.map((a) => a.id)).toEqual([
         currentAnswerOrder[0],
         currentAnswerOrder[2],
         currentAnswerOrder[1],

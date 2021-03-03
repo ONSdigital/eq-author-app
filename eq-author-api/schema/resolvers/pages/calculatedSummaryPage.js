@@ -27,12 +27,12 @@ const {
 const Resolvers = {};
 
 Resolvers.CalculatedSummaryPage = {
-  displayName: page => getName(page, "CalculatedSummaryPage"),
+  displayName: (page) => getName(page, "CalculatedSummaryPage"),
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const folder = getFolderByPageId(ctx, id);
-    return folder.pages.findIndex(page => page.id === id);
+    return folder.pages.findIndex((page) => page.id === id);
   },
   summaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
@@ -44,25 +44,12 @@ Resolvers.CalculatedSummaryPage = {
     ).map(({ id }) => id);
     const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
     return validSummaryAnswers
-      ? validSummaryAnswers.map(validSummaryAnswer =>
+      ? validSummaryAnswers.map((validSummaryAnswer) =>
           getAnswerById(ctx, validSummaryAnswer)
         )
       : [];
   },
 
-  availableSummaryAnswers: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-
-    return getPreviousAnswersForPage({ sections: [section] }, id, true, [
-      NUMBER,
-      CURRENCY,
-      PERCENTAGE,
-      UNIT,
-    ]);
-  },
-  availablePipingAnswers: ({ id }, args, ctx) =>
-    getPreviousAnswersForPage(ctx.questionnaire, id),
-  availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
   validationErrorInfo: ({ id }, args, ctx) =>
     returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
 };
@@ -87,7 +74,7 @@ Resolvers.Mutation = {
   updateCalculatedSummaryPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     if (get(input, "summaryAnswers", []).length > 0) {
-      const answerTypes = input.summaryAnswers.map(summaryAnswerId => {
+      const answerTypes = input.summaryAnswers.map((summaryAnswerId) => {
         const answerType = getAnswerById(ctx, summaryAnswerId).type;
         if (![NUMBER, CURRENCY, PERCENTAGE, UNIT].includes(answerType)) {
           throw new Error(

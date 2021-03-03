@@ -54,7 +54,7 @@ describe("Tabs", () => {
 
   it("should provide the activeClassName for the enabled tabs", () => {
     const wrapper = shallow(<UnwrappedTabs {...props} logic preview />);
-    wrapper.find(Tab).forEach(node => {
+    wrapper.find(Tab).forEach((node) => {
       expect(node.props()).toHaveProperty("activeClassName", activeClassName);
     });
   });

@@ -1,9 +1,5 @@
-import {
-  mapMutateToProps,
-  createUpdater,
-  redirectToNewSection,
-} from "./withCreateSection";
-import fragment from "graphql/questionnaireFragment.graphql";
+import { mapMutateToProps, redirectToNewSection } from "./withCreateSection";
+
 import { buildSectionPath } from "utils/UrlUtils";
 
 describe("withCreateSection", () => {
@@ -50,31 +46,6 @@ describe("withCreateSection", () => {
     mutate = jest.fn(() => Promise.resolve(result));
   });
 
-  describe("createUpdater", () => {
-    it("should update the cache pass and the result to be the correct page", () => {
-      const id = `Questionnaire${questionnaire.id}`;
-      const readFragment = jest.fn(() => questionnaire);
-      const writeFragment = jest.fn();
-
-      const updater = createUpdater(questionnaire.id);
-
-      updater({ readFragment, writeFragment }, result);
-
-      expect(readFragment).toHaveBeenCalledWith({ id, fragment });
-
-      expect(writeFragment).toHaveBeenCalledWith({
-        id,
-        fragment,
-        data: {
-          ...questionnaire,
-          sections: [newSection],
-        },
-      });
-
-      expect(questionnaire.sections).toContain(newSection);
-    });
-  });
-
   describe("redirectToNewSection", () => {
     it("should redirect to the correct url", () => {
       redirectToNewSection(ownProps)(newSection);
@@ -100,7 +71,7 @@ describe("withCreateSection", () => {
     });
 
     it("should redirect", () => {
-      return props.onAddSection().then(result => {
+      return props.onAddSection().then((result) => {
         expect(result).toEqual(newSection);
         expect(history.push).toHaveBeenCalled();
       });

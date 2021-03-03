@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const DialogIcon = styled.div`
-  background: url(${props => props.icon}) no-repeat center;
+  background: url(${(props) => props.icon}) no-repeat center;
   width: 3em;
   height: 3em;
 `;

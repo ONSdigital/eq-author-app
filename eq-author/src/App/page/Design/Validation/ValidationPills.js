@@ -26,7 +26,7 @@ export const ValidationPills = ({
   Custom,
   ...rest
 }) => {
-  const handleOnChange = value =>
+  const handleOnChange = (value) =>
     onEntityTypeChange({ name: "entityType", value });
 
   return (

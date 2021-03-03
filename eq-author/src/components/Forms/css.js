@@ -50,5 +50,5 @@ export const sharedStyles = css`
     pointer-events: none;
   }
 
-  ${props => props.invalid && invalidStyle};
+  ${(props) => props.invalid && invalidStyle};
 `;
