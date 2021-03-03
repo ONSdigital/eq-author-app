@@ -14,6 +14,7 @@ const migrations = [
   require("./addTypeToHistoryEvent"),
   require("./updateDefaultTextAreaLength"),
   require("./addFolders"),
+  require("./addGuidancePanelSwitch"),
 ];
 
 const currentVersion = migrations.length;
