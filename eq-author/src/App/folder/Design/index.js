@@ -103,13 +103,6 @@ const FolderDesignPage = ({ history, match }) => {
     });
   };
 
-  const handleDuplicateFolder = (e) => {
-    e.stopPropagation();
-    return duplicateFolder({
-      variables: { input: { id, position } },
-    });
-  };
-
   return (
     <EditorPage title={alias || "Untitled folder"}>
       <StyledPanel data-test="folders-page">
@@ -117,7 +110,11 @@ const FolderDesignPage = ({ history, match }) => {
           shortCode={alias}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
-          onDuplicate={handleDuplicateFolder}
+          onDuplicate={() =>
+            duplicateFolder({
+              variables: { input: { id, position: position + 1 } },
+            })
+          }
           onDelete={() => alert("onDelete")}
           disableMove
           disableDelete
