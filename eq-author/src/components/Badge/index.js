@@ -39,7 +39,6 @@ export const smallBadge = css`
 
 export const mediumBadge = css`
   border-radius: 0.7em;
-  color: white;
   line-height: 1;
   margin-left: auto;
   font-size: 0.9rem;
@@ -47,6 +46,7 @@ export const mediumBadge = css`
 
 const Badge = styled.span`
   background-color: ${colors.red};
+  color: ${colors.white};
   font-weight: normal;
   z-index: 2;
   pointer-events: none;
