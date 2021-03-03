@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
 
 import ShortCodeEditor from "components/ShortCodeEditor";
-
 import DuplicateButton from "components/buttons/DuplicateButton";
 import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
-
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+
+import iconFolder from "assets/icon-dialog-folder.svg";
+
+const deleteAlertText = {
+  folder:
+    "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.",
+};
+
+const icons = {
+  folder: iconFolder,
+};
 
 const EditorToolbar = ({
   shortCode,
+  title,
+  pageType,
   shortCodeOnUpdate,
   onMove,
   onDuplicate,
@@ -21,36 +32,43 @@ const EditorToolbar = ({
   disableMove,
   disableDuplicate,
   disableDelete,
-  showDeleteModal,
-  handleModalClose,
-  handleModalConfirm,
-  displayName,
-  icon,
-}) => (
-  <>
-    <Toolbar>
-      <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
-      <Buttons>
-        <MoveButton disabled={disableMove} onClick={onMove} />
-        <DuplicateButton disabled={disableDuplicate} onClick={onDuplicate} />
-        <DeleteButton disabled={disableDelete} onClick={onDelete} />
-      </Buttons>
-    </Toolbar>
+}) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    <DeleteConfirmDialog
-      isOpen={showDeleteModal}
-      onClose={handleModalClose}
-      onDelete={handleModalConfirm}
-      title={displayName}
-      alertText="All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.."
-      icon={icon}
-      data-test="delete-questionnaire"
-    />
-  </>
-);
+  return (
+    <>
+      <Toolbar>
+        <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
+        <Buttons>
+          <MoveButton disabled={disableMove} onClick={onMove} />
+          <DuplicateButton disabled={disableDuplicate} onClick={onDuplicate} />
+          <DeleteButton
+            disabled={disableDelete}
+            onClick={() => setShowDeleteModal(true)}
+          />
+        </Buttons>
+      </Toolbar>
+
+      <DeleteConfirmDialog
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onDelete={() => {
+          setShowDeleteModal(false);
+          onDelete();
+        }}
+        title={shortCode || title || `Untitled ${pageType}`}
+        alertText={deleteAlertText[pageType]}
+        icon={icons[pageType]}
+        data-test={`delete-${pageType}-modal`}
+      />
+    </>
+  );
+};
 
 EditorToolbar.propTypes = {
   shortCode: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  pageType: PropTypes.string.isRequired,
   shortCodeOnUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onDuplicate: PropTypes.func.isRequired,
@@ -58,11 +76,6 @@ EditorToolbar.propTypes = {
   disableMove: PropTypes.bool,
   disableDelete: PropTypes.bool,
   disableDuplicate: PropTypes.bool,
-  handleModalConfirm: PropTypes.func.isRequired,
-  handleModalClose: PropTypes.func.isRequired,
-  showDeleteModal: PropTypes.bool.isRequired,
-  displayName: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default EditorToolbar;

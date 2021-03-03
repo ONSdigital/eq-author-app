@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
+
+import { FOLDER } from "constants/entities";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -16,8 +18,6 @@ import onCompleteDelete from "./onCompleteDelete";
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
-
-import iconFolder from "./icon-dialog-folder.svg";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -59,7 +59,6 @@ const FolderDesignPage = ({ history, match }) => {
       );
     },
   });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   if (loading) {
     return (
@@ -104,32 +103,23 @@ const FolderDesignPage = ({ history, match }) => {
       variables: { input: { folderId: id, alias } },
     });
 
-  const handleModalConfirm = () => {
-    setShowDeleteModal(false);
-    return deleteFolder({
-      variables: { input: { id } },
-    });
-  };
-
   return (
     <EditorPage title={alias || "Untitled folder"}>
       <StyledPanel data-test="folders-page">
         <EditorToolbar
           shortCode={alias}
+          pageType={FOLDER}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
           onDuplicate={() => alert("onDuplicate")}
-          onDelete={() => setShowDeleteModal(true)}
+          onDelete={() =>
+            deleteFolder({
+              variables: { input: { id } },
+            })
+          }
           disableMove
           disableDuplicate
-          showDeleteModal={showDeleteModal}
-          handleModalClose={() => setShowDeleteModal(false)}
-          handleModalConfirm={handleModalConfirm}
           key={`toolbar-folder-${folderId}`}
-          displayName={
-            data.folder.alias ? data.folder.alias : "Untitled folder"
-          }
-          icon={iconFolder}
         />
         <h2>Folders</h2>
         <p>
