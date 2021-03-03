@@ -43,11 +43,6 @@ import withCreateQuestionConfirmation from "../withCreateQuestionConfirmation";
 
 import { QuestionPage } from "constants/page-types";
 
-const StyledAddMenu = styled(AddMenu)`
-  width: 100%;
-  margin-bottom: 0.5em;
-`;
-
 export const UnwrappedNavigationHeader = ({
   onAddSection,
   onCreateQuestionConfirmation,
@@ -80,11 +75,6 @@ export const UnwrappedNavigationHeader = ({
             sectionId: entityId,
             position: 0,
           });
-        case PAGE:
-          return addQuestionPage({
-            folderId: getFolderByPageId(questionnaire, entityId).id,
-            position: getPageById(questionnaire, entityId).position + 1,
-          });
         case FOLDER:
           if (createInsideFolder) {
             return addQuestionPage({
@@ -95,6 +85,11 @@ export const UnwrappedNavigationHeader = ({
           return addFolderWithPage({
             sectionId: getSectionByFolderId(questionnaire, entityId).id,
             position: getFolderById(questionnaire, entityId).position + 1,
+          });
+        case PAGE:
+          return addQuestionPage({
+            folderId: getFolderByPageId(questionnaire, entityId).id,
+            position: getPageById(questionnaire, entityId).position + 1,
           });
         default:
           break;
@@ -112,11 +107,6 @@ export const UnwrappedNavigationHeader = ({
             position: getFolders(questionnaire).length + 1,
             isCalcSum: true,
           });
-        case PAGE:
-          return addCalculatedSummaryPage({
-            folderId: getFolderByPageId(questionnaire, entityId).id,
-            position: getPageById(questionnaire, entityId).position + 1,
-          });
         case FOLDER:
           if (createInsideFolder) {
             return addCalculatedSummaryPage({
@@ -128,6 +118,11 @@ export const UnwrappedNavigationHeader = ({
             sectionId: getSectionByFolderId(questionnaire, entityId).id,
             position: getFolderById(questionnaire, entityId).position + 1,
             isCalcSum: true,
+          });
+        case PAGE:
+          return addCalculatedSummaryPage({
+            folderId: getFolderByPageId(questionnaire, entityId).id,
+            position: getPageById(questionnaire, entityId).position + 1,
           });
         default:
           break;
@@ -204,7 +199,7 @@ export const UnwrappedNavigationHeader = ({
   const isFolder = entityName === FOLDER;
 
   return (
-    <StyledAddMenu
+    <AddMenu
       data-test="add-menu"
       addMenuOpen={openMenu}
       onAddMenuToggle={() => setOpenMenu(!openMenu)}
