@@ -6,6 +6,16 @@ query GetQuestionnaire($input: QueryInput!) {
     publishStatus
     totalErrorCount
     ...NavigationSidebar
+    metadata {
+      id
+      displayName
+      type
+      key
+      dateValue
+      regionValue
+      languageValue
+      textValue
+    }
   }
 }
 fragment NavigationSidebar on Questionnaire {

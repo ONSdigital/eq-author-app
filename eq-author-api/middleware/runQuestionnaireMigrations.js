@@ -9,14 +9,8 @@ module.exports = (logger) => ({ currentVersion, migrations }) => async (
   res,
   next
 ) => {
-  if (!req.questionnaire) {
-    next();
-    return;
-  }
-
-  if (req.questionnaire.version === currentVersion) {
-    next();
-    return;
+  if (!req.questionnaire || req.questionnaire.version === currentVersion) {
+    return next();
   }
 
   try {
