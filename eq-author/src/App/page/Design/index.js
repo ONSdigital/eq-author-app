@@ -18,7 +18,7 @@ import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
-import { QuestionPage } from "constants/page-types";
+import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
@@ -53,7 +53,7 @@ export const UnwrappedPageRoute = (props) => {
   });
 
   const renderPageType = () => {
-    if (page.pageType === "QuestionPage") {
+    if (page.pageType === QuestionPage) {
       return (
         <QuestionPageEditor
           key={page.id} // resets the state of the RichTextEditors when navigating pages
@@ -62,7 +62,7 @@ export const UnwrappedPageRoute = (props) => {
         />
       );
     }
-    if (page.pageType === "CalculatedSummaryPage") {
+    if (page.pageType === CalculatedSummaryPage) {
       return (
         <CalculatedSummaryPageEditor
           key={page.id} // resets the state of the RichTextEditors when navigating pages
