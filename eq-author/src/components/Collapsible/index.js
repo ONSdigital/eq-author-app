@@ -19,7 +19,7 @@ export const Title = styled.h2`
   vertical-align: middle;
   text-align: left;
   margin: 0;
-  padding: 0.25em 0 0.5em 0;
+  padding: 0.25em 0 0.5em;
   font-size: inherit;
 `;
 
@@ -62,7 +62,7 @@ export const ToggleCollapsibleButton = styled.button`
     color: ${colors.darkerBlue};
   }
 
-  &:hover:before {
+  &:hover::before {
     background-color: ${colors.darkerBlue};
   }
 `;
