@@ -1,24 +1,22 @@
 import React from "react";
-
 import { render, fireEvent } from "tests/utils/rtl";
+import { useParams } from "react-router-dom";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
+import { CalculatedSummaryPage } from "constants/page-types";
+
 import NavigationSidebar from ".";
-// import { isFolderTitle } from "./AddMenu";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
+}));
+
+useParams.mockImplementation(() => ({ entityId: "1" }));
 
 const props = {
   questionnaire: buildQuestionnaire({ folderCount: 2 }),
-  onAddQuestionPage: jest.fn(),
-  onAddSection: jest.fn(),
-  onAddFolder: jest.fn(),
-  onAddCalculatedSummaryPage: jest.fn(),
-  onAddQuestionConfirmation: jest.fn(),
-  canAddQuestionConfirmation: true,
-  canAddCalculatedSummaryPage: true,
-  canAddQuestionPage: true,
-  canAddFolder: true,
-  match: { params: { entityId: "17de54db-eb71-42d5-9f4c-948b9f6dbfc5" } },
 };
 
 const renderNavigationSidebar = (props) => {
@@ -27,62 +25,145 @@ const renderNavigationSidebar = (props) => {
 };
 
 const defaultSetup = (changes = {}) => {
+  const sectionOneID = "Section 1";
+  const folderOneID = "Folder 1.1";
+  const folderTwoID = "Folder 1.2";
+  const pageOneID = "Page 1.1.1";
   const utils = renderNavigationSidebar({ ...props, ...changes });
+  return { ...utils, sectionOneID, folderOneID, folderTwoID, pageOneID };
+};
+
+const introductionSetup = () => {
+  const id = "introduction";
+  const introduction = {
+    id,
+  };
+  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  const questionnaire = buildQuestionnaire({ folderCount: 2 });
+  questionnaire.introduction = introduction;
+  const utils = defaultSetup({ questionnaire });
   return { ...utils };
 };
 
-const addMenuOpen = () => {
-  const folderTwo = "Folder 1.2";
+const calculatedSetup = () => {
+  const id = "1.calc.2";
+  const calculated = {
+    id,
+    displayName: "Calculated Summary Page",
+    pageId: CalculatedSummaryPage,
+    validationErrorInfo: {
+      totalCount: 4,
+    },
+  };
+  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  const questionnaire = buildQuestionnaire({ folderCount: 2 });
+  questionnaire.sections[0].folders[1].pages.push(calculated);
+  const utils = defaultSetup({ questionnaire });
+  return { ...utils, id: calculated.id };
+};
 
-  const utils = defaultSetup();
-  fireEvent.click(utils.getByText(folderTwo));
-
-  // const inside = utils.getByText(isFolderTitle(folderTwo));
-  // const outside = utils.getByText(isFolderTitle(folderTwo, false));
-  // return { folderTwo, inside, outside, ...utils };
-  return { folderTwo, ...utils };
+const confirmationSetup = () => {
+  const id = "1.conf.2";
+  const confirmation = {
+    id,
+    displayName: "confirmation question",
+    positive: { id: "pos" },
+    negative: { id: "neg" },
+    validationErrorInfo: {
+      totalCount: 0,
+    },
+  };
+  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  const questionnaire = buildQuestionnaire({ folderCount: 2 });
+  questionnaire.sections[0].folders[1].pages[0].confirmation = confirmation;
+  const utils = defaultSetup({ questionnaire });
+  return { ...utils };
 };
 
 describe("Navigation sidebar", () => {
-  it("Can render with an assortment of questions and folders", () => {
-    const { getByTestId } = renderNavigationSidebar();
+  it("should render", () => {
+    const { getByTestId } = defaultSetup();
     expect(getByTestId("side-nav")).toBeTruthy();
   });
 
-  describe("Add menu", () => {
-    it("should display 'Inside <folder title> and Outside <folder title>", () => {
-      const { getByText } = addMenuOpen();
+  it("should render nothing if questionnaire is null", () => {
+    const { queryByTestId } = defaultSetup({ questionnaire: null });
+    expect(queryByTestId("nav-section-header")).toBeNull();
+  });
 
-      expect(getByText(true)).toBeTruthy();
-      // expect(getByText(outside)).toBeVisible();
+  it("should render sections/folders/pages", () => {
+    const {
+      getByText,
+      queryByText,
+      sectionOneID,
+      folderOneID,
+      folderTwoID,
+      pageOneID,
+    } = defaultSetup();
+    expect(getByText(sectionOneID)).toBeVisible();
+    expect(getByText(folderTwoID)).toBeVisible();
+    expect(getByText(pageOneID)).toBeVisible();
+    expect(queryByText(folderOneID)).toBeNull();
+  });
+
+  it("should default to Close all sections", () => {
+    const { getByText } = defaultSetup();
+    expect(getByText("Close all sections")).toBeVisible();
+  });
+
+  it("should change to Open all sections on click", () => {
+    const { getByText, queryByText } = defaultSetup();
+    fireEvent.click(getByText("Close all sections"));
+    expect(getByText("Open all sections")).toBeVisible();
+    expect(queryByText("Close all sections")).toBeNull();
+  });
+
+  it("should use Untitled folder when no alias applied", () => {
+    const newQuestionnaire = buildQuestionnaire({ folderCount: 2 });
+    newQuestionnaire.sections[0].folders[1].alias = "";
+    const { getByText } = defaultSetup({ questionnaire: newQuestionnaire });
+    expect(getByText("Untitled folder")).toBeVisible();
+  });
+
+  describe("Calculated summary pages", () => {
+    it("should render calculated summary pages", () => {
+      const { getByText } = calculatedSetup();
+      expect(getByText("Calculated Summary Page")).toBeVisible();
     });
 
-    // it("should display 'Inside <folder title> and Outside <folder title>", () => {
-    //   const { getByText, inside, outside } = addMenuOpen();
+    it("should be disabled when on a calculated summary page", () => {
+      const { getByText } = calculatedSetup();
+      fireEvent.click(getByText("Calculated Summary Page"));
+      expect(getByText("Calculated Summary Page").parentElement).toBeDisabled();
+    });
+  });
 
-    //   expect(getByText(inside)).toBeVisible();
-    //   expect(getByText(outside)).toBeVisible();
-    // });
-    // it("should add a question inside folder when clicking Inside", () => {
-    //   const { getByText, inside, onAddQuestionPage } = addMenuOpen();
+  describe("Introduction page", () => {
+    it("should render an introduction page", () => {
+      const { getByText } = introductionSetup();
+      expect(getByText("Introduction")).toBeVisible();
+    });
 
-    //   expect(getByText("Untitled question")).toBeNull();
-    //   fireEvent.click(inside);
+    it("should be disabled when on an introduction page", () => {
+      const { getByText } = introductionSetup();
+      fireEvent.click(getByText("Introduction"));
+      expect(getByText("Introduction").parentElement).toBeDisabled();
+    });
+  });
 
-    //   // verify the position of the folder
-    //   expect(onAddQuestionPage).toHaveBeenCalledWith();
-    //   expect(getByText("Untitled question")).toBeVisible();
-    // });
+  describe("Confirmation pages", () => {
+    it("should render confirmation pages", () => {
+      const { getByText } = confirmationSetup();
+      expect(getByText("confirmation question")).toBeVisible();
+      fireEvent.click(getByText("confirmation question"));
+      expect(getByText("confirmation question").parentElement).toBeDisabled();
+    });
 
-    // it("should add a question directly after the folder when clicking Outside", () => {
-    //   const { getByText, outside, onAddQuestionPage } = addMenuOpen();
-
-    //   expect(getByText("Untitled question")).toBeNull();
-    //   fireEvent.click(outside);
-
-    //   // verify the position of the folder
-    //   expect(onAddQuestionPage).toHaveBeenCalledWith();
-    //   expect(getByText("Untitled question")).toBeVisible();
-    // });
+    it("should be disabled when on an confirmation pages", () => {
+      const { getByText } = confirmationSetup();
+      expect(getByText("confirmation question")).toBeVisible();
+      fireEvent.click(getByText("confirmation question"));
+      expect(getByText("confirmation question").parentElement).toBeDisabled();
+    });
   });
 });

@@ -123,7 +123,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
 
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
-      <BaseLayout questionnaire={questionnaire}>
+      <BaseLayout questionnaire={questionnaire} data-test="base-layout">
         <ScrollPane>
           <Titled title={() => (loading ? "" : questionnaire.title)}>
             <Grid>

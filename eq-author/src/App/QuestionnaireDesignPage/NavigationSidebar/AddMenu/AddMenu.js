@@ -107,14 +107,14 @@ const AddMenu = ({
                 {
                   handleClick: () => onAddQuestionPage(true),
                   disabled: !canAddQuestionPage,
-                  dataTest: "btn-add-question-page",
+                  dataTest: "btn-add-question-page-inside",
                   icon: IconQuestion,
                   text: "Question",
                 },
                 {
                   handleClick: () => onAddCalculatedSummaryPage(true),
                   disabled: !canAddCalculatedSummaryPage,
-                  dataTest: "btn-add-calculated-summary",
+                  dataTest: "btn-add-calculated-summary-inside",
                   icon: IconSummary,
                   text: "Calculated summary",
                 },

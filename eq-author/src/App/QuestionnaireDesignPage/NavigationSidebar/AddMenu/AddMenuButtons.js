@@ -63,7 +63,7 @@ const StyledIconTextAdd = styled(IconText)`
 export const AddContent = "Add content";
 
 export const MenuAddButton = (
-  <AddButton data-test="btn-add">
+  <AddButton data-test="btn-add-menu">
     <StyledIconTextAdd icon={IconPlus}>{AddContent}</StyledIconTextAdd>
   </AddButton>
 );
