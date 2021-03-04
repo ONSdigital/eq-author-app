@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CustomPropTypes from "custom-prop-types";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -131,9 +131,10 @@ const CollapsibleNavItem = ({
   disabled,
   className,
   children,
-  history,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
+
+  const history = useHistory();
 
   useEffect(() => {
     toggleCollapsible(open);
@@ -193,14 +194,13 @@ CollapsibleNavItem.propTypes = {
   title: PropTypes.string.isRequired,
   titleUrl: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  history: CustomPropTypes.history.isRequired,
   bordered: PropTypes.bool,
   childErrorCount: PropTypes.number,
   selfErrorCount: PropTypes.number,
   children: PropTypes.node.isRequired,
   defaultOpen: PropTypes.bool,
   className: PropTypes.string,
-  icon: PropTypes.element,
+  icon: PropTypes.func,
   open: PropTypes.bool,
 };
 
