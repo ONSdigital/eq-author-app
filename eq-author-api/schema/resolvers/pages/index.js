@@ -68,17 +68,23 @@ Resolvers.Mutation = {
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const { previous } = getMovePosition(section, input.id, 0);
+
     section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
 
     onPageDeleted(ctx, section, previous.page);
 
     if (!section.folders[previous.folderIndex].pages.length) {
-      if (section.folders.length > 1) {
-        // If this isn't the section's last folder - delete it if it's empty
+      if (
+        section.folders.length > 1 &&
+        section.folders[previous.folderIndex].enabled === false
+      ) {
         const [deletedFolder] = section.folders.splice(previous.folderIndex, 1);
         onFolderDeleted(ctx, deletedFolder);
-      } else {
-        // If this is the section's last folder, re-populate it with a new question
+      } else if (
+        (section.folders.length === 1 &&
+          section.folders[previous.folderIndex].enabled === false) ||
+        section.folders[previous.folderIndex].enabled
+      ) {
         const newPage = createQuestionPage();
         section.folders[previous.folderIndex].pages.push(newPage);
       }

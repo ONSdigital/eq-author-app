@@ -120,6 +120,7 @@ const FolderDesignPage = ({ history, match }) => {
           disableMove
           disableDuplicate
           key={`toolbar-folder-${folderId}`}
+          title={alias}
         />
         <h2>Folders</h2>
         <p>
