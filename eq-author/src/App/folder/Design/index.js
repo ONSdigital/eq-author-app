@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useCreatePageWithFolder } from "hooks/useCreateFolder";
-import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import {
+  useCreatePageWithFolder,
+  useCreateFolder,
+} from "hooks/useCreateFolder";
+import {
+  useCreateQuestionPage,
+  useCreateCalculatedSummaryPage,
+} from "hooks/useCreateQuestionPage";
 
 import PropTypes from "prop-types";
 
@@ -21,6 +27,8 @@ import AddPage from "assets/icon-add-page.svg?inline";
 
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+
+import { useDave } from "App/QuestionnaireDesignPage";
 
 import { colors } from "constants/theme";
 
@@ -54,15 +62,52 @@ const BorderedButton = styled(Button)`
 
 const FolderDesignPage = ({ match }) => {
   const { folderId } = match.params;
+  const { setCallbacks } = useDave();
 
   const addPageWithFolder = useCreatePageWithFolder();
   const onAddQuestionPage = useCreateQuestionPage();
+  const addFolder = useCreateFolder();
+  const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+
+  const folder = data?.folder;
+
+  useEffect(
+    () =>
+      folder &&
+      setCallbacks({
+        onAddQuestionPage: (createInsideFolder) =>
+          createInsideFolder
+            ? onAddQuestionPage({ folderId, position: 0 })
+            : addPageWithFolder({
+                sectionId: folder.section.id,
+                position: folder.position + 1,
+              }),
+        onAddCalculatedSummaryPage: (createInsideFolder) =>
+          createInsideFolder
+            ? addCalculatedSummaryPage({
+                folderId,
+                position: folder.pages.length + 1,
+              })
+            : addPageWithFolder({
+                sectionId: folder.section.id,
+                position: folder.position + 1,
+                isCalcSum: true,
+              }),
+        onAddFolder: () =>
+          addFolder({
+            sectionId: folder.section.id,
+            position: folder.position + 1,
+            enabled: true,
+          }),
+      }),
+    [folder]
+  );
 
   if (loading) {
     return (

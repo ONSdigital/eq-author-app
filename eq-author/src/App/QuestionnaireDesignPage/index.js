@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState, useContext, useReducer } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -43,6 +43,16 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 import { colors } from "constants/theme";
 
 import {
+  useCreateFolder,
+  useCreatePageWithFolder,
+} from "hooks/useCreateFolder";
+
+import {
+  useCreateQuestionPage,
+  useCreateCalculatedSummaryPage,
+} from "hooks/useCreateQuestionPage";
+
+import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
@@ -57,6 +67,24 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
+
+const DaveContext = createContext({ callbacks: null, setCallbacks: null });
+
+export const DaveContextProvider = ({ children }) => {
+  const [callbacks, setCallbacks] = useState({
+    onAddQuestionPage: () => console.log("woo, added qp"),
+    onAddCalculatedSummaryPage: () => console.log("woo, added csp"),
+    onAddFolder: () => console.log("woo, added folder"),
+  });
+
+  return (
+    <DaveContext.Provider value={{ callbacks, setCallbacks }}>
+      {children}
+    </DaveContext.Provider>
+  );
+};
+
+export const useDave = () => useContext(DaveContext);
 
 export const UnwrappedQuestionnaireDesignPage = ({
   loading,
@@ -130,34 +158,36 @@ export const UnwrappedQuestionnaireDesignPage = ({
               <QCodeContext.Provider
                 value={{ flattenedAnswers, duplicates, duplicateQCode }}
               >
-                <NavColumn cols={3} gutters={false}>
-                  <MainNav>
-                    <MainNavigation />
-                  </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    questionnaire={questionnaire}
-                  />
-                </NavColumn>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                      ...sharingRoutes,
-                      ...settingsRoutes,
-                      ...folderRoutes,
-                    ]}
-                    <Route path="*" render={renderRedirect} />
-                  </Switch>
-                </Column>
+                <DaveContextProvider>
+                  <NavColumn cols={3} gutters={false}>
+                    <MainNav>
+                      <MainNavigation />
+                    </MainNav>
+                    <NavigationSidebar
+                      data-test="side-nav"
+                      questionnaire={questionnaire}
+                    />
+                  </NavColumn>
+                  <Column cols={9} gutters={false}>
+                    <Switch location={location}>
+                      {[
+                        ...pageRoutes,
+                        ...sectionRoutes,
+                        ...questionConfirmationRoutes,
+                        ...introductionRoutes,
+                        ...metadataRoutes,
+                        ...historyRoutes,
+                        ...publishRoutes,
+                        ...reviewRoutes,
+                        ...qcodeRoutes,
+                        ...sharingRoutes,
+                        ...settingsRoutes,
+                        ...folderRoutes,
+                      ]}
+                      <Route path="*" render={renderRedirect} />
+                    </Switch>
+                  </Column>
+                </DaveContextProvider>
               </QCodeContext.Provider>
             </Grid>
           </Titled>

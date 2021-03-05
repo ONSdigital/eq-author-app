@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDave } from "App/QuestionnaireDesignPage";
 import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { get, flowRight, isEmpty } from "lodash";
 
-import { useCreatePageWithFolder } from "hooks/useCreateFolder";
+import {
+  useCreatePageWithFolder,
+  useCreateFolder,
+} from "hooks/useCreateFolder";
 
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
@@ -52,6 +56,7 @@ export const UnwrappedSectionRoute = (props) => {
   const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
   const [showMoveSectionDialog, setMoveSectionDialog] = useState(false);
   const addFolderWithPage = useCreatePageWithFolder();
+  const addFolder = useCreateFolder();
 
   const {
     match: {
@@ -67,6 +72,25 @@ export const UnwrappedSectionRoute = (props) => {
     loading,
     section,
   } = props;
+
+  const { setCallbacks } = useDave();
+
+  useEffect(
+    () =>
+      setCallbacks({
+        onAddQuestionPage: () =>
+          addFolderWithPage({ sectionId: section.id, position: 0 }),
+        onAddCalculatedSummaryPage: () =>
+          addFolderWithPage({
+            sectionId: section.id,
+            position: section.folders.length + 1,
+            isCalcSum: true,
+          }),
+        onAddFolder: () =>
+          addFolder({ sectionId: section.id, position: 0, enabled: true }),
+      }),
+    [section]
+  );
 
   const handleMoveSection = (args) => {
     setMoveSectionDialog(false);
@@ -185,6 +209,9 @@ export const SECTION_QUERY = gql`
       ...Section
       displayName
       position
+      folders {
+        id
+      }
       questionnaire {
         id
         questionnaireInfo {
