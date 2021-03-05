@@ -1,11 +1,11 @@
 # [START cloudbuild]
 steps:
-  - name: node:10.15.1
+  - name: node:10.22.2
     entrypoint: yarn
     args: ["install"]
     dir: "eq-author"
 
-  - name: node:10.15.1
+  - name: node:10.22.2
     entrypoint: yarn
     args: ["build"]
     dir: "eq-author"
