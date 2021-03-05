@@ -15,7 +15,7 @@ import Button from "components/buttons/Button";
 
 import IconText from "components/IconText";
 import guestAvatar from "./icon-guest-avatar.svg";
-import sigoutIcon from "./signout-icon.svg?inline";
+import signOutIcon from "./signout-icon.svg?inline";
 
 const UserAvatar = styled.img`
   border-radius: 50%;
@@ -71,7 +71,7 @@ const UserProfile = ({ me, nav, signOut }) => {
             variant="navigation"
             small
           >
-            <IconText nav icon={sigoutIcon}>
+            <IconText nav icon={signOutIcon}>
               Sign out
             </IconText>
           </NavLogoutButton>

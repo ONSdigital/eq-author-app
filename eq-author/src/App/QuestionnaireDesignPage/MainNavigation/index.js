@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
 
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
 import config from "config";
-import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
 import { useMe } from "App/MeContext";
@@ -17,7 +15,6 @@ import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 
-import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
@@ -74,9 +71,15 @@ const SmallBadge = styled.span`
 `;
 
 export const UnwrappedMainNavigation = (props) => {
-  const { questionnaire, title, children, client, match } = props;
+  const {
+    hasQuestionnaire,
+    totalErrorCount,
+    title,
+    children,
+    client,
+    match,
+  } = props;
   const { flattenedAnswers, duplicateQCode } = useQCodeContext();
-
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
@@ -86,9 +89,7 @@ export const UnwrappedMainNavigation = (props) => {
     variables: { id: match.params.questionnaireId },
   });
 
-  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
-    (questionnaire || {}).id
-  }`;
+  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${match.params.questionnaireId}`;
 
   const emptyQCode = flattenedAnswers?.find(
     ({ type, qCode }) => type !== "Checkbox" && !qCode
@@ -99,7 +100,7 @@ export const UnwrappedMainNavigation = (props) => {
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns>
-            {questionnaire && (
+            {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
                   <IconText nav icon={homeIcon}>
@@ -111,7 +112,7 @@ export const UnwrappedMainNavigation = (props) => {
                   variant="navigation-modal"
                   data-test="btn-preview"
                   small
-                  disabled={questionnaire.totalErrorCount > 0}
+                  disabled={totalErrorCount > 0}
                 >
                   <IconText nav icon={viewIcon}>
                     View survey
@@ -179,9 +180,7 @@ export const UnwrappedMainNavigation = (props) => {
                   to={buildQcodesPath(match.params)}
                   small
                   data-test="btn-qcodes"
-                  disabled={
-                    title === "QCodes" || questionnaire.totalErrorCount > 0
-                  }
+                  disabled={title === "QCodes" || totalErrorCount > 0}
                 >
                   <IconText nav icon={qcodeIcon}>
                     QCodes
@@ -197,13 +196,11 @@ export const UnwrappedMainNavigation = (props) => {
         </Flex>
         {children}
       </StyledMainNavigation>
-
-      {questionnaire && (
+      {hasQuestionnaire && (
         <>
           <UpdateQuestionnaireSettingsModal
             isOpen={isSettingsModalOpen}
             onClose={() => setSettingsModalOpen(false)}
-            questionnaire={questionnaire}
           />
         </>
       )}
@@ -221,7 +218,8 @@ export const publishStatusSubscription = gql`
 `;
 
 UnwrappedMainNavigation.propTypes = {
-  questionnaire: CustomPropTypes.questionnaire,
+  hasQuestionnaire: PropTypes.bool.isRequired,
+  totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
@@ -234,7 +232,4 @@ UnwrappedMainNavigation.propTypes = {
   }).isRequired,
 };
 
-export default flowRight(
-  withQuestionnaire,
-  withRouter
-)(UnwrappedMainNavigation);
+export default withRouter(UnwrappedMainNavigation);

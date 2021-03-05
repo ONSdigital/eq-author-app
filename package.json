@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "pre-push-lint": " cd eq-author-api && yarn lint && cd ../eq-publisher && yarn lint"
+    "pre-push-lint": " cd eq-author-api && yarn lint && cd ../eq-publisher && yarn lint",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",

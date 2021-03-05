@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
-import { flowRight } from "lodash";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   buildSectionPath,
@@ -86,7 +84,6 @@ const IntroductionListItem = styled.li`
 
 const NavigationSidebar = ({ questionnaire }) => {
   const { entityId } = useParams();
-  const history = useHistory();
   const [openSections, toggleSections] = useState(true);
 
   const isCurrentPage = (navItemId, currentPageId) =>
@@ -122,8 +119,7 @@ const NavigationSidebar = ({ questionnaire }) => {
               (pageType === QuestionPage && IconQuestionPage) ||
               (pageType === CalculatedSummaryPage && IconSummaryPage)
             }
-            errorCount={validationErrorInfo.totalCount}
-            history={history}
+            errorCount={validationErrorInfo?.totalCount}
           />
         </li>
       </NavItemTransition>
@@ -145,8 +141,7 @@ const NavigationSidebar = ({ questionnaire }) => {
               })}
               disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
-              errorCount={confirmation.validationErrorInfo.totalCount}
-              history={history}
+              errorCount={confirmation?.validationErrorInfo?.totalCount}
             />
           </li>
         </NavItemTransition>
@@ -157,48 +152,40 @@ const NavigationSidebar = ({ questionnaire }) => {
   };
 
   const buildFolderList = (folders) => {
-    const components = folders.map(
-      ({ id: folderId, enabled, alias, pages }) => {
-        if (enabled) {
-          return (
-            <NavItemTransition
-              key={`transition-folder-${folderId}-enabled`}
-              onEntered={scrollIntoView}
+    const components = folders.map(({ id: folderId, enabled, alias, pages }) =>
+      enabled ? (
+        <NavItemTransition
+          key={`transition-folder-${folderId}-enabled`}
+          onEntered={scrollIntoView}
+        >
+          <li key={`folder-${folderId}-enabled`}>
+            <CollapsibleNavItem
+              key={`folder-${folderId}enabled`}
+              title={alias || "Untitled folder"}
+              titleUrl={buildFolderPath({
+                questionnaireId: questionnaire.id,
+                folderId,
+                tab: "design",
+              })}
+              disabled={isCurrentPage(folderId, entityId)}
+              icon={IconFolder}
+              childErrorCount={calculatePageErrors(pages)}
+              open
             >
-              <li key={`folder-${folderId}-enabled`}>
-                <CollapsibleNavItem
-                  key={`folder-${folderId}enabled`}
-                  title={alias || "Untitled folder"}
-                  titleUrl={buildFolderPath({
-                    questionnaireId: questionnaire.id,
-                    folderId,
-                    tab: "design",
-                  })}
-                  disabled={isCurrentPage(folderId, entityId)}
-                  icon={IconFolder}
-                  childErrorCount={calculatePageErrors(pages)}
-                  history={history}
-                  open
+              <NavList>
+                <TransitionGroup
+                  key={`transition-group-pages`}
+                  component={null}
                 >
-                  <NavList>
-                    <TransitionGroup
-                      key={`transition-group-pages`}
-                      component={null}
-                    >
-                      {pages.map((page) => buildPageList(page))}
-                    </TransitionGroup>
-                  </NavList>
-                </CollapsibleNavItem>
-              </li>
-            </NavItemTransition>
-          );
-        }
-        if (!enabled) {
-          return pages.map((page) => buildPageList(page));
-        }
-
-        return null;
-      }
+                  {pages.map((page) => buildPageList(page))}
+                </TransitionGroup>
+              </NavList>
+            </CollapsibleNavItem>
+          </li>
+        </NavItemTransition>
+      ) : (
+        pages.map((page) => buildPageList(page))
+      )
     );
 
     return (
@@ -212,7 +199,6 @@ const NavigationSidebar = ({ questionnaire }) => {
     const components = sections.map(
       ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
         const allPagesInSection = folders.flatMap(({ pages }) => pages);
-
         return (
           <NavItemTransition
             key={`transition-section${sectionId}`}
@@ -232,7 +218,6 @@ const NavigationSidebar = ({ questionnaire }) => {
                 childErrorCount={calculatePageErrors(allPagesInSection)}
                 disabled={isCurrentPage(sectionId, entityId)}
                 icon={IconSection}
-                history={history}
                 open={openSections}
               >
                 <NavList>{buildFolderList(folders)}</NavList>
@@ -275,7 +260,6 @@ const NavigationSidebar = ({ questionnaire }) => {
                       entityId
                     )}
                     icon={PageIcon}
-                    history={history}
                   />
                 </IntroductionListItem>
               )}
