@@ -9,7 +9,7 @@ import IconSection from "assets/icon-section.svg?inline";
 import IconQuestion from "assets/icon-questionpage.svg?inline";
 import IconSummary from "assets/icon-summarypage.svg?inline";
 import IconConfirmation from "assets/icon-playback.svg?inline";
-// import IconFolder from "assets/icon-folder.svg?inline";
+import IconFolder from "assets/icon-folder.svg?inline";
 
 import IconText from "components/IconText";
 import { radius, colors } from "constants/theme";
@@ -94,8 +94,8 @@ const AddMenu = ({
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
-  // onAddFolder,
-  // canAddFolder,
+  onAddFolder,
+  canAddFolder,
   ...otherProps
 }) => {
   const addBtn = (
@@ -131,8 +131,7 @@ const AddMenu = ({
           >
             <StyledIconText icon={IconSection}>Section</StyledIconText>
           </AddMenuButton>
-          {/* Temporarily removed -- do not delete! */}
-          {/* <AddMenuButton
+          <AddMenuButton
             primary
             data-test="btn-add-folder"
             onClick={onAddFolder}
@@ -141,7 +140,7 @@ const AddMenu = ({
             <StyledIconText icon={IconFolder} data-hook="icon-folder">
               Folder
             </StyledIconText>
-          </AddMenuButton> */}
+          </AddMenuButton>
           <AddMenuButton
             primary
             data-test="btn-add-question-confirmation"
