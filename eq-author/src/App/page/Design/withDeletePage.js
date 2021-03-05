@@ -48,10 +48,6 @@ export const mapMutateToProps = (props) => ({
     const { client } = ownProps;
     const cachedSection = getCachedSection(client, page.section.id);
 
-    // const deletePageIndex = cachedSection.folders.findIndex((e) =>
-    //   e.pages.findIndex((ee) => ee.id === page.id)
-    // );
-
     const deletePageFolder = cachedSection.folders.find(
       (e) => e.pages[0].id === page.id
     );

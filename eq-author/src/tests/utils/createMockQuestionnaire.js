@@ -2,7 +2,7 @@ import { times } from "lodash";
 
 const DEFAULT_ANSWER_COUNT = 0;
 const DEFAULT_PAGE_COUNT = 1;
-const DEFAULT_FOLDER_COUNT = 2;
+const DEFAULT_FOLDER_COUNT = 1;
 const DEFAULT_SECTION_COUNT = 1;
 
 export const buildAnswers = ({

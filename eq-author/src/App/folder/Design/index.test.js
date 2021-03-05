@@ -18,7 +18,9 @@ import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 import FolderDesignPage from "./";
 
-const mockQuestionnaire = buildQuestionnaire();
+const mockQuestionnaire = buildQuestionnaire({
+  folderCount: 2,
+});
 const secondFolder = mockQuestionnaire.sections[0].folders[1];
 
 const mockUser = {
