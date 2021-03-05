@@ -1,11 +1,11 @@
 # [START cloudbuild]
 steps:
-  - name: node
+  - name: node:$_NODE_VERSION
     entrypoint: yarn
     args: ["install"]
     dir: "eq-author"
 
-  - name: node
+  - name: node:$_NODE_VERSION
     entrypoint: yarn
     args: ["build"]
     dir: "eq-author"
