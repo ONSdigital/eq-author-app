@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, flowRight } from "lodash";
+import { get, flowRight, isEmpty } from "lodash";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -132,7 +132,10 @@ export const UnwrappedQuestionnaireDesignPage = ({
               >
                 <NavColumn cols={3} gutters={false}>
                   <MainNav>
-                    <MainNavigation />
+                    <MainNavigation
+                      hasQuestionnaire={!isEmpty(questionnaire)}
+                      totalErrorCount={questionnaire?.totalErrorCount}
+                    />
                   </MainNav>
                   <NavigationSidebar
                     data-test="side-nav"
