@@ -12,7 +12,9 @@ const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
 const getClientEnvironment = require("./env");
 const paths = require("./paths");
-const ManifestPlugin = require("webpack-manifest-plugin");
+const {
+  WebpackManifestPlugin: ManifestPlugin,
+} = require("webpack-manifest-plugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
