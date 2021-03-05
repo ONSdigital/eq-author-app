@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import { colors, focusStyle } from "constants/theme";
 import chevronRight from "assets/icon-chevron-right-blue.svg";
 import chevronDown from "assets/icon-chevron-down-blue.svg";
 
@@ -12,19 +12,14 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  padding-left: 0.7em;
-  color: ${colors.blue};
-  text-decoration: underline;
-  &:hover {
-    color: ${colors.grey};
-  }
+  margin-left: -0.5em;
 `;
 
 export const Title = styled.h2`
   vertical-align: middle;
   text-align: left;
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0.25em 0 0.5em;
   font-size: inherit;
 `;
 
@@ -40,13 +35,13 @@ export const ToggleCollapsibleButton = styled.button`
   border: none;
   font-size: 1em;
   font-weight: bold;
-  width: 100%;
   margin: 0;
-  padding: 0.5em 0.25em;
+  padding: 0.25em 0.25em 0.25em 0;
   display: flex;
   align-items: center;
-  color: ${colors.blue};
   position: relative;
+  color: ${colors.blue};
+  text-decoration: underline;
   background: transparent;
   cursor: pointer;
 
@@ -56,14 +51,19 @@ export const ToggleCollapsibleButton = styled.button`
 
   &::before {
     content: "";
-    background: url(${({ isOpen }) => (isOpen ? chevronDown : chevronRight)});
-    display: block;
-    position: absolute;
-    color: ${colors.blue};
-    left: -1.3em;
-    top: 0.4em;
+    background-color: ${colors.blue};
+    mask: url(${({ isOpen }) => (isOpen ? chevronDown : chevronRight)});
     width: 1.5em;
     height: 1.5em;
+    margin-top: 0.2em;
+  }
+
+  &:hover {
+    color: ${colors.darkerBlue};
+  }
+
+  &:hover::before {
+    background-color: ${colors.darkerBlue};
   }
 `;
 
@@ -74,6 +74,10 @@ const HideThisButton = styled(Button)`
 
   &:hover {
     background-color: ${colors.grey};
+  }
+
+  &:focus {
+    ${focusStyle}
   }
 `;
 

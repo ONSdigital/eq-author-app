@@ -111,9 +111,23 @@ const Header = styled.div`
 
 const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  margin-left: 2em;
-
   margin-top: ${({ bordered }) => (bordered ? `0.45em` : "")};
+
+  li > * {
+    :not(.CollapsibleNavItem) {
+      margin-left: 2em;
+      width: calc(100% - 2em);
+    }
+
+    &.CollapsibleNavItem {
+      li > * {
+        :not(.CollapsibleNavItem) {
+          margin-left: 4em;
+          width: calc(100% - 4em);
+        }
+      }
+    }
+  }
 `;
 
 const Wrapper = styled.div`
@@ -142,7 +156,7 @@ const CollapsibleNavItem = ({
 
   return (
     <Wrapper
-      className={className}
+      className={`${className} CollapsibleNavItem`}
       data-test="CollapsibleNavItem"
       bordered={bordered}
     >

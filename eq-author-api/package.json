@@ -42,13 +42,13 @@
     "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "moment": "latest",
     "mongodb": "^3.6.4",
-    "node-fetch": "latest",
+    "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
-    "pino-pretty": "^4.3.0",
+    "pino-pretty": "^4.5.0",
     "prom-client": "latest",
     "request": "^2.88.2",
     "uuid": "latest",
@@ -69,9 +69,7 @@
       "!app.js"
     ],
     "preset": "@shelf/jest-mongodb",
-    "watchPathIgnorePatterns": [
-      "data/"
-    ]
+    "watchPathIgnorePatterns": ["data/"]
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
