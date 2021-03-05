@@ -1,19 +1,11 @@
 import React from "react";
-import { render, flushPromises } from "tests/utils/rtl";
+import { render } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
-import { act } from "react-dom/test-utils";
 import { QCodeContext } from "components/QCodeContext";
 
 describe("MainNavigation", () => {
-  let props,
-    user,
-    mocks,
-    questionnaire,
-    flattenedAnswers,
-    duplicateQCode,
-    signOut,
-    onSubmit;
+  let props, user, mocks, flattenedAnswers, duplicateQCode, signOut, onSubmit;
 
   beforeEach(() => {
     signOut = jest.fn();
@@ -26,20 +18,12 @@ describe("MainNavigation", () => {
       __typename: "User",
       picture: "",
       admin: true,
-    };
-    const page = { id: "2", title: "Page", position: 0 };
-    const section = { id: "3", title: "Section", pages: [page] };
-    questionnaire = {
-      id: "1",
-      title: "Questionnaire",
-      sections: [section],
-      editors: [],
-      createdBy: { ...user },
-      totalErrorCount: 0,
+      signOut: jest.fn(),
     };
     props = {
-      questionnaire,
-      match: { params: { modifier: "", questionnaireId: questionnaire.id } },
+      hasQuestionnaire: true,
+      totalErrorCount: 0,
+      match: { params: { modifier: "", questionnaireId: "1" } },
       loading: false,
       signOut,
       onSubmit,
@@ -137,12 +121,11 @@ describe("MainNavigation", () => {
     duplicateQCode = false;
   });
 
-  it("should display error badge when there are errors", async () => {
+  it("should display error badge when qCode is empty", async () => {
     flattenedAnswers[0].qCode = "";
-    props.questionnaire.qCodeErrorCount = 1;
 
     const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
+      <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
           <UnwrappedMainNavigation {...props} />
         </QCodeContext.Provider>
@@ -152,9 +135,22 @@ describe("MainNavigation", () => {
       }
     );
 
-    await act(async () => {
-      flushPromises();
-    });
+    expect(getByTestId("small-badge")).toBeTruthy();
+  });
+
+  it("should provide the validation error dot for the QCodes tab if there are duplicate qCodes", async () => {
+    duplicateQCode = true;
+
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me: user, signOut }}>
+        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
+          <UnwrappedMainNavigation {...props} />
+        </QCodeContext.Provider>
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
 
     expect(getByTestId("small-badge")).toBeTruthy();
   });
@@ -191,8 +187,7 @@ describe("MainNavigation", () => {
   });
 
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
-    props.questionnaire.totalErrorCount = 1;
-
+    props.totalErrorCount = 1;
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user, signOut }}>
         <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
@@ -203,10 +198,6 @@ describe("MainNavigation", () => {
         mocks,
       }
     );
-
-    await act(async () => {
-      flushPromises();
-    });
 
     const nav = getByTestId("main-navigation");
 
@@ -240,32 +231,6 @@ describe("MainNavigation", () => {
         mocks,
       }
     );
-
-    await act(async () => {
-      flushPromises();
-    });
-
-    expect(getByTestId("small-badge")).toBeTruthy();
-  });
-
-  it("should provide the validation error dot for the QCodes tab if there are duplicate qCodes", async () => {
-    duplicateQCode = true;
-    props.questionnaire.qCodeErrorCount = 1;
-
-    const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user, signOut }}>
-        <QCodeContext.Provider value={{ flattenedAnswers, duplicateQCode }}>
-          <UnwrappedMainNavigation {...props} />
-        </QCodeContext.Provider>
-      </MeContext.Provider>,
-      {
-        mocks,
-      }
-    );
-
-    await act(async () => {
-      flushPromises();
-    });
 
     expect(getByTestId("small-badge")).toBeTruthy();
   });
