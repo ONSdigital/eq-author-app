@@ -44,10 +44,11 @@ export const useNavigationCallbacks = () =>
 export const useSetNavigationCallbacks = (callbacks, dependencies) => {
   const { setCallbacks } = useContext(CallbackContext);
 
-  useEffect(
-    () => dependencies.every((x) => x) && setCallbacks(callbacks),
-    dependencies
-  );
+  useEffect(() => {
+    if (dependencies.every((x) => x)) {
+      setCallbacks(callbacks);
+    }
+  }, dependencies);
 };
 
 export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
