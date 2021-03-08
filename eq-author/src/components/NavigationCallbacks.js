@@ -1,6 +1,12 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import PropTypes from "prop-types";
 
+import {
+  useCreateQuestionPage,
+  useCreateCalculatedSummaryPage,
+} from "hooks/useCreateQuestionPage";
+import { useCreateFolder } from "hooks/useCreateFolder";
+
 const defaultCallbacks = {
   onAddQuestionPage: () => {
     throw new Error("onAddQuestionPage callback not defined");
@@ -41,5 +47,33 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
   useEffect(
     () => dependencies.every((x) => x) && setCallbacks(callbacks),
     dependencies
+  );
+};
+
+export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
+  const addQuestionPage = useCreateQuestionPage();
+  const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
+  const addFolder = useCreateFolder();
+
+  useSetNavigationCallbacks(
+    {
+      onAddQuestionPage: () =>
+        addQuestionPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
+      onAddCalculatedSummaryPage: () =>
+        addCalculatedSummaryPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
+      onAddFolder: () =>
+        addFolder({
+          sectionId: section.id,
+          position: folder.position + 1,
+          enabled: true,
+        }),
+    },
+    [page, folder, section]
   );
 };

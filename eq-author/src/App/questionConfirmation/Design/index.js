@@ -19,6 +19,8 @@ import Editor from "./Editor";
 import Panel from "components/Panel";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
 const propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line
@@ -42,6 +44,12 @@ export const UnwrappedQuestionConfirmationRoute = ({
     setShowDeleteConfirmDialog(false);
     onDeleteQuestionConfirmation(data.questionConfirmation);
   };
+
+  useSetNavigationCallbacksForPage({
+    page: data?.page,
+    folder: data?.page?.folder,
+    section: data?.page?.folder?.section,
+  });
 
   const renderContent = () => {
     if (loading) {
@@ -105,6 +113,18 @@ const withConfirmationEditing = flow(
 const CONFIRMATION_QUERY = gql`
   query getQuestionConfirmation($id: ID!) {
     questionConfirmation(id: $id) {
+      page {
+        id
+        position
+        folder {
+          id
+          position
+          section {
+            id
+            position
+          }
+        }
+      }
       ...QuestionConfirmation
       validationErrorInfo {
         ...ValidationErrorInfo
