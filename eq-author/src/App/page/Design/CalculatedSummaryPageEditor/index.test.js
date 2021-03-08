@@ -32,8 +32,13 @@ describe("CalculatedSummaryPageEditor", () => {
         position: 1,
         displayName: "Foo",
         totalTitle: "",
+        folder: {
+          id: "folder-1",
+          position: 0,
+        },
         section: {
           id: "2",
+          position: 0,
           displayName: "This Section",
           questionnaire: { id: "1", metadata: [] },
         },

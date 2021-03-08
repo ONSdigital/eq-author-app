@@ -27,12 +27,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
         "alias": "",
         "availableSummaryAnswers": Array [],
         "displayName": "Foo",
+        "folder": Object {
+          "id": "folder-1",
+          "position": 0,
+        },
         "id": "3",
         "pageType": "CalculatedSummaryPage",
         "position": 1,
         "section": Object {
           "displayName": "This Section",
           "id": "2",
+          "position": 0,
           "questionnaire": Object {
             "id": "1",
             "metadata": Array [],
@@ -99,12 +104,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
             "alias": "",
             "availableSummaryAnswers": Array [],
             "displayName": "Foo",
+            "folder": Object {
+              "id": "folder-1",
+              "position": 0,
+            },
             "id": "3",
             "pageType": "CalculatedSummaryPage",
             "position": 1,
             "section": Object {
               "displayName": "This Section",
               "id": "2",
+              "position": 0,
               "questionnaire": Object {
                 "id": "1",
                 "metadata": Array [],
@@ -180,12 +190,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
         "alias": "",
         "availableSummaryAnswers": Array [],
         "displayName": "Foo",
+        "folder": Object {
+          "id": "folder-1",
+          "position": 0,
+        },
         "id": "3",
         "pageType": "CalculatedSummaryPage",
         "position": 1,
         "section": Object {
           "displayName": "This Section",
           "id": "2",
+          "position": 0,
           "questionnaire": Object {
             "id": "1",
             "metadata": Array [],
@@ -252,12 +267,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
             "alias": "",
             "availableSummaryAnswers": Array [],
             "displayName": "Foo",
+            "folder": Object {
+              "id": "folder-1",
+              "position": 0,
+            },
             "id": "3",
             "pageType": "CalculatedSummaryPage",
             "position": 1,
             "section": Object {
               "displayName": "This Section",
               "id": "2",
+              "position": 0,
               "questionnaire": Object {
                 "id": "1",
                 "metadata": Array [],
@@ -333,12 +353,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
         "alias": "",
         "availableSummaryAnswers": Array [],
         "displayName": "Foo",
+        "folder": Object {
+          "id": "folder-1",
+          "position": 0,
+        },
         "id": "3",
         "pageType": "CalculatedSummaryPage",
         "position": 1,
         "section": Object {
           "displayName": "This Section",
           "id": "2",
+          "position": 0,
           "questionnaire": Object {
             "id": "1",
             "metadata": Array [],
@@ -405,12 +430,17 @@ exports[`CalculatedSummaryPageEditor should display the correct error message wh
             "alias": "",
             "availableSummaryAnswers": Array [],
             "displayName": "Foo",
+            "folder": Object {
+              "id": "folder-1",
+              "position": 0,
+            },
             "id": "3",
             "pageType": "CalculatedSummaryPage",
             "position": 1,
             "section": Object {
               "displayName": "This Section",
               "id": "2",
+              "position": 0,
               "questionnaire": Object {
                 "id": "1",
                 "metadata": Array [],
@@ -486,12 +516,17 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
         "alias": "",
         "availableSummaryAnswers": Array [],
         "displayName": "Foo",
+        "folder": Object {
+          "id": "folder-1",
+          "position": 0,
+        },
         "id": "3",
         "pageType": "CalculatedSummaryPage",
         "position": 1,
         "section": Object {
           "displayName": "This Section",
           "id": "2",
+          "position": 0,
           "questionnaire": Object {
             "id": "1",
             "metadata": Array [],
@@ -550,12 +585,17 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
             "alias": "",
             "availableSummaryAnswers": Array [],
             "displayName": "Foo",
+            "folder": Object {
+              "id": "folder-1",
+              "position": 0,
+            },
             "id": "3",
             "pageType": "CalculatedSummaryPage",
             "position": 1,
             "section": Object {
               "displayName": "This Section",
               "id": "2",
+              "position": 0,
               "questionnaire": Object {
                 "id": "1",
                 "metadata": Array [],

@@ -83,7 +83,7 @@ export const CalculatedSummaryPageEditor = (props) => {
   useSetNavigationCallbacksForPage({
     page: page,
     folder: page.folder,
-    section: page.folder.section,
+    section: page.section,
   });
 
   const ErrorMsg = () => {
@@ -161,10 +161,10 @@ CalculatedSummaryPageEditor.fragments = {
       folder {
         id
         position
-        section {
-          id
-          position
-        }
+      }
+      section {
+        id
+        position
       }
       ...AnswerSelector
       validationErrorInfo {

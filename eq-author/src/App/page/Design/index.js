@@ -89,12 +89,7 @@ export const UnwrappedPageRoute = (props) => {
     <PageContextProvider value={page}>
       <EditorLayout
         title={page?.displayName || ""}
-        onAddQuestionPage={() =>
-          onAddQuestionPage({
-            folderId: page.folder.id,
-            position: page.position + 1,
-          })
-        }
+        onAddQuestionPage={onAddQuestionPage}
         renderPanel={() =>
           page.pageType === QuestionPage && <PropertiesPanel page={page} />
         }
