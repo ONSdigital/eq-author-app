@@ -1,0 +1,14 @@
+mutation DeleteFolder($input: DeleteFolderInput!) {
+  deleteFolder(input: $input) {
+    id
+    sections {
+      id
+      folders {
+        id
+        pages {
+          id
+        }
+      }
+    }
+  }
+}

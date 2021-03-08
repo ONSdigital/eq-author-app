@@ -118,6 +118,45 @@ describe("Question Page Editor", () => {
     });
 
     it("should disable move when only one question", () => {
+      questionnaire = {
+        id: "questionnaire",
+        title: "questionnaire",
+        displayName: "questionnaire",
+        sections: [
+          {
+            id: "1",
+            title: "Section 1",
+            displayName: "Section 1",
+            folders: [
+              {
+                id: "1.1",
+                alias: "Folder 1.1",
+                enabled: false,
+                position: 0,
+                pages: [
+                  {
+                    id: "1.1.1",
+                    title: "Page 1.1.1",
+                    displayName: "Page 1.1.1",
+                    alias: "1.1.1",
+                    position: 0,
+                    section: {
+                      id: "1",
+                    },
+                    folder: {
+                      id: "1",
+                    },
+                  },
+                ],
+                section: {
+                  id: "1",
+                },
+              },
+            ],
+            position: 0,
+          },
+        ],
+      };
       wrapper = render({ questionnaire });
       const button = wrapper.find("[data-test='btn-move']").prop("disabled");
 

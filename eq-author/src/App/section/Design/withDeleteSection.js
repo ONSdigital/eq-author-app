@@ -33,8 +33,8 @@ export const handleDeletion = (
 ) => {
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
-
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
+
   const newSectionCreated = oldQuestionnaire.sections.length === 1;
 
   history.push(
