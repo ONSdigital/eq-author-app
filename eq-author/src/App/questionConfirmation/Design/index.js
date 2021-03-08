@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
-import { flow, getOr } from "lodash/fp";
+import { flow } from "lodash/fp";
 import EditorLayout from "components/EditorLayout";
 
 import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
@@ -19,54 +19,47 @@ import Editor from "./Editor";
 import Panel from "components/Panel";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
-export class UnwrappedQuestionConfirmationRoute extends React.Component {
-  static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.object, // eslint-disable-line
-    data: PropTypes.shape({
-      questionConfirmation: propType(Editor.fragments.QuestionConfirmation),
-    }),
-    onUpdateQuestionConfirmation: PropTypes.func.isRequired,
-    onDeleteQuestionConfirmation: PropTypes.func.isRequired,
+const propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.object, // eslint-disable-line
+  data: PropTypes.shape({
+    questionConfirmation: propType(Editor.fragments.QuestionConfirmation),
+  }),
+  onUpdateQuestionConfirmation: PropTypes.func.isRequired,
+  onDeleteQuestionConfirmation: PropTypes.func.isRequired,
+};
+
+export const UnwrappedQuestionConfirmationRoute = ({
+  loading,
+  error,
+  data,
+  onUpdateQuestionConfirmation,
+  onDeleteQuestionConfirmation,
+}) => {
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+
+  const handleDeletePageConfirm = () => {
+    setShowDeleteConfirmDialog(false);
+    onDeleteQuestionConfirmation(data.questionConfirmation);
   };
 
-  state = {
-    showDeleteConfirmDialog: false,
-  };
-
-  handleOpenDeleteConfirmDialog = () =>
-    this.setState({ showDeleteConfirmDialog: true });
-
-  handleCloseDeleteConfirmDialog = () => {
-    this.setState({ showDeleteConfirmDialog: false });
-  };
-
-  handleDeletePageConfirm = () => {
-    this.setState({ showDeleteConfirmDialog: false }, () =>
-      this.props.onDeleteQuestionConfirmation(
-        this.props.data.questionConfirmation
-      )
-    );
-  };
-
-  renderContent() {
-    const { loading, error, data, onUpdateQuestionConfirmation } = this.props;
-    const { showDeleteConfirmDialog } = this.state;
-
+  const renderContent = () => {
     if (loading) {
-      return <Loading height="100%">Confirmation is loading</Loading>;
+      return <Loading height="100%">Confirmation is loading...</Loading>;
     }
     if (error || !data || !data.questionConfirmation) {
       return <Error>Oh no! Something went wrong</Error>;
     }
 
+    const { questionConfirmation } = data;
+
     return (
       <>
         <DeleteConfirmDialog
           isOpen={showDeleteConfirmDialog}
-          onClose={this.handleCloseDeleteConfirmDialog}
-          onDelete={this.handleDeletePageConfirm}
-          title={data.questionConfirmation.displayName}
+          onClose={() => setShowDeleteConfirmDialog(false)}
+          onDelete={handleDeletePageConfirm}
+          title={questionConfirmation.displayName}
           alertText="All edits will be removed."
           icon={questionConfirmationIcon}
           data-test="delete-question-confirmation"
@@ -75,42 +68,34 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
           <Buttons>
             <IconButtonDelete
               data-test="btn-delete"
-              onClick={this.handleOpenDeleteConfirmDialog}
+              onClick={() => setShowDeleteConfirmDialog(true)}
             >
               Delete
             </IconButtonDelete>
           </Buttons>
         </Toolbar>
         <Editor
-          confirmation={data.questionConfirmation}
+          confirmation={questionConfirmation}
           onUpdate={onUpdateQuestionConfirmation}
           data-test="editor"
         />
       </>
     );
-  }
+  };
 
-  render() {
-    const displayName = getOr(
-      "",
-      "questionConfirmation.displayName",
-      this.props.data
-    );
+  return (
+    <EditorLayout
+      title={data?.questionConfirmation?.displayName || ""}
+      preview
+      logic
+      validationErrorInfo={data?.questionConfirmation.validationErrorInfo}
+    >
+      <Panel>{renderContent()}</Panel>
+    </EditorLayout>
+  );
+};
 
-    const pageData = getOr("", "questionConfirmation", this.props.data);
-
-    return (
-      <EditorLayout
-        title={displayName}
-        preview
-        logic
-        validationErrorInfo={pageData.validationErrorInfo}
-      >
-        <Panel>{this.renderContent()}</Panel>
-      </EditorLayout>
-    );
-  }
-}
+UnwrappedQuestionConfirmationRoute.propTypes = propTypes;
 
 const withConfirmationEditing = flow(
   withUpdateQuestionConfirmation,
