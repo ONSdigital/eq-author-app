@@ -14,6 +14,8 @@ import withValidationError from "enhancers/withValidationError";
 import { richTextEditorErrors } from "constants/validationMessages";
 import PageHeader from "../PageHeader";
 
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
 import withPropRenamed from "enhancers/withPropRenamed";
 import AnswerSelector from "./AnswerSelector";
 import {
@@ -77,6 +79,12 @@ export const CalculatedSummaryPageEditor = (props) => {
     onChangeUpdate,
     onUpdateCalculatedSummaryPage,
   } = props;
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: page.folder,
+    section: page.folder.section,
+  });
 
   const ErrorMsg = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
@@ -150,6 +158,14 @@ CalculatedSummaryPageEditor.fragments = {
       pageType
       position
       displayName
+      folder {
+        id
+        position
+        section {
+          id
+          position
+        }
+      }
       ...AnswerSelector
       validationErrorInfo {
         ...ValidationErrorInfo
