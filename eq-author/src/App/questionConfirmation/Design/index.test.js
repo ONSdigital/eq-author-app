@@ -5,6 +5,10 @@ import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import { UnwrappedQuestionConfirmationRoute as QuestionConfirmationRoute } from "./";
 
+jest.mock("components/NavigationCallbacks", () => ({
+  useSetNavigationCallbacksForPage: () => null,
+}));
+
 describe("QuestionConfirmationRoute", () => {
   let mockHandlers;
 

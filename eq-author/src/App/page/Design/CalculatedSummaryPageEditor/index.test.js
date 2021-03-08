@@ -3,6 +3,10 @@ import { shallow } from "enzyme";
 
 import { CalculatedSummaryPageEditor } from "./";
 
+jest.mock("components/NavigationCallbacks", () => ({
+  useSetNavigationCallbacksForPage: () => null,
+}));
+
 describe("CalculatedSummaryPageEditor", () => {
   let defaultProps;
   beforeEach(() => {
