@@ -23,7 +23,15 @@ exports[`QuestionnaireSettingsModal should render 1`] = `
     onCancel={[MockFunction]}
     onSubmit={[MockFunction]}
     onUpdate={[Function]}
-    questionnaire={Object {}}
+    questionnaire={
+      Object {
+        "description": "",
+        "navigation": false,
+        "surveyId": "",
+        "theme": "default",
+        "title": "",
+      }
+    }
   />
 </QuestionnaireSettingsModal__StyledModal>
 `;
