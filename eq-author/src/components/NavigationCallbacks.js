@@ -21,7 +21,7 @@ const defaultCallbacks = {
 
 const CallbackContext = createContext({
   callbacks: defaultCallbacks,
-  setCallbacks: null,
+  setCallbacks: () => null,
 });
 
 export const CallbackContextProvider = ({ children }) => {
