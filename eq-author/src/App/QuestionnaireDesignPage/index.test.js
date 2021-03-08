@@ -113,21 +113,6 @@ describe("QuestionnaireDesignPage", () => {
     expect(getByTestId("loading")).toBeVisible();
   });
 
-  // it.only("should redirect to an intro", () => {
-  //   const route = `/q/questionnaire/`;
-  //   const urlParamMatcher = "/q/:questionnaireId/";
-  //   // useQuery.mockImplementationOnce(() => ({
-  //   //   loading: false,
-  //   //   data: { questionnaireIntroduction: { id: "1" } },
-  //   // }));
-  //   const { getByText } = defaultSetup(
-  //     { loading: false },
-  //     { route, urlParamMatcher }
-  //   );
-  //   console.log(window.location.pathname);
-  //   expect(getByText("Introduction content")).toBeVisible();
-  // });
-
   it("should throw error when conditions aren't met", () => {
     jest.spyOn(console, "error");
     // needed to stop error printing to console
