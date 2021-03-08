@@ -1,21 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
-import { useDave } from "App/QuestionnaireDesignPage";
+import { useNavigationCallbacks } from "components/NavigationCallbacks";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
-import {
-  getPageById,
-  getFolderById,
-  getFolderByPageId,
-  getSectionByFolderId,
-  getSectionByPageId,
-  getPageByConfirmationId,
-} from "utils/questionnaireUtils";
+import { getPageById, getFolderById } from "utils/questionnaireUtils";
 
 import {
   SECTION,
@@ -41,8 +34,10 @@ export const UnwrappedNavigationHeader = ({
   const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
   const {
-    callbacks: { onAddQuestionPage, onAddFolder, onAddCalculatedSummaryPage },
-  } = useDave();
+    onAddQuestionPage,
+    onAddFolder,
+    onAddCalculatedSummaryPage,
+  } = useNavigationCallbacks();
 
   const canAddQuestionAndCalculatedSummmaryPages = () =>
     [PAGE, FOLDER, SECTION].includes(entityName);

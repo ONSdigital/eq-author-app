@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useReducer } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, flowRight, isEmpty } from "lodash";
+import { get, flowRight } from "lodash";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -42,16 +42,7 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import { colors } from "constants/theme";
 
-import {
-  useCreateFolder,
-  useCreatePageWithFolder,
-} from "hooks/useCreateFolder";
-
-import {
-  useCreateQuestionPage,
-  useCreateCalculatedSummaryPage,
-} from "hooks/useCreateQuestionPage";
-
+import { CallbackContextProvider } from "components/NavigationCallbacks";
 import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
@@ -67,24 +58,6 @@ const MainNav = styled.div`
   float: left;
   background-color: ${colors.darkerBlack};
 `;
-
-const DaveContext = createContext({ callbacks: null, setCallbacks: null });
-
-export const DaveContextProvider = ({ children }) => {
-  const [callbacks, setCallbacks] = useState({
-    onAddQuestionPage: () => console.log("woo, added qp"),
-    onAddCalculatedSummaryPage: () => console.log("woo, added csp"),
-    onAddFolder: () => console.log("woo, added folder"),
-  });
-
-  return (
-    <DaveContext.Provider value={{ callbacks, setCallbacks }}>
-      {children}
-    </DaveContext.Provider>
-  );
-};
-
-export const useDave = () => useContext(DaveContext);
 
 export const UnwrappedQuestionnaireDesignPage = ({
   loading,
@@ -158,7 +131,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
               <QCodeContext.Provider
                 value={{ flattenedAnswers, duplicates, duplicateQCode }}
               >
-                <DaveContextProvider>
+                <CallbackContextProvider>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation />
@@ -187,7 +160,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
                       <Route path="*" render={renderRedirect} />
                     </Switch>
                   </Column>
-                </DaveContextProvider>
+                </CallbackContextProvider>
               </QCodeContext.Provider>
             </Grid>
           </Titled>

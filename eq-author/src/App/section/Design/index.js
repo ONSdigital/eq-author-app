@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDave } from "App/QuestionnaireDesignPage";
+import React, { useState } from "react";
+import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
@@ -73,22 +73,19 @@ export const UnwrappedSectionRoute = (props) => {
     section,
   } = props;
 
-  const { setCallbacks } = useDave();
-
-  useEffect(
-    () =>
-      setCallbacks({
-        onAddQuestionPage: () =>
-          addFolderWithPage({ sectionId: section.id, position: 0 }),
-        onAddCalculatedSummaryPage: () =>
-          addFolderWithPage({
-            sectionId: section.id,
-            position: section.folders.length + 1,
-            isCalcSum: true,
-          }),
-        onAddFolder: () =>
-          addFolder({ sectionId: section.id, position: 0, enabled: true }),
-      }),
+  useSetNavigationCallbacks(
+    {
+      onAddQuestionPage: () =>
+        addFolderWithPage({ sectionId: section.id, position: 0 }),
+      onAddCalculatedSummaryPage: () =>
+        addFolderWithPage({
+          sectionId: section.id,
+          position: section.folders.length + 1,
+          isCalcSum: true,
+        }),
+      onAddFolder: () =>
+        addFolder({ sectionId: section.id, position: 0, enabled: true }),
+    },
     [section]
   );
 

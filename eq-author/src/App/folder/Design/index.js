@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
@@ -9,9 +9,9 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
+import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 
 import Loading from "components/Loading";
@@ -27,8 +27,6 @@ import AddPage from "assets/icon-add-page.svg?inline";
 
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
-
-import { useDave } from "App/QuestionnaireDesignPage";
 
 import { colors } from "constants/theme";
 
@@ -62,7 +60,6 @@ const BorderedButton = styled(Button)`
 
 const FolderDesignPage = ({ match }) => {
   const { folderId } = match.params;
-  const { setCallbacks } = useDave();
 
   const addPageWithFolder = useCreatePageWithFolder();
   const onAddQuestionPage = useCreateQuestionPage();
@@ -77,35 +74,33 @@ const FolderDesignPage = ({ match }) => {
 
   const folder = data?.folder;
 
-  useEffect(
-    () =>
-      folder &&
-      setCallbacks({
-        onAddQuestionPage: (createInsideFolder) =>
-          createInsideFolder
-            ? onAddQuestionPage({ folderId, position: 0 })
-            : addPageWithFolder({
-                sectionId: folder.section.id,
-                position: folder.position + 1,
-              }),
-        onAddCalculatedSummaryPage: (createInsideFolder) =>
-          createInsideFolder
-            ? addCalculatedSummaryPage({
-                folderId,
-                position: folder.pages.length + 1,
-              })
-            : addPageWithFolder({
-                sectionId: folder.section.id,
-                position: folder.position + 1,
-                isCalcSum: true,
-              }),
-        onAddFolder: () =>
-          addFolder({
-            sectionId: folder.section.id,
-            position: folder.position + 1,
-            enabled: true,
-          }),
-      }),
+  useSetNavigationCallbacks(
+    {
+      onAddQuestionPage: (createInsideFolder) =>
+        createInsideFolder
+          ? onAddQuestionPage({ folderId, position: 0 })
+          : addPageWithFolder({
+              sectionId: folder.section.id,
+              position: folder.position + 1,
+            }),
+      onAddCalculatedSummaryPage: (createInsideFolder) =>
+        createInsideFolder
+          ? addCalculatedSummaryPage({
+              folderId,
+              position: folder.pages.length + 1,
+            })
+          : addPageWithFolder({
+              sectionId: folder.section.id,
+              position: folder.position + 1,
+              isCalcSum: true,
+            }),
+      onAddFolder: () =>
+        addFolder({
+          sectionId: folder.section.id,
+          position: folder.position + 1,
+          enabled: true,
+        }),
+    },
     [folder]
   );
 
