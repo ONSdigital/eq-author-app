@@ -69,22 +69,16 @@ Resolvers.Mutation = {
     const section = getSectionByPageId(ctx, input.id);
     const { previous } = getMovePosition(section, input.id, 0);
 
-    section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
+    const folder = section.folders[previous.folderIndex];
+    folder.pages.splice(previous.pageIndex, 1);
 
     onPageDeleted(ctx, section, previous.page);
 
-    if (!section.folders[previous.folderIndex].pages.length) {
-      if (
-        section.folders.length > 1 &&
-        section.folders[previous.folderIndex].enabled === false
-      ) {
+    if (!folder.pages.length) {
+      if (section.folders.length > 1 && !folder.enabled) {
         const [deletedFolder] = section.folders.splice(previous.folderIndex, 1);
         onFolderDeleted(ctx, deletedFolder);
-      } else if (
-        (section.folders.length === 1 &&
-          section.folders[previous.folderIndex].enabled === false) ||
-        section.folders[previous.folderIndex].enabled
-      ) {
+      } else {
         const newPage = createQuestionPage();
         section.folders[previous.folderIndex].pages.push(newPage);
       }
