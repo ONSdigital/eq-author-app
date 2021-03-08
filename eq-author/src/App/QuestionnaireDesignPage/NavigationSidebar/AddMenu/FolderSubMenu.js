@@ -9,6 +9,7 @@ const ContentSpacer = styled.div`
   padding-right: 0;
 `;
 const ContentCategory = styled.span`
+  display: inline-block;
   padding: 0.2em 0.8em;
   color: ${colors.orange};
   font-weight: 600;
