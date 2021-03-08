@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, flowRight } from "lodash";
+import { get, flowRight, isEmpty } from "lodash";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -75,7 +75,6 @@ export const UnwrappedQuestionnaireDesignPage = ({
         </Grid>
       );
     }
-
     if (questionnaire.introduction) {
       return (
         <Redirect
@@ -121,10 +120,9 @@ export const UnwrappedQuestionnaireDesignPage = ({
       }
     }
   }
-
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
-      <BaseLayout questionnaire={questionnaire} data-test="base-layout">
+      <BaseLayout questionnaire={questionnaire}>
         <ScrollPane>
           <Titled title={() => (loading ? "" : questionnaire.title)}>
             <Grid>
@@ -134,7 +132,10 @@ export const UnwrappedQuestionnaireDesignPage = ({
                 <CallbackContextProvider>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
-                      <MainNavigation />
+                      <MainNavigation
+                        hasQuestionnaire={!isEmpty(questionnaire)}
+                        totalErrorCount={questionnaire?.totalErrorCount}
+                      />
                     </MainNav>
                     <NavigationSidebar
                       data-test="side-nav"
