@@ -1,20 +1,25 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import PropTypes from "prop-types";
 
-const CallbackContext = createContext({ callbacks: null, setCallbacks: null });
+const defaultCallbacks = {
+  onAddQuestionPage: () => {
+    throw new Error("onAddQuestionPage callback not defined");
+  },
+  onAddCalculatedSummaryPage: () => {
+    throw new Error("onAddCalculatedSummaryPage callback not defined");
+  },
+  onAddFolder: () => {
+    throw new Error("onAddFolder callback not defined");
+  },
+};
+
+const CallbackContext = createContext({
+  callbacks: defaultCallbacks,
+  setCallbacks: null,
+});
 
 export const CallbackContextProvider = ({ children }) => {
-  const [callbacks, setCallbacks] = useState({
-    onAddQuestionPage: () => {
-      throw new Error("onAddQuestionPage callback not defined");
-    },
-    onAddCalculatedSummaryPage: () => {
-      throw new Error("onAddCalculatedSummaryPage callback not defined");
-    },
-    onAddFolder: () => {
-      throw new Error("onAddFolder callback not defined");
-    },
-  });
+  const [callbacks, setCallbacks] = useState(defaultCallbacks);
 
   return (
     <CallbackContext.Provider value={{ callbacks, setCallbacks }}>
