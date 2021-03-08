@@ -77,6 +77,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
     folder: page?.folder,
     section: page?.folder?.section,
   });
+
   return (
     <div data-test="question-page-editor">
       <PageHeader
