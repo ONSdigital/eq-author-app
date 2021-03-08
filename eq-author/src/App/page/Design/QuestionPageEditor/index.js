@@ -29,6 +29,8 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 import MetaEditor from "./MetaEditor";
 import AdditionalInfo from "./AdditionalInfo";
 
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
 const QuestionSegment = styled.div`
   padding: 0 2em;
 `;
@@ -69,6 +71,12 @@ export const UnwrappedQuestionPageEditor = (props) => {
     onDeleteAnswer,
     match,
   } = props;
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: page?.folder,
+    section: page?.folder?.section,
+  });
   return (
     <div data-test="question-page-editor">
       <PageHeader
@@ -145,8 +153,13 @@ UnwrappedQuestionPageEditor.fragments = {
       answers {
         ...AnswerEditor
       }
+      folder {
+        id
+        position
+      }
       section {
         id
+        position
         questionnaire {
           id
           metadata {
