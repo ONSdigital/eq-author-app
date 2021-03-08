@@ -75,7 +75,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
   useSetNavigationCallbacksForPage({
     page: page,
     folder: page?.folder,
-    section: page?.folder?.section,
+    section: page?.section,
   });
 
   return (
