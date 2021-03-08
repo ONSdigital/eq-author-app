@@ -74,6 +74,6 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
           enabled: true,
         }),
     },
-    [page]
+    [page, folder, section]
   );
 };
