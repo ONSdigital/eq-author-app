@@ -355,9 +355,6 @@ export const withValidations = (Component) => {
   return WrappedComponent;
 };
 
-export default flowRight([
-  withQuestionnaire,
-  withAuthCheck,
-  withValidations,
-  // withMutations,
-])(UnwrappedQuestionnaireDesignPage);
+export default flowRight([withQuestionnaire, withAuthCheck, withValidations])(
+  UnwrappedQuestionnaireDesignPage
+);
