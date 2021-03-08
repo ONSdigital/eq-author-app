@@ -1,112 +1,96 @@
 import React from "react";
-
 import { render, act, flushPromises, waitFor } from "tests/utils/rtl";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import { MeContext } from "App/MeContext";
-import QuestionnaireContext from "components/QuestionnaireContext";
-
-import { publishStatusSubscription } from "components/EditorLayout/Header";
-import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
-
 import FolderDesignPage from "./";
 
+import { useQuery } from "@apollo/react-hooks";
+
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
+const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
-const firstFolder = mockQuestionnaire.sections[0].folders[1];
+jest.mock("react-apollo", () => ({
+  useSubscription: () => null,
+}));
 
-const mockUser = {
-  id: "123",
-  displayName: "Raymond Holt",
-  email: "RaymondHolt@TheNineNine.com",
-  picture: "http://img.com/avatar.jpg",
-  admin: true,
+jest.mock("@apollo/react-hooks", () => ({
+  useQuery: jest.fn(),
+  useMutation: jest.fn(() => []),
+}));
+
+jest.mock("hooks/useCreateQuestionPage", () => ({
+  useCreateQuestionPage: jest.fn(),
+  useCreateCalculatedSummaryPage: jest.fn(),
+}));
+
+jest.mock("hooks/useCreateFolder", () => ({
+  useCreateFolder: jest.fn(),
+  useCreatePageWithFolder: jest.fn(),
+}));
+
+jest.mock("components/NavigationCallbacks", () => ({
+  useSetNavigationCallbacks: () => jest.fn,
+}));
+
+const mockData = {
+  folder: {
+    id: firstFolder.id,
+    alias: firstFolder.alias,
+    position: 0,
+    pages: [
+      {
+        id: firstFolder.pages[0].id,
+        __typename: "Page",
+      },
+    ],
+    section: {
+      id: mockQuestionnaire.sections[0].id,
+      __typename: "Section",
+    },
+    __typename: "Folder",
+  },
 };
-
-let mocks;
 
 const renderFolderDesignPage = ({
   match = {
     params: { folderId: firstFolder.id },
   },
-}) =>
-  render(
-    <MeContext.Provider value={{ me: mockUser, signOut: jest.fn() }}>
-      <QuestionnaireContext.Provider
-        value={{ questionnaire: mockQuestionnaire }}
-      >
-        <FolderDesignPage match={match} />
-      </QuestionnaireContext.Provider>
-    </MeContext.Provider>,
-    {
-      route: `/q/${mockQuestionnaire.id}/folder/${firstFolder.id}/design`,
-      urlParamMatcher: "/q/:questionnaireId/folder/:folderId/:tab",
-      mocks,
-    }
-  );
-
-describe("Folder design page", () => {
-  beforeEach(() => {
-    mocks = [
-      {
-        request: {
-          query: publishStatusSubscription,
-          variables: { id: mockQuestionnaire.id },
-        },
-        result: () => ({
-          data: {
-            publishStatusUpdated: {
-              id: mockQuestionnaire.id,
-              publishStatus: "Unpublished",
-              __typename: "Questionnaire",
-            },
-          },
-        }),
-      },
-      {
-        request: {
-          query: GET_FOLDER_QUERY,
-          variables: { input: { folderId: firstFolder.id } },
-        },
-        result: () => ({
-          data: {
-            folder: {
-              id: firstFolder.id,
-              alias: firstFolder.alias,
-              position: 1,
-              section: {
-                id: mockQuestionnaire.sections[0].id,
-                __typename: "Section",
-              },
-              __typename: "Folder",
-            },
-          },
-        }),
-      },
-    ];
+} = {}) =>
+  render(<FolderDesignPage match={match} />, {
+    route: `/q/${mockQuestionnaire.id}/folder/${firstFolder.id}/design`,
+    urlParamMatcher: "/q/:questionnaireId/folder/:folderId/:tab",
   });
 
+describe("Folder design page", () => {
   it("Can render", async () => {
-    const { getByTestId } = renderFolderDesignPage({});
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: false,
+      data: mockData,
+    }));
 
+    const { getByTestId } = renderFolderDesignPage();
     await waitFor(() => expect(getByTestId("folders-page")).toBeVisible());
   });
 
   it("Should show the error page if there is an error getting the folder from db", async () => {
-    const { getByTestId } = renderFolderDesignPage({
-      match: { params: { folderId: "10" } },
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: true,
+      data: undefined,
+    }));
+    const { getByTestId } = renderFolderDesignPage();
 
     expect(getByTestId("error")).toBeVisible();
     expect(() => getByTestId("folders-page")).toThrow();
   });
 
   it("Should show the error page if no folder is returned from the db", async () => {
-    mocks[1].result = () => ({});
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: false,
+      data: undefined,
+    }));
     const { getByTestId } = renderFolderDesignPage({});
 
     await act(async () => {
@@ -118,6 +102,11 @@ describe("Folder design page", () => {
   });
 
   it("Show show the loading page if the get folder query is in flight", () => {
+    useQuery.mockImplementation(() => ({
+      loading: true,
+      error: undefined,
+      data: undefined,
+    }));
     const { getByTestId } = renderFolderDesignPage({});
 
     expect(getByTestId("loading")).toBeVisible();
