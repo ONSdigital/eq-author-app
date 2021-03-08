@@ -5,8 +5,8 @@ import { flowRight, isEmpty } from "lodash";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 
-import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { PageContextProvider } from "components/QuestionnaireContext";
+import { useNavigationCallbacks } from "components/NavigationCallbacks";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -41,7 +41,7 @@ export const PAGE_QUERY = gql`
 `;
 
 export const UnwrappedPageRoute = (props) => {
-  const addQuestionPage = useCreateQuestionPage();
+  const { onAddQuestionPage } = useNavigationCallbacks();
   const { loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
@@ -84,12 +84,13 @@ export const UnwrappedPageRoute = (props) => {
 
     return <Error>Something went wrong</Error>;
   };
+
   return (
     <PageContextProvider value={page}>
       <EditorLayout
         title={page?.displayName || ""}
         onAddQuestionPage={() =>
-          addQuestionPage({
+          onAddQuestionPage({
             folderId: page.folder.id,
             position: page.position + 1,
           })
