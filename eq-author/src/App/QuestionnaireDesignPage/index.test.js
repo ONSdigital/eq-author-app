@@ -15,6 +15,8 @@ import { PAGE } from "constants/entities";
 
 import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from "./";
 
+import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
+
 jest.mock("components/BaseLayout/PermissionsBanner", () => ({
   __esModule: true,
   default: () => <></>,
@@ -35,9 +37,12 @@ jest.mock("@apollo/react-hooks", () => ({
 describe("QuestionnaireDesignPage", () => {
   let sectionsForFlatAnswers, answerList, flatAnswersTest, duplicateTest;
 
-  const defaultSetup = (changes = {}) => {
+  const defaultSetup = (changes = {}, routing = {}) => {
     const questionnaire = buildQuestionnaire();
     questionnaire.totalErrorCount = 0;
+    questionnaire.introduction = {
+      id: "1",
+    };
     const page = questionnaire.sections[0].folders[0].pages[0];
     useQuery.mockImplementation(() => ({ loading: false, data: { page } }));
     const validations = {
@@ -70,6 +75,7 @@ describe("QuestionnaireDesignPage", () => {
       validations,
       match,
       loading: false,
+      error: {},
       ...changes,
     };
 
@@ -84,9 +90,10 @@ describe("QuestionnaireDesignPage", () => {
       {
         route: `/q/${questionnaire.id}/page/${page.id}/design`,
         urlParamMatcher: "/q/:questionnaireId/page/:pageId/:tab",
+        ...routing,
       }
     );
-    return { ...utils };
+    return { ...utils, questionnaire, page };
   };
 
   it("should render", () => {
@@ -96,10 +103,43 @@ describe("QuestionnaireDesignPage", () => {
     expect(getByTestId("side-nav")).toBeVisible();
   });
 
-  it("should render a loading state", () => {
-    const { getByText } = defaultSetup({ loading: true });
+  it("should redirect to a loading screen", () => {
+    const route = `/q/questionnaire/`;
+    const urlParamMatcher = "/q/:questionnaireId/";
+    const { getByTestId } = defaultSetup(
+      { loading: true },
+      { route, urlParamMatcher }
+    );
+    expect(getByTestId("loading")).toBeVisible();
+  });
 
-    expect(getByText("Loading questionnaire…")).toBeVisible();
+  // it.only("should redirect to an intro", () => {
+  //   const route = `/q/questionnaire/`;
+  //   const urlParamMatcher = "/q/:questionnaireId/";
+  //   // useQuery.mockImplementationOnce(() => ({
+  //   //   loading: false,
+  //   //   data: { questionnaireIntroduction: { id: "1" } },
+  //   // }));
+  //   const { getByText } = defaultSetup(
+  //     { loading: false },
+  //     { route, urlParamMatcher }
+  //   );
+  //   console.log(window.location.pathname);
+  //   expect(getByText("Introduction content")).toBeVisible();
+  // });
+
+  it("should throw error when conditions aren't met", () => {
+    jest.spyOn(console, "error");
+    // needed to stop error printing to console
+    // eslint-disable-next-line no-console
+    console.error.mockImplementation(() => {});
+    expect(() =>
+      defaultSetup({
+        loading: false,
+        error: null,
+        questionnaire: null,
+      })
+    ).toThrow(ERR_PAGE_NOT_FOUND);
   });
 
   describe("Document title", () => {
