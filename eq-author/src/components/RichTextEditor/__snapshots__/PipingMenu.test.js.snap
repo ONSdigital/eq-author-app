@@ -66,6 +66,9 @@ exports[`PipingMenu should render 1`] = `
                 },
               ],
               "position": 0,
+              "section": Object {
+                "id": "1",
+              },
             },
           ],
           "id": "1",

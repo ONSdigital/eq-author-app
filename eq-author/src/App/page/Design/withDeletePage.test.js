@@ -6,10 +6,11 @@ describe("withDeletePage", () => {
   let deletedPage, currentPage, questionnaire;
 
   beforeEach(() => {
-    questionnaire = buildQuestionnaire({ pageCount: 2 });
+    questionnaire = buildQuestionnaire({ folderCount: 2 });
+
     const section = questionnaire.sections[0];
     currentPage = section.folders[0].pages[0];
-    deletedPage = section.folders[0].pages[1];
+    deletedPage = section.folders[1].pages[0];
 
     history = { push: jest.fn() };
 

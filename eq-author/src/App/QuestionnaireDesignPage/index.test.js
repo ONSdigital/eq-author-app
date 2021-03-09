@@ -276,6 +276,7 @@ describe("QuestionnaireDesignPage", () => {
 
     it("should be able to add a page after the confirmation when on a confirmation page", () => {
       page.confirmation = confirmation;
+
       wrapper.setProps({
         match: {
           params: {
