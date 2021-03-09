@@ -136,6 +136,15 @@ describe("NavigationHeader", () => {
         expect(getByText(/Inside Folder 1.2/)).toBeVisible();
         expect(getByText(/Outside Folder 1.2/)).toBeVisible();
       });
+
+      it("should disable confirmation question", () => {
+        useParams.mockImplementation(() => ({
+          entityName: "folder",
+          entityId: "1.2",
+        }));
+        const { confirmation } = openSetup();
+        expect(confirmation).toBeDisabled();
+      });
     });
   });
 });
