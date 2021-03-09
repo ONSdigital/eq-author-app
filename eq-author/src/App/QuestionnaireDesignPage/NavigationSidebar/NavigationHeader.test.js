@@ -10,15 +10,16 @@ import NavigationHeader from "./NavigationHeader";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useNavigationCallbacks: () => ({
-    onAddQuestionPage: null,
+    onAddQuestionPage: () => jest.fn(),
     onAddFolder: jest.fn(),
     onAddCalculatedSummaryPage: jest.fn(),
   }),
 }));
 
-// jest.mock("react-router-dom", () => ({
-//   useParams: () => ({ entityName: "something" }),
-// }));
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: () => ({ entityName: "section", entityId: "1.1.1" }),
+}));
 
 function defaultSetup(changes) {
   const props = {
@@ -54,10 +55,11 @@ describe("NavigationHeader", () => {
     expect(queryByTestId("addmenu-window")).toBeVisible();
   });
 
-  it("should close after firing", async () => {
-    const { queryByTestId, debug } = openSetup();
-    fireEvent.click(queryByTestId("btn-add-question-page"));
-    debug();
-    await waitFor(expect(screen.queryByTestId("addmenu-window")).toBeNull());
+  it("should close after firing question page", async () => {
+    const { getByTestId } = openSetup();
+    fireEvent.click(getByTestId("btn-add-question-page"));
+    expect(getByTestId("btn-add-menu").getAttribute("aria-expanded")).toEqual(
+      "false"
+    );
   });
 });
