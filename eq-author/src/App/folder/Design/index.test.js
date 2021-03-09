@@ -1,6 +1,12 @@
 import React from "react";
 
-import { render, act, flushPromises, waitFor } from "tests/utils/rtl";
+import {
+  render,
+  act,
+  flushPromises,
+  waitFor,
+  fireEvent,
+} from "tests/utils/rtl";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import { MeContext } from "App/MeContext";
@@ -8,6 +14,7 @@ import QuestionnaireContext from "components/QuestionnaireContext";
 
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
+import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 
 import FolderDesignPage from "./";
 
@@ -23,7 +30,8 @@ const mockUser = {
   admin: true,
 };
 
-let mocks;
+let mocks, response;
+let duplicateWasCalled;
 
 const renderFolderDesignPage = ({
   match = {
@@ -47,6 +55,7 @@ const renderFolderDesignPage = ({
 
 describe("Folder design page", () => {
   beforeEach(() => {
+    duplicateWasCalled = false;
     mocks = [
       {
         request: {
@@ -89,6 +98,122 @@ describe("Folder design page", () => {
           },
         }),
       },
+      {
+        request: {
+          query: DUPLICATE_FOLDER_MUTATION,
+          variables: { input: { folderId: firstFolder.id } },
+        },
+        result: () => {
+          duplicateWasCalled = true;
+          return {
+            data: {
+              duplicateFolder: {
+                id: "folder1",
+                sections: [
+                  {
+                    folders: [
+                      {
+                        id: "folder2",
+                        pages: [
+                          {
+                            id: "page",
+                          },
+                        ],
+                      },
+                    ],
+                    id: "section",
+                  },
+                ],
+              },
+            }
+          }
+        }
+      }
+      // {
+      //   request: {
+      //     query: DUPLICATE_FOLDER_MUTATION,
+      //     variables: { input: { folderId: firstFolder.id } },
+      //   },
+      //   result: () => {
+      //     duplicateWasCalled = true;
+      //     return {
+      //       data: {
+      //         duplicateFolder: {
+      //         ...firstFolder,
+      //         position: firstFolder.position,
+      //         id: firstFolder.id,
+      //         section: [
+      //           {
+      //             id: firstFolder.section.id,
+      //             folders: [
+      //               {
+      //                 id: firstFolder.id,
+      //                 pages: [
+      //                   {
+      //                     id: "1",
+      //                   },
+      //                 ],
+      //               },
+      //             ],
+      //           },
+      //         ],
+
+      //         pages: [
+      //           {
+      //           ...firstFolder.pages[0],
+      //           position: firstFolder.pages[0].position,
+      //           displayName: firstFolder.pages[0].displayName,
+      //           pageType: firstFolder.pages[0].displayName,
+      //           title: firstFolder.pages[0].title,
+      //           // 
+      //           // ... on QuestionPage {
+      //           //   alias: firstFolder,
+      //           //   description: firstFolder,
+      //           //   guidance: firstFolder,
+      //           //   answers: [
+      //           //     ...Answer
+      //           //     ... on BasicAnswer {
+      //           //       secondaryQCode
+      //           //     },
+      //           //     ... on MultipleChoiceAnswer {
+      //           //       options {
+      //           //         id: firstFolder,
+      //           //         displayName: firstFolder,
+      //           //         label: firstFolder,
+      //           //         description: firstFolder,
+      //           //         value: firstFolder,
+      //           //         qCode: firstFolder,
+      //           //       },
+      //           //       mutuallyExclusiveOption {
+      //           //         id: firstFolder,
+      //           //         label: firstFolder,
+      //           //         qCode: firstFolder,
+      //           //       }
+      //           //     }
+      //           //   ],
+      //           //   confirmation {
+      //           //     id
+      //           //     qCode
+      //           //     displayName
+      //           //     validationErrorInfo {
+      //           //       ...ValidationErrorInfo
+      //           //     }
+      //           //   },
+      //           // },
+      //           // ... on CalculatedSummaryPage {
+      //           //   id
+      //           // },
+      //           // validationErrorInfo {
+      //           //   ...ValidationErrorInfo
+      //           // },
+      //           // 
+      //         },
+      //         ]
+      //       },
+      //     }, 
+      //     };
+      //   },
+      // },
     ];
   });
 
@@ -128,5 +253,26 @@ describe("Folder design page", () => {
 
     expect(getByTestId("loading")).toBeVisible();
     expect(() => getByTestId("folders-page")).toThrow();
+  });
+
+  it("Should duplicate a folder when duplicate button is clicked", async () => {
+    // const onCompleteDuplicate = jest.fn();
+
+    const { getByTestId, getByTitle } = renderFolderDesignPage({});
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await act(async () => {
+      fireEvent.click(getByTestId("btn-duplicate-folder"));
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(duplicateWasCalled).toBeTruthy();
+    
   });
 });

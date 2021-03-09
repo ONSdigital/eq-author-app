@@ -32,7 +32,7 @@ describe("onCompleteDuplicate", () => {
     folderPosition = 0;
   });
 
-  it("should duplicate a folder", () => {
+  it("should display new folder when folder is duplicated", () => {
     folderPosition = 0;
     onCompleteDuplicate(
       response,
