@@ -1,12 +1,11 @@
 import React from "react";
-import { render, fireEvent, waitFor, screen } from "tests/utils/rtl";
-// import userEvent from "@testing-library/user-event";
-
+import { render, fireEvent } from "tests/utils/rtl";
+import { useParams } from "react-router-dom";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 
-import NavigationHeader from "./NavigationHeader";
+import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useNavigationCallbacks: () => ({
@@ -18,28 +17,51 @@ jest.mock("components/NavigationCallbacks", () => ({
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useParams: () => ({ entityName: "section", entityId: "1.1.1" }),
+  useParams: jest.fn(),
+}));
+
+useParams.mockImplementation(() => ({
+  entityName: "section",
+  entityId: "1.1.1",
 }));
 
 function defaultSetup(changes) {
+  const onCreateQuestionConfirmation = jest.fn();
+  const onAddSection = jest.fn();
   const props = {
+    onCreateQuestionConfirmation,
+    onAddSection,
     ...changes,
   };
-  const questionnaire = buildQuestionnaire();
+  const questionnaire = buildQuestionnaire({ folderCount: 2 });
   const utils = render(
-    <QuestionnaireContext.Provider value={questionnaire}>
+    <QuestionnaireContext.Provider value={{ questionnaire }}>
       <NavigationHeader {...props} />
     </QuestionnaireContext.Provider>
   );
 
-  return { ...utils };
+  return { ...utils, onCreateQuestionConfirmation, onAddSection };
 }
 
 function openSetup() {
   const utils = defaultSetup();
-  const menuButton = "btn-add-menu";
-  fireEvent.click(utils.getByTestId(menuButton));
-  return { ...utils };
+  const menuButton = utils.getByTestId("btn-add-menu");
+  fireEvent.click(menuButton);
+  const section = utils.getByTestId("btn-add-section");
+  const question = utils.getByTestId("btn-add-question-page");
+  const folder = utils.getByTestId("btn-add-folder");
+  const calculated = utils.getByTestId("btn-add-calculated-summary");
+  const confirmation = utils.getByTestId("btn-add-question-confirmation");
+
+  return {
+    ...utils,
+    menuButton,
+    section,
+    question,
+    folder,
+    calculated,
+    confirmation,
+  };
 }
 
 describe("NavigationHeader", () => {
@@ -55,11 +77,65 @@ describe("NavigationHeader", () => {
     expect(queryByTestId("addmenu-window")).toBeVisible();
   });
 
-  it("should close after firing question page", async () => {
-    const { getByTestId } = openSetup();
-    fireEvent.click(getByTestId("btn-add-question-page"));
-    expect(getByTestId("btn-add-menu").getAttribute("aria-expanded")).toEqual(
-      "false"
-    );
+  describe("when entityName is Section", () => {
+    it("should close after adding a section", () => {
+      const { menuButton, onAddSection, section } = openSetup();
+      fireEvent.click(section);
+      expect(onAddSection).toHaveBeenCalledTimes(1);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after adding a folder", () => {
+      const { menuButton, folder } = openSetup();
+      fireEvent.click(folder);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after firing question page", () => {
+      const { menuButton, question } = openSetup();
+      fireEvent.click(question);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after firing a calculated summary", () => {
+      const { menuButton, calculated } = openSetup();
+      fireEvent.click(calculated);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should be disabled for confirmation question", () => {
+      const { confirmation } = openSetup();
+      fireEvent.click(confirmation);
+      expect(confirmation).toBeDisabled();
+    });
+  });
+
+  describe("when entityName is Page", () => {
+    it("should be able to add confirmation question", () => {
+      useParams.mockImplementation(() => ({
+        entityName: "page",
+        entityId: "1.1.1",
+      }));
+      const {
+        menuButton,
+        confirmation,
+        onCreateQuestionConfirmation,
+      } = openSetup();
+      fireEvent.click(confirmation);
+      expect(onCreateQuestionConfirmation).toHaveBeenCalledTimes(1);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    describe("when entityName is Folder", () => {
+      it("should generate folder title when folder", () => {
+        useParams.mockImplementation(() => ({
+          entityName: "folder",
+          entityId: "1.2",
+        }));
+        const { getByText } = openSetup();
+        expect(getByText(/Inside Folder 1.2/)).toBeVisible();
+        expect(getByText(/Outside Folder 1.2/)).toBeVisible();
+      });
+    });
   });
 });
