@@ -32,6 +32,10 @@ const Trigger = styled.button.attrs({ type: "button" })`
   }
 `;
 
+const Indent = styled.label`
+  margin-left: ${(props) => (props.indentItem ? 1 : 0)}em;
+`;
+
 const PositionModal = ({ options, onMove, selected }) => {
   const previousPosition = useMemo(
     () => options.findIndex(({ id }) => id === selected.id),
@@ -74,7 +78,7 @@ const PositionModal = ({ options, onMove, selected }) => {
       </Trigger>
       <ItemSelectModal
         data-test={"position-select-modal"}
-        title={"Position"}
+        title={"Position HH"}
         primaryText={"Move"}
         isOpen={isOpen}
         onClose={handleClose}
@@ -97,12 +101,17 @@ const PositionModal = ({ options, onMove, selected }) => {
   );
 };
 
+// <Indent indentItem={item.position === 1}>{item.displayName}</Indent>
+// <Indent indentItem={item.parentEnabled}>{item.displayName}</Indent>
+
 PositionModal.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       displayName: PropTypes.string.isRequired,
       position: PropTypes.number.isRequired,
+      folder: PropTypes.string.isRequired,
+      parentEnabled: PropTypes.bool.isRequired,
     })
   ).isRequired,
   onMove: PropTypes.func.isRequired,

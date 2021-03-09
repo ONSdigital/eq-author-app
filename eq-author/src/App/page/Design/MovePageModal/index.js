@@ -94,6 +94,44 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
     [questionnaire, selectedSectionId]
   );
 
+  const buildPageList = (folders) => {
+    const items = [];
+    var folderId;
+    // var isChild = false;
+    folders.map(({ id, enabled, alias, pages }) => {
+      folderId = id;
+      if (enabled) {
+        items.push({
+          id: id,
+          title: `<p>${alias}</p>`,
+          position: 0,
+          displayName: alias,
+          pageType: "Folder",
+          folder: folderId,
+          parentEnabled: false,
+        });
+        // isChild = true;
+      };
+      pages.map(({ id, title, position, displayName, pageType }) => {
+        items.push({
+          id: id,
+          title: title,
+          position: position,
+          displayName: displayName,
+          pageType: pageType,
+          folder: folderId,
+          parentEnabled: enabled,
+        });
+      });
+    });
+    return items;
+  };
+    
+  console.log("selectedSection: ", selectedSection);
+  console.log("flatmap: ", selectedSection.folders.flatMap(({ pages }) => pages));
+  console.log("myObj: ", buildPageList(selectedSection.folders));
+  console.log("page: ", page);
+
   return useMemo(
     () =>
       questionnaire ? (
@@ -124,7 +162,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
           </ItemSelectModal>
           <PositionModal
             data-test={"page-position-modal"}
-            options={selectedSection.folders.flatMap(({ pages }) => pages)}
+            options={buildPageList(selectedSection.folders)}
             onMove={handlePageMove}
             selected={page}
           />
@@ -133,6 +171,9 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
     [selectedSection, questionnaire, page, isOpen, isSectionSelectOpen]
   );
 };
+
+// options={selectedSection.folders.flatMap(({ pages }) => pages)}
+// options={buildPageList(selectedSection.folders)}
 
 MovePageModal.propTypes = propTypes;
 
