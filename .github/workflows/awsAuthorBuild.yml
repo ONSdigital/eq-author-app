@@ -1,4 +1,4 @@
-name: Buid Author for AWS
+name: Build Author for AWS
 
 on:
   workflow_dispatch:
