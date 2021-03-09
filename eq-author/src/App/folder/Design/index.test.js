@@ -19,6 +19,7 @@ import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import FolderDesignPage from "./";
 
 const mockQuestionnaire = buildQuestionnaire();
+console.log(JSON.stringify(mockQuestionnaire, null, 7));
 
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
@@ -30,20 +31,20 @@ const mockUser = {
   admin: true,
 };
 
-let mocks, response;
-let duplicateWasCalled;
+let mocks, duplicateWasCalled;
 
 const renderFolderDesignPage = ({
   match = {
-    params: { folderId: firstFolder.id },
+    params: { folderId: firstFolder.id, questionnaireId: mockQuestionnaire.id },
   },
+  history = { push: jest.fn() },
 }) =>
   render(
     <MeContext.Provider value={{ me: mockUser, signOut: jest.fn() }}>
       <QuestionnaireContext.Provider
         value={{ questionnaire: mockQuestionnaire }}
       >
-        <FolderDesignPage match={match} />
+        <FolderDesignPage match={match} history={history} />
       </QuestionnaireContext.Provider>
     </MeContext.Provider>,
     {
@@ -101,119 +102,90 @@ describe("Folder design page", () => {
       {
         request: {
           query: DUPLICATE_FOLDER_MUTATION,
-          variables: { input: { folderId: firstFolder.id } },
+          variables: {
+            input: { id: firstFolder.id, position: firstFolder.position + 1 },
+          },
         },
         result: () => {
           duplicateWasCalled = true;
           return {
             data: {
               duplicateFolder: {
-                id: "folder1",
-                sections: [
+                ...firstFolder,
+                position: firstFolder.position,
+                id: firstFolder.id,
+                section: [
                   {
+                    id: firstFolder.section.id,
                     folders: [
                       {
-                        id: "folder2",
+                        id: firstFolder.id,
                         pages: [
                           {
-                            id: "page",
+                            id: "1.1.1",
+                            title: "Page 1.1.1",
+                            displayName: "Page 1.1.1",
+                            alias: "1.1.1",
+                            position: 0,
+                            validationErrorInfo: {
+                              totalCount: 0,
+                              errors: [],
+                              id: "210dc30a-683c-43bc-a29e-70c6d15d677c",
+                              __typename: "ValidationErrorInfo",
+                            },
+                            section: {
+                              id: "1",
+                            },
+                            folder: {
+                              id: "1",
+                            },
+                            additionalInfoContent: null,
+                            additionalInfoEnabled: false,
+                            additionalInfoLabel: null,
+                            confirmation: null,
+                            definitionContent: null,
+                            definitionEnabled: false,
+                            definitionLabel: null,
+                            description: "",
+                            descriptionEnabled: false,
+                            guidance: null,
+                            guidanceEnabled: false,
+                            pageType: "QuestionPage",
+                            answers: [
+                              {
+                                id: "1872f8af-2000-4af2-953e-144d264769e0",
+                                description: "",
+                                guidance: "",
+                                label: "Test",
+                                decimals: 0,
+                                properties: { required: false, decimals: 0 },
+                                required: false,
+                                qCode: "",
+                                secondaryLabel: null,
+                                secondaryLabelDefault: "Untitled answer",
+                                secondaryQCode: null,
+                                type: "Number",
+                                displayName: "",
+                                options: "",
+                                mutuallyExclusiveOption: "",
+                                __typename: "BasicAnswer",
+                              },
+                            ],
+                            __typename: "QuestionPage",
                           },
                         ],
+                        __typename: "Folder",
                       },
                     ],
-                    id: "section",
+                    __typename: "Section",
                   },
                 ],
+                __typename: "Folder",
               },
-            }
-          }
-        }
-      }
-      // {
-      //   request: {
-      //     query: DUPLICATE_FOLDER_MUTATION,
-      //     variables: { input: { folderId: firstFolder.id } },
-      //   },
-      //   result: () => {
-      //     duplicateWasCalled = true;
-      //     return {
-      //       data: {
-      //         duplicateFolder: {
-      //         ...firstFolder,
-      //         position: firstFolder.position,
-      //         id: firstFolder.id,
-      //         section: [
-      //           {
-      //             id: firstFolder.section.id,
-      //             folders: [
-      //               {
-      //                 id: firstFolder.id,
-      //                 pages: [
-      //                   {
-      //                     id: "1",
-      //                   },
-      //                 ],
-      //               },
-      //             ],
-      //           },
-      //         ],
-
-      //         pages: [
-      //           {
-      //           ...firstFolder.pages[0],
-      //           position: firstFolder.pages[0].position,
-      //           displayName: firstFolder.pages[0].displayName,
-      //           pageType: firstFolder.pages[0].displayName,
-      //           title: firstFolder.pages[0].title,
-      //           // 
-      //           // ... on QuestionPage {
-      //           //   alias: firstFolder,
-      //           //   description: firstFolder,
-      //           //   guidance: firstFolder,
-      //           //   answers: [
-      //           //     ...Answer
-      //           //     ... on BasicAnswer {
-      //           //       secondaryQCode
-      //           //     },
-      //           //     ... on MultipleChoiceAnswer {
-      //           //       options {
-      //           //         id: firstFolder,
-      //           //         displayName: firstFolder,
-      //           //         label: firstFolder,
-      //           //         description: firstFolder,
-      //           //         value: firstFolder,
-      //           //         qCode: firstFolder,
-      //           //       },
-      //           //       mutuallyExclusiveOption {
-      //           //         id: firstFolder,
-      //           //         label: firstFolder,
-      //           //         qCode: firstFolder,
-      //           //       }
-      //           //     }
-      //           //   ],
-      //           //   confirmation {
-      //           //     id
-      //           //     qCode
-      //           //     displayName
-      //           //     validationErrorInfo {
-      //           //       ...ValidationErrorInfo
-      //           //     }
-      //           //   },
-      //           // },
-      //           // ... on CalculatedSummaryPage {
-      //           //   id
-      //           // },
-      //           // validationErrorInfo {
-      //           //   ...ValidationErrorInfo
-      //           // },
-      //           // 
-      //         },
-      //         ]
-      //       },
-      //     }, 
-      //     };
-      //   },
-      // },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -256,9 +228,7 @@ describe("Folder design page", () => {
   });
 
   it("Should duplicate a folder when duplicate button is clicked", async () => {
-    // const onCompleteDuplicate = jest.fn();
-
-    const { getByTestId, getByTitle } = renderFolderDesignPage({});
+    const { getByTestId } = renderFolderDesignPage({});
 
     await act(async () => {
       await flushPromises();
@@ -273,6 +243,5 @@ describe("Folder design page", () => {
     });
 
     expect(duplicateWasCalled).toBeTruthy();
-    
   });
 });

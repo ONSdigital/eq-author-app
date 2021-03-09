@@ -13,55 +13,52 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
       folders {
         id
         pages {
-          id
-        }
-      }
-    }
-    pages {
-      ...Page
-      position
-      displayName
-      pageType
-      title
-      ... on QuestionPage {
-        alias
-        description
-        guidance
-        answers {
-          ...Answer
-          ... on BasicAnswer {
-            secondaryQCode
-          }
-          ... on MultipleChoiceAnswer {
-            options {
-              id
-              displayName
-              label
-              description
-              value
-              qCode
-            }
-            mutuallyExclusiveOption {
-              id
-              label
-              qCode
-            }
-          }
-        }
-        confirmation {
-          id
-          qCode
+          ...Page
+          position
           displayName
+          pageType
+          title
+          ... on QuestionPage {
+            alias
+            description
+            guidance
+            answers {
+              ...Answer
+              ... on BasicAnswer {
+                secondaryQCode
+              }
+              ... on MultipleChoiceAnswer {
+                options {
+                  id
+                  displayName
+                  label
+                  description
+                  value
+                  qCode
+                }
+                mutuallyExclusiveOption {
+                  id
+                  label
+                  qCode
+                }
+              }
+            }
+            confirmation {
+              id
+              qCode
+              displayName
+              validationErrorInfo {
+                ...ValidationErrorInfo
+              }
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }
         }
-      }
-      ... on CalculatedSummaryPage {
-        id
-      }
-      validationErrorInfo {
-        ...ValidationErrorInfo
       }
     }
   }

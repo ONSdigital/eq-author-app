@@ -43,23 +43,11 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
   });
 
-  let sectionId, folderPosition;
-  if (data) {
-    sectionId = data.folder.section.id;
-    folderPosition = data.folder.position;
-  }
-
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
 
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
     onCompleted: (data) => {
-      onCompleteDuplicate(
-        data,
-        history,
-        questionnaireId,
-        sectionId,
-        folderPosition
-      );
+      onCompleteDuplicate(data, history, questionnaireId);
     },
   });
 
