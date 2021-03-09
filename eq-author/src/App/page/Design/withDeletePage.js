@@ -23,22 +23,19 @@ const handleDeletion = (
   },
   { folders },
   nextPage,
-  deletePageFolder,
-  deletePageFolderIndex
+  cachedFolder,
+  cachedFolderIndex
 ) => {
-  const deletePageIsFolder = deletePageFolder.enabled;
-  const newPageCreated = folders.length === 1 && folders[0].pages.length === 1;
+  const newPageCreated =
+    cachedFolder.pages.length === 1 && cachedFolder.enabled;
+
+  const modifiedFolder = folders[cachedFolderIndex];
 
   history.push(
-    deletePageIsFolder
-      ? buildPagePath({
-          questionnaireId,
-          pageId: folders[deletePageFolderIndex].pages[0].id,
-        })
-      : buildPagePath({
-          questionnaireId,
-          pageId: newPageCreated ? folders[0].pages[0].id : nextPage.id,
-        })
+    buildPagePath({
+      questionnaireId,
+      pageId: newPageCreated ? modifiedFolder.pages[0].id : nextPage.id,
+    })
   );
 };
 
@@ -46,27 +43,18 @@ export const mapMutateToProps = (props) => ({
   onDeletePage(page) {
     const { ownProps, mutate } = props;
     const { client } = ownProps;
+
     const cachedSection = getCachedSection(client, page.section.id);
-
-    const deletePageFolder = cachedSection.folders.find(
-      (e) => e.pages[0].id === page.id
+    const cachedFolderIndex = cachedSection.folders.findIndex((folder) =>
+      folder.pages.find(({ id }) => id === page.id)
     );
-
-    const deletePageFolderIndex = cachedSection.folders.findIndex(
-      (e) => e.pages[0].id === page.id
-    );
-
+    const cachedFolder = cachedSection.folders[cachedFolderIndex];
     const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
+
     const nextPage = getNextPage(cachedPages, page.id);
 
     const mutation = mutate({
       variables: { input: { id: page.id } },
-      refetchQueries: [
-        {
-          query: getSectionQuery,
-          variables: { input: { sectionId: page.section.id } },
-        },
-      ],
     });
 
     return mutation
@@ -75,8 +63,8 @@ export const mapMutateToProps = (props) => ({
           ownProps,
           section,
           nextPage,
-          deletePageFolder,
-          deletePageFolderIndex
+          cachedFolder,
+          cachedFolderIndex
         )
       )
       .then(() => ownProps.showToast("Page deleted"));
