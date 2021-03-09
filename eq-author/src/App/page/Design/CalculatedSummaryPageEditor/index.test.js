@@ -1,95 +1,126 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
+import { buildPages } from "tests/utils/createMockQuestionnaire";
 import { CalculatedSummaryPageEditor } from "./";
+import { richTextEditorErrors } from "constants/validationMessages";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
 }));
 
+// TODO mock out richText editor to get rid of warning
+
+function defaultPage(changes) {
+  const page = buildPages()[0];
+  page.pageType = "CalculatedSummaryPage";
+  page.summaryAnswers = [];
+  page.availableSummaryAnswers = [];
+  page.folder = {
+    id: "folder-id",
+    position: 0,
+    section: {},
+  };
+  page.section = {
+    id: "2",
+    position: 0,
+    displayName: "This Section",
+    questionnaire: { id: "1", metadata: [] },
+  };
+  page.validationErrorInfo = {
+    errors: [],
+  };
+  page.totalTitle = "";
+  return { ...page, ...changes };
+}
+
+function buildError(error) {
+  return {
+    validationErrorInfo: {
+      errors: [error],
+    },
+  };
+}
+
+function defaultSetup(errors) {
+  const fetchAnswers = jest.fn();
+  const onChange = jest.fn();
+  const onUpdate = jest.fn();
+  const onChangeUpdate = jest.fn();
+  const onUpdateCalculatedSummaryPage = jest.fn();
+  const page = defaultPage(errors);
+  const defaultProps = {
+    fetchAnswers,
+    onChange,
+    onUpdate,
+    onChangeUpdate,
+    onUpdateCalculatedSummaryPage,
+    match: {
+      params: {
+        questionnaireId: "questionnaire",
+        sectionId: "1",
+        pageId: "1.1.1",
+      },
+    },
+    questionnaireId: "1",
+    page,
+  };
+
+  const utils = render(<CalculatedSummaryPageEditor {...defaultProps} />);
+
+  return { ...utils, page };
+}
+
+function errorSetup(errors) {
+  const utils = defaultSetup(errors);
+  return { ...utils };
+}
+
 describe("CalculatedSummaryPageEditor", () => {
-  let defaultProps;
-  beforeEach(() => {
-    defaultProps = {
-      fetchAnswers: jest.fn(),
-      onChange: jest.fn(),
-      onUpdate: jest.fn(),
-      onChangeUpdate: jest.fn(),
-      onUpdateCalculatedSummaryPage: jest.fn(),
-      match: {
-        params: {
-          questionnaireId: "1",
-          sectionId: "2",
-          pageId: "3",
-        },
-      },
-      questionnaireId: "1",
-      page: {
-        id: "3",
-        title: "",
-        alias: "",
-        pageType: "CalculatedSummaryPage",
-        position: 1,
-        displayName: "Foo",
-        totalTitle: "",
-        section: {
-          id: "2",
-          position: 0,
-          displayName: "This Section",
-          questionnaire: { id: "1", metadata: [] },
-        },
-        folder: {
-          id: "folder-id",
-          position: 0,
-          section: {},
-        },
-        summaryAnswers: [],
-        availableSummaryAnswers: [],
-        validationErrorInfo: {
-          errors: [],
-        },
-      },
-    };
-  });
-
   it("should render", () => {
-    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
+    const { getByTestId } = defaultSetup();
+    expect(getByTestId("calculated-summary-page-editor")).toBeVisible();
   });
 
-  it("should display the correct error message when the title is missing", async () => {
-    defaultProps.page.validationErrorInfo.errors[0] = {
+  it("should display the correct error message when the title is missing", () => {
+    const error = buildError({
       errorCode: "ERR_VALID_REQUIRED",
       field: "title",
       id: "1",
       type: "pages",
-    };
+    });
 
-    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = errorSetup(error);
+    expect(
+      getByText(richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED.message)
+    ).toBeVisible();
   });
 
   it("should display the correct error message when piping answer in title is deleted", async () => {
-    defaultProps.page.validationErrorInfo.errors[0] = {
+    const error = buildError({
       errorCode: "PIPING_TITLE_DELETED",
       field: "title",
       id: "1",
       type: "pages",
-    };
+    });
 
-    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = errorSetup(error);
+    expect(
+      getByText(richTextEditorErrors.PIPING_TITLE_DELETED.message)
+    ).toBeVisible();
   });
 
   it("should display the correct error message when piping answer in title is moved after This question", async () => {
-    defaultProps.page.validationErrorInfo.errors[0] = {
+    const error = buildError({
       errorCode: "PIPING_TITLE_MOVED",
       field: "title",
       id: "1",
       type: "pages",
-    };
+    });
 
-    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = errorSetup(error);
+    expect(
+      getByText(richTextEditorErrors.PIPING_TITLE_MOVED.message)
+    ).toBeVisible();
   });
 });
