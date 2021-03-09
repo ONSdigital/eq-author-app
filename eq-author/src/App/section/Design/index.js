@@ -43,7 +43,6 @@ const propTypes = {
   match: CustomPropTypes.match.isRequired,
   onUpdateSection: PropTypes.func.isRequired,
   onDeleteSection: PropTypes.func.isRequired,
-  onAddQuestionPage: PropTypes.func.isRequired,
   onMoveSection: PropTypes.func.isRequired,
   onDuplicateSection: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
