@@ -10,6 +10,7 @@ query GetQuestionnaire($input: QueryInput!) {
       folders {
         id
         alias
+        displayName
         enabled
         position
         pages {
