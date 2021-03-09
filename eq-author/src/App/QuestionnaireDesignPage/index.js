@@ -134,7 +134,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
                     <MainNav>
                       <MainNavigation
                         hasQuestionnaire={!isEmpty(questionnaire)}
-                        totalErrorCount={questionnaire?.totalErrorCount}
+                        totalErrorCount={questionnaire?.totalErrorCount || 0}
                       />
                     </MainNav>
                     <NavigationSidebar

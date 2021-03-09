@@ -86,6 +86,7 @@ export const buildFolders = ({
         pageCount,
         answerCount,
       }),
+      section: { id: `${i + 1}` },
     };
   });
 

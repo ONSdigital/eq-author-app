@@ -89,7 +89,7 @@ export const UnwrappedNavigationHeader = ({
       canAddQuestionConfirmation={canAddQuestionConfirmation()}
       canAddFolder={![INTRODUCTION].includes(entityName)}
       isFolder={isFolder}
-      folderTitle={isFolder && getFolderById(questionnaire, entityId).alias}
+      folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
     />
   );
 };

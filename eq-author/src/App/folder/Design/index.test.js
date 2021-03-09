@@ -1,11 +1,19 @@
 import React from "react";
-import { render, act, flushPromises, waitFor } from "tests/utils/rtl";
+
+import {
+  render,
+  act,
+  flushPromises,
+  waitFor,
+  fireEvent,
+} from "tests/utils/rtl";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import FolderDesignPage from "./";
 
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
+import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
@@ -15,7 +23,7 @@ jest.mock("react-apollo", () => ({
 
 jest.mock("@apollo/react-hooks", () => ({
   useQuery: jest.fn(),
-  useMutation: jest.fn(() => []),
+  useMutation: jest.fn(() => [() => null]),
 }));
 
 jest.mock("hooks/useCreateQuestionPage", () => ({
@@ -53,7 +61,10 @@ const mockData = {
 
 const renderFolderDesignPage = ({
   match = {
-    params: { folderId: firstFolder.id },
+    params: {
+      folderId: firstFolder.id,
+      questionnaireId: mockQuestionnaire.id,
+    },
   },
 } = {}) =>
   render(<FolderDesignPage match={match} />, {
@@ -91,7 +102,7 @@ describe("Folder design page", () => {
       error: false,
       data: undefined,
     }));
-    const { getByTestId } = renderFolderDesignPage({});
+    const { getByTestId } = renderFolderDesignPage();
 
     await act(async () => {
       await flushPromises();
@@ -111,5 +122,54 @@ describe("Folder design page", () => {
 
     expect(getByTestId("loading")).toBeVisible();
     expect(() => getByTestId("folders-page")).toThrow();
+  });
+
+  it("Should trigger a delete modal", async () => {
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: false,
+      data: mockData,
+    }));
+    const { getByTestId, getByTitle } = renderFolderDesignPage();
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTitle("Delete"));
+    });
+
+    expect(getByTestId("delete-confirm-modal")).toBeVisible();
+  });
+
+  it("Should delete a folder", async () => {
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: false,
+      data: mockData,
+    }));
+    const { getByTestId, getByTitle } = renderFolderDesignPage();
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTitle("Delete"));
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTestId("btn-delete-modal"));
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(useMutation).toHaveBeenCalledWith(
+      DELETE_FOLDER_MUTATION,
+      expect.anything()
+    );
   });
 });
