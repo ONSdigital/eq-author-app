@@ -21,7 +21,7 @@ import { QuestionPage } from "constants/page-types";
 
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
-  onAddSection, // TODO - Sections go to the wrong place when you're on a folder
+  onAddSection,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const { entityName, entityId } = useParams();
@@ -44,12 +44,9 @@ export const UnwrappedNavigationHeader = ({
     return !(!page || page.pageType !== QuestionPage || page.confirmation);
   };
 
-  const onAddQuestionConfirmation = () =>
-    onCreateQuestionConfirmation(entityId);
-
   const handleAddQuestionPage = (createInsideFolder = null) => {
-    onAddQuestionPage(createInsideFolder);
     setOpenMenu(!openMenu);
+    onAddQuestionPage(createInsideFolder);
   };
 
   const handleAddSection = () => {
@@ -58,7 +55,7 @@ export const UnwrappedNavigationHeader = ({
   };
 
   const handleAddQuestionConfirmation = () => {
-    onAddQuestionConfirmation();
+    onCreateQuestionConfirmation(entityId);
     setOpenMenu(!openMenu);
   };
 
