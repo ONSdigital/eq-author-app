@@ -24,10 +24,8 @@ const { querySection } = require("../../tests/utils/contextBuilder/section");
 const { NUMBER, CURRENCY, UNIT } = require("../../constants/answerTypes");
 
 describe("calculated Summary", () => {
-  let ctx, questionnaire;
-
   it("should create a calculated summary", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -42,8 +40,8 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
-    const page = questionnaire.sections[0].folders[1].pages[0];
+    const { questionnaire } = ctx;
+    const page = questionnaire.sections[0].folders[0].pages[0];
     const calculatedSummaryPage = await queryPage(ctx, page.id);
 
     expect(calculatedSummaryPage).toMatchObject({
@@ -54,7 +52,7 @@ describe("calculated Summary", () => {
   });
 
   it("should be able to update the answers in the calculated summary", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -76,82 +74,25 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
-    const page = questionnaire.sections[0].folders[1].pages[0];
+    const page = questionnaire.sections[0].folders[0].pages[0];
+    const calcSum = questionnaire.sections[0].folders[0].pages[1];
     await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].folders[1].pages[0].id,
-      summaryAnswers: [
-        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
-      ],
+      id: calcSum.id,
+      summaryAnswers: [page.answers[0].id],
     });
 
-    const result = await queryPage(ctx, page.id);
+    const result = await queryPage(ctx, calcSum.id);
 
     expect(result).toMatchObject({
       id: expect.any(String),
-      summaryAnswers: [
-        { id: questionnaire.sections[0].folders[0].pages[0].answers[0].id },
-      ],
-    });
-  });
-
-  it("should be able to delete the answers in the calculated summary", async () => {
-    ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    questionnaire = ctx.questionnaire;
-
-    const page = questionnaire.sections[0].folders[1].pages[0];
-    await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].folders[1].pages[0].id,
-      summaryAnswers: [
-        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
-        questionnaire.sections[0].folders[0].pages[0].answers[1].id,
-      ],
-    });
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: questionnaire.sections[0].folders[1].pages[0].id,
-      summaryAnswers: [
-        questionnaire.sections[0].folders[0].pages[0].answers[0].id,
-      ],
-    });
-
-    const result = await queryPage(ctx, page.id);
-
-    expect(result).toMatchObject({
-      id: expect.any(String),
-      summaryAnswers: [
-        { id: questionnaire.sections[0].folders[0].pages[0].answers[0].id },
-      ],
+      summaryAnswers: [{ id: page.answers[0].id }],
     });
   });
 
   it("should delete a calculated summary", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -162,10 +103,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const section = questionnaire.sections[0];
-    const page = section.folders[1].pages[0];
+    const page = section.folders[0].pages[0];
 
     await deletePage(ctx, page.id);
 
@@ -175,7 +116,7 @@ describe("calculated Summary", () => {
   });
 
   it("should error if an answer is added thats is not a numeric type", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -197,10 +138,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
     await expect(
       updateCalculatedSummaryPage(ctx, {
         id: calSumPage.id,
@@ -212,7 +153,7 @@ describe("calculated Summary", () => {
   });
 
   it("should error if received answers are of inconsistent type", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -237,10 +178,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
 
     await expect(
       updateCalculatedSummaryPage(ctx, {
@@ -253,7 +194,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when answer deleted", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -275,10 +216,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
@@ -293,7 +234,7 @@ describe("calculated Summary", () => {
   });
 
   it("should not resolve answer on list when page deleted", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -315,10 +256,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
@@ -333,7 +274,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when section deleted", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -363,11 +304,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[1].folders[1].pages[0];
-
+    const calSumPage = questionnaire.sections[1].folders[0].pages[0];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -383,7 +323,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when page moved to after calsum page", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -405,10 +345,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -428,7 +368,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when section with answer moved to after calsum page's section", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -458,10 +398,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[1].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[1].folders[0].pages[0];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -481,7 +421,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when calsum page moved to before question page", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -503,10 +443,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
     const section = questionnaire.sections[0];
 
     await updateCalculatedSummaryPage(ctx, {
@@ -526,7 +466,7 @@ describe("calculated Summary", () => {
   });
 
   it("should provide validation info", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -548,9 +488,9 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
 
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
     const result = await queryPage(ctx, calSumPage.id);
     expect(result.validationErrorInfo.totalCount).toEqual(2);
 
@@ -565,7 +505,7 @@ describe("calculated Summary", () => {
   });
 
   it("should validate error if unit types are inconsistent", async () => {
-    ctx = await buildContext({
+    const ctx = await buildContext({
       sections: [
         {
           folders: [
@@ -596,9 +536,9 @@ describe("calculated Summary", () => {
         },
       ],
     });
-    questionnaire = ctx.questionnaire;
+    const { questionnaire } = ctx;
     const answers = questionnaire.sections[0].folders[0].pages[0].answers;
-    const calSumPage = questionnaire.sections[0].folders[1].pages[0];
+    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
