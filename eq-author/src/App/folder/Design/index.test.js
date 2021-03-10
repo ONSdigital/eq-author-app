@@ -10,9 +10,6 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
-
-useCreateQuestionPage;
-useCreatePageWithFolder;
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
