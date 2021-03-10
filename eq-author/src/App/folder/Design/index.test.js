@@ -9,7 +9,10 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
+import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
+useCreateQuestionPage;
+useCreatePageWithFolder;
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
@@ -35,7 +38,7 @@ jest.mock("hooks/useCreateFolder", () => ({
 }));
 
 jest.mock("components/NavigationCallbacks", () => ({
-  useSetNavigationCallbacks: () => jest.fn,
+  useSetNavigationCallbacks: jest.fn(),
 }));
 
 const mockData = {
@@ -158,5 +161,25 @@ describe("Folder design page", () => {
       sectionId: "1",
       position: 1,
     });
+  });
+
+  it("should call setNavigation with functions and dependencies", () => {
+    const callbacks = jest.fn();
+    useSetNavigationCallbacks.mockImplementationOnce(callbacks);
+    renderFolderDesignPage();
+    expect(callbacks).toHaveBeenCalledWith(
+      {
+        onAddQuestionPage: expect.any(Function),
+        onAddCalculatedSummaryPage: expect.any(Function),
+        onAddFolder: expect.any(Function),
+      },
+      [
+        expect.objectContaining({
+          alias: "Folder 1.1",
+          id: "1.1",
+          position: 0,
+        }),
+      ]
+    );
   });
 });
