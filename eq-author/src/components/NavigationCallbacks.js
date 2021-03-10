@@ -7,7 +7,7 @@ import {
 } from "hooks/useCreateQuestionPage";
 import { useCreateFolder } from "hooks/useCreateFolder";
 
-const defaultCallbacks = {
+export const defaultCallbacks = {
   onAddQuestionPage: () => {
     throw new Error("onAddQuestionPage callback not defined");
   },
