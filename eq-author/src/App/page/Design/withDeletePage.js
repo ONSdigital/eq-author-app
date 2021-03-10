@@ -4,7 +4,8 @@ import { flowRight } from "lodash";
 import { withShowToast } from "components/Toasts";
 import deletePageMutation from "graphql/deletePage.graphql";
 import fragment from "graphql/sectionFragment.graphql";
-import getSectionQuery from "graphql/getSection.graphql";
+// Test this isn't needed for the refetch
+// import getSectionQuery from "graphql/getSection.graphql";
 import getNextPage from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
 
