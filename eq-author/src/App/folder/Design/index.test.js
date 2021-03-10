@@ -73,7 +73,7 @@ const renderFolderDesignPage = ({
   });
 
 describe("Folder design page", () => {
-  it("Can render", async () => {
+  it("Should render", () => {
     useQuery.mockImplementation(() => ({
       loading: false,
       error: false,
@@ -81,10 +81,10 @@ describe("Folder design page", () => {
     }));
 
     const { getByTestId } = renderFolderDesignPage();
-    await waitFor(() => expect(getByTestId("folders-page")).toBeVisible());
+    expect(getByTestId("folders-page")).toBeVisible();
   });
 
-  it("Should show the error page if there is an error getting the folder from db", async () => {
+  it("Should show the error page if there is an error getting the folder from db", () => {
     useQuery.mockImplementation(() => ({
       loading: false,
       error: true,
@@ -96,17 +96,13 @@ describe("Folder design page", () => {
     expect(() => getByTestId("folders-page")).toThrow();
   });
 
-  it("Should show the error page if no folder is returned from the db", async () => {
+  it("Should show the error page if no folder is returned from the db", () => {
     useQuery.mockImplementation(() => ({
       loading: false,
       error: false,
       data: undefined,
     }));
     const { getByTestId } = renderFolderDesignPage();
-
-    await act(async () => {
-      await flushPromises();
-    });
 
     expect(getByTestId("error")).toBeVisible();
     expect(() => getByTestId("folders-page")).toThrow();
@@ -124,7 +120,7 @@ describe("Folder design page", () => {
     expect(() => getByTestId("folders-page")).toThrow();
   });
 
-  it("Should trigger a delete modal", async () => {
+  it("Should trigger a delete modal", () => {
     useQuery.mockImplementation(() => ({
       loading: false,
       error: false,
@@ -132,18 +128,12 @@ describe("Folder design page", () => {
     }));
     const { getByTestId, getByTitle } = renderFolderDesignPage();
 
-    await act(async () => {
-      await flushPromises();
-    });
-
-    await act(async () => {
-      await fireEvent.click(getByTitle("Delete"));
-    });
+    fireEvent.click(getByTitle("Delete"));
 
     expect(getByTestId("delete-confirm-modal")).toBeVisible();
   });
 
-  it("Should delete a folder", async () => {
+  it("Should delete a folder", () => {
     useQuery.mockImplementation(() => ({
       loading: false,
       error: false,
@@ -151,21 +141,8 @@ describe("Folder design page", () => {
     }));
     const { getByTestId, getByTitle } = renderFolderDesignPage();
 
-    await act(async () => {
-      await flushPromises();
-    });
-
-    await act(async () => {
-      await fireEvent.click(getByTitle("Delete"));
-    });
-
-    await act(async () => {
-      await fireEvent.click(getByTestId("btn-delete-modal"));
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
+    fireEvent.click(getByTitle("Delete"));
+    fireEvent.click(getByTestId("btn-delete-modal"));
 
     expect(useMutation).toHaveBeenCalledWith(
       DELETE_FOLDER_MUTATION,
