@@ -34,7 +34,7 @@ jobs:
       - name: Build Author for deployment
         run: yarn build
         env:
-          REACT_APP_EQ_AUTHOR_VERSION: $(git rev-parse HEAD)
+          REACT_APP_EQ_AUTHOR_VERSION: "latest"
 
       - name: Build Storybook (Design system) for deployment 
         run: yarn build-storybook -o ../docs --docs
@@ -98,6 +98,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: eq-author-api
           IMAGE_TAG: ${{ env.TAG }}
+          APPLICATION_VERSION: "latest"
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -141,6 +142,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: eq-publisher
           IMAGE_TAG: ${{ env.TAG }}
+          APPLICATION_VERSION: "latest"
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
