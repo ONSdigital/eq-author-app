@@ -1,19 +1,17 @@
 import React from "react";
 
-import {
-  render,
-  act,
-  flushPromises,
-  waitFor,
-  fireEvent,
-} from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import FolderDesignPage from "./";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
+import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import { useCreatePageWithFolder } from "hooks/useCreateFolder";
+
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
+
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
@@ -148,5 +146,27 @@ describe("Folder design page", () => {
       DELETE_FOLDER_MUTATION,
       expect.anything()
     );
+  });
+
+  it("Should add question page inside folder", () => {
+    const onAddQuestionPage = jest.fn();
+    useCreateQuestionPage.mockImplementation(() => onAddQuestionPage);
+    const { getByTestId } = renderFolderDesignPage();
+    fireEvent.click(getByTestId("btn-add-page-inside-folder"));
+    expect(onAddQuestionPage).toHaveBeenCalledWith({
+      folderId: "1.1",
+      position: 0,
+    });
+  });
+
+  it("Should add question page outside folder", () => {
+    const addPageWithFolder = jest.fn();
+    useCreatePageWithFolder.mockImplementation(() => addPageWithFolder);
+    const { getByTestId } = renderFolderDesignPage();
+    fireEvent.click(getByTestId("btn-add-page-outside-folder"));
+    expect(addPageWithFolder).toHaveBeenCalledWith({
+      sectionId: "1",
+      position: 1,
+    });
   });
 });
