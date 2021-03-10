@@ -57,6 +57,12 @@ const mockData = {
   },
 };
 
+useQuery.mockImplementation(() => ({
+  loading: false,
+  error: false,
+  data: mockData,
+}));
+
 const renderFolderDesignPage = ({
   match = {
     params: {
@@ -72,18 +78,12 @@ const renderFolderDesignPage = ({
 
 describe("Folder design page", () => {
   it("Should render", () => {
-    useQuery.mockImplementation(() => ({
-      loading: false,
-      error: false,
-      data: mockData,
-    }));
-
     const { getByTestId } = renderFolderDesignPage();
     expect(getByTestId("folders-page")).toBeVisible();
   });
 
   it("Should show the error page if there is an error getting the folder from db", () => {
-    useQuery.mockImplementation(() => ({
+    useQuery.mockImplementationOnce(() => ({
       loading: false,
       error: true,
       data: undefined,
@@ -95,7 +95,7 @@ describe("Folder design page", () => {
   });
 
   it("Should show the error page if no folder is returned from the db", () => {
-    useQuery.mockImplementation(() => ({
+    useQuery.mockImplementationOnce(() => ({
       loading: false,
       error: false,
       data: undefined,
@@ -107,7 +107,7 @@ describe("Folder design page", () => {
   });
 
   it("Show show the loading page if the get folder query is in flight", () => {
-    useQuery.mockImplementation(() => ({
+    useQuery.mockImplementationOnce(() => ({
       loading: true,
       error: undefined,
       data: undefined,
@@ -119,11 +119,6 @@ describe("Folder design page", () => {
   });
 
   it("Should trigger a delete modal", () => {
-    useQuery.mockImplementation(() => ({
-      loading: false,
-      error: false,
-      data: mockData,
-    }));
     const { getByTestId, getByTitle } = renderFolderDesignPage();
 
     fireEvent.click(getByTitle("Delete"));
@@ -132,11 +127,6 @@ describe("Folder design page", () => {
   });
 
   it("Should delete a folder", () => {
-    useQuery.mockImplementation(() => ({
-      loading: false,
-      error: false,
-      data: mockData,
-    }));
     const { getByTestId, getByTitle } = renderFolderDesignPage();
 
     fireEvent.click(getByTitle("Delete"));
