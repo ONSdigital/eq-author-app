@@ -3,7 +3,7 @@ import { useRedirectToPage, useRedirectToFolder } from "hooks/useRedirects";
 
 import CREATE_FOLDER_MUTATION from "graphql/createFolder.graphql";
 
-const useCreateFolderMutation = () => {
+export const useCreateFolderMutation = () => {
   const [onAddFolder] = useMutation(CREATE_FOLDER_MUTATION);
   return (input, callback) =>
     onAddFolder({
