@@ -15,13 +15,15 @@ import QuestionnaireContext from "components/QuestionnaireContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
+import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 import FolderDesignPage from "./";
 
-const mockQuestionnaire = buildQuestionnaire();
-console.log(JSON.stringify(mockQuestionnaire, null, 7));
+const mockQuestionnaire = buildQuestionnaire({
+  folderCount: 2,
+});
 
-const firstFolder = mockQuestionnaire.sections[0].folders[0];
+const secondFolder = mockQuestionnaire.sections[0].folders[1];
 
 const mockUser = {
   id: "123",
@@ -31,11 +33,14 @@ const mockUser = {
   admin: true,
 };
 
-let mocks, duplicateWasCalled;
+let mocks, deleteWasCalled, duplicateWasCalled;
 
 const renderFolderDesignPage = ({
   match = {
-    params: { folderId: firstFolder.id, questionnaireId: mockQuestionnaire.id },
+    params: {
+      folderId: secondFolder.id,
+      questionnaireId: mockQuestionnaire.id,
+    },
   },
   history = { push: jest.fn() },
 }) =>
@@ -48,7 +53,7 @@ const renderFolderDesignPage = ({
       </QuestionnaireContext.Provider>
     </MeContext.Provider>,
     {
-      route: `/q/${mockQuestionnaire.id}/folder/${firstFolder.id}/design`,
+      route: `/q/${mockQuestionnaire.id}/folder/${secondFolder.id}/design`,
       urlParamMatcher: "/q/:questionnaireId/folder/:folderId/:tab",
       mocks,
     }
@@ -57,6 +62,7 @@ const renderFolderDesignPage = ({
 describe("Folder design page", () => {
   beforeEach(() => {
     duplicateWasCalled = false;
+    deleteWasCalled = false;
     mocks = [
       {
         request: {
@@ -76,22 +82,22 @@ describe("Folder design page", () => {
       {
         request: {
           query: GET_FOLDER_QUERY,
-          variables: { input: { folderId: firstFolder.id } },
+          variables: { input: { folderId: secondFolder.id } },
         },
         result: () => ({
           data: {
             folder: {
-              id: firstFolder.id,
-              alias: firstFolder.alias,
-              position: firstFolder.position,
+              id: secondFolder.id,
+              alias: secondFolder.alias,
+              position: secondFolder.position,
               pages: [
                 {
-                  id: firstFolder.pages[0].id,
+                  id: secondFolder.pages[0].id,
                   __typename: "QuestionPage",
                 },
               ],
               section: {
-                id: firstFolder.section.id,
+                id: secondFolder.section.id,
                 __typename: "Section",
               },
               __typename: "Folder",
@@ -103,7 +109,7 @@ describe("Folder design page", () => {
         request: {
           query: DUPLICATE_FOLDER_MUTATION,
           variables: {
-            input: { id: firstFolder.id, position: firstFolder.position + 1 },
+            input: { id: secondFolder.id, position: secondFolder.position + 1 },
           },
         },
         result: () => {
@@ -111,15 +117,15 @@ describe("Folder design page", () => {
           return {
             data: {
               duplicateFolder: {
-                ...firstFolder,
-                position: firstFolder.position,
-                id: firstFolder.id,
+                ...secondFolder,
+                position: secondFolder.position,
+                id: secondFolder.id,
                 section: [
                   {
-                    id: firstFolder.section.id,
+                    id: secondFolder.section.id,
                     folders: [
                       {
-                        id: firstFolder.id,
+                        id: secondFolder.id,
                         pages: [
                           {
                             id: "1.1.1",
@@ -199,6 +205,41 @@ describe("Folder design page", () => {
           };
         },
       },
+      {
+        request: {
+          query: DELETE_FOLDER_MUTATION,
+          variables: { input: { id: secondFolder.id } },
+        },
+        result: () => {
+          deleteWasCalled = true;
+          return {
+            data: {
+              deleteFolder: {
+                id: mockQuestionnaire.id,
+                sections: [
+                  {
+                    id: "2",
+                    folders: [
+                      {
+                        id: "1.1",
+                        pages: [
+                          {
+                            id: "1.1.1",
+                            __typename: "QuestionPage",
+                          },
+                        ],
+                        __typename: "Folder",
+                      },
+                    ],
+                    __typename: "Section",
+                  },
+                ],
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -233,11 +274,46 @@ describe("Folder design page", () => {
     expect(() => getByTestId("folders-page")).toThrow();
   });
 
-  it("Show show the loading page if the get folder query is in flight", () => {
+  it("Show the loading page if the get folder query is in flight", () => {
     const { getByTestId } = renderFolderDesignPage({});
 
     expect(getByTestId("loading")).toBeVisible();
     expect(() => getByTestId("folders-page")).toThrow();
+  });
+
+  it("Should trigger a delete modal", async () => {
+    const { getByTestId, getByTitle } = renderFolderDesignPage({});
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTitle("Delete"));
+    });
+
+    expect(getByTestId("delete-confirm-modal")).toBeVisible();
+  });
+
+  it("Should delete a folder", async () => {
+    const { getByTestId, getByTitle } = renderFolderDesignPage({});
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTitle("Delete"));
+    });
+
+    await act(async () => {
+      await fireEvent.click(getByTestId("btn-delete-modal"));
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+    expect(deleteWasCalled).toBeTruthy();
   });
 
   it("Should duplicate a folder when duplicate button is clicked", async () => {

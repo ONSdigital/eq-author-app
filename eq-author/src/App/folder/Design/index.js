@@ -1,9 +1,10 @@
 import React from "react";
-
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+import { FOLDER } from "constants/entities";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -11,12 +12,14 @@ import Panel from "components/Panel";
 import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
+import onCompleteDelete from "./onCompleteDelete";
 
 import onCompleteDuplicate from "./onCompleteDuplicate";
 
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
+import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -43,7 +46,21 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
   });
 
+  let sectionId, folderPosition, pages;
+
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+  const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
+    onCompleted: (data) => {
+      onCompleteDelete(
+        data,
+        history,
+        questionnaireId,
+        sectionId,
+        folderPosition,
+        pages
+      );
+    },
+  });
 
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
     onCompleted: (data) => {
@@ -81,21 +98,25 @@ const FolderDesignPage = ({ history, match }) => {
     );
   }
 
+  sectionId = data.folder.section.id;
+  folderPosition = data.folder.position;
+  pages = data.folder.pages;
+
   const {
     folder: { id, position, alias },
   } = data;
 
-  const shortCodeOnUpdate = (alias) => {
-    return saveShortCode({
+  const shortCodeOnUpdate = (alias) =>
+    saveShortCode({
       variables: { input: { folderId: id, alias } },
     });
-  };
 
   return (
     <EditorPage title={alias || "Untitled folder"}>
       <StyledPanel data-test="folders-page">
         <EditorToolbar
           shortCode={alias}
+          pageType={FOLDER}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
           onDuplicate={() =>
@@ -103,10 +124,14 @@ const FolderDesignPage = ({ history, match }) => {
               variables: { input: { id, position: position + 1 } },
             })
           }
-          onDelete={() => alert("onDelete")}
+          onDelete={() =>
+            deleteFolder({
+              variables: { input: { id } },
+            })
+          }
           disableMove
-          disableDelete
           key={`toolbar-folder-${folderId}`}
+          title={alias}
         />
         <h2>Folders</h2>
         <p>
