@@ -110,7 +110,7 @@ jobs:
       - name: Build and Push new docker image
         env:
           REGISTRY: onsdigital
-          REPOSITORY: eq-author-api
+          REPOSITORY: eq-publisher
           IMAGE_TAG: ${{ env.TAG }}
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
