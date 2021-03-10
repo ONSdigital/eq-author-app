@@ -19,7 +19,7 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: ${{ github.sha }}
+      TAG: "1.${{ github.run_number }}.0-staging"
 
     steps:
       - uses: actions/checkout@v2
@@ -70,7 +70,7 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: ${{ github.sha }}
+      TAG: "1.${{ github.run_number }}.0-staging"
     
     steps:
       - uses: actions/checkout@v2
@@ -112,7 +112,7 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: ${{ github.sha }}
+      TAG: "1.${{ github.run_number }}.0-staging"
 
     steps:
       - uses: actions/checkout@v2
