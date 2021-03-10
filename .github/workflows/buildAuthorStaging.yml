@@ -107,11 +107,6 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - name: Build new docker image
-        run: docker build -t onsdigital/eq-publisher:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .
-        env:
-          TAG: ${{ env.TAG }}
-
       - name: Build and Push new docker image
         env:
           REGISTRY: onsdigital
