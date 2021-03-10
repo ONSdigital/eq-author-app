@@ -209,7 +209,7 @@ const FolderDesignPage = ({ history, match }) => {
           variant="tertiary"
           small
           onClick={() => onAddQuestionPage({ folderId, position: 0 })}
-          data-test="btn-add-page"
+          data-test="btn-add-page-inside-folder"
         >
           <IconText icon={AddPage}>Add question inside folder</IconText>
         </BorderedButton>
@@ -219,7 +219,7 @@ const FolderDesignPage = ({ history, match }) => {
           onClick={() =>
             addPageWithFolder({ sectionId: section.id, position: position + 1 })
           }
-          data-test="btn-add-page"
+          data-test="btn-add-page-outside-folder"
         >
           <IconText icon={AddPage}>Add question outside folder</IconText>
         </BorderedButton>
