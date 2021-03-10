@@ -24,11 +24,13 @@ const handleDeletion = (
   },
   { folders },
   nextPage,
+  cachedSection,
   cachedFolder,
   cachedFolderIndex
 ) => {
   const newPageCreated =
-    cachedFolder.pages.length === 1 && cachedFolder.enabled;
+    cachedFolder.pages.length === 1 &&
+    (cachedFolder.enabled || cachedSection.folders.length === 1);
 
   const modifiedFolder = folders[cachedFolderIndex];
 
@@ -49,6 +51,7 @@ export const mapMutateToProps = (props) => ({
     const cachedFolderIndex = cachedSection.folders.findIndex((folder) =>
       folder.pages.find(({ id }) => id === page.id)
     );
+
     const cachedFolder = cachedSection.folders[cachedFolderIndex];
     const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
 
@@ -64,6 +67,7 @@ export const mapMutateToProps = (props) => ({
           ownProps,
           section,
           nextPage,
+          cachedSection,
           cachedFolder,
           cachedFolderIndex
         )
