@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 
 import { FOLDER } from "constants/entities";
@@ -15,8 +14,11 @@ import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
 import onCompleteDelete from "./onCompleteDelete";
 
+import onCompleteDuplicate from "./onCompleteDuplicate";
+
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 const Guidance = styled(Collapsible)`
@@ -60,6 +62,12 @@ const FolderDesignPage = ({ history, match }) => {
     },
   });
 
+  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
+    onCompleted: (data) => {
+      onCompleteDuplicate(data, history, questionnaireId);
+    },
+  });
+
   if (loading) {
     return (
       <EditorPage>
@@ -95,7 +103,7 @@ const FolderDesignPage = ({ history, match }) => {
   pages = data.folder.pages;
 
   const {
-    folder: { id, alias },
+    folder: { id, position, alias },
   } = data;
 
   const shortCodeOnUpdate = (alias) =>
@@ -111,14 +119,17 @@ const FolderDesignPage = ({ history, match }) => {
           pageType={FOLDER}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
-          onDuplicate={() => alert("onDuplicate")}
+          onDuplicate={() =>
+            duplicateFolder({
+              variables: { input: { id, position: position + 1 } },
+            })
+          }
           onDelete={() =>
             deleteFolder({
               variables: { input: { id } },
             })
           }
           disableMove
-          disableDuplicate
           key={`toolbar-folder-${folderId}`}
           title={alias}
         />
