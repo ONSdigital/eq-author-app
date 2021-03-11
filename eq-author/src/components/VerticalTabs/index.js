@@ -63,4 +63,8 @@ VerticalTabs.propTypes = {
   cols: PropTypes.number.isRequired,
 };
 
+VerticalTabs.defaultProps = {
+  gutters: false,
+};
+
 export default VerticalTabs;

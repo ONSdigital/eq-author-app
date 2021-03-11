@@ -148,11 +148,7 @@ const SettingsPage = ({ questionnaire }) => {
       <PageContainer>
         <PageMainCanvas>
           <Grid>
-            <VerticalTabs
-              title="Questionnaire Settings"
-              gutters={false}
-              cols={2.5}
-            />
+            <VerticalTabs title="Questionnaire Settings" cols={2.5} />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
                 <ScrollPane>
