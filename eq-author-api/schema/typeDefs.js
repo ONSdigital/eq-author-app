@@ -100,7 +100,7 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder {
+type Folder implements Skippable {
   id: ID!
   alias: String
   enabled: Boolean!
@@ -108,6 +108,7 @@ type Folder {
   skipConditions: [ExpressionGroup2]
   position: Int!
   section: Section
+  displayName: String!
 }
 
 type Section {
