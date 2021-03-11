@@ -3,6 +3,7 @@ const { isEmpty, reject, flatten, uniqWith, isEqual } = require("lodash");
 const {
   buildAuthorConfirmationQuestion,
 } = require("./builders/confirmationPage/ConfirmationPage");
+const translateAuthorSkipconditions = require("./builders/skipConditions");
 
 class Group {
   constructor(title, folder, ctx) {
@@ -10,16 +11,25 @@ class Group {
     this.title = ctx.questionnaireJson.navigation ? title : "";
     this.blocks = this.buildBlocks(folder, ctx);
 
+    this.skip_conditions = [];
+
+    if (folder.skipConditions) {
+      this.skip_conditions.push(
+        ...translateAuthorSkipconditions(folder.skipConditions, ctx)
+      );
+    }
+
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
       const skipConditions = uniqWith(
         this.buildSkipConditions(this.id, ctx),
         isEqual
       );
+      this.skip_conditions.push(...skipConditions);
+    }
 
-      if (!isEmpty(skipConditions)) {
-        this.skip_conditions = skipConditions;
-      }
+    if (!this.skip_conditions.length) {
+      delete this.skip_conditions;
     }
   }
 
