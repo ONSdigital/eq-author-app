@@ -19,7 +19,7 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: "latest"
+      TAG: "1.${{ github.run_number }}.0-staging"
 
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
       - name: Build Author for deployment
         run: yarn build
         env:
-          REACT_APP_EQ_AUTHOR_VERSION: $(git rev-parse HEAD)
+          REACT_APP_EQ_AUTHOR_VERSION: ${{ env.TAG }}
 
       - name: Build Storybook (Design system) for deployment 
         run: yarn build-storybook -o ../docs --docs
@@ -70,8 +70,8 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: "latest"
-
+      TAG: "1.${{ github.run_number }}.0-staging"
+    
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -99,7 +99,7 @@ jobs:
           ECR_REPOSITORY: eq-author-api
           IMAGE_TAG: ${{ env.TAG }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   Publisher:
@@ -112,7 +112,7 @@ jobs:
         node-version: [10.x]
 
     env:
-      TAG: "latest"
+      TAG: "1.${{ github.run_number }}.0-staging"
 
     steps:
       - uses: actions/checkout@v2
@@ -142,5 +142,5 @@ jobs:
           ECR_REPOSITORY: eq-publisher
           IMAGE_TAG: ${{ env.TAG }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
