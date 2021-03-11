@@ -230,12 +230,9 @@ const UnwrappedNavigationSidebar = ({
               </li>
             </NavItemTransition>
           );
-        }
-        if (!enabled) {
+        } else {
           return pages.map((page) => buildPageList(page));
         }
-
-        return null;
       }
     );
 
