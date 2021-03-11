@@ -9,7 +9,11 @@ jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
 }));
 
-// TODO mock out richText editor to get rid of warning
+// this is to stop warnings being produced about draftjs lifecycle methods
+// might be a bad idea
+jest.spyOn(console, "warn");
+// eslint-disable-next-line no-console
+console.warn.mockImplementation(() => {});
 
 function defaultPage(changes) {
   const page = buildPages()[0];
