@@ -68,8 +68,14 @@ const getConfirmations = (ctx) =>
 const getConfirmationById = (ctx, id) => find(getConfirmations(ctx), { id });
 
 const getSkippableById = (ctx, id) =>
-  getConfirmationById(ctx, id) || getPageById(ctx, id);
-const getSkippables = (ctx) => [...getConfirmations(ctx), ...getPages(ctx)];
+  getFolderById(ctx, id) ||
+  getConfirmationById(ctx, id) ||
+  getPageById(ctx, id);
+const getSkippables = (ctx) => [
+  ...getFolders(ctx),
+  ...getConfirmations(ctx),
+  ...getPages(ctx),
+];
 
 const getAnswers = (ctx) =>
   compact(flatMap(getPages(ctx), (page) => page.answers));
