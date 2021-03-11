@@ -32,19 +32,20 @@ export const UnwrappedNavigationHeader = ({
     onAddCalculatedSummaryPage,
   } = useNavigationCallbacks();
 
-  const canAddQuestionAndCalculatedSummmaryPages = () =>
-    [PAGE, FOLDER, SECTION].includes(entityName);
+  const canAddQuestionAndCalculatedSummmaryPages = [
+    PAGE,
+    FOLDER,
+    SECTION,
+  ].includes(entityName);
 
-  const canAddQuestionConfirmation = () => {
-    if (entityName !== PAGE) {
-      return false;
-    }
+  let canAddQuestionConfirmation = false;
+  if (entityName === PAGE) {
     const page = getPageById(questionnaire, entityId);
+    canAddQuestionConfirmation =
+      page?.pageType === QuestionPage && !page?.confirmation;
+  }
 
-    return !(!page || page.pageType !== QuestionPage || page.confirmation);
-  };
-
-  const handleAddQuestionPage = (createInsideFolder = null) => {
+  const handleAddQuestionPage = (createInsideFolder) => {
     setOpenMenu(!openMenu);
     onAddQuestionPage(createInsideFolder);
   };
@@ -59,7 +60,7 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
-  const handleAddCalculatedSummaryPage = (createInsideFolder = null) => {
+  const handleAddCalculatedSummaryPage = (createInsideFolder) => {
     onAddCalculatedSummaryPage(createInsideFolder);
     setOpenMenu(!openMenu);
   };
@@ -81,9 +82,9 @@ export const UnwrappedNavigationHeader = ({
       onAddSection={handleAddSection}
       onAddQuestionConfirmation={handleAddQuestionConfirmation}
       onAddFolder={handleAddFolder}
-      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages()}
-      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages()}
-      canAddQuestionConfirmation={canAddQuestionConfirmation()}
+      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
+      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
+      canAddQuestionConfirmation={canAddQuestionConfirmation}
       canAddFolder={![INTRODUCTION].includes(entityName)}
       isFolder={isFolder}
       folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
