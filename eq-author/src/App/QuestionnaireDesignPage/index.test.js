@@ -51,9 +51,6 @@ describe("QuestionnaireDesignPage", () => {
     section,
     questionnaire,
     validations,
-    sectionsForFlatAnswers,
-    answerList,
-    flatAnswersTest,
     duplicateTest;
 
   beforeEach(() => {
