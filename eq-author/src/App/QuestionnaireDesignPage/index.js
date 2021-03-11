@@ -414,6 +414,9 @@ export const VALIDATION_QUERY = gql`
         }
         folders {
           id
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
           pages {
             id
             validationErrorInfo {

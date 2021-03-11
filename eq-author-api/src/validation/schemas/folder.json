@@ -10,6 +10,12 @@
       "items": {
         "$ref": "page.json"
       }
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "$ref": "logic.json#/definitions/expressionGroup"
+      }
     }
   }
 }

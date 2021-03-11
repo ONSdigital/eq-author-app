@@ -182,21 +182,23 @@ const generateOrderedIdMap = ({ questionnaire }) => {
   const map = new Map();
 
   const traverseIds = (obj) => {
-    if (typeof obj !== "object") {
+    if (!obj || typeof obj !== "object") {
       return;
     }
 
-    Object.keys(obj).forEach((key) => {
-      if (obj[key]) {
-        if (key === "id" && typeof obj[key] === "string") {
-          map.set(obj[key], map.size);
-        }
-
-        if (typeof obj[key] === "object") {
-          traverseIds(obj[key]);
-        }
+    for (const key of Object.keys(obj)) {
+      if (key === "id") {
+        continue; // Process parent's ID after all children are processed
       }
-    });
+
+      if (typeof obj[key] === "object") {
+        traverseIds(obj[key]);
+      }
+    }
+
+    if (obj.id && typeof obj.id === "string") {
+      map.set(obj.id, map.size);
+    }
   };
 
   traverseIds(questionnaire);

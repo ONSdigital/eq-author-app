@@ -70,7 +70,7 @@ export const UnwrappedTabs = (props) => {
 
   const tabErrors = useCallback(
     (tabKey) => {
-      if (validationErrorInfo === null || validationErrorInfo === undefined) {
+      if (!validationErrorInfo) {
         return null;
       }
       const errorsPerTab = {
@@ -79,11 +79,8 @@ export const UnwrappedTabs = (props) => {
       };
 
       const { errors } = validationErrorInfo;
-      const functionalErrors = errors.filter(
-        ({ field }) => field !== "qCode" && field !== "secondaryQCode"
-      );
 
-      const errorSeparator = functionalErrors.reduce((accumulator, error) => {
+      const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
         error.type.includes("routing") ||

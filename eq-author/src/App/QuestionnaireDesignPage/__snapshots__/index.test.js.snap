@@ -627,6 +627,38 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                           ],
                         },
                       },
+                      Object {
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "validationErrorInfo",
+                        },
+                        "selectionSet": Object {
+                          "kind": "SelectionSet",
+                          "selections": Array [
+                            Object {
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "id",
+                              },
+                            },
+                            Object {
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "totalCount",
+                              },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -1452,7 +1484,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
         ],
         "kind": "Document",
         "loc": Object {
-          "end": 2213,
+          "end": 2271,
           "source": Object {
             "body": "query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -1542,6 +1574,10 @@ fragment PageNav on Section {
     pages {
       ...Pages
       ...ConfirmationPages
+    }
+    validationErrorInfo {
+      id
+      totalCount
     }
   }
 }
@@ -2435,6 +2471,38 @@ fragment Introduction on Questionnaire {
                         ],
                       },
                     },
+                    Object {
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "validationErrorInfo",
+                      },
+                      "selectionSet": Object {
+                        "kind": "SelectionSet",
+                        "selections": Array [
+                          Object {
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "id",
+                            },
+                          },
+                          Object {
+                            "arguments": Array [],
+                            "directives": Array [],
+                            "kind": "Field",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "totalCount",
+                            },
+                          },
+                        ],
+                      },
+                    },
                   ],
                 },
               },
@@ -3075,7 +3143,7 @@ fragment Introduction on Questionnaire {
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2213,
+        "end": 2271,
         "source": Object {
           "body": "query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -3165,6 +3233,10 @@ fragment PageNav on Section {
     pages {
       ...Pages
       ...ConfirmationPages
+    }
+    validationErrorInfo {
+      id
+      totalCount
     }
   }
 }
@@ -3419,6 +3491,29 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                                     "value": "id",
                                   },
                                   "selectionSet": undefined,
+                                },
+                                Object {
+                                  "alias": undefined,
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "validationErrorInfo",
+                                  },
+                                  "selectionSet": Object {
+                                    "kind": "SelectionSet",
+                                    "selections": Array [
+                                      Object {
+                                        "directives": Array [],
+                                        "kind": "FragmentSpread",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "ValidationErrorInfo",
+                                        },
+                                      },
+                                    ],
+                                  },
                                 },
                                 Object {
                                   "alias": undefined,
@@ -4244,7 +4339,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 3055,
+        "end": 3134,
         "start": 0,
       },
     }
@@ -4580,6 +4675,24 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                   component={[Function]}
                   key="folder-design"
                   path="/q/:questionnaireId/folder/:folderId/design"
+                />
+                <Route
+                  key="folder-logic"
+                  path="/q/:questionnaireId/folder/:folderId/logic"
+                >
+                  <Redirect
+                    to="routing"
+                  />
+                </Route>
+                <Route
+                  component={[Function]}
+                  key="folder-logic-routing"
+                  path="/q/:questionnaireId/folder/:folderId/routing"
+                />
+                <Route
+                  component={[Function]}
+                  key="folder-logic-skip"
+                  path="/q/:questionnaireId/folder/:folderId/skip"
                 />
                 <Route
                   path="*"

@@ -134,9 +134,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         break;
 
       case "skipConditions":
-        skipConditions = confirmation
-          ? confirmation.skipConditions
-          : page.skipConditions;
+        skipConditions = // TODO: Use optional chaining syntax when eslint upgraded
+          (confirmation && confirmation.skipConditions) ||
+          (page && page.skipConditions) ||
+          (folder && folder.skipConditions);
         skipCondition = skipConditions[dataPath[index + 1]];
         validationErr.skipConditionId = skipCondition.id;
         validationErr.type = "skipCondition";

@@ -31,6 +31,14 @@ query GetSkipLogic($input: QueryInput!) {
     }
     ... on Folder {
       displayName
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      position
+      section {
+        id
+        position
+      }
     }
   }
 }
