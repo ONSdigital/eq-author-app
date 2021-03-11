@@ -1,4 +1,4 @@
-import { onCompleteDelete } from "./onCompleteDelete";
+import onCompleteDelete from "./onCompleteDelete";
 import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
 
 describe("onCompleteDelete", () => {

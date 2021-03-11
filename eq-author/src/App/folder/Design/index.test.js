@@ -1,17 +1,13 @@
 import React from "react";
-
-import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
-
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import FolderDesignPage from "./";
-
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
-import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
+
+import FolderDesignPage from "./";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
@@ -68,8 +64,6 @@ useQuery.mockImplementation(() => ({
 
 const secondFolder = mockQuestionnaire.sections[0].folders[1];
 
-let mocks, deleteWasCalled, duplicateWasCalled;
-
 const renderFolderDesignPage = ({
   match = {
     params: {
@@ -82,39 +76,9 @@ const renderFolderDesignPage = ({
   render(<FolderDesignPage match={match} history={history} />, {
     route: `/q/${mockQuestionnaire.id}/folder/${secondFolder.id}/design`,
     urlParamMatcher: "/q/:questionnaireId/folder/:folderId/:tab",
-    mocks,
   });
 
 describe("Folder design page", () => {
-  beforeEach(() => {
-    duplicateWasCalled = false;
-    deleteWasCalled = false;
-    mocks = [
-      {
-        request: {
-          query: DUPLICATE_FOLDER_MUTATION,
-          variables: {
-            input: { id: secondFolder.id, position: secondFolder.position + 1 },
-          },
-        },
-        result: () => {
-          duplicateWasCalled = true;
-          return {
-            data: {
-              duplicateFolder: {
-                ...secondFolder,
-                position: secondFolder.position,
-                id: secondFolder.id,
-                section: mockQuestionnaire.sections[0],
-                __typename: "Folder",
-              },
-            },
-          };
-        },
-      },
-    ];
-  });
-
   describe("Folder design page", () => {
     it("Should render", () => {
       const { getByTestId } = renderFolderDesignPage();
