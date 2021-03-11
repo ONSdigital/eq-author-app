@@ -35,18 +35,17 @@ jobs:
         env:
           REACT_APP_EQ_AUTHOR_VERSION: ${{ env.TAG }}
 
-      - name: Build Storybook (Design system) for deployment 
-        run: yarn build-storybook -o ../docs --docs
-
       - name: Build and Push new docker image
         env:
           REGISTRY: onsdigital
           REPOSITORY: eq-author
           IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
 
 
   API:
@@ -77,10 +76,12 @@ jobs:
           REGISTRY: onsdigital
           REPOSITORY: eq-author-api
           IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
 
 
   Publisher:
@@ -111,8 +112,10 @@ jobs:
           REGISTRY: onsdigital
           REPOSITORY: eq-publisher
           IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
 
