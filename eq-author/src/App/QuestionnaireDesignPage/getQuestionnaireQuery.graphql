@@ -135,6 +135,14 @@ fragment Answers on Answer {
       value
       qCode
     }
+    mutuallyExclusiveOption {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
   }
 }
 
