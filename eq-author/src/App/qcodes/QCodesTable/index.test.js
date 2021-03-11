@@ -1,15 +1,29 @@
 import React from "react";
-import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
-
-import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
-import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
-import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
-
-import { MeContext } from "App/MeContext";
+import { render, fireEvent } from "tests/utils/rtl";
+import { useMutation } from "@apollo/react-hooks";
 import { QCodeContext } from "components/QCodeContext";
 import { UnwrappedQCodeTable } from "./index";
+import { buildAnswers } from "tests/utils/createMockQuestionnaire";
 
 import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
+
+import {
+  // CHECKBOX,
+  // RADIO,
+  // TEXTFIELD,
+  // TEXTAREA,
+  CURRENCY,
+  NUMBER,
+  PERCENTAGE,
+  // DATE,
+  // DATE_RANGE,
+  UNIT,
+  DURATION,
+} from "constants/answer-types";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(),
+}));
 
 const dummyQcodes = {
   duplicate: "123",
@@ -21,101 +35,50 @@ const dummyQcodes = {
 };
 
 describe("Qcode Table", () => {
-  let user,
-    mocks,
-    queryWasCalled,
-    props,
-    questionnaireId,
-    flattenedAnswers,
-    duplicates;
+  let flattenedAnswers, duplicates;
 
   beforeEach(() => {
-    questionnaireId = "35b17858-cfac-4c66-80da-434ed2f995c3";
-
+    /* 
+    TODO tomorrow
+    need:
+      all number types = 5 
+      text, textfield
+      date, daterange
+      checkbox
+      radio
+      11 answer types in total
+      assert they exist
+      assert shortcodes exist
+      assert titles
+      assert nested
+      assert options are present
+      assert mutually exclusive option is present
+      assert radio only has one option
+      assert date ranges have both options
+      no confirmation
+      no calculated summary
+    */
+    const nestedNumbers = buildAnswers({ answerCount: 5 });
+    const numberMatrix = {
+      0: NUMBER,
+      1: CURRENCY,
+      2: UNIT,
+      3: PERCENTAGE,
+      4: DURATION,
+    };
+    const flat = nestedNumbers.map((item, index) => {
+      if (index > 0) {
+        item.nested = true;
+      }
+      item.title = "<p>Questions 1</p>";
+      item.type = numberMatrix[index];
+      item.id = `ans-p1-${index}`;
+      item.label = `${numberMatrix[index]}-${index}`;
+      item.qCode = "123";
+      return item;
+    });
     flattenedAnswers = [
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        id: "ans-p1-1",
-        description: "",
-        guidance: "",
-        label: "num1",
-        qCode: "123",
-        secondaryQCode: "1",
-        type: "Number",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        nested: true,
-        id: "ans-p1-2",
-        description: "",
-        guidance: "",
-        label: "curr1",
-        qCode: "123",
-        secondaryQCode: "2",
-        type: "Currency",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        nested: true,
-        id: "ans-p1-3",
-        description: "",
-        guidance: "",
-        label: "Un1",
-        qCode: "1",
-        secondaryQCode: "3",
-        type: "Unit",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        nested: true,
-        id: "ans-p1-4",
-        description: "",
-        guidance: "",
-        label: "Per1",
-        qCode: "2",
-        secondaryQCode: "4",
-        type: "Percentage",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        nested: true,
-        id: "ans-p1-5",
-        description: "",
-        guidance: "",
-        label: "Dur1",
-        qCode: "3",
-        secondaryQCode: "5",
-        type: "Duration",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
-      {
-        title: "<p>Questions 1</p>",
-        alias: undefined,
-        nested: true,
-        id: "ans-p1-6",
-        description: "",
-        guidance: "",
-        label: "Num2",
-        qCode: "4",
-        secondaryQCode: "5",
-        type: "Number",
-        questionPageId: "qp-1",
-        secondaryLabel: null,
-      },
+      ...flat,
       {
         title: "<p>Questions 1</p>",
         alias: undefined,
@@ -239,14 +202,6 @@ describe("Qcode Table", () => {
         secondaryLabel: null,
       },
       {
-        title: "<p>Questions 5</p>",
-        alias: undefined,
-        id: "conf-q-1",
-        qCode: "10",
-        type: "QuestionConfirmation",
-        validationErrorInfo: undefined,
-      },
-      {
         title: "<p>Questions 7</p>",
         alias: null,
         id: "ans-p6-1",
@@ -318,187 +273,18 @@ describe("Qcode Table", () => {
     ];
 
     duplicates = { 123: 2 };
-
-    props = {
-      loading: false,
-    };
-    user = {
-      id: "1989",
-      displayName: "Sir Reginald Hargreeves",
-      email: "reggieH@umb.rell.a.ac.uk",
-      picture:
-        "https://i.pinimg.com/originals/ce/1b/3f/ce1b3f549c222d301991846ccdc25696.jpg",
-      admin: true,
-    };
-    queryWasCalled = false;
-    mocks = [
-      {
-        request: {
-          query: UPDATE_ANSWER_QCODE,
-          variables: {
-            input: {
-              id: "ans-p1-1",
-              qCode: "187",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateAnswer: {
-                id: "ans-p1-1",
-                qCode: "187",
-                secondaryQCode: "",
-                __typename: "BasicAnswer",
-                validationErrorInfo: {
-                  errors: [],
-                  id: "errID110",
-                  totalCount: 0,
-                  __typename: "ValidationErrorInfo",
-                },
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: UPDATE_ANSWER_QCODE,
-          variables: {
-            input: {
-              id: "ans-p3-1",
-              secondaryQCode: "187",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateAnswer: {
-                id: "ans-p3-1",
-                qCode: "",
-                secondaryQCode: "187",
-                __typename: "BasicAnswer",
-                validationErrorInfo: {
-                  errors: [],
-                  id: "errID111",
-                  totalCount: 0,
-                  __typename: "ValidationErrorInfo",
-                },
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: UPDATE_OPTION_QCODE,
-          variables: {
-            input: {
-              id: "option-cb-1",
-              qCode: "187",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateOption: {
-                id: "option-cb-1",
-                qCode: "187",
-                __typename: "BasicAnswer",
-                validationErrorInfo: {
-                  errors: [],
-                  id: "errID112",
-                  totalCount: 0,
-                  __typename: "ValidationErrorInfo",
-                },
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: UPDATE_OPTION_QCODE,
-          variables: {
-            input: {
-              id: "option-cb-2",
-              qCode: "187",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateOption: {
-                id: "option-cb-2",
-                qCode: "187",
-                __typename: "BasicAnswer",
-                validationErrorInfo: {
-                  errors: [],
-                  id: "errID113",
-                  totalCount: 0,
-                  __typename: "ValidationErrorInfo",
-                },
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: UPDATE_CONFIRMATION_QCODE,
-          variables: {
-            input: {
-              id: "conf-q-1",
-              qCode: "187",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateQuestionConfirmation: {
-                id: "conf-q-1",
-                qCode: "187",
-                __typename: "BasicAnswer",
-                validationErrorInfo: {
-                  errors: [],
-                  id: "errID114",
-                  totalCount: 0,
-                  __typename: "ValidationErrorInfo",
-                },
-              },
-            },
-          };
-        },
-      },
-    ];
   });
 
-  const renderWithContext = (Component, rest) =>
+  const renderWithContext = () =>
     render(
-      <MeContext.Provider value={{ me: user }}>
-        <QCodeContext.Provider value={{ flattenedAnswers, duplicates }}>
-          {Component}
-        </QCodeContext.Provider>
-      </MeContext.Provider>,
-      {
-        route: `/q/${questionnaireId}/qcode`,
-        urlParamMatcher: "/q/:questionnaireId/qcode",
-        mocks,
-        ...rest,
-      }
+      <QCodeContext.Provider value={{ flattenedAnswers, duplicates }}>
+        <UnwrappedQCodeTable />
+      </QCodeContext.Provider>
     );
 
-  it("Should render fields", async () => {
-    const { getByText } = renderWithContext(<UnwrappedQCodeTable {...props} />);
+  it("should render fields", () => {
+    useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
+    const { getByText } = renderWithContext();
     const fieldHeadings = [
       "Short code",
       "Question",
@@ -509,82 +295,72 @@ describe("Qcode Table", () => {
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
 
-  it("Should render rows equivalent to the amount of Questions", () => {
-    const { getAllByText, getByText, getAllByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
+  it("should render rows equivalent to the amount of Questions", () => {
+    useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
+    const { getAllByText, getByText, getAllByTestId } = renderWithContext();
     const renderedQuestions = getAllByText((content) =>
       content.startsWith("Questions")
     );
 
-    const confirmationQuestion = getByText("Questions 5");
-    expect(confirmationQuestion).toBeTruthy();
     expect(getAllByText("Mutually exclusive checkbox").length).toEqual(2);
     expect(getByText("Embedded checkbox Either")).toBeTruthy();
     expect(getByText("Embedded checkbox Or")).toBeTruthy();
     expect(getByText("From")).toBeTruthy();
-    expect(renderedQuestions.length).toEqual(7); // equal to non nested rows
+    expect(renderedQuestions.length).toEqual(6); // equal to non nested rows
 
-    const answerRows = 21; // equal to answers present in flattenedAnswers
+    const answerRows = 19; // equal to answers present in flattenedAnswers
     expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 
-  it("Should make query to update Answer", async () => {
-    const { getByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
+  it("should make query to update Answer", () => {
+    const updateAnswer = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [updateAnswer]));
+    const { getByTestId } = renderWithContext();
 
     const testId = "ans-p1-1-test-input";
     const originalValue = dummyQcodes.duplicate;
     const input = getByTestId(testId);
     expect(input.value).toBe(originalValue);
 
-    act(() => {
-      fireEvent.change(input, { target: { value: "187" } });
-    });
+    fireEvent.change(input, { target: { value: "187" } });
 
+    fireEvent.blur(input);
+
+    expect(updateAnswer).toHaveBeenCalledWith({
+      variables: {
+        input: { id: "ans-p1-1", properties: undefined, qCode: "187" },
+      },
+    });
     expect(input.value).toBe("187");
-
-    expect(queryWasCalled).toBeFalsy();
-
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
-    });
-
-    expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update Answer with a secondary option", async () => {
-    const { getAllByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
+  it("should make query to update Answer with a secondary option", () => {
+    const updateAnswer = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [updateAnswer]));
+    const { getAllByTestId } = renderWithContext();
 
     const testId = "ans-p3-1-test-input";
     const originalValue = dummyQcodes.dateRange;
     const input = getAllByTestId(testId)[1];
     expect(input.value).toBe(originalValue);
 
-    act(() => {
-      fireEvent.change(input, { target: { value: "187" } });
-    });
+    fireEvent.change(input, { target: { value: "187" } });
 
     expect(input.value).toBe("187");
 
-    expect(queryWasCalled).toBeFalsy();
+    fireEvent.blur(input);
 
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
+    expect(updateAnswer).toHaveBeenCalledWith({
+      variables: {
+        input: { id: "ans-p3-1", properties: undefined, secondaryQCode: "187" },
+      },
     });
-
-    expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update Option", async () => {
-    const { getByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
+  it("should make query to update Option", () => {
+    const updateOption = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [updateOption]));
+    const { getByTestId } = renderWithContext();
 
     const testId = "option-cb-1-test-input";
     const originalValue = dummyQcodes.option;
@@ -593,26 +369,24 @@ describe("Qcode Table", () => {
 
     expect(input.value).toBe(originalValue);
 
-    act(() => {
-      fireEvent.change(input, { target: { value: "187" } });
-    });
+    fireEvent.change(input, { target: { value: "187" } });
 
     expect(input.value).toBe("187");
 
-    expect(queryWasCalled).toBeFalsy();
-
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
+    fireEvent.blur(input);
+    expect(updateOption).toHaveBeenCalledWith({
+      variables: {
+        input: { id: "option-cb-1", properties: undefined, qCode: "187" },
+      },
     });
-
-    expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update mutually exclusive Option", async () => {
-    const { getByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
+  it("should make query to update mutually exclusive Option", () => {
+    const updateMutuallyExclusiveOption = jest.fn();
+    useMutation.mockImplementation(
+      jest.fn(() => [updateMutuallyExclusiveOption])
     );
+    const { getByTestId } = renderWithContext();
 
     const testId = "option-cb-2-test-input";
     const originalValue = dummyQcodes.mutuallyExclusive;
@@ -621,60 +395,26 @@ describe("Qcode Table", () => {
 
     expect(input.value).toBe(originalValue);
 
-    act(() => {
-      fireEvent.change(input, { target: { value: "187" } });
-    });
+    fireEvent.change(input, { target: { value: "187" } });
 
     expect(input.value).toBe("187");
 
-    expect(queryWasCalled).toBeFalsy();
+    fireEvent.blur(input);
 
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
+    expect(updateMutuallyExclusiveOption).toHaveBeenCalledWith({
+      variables: {
+        input: { id: "option-cb-2", properties: undefined, qCode: "187" },
+      },
     });
-
-    expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update confirmation", async () => {
-    const { getByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
-
-    const testId = "conf-q-1-test-input";
-    const originalValue = dummyQcodes.confirmation;
-    const input = getByTestId(testId);
-    expect(input.value).toBe(originalValue);
-
-    act(() => {
-      fireEvent.change(input, { target: { value: "187" } });
-    });
-
-    expect(input.value).toBe("187");
-
-    expect(queryWasCalled).toBeFalsy();
-
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
-    });
-
-    expect(queryWasCalled).toBeTruthy();
+  it("should render a validation error when duplicate qCodes are present", () => {
+    const { getAllByText } = renderWithContext();
+    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
   });
 
-  it("Should render a validation error when duplicate qCodes are present", () => {
-    const { getAllByText } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
-
-    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(2);
-  });
-
-  it("Should render a validation error when a qCode is missing", async () => {
-    const { getAllByText } = await renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
-    await expect(getAllByText("Qcode required")).toBeTruthy();
+  it("should render a validation error when a qCode is missing", () => {
+    const { getAllByText } = renderWithContext();
+    expect(getAllByText("Qcode required")).toBeTruthy();
   });
 });
