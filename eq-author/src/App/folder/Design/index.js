@@ -27,8 +27,11 @@ import IconText from "components/IconText";
 import AddPage from "assets/icon-add-page.svg?inline";
 import onCompleteDelete from "./onCompleteDelete";
 
+import onCompleteDuplicate from "./onCompleteDuplicate";
+
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 import { colors } from "constants/theme";
@@ -72,21 +75,26 @@ const FolderDesignPage = ({ history, match }) => {
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
-
   let sectionId, folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
+    onCompleted: ({ duplicateFolder }) =>
+      duplicateFolder &&
+      onCompleteDuplicate(duplicateFolder, history, questionnaireId),
+  });
+
   const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
-    onCompleted: (data) => {
+    onCompleted: ({ deleteFolder }) =>
+      deleteFolder &&
       onCompleteDelete(
-        data,
+        deleteFolder,
         history,
         questionnaireId,
         sectionId,
         folderPosition,
         pages
-      );
-    },
+      ),
   });
 
   const folder = data?.folder;
@@ -172,14 +180,17 @@ const FolderDesignPage = ({ history, match }) => {
           pageType={FOLDER}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
-          onDuplicate={() => alert("onDuplicate")}
+          onDuplicate={() =>
+            duplicateFolder({
+              variables: { input: { id, position: position + 1 } },
+            })
+          }
           onDelete={() =>
             deleteFolder({
               variables: { input: { id } },
             })
           }
           disableMove
-          disableDuplicate
           key={`toolbar-folder-${folderId}`}
           title={alias}
         />
