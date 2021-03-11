@@ -1,8 +1,11 @@
+import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { rgba } from "polished";
 
 import { NavLink } from "react-router-dom";
+import { Column } from "components/Grid";
 
 export const Title = styled.div`
   width: 100%;
@@ -37,3 +40,27 @@ export const TabLink = styled(NavLink)`
     outline: none;
   }
 `;
+
+const VerticalTabs = ({ title, gutters, cols }) => {
+  return (
+    <Column gutters={gutters} cols={cols}>
+      <Title>{title}</Title>
+      <StyledTabUl>
+        <TabLink exact to="#">
+          General
+        </TabLink>
+        <TabLink exact to="#">
+          Themes, IDs and form types
+        </TabLink>
+      </StyledTabUl>
+    </Column>
+  );
+};
+
+VerticalTabs.propTypes = {
+  title: PropTypes.string.isRequired,
+  gutters: PropTypes.bool,
+  cols: PropTypes.number.isRequired,
+};
+
+export default VerticalTabs;

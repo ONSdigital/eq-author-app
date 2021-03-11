@@ -15,7 +15,7 @@ import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Grid, Column } from "components/Grid";
 
-import { Title, StyledTabUl, TabLink } from "components/VerticalTabs";
+import VerticalTabs from "components/VerticalTabs";
 
 const Container = styled.div`
   display: flex;
@@ -148,17 +148,11 @@ const SettingsPage = ({ questionnaire }) => {
       <PageContainer>
         <PageMainCanvas>
           <Grid>
-            <Column gutters={false} cols={2.5}>
-              <Title>Questionnaire Settings</Title>
-              <StyledTabUl>
-                <TabLink exact to="#">
-                  General
-                </TabLink>
-                <TabLink exact to="#">
-                  Themes, IDs and form types
-                </TabLink>
-              </StyledTabUl>
-            </Column>
+            <VerticalTabs
+              title="Questionnaire Settings"
+              gutters={false}
+              cols={2.5}
+            />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
                 <ScrollPane>
