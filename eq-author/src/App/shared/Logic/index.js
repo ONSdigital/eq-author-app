@@ -82,10 +82,10 @@ const TABS = [
 const LogicPage = ({ children, page }) => (
   <EditorLayout
     design
-    preview
+    preview={page?.__typename !== "Folder"}
     logic
     validationErrorInfo={page?.validationErrorInfo}
-    title={page?.displayName ?? ""}
+    title={page?.displayName || page?.alias || ""}
     singleColumnLayout
     mainCanvasMaxWidth="80em"
   >

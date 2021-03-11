@@ -21,7 +21,6 @@ import {
 export const LABEL_IF = "IF";
 export const LABEL_AND = "AND";
 export const LABEL_OR = "OR";
-export const LABEL_GROUP_TITLE = "Skip this question";
 export const LABEL_REMOVE_GROUP = "Remove OR";
 export const LABEL_REMOVE_ALL_GROUPS = "Remove logic rule";
 
@@ -68,6 +67,7 @@ const RemoveSkipConditionButton = styled(Button).attrs({
 
 const SkipConditionEditor = ({
   pageId,
+  noun = "question",
   expressionGroup,
   expressionGroupIndex,
   className,
@@ -75,6 +75,7 @@ const SkipConditionEditor = ({
   const deleteSkipConditions = useDeleteSkipConditions({ parentId: pageId });
   const deleteSkipCondition = useDeleteSkipCondition({
     id: expressionGroup.id,
+    parentId: pageId,
   });
 
   const handleDeleteAllClick = deleteSkipConditions;
@@ -82,9 +83,11 @@ const SkipConditionEditor = ({
 
   const existingRadioConditions = {};
 
+  const labelGroupTitle = `Skip this ${noun}`;
+
   const header = (
     <Header>
-      <Label inline>{LABEL_GROUP_TITLE}</Label>
+      <Label inline>{labelGroupTitle}</Label>
       <RemoveSkipConditionButton
         onClick={handleDeleteAllClick}
         data-test="btn-remove-skip-conditions"
@@ -139,6 +142,7 @@ const SkipConditionEditor = ({
 
 SkipConditionEditor.propTypes = {
   pageId: PropTypes.string.isRequired,
+  noun: PropTypes.string,
   expressionGroup: propType(fragment).isRequired,
   expressionGroupIndex: PropTypes.number.isRequired,
   className: PropTypes.string,

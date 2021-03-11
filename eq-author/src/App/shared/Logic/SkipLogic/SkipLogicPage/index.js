@@ -14,11 +14,14 @@ import { useCreateSkipCondition } from "../mutations.js";
 
 const SkipLogicPage = ({ page }) => {
   const createSkipCondition = useCreateSkipCondition({ parentId: page.id });
+  const isFolder = page?.__typename === "Folder";
 
-  const isFirstQuestion =
+  const isFirst =
     page?.position === 0 &&
-    page?.folder?.position === 0 &&
-    page?.section?.position === 0;
+    page?.section?.position === 0 &&
+    (isFolder || page?.folder?.position === 0);
+
+  const noun = isFolder ? "folder" : "question";
 
   return (
     <div data-test="skip-condition-editor">
@@ -30,6 +33,7 @@ const SkipLogicPage = ({ page }) => {
           {page.skipConditions ? (
             <SkipLogicEditor
               pageId={page.id}
+              noun={noun}
               skipConditions={page.skipConditions}
               onAddSkipConditions={createSkipCondition}
             />
@@ -38,7 +42,21 @@ const SkipLogicPage = ({ page }) => {
               <NoSkipConditions
                 onAddSkipConditions={createSkipCondition}
                 data-test="skip-condition-set-empty-msg"
-                isFirstQuestion={isFirstQuestion}
+                title={
+                  isFirst
+                    ? `Skip logic not available for this ${noun}`
+                    : `No skip conditions exist for this ${noun}`
+                }
+                paragraph={
+                  isFirst
+                    ? `You can't add skip logic to the first ${noun} in a questionnaire`
+                    : `All users will see ${
+                        isFolder
+                          ? "the questions in this folder"
+                          : "this question"
+                      } if no skip logic is added`
+                }
+                disabled={isFirst}
               >
                 All users will see this question if no skip logic is added.
               </NoSkipConditions>

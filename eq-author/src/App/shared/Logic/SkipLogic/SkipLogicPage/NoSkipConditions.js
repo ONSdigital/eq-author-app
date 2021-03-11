@@ -34,38 +34,27 @@ const Paragraph = styled.p`
 
 const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
-  ${(props) =>
-    props.isFirstQuestion &&
-    `
-     pointer-events: none;
-     opacity: 0.6;`};
+  ${({ disabled }) => disabled && "opacity: 0.6;"};
 `;
 
 const SkipConditionsSetMsg = ({
   onAddSkipConditions,
-  isFirstQuestion,
+  title,
+  paragraph,
+  disabled,
   ...otherProps
 }) => (
   <Container {...otherProps}>
     <Icon />
-    <Title>
-      {isFirstQuestion
-        ? "Skip logic not available for this question"
-        : "No skip conditions exist for this question"}
-    </Title>
-    <Paragraph>
-      {isFirstQuestion
-        ? "You can't add skip logic to the first question in a questionnaire."
-        : "All users will see this question if no skip logic is added."}
-    </Paragraph>
+    <Title> {title}</Title>
+    <Paragraph> {paragraph}</Paragraph>
     <AddSkipConditionsButton
       small
       naked
       variant="primary"
       onClick={onAddSkipConditions}
       data-test="btn-add-skip-condition"
-      isFirstQuestion={isFirstQuestion}
-      disabled={isFirstQuestion}
+      disabled={disabled}
     >
       <IconText icon={IconAddRule}>Add your skip conditions</IconText>
     </AddSkipConditionsButton>
@@ -74,11 +63,9 @@ const SkipConditionsSetMsg = ({
 
 SkipConditionsSetMsg.propTypes = {
   onAddSkipConditions: PropTypes.func.isRequired,
-  isFirstQuestion: PropTypes.bool.isRequired,
-};
-
-SkipConditionsSetMsg.defaultProps = {
-  isFirstQuestion: false,
+  disabled: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  paragraph: PropTypes.string.isRequired,
 };
 
 export default SkipConditionsSetMsg;

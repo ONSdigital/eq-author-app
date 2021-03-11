@@ -41,7 +41,7 @@ describe("Skip Condition Page", () => {
     expect(wrapper.find(SkipLogicEditor)).toBeTruthy();
   });
 
-  it("should signal to NoSkipConditions if it's the first page in a questionnaire", () => {
+  it("should show explanation for not adding skip logic to first page in questionnaire", () => {
     const wrapper = shallow(
       <SkipLogicPage
         page={{
@@ -51,6 +51,30 @@ describe("Skip Condition Page", () => {
       />
     );
 
-    expect(wrapper.find(NoSkipConditions).props().isFirstQuestion).toBeTruthy();
+    expect(
+      wrapper
+        .find(NoSkipConditions)
+        .props()
+        .title.startsWith("Skip logic not available")
+    ).toBeTruthy();
+  });
+
+  it("should show correct noun when the entity is a folder", () => {
+    const wrapper = shallow(
+      <SkipLogicPage
+        page={{
+          id: "folder-1",
+          __typename: "Folder",
+          position: 1,
+          section: {
+            position: 0,
+          },
+        }}
+      />
+    );
+
+    expect(
+      wrapper.find(NoSkipConditions).props().title.endsWith("folder")
+    ).toBeTruthy();
   });
 });

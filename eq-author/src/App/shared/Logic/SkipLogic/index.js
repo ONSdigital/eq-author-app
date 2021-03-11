@@ -10,11 +10,11 @@ import Logic from "App/shared/Logic";
 
 import SKIPLOGIC_QUERY from "./fragment.graphql";
 
-export const SkipLogicRoute = ({ match }) => {
+export const SkipLogicRoute = ({ match: { params } }) => {
   const { loading, data } = useQuery(SKIPLOGIC_QUERY, {
     variables: {
       input: {
-        id: match.params.confirmationId || match.params.pageId,
+        id: params.confirmationId || params.pageId || params.folderId,
       },
     },
     fetchPolicy: "cache-and-network",

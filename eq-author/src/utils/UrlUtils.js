@@ -54,7 +54,7 @@ export const buildFolderPath = ({ folderId, tab, ...rest }) => {
 
   return generatePath(Routes.QUESTIONNAIRE)({
     ...rest,
-    tab: sanitiseTab(["design"])(tab),
+    tab: sanitiseTab(["design", "logic", "skip", "routing"])(tab),
     entityId: folderId,
     entityName: FOLDER,
   });
