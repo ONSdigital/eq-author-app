@@ -92,6 +92,7 @@ fragment PageNav on Section {
 fragment Pages on Page {
   id
   title
+  alias
   position
   displayName
   pageType
@@ -111,6 +112,8 @@ fragment Pages on Page {
     }
     confirmation {
       id
+      title
+      qCode
     }
   }
 }
@@ -126,6 +129,9 @@ fragment Answers on Answer {
   secondaryLabelDefault
   type
   properties
+  ... on BasicAnswer {
+    secondaryQCode
+  }
   ... on MultipleChoiceAnswer {
     options {
       id
