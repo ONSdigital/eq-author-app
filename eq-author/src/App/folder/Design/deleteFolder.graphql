@@ -5,6 +5,7 @@ mutation DeleteFolder($input: DeleteFolderInput!) {
       id
       folders {
         id
+        enabled
         pages {
           id
         }

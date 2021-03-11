@@ -12,18 +12,30 @@ export const onCompleteDelete = (
     (sections) => sections.id === sectionId
   );
   const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
+  console.log("pages", pages);
+  console.log("folderPosition", folderPosition);
+
+  const newPageCreated = pages.length === 1;
+  console.log("newPageCreated", newPageCreated);
+
   const previousPage = pages[folderPosition - 1];
 
-  const buildPath =
-    folderPosition === 0
-      ? buildSectionPath({
-          questionnaireId: questionnaireId,
-          sectionId: sectionId,
-        })
-      : buildPagePath({
-          questionnaireId: questionnaireId,
-          pageId: previousPage.id,
-        });
+  // const buildPath =
+  // folderPosition === 0
+  //   ? buildSectionPath({
+  //       questionnaireId: questionnaireId,
+  //       sectionId: sectionId,
+  //     })
+  //   : buildPagePath({
+  //       questionnaireId: questionnaireId,
+  //       pageId: previousPage.id,
+  //     });
+
+  const buildPath = buildPagePath({
+    questionnaireId: questionnaireId,
+    pageId: folderPosition === 0 ? pages[0].id : previousPage.id,
+    // pageId: newPageCreated ? pages[0].id : previousPage.id,
+  });
 
   history.push(buildPath);
 };
