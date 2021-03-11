@@ -21,8 +21,6 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [() => null]),
 }));
 
-// useMutation.mockImplementation(jest.fn(() => [() => null]));
-
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
   useCreateCalculatedSummaryPage: jest.fn(),
