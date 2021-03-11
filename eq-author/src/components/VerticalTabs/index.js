@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { rgba } from "polished";
@@ -41,18 +42,18 @@ export const TabLink = styled(NavLink)`
   }
 `;
 
-const VerticalTabs = ({ title, gutters, cols }) => {
+const listItems = (tabItems) =>
+  tabItems.map((item) => (
+    <TabLink exact to={item.url} key={item.title}>
+      {item.title}
+    </TabLink>
+  ));
+
+const VerticalTabs = ({ title, gutters, cols, tabItems }) => {
   return (
-    <Column gutters={gutters} cols={cols}>
+    <Column gutters={gutters} cols={cols} tabItems={tabItems}>
       <Title>{title}</Title>
-      <StyledTabUl>
-        <TabLink exact to="#">
-          General
-        </TabLink>
-        <TabLink exact to="#">
-          Themes, IDs and form types
-        </TabLink>
-      </StyledTabUl>
+      <StyledTabUl>{listItems(tabItems)}</StyledTabUl>
     </Column>
   );
 };
@@ -61,6 +62,7 @@ VerticalTabs.propTypes = {
   title: PropTypes.string.isRequired,
   gutters: PropTypes.bool,
   cols: PropTypes.number.isRequired,
+  tabItems: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 VerticalTabs.defaultProps = {

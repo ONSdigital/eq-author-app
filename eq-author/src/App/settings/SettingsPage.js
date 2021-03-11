@@ -142,13 +142,28 @@ const SettingsPage = ({ questionnaire }) => {
     });
   };
 
+  const tabItems = [
+    {
+      title: `General`,
+      url: `#`,
+    },
+    {
+      title: `Themes, IDs and form types`,
+      url: `#`,
+    },
+  ];
+
   return (
     <Container>
       <Header title="Settings" />
       <PageContainer>
         <PageMainCanvas>
           <Grid>
-            <VerticalTabs title="Questionnaire Settings" cols={2.5} />
+            <VerticalTabs
+              title="Questionnaire Settings"
+              cols={2.5}
+              tabItems={tabItems}
+            />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
                 <ScrollPane>
