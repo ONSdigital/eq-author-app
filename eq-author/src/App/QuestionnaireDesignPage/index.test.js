@@ -621,7 +621,7 @@ describe("QuestionnaireDesignPage", () => {
 
     const confirmationAnswer = (refined) => ({
       id: "confirmation",
-      qCode: null,
+      qCode: "confirmation",
       ...(refined && { type: "QuestionConfirmation" }),
       ...(!refined && {
         __typename: "QuestionConfirmation",
@@ -708,6 +708,7 @@ describe("QuestionnaireDesignPage", () => {
 
     duplicateTest = {
       1: 2,
+      confirmation: 1,
     };
 
     it("it should organiseAnswers into a list", () => {
@@ -721,8 +722,14 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("it should flatten answers", () => {
-      const flattenedAnswers = flattenAnswers(answers);
-      expect(flattenedAnswers).toEqual(flatAnswers);
+      const flat = flattenAnswers(answers);
+      const conf = flat.find((x) => x.qCode === "confirmation");
+      const mutuallyExclusiveOption = flat.find(
+        (x) => x.type === "MutuallyExclusiveOption"
+      );
+      expect(flat).toEqual(flatAnswers);
+      expect(conf).toBeTruthy();
+      expect(mutuallyExclusiveOption).toBeTruthy();
     });
 
     it("it should list duplicate answers", () => {
