@@ -1,4 +1,6 @@
 #import "./SkipLogicEditor/fragment.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
+#import "./SkipLogicEditor/SkipConditionEditor/fragment.graphql"
 
 fragment SkipLogicPage on Skippable {
   id
@@ -13,26 +15,23 @@ fragment SkipLogicPage on Skippable {
       position
     }
     validationErrorInfo {
-      id
-      errors {
-        id
-        field
-        type
-        errorCode
-      }
-      totalCount
+      ...ValidationErrorInfo
     }
   }
   ... on QuestionConfirmation {
     validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+  ... on Folder {
+    displayName
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    position
+    section {
       id
-      errors {
-        id
-        field
-        type
-        errorCode
-      }
-      totalCount
+      position
     }
   }
 }

@@ -107,8 +107,9 @@ type Folder implements Skippable {
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
-  section: Section
+  section: Section!
   displayName: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Section {

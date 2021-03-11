@@ -33,6 +33,11 @@ const mockQuestionnaire = {
           enabled: false,
           alias: "",
           position: 0,
+          validationErrorInfo: {
+            id: "f0awdhiwahd-fc50-46ec-b228-76b9f787e708",
+            totalCount: 0,
+            __typename: "ValidationErrorInfo",
+          },
           pages: [
             {
               id: "17de54db-eb71-42d5-9f4c-948b9f6dbfc5",
@@ -74,6 +79,11 @@ const mockQuestionnaire = {
           enabled: true,
           alias: "",
           position: 1,
+          validationErrorInfo: {
+            id: "f0awdhiwahd-fc50-46ec-b228-76b9f787e708",
+            totalCount: 0,
+            __typename: "ValidationErrorInfo",
+          },
           pages: [
             {
               id: "79710f7d-d65a-48ae-9c5d-77ffa381f40a",

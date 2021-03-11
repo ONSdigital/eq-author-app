@@ -196,7 +196,7 @@ const UnwrappedNavigationSidebar = ({
 
   const buildFolderList = (folders) => {
     const components = folders.map(
-      ({ id: folderId, enabled, alias, pages }) => {
+      ({ id: folderId, enabled, alias, pages, validationErrorInfo }) => {
         if (enabled) {
           return (
             <NavItemTransition
@@ -214,6 +214,7 @@ const UnwrappedNavigationSidebar = ({
                   })}
                   disabled={isCurrentPage(folderId, entityId)}
                   icon={IconFolder}
+                  selfErrorCount={validationErrorInfo.totalCount}
                   childErrorCount={calculatePageErrors(pages)}
                   history={history}
                   open

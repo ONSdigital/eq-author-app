@@ -100,6 +100,13 @@ describe("Folder design page", () => {
                 id: secondFolder.section.id,
                 __typename: "Section",
               },
+              displayName: "Alfred",
+              validationErrorInfo: {
+                __typename: "ValidationErrorInfo",
+                id: "valid-1",
+                errors: [],
+                totalCount: 0,
+              },
               __typename: "Folder",
             },
           },
