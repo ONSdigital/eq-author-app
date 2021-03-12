@@ -38,8 +38,6 @@ jest.mock("@apollo/react-hooks", () => ({
 }));
 
 describe("QuestionnaireDesignPage", () => {
-  let sectionsForFlatAnswers, answerList, flatAnswersTest, duplicateTest;
-
   const defaultSetup = (changes = {}, routing = {}) => {
     const questionnaire = buildQuestionnaire();
     questionnaire.totalErrorCount = 0;
@@ -86,7 +84,7 @@ describe("QuestionnaireDesignPage", () => {
 
     const utils = render(
       <MeContext.Provider value={{ me: user, signOut }}>
-        <QuestionnaireContext.Provider value={questionnaire}>
+        <QuestionnaireContext.Provider value={{ questionnaire }}>
           <QuestionnaireDesignPage {...props} />
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
@@ -262,17 +260,7 @@ describe("QuestionnaireDesignPage", () => {
         nested: true,
         ...refinedCheckbox.mutuallyExclusiveOption,
       },
-      {
-        title: "confirmation page yo",
-        alias: null,
-        ...confirmationAnswer(true),
-      },
     ];
-
-    duplicateTest = {
-      1: 2,
-      confirmation: 1,
-    };
 
     it("it should organiseAnswers into a list", () => {
       const questionnaire = buildQuestionnaire({
@@ -286,12 +274,10 @@ describe("QuestionnaireDesignPage", () => {
 
     it("it should flatten answers", () => {
       const flat = flattenAnswers(answers);
-      const conf = flat.find((x) => x.qCode === "confirmation");
       const mutuallyExclusiveOption = flat.find(
         (x) => x.type === "MutuallyExclusiveOption"
       );
       expect(flat).toEqual(flatAnswers);
-      expect(conf).toBeTruthy();
       expect(mutuallyExclusiveOption).toBeTruthy();
     });
 
@@ -302,6 +288,10 @@ describe("QuestionnaireDesignPage", () => {
         nested: true,
         ...refinedCheckbox.mutuallyExclusiveOption,
       });
+      const duplicateTest = {
+        1: 2,
+        confirmation: 1,
+      };
       const duplicates = duplicatesAnswers(flatAnswers);
       expect(duplicates).toEqual(duplicateTest);
     });

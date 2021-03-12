@@ -32,7 +32,12 @@ describe("onCompleteDelete", () => {
       pageId: "pageId1",
     });
 
-    onCompleteDelete(response, history, questionnaireId, folderPosition);
+    onCompleteDelete(
+      response.deleteFolder,
+      history,
+      questionnaireId,
+      folderPosition
+    );
 
     expect(history.push).toHaveBeenCalledWith(expected);
   });
@@ -44,7 +49,12 @@ describe("onCompleteDelete", () => {
       pageId: "pageId1",
     });
 
-    onCompleteDelete(response, history, questionnaireId, folderPosition);
+    onCompleteDelete(
+      response.deleteFolder,
+      history,
+      questionnaireId,
+      folderPosition
+    );
 
     expect(history.push).toHaveBeenCalledWith(expected);
   });
