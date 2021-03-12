@@ -46,19 +46,12 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
   });
 
-  let sectionId, folderPosition, pages;
+  let folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
   const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
     onCompleted: (data) => {
-      onCompleteDelete(
-        data,
-        history,
-        questionnaireId,
-        sectionId,
-        folderPosition,
-        pages
-      );
+      onCompleteDelete(data, history, questionnaireId, folderPosition, pages);
     },
   });
 
@@ -98,7 +91,6 @@ const FolderDesignPage = ({ history, match }) => {
     );
   }
 
-  sectionId = data.folder.section.id;
   folderPosition = data.folder.position;
   pages = data.folder.pages;
 

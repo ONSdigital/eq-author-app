@@ -663,7 +663,7 @@ type Mutation {
 
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder
-  deleteFolder(input: DeleteFolderInput!): Questionnaire
+  deleteFolder(input: DeleteFolderInput!): Section
   moveFolder(input: MoveFolderInput!): Folder
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
