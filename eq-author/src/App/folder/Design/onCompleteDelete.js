@@ -1,17 +1,13 @@
-import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
+import { buildPagePath } from "utils/UrlUtils";
 
 export const onCompleteDelete = (
   response,
   history,
   questionnaireId,
-  sectionId,
   folderPosition
 ) => {
-  const sections = response.deleteFolder.sections;
-  const sectionIndex = sections.findIndex(
-    (sections) => sections.id === sectionId
-  );
-  const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
+  const section = response.deleteFolder;
+  const pages = section.folders.flatMap(({ pages }) => pages);
   const previousPage = pages[folderPosition - 1];
 
   const buildPath = buildPagePath({

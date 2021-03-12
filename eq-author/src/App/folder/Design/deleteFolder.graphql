@@ -4,33 +4,30 @@
 mutation DeleteFolder($input: DeleteFolderInput!) {
   deleteFolder(input: $input) {
     id
-    sections {
+    position
+    folders {
       id
+      ...Folder
       position
-      folders {
-        id
-        ...Folder
+      pages {
+        ...Page
         position
-        pages {
-          ...Page
-          position
-          displayName
-          pageType
-          ... on QuestionPage {
-            guidance
-            answers {
-              id
-            }
-            confirmation {
-              id
-            }
-          }
-          ... on CalculatedSummaryPage {
+        displayName
+        pageType
+        ... on QuestionPage {
+          guidance
+          answers {
             id
           }
-          validationErrorInfo {
-            ...ValidationErrorInfo
+          confirmation {
+            id
           }
+        }
+        ... on CalculatedSummaryPage {
+          id
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }

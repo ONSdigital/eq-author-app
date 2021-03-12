@@ -1,34 +1,28 @@
 import { onCompleteDelete } from "./onCompleteDelete";
-import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
+import { buildPagePath } from "utils/UrlUtils";
 
 describe("onCompleteDelete", () => {
-  let response, history, questionnaireId, sectionId, folderPosition;
+  let response, history, questionnaireId, folderPosition;
 
   beforeEach(() => {
     response = {
       deleteFolder: {
-        id: "folderId1",
-        sections: [
+        folders: [
           {
-            folders: [
+            id: "folderId2",
+            pages: [
               {
-                id: "folderId2",
-                pages: [
-                  {
-                    id: "pageId1",
-                  },
-                ],
+                id: "pageId1",
               },
             ],
-            id: "secId1",
           },
         ],
+        id: "secId1",
       },
     };
 
     history = { push: jest.fn() };
     questionnaireId = "QId1";
-    sectionId = "secId1";
     folderPosition = 0;
   });
 
@@ -38,13 +32,7 @@ describe("onCompleteDelete", () => {
       pageId: "pageId1",
     });
 
-    onCompleteDelete(
-      response,
-      history,
-      questionnaireId,
-      sectionId,
-      folderPosition
-    );
+    onCompleteDelete(response, history, questionnaireId, folderPosition);
 
     expect(history.push).toHaveBeenCalledWith(expected);
   });
@@ -56,13 +44,7 @@ describe("onCompleteDelete", () => {
       pageId: "pageId1",
     });
 
-    onCompleteDelete(
-      response,
-      history,
-      questionnaireId,
-      sectionId,
-      folderPosition
-    );
+    onCompleteDelete(response, history, questionnaireId, folderPosition);
 
     expect(history.push).toHaveBeenCalledWith(expected);
   });
