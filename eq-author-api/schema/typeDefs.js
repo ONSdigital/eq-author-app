@@ -932,7 +932,6 @@ input CreateQuestionPageInput {
   descriptionEnabled: Boolean
   guidance: String
   guidanceEnabled: Boolean
-  sectionId: ID
   folderId: ID!
   position: Int
   definitionLabel: String
@@ -960,7 +959,6 @@ input UpdateQuestionPageInput {
 }
 
 input CreateCalculatedSummaryPageInput {
-  sectionId: ID
   folderId: ID!
   position: Int
 }
