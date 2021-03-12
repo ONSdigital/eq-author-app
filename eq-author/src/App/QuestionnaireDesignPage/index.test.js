@@ -180,18 +180,6 @@ describe("QuestionnaireDesignPage", () => {
       },
     ];
 
-    const confirmationAnswer = (refined) => ({
-      id: "confirmation",
-      qCode: "confirmation",
-      ...(refined && { type: "QuestionConfirmation" }),
-      ...(!refined && {
-        __typename: "QuestionConfirmation",
-        title: "confirmation page yo",
-        alias: null,
-      }),
-      validationErrorInfo: [],
-    });
-
     const checkboxPage = () => ({
       id: "checkbox-page",
       title: "<p>Checkbox page</p>",
@@ -199,7 +187,6 @@ describe("QuestionnaireDesignPage", () => {
       displayName: "Checkbox page",
       pageType: "QuestionPage",
       alias: "asda",
-      confirmation: confirmationAnswer(),
       answers: checkboxAnswers(),
     });
 
@@ -218,15 +205,6 @@ describe("QuestionnaireDesignPage", () => {
           ...checkboxAnswers(),
           ...refinedCheckbox.options,
           refinedCheckbox.mutuallyExclusiveOption,
-        ],
-      },
-      {
-        title: "confirmation page yo",
-        alias: null,
-        answers: [
-          {
-            ...confirmationAnswer(true),
-          },
         ],
       },
     ];
@@ -290,7 +268,6 @@ describe("QuestionnaireDesignPage", () => {
       });
       const duplicateTest = {
         1: 2,
-        confirmation: 1,
       };
       const duplicates = duplicatesAnswers(flatAnswers);
       expect(duplicates).toEqual(duplicateTest);
