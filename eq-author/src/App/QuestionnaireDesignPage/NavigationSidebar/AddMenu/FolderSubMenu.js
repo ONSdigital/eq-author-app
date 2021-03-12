@@ -17,7 +17,6 @@ const ContentCategory = styled.span`
 `;
 
 export const FolderAddSubMenu = ({ folderTitle, children }) => (
-  <>
     <ContentSpacer>
       <ContentCategory>
         Inside {folderTitle || "Untitled folder"}
@@ -29,7 +28,6 @@ export const FolderAddSubMenu = ({ folderTitle, children }) => (
         Outside {folderTitle || "Untitled folder"}
       </ContentCategory>
     </ContentSpacer>
-  </>
 );
 
 FolderAddSubMenu.propTypes = {
