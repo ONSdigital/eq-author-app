@@ -141,15 +141,14 @@ const SettingsPage = ({ questionnaire }) => {
       variables: { input: { id, shortTitle: value } },
     });
   };
-
   const tabItems = [
     {
       title: `General`,
-      url: `#`,
+      url: `settings`,
     },
     {
       title: `Themes, IDs and form types`,
-      url: `#`,
+      url: `themes`,
     },
   ];
 
