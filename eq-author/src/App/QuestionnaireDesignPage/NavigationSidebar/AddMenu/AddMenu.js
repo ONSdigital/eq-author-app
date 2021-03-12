@@ -89,46 +89,44 @@ const AddMenu = ({
   ];
 
   return (
-    <>
-      <Popout
-        open={addMenuOpen}
-        trigger={MenuAddButton}
-        onToggleOpen={onAddMenuToggle}
-        horizontalAlignment="left"
-        verticalAlignment="top"
-        transition={PopupTransition}
-        container={PopoutContainer}
-        layer={PopoutLayer}
-      >
-        <AddMenuWindow data-test="addmenu-window">
-          {isFolder && (
-            <FolderAddSubMenu folderTitle={folderTitle}>
-              {[
-                {
-                  handleClick: () => onAddQuestionPage(true),
-                  disabled: !canAddQuestionPage,
-                  dataTest: "btn-add-question-page-inside",
-                  icon: IconQuestion,
-                  text: "Question",
-                },
-                {
-                  handleClick: () => onAddCalculatedSummaryPage(true),
-                  disabled: !canAddCalculatedSummaryPage,
-                  dataTest: "btn-add-calculated-summary-inside",
-                  icon: IconSummary,
-                  text: "Calculated summary",
-                },
-              ].map((item) => (
-                <MenuButton key={`${item.dataTest}-folder`} {...item} />
-              ))}
-            </FolderAddSubMenu>
-          )}
-          {defaultButtons.map((item) => (
-            <MenuButton key={item.dataTest} {...item} />
-          ))}
-        </AddMenuWindow>
-      </Popout>
-    </>
+    <Popout
+      open={addMenuOpen}
+      trigger={MenuAddButton}
+      onToggleOpen={onAddMenuToggle}
+      horizontalAlignment="left"
+      verticalAlignment="top"
+      transition={PopupTransition}
+      container={PopoutContainer}
+      layer={PopoutLayer}
+    >
+      <AddMenuWindow data-test="addmenu-window">
+        {isFolder && (
+          <FolderAddSubMenu folderTitle={folderTitle}>
+            {[
+              {
+                handleClick: () => onAddQuestionPage(true),
+                disabled: !canAddQuestionPage,
+                dataTest: "btn-add-question-page-inside",
+                icon: IconQuestion,
+                text: "Question",
+              },
+              {
+                handleClick: () => onAddCalculatedSummaryPage(true),
+                disabled: !canAddCalculatedSummaryPage,
+                dataTest: "btn-add-calculated-summary-inside",
+                icon: IconSummary,
+                text: "Calculated summary",
+              },
+            ].map((item) => (
+              <MenuButton key={`${item.dataTest}-folder`} {...item} />
+            ))}
+          </FolderAddSubMenu>
+        )}
+        {defaultButtons.map((item) => (
+          <MenuButton key={item.dataTest} {...item} />
+        ))}
+      </AddMenuWindow>
+    </Popout>
   );
 };
 
