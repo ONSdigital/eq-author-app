@@ -1,28 +1,13 @@
-import { buildPagePath, buildSectionPath } from "utils/UrlUtils";
+import { buildPagePath } from "utils/UrlUtils";
 
-export default (
-  { sections },
-  history,
-  questionnaireId,
-  sectionId,
-  folderPosition
-) => {
-  const sectionIndex = sections.findIndex(
-    (section) => section.id === sectionId
-  );
-  const pages = sections[sectionIndex].folders.flatMap(({ pages }) => pages);
+export default ({ folders }, history, questionnaireId, folderPosition) => {
+  const pages = folders.flatMap(({ pages }) => pages);
   const previousPage = pages[folderPosition - 1];
 
-  const buildPath =
-    folderPosition === 0
-      ? buildSectionPath({
-          questionnaireId,
-          sectionId,
-        })
-      : buildPagePath({
-          questionnaireId,
-          pageId: previousPage.id,
-        });
+  const buildPath = buildPagePath({
+    questionnaireId: questionnaireId,
+    pageId: folderPosition === 0 ? pages[0].id : previousPage.id,
+  });
 
   history.push(buildPath);
 };

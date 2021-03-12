@@ -387,7 +387,7 @@ const Resolvers = {
         section.folders.push(createFolder());
       }
 
-      return ctx.questionnaire;
+      return section;
     }),
     moveFolder: createMutation((_, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);

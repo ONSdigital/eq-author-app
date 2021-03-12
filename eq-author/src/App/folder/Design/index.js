@@ -75,7 +75,7 @@ const FolderDesignPage = ({ history, match }) => {
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
-  let sectionId, folderPosition, pages;
+  let folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
@@ -91,7 +91,6 @@ const FolderDesignPage = ({ history, match }) => {
         deleteFolder,
         history,
         questionnaireId,
-        sectionId,
         folderPosition,
         pages
       ),
@@ -159,9 +158,8 @@ const FolderDesignPage = ({ history, match }) => {
     );
   }
 
-  sectionId = data.folder.section.id;
-  folderPosition = data.folder.position;
-  pages = data.folder.pages;
+  folderPosition = folder?.position;
+  pages = folder?.pages;
 
   const {
     folder: { id, alias, position, section },
