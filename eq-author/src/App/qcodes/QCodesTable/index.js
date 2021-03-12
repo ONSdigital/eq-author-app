@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/react-hooks";
 
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
-import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
 import { useQCodeContext } from "components/QCodeContext";
 import ValidationError from "components/ValidationError";
@@ -72,7 +71,6 @@ const QcodeValidationError = styled(ValidationError)`
 `;
 
 const questionMatrix = {
-  CalculatedSummaryPage: "Calculated summary",
   CheckboxOption: "Checkbox option",
   MutuallyExclusiveOption: "Mutually exclusive checkbox",
   [CHECKBOX]: "Checkbox",
@@ -88,9 +86,10 @@ const questionMatrix = {
   [DURATION]: "Duration",
 };
 
-const handleBlurReducer = ({ type, payload, mutation }) => {
-  const { updateCalculatedSummaryPage, updateOption, updateAnswer } = mutation;
-
+const handleBlurReducer = ({
+  payload,
+  mutation: { updateOption, updateAnswer },
+}) => {
   const mutationVariables = (inputValues) => {
     return {
       variables: {
@@ -103,12 +102,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
   const { id, qCode } = payload;
 
-  if (questionMatrix[type] === questionMatrix.CalculatedSummaryPage) {
-    const summaryAnswers = payload.summaryAnswers.map((item) => item.id);
-    const update = { id, qCode, summaryAnswers };
-
-    updateCalculatedSummaryPage(mutationVariables(update));
-  } else if (payload.option) {
+  if (payload.option) {
     updateOption(mutationVariables({ id, qCode }));
   } else if (payload.secondary) {
     updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
@@ -136,14 +130,12 @@ const Row = memo((props) => {
 
       const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
       const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-      const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
       const handleBlur = useCallback(
         (id, type, qCode) => {
           const mutation = {
             updateOption,
             updateAnswer,
-            updateCalculatedSummaryPage,
           };
           if (qCode !== initialQcode) {
             handleBlurReducer({
@@ -173,15 +165,10 @@ const Row = memo((props) => {
                 error={error}
               />
 
-              {error && (
+              {(error || noValQCodeError) && (
                 <QcodeValidationError right>
-                  {QCODE_IS_NOT_UNIQUE}
-                </QcodeValidationError>
-              )}
-
-              {noValQCodeError && (
-                <QcodeValidationError right>
-                  {QCODE_REQUIRED}
+                  {(error && QCODE_IS_NOT_UNIQUE) ||
+                    (noValQCodeError && QCODE_REQUIRED)}
                 </QcodeValidationError>
               )}
             </SpacedTableColumn>
