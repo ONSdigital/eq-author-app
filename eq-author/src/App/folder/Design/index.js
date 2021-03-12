@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 
 import { FOLDER } from "constants/entities";
@@ -15,8 +14,11 @@ import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
 import onCompleteDelete from "./onCompleteDelete";
 
+import onCompleteDuplicate from "./onCompleteDuplicate";
+
 import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
 
 const Guidance = styled(Collapsible)`
@@ -44,19 +46,18 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
   });
 
-  let sectionId, folderPosition, pages;
+  let folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
   const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
     onCompleted: (data) => {
-      onCompleteDelete(
-        data,
-        history,
-        questionnaireId,
-        sectionId,
-        folderPosition,
-        pages
-      );
+      onCompleteDelete(data, history, questionnaireId, folderPosition, pages);
+    },
+  });
+
+  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
+    onCompleted: (data) => {
+      onCompleteDuplicate(data, history, questionnaireId);
     },
   });
 
@@ -90,12 +91,11 @@ const FolderDesignPage = ({ history, match }) => {
     );
   }
 
-  sectionId = data.folder.section.id;
   folderPosition = data.folder.position;
   pages = data.folder.pages;
 
   const {
-    folder: { id, alias },
+    folder: { id, position, alias },
   } = data;
 
   const shortCodeOnUpdate = (alias) =>
@@ -111,14 +111,17 @@ const FolderDesignPage = ({ history, match }) => {
           pageType={FOLDER}
           shortCodeOnUpdate={shortCodeOnUpdate}
           onMove={() => alert("onMove")}
-          onDuplicate={() => alert("onDuplicate")}
+          onDuplicate={() =>
+            duplicateFolder({
+              variables: { input: { id, position: position + 1 } },
+            })
+          }
           onDelete={() =>
             deleteFolder({
               variables: { input: { id } },
             })
           }
           disableMove
-          disableDuplicate
           key={`toolbar-folder-${folderId}`}
           title={alias}
         />
