@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
 import config from "config";
@@ -70,26 +70,24 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
-export const UnwrappedMainNavigation = (props) => {
-  const {
-    hasQuestionnaire,
-    totalErrorCount,
-    title,
-    children,
-    client,
-    match,
-  } = props;
+export const UnwrappedMainNavigation = ({
+  hasQuestionnaire,
+  totalErrorCount,
+  title,
+  children,
+}) => {
+  const params = useParams();
   const { flattenedAnswers, duplicateQCode } = useQCodeContext();
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
-    match.params.modifier === "settings"
+    params.modifier === "settings"
   );
-  const whatPageAreWeOn = match.params.entityName;
+  const whatPageAreWeOn = params.entityName;
   useSubscription(publishStatusSubscription, {
-    variables: { id: match.params.questionnaireId },
+    variables: { id: params.questionnaireId },
   });
 
-  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${match.params.questionnaireId}`;
+  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
   const emptyQCode = flattenedAnswers?.find(
     ({ type, qCode }) => type !== "Checkbox" && !qCode
@@ -123,7 +121,7 @@ export const UnwrappedMainNavigation = (props) => {
                     (whatPageAreWeOn === "settings" && "navigation-on") ||
                     "navigation"
                   }
-                  to={buildSettingsPath(match.params)}
+                  to={buildSettingsPath(params)}
                   small
                   data-test="btn-settings"
                   disabled={title === "Settings"}
@@ -139,7 +137,7 @@ export const UnwrappedMainNavigation = (props) => {
                   }
                   small
                   data-test="btn-sharing"
-                  to={buildSharingPath(match.params)}
+                  to={buildSharingPath(params)}
                 >
                   <IconText nav icon={shareIcon}>
                     Sharing
@@ -152,7 +150,7 @@ export const UnwrappedMainNavigation = (props) => {
                   }
                   small
                   data-test="btn-history"
-                  to={buildHistoryPath(match.params)}
+                  to={buildHistoryPath(params)}
                 >
                   <IconText nav icon={historyIcon}>
                     History
@@ -166,7 +164,7 @@ export const UnwrappedMainNavigation = (props) => {
                   }
                   small
                   data-test="btn-metadata"
-                  to={buildMetadataPath(match.params)}
+                  to={buildMetadataPath(params)}
                 >
                   <IconText nav icon={metadataIcon}>
                     Metadata
@@ -177,7 +175,7 @@ export const UnwrappedMainNavigation = (props) => {
                     (whatPageAreWeOn === "qcodes" && "navigation-on") ||
                     "navigation"
                   }
-                  to={buildQcodesPath(match.params)}
+                  to={buildQcodesPath(params)}
                   small
                   data-test="btn-qcodes"
                   disabled={title === "QCodes" || totalErrorCount > 0}
@@ -189,7 +187,11 @@ export const UnwrappedMainNavigation = (props) => {
                     <SmallBadge data-test="small-badge" />
                   ) : null}
                 </RouteButton>
-                {me && <UserProfile nav signOut left client={client} />}
+                {me && (
+                  <>
+                    <UserProfile nav signOut left />
+                  </>
+                )}
               </ButtonGroup>
             )}
           </UtilityBtns>
@@ -221,15 +223,7 @@ UnwrappedMainNavigation.propTypes = {
   hasQuestionnaire: PropTypes.bool.isRequired,
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
-  client: PropTypes.shape({
-    resetStore: PropTypes.func.isRequired,
-  }),
   children: PropTypes.node,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      modifier: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
 };
 
-export default withRouter(UnwrappedMainNavigation);
+export default UnwrappedMainNavigation;
