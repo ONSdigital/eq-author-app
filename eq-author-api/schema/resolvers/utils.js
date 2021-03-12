@@ -280,7 +280,6 @@ const createFolder = (input = {}, calcSum = false) => ({
   id: uuidv4(),
   alias: "",
   enabled: false,
-  // TODO make this conditional?
   pages: [calcSum ? createCalculatedSummary() : createQuestionPage()],
   skipConditions: null,
   ...input,
