@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 import { useNavigationCallbacks } from "components/NavigationCallbacks";
@@ -112,4 +112,5 @@ const WrappedHeader = flowRight([
   withCreateSection,
 ])(UnwrappedNavigationHeader);
 
-export default WrappedHeader;
+// needed for addSection()
+export default withRouter(WrappedHeader);
