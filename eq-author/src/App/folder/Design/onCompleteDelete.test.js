@@ -32,10 +32,10 @@ describe("onCompleteDelete", () => {
     folderPosition = 0;
   });
 
-  it("if deleted folder position = 0 it should redirect to the section that folder was in", () => {
-    const expected = buildSectionPath({
+  it("if deleted folder position = 0 it should redirect to the first question of that section", () => {
+    const expected = buildPagePath({
       questionnaireId: questionnaireId,
-      sectionId: sectionId,
+      pageId: "pageId1",
     });
 
     onCompleteDelete(
