@@ -112,4 +112,4 @@ const WrappedHeader = flowRight([
   withCreateSection,
 ])(UnwrappedNavigationHeader);
 
-export default withRouter(WrappedHeader);
+export default WrappedHeader;
