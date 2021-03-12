@@ -173,24 +173,21 @@ const NavigationSidebar = ({ questionnaire }) => {
               open
             >
               <NavList>
-                <TransitionGroup
-                  key={`transition-group-pages`}
-                  component={null}
-                >
-                  {pages.map((page) => buildPageList(page))}
+                <TransitionGroup component={null}>
+                  {pages.map((page) => buildPageList(page)).flat(2)}
                 </TransitionGroup>
               </NavList>
             </CollapsibleNavItem>
           </li>
         </NavItemTransition>
       ) : (
-        pages.map((page) => buildPageList(page))
+        pages.map((page) => buildPageList(page)).flat(2)
       )
     );
 
     return (
       <TransitionGroup key={`transition-group-section-items`} component={null}>
-        {components.flat(2)}
+        {components}
       </TransitionGroup>
     );
   };
