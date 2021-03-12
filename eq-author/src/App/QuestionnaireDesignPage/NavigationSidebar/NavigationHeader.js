@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withRouter, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 import { useNavigationCallbacks } from "components/NavigationCallbacks";
