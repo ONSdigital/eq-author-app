@@ -126,6 +126,9 @@ describe("Folder design page", () => {
                     folders: [
                       {
                         id: secondFolder.id,
+                        alias: "",
+                        enabled: false,
+                        position: 0,
                         pages: [
                           {
                             id: "1.1.1",
@@ -215,26 +218,85 @@ describe("Folder design page", () => {
           return {
             data: {
               deleteFolder: {
-                id: mockQuestionnaire.id,
-                sections: [
+                id: "2",
+                position: 0,
+                folders: [
                   {
-                    id: "2",
-                    folders: [
+                    id: "1.1",
+                    alias: "",
+                    enabled: false,
+                    position: 0,
+                    pages: [
                       {
-                        id: "1.1",
-                        pages: [
+                        id: "1.1.1",
+                        title: "Page 1.1.1",
+                        displayName: "Page 1.1.1",
+                        alias: "1.1.1",
+                        position: 0,
+                        validationErrorInfo: {
+                          totalCount: 0,
+                          errors: [],
+                          id: "210dc30a-683c-43bc-a29e-70c6d15d677c",
+                          __typename: "ValidationErrorInfo",
+                        },
+                        section: {
+                          id: "1",
+                        },
+                        folder: {
+                          id: "1",
+                        },
+                        additionalInfoContent: null,
+                        additionalInfoEnabled: false,
+                        additionalInfoLabel: null,
+                        confirmation: null,
+                        definitionContent: null,
+                        definitionEnabled: false,
+                        definitionLabel: null,
+                        description: "",
+                        descriptionEnabled: false,
+                        guidance: null,
+                        guidanceEnabled: false,
+                        pageType: "QuestionPage",
+                        answers: [
                           {
-                            id: "1.1.1",
-                            __typename: "QuestionPage",
+                            id: "1872f8af-2000-4af2-953e-144d264769e0",
+                            description: "",
+                            guidance: "",
+                            label: "Test",
+                            decimals: 0,
+                            properties: { required: false, decimals: 0 },
+                            required: false,
+                            qCode: "",
+                            secondaryLabel: null,
+                            secondaryLabelDefault: "Untitled answer",
+                            secondaryQCode: null,
+                            type: "Number",
+                            displayName: "",
+                            options: {
+                              id: "",
+                              displayName: "",
+                              label: "",
+                              description: "",
+                              value: "",
+                              qCode: "",
+                              __typename: "options",
+                            },
+                            mutuallyExclusiveOption: {
+                              id: "",
+                              label: "",
+                              qCode: "",
+                              __typename: "mutuallyExclusiveOption",
+                            },
+                            __typename: "BasicAnswer",
                           },
                         ],
-                        __typename: "Folder",
+                        __typename: "QuestionPage",
                       },
                     ],
-                    __typename: "Section",
+                    __typename: "Folder",
                   },
                 ],
-                __typename: "Questionnaire",
+                __typename: "Section",
               },
             },
           };

@@ -65,7 +65,6 @@ export const organiseAnswers = (sections) => {
       });
     }
   }
-
   return { answers: answerRows };
 };
 
@@ -93,19 +92,13 @@ export const flattenAnswers = (data) => {
   return answers;
 };
 
-export const duplicatesAnswers = (flattenedAnswers) => {
-  const duplicates = flattenedAnswers.reduce((acc, item) => {
-    if (
-      acc.hasOwnProperty(item.qCode) &&
-      item.qCode !== "" &&
-      item.qCode !== null
-    ) {
+export const duplicatesAnswers = (flattenedAnswers) =>
+  flattenedAnswers.reduce((acc, item) => {
+    if (acc.hasOwnProperty(item.qCode) && item.qCode) {
       acc[item.qCode]++;
     }
-    if (!acc[item.qCode]) {
+    if (!acc[item.qCode] && item.qCode) {
       acc[item.qCode] = 1;
     }
     return acc;
   }, {});
-  return duplicates;
-};
