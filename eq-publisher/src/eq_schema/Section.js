@@ -1,9 +1,10 @@
 const Group = require("./Group");
 const { getText } = require("../utils/HTMLUtils");
 const { buildIntroBlock } = require("./Block");
+const { cloneDeep } = require("lodash/fp");
 
 const mergeDisabledFolders = (oldFolders) => {
-  const folders = [...oldFolders];
+  const folders = cloneDeep(oldFolders);
   const newFolders = [folders.shift()];
 
   folders.forEach((folder) => {
