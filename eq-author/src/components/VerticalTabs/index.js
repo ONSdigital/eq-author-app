@@ -8,20 +8,39 @@ import { rgba } from "polished";
 import { NavLink } from "react-router-dom";
 import { Column } from "components/Grid";
 
-export const Title = styled.div`
+class VerticalTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { active: 0 };
+  }
+  render() {
+    const { title, gutters, cols, tabItems } = this.props;
+
+    // const handleClick = (id) => this.setState({ active: id });
+
+    return (
+      <Column gutters={gutters} cols={cols} tabItems={tabItems}>
+        <Title>{title}</Title>
+        <StyledTabUl>{listItems(tabItems)}</StyledTabUl>
+      </Column>
+    );
+  }
+}
+
+const Title = styled.div`
   width: 100%;
   padding: 1em 1.2em;
   font-weight: bold;
   border-bottom: 1px solid ${colors.lightGrey};
 `;
 
-export const StyledTabUl = styled.ul`
+const StyledTabUl = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
 `;
 
-export const TabLink = styled(NavLink)`
+const TabLink = styled(NavLink)`
   --color-text: ${colors.black};
   text-decoration: none;
   display: flex;
@@ -49,20 +68,12 @@ const listItems = (tabItems) =>
     </TabLink>
   ));
 
-const VerticalTabs = ({ title, gutters, cols, tabItems }) => {
-  return (
-    <Column gutters={gutters} cols={cols} tabItems={tabItems}>
-      <Title>{title}</Title>
-      <StyledTabUl>{listItems(tabItems)}</StyledTabUl>
-    </Column>
-  );
-};
-
 VerticalTabs.propTypes = {
   title: PropTypes.string.isRequired,
   gutters: PropTypes.bool,
   cols: PropTypes.number.isRequired,
   tabItems: PropTypes.array.isRequired, // eslint-disable-line
+  active: PropTypes.bool.isRequired,
 };
 
 VerticalTabs.defaultProps = {
