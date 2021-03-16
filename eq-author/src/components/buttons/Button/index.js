@@ -247,6 +247,18 @@ export const smallMediumButton = css`
   font-size: 0.9em;
 `;
 
+export const btnfocus = css`
+  &:focus {
+    box-shadow: 0 0 0 4px ${colors.tertiary};
+  }
+`;
+
+export const btnfocusWithin = css`
+  &:focus-within {
+    box-shadow: 0 0 0 4px ${colors.tertiary};
+  }
+`;
+
 const Button = styled.button`
   display: inline-flex;
   flex: 0 0 auto;
@@ -267,15 +279,6 @@ const Button = styled.button`
   position: relative;
   overflow: hidden;
   border: 1px solid var(--color-bg);
-
-  &:focus,
-  &:active {
-    outline-width: 0;
-  }
-
-  &:focus {
-    outline: none;
-  }
 
   &[disabled] {
     pointer-events: none;
@@ -298,6 +301,8 @@ const Button = styled.button`
   ${(props) => props.medium && mediumButton};
   ${(props) => props.small && smallButton};
   ${(props) => props["small-medium"] && smallMediumButton};
+  ${(props) => props["btn-focus"] && btnfocus};
+  ${(props) => props["btn-focus-within"] && btnfocusWithin};
 `;
 
 Button.propTypes = {
