@@ -113,8 +113,6 @@ fragment Pages on Page {
     }
     confirmation {
       id
-      title
-      qCode
     }
   }
 }
