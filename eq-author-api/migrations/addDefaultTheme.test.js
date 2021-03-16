@@ -27,4 +27,26 @@ describe("migrations: add default theme", () => {
       ],
     });
   });
+
+  it("should keep existing legal basis where present", () => {
+    const questionnaire = {
+      introduction: {
+        legalBasis: "NOTICE_2",
+      },
+    };
+
+    expect(addDefaultTheme(questionnaire)).toMatchObject({
+      previewTheme: "default",
+      themes: [
+        expect.objectContaining({
+          id: expect.any(String),
+          shortName: "default",
+          enabled: true,
+          legalBasisCode: questionnaire.introduction.legalBasis,
+          eqId: "",
+          formType: "",
+        }),
+      ],
+    });
+  });
 });
