@@ -91,6 +91,7 @@ fragment PageNav on Section {
 }
 fragment Pages on Page {
   id
+  alias
   title
   alias
   position
