@@ -30,6 +30,11 @@ const {
   listQuestionnaires,
   publishQuestionnaire,
   reviewQuestionnaire,
+  updatePreviewTheme,
+  updateSurveyId,
+  enableTheme,
+  disableTheme,
+  updateTheme,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -106,6 +111,25 @@ describe("questionnaire", () => {
         collapsibles: [],
       });
     });
+
+    it("should create a default theme when questionnaire created", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: BUSINESS,
+      });
+      expect(questionnaire).toMatchObject({
+        previewTheme: "default",
+        themes: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(String),
+            shortName: "default",
+            legalBasisCode: "NOTICE_1",
+            eqId: "",
+            formType: "",
+          }),
+        ]),
+      });
+    });
   });
 
   describe("mutate", () => {
@@ -155,6 +179,116 @@ describe("questionnaire", () => {
       });
       const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
+    });
+
+    describe("themes", () => {
+      let questionnaire;
+      beforeEach(() => {
+        ({ questionnaire } = ctx);
+      });
+
+      it("should allow setting previewTheme", async () => {
+        const newThemeName = "myFaveTheme";
+        await updatePreviewTheme(
+          {
+            questionnaireId: questionnaire.id,
+            previewTheme: newThemeName,
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.previewTheme).toBe(newThemeName);
+      });
+
+      it("should allow setting surveyId", async () => {
+        const newSurveyId = "42";
+        await updateSurveyId(
+          {
+            questionnaireId: questionnaire.id,
+            surveyId: newSurveyId,
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.surveyId).toBe(newSurveyId);
+      });
+
+      it("should be able to enable a new theme", async () => {
+        expect(questionnaire.themes).toHaveLength(1);
+        await enableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "dave",
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.themes).toHaveLength(2);
+        expect(updatedQuestionnaire.themes[1].shortName).toEqual("dave");
+      });
+
+      it("should be able to enable an existing theme", async () => {
+        await enableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "default",
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.themes[0].enabled).toEqual(true);
+      });
+
+      it("should be able to disable an existing theme", async () => {
+        await disableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "default",
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.themes[0].enabled).toEqual(false);
+      });
+
+      it("should not be able to disable a non-existent theme", () => {
+        expect(
+          disableTheme(
+            {
+              questionnaireId: questionnaire.id,
+              shortName: "woololo",
+            },
+            ctx
+          )
+        ).rejects.toThrow();
+      });
+
+      it("should be able to update an existing theme", async () => {
+        const newEqId = "my-fantastic-new-identifier";
+        await updateTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "default",
+            eqId: newEqId,
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.themes[0].eqId).toEqual(newEqId);
+      });
+
+      it("should not be able to update a non-existing theme", () => {
+        expect(
+          updateTheme(
+            {
+              questionnaireId: questionnaire.id,
+              shortName: "woololo",
+              eqId: "my-fantastic-new-identifier",
+            },
+            ctx
+          )
+        ).rejects.toThrow();
+      });
     });
 
     describe("publishing and reviewing questionnaire", () => {
