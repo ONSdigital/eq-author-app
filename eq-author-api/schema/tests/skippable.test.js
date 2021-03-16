@@ -15,7 +15,7 @@ query testSkippable($input: QueryInput!) {
 `;
 
 describe("skippable interface", () => {
-  let ctx, page;
+  let ctx, page, folder;
 
   beforeEach(async () => {
     ctx = await buildContext({
@@ -34,7 +34,8 @@ describe("skippable interface", () => {
       ],
     });
 
-    page = ctx.questionnaire.sections[0].folders[0].pages[0];
+    folder = ctx.questionnaire.sections[0].folders[0];
+    page = folder.pages[0];
   });
 
   afterEach(() => deleteQuestionnaire(ctx, ctx.questionnaire.id));
@@ -65,5 +66,19 @@ describe("skippable interface", () => {
     );
 
     expect(response.data.skippable.__typename).toBe("QuestionConfirmation");
+  });
+
+  it("should return correct schema type for Folder", async () => {
+    const response = await executeQuery(
+      query,
+      {
+        input: {
+          id: folder.id,
+        },
+      },
+      ctx
+    );
+
+    expect(response.data.skippable.__typename).toBe("Folder");
   });
 });

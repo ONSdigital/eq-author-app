@@ -60,6 +60,12 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
             "section": Object {
               "id": "1",
             },
+            "validationErrorInfo": Object {
+              "__typename": "ValidationErrorInfo",
+              "errors": Array [],
+              "id": "1.1-validationErrorInfo",
+              "totalCount": 0,
+            },
           },
         ],
         "id": "1",

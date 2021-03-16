@@ -162,7 +162,7 @@ const FolderDesignPage = ({ history, match }) => {
   pages = folder?.pages;
 
   const {
-    folder: { id, alias, position, section },
+    folder: { id, position, section, alias, displayName, validationErrorInfo },
   } = data;
 
   const shortCodeOnUpdate = (alias) =>
@@ -171,7 +171,12 @@ const FolderDesignPage = ({ history, match }) => {
     });
 
   return (
-    <EditorPage title={alias || "Untitled folder"}>
+    <EditorPage
+      title={displayName}
+      design
+      logic
+      validationErrorInfo={validationErrorInfo}
+    >
       <StyledPanel data-test="folders-page">
         <EditorToolbar
           shortCode={alias}

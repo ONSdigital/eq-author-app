@@ -50,6 +50,12 @@ const mockData = {
       id: mockQuestionnaire.sections[0].id,
       __typename: "Section",
     },
+    validationErrorInfo: {
+      totalCount: 0,
+      errors: [],
+      id: "210dc30a-683c-43bc-a29e-70c6d15d677c",
+      __typename: "ValidationErrorInfo",
+    },
     __typename: "Folder",
   },
 };

@@ -87,6 +87,12 @@ export const buildFolders = ({
         answerCount,
       }),
       section: { id: `${i + 1}` },
+      validationErrorInfo: {
+        id: `${id}-validationErrorInfo`,
+        errors: [],
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
     };
   });
 
