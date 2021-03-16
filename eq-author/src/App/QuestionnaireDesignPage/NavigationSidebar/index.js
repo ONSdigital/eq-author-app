@@ -187,7 +187,7 @@ const NavigationSidebar = ({ questionnaire }) => {
 
     return (
       <TransitionGroup key={`transition-group-section-items`} component={null}>
-        {components}
+        {components.flat(2)}
       </TransitionGroup>
     );
   };
