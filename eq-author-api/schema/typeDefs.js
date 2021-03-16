@@ -100,14 +100,16 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder {
+type Folder implements Skippable {
   id: ID!
   alias: String
   enabled: Boolean!
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
-  section: Section
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Section {
@@ -857,6 +859,7 @@ input CreateFolderInput {
   alias: String
   position: Int
   enabled: Boolean
+  isCalcSum: Boolean
 }
 
 input UpdateFolderInput {
@@ -925,14 +928,13 @@ input UpdateReplyInput {
 }
 
 input CreateQuestionPageInput {
-  title: String!
+  title: String
   alias: String
   description: String
   descriptionEnabled: Boolean
   guidance: String
   guidanceEnabled: Boolean
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -959,8 +961,7 @@ input UpdateQuestionPageInput {
 }
 
 input CreateCalculatedSummaryPageInput {
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
 }
 

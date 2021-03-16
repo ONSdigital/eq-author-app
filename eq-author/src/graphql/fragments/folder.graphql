@@ -1,6 +1,14 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
 fragment Folder on Folder {
   id
   alias
   enabled
   position
+  validationErrorInfo {
+    ...ValidationErrorInfo
+  }
+  pages {
+    id
+  }
 }

@@ -7,6 +7,17 @@ mutation deleteSkipConditions($input: DeleteSkipConditionsInput!) {
       displayName
       pageType
     }
+    ... on Folder {
+      displayName
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      position
+      section {
+        id
+        position
+      }
+    }
     ...SkipLogicPage
   }
 }

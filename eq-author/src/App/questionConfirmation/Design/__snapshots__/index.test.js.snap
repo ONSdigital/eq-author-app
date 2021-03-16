@@ -86,7 +86,7 @@ exports[`QuestionConfirmationRoute should show loading info when loading 1`] = `
     <Loading
       height="100%"
     >
-      Confirmation is loading
+      Confirmation is loading...
     </Loading>
   </Panel>
 </EditorLayout>

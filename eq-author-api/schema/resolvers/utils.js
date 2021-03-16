@@ -68,8 +68,14 @@ const getConfirmations = (ctx) =>
 const getConfirmationById = (ctx, id) => find(getConfirmations(ctx), { id });
 
 const getSkippableById = (ctx, id) =>
-  getConfirmationById(ctx, id) || getPageById(ctx, id);
-const getSkippables = (ctx) => [...getConfirmations(ctx), ...getPages(ctx)];
+  getFolderById(ctx, id) ||
+  getConfirmationById(ctx, id) ||
+  getPageById(ctx, id);
+const getSkippables = (ctx) => [
+  ...getFolders(ctx),
+  ...getConfirmations(ctx),
+  ...getPages(ctx),
+];
 
 const getAnswers = (ctx) =>
   compact(flatMap(getPages(ctx), (page) => page.answers));
@@ -176,21 +182,23 @@ const generateOrderedIdMap = ({ questionnaire }) => {
   const map = new Map();
 
   const traverseIds = (obj) => {
-    if (typeof obj !== "object") {
+    if (!obj || typeof obj !== "object") {
       return;
     }
 
-    Object.keys(obj).forEach((key) => {
-      if (obj[key]) {
-        if (key === "id" && typeof obj[key] === "string") {
-          map.set(obj[key], map.size);
-        }
-
-        if (typeof obj[key] === "object") {
-          traverseIds(obj[key]);
-        }
+    for (const key of Object.keys(obj)) {
+      if (key === "id") {
+        continue; // Process parent's ID after all children are processed
       }
-    });
+
+      if (typeof obj[key] === "object") {
+        traverseIds(obj[key]);
+      }
+    }
+
+    if (obj.id && typeof obj.id === "string") {
+      map.set(obj.id, map.size);
+    }
   };
 
   traverseIds(questionnaire);
@@ -276,11 +284,11 @@ const createCalculatedSummary = (input = {}) => ({
   ...input,
 });
 
-const createFolder = (input = {}) => ({
+const createFolder = (input = {}, calcSum = false) => ({
   id: uuidv4(),
   alias: "",
   enabled: false,
-  pages: [createQuestionPage()],
+  pages: [calcSum ? createCalculatedSummary() : createQuestionPage()],
   skipConditions: null,
   ...input,
 });

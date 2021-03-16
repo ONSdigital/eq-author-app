@@ -1,13 +1,15 @@
 import React from "react";
-import Modal from "components/modals/Modal";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import gql from "graphql-tag";
+import { noop } from "lodash";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
 import DialogHeader from "components/Dialog/DialogHeader";
 import { Message, Heading } from "components/Dialog/DialogMessage";
-import PropTypes from "prop-types";
+import Modal from "components/modals/Modal";
 import QuestionnaireMeta from "./QuestionnaireMeta";
-import CustomPropTypes from "custom-prop-types";
-import { noop } from "lodash";
-import gql from "graphql-tag";
 
 const defaultQuestionnaire = {
   title: "",
@@ -29,40 +31,41 @@ const StyledModal = styled(Modal)`
 `;
 
 const QuestionnaireSettingsModal = ({
-  questionnaire,
   isOpen,
   onClose,
   onSubmit,
   confirmText,
   canEditType,
-}) => (
-  <StyledModal
-    isOpen={isOpen}
-    onClose={onClose}
-    data={{ test: "questionnaire-settings-modal" }}
-  >
-    <DialogHeader>
-      <Message>
-        <CenteredHeading>Questionnaire settings</CenteredHeading>
-      </Message>
-    </DialogHeader>
-    <QuestionnaireMeta
-      questionnaire={questionnaire}
-      onCancel={onClose}
-      onSubmit={onSubmit}
-      onUpdate={noop}
-      confirmText={confirmText}
-      canEditType={canEditType}
-    />
-  </StyledModal>
-);
+}) => {
+  const { questionnaire } = useQuestionnaire();
+  return (
+    <StyledModal
+      isOpen={isOpen}
+      onClose={onClose}
+      data={{ test: "questionnaire-settings-modal" }}
+    >
+      <DialogHeader>
+        <Message>
+          <CenteredHeading>Questionnaire settings</CenteredHeading>
+        </Message>
+      </DialogHeader>
+      <QuestionnaireMeta
+        questionnaire={questionnaire || defaultQuestionnaire}
+        onCancel={onClose}
+        onSubmit={onSubmit}
+        onUpdate={noop}
+        confirmText={confirmText}
+        canEditType={canEditType}
+      />
+    </StyledModal>
+  );
+};
 
 QuestionnaireSettingsModal.propTypes = {
   onSubmit: PropTypes.func,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   confirmText: PropTypes.string.isRequired,
-  questionnaire: CustomPropTypes.questionnaire,
   canEditType: PropTypes.bool,
 };
 

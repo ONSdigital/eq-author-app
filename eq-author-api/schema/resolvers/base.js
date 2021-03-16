@@ -364,12 +364,14 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-    createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder(input);
-      const section = getSectionById(ctx, input.sectionId);
-      section.folders.splice(input.position, 0, folder);
-      return folder;
-    }),
+    createFolder: createMutation(
+      (root, { input: { isCalcSum, position, ...params } }, ctx) => {
+        const folder = createFolder(params, isCalcSum);
+        const section = getSectionById(ctx, params.sectionId);
+        section.folders.splice(position, 0, folder);
+        return folder;
+      }
+    ),
     updateFolder: createMutation((root, { input }, ctx) => {
       const folder = getFolderById(ctx, input.folderId);
       merge(folder, input);
@@ -966,8 +968,12 @@ const Resolvers = {
   },
 
   Skippable: {
-    __resolveType: ({ pageType }) =>
-      pageType === "QuestionPage" ? "QuestionPage" : "QuestionConfirmation",
+    __resolveType: ({ pageType, pages }) =>
+      pages
+        ? "Folder"
+        : pageType === "QuestionPage"
+        ? "QuestionPage"
+        : "QuestionConfirmation",
   },
 
   Section: {
@@ -986,7 +992,8 @@ const Resolvers = {
       returnValidationErrors(
         ctx,
         id,
-        ({ sectionId, pageId }) => id === sectionId && !pageId
+        ({ sectionId, folderId, pageId }) =>
+          id === sectionId && !pageId && !folderId
       ),
   },
 
@@ -996,6 +1003,13 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
+    displayName: ({ alias }) => alias || "Untitled folder",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ folderId, pageId }) => id === folderId && !pageId
+      ),
   },
 
   LogicalDestination: {
