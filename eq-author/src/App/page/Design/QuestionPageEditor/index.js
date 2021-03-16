@@ -29,6 +29,8 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 import MetaEditor from "./MetaEditor";
 import AdditionalInfo from "./AdditionalInfo";
 
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
 const QuestionSegment = styled.div`
   padding: 0 2em;
 `;
@@ -37,100 +39,98 @@ const AddAnswerSegment = styled.div`
   padding: 0 2em 2em;
 `;
 
-export class UnwrappedQuestionPageEditor extends React.Component {
-  static propTypes = {
-    onUpdateAnswer: PropTypes.func.isRequired,
-    onAddAnswer: PropTypes.func.isRequired,
-    onAddOption: PropTypes.func.isRequired,
-    onDeleteOption: PropTypes.func.isRequired,
-    onDeleteAnswer: PropTypes.func.isRequired,
-    onUpdateOption: PropTypes.func.isRequired,
-    onAddExclusive: PropTypes.func.isRequired,
-    match: CustomPropTypes.match.isRequired,
-    page: CustomPropTypes.page.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    fetchAnswers: PropTypes.func.isRequired,
-    enableValidationMessage: PropTypes.bool,
-  };
+const propTypes = {
+  onUpdateAnswer: PropTypes.func.isRequired,
+  onAddAnswer: PropTypes.func.isRequired,
+  onAddOption: PropTypes.func.isRequired,
+  onDeleteOption: PropTypes.func.isRequired,
+  onDeleteAnswer: PropTypes.func.isRequired,
+  onUpdateOption: PropTypes.func.isRequired,
+  onAddExclusive: PropTypes.func.isRequired,
+  match: CustomPropTypes.match.isRequired,
+  page: CustomPropTypes.page.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  fetchAnswers: PropTypes.func.isRequired,
+  enableValidationMessage: PropTypes.bool,
+};
+export const UnwrappedQuestionPageEditor = (props) => {
+  const {
+    page,
+    page: { id, answers },
+    onChange,
+    onUpdate,
+    onUpdateAnswer,
+    onAddOption,
+    onUpdateOption,
+    onDeleteOption,
+    onAddExclusive,
+    fetchAnswers,
+    enableValidationMessage,
+    onAddAnswer,
+    onDeleteAnswer,
+    match,
+  } = props;
 
-  handleDeleteAnswer = (answerId) => {
-    this.props.onDeleteAnswer(this.props.page.id, answerId);
-  };
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: page?.folder,
+    section: page?.section,
+  });
 
-  handleAddAnswer = (answerType) => {
-    const { match, onAddAnswer } = this.props;
-
-    return onAddAnswer(match.params.pageId, answerType).then(focusOnEntity);
-  };
-
-  render() {
-    const {
-      page,
-      page: { answers },
-      onChange,
-      onUpdate,
-      onUpdateAnswer,
-      onAddOption,
-      onUpdateOption,
-      onDeleteOption,
-      onAddExclusive,
-      fetchAnswers,
-      enableValidationMessage,
-    } = this.props;
-
-    const id = getIdForObject(page);
-
-    return (
-      <div data-test="question-page-editor">
-        <PageHeader
-          {...this.props}
-          onUpdate={onUpdate}
-          onChange={this.props.onChange}
-          alertText="All edits, properties and routing settings will also be removed."
-        />
-        <div>
-          <QuestionSegment id={id}>
-            <MetaEditor
-              onChange={onChange}
-              onUpdate={onUpdate}
-              page={page}
-              fetchAnswers={fetchAnswers}
-              enableValidationMessage={enableValidationMessage}
-            />
-          </QuestionSegment>
-          <AnswersEditor
-            answers={answers}
-            onUpdate={onUpdateAnswer}
-            onAddOption={onAddOption}
-            onAddExclusive={onAddExclusive}
-            onUpdateOption={onUpdateOption}
-            onDeleteOption={onDeleteOption}
-            onDeleteAnswer={this.handleDeleteAnswer}
-            data-test="answers-editor"
-          />
-        </div>
-
-        <AddAnswerSegment>
-          <AnswerTypeSelector
-            answerCount={answers.length}
-            onSelect={this.handleAddAnswer}
-            data-test="add-answer"
-            page={page}
-          />
-        </AddAnswerSegment>
-        <QuestionSegment>
-          <AdditionalInfo
+  return (
+    <div data-test="question-page-editor">
+      <PageHeader
+        {...props}
+        onUpdate={onUpdate}
+        onChange={onChange}
+        alertText="All edits, properties and routing settings will also be removed."
+      />
+      <div>
+        <QuestionSegment id={getIdForObject(page)}>
+          <MetaEditor
             onChange={onChange}
             onUpdate={onUpdate}
             page={page}
             fetchAnswers={fetchAnswers}
+            enableValidationMessage={enableValidationMessage}
           />
         </QuestionSegment>
+        <AnswersEditor
+          answers={answers}
+          onUpdate={onUpdateAnswer}
+          onAddOption={onAddOption}
+          onAddExclusive={onAddExclusive}
+          onUpdateOption={onUpdateOption}
+          onDeleteOption={onDeleteOption}
+          onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
+          data-test="answers-editor"
+        />
       </div>
-    );
-  }
-}
+
+      <AddAnswerSegment>
+        <AnswerTypeSelector
+          answerCount={answers.length}
+          onSelect={(answerType) =>
+            onAddAnswer(match.params.pageId, answerType).then(focusOnEntity)
+          }
+          data-test="add-answer"
+          page={page}
+        />
+      </AddAnswerSegment>
+      <QuestionSegment>
+        <AdditionalInfo
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+        />
+      </QuestionSegment>
+    </div>
+  );
+};
+
+UnwrappedQuestionPageEditor.propTypes = propTypes;
 
 UnwrappedQuestionPageEditor.fragments = {
   QuestionPage: gql`
@@ -154,8 +154,13 @@ UnwrappedQuestionPageEditor.fragments = {
       answers {
         ...AnswerEditor
       }
+      folder {
+        id
+        position
+      }
       section {
         id
+        position
         questionnaire {
           id
           metadata {

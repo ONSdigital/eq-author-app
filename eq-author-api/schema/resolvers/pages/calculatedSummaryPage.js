@@ -15,12 +15,9 @@ const {
   getPageById,
   getAnswerById,
   getFolderById,
-  getFoldersBySectionId,
   getSectionByPageId,
   createCalculatedSummary,
   returnValidationErrors,
-  createFolder,
-  getPosition,
   getFolderByPageId,
 } = require("../utils");
 
@@ -58,16 +55,9 @@ Resolvers.Mutation = {
   createCalculatedSummaryPage: createMutation(
     (root, { input: { position, sectionId, folderId } }, ctx) => {
       const page = createCalculatedSummary({ sectionId });
-      if (folderId) {
-        const folder = getFolderById(ctx, folderId);
-        folder.pages.splice(getPosition(position, folder.pages), 0, page);
-      } else {
-        const folders = getFoldersBySectionId(ctx, sectionId);
-        const folder = createFolder({
-          pages: [page],
-        });
-        folders.push(folder);
-      }
+      const folder = getFolderById(ctx, folderId);
+      folder.pages.splice(position, 0, page);
+
       return page;
     }
   ),

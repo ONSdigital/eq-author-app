@@ -50,7 +50,7 @@ exports[`Logic Page should render 1`] = `
               Routing logic
               <Badge
                 data-test="badge-withCount"
-                medium="true"
+                medium={true}
                 variant="logic"
               >
                 1
@@ -70,7 +70,7 @@ exports[`Logic Page should render 1`] = `
               Skip logic
               <Badge
                 data-test="badge-withCount"
-                medium="true"
+                medium={true}
                 variant="logic"
               >
                 1

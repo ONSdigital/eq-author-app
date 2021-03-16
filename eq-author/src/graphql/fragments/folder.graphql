@@ -3,4 +3,7 @@ fragment Folder on Folder {
   alias
   enabled
   position
+  pages {
+    id
+  }
 }

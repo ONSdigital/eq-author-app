@@ -41,6 +41,9 @@ exports[`PipingMenu should render 1`] = `
               "id": "1.1",
               "pages": Array [
                 Object {
+                  "additionalInfoContent": "",
+                  "additionalInfoEnabled": false,
+                  "additionalInfoLabel": "",
                   "alias": "1.1.1",
                   "answers": Array [
                     Object {
@@ -50,17 +53,27 @@ exports[`PipingMenu should render 1`] = `
                       "type": "Number",
                     },
                   ],
+                  "definitionContent": "",
+                  "definitionEnabled": false,
+                  "definitionLabel": "",
+                  "description": "",
+                  "descriptionEnabled": false,
                   "displayName": "Page 1.1.1",
                   "folder": Object {
                     "id": "1",
                   },
+                  "guidance": "",
+                  "guidanceEnabled": false,
                   "id": "1.1.1",
+                  "pageType": "QuestionPage",
                   "position": 0,
                   "section": Object {
+                    "displayName": "",
                     "id": "1",
                   },
                   "title": "Page 1.1.1",
                   "validationErrorInfo": Object {
+                    "errors": Array [],
                     "totalCount": 2,
                   },
                 },

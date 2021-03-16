@@ -10,7 +10,7 @@ exports[`Tabs should enable the Logic tab when prop is passed 1`] = `
 >
   <Badge
     data-test="small-badge"
-    medium="true"
+    medium={true}
     small={true}
     variant="tabs"
   />
@@ -54,7 +54,7 @@ exports[`Tabs should render a confirmation link when provided 1`] = `
     >
       <Badge
         data-test="small-badge"
-        medium="true"
+        medium={true}
         small={true}
         variant="tabs"
       />
@@ -89,7 +89,7 @@ exports[`Tabs should render link to section if params are for a section 1`] = `
     >
       <Badge
         data-test="small-badge"
-        medium="true"
+        medium={true}
         small={true}
         variant="tabs"
       />
@@ -124,7 +124,7 @@ exports[`Tabs should render with design tab enabled by default 1`] = `
     >
       <Badge
         data-test="small-badge"
-        medium="true"
+        medium={true}
         small={true}
         variant="tabs"
       />

@@ -35,7 +35,7 @@ describe("onCompleteDuplicate", () => {
   it("should display new folder when folder is duplicated", () => {
     folderPosition = 0;
     onCompleteDuplicate(
-      response,
+      response.duplicateFolder,
       history,
       questionnaireId,
       sectionId,

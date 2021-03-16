@@ -1,6 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -71,8 +71,8 @@ const NavItem = ({
   errorCount,
   disabled,
   className,
-  history,
 }) => {
+  const history = useHistory();
   return (
     <Button
       className={`${className} NavItem`}
@@ -99,10 +99,9 @@ NavItem.propTypes = {
   title: PropTypes.string.isRequired,
   titleUrl: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  history: CustomPropTypes.history.isRequired,
   bordered: PropTypes.bool,
   errorCount: PropTypes.number,
-  icon: PropTypes.element,
+  icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   className: PropTypes.string,
 };
 

@@ -64,7 +64,7 @@ Badge.propTypes = {
 };
 
 Badge.defaultProps = {
-  medium: "true",
+  medium: true,
 };
 
 export default Badge;

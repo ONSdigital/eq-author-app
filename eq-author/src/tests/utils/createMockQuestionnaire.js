@@ -34,13 +34,26 @@ export const buildPages = ({
       id,
       title: `Page ${id}`,
       displayName: `Page ${id}`,
+      description: "",
+      descriptionEnabled: false,
+      guidance: "",
+      guidanceEnabled: false,
+      definitionLabel: "",
+      definitionContent: "",
+      definitionEnabled: false,
+      additionalInfoLabel: "",
+      additionalInfoContent: "",
+      additionalInfoEnabled: false,
       alias: id,
       position: i,
+      pageType: "QuestionPage", // this is needed to build collapsible nav items
       validationErrorInfo: {
         totalCount: 2,
+        errors: [],
       },
       section: {
         id: `${sectionNumber}`,
+        displayName: "",
       },
       folder: {
         id: `${folderNumber}`,
@@ -62,11 +75,10 @@ export const buildFolders = ({
 } = {}) =>
   times(folderCount, (i) => {
     const id = `${sectionNumber}.${i + 1}`;
-
     return {
       id,
       alias: `Folder ${id}`,
-      enabled: false,
+      enabled: i > 0,
       position: i,
       pages: buildPages({
         sectionNumber,
