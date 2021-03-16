@@ -8,4 +8,7 @@ fragment Folder on Folder {
   validationErrorInfo {
     ...ValidationErrorInfo
   }
+  pages {
+    id
+  }
 }

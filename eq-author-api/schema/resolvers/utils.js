@@ -284,11 +284,11 @@ const createCalculatedSummary = (input = {}) => ({
   ...input,
 });
 
-const createFolder = (input = {}) => ({
+const createFolder = (input = {}, calcSum = false) => ({
   id: uuidv4(),
   alias: "",
   enabled: false,
-  pages: [createQuestionPage()],
+  pages: [calcSum ? createCalculatedSummary() : createQuestionPage()],
   skipConditions: null,
   ...input,
 });

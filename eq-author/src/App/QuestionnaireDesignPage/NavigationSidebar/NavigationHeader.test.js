@@ -1,55 +1,150 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
+import { useParams } from "react-router-dom";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 
-describe("NavigationHeader", () => {
-  const mockHandlers = {
-    onAddQuestionPage: jest.fn(),
-    onAddSection: jest.fn(),
-    onAddQuestionConfirmation: jest.fn(),
+jest.mock("components/NavigationCallbacks", () => ({
+  useNavigationCallbacks: () => ({
+    onAddQuestionPage: () => jest.fn(),
+    onAddFolder: jest.fn(),
     onAddCalculatedSummaryPage: jest.fn(),
-  };
+  }),
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
+}));
+
+useParams.mockImplementation(() => ({
+  entityName: "section",
+  entityId: "1.1.1",
+}));
+
+function defaultSetup(changes) {
+  const onCreateQuestionConfirmation = jest.fn();
+  const onAddSection = jest.fn();
   const props = {
-    questionnaire: {},
-    canAddQuestionPage: true,
-    canAddCalculatedSummaryPage: true,
-    canAddQuestionConfirmation: true,
-    onUpdateQuestionnaire: jest.fn(),
-    match: { params: { questionnaireId: "1" } },
-    me: { id: "123", email: "j@h.com", admin: true },
-    ...mockHandlers,
+    onCreateQuestionConfirmation,
+    onAddSection,
+    ...changes,
   };
-  const createWrapper = () => shallow(<NavigationHeader {...props} />);
+  const questionnaire = buildQuestionnaire({ folderCount: 2 });
+  const utils = render(
+    <QuestionnaireContext.Provider value={{ questionnaire }}>
+      <NavigationHeader {...props} />
+    </QuestionnaireContext.Provider>
+  );
 
+  return { ...utils, onCreateQuestionConfirmation, onAddSection };
+}
+
+function openSetup() {
+  const utils = defaultSetup();
+  const menuButton = utils.getByTestId("btn-add-menu");
+  fireEvent.click(menuButton);
+  const section = utils.getByTestId("btn-add-section");
+  const question = utils.getByTestId("btn-add-question-page");
+  const folder = utils.getByTestId("btn-add-folder");
+  const calculated = utils.getByTestId("btn-add-calculated-summary");
+  const confirmation = utils.getByTestId("btn-add-question-confirmation");
+
+  return {
+    ...utils,
+    menuButton,
+    section,
+    question,
+    folder,
+    calculated,
+    confirmation,
+  };
+}
+
+describe("NavigationHeader", () => {
   it("should render", () => {
-    expect(createWrapper()).toMatchSnapshot();
+    const { getByTestId } = defaultSetup();
+    expect(getByTestId("btn-add-menu")).toBeVisible();
   });
 
-  it("should allow a page to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="add-menu"]').simulate("addQuestionPage");
-
-    expect(mockHandlers.onAddQuestionPage).toHaveBeenCalled();
+  it("should open up menu", () => {
+    const { queryByTestId } = defaultSetup();
+    expect(queryByTestId("addmenu-window")).toBeNull();
+    fireEvent.click(queryByTestId("btn-add-menu"));
+    expect(queryByTestId("addmenu-window")).toBeVisible();
   });
 
-  it("should allow a section to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="add-menu"]').simulate("addSection");
+  describe("when entityName is Section", () => {
+    it("should close after adding a section", () => {
+      const { menuButton, onAddSection, section } = openSetup();
+      fireEvent.click(section);
+      expect(onAddSection).toHaveBeenCalledTimes(1);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
 
-    expect(mockHandlers.onAddSection).toHaveBeenCalled();
+    it("should close after adding a folder", () => {
+      const { menuButton, folder } = openSetup();
+      fireEvent.click(folder);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after firing question page", () => {
+      const { menuButton, question } = openSetup();
+      fireEvent.click(question);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after firing a calculated summary", () => {
+      const { menuButton, calculated } = openSetup();
+      fireEvent.click(calculated);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should be disabled for confirmation question", () => {
+      const { confirmation } = openSetup();
+      fireEvent.click(confirmation);
+      expect(confirmation).toBeDisabled();
+    });
   });
 
-  it("should allow a calculated summary to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="add-menu"]').simulate("addCalculatedSummaryPage");
-    expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalled();
-  });
+  describe("when entityName is Page", () => {
+    it("should be able to add confirmation question", () => {
+      useParams.mockImplementation(() => ({
+        entityName: "page",
+        entityId: "1.1.1",
+      }));
+      const {
+        menuButton,
+        confirmation,
+        onCreateQuestionConfirmation,
+      } = openSetup();
+      fireEvent.click(confirmation);
+      expect(onCreateQuestionConfirmation).toHaveBeenCalledTimes(1);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
 
-  it("should allow a question confirmation to be added", () => {
-    const wrapper = createWrapper();
-    wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
+    describe("when entityName is Folder", () => {
+      it("should generate folder title when folder", () => {
+        useParams.mockImplementation(() => ({
+          entityName: "folder",
+          entityId: "1.2",
+        }));
+        const { getByText } = openSetup();
+        expect(getByText(/Inside Folder 1.2/)).toBeVisible();
+        expect(getByText(/Outside Folder 1.2/)).toBeVisible();
+      });
 
-    expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
+      it("should disable confirmation question", () => {
+        useParams.mockImplementation(() => ({
+          entityName: "folder",
+          entityId: "1.2",
+        }));
+        const { confirmation } = openSetup();
+        expect(confirmation).toBeDisabled();
+      });
+    });
   });
 });

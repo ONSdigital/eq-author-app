@@ -1,5 +1,14 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
+import {
+  useCreatePageWithFolder,
+  useCreateFolder,
+} from "hooks/useCreateFolder";
+import {
+  useCreateQuestionPage,
+  useCreateCalculatedSummaryPage,
+} from "hooks/useCreateQuestionPage";
+import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -12,6 +21,10 @@ import Panel from "components/Panel";
 import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
 import Collapsible from "components/Collapsible";
+import Button from "components/buttons/Button";
+import IconText from "components/IconText";
+
+import AddPage from "assets/icon-add-page.svg?inline";
 import onCompleteDelete from "./onCompleteDelete";
 
 import onCompleteDuplicate from "./onCompleteDuplicate";
@@ -20,6 +33,8 @@ import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
+
+import { colors } from "constants/theme";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -39,27 +54,79 @@ const StyledPanel = styled(Panel)`
   }
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 2em;
+  margin-top: 1.2em;
+`;
+const BorderedButton = styled(Button)`
+  border: 1px solid ${colors.primary};
+  padding: 0.5em;
+`;
+
 const FolderDesignPage = ({ history, match }) => {
   const { folderId, questionnaireId } = match.params;
+
+  const addPageWithFolder = useCreatePageWithFolder();
+  const onAddQuestionPage = useCreateQuestionPage();
+  const addFolder = useCreateFolder();
+  const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
   });
-
   let folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
-  const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
-    onCompleted: (data) => {
-      onCompleteDelete(data, history, questionnaireId, folderPosition, pages);
-    },
+  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
+    onCompleted: ({ duplicateFolder }) =>
+      duplicateFolder &&
+      onCompleteDuplicate(duplicateFolder, history, questionnaireId),
   });
 
-  const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
-    onCompleted: (data) => {
-      onCompleteDuplicate(data, history, questionnaireId);
-    },
+  const [deleteFolder] = useMutation(DELETE_FOLDER_MUTATION, {
+    onCompleted: ({ deleteFolder }) =>
+      deleteFolder &&
+      onCompleteDelete(
+        deleteFolder,
+        history,
+        questionnaireId,
+        folderPosition,
+        pages
+      ),
   });
+
+  const folder = data?.folder;
+
+  useSetNavigationCallbacks(
+    {
+      onAddQuestionPage: (createInsideFolder) =>
+        createInsideFolder
+          ? onAddQuestionPage({ folderId, position: 0 })
+          : addPageWithFolder({
+              sectionId: folder.section.id,
+              position: folder.position + 1,
+            }),
+      onAddCalculatedSummaryPage: (createInsideFolder) =>
+        createInsideFolder
+          ? addCalculatedSummaryPage({
+              folderId,
+              position: folder.pages.length + 1,
+            })
+          : addPageWithFolder({
+              sectionId: folder.section.id,
+              position: folder.position + 1,
+              isCalcSum: true,
+            }),
+      onAddFolder: () =>
+        addFolder({
+          sectionId: folder.section.id,
+          position: folder.position + 1,
+          enabled: true,
+        }),
+    },
+    [folder]
+  );
 
   if (loading) {
     return (
@@ -91,11 +158,11 @@ const FolderDesignPage = ({ history, match }) => {
     );
   }
 
-  folderPosition = data.folder.position;
-  pages = data.folder.pages;
+  folderPosition = folder?.position;
+  pages = folder?.pages;
 
   const {
-    folder: { id, position, alias, displayName, validationErrorInfo },
+    folder: { id, position, section, alias, displayName, validationErrorInfo },
   } = data;
 
   const shortCodeOnUpdate = (alias) =>
@@ -151,6 +218,26 @@ const FolderDesignPage = ({ history, match }) => {
           </p>
         </Guidance>
       </StyledPanel>
+      <ButtonGroup>
+        <BorderedButton
+          variant="tertiary"
+          small
+          onClick={() => onAddQuestionPage({ folderId, position: 0 })}
+          data-test="btn-add-page-inside-folder"
+        >
+          <IconText icon={AddPage}>Add question inside folder</IconText>
+        </BorderedButton>
+        <BorderedButton
+          variant="tertiary"
+          small
+          onClick={() =>
+            addPageWithFolder({ sectionId: section.id, position: position + 1 })
+          }
+          data-test="btn-add-page-outside-folder"
+        >
+          <IconText icon={AddPage}>Add question outside folder</IconText>
+        </BorderedButton>
+      </ButtonGroup>
     </EditorPage>
   );
 };
