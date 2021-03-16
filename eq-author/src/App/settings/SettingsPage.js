@@ -40,10 +40,12 @@ const SettingsPage = ({ questionnaire }) => {
     {
       title: `General`,
       url: `settings`,
+      active: true,
     },
     {
       title: `Themes, IDs and form types`,
       url: `themes`,
+      active: false,
     },
   ];
 
