@@ -83,7 +83,7 @@ const IntroductionListItem = styled.li`
 `;
 
 const NavigationSidebar = ({ questionnaire }) => {
-  const { entityId } = useParams();
+  const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
 
   const isCurrentPage = (navItemId, currentPageId) =>
@@ -112,7 +112,7 @@ const NavigationSidebar = ({ questionnaire }) => {
             titleUrl={buildPagePath({
               questionnaireId: questionnaire.id,
               pageId,
-              tab: "design",
+              tab,
             })}
             disabled={isCurrentPage(pageId, entityId)}
             icon={
@@ -124,6 +124,7 @@ const NavigationSidebar = ({ questionnaire }) => {
         </li>
       </NavItemTransition>
     );
+
     if (confirmation) {
       components.push(
         <NavItemTransition
@@ -137,7 +138,7 @@ const NavigationSidebar = ({ questionnaire }) => {
               titleUrl={buildConfirmationPath({
                 questionnaireId: questionnaire.id,
                 confirmationId: confirmation.id,
-                tab: "design",
+                tab,
               })}
               disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
@@ -165,7 +166,7 @@ const NavigationSidebar = ({ questionnaire }) => {
               titleUrl={buildFolderPath({
                 questionnaireId: questionnaire.id,
                 folderId,
-                tab: "design",
+                tab,
               })}
               disabled={isCurrentPage(folderId, entityId)}
               icon={IconFolder}
@@ -208,7 +209,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                 titleUrl={buildSectionPath({
                   questionnaireId: questionnaire.id,
                   sectionId,
-                  tab: "design",
+                  tab,
                 })}
                 bordered
                 selfErrorCount={validationErrorInfo.totalCount}
@@ -250,7 +251,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                     titleUrl={buildIntroductionPath({
                       questionnaireId: questionnaire.id,
                       introductionId: questionnaire.introduction.id,
-                      tab: "design",
+                      tab,
                     })}
                     disabled={isCurrentPage(
                       questionnaire.introduction.id,
