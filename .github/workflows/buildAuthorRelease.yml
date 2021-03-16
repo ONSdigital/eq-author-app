@@ -15,11 +15,10 @@ jobs:
       matrix:
         node-version: [10.x]
 
-    env:
-      TAG: "${{ github.ref }}-release"
-
     steps:
       - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "TAG=${GITHUB_REF#refs/*/}-release" >> $GITHUB_ENV
       
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -56,11 +55,10 @@ jobs:
       matrix:
         node-version: [10.x]
 
-    env:
-      TAG: "${{ github.ref }}-release"
-
     steps:
       - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "TAG=${GITHUB_REF#refs/*/}-release" >> $GITHUB_ENV
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -92,11 +90,10 @@ jobs:
       matrix:
         node-version: [10.x]
 
-    env:
-      TAG: "${{ github.ref }}-release"
-
     steps:
       - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "TAG=${GITHUB_REF#refs/*/}-release" >> $GITHUB_ENV
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
