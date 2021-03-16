@@ -1,4 +1,4 @@
-name: Build Author Images for Staging
+name: Build Author Images for Release
 
 on:
   workflow_dispatch:
