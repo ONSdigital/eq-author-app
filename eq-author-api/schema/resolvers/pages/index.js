@@ -76,11 +76,10 @@ Resolvers.Mutation = {
 
     if (!folder.pages.length) {
       if (section.folders.length > 1 && !folder.enabled) {
-        const [deletedFolder] = section.folders.splice(previous.folderIndex, 1);
-        onFolderDeleted(ctx, deletedFolder);
+        section.folders.splice(previous.folderIndex, 1);
+        onFolderDeleted(ctx, folder);
       } else {
-        const newPage = createQuestionPage();
-        section.folders[previous.folderIndex].pages.push(newPage);
+        folder.pages.push(createQuestionPage());
       }
     }
 

@@ -12,7 +12,7 @@ import MainCanvas from "components/MainCanvas";
 import ScrollPane from "components/ScrollPane";
 import { Grid, Column } from "components/Grid";
 
-import AddPage from "App/QuestionnaireDesignPage/icon-add-page.svg?inline";
+import AddPage from "assets/icon-add-page.svg?inline";
 
 import Tabs from "./Tabs";
 import Header from "./Header";

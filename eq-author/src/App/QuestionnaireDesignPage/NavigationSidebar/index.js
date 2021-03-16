@@ -1,11 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
-import { flowRight } from "lodash";
-import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   buildSectionPath,
@@ -32,6 +30,8 @@ import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import PageIcon from "./icon-survey-intro.svg?inline";
 import { TransitionGroup } from "react-transition-group";
+
+import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -82,40 +82,18 @@ const IntroductionListItem = styled.li`
   }
 `;
 
-const UnwrappedNavigationSidebar = ({
-  questionnaire,
-  onAddQuestionPage,
-  onAddSection,
-  onAddFolder,
-  onAddCalculatedSummaryPage,
-  onAddQuestionConfirmation,
-  canAddQuestionConfirmation,
-  canAddCalculatedSummaryPage,
-  canAddQuestionPage,
-  canAddFolder,
-  match: {
-    params: { entityId, tab = "design" },
-  },
-  history,
-}) => {
+const NavigationSidebar = ({ questionnaire }) => {
+  const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const handleAddSection = useCallback(() => {
-    onAddSection(questionnaire.id);
-  }, [questionnaire]);
-
-  const calculatePageErrors = (pages) => {
-    let count = 0;
-
-    pages.map(
-      ({ validationErrorInfo }) => (count += validationErrorInfo.totalCount)
+  const calculatePageErrors = (pages) =>
+    pages.reduce(
+      (acc, { validationErrorInfo }) => (acc += validationErrorInfo.totalCount),
+      0
     );
-
-    return count;
-  };
 
   const buildPageList = ({
     id: pageId,
@@ -125,48 +103,28 @@ const UnwrappedNavigationSidebar = ({
     validationErrorInfo,
   }) => {
     const components = [];
-    if (pageType === "QuestionPage") {
-      components.push(
-        <NavItemTransition key={`transition-page-${pageId}`}>
-          <li key={`page-${pageId}`}>
-            <NavItem
-              key={pageId}
-              title={displayName}
-              titleUrl={buildPagePath({
-                questionnaireId: questionnaire.id,
-                pageId,
-                tab,
-              })}
-              disabled={isCurrentPage(pageId, entityId)}
-              icon={IconQuestionPage}
-              errorCount={validationErrorInfo.totalCount}
-              history={history}
-            />
-          </li>
-        </NavItemTransition>
-      );
-    }
-    if (pageType === "CalculatedSummaryPage") {
-      components.push(
-        <NavItemTransition key={`transition-page-${pageId}`}>
-          <li key={`page-${pageId}`}>
-            <NavItem
-              key={pageId}
-              title={displayName}
-              titleUrl={buildPagePath({
-                questionnaireId: questionnaire.id,
-                pageId,
-                tab,
-              })}
-              disabled={isCurrentPage(pageId, entityId)}
-              icon={IconSummaryPage}
-              errorCount={validationErrorInfo.totalCount}
-              history={history}
-            />
-          </li>
-        </NavItemTransition>
-      );
-    }
+    components.push(
+      <NavItemTransition key={`transition-page-${pageId}`}>
+        <li key={`page-${pageId}`}>
+          <NavItem
+            key={pageId}
+            title={displayName}
+            titleUrl={buildPagePath({
+              questionnaireId: questionnaire.id,
+              pageId,
+              tab,
+            })}
+            disabled={isCurrentPage(pageId, entityId)}
+            icon={
+              (pageType === QuestionPage && IconQuestionPage) ||
+              (pageType === CalculatedSummaryPage && IconSummaryPage)
+            }
+            errorCount={validationErrorInfo?.totalCount}
+          />
+        </li>
+      </NavItemTransition>
+    );
+
     if (confirmation) {
       components.push(
         <NavItemTransition
@@ -184,59 +142,48 @@ const UnwrappedNavigationSidebar = ({
               })}
               disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
-              errorCount={confirmation.validationErrorInfo.totalCount}
-              history={history}
+              errorCount={confirmation?.validationErrorInfo?.totalCount}
             />
           </li>
         </NavItemTransition>
       );
     }
+
     return components;
   };
 
   const buildFolderList = (folders) => {
-    const components = folders.map(
-      ({ id: folderId, enabled, alias, pages }) => {
-        if (enabled) {
-          return (
-            <NavItemTransition
-              key={`transition-folder-${folderId}-enabled`}
-              onEntered={scrollIntoView}
+    const components = folders.map(({ id: folderId, enabled, alias, pages }) =>
+      enabled ? (
+        <NavItemTransition
+          key={`transition-folder-${folderId}-enabled`}
+          onEntered={scrollIntoView}
+        >
+          <li key={`folder-${folderId}-enabled`}>
+            <CollapsibleNavItem
+              key={`folder-${folderId}enabled`}
+              title={alias || "Untitled folder"}
+              titleUrl={buildFolderPath({
+                questionnaireId: questionnaire.id,
+                folderId,
+                tab,
+              })}
+              disabled={isCurrentPage(folderId, entityId)}
+              icon={IconFolder}
+              childErrorCount={calculatePageErrors(pages)}
+              open
             >
-              <li key={`folder-${folderId}-enabled`}>
-                <CollapsibleNavItem
-                  key={`folder-${folderId}enabled`}
-                  title={alias || "Untitled folder"}
-                  titleUrl={buildFolderPath({
-                    questionnaireId: questionnaire.id,
-                    folderId,
-                    tab,
-                  })}
-                  disabled={isCurrentPage(folderId, entityId)}
-                  icon={IconFolder}
-                  childErrorCount={calculatePageErrors(pages)}
-                  history={history}
-                  open
-                >
-                  <NavList>
-                    <TransitionGroup
-                      key={`transition-group-pages`}
-                      component={null}
-                    >
-                      {pages.map((page) => buildPageList(page))}
-                    </TransitionGroup>
-                  </NavList>
-                </CollapsibleNavItem>
-              </li>
-            </NavItemTransition>
-          );
-        }
-        if (!enabled) {
-          return pages.map((page) => buildPageList(page));
-        }
-
-        return null;
-      }
+              <NavList>
+                <TransitionGroup component={null}>
+                  {pages.map((page) => buildPageList(page)).flat(2)}
+                </TransitionGroup>
+              </NavList>
+            </CollapsibleNavItem>
+          </li>
+        </NavItemTransition>
+      ) : (
+        pages.map((page) => buildPageList(page)).flat(2)
+      )
     );
 
     return (
@@ -250,7 +197,6 @@ const UnwrappedNavigationSidebar = ({
     const components = sections.map(
       ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
         const allPagesInSection = folders.flatMap(({ pages }) => pages);
-
         return (
           <NavItemTransition
             key={`transition-section${sectionId}`}
@@ -270,7 +216,6 @@ const UnwrappedNavigationSidebar = ({
                 childErrorCount={calculatePageErrors(allPagesInSection)}
                 disabled={isCurrentPage(sectionId, entityId)}
                 icon={IconSection}
-                history={history}
                 open={openSections}
               >
                 <NavList>{buildFolderList(folders)}</NavList>
@@ -292,19 +237,7 @@ const UnwrappedNavigationSidebar = ({
     <Container data-test="side-nav">
       {!questionnaire ? null : (
         <>
-          <NavigationHeader
-            questionnaire={questionnaire}
-            onAddSection={handleAddSection}
-            onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
-            canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
-            onAddQuestionPage={onAddQuestionPage}
-            canAddQuestionPage={canAddQuestionPage}
-            onAddQuestionConfirmation={onAddQuestionConfirmation}
-            canAddQuestionConfirmation={canAddQuestionConfirmation}
-            canAddFolder={canAddFolder}
-            onAddFolder={onAddFolder}
-            data-test="nav-section-header"
-          />
+          <NavigationHeader data-test="nav-section-header" />
           <OpenAllSectionsBtn onClick={() => toggleSections(!openSections)}>
             {`${openSections ? "Close" : "Open"} all sections`}
           </OpenAllSectionsBtn>
@@ -325,7 +258,6 @@ const UnwrappedNavigationSidebar = ({
                       entityId
                     )}
                     icon={PageIcon}
-                    history={history}
                   />
                 </IntroductionListItem>
               )}
@@ -338,19 +270,8 @@ const UnwrappedNavigationSidebar = ({
   );
 };
 
-UnwrappedNavigationSidebar.propTypes = {
+NavigationSidebar.propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
-  onAddQuestionPage: PropTypes.func.isRequired,
-  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
-  onAddSection: PropTypes.func.isRequired,
-  onAddQuestionConfirmation: PropTypes.func.isRequired,
-  canAddQuestionConfirmation: PropTypes.bool.isRequired,
-  canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
-  canAddQuestionPage: PropTypes.bool.isRequired,
-  onAddFolder: PropTypes.func.isRequired,
-  canAddFolder: PropTypes.bool.isRequired,
-  match: PropTypes.object.isRequired, // eslint-disable-line
-  history: CustomPropTypes.history.isRequired,
 };
 
-export default flowRight(withRouter)(UnwrappedNavigationSidebar);
+export default NavigationSidebar;

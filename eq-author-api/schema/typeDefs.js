@@ -857,6 +857,7 @@ input CreateFolderInput {
   alias: String
   position: Int
   enabled: Boolean
+  isCalcSum: Boolean
 }
 
 input UpdateFolderInput {
@@ -925,14 +926,13 @@ input UpdateReplyInput {
 }
 
 input CreateQuestionPageInput {
-  title: String!
+  title: String
   alias: String
   description: String
   descriptionEnabled: Boolean
   guidance: String
   guidanceEnabled: Boolean
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -959,8 +959,7 @@ input UpdateQuestionPageInput {
 }
 
 input CreateCalculatedSummaryPageInput {
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
 }
 

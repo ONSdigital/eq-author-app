@@ -36,7 +36,6 @@ const createQuestionPage = async (ctx, input) => {
             descriptionEnabled
             guidance
             guidanceEnabled
-            sectionId
             folderId
             position
             definitionLabel

@@ -23,11 +23,11 @@ const createCalculatedSummaryPageMutation = `
   }
 `;
 
-const createCalculatedSummaryPage = async (ctx, { sectionId }) => {
+const createCalculatedSummaryPage = async (ctx, { folderId, position }) => {
   const result = await executeQuery(
     createCalculatedSummaryPageMutation,
     {
-      input: { sectionId },
+      input: { folderId, position },
     },
     ctx
   );
