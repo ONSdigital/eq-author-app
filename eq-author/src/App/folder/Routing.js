@@ -4,29 +4,33 @@ import NoRouting, {
   Title,
   Paragraph,
 } from "App/shared/Logic/Routing/NoRouting";
-import GET_PAGE_QUERY from "./fragment.graphql";
+import GET_FOLDER_QUERY from "./fragment.graphql";
 import PropTypes from "prop-types";
 import Panel from "components/Panel";
 
 import { useQuery } from "@apollo/react-hooks";
 
+export const NO_ROUTING_TITLE = "Routing logic not available for folders";
+export const NO_ROUTING_PARAGRAPH =
+  "The route will be based on the answer to the previous question.";
+
 const Routing = ({ match }) => {
-  const { data } = useQuery(GET_PAGE_QUERY, {
+  const { data } = useQuery(GET_FOLDER_QUERY, {
     variables: {
-      id: match.params.confirmationId,
+      input: {
+        folderId: match.params.folderId,
+      },
     },
   });
 
-  const page = data?.questionConfirmation;
+  const page = data?.folder;
 
   return (
     <Logic page={page}>
       <Panel>
         <NoRouting disabled>
-          <Title>Routing logic not available for confirmation questions</Title>
-          <Paragraph>
-            The route will be based on the answer to the previous question.
-          </Paragraph>
+          <Title>{NO_ROUTING_TITLE}</Title>
+          <Paragraph>{NO_ROUTING_PARAGRAPH}</Paragraph>
         </NoRouting>
       </Panel>
     </Logic>
@@ -36,7 +40,7 @@ const Routing = ({ match }) => {
 Routing.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      confirmationId: PropTypes.string.isRequired,
+      folderId: PropTypes.string.isRequired,
     }),
   }),
 };

@@ -1,17 +1,9 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 
-query GetFolderQuery($input: QueryInput!) {
+query GetFolderPageInfo($input: QueryInput!) {
   folder(input: $input) {
     id
-    alias
     displayName
-    position
-    pages {
-      id
-    }
-    section {
-      id
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

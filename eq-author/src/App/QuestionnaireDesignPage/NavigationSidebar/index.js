@@ -153,37 +153,39 @@ const NavigationSidebar = ({ questionnaire }) => {
   };
 
   const buildFolderList = (folders) => {
-    const components = folders.map(({ id: folderId, enabled, alias, pages }) =>
-      enabled ? (
-        <NavItemTransition
-          key={`transition-folder-${folderId}-enabled`}
-          onEntered={scrollIntoView}
-        >
-          <li key={`folder-${folderId}-enabled`}>
-            <CollapsibleNavItem
-              key={`folder-${folderId}enabled`}
-              title={alias || "Untitled folder"}
-              titleUrl={buildFolderPath({
-                questionnaireId: questionnaire.id,
-                folderId,
-                tab,
-              })}
-              disabled={isCurrentPage(folderId, entityId)}
-              icon={IconFolder}
-              childErrorCount={calculatePageErrors(pages)}
-              open
-            >
-              <NavList>
-                <TransitionGroup component={null}>
-                  {pages.map((page) => buildPageList(page)).flat(2)}
-                </TransitionGroup>
-              </NavList>
-            </CollapsibleNavItem>
-          </li>
-        </NavItemTransition>
-      ) : (
-        pages.map((page) => buildPageList(page)).flat(2)
-      )
+    const components = folders.map(
+      ({ id: folderId, enabled, alias, pages, validationErrorInfo }) =>
+        enabled ? (
+          <NavItemTransition
+            key={`transition-folder-${folderId}-enabled`}
+            onEntered={scrollIntoView}
+          >
+            <li key={`folder-${folderId}-enabled`}>
+              <CollapsibleNavItem
+                key={`folder-${folderId}enabled`}
+                title={alias || "Untitled folder"}
+                titleUrl={buildFolderPath({
+                  questionnaireId: questionnaire.id,
+                  folderId,
+                  tab,
+                })}
+                disabled={isCurrentPage(folderId, entityId)}
+                icon={IconFolder}
+                selfErrorCount={validationErrorInfo.totalCount}
+                childErrorCount={calculatePageErrors(pages)}
+                open
+              >
+                <NavList>
+                  <TransitionGroup component={null}>
+                    {pages.map((page) => buildPageList(page)).flat(2)}
+                  </TransitionGroup>
+                </NavList>
+              </CollapsibleNavItem>
+            </li>
+          </NavItemTransition>
+        ) : (
+          pages.map((page) => buildPageList(page)).flat(2)
+        )
     );
 
     return (

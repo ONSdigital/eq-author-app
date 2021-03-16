@@ -32,6 +32,7 @@ const Footer = styled.div`
 export default class UnwrappedSkipLogicEditor extends React.Component {
   static propTypes = {
     pageId: PropTypes.string.isRequired,
+    noun: PropTypes.string,
     skipConditions: propType(fragment).isRequired,
     onAddSkipConditions: PropTypes.func.isRequired,
   };
@@ -46,6 +47,7 @@ export default class UnwrappedSkipLogicEditor extends React.Component {
             <Transition key={expressionGroup.id}>
               <SkipConditionEditor
                 pageId={this.props.pageId}
+                noun={this.props.noun}
                 expressionGroupIndex={index}
                 expressionGroup={expressionGroup}
                 key={expressionGroup.id}

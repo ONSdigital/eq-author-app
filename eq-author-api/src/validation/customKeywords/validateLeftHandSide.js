@@ -1,15 +1,14 @@
+// TODO: May be able to re-implement this natively in AJV as part of EAR-1096
+// using custom keywords idExists and idPreceedsEntity
+
 const {
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
 } = require("../../../constants/validationErrorCodes");
 
-const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
-const {
-  ROUTING_ANSWER_TYPES,
-} = require("../../../constants/routingAnswerTypes");
-
 const createValidationError = require("../createValidationError");
 
 const { getPath } = require("../utils");
+const { getAbsolutePositionById } = require("../../../schema/resolvers/utils");
 
 module.exports = function (ajv) {
   ajv.addKeyword("validateLeftHandSide", {
@@ -22,40 +21,28 @@ module.exports = function (ajv) {
       fieldName,
       questionnaire
     ) {
-      isValid.errors = [];
-
       const { sections, folders, pages } = getPath(dataPath);
 
-      const currentPage =
-        questionnaire.sections[sections].folders[folders].pages[pages];
+      const folder = questionnaire.sections[sections].folders[folders];
+      const currentPage = pages !== undefined ? folder.pages[pages] : folder;
 
-      if (entityData && entityData.type === "Answer" && entityData.answerId) {
-        const leftAnswerId = entityData.answerId;
+      isValid.errors =
+        entityData && // TODO - use optional chaining syntax when eslint upgraded
+        entityData.type === "Answer" &&
+        entityData.answerId &&
+        getAbsolutePositionById({ questionnaire }, entityData.answerId) >
+          getAbsolutePositionById({ questionnaire }, currentPage.id)
+          ? [
+              createValidationError(
+                dataPath,
+                fieldName,
+                ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
+                questionnaire
+              ),
+            ]
+          : [];
 
-        const previousAnswersForPage = getPreviousAnswersForPage(
-          questionnaire,
-          currentPage.id,
-          true,
-          ROUTING_ANSWER_TYPES
-        );
-
-        const leftAnswerInPreviousAnswers = previousAnswersForPage.some(
-          (el) => el.id === leftAnswerId
-        );
-
-        if (!leftAnswerInPreviousAnswers) {
-          const err = createValidationError(
-            dataPath,
-            fieldName,
-            ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
-            questionnaire
-          );
-          isValid.errors.push(err);
-
-          return false;
-        }
-      }
-      return true;
+      return isValid.errors.length === 0;
     },
   });
 };

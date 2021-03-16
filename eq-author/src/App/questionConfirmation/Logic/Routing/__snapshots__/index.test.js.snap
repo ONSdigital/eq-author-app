@@ -7,9 +7,7 @@ exports[`questionConfirmation/Routing should render 1`] = `
       disabled={true}
     >
       <NoRouting__Title>
-         
         Routing logic not available for confirmation questions
-         
       </NoRouting__Title>
       <NoRouting__Paragraph>
         The route will be based on the answer to the previous question.

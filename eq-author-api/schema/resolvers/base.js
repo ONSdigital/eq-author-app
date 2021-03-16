@@ -968,8 +968,12 @@ const Resolvers = {
   },
 
   Skippable: {
-    __resolveType: ({ pageType }) =>
-      pageType === "QuestionPage" ? "QuestionPage" : "QuestionConfirmation",
+    __resolveType: ({ pageType, pages }) =>
+      pages
+        ? "Folder"
+        : pageType === "QuestionPage"
+        ? "QuestionPage"
+        : "QuestionConfirmation",
   },
 
   Section: {
@@ -988,7 +992,8 @@ const Resolvers = {
       returnValidationErrors(
         ctx,
         id,
-        ({ sectionId, pageId }) => id === sectionId && !pageId
+        ({ sectionId, folderId, pageId }) =>
+          id === sectionId && !pageId && !folderId
       ),
   },
 
@@ -998,6 +1003,13 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
+    displayName: ({ alias }) => alias || "Untitled folder",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ folderId, pageId }) => id === folderId && !pageId
+      ),
   },
 
   LogicalDestination: {

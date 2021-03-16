@@ -5,6 +5,7 @@ export const useCurrentPageId = () => {
   return (
     params.pageId ||
     params.confirmationId ||
+    params.folderId ||
     params.sectionId ||
     params.introductionId
   );

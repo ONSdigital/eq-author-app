@@ -100,14 +100,16 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder {
+type Folder implements Skippable {
   id: ID!
   alias: String
   enabled: Boolean!
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
-  section: Section
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Section {
