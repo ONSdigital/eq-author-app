@@ -94,7 +94,7 @@ const UnwrappedNavigationSidebar = ({
   canAddQuestionPage,
   canAddFolder,
   match: {
-    params: { entityId },
+    params: { entityId, tab = "design" },
   },
   history,
 }) => {
@@ -135,7 +135,7 @@ const UnwrappedNavigationSidebar = ({
               titleUrl={buildPagePath({
                 questionnaireId: questionnaire.id,
                 pageId,
-                tab: "design",
+                tab,
               })}
               disabled={isCurrentPage(pageId, entityId)}
               icon={IconQuestionPage}
@@ -156,7 +156,7 @@ const UnwrappedNavigationSidebar = ({
               titleUrl={buildPagePath({
                 questionnaireId: questionnaire.id,
                 pageId,
-                tab: "design",
+                tab,
               })}
               disabled={isCurrentPage(pageId, entityId)}
               icon={IconSummaryPage}
@@ -180,7 +180,7 @@ const UnwrappedNavigationSidebar = ({
               titleUrl={buildConfirmationPath({
                 questionnaireId: questionnaire.id,
                 confirmationId: confirmation.id,
-                tab: "design",
+                tab,
               })}
               disabled={isCurrentPage(confirmation.id, entityId)}
               icon={IconConfirmationPage}
@@ -210,7 +210,7 @@ const UnwrappedNavigationSidebar = ({
                   titleUrl={buildFolderPath({
                     questionnaireId: questionnaire.id,
                     folderId,
-                    tab: "design",
+                    tab,
                   })}
                   disabled={isCurrentPage(folderId, entityId)}
                   icon={IconFolder}
@@ -261,7 +261,7 @@ const UnwrappedNavigationSidebar = ({
                 titleUrl={buildSectionPath({
                   questionnaireId: questionnaire.id,
                   sectionId,
-                  tab: "design",
+                  tab,
                 })}
                 bordered
                 selfErrorCount={validationErrorInfo.totalCount}
@@ -316,7 +316,7 @@ const UnwrappedNavigationSidebar = ({
                     titleUrl={buildIntroductionPath({
                       questionnaireId: questionnaire.id,
                       introductionId: questionnaire.introduction.id,
-                      tab: "design",
+                      tab,
                     })}
                     disabled={isCurrentPage(
                       questionnaire.introduction.id,
