@@ -108,7 +108,11 @@ const handleBlurReducer = ({
     updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
   } else {
     updateAnswer(
-      mutationVariables({ id, qCode, properties: payload.properties })
+      mutationVariables({
+        id,
+        qCode,
+        ...(payload.properties && { properties: payload.properties }),
+      })
     );
   }
 };
@@ -157,14 +161,13 @@ const Row = memo((props) => {
           ) : (
             <SpacedTableColumn>
               <ErrorWrappedInput
+                name={`${id}-qcode-entry`}
+                data-test={`${id}-test-input`}
                 value={qCode}
                 onChange={(e) => setQcode(e.value)}
                 onBlur={() => handleBlur(id, type, qCode)}
-                name={`${id}-qcode-entry`}
-                data-test={`${id}-test-input`}
                 error={error}
               />
-
               {(error || noValQCodeError) && (
                 <QcodeValidationError right>
                   {(error && QCODE_IS_NOT_UNIQUE) ||
@@ -198,21 +201,6 @@ const Row = memo((props) => {
   );
 });
 
-const RowBuilder = (answers, duplicates) => {
-  if (answers) {
-    return answers.map((item, index) => {
-      return (
-        <Row
-          key={`${item.id}-${index}`}
-          {...item}
-          error={duplicates[item.qCode] > 1}
-          noValQCodeError={!item.qCode}
-        />
-      );
-    });
-  }
-};
-
 Row.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
@@ -241,7 +229,15 @@ export const UnwrappedQCodeTable = () => {
         </TableRow>
       </TableHead>
       <StyledTableBody>
-        {RowBuilder(flattenedAnswers, duplicates)}
+        {flattenedAnswers &&
+          flattenedAnswers.map((item, index) => (
+            <Row
+              key={`${item.id}-${index}`}
+              {...item}
+              error={duplicates[item.qCode] > 1}
+              noValQCodeError={!item.qCode}
+            />
+          ))}
       </StyledTableBody>
     </Table>
   );

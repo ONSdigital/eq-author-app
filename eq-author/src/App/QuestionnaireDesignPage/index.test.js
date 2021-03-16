@@ -616,18 +616,6 @@ describe("QuestionnaireDesignPage", () => {
       },
     ];
 
-    const confirmationAnswer = (refined) => ({
-      id: "confirmation",
-      qCode: "confirmation",
-      ...(refined && { type: "QuestionConfirmation" }),
-      ...(!refined && {
-        __typename: "QuestionConfirmation",
-        title: "confirmation page yo",
-        alias: null,
-      }),
-      validationErrorInfo: [],
-    });
-
     const checkboxPage = () => ({
       id: "checkbox-page",
       title: "<p>Checkbox page</p>",
@@ -635,7 +623,6 @@ describe("QuestionnaireDesignPage", () => {
       displayName: "Checkbox page",
       pageType: "QuestionPage",
       alias: "asda",
-      confirmation: confirmationAnswer(),
       answers: checkboxAnswers(),
     });
 
@@ -654,15 +641,6 @@ describe("QuestionnaireDesignPage", () => {
           ...checkboxAnswers(),
           ...refinedCheckbox.options,
           refinedCheckbox.mutuallyExclusiveOption,
-        ],
-      },
-      {
-        title: "confirmation page yo",
-        alias: null,
-        answers: [
-          {
-            ...confirmationAnswer(true),
-          },
         ],
       },
     ];
@@ -696,16 +674,10 @@ describe("QuestionnaireDesignPage", () => {
         nested: true,
         ...refinedCheckbox.mutuallyExclusiveOption,
       },
-      {
-        title: "confirmation page yo",
-        alias: null,
-        ...confirmationAnswer(true),
-      },
     ];
 
     duplicateTest = {
       1: 2,
-      confirmation: 1,
     };
 
     it("it should organiseAnswers into a list", () => {
@@ -720,12 +692,10 @@ describe("QuestionnaireDesignPage", () => {
 
     it("it should flatten answers", () => {
       const flat = flattenAnswers(answers);
-      const conf = flat.find((x) => x.qCode === "confirmation");
       const mutuallyExclusiveOption = flat.find(
         (x) => x.type === "MutuallyExclusiveOption"
       );
       expect(flat).toEqual(flatAnswers);
-      expect(conf).toBeTruthy();
       expect(mutuallyExclusiveOption).toBeTruthy();
     });
 
