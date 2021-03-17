@@ -42,6 +42,15 @@ const createQuestionnaireMutation = `
           id
         }
       }
+      previewTheme
+      themes {
+        id
+        enabled
+        shortName
+        legalBasisCode
+        eqId
+        formType
+      }
     }
   }
 `;

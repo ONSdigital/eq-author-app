@@ -64,6 +64,14 @@ const baseQuestionnaireSchema = {
   editors: {
     type: Array,
   },
+  previewTheme: {
+    type: String,
+    required: true,
+  },
+  themes: {
+    type: Array,
+    required: true,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(

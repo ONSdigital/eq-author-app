@@ -15,6 +15,7 @@ const migrations = [
   require("./updateDefaultTextAreaLength"),
   require("./addFolders"),
   require("./addGuidancePanelSwitch"),
+  require("./addDefaultTheme"),
 ];
 
 const currentVersion = migrations.length;
