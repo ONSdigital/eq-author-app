@@ -91,10 +91,19 @@ const INPUT_FRAGMENT = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateValidationRule: (input) =>
-    mutate({
+  onUpdateValidationRule: ({ id, ...rest }) => {
+    const input = { id, ...rest };
+    const validationRule = rest[Object.keys(rest)[0]];
+    return mutate({
       variables: { input: filter(INPUT_FRAGMENT, input) },
-    }),
+      optimisticResponse: {
+        updateValidationRule: {
+          id,
+          ...validationRule,
+        },
+      },
+    });
+  },
 });
 
 export default graphql(UPDATE_VALIDATION_RULE, {

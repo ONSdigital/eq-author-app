@@ -30,6 +30,14 @@ describe("withUpdateValidationRule", () => {
           },
         },
       },
+      optimisticResponse: {
+        updateValidationRule: {
+          __typename: "foo",
+          custom: "201",
+          id: "1",
+          inclusive: true,
+        },
+      },
     });
   });
 });

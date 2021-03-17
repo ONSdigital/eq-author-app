@@ -707,10 +707,7 @@ exports[`Option should render a checkbox 1`] = `
                                               "foldedComponentIds": Array [],
                                               "render": [Function],
                                               "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
-                                              "target": Object {
-                                                "$$typeof": Symbol(react.forward_ref),
-                                                "render": [Function],
-                                              },
+                                              "target": [Function],
                                               "toString": [Function],
                                               "warnTooManyClasses": [Function],
                                               "withComponent": [Function],
@@ -725,17 +722,20 @@ exports[`Option should render a checkbox 1`] = `
                                           placeholder=""
                                           value=""
                                         >
-                                          <ForwardRef(TextareaAutosize)
+                                          <TextareaAutosize
                                             aria-invalid="false"
                                             className="c7"
                                             data-autofocus={true}
                                             data-test="option-label"
                                             id="option-label-1"
+                                            inputRef={[Function]}
                                             name="label"
                                             onBlur={[MockFunction]}
                                             onChange={[Function]}
+                                            onHeightChange={[Function]}
                                             onKeyDown={[Function]}
                                             placeholder=""
+                                            useCacheForDOMMeasurements={false}
                                             value=""
                                           >
                                             <textarea
@@ -749,9 +749,14 @@ exports[`Option should render a checkbox 1`] = `
                                               onChange={[Function]}
                                               onKeyDown={[Function]}
                                               placeholder=""
+                                              style={
+                                                Object {
+                                                  "height": 0,
+                                                }
+                                              }
                                               value=""
                                             />
-                                          </ForwardRef(TextareaAutosize)>
+                                          </TextareaAutosize>
                                         </StyledComponent>
                                       </WrappingInput__TextArea>
                                     </div>
@@ -1000,10 +1005,7 @@ exports[`Option should render a checkbox 1`] = `
                                         "foldedComponentIds": Array [],
                                         "render": [Function],
                                         "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
-                                        "target": Object {
-                                          "$$typeof": Symbol(react.forward_ref),
-                                          "render": [Function],
-                                        },
+                                        "target": [Function],
                                         "toString": [Function],
                                         "warnTooManyClasses": [Function],
                                         "withComponent": [Function],
@@ -1017,15 +1019,18 @@ exports[`Option should render a checkbox 1`] = `
                                     onKeyDown={[Function]}
                                     value=""
                                   >
-                                    <ForwardRef(TextareaAutosize)
+                                    <TextareaAutosize
                                       aria-invalid="false"
                                       className="c7"
                                       data-test="option-description"
                                       id="option-description-1"
+                                      inputRef={[Function]}
                                       name="description"
                                       onBlur={[MockFunction]}
                                       onChange={[Function]}
+                                      onHeightChange={[Function]}
                                       onKeyDown={[Function]}
+                                      useCacheForDOMMeasurements={false}
                                       value=""
                                     >
                                       <textarea
@@ -1037,9 +1042,14 @@ exports[`Option should render a checkbox 1`] = `
                                         onBlur={[MockFunction]}
                                         onChange={[Function]}
                                         onKeyDown={[Function]}
+                                        style={
+                                          Object {
+                                            "height": 0,
+                                          }
+                                        }
                                         value=""
                                       />
-                                    </ForwardRef(TextareaAutosize)>
+                                    </TextareaAutosize>
                                   </StyledComponent>
                                 </WrappingInput__TextArea>
                               </div>
