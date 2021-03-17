@@ -8,6 +8,10 @@ import { useMutation } from "react-apollo";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
+import VerticalTabs from "components/VerticalTabs";
+
+import { Grid, Column } from "components/Grid";
+import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { InformationPanel } from "components/Panel";
@@ -54,6 +58,30 @@ const InlineField = styled(Field)`
   > * {
     margin-bottom: 0;
   }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const SettingsContainer = styled.div`
+  padding: 0.8em;
+  border-left: 1px solid ${colors.lightGrey};
+`;
+
+const PageMainCanvas = styled.div`
+  display: flex;
+  border: 1px solid ${colors.lightGrey};
+  border-radius: 4px;
+  background: ${colors.white};
+`;
+
+const PageContainer = styled.div`
+  padding: 0.8em;
+  border-left: 1px solid ${colors.lightGrey};
 `;
 
 const Pill = ({ children, testId }) => {
@@ -113,107 +141,141 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
     shortTitle
   );
+
+  const tabItems = [
+    {
+      title: `General`,
+      url: `settings`,
+    },
+    {
+      title: `Themes, IDs and form types`,
+      url: `themes`,
+    },
+  ];
+
   return (
-    <ScrollPane>
-      <StyledPanel>
-        <Field>
-          <Label>Questionnaire title</Label>
-          <Caption>Changes the questionnaire&apos;s title.</Caption>
-          <StyledInput
-            value={questionnaireTitle}
-            onChange={({ value }) => setQuestionnaireTitle(value)}
-            onBlur={(e) => handleTitleChange({ ...e.target })}
-            data-test="change-questionnaire-title"
-          />
-        </Field>
-        <Field>
-          <Label>Short title (optional)</Label>
-          <Caption>
-            {shortTitle ? "Changes" : "Adds"} the questionnaire&apos;s short
-            title. This is only used within Author. Respondents always see the
-            full questionnaire title.
-          </Caption>
-          <StyledInput
-            value={questionnaireShortTitle}
-            onChange={({ value }) => setQuestionnaireShortTitle(value)}
-            onBlur={(e) => handleShortTitleChange({ ...e.target })}
-            data-test="change-questionnaire-short-title"
-          />
-        </Field>
-        <HorizontalSeparator />
-        <Field>
-          <Label>Questionnaire type</Label>
-          <Pill testId="questionnaire-type">{type}</Pill>
-        </Field>
-        <HorizontalSeparator />
-        <InlineField>
-          <Label>Section navigation</Label>
-          <VerticalSeparator />
-          <ToggleSwitch
-            id="toggle-section-navigation"
-            name="toggle-section-navigation"
-            hideLabels={false}
-            onChange={({ value }) =>
-              updateQuestionnaire({
-                variables: { input: { id, navigation: value } },
-              })
-            }
-            checked={navigation}
-          />
-        </InlineField>
-        <InformationPanel>
-          Let respondents move between sections while they&apos;re completing
-          the questionnaire.
-        </InformationPanel>
-        <HorizontalSeparator />
-        <Label>Summary page</Label>
-        <Caption>
-          Let respondents view and change their answers before submitting them.
-          You can set the list of sections to be collapsible, so respondents can
-          show and hide their answer for individual sections.
-        </Caption>
-        <InlineField>
-          <Label>Answers summary</Label>
-          <VerticalSeparator />
-          <ToggleSwitch
-            id="toggle-answer-summary"
-            name="toggle-answer-summary"
-            hideLabels={false}
-            onChange={({ value }) =>
-              updateQuestionnaire({
-                variables: {
-                  input: {
-                    id,
-                    summary: value,
-                    collapsibleSummary: false,
-                  },
-                },
-              })
-            }
-            checked={summary}
-          />
-        </InlineField>
-        <CollapsibleWrapper disabled={!summary}>
-          <InlineField>
-            <Label>Collapsible sections</Label>
-            <VerticalSeparator />
-            <ToggleSwitch
-              id="toggle-collapsible-summary"
-              name="toggle-collapsible-summary"
-              hideLabels={false}
-              onChange={({ value }) =>
-                updateQuestionnaire({
-                  variables: {
-                    input: { id, collapsibleSummary: value },
-                  },
-                })
-              }
-              checked={collapsibleSummary}
+    <Container>
+      <Header title="Settings" />
+      <PageContainer>
+        <PageMainCanvas>
+          <Grid>
+            <VerticalTabs
+              title="Questionnaire Settings"
+              cols={2.5}
+              tabItems={tabItems}
             />
-          </InlineField>
-        </CollapsibleWrapper>
-      </StyledPanel>
-    </ScrollPane>
+            <Column gutters={false} cols={9.5}>
+              <SettingsContainer>
+                <ScrollPane>
+                  <StyledPanel>
+                    <Field>
+                      <Label>Questionnaire title</Label>
+                      <Caption>Changes the questionnaire&apos;s title.</Caption>
+                      <StyledInput
+                        value={questionnaireTitle}
+                        onChange={({ value }) => setQuestionnaireTitle(value)}
+                        onBlur={(e) => handleTitleChange({ ...e.target })}
+                        data-test="change-questionnaire-title"
+                      />
+                    </Field>
+                    <Field>
+                      <Label>Short title (optional)</Label>
+                      <Caption>
+                        {shortTitle ? "Changes" : "Adds"} the
+                        questionnaire&apos;s short title. This is only used
+                        within Author. Respondents always see the full
+                        questionnaire title.
+                      </Caption>
+                      <StyledInput
+                        value={questionnaireShortTitle}
+                        onChange={({ value }) =>
+                          setQuestionnaireShortTitle(value)
+                        }
+                        onBlur={(e) => handleShortTitleChange({ ...e.target })}
+                        data-test="change-questionnaire-short-title"
+                      />
+                    </Field>
+                    <HorizontalSeparator />
+                    <Field>
+                      <Label>Questionnaire type</Label>
+                      <Pill testId="questionnaire-type">{type}</Pill>
+                    </Field>
+                    <HorizontalSeparator />
+                    <InlineField>
+                      <Label>Section navigation</Label>
+                      <VerticalSeparator />
+                      <ToggleSwitch
+                        id="toggle-section-navigation"
+                        name="toggle-section-navigation"
+                        hideLabels={false}
+                        onChange={({ value }) =>
+                          updateQuestionnaire({
+                            variables: { input: { id, navigation: value } },
+                          })
+                        }
+                        checked={navigation}
+                      />
+                    </InlineField>
+                    <InformationPanel>
+                      Let respondents move between sections while they&apos;re
+                      completing the questionnaire.
+                    </InformationPanel>
+                    <HorizontalSeparator />
+                    <Label>Summary page</Label>
+                    <Caption>
+                      Let respondents view and change their answers before
+                      submitting them. You can set the list of sections to be
+                      collapsible, so respondents can show and hide their answer
+                      for individual sections.
+                    </Caption>
+                    <InlineField>
+                      <Label>Answers summary</Label>
+                      <VerticalSeparator />
+                      <ToggleSwitch
+                        id="toggle-answer-summary"
+                        name="toggle-answer-summary"
+                        hideLabels={false}
+                        onChange={({ value }) =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: {
+                                id,
+                                summary: value,
+                                collapsibleSummary: false,
+                              },
+                            },
+                          })
+                        }
+                        checked={summary}
+                      />
+                    </InlineField>
+                    <CollapsibleWrapper disabled={!summary}>
+                      <InlineField>
+                        <Label>Collapsible sections</Label>
+                        <VerticalSeparator />
+                        <ToggleSwitch
+                          id="toggle-collapsible-summary"
+                          name="toggle-collapsible-summary"
+                          hideLabels={false}
+                          onChange={({ value }) =>
+                            updateQuestionnaire({
+                              variables: {
+                                input: { id, collapsibleSummary: value },
+                              },
+                            })
+                          }
+                          checked={collapsibleSummary}
+                        />
+                      </InlineField>
+                    </CollapsibleWrapper>
+                  </StyledPanel>
+                </ScrollPane>
+              </SettingsContainer>
+            </Column>
+          </Grid>
+        </PageMainCanvas>
+      </PageContainer>
+    </Container>
   );
 };
 

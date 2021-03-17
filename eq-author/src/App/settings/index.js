@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { Query } from "react-apollo";
-import SettingsPage from "./SettingsPage";
+import GeneralSettingsPage from "./GeneralSettingsPage";
 import ThemesPage from "./ThemesPage";
 import Error from "components/Error";
 
@@ -29,7 +29,9 @@ export default [
 
           if (data) {
             const { questionnaire } = data;
-            return <SettingsPage {...props} questionnaire={questionnaire} />;
+            return (
+              <GeneralSettingsPage {...props} questionnaire={questionnaire} />
+            );
           }
         }}
       </Query>

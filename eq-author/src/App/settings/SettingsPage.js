@@ -49,32 +49,33 @@ const SettingsPage = ({ questionnaire, page }) => {
   ];
 
   return (
-    <Container>
-      <Header title="Settings" />
-      <PageContainer>
-        <PageMainCanvas>
-          <Grid>
-            <VerticalTabs
-              title="Questionnaire Settings"
-              cols={2.5}
-              tabItems={tabItems}
-            />
-            <Column gutters={false} cols={9.5}>
-              <SettingsContainer>
-                <SettingsPages questionnaire={questionnaire} page={page} />
-              </SettingsContainer>
-            </Column>
-          </Grid>
-        </PageMainCanvas>
-      </PageContainer>
-    </Container>
+    <></>
+    // <Container>
+    //   <Header title="Settings" />
+    //   <PageContainer>
+    //     <PageMainCanvas>
+    //       <Grid>
+    //         <VerticalTabs
+    //           title="Questionnaire Settings"
+    //           cols={2.5}
+    //           tabItems={tabItems}
+    //         />
+    //         <Column gutters={false} cols={9.5}>
+    //           <SettingsContainer>
+    //             {/* <SettingsPages questionnaire={questionnaire} page={page} /> */}
+    //           </SettingsContainer>
+    //         </Column>
+    //       </Grid>
+    //     </PageMainCanvas>
+    //   </PageContainer>
+    // </Container>
   );
 };
 SettingsPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  questionnaire: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
-  page: CustomPropTypes.page,
+  // questionnaire: PropTypes.object.isRequired,
+  // children: PropTypes.node.isRequired,
+  // page: CustomPropTypes.page,
 };
 
 export default withRouter(SettingsPage);

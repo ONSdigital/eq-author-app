@@ -5,12 +5,12 @@ import { withRouter } from "react-router-dom";
 
 import { colors } from "constants/theme";
 
+import VerticalTabs from "components/VerticalTabs";
+
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import { Field } from "components/Forms";
+import { Field, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
-
-import VerticalTabs from "components/VerticalTabs";
 
 const Container = styled.div`
   display: flex;
@@ -41,18 +41,18 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
-const ThemesPage = () => {
-  const tabItems = [
-    {
-      title: `General`,
-      url: `settings`,
-    },
-    {
-      title: `Themes, IDs and form types`,
-      url: `themes`,
-    },
-  ];
+const tabItems = [
+  {
+    title: `General`,
+    url: `settings`,
+  },
+  {
+    title: `Themes, IDs and form types`,
+    url: `themes`,
+  },
+];
 
+const ThemesPage = () => {
   return (
     <Container>
       <Header title="Settings" />
@@ -69,16 +69,23 @@ const ThemesPage = () => {
                 <ScrollPane>
                   <StyledPanel>
                     <Field>
+                      <Label>Themes, IDs, form types and legal bases</Label>
+                    </Field>
+                    <Field>
                       <p>
-                        {`Themes, IDs, form types and legal bases" and I see a
-                        paragraph which says "The theme sets the design of the
-                        eQ for respondents. It changes the header across the
-                        survey, as well as the contact details and the legal
-                        basis on the introduction page. The COVID theme also
-                        changes the thank you page respondents see once they've
-                        submitted the survey." and I see another paragraph which
-                        says "The preview theme is applied when you view the
-                        survey using the View survey button`}
+                        {`The theme sets the design of the eQ for respondents.
+                          It changes the header across the survey, as well as the
+                          contact details and the legal basis on the introduction
+                          page. The COVID theme also changes the thank you page
+                          respondents see once they've submitted the survey.
+                        `}
+                      </p>
+                    </Field>
+                    <Field>
+                      <p>
+                        {`The preview theme is applied when you view 
+                        the survey using the View Survey button.
+                        `}
                       </p>
                     </Field>
                   </StyledPanel>
