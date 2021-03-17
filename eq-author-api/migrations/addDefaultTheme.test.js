@@ -28,21 +28,21 @@ describe("migrations: add default theme", () => {
     });
   });
 
-  it("should keep existing legal basis where present", () => {
+  it("should use the existing legal basis when making a new theme", () => {
+    const legalBasis = "NOTICE_2";
     const questionnaire = {
-      introduction: {
-        legalBasis: "NOTICE_2",
-      },
+      introduction: { legalBasis },
     };
 
     expect(addDefaultTheme(questionnaire)).toMatchObject({
+      introduction: { legalBasis },
       previewTheme: "default",
       themes: [
         expect.objectContaining({
           id: expect.any(String),
           shortName: "default",
           enabled: true,
-          legalBasisCode: questionnaire.introduction.legalBasis,
+          legalBasisCode: legalBasis,
           eqId: "",
           formType: "",
         }),
