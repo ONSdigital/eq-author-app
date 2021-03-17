@@ -249,13 +249,15 @@ export const smallMediumButton = css`
 
 export const btnfocus = css`
   &:focus {
-    box-shadow: 0 0 0 4px ${colors.tertiary};
+    box-shadow: 0 0 0 3px ${colors.tertiary};
+    outline: 0;
   }
 `;
 
 export const btnfocusWithin = css`
   &:focus-within {
-    box-shadow: 0 0 0 4px ${colors.tertiary};
+    box-shadow: 0 0 0 3px ${colors.tertiary};
+    outline: 0;
   }
 `;
 
