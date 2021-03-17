@@ -218,13 +218,13 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "dave",
+            shortName: "census",
           },
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
         expect(updatedQuestionnaire.themes).toHaveLength(2);
-        expect(updatedQuestionnaire.themes[1].shortName).toEqual("dave");
+        expect(updatedQuestionnaire.themes[1].shortName).toEqual("census");
       });
 
       it("should be able to enable an existing theme", async () => {
@@ -256,7 +256,7 @@ describe("questionnaire", () => {
           disableTheme(
             {
               questionnaireId: questionnaire.id,
-              shortName: "woololo",
+              shortName: "census",
             },
             ctx
           )
@@ -282,7 +282,7 @@ describe("questionnaire", () => {
           updateTheme(
             {
               questionnaireId: questionnaire.id,
-              shortName: "woololo",
+              shortName: "census",
               eqId: "my-fantastic-new-identifier",
             },
             ctx

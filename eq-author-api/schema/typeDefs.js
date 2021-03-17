@@ -52,7 +52,7 @@ type Questionnaire {
   description: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  theme: LegacyTheme
+  theme: ThemeShortName
   navigation: Boolean
   createdAt: DateTime
   updatedAt: DateTime
@@ -84,7 +84,7 @@ enum HistoryEventTypes {
 type Theme {
   id: ID!
   enabled: Boolean!
-  shortName: String!
+  shortName: ThemeShortName!
   legalBasisCode: LegalBasisCode
   eqId: ID
   formType: String
@@ -450,7 +450,7 @@ enum AnswerType {
   Unit
 }
 
-enum LegacyTheme {
+enum ThemeShortName {
   default
   census
   northernireland
@@ -679,17 +679,17 @@ input UpdatePreviewThemeInput {
 
 input EnableThemeInput {
   questionnaireId: ID!
-  shortName: String!
+  shortName: ThemeShortName!
 }
 
 input DisableThemeInput {
   questionnaireId: ID!
-  shortName: String!
+  shortName: ThemeShortName!
 }
 
 input UpdateThemeInput {
   questionnaireId: ID!
-  shortName: String!
+  shortName: ThemeShortName!
   eqId: ID
   legalBasisCode: LegalBasisCode
   formType: String
