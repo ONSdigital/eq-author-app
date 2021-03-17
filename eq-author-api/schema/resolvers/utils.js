@@ -334,11 +334,27 @@ const getMovePosition = (section, pageId, position) => {
   return { previous, next };
 };
 
+const getThemeByShortName = ({ questionnaire }, shortName) =>
+  questionnaire.themes.find((theme) => theme.shortName === shortName);
+
+const createTheme = (attrs = {}) => ({
+  id: uuidv4(),
+  enabled: true,
+  shortName: "default",
+  legalBasisCode: "NOTICE_1",
+  eqId: "",
+  formType: "",
+  ...attrs,
+});
+
 module.exports = {
   getSections,
   getSectionById,
   getSectionByFolderId,
   getSectionByPageId,
+
+  getThemeByShortName,
+  createTheme,
 
   idExists,
   getAbsolutePositionById,
