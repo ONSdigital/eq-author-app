@@ -7,4 +7,9 @@ module.exports = {
   ...require("./listQuestionnaires"),
   ...require("./publishQuestionnaire"),
   ...require("./reviewQuestionnaire"),
+  ...require("./updatePreviewTheme"),
+  ...require("./enableTheme"),
+  ...require("./disableTheme"),
+  ...require("./updateSurveyId"),
+  ...require("./updateTheme"),
 };
