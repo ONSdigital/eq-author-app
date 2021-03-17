@@ -8,24 +8,24 @@ import { rgba } from "polished";
 import { NavLink } from "react-router-dom";
 import { Column } from "components/Grid";
 
-export const Title = styled.div`
+const activeClassName = "active";
+
+const Title = styled.div`
   width: 100%;
   padding: 1em 1.2em;
   font-weight: bold;
   border-bottom: 1px solid ${colors.lightGrey};
 `;
 
-export const StyledTabUl = styled.ul`
+const StyledTabUl = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
 `;
 
-export const TabLink = styled(NavLink)`
-  --color-text: ${(props) =>
-    props.active ? `${colors.white}` : `${colors.black}`};
-  background: ${(props) =>
-    props.active ? `${colors.blue}` : `${colors.white}`};
+const TabLink = styled(NavLink)`
+  --color-text: ${colors.black};
+  background: ${colors.white};
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -33,12 +33,9 @@ export const TabLink = styled(NavLink)`
   padding: 1em;
   color: var(--color-text);
   font-size: 1em;
-  border-left: ${(props) =>
-    props.active
-      ? `5px solid ${colors.orange}`
-      : `5px solid ${colors.lightGrey}`};
+  border-left: 5px solid ${colors.lightGrey};
   border-bottom: 1px solid ${colors.lightGrey};
-  pointer-events: ${(props) => (props.active ? `none` : `auto`)};
+  pointer-events: auto;
 
   &:hover {
     background: ${rgba(0, 0, 0, 0.2)};
@@ -47,11 +44,19 @@ export const TabLink = styled(NavLink)`
   &:active {
     outline: none;
   }
+
+  &.${activeClassName} {
+    --color-text: ${colors.white};
+
+    background: ${colors.blue};
+    border-left: 5px solid ${colors.orange};
+    pointer-events: none;
+  }
 `;
 
 const listItems = (tabItems) =>
   tabItems.map((item) => (
-    <TabLink exact to={item.url} key={item.title} active={item.active}>
+    <TabLink exact to={item.url} key={item.title} activeClassName="active">
       {item.title}
     </TabLink>
   ));

@@ -81,7 +81,7 @@ Pill.propTypes = {
   testId: PropTypes.string.isRequired,
 };
 
-const GeneralSettingsPage = ({ questionnaire }) => {
+const SettingsPages = ({ questionnaire }) => {
   const {
     title,
     shortTitle,
@@ -114,7 +114,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     });
   };
 
-  return (
+  const General = (
     <ScrollPane>
       <StyledPanel>
         <Field>
@@ -216,10 +216,34 @@ const GeneralSettingsPage = ({ questionnaire }) => {
       </StyledPanel>
     </ScrollPane>
   );
+
+  const Theme = (
+    <ScrollPane>
+      <StyledPanel>
+        <Field>
+          <p>
+            {`Themes, IDs, form types and legal bases" and I see a
+          paragraph which says "The theme sets the design of the
+          eQ for respondents. It changes the header across the
+          survey, as well as the contact details and the legal
+          basis on the introduction page. The COVID theme also
+          changes the thank you page respondents see once they've
+          submitted the survey." and I see another paragraph which
+          says "The preview theme is applied when you view the
+          survey using the View survey button`}
+          </p>
+        </Field>
+      </StyledPanel>
+    </ScrollPane>
+  );
+
+  const pages = [General, Theme];
+  return pages;
 };
-GeneralSettingsPage.propTypes = {
+
+SettingsPages.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   questionnaire: PropTypes.object.isRequired,
 };
 
-export default GeneralSettingsPage;
+export default SettingsPages;

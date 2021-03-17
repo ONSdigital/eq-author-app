@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -35,17 +36,15 @@ const PageContainer = styled.div`
   border-left: 1px solid ${colors.lightGrey};
 `;
 
-const SettingsPage = ({ questionnaire }) => {
+const SettingsPage = ({ questionnaire, page }) => {
   const tabItems = [
     {
       title: `General`,
       url: `settings`,
-      active: true,
     },
     {
       title: `Themes, IDs and form types`,
       url: `themes`,
-      active: false,
     },
   ];
 
@@ -62,7 +61,10 @@ const SettingsPage = ({ questionnaire }) => {
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
-                <GeneralSettingsPage questionnaire={questionnaire} />
+                <GeneralSettingsPage
+                  questionnaire={questionnaire}
+                  page={page}
+                />
               </SettingsContainer>
             </Column>
           </Grid>
@@ -75,6 +77,7 @@ SettingsPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   questionnaire: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  page: CustomPropTypes.page,
 };
 
 export default withRouter(SettingsPage);
