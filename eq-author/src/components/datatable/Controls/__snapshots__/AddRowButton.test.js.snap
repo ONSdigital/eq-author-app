@@ -44,15 +44,6 @@ exports[`AddRowButton should render 1`] = `
   border-radius: 0;
 }
 
-.c0:focus,
-.c0:active {
-  outline-width: 0;
-}
-
-.c0:focus {
-  outline: none;
-}
-
 .c0[disabled] {
   pointer-events: none;
   opacity: 0.6;

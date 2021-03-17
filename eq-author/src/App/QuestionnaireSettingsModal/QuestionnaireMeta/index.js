@@ -137,7 +137,7 @@ export const StatelessQuestionnaireMeta = ({
         </InformationPanel>
       </ToggleWrapper>
       <ButtonGroup horizontal align="right">
-        <Button onClick={onCancel} variant="secondary" type="button">
+        <Button onClick={onCancel} variant="secondary" type="button" btn-focus>
           Cancel
         </Button>
         <Button
@@ -145,6 +145,7 @@ export const StatelessQuestionnaireMeta = ({
           variant="primary"
           disabled={!(questionnaire.title && questionnaire.type)}
           data-test="questionnaire-submit-button"
+          btn-focus
         >
           {confirmText}
         </Button>
