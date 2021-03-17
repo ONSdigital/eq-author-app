@@ -10,7 +10,7 @@ import Header from "components/EditorLayout/Header";
 import { Grid, Column } from "components/Grid";
 
 import VerticalTabs from "components/VerticalTabs";
-import GeneralSettingsPage from "./GeneralSettingsPage";
+import SettingsPages from "./SettingsPages";
 
 const Container = styled.div`
   display: flex;
@@ -61,10 +61,7 @@ const SettingsPage = ({ questionnaire, page }) => {
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
-                <GeneralSettingsPage
-                  questionnaire={questionnaire}
-                  page={page}
-                />
+                <SettingsPages questionnaire={questionnaire} page={page} />
               </SettingsContainer>
             </Column>
           </Grid>

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+import { Field, Input, Label } from "components/Forms";
+import PropTypes from "prop-types";
 
 import { useMutation } from "react-apollo";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import ScrollPane from "components/ScrollPane";
-import { InformationPanel } from "components/Panel";
-import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+import { InformationPanel } from "components/Panel";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -81,7 +81,7 @@ Pill.propTypes = {
   testId: PropTypes.string.isRequired,
 };
 
-const SettingsPages = ({ questionnaire }) => {
+const GeneralSettingsPage = ({ questionnaire }) => {
   const {
     title,
     shortTitle,
@@ -91,12 +91,6 @@ const SettingsPages = ({ questionnaire }) => {
     summary,
     collapsibleSummary,
   } = questionnaire;
-
-  const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
-  const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
-    shortTitle
-  );
 
   const handleTitleChange = ({ value }) => {
     value = value.trim();
@@ -114,7 +108,12 @@ const SettingsPages = ({ questionnaire }) => {
     });
   };
 
-  const General = (
+  const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
+  const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
+    shortTitle
+  );
+  return (
     <ScrollPane>
       <StyledPanel>
         <Field>
@@ -216,34 +215,11 @@ const SettingsPages = ({ questionnaire }) => {
       </StyledPanel>
     </ScrollPane>
   );
-
-  const Theme = (
-    <ScrollPane>
-      <StyledPanel>
-        <Field>
-          <p>
-            {`Themes, IDs, form types and legal bases" and I see a
-          paragraph which says "The theme sets the design of the
-          eQ for respondents. It changes the header across the
-          survey, as well as the contact details and the legal
-          basis on the introduction page. The COVID theme also
-          changes the thank you page respondents see once they've
-          submitted the survey." and I see another paragraph which
-          says "The preview theme is applied when you view the
-          survey using the View survey button`}
-          </p>
-        </Field>
-      </StyledPanel>
-    </ScrollPane>
-  );
-
-  const pages = [General, Theme];
-  return pages;
 };
 
-SettingsPages.propTypes = {
+GeneralSettingsPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   questionnaire: PropTypes.object.isRequired,
 };
 
-export default SettingsPages;
+export default GeneralSettingsPage;
