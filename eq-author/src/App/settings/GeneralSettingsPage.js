@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
+import { withRouter, useRouteMatch } from "react-router-dom";
 
 import { useMutation } from "react-apollo";
 
@@ -142,14 +143,16 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     shortTitle
   );
 
+  let match = useRouteMatch();
+
   const tabItems = [
     {
       title: `General`,
-      url: `settings`,
+      url: `${match.url}`,
     },
     {
       title: `Themes, IDs and form types`,
-      url: `themes`,
+      url: `${match.url}/themes`,
     },
   ];
 
@@ -284,4 +287,4 @@ GeneralSettingsPage.propTypes = {
   questionnaire: PropTypes.object.isRequired,
 };
 
-export default GeneralSettingsPage;
+export default withRouter(GeneralSettingsPage);

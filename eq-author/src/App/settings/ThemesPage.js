@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import { withRouter, useRouteMatch } from "react-router-dom";
 
 import { colors } from "constants/theme";
 
@@ -41,18 +41,20 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
-const tabItems = [
-  {
-    title: `General`,
-    url: `settings`,
-  },
-  {
-    title: `Themes, IDs and form types`,
-    url: `themes`,
-  },
-];
-
 const ThemesPage = () => {
+  let match = useRouteMatch();
+
+  const tabItems = [
+    {
+      title: `General`,
+      url: `${match.url}/settings`,
+    },
+    {
+      title: `Themes, IDs and form types`,
+      url: `${match.url}`,
+    },
+  ];
+
   return (
     <Container>
       <Header title="Settings" />

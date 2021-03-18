@@ -10,6 +10,7 @@ import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 export default [
   <Route
     key="settings"
+    exact
     path="/q/:questionnaireId/settings"
     render={(props) => (
       <Query
@@ -39,7 +40,8 @@ export default [
   />,
   <Route
     key="themes"
-    path="/q/:questionnaireId/themes"
+    exact
+    path="/q/:questionnaireId/settings/themes"
     render={(props) => (
       <Query
         query={getQuestionnaireQuery}
