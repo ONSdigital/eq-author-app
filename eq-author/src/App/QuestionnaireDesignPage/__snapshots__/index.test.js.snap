@@ -4572,8 +4572,15 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                   render={[Function]}
                 />
                 <Route
+                  exact={true}
                   key="settings"
                   path="/q/:questionnaireId/settings"
+                  render={[Function]}
+                />
+                <Route
+                  exact={true}
+                  key="themes"
+                  path="/q/:questionnaireId/settings/themes"
                   render={[Function]}
                 />
                 <Route
