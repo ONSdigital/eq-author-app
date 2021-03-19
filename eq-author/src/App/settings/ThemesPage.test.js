@@ -19,11 +19,9 @@ const renderSettingsPage = (questionnaire, user, mocks) => {
 };
 
 describe("Settings page", () => {
-  let mockQuestionnaire, user, mocks, queryWasCalled;
+  let mockQuestionnaire, user, mocks;
 
   beforeEach(() => {
-    queryWasCalled = false;
-
     mockQuestionnaire = {
       title: "Test",
       shortTitle: "T",
@@ -82,7 +80,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
@@ -105,7 +102,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
@@ -128,7 +124,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
@@ -151,7 +146,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
@@ -175,7 +169,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
@@ -199,7 +192,6 @@ describe("Settings page", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               updateQuestionnaire: {
