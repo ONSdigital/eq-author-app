@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import { colors, disabledStyle } from "constants/theme";
+import { colors, disabledStyle, hoverStyle } from "constants/theme";
 import { rgba } from "polished";
 
 import { NavLink } from "react-router-dom";
@@ -42,7 +42,7 @@ const TabLink = styled(NavLink)`
   }
 
   &:hover {
-    background: ${rgba(0, 0, 0, 0.2)};
+    ${hoverStyle}
   }
 
   &:active {
