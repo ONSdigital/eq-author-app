@@ -93,13 +93,20 @@ const INPUT_FRAGMENT = gql`
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateValidationRule: ({ id, ...rest }) => {
     const input = { id, ...rest };
-    const validationRule = rest[Object.keys(rest)[0]];
+    const validationRule = [
+      "minValueInput",
+      "maxValueInput",
+      "earliestDateInput",
+      "latestDateInput",
+      "minDurationInput",
+      "maxDurationInput",
+    ].find((x) => rest[x]);
     return mutate({
       variables: { input: filter(INPUT_FRAGMENT, input) },
       optimisticResponse: {
         updateValidationRule: {
           id,
-          ...validationRule,
+          ...rest[validationRule],
         },
       },
     });
