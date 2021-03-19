@@ -146,6 +146,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   let match = useRouteMatch();
 
+  console.log(type);
+
   return (
     <Container>
       <Header title="Settings" />
@@ -155,7 +157,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
             <VerticalTabs
               title="Questionnaire Settings"
               cols={2.5}
-              tabItems={tabItems(match.params)}
+              tabItems={tabItems(match.params, type)}
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>

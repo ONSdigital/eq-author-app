@@ -45,6 +45,10 @@ const TabLink = styled(NavLink)`
     outline: none;
   }
 
+  &:disabled {
+    background: red;
+  }
+
   &.${activeClassName} {
     --color-text: ${colors.white};
 
@@ -55,9 +59,16 @@ const TabLink = styled(NavLink)`
 `;
 
 const listItems = (tabItems) =>
-  tabItems.map((item) => (
-    <TabLink exact to={item.url} key={item.title} activeClassName="active">
-      {item.title}
+  tabItems.map(({ url, title, disabled }) => (
+    <TabLink
+      exact
+      to={url}
+      key={title}
+      activeClassName="active"
+      disabled={disabled}
+    >
+      {console.log(disabled)}
+      {title}
     </TabLink>
   ));
 

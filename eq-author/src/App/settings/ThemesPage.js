@@ -42,8 +42,12 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
-const ThemesPage = () => {
+const ThemesPage = ({ questionnaire }) => {
+  const { type } = questionnaire;
+
   let match = useRouteMatch();
+
+  console.log(type);
 
   return (
     <Container>
@@ -54,7 +58,7 @@ const ThemesPage = () => {
             <VerticalTabs
               title="Questionnaire Settings"
               cols={2.5}
-              tabItems={tabItems(match.params)}
+              tabItems={tabItems(match.params, type)}
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
