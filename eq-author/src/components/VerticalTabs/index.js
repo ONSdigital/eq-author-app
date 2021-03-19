@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import styled from "styled-components";
 import { colors, disabledStyle, hoverStyle } from "constants/theme";
-import { rgba } from "polished";
 
 import { NavLink } from "react-router-dom";
 import { Column } from "components/Grid";
