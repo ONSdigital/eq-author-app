@@ -1,0 +1,121 @@
+name: Build Author Images for Staging
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  Author:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: eq-author
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    env:
+      TAG: "1.${{ github.run_number }}.0-staging"
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build Author for deployment
+        run: yarn build
+        env:
+          REACT_APP_EQ_AUTHOR_VERSION: ${{ env.TAG }}
+
+      - name: Build and Push new docker image
+        env:
+          REGISTRY: onsdigital
+          REPOSITORY: eq-author
+          IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
+
+
+  API:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: eq-author-api
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    env:
+      TAG: "1.${{ github.run_number }}.0-staging"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build and Push new docker image
+        env:
+          REGISTRY: onsdigital
+          REPOSITORY: eq-author-api
+          IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
+
+
+  Publisher:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: eq-publisher   
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    env:
+      TAG: "1.${{ github.run_number }}.0-staging"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build and Push new docker image
+        env:
+          REGISTRY: onsdigital
+          REPOSITORY: eq-publisher
+          IMAGE_TAG: ${{ env.TAG }}
+          IMAGE_TAG_LATEST: latest
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
+          docker push --all-tags $REGISTRY/$REPOSITORY
+

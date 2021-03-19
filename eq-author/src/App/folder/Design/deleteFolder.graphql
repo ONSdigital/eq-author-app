@@ -1,12 +1,33 @@
+#import "graphql/fragments/folder.graphql"
+#import "graphql/fragments/page.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
 mutation DeleteFolder($input: DeleteFolderInput!) {
   deleteFolder(input: $input) {
     id
-    sections {
+    position
+    folders {
       id
-      folders {
-        id
-        pages {
+      ...Folder
+      position
+      pages {
+        ...Page
+        position
+        displayName
+        pageType
+        ... on QuestionPage {
+          guidance
+          answers {
+            id
+          }
+          confirmation {
+            id
+          }
+        }
+        ... on CalculatedSummaryPage {
           id
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }

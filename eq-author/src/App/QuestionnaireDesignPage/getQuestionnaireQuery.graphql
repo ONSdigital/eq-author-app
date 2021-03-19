@@ -135,6 +135,14 @@ fragment Answers on Answer {
       value
       qCode
     }
+    mutuallyExclusiveOption {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
   }
 }
 
@@ -143,6 +151,7 @@ fragment ConfirmationPages on QuestionPage {
   confirmation {
     id
     displayName
+    qCode
     validationErrorInfo {
       id
       totalCount
