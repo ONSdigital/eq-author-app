@@ -66,7 +66,7 @@ const ThemesPage = ({ questionnaire }) => {
                       <Label>Themes, IDs, form types and legal bases</Label>
                     </Field>
                     <Field>
-                      <p>
+                      <p data-test="theme-description">
                         {`The theme sets the design of the eQ for respondents.
                           It changes the header across the survey, as well as the
                           contact details and the legal basis on the introduction
