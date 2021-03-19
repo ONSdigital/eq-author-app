@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, useRouteMatch } from "react-router-dom";
+import { buildSettingsPath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 
@@ -47,11 +48,11 @@ const ThemesPage = () => {
   const tabItems = [
     {
       title: `General`,
-      url: `${match.url}/settings`,
+      url: `${buildSettingsPath(match.params)}`,
     },
     {
       title: `Themes, IDs and form types`,
-      url: `${match.url}`,
+      url: `${buildSettingsPath(match.params)}/themes`,
     },
   ];
 

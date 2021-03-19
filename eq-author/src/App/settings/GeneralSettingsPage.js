@@ -4,6 +4,7 @@ import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
 import { withRouter, useRouteMatch } from "react-router-dom";
+import { buildSettingsPath } from "utils/UrlUtils";
 
 import { useMutation } from "react-apollo";
 
@@ -148,11 +149,11 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const tabItems = [
     {
       title: `General`,
-      url: `${match.url}`,
+      url: `${buildSettingsPath(match.params)}`,
     },
     {
       title: `Themes, IDs and form types`,
-      url: `${match.url}/themes`,
+      url: `${buildSettingsPath(match.params)}/themes`,
     },
   ];
 
