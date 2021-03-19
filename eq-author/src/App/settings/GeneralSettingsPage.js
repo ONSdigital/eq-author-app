@@ -4,13 +4,13 @@ import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
 import { withRouter, useRouteMatch } from "react-router-dom";
-import { buildSettingsPath } from "utils/UrlUtils";
 
 import { useMutation } from "react-apollo";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
+import tabItems from "./TabItems";
 
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
@@ -146,17 +146,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   let match = useRouteMatch();
 
-  const tabItems = [
-    {
-      title: `General`,
-      url: `${buildSettingsPath(match.params)}`,
-    },
-    {
-      title: `Themes, IDs and form types`,
-      url: `${buildSettingsPath(match.params)}/themes`,
-    },
-  ];
-
   return (
     <Container>
       <Header title="Settings" />
@@ -166,7 +155,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
             <VerticalTabs
               title="Questionnaire Settings"
               cols={2.5}
-              tabItems={tabItems}
+              tabItems={tabItems(match.params)}
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>

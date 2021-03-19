@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, useRouteMatch } from "react-router-dom";
-import { buildSettingsPath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
+import tabItems from "./TabItems";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
@@ -45,17 +45,6 @@ const StyledPanel = styled.div`
 const ThemesPage = () => {
   let match = useRouteMatch();
 
-  const tabItems = [
-    {
-      title: `General`,
-      url: `${buildSettingsPath(match.params)}`,
-    },
-    {
-      title: `Themes, IDs and form types`,
-      url: `${buildSettingsPath(match.params)}/themes`,
-    },
-  ];
-
   return (
     <Container>
       <Header title="Settings" />
@@ -65,7 +54,7 @@ const ThemesPage = () => {
             <VerticalTabs
               title="Questionnaire Settings"
               cols={2.5}
-              tabItems={tabItems}
+              tabItems={tabItems(match.params)}
             />
             <Column gutters={false} cols={9.5}>
               <SettingsContainer>
