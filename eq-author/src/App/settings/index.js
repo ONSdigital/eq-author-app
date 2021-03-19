@@ -1,11 +1,13 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { Query } from "react-apollo";
 import GeneralSettingsPage from "./GeneralSettingsPage";
 import ThemesPage from "./ThemesPage";
 import Error from "components/Error";
 
 import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
+import { buildSettingsPath } from "utils/UrlUtils";
+import { SOCIAL } from "constants/questionnaire-types";
 
 export default [
   <Route
@@ -56,6 +58,10 @@ export default [
 
           if (error) {
             return <Error>Error fetching questionnaire from database</Error>;
+          }
+
+          if (data.questionnaire.type === SOCIAL) {
+            return <Redirect to={buildSettingsPath(props.match.params)} />;
           }
 
           if (data) {

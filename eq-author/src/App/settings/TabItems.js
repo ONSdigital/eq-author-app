@@ -1,4 +1,5 @@
 import { buildSettingsPath } from "utils/UrlUtils";
+import { SOCIAL } from "constants/questionnaire-types";
 
 const tabItems = (params, surveyType) => [
   {
@@ -8,7 +9,7 @@ const tabItems = (params, surveyType) => [
   {
     title: `Themes, IDs and form types`,
     url: `${buildSettingsPath(params)}/themes`,
-    disabled: surveyType === "Social",
+    disabled: surveyType === SOCIAL,
   },
 ];
 

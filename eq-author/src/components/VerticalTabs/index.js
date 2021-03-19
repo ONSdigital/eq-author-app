@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import { colors, disabledStyle } from "constants/theme";
 import { rgba } from "polished";
 
 import { NavLink } from "react-router-dom";
@@ -37,16 +37,16 @@ const TabLink = styled(NavLink)`
   border-bottom: 1px solid ${colors.lightGrey};
   pointer-events: auto;
 
+  &[aria-disabled="true"] {
+    ${disabledStyle}
+  }
+
   &:hover {
     background: ${rgba(0, 0, 0, 0.2)};
   }
 
   &:active {
     outline: none;
-  }
-
-  &:disabled {
-    background: red;
   }
 
   &.${activeClassName} {
@@ -65,9 +65,8 @@ const listItems = (tabItems) =>
       to={url}
       key={title}
       activeClassName="active"
-      disabled={disabled}
+      aria-disabled={disabled}
     >
-      {console.log(disabled)}
       {title}
     </TabLink>
   ));

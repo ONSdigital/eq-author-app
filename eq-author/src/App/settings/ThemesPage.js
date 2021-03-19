@@ -47,8 +47,6 @@ const ThemesPage = ({ questionnaire }) => {
 
   let match = useRouteMatch();
 
-  console.log(type);
-
   return (
     <Container>
       <Header title="Settings" />
