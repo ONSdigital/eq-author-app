@@ -1,0 +1,21 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Comment from "components/Comments_v2/Comment";
+
+<Meta title="Components/Comment" component={Comment} />
+
+# Comment
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula. Sed venenatis condimentum lorem feugiat iaculis. In vitae quam et nulla euismod finibus.
+
+## Example
+
+<Canvas>
+  <Story name="Primary">
+    <Comment
+      author="Joe Bloggs"
+      datePosted="Yesterday at 00:00"
+      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate. Maecenas scelerisque turpis nec felis rhoncus lacinia. Morbi volutpat risus nec erat dictum, nec cursus erat suscipit. Sed ac nulla lacus. Etiam iaculis porta nulla, vel consectetur massa imperdiet id. Morbi tincidunt facilisis feugiat."
+      dateModified="Today at 00:00"
+    />
+  </Story>
+</Canvas>
