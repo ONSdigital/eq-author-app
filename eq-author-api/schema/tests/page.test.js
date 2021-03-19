@@ -22,7 +22,6 @@ const {
   getPages,
   getFolderById,
   getFolderByPageId,
-  getSectionByFolderId,
 } = require("../resolvers/utils");
 
 const getFirstPage = (questionnaire) =>
@@ -40,15 +39,20 @@ describe("page", () => {
   describe("create", () => {
     it("should create a page", async () => {
       ctx = await buildContext({
-        sections: [{}],
+        sections: [
+          {
+            folders: [{}],
+          },
+        ],
       });
       questionnaire = ctx.questionnaire;
       const section = questionnaire.sections[0];
+      const folder = section.folders[0];
 
       const createdPage = await createQuestionPage(ctx, {
         title: "Title",
         description: "Description",
-        sectionId: section.id,
+        folderId: folder.id,
         descriptionEnabled: true,
         guidanceEnabled: true,
         definitionEnabled: true,
@@ -85,7 +89,6 @@ describe("page", () => {
       const { id: pageId } = await createQuestionPage(ctx, {
         title: "Does Blathers like insects?",
         description: "",
-        sectionId: targetSection.id,
         folderId: targetFolder.id,
         position: 0,
       });
@@ -95,39 +98,6 @@ describe("page", () => {
 
       expect(readPage.id).toEqual(pageId);
       expect(readFolder.pages[0].id).toEqual(pageId);
-    });
-
-    it("should create at a given section position", async () => {
-      ctx = await buildContext({
-        sections: [
-          {
-            folders: [
-              {
-                pages: [{}],
-              },
-            ],
-          },
-        ],
-      });
-
-      questionnaire = ctx.questionnaire;
-      const targetSection = questionnaire.sections[0];
-
-      const { id: pageId } = await createQuestionPage(ctx, {
-        title: "Does Blathers like insects?",
-        description: "",
-        sectionId: targetSection.id,
-        position: 0,
-      });
-
-      const readPage = getPageById(ctx, pageId);
-      const readFolder = getFolderByPageId(ctx, readPage.id);
-      const readSection = getSectionByFolderId(ctx, readFolder.id);
-
-      expect(readPage.id).toEqual(pageId);
-      expect(readFolder.pages[0].id).toEqual(pageId);
-      expect(readSection.folders[0].pages[0].id).toEqual(pageId);
-      expect(readSection.folders.length).toEqual(2);
     });
   });
 

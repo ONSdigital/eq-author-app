@@ -6,7 +6,7 @@ describe("withDeletePage", () => {
   let deletedPage, currentPage, questionnaire;
 
   beforeEach(() => {
-    questionnaire = buildQuestionnaire({ folderCount: 2 });
+    questionnaire = buildQuestionnaire({ folderCount: 2, pageCount: 2 });
 
     const section = questionnaire.sections[0];
     currentPage = section.folders[0].pages[0];
@@ -18,7 +18,13 @@ describe("withDeletePage", () => {
       data: {
         deletePage: {
           ...section,
-          folders: [section.folders[0]],
+          folders: [
+            { ...section.folders[0] },
+            {
+              ...section.folders[1],
+              pages: [{ ...section.folders[1].pages[1] }],
+            },
+          ],
         },
       },
     };
@@ -80,7 +86,7 @@ describe("withDeletePage", () => {
       it("should redirect to another page in the section", () => {
         return props.onDeletePage(deletedPage).then(() => {
           expect(history.push).toHaveBeenCalledWith(
-            `/q/${questionnaire.id}/page/${currentPage.id}/design`
+            `/q/${questionnaire.id}/page/1.1.2/design`
           );
         });
       });

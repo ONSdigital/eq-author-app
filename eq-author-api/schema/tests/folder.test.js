@@ -40,6 +40,24 @@ describe("Folders", () => {
 
       expect(folder.section.id).toEqual(section.id);
     });
+
+    it("Can query a folder's default displayName", async () => {
+      const [section] = questionnaire.sections;
+      const folder = await createFolder(ctx, {
+        sectionId: section.id,
+      });
+
+      expect(folder.displayName).toEqual("Untitled folder");
+    });
+
+    it("shouldn't have any validation errors by default", async () => {
+      const [section] = questionnaire.sections;
+      const folder = await createFolder(ctx, {
+        sectionId: section.id,
+      });
+
+      expect(folder.validationErrorInfo.totalCount).toEqual(0);
+    });
   });
 
   describe("Utils", () => {

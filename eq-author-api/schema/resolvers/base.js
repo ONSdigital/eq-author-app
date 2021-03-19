@@ -16,7 +16,7 @@ const {
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
-const { withFilter } = require("apollo-server-express");
+const { withFilter, UserInputError } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
 const {
@@ -63,6 +63,8 @@ const {
   returnValidationErrors,
   createSection,
   createFolder,
+  getThemeByShortName,
+  createTheme,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -115,6 +117,7 @@ const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFir
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
 const createNewQuestionnaire = (input) => {
+  const defaultTheme = createTheme();
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",
@@ -129,6 +132,8 @@ const createNewQuestionnaire = (input) => {
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
+    previewTheme: defaultTheme.shortName,
+    themes: [defaultTheme],
   };
 
   let changes = {};
@@ -288,6 +293,44 @@ const Resolvers = {
       };
       return createQuestionnaire(newQuestionnaire, ctx);
     },
+    updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
+      ctx.questionnaire.surveyId = surveyId;
+      return ctx.questionnaire;
+    }),
+    updatePreviewTheme: createMutation(
+      (root, { input: { previewTheme } }, ctx) => {
+        ctx.questionnaire.previewTheme = previewTheme;
+        return ctx.questionnaire;
+      }
+    ),
+    enableTheme: createMutation((root, { input: { shortName } }, ctx) => {
+      let theme = getThemeByShortName(ctx, shortName);
+      if (!theme) {
+        theme = createTheme({ shortName });
+        ctx.questionnaire.themes.push(theme);
+      }
+      theme.enabled = true;
+      return theme;
+    }),
+    updateTheme: createMutation((root, { input }, ctx) => {
+      const theme = getThemeByShortName(ctx, input.shortName);
+      if (!theme) {
+        throw new UserInputError(
+          `updateTheme: No theme found with shortName '${input.shortName}''`
+        );
+      }
+      return Object.assign(theme, input);
+    }),
+    disableTheme: createMutation((root, { input: { shortName } }, ctx) => {
+      const theme = getThemeByShortName(ctx, shortName);
+      if (!theme) {
+        throw new UserInputError(
+          `disableTheme: No theme found with shortName '${shortName}''`
+        );
+      }
+      theme.enabled = false;
+      return theme;
+    }),
     createHistoryNote: (root, { input }, ctx) =>
       createHistoryEvent(input.id, noteCreationEvent(ctx, input.bodyText)),
     updateHistoryNote: async (root, { input }, ctx) => {
@@ -364,12 +407,14 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-    createFolder: createMutation((root, { input }, ctx) => {
-      const folder = createFolder(input);
-      const section = getSectionById(ctx, input.sectionId);
-      section.folders.splice(input.position, 0, folder);
-      return folder;
-    }),
+    createFolder: createMutation(
+      (root, { input: { isCalcSum, position, ...params } }, ctx) => {
+        const folder = createFolder(params, isCalcSum);
+        const section = getSectionById(ctx, params.sectionId);
+        section.folders.splice(position, 0, folder);
+        return folder;
+      }
+    ),
     updateFolder: createMutation((root, { input }, ctx) => {
       const folder = getFolderById(ctx, input.folderId);
       merge(folder, input);
@@ -966,8 +1011,12 @@ const Resolvers = {
   },
 
   Skippable: {
-    __resolveType: ({ pageType }) =>
-      pageType === "QuestionPage" ? "QuestionPage" : "QuestionConfirmation",
+    __resolveType: ({ pageType, pages }) =>
+      pages
+        ? "Folder"
+        : pageType === "QuestionPage"
+        ? "QuestionPage"
+        : "QuestionConfirmation",
   },
 
   Section: {
@@ -986,7 +1035,8 @@ const Resolvers = {
       returnValidationErrors(
         ctx,
         id,
-        ({ sectionId, pageId }) => id === sectionId && !pageId
+        ({ sectionId, folderId, pageId }) =>
+          id === sectionId && !pageId && !folderId
       ),
   },
 
@@ -996,6 +1046,13 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
+    displayName: ({ alias }) => alias || "Untitled folder",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ folderId, pageId }) => id === folderId && !pageId
+      ),
   },
 
   LogicalDestination: {

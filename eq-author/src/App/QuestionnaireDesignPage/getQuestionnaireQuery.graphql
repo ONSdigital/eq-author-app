@@ -87,10 +87,15 @@ fragment PageNav on Section {
       ...Pages
       ...ConfirmationPages
     }
+    validationErrorInfo {
+      id
+      totalCount
+    }
   }
 }
 fragment Pages on Page {
   id
+  alias
   title
   position
   displayName

@@ -53,6 +53,10 @@ describe("QuestionPagePreview", () => {
           metadata: [],
         },
       },
+      folder: {
+        id: "folder-1",
+        position: 0,
+      },
       totalValidation: null,
     };
     questionnaireId = "q123";

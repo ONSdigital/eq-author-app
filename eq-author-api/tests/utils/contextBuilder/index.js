@@ -92,13 +92,14 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
             for (let page of folder.pages) {
               if (page.pageType === "calculatedSummary") {
                 await createCalculatedSummaryPage(ctx, {
-                  sectionId: createdSection.id,
+                  folderId: createdFolder.id,
+                  position: createdFolder.pages.length,
                 });
               } else {
                 const createdPage = await createQuestionPage(ctx, {
                   title: "QuestionPage title",
-                  sectionId: createdSection.id,
                   folderId: createdFolder.id,
+                  position: createdFolder.pages.length,
                   ...page,
                 });
 

@@ -315,25 +315,6 @@ describe("SectionRoute", () => {
       });
     });
 
-    it("allows new pages to be added", async () => {
-      const wrapper = render({
-        loading: false,
-        match,
-        section,
-        ...mockHandlers,
-      });
-
-      wrapper.find(`[data-test="btn-add-page"]`).first().simulate("click");
-
-      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
-        match.params.sectionId,
-        0
-      );
-      await act(async () => {
-        await flushPromises();
-      });
-    });
-
     it("should disable move section button when one section", async () => {
       const wrapper = render({
         loading: false,
@@ -341,7 +322,6 @@ describe("SectionRoute", () => {
         section,
         ...mockHandlers,
       });
-
       expect(
         wrapper.find(`Button${byTestAttr("btn-move")}`).prop("disabled")
       ).toBe(true);

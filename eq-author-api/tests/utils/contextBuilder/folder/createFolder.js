@@ -15,6 +15,11 @@ const createFolderMutation = `
         section {
          id
         }
+        displayName
+        validationErrorInfo {
+          id
+          totalCount
+        }
     }
   }
 `;

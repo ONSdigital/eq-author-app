@@ -225,6 +225,9 @@ exports.getQuestionnaire = `
           id
           alias
           enabled
+          skipConditions {
+            ...ExpressionGroup
+          }
           pages {
             id
             title

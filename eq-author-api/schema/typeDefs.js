@@ -52,9 +52,8 @@ type Questionnaire {
   description: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  theme: Theme
+  theme: ThemeShortName
   navigation: Boolean
-  surveyId: String
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -73,10 +72,29 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
+  surveyId: String
+  previewTheme: String!
+  themes: [Theme!]!
 }
 enum HistoryEventTypes {
   system
   note
+}
+
+type Theme {
+  id: ID!
+  enabled: Boolean!
+  shortName: ThemeShortName!
+  legalBasisCode: LegalBasisCode
+  eqId: ID
+  formType: String
+}
+
+enum LegalBasisCode {
+  NOTICE_1
+  NOTICE_2
+  NOTICE_NI
+  VOLUNTARY
 }
 
 type History {
@@ -100,14 +118,16 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder {
+type Folder implements Skippable {
   id: ID!
   alias: String
   enabled: Boolean!
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
-  section: Section
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Section {
@@ -430,7 +450,7 @@ enum AnswerType {
   Unit
 }
 
-enum Theme {
+enum ThemeShortName {
   default
   census
   northernireland
@@ -647,14 +667,50 @@ input DeleteSkipConditionsInput {
   parentId: ID!
 }
 
+input UpdateSurveyIdInput {
+  questionnaireId: ID!
+  surveyId: String!
+}
+
+input UpdatePreviewThemeInput {
+  questionnaireId: ID!
+  previewTheme: String!
+}
+
+input EnableThemeInput {
+  questionnaireId: ID!
+  shortName: ThemeShortName!
+}
+
+input DisableThemeInput {
+  questionnaireId: ID!
+  shortName: ThemeShortName!
+}
+
+input UpdateThemeInput {
+  questionnaireId: ID!
+  shortName: ThemeShortName!
+  eqId: ID
+  legalBasisCode: LegalBasisCode
+  formType: String
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
+
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
   deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
+
+  updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
+  updatePreviewTheme(input: UpdatePreviewThemeInput!): Questionnaire
+  enableTheme(input: EnableThemeInput!): Theme
+  updateTheme(input: UpdateThemeInput!): Theme
+  disableTheme(input: DisableThemeInput!): Theme
+
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
@@ -857,6 +913,7 @@ input CreateFolderInput {
   alias: String
   position: Int
   enabled: Boolean
+  isCalcSum: Boolean
 }
 
 input UpdateFolderInput {
@@ -925,14 +982,13 @@ input UpdateReplyInput {
 }
 
 input CreateQuestionPageInput {
-  title: String!
+  title: String
   alias: String
   description: String
   descriptionEnabled: Boolean
   guidance: String
   guidanceEnabled: Boolean
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -959,8 +1015,7 @@ input UpdateQuestionPageInput {
 }
 
 input CreateCalculatedSummaryPageInput {
-  sectionId: ID!
-  folderId: ID
+  folderId: ID!
   position: Int
 }
 

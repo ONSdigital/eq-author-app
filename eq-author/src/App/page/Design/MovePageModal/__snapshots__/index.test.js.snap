@@ -54,19 +54,32 @@ exports[`MovePageModal should render 1`] = `
     options={
       Array [
         Object {
+          "additionalInfoContent": "",
+          "additionalInfoEnabled": false,
+          "additionalInfoLabel": "",
           "alias": "1.1.1",
           "answers": Array [],
+          "definitionContent": "",
+          "definitionEnabled": false,
+          "definitionLabel": "",
+          "description": "",
+          "descriptionEnabled": false,
           "displayName": "Page 1.1.1",
           "folder": Object {
             "id": "1",
           },
+          "guidance": "",
+          "guidanceEnabled": false,
           "id": "1.1.1",
+          "pageType": "QuestionPage",
           "position": 0,
           "section": Object {
+            "displayName": "",
             "id": "1",
           },
           "title": "Page 1.1.1",
           "validationErrorInfo": Object {
+            "errors": Array [],
             "totalCount": 2,
           },
         },
@@ -74,19 +87,32 @@ exports[`MovePageModal should render 1`] = `
     }
     selected={
       Object {
+        "additionalInfoContent": "",
+        "additionalInfoEnabled": false,
+        "additionalInfoLabel": "",
         "alias": "1.1.1",
         "answers": Array [],
+        "definitionContent": "",
+        "definitionEnabled": false,
+        "definitionLabel": "",
+        "description": "",
+        "descriptionEnabled": false,
         "displayName": "Page 1.1.1",
         "folder": Object {
           "id": "1",
         },
+        "guidance": "",
+        "guidanceEnabled": false,
         "id": "1.1.1",
+        "pageType": "QuestionPage",
         "position": 0,
         "section": Object {
+          "displayName": "",
           "id": "1",
         },
         "title": "Page 1.1.1",
         "validationErrorInfo": Object {
+          "errors": Array [],
           "totalCount": 2,
         },
       }

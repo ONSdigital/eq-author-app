@@ -140,12 +140,14 @@ exports[`QuestionnaireMeta should render 1`] = `
       horizontal={true}
     >
       <Button
+        btn-focus={true}
         type="button"
         variant="secondary"
       >
         Cancel
       </Button>
       <Button
+        btn-focus={true}
         data-test="questionnaire-submit-button"
         disabled={true}
         type="submit"
