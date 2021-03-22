@@ -44,7 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.21",
     "moment": "latest",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.5",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
