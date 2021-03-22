@@ -7,7 +7,7 @@ const tabItems = (params, surveyType) => [
     url: `${buildSettingsPath(params)}/general`,
   },
   {
-    title: `Themes, IDs and form types`,
+    title: `Themes, IDs, form types and legal bases`,
     url: `${buildSettingsPath(params)}/themes`,
     disabled: surveyType === SOCIAL,
   },

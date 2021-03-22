@@ -218,8 +218,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <Caption>
                       Let respondents view and change their answers before
                       submitting them. You can set the list of sections to be
-                      collapsible, so respondents can show and hide their answer
-                      for individual sections.
+                      collapsible, so respondents can show and hide their
+                      answers for individual sections.
                     </Caption>
                     <InlineField>
                       <Label>Answers summary</Label>

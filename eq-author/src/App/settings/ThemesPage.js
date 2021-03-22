@@ -67,19 +67,17 @@ const ThemesPage = ({ questionnaire }) => {
                     </Field>
                     <Field>
                       <p data-test="theme-description">
-                        {`The theme sets the design of the eQ for respondents.
-                          It changes the header across the survey, as well as the
-                          contact details and the legal basis on the introduction
-                          page. The COVID theme also changes the thank you page
-                          respondents see once they've submitted the survey.
-                        `}
+                        The theme sets the design of the eQ for respondents. It
+                        changes the header across the survey, as well as the
+                        contact details and the legal basis on the introduction
+                        page. The COVID theme also changes the thank you page
+                        respondents see once they&apos;ve submitted the survey.
                       </p>
                     </Field>
                     <Field>
                       <p>
-                        {`The preview theme is applied when you view 
-                        the survey using the View Survey button.
-                        `}
+                        The preview theme is applied when you view the survey
+                        using the View Survey button.
                       </p>
                     </Field>
                   </StyledPanel>
