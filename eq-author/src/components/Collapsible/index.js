@@ -81,13 +81,30 @@ const HideThisButton = styled(Button)`
   }
 `;
 
-const Collapsible = ({ title, defaultOpen, className, children }) => {
+const Collapsible = ({
+  showHide,
+  withoutHideThis,
+  title,
+  defaultOpen,
+  className,
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  const renderTitle = (showHide, isOpen, title) => {
+    if (showHide && isOpen) {
+      return `Hide ${title}`;
+    } else if (showHide && !isOpen) {
+      return `Show ${title}`;
+    }
+
+    return title;
+  };
 
   return (
     <Wrapper className={className} data-test="collapsible">
-      <Header data-test="collapsible-header">
-        <Title data-test="collapsible-title">
+      <Header className="collapsible-header" data-test="collapsible-header">
+        <Title className="collapsible-title" data-test="collapsible-title">
           <ToggleCollapsibleButton
             isOpen={isOpen}
             onClick={() => setIsOpen((isOpen) => !isOpen)}
@@ -95,19 +112,26 @@ const Collapsible = ({ title, defaultOpen, className, children }) => {
             aria-controls="collapsible-body"
             data-test="collapsible-toggle-button"
           >
-            {title}
+            {renderTitle(showHide, isOpen, title)}
           </ToggleCollapsibleButton>
         </Title>
       </Header>
-      <Body data-test="collapsible-body" isOpen={isOpen} aria-hidden={!isOpen}>
+      <Body
+        className="collapsible-body"
+        data-test="collapsible-body"
+        isOpen={isOpen}
+        aria-hidden={!isOpen}
+      >
         {children}
-        <HideThisButton
-          medium
-          onClick={() => setIsOpen(false)}
-          data-test="collapsible-hide-button"
-        >
-          Hide this
-        </HideThisButton>
+        {!withoutHideThis && (
+          <HideThisButton
+            medium
+            onClick={() => setIsOpen(false)}
+            data-test="collapsible-hide-button"
+          >
+            Hide this
+          </HideThisButton>
+        )}
       </Body>
     </Wrapper>
   );

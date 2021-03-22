@@ -1,6 +1,12 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Comment from "components/Comments_v2/Comment";
 
+const author = "Joe Bloggs";
+const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate.";
+const datePosted = "Yesterday at 00:00";
+const dateModified = "Today at 00:00";
+const onAddReply = () => console.log("Reply added");
+
 <Meta title="Components/Comment" component={Comment} />
 
 # Comment
@@ -14,8 +20,25 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis s
     <Comment
       author="Joe Bloggs"
       datePosted="Yesterday at 00:00"
-      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate. Maecenas scelerisque turpis nec felis rhoncus lacinia. Morbi volutpat risus nec erat dictum, nec cursus erat suscipit. Sed ac nulla lacus. Etiam iaculis porta nulla, vel consectetur massa imperdiet id. Morbi tincidunt facilisis feugiat."
+      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate."
       dateModified="Today at 00:00"
+      onAddReply={() => console.log("Reply added")}
+      replies={[
+        {
+          id: "1",
+          author: "Matt Elcock",
+          datePosted: "Today at 00:00",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          dateModified: "Today at 00:01",
+        },
+        {
+          id: "2",
+          author: "Bethan Bolton",
+          datePosted: "Today at 00:00",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          dateModified: "Today at 00:01",
+        },
+      ]}
     />
   </Story>
 </Canvas>
