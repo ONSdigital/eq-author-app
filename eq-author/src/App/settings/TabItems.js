@@ -4,7 +4,7 @@ import { SOCIAL } from "constants/questionnaire-types";
 const tabItems = (params, surveyType) => [
   {
     title: `General`,
-    url: `${buildSettingsPath(params)}`,
+    url: `${buildSettingsPath(params)}/general`,
   },
   {
     title: `Themes, IDs and form types`,
