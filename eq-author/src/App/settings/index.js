@@ -11,9 +11,9 @@ import { SOCIAL } from "constants/questionnaire-types";
 
 export default [
   <Route
-    key="settings"
+    key="general"
     exact
-    path="/q/:questionnaireId/settings"
+    path="/q/:questionnaireId/settings/general"
     render={(props) => (
       <Query
         query={getQuestionnaireQuery}
@@ -68,6 +68,33 @@ export default [
             const { questionnaire } = data;
             return <ThemesPage {...props} questionnaire={questionnaire} />;
           }
+        }}
+      </Query>
+    )}
+  />,
+  <Route
+    key="settings"
+    exact
+    path="/q/:questionnaireId/settings"
+    render={(props) => (
+      <Query
+        query={getQuestionnaireQuery}
+        variables={{
+          input: { questionnaireId: props.match.params.questionnaireId },
+        }}
+      >
+        {({ loading, error }) => {
+          if (loading) {
+            return <React.Fragment />;
+          }
+
+          if (error) {
+            return <Error>Error fetching questionnaire from database</Error>;
+          }
+
+          return (
+            <Redirect to={`${buildSettingsPath(props.match.params)}/general`} />
+          );
         }}
       </Query>
     )}
