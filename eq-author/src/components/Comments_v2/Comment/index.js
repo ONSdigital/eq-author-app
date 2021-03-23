@@ -96,6 +96,7 @@ export default ({ comment, replies = [], onAddReply }) => {
   const AddReply = styled.div`
     margin-bottom: 0.5em;
   `;
+
   const TextArea = styled.textarea`
     height: 94px;
     width: 100%;
@@ -111,6 +112,7 @@ export default ({ comment, replies = [], onAddReply }) => {
       outline: none;
     }
   `;
+
   const ButtonGroup = styled.div`
     display: flex;
 
@@ -119,7 +121,7 @@ export default ({ comment, replies = [], onAddReply }) => {
     }
   `;
 
-  const Reply = styled(Button)`
+  const ReplyBtn = styled(Button)`
     margin-bottom: 1em;
   `;
 
@@ -151,9 +153,13 @@ export default ({ comment, replies = [], onAddReply }) => {
     <>
       <Comment {...comment} />
       {!addReplyVisible && (
-        <Reply variant="greyed" small-medium onClick={() => showAddReply(true)}>
+        <ReplyBtn
+          variant="greyed"
+          small-medium
+          onClick={() => showAddReply(true)}
+        >
           Reply
-        </Reply>
+        </ReplyBtn>
       )}
       {addReplyVisible && (
         <AddReply>
