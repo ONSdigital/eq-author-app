@@ -1,10 +1,9 @@
 const { head, takeRightWhile, get } = require("lodash/fp");
 const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
 
-const {
-  getSectionByPageId,
-  getPages,
-} = require("../../schema/resolvers/utils");
+const { getPages } = require("../../schema/resolvers/utils/pages");
+
+const { getSectionByPageId } = require("../../schema/resolvers/utils/sections");
 
 module.exports = (questionnaire, pageId) => {
   const currentSection = getSectionByPageId(questionnaire, pageId);

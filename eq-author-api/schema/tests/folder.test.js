@@ -2,13 +2,13 @@ const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
   createQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
+
 const {
   getFolders,
   getFolderById,
   getFolderByPageId,
-} = require("../resolvers/utils");
-
-const { createFolder } = require("../../tests/utils/contextBuilder/folder");
+  createFolder,
+} = require("../resolvers/utils/folders");
 
 const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
 

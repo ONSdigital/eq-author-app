@@ -7,19 +7,20 @@ const {
 } = require("../../../../src/businessLogic");
 
 const { createMutation } = require("../../createMutation");
-
 const {
   getAnswers,
   getAnswerById,
   getOptions,
+} = require("../../utils/answers");
+const {
   getExpressionGroups,
   getExpressionGroupById,
   getExpressionById,
-  getSkipConditionById,
-  getSkipConditions,
   getAllExpressionGroups,
-  returnValidationErrors,
-} = require("../../utils");
+} = require("../../utils/routing");
+const { getSkipConditionById, getSkipConditions } = require("../../utils/skip");
+
+const { returnValidationErrors } = require("../../utils");
 
 const Resolvers = {};
 

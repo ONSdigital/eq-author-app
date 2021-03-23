@@ -7,9 +7,10 @@ const createValidationError = require("../createValidationError");
 const { some } = require("lodash");
 
 const {
-  getOptionById,
   getExpressionGroupByExpressionId,
-} = require("../../../schema/resolvers/utils");
+} = require("../../../schema/resolvers/utils/routing");
+
+const { getOptionById } = require("../../../schema/resolvers/utils/answers");
 
 module.exports = function (ajv) {
   ajv.addKeyword("validateExpression", {

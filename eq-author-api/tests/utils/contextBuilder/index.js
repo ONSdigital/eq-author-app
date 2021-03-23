@@ -27,10 +27,8 @@ const {
   updateQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 const { createCollapsible } = require("./collapsible");
-const {
-  getFolderById,
-  getSectionById,
-} = require("../../../schema/resolvers/utils");
+const { getSectionById } = require("../../../schema/resolvers/utils/sections");
+const { getFolderById } = require("../../../schema/resolvers/utils/folders");
 
 const buildRouting = require("./buildRouting");
 

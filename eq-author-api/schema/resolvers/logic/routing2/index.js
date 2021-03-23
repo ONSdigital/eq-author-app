@@ -1,6 +1,6 @@
 const Resolvers = {};
-
-const { getPageById, getSectionById } = require("../../utils");
+const { getSectionById } = require("../../utils/sections");
+const { getPageById } = require("../../utils/pages");
 
 Resolvers.Destination2 = {
   page: ({ pageId }, args, ctx) => (pageId ? getPageById(ctx, pageId) : null),

@@ -1,15 +1,14 @@
 const { omit, remove } = require("lodash");
 
+const { remapAllNestedIds, getMovePosition } = require("../utils");
+
+const { getSectionById, getSectionByPageId } = require("../utils/sections");
 const {
-  getSectionByPageId,
-  remapAllNestedIds,
-  getSectionById,
-  getPageById,
-  getMovePosition,
-  createFolder,
   getFolderById,
   getFolderByPageId,
-} = require("../utils");
+  createFolder,
+} = require("../utils/folders");
+const { getPageById } = require("../utils/pages");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");

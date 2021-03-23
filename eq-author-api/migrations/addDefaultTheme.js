@@ -1,4 +1,4 @@
-const { createTheme } = require("../schema/resolvers/utils");
+const { createTheme } = require("../schema/resolvers/utils/theme");
 
 module.exports = (questionnaire) => {
   if (!questionnaire.previewTheme || !questionnaire.themes) {

@@ -11,15 +11,12 @@ const {
 } = require("../../../constants/answerTypes");
 
 const { createMutation } = require("../createMutation");
-const {
-  getPageById,
-  getAnswerById,
-  getFolderById,
-  getSectionByPageId,
-  createCalculatedSummary,
-  returnValidationErrors,
-  getFolderByPageId,
-} = require("../utils");
+const { createCalculatedSummary, returnValidationErrors } = require("../utils");
+
+const { getSectionByPageId } = require("../utils/sections");
+const { getFolderById, getFolderByPageId } = require("../utils/folders");
+const { getPageById } = require("../utils/pages");
+const { getAnswerById } = require("../utils/answers");
 
 const Resolvers = {};
 

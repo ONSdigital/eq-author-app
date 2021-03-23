@@ -1,4 +1,4 @@
-const { getPages } = require("../../schema/resolvers/utils");
+const { getPages } = require("../../schema/resolvers/utils/pages");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 
 const onPageDeleted = (ctx, section, removedPage) => {

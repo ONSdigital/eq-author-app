@@ -43,29 +43,30 @@ const {
 } = require("../../src/businessLogic");
 
 const {
-  getExpressions,
   getSections,
   getSectionById,
-  getFolderById,
   getSectionByFolderId,
+  createSection,
+} = require("./utils/sections");
+const { getFolderById, createFolder } = require("./utils/folders");
+const {
   getPages,
   getPageById,
   getPageByAnswerId,
   getPageByConfirmationId,
-  getAnswers,
-  getAnswerById,
-  getOptionById,
+} = require("./utils/pages");
+const { getAnswers, getAnswerById, getOptionById } = require("./utils/answers");
+const { getExpressions } = require("./utils/routing");
+const { getSkippables, getSkippableById } = require("./utils/skip");
+
+const {
   getConfirmationById,
   getValidationById,
-  getSkippables,
-  getSkippableById,
   remapAllNestedIds,
   returnValidationErrors,
-  createSection,
-  createFolder,
-  getThemeByShortName,
-  createTheme,
 } = require("./utils");
+
+const { getThemeByShortName, createTheme } = require("./utils/theme");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");

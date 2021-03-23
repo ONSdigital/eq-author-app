@@ -16,13 +16,14 @@ const {
 } = require("../../tests/utils/contextBuilder/page/questionPage");
 
 const { DATE, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
+const { getPageById, getPages } = require("../resolvers/utils/pages");
+
 const {
-  getSectionByPageId,
-  getPageById,
-  getPages,
   getFolderById,
   getFolderByPageId,
-} = require("../resolvers/utils");
+} = require("../resolvers/utils/folders");
+
+const { getSectionByPageId } = require("../resolvers/utils/sections");
 
 const getFirstPage = (questionnaire) =>
   questionnaire.sections[0].folders[0].pages[0];

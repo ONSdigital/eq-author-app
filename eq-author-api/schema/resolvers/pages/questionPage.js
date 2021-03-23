@@ -2,13 +2,12 @@ const { merge } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
 
-const {
-  getPageById,
-  getSectionByPageId,
-  getFolderById,
-  createQuestionPage,
-  getFolderByPageId,
-} = require("../utils");
+const { createQuestionPage } = require("../utils");
+
+const { getSectionByPageId } = require("../utils/sections");
+const { getFolderById, getFolderByPageId } = require("../utils/folders");
+const { getPageById } = require("../utils/pages");
+
 const { createMutation } = require("../createMutation");
 
 const Resolvers = {};
