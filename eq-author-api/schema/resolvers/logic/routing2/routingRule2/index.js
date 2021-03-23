@@ -13,13 +13,12 @@ const {
 const availableRoutingDestinations = require("../../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../../src/businessLogic/validateRoutingDestination");
 
-const { returnValidationErrors } = require("../../../utils");
-
 const { getPages } = require("../../../utils/pages");
 const {
   getRoutingById,
   getRoutingRuleById,
 } = require("../../../utils/routing");
+const { returnValidationErrors } = require("../../../utils/validation");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",

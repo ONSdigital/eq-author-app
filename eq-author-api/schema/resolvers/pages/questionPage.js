@@ -2,11 +2,10 @@ const { merge } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
 
-const { createQuestionPage } = require("../utils");
-
 const { getSectionByPageId } = require("../utils/sections");
 const { getFolderById, getFolderByPageId } = require("../utils/folders");
 const { getPageById } = require("../utils/pages");
+const { createQuestionPage } = require("../utils/pages");
 
 const { createMutation } = require("../createMutation");
 

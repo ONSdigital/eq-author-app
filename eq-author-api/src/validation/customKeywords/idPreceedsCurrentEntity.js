@@ -1,4 +1,6 @@
-const { getAbsolutePositionById } = require("../../../schema/resolvers/utils");
+const {
+  getAbsolutePositionById,
+} = require("../../../schema/resolvers/utils/helpers");
 
 module.exports = function (ajv) {
   ajv.addKeyword("idPreceedsCurrentEntity", {

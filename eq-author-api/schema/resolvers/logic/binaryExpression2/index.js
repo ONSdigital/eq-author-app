@@ -20,7 +20,7 @@ const {
 } = require("../../utils/routing");
 const { getSkipConditionById, getSkipConditions } = require("../../utils/skip");
 
-const { returnValidationErrors } = require("../../utils");
+const { returnValidationErrors } = require("../../utils/validation");
 
 const Resolvers = {};
 

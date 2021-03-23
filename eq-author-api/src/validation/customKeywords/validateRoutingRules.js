@@ -3,7 +3,9 @@ const {
   ERR_DESTINATION_MOVED,
 } = require("../../../constants/validationErrorCodes");
 
-const { getAbsolutePositionById } = require("../../../schema/resolvers/utils");
+const {
+  getAbsolutePositionById,
+} = require("../../../schema/resolvers/utils/helpers");
 
 const createValidationError = require("../createValidationError");
 const { getPath } = require("../utils");

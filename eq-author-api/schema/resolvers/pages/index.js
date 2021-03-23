@@ -1,6 +1,7 @@
 const { omit, remove } = require("lodash");
 
-const { remapAllNestedIds, getMovePosition } = require("../utils");
+const { remapAllNestedIds } = require("../utils/helpers");
+const { getMovePosition } = require("../utils/pages");
 
 const { getSectionById, getSectionByPageId } = require("../utils/sections");
 const {

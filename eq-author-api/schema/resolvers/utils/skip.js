@@ -1,6 +1,11 @@
 const { filter, find, flatMap } = require("lodash");
 const { getFolders, getFolderById } = require("./folders");
-const { getPages, getPageById } = require("./pages");
+const {
+  getPages,
+  getPageById,
+  getConfirmations,
+  getConfirmationById,
+} = require("./pages");
 
 const getSkippableById = (ctx, id) =>
   getFolderById(ctx, id) ||

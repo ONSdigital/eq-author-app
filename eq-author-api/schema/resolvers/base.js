@@ -54,18 +54,16 @@ const {
   getPageById,
   getPageByAnswerId,
   getPageByConfirmationId,
+  getConfirmationById,
 } = require("./utils/pages");
 const { getAnswers, getAnswerById, getOptionById } = require("./utils/answers");
 const { getExpressions } = require("./utils/routing");
 const { getSkippables, getSkippableById } = require("./utils/skip");
-
 const {
-  getConfirmationById,
   getValidationById,
-  remapAllNestedIds,
   returnValidationErrors,
-} = require("./utils");
-
+} = require("./utils/validation");
+const { remapAllNestedIds } = require("./utils/helpers");
 const { getThemeByShortName, createTheme } = require("./utils/theme");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
