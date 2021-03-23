@@ -5,6 +5,9 @@ import { colors, focusStyle } from "constants/theme";
 
 import Button from "components/buttons/Button";
 import Collapsible from "components/Collapsible";
+import VisuallyHidden from "components/VisuallyHidden";
+
+import iconEdit from "assets/icon-edit.svg";
 
 const Comment = ({ author, datePosted, text, dateModified }) => {
   const Comment = styled.div`
@@ -53,6 +56,15 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
     margin: 0;
   `;
 
+  const EditButton = styled.button`
+    mask: url(${iconEdit});
+    width: 1.5em;
+    height: 1.5em;
+    background-color: ${colors.grey};
+    margin-left: auto;
+    border: none;
+  `;
+
   const authorInitials = author
     .match(/\b(\w)/g)
     .splice(0, 2)
@@ -66,6 +78,9 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
           <Author>{author}</Author>
           <Date>{datePosted}</Date>
         </ColumnWrapper>
+        <EditButton>
+          <VisuallyHidden>Edit</VisuallyHidden>
+        </EditButton>
       </Header>
       <Body>
         <Text>{text}</Text>
@@ -75,7 +90,9 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
   );
 };
 
-const AddReply = ({ closeAddReply, onAddReply }) => {
+export default ({ comment, replies = [], onAddReply }) => {
+  const [addReplyVisible, showAddReply] = useState(false);
+
   const AddReply = styled.div`
     margin-bottom: 0.5em;
   `;
@@ -101,31 +118,6 @@ const AddReply = ({ closeAddReply, onAddReply }) => {
       margin-right: 0.5em;
     }
   `;
-
-  return (
-    <AddReply>
-      <TextArea />
-      <ButtonGroup>
-        <Button
-          variant="greyed"
-          small-medium
-          onClick={() => {
-            onAddReply();
-            closeAddReply();
-          }}
-        >
-          Add
-        </Button>
-        <Button variant="greyed" small-medium onClick={closeAddReply}>
-          Cancel
-        </Button>
-      </ButtonGroup>
-    </AddReply>
-  );
-};
-
-export default ({ replies = [], onAddReply, ...rest }) => {
-  const [addReplyVisible, showAddReply] = useState(false);
 
   const Reply = styled(Button)`
     margin-bottom: 1em;
@@ -157,17 +149,35 @@ export default ({ replies = [], onAddReply, ...rest }) => {
 
   return (
     <>
-      <Comment {...rest} />
+      <Comment {...comment} />
       {!addReplyVisible && (
         <Reply variant="greyed" small-medium onClick={() => showAddReply(true)}>
           Reply
         </Reply>
       )}
       {addReplyVisible && (
-        <AddReply
-          onAddReply={onAddReply}
-          closeAddReply={() => showAddReply(false)}
-        />
+        <AddReply>
+          <TextArea />
+          <ButtonGroup>
+            <Button
+              variant="greyed"
+              small-medium
+              onClick={() => {
+                onAddReply();
+                showAddReply(false);
+              }}
+            >
+              Add
+            </Button>
+            <Button
+              variant="greyed"
+              small-medium
+              onClick={() => showAddReply(false)}
+            >
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </AddReply>
       )}
       {numOfReplies > 0 ? (
         <Replies

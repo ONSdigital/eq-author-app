@@ -1,12 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Comment from "components/Comments_v2/Comment";
 
-const author = "Joe Bloggs";
-const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate.";
-const datePosted = "Yesterday at 00:00";
-const dateModified = "Today at 00:00";
-const onAddReply = () => console.log("Reply added");
-
 <Meta title="Components/Comment" component={Comment} />
 
 # Comment
@@ -18,27 +12,69 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis s
 <Canvas>
   <Story name="Primary">
     <Comment
-      author="Joe Bloggs"
-      datePosted="Yesterday at 00:00"
-      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis semper vulputate."
-      dateModified="Today at 00:00"
+      comment={{
+        id: "1",
+        author: "Jane Doe",
+        datePosted: "Today at 15:43",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      }}
       onAddReply={() => console.log("Reply added")}
+    />
+  </Story>
+</Canvas>
+
+## Replies
+
+<Canvas>
+  <Story name="Single reply">
+    <Comment
+      comment={{
+        id: "1",
+        author: "Jane Doe",
+        datePosted: "Today at 15:43",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      }}
       replies={[
         {
-          id: "1",
-          author: "Matt Elcock",
-          datePosted: "Today at 00:00",
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          dateModified: "Today at 00:01",
-        },
-        {
-          id: "2",
-          author: "Bethan Bolton",
-          datePosted: "Today at 00:00",
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          dateModified: "Today at 00:01",
+          id: "1.1",
+          author: "Joe Bloggs",
+          datePosted: "Today at 16:22",
+          text:
+            "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
+          dateModified: "Today at 17:01",
         },
       ]}
+      onAddReply={() => console.log("Reply added")}
+    />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Multiple replies">
+    <Comment
+      comment={{
+        id: "1",
+        author: "Jane Doe",
+        datePosted: "Today at 15:43",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      }}
+      replies={[
+        {
+          id: "1.1",
+          author: "Joe Bloggs",
+          datePosted: "Today at 16:22",
+          text:
+            "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
+          dateModified: "Today at 17:01",
+        },
+        {
+          id: "1.2",
+          author: "Jane Doe",
+          datePosted: "Today at 18:43",
+          text: "Sed venenatis condimentum lorem feugiat iaculis.",
+        },
+      ]}
+      onAddReply={() => console.log("Reply added")}
     />
   </Story>
 </Canvas>
