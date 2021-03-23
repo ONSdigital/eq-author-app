@@ -144,7 +144,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     shortTitle
   );
 
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Container>

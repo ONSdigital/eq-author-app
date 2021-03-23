@@ -45,7 +45,7 @@ const StyledPanel = styled.div`
 const ThemesPage = ({ questionnaire }) => {
   const { type } = questionnaire;
 
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Container>
