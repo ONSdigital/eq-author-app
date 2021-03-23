@@ -18,7 +18,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis s
         datePosted: "Today at 15:43",
         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       }}
-      onAddReply={() => console.log("Reply added")}
+      onAddReply={() => alert("Reply added")}
+      onUpdateComment={() => alert("Comment updated")}
+      onDeleteComment={() => alert("Comment deleted")}
     />
   </Story>
 </Canvas>
@@ -44,7 +46,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis s
           dateModified: "Today at 17:01",
         },
       ]}
-      onAddReply={() => console.log("Reply added")}
+      onAddReply={() => alert("Reply added")}
+      onUpdateComment={() => alert("Comment updated")}
+      onDeleteComment={() => alert("Comment deleted")}
+      onUpdateReply={() => alert("Reply updated")}
+      onDeleteReply={() => alert("Reply deleted")}
     />
   </Story>
 </Canvas>
@@ -74,7 +80,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit turpis s
           text: "Sed venenatis condimentum lorem feugiat iaculis.",
         },
       ]}
-      onAddReply={() => console.log("Reply added")}
+      onAddReply={() => alert("Reply added")}
+      onUpdateComment={() => alert("Comment updated")}
+      onDeleteComment={() => alert("Comment deleted")}
+      onUpdateReply={() => alert("Reply updated")}
+      onDeleteReply={() => alert("Reply deleted")}
     />
   </Story>
 </Canvas>

@@ -6,10 +6,27 @@ import { colors, focusStyle } from "constants/theme";
 import Button from "components/buttons/Button";
 import Collapsible from "components/Collapsible";
 import VisuallyHidden from "components/VisuallyHidden";
+import Tooltip from "components/Forms/Tooltip";
 
 import iconEdit from "assets/icon-edit.svg";
+import iconClose from "assets/icon-close.svg";
 
-const Comment = ({ author, datePosted, text, dateModified }) => {
+const ButtonGroup = styled.div`
+  display: flex;
+
+  button {
+    margin-right: 0.5em;
+  }
+`;
+
+export const Comment = ({
+  author,
+  datePosted,
+  text,
+  dateModified,
+  onUpdateComment,
+  onDeleteComment,
+}) => {
   const Comment = styled.div`
     margin-bottom: 1em;
   `;
@@ -56,14 +73,46 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
     margin: 0;
   `;
 
-  const EditButton = styled.button`
-    mask: url(${iconEdit});
-    width: 1.5em;
-    height: 1.5em;
-    background-color: ${colors.grey};
+  const RightButtonGroup = styled(ButtonGroup)`
     margin-left: auto;
-    border: none;
   `;
+
+  const IconButton = ({ icon, onClick, children }) => {
+    const Button = styled.button`
+      padding: 0;
+      padding-left: 3px;
+      padding-top: 3px;
+      background: none;
+      border: none;
+
+      &:focus {
+        ${focusStyle}
+        outline: none;
+      }
+    `;
+
+    const Icon = styled.span`
+      mask: url(${icon});
+      width: 2em;
+      height: 2em;
+      background-color: ${colors.grey};
+      border: none;
+      display: block;
+
+      &:hover {
+        background-color: ${colors.black};
+      }
+    `;
+
+    return (
+      <Tooltip place="top" offset={{ top: 0, bottom: 10 }} content={children}>
+        <Button onClick={onClick}>
+          <Icon />
+          <VisuallyHidden>{children}</VisuallyHidden>
+        </Button>
+      </Tooltip>
+    );
+  };
 
   const authorInitials = author
     .match(/\b(\w)/g)
@@ -78,9 +127,14 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
           <Author>{author}</Author>
           <Date>{datePosted}</Date>
         </ColumnWrapper>
-        <EditButton>
-          <VisuallyHidden>Edit</VisuallyHidden>
-        </EditButton>
+        <RightButtonGroup>
+          <IconButton icon={iconEdit} onClick={() => onUpdateComment()}>
+            Edit comment
+          </IconButton>
+          <IconButton icon={iconClose} onClick={() => onDeleteComment()}>
+            Delete comment
+          </IconButton>
+        </RightButtonGroup>
       </Header>
       <Body>
         <Text>{text}</Text>
@@ -90,7 +144,15 @@ const Comment = ({ author, datePosted, text, dateModified }) => {
   );
 };
 
-export default ({ comment, replies = [], onAddReply }) => {
+export default ({
+  comment,
+  onUpdateComment,
+  onDeleteComment,
+  replies = [],
+  onAddReply,
+  onUpdateReply,
+  onDeleteReply,
+}) => {
   const [addReplyVisible, showAddReply] = useState(false);
 
   const AddReply = styled.div`
@@ -110,14 +172,6 @@ export default ({ comment, replies = [], onAddReply }) => {
     &:focus {
       ${focusStyle}
       outline: none;
-    }
-  `;
-
-  const ButtonGroup = styled.div`
-    display: flex;
-
-    button {
-      margin-right: 0.5em;
     }
   `;
 
@@ -144,14 +198,23 @@ export default ({ comment, replies = [], onAddReply }) => {
 
   const numOfReplies = replies.length;
 
-  const buildReplies = (replies) =>
+  const buildReplies = (replies, onUpdateReply, onDeleteReply) =>
     replies.map(({ id, ...rest }) => (
-      <Comment key={`comment-${id}`} {...rest} />
+      <Comment
+        key={`comment-${id}`}
+        onUpdateComment={onUpdateReply}
+        onDeleteComment={onDeleteReply}
+        {...rest}
+      />
     ));
 
   return (
     <>
-      <Comment {...comment} />
+      <Comment
+        onUpdateComment={onUpdateComment}
+        onDeleteComment={onDeleteComment}
+        {...comment}
+      />
       {!addReplyVisible && (
         <ReplyBtn
           variant="greyed"
@@ -163,7 +226,7 @@ export default ({ comment, replies = [], onAddReply }) => {
       )}
       {addReplyVisible && (
         <AddReply>
-          <TextArea />
+          <TextArea autoFocus />
           <ButtonGroup>
             <Button
               variant="greyed"
@@ -191,7 +254,7 @@ export default ({ comment, replies = [], onAddReply }) => {
           showHide
           withoutHideThis
         >
-          {buildReplies(replies)}
+          {buildReplies(replies, onUpdateReply, onDeleteReply)}
         </Replies>
       ) : null}
     </>
