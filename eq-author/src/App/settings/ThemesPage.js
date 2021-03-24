@@ -49,18 +49,18 @@ const ThemesPage = ({ questionnaire }) => {
 
   return (
     <Container>
-      <Header title="Settings" />
-      <PageContainer>
-        <PageMainCanvas>
-          <Grid>
-            <VerticalTabs
-              title="Questionnaire Settings"
-              cols={2.5}
-              tabItems={tabItems(match.params, type)}
-            />
-            <Column gutters={false} cols={9.5}>
-              <SettingsContainer>
-                <ScrollPane>
+      <ScrollPane>
+        <Header title="Settings" />
+        <PageContainer>
+          <PageMainCanvas>
+            <Grid>
+              <VerticalTabs
+                title="Questionnaire settings"
+                cols={2.5}
+                tabItems={tabItems(match.params, type)}
+              />
+              <Column gutters={false} cols={9.5}>
+                <SettingsContainer>
                   <StyledPanel>
                     <Field>
                       <Label>Themes, IDs, form types and legal bases</Label>
@@ -81,12 +81,12 @@ const ThemesPage = ({ questionnaire }) => {
                       </p>
                     </Field>
                   </StyledPanel>
-                </ScrollPane>
-              </SettingsContainer>
-            </Column>
-          </Grid>
-        </PageMainCanvas>
-      </PageContainer>
+                </SettingsContainer>
+              </Column>
+            </Grid>
+          </PageMainCanvas>
+        </PageContainer>
+      </ScrollPane>
     </Container>
   );
 };
