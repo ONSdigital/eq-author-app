@@ -6,10 +6,11 @@ const {
   getSectionById,
   getPageById,
   getMovePosition,
-  createFolder,
   getFolderById,
   getFolderByPageId,
 } = require("../utils");
+
+const { createFolder } = require("../../../src/businessLogic");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");

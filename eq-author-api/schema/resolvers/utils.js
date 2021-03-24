@@ -261,47 +261,6 @@ const returnValidationErrors = (ctx, id, ...conditions) => {
   };
 };
 
-const createQuestionPage = (input = {}) => ({
-  id: uuidv4(),
-  pageType: "QuestionPage",
-  title: "",
-  description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [],
-  routing: null,
-  alias: null,
-  ...input,
-});
-
-const createCalculatedSummary = (input = {}) => ({
-  id: uuidv4(),
-  title: "",
-  pageType: "CalculatedSummaryPage",
-  summaryAnswers: [],
-  ...input,
-});
-
-const createFolder = (input = {}, calcSum = false) => ({
-  id: uuidv4(),
-  alias: "",
-  enabled: false,
-  pages: [calcSum ? createCalculatedSummary() : createQuestionPage()],
-  skipConditions: null,
-  ...input,
-});
-
-const createSection = (input = {}) => ({
-  id: uuidv4(),
-  title: "",
-  introductionEnabled: false,
-  folders: [createFolder()],
-  alias: "",
-  ...input,
-});
-
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
 
@@ -403,11 +362,6 @@ module.exports = {
 
   getSkipConditionById,
   getSkipConditions,
-
-  createQuestionPage,
-  createCalculatedSummary,
-  createFolder,
-  createSection,
 
   getPosition,
   getMovePosition,

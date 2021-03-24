@@ -40,6 +40,8 @@ const {
   createExpression,
   createExpressionGroup,
   createLeftSide,
+  createFolder,
+  createSection,
 } = require("../../src/businessLogic");
 
 const {
@@ -61,8 +63,6 @@ const {
   getSkippableById,
   remapAllNestedIds,
   returnValidationErrors,
-  createSection,
-  createFolder,
   getThemeByShortName,
   createTheme,
 } = require("./utils");
