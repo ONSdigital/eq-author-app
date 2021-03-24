@@ -7,8 +7,9 @@ const {
   getFolders,
   getFolderById,
   getFolderByPageId,
-  createFolder,
 } = require("../resolvers/utils/folders");
+
+const { createFolder } = require("../../tests/utils/contextBuilder/folder");
 
 const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
 
