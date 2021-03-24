@@ -120,6 +120,14 @@ const TableHead = (props) => {
           Title
         </SortableTH>
         <SortableTH
+          sortColumn="createdBy.displayName"
+          colWidth="18%"
+          dataTest="owner-sort-button"
+          {...props}
+        >
+          Owner
+        </SortableTH>
+        <SortableTH
           sortColumn="createdAt"
           colWidth="10%"
           dataTest="created-sort-button"
@@ -134,15 +142,6 @@ const TableHead = (props) => {
           {...props}
         >
           Modified
-        </SortableTH>
-
-        <SortableTH
-          sortColumn="createdBy.displayName"
-          colWidth="18%"
-          dataTest="owner-sort-button"
-          {...props}
-        >
-          Owner
         </SortableTH>
         <UnsortableTH colWidth="11%">Permissions</UnsortableTH>
         <UnsortableTH colWidth="9%">Actions</UnsortableTH>

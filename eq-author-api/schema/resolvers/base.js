@@ -593,15 +593,10 @@ const Resolvers = {
     }),
     updateValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-
       const { validationType } = validation;
       merge(validation, args.input[`${validationType}Input`]);
 
-      const newValidation = Object.assign({}, validation);
-
-      delete validation.validationType;
-
-      return newValidation;
+      return validation;
     }),
     createMetadata: createMutation((root, args, ctx) => {
       const newMetadata = {

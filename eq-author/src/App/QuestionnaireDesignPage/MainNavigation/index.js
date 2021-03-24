@@ -121,7 +121,7 @@ export const UnwrappedMainNavigation = ({
                     (whatPageAreWeOn === "settings" && "navigation-on") ||
                     "navigation"
                   }
-                  to={buildSettingsPath(params)}
+                  to={`${buildSettingsPath(params)}/general`}
                   small
                   data-test="btn-settings"
                   disabled={title === "Settings"}

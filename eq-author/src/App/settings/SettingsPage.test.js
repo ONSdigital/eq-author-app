@@ -1,6 +1,6 @@
 import React from "react";
 import { render, act, flushPromises, fireEvent } from "tests/utils/rtl";
-import SettingsPage from "./SettingsPage";
+import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
@@ -8,7 +8,7 @@ import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
-      <SettingsPage questionnaire={questionnaire} />
+      <GeneralSettingsPage questionnaire={questionnaire} />
     </MeContext.Provider>,
     {
       route: `/q/${questionnaire.id}/settings`,
