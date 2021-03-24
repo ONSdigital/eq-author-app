@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 import { useQuery } from "@apollo/react-hooks";
+import { useSubscription } from "react-apollo";
+
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
+import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -21,9 +24,18 @@ export default ({ componentId }) => {
     }
   `;
 
-  const { loading, error, data } = useQuery(COMMENT_QUERY, {
+  const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
       componentId,
+    },
+  });
+
+  useSubscription(COMMENT_SUBSCRIPTION, {
+    variables: {
+      id: componentId,
+    },
+    onSubscriptionData: () => {
+      refetch();
     },
   });
 
