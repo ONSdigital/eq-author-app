@@ -10,7 +10,7 @@ import tabItems from "./TabItems";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import { Field, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
 const Container = styled.div`
@@ -40,6 +40,16 @@ const PageContainer = styled.div`
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
+`;
+
+const StyledInput = styled(Input)`
+  width: 31em;
+`;
+
+const Caption = styled.p`
+  margin-top: 0.2em;
+  margin-bottom: 0.6em;
+  font-size: 0.85em;
 `;
 
 const ThemesPage = ({ questionnaire }) => {
@@ -79,6 +89,19 @@ const ThemesPage = ({ questionnaire }) => {
                         The preview theme is applied when you view the survey
                         using the View Survey button.
                       </p>
+                    </Field>
+
+                    <Field>
+                      <Label>Survey ID</Label>
+                      <Caption>
+                        The three-digit survey ID. For example, &apos;283&apos;
+                      </Caption>
+                      <StyledInput
+                        // value={questionnaireTitle}
+                        onChange={({ value }) => ""}
+                        onBlur={(e) => ""}
+                        data-test="change-questionnaire-id"
+                      />
                     </Field>
                   </StyledPanel>
                 </SettingsContainer>
