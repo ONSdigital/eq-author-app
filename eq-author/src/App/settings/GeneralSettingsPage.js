@@ -148,18 +148,18 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   return (
     <Container>
-      <Header title="Settings" />
-      <PageContainer>
-        <PageMainCanvas>
-          <Grid>
-            <VerticalTabs
-              title="Questionnaire Settings"
-              cols={2.5}
-              tabItems={tabItems(match.params, type)}
-            />
-            <Column gutters={false} cols={9.5}>
-              <SettingsContainer>
-                <ScrollPane>
+      <ScrollPane>
+        <Header title="Settings" />
+        <PageContainer>
+          <PageMainCanvas>
+            <Grid>
+              <VerticalTabs
+                title="Questionnaire settings"
+                cols={2.5}
+                tabItems={tabItems(match.params, type)}
+              />
+              <Column gutters={false} cols={9.5}>
+                <SettingsContainer>
                   <StyledPanel>
                     <Field>
                       <Label>Questionnaire title</Label>
@@ -262,12 +262,12 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       </InlineField>
                     </CollapsibleWrapper>
                   </StyledPanel>
-                </ScrollPane>
-              </SettingsContainer>
-            </Column>
-          </Grid>
-        </PageMainCanvas>
-      </PageContainer>
+                </SettingsContainer>
+              </Column>
+            </Grid>
+          </PageMainCanvas>
+        </PageContainer>
+      </ScrollPane>
     </Container>
   );
 };
