@@ -1,0 +1,7 @@
+mutation UpdateReply($input: UpdateReplyInput!) {
+  updateReply(input: $input) {
+    id
+    commentText
+    editedTime
+  }
+}

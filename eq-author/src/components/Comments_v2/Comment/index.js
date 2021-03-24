@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
@@ -19,7 +20,44 @@ const ButtonGroup = styled.div`
   }
 `;
 
-export const Comment = ({
+const IconButton = ({ icon, onClick, children }) => {
+  const Button = styled.button`
+    padding: 0;
+    padding-left: 3px;
+    padding-top: 3px;
+    background: none;
+    border: none;
+
+    &:focus {
+      ${focusStyle}
+      outline: none;
+    }
+  `;
+
+  const Icon = styled.span`
+    mask: url(${icon});
+    width: 2em;
+    height: 2em;
+    background-color: ${colors.grey};
+    border: none;
+    display: block;
+
+    &:hover {
+      background-color: ${colors.black};
+    }
+  `;
+
+  return (
+    <Tooltip place="top" offset={{ top: 0, bottom: 10 }} content={children}>
+      <Button onClick={onClick}>
+        <Icon />
+        <VisuallyHidden>{children}</VisuallyHidden>
+      </Button>
+    </Tooltip>
+  );
+};
+
+const Comment = ({
   author,
   datePosted,
   text,
@@ -61,10 +99,12 @@ export const Comment = ({
     background-color: ${colors.primary};
     margin: 0;
     margin-right: 0.5em;
+    text-transform: uppercase;
   `;
 
   const Author = styled.p`
     margin: 0;
+    text-transform: capitalize;
   `;
 
   const Date = styled.p`
@@ -77,43 +117,6 @@ export const Comment = ({
     margin-left: auto;
   `;
 
-  const IconButton = ({ icon, onClick, children }) => {
-    const Button = styled.button`
-      padding: 0;
-      padding-left: 3px;
-      padding-top: 3px;
-      background: none;
-      border: none;
-
-      &:focus {
-        ${focusStyle}
-        outline: none;
-      }
-    `;
-
-    const Icon = styled.span`
-      mask: url(${icon});
-      width: 2em;
-      height: 2em;
-      background-color: ${colors.grey};
-      border: none;
-      display: block;
-
-      &:hover {
-        background-color: ${colors.black};
-      }
-    `;
-
-    return (
-      <Tooltip place="top" offset={{ top: 0, bottom: 10 }} content={children}>
-        <Button onClick={onClick}>
-          <Icon />
-          <VisuallyHidden>{children}</VisuallyHidden>
-        </Button>
-      </Tooltip>
-    );
-  };
-
   const authorInitials = author
     .match(/\b(\w)/g)
     .splice(0, 2)
@@ -125,7 +128,7 @@ export const Comment = ({
         <Avatar>{authorInitials}</Avatar>
         <ColumnWrapper>
           <Author>{author}</Author>
-          <Date>{datePosted}</Date>
+          <Date>{moment(datePosted).calendar()}</Date>
         </ColumnWrapper>
         <RightButtonGroup>
           <IconButton icon={iconEdit} onClick={() => onUpdateComment()}>
@@ -138,13 +141,15 @@ export const Comment = ({
       </Header>
       <Body>
         <Text>{text}</Text>
-        <Date>{dateModified}</Date>
+        {dateModified && (
+          <Date>{`Edited: ${moment(dateModified).calendar()}`}</Date>
+        )}
       </Body>
     </Comment>
   );
 };
 
-export default ({
+const CommentWithReplies = ({
   comment,
   onUpdateComment,
   onDeleteComment,
@@ -194,18 +199,28 @@ export default ({
       border-left: none;
       margin-top: 0;
     }
+
+    ul {
+      padding: 0;
+
+      li {
+        display: block;
+      }
+    }
   `;
 
   const numOfReplies = replies.length;
 
   const buildReplies = (replies, onUpdateReply, onDeleteReply) =>
     replies.map(({ id, ...rest }) => (
-      <Comment
-        key={`comment-${id}`}
-        onUpdateComment={onUpdateReply}
-        onDeleteComment={onDeleteReply}
-        {...rest}
-      />
+      <li key={`comment-${id}`}>
+        <Comment
+          id={id}
+          onUpdateComment={onUpdateReply}
+          onDeleteComment={onDeleteReply}
+          {...rest}
+        />
+      </li>
     ));
 
   return (
@@ -254,9 +269,11 @@ export default ({
           showHide
           withoutHideThis
         >
-          {buildReplies(replies, onUpdateReply, onDeleteReply)}
+          <ul>{buildReplies(replies, onUpdateReply, onDeleteReply)}</ul>
         </Replies>
       ) : null}
     </>
   );
 };
+
+export default CommentWithReplies;

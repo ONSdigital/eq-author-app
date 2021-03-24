@@ -1,0 +1,16 @@
+mutation DeleteReply($input: DeleteReplyInput!) {
+  deleteReply(input: $input) {
+    id
+    commentText
+    createdTime
+    editedTime
+    user {
+      id
+      name
+      picture
+      email
+      displayName
+    }
+    parentCommentId
+  }
+}
