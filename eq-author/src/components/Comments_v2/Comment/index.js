@@ -5,6 +5,7 @@ import moment from "moment";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
+import TextareaAutosize from "react-textarea-autosize";
 import Button from "components/buttons/Button";
 import Collapsible from "components/Collapsible";
 import VisuallyHidden from "components/VisuallyHidden";
@@ -60,7 +61,10 @@ export const Comment = ({
   onDeleteComment,
   commentId,
   replyId,
+  showAddReply,
+  showReplyBtn,
 }) => {
+  const [editing, setEditing] = useState(false);
   const Comment = styled.div`
     margin-bottom: 1em;
   `;
@@ -83,6 +87,21 @@ export const Comment = ({
     padding: 0.5em 1em;
     margin: 0;
     margin-bottom: 0.3125em;
+  `;
+
+  const EditText = styled(TextareaAutosize)`
+    width: 100%;
+    border: thin solid ${colors.grey};
+    resize: none;
+    font-size: 1em;
+    font-family: inherit;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+
+    &:focus {
+      ${focusStyle}
+      outline: none;
+    }
   `;
 
   const Avatar = styled.p`
@@ -111,11 +130,14 @@ export const Comment = ({
 
   const ButtonGroup = styled.div`
     display: flex;
-    margin-left: auto;
 
     button {
       margin-right: 0.5em;
     }
+  `;
+
+  const RightButtonGroup = styled(ButtonGroup)`
+    margin-left: auto;
   `;
 
   const authorInitials = author
@@ -131,8 +153,15 @@ export const Comment = ({
           <Author>{author}</Author>
           <Date>{moment(datePosted).calendar()}</Date>
         </ColumnWrapper>
-        <ButtonGroup>
-          <IconButton icon={iconEdit} onClick={() => onUpdateComment()}>
+        <RightButtonGroup>
+          <IconButton
+            icon={iconEdit}
+            onClick={() => {
+              setEditing(true);
+              showReplyBtn(false);
+              showAddReply(false);
+            }}
+          >
             Edit comment
           </IconButton>
           <IconButton
@@ -141,10 +170,43 @@ export const Comment = ({
           >
             Delete comment
           </IconButton>
-        </ButtonGroup>
+        </RightButtonGroup>
       </Header>
       <Body>
-        <Text>{text}</Text>
+        {!editing && <Text>{text}</Text>}
+        {editing && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              let commentText = e.target.updatedComment.value;
+              onUpdateComment(commentId, commentText);
+              setEditing(false);
+              showReplyBtn(true);
+            }}
+          >
+            <EditText
+              id="updatedComment"
+              autoFocus
+              defaultValue={text}
+              required
+            />
+            <ButtonGroup>
+              <Button type="submit" variant="greyed" small-medium>
+                Save
+              </Button>
+              <Button
+                variant="greyed"
+                small-medium
+                onClick={() => {
+                  setEditing(false);
+                  showReplyBtn(true);
+                }}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </form>
+        )}
         {dateModified && (
           <Date>{`Edited: ${moment(dateModified).calendar()}`}</Date>
         )}
@@ -163,6 +225,8 @@ const CommentWithReplies = ({
   onDeleteReply,
 }) => {
   const [addReplyVisible, showAddReply] = useState(false);
+  const [replyBtnVisible, showReplyBtn] = useState(true);
+  const [editing, setEditing] = useState(false);
 
   const ReplyBtn = styled(Button)`
     margin-bottom: 1em;
@@ -195,7 +259,14 @@ const CommentWithReplies = ({
 
   const numOfReplies = replies.length;
 
-  const buildReplies = (commentId, replies, onUpdateReply, onDeleteReply) =>
+  const buildReplies = (
+    commentId,
+    replies,
+    onUpdateReply,
+    onDeleteReply,
+    showAddReply,
+    showReplyBtn
+  ) =>
     replies.map(({ id, ...rest }) => (
       <li key={`comment-${id}`}>
         <Comment
@@ -203,6 +274,8 @@ const CommentWithReplies = ({
           replyId={id}
           onUpdateComment={onUpdateReply}
           onDeleteComment={onDeleteReply}
+          showAddReply={showAddReply}
+          showReplyBtn={showReplyBtn}
           {...rest}
         />
       </li>
@@ -214,9 +287,11 @@ const CommentWithReplies = ({
         commentId={comment.id}
         onUpdateComment={onUpdateComment}
         onDeleteComment={onDeleteComment}
+        showAddReply={showAddReply}
+        showReplyBtn={showReplyBtn}
         {...comment}
       />
-      {!addReplyVisible && (
+      {!addReplyVisible && replyBtnVisible && (
         <ReplyBtn
           variant="greyed"
           small-medium
@@ -245,7 +320,14 @@ const CommentWithReplies = ({
           withoutHideThis
         >
           <ul>
-            {buildReplies(comment.id, replies, onUpdateReply, onDeleteReply)}
+            {buildReplies(
+              comment.id,
+              replies,
+              onUpdateReply,
+              onDeleteReply,
+              showAddReply,
+              showReplyBtn
+            )}
           </ul>
         </Replies>
       ) : null}

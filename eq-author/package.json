@@ -129,7 +129,7 @@
     "react-router-dom": "latest",
     "react-router-redux": "latest",
     "react-string-replace": "latest",
-    "react-textarea-autosize": "latest",
+    "react-textarea-autosize": "^8.3.2",
     "react-titled": "latest",
     "react-tooltip": "latest",
     "react-transition-group": "latest",

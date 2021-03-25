@@ -7,6 +7,7 @@ import { useSubscription } from "react-apollo";
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
 import COMMENT_ADD from "./graphql/createNewComment.graphql";
+import COMMENT_UPDATE from "./graphql/updateComment.graphql";
 import COMMENT_DELETE from "./graphql/deleteComment.graphql";
 import REPLY_ADD from "./graphql/createNewReply.graphql";
 import REPLY_DELETE from "./graphql/deleteReply.graphql";
@@ -20,23 +21,31 @@ import AddComment from "./AddComment";
 
 export default ({ componentId }) => {
   const Wrapper = styled.section`
-    padding: 1em;
-
     h1 {
       font-size: 1em;
-      margin-top: 0;
+      margin: 0;
+      padding: 1em;
+      padding-bottom: 0;
     }
 
-    ul {
+    > ul > li,
+    .AddComment {
+      padding: 1em;
+      padding-bottom: 0;
+    }
+
+    > ul {
       padding: 0;
 
-      li {
+      > li {
         display: block;
+        border-top: 1px solid rgb(228, 232, 235);
       }
     }
   `;
 
   const [createComment] = useMutation(COMMENT_ADD, {});
+  const [updateComment] = useMutation(COMMENT_UPDATE, {});
   const [deleteComment] = useMutation(COMMENT_DELETE, {});
   const [createReply] = useMutation(REPLY_ADD, {});
   const [deleteReply] = useMutation(REPLY_DELETE, {});
@@ -91,8 +100,8 @@ export default ({ componentId }) => {
         <Comment
           comment={{ id, ...rest }}
           replies={replies}
-          onAddReply={(commentText, commentId) =>
-            createReply({
+          onUpdateComment={(commentId, commentText) =>
+            updateComment({
               variables: {
                 input: {
                   componentId,
@@ -108,6 +117,17 @@ export default ({ componentId }) => {
                 input: {
                   componentId,
                   commentId,
+                },
+              },
+            })
+          }
+          onAddReply={(commentText, commentId) =>
+            createReply({
+              variables: {
+                input: {
+                  componentId,
+                  commentId,
+                  commentText,
                 },
               },
             })
@@ -132,6 +152,7 @@ export default ({ componentId }) => {
       <h1>Comments</h1>
       <AddComment
         key={`add-comment-${componentId}`}
+        className="AddComment"
         onAdd={(commentText) =>
           createComment({
             variables: {

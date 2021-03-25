@@ -5,7 +5,14 @@ import { colors, focusStyle } from "constants/theme";
 
 import Button from "components/buttons/Button";
 
-export default ({ cancel, onCancel, onAdd, autoFocus, commentId }) => {
+export default ({
+  cancel,
+  onCancel,
+  onAdd,
+  autoFocus,
+  commentId,
+  className,
+}) => {
   const Wrapper = styled.form`
     margin-bottom: 1em;
   `;
@@ -36,6 +43,7 @@ export default ({ cancel, onCancel, onAdd, autoFocus, commentId }) => {
 
   return (
     <Wrapper
+      className={className}
       onSubmit={(e) => {
         e.preventDefault();
         let commentText = e.target.newComment.value;
