@@ -22,7 +22,7 @@ const {
   duplicatePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { getFolderByPageId } = require("../resolvers/utils");
+const { getFolderByPageId } = require("../resolvers/utils/utils");
 
 const { getQuestionnaire } = require("../../db/datastore");
 

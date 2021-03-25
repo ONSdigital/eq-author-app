@@ -1,5 +1,5 @@
 const { groupBy } = require("lodash");
-const { getAnswerById } = require("../../../schema/resolvers/utils");
+const { getAnswerById } = require("../../../schema/resolvers/utils/utils");
 const {
   CURRENCY,
   NUMBER,

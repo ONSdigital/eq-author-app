@@ -18,7 +18,7 @@ const {
   getRoutingById,
   getRoutingRuleById,
   returnValidationErrors,
-} = require("../../../utils");
+} = require("../../../utils/utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",

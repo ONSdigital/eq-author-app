@@ -2,7 +2,7 @@ const { takeRightWhile } = require("lodash/fp");
 const {
   getSectionByPageId,
   getPagesFromSection,
-} = require("../../schema/resolvers/utils");
+} = require("../../schema/resolvers/utils/utils");
 
 module.exports = (questionnaire, pageId) => {
   const ctx = { questionnaire };

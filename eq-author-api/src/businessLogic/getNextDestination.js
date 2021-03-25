@@ -4,7 +4,7 @@ const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
 const {
   getSectionByPageId,
   getPages,
-} = require("../../schema/resolvers/utils");
+} = require("../../schema/resolvers/utils/utils");
 
 module.exports = (questionnaire, pageId) => {
   const currentSection = getSectionByPageId(questionnaire, pageId);

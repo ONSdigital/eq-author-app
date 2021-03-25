@@ -231,9 +231,6 @@ const getOrderedIdMap = (ctx) => {
   return getOrderedIdMap.lastInvokation.result;
 };
 
-// Efficiently check if questionnaire contains entity with given id
-const idExists = (ctx, id) => getOrderedIdMap(ctx).get(id) !== undefined;
-
 // Efficiently get absolute position in questionnaire for entity with given id
 // Later pages, answers etc. have higher values than earlier pages, answers, etc.
 const getAbsolutePositionById = (ctx, id) => getOrderedIdMap(ctx).get(id);
@@ -315,7 +312,7 @@ module.exports = {
   getThemeByShortName,
   createTheme,
 
-  idExists,
+  // idExists,
   getAbsolutePositionById,
 
   getFolders,

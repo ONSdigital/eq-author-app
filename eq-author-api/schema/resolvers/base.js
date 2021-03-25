@@ -65,7 +65,7 @@ const {
   returnValidationErrors,
   getThemeByShortName,
   createTheme,
-} = require("./utils");
+} = require("./utils/utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");

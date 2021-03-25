@@ -6,7 +6,7 @@ const {
   getFolders,
   getFolderById,
   getFolderByPageId,
-} = require("../resolvers/utils");
+} = require("../resolvers/utils/utils");
 
 const { createFolder } = require("../../tests/utils/contextBuilder/folder");
 

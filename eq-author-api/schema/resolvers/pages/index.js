@@ -8,7 +8,7 @@ const {
   getMovePosition,
   getFolderById,
   getFolderByPageId,
-} = require("../utils");
+} = require("../utils/utils");
 
 const { createFolder } = require("../../../src/businessLogic");
 

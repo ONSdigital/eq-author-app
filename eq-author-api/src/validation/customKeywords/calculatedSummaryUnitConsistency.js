@@ -5,7 +5,7 @@ const createValidationError = require("../createValidationError");
 const {
   ERR_CALCULATED_UNIT_INCONSISTENCY,
 } = require("../../../constants/validationErrorCodes");
-const { getPath } = require("../utils");
+const { getPath } = require("../utils/index");
 
 module.exports = function (ajv) {
   ajv.addKeyword("calculatedSummaryUnitConsistency", {

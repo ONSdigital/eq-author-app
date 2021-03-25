@@ -8,7 +8,9 @@ const {
 const createValidationError = require("../createValidationError");
 
 const { getPath } = require("../utils");
-const { getAbsolutePositionById } = require("../../../schema/resolvers/utils");
+const {
+  getAbsolutePositionById,
+} = require("../../../schema/resolvers/utils/utils");
 
 module.exports = function (ajv) {
   ajv.addKeyword("validateLeftHandSide", {
