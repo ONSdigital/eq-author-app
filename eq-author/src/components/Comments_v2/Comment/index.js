@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 
 import styled from "styled-components";
@@ -250,6 +251,74 @@ const CommentWithReplies = ({
       ) : null}
     </>
   );
+};
+
+CommentWithReplies.propTypes = {
+  /**
+   The root comment.
+  */
+  comment: PropTypes.shape({
+    author: PropTypes.string.isRequired,
+    datePosted: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    dateModified: PropTypes.string.isRequired,
+    onUpdateComment: PropTypes.func,
+    onDeleteComment: PropTypes.func,
+    commentId: PropTypes.string,
+  }).isRequired,
+  /**
+   Replies to the root comment.
+  */
+  replies: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string.isRequired,
+      datePosted: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      dateModified: PropTypes.string.isRequired,
+      onUpdateComment: PropTypes.func,
+      onDeleteComment: PropTypes.func,
+      commentId: PropTypes.string,
+      replyId: PropTypes.string,
+    })
+  ),
+  /**
+   Updates the root comment.
+
+   Params:
+  
+  - `commentId` ~ The ID of the comment being updated
+  */
+  onUpdateComment: PropTypes.func.isRequired,
+  /**
+   Deletes the root comment.
+
+   Params:
+  
+  - `commentId` ~ The ID of the comment being deleted
+  */
+  onDeleteComment: PropTypes.func.isRequired,
+  /**
+   Adds a reply to the root comment.
+
+   Params:
+  
+  - `commentId` ~ The ID of root comment being replied to
+  */
+  onAddReply: PropTypes.func.isRequired,
+  /**
+   Updates a reply to the root comment.
+  */
+  onUpdateReply: PropTypes.func.isRequired,
+  /**
+   Deletes a reply to the root comment.
+
+   Params:
+  
+  - `commentId` ~ The ID of the root comment of the reply being deleted
+  - `replyId` ~ The ID of the reply being deleted
+
+  */
+  onDeleteReply: PropTypes.func.isRequired,
 };
 
 export default CommentWithReplies;
