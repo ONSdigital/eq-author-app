@@ -240,14 +240,13 @@ export const Row = ({
             <Truncated>{title}</Truncated>
           </QuestionnaireLink>
         </TD>
+        <TD>{createdBy.displayName}</TD>
         <TD>
           <FormattedDate date={createdAt} />
         </TD>
         <TD>
           <FormattedDate date={updatedAt} />
         </TD>
-
-        <TD>{createdBy.displayName}</TD>
         <TD>
           <Permissions>
             <Permission>View</Permission>

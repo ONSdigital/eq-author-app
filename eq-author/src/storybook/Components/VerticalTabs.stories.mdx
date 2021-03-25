@@ -1,0 +1,59 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import VerticalTabs from "components/VerticalTabs";
+
+<Meta title="Components/VerticalTabs" component={VerticalTabs} />
+
+# Vertical Tabs
+
+Displays vertical navigation menu that renders different pages when tabs are clicked
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    <VerticalTabs
+      title="Vertical Tabs"
+      cols={2.5}
+      tabItems={[
+        {
+          title: `Item 1`,
+          url: `1`,
+        },
+        {
+          title: `Item 2`,
+          url: `2`,
+        },
+        {
+          title: `Item 3`,
+          url: `3`,
+        },
+      ]}
+    />
+  </Story>
+</Canvas>
+
+## Tab Disabled
+
+<Canvas>
+  <Story name="Tab Disabled">
+    <VerticalTabs
+      title="Vertical Tabs"
+      cols={2.5}
+      tabItems={[
+        {
+          title: `Item 1`,
+          url: `1`,
+        },
+        {
+          title: `Item 2`,
+          url: `2`,
+        },
+        {
+          title: `Item 3`,
+          url: `3`,
+          disabled: true,
+        },
+      ]}
+    />
+  </Story>
+</Canvas>

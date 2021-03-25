@@ -48,6 +48,10 @@ export const disabledStyle = css`
   pointer-events: none;
 `;
 
+export const hoverStyle = css`
+  background: rgba(0, 0, 0, 0.2);
+`;
+
 export default {
   colors,
   radius,
