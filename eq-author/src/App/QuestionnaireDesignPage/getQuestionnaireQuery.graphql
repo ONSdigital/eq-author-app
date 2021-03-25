@@ -97,6 +97,7 @@ fragment Pages on Page {
   id
   alias
   title
+  alias
   position
   displayName
   pageType
@@ -131,6 +132,9 @@ fragment Answers on Answer {
   secondaryLabelDefault
   type
   properties
+  ... on BasicAnswer {
+    secondaryQCode
+  }
   ... on MultipleChoiceAnswer {
     options {
       id

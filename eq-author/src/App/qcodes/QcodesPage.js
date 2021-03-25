@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CustomPropTypes from "custom-prop-types";
+
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import { Grid } from "components/Grid";
@@ -24,24 +24,17 @@ const StyledMainCanvas = styled(MainCanvas)`
   max-width: 80em;
 `;
 
-const QcodesPage = ({ match }) => {
-  const questionnaireId = match.params.questionnaireId;
-  return (
-    <Container>
-      <Header title="QCodes" />
-      <StyledGrid>
-        <ScrollPane data-test="metadata-modal-content">
-          <StyledMainCanvas>
-            <QcodesTable questionnaireId={questionnaireId} />
-          </StyledMainCanvas>
-        </ScrollPane>
-      </StyledGrid>
-    </Container>
-  );
-};
-
-QcodesPage.propTypes = {
-  match: CustomPropTypes.match.isRequired,
-};
+const QcodesPage = () => (
+  <Container>
+    <Header title="QCodes" />
+    <StyledGrid>
+      <ScrollPane>
+        <StyledMainCanvas>
+          <QcodesTable />
+        </StyledMainCanvas>
+      </ScrollPane>
+    </StyledGrid>
+  </Container>
+);
 
 export default QcodesPage;

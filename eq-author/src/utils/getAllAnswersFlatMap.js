@@ -11,7 +11,7 @@ export const organiseAnswers = (sections) => {
   let answerRows = [];
 
   for (const item of questions) {
-    const { title, alias, answers, confirmation } = item;
+    const { title, alias, answers } = item;
 
     if (answers) {
       const extraCheck = answers.reduce((acc, item) => {
@@ -62,23 +62,6 @@ export const organiseAnswers = (sections) => {
         title,
         alias,
         answers: answersAndOptions,
-      });
-    }
-
-    if (confirmation) {
-      const {
-        id,
-        title,
-        alias,
-        qCode,
-        validationErrorInfo,
-        __typename: type,
-      } = confirmation;
-
-      answerRows.push({
-        title: title,
-        alias,
-        answers: [{ id, qCode, type, validationErrorInfo }],
       });
     }
   }
