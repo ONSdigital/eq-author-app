@@ -5,10 +5,11 @@ import { colors, focusStyle } from "constants/theme";
 
 import Button from "components/buttons/Button";
 
-export default ({ cancel, onCancel, onAdd, autoFocus }) => {
-  const Wrapper = styled.div`
+export default ({ cancel, onCancel, onAdd, autoFocus, commentId }) => {
+  const Wrapper = styled.form`
     margin-bottom: 1em;
   `;
+
   const TextArea = styled.textarea`
     height: 94px;
     width: 100%;
@@ -24,6 +25,7 @@ export default ({ cancel, onCancel, onAdd, autoFocus }) => {
       outline: none;
     }
   `;
+
   const ButtonGroup = styled.div`
     display: flex;
 
@@ -31,11 +33,19 @@ export default ({ cancel, onCancel, onAdd, autoFocus }) => {
       margin-right: 0.5em;
     }
   `;
+
   return (
-    <Wrapper>
-      <TextArea autoFocus={autoFocus} />
+    <Wrapper
+      onSubmit={(e) => {
+        e.preventDefault();
+        let commentText = e.target.newComment.value;
+        onAdd(commentText, commentId);
+        commentText = "";
+      }}
+    >
+      <TextArea autoFocus={autoFocus} id="newComment" required />
       <ButtonGroup>
-        <Button variant="greyed" small-medium onClick={onAdd}>
+        <Button type="submit" variant="greyed" small-medium>
           Add
         </Button>
         {cancel && (

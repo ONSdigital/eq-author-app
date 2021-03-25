@@ -57,6 +57,8 @@ export const Comment = ({
   dateModified,
   onUpdateComment,
   onDeleteComment,
+  commentId,
+  replyId,
 }) => {
   const Comment = styled.div`
     margin-bottom: 1em;
@@ -132,7 +134,10 @@ export const Comment = ({
           <IconButton icon={iconEdit} onClick={() => onUpdateComment()}>
             Edit comment
           </IconButton>
-          <IconButton icon={iconClose} onClick={() => onDeleteComment()}>
+          <IconButton
+            icon={iconClose}
+            onClick={() => onDeleteComment(commentId, replyId)}
+          >
             Delete comment
           </IconButton>
         </ButtonGroup>
@@ -189,11 +194,12 @@ const CommentWithReplies = ({
 
   const numOfReplies = replies.length;
 
-  const buildReplies = (replies, onUpdateReply, onDeleteReply) =>
+  const buildReplies = (commentId, replies, onUpdateReply, onDeleteReply) =>
     replies.map(({ id, ...rest }) => (
       <li key={`comment-${id}`}>
         <Comment
-          id={id}
+          commentId={commentId}
+          replyId={id}
           onUpdateComment={onUpdateReply}
           onDeleteComment={onDeleteReply}
           {...rest}
@@ -204,6 +210,7 @@ const CommentWithReplies = ({
   return (
     <>
       <Comment
+        commentId={comment.id}
         onUpdateComment={onUpdateComment}
         onDeleteComment={onDeleteComment}
         {...comment}
@@ -219,10 +226,12 @@ const CommentWithReplies = ({
       )}
       {addReplyVisible && (
         <AddComment
+          key={`add-comment-${comment.id}`}
           autoFocus
           cancel
-          onAdd={() => {
-            onAddReply();
+          commentId={comment.id}
+          onAdd={(commentText, commentId) => {
+            onAddReply(commentText, commentId);
             showAddReply(false);
           }}
           onCancel={() => showAddReply(false)}
@@ -234,7 +243,9 @@ const CommentWithReplies = ({
           showHide
           withoutHideThis
         >
-          <ul>{buildReplies(replies, onUpdateReply, onDeleteReply)}</ul>
+          <ul>
+            {buildReplies(comment.id, replies, onUpdateReply, onDeleteReply)}
+          </ul>
         </Replies>
       ) : null}
     </>
