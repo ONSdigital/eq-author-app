@@ -4,7 +4,7 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-const { getOptionById } = require("../../../schema/resolvers/utils/utils");
+const { getOptionById } = require("../../../schema/resolvers/utils");
 
 module.exports = function (ajv) {
   ajv.addKeyword("validateMultipleChoiceCondition", {

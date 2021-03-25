@@ -30,7 +30,7 @@ const { createCollapsible } = require("./collapsible");
 const {
   getFolderById,
   getSectionById,
-} = require("../../../schema/resolvers/utils/utils");
+} = require("../../../schema/resolvers/utils");
 
 const buildRouting = require("./buildRouting");
 

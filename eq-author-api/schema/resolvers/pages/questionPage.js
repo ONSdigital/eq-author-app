@@ -7,7 +7,7 @@ const {
   getSectionByPageId,
   getFolderById,
   getFolderByPageId,
-} = require("../utils/utils");
+} = require("../utils");
 
 const { createQuestionPage } = require("../../../src/businessLogic");
 

@@ -12,11 +12,7 @@ const {
   createLeftSide,
 } = require("../../../../../src/businessLogic");
 
-const {
-  getPages,
-  getPageById,
-  getRoutingById,
-} = require("../../../utils/utils");
+const { getPages, getPageById, getRoutingById } = require("../../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",

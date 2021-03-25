@@ -1,4 +1,4 @@
-const { idExists } = require("../../../schema/resolvers/utils/helpers");
+const { idExists } = require("../../../schema/resolvers/utils");
 
 module.exports = function (ajv) {
   ajv.addKeyword("idExists", {

@@ -22,7 +22,7 @@ const {
   getPages,
   getFolderById,
   getFolderByPageId,
-} = require("../resolvers/utils/utils");
+} = require("../resolvers/utils");
 
 const getFirstPage = (questionnaire) =>
   questionnaire.sections[0].folders[0].pages[0];

@@ -18,7 +18,7 @@ const {
   getSectionByPageId,
   returnValidationErrors,
   getFolderByPageId,
-} = require("../utils/utils");
+} = require("../utils");
 
 const { createCalculatedSummary } = require("../../../src/businessLogic");
 

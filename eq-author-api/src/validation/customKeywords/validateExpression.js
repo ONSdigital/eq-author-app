@@ -9,7 +9,7 @@ const { some } = require("lodash");
 const {
   getOptionById,
   getExpressionGroupByExpressionId,
-} = require("../../../schema/resolvers/utils/utils");
+} = require("../../../schema/resolvers/utils");
 
 module.exports = function (ajv) {
   ajv.addKeyword("validateExpression", {

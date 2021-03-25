@@ -6,7 +6,7 @@ const {
 const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
-const { getExpressions } = require("../../schema/resolvers/utils/utils");
+const { getExpressions } = require("../../schema/resolvers/utils");
 
 const removeAnswerFromExpressions = (ctx, answer) => {
   const expressions = filter(

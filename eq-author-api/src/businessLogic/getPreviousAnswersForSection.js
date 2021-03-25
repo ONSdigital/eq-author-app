@@ -1,6 +1,6 @@
 const { flatMap, takeWhile, filter, some, compact } = require("lodash/fp");
 const { PIPING_ANSWER_TYPES } = require("../../constants/pipingAnswerTypes");
-const { getPagesFromSection } = require("../../schema/resolvers/utils/utils");
+const { getPagesFromSection } = require("../../schema/resolvers/utils");
 
 module.exports = (questionnaire, currentSectionId) => {
   const sections = takeWhile(

@@ -25,7 +25,7 @@ const {
   queryQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const { getFolderById } = require("../resolvers/utils/utils");
+const { getFolderById } = require("../resolvers/utils");
 
 const config = {
   metadata: [{}],

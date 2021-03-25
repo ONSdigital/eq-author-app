@@ -19,7 +19,7 @@ const {
   getSkipConditions,
   getAllExpressionGroups,
   returnValidationErrors,
-} = require("../../utils/utils");
+} = require("../../utils");
 
 const Resolvers = {};
 
