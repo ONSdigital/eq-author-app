@@ -8,17 +8,10 @@ import Button from "components/buttons/Button";
 import Collapsible from "components/Collapsible";
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
+import AddComment from "../AddComment";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
-
-const ButtonGroup = styled.div`
-  display: flex;
-
-  button {
-    margin-right: 0.5em;
-  }
-`;
 
 const IconButton = ({ icon, onClick, children }) => {
   const Button = styled.button`
@@ -57,7 +50,7 @@ const IconButton = ({ icon, onClick, children }) => {
   );
 };
 
-const Comment = ({
+export const Comment = ({
   author,
   datePosted,
   text,
@@ -113,8 +106,13 @@ const Comment = ({
     margin: 0;
   `;
 
-  const RightButtonGroup = styled(ButtonGroup)`
+  const ButtonGroup = styled.div`
+    display: flex;
     margin-left: auto;
+
+    button {
+      margin-right: 0.5em;
+    }
   `;
 
   const authorInitials = author
@@ -130,14 +128,14 @@ const Comment = ({
           <Author>{author}</Author>
           <Date>{moment(datePosted).calendar()}</Date>
         </ColumnWrapper>
-        <RightButtonGroup>
+        <ButtonGroup>
           <IconButton icon={iconEdit} onClick={() => onUpdateComment()}>
             Edit comment
           </IconButton>
           <IconButton icon={iconClose} onClick={() => onDeleteComment()}>
             Delete comment
           </IconButton>
-        </RightButtonGroup>
+        </ButtonGroup>
       </Header>
       <Body>
         <Text>{text}</Text>
@@ -159,26 +157,6 @@ const CommentWithReplies = ({
   onDeleteReply,
 }) => {
   const [addReplyVisible, showAddReply] = useState(false);
-
-  const AddReply = styled.div`
-    margin-bottom: 0.5em;
-  `;
-
-  const TextArea = styled.textarea`
-    height: 94px;
-    width: 100%;
-    border: thin solid ${colors.grey};
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-
-    &:focus {
-      ${focusStyle}
-      outline: none;
-    }
-  `;
 
   const ReplyBtn = styled(Button)`
     margin-bottom: 1em;
@@ -240,28 +218,15 @@ const CommentWithReplies = ({
         </ReplyBtn>
       )}
       {addReplyVisible && (
-        <AddReply>
-          <TextArea autoFocus />
-          <ButtonGroup>
-            <Button
-              variant="greyed"
-              small-medium
-              onClick={() => {
-                onAddReply();
-                showAddReply(false);
-              }}
-            >
-              Add
-            </Button>
-            <Button
-              variant="greyed"
-              small-medium
-              onClick={() => showAddReply(false)}
-            >
-              Cancel
-            </Button>
-          </ButtonGroup>
-        </AddReply>
+        <AddComment
+          autoFocus
+          cancel
+          onAdd={() => {
+            onAddReply();
+            showAddReply(false);
+          }}
+          onCancel={() => showAddReply(false)}
+        />
       )}
       {numOfReplies > 0 ? (
         <Replies

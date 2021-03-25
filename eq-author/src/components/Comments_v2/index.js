@@ -10,9 +10,9 @@ import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 
 import Error from "components/Error";
-import Button from "components/buttons/Button";
 import Loading from "components/Loading";
 import Comment from "./Comment";
+import AddComment from "./AddComment";
 
 export default ({ componentId }) => {
   const Wrapper = styled.section`
@@ -29,22 +29,6 @@ export default ({ componentId }) => {
       li {
         display: block;
       }
-    }
-  `;
-
-  const TextArea = styled.textarea`
-    height: 94px;
-    width: 100%;
-    border: thin solid ${colors.grey};
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-
-    &:focus {
-      ${focusStyle}
-      outline: none;
     }
   `;
 
@@ -102,10 +86,7 @@ export default ({ componentId }) => {
   return (
     <Wrapper>
       <h1>Comments</h1>
-      <TextArea />
-      <Button variant="greyed" small-medium>
-        Add
-      </Button>
+      <AddComment />
       <ul>{renderComments(formattedComments)}</ul>
     </Wrapper>
   );
