@@ -179,7 +179,7 @@ export const Comment = ({
             onSubmit={(e) => {
               e.preventDefault();
               let commentText = e.target.updatedComment.value;
-              onUpdateComment(commentId, commentText);
+              onUpdateComment(commentId, commentText, replyId);
               setEditing(false);
               showReplyBtn(true);
             }}
@@ -223,10 +223,10 @@ const CommentWithReplies = ({
   onAddReply,
   onUpdateReply,
   onDeleteReply,
+  disableReplies = false,
 }) => {
   const [addReplyVisible, showAddReply] = useState(false);
-  const [replyBtnVisible, showReplyBtn] = useState(true);
-  const [editing, setEditing] = useState(false);
+  const [replyBtnVisible, showReplyBtn] = useState(!disableReplies);
 
   const ReplyBtn = styled(Button)`
     margin-bottom: 1em;
@@ -291,7 +291,7 @@ const CommentWithReplies = ({
         showReplyBtn={showReplyBtn}
         {...comment}
       />
-      {!addReplyVisible && replyBtnVisible && (
+      {!disableReplies && !addReplyVisible && replyBtnVisible && (
         <ReplyBtn
           variant="greyed"
           small-medium
@@ -313,7 +313,7 @@ const CommentWithReplies = ({
           onCancel={() => showAddReply(false)}
         />
       )}
-      {numOfReplies > 0 ? (
+      {!disableReplies && numOfReplies > 0 ? (
         <Replies
           title={`${numOfReplies} ${numOfReplies > 1 ? "replies" : "reply"}`}
           showHide
@@ -363,6 +363,10 @@ CommentWithReplies.propTypes = {
       replyId: PropTypes.string,
     })
   ),
+  /**
+   Enables or disables the ability to reply to the root comment.
+   */
+  disableReplies: PropTypes.bool,
   /**
    Updates the root comment.
 
