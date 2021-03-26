@@ -1,6 +1,6 @@
 const { compact, find, flatMap } = require("lodash");
 const { getAnswers } = require("./getters");
-const { getPages } = require("./getters");
+const { getPages } = require("./pageGetters");
 
 const getValidationById = (ctx, id) => {
   const answers = getAnswers(ctx);
