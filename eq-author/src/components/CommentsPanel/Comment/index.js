@@ -304,7 +304,7 @@ const CommentWithReplies = ({
         <AddComment
           key={`add-comment-${comment.id}`}
           autoFocus
-          cancel
+          showCancel
           commentId={comment.id}
           onAdd={(commentText, commentId) => {
             onAddReply(commentText, commentId);
