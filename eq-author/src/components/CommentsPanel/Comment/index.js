@@ -335,6 +335,55 @@ const CommentWithReplies = ({
   );
 };
 
+IconButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+Comment.propTypes = {
+  /**
+   * The name of the entity who made the comment.
+   */
+  author: PropTypes.string.isRequired,
+  /**
+   * In dateTime format, the date when the comment was made.
+   */
+  datePosted: PropTypes.string.isRequired,
+  /**
+   * The comment text.
+   */
+  text: PropTypes.string.isRequired,
+  /**
+   * In dateTime format, the date when the comment was last modified.
+   */
+  dateModified: PropTypes.string,
+  /**
+   * The function that runs when the 'Save' button is pressed when updating a comment.
+   */
+  onUpdateComment: PropTypes.func.isRequired,
+  /**
+   * The function that runs when the 'Delete' button is pressed.
+   */
+  onDeleteComment: PropTypes.func.isRequired,
+  /**
+   * The ID of the comment. If the comment is a reply, this is the ID of the root comment.
+   */
+  commentId: PropTypes.string.isRequired,
+  /**
+   * The ID of the reply to the root comment.
+   */
+  replyId: PropTypes.string,
+  /**
+   * If replies are enabled, this function is called to hide the 'Add reply' form when the 'Edit' button is pressed.
+   */
+  showAddReply: PropTypes.func,
+  /**
+   * If replies are enabled, this function is called to hide the 'Reply' button when the 'Edit' button is called, and show it when the user has finished editing.
+   */
+  showReplyBtn: PropTypes.func,
+};
+
 CommentWithReplies.propTypes = {
   /**
    The root comment.
@@ -344,8 +393,8 @@ CommentWithReplies.propTypes = {
     datePosted: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     dateModified: PropTypes.string.isRequired,
-    onUpdateComment: PropTypes.func,
-    onDeleteComment: PropTypes.func,
+    onUpdateComment: PropTypes.func.isRequired,
+    onDeleteComment: PropTypes.func.isRequired,
     commentId: PropTypes.string,
   }).isRequired,
   /**

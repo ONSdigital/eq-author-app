@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useSubscription } from "react-apollo";
@@ -20,7 +21,7 @@ import Loading from "components/Loading";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
 
-export default ({ componentId }) => {
+const CommentsPanel = ({ componentId }) => {
   const Wrapper = styled.section`
     h1 {
       font-size: 1em;
@@ -182,3 +183,12 @@ export default ({ componentId }) => {
     </Wrapper>
   );
 };
+
+CommentsPanel.propTypes = {
+  /**
+   * The ID of the component users are commenting on. This may be a page, question page, calculated summary, etc.
+   */
+  componentId: PropTypes.string.isRequired,
+};
+
+export default CommentsPanel;
