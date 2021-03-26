@@ -1,5 +1,4 @@
 const { compact, get, filter, find, flatMap, some } = require("lodash");
-const { v4: uuidv4 } = require("uuid");
 
 const getSections = (ctx) => ctx.questionnaire.sections;
 
@@ -137,49 +136,6 @@ const getExpressions = (ctx) => {
 
 const getExpressionById = (ctx, id) => find(getExpressions(ctx), { id });
 
-const getValidationById = (ctx, id) => {
-  const answers = getAnswers(ctx);
-  const answerValidations = flatMap(answers, (answer) =>
-    Object.keys(answer.validation).map((validationType) => {
-      const validation = answer.validation[validationType];
-      validation.validationType = validationType;
-      return validation;
-    })
-  );
-
-  const pageValidations = compact(
-    flatMap(getPages(ctx), (page) => page.totalValidation)
-  );
-  pageValidations.forEach((validation) => {
-    validation.validationType = "total";
-  });
-
-  return find([...answerValidations, ...pageValidations], { id: id });
-};
-
-const getValidationErrorInfo = (ctx) => ctx.validationErrorInfo;
-
-const returnValidationErrors = (ctx, id, ...conditions) => {
-  const errors = conditions.reduce((acc, condition) => {
-    acc.push(...getValidationErrorInfo(ctx).filter(condition));
-    return acc;
-  }, []);
-
-  if (!errors.length) {
-    return {
-      id,
-      errors: [],
-      totalCount: 0,
-    };
-  }
-
-  return {
-    id,
-    errors,
-    totalCount: errors.length,
-  };
-};
-
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
 
@@ -212,23 +168,11 @@ const getMovePosition = (section, pageId, position) => {
   return { previous, next };
 };
 
-const createTheme = (attrs = {}) => ({
-  id: uuidv4(),
-  enabled: true,
-  shortName: "default",
-  legalBasisCode: "NOTICE_1",
-  eqId: "",
-  formType: "",
-  ...attrs,
-});
-
 module.exports = {
   getSections,
   getSectionById,
   getSectionByFolderId,
   getSectionByPageId,
-
-  createTheme,
 
   getFolders,
   getFoldersBySectionId,
@@ -265,10 +209,6 @@ module.exports = {
 
   getSkippableById,
   getSkippables,
-
-  getValidationById,
-  getValidationErrorInfo,
-  returnValidationErrors,
 
   getSkipConditionById,
   getSkipConditions,
