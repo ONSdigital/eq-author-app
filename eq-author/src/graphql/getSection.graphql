@@ -1,4 +1,6 @@
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
 
 query GetSection($input: QueryInput!) {
   section(input: $input) {
@@ -14,26 +16,26 @@ query GetSection($input: QueryInput!) {
     }
     folders {
       id
-      enabled
-      alias
-      position
+      ...Folder
       pages {
-        id
-        title
-        displayName
+        ...Page
         position
+        displayName
         pageType
-        validationErrorInfo {
-          ...ValidationErrorInfo
-        }
         ... on QuestionPage {
+          guidance
+          answers {
+            id
+          }
           confirmation {
             id
-            displayName
-            validationErrorInfo {
-              ...ValidationErrorInfo
-            }
           }
+        }
+        ... on CalculatedSummaryPage {
+          id
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }
