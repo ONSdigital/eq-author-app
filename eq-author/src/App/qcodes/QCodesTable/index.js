@@ -1,19 +1,13 @@
 import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
-import { useMutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
-import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
-import { removeHtml } from "../../../utils/getAllAnswersFlatMap";
 import { useQCodeContext } from "components/QCodeContext";
-
 import ValidationError from "components/ValidationError";
-
 import {
   Table,
   TableHead,
@@ -24,11 +18,10 @@ import {
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
 
+import { removeHtml } from "utils/getAllAnswersFlatMap";
+
 import { colors } from "constants/theme";
-import {
-  QCODE_IS_NOT_UNIQUE,
-  QCODE_REQUIRED,
-} from "constants/validationMessages";
+
 import {
   CHECKBOX,
   RADIO,
@@ -42,6 +35,10 @@ import {
   UNIT,
   DURATION,
 } from "constants/answer-types";
+import {
+  QCODE_IS_NOT_UNIQUE,
+  QCODE_REQUIRED,
+} from "constants/validationMessages";
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
@@ -74,8 +71,6 @@ const QcodeValidationError = styled(ValidationError)`
 `;
 
 const questionMatrix = {
-  QuestionConfirmation: "Confirmation question",
-  CalculatedSummaryPage: "Calculated summary",
   CheckboxOption: "Checkbox option",
   MutuallyExclusiveOption: "Mutually exclusive checkbox",
   [CHECKBOX]: "Checkbox",
@@ -91,14 +86,10 @@ const questionMatrix = {
   [DURATION]: "Duration",
 };
 
-const handleBlurReducer = ({ type, payload, mutation }) => {
-  const {
-    updateConfirmation,
-    updateCalculatedSummaryPage,
-    updateOption,
-    updateAnswer,
-  } = mutation;
-
+const handleBlurReducer = ({
+  payload,
+  mutation: { updateOption, updateAnswer },
+}) => {
   const mutationVariables = (inputValues) => {
     return {
       variables: {
@@ -111,20 +102,17 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
   const { id, qCode } = payload;
 
-  if (questionMatrix[type] === questionMatrix.QuestionConfirmation) {
-    updateConfirmation(mutationVariables({ id, qCode }));
-  } else if (questionMatrix[type] === questionMatrix.CalculatedSummaryPage) {
-    const summaryAnswers = payload.summaryAnswers.map((item) => item.id);
-    const update = { id, qCode, summaryAnswers };
-
-    updateCalculatedSummaryPage(mutationVariables(update));
-  } else if (payload.option) {
+  if (payload.option) {
     updateOption(mutationVariables({ id, qCode }));
   } else if (payload.secondary) {
     updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
   } else {
     updateAnswer(
-      mutationVariables({ id, qCode, properties: payload.properties })
+      mutationVariables({
+        id,
+        qCode,
+        ...(payload.properties && { properties: payload.properties }),
+      })
     );
   }
 };
@@ -146,16 +134,12 @@ const Row = memo((props) => {
 
       const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
       const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-      const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
-      const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
       const handleBlur = useCallback(
         (id, type, qCode) => {
           const mutation = {
             updateOption,
             updateAnswer,
-            updateConfirmation,
-            updateCalculatedSummaryPage,
           };
           if (qCode !== initialQcode) {
             handleBlurReducer({
@@ -172,28 +156,22 @@ const Row = memo((props) => {
         <>
           <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
           <SpacedTableColumn>{label}</SpacedTableColumn>
-          {type === "Checkbox" ? (
+          {type === CHECKBOX ? (
             <EmptyTableColumn />
           ) : (
             <SpacedTableColumn>
               <ErrorWrappedInput
+                name={`${id}-qcode-entry`}
+                data-test={`${id}-test-input`}
                 value={qCode}
                 onChange={(e) => setQcode(e.value)}
                 onBlur={() => handleBlur(id, type, qCode)}
-                name={`${id}-qcode-entry`}
-                data-test={`${id}-test-input`}
                 error={error}
               />
-
-              {error && (
+              {(error || noValQCodeError) && (
                 <QcodeValidationError right>
-                  {QCODE_IS_NOT_UNIQUE}
-                </QcodeValidationError>
-              )}
-
-              {noValQCodeError && (
-                <QcodeValidationError right>
-                  {QCODE_REQUIRED}
+                  {(error && QCODE_IS_NOT_UNIQUE) ||
+                    (noValQCodeError && QCODE_REQUIRED)}
                 </QcodeValidationError>
               )}
             </SpacedTableColumn>
@@ -223,21 +201,6 @@ const Row = memo((props) => {
   );
 });
 
-const RowBuilder = (answers, duplicates) => {
-  if (answers) {
-    return answers.map((item, index) => {
-      return (
-        <Row
-          key={`${item.id}-${index}`}
-          {...item}
-          error={duplicates[item.qCode] > 1}
-          noValQCodeError={!item.qCode}
-        />
-      );
-    });
-  }
-};
-
 Row.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
@@ -266,18 +229,18 @@ export const UnwrappedQCodeTable = () => {
         </TableRow>
       </TableHead>
       <StyledTableBody>
-        {RowBuilder(flattenedAnswers, duplicates)}
+        {flattenedAnswers &&
+          flattenedAnswers.map((item, index) => (
+            <Row
+              key={`${item.id}-${index}`}
+              {...item}
+              error={duplicates[item.qCode] > 1}
+              noValQCodeError={!item.qCode}
+            />
+          ))}
       </StyledTableBody>
     </Table>
   );
-};
-
-UnwrappedQCodeTable.propTypes = {
-  loading: PropTypes.bool,
-  error: PropTypes.object, //eslint-disable-line
-  data: PropTypes.shape({
-    questionnaire: CustomPropTypes.questionnaire,
-  }),
 };
 
 export default UnwrappedQCodeTable;
