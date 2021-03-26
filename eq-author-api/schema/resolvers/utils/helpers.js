@@ -81,10 +81,44 @@ const remapAllNestedIds = (entity) => {
   });
 };
 
+const getPosition = (position, comparator) =>
+  typeof position === "number" ? position : comparator.length;
+
+const getMovePosition = (section, pageId, position) => {
+  if (!section.folders) {
+    throw new Error("Section doesn't have a folder");
+  }
+
+  let pointer = 0;
+  let positionMap = {};
+
+  for (let i = 0; i < section.folders.length; i++) {
+    for (let j = 0; j < section.folders[i].pages.length; j++) {
+      const page = section.folders[i].pages[j];
+      if (page.id === pageId) {
+        positionMap.previous = {
+          folderIndex: i,
+          pageIndex: j,
+          page,
+        };
+      }
+      if (pointer === position) {
+        positionMap.next = { folderIndex: i };
+      }
+      pointer++;
+    }
+  }
+
+  const { previous, next } = positionMap;
+  return { previous, next };
+};
+
 module.exports = {
   idExists,
   getAbsolutePositionById,
   generateOrderedIdMap,
   getOrderedIdMap,
   remapAllNestedIds,
+  getPosition,
+  getMovePosition,
 };

@@ -1,5 +1,4 @@
-const { compact, filter, get, find, flatMap, some } = require("lodash");
-
+const { compact, get, find, flatMap, some } = require("lodash");
 const { getFolders, getFolderById } = require("./folderGetters");
 const { getSectionById } = require("./sectionGetters");
 
@@ -39,19 +38,6 @@ const getConfirmations = (ctx) =>
 
 const getConfirmationById = (ctx, id) => find(getConfirmations(ctx), { id });
 
-const getSkippableById = (ctx, id) =>
-  getFolderById(ctx, id) ||
-  getConfirmationById(ctx, id) ||
-  getPageById(ctx, id);
-const getSkippables = (ctx) => [
-  ...getFolders(ctx),
-  ...getConfirmations(ctx),
-  ...getPages(ctx),
-];
-
-const getSkipConditions = (ctx) =>
-  flatMap(filter(getSkippables(ctx), "skipConditions"), "skipConditions");
-
 module.exports = {
   getPages,
   getPagesBySectionId,
@@ -63,7 +49,4 @@ module.exports = {
   getPageByAnswerId,
   getConfirmations,
   getConfirmationById,
-  getSkippableById,
-  getSkippables,
-  getSkipConditions,
 };
