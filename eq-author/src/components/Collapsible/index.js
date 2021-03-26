@@ -82,10 +82,10 @@ const HideThisButton = styled(Button)`
 `;
 
 const Collapsible = ({
-  showHide,
-  withoutHideThis,
+  showHide = false,
+  withoutHideThis = false,
   title,
-  defaultOpen,
+  defaultOpen = false,
   className,
   children,
 }) => {
@@ -138,9 +138,29 @@ const Collapsible = ({
 };
 
 Collapsible.propTypes = {
+  /**
+   * Text to show on the toggle button.
+   */
   title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  /**
+   * When true, the collapsible is open on every render.
+   */
   defaultOpen: PropTypes.bool,
+  /**
+   * When true, the title is prefixed with 'Show' when the collapsible is closed and 'Hide' when it is open.
+   */
+  showHide: PropTypes.bool,
+  /**
+   * If true, the 'Hide this' button is not shown.
+   */
+  withoutHideThis: PropTypes.bool,
+  /**
+   * Child components of the collapsible; these will be shown when the collapsible is open.
+   */
+  children: PropTypes.node.isRequired,
+  /**
+   * Allows for CSS classes to be filtered down when using Styled-Components.
+   */
   className: PropTypes.string,
 };
 
