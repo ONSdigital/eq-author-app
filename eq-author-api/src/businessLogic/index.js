@@ -10,6 +10,7 @@ const createQuestionPage = require("./createQuestionPage");
 const createCalculatedSummary = require("./createCalculatedSummary");
 const createFolder = require("./createFolder");
 const createSection = require("./createSection");
+const createTheme = require("./createTheme");
 
 module.exports = {
   createRouting,
@@ -24,4 +25,5 @@ module.exports = {
   createCalculatedSummary,
   createFolder,
   createSection,
+  createTheme,
 };

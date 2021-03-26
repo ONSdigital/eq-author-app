@@ -42,6 +42,7 @@ const {
   createLeftSide,
   createFolder,
   createSection,
+  createTheme,
 } = require("../../src/businessLogic");
 
 const {
@@ -64,7 +65,6 @@ const {
   remapAllNestedIds,
   returnValidationErrors,
   getThemeByShortName,
-  createTheme,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
