@@ -7,10 +7,10 @@ import { colors, focusStyle } from "constants/theme";
 
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "components/buttons/Button";
-import Collapsible from "components/Collapsible";
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
 import AddComment from "../AddComment";
+import Replies from "../Replies";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
@@ -232,55 +232,6 @@ const CommentWithReplies = ({
     margin-bottom: 1em;
   `;
 
-  const Replies = styled(Collapsible)`
-    .collapsible-title,
-    .collapsible-title > * {
-      font-weight: normal;
-      padding: 0;
-    }
-
-    .collapsible-header {
-      margin-bottom: 1em;
-    }
-
-    .collapsible-body {
-      border-left: none;
-      margin-top: 0;
-    }
-
-    ul {
-      padding: 0;
-
-      li {
-        display: block;
-      }
-    }
-  `;
-
-  const numOfReplies = replies.length;
-
-  const buildReplies = (
-    commentId,
-    replies,
-    onUpdateReply,
-    onDeleteReply,
-    showAddReply,
-    showReplyBtn
-  ) =>
-    replies.map(({ id, ...rest }) => (
-      <li key={`comment-${id}`}>
-        <Comment
-          commentId={commentId}
-          replyId={id}
-          onUpdateComment={onUpdateReply}
-          onDeleteComment={onDeleteReply}
-          showAddReply={showAddReply}
-          showReplyBtn={showReplyBtn}
-          {...rest}
-        />
-      </li>
-    ));
-
   return (
     <>
       <Comment
@@ -291,7 +242,7 @@ const CommentWithReplies = ({
         showReplyBtn={showReplyBtn}
         {...comment}
       />
-      {!disableReplies && !addReplyVisible && replyBtnVisible && (
+      {!addReplyVisible && replyBtnVisible && (
         <ReplyBtn
           variant="greyed"
           small-medium
@@ -305,31 +256,22 @@ const CommentWithReplies = ({
           key={`add-comment-${comment.id}`}
           showCancel
           commentId={comment.id}
-          onAdd={(commentText, commentId) => {
-            onAddReply(commentText, commentId);
-            showAddReply(false);
-          }}
+          onAdd={(commentText, commentId) =>
+            onAddReply(commentText, commentId, () => {
+              showAddReply(false);
+            })
+          }
           onCancel={() => showAddReply(false)}
         />
       )}
-      {!disableReplies && numOfReplies > 0 ? (
-        <Replies
-          title={`${numOfReplies} ${numOfReplies > 1 ? "replies" : "reply"}`}
-          showHide
-          withoutHideThis
-        >
-          <ul>
-            {buildReplies(
-              comment.id,
-              replies,
-              onUpdateReply,
-              onDeleteReply,
-              showAddReply,
-              showReplyBtn
-            )}
-          </ul>
-        </Replies>
-      ) : null}
+      <Replies
+        commentId={comment.id}
+        replies={replies}
+        onUpdateReply={onUpdateReply}
+        onDeleteReply={onDeleteReply}
+        showAddReply={showAddReply}
+        showReplyBtn={showReplyBtn}
+      />
     </>
   );
 };

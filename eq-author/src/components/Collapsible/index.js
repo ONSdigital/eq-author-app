@@ -85,7 +85,7 @@ const Collapsible = ({
   showHide = false,
   withoutHideThis = false,
   title,
-  defaultOpen = false,
+  defaultOpen,
   className,
   children,
 }) => {

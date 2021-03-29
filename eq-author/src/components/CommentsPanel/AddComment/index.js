@@ -6,6 +6,34 @@ import { colors, focusStyle } from "constants/theme";
 
 import Button from "components/buttons/Button";
 
+const Wrapper = styled.div`
+  margin-bottom: 1em;
+`;
+
+const TextArea = styled.textarea`
+  height: 94px;
+  width: 100%;
+  border: thin solid ${colors.grey};
+  resize: none;
+  font-size: 1em;
+  font-family: inherit;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+
+  &:focus {
+    ${focusStyle}
+    outline: none;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+
+  button {
+    margin-right: 0.5em;
+  }
+`;
+
 const AddComment = ({
   showCancel = false,
   onCancel,
@@ -13,34 +41,6 @@ const AddComment = ({
   commentId,
   className,
 }) => {
-  const Wrapper = styled.div`
-    margin-bottom: 1em;
-  `;
-
-  const TextArea = styled.textarea`
-    height: 94px;
-    width: 100%;
-    border: thin solid ${colors.grey};
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-
-    &:focus {
-      ${focusStyle}
-      outline: none;
-    }
-  `;
-
-  const ButtonGroup = styled.div`
-    display: flex;
-
-    button {
-      margin-right: 0.5em;
-    }
-  `;
-
   const [commentText, updateCommentText] = useState("");
 
   return (
