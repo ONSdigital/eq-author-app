@@ -6,9 +6,11 @@ const {
   getPageById,
   getSectionByPageId,
   getFolderById,
-  createQuestionPage,
   getFolderByPageId,
 } = require("../utils");
+
+const { createQuestionPage } = require("../../../src/businessLogic");
+
 const { createMutation } = require("../createMutation");
 
 const Resolvers = {};

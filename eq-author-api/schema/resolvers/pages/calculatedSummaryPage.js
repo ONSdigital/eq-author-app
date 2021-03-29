@@ -16,10 +16,11 @@ const {
   getAnswerById,
   getFolderById,
   getSectionByPageId,
-  createCalculatedSummary,
   returnValidationErrors,
   getFolderByPageId,
 } = require("../utils");
+
+const { createCalculatedSummary } = require("../../../src/businessLogic");
 
 const Resolvers = {};
 

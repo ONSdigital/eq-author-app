@@ -6,6 +6,11 @@ const createExpression = require("./createExpression");
 const createLeftSide = require("./createLeftSide");
 const getNextDestination = require("./getNextDestination");
 const createRightSide = require("./createRightSide");
+const createQuestionPage = require("./createQuestionPage");
+const createCalculatedSummary = require("./createCalculatedSummary");
+const createFolder = require("./createFolder");
+const createSection = require("./createSection");
+const createTheme = require("./createTheme");
 
 module.exports = {
   createRouting,
@@ -16,4 +21,9 @@ module.exports = {
   createLeftSide,
   getNextDestination,
   createRightSide,
+  createQuestionPage,
+  createCalculatedSummary,
+  createFolder,
+  createSection,
+  createTheme,
 };
