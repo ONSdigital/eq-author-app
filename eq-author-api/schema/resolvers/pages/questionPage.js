@@ -1,4 +1,4 @@
-const { merge } = require("lodash");
+const { merge, omit } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
 
@@ -48,7 +48,7 @@ Resolvers.Mutation = {
   ),
   updateQuestionPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
-    merge(page, input);
+    merge(page, omit(input, "folderId"));
     return page;
   }),
 };

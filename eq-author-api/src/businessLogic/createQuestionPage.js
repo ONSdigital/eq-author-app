@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const { omit } = require("lodash");
 
 const createQuestionPage = (input = {}) => ({
   id: uuidv4(),
@@ -12,7 +13,7 @@ const createQuestionPage = (input = {}) => ({
   answers: [],
   routing: null,
   alias: null,
-  ...input,
+  ...omit(input, "folderId"),
 });
 
 module.exports = createQuestionPage;
