@@ -303,7 +303,6 @@ const CommentWithReplies = ({
       {addReplyVisible && (
         <AddComment
           key={`add-comment-${comment.id}`}
-          autoFocus
           showCancel
           commentId={comment.id}
           onAdd={(commentText, commentId) => {
@@ -392,9 +391,7 @@ CommentWithReplies.propTypes = {
     author: PropTypes.string.isRequired,
     datePosted: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    dateModified: PropTypes.string.isRequired,
-    onUpdateComment: PropTypes.func.isRequired,
-    onDeleteComment: PropTypes.func.isRequired,
+    dateModified: PropTypes.string,
     commentId: PropTypes.string,
   }).isRequired,
   /**
@@ -405,9 +402,7 @@ CommentWithReplies.propTypes = {
       author: PropTypes.string.isRequired,
       datePosted: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-      dateModified: PropTypes.string.isRequired,
-      onUpdateComment: PropTypes.func,
-      onDeleteComment: PropTypes.func,
+      dateModified: PropTypes.string,
       commentId: PropTypes.string,
       replyId: PropTypes.string,
     })

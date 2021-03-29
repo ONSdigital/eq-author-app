@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -10,11 +10,10 @@ const AddComment = ({
   showCancel = false,
   onCancel,
   onAdd,
-  autoFocus = false,
   commentId,
   className,
 }) => {
-  const Wrapper = styled.form`
+  const Wrapper = styled.div`
     margin-bottom: 1em;
   `;
 
@@ -42,19 +41,25 @@ const AddComment = ({
     }
   `;
 
+  const [commentText, updateCommentText] = useState("");
+
   return (
-    <Wrapper
-      className={className}
-      onSubmit={(e) => {
-        e.preventDefault();
-        let commentText = e.target.newComment.value;
-        onAdd(commentText, commentId);
-        commentText = "";
-      }}
-    >
-      <TextArea autoFocus={autoFocus} id="newComment" required />
+    <Wrapper className={className}>
+      <TextArea
+        value={commentText}
+        onChange={({ target: { value } }) => updateCommentText(value)}
+      />
       <ButtonGroup>
-        <Button type="submit" variant="greyed" small-medium>
+        <Button
+          type="submit"
+          variant="greyed"
+          small-medium
+          disabled={commentText.length === 0}
+          onClick={() => {
+            onAdd(commentText, commentId);
+            updateCommentText("");
+          }}
+        >
           Add
         </Button>
         {showCancel && (
