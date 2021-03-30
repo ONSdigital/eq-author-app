@@ -5,8 +5,6 @@ import moment from "moment";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
-import TextareaAutosize from "react-textarea-autosize";
-import Button from "components/buttons/Button";
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
 import CommentEditor from "components/Comments/CommentEditor";
