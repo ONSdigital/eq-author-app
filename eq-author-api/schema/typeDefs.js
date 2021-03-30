@@ -452,6 +452,7 @@ enum AnswerType {
 
 enum ThemeShortName {
   default
+  social
   census
   northernireland
 }

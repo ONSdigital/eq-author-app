@@ -10,8 +10,8 @@ describe("migrations: add default theme", () => {
     expect(addDefaultTheme(questionnaire)).toMatchObject(questionnaire);
   });
 
-  it("should add default theme information to questionnaires lacking it", () => {
-    const questionnaire = {};
+  it("should add default theme information to business questionnaires lacking it", () => {
+    const questionnaire = { introduction: {} };
 
     expect(addDefaultTheme(questionnaire)).toMatchObject({
       previewTheme: "default",
@@ -45,6 +45,19 @@ describe("migrations: add default theme", () => {
           legalBasisCode: legalBasis,
           eqId: "",
           formType: "",
+        }),
+      ],
+    });
+  });
+
+  it("should give social surveys the social theme by default", () => {
+    const questionnaire = {}; // Look ma, no intro
+
+    expect(addDefaultTheme(questionnaire)).toMatchObject({
+      previewTheme: "social",
+      themes: [
+        expect.objectContaining({
+          shortName: "social",
         }),
       ],
     });
