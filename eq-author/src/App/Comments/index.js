@@ -18,8 +18,8 @@ import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
-import Comment from "./Comment";
-import AddComment from "./AddComment";
+import Comment from "components/Comments/Comment";
+import CommentEditor from "components/Comments/CommentEditor";
 
 const CommentsPanel = ({ componentId }) => {
   const Wrapper = styled.section`
@@ -165,10 +165,10 @@ const CommentsPanel = ({ componentId }) => {
   return (
     <Wrapper>
       <h1>Comments</h1>
-      <AddComment
+      <CommentEditor
         key={`add-comment-${componentId}`}
         className="AddComment"
-        onAdd={(commentText) =>
+        onConfirm={(commentText) =>
           createComment({
             variables: {
               input: {

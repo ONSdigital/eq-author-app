@@ -9,8 +9,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import Button from "components/buttons/Button";
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
-import AddComment from "../AddComment";
-import Replies from "../Replies";
+import CommentEditor from "components/Comments/CommentEditor";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
@@ -52,7 +51,7 @@ const IconButton = ({ icon, onClick, children }) => {
   );
 };
 
-export const Comment = ({
+const PureComment = ({
   author,
   datePosted,
   text,
@@ -64,7 +63,6 @@ export const Comment = ({
   showAddReply,
   showReplyBtn,
 }) => {
-  const [editing, setEditing] = useState(false);
   const Comment = styled.div`
     margin-bottom: 1em;
   `;
@@ -87,21 +85,6 @@ export const Comment = ({
     padding: 0.5em 1em;
     margin: 0;
     margin-bottom: 0.3125em;
-  `;
-
-  const EditText = styled(TextareaAutosize)`
-    width: 100%;
-    border: thin solid ${colors.grey};
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-
-    &:focus {
-      ${focusStyle}
-      outline: none;
-    }
   `;
 
   const Avatar = styled.p`
@@ -145,6 +128,8 @@ export const Comment = ({
     .splice(0, 2)
     .join("");
 
+  const [editing, setEditing] = useState(false);
+
   return (
     <Comment>
       <Header>
@@ -175,37 +160,23 @@ export const Comment = ({
       <Body>
         {!editing && <Text>{text}</Text>}
         {editing && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              let commentText = e.target.updatedComment.value;
+          <CommentEditor
+            showCancel
+            confirmText={"Save"}
+            replyId={replyId}
+            commentId={commentId}
+            initialValue={text}
+            variant={"growable"}
+            onConfirm={(commentText, commentId, replyId) => {
               onUpdateComment(commentId, commentText, replyId);
               setEditing(false);
               showReplyBtn(true);
             }}
-          >
-            <EditText
-              id="updatedComment"
-              autoFocus
-              defaultValue={text}
-              required
-            />
-            <ButtonGroup>
-              <Button type="submit" variant="greyed" small-medium>
-                Save
-              </Button>
-              <Button
-                variant="greyed"
-                small-medium
-                onClick={() => {
-                  setEditing(false);
-                  showReplyBtn(true);
-                }}
-              >
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </form>
+            onCancel={() => {
+              setEditing(false);
+              showReplyBtn(true);
+            }}
+          />
         )}
         {dateModified && (
           <Date>{`Edited: ${moment(dateModified).calendar()}`}</Date>
@@ -215,74 +186,15 @@ export const Comment = ({
   );
 };
 
-const CommentWithReplies = ({
-  comment,
-  onUpdateComment,
-  onDeleteComment,
-  replies = [],
-  onAddReply,
-  onUpdateReply,
-  onDeleteReply,
-  disableReplies = false,
-}) => {
-  const [addReplyVisible, showAddReply] = useState(false);
-  const [replyBtnVisible, showReplyBtn] = useState(!disableReplies);
-
-  const ReplyBtn = styled(Button)`
-    margin-bottom: 1em;
-  `;
-
-  return (
-    <>
-      <Comment
-        commentId={comment.id}
-        onUpdateComment={onUpdateComment}
-        onDeleteComment={onDeleteComment}
-        showAddReply={showAddReply}
-        showReplyBtn={showReplyBtn}
-        {...comment}
-      />
-      {!addReplyVisible && replyBtnVisible && (
-        <ReplyBtn
-          variant="greyed"
-          small-medium
-          onClick={() => showAddReply(true)}
-        >
-          Reply
-        </ReplyBtn>
-      )}
-      {addReplyVisible && (
-        <AddComment
-          key={`add-comment-${comment.id}`}
-          showCancel
-          commentId={comment.id}
-          onAdd={(commentText, commentId) =>
-            onAddReply(commentText, commentId, () => {
-              showAddReply(false);
-            })
-          }
-          onCancel={() => showAddReply(false)}
-        />
-      )}
-      <Replies
-        commentId={comment.id}
-        replies={replies}
-        onUpdateReply={onUpdateReply}
-        onDeleteReply={onDeleteReply}
-        showAddReply={showAddReply}
-        showReplyBtn={showReplyBtn}
-      />
-    </>
-  );
-};
-
-IconButton.propTypes = {
-  icon: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-};
-
-Comment.propTypes = {
+PureComment.propTypes = {
+  /**
+   * The ID of the comment. If the comment is a reply, this is the ID of the root comment.
+   */
+  commentId: PropTypes.string.isRequired,
+  /**
+   * The ID of the reply to the root comment.
+   */
+  replyId: PropTypes.string,
   /**
    * The name of the entity who made the comment.
    */
@@ -308,14 +220,6 @@ Comment.propTypes = {
    */
   onDeleteComment: PropTypes.func.isRequired,
   /**
-   * The ID of the comment. If the comment is a reply, this is the ID of the root comment.
-   */
-  commentId: PropTypes.string.isRequired,
-  /**
-   * The ID of the reply to the root comment.
-   */
-  replyId: PropTypes.string,
-  /**
    * If replies are enabled, this function is called to hide the 'Add reply' form when the 'Edit' button is pressed.
    */
   showAddReply: PropTypes.func,
@@ -325,72 +229,4 @@ Comment.propTypes = {
   showReplyBtn: PropTypes.func,
 };
 
-CommentWithReplies.propTypes = {
-  /**
-   The root comment.
-  */
-  comment: PropTypes.shape({
-    author: PropTypes.string.isRequired,
-    datePosted: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    dateModified: PropTypes.string,
-    commentId: PropTypes.string,
-  }).isRequired,
-  /**
-   Replies to the root comment.
-  */
-  replies: PropTypes.arrayOf(
-    PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      datePosted: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      dateModified: PropTypes.string,
-      commentId: PropTypes.string,
-      replyId: PropTypes.string,
-    })
-  ),
-  /**
-   Enables or disables the ability to reply to the root comment.
-   */
-  disableReplies: PropTypes.bool,
-  /**
-   Updates the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the comment being updated
-  */
-  onUpdateComment: PropTypes.func.isRequired,
-  /**
-   Deletes the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the comment being deleted
-  */
-  onDeleteComment: PropTypes.func.isRequired,
-  /**
-   Adds a reply to the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of root comment being replied to
-  */
-  onAddReply: PropTypes.func.isRequired,
-  /**
-   Updates a reply to the root comment.
-  */
-  onUpdateReply: PropTypes.func.isRequired,
-  /**
-   Deletes a reply to the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the root comment of the reply being deleted
-  - `replyId` ~ The ID of the reply being deleted
-
-  */
-  onDeleteReply: PropTypes.func.isRequired,
-};
-
-export default CommentWithReplies;
+export default PureComment;
