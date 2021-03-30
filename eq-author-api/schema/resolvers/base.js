@@ -117,7 +117,9 @@ const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFir
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
 const createNewQuestionnaire = (input) => {
-  const defaultTheme = createTheme();
+  const defaultTheme = createTheme({
+    shortName: input.type === BUSINESS ? "default" : "social",
+  });
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",

@@ -112,7 +112,7 @@ describe("questionnaire", () => {
       });
     });
 
-    it("should create a default theme when questionnaire created", async () => {
+    it("should give business questionnaires the 'default' theme when questionnaire created", async () => {
       const questionnaire = await createQuestionnaire(ctx, {
         ...config,
         type: BUSINESS,
@@ -130,6 +130,25 @@ describe("questionnaire", () => {
         ]),
       });
     });
+
+    it("should give social questionnaires the 'social' theme when questionnaire created", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: SOCIAL,
+      });
+      expect(questionnaire).toMatchObject({
+        previewTheme: "social",
+        themes: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(String),
+            shortName: "social",
+            legalBasisCode: "NOTICE_1",
+            eqId: "",
+            formType: "",
+          }),
+        ]),
+      });
+    });
   });
 
   describe("mutate", () => {
@@ -139,6 +158,7 @@ describe("questionnaire", () => {
         description: "description",
         sections: [{}],
         metadata: [{}],
+        type: BUSINESS,
       });
     });
     it("should mutate a questionnaire", async () => {
