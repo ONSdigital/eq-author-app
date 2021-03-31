@@ -12,7 +12,13 @@ import CommentEditor from "components/Comments/CommentEditor";
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
 
-const IconButton = ({ icon, onClick, children }) => {
+const IconButton = ({
+  icon,
+  onClick,
+  children,
+  "data-test": dataTest,
+  ...rest
+}) => {
   const Button = styled.button`
     padding: 0;
     padding-left: 3px;
@@ -38,10 +44,14 @@ const IconButton = ({ icon, onClick, children }) => {
       background-color: ${colors.black};
     }
   `;
-
   return (
-    <Tooltip place="top" offset={{ top: 0, bottom: 10 }} content={children}>
-      <Button onClick={onClick}>
+    <Tooltip
+      place="top"
+      offset={{ top: 0, bottom: 10 }}
+      content={children}
+      {...rest}
+    >
+      <Button onClick={onClick} data-test={dataTest}>
         <Icon />
         <VisuallyHidden>{children}</VisuallyHidden>
       </Button>
@@ -129,15 +139,18 @@ const PureComment = ({
   const [editing, setEditing] = useState(false);
 
   return (
-    <Comment>
-      <Header>
-        <Avatar>{authorInitials}</Avatar>
+    <Comment data-test="PureComment">
+      <Header data-test="PureComment__Header">
+        <Avatar data-test="PureComment__Avatar">{authorInitials}</Avatar>
         <ColumnWrapper>
-          <Author>{author}</Author>
-          <Date>{moment(datePosted).calendar()}</Date>
+          <Author data-test="PureComment__Author">{author}</Author>
+          <Date data-test="PureComment__DatePosted">
+            {moment(datePosted).calendar()}
+          </Date>
         </ColumnWrapper>
         <RightButtonGroup>
           <IconButton
+            data-test="PureComment__EditCommentBtn"
             icon={iconEdit}
             onClick={() => {
               setEditing(true);
@@ -148,6 +161,7 @@ const PureComment = ({
             Edit comment
           </IconButton>
           <IconButton
+            data-test="PureComment__DeleteCommentBtn"
             icon={iconClose}
             onClick={() => onDeleteComment(commentId, replyId)}
           >
@@ -155,10 +169,11 @@ const PureComment = ({
           </IconButton>
         </RightButtonGroup>
       </Header>
-      <Body>
-        {!editing && <Text>{text}</Text>}
+      <Body data-test="PureComment__Body">
+        {!editing && <Text data-test="PureComment__CommentText">{text}</Text>}
         {editing && (
           <CommentEditor
+            data-test="PureComment__CommentEditor"
             showCancel
             confirmText={"Save"}
             replyId={replyId}
@@ -177,7 +192,9 @@ const PureComment = ({
           />
         )}
         {dateModified && (
-          <Date>{`Edited: ${moment(dateModified).calendar()}`}</Date>
+          <Date data-test="PureComment__DateModified">{`Edited: ${moment(
+            dateModified
+          ).calendar()}`}</Date>
         )}
       </Body>
     </Comment>
@@ -188,6 +205,7 @@ IconButton.propTypes = {
   icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  "data-test": PropTypes.string,
 };
 
 PureComment.propTypes = {

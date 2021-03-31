@@ -40,17 +40,17 @@ Default.args = {
   comment: {
     commentId: "1",
     author: "Jane Doe",
-    datePosted: "Today at 15:43",
+    datePosted: "2021-03-30T14:48:00.000Z",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   replies: [
     {
       id: "1.1",
       author: "Joe Bloggs",
-      datePosted: "Today at 16:22",
+      datePosted: "2021-03-30T14:58:00.000Z",
       text:
         "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
-      dateModified: "Today at 17:01",
+      dateModified: "2021-03-30T15:48:00.000Z",
     },
   ],
   onAddReply: () => alert("Reply added"),
@@ -65,22 +65,22 @@ MultipleReplies.args = {
   comment: {
     commentId: "1",
     author: "Jane Doe",
-    datePosted: "Today at 15:43",
+    datePosted: "2021-03-30T14:48:00.000Z",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   replies: [
     {
       id: "1.1",
       author: "Joe Bloggs",
-      datePosted: "Today at 16:22",
+      datePosted: "2021-03-30T14:58:00.000Z",
       text:
         "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
-      dateModified: "Today at 17:01",
+      dateModified: "2021-03-30T15:48:00.000Z",
     },
     {
       id: "1.2",
       author: "Jane Doe",
-      datePosted: "Today at 16:24",
+      datePosted: "2021-03-30T16:48:00.000Z",
       text:
         "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
     },

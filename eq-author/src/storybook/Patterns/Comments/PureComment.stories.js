@@ -37,7 +37,7 @@ export const Default = PureCommentTemplate.bind({});
 Default.args = {
   commentId: "1",
   author: "Jane Doe",
-  datePosted: "Today at 15:43",
+  datePosted: "2021-03-30T14:48:00.000Z",
   text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   onUpdateComment: () => alert("Comment updated"),
   onDeleteComment: () => alert("Comment deleted"),

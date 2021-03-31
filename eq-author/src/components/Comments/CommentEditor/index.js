@@ -65,7 +65,7 @@ const CommentEditor = ({
   const [commentText, updateCommentText] = useState(initialValue);
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} data-test="CommentEditor">
       {variant === "fixed" && (
         <TextAreaFixedSize
           value={commentText}
