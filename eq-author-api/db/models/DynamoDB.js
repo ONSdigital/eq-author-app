@@ -170,6 +170,9 @@ const userSchema = new dynamoose.Schema(
     picture: {
       type: String,
     },
+    starredQuestionnaires: {
+      type: Object,
+    },
   },
   {
     throughput,

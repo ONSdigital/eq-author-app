@@ -63,6 +63,7 @@ module.exports = (logger) => async (authHeader) => {
   return {
     ...unverifiedUser,
     id: dbUser.id,
+    starredQuestionnaires: dbUser.starredQuestionnaires || [],
     isVerified: true,
   };
 };

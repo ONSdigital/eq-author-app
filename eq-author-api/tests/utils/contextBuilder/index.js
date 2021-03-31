@@ -44,7 +44,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   };
   await createUser(user);
 
-  const ctx = { questionnaire: null, user };
+  const ctx = { user };
 
   if (!questionnaireConfig) {
     return ctx;

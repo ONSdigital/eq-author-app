@@ -24,13 +24,14 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
 };
 
 const sortQuestionnaires = (state) => (questionnaires) => {
-  const sortedQuestionnaires = sortBy(questionnaires, (questionnaire) =>
-    get(questionnaire, state.currentSortColumn).toUpperCase()
-  );
-  if (state.currentSortOrder === SORT_ORDER.ASCENDING) {
-    return sortedQuestionnaires;
-  }
-  return reverse(sortedQuestionnaires);
+  const sortedQuestionnaires = sortBy(questionnaires, (questionnaire) => {
+    const sortKey = get(questionnaire, state.currentSortColumn);
+    return sortKey?.toUpperCase?.() ?? sortKey;
+  });
+
+  return state.currentSortOrder === SORT_ORDER.ASCENDING
+    ? sortedQuestionnaires
+    : reverse(sortedQuestionnaires);
 };
 
 const filterQuestionnairesBySearch = (state) => (questionnaires) => {
