@@ -184,6 +184,12 @@ const PureComment = ({
   );
 };
 
+IconButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 PureComment.propTypes = {
   /**
    * The ID of the comment. If the comment is a reply, this is the ID of the root comment.

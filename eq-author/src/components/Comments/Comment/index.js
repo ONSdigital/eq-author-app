@@ -135,6 +135,23 @@ const Comment = ({
   );
 };
 
+Replies.propTypes = {
+  replies: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string.isRequired,
+      datePosted: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      dateModified: PropTypes.string,
+      id: PropTypes.string,
+    })
+  ),
+  commentId: PropTypes.string,
+  onUpdateReply: PropTypes.func.isRequired,
+  onDeleteReply: PropTypes.func.isRequired,
+  showAddReply: PropTypes.func,
+  showReplyBtn: PropTypes.func,
+};
+
 Comment.propTypes = {
   /**
    The root comment.
