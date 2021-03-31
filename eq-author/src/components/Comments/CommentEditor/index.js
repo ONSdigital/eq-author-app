@@ -68,18 +68,21 @@ const CommentEditor = ({
     <Wrapper className={className} data-test="CommentEditor">
       {variant === "fixed" && (
         <TextAreaFixedSize
+          data-test="CommentEditor__Input"
           value={commentText}
           onChange={({ target: { value } }) => updateCommentText(value)}
         />
       )}
       {variant === "growable" && (
         <TextAreaGrowable
+          data-test="CommentEditor__Input"
           value={commentText}
           onChange={({ target: { value } }) => updateCommentText(value)}
         />
       )}
       <ButtonGroup>
         <Button
+          data-test="CommentEditor__ConfirmBtn"
           type="submit"
           variant="greyed"
           small-medium
@@ -92,7 +95,12 @@ const CommentEditor = ({
           {confirmText}
         </Button>
         {showCancel && (
-          <Button variant="greyed" small-medium onClick={onCancel}>
+          <Button
+            data-test="CommentEditor__CancelBtn"
+            variant="greyed"
+            small-medium
+            onClick={onCancel}
+          >
             {cancelText}
           </Button>
         )}
