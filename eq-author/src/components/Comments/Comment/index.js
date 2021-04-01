@@ -92,7 +92,7 @@ const Comment = ({
   `;
 
   return (
-    <>
+    <div data-test="Comment">
       <PureComment
         commentId={comment.id}
         onUpdateComment={onUpdateComment}
@@ -103,6 +103,7 @@ const Comment = ({
       />
       {!addReplyVisible && replyBtnVisible && (
         <ReplyBtn
+          data-test="Comment__ReplyBtn"
           variant="greyed"
           small-medium
           onClick={() => showAddReply(true)}
@@ -124,6 +125,7 @@ const Comment = ({
         />
       )}
       <Replies
+        data-test="Comment__Replies"
         commentId={comment.id}
         replies={replies}
         onUpdateReply={onUpdateReply}
@@ -131,7 +133,7 @@ const Comment = ({
         showAddReply={showAddReply}
         showReplyBtn={showReplyBtn}
       />
-    </>
+    </div>
   );
 };
 
