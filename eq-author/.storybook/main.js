@@ -5,6 +5,5 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-controls",
     "@storybook/addon-a11y",
-    "storybook-dark-mode",
   ],
 };
