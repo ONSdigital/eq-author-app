@@ -22,31 +22,31 @@ import Loading from "components/Loading";
 import Comment from "components/Comments/Comment";
 import CommentEditor from "components/Comments/CommentEditor";
 
+const Wrapper = styled.section`
+  h1 {
+    font-size: 1em;
+    margin: 0;
+    padding: 1em;
+    padding-bottom: 0;
+  }
+
+  > ul > li,
+  .AddComment {
+    padding: 1em;
+    padding-bottom: 0;
+  }
+
+  > ul {
+    padding: 0;
+
+    > li {
+      display: block;
+      border-top: 1px solid rgb(228, 232, 235);
+    }
+  }
+`;
+
 const CommentsPanel = ({ componentId }) => {
-  const Wrapper = styled.section`
-    h1 {
-      font-size: 1em;
-      margin: 0;
-      padding: 1em;
-      padding-bottom: 0;
-    }
-
-    > ul > li,
-    .AddComment {
-      padding: 1em;
-      padding-bottom: 0;
-    }
-
-    > ul {
-      padding: 0;
-
-      > li {
-        display: block;
-        border-top: 1px solid rgb(228, 232, 235);
-      }
-    }
-  `;
-
   const [createComment] = useMutation(COMMENT_ADD, {});
   const [updateComment] = useMutation(COMMENT_UPDATE, {});
   const [deleteComment] = useMutation(COMMENT_DELETE, {});
