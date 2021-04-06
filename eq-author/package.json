@@ -105,6 +105,7 @@
     "draft-js-plugins-editor": "latest",
     "draft-js-raw-content-state": "latest",
     "draftjs-filters": "^2.5.0",
+    "eslint": "^7.23.0",
     "firebase": "latest",
     "firebaseui": "latest",
     "graphql": "latest",
