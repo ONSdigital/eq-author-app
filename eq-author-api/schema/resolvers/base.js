@@ -91,6 +91,7 @@ const {
   saveMetadata,
   saveComments,
   getCommentsForQuestionnaire,
+  updateUser,
 } = require("../../db/datastore");
 
 const {
@@ -274,6 +275,31 @@ const Resolvers = {
     updateQuestionnaire: createMutation((_, { input }, ctx) =>
       Object.assign(ctx.questionnaire, input)
     ),
+    toggleQuestionnaireStarred: async (root, { input }, ctx) => {
+      const { questionnaireId } = input;
+      const questionnaire = await getQuestionnaire(questionnaireId);
+      if (!questionnaire) {
+        throw new UserInputError(
+          `Questionnaire with ID ${questionnaireId} does not exist.`
+        );
+      }
+
+      const starredQuestionnaires = ctx.user.starredQuestionnaires || [];
+      const existingStarIndex = starredQuestionnaires.findIndex(
+        (id) => id === questionnaireId
+      );
+
+      if (existingStarIndex > -1) {
+        starredQuestionnaires.splice(existingStarIndex, 1);
+      } else {
+        starredQuestionnaires.push(questionnaireId);
+      }
+
+      ctx.user.starredQuestionnaires = starredQuestionnaires;
+      await updateUser(ctx.user);
+
+      return questionnaire;
+    },
     deleteQuestionnaire: async (_, { input }, ctx) => {
       enforceHasWritePermission(ctx.questionnaire, ctx.user);
       await deleteQuestionnaire(input.id);
@@ -985,6 +1011,11 @@ const Resolvers = {
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },
+    starred: (questionnaire, args, ctx) =>
+      Boolean(
+        ctx.user.starredQuestionnaires &&
+          ctx.user.starredQuestionnaires.find((id) => id === questionnaire.id)
+      ),
   },
 
   History: {

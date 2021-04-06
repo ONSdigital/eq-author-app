@@ -10,7 +10,7 @@ exports[`QuestionConfirmationRoute should render 1`] = `
     <DeleteConfirmDialog
       alertText="All edits will be removed."
       data-test="delete-question-confirmation"
-      icon="question-confirmation-icon.svg"
+      icon="SvgrURL"
       isOpen={false}
       onClose={[Function]}
       onDelete={[Function]}

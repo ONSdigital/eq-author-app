@@ -35,6 +35,7 @@ const {
   enableTheme,
   disableTheme,
   updateTheme,
+  toggleQuestionnaireStarred,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -43,8 +44,7 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 const { NUMBER } = require("../../constants/answerTypes");
 
-const defaultUser = require("../../tests/utils/mockUserPayload");
-const { createUser } = require("../../db/datastore");
+const { getUserById } = require("../../db/datastore");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -63,7 +63,7 @@ describe("questionnaire", () => {
   describe("create", () => {
     let config;
     beforeEach(async () => {
-      ctx = buildContext(null);
+      ctx = await buildContext();
       config = {
         title: "Questionnaire",
         description: "Description",
@@ -74,8 +74,6 @@ describe("questionnaire", () => {
         type: SOCIAL,
         shortTitle: "short title",
       };
-      ctx = { user: defaultUser() };
-      createUser(ctx.user);
     });
 
     it("should create a questionnaire with a section and page", async () => {
@@ -199,6 +197,44 @@ describe("questionnaire", () => {
       });
       const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
+    });
+
+    describe("starring", () => {
+      it("should throw user input error if questionnaire ID doesn't exist", () => {
+        expect(
+          toggleQuestionnaireStarred({
+            questionnaireId: "jabbawock",
+          })
+        ).rejects.toThrow();
+      });
+
+      it("should add the questionnaire ID to the user's starred questionnaires if not already starred", async () => {
+        await toggleQuestionnaireStarred(
+          { questionnaireId: ctx.questionnaire.id },
+          ctx
+        );
+
+        const userWithStar = await getUserById(ctx.user.id);
+        expect(userWithStar.starredQuestionnaires).toHaveLength(1);
+        expect(userWithStar.starredQuestionnaires[0]).toBe(
+          ctx.questionnaire.id
+        );
+      });
+
+      it("should remove the questionnaire ID from the user's starred questionnaires if already starred", async () => {
+        ctx.user.starredQuestionnaires = [ctx.questionnaire.id];
+        await toggleQuestionnaireStarred(
+          { questionnaireId: ctx.questionnaire.id },
+          ctx
+        );
+
+        const updatedUser = await getUserById(ctx.user.id);
+
+        // Testing "backwards" for now - can remove once refactored to only use mongo
+        // Dynamoose sets empty arrays to undefined, hence we have to check that starredQuestionnaires
+        // is either length 0 or undefined
+        expect([0, undefined]).toContain(updatedUser.starredQuestionnaires);
+      });
     });
 
     describe("themes", () => {
@@ -530,6 +566,18 @@ describe("questionnaire", () => {
       );
     });
 
+    it("should resolve starred status as false when a user hasn't starred it", () => {
+      expect(queriedQuestionnaire.starred).toBe(false);
+    });
+
+    it("should resolve starred status as true when a user has starred it", async () => {
+      const reQueriedQuestionnaire = await queryQuestionnaire({
+        ...ctx,
+        user: { starredQuestionnaires: [queriedQuestionnaire.id] },
+      });
+      expect(reQueriedQuestionnaire.starred).toBe(true);
+    });
+
     it("should resolve metadata", () => {
       expect(last(queriedQuestionnaire.metadata).id).toEqual(
         last(ctx.questionnaire.metadata).id
@@ -615,9 +663,7 @@ describe("questionnaire", () => {
   describe("versioning", () => {
     let questionnaireConfig;
     beforeEach(async () => {
-      ctx = buildContext();
-      ctx = { user: defaultUser() };
-      createUser(ctx.user);
+      ctx = await buildContext();
 
       questionnaireConfig = {
         title: "Which Game of Thrones house are you?",
