@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useSubscription } from "react-apollo";
+import { useMe } from "App/MeContext";
 
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
@@ -68,6 +69,8 @@ const CommentsPanel = ({ componentId }) => {
     },
   });
 
+  const { me } = useMe();
+
   if (loading) {
     return <Loading height="100%">Comments loading…</Loading>;
   }
@@ -82,6 +85,8 @@ const CommentsPanel = ({ componentId }) => {
     ({ id, user, commentText, createdTime, editedTime, replies }) => ({
       id,
       author: user.displayName || user.name || "",
+      canEdit: user.id === me.id,
+      canDelete: user.id === me.id,
       datePosted: createdTime,
       dateModified: editedTime,
       text: commentText,
@@ -89,12 +94,18 @@ const CommentsPanel = ({ componentId }) => {
         ({ id, user, commentText, createdTime, editedTime }) => ({
           id,
           author: user.displayName || user.name || "",
+          canEdit: user.id === me.id,
+          canDelete: user.id === me.id,
           datePosted: createdTime,
           dateModified: editedTime,
           text: commentText,
         })
       ),
     })
+  );
+
+  const sortedComments = formattedComments.sort((a, b) =>
+    b.datePosted.toString().localeCompare(a.datePosted.toString())
   );
 
   const renderComments = (comments = [], componentId) =>
@@ -179,7 +190,7 @@ const CommentsPanel = ({ componentId }) => {
           })
         }
       />
-      <ul>{renderComments(formattedComments, componentId)}</ul>
+      <ul>{renderComments(sortedComments, componentId)}</ul>
     </Wrapper>
   );
 };

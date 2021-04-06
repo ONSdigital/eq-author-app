@@ -61,6 +61,8 @@ const IconButton = ({
 
 const PureComment = ({
   author,
+  canEdit,
+  canDelete,
   datePosted,
   text,
   dateModified,
@@ -149,24 +151,29 @@ const PureComment = ({
           </Date>
         </ColumnWrapper>
         <RightButtonGroup>
-          <IconButton
-            data-test="PureComment__EditCommentBtn"
-            icon={iconEdit}
-            onClick={() => {
-              setEditing(true);
-              showReplyBtn(false);
-              showAddReply(false);
-            }}
-          >
-            Edit comment
-          </IconButton>
-          <IconButton
-            data-test="PureComment__DeleteCommentBtn"
-            icon={iconClose}
-            onClick={() => onDeleteComment(commentId, replyId)}
-          >
-            Delete comment
-          </IconButton>
+          {canEdit && (
+            <IconButton
+              data-test="PureComment__EditCommentBtn"
+              icon={iconEdit}
+              onClick={() => {
+                setEditing(true);
+                showReplyBtn(false);
+                showAddReply(false);
+              }}
+            >
+              Edit comment
+            </IconButton>
+          )}
+
+          {canDelete && (
+            <IconButton
+              data-test="PureComment__DeleteCommentBtn"
+              icon={iconClose}
+              onClick={() => onDeleteComment(commentId, replyId)}
+            >
+              Delete comment
+            </IconButton>
+          )}
         </RightButtonGroup>
       </Header>
       <Body data-test="PureComment__Body">
@@ -221,6 +228,14 @@ PureComment.propTypes = {
    * The name of the entity who made the comment.
    */
   author: PropTypes.string.isRequired,
+  /**
+   * When true, the 'Edit' button is enabled.
+   */
+  canEdit: PropTypes.bool.isRequired,
+  /**
+   * When true, the 'Delete' button is enabled.
+   */
+  canDelete: PropTypes.bool.isRequired,
   /**
    * In dateTime format, the date when the comment was made.
    */
