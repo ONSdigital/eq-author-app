@@ -48,6 +48,7 @@
     "enzyme": "latest",
     "enzyme-adapter-react-16": "latest",
     "enzyme-to-json": "latest",
+    "eslint": "latest",
     "eslint-config-eq-author": "latest",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-loader": "latest",
@@ -105,7 +106,6 @@
     "draft-js-plugins-editor": "latest",
     "draft-js-raw-content-state": "latest",
     "draftjs-filters": "^2.5.0",
-    "eslint": "^7.23.0",
     "firebase": "latest",
     "firebaseui": "latest",
     "graphql": "latest",
@@ -156,8 +156,12 @@
       "<rootDir>/src/tests/setup/throwOnConsole.js",
       "<rootDir>/src/tests/setup/mockLocalStorage.js"
     ],
-    "setupFilesAfterEnv": ["<rootDir>/src/tests/setup/JestTestSetup.js"],
-    "snapshotSerializers": ["<rootDir>/node_modules/enzyme-to-json/serializer"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup/JestTestSetup.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
     ],
@@ -168,15 +172,26 @@
       "\\.(gql|graphql)$": "jest-transform-graphql",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
       "\\.svg\\?inline$": "<rootDir>/config/jest/svgTransform.js",
       "\\.svg": "<rootDir>/__mocks__/svgrMock.js"
     },
-    "modulePaths": ["<rootDir>/src/"]
+    "modulePaths": [
+      "<rootDir>/src/"
+    ]
   },
-  "moduleRoots": ["./src"],
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
+  "moduleRoots": [
+    "./src"
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "proxy": "http://localhost:4000"
 }
