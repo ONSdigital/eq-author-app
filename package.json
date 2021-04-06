@@ -22,6 +22,7 @@
   "homepage": "https://github.com/ONSdigital/eq-author-app#readme",
   "dependencies": {
     "eslint": "^7.23.0",
+    "eslint-config-eq-author": "^2.0.2",
     "husky": "latest",
     "lint-staged": "latest",
     "prettier": "^2.2.1",
