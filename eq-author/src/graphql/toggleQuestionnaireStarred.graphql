@@ -1,0 +1,6 @@
+mutation ToggleQuestionnaireStarred($input: ToggleQuestionnaireStarredInput!) {
+  toggleQuestionnaireStarred(input: $input) {
+    id
+    starred
+  }
+}

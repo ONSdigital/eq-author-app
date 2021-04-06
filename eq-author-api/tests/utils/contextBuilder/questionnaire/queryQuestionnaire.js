@@ -7,6 +7,7 @@ const getQuestionnaireQuery = `
       title
       description
       theme
+      starred
       navigation
       surveyId
       createdAt

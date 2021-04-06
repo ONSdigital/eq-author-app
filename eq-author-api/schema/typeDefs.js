@@ -50,6 +50,7 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
+  starred: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
@@ -695,6 +696,10 @@ input UpdateThemeInput {
   formType: String
 }
 
+input ToggleQuestionnaireStarredInput {
+  questionnaireId: ID!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -722,6 +727,8 @@ type Mutation {
   deleteFolder(input: DeleteFolderInput!): Section
   moveFolder(input: MoveFolderInput!): Folder
   duplicateFolder(input: DuplicateFolderInput!): Folder
+
+  toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page

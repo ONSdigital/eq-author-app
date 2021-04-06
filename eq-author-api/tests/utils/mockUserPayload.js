@@ -7,4 +7,5 @@ module.exports = () => ({
   name: uuidv4(),
   email: "eq-team@ons.gov.uk",
   picture: "file:///path/to/some/picture.jpg",
+  starredQuestionnaires: [],
 });
