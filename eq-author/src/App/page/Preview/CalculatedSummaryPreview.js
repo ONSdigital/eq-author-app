@@ -10,7 +10,7 @@ import Info from "components/preview/elements/Info";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import { Grid, Column } from "components/Grid";
-import CommentsPanel from "components/CommentsPanel";
+import CommentsPanel from "App/Comments";
 
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
