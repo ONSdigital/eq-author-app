@@ -62,6 +62,7 @@ QuestionnairesTable.fragments = {
       title
       shortTitle
       displayName
+      starred
       createdAt
       updatedAt
       createdBy {

@@ -14,7 +14,14 @@ import {
   ShortTitle,
   DuplicateQuestionnaireButton,
   QuestionnaireLink,
+  StarButton,
 } from "./";
+
+import { useMutation } from "@apollo/react-hooks";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(() => [() => null]),
+}));
 
 describe("Row", () => {
   let props;
@@ -123,6 +130,18 @@ describe("Row", () => {
     props.questionnaire.shortTitle = "";
     wrapper = shallow(<Row {...props} />);
     expect(wrapper.find(ShortTitle)).toHaveLength(0);
+  });
+
+  describe("starring questionnaires", () => {
+    it("should call mutation to toggle star status when star button pressed", () => {
+      const mockMutation = jest.fn();
+      useMutation.mockImplementation(() => [mockMutation]);
+      let wrapper = shallow(<Row {...props} />);
+      wrapper
+        .find(StarButton)
+        .simulate("click", { stopPropagation: jest.fn() });
+      expect(mockMutation).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("deletion", () => {
