@@ -88,6 +88,7 @@ describe("QuestionnairesPage", () => {
                   id: "123",
                   title: "UKIS",
                   shortTitle: null,
+                  starred: false,
                   updatedAt: Date.now().toString(),
                   createdAt: Date.now().toString(),
                   displayName: "UKIS",

@@ -8,7 +8,7 @@ exports[`SectionEditor should render 1`] = `
   <DeleteConfirmDialog
     alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
     data-test="dialog-delete-confirm"
-    icon="icon-dialog-section.svg"
+    icon="SvgrURL"
     isOpen={false}
     onClose={[MockFunction]}
     onDelete={[MockFunction]}
@@ -109,7 +109,7 @@ exports[`SectionEditor should render 2`] = `
   <DeleteConfirmDialog
     alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
     data-test="dialog-delete-confirm"
-    icon="icon-dialog-section.svg"
+    icon="SvgrURL"
     isOpen={false}
     onClose={[MockFunction]}
     onDelete={[MockFunction]}

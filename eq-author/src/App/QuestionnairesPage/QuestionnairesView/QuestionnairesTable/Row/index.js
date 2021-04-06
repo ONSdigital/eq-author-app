@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import Tooltip from "components/Forms/Tooltip";
 
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
@@ -19,6 +20,10 @@ import { WRITE } from "constants/questionnaire-permissions";
 
 import FormattedDate from "./FormattedDate";
 import questionConfirmationIcon from "./icon-questionnaire.svg";
+import { ReactComponent as UnstyledStarredIcon } from "assets/icon-starred.svg";
+import { ReactComponent as UnstyledUnstarredIcon } from "assets/icon-unstarred.svg";
+
+import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
 export const QuestionnaireLink = styled(NavLink)`
   text-decoration: none;
@@ -31,6 +36,44 @@ export const QuestionnaireLink = styled(NavLink)`
   &:focus {
     outline: none;
   }
+`;
+
+const StarredIcon = styled(UnstyledStarredIcon)`
+  display: block;
+  margin: auto;
+`;
+
+const UnstarredIcon = styled(UnstyledUnstarredIcon)`
+  display: block;
+  margin: auto;
+`;
+
+export const StarButton = styled.button`
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em 0.65em;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: center;
+  margin-left: 0.65em;
+
+  background-color: transparent;
+
+  &:hover {
+    background-color: ${colors.blue};
+  }
+
+  &:hover polygon {
+    transition: 0.1s;
+    fill: ${colors.white};
+  }
+
+  &:hover path {
+    transition: 0.1s;
+    fill: ${colors.white};
+  }
+
+  transition: 0.1s;
 `;
 
 export const ShortTitle = styled.span`
@@ -131,6 +174,7 @@ export const Row = ({
     displayName,
     updatedAt,
     permission,
+    starred,
   },
   history,
   onDeleteQuestionnaire,
@@ -139,6 +183,8 @@ export const Row = ({
 }) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleQuestionnaireStarred = useToggleQuestionnaireStarred();
 
   const rowRef = useRef();
   const focusLink = () => {
@@ -211,6 +257,11 @@ export const Row = ({
     onDeleteQuestionnaire(questionnaire);
   };
 
+  const handleStar = (e) => {
+    e.stopPropagation();
+    toggleQuestionnaireStarred(id);
+  };
+
   const hasWritePermisson = permission === WRITE;
 
   return (
@@ -241,6 +292,13 @@ export const Row = ({
           </QuestionnaireLink>
         </TD>
         <TD>{createdBy.displayName}</TD>
+        <TD>
+          <Tooltip content={starred ? "Starred" : "Not starred"} place="top">
+            <StarButton onClick={handleStar}>
+              {starred ? <StarredIcon /> : <UnstarredIcon />}
+            </StarButton>
+          </Tooltip>
+        </TD>
         <TD>
           <FormattedDate date={createdAt} />
         </TD>

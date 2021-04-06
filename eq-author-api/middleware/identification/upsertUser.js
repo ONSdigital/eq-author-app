@@ -7,7 +7,13 @@ const {
 } = require("../../db/datastore");
 
 const checkForUpdates = (user, existingUser) => {
-  const pickRequiredFields = pick(["email", "name", "externalId", "picture"]);
+  const pickRequiredFields = pick([
+    "email",
+    "name",
+    "externalId",
+    "picture",
+    "starredQuestionnaires",
+  ]);
   return isEqual(pickRequiredFields(user), pickRequiredFields(existingUser));
 };
 
@@ -26,17 +32,19 @@ module.exports = async (req, res, next) => {
       }
     }
 
-    await createUser(req.user);
+    await createUser({ ...req.user, starredQuestionnaires: [] });
 
     res.json({ status: "OK" });
     next();
     return;
   }
+
   const existingUser = await getUserByExternalId(user.externalId);
   if (!checkForUpdates(existingUser, req.user)) {
     Object.assign(existingUser, req.user);
     await updateUser(existingUser);
   }
+
   res.json({ status: "OK" });
   next();
   return;
