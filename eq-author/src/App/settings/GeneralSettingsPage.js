@@ -117,6 +117,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     shortTitle,
     type,
     id,
+    qcodes,
     navigation,
     summary,
     collapsibleSummary,
@@ -201,8 +202,14 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         id="toggle-qcodes"
                         name="toggle-qcodes"
                         hideLabels={false}
-                        onChange={() => alert("Test")}
-                        checked={false}
+                        onChange={({ value }) =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: { id, qcodes: value },
+                            },
+                          })
+                        }
+                        checked={qcodes}
                       />
                     </InlineField>
                     <Caption>

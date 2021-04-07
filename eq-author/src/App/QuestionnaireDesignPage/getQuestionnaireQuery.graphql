@@ -36,6 +36,7 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   theme
+  qcodes
   navigation
   summary
   collapsibleSummary
