@@ -177,8 +177,7 @@ const PureComment = ({
         </RightButtonGroup>
       </Header>
       <Body data-test="PureComment__Body">
-        {!editing && <Text data-test="PureComment__CommentText">{text}</Text>}
-        {editing && (
+        {editing ? (
           <CommentEditor
             data-test="PureComment__CommentEditor"
             showCancel
@@ -197,7 +196,7 @@ const PureComment = ({
               showReplyBtn(true);
             }}
           />
-        )}
+        ) : <Text data-test="PureComment__CommentText">{text}</Text>}
         {dateModified && (
           <Date data-test="PureComment__DateModified">{`Edited: ${moment(
             dateModified
