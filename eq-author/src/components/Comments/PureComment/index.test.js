@@ -31,6 +31,8 @@ describe("Pure comment", () => {
         {...mockComment}
         onUpdateComment={mockOnUpdateComment}
         onDeleteComment={mockOnDeleteComment}
+        canDelete
+        canEdit
       />
     );
 
@@ -45,6 +47,8 @@ describe("Pure comment", () => {
         {...mockComment}
         onUpdateComment={mockOnUpdateComment}
         onDeleteComment={mockOnDeleteComment}
+        canDelete
+        canEdit
       />
     );
 
@@ -59,6 +63,8 @@ describe("Pure comment", () => {
         {...mockComment}
         onUpdateComment={mockOnUpdateComment}
         onDeleteComment={mockOnDeleteComment}
+        canDelete
+        canEdit
       />
     );
 
@@ -75,6 +81,8 @@ describe("Pure comment", () => {
         onDeleteComment={mockOnDeleteComment}
         showReplyBtn={mockShowReplyBtn}
         showAddReply={mockShowAddReplyBtn}
+        canDelete
+        canEdit
       />
     );
 
@@ -93,6 +101,8 @@ describe("Pure comment", () => {
         {...mockComment}
         onUpdateComment={mockOnUpdateComment}
         onDeleteComment={mockOnDeleteComment}
+        canDelete
+        canEdit
       />
     );
 
