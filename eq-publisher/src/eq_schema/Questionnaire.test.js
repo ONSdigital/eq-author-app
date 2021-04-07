@@ -1,9 +1,10 @@
 const { last } = require("lodash");
 
 const { BUSINESS, SOCIAL } = require("../constants/questionnaireTypes");
+const legalBases = require("../constants/legalBases");
 const {
   types: { NOTICE_1, VOLUNTARY },
-} = require("../constants/legalBases");
+} = legalBases;
 
 const Questionnaire = require("./Questionnaire");
 const Summary = require("./block-types/Summary");
@@ -34,7 +35,7 @@ describe("Questionnaire", () => {
         ],
         metadata: [],
         introduction: {
-          legalBasis: NOTICE_1,
+          legalBasis: legalBases.types.NOTICE_1,
           collapsibles: [],
         },
       },
@@ -78,7 +79,7 @@ describe("Questionnaire", () => {
     expect(questionnaire.legal_basis).toEqual(undefined);
   });
 
-  it("should set the theme based on the type", () => {
+  it("should set them to 'social' for unmigrated social surveys", () => {
     questionnaire = new Questionnaire(
       createQuestionnaireJSON({ type: SOCIAL })
     );
@@ -335,7 +336,7 @@ describe("Questionnaire", () => {
     ]);
   });
 
-  it("should allow setting northern ireland theme", () => {
+  it("should allow setting northern ireland theme (unmigrated surveys)", () => {
     const questionnaireJson = createQuestionnaireJSON({
       theme: "northernireland",
     });
@@ -346,7 +347,7 @@ describe("Questionnaire", () => {
     );
   });
 
-  it("should allow setting default theme", () => {
+  it("should allow setting default theme (unmigrated surveys)", () => {
     const questionnaireJson = createQuestionnaireJSON({
       theme: "default",
     });
@@ -354,6 +355,35 @@ describe("Questionnaire", () => {
     expect(new Questionnaire(questionnaireJson)).toHaveProperty(
       "theme",
       "default"
+    );
+  });
+
+  it("should allow setting the theme and legal basis according to the previewTheme", () => {
+    const eqId = "my-custom-eqId";
+    const formType = "my-custom-formtype";
+    const shortName = "census";
+    const legalBasis = NOTICE_1;
+
+    const questionnaireJson = createQuestionnaireJSON({
+      previewTheme: shortName,
+      themes: [
+        {
+          id: "mcthemeface1",
+          shortName,
+          legalBasis,
+          eqId,
+          formType,
+        },
+      ],
+    });
+
+    expect(new Questionnaire(questionnaireJson)).toEqual(
+      expect.objectContaining({
+        theme: shortName,
+        eq_id: eqId,
+        form_type: formType,
+        legal_basis: legalBases[legalBasis],
+      })
     );
   });
 });
