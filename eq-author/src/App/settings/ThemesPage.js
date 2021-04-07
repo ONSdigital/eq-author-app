@@ -59,6 +59,7 @@ const themes = [
   { title: "EPE theme" },
   { title: "EPE NI theme" },
   { title: "UKIS theme" },
+  { title: "UKIS NI theme" },
 ];
 
 const ThemesPage = ({ questionnaire }) => {
