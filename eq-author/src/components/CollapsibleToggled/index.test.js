@@ -20,10 +20,10 @@ describe("Collapsible toggled", () => {
   it("Defaults to open when the prop is passed", () => {
     const { getByTestId } = render(
       <CollapsibleToggled
-        title="Anakin, Chancellor Palpatine is evil!"
+        title="Anakin? I told you were coming to this, I was right. THE JEDI ARE TAKING OVER!"
         defaultOpen
       >
-        <p>By my point of view the Jedi are evil!</p>
+        <p>The opression of the Sith will never return. You have lost.</p>
       </CollapsibleToggled>
     );
 
@@ -33,9 +33,9 @@ describe("Collapsible toggled", () => {
   });
 
   it("Defaults to closed when the prop is not passed", () => {
-    const { queryByTestId, debug } = render(
-      <CollapsibleToggled title="Anakin, Chancellor Palpatine is evil!">
-        <p>By my point of view the Jedi are evil!</p>
+    const { queryByTestId } = render(
+      <CollapsibleToggled title="You were the chosen one! It was said that you would destroy the Sith, not join them!">
+        <p>Bring balance to The Force! Not leave it in Darkness!</p>
       </CollapsibleToggled>
     );
 
