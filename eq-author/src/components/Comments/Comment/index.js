@@ -117,10 +117,7 @@ const Comment = ({
           showCancel
           commentId={comment.id}
           onConfirm={(commentText, commentId) =>
-            onAddReply(commentText, commentId, () => {
-              showAddReply(false);
-            })
-          }
+            onAddReply(commentText, commentId, () => showAddReply(false))}
           onCancel={() => showAddReply(false)}
         />
       )}
