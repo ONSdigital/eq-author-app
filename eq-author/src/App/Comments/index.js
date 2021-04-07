@@ -47,12 +47,12 @@ const Wrapper = styled.section`
 `;
 
 const CommentsPanel = ({ componentId }) => {
-  const [createComment] = useMutation(COMMENT_ADD, {});
-  const [updateComment] = useMutation(COMMENT_UPDATE, {});
-  const [deleteComment] = useMutation(COMMENT_DELETE, {});
-  const [createReply] = useMutation(REPLY_ADD, {});
-  const [updateReply] = useMutation(REPLY_UPDATE, {});
-  const [deleteReply] = useMutation(REPLY_DELETE, {});
+  const [createComment] = useMutation(COMMENT_ADD);
+  const [updateComment] = useMutation(COMMENT_UPDATE);
+  const [deleteComment] = useMutation(COMMENT_DELETE);
+  const [createReply] = useMutation(REPLY_ADD);
+  const [updateReply] = useMutation(REPLY_UPDATE);
+  const [deleteReply] = useMutation(REPLY_DELETE);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
