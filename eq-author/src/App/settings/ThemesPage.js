@@ -102,6 +102,7 @@ const ThemesPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     {themes.map(({ title, defaultOpen }) => (
                       <CollapsibleToggled
+                        key={`${title}-toggle`}
                         title={title}
                         defaultOpen={defaultOpen}
                       >
