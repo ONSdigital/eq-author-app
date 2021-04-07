@@ -7,6 +7,7 @@ import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
+import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
@@ -41,6 +42,24 @@ const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
 `;
+
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.5em 0;
+`;
+
+const themes = [
+  {
+    title: "GB theme",
+    defaultOpen: true,
+  },
+  { title: "NI theme" },
+  { title: "COVID theme" },
+  { title: "EPE theme" },
+  { title: "EPE NI theme" },
+  { title: "UKIS theme" },
+];
 
 const ThemesPage = ({ questionnaire }) => {
   const { type } = questionnaire;
@@ -80,6 +99,32 @@ const ThemesPage = ({ questionnaire }) => {
                         using the View Survey button.
                       </p>
                     </Field>
+                    <HorizontalSeparator />
+                    {themes.map(({ title, defaultOpen }) => (
+                      <CollapsibleToggled
+                        title={title}
+                        defaultOpen={defaultOpen}
+                      >
+                        {/* Added some filler text to demonstrate the opening and 
+                            closing; this should be removed in future tickets where 
+                            we add the actual functionality. 
+                          */}
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Praesent ut eros a turpis tincidunt consectetur
+                          sit amet quis enim. Vivamus scelerisque finibus erat
+                          id mattis. In leo dolor, faucibus non volutpat vel,
+                          pellentesque et nibh.
+                        </p>
+                        <p>
+                          Phasellus viverra malesuada tincidunt. Fusce vulputate
+                          odio mauris, eu finibus nisl luctus quis. Sed
+                          dignissim dapibus sapien, at sollicitudin neque auctor
+                          non. Interdum et malesuada fames ac ante ipsum primis
+                          in faucibus.
+                        </p>
+                      </CollapsibleToggled>
+                    ))}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
