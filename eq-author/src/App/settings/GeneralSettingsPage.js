@@ -195,6 +195,22 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     </Field>
                     <HorizontalSeparator />
                     <InlineField>
+                      <Label>QCodes</Label>
+                      <VerticalSeparator />
+                      <ToggleSwitch
+                        id="toggle-qcodes"
+                        name="toggle-qcodes"
+                        hideLabels={false}
+                        onChange={() => alert("Test")}
+                        checked={false}
+                      />
+                    </InlineField>
+                    <Caption>
+                      QCodes are a way to identify answers when they&apos;re
+                      sent downstream.
+                    </Caption>
+                    <HorizontalSeparator />
+                    <InlineField>
                       <Label>Section navigation</Label>
                       <VerticalSeparator />
                       <ToggleSwitch
