@@ -9,6 +9,7 @@ import DuplicateButton from "components/buttons/DuplicateButton";
 import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import MoveFolderModal from "App/page/Design/MoveEntityModal";
 
 import iconFolder from "assets/icon-dialog-folder.svg";
 
@@ -32,21 +33,27 @@ const EditorToolbar = ({
   disableMove,
   disableDuplicate,
   disableDelete,
+  data,
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+  const [showMoveFolderModal, setMoveFolderModal] = useState(false);
   return (
     <>
       <Toolbar>
         <ShortCodeEditor shortCode={shortCode} onUpdate={shortCodeOnUpdate} />
         <Buttons>
-          <MoveButton disabled={disableMove} onClick={onMove} />
+          <MoveButton
+            data-test="btn-move-folder"
+            disabled={disableMove}
+            onClick={() => setMoveFolderModal(true)}
+          />
           <DuplicateButton
             data-test="btn-duplicate-folder"
             disabled={disableDuplicate}
             onClick={onDuplicate}
           />
           <DeleteButton
+            data-test="btn-delete-folder"
             disabled={disableDelete}
             onClick={() => setShowDeleteModal(true)}
           />
@@ -65,6 +72,14 @@ const EditorToolbar = ({
         icon={icons[pageType]}
         data-test={`delete-${pageType}-modal`}
       />
+      <MoveFolderModal
+        isOpen={showMoveFolderModal}
+        onClose={() => setMoveFolderModal(false)}
+        onMove={onMove}
+        sectionId={data.section.id}
+        selected={data}
+        entity="Folder"
+      />
     </>
   );
 };
@@ -80,6 +95,8 @@ EditorToolbar.propTypes = {
   disableMove: PropTypes.bool,
   disableDuplicate: PropTypes.bool,
   disableDelete: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object,
 };
 
 export default EditorToolbar;
