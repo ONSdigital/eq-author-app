@@ -211,6 +211,15 @@ exports.getQuestionnaire = `
       }
       navigation
       surveyId
+      previewTheme
+      themes {
+        id
+        enabled
+        shortName
+        legalBasisCode
+        eqId
+        formType
+      }
       summary
       collapsibleSummary
       metadata {
