@@ -70,6 +70,8 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
+const qcodesEnabled = false;
+
 export const UnwrappedMainNavigation = ({
   hasQuestionnaire,
   totalErrorCount,
@@ -178,12 +180,17 @@ export const UnwrappedMainNavigation = ({
                   to={buildQcodesPath(params)}
                   small
                   data-test="btn-qcodes"
-                  disabled={title === "QCodes" || totalErrorCount > 0}
+                  disabled={
+                    title === "QCodes" ||
+                    totalErrorCount > 0 ||
+                    qcodesEnabled === false
+                  }
                 >
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {emptyQCode || duplicateQCode === true ? (
+                  {(qcodesEnabled && emptyQCode) ||
+                  (qcodesEnabled && duplicateQCode === true) ? (
                     <SmallBadge data-test="small-badge" />
                   ) : null}
                 </RouteButton>
