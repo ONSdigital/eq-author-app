@@ -3,6 +3,7 @@
 fragment Folder on Folder {
   id
   alias
+  displayName
   enabled
   position
   validationErrorInfo {

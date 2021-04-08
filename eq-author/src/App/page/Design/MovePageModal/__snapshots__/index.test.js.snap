@@ -72,6 +72,8 @@ exports[`MovePageModal should render 1`] = `
           "guidanceEnabled": false,
           "id": "1.1.1",
           "pageType": "QuestionPage",
+          "parentEnabled": false,
+          "parentId": null,
           "position": 0,
           "section": Object {
             "displayName": "",
