@@ -1,19 +1,27 @@
+const { ForbiddenError } = require("apollo-server-express");
+
 const hasWritePermission = (questionnaire, user) =>
   questionnaire.createdBy === user.id ||
-  questionnaire.editors.indexOf(user.id) > -1 ||
+  questionnaire.editors.includes(user.id) ||
   user.admin === true;
 
 const enforceHasWritePermission = (questionnaire, user) => {
   if (!hasWritePermission(questionnaire, user)) {
-    throw new Error(
+    throw new ForbiddenError(
       "User does not have write permission for this questionnaire"
     );
   }
 };
 
+const enforceQuestionnaireLocking = (questionnaire) => {
+  if (questionnaire.locked) {
+    throw new ForbiddenError("Questionnaire is locked");
+  }
+};
+
 const enforceHasAdminPermission = (user) => {
   if (!user.admin) {
-    throw new Error("User does not have admin permission");
+    throw new ForbiddenError("User does not have admin permission");
   }
 };
 
@@ -21,4 +29,5 @@ module.exports = {
   hasWritePermission,
   enforceHasWritePermission,
   enforceHasAdminPermission,
+  enforceQuestionnaireLocking,
 };

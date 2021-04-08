@@ -196,6 +196,7 @@ describe("Duplication", () => {
         "displayName",
         "createdBy",
         "createdAt",
+        "locked",
       ];
       expect(omit(questionnaireCopy, ignoredFields)).toEqual(
         omit(queriedQuestionnaire, ignoredFields)
@@ -204,6 +205,10 @@ describe("Duplication", () => {
 
     it("should have new id", () => {
       expect(questionnaireCopy.id).not.toEqual(queriedQuestionnaire.id);
+    });
+
+    it("should create duplicate unlocked", () => {
+      expect(questionnaireCopy.locked).toBe(false);
     });
 
     it("should create new title and short title", () => {
