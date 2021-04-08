@@ -62,6 +62,8 @@ describe("MovePageModal", () => {
 
   it("should close section select Modals on close", () => {
     wrapper.find("MovePageModal__Trigger").simulate("click");
+    
+    expect(getSectionModal(wrapper).prop("isOpen")).toBe(true);
 
     getSectionModal(wrapper).simulate("close");
 
