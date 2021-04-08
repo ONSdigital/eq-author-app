@@ -225,12 +225,8 @@ describe("PositionModal", () => {
     });
 
     it("should display the correct styling", () => {
-      const { getByText, getByTestId, debug } = createWrapper(
-        { options },
-        render
-      );
+      const { getByText, getByTestId } = createWrapper({ options }, render);
       fireEvent.click(getByText(/Select/));
-      debug();
       expect(getByTestId("option-3")).toHaveStyleRule("margin-left", "1em");
     });
   });
