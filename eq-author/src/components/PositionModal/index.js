@@ -66,12 +66,13 @@ const PositionModal = ({ options, onMove, selected }) => {
   };
 
   const handleChange = ({ value }) => {
+    const filteredOptions = orderedOptions.filter(
+            ({ parentId }) => parentId === orderedOptions[value].id
+          );
+          
     const count =
       orderedOptions[value].__typename === "Folder" && value - position >= 0
-        ? orderedOptions.filter(
-            ({ parentId }) => parentId === orderedOptions[value].id
-          ).length
-        : 0;
+        ? filteredOptions.length : 0;
     setOption({
       position: parseInt(value, 10) + count,
       item: orderedOptions[value],
