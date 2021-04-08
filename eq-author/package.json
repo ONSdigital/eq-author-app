@@ -150,7 +150,8 @@
       "!src/graphql/*.js",
       "!src/tests/**/*.js",
       "!src/index.js",
-      "!src/stories/*.js"
+      "!src/stories/*.js",
+      "!src/storybook/**/*"
     ],
     "setupFiles": [
       "<rootDir>/src/tests/setup/throwOnConsole.js",
