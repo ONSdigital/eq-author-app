@@ -43,6 +43,10 @@ const editors = {
   type: Array,
 };
 
+const locked = {
+  type: Boolean,
+};
+
 const baseQuestionnaireFields = {
   id,
   isPublic,
@@ -54,6 +58,7 @@ const baseQuestionnaireFields = {
   publishStatus,
   introduction,
   editors,
+  locked,
 };
 
 module.exports = {

@@ -76,7 +76,9 @@ type Questionnaire {
   surveyId: String
   previewTheme: String!
   themes: [Theme!]!
+  locked: Boolean
 }
+
 enum HistoryEventTypes {
   system
   note
@@ -701,11 +703,17 @@ input ToggleQuestionnaireStarredInput {
   questionnaireId: ID!
 }
 
+input SetQuestionnaireLockedInput {
+  questionnaireId: ID!
+  locked: Boolean!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
+  setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
