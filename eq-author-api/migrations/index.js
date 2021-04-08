@@ -16,6 +16,7 @@ const migrations = [
   require("./addFolders"),
   require("./addGuidancePanelSwitch"),
   require("./addDefaultTheme"),
+  require("./addLockedStatus"),
 ];
 
 const currentVersion = migrations.length;
