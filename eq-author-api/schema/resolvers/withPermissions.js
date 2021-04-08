@@ -2,7 +2,7 @@ const { ForbiddenError } = require("apollo-server-express");
 
 const hasWritePermission = (questionnaire, user) =>
   questionnaire.createdBy === user.id ||
-  questionnaire.editors.indexOf(user.id) > -1 ||
+  questionnaire.editors.includes(user.id) ||
   user.admin === true;
 
 const enforceHasWritePermission = (questionnaire, user) => {
