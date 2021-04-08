@@ -34,7 +34,7 @@ exports[`DeleteButton should render: large 1`] = `
     role="button"
     type="button"
   >
-    <svg />
+    <div />
   </button>
 </DocumentFragment>
 `;
@@ -73,7 +73,7 @@ exports[`DeleteButton should render: medium 1`] = `
     role="button"
     type="button"
   >
-    <svg />
+    <div />
   </button>
 </DocumentFragment>
 `;
@@ -112,7 +112,7 @@ exports[`DeleteButton should render: small 1`] = `
     role="button"
     type="button"
   >
-    <svg />
+    <div />
   </button>
 </DocumentFragment>
 `;
