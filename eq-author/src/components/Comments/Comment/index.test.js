@@ -13,6 +13,22 @@ describe("Comment", () => {
     mockOnUpdateComment,
     mockOnDeleteComment;
 
+  const renderComment = (props) =>
+    render(
+      <Comment
+        comment={mockComment}
+        replies={mockReplies}
+        onUpdateComment={mockOnUpdateComment}
+        onDeleteComment={mockOnDeleteComment}
+        onAddReply={mockOnAddReply}
+        onUpdateReply={mockOnUpdateReply}
+        onDeleteReply={mockOnDeleteReply}
+        canEdit
+        canDelete
+        {...props}
+      />
+    );
+
   beforeEach(() => {
     mockComment = {
       id: "1",
@@ -40,17 +56,7 @@ describe("Comment", () => {
   });
 
   it("Can render", () => {
-    const { getByTestId } = render(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const { getByTestId } = renderComment();
 
     const comment = getByTestId("Comment");
 
@@ -58,16 +64,7 @@ describe("Comment", () => {
   });
 
   it("Does not render '(Show/Hide) x replies' if there are none", () => {
-    const { queryByTestId } = render(
-      <Comment
-        comment={mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const { queryByTestId } = renderComment({ replies: [] });
 
     const replies = queryByTestId("collapsible");
 
@@ -75,17 +72,7 @@ describe("Comment", () => {
   });
 
   it("Does render '(Show/Hide) x replies' when there are some", () => {
-    const { getByTestId } = render(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const { getByTestId } = renderComment();
 
     const replies = getByTestId("collapsible");
 
@@ -93,17 +80,7 @@ describe("Comment", () => {
   });
 
   it("Makes 'reply' plural when there are more than one", () => {
-    const { getByTestId, rerender } = render(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const { getByTestId, rerender } = renderComment();
 
     const repliesCollapsibleTitle = getByTestId("collapsible-title");
 
@@ -135,18 +112,7 @@ describe("Comment", () => {
   });
 
   it("Hides the 'Reply' button when the 'disableReplies' prop is given", () => {
-    const { queryByTestId } = render(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
-        disableReplies
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const { queryByTestId } = renderComment({ disableReplies: true });
 
     const replyBtn = queryByTestId("Comment__ReplyBtn");
 
