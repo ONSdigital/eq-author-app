@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
 import { colors, focusStyle } from "constants/theme";
@@ -11,8 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: 1em;
 `;
 
-const TextAreaFixedSize = styled.textarea`
-  height: 94px;
+const TextAreaStyle = css`
   width: 100%;
   border: thin solid ${colors.grey};
   resize: none;
@@ -27,19 +26,14 @@ const TextAreaFixedSize = styled.textarea`
   }
 `;
 
+const TextAreaFixedSize = styled.textarea`
+  height: 94px;
+  ${TextAreaStyle}
+`;
+
 const TextAreaGrowable = styled(TextareaAutosize)`
   width: 100%;
-  border: thin solid ${colors.grey};
-  resize: none;
-  font-size: 1em;
-  font-family: inherit;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
-
-  &:focus {
-    ${focusStyle}
-    outline: none;
-  }
+  ${TextAreaStyle}
 `;
 
 const ButtonGroup = styled.div`
