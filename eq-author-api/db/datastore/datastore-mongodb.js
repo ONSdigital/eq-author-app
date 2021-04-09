@@ -52,6 +52,7 @@ const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
   "updatedAt",
   "history",
+  "locked",
 ];
 
 const justListFields = pick(BASE_FIELDS);

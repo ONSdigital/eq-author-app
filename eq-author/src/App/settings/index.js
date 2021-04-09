@@ -2,12 +2,12 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { Query } from "react-apollo";
 import GeneralSettingsPage from "./GeneralSettingsPage";
-import ThemesPage from "./ThemesPage";
+// import ThemesPage from "./ThemesPage";
 import Error from "components/Error";
 
 import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { buildSettingsPath } from "utils/UrlUtils";
-import { SOCIAL } from "constants/questionnaire-types";
+// import { SOCIAL } from "constants/questionnaire-types";
 
 export default [
   <Route
@@ -60,13 +60,14 @@ export default [
             return <Error>Error fetching questionnaire from database</Error>;
           }
 
-          if (data.questionnaire.type === SOCIAL) {
-            return <Redirect to={buildSettingsPath(props.match.params)} />;
-          }
+          // if (data.questionnaire.type === SOCIAL) {
+          //   return <Redirect to={buildSettingsPath(props.match.params)} />;
+          // }
 
           if (data) {
-            const { questionnaire } = data;
-            return <ThemesPage {...props} questionnaire={questionnaire} />;
+            // const { questionnaire } = data;
+            // return <ThemesPage {...props} questionnaire={questionnaire} />;
+            return <Redirect to={buildSettingsPath(props.match.params)} />;
           }
         }}
       </Query>

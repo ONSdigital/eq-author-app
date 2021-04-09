@@ -14,14 +14,13 @@ exports[`PositionModal/ItemSelect Option should render 1`] = `
     htmlFor="test"
     selected={true}
   >
-    <IconText
-      hideText={false}
+    <ItemSelect__IndentIcon
       icon={[Function]}
     >
       <Truncated>
         bar
       </Truncated>
-    </IconText>
+    </ItemSelect__IndentIcon>
   </ItemSelect__Label>
 </div>
 `;

@@ -33,6 +33,7 @@ export const PAGE_QUERY = gql`
       folder {
         id
         position
+        enabled
       }
     }
   }
