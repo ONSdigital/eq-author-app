@@ -7,6 +7,15 @@ import CommentEditor from ".";
 describe("Comment editor", () => {
   let mockOnCancel, mockOnConfirm, mockCommentText;
 
+  const renderCommentEditor = (props) =>
+    render(
+      <CommentEditor
+        onConfirm={mockOnConfirm}
+        onCancel={mockOnCancel}
+        {...props}
+      />
+    );
+
   beforeEach(() => {
     mockOnCancel = jest.fn();
     mockOnConfirm = jest.fn();
@@ -14,9 +23,7 @@ describe("Comment editor", () => {
   });
 
   it("Can render", () => {
-    const { getByTestId } = render(
-      <CommentEditor onConfirm={mockOnConfirm} onCancel={mockOnCancel} />
-    );
+    const { getByTestId } = renderCommentEditor();
 
     const editor = getByTestId("CommentEditor");
 
@@ -24,9 +31,7 @@ describe("Comment editor", () => {
   });
 
   it("Disables the confirm button if the input box is empty", () => {
-    const { getByTestId } = render(
-      <CommentEditor onConfirm={mockOnConfirm} onCancel={mockOnCancel} />
-    );
+    const { getByTestId } = renderCommentEditor();
 
     const input = getByTestId("CommentEditor__Input");
     const confirmButton = getByTestId("CommentEditor__ConfirmBtn");
@@ -36,9 +41,7 @@ describe("Comment editor", () => {
   });
 
   it("Enables the confirm button if the input box has content", () => {
-    const { getByTestId } = render(
-      <CommentEditor onConfirm={mockOnConfirm} onCancel={mockOnCancel} />
-    );
+    const { getByTestId } = renderCommentEditor();
 
     const input = getByTestId("CommentEditor__Input");
     const confirmButton = getByTestId("CommentEditor__ConfirmBtn");
@@ -54,9 +57,7 @@ describe("Comment editor", () => {
   });
 
   it("Calls the onConfirm function when the confirm button is pressed", () => {
-    const { getByTestId } = render(
-      <CommentEditor onConfirm={mockOnConfirm} onCancel={mockOnCancel} />
-    );
+    const { getByTestId } = renderCommentEditor();
 
     const input = getByTestId("CommentEditor__Input");
     const confirmButton = getByTestId("CommentEditor__ConfirmBtn");
@@ -70,13 +71,7 @@ describe("Comment editor", () => {
   });
 
   it("Shows the cancel button when 'showCancel' is given as a prop", () => {
-    const { getByTestId } = render(
-      <CommentEditor
-        onConfirm={mockOnConfirm}
-        showCancel
-        onCancel={mockOnCancel}
-      />
-    );
+    const { getByTestId } = renderCommentEditor({ showCancel: true });
 
     const cancelButton = getByTestId("CommentEditor__CancelBtn");
 
@@ -84,13 +79,7 @@ describe("Comment editor", () => {
   });
 
   it("Calls the onCancel function when the cancel button is pressed", () => {
-    const { getByTestId } = render(
-      <CommentEditor
-        onConfirm={mockOnConfirm}
-        showCancel
-        onCancel={mockOnCancel}
-      />
-    );
+    const { getByTestId } = renderCommentEditor({ showCancel: true });
 
     const cancelButton = getByTestId("CommentEditor__CancelBtn");
 

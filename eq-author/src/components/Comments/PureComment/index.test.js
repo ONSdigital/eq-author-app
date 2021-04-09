@@ -12,6 +12,18 @@ describe("Pure comment", () => {
     mockShowAddReplyBtn,
     mockShowReplyBtn;
 
+  const renderPureComment = (props) =>
+    render(
+      <PureComment
+        {...mockComment}
+        onUpdateComment={mockOnUpdateComment}
+        onDeleteComment={mockOnDeleteComment}
+        canDelete
+        canEdit
+        {...props}
+      />
+    );
+
   beforeEach(() => {
     mockComment = {
       commentId: "1",
@@ -26,15 +38,7 @@ describe("Pure comment", () => {
   });
 
   it("Can render", () => {
-    const { getByTestId } = render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        canDelete
-        canEdit
-      />
-    );
+    const { getByTestId } = renderPureComment();
 
     const comment = getByTestId("PureComment");
 
@@ -42,15 +46,7 @@ describe("Pure comment", () => {
   });
 
   it("Uses the authors initials for their avatar", () => {
-    const { getByText } = render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        canDelete
-        canEdit
-      />
-    );
+    const { getByText } = renderPureComment();
 
     const avatar = getByText("JD");
 
@@ -58,15 +54,7 @@ describe("Pure comment", () => {
   });
 
   it("Converts an ISO date to the human readable date format", () => {
-    const { getByText } = render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        canDelete
-        canEdit
-      />
-    );
+    const { getByText } = renderPureComment();
 
     const humanReadableDate = moment(mockComment.datePosted).calendar();
 
@@ -74,17 +62,10 @@ describe("Pure comment", () => {
   });
 
   it("Opens the Comment Editor when the Edit button is clicked", () => {
-    const { getByTestId } = render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        showReplyBtn={mockShowReplyBtn}
-        showAddReply={mockShowAddReplyBtn}
-        canDelete
-        canEdit
-      />
-    );
+    const { getByTestId } = renderPureComment({
+      showReplyBtn: mockShowReplyBtn,
+      showAddReply: mockShowAddReplyBtn,
+    });
 
     const editBtn = getByTestId("PureComment__EditCommentBtn");
 
@@ -96,15 +77,7 @@ describe("Pure comment", () => {
   });
 
   it("Calls onDeleteComment when the delete button is clicked", () => {
-    const { getByTestId } = render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        canDelete
-        canEdit
-      />
-    );
+    const { getByTestId } = renderPureComment();
 
     const deleteBtn = getByTestId("PureComment__DeleteCommentBtn");
 
