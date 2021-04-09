@@ -41,6 +41,6 @@ describe("Collapsible toggled", () => {
 
     const content = queryByTestId("CollapsibleToggled__Body");
 
-    expect(content).not.toBeVisible();
+    expect(content).not.toBeInTheDocument();
   });
 });
