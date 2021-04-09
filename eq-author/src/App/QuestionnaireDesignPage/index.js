@@ -135,6 +135,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
                       <MainNavigation
                         hasQuestionnaire={!isEmpty(questionnaire)}
                         totalErrorCount={questionnaire?.totalErrorCount || 0}
+                        qcodesEnabled={questionnaire?.qcodes}
                       />
                     </MainNav>
                     <NavigationSidebar

@@ -70,11 +70,10 @@ const SmallBadge = styled.span`
   right: 2px;
 `;
 
-const qcodesEnabled = false;
-
 export const UnwrappedMainNavigation = ({
   hasQuestionnaire,
   totalErrorCount,
+  qcodesEnabled,
   title,
   children,
 }) => {
@@ -227,6 +226,7 @@ export const publishStatusSubscription = gql`
 `;
 
 UnwrappedMainNavigation.propTypes = {
+  qcodesEnabled: PropTypes.bool.isRequired,
   hasQuestionnaire: PropTypes.bool.isRequired,
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
