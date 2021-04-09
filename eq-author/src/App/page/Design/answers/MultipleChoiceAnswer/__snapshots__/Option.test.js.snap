@@ -1514,11 +1514,11 @@ exports[`Option should render a checkbox 1`] = `
                               }
                               forwardedRef={null}
                             >
-                              <Component
+                              <ReactComponent
                                 className="c13"
                               >
-                                <svg />
-                              </Component>
+                                <div />
+                              </ReactComponent>
                             </StyledComponent>
                           </DeleteButton__CloseIcon>
                         </button>
