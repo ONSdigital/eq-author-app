@@ -93,6 +93,7 @@ const moveSectionMock = {
         surveyId: "1",
         theme: "foo",
         type: "Social",
+        qcodes: true,
         navigation: true,
         summary: "",
         collapsibleSummary: false,
