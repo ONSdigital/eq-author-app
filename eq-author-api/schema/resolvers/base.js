@@ -106,6 +106,7 @@ const {
   enforceHasWritePermission,
   hasWritePermission,
   enforceHasAdminPermission,
+  enforceQuestionnaireLocking,
 } = require("./withPermissions");
 const { createMutation } = require("./createMutation");
 
@@ -300,8 +301,17 @@ const Resolvers = {
 
       return questionnaire;
     },
+    setQuestionnaireLocked: createMutation(
+      (root, { input: { locked } }, ctx) => {
+        ctx.questionnaire.locked = locked;
+        return ctx.questionnaire;
+      },
+      { ignoreLockStatus: true }
+    ),
     deleteQuestionnaire: async (_, { input }, ctx) => {
-      enforceHasWritePermission(ctx.questionnaire, ctx.user);
+      enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       await deleteQuestionnaire(input.id);
       ctx.questionnaire = null;
       return { id: input.id };
@@ -318,6 +328,7 @@ const Resolvers = {
         editors: [],
         publishStatus: UNPUBLISHED,
         surveyVersion: 1,
+        locked: false,
       };
       return createQuestionnaire(newQuestionnaire, ctx);
     },
@@ -821,6 +832,8 @@ const Resolvers = {
     createComment: async (_, { input }, ctx) => {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
@@ -848,6 +861,8 @@ const Resolvers = {
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
@@ -863,6 +878,8 @@ const Resolvers = {
     updateComment: async (_, { input }, ctx) => {
       const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
@@ -884,6 +901,8 @@ const Resolvers = {
     createReply: async (_, { input }, ctx) => {
       const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
@@ -913,6 +932,8 @@ const Resolvers = {
     updateReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
@@ -935,6 +956,8 @@ const Resolvers = {
     deleteReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
+      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
