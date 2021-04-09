@@ -125,6 +125,7 @@ const createNewQuestionnaire = (input) => {
     id: uuidv4(),
     theme: "default",
     legalBasis: "Voluntary",
+    qcodes: true,
     navigation: false,
     createdAt: new Date(),
     metadata: [],
