@@ -45,7 +45,6 @@ const Replies = ({
 
   return (
     <>
-      {numOfReplies === 0 && <React.Fragment />}
       {numOfReplies > 0 && (
         <StyledCollapsible
           title={`${numOfReplies} ${numOfReplies > 1 ? "replies" : "reply"}`}
@@ -117,7 +116,8 @@ const Comment = ({
           showCancel
           commentId={comment.id}
           onConfirm={(commentText, commentId) =>
-            onAddReply(commentText, commentId, () => showAddReply(false))}
+            onAddReply(commentText, commentId, () => showAddReply(false))
+          }
           onCancel={() => showAddReply(false)}
         />
       )}

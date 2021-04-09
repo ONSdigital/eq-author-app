@@ -59,6 +59,66 @@ const IconButton = ({
   );
 };
 
+const Comment = styled.div`
+  margin-bottom: 1em;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+`;
+
+const Body = styled.div`
+  margin-bottom: 0.5em;
+`;
+
+const ColumnWrapper = styled.div``;
+
+const Text = styled.p`
+  border: 0.0625em solid ${colors.lightGrey};
+  background-color: ${colors.lighterGrey};
+  padding: 0.5em 1em;
+  margin: 0;
+  margin-bottom: 0.3125em;
+`;
+
+const Avatar = styled.p`
+  width: 2.25em;
+  height: 2.25em;
+  line-height: 2.25em;
+  border-radius: 50%;
+  text-align: center;
+  color: ${colors.white};
+  background-color: ${colors.primary};
+  margin: 0;
+  margin-right: 0.5em;
+  text-transform: uppercase;
+`;
+
+const Author = styled.p`
+  margin: 0;
+  text-transform: capitalize;
+`;
+
+const Date = styled.p`
+  font-size: 0.8em;
+  color: ${colors.grey};
+  margin: 0;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+
+  button {
+    margin-right: 0.5em;
+  }
+`;
+
+const RightButtonGroup = styled(ButtonGroup)`
+  margin-left: auto;
+`;
+
 const PureComment = ({
   author,
   canEdit,
@@ -73,66 +133,6 @@ const PureComment = ({
   showAddReply,
   showReplyBtn,
 }) => {
-  const Comment = styled.div`
-    margin-bottom: 1em;
-  `;
-
-  const Header = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5em;
-  `;
-
-  const Body = styled.div`
-    margin-bottom: 0.5em;
-  `;
-
-  const ColumnWrapper = styled.div``;
-
-  const Text = styled.p`
-    border: 0.0625em solid ${colors.lightGrey};
-    background-color: ${colors.lighterGrey};
-    padding: 0.5em 1em;
-    margin: 0;
-    margin-bottom: 0.3125em;
-  `;
-
-  const Avatar = styled.p`
-    width: 2.25em;
-    height: 2.25em;
-    line-height: 2.25em;
-    border-radius: 50%;
-    text-align: center;
-    color: ${colors.white};
-    background-color: ${colors.primary};
-    margin: 0;
-    margin-right: 0.5em;
-    text-transform: uppercase;
-  `;
-
-  const Author = styled.p`
-    margin: 0;
-    text-transform: capitalize;
-  `;
-
-  const Date = styled.p`
-    font-size: 0.8em;
-    color: ${colors.grey};
-    margin: 0;
-  `;
-
-  const ButtonGroup = styled.div`
-    display: flex;
-
-    button {
-      margin-right: 0.5em;
-    }
-  `;
-
-  const RightButtonGroup = styled(ButtonGroup)`
-    margin-left: auto;
-  `;
-
   const authorInitials = author
     .match(/\b(\w)/g)
     .splice(0, 2)
@@ -196,7 +196,9 @@ const PureComment = ({
               showReplyBtn(true);
             }}
           />
-        ) : <Text data-test="PureComment__CommentText">{text}</Text>}
+        ) : (
+          <Text data-test="PureComment__CommentText">{text}</Text>
+        )}
         {dateModified && (
           <Date data-test="PureComment__DateModified">{`Edited: ${moment(
             dateModified
