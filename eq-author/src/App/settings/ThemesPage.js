@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { withRouter, useRouteMatch } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 
 import { colors } from "constants/theme";
 
@@ -65,7 +65,7 @@ const themes = [
 const ThemesPage = ({ questionnaire }) => {
   const { type } = questionnaire;
 
-  const match = useRouteMatch();
+  const params = useParams();
 
   return (
     <Container>
@@ -77,7 +77,7 @@ const ThemesPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(match.params, type)}
+                tabItems={tabItems(params, type)}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
