@@ -44,9 +44,7 @@ const CollapsibleToggled = ({
         />
         {headerContent}
       </Header>
-      <Body isOpen={isOpen} data-test="CollapsibleToggled__Body">
-        {children}
-      </Body>
+      {isOpen && <Body data-test="CollapsibleToggled__Body">{children}</Body>}
     </Wrapper>
   );
 };
