@@ -17,7 +17,6 @@ const Header = styled.div`
   }
 `;
 const Body = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
   margin-left: 0.1em;
   padding: 0 0 0 0.5em;
