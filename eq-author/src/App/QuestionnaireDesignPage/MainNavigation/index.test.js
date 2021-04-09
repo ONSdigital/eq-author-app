@@ -49,6 +49,7 @@ function defaultSetup({
     totalErrorCount: 0,
     match: { params: { modifier: "", questionnaireId: "1" } },
     loading: false,
+    qcodesEnabled: true,
     ...changes,
   };
   const utils = render(

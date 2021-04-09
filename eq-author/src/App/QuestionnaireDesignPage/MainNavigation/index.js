@@ -226,7 +226,7 @@ export const publishStatusSubscription = gql`
 `;
 
 UnwrappedMainNavigation.propTypes = {
-  qcodesEnabled: PropTypes.bool.isRequired,
+  qcodesEnabled: PropTypes.bool,
   hasQuestionnaire: PropTypes.bool.isRequired,
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
