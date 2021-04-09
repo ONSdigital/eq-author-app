@@ -42,6 +42,7 @@ const IconButton = ({
 
     &:hover {
       background-color: ${colors.black};
+      cursor: pointer;
     }
   `;
   return (
@@ -98,7 +99,6 @@ const Avatar = styled.p`
 
 const Author = styled.p`
   margin: 0;
-  text-transform: capitalize;
 `;
 
 const Date = styled.p`

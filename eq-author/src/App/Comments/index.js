@@ -81,28 +81,31 @@ const CommentsPanel = ({ componentId }) => {
 
   const { comments } = data;
 
-  const formattedComments = comments.map(
-    ({ id, user, commentText, createdTime, editedTime, replies }) => ({
-      id,
-      author: user.displayName || user.name || "",
-      canEdit: user.id === me.id,
-      canDelete: user.id === me.id,
-      datePosted: createdTime,
-      dateModified: editedTime,
-      text: commentText,
-      replies: replies.map(
-        ({ id, user, commentText, createdTime, editedTime }) => ({
-          id,
-          author: user.displayName || user.name || "",
-          canEdit: user.id === me.id,
-          canDelete: user.id === me.id,
-          datePosted: createdTime,
-          dateModified: editedTime,
-          text: commentText,
-        })
-      ),
-    })
-  );
+  const formatName = (name) =>
+    name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+
+  const formatComment = ({
+    id,
+    user,
+    commentText,
+    createdTime,
+    editedTime,
+  }) => ({
+    id,
+    author: formatName(user.displayName) || user.name || "",
+    canEdit: user.id === me.id,
+    canDelete: user.id === me.id,
+    datePosted: createdTime,
+    dateModified: editedTime,
+    text: commentText,
+  });
+
+  const formattedComments = comments.map(({ replies, ...rest }) => ({
+    ...formatComment(rest),
+    replies: replies.map((comment) => ({
+      ...formatComment(comment),
+    })),
+  }));
 
   const sortedComments = formattedComments.sort((a, b) =>
     b.datePosted.toString().localeCompare(a.datePosted.toString())
