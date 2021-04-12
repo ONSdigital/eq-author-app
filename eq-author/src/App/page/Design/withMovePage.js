@@ -8,17 +8,26 @@ export const mapMutateToProps = ({ mutate }) => ({
   onMovePage({ from, to }) {
     const options = { variables: { input: to } };
 
-    if (from.sectionId !== to.sectionId) {
-      options.refetchQueries = [
-        {
-          query: getSection,
-          variables: {
-            input: {
-              sectionId: from.sectionId,
-            },
+    options.refetchQueries = [
+      {
+        query: getSection,
+        variables: {
+          input: {
+            sectionId: to.sectionId,
           },
         },
-      ];
+      },
+    ];
+
+    if (from.sectionId !== to.sectionId) {
+      options.refetchQueries.push({
+        query: getSection,
+        variables: {
+          input: {
+            sectionId: from.sectionId,
+          },
+        },
+      });
 
       options.update = (proxy, { data = {} }) => {
         if (data && data.movePage) {

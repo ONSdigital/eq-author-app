@@ -13,4 +13,5 @@ module.exports = {
   ...require("./updateSurveyId"),
   ...require("./updateTheme"),
   ...require("./toggleQuestionnaireStarred"),
+  ...require("./setQuestionnaireLocked"),
 };

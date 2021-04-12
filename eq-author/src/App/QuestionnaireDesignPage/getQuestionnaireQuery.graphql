@@ -83,6 +83,7 @@ fragment PageNav on Section {
     id
     enabled
     alias
+    displayName
     position
     pages {
       ...Pages
