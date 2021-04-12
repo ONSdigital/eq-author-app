@@ -51,7 +51,7 @@ class Questionnaire {
     this.form_type = previewTheme.formType;
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
-    this.data_version = questionnaireJson.qcodes === true ? "0.0.1" : "0.0.2";
+    this.data_version = questionnaireJson.qcodes ? "0.0.1" : "0.0.2";
     this.survey_id =
       questionnaireJson.surveyId ||
       questionnaireJson.title.toLowerCase().replace(/[^a-z0-9]/g, "");
