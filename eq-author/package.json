@@ -25,7 +25,7 @@
     "@babel/preset-react": "latest",
     "@hot-loader/react-dom": "latest",
     "@storybook/addon-a11y": "^6.0.28",
-    "@storybook/addon-actions": "^6.0.21",
+    "@storybook/addon-actions": "^6.2.7",
     "@storybook/addon-essentials": "^6.0.18",
     "@storybook/addon-links": "^6.1.18",
     "@storybook/react": "^6.0.18",
