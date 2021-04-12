@@ -55,7 +55,10 @@ describe("withMovePage", () => {
     describe("onMovePage", () => {
       it("provides the necessary arguments to mutate", () => {
         return props.onMovePage(args).then(() => {
-          expect(mutate).toHaveBeenCalledWith(expected);
+          expect(mutate).toHaveBeenCalledWith({
+            ...expected,
+            refetchQueries: expect.any(Object),
+          });
         });
       });
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
-import { withRouter, useRouteMatch } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 
 import { useMutation } from "react-apollo";
 
@@ -145,7 +145,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     shortTitle
   );
 
-  const match = useRouteMatch();
+  const params = useParams();
 
   return (
     <Container>
@@ -157,7 +157,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(match.params, type)}
+                tabItems={tabItems(params, type)}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>

@@ -41,6 +41,7 @@ const getQuestionnaireQuery = `
         eqId
         formType
       }
+      locked
     }
   }
 `;
