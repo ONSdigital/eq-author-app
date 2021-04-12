@@ -1,12 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import gql from "graphql-tag";
-import { Query, Subscription } from "react-apollo";
-import { Switch, Route, Redirect } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, flowRight, isEmpty } from "lodash";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -37,8 +38,9 @@ import {
 } from "utils/getAllAnswersFlatMap";
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
-import QUESTIONNAIRE_QUERY from "./getQuestionnaireQuery.graphql";
-import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
+import useLockStatusSubscription from "hooks/useLockStatusSubscription";
+import useValidationsSubscription from "hooks/useValidationsSubscription";
+import useQuestionnaireQuery from "./useQuestionnaireQuery";
 
 import { colors } from "constants/theme";
 
@@ -59,67 +61,43 @@ const MainNav = styled.div`
   background-color: ${colors.darkerBlack};
 `;
 
-export const UnwrappedQuestionnaireDesignPage = ({
-  loading,
-  error,
-  questionnaire,
-  location,
-}) => {
-  const renderRedirect = () => {
-    if (loading) {
-      return (
-        <Grid>
-          <Column cols={10}>
-            <Loading height="100%">Loading questionnaire…</Loading>
-          </Column>
-        </Grid>
-      );
-    }
-    if (questionnaire.introduction) {
-      return (
-        <Redirect
-          to={buildIntroductionPath({
-            questionnaireId: questionnaire.id,
-            introductionId: questionnaire.introduction.id,
-          })}
-        />
-      );
-    }
+const LoadingPlaceholder = () => (
+  <Grid>
+    <Column cols={10}>
+      <Loading height="100%">Loading questionnaire…</Loading>
+    </Column>
+  </Grid>
+);
 
-    return (
-      <Redirect
-        to={buildSectionPath({
-          questionnaireId: questionnaire.id,
-          sectionId: questionnaire.sections[0].id,
-        })}
-      />
-    );
-  };
+export const QuestionnaireDesignPage = () => {
+  const location = useLocation();
+  const { questionnaireId } = useParams();
+  const {
+    error,
+    loading,
+    data: { questionnaire } = {},
+  } = useQuestionnaireQuery(questionnaireId);
+
+  useLockStatusSubscription({ id: questionnaire?.id });
+  useValidationsSubscription({ id: questionnaire?.id });
+
+  if (error?.networkError?.bodyText === ERR_UNAUTHORIZED_QUESTIONNAIRE) {
+    throw new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE);
+  }
 
   if (!loading && !error && !questionnaire) {
     throw new Error(ERR_PAGE_NOT_FOUND);
   }
 
-  let flattenedAnswers;
-  let duplicates;
-  let duplicateQCode = false;
-
+  let flattenedAnswers, duplicates, duplicateQCode;
   if (questionnaire) {
     const sections = questionnaire.sections;
     const { answers } = organiseAnswers(sections);
-
     flattenedAnswers = flattenAnswers(answers);
-
     duplicates = duplicatesAnswers(flattenedAnswers);
-
-    if (duplicates) {
-      for (let key in duplicates) {
-        if (duplicates[key] > 1) {
-          duplicateQCode = true;
-        }
-      }
-    }
+    duplicateQCode = Object.keys(duplicates).find((key) => duplicates[key] > 1);
   }
+
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
       <BaseLayout questionnaire={questionnaire}>
@@ -133,7 +111,7 @@ export const UnwrappedQuestionnaireDesignPage = ({
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
                       <MainNavigation
-                        hasQuestionnaire={!isEmpty(questionnaire)}
+                        hasQuestionnaire={Boolean(questionnaire?.id)}
                         totalErrorCount={questionnaire?.totalErrorCount || 0}
                       />
                     </MainNav>
@@ -158,7 +136,26 @@ export const UnwrappedQuestionnaireDesignPage = ({
                         ...settingsRoutes,
                         ...folderRoutes,
                       ]}
-                      <Route path="*" render={renderRedirect} />
+                      <Route path="*">
+                        {loading ? (
+                          <LoadingPlaceholder />
+                        ) : (
+                          <Redirect
+                            to={
+                              questionnaire.introduction
+                                ? buildIntroductionPath({
+                                    questionnaireId: questionnaire.id,
+                                    introductionId:
+                                      questionnaire.introduction.id,
+                                  })
+                                : buildSectionPath({
+                                    questionnaireId: questionnaire.id,
+                                    sectionId: questionnaire.sections[0].id,
+                                  })
+                            }
+                          />
+                        )}
+                      </Route>
                     </Switch>
                   </Column>
                 </CallbackContextProvider>
@@ -171,194 +168,4 @@ export const UnwrappedQuestionnaireDesignPage = ({
   );
 };
 
-UnwrappedQuestionnaireDesignPage.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  match: CustomPropTypes.match.isRequired,
-  questionnaire: CustomPropTypes.questionnaire,
-  location: PropTypes.object, // eslint-disable-line
-  error: PropTypes.object, // eslint-disable-line
-  validations: PropTypes.object, // eslint-disable-line
-};
-
-export const withQuestionnaire = (Component) => {
-  const WrappedComponent = (props) => (
-    <Query
-      query={QUESTIONNAIRE_QUERY}
-      variables={{
-        input: {
-          questionnaireId: props.match.params.questionnaireId,
-        },
-      }}
-      fetchPolicy="network-only"
-      errorPolicy="all"
-    >
-      {(innerProps) => (
-        <Component
-          {...innerProps}
-          {...props}
-          questionnaire={get(innerProps, "data.questionnaire")}
-        />
-      )}
-    </Query>
-  );
-
-  WrappedComponent.displayName = `withQuestionnaire(${Component.displayName})`;
-  WrappedComponent.propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        questionnaireId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  };
-
-  return WrappedComponent;
-};
-
-export const withAuthCheck = (Component) => {
-  const WrappedComponent = (props) => {
-    if (
-      get(props, "error.networkError.bodyText") ===
-      ERR_UNAUTHORIZED_QUESTIONNAIRE
-    ) {
-      throw new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE);
-    }
-    return <Component {...props} />;
-  };
-  WrappedComponent.displayName = `withAuthCheck(${Component.displayName})`;
-  return WrappedComponent;
-};
-
-export const VALIDATION_QUERY = gql`
-  subscription Validation($id: ID!) {
-    validationUpdated(id: $id) {
-      id
-      totalErrorCount
-      sections {
-        id
-        validationErrorInfo {
-          ...ValidationErrorInfo
-        }
-        folders {
-          id
-          validationErrorInfo {
-            ...ValidationErrorInfo
-          }
-          pages {
-            id
-            validationErrorInfo {
-              ...ValidationErrorInfo
-            }
-            ... on QuestionPage {
-              confirmation {
-                id
-                validationErrorInfo {
-                  ...ValidationErrorInfo
-                }
-              }
-              answers {
-                ... on BasicAnswer {
-                  id
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
-                  validation {
-                    ... on NumberValidation {
-                      minValue {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                      maxValue {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                    }
-                    ... on DateValidation {
-                      earliestDate {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                      latestDate {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                    }
-                    ... on DateRangeValidation {
-                      earliestDate {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                      latestDate {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                      minDuration {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                      maxDuration {
-                        id
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                    }
-                  }
-                }
-                ... on MultipleChoiceAnswer {
-                  id
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${ValidationErrorInfo}
-`;
-
-export const withValidations = (Component) => {
-  const WrappedComponent = (props) => (
-    <Subscription
-      subscription={VALIDATION_QUERY}
-      variables={{ id: props.match.params.questionnaireId }}
-    >
-      {(subscriptionProps) => (
-        <Component
-          {...props}
-          validations={get(subscriptionProps, "data.validationUpdated")}
-        />
-      )}
-    </Subscription>
-  );
-  WrappedComponent.displayName = `withValidations(${Component.displayName})`;
-  WrappedComponent.propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        questionnaireId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  };
-  return WrappedComponent;
-};
-
-export default flowRight([withQuestionnaire, withAuthCheck, withValidations])(
-  UnwrappedQuestionnaireDesignPage
-);
+export default QuestionnaireDesignPage;

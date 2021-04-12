@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { colors, radius } from "constants/theme";
 import Button from "components/buttons/Button";
 
-import iconArrow from "./icon-arrow-down.svg";
+import iconArrow from "assets/icon-arrow-down.svg";
 
 import { SORT_ORDER } from "../../constants";
 
@@ -29,7 +29,7 @@ const SortButton = styled(Button)`
   display: block;
   cursor: pointer;
   opacity: 0.8;
-  padding: 1em;
+  padding: 0.5em;
   background-color: transparent;
   color: inherit;
   font-weight: normal;
@@ -113,7 +113,7 @@ const TableHead = (props) => {
       <tr>
         <SortableTH
           sortColumn="title"
-          colWidth="25%"
+          colWidth="20%"
           dataTest="title-sort-button"
           {...props}
         >
@@ -128,14 +128,6 @@ const TableHead = (props) => {
           Owner
         </SortableTH>
         <SortableTH
-          sortColumn="starred"
-          colWidth="8%"
-          dataTest="star-sort-button"
-          {...props}
-        >
-          Starred
-        </SortableTH>
-        <SortableTH
           sortColumn="createdAt"
           colWidth="10%"
           dataTest="created-sort-button"
@@ -145,13 +137,29 @@ const TableHead = (props) => {
         </SortableTH>
         <SortableTH
           sortColumn="updatedAt"
-          colWidth="10%"
+          colWidth="9%"
           dataTest="modified-sort-button"
           {...props}
         >
           Modified
         </SortableTH>
-        <UnsortableTH colWidth="11%">Permissions</UnsortableTH>
+        <UnsortableTH colWidth="10%">Permissions</UnsortableTH>
+        <SortableTH
+          sortColumn="locked"
+          colWidth="8%"
+          dataTest="lock-sort-button"
+          {...props}
+        >
+          Locked
+        </SortableTH>
+        <SortableTH
+          sortColumn="starred"
+          colWidth="8%"
+          dataTest="star-sort-button"
+          {...props}
+        >
+          Starred
+        </SortableTH>
         <UnsortableTH colWidth="9%">Actions</UnsortableTH>
       </tr>
     </thead>

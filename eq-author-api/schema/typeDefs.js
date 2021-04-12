@@ -1284,6 +1284,7 @@ type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
+  lockStatusUpdated(id: ID): Questionnaire!
 }
 
 input PublishQuestionnaireInput {

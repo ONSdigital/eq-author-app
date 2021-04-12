@@ -4,6 +4,7 @@ query GetQuestionnaire($input: QueryInput!) {
       id
     }
     publishStatus
+    locked
     totalErrorCount
     ...NavigationSidebar
     metadata {

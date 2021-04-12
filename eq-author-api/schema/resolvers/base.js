@@ -248,6 +248,13 @@ const Resolvers = {
       },
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
+    lockStatusUpdated: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["lockStatusUpdated"]),
+        ({ id }, input) => input.id === null || id === input.id
+      ),
+      resolve: (questionnaire) => questionnaire,
+    },
     commentsUpdated: {
       resolve: ({ componentId }) => {
         return { id: componentId };
@@ -301,13 +308,22 @@ const Resolvers = {
 
       return questionnaire;
     },
-    setQuestionnaireLocked: createMutation(
-      (root, { input: { locked } }, ctx) => {
-        ctx.questionnaire.locked = locked;
-        return ctx.questionnaire;
-      },
-      { ignoreLockStatus: true }
-    ),
+    setQuestionnaireLocked: async (root, { input }, ctx) => {
+      const { questionnaireId, locked } = input;
+      const questionnaire = await getQuestionnaire(questionnaireId);
+      if (!questionnaire) {
+        throw new UserInputError(
+          `Questionnaire with ID ${questionnaireId} does not exist.`
+        );
+      }
+
+      enforceHasWritePermission(questionnaire, ctx.user);
+      questionnaire.locked = locked;
+      await saveQuestionnaire(questionnaire);
+
+      pubsub.publish("lockStatusUpdated", questionnaire);
+      return questionnaire;
+    },
     deleteQuestionnaire: async (_, { input }, ctx) => {
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
