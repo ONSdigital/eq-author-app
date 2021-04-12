@@ -5,7 +5,6 @@ const mockQuestionnaire = () => {
     title: "Working from home",
     theme: "default",
     legalBasis: "Voluntary",
-    qcodes: true,
     navigation: false,
     metadata: [],
     sections: [
