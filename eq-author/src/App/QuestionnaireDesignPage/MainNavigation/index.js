@@ -188,8 +188,7 @@ export const UnwrappedMainNavigation = ({
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {(qcodesEnabled && emptyQCode) ||
-                  (qcodesEnabled && duplicateQCode === true) ? (
+                  {qcodesEnabled && (emptyQCode || duplicateQCode) ? (
                     <SmallBadge data-test="small-badge" />
                   ) : null}
                 </RouteButton>
