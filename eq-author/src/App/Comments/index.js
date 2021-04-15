@@ -118,12 +118,12 @@ const CommentsPanel = ({ componentId }) => {
     editedTime,
   }) => ({
     id,
-    author: formatName(user.displayName) || user.name || "",
+    authorName: formatName(user.displayName) || user.name || "",
     canEdit: user.id === me.id,
     canDelete: user.id === me.id,
     datePosted: createdTime,
     dateModified: editedTime,
-    text: commentText,
+    commentText,
   });
 
   const formattedComments = comments.map(({ replies, ...rest }) => ({
@@ -137,11 +137,17 @@ const CommentsPanel = ({ componentId }) => {
     b.datePosted.toString().localeCompare(a.datePosted.toString())
   );
 
-  const renderReplies = (replies, commentId) => (
+  const renderReplies = (replies, rootId, componentId) => (
     <ul>
       {replies.map(({ id: replyId, ...rest }) => (
         <li key={`comment-reply-${replyId}`}>
-          <Comment {...rest} />
+          <Comment
+            {...rest}
+            id={replyId}
+            rootId={rootId}
+            subjectId={componentId}
+            isReply
+          />
         </li>
       ))}
     </ul>
@@ -151,10 +157,15 @@ const CommentsPanel = ({ componentId }) => {
     <ul>
       {comments.map(({ id: commentId, replies, ...rest }) => (
         <li key={`comment-${commentId}`}>
-          <Comment {...rest} />
+          <Comment
+            {...rest}
+            id={commentId}
+            rootId={commentId}
+            subjectId={componentId}
+          />
           {replies.length > 0 && (
             <Replies showHide title="Replies" withoutHideThis>
-              {renderReplies(replies, commentId)}
+              {renderReplies(replies, commentId, componentId)}
             </Replies>
           )}
         </li>

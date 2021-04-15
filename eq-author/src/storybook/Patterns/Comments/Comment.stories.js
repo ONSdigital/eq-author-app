@@ -35,10 +35,13 @@ const CommentTemplate = (args) => <Comment {...args} />;
 
 export const Default = CommentTemplate.bind({});
 Default.args = {
-  commentId: "1",
-  author: "Jane Doe",
+  id: "comment-1",
+  rootId: "comment-1",
+  subjectId: "page-1",
+  authorName: "Jane Doe",
   datePosted: "2021-03-30T14:48:00.000Z",
-  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  onUpdateComment: () => alert("Comment updated"),
-  onDeleteComment: () => alert("Comment deleted"),
+  dateModified: "2021-03-30T15:48:00.000Z",
+  commentText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  canEdit: true,
+  canDelete: true,
 };

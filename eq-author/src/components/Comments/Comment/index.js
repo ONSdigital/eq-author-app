@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import moment from "moment";
 
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
+
+import COMMENT_UPDATE from "./graphql/updateComment.graphql";
+import COMMENT_DELETE from "./graphql/deleteComment.graphql";
+import REPLY_UPDATE from "./graphql/updateReply.graphql";
+import REPLY_DELETE from "./graphql/deleteReply.graphql";
 
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
@@ -120,32 +126,87 @@ const RightButtonGroup = styled(ButtonGroup)`
 `;
 
 const Comment = ({
-  author,
-  canEdit,
-  canDelete,
+  id,
+  rootId,
+  subjectId,
+  authorName,
   datePosted,
-  text,
   dateModified,
-  onUpdateComment,
-  onDeleteComment,
-  commentId,
-  replyId,
-  showAddReply,
-  showReplyBtn,
+  commentText,
+  isReply = false,
+  canEdit = false,
+  canDelete = false,
 }) => {
-  const authorInitials = author
+  const [updateComment] = useMutation(COMMENT_UPDATE);
+  const [deleteComment] = useMutation(COMMENT_DELETE);
+
+  const [updateReply] = useMutation(REPLY_UPDATE);
+  const [deleteReply] = useMutation(REPLY_DELETE);
+
+  const [editing, setEditing] = useState(false);
+
+  const authorInitials = authorName
     .match(/\b(\w)/g)
     .splice(0, 2)
     .join("");
 
-  const [editing, setEditing] = useState(false);
+  const onUpdateComment = useCallback(
+    (commentText) => {
+      if (isReply) {
+        updateReply({
+          variables: {
+            input: {
+              componentId: subjectId,
+              commentId: rootId,
+              replyId: id,
+              commentText,
+            },
+          },
+        });
+      } else {
+        updateComment({
+          variables: {
+            input: {
+              componentId: subjectId,
+              commentId: id,
+              commentText,
+            },
+          },
+        });
+      }
+    },
+    [id, subjectId, rootId, isReply]
+  );
+
+  const onDeleteComment = useCallback(() => {
+    if (isReply) {
+      deleteReply({
+        variables: {
+          input: {
+            componentId: subjectId,
+            commentId: rootId,
+            replyId: id,
+          },
+        },
+      });
+    } else {
+      deleteComment({
+        variables: {
+          input: {
+            componentId: subjectId,
+            commentId: id,
+          },
+        },
+      });
+    }
+  }, [id, subjectId, rootId, isReply]);
 
   return (
     <Wrapper data-test="Comment">
       <Header data-test="Comment__Header">
         <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
         <ColumnWrapper>
-          <Author data-test="Comment__Author">{author}</Author>
+          <Author data-test="Comment__Author">{authorName}</Author>
           <Date data-test="Comment__DatePosted">
             {moment(datePosted).calendar()}
           </Date>
@@ -157,8 +218,6 @@ const Comment = ({
               icon={iconEdit}
               onClick={() => {
                 setEditing(true);
-                showReplyBtn(false);
-                showAddReply(false);
               }}
             >
               Edit comment
@@ -169,7 +228,7 @@ const Comment = ({
             <IconButton
               data-test="Comment__DeleteCommentBtn"
               icon={iconClose}
-              onClick={() => onDeleteComment(commentId, replyId)}
+              onClick={() => onDeleteComment()}
             >
               Delete comment
             </IconButton>
@@ -182,22 +241,18 @@ const Comment = ({
             data-test="Comment__CommentEditor"
             showCancel
             confirmText={"Save"}
-            replyId={replyId}
-            commentId={commentId}
-            initialValue={text}
+            initialValue={commentText}
             variant={"growable"}
-            onConfirm={(commentText, commentId, replyId) => {
-              onUpdateComment(commentId, commentText, replyId);
+            onConfirm={(commentText) => {
+              onUpdateComment(commentText);
               setEditing(false);
-              showReplyBtn(true);
             }}
             onCancel={() => {
               setEditing(false);
-              showReplyBtn(true);
             }}
           />
         ) : (
-          <Text data-test="Comment__CommentText">{text}</Text>
+          <Text data-test="Comment__CommentText">{commentText}</Text>
         )}
         {dateModified && (
           <Date data-test="Comment__DateModified">{`Edited: ${moment(

@@ -52,8 +52,6 @@ const CommentEditor = ({
   showCancel = false,
   onCancel,
   onConfirm,
-  commentId,
-  replyId,
   className,
 }) => {
   const [commentText, updateCommentText] = useState(initialValue);
@@ -82,7 +80,7 @@ const CommentEditor = ({
           small-medium
           disabled={commentText.length === 0}
           onClick={() => {
-            onConfirm(commentText, commentId, replyId);
+            onConfirm(commentText);
             updateCommentText("");
           }}
         >
@@ -132,14 +130,6 @@ CommentEditor.propTypes = {
    * A function that runs when the 'Add' button is pressed.
    */
   onConfirm: PropTypes.func.isRequired,
-  /**
-   * If given, it is made available to the 'onConfirm' function. Useful when adding replies to a root comment.
-   */
-  commentId: PropTypes.string,
-  /**
-   * If given, it is made available to the 'onConfirm' function. Useful when adding replies to the root comment.
-   */
-  replyId: PropTypes.string,
   /**
    * Allows for CSS classes to be filtered down when using Styled-Components.
    */
