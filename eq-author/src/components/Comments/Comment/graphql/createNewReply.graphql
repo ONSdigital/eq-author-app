@@ -1,0 +1,16 @@
+mutation CreateReply($input: CreateReplyInput!) {
+  createReply(input: $input) {
+    id
+    commentText
+    createdTime
+    editedTime
+    user {
+      id
+      name
+      picture
+      email
+      displayName
+    }
+    parentCommentId
+  }
+}

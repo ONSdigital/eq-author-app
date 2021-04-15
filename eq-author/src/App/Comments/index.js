@@ -137,23 +137,30 @@ const CommentsPanel = ({ componentId }) => {
     b.datePosted.toString().localeCompare(a.datePosted.toString())
   );
 
-  const renderComments = (comments = [], componentId) =>
-    comments.map(({ id: commentId, replies, ...rest }) => (
-      <li key={`comment-${commentId}`}>
-        <Comment {...rest} />
-        {replies.length > 0 && (
-          <Replies showHide title="Replies" withoutHideThis>
-            <ul>
-              {replies.map(({ id: replyId, ...rest }) => (
-                <li key={`comment-reply-${replyId}`}>
-                  <Comment {...rest} />
-                </li>
-              ))}
-            </ul>
-          </Replies>
-        )}
-      </li>
-    ));
+  const renderReplies = (replies, commentId) => (
+    <ul>
+      {replies.map(({ id: replyId, ...rest }) => (
+        <li key={`comment-reply-${replyId}`}>
+          <Comment {...rest} />
+        </li>
+      ))}
+    </ul>
+  );
+
+  const renderComments = (comments = [], componentId) => (
+    <ul>
+      {comments.map(({ id: commentId, replies, ...rest }) => (
+        <li key={`comment-${commentId}`}>
+          <Comment {...rest} />
+          {replies.length > 0 && (
+            <Replies showHide title="Replies" withoutHideThis>
+              {renderReplies(replies, commentId)}
+            </Replies>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
     <Wrapper>
@@ -172,7 +179,7 @@ const CommentsPanel = ({ componentId }) => {
           })
         }
       />
-      <ul>{renderComments(sortedComments, componentId)}</ul>
+      {renderComments(sortedComments, componentId)}
     </Wrapper>
   );
 };

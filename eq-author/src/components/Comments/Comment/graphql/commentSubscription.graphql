@@ -1,0 +1,5 @@
+subscription CommentsUpdated($id: ID!) {
+  commentsUpdated(id: $id) {
+    id
+  }
+}
