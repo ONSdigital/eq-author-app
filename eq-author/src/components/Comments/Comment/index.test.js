@@ -1,121 +1,88 @@
 import React from "react";
+import moment from "moment";
 
 import { render } from "tests/utils/rtl";
 
-import Comment from ".";
+import PureComment from ".";
 
-describe("Comment", () => {
+describe("Pure comment", () => {
   let mockComment,
-    mockReplies,
-    mockOnAddReply,
-    mockOnDeleteReply,
-    mockOnUpdateReply,
     mockOnUpdateComment,
-    mockOnDeleteComment;
+    mockOnDeleteComment,
+    mockShowAddReplyBtn,
+    mockShowReplyBtn;
 
-  const renderComment = (props) =>
+  const renderPureComment = (props) =>
     render(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
+      <PureComment
+        {...mockComment}
         onUpdateComment={mockOnUpdateComment}
         onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-        canEdit
         canDelete
+        canEdit
         {...props}
       />
     );
 
   beforeEach(() => {
     mockComment = {
-      id: "1",
+      commentId: "1",
       author: "Jane Doe",
       datePosted: "2021-03-30T14:48:00.000Z",
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     };
-
-    mockReplies = [
-      {
-        id: "1.1",
-        author: "Joe Bloggs",
-        datePosted: "2021-03-30T14:58:00.000Z",
-        text:
-          "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
-        dateModified: "2021-03-30T15:48:00.000Z",
-      },
-    ];
-
-    mockOnAddReply = jest.fn();
-    mockOnDeleteReply = jest.fn();
-    mockOnUpdateReply = jest.fn();
     mockOnUpdateComment = jest.fn();
     mockOnDeleteComment = jest.fn();
+    mockShowReplyBtn = jest.fn();
+    mockShowAddReplyBtn = jest.fn();
   });
 
   it("Can render", () => {
-    const { getByTestId } = renderComment();
+    const { getByTestId } = renderPureComment();
 
-    const comment = getByTestId("Comment");
+    const comment = getByTestId("PureComment");
 
     expect(comment).toBeVisible();
   });
 
-  it("Does not render '(Show/Hide) x replies' if there are none", () => {
-    const { queryByTestId } = renderComment({ replies: [] });
+  it("Uses the authors initials for their avatar", () => {
+    const { getByText } = renderPureComment();
 
-    const replies = queryByTestId("collapsible");
+    const avatar = getByText("JD");
 
-    expect(replies).not.toBeInTheDocument();
+    expect(avatar).toBeVisible();
   });
 
-  it("Does render '(Show/Hide) x replies' when there are some", () => {
-    const { getByTestId } = renderComment();
+  it("Converts an ISO date to the human readable date format", () => {
+    const { getByText } = renderPureComment();
 
-    const replies = getByTestId("collapsible");
+    const humanReadableDate = moment(mockComment.datePosted).calendar();
 
-    expect(replies).toBeVisible();
+    expect(getByText(humanReadableDate)).toBeVisible();
   });
 
-  it("Makes 'reply' plural when there are more than one", () => {
-    const { getByTestId, rerender } = renderComment();
-
-    const repliesCollapsibleTitle = getByTestId("collapsible-title");
-
-    expect(mockReplies.length).toBe(1);
-    expect(repliesCollapsibleTitle).toHaveTextContent(`Show 1 reply`);
-
-    mockReplies.push({
-      id: "1.2",
-      author: "Jane Doe",
-      datePosted: "2021-03-30T16:48:00.000Z",
-      text:
-        "Nunc hendrerit turpis sed lacus pharetra gravida tristique ac ligula.",
+  it("Opens the Comment Editor when the Edit button is clicked", () => {
+    const { getByTestId } = renderPureComment({
+      showReplyBtn: mockShowReplyBtn,
+      showAddReply: mockShowAddReplyBtn,
     });
 
-    rerender(
-      <Comment
-        comment={mockComment}
-        replies={mockReplies}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        onAddReply={mockOnAddReply}
-        onUpdateReply={mockOnUpdateReply}
-        onDeleteReply={mockOnDeleteReply}
-      />
-    );
+    const editBtn = getByTestId("PureComment__EditCommentBtn");
 
-    expect(mockReplies.length).toBe(2);
-    expect(repliesCollapsibleTitle).toHaveTextContent(`Show 2 replies`);
+    editBtn.click();
+
+    const commentEditor = getByTestId("CommentEditor");
+
+    expect(commentEditor).toBeVisible();
   });
 
-  it("Hides the 'Reply' button when the 'disableReplies' prop is given", () => {
-    const { queryByTestId } = renderComment({ disableReplies: true });
+  it("Calls onDeleteComment when the delete button is clicked", () => {
+    const { getByTestId } = renderPureComment();
 
-    const replyBtn = queryByTestId("Comment__ReplyBtn");
+    const deleteBtn = getByTestId("PureComment__DeleteCommentBtn");
 
-    expect(replyBtn).not.toBeInTheDocument();
+    deleteBtn.click();
+
+    expect(mockOnDeleteComment.mock.calls.length).toBe(1);
   });
 });

@@ -1,222 +1,270 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
+
 import styled from "styled-components";
+import { colors, focusStyle } from "constants/theme";
 
-import CommentEditor from "../CommentEditor";
-import Collapsible from "components/Collapsible";
-import Button from "components/buttons/Button";
+import VisuallyHidden from "components/VisuallyHidden";
+import Tooltip from "components/Forms/Tooltip";
+import CommentEditor from "components/Comments/CommentEditor";
 
-import PureComment from "../PureComment";
+import iconEdit from "assets/icon-edit.svg";
+import iconClose from "assets/icon-close.svg";
 
-const StyledCollapsible = styled(Collapsible)`
-  .collapsible-title,
-  .collapsible-title > * {
-    font-weight: normal;
+const IconButton = ({
+  icon,
+  onClick,
+  children,
+  "data-test": dataTest,
+  ...rest
+}) => {
+  const Button = styled.button`
     padding: 0;
-  }
+    padding-left: 3px;
+    padding-top: 3px;
+    background: none;
+    border: none;
 
-  .collapsible-header {
-    margin-bottom: 1em;
-  }
-
-  .collapsible-body {
-    border-left: none;
-    margin-top: 0;
-  }
-
-  ul {
-    padding: 0;
-
-    li {
-      display: block;
+    &:focus {
+      ${focusStyle}
+      outline: none;
     }
+  `;
+
+  const Icon = styled.span`
+    mask: url(${icon});
+    width: 2em;
+    height: 2em;
+    background-color: ${colors.grey};
+    border: none;
+    display: block;
+
+    &:hover {
+      background-color: ${colors.black};
+      cursor: pointer;
+    }
+  `;
+  return (
+    <Tooltip
+      place="top"
+      offset={{ top: 0, bottom: 10 }}
+      content={children}
+      {...rest}
+    >
+      <Button onClick={onClick} data-test={dataTest}>
+        <Icon />
+        <VisuallyHidden>{children}</VisuallyHidden>
+      </Button>
+    </Tooltip>
+  );
+};
+
+const Wrapper = styled.div`
+  margin-bottom: 1em;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+`;
+
+const Body = styled.div`
+  margin-bottom: 0.5em;
+`;
+
+const ColumnWrapper = styled.div``;
+
+const Text = styled.p`
+  border: 0.0625em solid ${colors.lightGrey};
+  background-color: ${colors.lighterGrey};
+  padding: 0.5em 1em;
+  margin: 0;
+  margin-bottom: 0.3125em;
+`;
+
+const Avatar = styled.p`
+  width: 2.25em;
+  height: 2.25em;
+  line-height: 2.25em;
+  border-radius: 50%;
+  text-align: center;
+  color: ${colors.white};
+  background-color: ${colors.primary};
+  margin: 0;
+  margin-right: 0.5em;
+  text-transform: uppercase;
+`;
+
+const Author = styled.p`
+  margin: 0;
+`;
+
+const Date = styled.p`
+  font-size: 0.8em;
+  color: ${colors.grey};
+  margin: 0;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+
+  button {
+    margin-right: 0.5em;
   }
 `;
 
-const Replies = ({
-  replies,
+const RightButtonGroup = styled(ButtonGroup)`
+  margin-left: auto;
+`;
+
+const Comment = ({
+  author,
+  canEdit,
+  canDelete,
+  datePosted,
+  text,
+  dateModified,
+  onUpdateComment,
+  onDeleteComment,
   commentId,
-  onUpdateReply,
-  onDeleteReply,
+  replyId,
   showAddReply,
   showReplyBtn,
 }) => {
-  const numOfReplies = replies.length;
+  const authorInitials = author
+    .match(/\b(\w)/g)
+    .splice(0, 2)
+    .join("");
+
+  const [editing, setEditing] = useState(false);
 
   return (
-    <>
-      {numOfReplies > 0 && (
-        <StyledCollapsible
-          title={`${numOfReplies} ${numOfReplies > 1 ? "replies" : "reply"}`}
-          showHide
-          withoutHideThis
-          key={`replies-to-${commentId}`}
-        >
-          <ul>
-            {replies.map(({ id, ...rest }) => (
-              <li key={`list-item-comment-${id}`}>
-                <PureComment
-                  commentId={commentId}
-                  replyId={id}
-                  onUpdateComment={onUpdateReply}
-                  onDeleteComment={onDeleteReply}
-                  showAddReply={showAddReply}
-                  showReplyBtn={showReplyBtn}
-                  {...rest}
-                />
-              </li>
-            ))}
-          </ul>
-        </StyledCollapsible>
-      )}
-    </>
+    <Wrapper data-test="Comment">
+      <Header data-test="Comment__Header">
+        <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
+        <ColumnWrapper>
+          <Author data-test="Comment__Author">{author}</Author>
+          <Date data-test="Comment__DatePosted">
+            {moment(datePosted).calendar()}
+          </Date>
+        </ColumnWrapper>
+        <RightButtonGroup>
+          {canEdit && (
+            <IconButton
+              data-test="Comment__EditCommentBtn"
+              icon={iconEdit}
+              onClick={() => {
+                setEditing(true);
+                showReplyBtn(false);
+                showAddReply(false);
+              }}
+            >
+              Edit comment
+            </IconButton>
+          )}
+
+          {canDelete && (
+            <IconButton
+              data-test="Comment__DeleteCommentBtn"
+              icon={iconClose}
+              onClick={() => onDeleteComment(commentId, replyId)}
+            >
+              Delete comment
+            </IconButton>
+          )}
+        </RightButtonGroup>
+      </Header>
+      <Body data-test="Comment__Body">
+        {editing ? (
+          <CommentEditor
+            data-test="Comment__CommentEditor"
+            showCancel
+            confirmText={"Save"}
+            replyId={replyId}
+            commentId={commentId}
+            initialValue={text}
+            variant={"growable"}
+            onConfirm={(commentText, commentId, replyId) => {
+              onUpdateComment(commentId, commentText, replyId);
+              setEditing(false);
+              showReplyBtn(true);
+            }}
+            onCancel={() => {
+              setEditing(false);
+              showReplyBtn(true);
+            }}
+          />
+        ) : (
+          <Text data-test="Comment__CommentText">{text}</Text>
+        )}
+        {dateModified && (
+          <Date data-test="Comment__DateModified">{`Edited: ${moment(
+            dateModified
+          ).calendar()}`}</Date>
+        )}
+      </Body>
+    </Wrapper>
   );
 };
 
-const Comment = ({
-  comment,
-  onUpdateComment,
-  onDeleteComment,
-  replies = [],
-  onAddReply,
-  onUpdateReply,
-  onDeleteReply,
-  disableReplies = false,
-}) => {
-  const [addReplyVisible, showAddReply] = useState(false);
-  const [replyBtnVisible, showReplyBtn] = useState(!disableReplies);
-
-  const ReplyBtn = styled(Button)`
-    margin-bottom: 1em;
-  `;
-
-  return (
-    <div data-test="Comment">
-      <PureComment
-        commentId={comment.id}
-        onUpdateComment={onUpdateComment}
-        onDeleteComment={onDeleteComment}
-        showAddReply={showAddReply}
-        showReplyBtn={showReplyBtn}
-        {...comment}
-      />
-      {!addReplyVisible && replyBtnVisible && (
-        <ReplyBtn
-          data-test="Comment__ReplyBtn"
-          variant="greyed"
-          small-medium
-          onClick={() => showAddReply(true)}
-        >
-          Reply
-        </ReplyBtn>
-      )}
-      {addReplyVisible && (
-        <CommentEditor
-          key={`add-comment-${comment.id}`}
-          showCancel
-          commentId={comment.id}
-          onConfirm={(commentText, commentId) =>
-            onAddReply(commentText, commentId, () => showAddReply(false))
-          }
-          onCancel={() => showAddReply(false)}
-        />
-      )}
-      <Replies
-        data-test="Comment__Replies"
-        commentId={comment.id}
-        replies={replies}
-        onUpdateReply={onUpdateReply}
-        onDeleteReply={onDeleteReply}
-        showAddReply={showAddReply}
-        showReplyBtn={showReplyBtn}
-      />
-    </div>
-  );
-};
-
-Replies.propTypes = {
-  replies: PropTypes.arrayOf(
-    PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      datePosted: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      dateModified: PropTypes.string,
-      id: PropTypes.string,
-    })
-  ),
-  commentId: PropTypes.string,
-  onUpdateReply: PropTypes.func.isRequired,
-  onDeleteReply: PropTypes.func.isRequired,
-  showAddReply: PropTypes.func,
-  showReplyBtn: PropTypes.func,
+IconButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  "data-test": PropTypes.string,
 };
 
 Comment.propTypes = {
   /**
-   The root comment.
-  */
-  comment: PropTypes.shape({
-    author: PropTypes.string.isRequired,
-    datePosted: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    dateModified: PropTypes.string,
-    commentId: PropTypes.string,
-  }).isRequired,
-  /**
-   Replies to the root comment.
-  */
-  replies: PropTypes.arrayOf(
-    PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      datePosted: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      dateModified: PropTypes.string,
-      commentId: PropTypes.string,
-      replyId: PropTypes.string,
-    })
-  ),
-  /**
-   Enables or disables the ability to reply to the root comment.
+   * The ID of the comment. If the comment is a reply, this is the ID of the root comment.
    */
-  disableReplies: PropTypes.bool,
+  commentId: PropTypes.string.isRequired,
   /**
-   Updates the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the comment being updated
-  */
+   * The ID of the reply to the root comment.
+   */
+  replyId: PropTypes.string,
+  /**
+   * The name of the entity who made the comment.
+   */
+  author: PropTypes.string.isRequired,
+  /**
+   * When true, the 'Edit' button is enabled.
+   */
+  canEdit: PropTypes.bool.isRequired,
+  /**
+   * When true, the 'Delete' button is enabled.
+   */
+  canDelete: PropTypes.bool.isRequired,
+  /**
+   * In dateTime format, the date when the comment was made.
+   */
+  datePosted: PropTypes.string.isRequired,
+  /**
+   * The comment text.
+   */
+  text: PropTypes.string.isRequired,
+  /**
+   * In dateTime format, the date when the comment was last modified.
+   */
+  dateModified: PropTypes.string,
+  /**
+   * The function that runs when the 'Save' button is pressed when updating a comment.
+   */
   onUpdateComment: PropTypes.func.isRequired,
   /**
-   Deletes the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the comment being deleted
-  */
+   * The function that runs when the 'Delete' button is pressed.
+   */
   onDeleteComment: PropTypes.func.isRequired,
   /**
-   Adds a reply to the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of root comment being replied to
-  */
-  onAddReply: PropTypes.func.isRequired,
+   * If replies are enabled, this function is called to hide the 'Add reply' form when the 'Edit' button is pressed.
+   */
+  showAddReply: PropTypes.func,
   /**
-   Updates a reply to the root comment.
-  */
-  onUpdateReply: PropTypes.func.isRequired,
-  /**
-   Deletes a reply to the root comment.
-
-   Params:
-  
-  - `commentId` ~ The ID of the root comment of the reply being deleted
-  - `replyId` ~ The ID of the reply being deleted
-
-  */
-  onDeleteReply: PropTypes.func.isRequired,
+   * If replies are enabled, this function is called to hide the 'Reply' button when the 'Edit' button is called, and show it when the user has finished editing.
+   */
+  showReplyBtn: PropTypes.func,
 };
 
 export default Comment;

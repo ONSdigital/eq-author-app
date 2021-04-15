@@ -21,6 +21,7 @@ import Error from "components/Error";
 import Loading from "components/Loading";
 import Comment from "components/Comments/Comment";
 import CommentEditor from "components/Comments/CommentEditor";
+import Collapsible from "components/Collapsible";
 
 const Wrapper = styled.section`
   h1 {
@@ -42,6 +43,31 @@ const Wrapper = styled.section`
     > li {
       display: block;
       border-top: 1px solid rgb(228, 232, 235);
+    }
+  }
+`;
+
+const Replies = styled(Collapsible)`
+  .collapsible-title,
+  .collapsible-title > * {
+    font-weight: normal;
+    padding: 0;
+  }
+
+  .collapsible-header {
+    margin-bottom: 1em;
+  }
+
+  .collapsible-body {
+    border-left: none;
+    margin-top: 0;
+  }
+
+  ul {
+    padding: 0;
+
+    li {
+      display: block;
     }
   }
 `;
@@ -112,67 +138,20 @@ const CommentsPanel = ({ componentId }) => {
   );
 
   const renderComments = (comments = [], componentId) =>
-    comments.map(({ id, replies, ...rest }) => (
-      <li key={`comment-${id}`}>
-        <Comment
-          comment={{ id, ...rest }}
-          replies={replies}
-          onUpdateComment={(commentId, commentText) =>
-            updateComment({
-              variables: {
-                input: {
-                  componentId,
-                  commentId,
-                  commentText,
-                },
-              },
-            })
-          }
-          onDeleteComment={(commentId) =>
-            deleteComment({
-              variables: {
-                input: {
-                  componentId,
-                  commentId,
-                },
-              },
-            })
-          }
-          onAddReply={(commentText, commentId) =>
-            createReply({
-              variables: {
-                input: {
-                  componentId,
-                  commentId,
-                  commentText,
-                },
-              },
-            })
-          }
-          onUpdateReply={(commentId, commentText, replyId) =>
-            updateReply({
-              variables: {
-                input: {
-                  componentId,
-                  commentId,
-                  replyId,
-                  commentText,
-                },
-              },
-            })
-          }
-          onDeleteReply={(commentId, replyId) =>
-            deleteReply({
-              variables: {
-                input: {
-                  componentId,
-                  commentId,
-                  replyId,
-                },
-              },
-            })
-          }
-        />
+    comments.map(({ id: commentId, replies, ...rest }) => (
+      <li key={`comment-${commentId}`}>
+        <Comment {...rest} />
+        {replies.length > 0 && (
+          <Replies showHide title="Replies" withoutHideThis>
+            <ul>
+              {replies.map(({ id: replyId, ...rest }) => (
+                <li key={`comment-reply-${replyId}`}>
+                  <Comment {...rest} />
+                </li>
+              ))}
+            </ul>
+          </Replies>
+        )}
       </li>
     ));
 
