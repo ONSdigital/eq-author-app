@@ -110,6 +110,18 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 
+  it("should enable qcodes button when qcodes are enabled", () => {
+    const { getByTestId } = defaultSetup();
+
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).not.toBeTruthy();
+  });
+
+  it("should disable qcodes button when qcodes are not enabled", () => {
+    const { getByTestId } = defaultSetup({ changes: { qcodesEnabled: false } });
+
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
+  });
+
   it("should display a sign-out button if user is logged in", () => {
     const { getByText } = defaultSetup();
     expect(getByText(/Sign out/)).toBeVisible();
