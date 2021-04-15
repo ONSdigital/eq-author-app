@@ -60,7 +60,7 @@ const ThemesPage = ({ questionnaire }) => {
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const match = useRouteMatch();
 
-  const handleIdChange = ({ value }) => {
+  const handleBlur = ({ value }) => {
     value = value.trim();
     if (value !== "") {
       updateQuestionnaire({
@@ -113,7 +113,7 @@ const ThemesPage = ({ questionnaire }) => {
                         maxLength="3"
                         value={questionnaireId}
                         onChange={({ value }) => setQuestionnaireId(value)}
-                        onBlur={(e) => handleIdChange({ ...e.target })}
+                        onBlur={(e) => handleBlur({ ...e.target })}
                         data-test="change-questionnaire-id"
                       />
                     </Field>
