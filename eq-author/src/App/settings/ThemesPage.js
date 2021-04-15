@@ -129,7 +129,6 @@ const ThemesPage = ({ questionnaire }) => {
                         The three-digit survey ID. For example, &apos;283&apos;
                       </Caption>
                       <StyledInput
-                        // type="number" needs validation IMO
                         maxLength="3"
                         value={questionnaireId}
                         onChange={({ value }) => setQuestionnaireId(value)}
