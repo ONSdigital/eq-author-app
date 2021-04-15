@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, useRouteMatch } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
 
+import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -53,9 +55,19 @@ const Caption = styled.p`
 `;
 
 const ThemesPage = ({ questionnaire }) => {
-  const { type } = questionnaire;
-
+  const { type, surveyId, id } = questionnaire;
+  const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const match = useRouteMatch();
+
+  const handleIdChange = ({ value }) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaire({
+        variables: { input: { id, surveyId: value } },
+      });
+    }
+  };
 
   return (
     <Container>
@@ -97,9 +109,10 @@ const ThemesPage = ({ questionnaire }) => {
                         The three-digit survey ID. For example, &apos;283&apos;
                       </Caption>
                       <StyledInput
-                        // value={questionnaireTitle}
-                        onChange={({ value }) => ""}
-                        onBlur={(e) => ""}
+                        // type="number"
+                        value={questionnaireId}
+                        onChange={({ value }) => setQuestionnaireId(value)}
+                        onBlur={(e) => handleIdChange({ ...e.target })}
                         data-test="change-questionnaire-id"
                       />
                     </Field>
