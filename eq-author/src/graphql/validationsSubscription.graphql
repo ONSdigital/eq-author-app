@@ -1,0 +1,104 @@
+#import "./fragments/validationErrorInfo.graphql"
+
+subscription Validation($id: ID!) {
+  validationUpdated(id: $id) {
+    id
+    totalErrorCount
+    sections {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      folders {
+        id
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+        pages {
+          id
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
+          ... on QuestionPage {
+            confirmation {
+              id
+              validationErrorInfo {
+                ...ValidationErrorInfo
+              }
+            }
+            answers {
+              ... on BasicAnswer {
+                id
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+                validation {
+                  ... on NumberValidation {
+                    minValue {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    maxValue {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                  }
+                  ... on DateValidation {
+                    earliestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    latestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                  }
+                  ... on DateRangeValidation {
+                    earliestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    latestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    minDuration {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    maxDuration {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                  }
+                }
+              }
+              ... on MultipleChoiceAnswer {
+                id
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+mutation SetLockStatus($input: SetQuestionnaireLockedInput!) {
+  setQuestionnaireLocked(input: $input) {
+    id
+    locked
+  }
+}

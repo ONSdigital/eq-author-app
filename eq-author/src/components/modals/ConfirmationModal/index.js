@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Grid, Column } from "components/Grid";
@@ -16,6 +16,7 @@ const Title = styled.h2`
 const WarningText = styled.p`
   color: ${colors.red};
   font-weight: bold;
+  margin: 0;
 `;
 
 const IconColumn = styled(Column).attrs({ cols: 1, gutters: false })`
@@ -26,6 +27,9 @@ const IconColumn = styled(Column).attrs({ cols: 1, gutters: false })`
     height: 1.5em;
     position: relative;
     top: 0.125em;
+
+    ${({ greyscale }) =>
+      greyscale ? `path { fill: ${colors.darkGrey}; }` : ""}
   }
 `;
 
@@ -54,7 +58,7 @@ const ConfirmationModal = ({
   return (
     <Modal isOpen={isOpen} onClose={handleCancel}>
       <Grid align="center">
-        <IconColumn>
+        <IconColumn greyscale>
           <Icon />
         </IconColumn>
         <TextColumn>
@@ -73,7 +77,7 @@ const ConfirmationModal = ({
         <Button variant="secondary" onClick={handleCancel}>
           {cancelText}
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
+        <Button variant="primary" onClick={handleConfirm} autoFocus>
           {confirmText}
         </Button>
       </ButtonGroupStyled>
@@ -81,8 +85,34 @@ const ConfirmationModal = ({
   );
 };
 
+export const useConfirmationModal = ({ action, ...props }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleConfirm = useCallback(() => {
+    action();
+    setIsOpen(false);
+  }, [action]);
+
+  const handleCancel = useCallback(() => setIsOpen(false), []);
+
+  return {
+    trigger: useCallback(() => setIsOpen(true), []),
+    component: useCallback(
+      () => (
+        <ConfirmationModal
+          {...props}
+          isOpen={isOpen}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      ),
+      [props, action]
+    ),
+  };
+};
+
 ConfirmationModal.propTypes = {
-  icon: PropTypes.node,
+  icon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   title: PropTypes.string,
   message: PropTypes.string,
   confirmText: PropTypes.string,

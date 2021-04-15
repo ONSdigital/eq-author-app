@@ -6,16 +6,28 @@ import PropTypes from "prop-types";
 import IconText from "components/IconText";
 import ExpansionTransition from "components/transitions/ExpansionTransition";
 import WarningIcon from "components/OfflineBanner/icon-warning.svg?inline";
+import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
 import { READ, WRITE } from "constants/questionnaire-permissions";
 import { AWAITING_APPROVAL } from "constants/publishStatus";
+
+import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
 const Banner = styled.div`
   background-color: ${colors.red};
   height: 2.5em;
   justify-content: center;
   display: flex;
+`;
+
+const UnlockButton = styled(Button).attrs(() => ({
+  small: true,
+  variant: "tertiary-light",
+}))`
+  margin-left: 1em;
+  padding: 0.25em 0.5em;
+  border: 1px solid ${colors.white};
 `;
 
 const StyledExpansionTransition = styled(ExpansionTransition)`
@@ -44,19 +56,47 @@ const WarningMessage = styled(IconText)`
   padding: 1em;
 `;
 
-const warningMessages = {
-  editorAccess:
-    "You do not have editor access to this questionnaire, any changes you make will not be saved",
-  awaitingApproval:
-    "This questionnaire is currently being reviewed. Any changes made will not be saved.",
+const LockedBanner = ({ questionnaire }) => {
+  const { trigger, component: UnlockModal } = useQuestionnaireLockingModal(
+    questionnaire
+  );
+
+  return (
+    <>
+      <span>
+        This questionnaire is currently locked. Any changes made will not be
+        saved.
+      </span>
+      <UnlockModal />
+      <UnlockButton onClick={trigger}>Unlock</UnlockButton>
+    </>
+  );
 };
 
-export const PermissionsBanner = ({ questionnaire }) => {
-  if (!questionnaire) {
-    return null;
-  }
+LockedBanner.propTypes = {
+  questionnaire: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    locked: PropTypes.bool.isRequired,
+  }),
+};
 
-  const renderWarningBox = (message) => (
+const questionnaireToWarningMessage = [
+  ({ permission }) =>
+    permission !== WRITE &&
+    "You do not have editor access to this questionnaire, any changes you make will not be saved",
+  ({ publishStatus }) =>
+    publishStatus === AWAITING_APPROVAL &&
+    "This questionnaire is currently being reviewed. Any changes made will not be saved.",
+  (questionnaire) =>
+    questionnaire.locked && <LockedBanner questionnaire={questionnaire} />,
+];
+
+export const PermissionsBanner = ({ questionnaire }) => {
+  const message =
+    questionnaire &&
+    questionnaireToWarningMessage.map((fn) => fn(questionnaire)).find(Boolean);
+
+  return message ? (
     <TransitionGroup>
       <StyledExpansionTransition finalHeight="3.5em">
         <Banner>
@@ -64,18 +104,7 @@ export const PermissionsBanner = ({ questionnaire }) => {
         </Banner>
       </StyledExpansionTransition>
     </TransitionGroup>
-  );
-
-  const userCanEdit = questionnaire.permission === WRITE;
-  if (!userCanEdit) {
-    return renderWarningBox(warningMessages.editorAccess);
-  }
-
-  if (questionnaire.publishStatus === AWAITING_APPROVAL) {
-    return renderWarningBox(warningMessages.awaitingApproval);
-  }
-
-  return null;
+  ) : null;
 };
 
 PermissionsBanner.propTypes = {

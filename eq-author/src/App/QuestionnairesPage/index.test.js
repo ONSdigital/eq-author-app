@@ -8,6 +8,11 @@ import QuestionnairesPage, { QUESTIONNAIRES_QUERY } from "./";
 
 import { UNPUBLISHED } from "constants/publishStatus";
 
+jest.mock("hooks/useLockStatusSubscription", () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
 describe("QuestionnairesPage", () => {
   let me, signOut;
 
@@ -101,6 +106,7 @@ describe("QuestionnairesPage", () => {
                     displayName: "A Dude",
                     __typename: "User",
                   },
+                  locked: false,
                   __typename: "Questionnaire",
                 },
               ],

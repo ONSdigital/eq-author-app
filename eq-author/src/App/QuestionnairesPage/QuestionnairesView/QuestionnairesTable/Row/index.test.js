@@ -14,7 +14,6 @@ import {
   ShortTitle,
   DuplicateQuestionnaireButton,
   QuestionnaireLink,
-  StarButton,
 } from "./";
 
 import { useMutation } from "@apollo/react-hooks";
@@ -39,6 +38,7 @@ describe("Row", () => {
     props = {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
+      onLockQuestionnaire: jest.fn(),
       history: {
         push: jest.fn(),
       },
@@ -49,6 +49,7 @@ describe("Row", () => {
         createdAt: "2017/01/02",
         updatedAt: "2017/01/03",
         publishStatus: UNPUBLISHED,
+        locked: false,
         sections: [
           {
             id: "1",
@@ -136,11 +137,26 @@ describe("Row", () => {
     it("should call mutation to toggle star status when star button pressed", () => {
       const mockMutation = jest.fn();
       useMutation.mockImplementation(() => [mockMutation]);
-      let wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       wrapper
-        .find(StarButton)
+        .find("[data-test='starButton']")
         .simulate("click", { stopPropagation: jest.fn() });
       expect(mockMutation).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("locking questionnaires", () => {
+    it("should pass questionnaire info to parent when lock button pressed", () => {
+      const wrapper = shallow(<Row {...props} />);
+      wrapper
+        .find("[data-test='lockButton']")
+        .simulate("click", { stopPropagation: jest.fn() });
+      expect(props.onLockQuestionnaire).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: props.questionnaire.id,
+          locked: props.questionnaire.locked,
+        })
+      );
     });
   });
 
