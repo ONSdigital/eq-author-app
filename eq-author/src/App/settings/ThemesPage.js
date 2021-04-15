@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { withRouter, useRouteMatch } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
@@ -9,6 +9,7 @@ import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
+import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
@@ -54,11 +55,30 @@ const Caption = styled.p`
   font-size: 0.85em;
 `;
 
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.5em 0;
+`;
+
+const themes = [
+  {
+    title: "GB theme",
+    defaultOpen: true,
+  },
+  { title: "NI theme" },
+  { title: "COVID theme" },
+  { title: "EPE theme" },
+  { title: "EPE NI theme" },
+  { title: "UKIS theme" },
+  { title: "UKIS NI theme" },
+];
+
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
-  const match = useRouteMatch();
+  const params = useParams();
 
   const handleBlur = ({ value }) => {
     value = value.trim();
@@ -79,7 +99,7 @@ const ThemesPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(match.params, type)}
+                tabItems={tabItems(params, type)}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
@@ -117,6 +137,33 @@ const ThemesPage = ({ questionnaire }) => {
                         data-test="change-questionnaire-id"
                       />
                     </Field>
+                    <HorizontalSeparator />
+                    {themes.map(({ title, defaultOpen }) => (
+                      <CollapsibleToggled
+                        key={`${title}-toggle`}
+                        title={title}
+                        defaultOpen={defaultOpen}
+                      >
+                        {/* Added some filler text to demonstrate the opening and 
+                            closing; this should be removed in future tickets where 
+                            we add the actual functionality. 
+                          */}
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Praesent ut eros a turpis tincidunt consectetur
+                          sit amet quis enim. Vivamus scelerisque finibus erat
+                          id mattis. In leo dolor, faucibus non volutpat vel,
+                          pellentesque et nibh.
+                        </p>
+                        <p>
+                          Phasellus viverra malesuada tincidunt. Fusce vulputate
+                          odio mauris, eu finibus nisl luctus quis. Sed
+                          dignissim dapibus sapien, at sollicitudin neque auctor
+                          non. Interdum et malesuada fames ac ante ipsum primis
+                          in faucibus.
+                        </p>
+                      </CollapsibleToggled>
+                    ))}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>

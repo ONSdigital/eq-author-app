@@ -1,0 +1,6 @@
+subscription LockStatusUpdated($id: ID) {
+  lockStatusUpdated(id: $id) {
+    id
+    locked
+  }
+}

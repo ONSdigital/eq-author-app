@@ -52,6 +52,7 @@ const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
   "updatedAt",
   "history",
+  "locked",
 ];
 
 const justListFields = pick(BASE_FIELDS);
@@ -391,7 +392,7 @@ const updateUser = async (changedUser) => {
     const collection = dbo.collection("users");
     const existingUser = await collection.findOne({ id: id });
 
-    const user = Object.assign(changedUser, existingUser);
+    const user = Object.assign(existingUser, changedUser);
     await collection.updateOne({ id: id }, { $set: { ...user } });
     return user;
   } catch (error) {

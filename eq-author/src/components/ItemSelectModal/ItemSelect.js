@@ -45,6 +45,10 @@ const Label = styled.label`
   }
 `;
 
+const IndentIcon = styled(IconText)`
+  padding-left: ${({ indent }) => (indent === "true" ? 1 : 0)}em;
+`;
+
 export const Option = ({
   name,
   selected,
@@ -62,11 +66,10 @@ export const Option = ({
       checked={selected}
       name={name}
     />
-
     <Label selected={selected} htmlFor={id}>
-      <IconText icon={IconMoveIndicator}>
+      <IndentIcon icon={IconMoveIndicator}>
         <Truncated>{children}</Truncated>
-      </IconText>
+      </IndentIcon>
     </Label>
   </div>
 );

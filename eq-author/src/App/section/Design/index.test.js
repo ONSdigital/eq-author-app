@@ -36,6 +36,7 @@ const section = {
       __typename: "Folder",
       id: "folder-1",
       alias: "",
+      displayName: "",
       enabled: false,
       position: 0,
       pages: [

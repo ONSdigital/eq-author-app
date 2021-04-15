@@ -40,7 +40,7 @@ exports[`DeleteRowButton should render 1`] = `
     role="button"
     type="button"
   >
-    <svg />
+    <div />
   </button>
 </DocumentFragment>
 `;

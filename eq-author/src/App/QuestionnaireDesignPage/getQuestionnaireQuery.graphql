@@ -4,6 +4,7 @@ query GetQuestionnaire($input: QueryInput!) {
       id
     }
     publishStatus
+    locked
     totalErrorCount
     ...NavigationSidebar
     metadata {
@@ -82,6 +83,7 @@ fragment PageNav on Section {
     id
     enabled
     alias
+    displayName
     position
     pages {
       ...Pages
@@ -97,6 +99,7 @@ fragment Pages on Page {
   id
   alias
   title
+  alias
   position
   displayName
   pageType
@@ -131,6 +134,9 @@ fragment Answers on Answer {
   secondaryLabelDefault
   type
   properties
+  ... on BasicAnswer {
+    secondaryQCode
+  }
   ... on MultipleChoiceAnswer {
     options {
       id

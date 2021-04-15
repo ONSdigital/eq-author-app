@@ -1,5 +1,4 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-
 const { createQuestionnaire } = require("../../db/datastore");
 
 const {
@@ -150,6 +149,22 @@ describe("comments", () => {
     const comment = await queryComments(ctx, componentId);
 
     expect(comment.comments).toHaveLength(0);
+  });
+
+  describe("locking", () => {
+    it("should prevent adding comments to a locked questionnaire", async () => {
+      expect(
+        createComment(
+          { ...ctx, questionnaire: { ...ctx.questionnaire, locked: true } },
+          {
+            componentId,
+            commentText: "a new comment is created",
+          }
+        )
+      ).rejects.toThrow();
+
+      questionnaire.locked = false;
+    });
   });
 
   describe("replies", () => {

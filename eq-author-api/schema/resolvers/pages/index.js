@@ -6,10 +6,11 @@ const {
   getSectionById,
   getPageById,
   getMovePosition,
-  createFolder,
   getFolderById,
   getFolderByPageId,
 } = require("../utils");
+
+const { createFolder } = require("../../../src/businessLogic");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
@@ -51,12 +52,10 @@ Resolvers.Mutation = {
     if (folderId) {
       const folder = getFolderById(ctx, folderId);
       folder.pages.splice(position, 0, page);
-      page.folderId = folder.id;
     } else {
       const { folders } = newSection;
       const newFolder = createFolder({ pages: [page] });
       folders.splice(position, 0, newFolder);
-      page.folderId = newFolder.id;
     }
 
     deleteFirstPageSkipConditions(ctx);

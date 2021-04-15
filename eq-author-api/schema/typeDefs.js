@@ -50,6 +50,7 @@ type Questionnaire {
   id: ID!
   title: String
   description: String
+  starred: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
@@ -75,7 +76,9 @@ type Questionnaire {
   surveyId: String
   previewTheme: String!
   themes: [Theme!]!
+  locked: Boolean
 }
+
 enum HistoryEventTypes {
   system
   note
@@ -452,6 +455,7 @@ enum AnswerType {
 
 enum ThemeShortName {
   default
+  social
   census
   northernireland
 }
@@ -695,11 +699,21 @@ input UpdateThemeInput {
   formType: String
 }
 
+input ToggleQuestionnaireStarredInput {
+  questionnaireId: ID!
+}
+
+input SetQuestionnaireLockedInput {
+  questionnaireId: ID!
+  locked: Boolean!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
+  setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
@@ -722,6 +736,8 @@ type Mutation {
   deleteFolder(input: DeleteFolderInput!): Section
   moveFolder(input: MoveFolderInput!): Folder
   duplicateFolder(input: DuplicateFolderInput!): Folder
+
+  toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page
@@ -1268,6 +1284,7 @@ type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
+  lockStatusUpdated(id: ID): Questionnaire!
 }
 
 input PublishQuestionnaireInput {

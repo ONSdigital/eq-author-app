@@ -1,10 +1,7 @@
 const { last } = require("lodash");
 
 const { SOCIAL } = require("../constants/questionnaireTypes");
-const {
-  types: { VOLUNTARY },
-  contentMap,
-} = require("../constants/legalBases");
+const legalBases = require("../constants/legalBases");
 
 const Section = require("./Section");
 const Summary = require("./block-types/Summary");
@@ -32,11 +29,26 @@ const NI_THEME = "northernireland";
 
 const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
 
+const getPreviewTheme = ({ themes, previewTheme }) =>
+  previewTheme &&
+  themes &&
+  themes.find((theme) => theme && theme.shortName === previewTheme);
+
 class Questionnaire {
   constructor(questionnaireJson) {
-    const questionnaireId = questionnaireJson.id;
-    this.eq_id = questionnaireId;
-    this.form_type = questionnaireId;
+    const { id: questionnaireId, introduction } = questionnaireJson;
+    const isSocialSurvey = questionnaireJson.type === SOCIAL;
+    const previewTheme = getPreviewTheme(questionnaireJson) || {
+      shortName:
+        (isSocialSurvey && SOCIAL_THEME) ||
+        (questionnaireJson.theme === NI_THEME ? NI_THEME : DEFAULT_THEME),
+      legalBasis: introduction && introduction.legalBasis,
+      eqId: questionnaireId,
+      formType: questionnaireId,
+    };
+
+    this.eq_id = previewTheme.eqId;
+    this.form_type = previewTheme.formType;
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
     this.data_version = "0.0.2";
@@ -47,14 +59,13 @@ class Questionnaire {
 
     const ctx = this.createContext(questionnaireJson);
     this.sections = this.buildSections(questionnaireJson.sections, ctx);
-    this.buildIntroduction(questionnaireJson.introduction, ctx);
+    this.buildIntroduction(introduction, ctx);
 
-    this.theme =
-      questionnaireJson.type === SOCIAL ? SOCIAL_THEME : DEFAULT_THEME;
+    this.theme = previewTheme.shortName;
+    this.legal_basis = isSocialSurvey
+      ? undefined
+      : legalBases[previewTheme.legalBasis];
 
-    this.theme = questionnaireJson.theme === NI_THEME ? NI_THEME : this.theme;
-
-    this.legal_basis = this.buildLegalBasis(questionnaireJson.introduction);
     this.navigation = {
       visible: questionnaireJson.navigation,
     };
@@ -109,13 +120,6 @@ class Questionnaire {
       }));
 
     return [...DEFAULT_METADATA, ...userMetadata];
-  }
-
-  buildLegalBasis(introduction) {
-    if (!introduction || introduction.legalBasis === VOLUNTARY) {
-      return undefined;
-    }
-    return contentMap[introduction.legalBasis];
   }
 
   buildIntroduction(introduction, ctx) {

@@ -7,6 +7,7 @@ const getQuestionnaireQuery = `
       title
       description
       theme
+      starred
       navigation
       surveyId
       createdAt
@@ -40,6 +41,7 @@ const getQuestionnaireQuery = `
         eqId
         formType
       }
+      locked
     }
   }
 `;

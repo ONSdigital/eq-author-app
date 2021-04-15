@@ -37,7 +37,14 @@ const saveMetadata = (metadata) => {
 };
 
 const createUser = (user) => {
-  const { id, email, name, externalId, picture } = user;
+  const {
+    id,
+    email,
+    name,
+    externalId,
+    picture,
+    starredQuestionnaires = [],
+  } = user;
   return saveModel(
     new UserModel({
       id: id || uuidv4(),
@@ -45,6 +52,7 @@ const createUser = (user) => {
       name,
       externalId,
       picture,
+      starredQuestionnaires,
     })
   );
 };
@@ -59,7 +67,8 @@ const createComments = (questionnaireId) => {
 };
 
 const saveComments = (comments) => saveModel(comments);
-const updateUser = (user) => saveModel(user);
+const updateUser = (user) =>
+  user.save ? saveModel(user) : UserModel.update(user);
 
 const getUserByExternalId = (externalId) =>
   new Promise((resolve, reject) => {

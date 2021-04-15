@@ -35,6 +35,8 @@ const {
   enableTheme,
   disableTheme,
   updateTheme,
+  toggleQuestionnaireStarred,
+  setQuestionnaireLocked,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -43,8 +45,7 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 const { NUMBER } = require("../../constants/answerTypes");
 
-const defaultUser = require("../../tests/utils/mockUserPayload");
-const { createUser } = require("../../db/datastore");
+const { getUserById } = require("../../db/datastore");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -63,7 +64,7 @@ describe("questionnaire", () => {
   describe("create", () => {
     let config;
     beforeEach(async () => {
-      ctx = buildContext(null);
+      ctx = await buildContext();
       config = {
         title: "Questionnaire",
         description: "Description",
@@ -74,8 +75,6 @@ describe("questionnaire", () => {
         type: SOCIAL,
         shortTitle: "short title",
       };
-      ctx = { user: defaultUser() };
-      createUser(ctx.user);
     });
 
     it("should create a questionnaire with a section and page", async () => {
@@ -112,7 +111,7 @@ describe("questionnaire", () => {
       });
     });
 
-    it("should create a default theme when questionnaire created", async () => {
+    it("should give business questionnaires the 'default' theme when questionnaire created", async () => {
       const questionnaire = await createQuestionnaire(ctx, {
         ...config,
         type: BUSINESS,
@@ -130,6 +129,25 @@ describe("questionnaire", () => {
         ]),
       });
     });
+
+    it("should give social questionnaires the 'social' theme when questionnaire created", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: SOCIAL,
+      });
+      expect(questionnaire).toMatchObject({
+        previewTheme: "social",
+        themes: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(String),
+            shortName: "social",
+            legalBasisCode: "NOTICE_1",
+            eqId: "",
+            formType: "",
+          }),
+        ]),
+      });
+    });
   });
 
   describe("mutate", () => {
@@ -139,6 +157,7 @@ describe("questionnaire", () => {
         description: "description",
         sections: [{}],
         metadata: [{}],
+        type: BUSINESS,
       });
     });
     it("should mutate a questionnaire", async () => {
@@ -179,6 +198,93 @@ describe("questionnaire", () => {
       });
       const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
+    });
+
+    describe("starring", () => {
+      it("should throw user input error if questionnaire ID doesn't exist", () => {
+        expect(
+          toggleQuestionnaireStarred({
+            questionnaireId: "jabbawock",
+          })
+        ).rejects.toThrow();
+      });
+
+      it("should add the questionnaire ID to the user's starred questionnaires if not already starred", async () => {
+        await toggleQuestionnaireStarred(
+          { questionnaireId: ctx.questionnaire.id },
+          ctx
+        );
+
+        const userWithStar = await getUserById(ctx.user.id);
+        expect(userWithStar.starredQuestionnaires).toHaveLength(1);
+        expect(userWithStar.starredQuestionnaires[0]).toBe(
+          ctx.questionnaire.id
+        );
+      });
+
+      it("should remove the questionnaire ID from the user's starred questionnaires if already starred", async () => {
+        ctx.user.starredQuestionnaires = [ctx.questionnaire.id];
+        await toggleQuestionnaireStarred(
+          { questionnaireId: ctx.questionnaire.id },
+          ctx
+        );
+
+        const updatedUser = await getUserById(ctx.user.id);
+
+        // Testing "backwards" for now - can remove once refactored to only use mongo
+        // Dynamoose sets empty arrays to undefined, hence we have to check that starredQuestionnaires
+        // is either length 0 or undefined
+        expect([0, undefined]).toContain(updatedUser.starredQuestionnaires);
+      });
+    });
+
+    describe("locking", () => {
+      it("should throw an error if questionnaire doesn't exist", async () => {
+        expect(
+          setQuestionnaireLocked({ questionnaireId: "nope", locked: true })
+        ).rejects.toThrow();
+      });
+
+      it("should allow questionnaire to be locked and unlocked", async () => {
+        await setQuestionnaireLocked(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            locked: true,
+          },
+          ctx
+        );
+
+        let updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.locked).toBe(true);
+
+        await setQuestionnaireLocked(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            locked: false,
+          },
+          ctx
+        );
+
+        updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.locked).toBe(false);
+      });
+
+      it("should prevent modifying questionnaire when locked", async () => {
+        await setQuestionnaireLocked(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            locked: true,
+          },
+          ctx
+        );
+
+        expect(
+          updateSurveyId({
+            questionnaireId: ctx.questionnaire.id,
+            surveyId: "1337",
+          })
+        ).rejects.toThrow();
+      });
     });
 
     describe("themes", () => {
@@ -510,6 +616,18 @@ describe("questionnaire", () => {
       );
     });
 
+    it("should resolve starred status as false when a user hasn't starred it", () => {
+      expect(queriedQuestionnaire.starred).toBe(false);
+    });
+
+    it("should resolve starred status as true when a user has starred it", async () => {
+      const reQueriedQuestionnaire = await queryQuestionnaire({
+        ...ctx,
+        user: { starredQuestionnaires: [queriedQuestionnaire.id] },
+      });
+      expect(reQueriedQuestionnaire.starred).toBe(true);
+    });
+
     it("should resolve metadata", () => {
       expect(last(queriedQuestionnaire.metadata).id).toEqual(
         last(ctx.questionnaire.metadata).id
@@ -590,14 +708,25 @@ describe("questionnaire", () => {
       expect(deletedQuestionnaire).toBeNull();
       questionnaire = null;
     });
+
+    it("should not delete a locked questionnaire", async () => {
+      ctx = await buildContext({});
+      await setQuestionnaireLocked(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          locked: true,
+        },
+        ctx
+      );
+
+      expect(deleteQuestionnaire(ctx, ctx.questionnaire.id)).rejects.toThrow();
+    });
   });
 
   describe("versioning", () => {
     let questionnaireConfig;
     beforeEach(async () => {
-      ctx = buildContext();
-      ctx = { user: defaultUser() };
-      createUser(ctx.user);
+      ctx = await buildContext();
 
       questionnaireConfig = {
         title: "Which Game of Thrones house are you?",

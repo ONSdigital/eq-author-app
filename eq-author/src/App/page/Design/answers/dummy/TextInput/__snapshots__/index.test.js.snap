@@ -13,7 +13,7 @@ exports[`components/Answers/Dummy/TextInput shoulder render 1`] = `
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   outline: thin solid transparent;
   border: none;
-  background: transparent url(placeholder.svg) no-repeat;
+  background: transparent url(SvgrURL) no-repeat;
   background-size: 100% 100%;
   pointer-events: none;
   padding: 1.2em 1.2em 1.2em 2em;

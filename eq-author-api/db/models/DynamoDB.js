@@ -72,6 +72,9 @@ const baseQuestionnaireSchema = {
     type: Array,
     required: true,
   },
+  locked: {
+    type: Boolean,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(
@@ -169,6 +172,9 @@ const userSchema = new dynamoose.Schema(
     },
     picture: {
       type: String,
+    },
+    starredQuestionnaires: {
+      type: Object,
     },
   },
   {

@@ -39,6 +39,27 @@ const Trigger = styled.button.attrs({ type: "button" })`
   }
 `;
 
+export const buildPageList = (folders) => {
+  const optionList = [];
+  folders.forEach((folder) => {
+    const { id, enabled, pages } = folder;
+    if (enabled) {
+      optionList.push({
+        ...folder,
+        parentEnabled: false,
+      });
+    }
+    pages.forEach((page) => {
+      optionList.push({
+        ...page,
+        parentId: enabled ? id : null,
+        parentEnabled: enabled,
+      });
+    });
+  });
+  return optionList;
+};
+
 const propTypes = {
   sectionId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
@@ -55,6 +76,8 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
     null
   );
 
+  const sectionButtonId = uniqueId("MovePageModal");
+
   const handleCloseSectionSelect = () => {
     setIsSectionSelectOpen(false);
     setSelectedSectionId(previousSelectedSectionId);
@@ -65,29 +88,26 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
     setPreviousSelectedSectionId(selectedSectionId);
   };
 
-  const handleSectionChange = ({ value }) => setSelectedSectionId(value);
-
   const handleSectionConfirm = (e) => {
     e.preventDefault();
     setIsSectionSelectOpen(false);
   };
 
-  const handlePageMove = ({ position }) => {
+  const handlePageMove = ({ position, folderId }) =>
     onMovePage({
       from: {
         id: page.id,
-        sectionId: sectionId,
+        sectionId,
         position: page.position,
       },
       to: {
         id: page.id,
         sectionId: selectedSectionId,
+        folderId,
         position: position,
       },
     });
-  };
 
-  const sectionButtonId = uniqueId("MovePageModal");
   const selectedSection = useMemo(
     () =>
       questionnaire && find(questionnaire.sections, { id: selectedSectionId }),
@@ -100,7 +120,7 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
         <MoveModal title={"Move question"} isOpen={isOpen} onClose={onClose}>
           <Label htmlFor={sectionButtonId}>Section</Label>
           <Trigger id={sectionButtonId} onClick={handleOpenSectionSelect}>
-            <Truncated>{selectedSection.displayName}</Truncated>
+            <Truncated>{selectedSection?.displayName}</Truncated>
           </Trigger>
           <ItemSelectModal
             title="Section"
@@ -112,19 +132,22 @@ const MovePageModal = ({ sectionId, page, isOpen, onClose, onMovePage }) => {
             <ItemSelect
               data-test="section-item-select"
               name="section"
-              value={selectedSection.id}
-              onChange={handleSectionChange}
+              value={selectedSection?.id}
+              onChange={({ value }) => setSelectedSectionId(value)}
             >
-              {questionnaire.sections.map((section) => (
-                <Option key={section.id} value={section.id}>
-                  {section.displayName}
+              {questionnaire.sections.map(({ id, displayName }) => (
+                <Option key={id} value={id}>
+                  {displayName}
                 </Option>
               ))}
             </ItemSelect>
           </ItemSelectModal>
           <PositionModal
             data-test={"page-position-modal"}
-            options={selectedSection.folders.flatMap(({ pages }) => pages)}
+            options={
+              selectedSection?.folders.length &&
+              buildPageList(selectedSection.folders)
+            }
             onMove={handlePageMove}
             selected={page}
           />

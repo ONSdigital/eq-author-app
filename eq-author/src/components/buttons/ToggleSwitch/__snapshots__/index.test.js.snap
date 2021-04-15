@@ -80,7 +80,7 @@ exports[`ToggleSwitch should render 1`] = `
 }
 
 .c1:checked {
-  background: url(icon-checkbox.svg) no-repeat center;
+  background: url(SvgrURL) no-repeat center;
   background-size: 0.8em auto;
 }
 
@@ -278,7 +278,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
 }
 
 .c1:checked {
-  background: url(icon-checkbox.svg) no-repeat center;
+  background: url(SvgrURL) no-repeat center;
   background-size: 0.8em auto;
 }
 
