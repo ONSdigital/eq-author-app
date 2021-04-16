@@ -306,7 +306,7 @@ Comment.propTypes = {
   /**
    * Denotes whether the comment is at the root of the chain, or is replying to another comment.
    */
-  isReply: PropType.bool,
+  isReply: PropTypes.bool,
   /**
    * Whether or not the comment can be edited.
    */
