@@ -106,7 +106,9 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
         onClick={() => setIsOpen(true)}
         data-test={`${title.toLowerCase()}-modal-trigger`}
       >
-        <Truncated>{selected?.displayName || "Select"}</Truncated>
+        <Truncated>
+          {title === "Section" ? selected?.displayName : "Select"}
+        </Truncated>
       </Trigger>
       <ItemSelectModal
         title={title}
