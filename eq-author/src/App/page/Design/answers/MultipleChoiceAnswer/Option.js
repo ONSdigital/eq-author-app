@@ -16,7 +16,7 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { MISSING_LABEL, ADDITIONAL_LABEL_MISSING, buildLabelError } from "constants/validationMessages";
 
 const ENTER_KEY = 13;
 
@@ -164,8 +164,11 @@ export class StatelessOption extends Component {
       getValidationError,
     } = this.props;
 
-    const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+    console.log('children :>> ', children);
+console.log('getValidationError :>> ', getValidationError);
 
+    const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+// const otherInput = withValidationError(ADDITIONAL_LABEL_MISSING)(children);
     return (
       <StyledOption id={getIdForObject(option)} key={option.id}>
         <div>
@@ -209,6 +212,7 @@ export class StatelessOption extends Component {
               data-test="option-description"
             />
           </OptionField>
+          {/* {otherInput} */}
           {children}
           {this.renderToolbar()}
         </div>

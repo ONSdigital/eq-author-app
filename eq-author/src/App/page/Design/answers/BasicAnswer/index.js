@@ -34,6 +34,9 @@ export const StatelessBasicAnswer = ({
   getValidationError,
   type,
 }) => {
+
+  console.log('getValidationError Basic answer:>> ', getValidationError);
+  
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   return (

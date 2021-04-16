@@ -118,6 +118,8 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
       ...otherProps
     } = this.props;
 
+    console.log('...otherProps :>> ', otherProps);
+
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
 
@@ -140,6 +142,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
               Transition={OptionTransition}
             >
               {(props, option) => (
+                <>
                 <Option
                   {...otherProps}
                   {...props}
@@ -153,6 +156,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   {option.additionalAnswer && (
                     <SpecialOptionWrapper data-test="other-answer">
                       <BasicAnswer
+                      {...props}
                         answer={option.additionalAnswer}
                         onUpdate={onUpdate}
                         showDescription={false}
@@ -165,6 +169,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                     </SpecialOptionWrapper>
                   )}
                 </Option>
+                </>
               )}
             </Reorder>
             {answer.mutuallyExclusiveOption && (

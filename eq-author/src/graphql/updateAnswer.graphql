@@ -16,6 +16,13 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
                     id
                     label
                     qCode
+                    additionalAnswer {
+                      ... on BasicAnswer {
+                        validationErrorInfo {
+                          ...ValidationErrorInfo
+                        }
+                      }
+                    }
                     validationErrorInfo {
                       ...ValidationErrorInfo
                     }
