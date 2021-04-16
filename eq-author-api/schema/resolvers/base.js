@@ -139,6 +139,7 @@ const createNewQuestionnaire = (input) => {
     publishStatus: UNPUBLISHED,
     previewTheme: defaultTheme.shortName,
     themes: [defaultTheme],
+    locked: false,
   };
 
   let changes = {};
