@@ -75,7 +75,10 @@ const EditorToolbar = ({
       <MoveFolderModal
         isOpen={showMoveFolderModal}
         onClose={() => setMoveFolderModal(false)}
-        onMove={onMove}
+        onMove={(args) => {
+          onMove(args);
+          setMoveFolderModal(false);
+        }}
         sectionId={data.section.id}
         selected={data}
         entity="Folder"
