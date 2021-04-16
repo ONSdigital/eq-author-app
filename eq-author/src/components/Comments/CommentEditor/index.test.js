@@ -70,8 +70,8 @@ describe("Comment editor", () => {
     expect(mockOnConfirm.mock.calls.length).toBe(1);
   });
 
-  it("Shows the cancel button when 'showCancel' is given as a prop", () => {
-    const { getByTestId } = renderCommentEditor({ showCancel: true });
+  it("Shows the cancel button when 'canClose' is given as a prop", () => {
+    const { getByTestId } = renderCommentEditor({ canClose: true });
 
     const cancelButton = getByTestId("CommentEditor__CancelBtn");
 
@@ -79,7 +79,7 @@ describe("Comment editor", () => {
   });
 
   it("Calls the onCancel function when the cancel button is pressed", () => {
-    const { getByTestId } = renderCommentEditor({ showCancel: true });
+    const { getByTestId } = renderCommentEditor({ canClose: true });
 
     const cancelButton = getByTestId("CommentEditor__CancelBtn");
 

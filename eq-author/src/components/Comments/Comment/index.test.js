@@ -3,50 +3,45 @@ import moment from "moment";
 
 import { render } from "tests/utils/rtl";
 
-import PureComment from ".";
+import Comment from ".";
 
-describe("Pure comment", () => {
-  let mockComment,
-    mockOnUpdateComment,
-    mockOnDeleteComment,
-    mockShowAddReplyBtn,
-    mockShowReplyBtn;
+const mockUseMutation = jest.fn();
 
-  const renderPureComment = (props) =>
-    render(
-      <PureComment
-        {...mockComment}
-        onUpdateComment={mockOnUpdateComment}
-        onDeleteComment={mockOnDeleteComment}
-        canDelete
-        canEdit
-        {...props}
-      />
-    );
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
+
+describe("Comment", () => {
+  let mockComment;
+
+  const renderComment = (props) =>
+    render(<Comment {...mockComment} canDelete canEdit {...props} />);
 
   beforeEach(() => {
     mockComment = {
-      commentId: "1",
-      author: "Jane Doe",
+      id: "1",
+      rootId: "1",
+      subjectId: "SomeQuestionPage",
+      authorName: "Jane Doe",
       datePosted: "2021-03-30T14:48:00.000Z",
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      commentText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     };
-    mockOnUpdateComment = jest.fn();
-    mockOnDeleteComment = jest.fn();
-    mockShowReplyBtn = jest.fn();
-    mockShowAddReplyBtn = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it("Can render", () => {
-    const { getByTestId } = renderPureComment();
+    const { getByTestId } = renderComment();
 
-    const comment = getByTestId("PureComment");
+    const comment = getByTestId("Comment");
 
     expect(comment).toBeVisible();
   });
 
   it("Uses the authors initials for their avatar", () => {
-    const { getByText } = renderPureComment();
+    const { getByText } = renderComment();
 
     const avatar = getByText("JD");
 
@@ -54,7 +49,7 @@ describe("Pure comment", () => {
   });
 
   it("Converts an ISO date to the human readable date format", () => {
-    const { getByText } = renderPureComment();
+    const { getByText } = renderComment();
 
     const humanReadableDate = moment(mockComment.datePosted).calendar();
 
@@ -62,12 +57,9 @@ describe("Pure comment", () => {
   });
 
   it("Opens the Comment Editor when the Edit button is clicked", () => {
-    const { getByTestId } = renderPureComment({
-      showReplyBtn: mockShowReplyBtn,
-      showAddReply: mockShowAddReplyBtn,
-    });
+    const { getByTestId } = renderComment();
 
-    const editBtn = getByTestId("PureComment__EditCommentBtn");
+    const editBtn = getByTestId("Comment__EditCommentBtn");
 
     editBtn.click();
 
@@ -76,13 +68,13 @@ describe("Pure comment", () => {
     expect(commentEditor).toBeVisible();
   });
 
-  it("Calls onDeleteComment when the delete button is clicked", () => {
-    const { getByTestId } = renderPureComment();
+  it("Calls the database when the delete button is clicked", () => {
+    const { getByTestId } = renderComment();
 
-    const deleteBtn = getByTestId("PureComment__DeleteCommentBtn");
+    const deleteBtn = getByTestId("Comment__DeleteCommentBtn");
 
     deleteBtn.click();
 
-    expect(mockOnDeleteComment.mock.calls.length).toBe(1);
+    expect(mockUseMutation.mock.calls.length).toBe(1);
   });
 });

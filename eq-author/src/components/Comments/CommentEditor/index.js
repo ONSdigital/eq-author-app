@@ -161,31 +161,42 @@ CommentEditor.propTypes = {
    */
   confirmText: PropTypes.string,
   /**
-   * The text to show on the cancel button.
+   * The text to show on the cancel (close) button.
    */
   cancelText: PropTypes.string,
   /**
-   * The value to show in the input box when it is first rendered.
+   * The style of input box to show.
+   */
+  variant: PropTypes.string,
+  /**
+   * The initial content to show in the input box.
    */
   initialValue: PropTypes.string,
   /**
-   * The style of the input box.
+   * When true, the cancel button is enabled and, when it is
+   * pressed, the editor will close and instead show a button to
+   * open it again.
    */
-  variant: PropTypes.oneOf(["fixed", "growable"]),
+  canClose: PropTypes.bool,
   /**
-   * When true, the 'Cancel' button is shown.
+   * When true, the editor will first show the button to open
+   * it instead of the form itself.
    */
-  showCancel: PropTypes.bool,
+  startClosed: PropTypes.bool,
   /**
-   * A function that runs when the cancel button is pressed. Required if 'showCancel' is true.
+   * Text to show on the button that opens the editor.
    */
-  onCancel: PropTypes.func,
+  openEditorBtnText: PropTypes.string,
   /**
-   * A function that runs when the 'Add' button is pressed.
+   * A custom function that is ran when the close button is pressed.
+   */
+  onCancel: PropTypes.func.isRequired,
+  /**
+   * A custom function to run when the confirm button is pressed.
    */
   onConfirm: PropTypes.func.isRequired,
   /**
-   * Allows for CSS classes to be filtered down when using Styled-Components.
+   * Enables restyling the component.
    */
   className: PropTypes.string,
 };
