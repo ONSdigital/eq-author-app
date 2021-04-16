@@ -76,5 +76,13 @@ describe("Comment", () => {
     deleteBtn.click();
 
     expect(mockUseMutation.mock.calls.length).toBe(1);
+    expect(mockUseMutation).toBeCalledWith({
+      variables: {
+        input: {
+          commentId: mockComment.id,
+          componentId: mockComment.subjectId,
+        },
+      },
+    });
   });
 });
