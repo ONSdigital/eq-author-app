@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, useParams } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
 
+import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -11,7 +13,7 @@ import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import { Field, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
 const Container = styled.div`
@@ -43,6 +45,16 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
+const StyledInput = styled(Input)`
+  width: 31em;
+`;
+
+const Caption = styled.p`
+  margin-top: 0.2em;
+  margin-bottom: 0.6em;
+  font-size: 0.85em;
+`;
+
 const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
@@ -63,9 +75,19 @@ const themes = [
 ];
 
 const ThemesPage = ({ questionnaire }) => {
-  const { type } = questionnaire;
-
+  const { type, surveyId, id } = questionnaire;
+  const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
+
+  const handleBlur = ({ value }) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaire({
+        variables: { input: { id, surveyId: value } },
+      });
+    }
+  };
 
   return (
     <Container>
@@ -99,6 +121,20 @@ const ThemesPage = ({ questionnaire }) => {
                         The preview theme is applied when you view the survey
                         using the View Survey button.
                       </p>
+                    </Field>
+
+                    <Field>
+                      <Label>Survey ID</Label>
+                      <Caption>
+                        The three-digit survey ID. For example, &apos;283&apos;
+                      </Caption>
+                      <StyledInput
+                        maxLength="3"
+                        value={questionnaireId}
+                        onChange={({ value }) => setQuestionnaireId(value)}
+                        onBlur={(e) => handleBlur({ ...e.target })}
+                        data-test="change-questionnaire-id"
+                      />
                     </Field>
                     <HorizontalSeparator />
                     {themes.map(({ title, defaultOpen }) => (
