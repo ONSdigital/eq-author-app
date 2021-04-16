@@ -113,6 +113,7 @@ export const QuestionnaireDesignPage = () => {
                       <MainNavigation
                         hasQuestionnaire={Boolean(questionnaire?.id)}
                         totalErrorCount={questionnaire?.totalErrorCount || 0}
+                        qcodesEnabled={questionnaire?.qcodes}
                       />
                     </MainNav>
                     <NavigationSidebar

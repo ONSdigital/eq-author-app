@@ -117,6 +117,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     shortTitle,
     type,
     id,
+    qcodes,
     navigation,
     summary,
     collapsibleSummary,
@@ -193,6 +194,28 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       <Label>Questionnaire type</Label>
                       <Pill testId="questionnaire-type">{type}</Pill>
                     </Field>
+                    <HorizontalSeparator />
+                    <InlineField>
+                      <Label>QCodes</Label>
+                      <VerticalSeparator />
+                      <ToggleSwitch
+                        id="toggle-qcodes"
+                        name="toggle-qcodes"
+                        hideLabels={false}
+                        onChange={({ value }) =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: { id, qcodes: value },
+                            },
+                          })
+                        }
+                        checked={qcodes}
+                      />
+                    </InlineField>
+                    <Caption>
+                      QCodes are a way to identify answers when they&apos;re
+                      sent downstream.
+                    </Caption>
                     <HorizontalSeparator />
                     <InlineField>
                       <Label>Section navigation</Label>
