@@ -28,6 +28,7 @@ describe("base layout", () => {
           email: "f@oo.com",
           picture: "",
         },
+        locked: false,
         editors: [],
       },
     };
@@ -98,6 +99,14 @@ describe("base layout", () => {
       expect(
         getByText(/questionnaire is currently being reviewed/)
       ).toBeTruthy();
+    });
+    it("should show a warning banner when questionnaire is locked", () => {
+      props.questionnaire.locked = true;
+      props.questionnaire.permission = WRITE;
+      const { getByText } = renderWithContext(
+        <BaseLayout {...props}>Children</BaseLayout>
+      );
+      expect(getByText(/questionnaire is currently locked/)).toBeTruthy();
     });
   });
 });

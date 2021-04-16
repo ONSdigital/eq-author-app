@@ -15,7 +15,7 @@ import DurationProperties from "./AnswerProperties/Properties/DurationProperties
 
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
-import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
+import VALIDATIONS_SUBSCRIPTION from "graphql/validationsSubscription.graphql";
 import { characterErrors } from "constants/validationMessages";
 
 import { UnwrappedGroupedAnswerProperties } from "./";
@@ -177,7 +177,7 @@ describe("Grouped Answer Properties", () => {
     const mocks = [
       {
         request: {
-          query: VALIDATION_QUERY,
+          query: VALIDATIONS_SUBSCRIPTION,
           variables: { id: "1" },
         },
         result() {

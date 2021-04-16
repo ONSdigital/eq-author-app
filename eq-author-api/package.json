@@ -27,7 +27,7 @@
     "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
-    "firebase-admin": "^9.5.0",
+    "firebase-admin": "^9.6.0",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
@@ -44,7 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.21",
     "moment": "latest",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.5",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
@@ -52,7 +52,7 @@
     "prom-client": "latest",
     "request": "^2.88.2",
     "uuid": "latest",
-    "wait-on": "5.2.1"
+    "wait-on": "5.3.0"
   },
   "jest": {
     "testEnvironment": "node",
