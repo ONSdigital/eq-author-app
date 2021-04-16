@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
@@ -44,61 +44,90 @@ const ButtonGroup = styled.div`
   }
 `;
 
+const OpenEditorBtn = styled(Button).attrs({ "small-medium": true })`
+  margin-bottom: 0.5em;
+`;
+
 const CommentEditor = ({
   confirmText = "Add",
   cancelText = "Cancel",
   variant = "fixed",
   initialValue = "",
-  showCancel = false,
+  canClose = false,
+  startClosed = false,
+  openEditorBtnText = "Reply",
   onCancel,
   onConfirm,
   className,
 }) => {
-  const [commentText, updateCommentText] = useState(initialValue);
+  const [editorVisible, showEditor] = useState(true);
+  const [commentText, updateCommentText] = useState(initialValue); //TODO
 
-  return (
-    <Wrapper className={className} data-test="CommentEditor">
-      {variant === "fixed" && (
-        <TextAreaFixedSize
-          data-test="CommentEditor__Input"
-          value={commentText}
-          onChange={({ target: { value } }) => updateCommentText(value)}
-        />
-      )}
-      {variant === "growable" && (
-        <TextAreaGrowable
-          data-test="CommentEditor__Input"
-          value={commentText}
-          onChange={({ target: { value } }) => updateCommentText(value)}
-        />
-      )}
-      <ButtonGroup>
-        <Button
-          data-test="CommentEditor__ConfirmBtn"
-          type="submit"
-          variant="greyed"
-          small-medium
-          disabled={commentText.length === 0}
-          onClick={() => {
-            onConfirm(commentText);
-            updateCommentText("");
-          }}
-        >
-          {confirmText}
-        </Button>
-        {showCancel && (
+  useEffect(() => {
+    if (canClose) {
+      showEditor(!startClosed);
+    }
+  }, [canClose, startClosed]);
+
+  if (editorVisible) {
+    return (
+      <Wrapper className={className} data-test="CommentEditor">
+        {variant === "fixed" && (
+          <TextAreaFixedSize
+            data-test="CommentEditor__Input"
+            value={commentText}
+            onChange={({ target: { value } }) => updateCommentText(value)}
+          />
+        )}
+        {variant === "growable" && (
+          <TextAreaGrowable
+            data-test="CommentEditor__Input"
+            value={commentText}
+            onChange={({ target: { value } }) => updateCommentText(value)}
+          />
+        )}
+        <ButtonGroup>
           <Button
-            data-test="CommentEditor__CancelBtn"
+            data-test="CommentEditor__ConfirmBtn"
+            type="submit"
             variant="greyed"
             small-medium
-            onClick={onCancel}
+            disabled={commentText.trim().length === 0}
+            onClick={() => {
+              onConfirm(commentText.trim());
+              updateCommentText("");
+              if (canClose) {
+                showEditor(false);
+              }
+            }}
           >
-            {cancelText}
+            {confirmText}
           </Button>
-        )}
-      </ButtonGroup>
-    </Wrapper>
-  );
+          {canClose && (
+            <Button
+              data-test="CommentEditor__CancelBtn"
+              variant="greyed"
+              small-medium
+              onClick={() => {
+                showEditor(false);
+                if (onCancel) {
+                  onCancel();
+                }
+              }}
+            >
+              {cancelText}
+            </Button>
+          )}
+        </ButtonGroup>
+      </Wrapper>
+    );
+  } else {
+    return (
+      <OpenEditorBtn onClick={() => showEditor(true)}>
+        {openEditorBtnText}
+      </OpenEditorBtn>
+    );
+  }
 };
 
 CommentEditor.propTypes = {

@@ -9,11 +9,7 @@ import { useMe } from "App/MeContext";
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
 import COMMENT_ADD from "./graphql/createNewComment.graphql";
-import COMMENT_UPDATE from "./graphql/updateComment.graphql";
-import COMMENT_DELETE from "./graphql/deleteComment.graphql";
 import REPLY_ADD from "./graphql/createNewReply.graphql";
-import REPLY_UPDATE from "./graphql/updateReply.graphql";
-import REPLY_DELETE from "./graphql/deleteReply.graphql";
 
 import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 
@@ -74,11 +70,7 @@ const Replies = styled(Collapsible)`
 
 const CommentsPanel = ({ componentId }) => {
   const [createComment] = useMutation(COMMENT_ADD);
-  const [updateComment] = useMutation(COMMENT_UPDATE);
-  const [deleteComment] = useMutation(COMMENT_DELETE);
   const [createReply] = useMutation(REPLY_ADD);
-  const [updateReply] = useMutation(REPLY_UPDATE);
-  const [deleteReply] = useMutation(REPLY_DELETE);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -110,6 +102,11 @@ const CommentsPanel = ({ componentId }) => {
   const formatName = (name) =>
     name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
 
+  const sortByDate = (commentArr) =>
+    commentArr.sort((a, b) =>
+      b.datePosted.toString().localeCompare(a.datePosted.toString())
+    );
+
   const formatComment = ({
     id,
     user,
@@ -126,15 +123,15 @@ const CommentsPanel = ({ componentId }) => {
     commentText,
   });
 
-  const formattedComments = comments.map(({ replies, ...rest }) => ({
-    ...formatComment(rest),
-    replies: replies.map((comment) => ({
-      ...formatComment(comment),
-    })),
-  }));
-
-  const sortedComments = formattedComments.sort((a, b) =>
-    b.datePosted.toString().localeCompare(a.datePosted.toString())
+  const formattedComments = sortByDate(
+    comments.map(({ replies, ...rest }) => ({
+      ...formatComment(rest),
+      replies: sortByDate(
+        replies.map((comment) => ({
+          ...formatComment(comment),
+        }))
+      ),
+    }))
   );
 
   const renderReplies = (replies, rootId, componentId) => (
@@ -163,6 +160,21 @@ const CommentsPanel = ({ componentId }) => {
             rootId={commentId}
             subjectId={componentId}
           />
+          <CommentEditor
+            canClose
+            startClosed
+            onConfirm={(commentText) =>
+              createReply({
+                variables: {
+                  input: {
+                    componentId,
+                    commentId,
+                    commentText,
+                  },
+                },
+              })
+            }
+          />
           {replies.length > 0 && (
             <Replies showHide title="Replies" withoutHideThis>
               {renderReplies(replies, commentId, componentId)}
@@ -190,7 +202,7 @@ const CommentsPanel = ({ componentId }) => {
           })
         }
       />
-      {renderComments(sortedComments, componentId)}
+      {renderComments(formattedComments, componentId)}
     </Wrapper>
   );
 };
