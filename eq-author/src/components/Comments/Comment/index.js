@@ -273,53 +273,48 @@ IconButton.propTypes = {
 
 Comment.propTypes = {
   /**
-   * The ID of the comment. If the comment is a reply, this is the ID of the root comment.
+   * The ID of the comment.
    */
-  commentId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   /**
-   * The ID of the reply to the root comment.
+   * The ID of the comment at the root of the chain.
+   * If the comment is the one at the root of the chain,
+   * the value of this will be equal to ID.
    */
-  replyId: PropTypes.string,
+  rootId: PropTypes.string.isRequired,
   /**
-   * The name of the entity who made the comment.
+   * The ID of the entity that is being commented on. For example,
+   * this may be the ID of a question or calculated summary page.
    */
-  author: PropTypes.string.isRequired,
+  subjectId: PropTypes.string.isRequired,
   /**
-   * When true, the 'Edit' button is enabled.
+   * The name of the individual who wrote the comment.
    */
-  canEdit: PropTypes.bool.isRequired,
+  authorName: PropTypes.string.isRequired,
   /**
-   * When true, the 'Delete' button is enabled.
-   */
-  canDelete: PropTypes.bool.isRequired,
-  /**
-   * In dateTime format, the date when the comment was made.
+   * The date the comment was posted.
    */
   datePosted: PropTypes.string.isRequired,
   /**
-   * The comment text.
-   */
-  text: PropTypes.string.isRequired,
-  /**
-   * In dateTime format, the date when the comment was last modified.
+   * The date the comment was last modified.
    */
   dateModified: PropTypes.string,
   /**
-   * The function that runs when the 'Save' button is pressed when updating a comment.
+   * The content of the comment.
    */
-  onUpdateComment: PropTypes.func.isRequired,
+  commentText: PropTypes.string.isRequired,
   /**
-   * The function that runs when the 'Delete' button is pressed.
+   * Denotes whether the comment is at the root of the chain, or is replying to another comment.
    */
-  onDeleteComment: PropTypes.func.isRequired,
+  isReply: PropType.bool,
   /**
-   * If replies are enabled, this function is called to hide the 'Add reply' form when the 'Edit' button is pressed.
+   * Whether or not the comment can be edited.
    */
-  showAddReply: PropTypes.func,
+  canEdit: PropTypes.bool,
   /**
-   * If replies are enabled, this function is called to hide the 'Reply' button when the 'Edit' button is called, and show it when the user has finished editing.
+   * Whether or not the comment can be deleted.
    */
-  showReplyBtn: PropTypes.func,
+  canDelete: PropTypes.bool,
 };
 
 export default Comment;
