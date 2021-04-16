@@ -239,6 +239,12 @@ describe("questionnaire", () => {
     });
 
     describe("locking", () => {
+      it("should throw an error if questionnaire doesn't exist", async () => {
+        expect(
+          setQuestionnaireLocked({ questionnaireId: "nope", locked: true })
+        ).rejects.toThrow();
+      });
+
       it("should allow questionnaire to be locked and unlocked", async () => {
         await setQuestionnaireLocked(
           {

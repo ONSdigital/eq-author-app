@@ -29,6 +29,7 @@ describe("Settings page", () => {
       shortTitle: "Spyro",
       type: "Business",
       id: "e3c3ecc4-87fb-4819-826b-ac696a4bc569",
+      qcodes: true,
       navigation: true,
       summary: true,
       collapsibleSummary: false,
@@ -134,6 +135,29 @@ describe("Settings page", () => {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
                 shortTitle: "S",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              qcodes: false,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                qcodes: false,
                 __typename: "Questionnaire",
               },
             },
@@ -355,6 +379,31 @@ describe("Settings page", () => {
 
       expect(queryWasCalled).toBeTruthy();
       expect(questionnaireShortTitleInput.value).toBe("Spyro games");
+    });
+  });
+
+  describe("QCodes toggle", () => {
+    it("Should enable and disable qcodes when toggled", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const qcodesToggle = getByTestId("toggle-qcodes");
+
+      const toggle = Object.values(qcodesToggle.children).reduce((child) =>
+        child.type === "checkbox" ? child : null
+      );
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
     });
   });
 

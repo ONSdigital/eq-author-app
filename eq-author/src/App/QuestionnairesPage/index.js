@@ -16,6 +16,8 @@ import withDeleteQuestionnaire from "./withDeleteQuestionnaire";
 import withCreateQuestionnaire from "./withCreateQuestionnaire";
 import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
 
+import useLockStatusSubscription from "hooks/useLockStatusSubscription";
+
 export const QUESTIONNAIRES_QUERY = gql`
   query GetQuestionnaireList {
     questionnaires {
@@ -29,32 +31,36 @@ const QuestionnairesPage = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
-}) => (
-  <Layout title="Questionnaires">
-    <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
-      {(response) => {
-        const { loading, error, data } = response;
+}) => {
+  useLockStatusSubscription();
 
-        if (loading) {
-          return <Loading height="24.25rem">Questionnaires loading…</Loading>;
-        }
+  return (
+    <Layout title="Questionnaires">
+      <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
+        {(response) => {
+          const { loading, error, data } = response;
 
-        if (error) {
-          return <Error>Oops! Questionnaires could not be found</Error>;
-        }
+          if (loading) {
+            return <Loading height="24.25rem">Questionnaires loading…</Loading>;
+          }
 
-        return (
-          <QuestionnairesView
-            questionnaires={data.questionnaires}
-            onDeleteQuestionnaire={onDeleteQuestionnaire}
-            onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-            onCreateQuestionnaire={onCreateQuestionnaire}
-          />
-        );
-      }}
-    </Query>
-  </Layout>
-);
+          if (error) {
+            return <Error>Oops! Questionnaires could not be found</Error>;
+          }
+
+          return (
+            <QuestionnairesView
+              questionnaires={data.questionnaires}
+              onDeleteQuestionnaire={onDeleteQuestionnaire}
+              onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+              onCreateQuestionnaire={onCreateQuestionnaire}
+            />
+          );
+        }}
+      </Query>
+    </Layout>
+  );
+};
 
 QuestionnairesPage.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,

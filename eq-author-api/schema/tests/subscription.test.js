@@ -13,6 +13,7 @@ const executeSubscription = require("../../tests/utils/executeSubscription");
 const {
   updateQuestionnaire,
   deleteQuestionnaire,
+  setQuestionnaireLocked,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   updateQuestionPage,
@@ -199,6 +200,56 @@ describe("subscriptions", () => {
       const promise = iterator.next();
       const result = await Promise.race([promise, wait(50)]);
       expect(result).toBe("timeout");
+    });
+  });
+
+  describe("lockStatusUpdated", () => {
+    beforeEach(async () => {
+      ctx = await buildContext({ sections: [{}] });
+      questionnaire = ctx.questionnaire;
+    });
+
+    const lockSubscription = gql`
+      subscription LockStatusUpdated($id: ID) {
+        lockStatusUpdated(id: $id) {
+          id
+          locked
+        }
+      }
+    `;
+
+    const parseResult = (result) => {
+      const {
+        value: {
+          data: {
+            lockStatusUpdated: { locked, id },
+          },
+        },
+      } = result;
+      return { locked, id };
+    };
+
+    it("should receive updates when questionnaires are locked", async () => {
+      iterator = await executeSubscription(lockSubscription, {
+        id: questionnaire.id,
+      });
+      await setQuestionnaireLocked(
+        { questionnaireId: questionnaire.id, locked: true },
+        ctx
+      );
+
+      let { locked, id } = parseResult(await iterator.next());
+      expect(id).toEqual(questionnaire.id);
+      expect(locked).toEqual(true);
+
+      await setQuestionnaireLocked(
+        { questionnaireId: questionnaire.id, locked: false },
+        ctx
+      );
+
+      ({ locked, id } = parseResult(await iterator.next()));
+      expect(id).toEqual(questionnaire.id);
+      expect(locked).toEqual(false);
     });
   });
 

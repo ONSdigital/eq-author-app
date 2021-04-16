@@ -54,6 +54,7 @@ type Questionnaire {
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
+  qcodes: Boolean
   navigation: Boolean
   createdAt: DateTime
   updatedAt: DateTime
@@ -877,6 +878,7 @@ input UpdateQuestionnaireInput {
   additionalGuidancePanel: String
   theme: String
   legalBasis: LegalBasis
+  qcodes: Boolean
   navigation: Boolean
   surveyId: String
   summary: Boolean
@@ -1284,6 +1286,7 @@ type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
+  lockStatusUpdated(id: ID): Questionnaire!
 }
 
 input PublishQuestionnaireInput {

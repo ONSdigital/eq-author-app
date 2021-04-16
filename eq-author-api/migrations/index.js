@@ -17,6 +17,7 @@ const migrations = [
   require("./addGuidancePanelSwitch"),
   require("./addDefaultTheme"),
   require("./addLockedStatus"),
+  require("./addQuestionnaireQcodes"),
 ];
 
 const currentVersion = migrations.length;
