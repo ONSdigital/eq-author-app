@@ -100,7 +100,9 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
 
   return (
     <div data-test={`${title.toLowerCase()}-position-modal`}>
-      <Label htmlFor={positionButtonId}>{title}</Label>
+      <Label htmlFor={positionButtonId}>
+        {title === "Section" ? "Section" : "Position"}
+      </Label>
       <Trigger
         id={positionButtonId}
         onClick={() => setIsOpen(true)}
