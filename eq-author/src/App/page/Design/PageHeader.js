@@ -21,7 +21,7 @@ import withDeletePage from "./withDeletePage";
 import withDuplicatePage from "./withDuplicatePage";
 import { Toolbar, Buttons } from "./EditorToolbar";
 import IconMove from "assets/icon-move.svg?inline";
-import MovePageModal from "./MovePageModal";
+import MovePageModal from "./MoveEntityModal";
 
 const ShortCodeLabel = styled(Label)`
   grid-column-start: 1;
@@ -131,9 +131,10 @@ export class PageHeader extends React.Component {
         <MovePageModal
           isOpen={this.state.showMovePageDialog}
           onClose={this.handleCloseMovePageDialog}
-          onMovePage={this.handleMovePage}
+          onMove={this.handleMovePage}
           sectionId={page.section.id}
-          page={page}
+          selected={page}
+          entity="Page"
         />
       </>
     );

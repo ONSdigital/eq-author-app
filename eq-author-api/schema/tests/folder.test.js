@@ -8,7 +8,12 @@ const {
   getFolderByPageId,
 } = require("../resolvers/utils");
 
-const { createFolder } = require("../../tests/utils/contextBuilder/folder");
+const {
+  createFolder,
+  moveFolder,
+} = require("../../tests/utils/contextBuilder/folder");
+
+const { createSection } = require("../../tests/utils/contextBuilder/section");
 
 const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
 
@@ -32,31 +37,65 @@ describe("Folders", () => {
   });
 
   describe("Resolvers", () => {
-    it("Can query a folder's parent section", async () => {
-      const [section] = questionnaire.sections;
-      const folder = await createFolder(ctx, {
-        sectionId: section.id,
+    describe("CreateFolder", () => {
+      it("Can query a folder's parent section", async () => {
+        const [section] = questionnaire.sections;
+        const folder = await createFolder(ctx, {
+          sectionId: section.id,
+          position: 1,
+        });
+
+        expect(folder.section.id).toEqual(section.id);
       });
 
-      expect(folder.section.id).toEqual(section.id);
+      it("Can query a folder's default displayName", async () => {
+        const [section] = questionnaire.sections;
+        const folder = await createFolder(ctx, {
+          sectionId: section.id,
+        });
+
+        expect(folder.displayName).toEqual("Untitled folder");
+      });
+
+      it("shouldn't have any validation errors by default", async () => {
+        const [section] = questionnaire.sections;
+        const folder = await createFolder(ctx, {
+          sectionId: section.id,
+        });
+
+        expect(folder.validationErrorInfo.totalCount).toEqual(0);
+      });
     });
 
-    it("Can query a folder's default displayName", async () => {
-      const [section] = questionnaire.sections;
-      const folder = await createFolder(ctx, {
-        sectionId: section.id,
+    describe("MoveFolder", () => {
+      let folderOne, sectionTwo;
+      beforeEach(async () => {
+        sectionTwo = await createSection(ctx, {
+          title: "Section 2",
+          alias: "Alias",
+          questionnaireId: questionnaire.id,
+        });
+        folderOne = await createFolder(ctx, {
+          sectionId: questionnaire.sections[0].id,
+          enabled: true,
+        });
       });
 
-      expect(folder.displayName).toEqual("Untitled folder");
-    });
-
-    it("shouldn't have any validation errors by default", async () => {
-      const [section] = questionnaire.sections;
-      const folder = await createFolder(ctx, {
-        sectionId: section.id,
+      it("should move a folder", async () => {
+        expect(folderOne.position).toEqual(0);
+        const folder = await moveFolder(ctx, { id: folderOne.id, position: 1 });
+        expect(folder.position).toEqual(1);
       });
 
-      expect(folder.validationErrorInfo.totalCount).toEqual(0);
+      it("should move a between sections", async () => {
+        expect(folderOne.section.id).toEqual(questionnaire.sections[0].id);
+        const folder = await moveFolder(ctx, {
+          id: folderOne.id,
+          position: 1,
+          sectionId: sectionTwo.id,
+        });
+        expect(folder.section.id).toEqual(sectionTwo.id);
+      });
     });
   });
 
