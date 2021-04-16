@@ -11,8 +11,9 @@ export const useQuestionnaireLockingModal = ({ id, locked }) => {
     action: () => operation(id),
     icon: locked ? UnlockIcon : LockIcon,
     title: `${locked ? "Unlock" : "Lock"} questionnaire`,
-    message:
-      "When locked any changes made to the questionnaire will not be saved.",
+    message: locked
+      ? "Changes can be made to the questionnaire if it's unlocked."
+      : "When locked any changes made to the questionnaire will not be saved.",
     confirmText: locked ? "Unlock" : "Lock",
   });
 };
