@@ -4,7 +4,6 @@ import { colors, radius } from "constants/theme";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
-import withValidationError from "enhancers/withValidationError";
 import { flowRight, lowerCase } from "lodash";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -155,20 +154,23 @@ export class StatelessOption extends Component {
       option,
       onChange,
       onUpdate,
+      onUpdateAdditionalAnswer,
       type,
       children,
       labelPlaceholder,
       descriptionPlaceholder,
       autoFocus,
       label,
-      getValidationError,
     } = this.props;
 
-    console.log('children :>> ', children);
-console.log('getValidationError :>> ', getValidationError);
+    console.log('option :>> ', option);
 
     const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-// const otherInput = withValidationError(ADDITIONAL_LABEL_MISSING)(children);
+    const errorMsgOther = ADDITIONAL_LABEL_MISSING;
+
+    const labelError = option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ERR_VALID_REQUIRED") && errorMsg;
+    const additionalLabelError = option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther;
+    
     return (
       <StyledOption id={getIdForObject(option)} key={option.id}>
         <div>
@@ -189,11 +191,7 @@ console.log('getValidationError :>> ', getValidationError);
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
-                errorValidationMsg={getValidationError({
-                  field: "label",
-                  label: "Option label",
-                  requiredMsg: errorMsg,
-                })}
+                errorValidationMsg={labelError}
               />
             </OptionField>
           </Flex>
@@ -204,16 +202,37 @@ console.log('getValidationError :>> ', getValidationError);
             <WrappingInput
               id={`option-description-${option.id}`}
               name="description"
+              value={option.description}
               placeholder={descriptionPlaceholder}
               onChange={onChange}
-              value={option.description}
               onBlur={onUpdate}
               onKeyDown={this.handleKeyDown}
               data-test="option-description"
             />
           </OptionField>
-          {/* {otherInput} */}
-          {children}
+
+          
+          {/* This replaces incoming child component */}
+          <OptionField data-test="other-answer">
+            <Label htmlFor={`other-label-${option.additionalAnswer.id}`}>
+              {label || "Other label"}
+            </Label>
+            <WrappingInput
+              id={`other-label-${option.additionalAnswer.id}`}
+              name="otherLabel"
+              value={option.additionalAnswer.label}
+              onChange={onChange}
+              onBlur={onUpdateAdditionalAnswer}
+              onKeyDown={this.handleKeyDown}
+              data-test="other-label"
+              // data-autofocus={autoFocus || null}
+              bold
+              errorValidationMsg={additionalLabelError}
+            />
+          </OptionField>
+          {/* {children} */}
+
+
           {this.renderToolbar()}
         </div>
       </StyledOption>
@@ -226,6 +245,5 @@ StatelessOption.fragments = {
 };
 
 export default flowRight(
-  withValidationError("option"),
   withEntityEditor("option")
 )(StatelessOption);

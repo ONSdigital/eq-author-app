@@ -4,11 +4,6 @@
 mutation UpdateOption($input: UpdateOptionInput!) {
   updateOption(input: $input) {
     ...Option
-    additionalAnswer {
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

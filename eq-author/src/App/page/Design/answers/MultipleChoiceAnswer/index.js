@@ -118,8 +118,6 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
       ...otherProps
     } = this.props;
 
-    console.log('...otherProps :>> ', otherProps);
-
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
 
@@ -152,10 +150,11 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   onEnterKey={this.handleAddOption}
                   hasDeleteButton={showDeleteOption}
                   hideMoveButtons={numberOfOptions === 1}
+                  onUpdateAdditionalAnswer={onUpdate}
                 >
-                  {option.additionalAnswer && (
+                  {/* {option.additionalAnswer && (
                     <SpecialOptionWrapper data-test="other-answer">
-                      <BasicAnswer
+                     <BasicAnswer
                       {...props}
                         answer={option.additionalAnswer}
                         onUpdate={onUpdate}
@@ -167,7 +166,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                         type={answer.type}
                       />
                     </SpecialOptionWrapper>
-                  )}
+                   )} */}
                 </Option>
                 </>
               )}
