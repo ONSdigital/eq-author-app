@@ -5,7 +5,7 @@ import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
 import { withRouter, useParams } from "react-router-dom";
 
-import { useMutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
