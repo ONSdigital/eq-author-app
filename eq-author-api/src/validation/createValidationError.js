@@ -43,38 +43,36 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     option,
     confirmationOption,
     routing,
-    rules,
     rule,
     skipConditions,
     skipCondition,
     expressionGroup,
-    expressions,
     expression,
     validation,
     propertyJSON;
 
-  for (let index = 0; index < dataPath.length; index += 2) {
+  for (let index = 0; index < dataPath.length; index++) {
     const val = dataPath[index];
     const nextVal = dataPath[index + 1];
 
     switch (val) {
       case "sections":
         ({ sections } = questionnaire);
-        section = sections[dataPath[index + 1]];
+        section = sections[nextVal];
         validationErr.sectionId = section.id;
         validationErr.type = "section";
         break;
 
       case "folders":
         ({ folders } = section);
-        folder = folders[dataPath[index + 1]];
+        folder = folders[nextVal];
         validationErr.folderId = folder.id;
         validationErr.type = "folders";
         break;
 
       case "pages":
         ({ pages } = folder);
-        page = pages[dataPath[index + 1]];
+        page = pages[nextVal];
         validationErr.pageId = page.id;
         validationErr.type = "page";
         break;
@@ -90,24 +88,23 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           validationErr.type = "confirmationOption";
         } else {
           validationErr.type = "confirmation";
-          index -= 1;
         }
 
         break;
 
       case "answers":
         ({ answers } = page);
-        answer = answers[dataPath[index + 1]];
+        answer = answers[nextVal];
         validationErr.answerId = answer.id;
         validationErr.type = "answer";
         break;
 
       case "validation":
         validation = answer.validation;
-        if (dataPath[index + 1]) {
-          propertyJSON = validation[dataPath[index + 1]];
+        if (nextVal) {
+          propertyJSON = validation[nextVal];
           validationErr.validationId = propertyJSON.id;
-          validationErr.validationProperty = dataPath[index + 1];
+          validationErr.validationProperty = nextVal;
         } else {
           validationErr.validationId = validation[field].id;
         }
@@ -116,21 +113,32 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
 
       case "options":
         ({ options } = answer);
-        option = options[dataPath[index + 1]];
+        option = options[nextVal];
         validationErr.optionId = option.id;
         validationErr.type = "option";
         break;
 
       case "routing":
-        routing = page.routing;
-        ({ rules } = routing);
-        rule = rules[dataPath[index + 2]];
-        validationErr.routingRuleId = rule.id;
         validationErr.type = "routing";
+        routing = page.routing;
+        break;
 
-        if (rule.expressionGroup) {
-          validationErr.expressionGroupId = rule.expressionGroup.id;
-        }
+      case "rules":
+        rule = routing.rules[nextVal];
+        validationErr.routingRuleId = rule.id;
+        break;
+
+      case "else":
+        validationErr.destinationId = routing.else.id;
+        break;
+
+      case "expressionGroup":
+        expressionGroup = rule.expressionGroup;
+        validationErr.expressionGroupId = expressionGroup.id;
+        break;
+
+      case "destination":
+        validationErr.destinationId = rule.destination.id;
         break;
 
       case "skipConditions":
@@ -138,26 +146,18 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           (confirmation && confirmation.skipConditions) ||
           (page && page.skipConditions) ||
           (folder && folder.skipConditions);
-        skipCondition = skipConditions[dataPath[index + 1]];
+        skipCondition = skipConditions[nextVal];
         validationErr.skipConditionId = skipCondition.id;
         validationErr.type = "skipCondition";
         break;
 
       case "expressions":
-        if (rule) {
-          expressionGroup = rule.expressionGroup;
-          expression = expressionGroup.expressions[dataPath[index + 1]];
-          validationErr.type = "routingExpression";
-        } else if (skipCondition) {
-          ({ expressions } = skipCondition);
-          expression = expressions[dataPath[index + 1]];
-          validationErr.type = "skipConditionExpression";
-        }
-
-        if (expression) {
-          validationErr.expressionId = expression.id;
-        }
-
+        expressionGroup = expressionGroup || skipCondition;
+        validationErr.type = skipCondition
+          ? "skipConditionExpression"
+          : "routingExpression";
+        expression = expressionGroup.expressions[nextVal];
+        validationErr.expressionId = expression.id;
         break;
     }
   }

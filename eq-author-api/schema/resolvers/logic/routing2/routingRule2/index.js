@@ -1,7 +1,5 @@
-const { flatMap, find, some, reject, pick } = require("lodash/fp");
+const { flatMap, find, some, reject } = require("lodash/fp");
 const { createMutation } = require("../../../createMutation");
-
-const isMutuallyExclusive = require("../../../../../utils/isMutuallyExclusive");
 
 const {
   createDestination,
@@ -9,9 +7,8 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
+  updateDestination,
 } = require("../../../../../src/businessLogic");
-const availableRoutingDestinations = require("../../../../../src/businessLogic/availableRoutingDestinations");
-const validateRoutingDestinations = require("../../../../../src/businessLogic/validateRoutingDestination");
 
 const {
   getPages,
@@ -19,12 +16,6 @@ const {
   getRoutingRuleById,
   returnValidationErrors,
 } = require("../../../utils");
-
-const isMutuallyExclusiveDestination = isMutuallyExclusive([
-  "sectionId",
-  "pageId",
-  "logical",
-]);
 
 const Resolvers = {};
 
@@ -75,36 +66,11 @@ Resolvers.Mutation = {
   }),
   updateRoutingRule2: createMutation(
     (root, { input: { id, destination } }, ctx) => {
-      if (!isMutuallyExclusiveDestination(destination)) {
-        throw new Error("Can only provide one destination.");
-      }
-
       const routingRule = getRoutingRuleById(ctx, id);
-
-      const page = find((page) => {
-        if (page.routing && some({ id }, page.routing.rules)) {
-          return page;
-        }
-      }, getPages(ctx));
-
-      const availableDestinations = availableRoutingDestinations(
-        ctx.questionnaire,
-        page.id
+      routingRule.destination = updateDestination(
+        routingRule.destination,
+        destination
       );
-      const destinationField = Object.keys(destination)[0];
-      if (destinationField !== "logical") {
-        validateRoutingDestinations({
-          availableDestinations,
-          destinationField,
-          destination,
-        });
-      }
-
-      routingRule.destination = {
-        ...pick("id", routingRule.destination),
-        ...destination,
-      };
-
       return routingRule;
     }
   ),

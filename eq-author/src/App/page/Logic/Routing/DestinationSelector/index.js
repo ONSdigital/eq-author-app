@@ -45,40 +45,29 @@ const Goto = styled.span`
   margin-right: 1em;
 `;
 
+const typeToPropertyName = {
+  [DESTINATION_TYPE.Section]: "sectionId",
+  [DESTINATION_TYPE.QuestionPage]: "pageId",
+  [DESTINATION_TYPE.CalculatedSummaryPage]: "pageId",
+};
+
 export const UnwrappedDestinationSelector = ({
   label,
   id,
   disabled,
   value,
   match,
-  validationErrors = [],
   onChange,
 }) => {
   const handleChange = ({ value: { __typename: type, id } }) => {
-    let destination;
-    if (type === DESTINATION_TYPE.Section) {
-      destination = {
-        sectionId: id,
-      };
-    } else if (
-      type === DESTINATION_TYPE.QuestionPage ||
-      type === DESTINATION_TYPE.CalculatedSummaryPage
-    ) {
-      destination = {
-        pageId: id,
-      };
-    } else {
-      destination = {
-        logical: id,
-      };
-    }
-
-    onChange(destination);
+    const destinationProperty = typeToPropertyName[type] ?? "logical";
+    onChange({
+      [destinationProperty]: id,
+    });
   };
 
-  const destinationValidationErrors = validationErrors.filter(
-    ({ field }) => field === "destination"
-  );
+  const errors = value?.validationErrorInfo?.errors;
+  const errorMessage = destinationErrors[errors?.[0]?.errorCode]?.message;
 
   return (
     <>
@@ -97,19 +86,14 @@ export const UnwrappedDestinationSelector = ({
               onSubmit={handleChange}
               disabled={disabled}
               data-test="routing-destination-content-picker"
-              hasError={destinationValidationErrors.length}
+              hasError={Boolean(errorMessage)}
             />
           </Column>
         </Grid>
       </RoutingRuleResult>
-      {destinationValidationErrors.length > 0 && (
+      {errorMessage && (
         <RepositionedValidationError test="destination-validation-error" right>
-          <p>
-            {
-              destinationErrors[destinationValidationErrors[0].errorCode]
-                .message
-            }
-          </p>
+          <p>{errorMessage}</p>
         </RepositionedValidationError>
       )}
     </>
