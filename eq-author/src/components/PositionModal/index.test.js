@@ -1,110 +1,88 @@
 import React from "react";
 import PositionModal from "./";
-import { shallow } from "enzyme";
-import { render, fireEvent } from "tests/utils/rtl";
+import {
+  render,
+  fireEvent,
+  screen,
+  waitForElementToBeRemoved,
+} from "tests/utils/rtl";
 import { buildSections } from "tests/utils/createMockQuestionnaire";
-import { byName, byTestAttr } from "tests/utils/selectors";
-
-const getItemSelectModal = (wrapper) =>
-  wrapper.find(byTestAttr("position-select-modal"));
-const getItemSelect = (wrapper) => wrapper.find(byName("position"));
-const getPositionModalTrigger = (wrapper) =>
-  wrapper.find(byTestAttr("position-modal-trigger"));
 
 describe("PositionModal", () => {
   const options = buildSections({ sectionCount: 5 });
-  const createWrapper = (props = {}, render = shallow) =>
+  const onMove = jest.fn();
+  const setup = (props = {}) =>
     render(
       <PositionModal
+        title="Section"
         options={options}
         isOpen
         onClose={jest.fn()}
-        onMove={jest.fn()}
+        onMove={onMove}
         selected={options[0]}
         {...props}
       />
     );
 
+  beforeEach(() => setup());
+
   it("should render", () => {
-    expect(createWrapper({})).toMatchSnapshot();
+    expect(screen.getByTestId("section-position-modal")).toBeVisible();
   });
 
-  it("should open when trigger clicked", () => {
-    const wrapper = createWrapper();
-
-    getPositionModalTrigger(wrapper).first().simulate("click");
-    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(true);
+  it("should open when clicked", () => {
+    fireEvent.click(screen.getByText(/Section 1/));
+    expect(screen.getByTestId("section-item-select")).toBeVisible();
   });
 
-  it("should close Modals on confirm", () => {
-    const wrapper = createWrapper();
-
-    getPositionModalTrigger(wrapper).first().simulate("click");
-
-    getItemSelectModal(wrapper).simulate("confirm", {
-      preventDefault: jest.fn(),
-    });
-
-    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
+  it("should close on select", async () => {
+    fireEvent.click(screen.getByText(/Section 1/));
+    fireEvent.click(screen.getByText(/Select/));
+    await waitForElementToBeRemoved(() => screen.getByText(/Select/));
+    expect(screen.queryByText(/Select/)).not.toBeInTheDocument();
   });
 
-  it("should close Modals on cancel", () => {
-    const wrapper = createWrapper();
-
-    getPositionModalTrigger(wrapper).first().simulate("click");
-
-    getItemSelectModal(wrapper).simulate("close");
-
-    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
+  it("should close on cancel", async () => {
+    fireEvent.click(screen.getByText(/Section 1/));
+    fireEvent.click(screen.getByText(/Cancel/));
+    await waitForElementToBeRemoved(() => screen.getByText(/Cancel/));
+    expect(screen.queryByText(/Cancel/)).not.toBeInTheDocument();
   });
 
   it("should update selected on change", () => {
-    const wrapper = createWrapper();
-    const position = String(2);
-
-    getItemSelect(wrapper).simulate("change", { value: position });
-
-    expect(getItemSelect(wrapper).prop("value")).toBe(position);
+    fireEvent.click(screen.getByText(/Section 1/));
+    fireEvent.click(screen.getByText(/Section 2/));
+    fireEvent.click(screen.getByText(/Select/));
+    // await waitForElementToBeRemoved(() => screen.getByText(/Select/));
+    expect(onMove).toHaveBeenCalledWith(
+      expect.objectContaining({
+        displayName: "Section 2",
+      })
+    );
   });
 
-  it("calls onMove when confirmed", () => {
-    const onMove = jest.fn();
-    const onClose = jest.fn();
-    const position = 2;
+  it("should reset the position if modal is closed", async () => {
+    fireEvent.click(screen.getByText(/Section 1/));
+    fireEvent.click(screen.getByText(/Section 2/));
+    fireEvent.click(screen.getByText(/Cancel/));
+    await waitForElementToBeRemoved(() => screen.getByText(/Cancel/));
 
-    const wrapper = createWrapper({ options, onMove, onClose });
-
-    getItemSelect(wrapper).simulate("change", { value: position });
-
-    getItemSelectModal(wrapper).simulate("confirm", {
-      preventDefault: jest.fn(),
-    });
-
-    expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
-    expect(onMove).toHaveBeenCalledWith({ position, folderId: null });
-  });
-
-  it("resets the position if Modals is closed", () => {
-    const wrapper = createWrapper();
-
-    getPositionModalTrigger(wrapper).first().simulate("click");
-
-    getItemSelect(wrapper).simulate("change", { value: 1 });
-    expect(getItemSelect(wrapper).prop("value")).toBe("1");
-
-    getItemSelectModal(wrapper).simulate("close");
-    expect(getItemSelect(wrapper).prop("value")).toBe("0");
+    expect(screen.getByText(/Section 1/)).toBeVisible();
+    expect(screen.queryByText(/Section 2/)).not.toBeInTheDocument();
   });
 
   describe("Positioning behaviours", () => {
     let options;
     function openModalState(selected = 0) {
-      const wrapper = createWrapper({
+      const onMoveMock = jest.fn();
+      const utils = setup({
+        title: "Page",
         options,
         selected: options[selected],
+        onMove: onMoveMock,
       });
-      getPositionModalTrigger(wrapper).first().simulate("click");
-      return wrapper;
+      fireEvent.click(screen.getByTestId("page-modal-trigger"));
+      return { ...utils, onMoveMock };
     }
     beforeEach(() => {
       options = [
@@ -156,78 +134,95 @@ describe("PositionModal", () => {
     });
 
     it("should jump length of folder when clicking on a folder", () => {
-      const wrapper = openModalState();
-      const value = 1;
-      getPositionModalTrigger(wrapper).first().simulate("click");
+      openModalState();
+      const first = screen.getByText(/question 1/).textContent;
+      const firstOption = screen.getAllByTestId("options")[0].textContent;
+      expect(first).toEqual(firstOption);
 
-      getItemSelect(wrapper).simulate("change", { value });
+      fireEvent.click(screen.getByText(/Folder 1/));
 
-      expect(getItemSelect(wrapper).prop("value")).toBe(
-        (
-          value + options.filter((item) => item.parentId === "Folder-1").length
-        ).toString()
+      expect(screen.getAllByTestId("options")[3].textContent).toEqual(first);
+    });
+
+    it("should move inside a folder into the correct position going down", () => {
+      const { onMoveMock } = openModalState();
+      fireEvent.click(screen.getByText(/question 2/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
+
+      expect(onMoveMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          position: 1,
+        })
       );
     });
 
-    it("should go into the correct position in folder going down", () => {
-      const wrapper = openModalState();
-      const value = 2;
-      getItemSelect(wrapper).simulate("change", { value });
-      expect(getItemSelect(wrapper).prop("value")).toBe(value.toString());
-      expect(
-        wrapper.find("PositionModal__Indent").getElements()[value].props
-          .children
-      ).toEqual(options[0].displayName);
-      expect(
-        wrapper.find("PositionModal__Indent").getElements()[value].props.indent
-      ).toBeTruthy();
+    it("should move inside a folder into the correct position going up", () => {
+      const { onMoveMock } = openModalState(4);
+      fireEvent.click(screen.getByText(/question 2/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
+
+      expect(onMoveMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          position: 0,
+        })
+      );
     });
 
-    it("should go into the correct position in folder going up", () => {
-      const selected = 4;
-      const wrapper = openModalState(selected);
-      const value = 2;
-      getItemSelect(wrapper).simulate("change", { value });
-      expect(getItemSelect(wrapper).prop("value")).toBe(value.toString());
+    it("should move between questions going down", () => {
+      const { onMoveMock } = openModalState();
+      fireEvent.click(screen.getByText(/question 4/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
-      expect(
-        wrapper.find("PositionModal__Indent").getElements()[value].props
-          .children
-      ).toEqual(options[selected].displayName);
+      expect(onMoveMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          position: 2,
+        })
+      );
+    });
+
+    it("should move between questions going up", () => {
+      const { onMoveMock } = openModalState(4);
+      fireEvent.click(screen.getByText(/question 1/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
+
+      expect(onMoveMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          position: 0,
+        })
+      );
     });
 
     it("should go to the correct position when selecting the same value twice", () => {
-      const wrapper = openModalState();
-      const value = 1;
-      getItemSelect(wrapper).simulate("change", { value });
+      openModalState();
+      fireEvent.click(screen.getByText(/Folder 1/));
+      expect(screen.getAllByTestId("options")[3].textContent).toEqual(
+        "question 1"
+      );
 
-      getItemSelect(wrapper).simulate("change", { value: 0 });
-
-      expect(getItemSelect(wrapper).prop("value")).toBe((0).toString());
-
-      expect(
-        wrapper.find("PositionModal__Indent").getElements()[0].props.children
-      ).toEqual(options[0].displayName);
+      fireEvent.click(screen.getByText(/Folder 1/));
+      expect(screen.getAllByTestId("options")[0].textContent).toEqual(
+        "question 1"
+      );
     });
 
-    it("should move between folders correctly", () => {
-      const initial = 2;
-      const wrapper = openModalState(initial);
-      const after = 6;
-      getItemSelect(wrapper).simulate("change", { value: after });
+    it("should move between folders", () => {
+      const { onMoveMock } = openModalState(2);
+      fireEvent.click(screen.getByText(/question 5/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
-      expect(getItemSelect(wrapper).prop("value")).toBe(after.toString());
-
-      expect(
-        wrapper.find("PositionModal__Indent").getElements()[after].props
-          .children
-      ).toEqual(options[initial].displayName);
+      expect(onMoveMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          position: 1,
+        })
+      );
     });
 
     it("should display the correct styling", () => {
-      const { getByText, getByTestId } = createWrapper({ options }, render);
-      fireEvent.click(getByText(/Select/));
-      expect(getByTestId("option-3")).toHaveStyleRule("margin-left", "1em");
+      openModalState();
+      expect(screen.getAllByTestId("options")[3]).toHaveStyleRule(
+        "margin-left",
+        "1em"
+      );
     });
   });
 });
