@@ -135,7 +135,7 @@ describe("PositionModal", () => {
 
     it("should jump length of folder when clicking on a folder", () => {
       openModalState();
-      const first = screen.getAllByText(/question 1/)[1].textContent;
+      const first = screen.getByText(/question 1/).textContent;
       const firstOption = screen.getAllByTestId("options")[0].textContent;
       expect(first).toEqual(firstOption);
 
@@ -147,7 +147,7 @@ describe("PositionModal", () => {
     it("should move inside a folder into the correct position going down", () => {
       const { onMoveMock } = openModalState();
       fireEvent.click(screen.getByText(/question 2/));
-      fireEvent.click(screen.getByText(/Select/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
       expect(onMoveMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -159,7 +159,7 @@ describe("PositionModal", () => {
     it("should move inside a folder into the correct position going up", () => {
       const { onMoveMock } = openModalState(4);
       fireEvent.click(screen.getByText(/question 2/));
-      fireEvent.click(screen.getByText(/Select/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
       expect(onMoveMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -171,7 +171,7 @@ describe("PositionModal", () => {
     it("should move between questions going down", () => {
       const { onMoveMock } = openModalState();
       fireEvent.click(screen.getByText(/question 4/));
-      fireEvent.click(screen.getByText(/Select/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
       expect(onMoveMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -183,7 +183,7 @@ describe("PositionModal", () => {
     it("should move between questions going up", () => {
       const { onMoveMock } = openModalState(4);
       fireEvent.click(screen.getByText(/question 1/));
-      fireEvent.click(screen.getByText(/Select/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
       expect(onMoveMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -208,7 +208,7 @@ describe("PositionModal", () => {
     it("should move between folders", () => {
       const { onMoveMock } = openModalState(2);
       fireEvent.click(screen.getByText(/question 5/));
-      fireEvent.click(screen.getByText(/Select/));
+      fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
       expect(onMoveMock).toHaveBeenCalledWith(
         expect.objectContaining({

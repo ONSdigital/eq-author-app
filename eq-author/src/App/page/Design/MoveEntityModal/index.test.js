@@ -63,10 +63,14 @@ describe("MoveEntityModal: entity === 'Page'", () => {
   it("should close select modal on select", async () => {
     fireEvent.click(screen.getByText(/Section 1/));
 
-    fireEvent.click(screen.getByText(/Select/));
+    fireEvent.click(screen.getByTestId("item-select-modal-submit"));
 
-    await waitForElementToBeRemoved(() => screen.queryByText(/Select/i));
-    expect(screen.queryByText(/Select/)).not.toBeInTheDocument();
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId("item-select-modal-submit")
+    );
+    expect(
+      screen.queryByTestId("item-select-modal-submit")
+    ).not.toBeInTheDocument();
   });
 
   it("should close select modal on cancel", async () => {
@@ -82,20 +86,22 @@ describe("MoveEntityModal: entity === 'Page'", () => {
     fireEvent.click(screen.getByText(/Section 1/));
 
     fireEvent.click(screen.getByText(/Section 2/));
-    fireEvent.click(screen.getByText(/Select/));
-    await waitForElementToBeRemoved(() => screen.queryByText(/Select/i));
+    fireEvent.click(screen.getByTestId("item-select-modal-submit"));
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId("item-select-modal-submit")
+    );
     expect(screen.queryByText(/Section 1/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Section 2/)).toBeVisible();
   });
 });
 
-describe("MoveEntityModal: onMove'", () => {
+describe("MoveEntityModal: onMove", () => {
   it("should show correct title", async () => {
     const { onMove } = setup({ entity: "Folder", selected: currentFolder });
-    fireEvent.click(screen.getByText(/Folder 2/));
+    fireEvent.click(screen.getByText(/Select/));
 
     fireEvent.click(screen.getByText(/Folder 3/));
-    fireEvent.click(screen.getByText(/Select/));
+    fireEvent.click(screen.getByTestId("item-select-modal-submit"));
     expect(onMove).toHaveBeenCalledWith({
       to: {
         id: expect.any(String),
@@ -120,7 +126,7 @@ describe("MoveEntityModal: entity === 'Folder'", () => {
   });
 
   it("should only list folders and disabled folder pages", () => {
-    fireEvent.click(screen.getByText(/Folder 2/));
+    fireEvent.click(screen.getByTestId("folder-modal-trigger"));
     const options = screen.getAllByTestId("options");
     expect(options).toHaveLength(3);
     expect(options[0].textContent).toEqual("Page 1.1.1");
