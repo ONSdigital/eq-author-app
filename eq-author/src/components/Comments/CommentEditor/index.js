@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
@@ -41,11 +41,21 @@ const ButtonGroup = styled.div`
 
   button {
     margin-right: 0.5em;
+
+    &:focus {
+      ${focusStyle}
+      outline: none;
+    }
   }
 `;
 
 const OpenEditorBtn = styled(Button).attrs({ "small-medium": true })`
   margin-bottom: 0.5em;
+
+  &:focus {
+    ${focusStyle}
+    outline: none;
+  }
 `;
 
 const CommentEditor = ({
@@ -61,7 +71,8 @@ const CommentEditor = ({
   className,
 }) => {
   const [editorVisible, showEditor] = useState(true);
-  const [commentText, updateCommentText] = useState(initialValue); //TODO
+  const [commentText, updateCommentText] = useState("");
+  const textInput = useRef(null);
 
   useEffect(() => {
     if (canClose) {
@@ -69,12 +80,25 @@ const CommentEditor = ({
     }
   }, [canClose, startClosed]);
 
+  useEffect(() => {
+    if (initialValue) {
+      updateCommentText(initialValue);
+    }
+  }, [initialValue]);
+
+  useEffect(() => {
+    if (canClose && editorVisible) {
+      textInput.current.focus();
+    }
+  }, [editorVisible, canClose]);
+
   if (editorVisible) {
     return (
       <Wrapper className={className} data-test="CommentEditor">
         {variant === "fixed" && (
           <TextAreaFixedSize
             data-test="CommentEditor__Input"
+            ref={textInput}
             value={commentText}
             onChange={({ target: { value } }) => updateCommentText(value)}
           />
@@ -82,6 +106,7 @@ const CommentEditor = ({
         {variant === "growable" && (
           <TextAreaGrowable
             data-test="CommentEditor__Input"
+            ref={textInput}
             value={commentText}
             onChange={({ target: { value } }) => updateCommentText(value)}
           />
