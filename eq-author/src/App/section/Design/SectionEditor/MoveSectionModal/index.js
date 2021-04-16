@@ -4,46 +4,38 @@ import CustomPropTypes from "custom-prop-types";
 import MoveModal from "components/MoveModal";
 import PositionModal from "components/PositionModal";
 
-class MoveSectionModal extends React.Component {
-  static propTypes = {
-    section: CustomPropTypes.section.isRequired,
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onMoveSection: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  section: CustomPropTypes.section.isRequired,
+  questionnaire: CustomPropTypes.questionnaire.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onMoveSection: PropTypes.func.isRequired,
+};
+const MoveSectionModal = (props) => {
+  const { questionnaire, section, onMoveSection } = props;
+  return (
+    <MoveModal title={"Move section"} {...props}>
+      <PositionModal
+        title="Section"
+        options={questionnaire.sections}
+        selected={section}
+        onMove={({ position }) =>
+          onMoveSection({
+            from: {
+              id: section.id,
+              position: section.position,
+            },
+            to: {
+              id: section.id,
+              position: position,
+            },
+          })
+        }
+      />
+    </MoveModal>
+  );
+};
 
-  handleOnMove = ({ position }) => {
-    const { section, onMoveSection } = this.props;
-    onMoveSection({
-      from: {
-        id: section.id,
-        position: section.position,
-      },
-      to: {
-        id: section.id,
-        position: position,
-      },
-    });
-  };
-
-  render() {
-    const {
-      questionnaire: { sections },
-      section,
-    } = this.props;
-
-    return (
-      <MoveModal title={"Move section"} {...this.props}>
-        <PositionModal
-          options={sections}
-          selected={section}
-          onMove={this.handleOnMove}
-          {...this.props}
-        />
-      </MoveModal>
-    );
-  }
-}
+MoveSectionModal.propTypes = propTypes;
 
 export default MoveSectionModal;

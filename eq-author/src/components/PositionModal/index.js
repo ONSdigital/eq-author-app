@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import ItemSelectModal from "components/ItemSelectModal";
-import ItemSelect, { Option } from "components/ItemSelectModal/ItemSelect";
 import { uniqueId } from "lodash";
-import Icon from "assets/icon-select.svg";
 import styled from "styled-components";
+
+import { usePosition } from "./usePosition";
+
+import ItemSelect, { Option } from "components/ItemSelectModal/ItemSelect";
+import ItemSelectModal from "components/ItemSelectModal";
+import Truncated from "components/Truncated";
+import Icon from "assets/icon-select.svg";
 
 import { colors, radius } from "constants/theme";
 
@@ -19,7 +23,8 @@ const Label = styled.label`
 const Trigger = styled.button.attrs({ type: "button" })`
   width: 100%;
   font-size: 1em;
-  padding: 0.5rem 2em 0.5rem 0.5rem;
+  padding: 0.5rem;
+  padding-right: 2em;
   background: ${colors.white} url("${Icon}") no-repeat right center;
   border: solid 1px ${colors.borders};
   text-align: left;
@@ -36,47 +41,36 @@ const Indent = styled(Option)`
   margin-left: ${({ indent }) => (indent ? 1 : 0)}em;
 `;
 
-const PositionModal = ({ options, onMove, selected }) => {
+const PositionModal = ({ title, options, onMove, selected, onChange }) => {
   const positionButtonId = uniqueId("PositionModal");
   const [isOpen, setIsOpen] = useState(false);
-  const previousIndex = options.findIndex(({ id }) => id === selected.id);
-  const previousPosition = useRef(previousIndex > -1 ? previousIndex : 0);
-  const [{ position, item }, setOption] = useState({
-    position: previousPosition.current,
-    item: options[previousPosition.current],
+  const [{ position, item }, previous, setOption] = usePosition({
+    options,
+    selected,
   });
 
-  useEffect(() => {
-    // resets the position of the selected item when changing sections
-    const previousIndex = options.findIndex(({ id }) => id === selected.id);
-    previousPosition.current = previousIndex > -1 ? previousIndex : 0;
-    setOption((prev) => ({ ...prev, position: previousPosition.current }));
-  }, [options, selected]);
-
-  const orderedOptions = options.filter(({ id }) => id !== selected.id);
+  const orderedOptions = options.filter(({ id }) => id !== selected?.id);
   selected.parentEnabled = item?.parentEnabled;
   orderedOptions.splice(position, 0, selected);
 
   const handleClose = () => {
     setIsOpen(false);
     setOption({
-      position: previousPosition.current,
-      item: orderedOptions[previousPosition.current],
+      position: previous,
+      item: orderedOptions[previous],
     });
   };
 
   const handleChange = ({ value }) => {
-    const filteredOptions = orderedOptions.filter(
-      ({ parentId }) => parentId === orderedOptions[value].id
-    );
-
+    const option = orderedOptions[value];
     const count =
-      orderedOptions[value].__typename === "Folder" && value - position >= 0
-        ? filteredOptions.length
+      option?.__typename === "Folder" && value - position >= 0 // check if folder and going down
+        ? orderedOptions.filter(({ parentId }) => parentId === option?.id)
+            .length
         : 0;
     setOption({
       position: parseInt(value, 10) + count,
-      item: orderedOptions[value],
+      item: option,
     });
   };
 
@@ -85,60 +79,55 @@ const PositionModal = ({ options, onMove, selected }) => {
     // item is the element in the modal you just clicked
     const { parentId = null } = item;
 
-    let positionCalculation;
+    let positionCalculation = parentId
+      ? orderedOptions // only show contents of selected folder
+          .filter((i) => parentId === i.parentId || i.id === selected.id)
+          .findIndex((item) => item.id === selected.id)
+      : orderedOptions // remove all questions inside enabled folders
+          .filter(({ parentId }) => !parentId)
+          .findIndex((item) => item.id === selected.id);
 
-    if (parentId) {
-      // get pages in target folder + selected item
-      const selectedItemPosition = orderedOptions
-        .filter(
-          ({ parentId: itemId, id }) =>
-            parentId === itemId || id === selected.id
-        )
-        .findIndex(({ id }) => id === selected.id);
-      positionCalculation = selectedItemPosition;
-    } else {
-      // remove all nested pages
-      const selectedItemPosition = orderedOptions
-        .filter(({ parentId }) => !parentId)
-        .findIndex(({ id }) => id === selected.id);
-      positionCalculation = selectedItemPosition;
-    }
+    // onMove is conditional so it can be used as a section selector
+    onMove &&
+      onMove({
+        ...item,
+        folderId: parentId,
+        position: positionCalculation,
+      });
 
-    onMove({
-      folderId: parentId,
-      position: positionCalculation,
-    });
     setIsOpen(false);
   };
 
   return (
-    <div data-test="position-modal">
-      <Label htmlFor={positionButtonId}>Position</Label>
-
+    <div data-test={`${title.toLowerCase()}-position-modal`}>
+      <Label htmlFor={positionButtonId}>
+        {title === "Section" ? "Section" : "Position"}
+      </Label>
       <Trigger
-        data-test="position-modal-trigger"
         id={positionButtonId}
         onClick={() => setIsOpen(true)}
+        data-test={`${title.toLowerCase()}-modal-trigger`}
       >
-        Select
+        <Truncated>
+          {title === "Section" ? selected?.displayName : "Select"}
+        </Truncated>
       </Trigger>
       <ItemSelectModal
-        data-test="position-select-modal"
-        title="Position"
-        primaryText="Move"
+        title={title}
+        data-test={`${title.toLowerCase()}-select-modal`}
         isOpen={isOpen}
         onClose={handleClose}
         onConfirm={handleConfirm}
       >
         <ItemSelect
-          data-test="position-item-select"
-          name="position"
+          data-test={`${title.toLowerCase()}-item-select`}
+          name={title.toLowerCase()}
           value={String(position)}
-          onChange={handleChange}
+          onChange={onChange || handleChange} // onChange supplied for section selector
         >
           {orderedOptions.map(({ displayName, parentEnabled }, i) => (
             <Indent
-              data-test={`option-${i}`}
+              data-test="options"
               key={i}
               value={String(i)}
               indent={parentEnabled ? parentEnabled.toString() : undefined}
@@ -153,6 +142,7 @@ const PositionModal = ({ options, onMove, selected }) => {
 };
 
 PositionModal.propTypes = {
+  title: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -161,12 +151,13 @@ PositionModal.propTypes = {
       parentEnabled: PropTypes.bool,
     })
   ).isRequired,
-  onMove: PropTypes.func.isRequired,
   selected: PropTypes.shape({
     id: PropTypes.string,
     displayName: PropTypes.string,
     position: PropTypes.number,
   }).isRequired,
+  onMove: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default PositionModal;

@@ -66,7 +66,9 @@ const ItemSelectModal = ({
         <StyledButton onClick={onClose} variant="secondary">
           {secondaryText}
         </StyledButton>
-        <StyledButton type="submit">{primaryText}</StyledButton>
+        <StyledButton data-test="item-select-modal-submit" type="submit">
+          {primaryText}
+        </StyledButton>
       </StyledButtonGroup>
     </form>
   </PlainModal>
