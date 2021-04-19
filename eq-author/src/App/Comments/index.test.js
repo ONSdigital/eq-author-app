@@ -20,24 +20,24 @@ const mockUseQuery = {
         id: "comment-1",
         user: { id: "user-1", displayName: "Dina" },
         commentText:
-          "Has anyone noticed anything out of the ordinary back here?",
+          "It's all hands on deck, so quit your Myspacing and get on the register. That's an order.",
         createdTime: "2021-03-30T14:48:00.000Z",
         editedTime: null,
         replies: [],
       },
       {
         id: "comment-2",
-        user: { id: "user-2", displayName: "Amy" },
+        user: { id: "user-2", displayName: "Dina" },
         commentText:
-          "Well, it's Halloween, so everything's kind of out of the ordinary.",
+          "Has anyone noticed anything out of the ordinary back here? ",
         createdTime: "2021-03-30T14:49:00.000Z",
         editedTime: null,
         replies: [
           {
             id: "comment-2-reply-1",
-            user: { id: "user-1", displayName: "Dina" },
+            user: { id: "user-1", displayName: "Amy" },
             commentText:
-              "It's all hands on deck, so quit your Myspacing and get on the register. That's an order.",
+              "Well, it's Halloween, so everything's kind of out of the ordinary.",
             createdTime: "2021-03-30T15:01:00.000Z",
             editedTime: null,
           },
