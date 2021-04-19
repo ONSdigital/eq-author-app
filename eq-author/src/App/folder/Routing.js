@@ -4,7 +4,7 @@ import NoRouting, {
   Title,
   Paragraph,
 } from "App/shared/Logic/Routing/NoRouting";
-import GET_FOLDER_QUERY from "./fragment.graphql";
+import GET_FOLDER_QUERY from "App/folder/graphql/fragment.graphql";
 import PropTypes from "prop-types";
 import Panel from "components/Panel";
 

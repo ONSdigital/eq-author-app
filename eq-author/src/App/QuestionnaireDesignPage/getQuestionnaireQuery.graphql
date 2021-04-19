@@ -4,6 +4,7 @@ query GetQuestionnaire($input: QueryInput!) {
       id
     }
     publishStatus
+    locked
     totalErrorCount
     ...NavigationSidebar
     metadata {
@@ -36,6 +37,7 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   theme
+  qcodes
   navigation
   summary
   collapsibleSummary

@@ -193,10 +193,7 @@ exports[`MoveSectionModal should render 1`] = `
   title="Move section"
 >
   <PositionModal
-    isOpen={true}
-    onClose={[MockFunction]}
     onMove={[Function]}
-    onMoveSection={[MockFunction]}
     options={
       Array [
         Object {
@@ -317,191 +314,6 @@ exports[`MoveSectionModal should render 1`] = `
         },
       ]
     }
-    questionnaire={
-      Object {
-        "displayName": "questionnaire",
-        "id": "questionnaire",
-        "sections": Array [
-          Object {
-            "displayName": "Section 1",
-            "folders": Array [
-              Object {
-                "alias": "Folder 1.1",
-                "enabled": false,
-                "id": "1.1",
-                "pages": Array [
-                  Object {
-                    "additionalInfoContent": "",
-                    "additionalInfoEnabled": false,
-                    "additionalInfoLabel": "",
-                    "alias": "1.1.1",
-                    "answers": Array [],
-                    "definitionContent": "",
-                    "definitionEnabled": false,
-                    "definitionLabel": "",
-                    "description": "",
-                    "descriptionEnabled": false,
-                    "displayName": "Page 1.1.1",
-                    "folder": Object {
-                      "id": "1",
-                    },
-                    "guidance": "",
-                    "guidanceEnabled": false,
-                    "id": "1.1.1",
-                    "pageType": "QuestionPage",
-                    "position": 0,
-                    "section": Object {
-                      "displayName": "",
-                      "id": "1",
-                    },
-                    "title": "Page 1.1.1",
-                    "validationErrorInfo": Object {
-                      "errors": Array [],
-                      "totalCount": 2,
-                    },
-                  },
-                ],
-                "position": 0,
-                "section": Object {
-                  "id": "1",
-                },
-                "validationErrorInfo": Object {
-                  "__typename": "ValidationErrorInfo",
-                  "errors": Array [],
-                  "id": "1.1-validationErrorInfo",
-                  "totalCount": 0,
-                },
-              },
-            ],
-            "id": "1",
-            "position": 0,
-            "title": "Section 1",
-            "validationErrorInfo": Object {
-              "totalCount": 0,
-            },
-          },
-          Object {
-            "displayName": "Section 2",
-            "folders": Array [
-              Object {
-                "alias": "Folder 2.1",
-                "enabled": false,
-                "id": "2.1",
-                "pages": Array [
-                  Object {
-                    "additionalInfoContent": "",
-                    "additionalInfoEnabled": false,
-                    "additionalInfoLabel": "",
-                    "alias": "2.1.1",
-                    "answers": Array [],
-                    "definitionContent": "",
-                    "definitionEnabled": false,
-                    "definitionLabel": "",
-                    "description": "",
-                    "descriptionEnabled": false,
-                    "displayName": "Page 2.1.1",
-                    "folder": Object {
-                      "id": "1",
-                    },
-                    "guidance": "",
-                    "guidanceEnabled": false,
-                    "id": "2.1.1",
-                    "pageType": "QuestionPage",
-                    "position": 0,
-                    "section": Object {
-                      "displayName": "",
-                      "id": "2",
-                    },
-                    "title": "Page 2.1.1",
-                    "validationErrorInfo": Object {
-                      "errors": Array [],
-                      "totalCount": 2,
-                    },
-                  },
-                ],
-                "position": 0,
-                "section": Object {
-                  "id": "1",
-                },
-                "validationErrorInfo": Object {
-                  "__typename": "ValidationErrorInfo",
-                  "errors": Array [],
-                  "id": "2.1-validationErrorInfo",
-                  "totalCount": 0,
-                },
-              },
-            ],
-            "id": "2",
-            "position": 1,
-            "title": "Section 2",
-            "validationErrorInfo": Object {
-              "totalCount": 0,
-            },
-          },
-        ],
-        "title": "questionnaire",
-      }
-    }
-    section={
-      Object {
-        "displayName": "Section 1",
-        "folders": Array [
-          Object {
-            "alias": "Folder 1.1",
-            "enabled": false,
-            "id": "1.1",
-            "pages": Array [
-              Object {
-                "additionalInfoContent": "",
-                "additionalInfoEnabled": false,
-                "additionalInfoLabel": "",
-                "alias": "1.1.1",
-                "answers": Array [],
-                "definitionContent": "",
-                "definitionEnabled": false,
-                "definitionLabel": "",
-                "description": "",
-                "descriptionEnabled": false,
-                "displayName": "Page 1.1.1",
-                "folder": Object {
-                  "id": "1",
-                },
-                "guidance": "",
-                "guidanceEnabled": false,
-                "id": "1.1.1",
-                "pageType": "QuestionPage",
-                "position": 0,
-                "section": Object {
-                  "displayName": "",
-                  "id": "1",
-                },
-                "title": "Page 1.1.1",
-                "validationErrorInfo": Object {
-                  "errors": Array [],
-                  "totalCount": 2,
-                },
-              },
-            ],
-            "position": 0,
-            "section": Object {
-              "id": "1",
-            },
-            "validationErrorInfo": Object {
-              "__typename": "ValidationErrorInfo",
-              "errors": Array [],
-              "id": "1.1-validationErrorInfo",
-              "totalCount": 0,
-            },
-          },
-        ],
-        "id": "1",
-        "position": 0,
-        "title": "Section 1",
-        "validationErrorInfo": Object {
-          "totalCount": 0,
-        },
-      }
-    }
     selected={
       Object {
         "displayName": "Section 1",
@@ -562,6 +374,7 @@ exports[`MoveSectionModal should render 1`] = `
         },
       }
     }
+    title="Section"
   />
 </MoveModal>
 `;

@@ -49,6 +49,7 @@ function defaultSetup({
     totalErrorCount: 0,
     match: { params: { modifier: "", questionnaireId: "1" } },
     loading: false,
+    qcodesEnabled: true,
     ...changes,
   };
   const utils = render(
@@ -106,6 +107,18 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-sharing").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-history").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-metadata").hasAttribute("disabled")).toBeFalsy();
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
+  });
+
+  it("should enable qcodes button when qcodes are enabled", () => {
+    const { getByTestId } = defaultSetup();
+
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).not.toBeTruthy();
+  });
+
+  it("should disable qcodes button when qcodes are not enabled", () => {
+    const { getByTestId } = defaultSetup({ changes: { qcodesEnabled: false } });
+
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 

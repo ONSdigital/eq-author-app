@@ -29,10 +29,12 @@ import onCompleteDelete from "./onCompleteDelete";
 
 import onCompleteDuplicate from "./onCompleteDuplicate";
 
-import GET_FOLDER_QUERY from "./getFolderQuery.graphql";
-import UPDATE_FOLDER_MUTATION from "./updateFolderMutation.graphql";
+import GET_FOLDER_QUERY from "App/folder/graphql/getFolderQuery.graphql";
+import UPDATE_FOLDER_MUTATION from "App/folder/graphql/updateFolderMutation.graphql";
+import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
-import DELETE_FOLDER_MUTATION from "./deleteFolder.graphql";
+import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
+import GET_SECTION from "graphql/getSection.graphql";
 
 import { colors } from "constants/theme";
 
@@ -74,10 +76,13 @@ const FolderDesignPage = ({ history, match }) => {
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
+    fetchPolicy: "cache-and-network",
   });
+
   let folderPosition, pages;
 
   const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+  const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
     onCompleted: ({ duplicateFolder }) =>
       duplicateFolder &&
@@ -165,11 +170,6 @@ const FolderDesignPage = ({ history, match }) => {
     folder: { id, position, section, alias, displayName, validationErrorInfo },
   } = data;
 
-  const shortCodeOnUpdate = (alias) =>
-    saveShortCode({
-      variables: { input: { folderId: id, alias } },
-    });
-
   return (
     <EditorPage
       title={displayName}
@@ -179,10 +179,41 @@ const FolderDesignPage = ({ history, match }) => {
     >
       <StyledPanel data-test="folders-page">
         <EditorToolbar
+          key={`toolbar-folder-${folderId}`}
+          title={alias}
           shortCode={alias}
           pageType={FOLDER}
-          shortCodeOnUpdate={shortCodeOnUpdate}
-          onMove={() => alert("onMove")}
+          shortCodeOnUpdate={(alias) =>
+            saveShortCode({
+              variables: { input: { folderId: id, alias } },
+            })
+          }
+          data={data.folder}
+          onMove={({ from, to }) => {
+            moveFolder({
+              variables: {
+                input: {
+                  id,
+                  position: to.position,
+                  sectionId: to.sectionId,
+                },
+              }, // conditional refetch to check when last folder in section
+              ...(from.sectionId !== to.sectionId
+                ? {
+                    refetchQueries: [
+                      {
+                        query: GET_SECTION,
+                        variables: {
+                          input: {
+                            sectionId: from.sectionId,
+                          },
+                        },
+                      },
+                    ],
+                  }
+                : {}),
+            });
+          }}
           onDuplicate={() =>
             duplicateFolder({
               variables: { input: { id, position: position + 1 } },
@@ -193,9 +224,6 @@ const FolderDesignPage = ({ history, match }) => {
               variables: { input: { id } },
             })
           }
-          disableMove
-          key={`toolbar-folder-${folderId}`}
-          title={alias}
         />
         <h2>Folders</h2>
         <p>

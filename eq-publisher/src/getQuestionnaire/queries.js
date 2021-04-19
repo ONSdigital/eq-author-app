@@ -209,6 +209,7 @@ exports.getQuestionnaire = `
         tertiaryTitle
         tertiaryDescription
       }
+      qcodes
       navigation
       surveyId
       previewTheme
