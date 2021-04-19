@@ -17,6 +17,10 @@ const {
 } = require("../../tests/utils/contextBuilder/routing");
 
 const {
+  ERR_ANSWER_NOT_SELECTED,
+} = require("../../constants/validationErrorCodes");
+
+const {
   queryQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
@@ -92,7 +96,6 @@ describe("routing", () => {
       ).toBe("DefaultRouting");
     });
 
-    // Passes intermittently
     it("should be able to update the else destination on a routing", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
@@ -119,6 +122,29 @@ describe("routing", () => {
         section: null,
         page: expect.objectContaining({ id: secondPage.id }),
       });
+    });
+
+    it("should throw an error if multiple destinations provided", async () => {
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const secondPage = questionnaire.sections[0].folders[0].pages[1];
+
+      expect(() =>
+        executeQuery(
+          updateRoutingMutation,
+          {
+            input: {
+              id: firstPage.routing.id,
+              else: {
+                pageId: secondPage.id,
+                logical: "NextPage",
+              },
+            },
+          },
+          ctx
+        )
+      ).rejects.toThrow();
     });
   });
 
@@ -216,9 +242,10 @@ describe("routing", () => {
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const result = await queryPage(ctx, firstPage.id);
-      expect(
-        result.routing.rules[0].expressionGroup.validationErrorInfo.errors
-      ).toHaveLength(2);
+      const errors =
+        result.routing.rules[0].expressionGroup.validationErrorInfo.errors;
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(ERR_ANSWER_NOT_SELECTED);
     });
 
     it("does not have validation errors if there are none", async () => {
@@ -506,238 +533,6 @@ describe("routing", () => {
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.options
       ).toMatchObject([{ id: options[0].id }, { id: options[2].id }]);
-    });
-  });
-
-  describe("on Section Deleted", () => {
-    const sections = [
-      {
-        id: "section1",
-        folders: [
-          {
-            pages: [
-              {
-                title: "page1",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-                routing: {
-                  rules: [
-                    {
-                      destination: { section: 1, folder: 0, page: null },
-                      expressionGroup: { expressions: [{}] },
-                    },
-                    {
-                      destination: { section: 2, folder: 0, page: null },
-                      expressionGroup: { expressions: [{}] },
-                    },
-                  ],
-                  else: { section: 3, folder: 0, page: null },
-                },
-              },
-              {
-                title: "page2",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: "section2",
-        folders: [
-          {
-            pages: [
-              {
-                title: "page2a",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: "section3",
-        folders: [
-          {
-            pages: [
-              {
-                title: "page3a",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: "section4",
-        folders: [
-          {
-            pages: [
-              {
-                title: "page4a",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
-
-    it("should remove references to questionnaire if deleted section is a rule destination", async () => {
-      const ctx = await buildContext({ sections });
-
-      const { questionnaire } = ctx;
-      let firstPage = questionnaire.sections[0].folders[0].pages[0];
-      const secondSection = questionnaire.sections[1];
-      const thirdSection = questionnaire.sections[2];
-
-      // Check both rules exist
-      expect(firstPage.routing.rules[0].destination.sectionId).toEqual(
-        secondSection.id
-      );
-      expect(firstPage.routing.rules[1].destination.sectionId).toEqual(
-        thirdSection.id
-      );
-
-      await deleteSection(ctx, thirdSection.id);
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      expect(firstPage.routing.rules).toHaveLength(2);
-      expect(firstPage.routing.rules[1].destination.sectionId).toBeNull();
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      await deleteSection(ctx, secondSection.id);
-      expect(firstPage.routing.rules[0].destination.sectionId).toBeNull();
-    });
-
-    it("should change else destination if deleted section is the else destination", async () => {
-      const ctx = await buildContext({ sections });
-
-      const { questionnaire } = ctx;
-      let firstPage = questionnaire.sections[0].folders[0].pages[0];
-      const fourthSection = questionnaire.sections[3];
-
-      await deleteSection(ctx, fourthSection.id);
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      expect(firstPage.routing.else.sectionId).toBeNull();
-    });
-  });
-
-  describe("on Page Deleted", () => {
-    const sections = [
-      {
-        id: "section1",
-        folders: [
-          {
-            pages: [
-              {
-                title: "page1",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-                routing: {
-                  rules: [
-                    {
-                      destination: { section: 0, folder: 0, page: 1 },
-                      expressionGroup: { expressions: [{}] },
-                    },
-                    {
-                      destination: { section: 0, folder: 0, page: 2 },
-                      expressionGroup: { expressions: [{}] },
-                    },
-                  ],
-                  else: { section: 0, folder: 0, page: 3 },
-                },
-              },
-              {
-                title: "page2",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-              {
-                title: "page3",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-              {
-                title: "page4",
-                answers: [
-                  {
-                    type: RADIO,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
-
-    it("should remove references to questionnaire if deleted page is a rule destination", async () => {
-      const ctx = await buildContext({ sections });
-
-      const { questionnaire } = ctx;
-      let firstPage = questionnaire.sections[0].folders[0].pages[0];
-      const secondPage = questionnaire.sections[0].folders[0].pages[1];
-      const thirdPage = questionnaire.sections[0].folders[0].pages[2];
-      // Check both rules exist
-      expect(firstPage.routing.rules[0].destination.pageId).toEqual(
-        secondPage.id
-      );
-      expect(firstPage.routing.rules[1].destination.pageId).toEqual(
-        thirdPage.id
-      );
-
-      await deletePage(ctx, thirdPage.id);
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      expect(firstPage.routing.rules).toHaveLength(2);
-      expect(firstPage.routing.rules[1].destination.pageId).toBeNull();
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      await deletePage(ctx, secondPage.id);
-      expect(firstPage.routing.rules[0].destination.pageId).toBeNull();
-    });
-
-    it("should change else destination if deleted page is the else destination", async () => {
-      const ctx = await buildContext({ sections });
-
-      const { questionnaire } = ctx;
-      let firstPage = questionnaire.sections[0].folders[0].pages[0];
-      const fourthPage = questionnaire.sections[0].folders[0].pages[3];
-
-      await deletePage(ctx, fourthPage.id);
-      firstPage = ctx.questionnaire.sections[0].folders[0].pages[0];
-
-      expect(firstPage.routing.else.pageId).toBeNull();
     });
   });
 

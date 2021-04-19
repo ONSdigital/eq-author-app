@@ -24,6 +24,9 @@
         "id": {
           "type": "string"
         },
+        "else": {
+          "$ref": "logic.json#/definitions/destination"
+        },
         "rules": {
           "type": "array",
           "items": {
@@ -143,9 +146,7 @@
       "if": {
         "properties": {
           "pageType": {
-            "enum": [
-              "QuestionPage"
-            ]
+            "enum": ["QuestionPage"]
           }
         }
       },
@@ -167,9 +168,7 @@
         "if": {
           "properties": {
             "pageType": {
-              "enum": [
-                "CalculatedSummaryPage"
-              ]
+              "enum": ["CalculatedSummaryPage"]
             }
           }
         },
@@ -189,15 +188,10 @@
               }
             }
           },
-          "required": [
-            "summaryAnswers"
-          ]
+          "required": ["summaryAnswers"]
         }
       }
     }
   ],
-  "required": [
-    "id",
-    "title"
-  ]
+  "required": ["id", "title"]
 }

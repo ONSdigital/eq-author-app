@@ -507,6 +507,7 @@ type Destination2 {
   page: Page
   folder: Folder
   logical: LogicalDestination2
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Routing2 {

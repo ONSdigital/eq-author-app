@@ -9,6 +9,16 @@ const getPageQuery = `
       id
     }
     logical
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
   }
 
   query GetPage($input: QueryInput!) {
@@ -60,19 +70,20 @@ const getPageQuery = `
           id
         }
         routing {
+          id
           rules {
             expressionGroup {
               operator
               validationErrorInfo {
-                    id
-                    errors {
-                      id
-                      type
-                      field
-                      errorCode
-                    }
-                    totalCount
-                  }
+                id
+                errors {
+                  id
+                  type
+                  field
+                  errorCode
+                }
+                totalCount
+              }
               expressions {
                 ... on BinaryExpression2 {
                   left {
@@ -119,6 +130,16 @@ const getPageQuery = `
             }
             destination {
               ...destination2Fragment
+            }
+            validationErrorInfo {
+              id
+              errors {
+                id
+                type
+                field
+                errorCode
+              }
+              totalCount
             }
           }
           else {
