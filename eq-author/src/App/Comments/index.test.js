@@ -50,10 +50,7 @@ const mockUseQuery = {
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
   useQuery: () => mockUseQuery,
-}));
-
-jest.mock("react-apollo", () => ({
-  useSubscription: () => [mockUseSubscription],
+    useSubscription: () => [mockUseSubscription],
 }));
 
 jest.mock("App/MeContext", () => ({
