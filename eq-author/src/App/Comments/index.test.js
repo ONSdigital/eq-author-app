@@ -71,9 +71,7 @@ describe("Comments panel", () => {
     mockComponentId = "page-1";
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  afterEach(() => jest.clearAllMocks());
 
   it("Can render", () => {
     const { getByTestId } = renderPanel();
