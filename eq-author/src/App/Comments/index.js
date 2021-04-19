@@ -176,7 +176,13 @@ const CommentsPanel = ({ componentId }) => {
             }
           />
           {replies.length > 0 && (
-            <Replies showHide title="Replies" withoutHideThis>
+            <Replies
+              showHide
+              title={`${replies.length} ${
+                replies.length > 1 ? "replies" : "reply"
+              }`}
+              withoutHideThis
+            >
               {renderReplies(replies, commentId, componentId)}
             </Replies>
           )}

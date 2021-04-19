@@ -27,7 +27,7 @@ const mockUseQuery = {
       },
       {
         id: "comment-2",
-        user: { id: "user-2", displayName: "Dina" },
+        user: { id: "user-1", displayName: "Dina" },
         commentText:
           "Has anyone noticed anything out of the ordinary back here? ",
         createdTime: "2021-03-30T14:49:00.000Z",
@@ -35,7 +35,7 @@ const mockUseQuery = {
         replies: [
           {
             id: "comment-2-reply-1",
-            user: { id: "user-1", displayName: "Amy" },
+            user: { id: "user-2", displayName: "Amy" },
             commentText:
               "Well, it's Halloween, so everything's kind of out of the ordinary.",
             createdTime: "2021-03-30T15:01:00.000Z",
