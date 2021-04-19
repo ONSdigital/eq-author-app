@@ -14,7 +14,7 @@ import LatestDateValidationRule from "graphql/fragments/latest-date-validation-r
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { MISSING_LABEL, ADDITIONAL_LABEL_MISSING, buildLabelError } from "constants/validationMessages";
 import gql from "graphql-tag";
 
 import { TEXTFIELD } from "constants/answer-types";
@@ -35,8 +35,13 @@ export const StatelessBasicAnswer = ({
   type,
 }) => {
 
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  console.log('answer :>> ', answer);
 
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  // const errorMsgOther = ADDITIONAL_LABEL_MISSING;
+
+  // const labelError = answer.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ERR_VALID_REQUIRED") && errorMsg;
+  // const additionalLabelError = answer.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther;
   return (
     <div>
       <Field>
@@ -51,8 +56,9 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
+          // errorValidationMsg={additionalLabelError}
           errorValidationMsg={getValidationError({
-            field: labelText,
+            field: "label",
             type: "answer",
             label: errorLabel,
             requiredMsg: errorMsg,

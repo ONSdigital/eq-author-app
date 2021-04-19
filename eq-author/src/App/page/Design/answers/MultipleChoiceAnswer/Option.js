@@ -163,7 +163,8 @@ export class StatelessOption extends Component {
       label,
     } = this.props;
 
-    console.log('option :>> ', option);
+    console.log('option :>> ', option.label);
+    console.log('onUpdateAdditionalAnswer :>> ', onUpdateAdditionalAnswer);
 
     const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
     const errorMsgOther = ADDITIONAL_LABEL_MISSING;
@@ -213,6 +214,8 @@ export class StatelessOption extends Component {
 
           
           {/* This replaces incoming child component */}
+
+          {option.additionalAnswer && (
           <OptionField data-test="other-answer">
             <Label htmlFor={`other-label-${option.additionalAnswer.id}`}>
               {label || "Other label"}
@@ -220,16 +223,18 @@ export class StatelessOption extends Component {
             <WrappingInput
               id={`other-label-${option.additionalAnswer.id}`}
               name="otherLabel"
-              value={option.additionalAnswer.label}
+              // value={option.additionalAnswer.label}
               onChange={onChange}
-              onBlur={onUpdateAdditionalAnswer}
+              onBlur={onUpdate}
               onKeyDown={this.handleKeyDown}
               data-test="other-label"
-              // data-autofocus={autoFocus || null}
+              data-autofocus={autoFocus || null}
               bold
               errorValidationMsg={additionalLabelError}
             />
           </OptionField>
+          )}
+
           {/* {children} */}
 
 

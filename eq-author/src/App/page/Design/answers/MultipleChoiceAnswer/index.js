@@ -121,6 +121,9 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
 
+
+console.log('onUpdate :>> ', onUpdate);
+
     return (
       <BasicAnswer
         answer={answer}
@@ -157,6 +160,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                      <BasicAnswer
                       {...props}
                         answer={option.additionalAnswer}
+                        // answer={option}
                         onUpdate={onUpdate}
                         showDescription={false}
                         labelText="Other label"
