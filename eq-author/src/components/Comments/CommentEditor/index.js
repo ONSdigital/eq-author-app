@@ -190,7 +190,7 @@ CommentEditor.propTypes = {
   /**
    * A custom function that is ran when the close button is pressed.
    */
-  onCancel: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
   /**
    * A custom function to run when the confirm button is pressed.
    */

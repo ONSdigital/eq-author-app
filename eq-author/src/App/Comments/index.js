@@ -153,7 +153,7 @@ const CommentsPanel = ({ componentId }) => {
   const renderComments = (comments = [], componentId) => (
     <ul>
       {comments.map(({ id: commentId, replies, ...rest }) => (
-        <li key={`comment-${commentId}`}>
+        <li key={`comment-${commentId}`} data-test={`Comment-${commentId}`}>
           <Comment
             {...rest}
             id={commentId}
@@ -186,7 +186,7 @@ const CommentsPanel = ({ componentId }) => {
   );
 
   return (
-    <Wrapper>
+    <Wrapper data-test="comments-panel">
       <h1>Comments</h1>
       <CommentEditor
         key={`add-comment-${componentId}`}
