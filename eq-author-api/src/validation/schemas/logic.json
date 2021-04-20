@@ -7,22 +7,15 @@
           "type": "string"
         },
         "destination": {
-          "properties": {
-            "logical": {
-              "not": {
-                "const": "Default"
-              }
-            }
-          },
-          "errorMessage": "ERR_DESTINATION_REQUIRED"
+          "$ref": "#/definitions/destination"
         },
         "expressionGroup": {
           "$ref": "#/definitions/expressionGroup"
         }
-      },
-      "validateRoutingRule": {
-        "$data": "/sections"
       }
+    },
+    "destination": {
+      "validateRoutingDestination": true
     },
     "expressionGroup": {
       "properties": {
@@ -104,9 +97,7 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": [
-                "answerId"
-              ]
+              "required": ["answerId"]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED",
@@ -126,10 +117,7 @@
             "type": "object",
             "properties": {
               "type": {
-                "enum": [
-                  "Custom",
-                  "SelectedOptions"
-                ]
+                "enum": ["Custom", "SelectedOptions"]
               },
               "optionIds": {
                 "type": "array",
@@ -149,17 +137,13 @@
                 }
               }
             },
-            "required": [
-              "type"
-            ],
+            "required": ["type"],
             "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
           }
         }
       },
       "validateExpression": "validateExpression",
-      "required": [
-        "condition"
-      ]
+      "required": ["condition"]
     },
     "expression-unanswered": {
       "properties": {
@@ -167,9 +151,7 @@
           "type": "string"
         },
         "condition": {
-          "enum": [
-            "Unanswered"
-          ]
+          "enum": ["Unanswered"]
         },
         "left": {
           "type": "object",
@@ -182,9 +164,7 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": [
-                "answerId"
-              ]
+              "required": ["answerId"]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"

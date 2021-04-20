@@ -68,6 +68,7 @@ describe("RuleEditor", () => {
           },
           logical: null,
           section: null,
+          validationErrorInfo: validationErrorInfo,
         },
         validationErrorInfo: validationErrorInfo,
       },
@@ -168,7 +169,7 @@ describe("RuleEditor", () => {
 
   it("should display the validation message text beneath the destination selector, if it has an error", async () => {
     const newProps = defaultProps;
-    newProps.rule.validationErrorInfo = {
+    newProps.rule.destination.validationErrorInfo = {
       id: "1-2-3",
       errors: [
         {

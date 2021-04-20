@@ -10,7 +10,7 @@ module.exports = (ajv) => {
   require("./validateMultipleChoiceCondition")(ajv);
   require("./validateExpression")(ajv);
   require("./validateLeftHandSide")(ajv);
-  require("./validateRoutingRules")(ajv);
+  require("./validateRoutingDestination")(ajv);
   require("./validateRoutingLogicalAND")(ajv);
   require("./validatePipingInTitle")(ajv);
   require("./idExists")(ajv);
