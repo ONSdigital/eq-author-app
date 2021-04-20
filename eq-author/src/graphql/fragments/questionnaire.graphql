@@ -3,7 +3,9 @@ fragment Questionnaire on Questionnaire {
   title
   description
   surveyId
-  theme
+  themes {
+    eqId
+  }
   qcodes
   navigation
   summary

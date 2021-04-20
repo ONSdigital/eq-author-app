@@ -5,6 +5,7 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import updateTheme from "graphql/updateTheme.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -64,7 +65,7 @@ const HorizontalSeparator = styled.hr`
 const themes = [
   {
     title: "GB theme",
-    defaultOpen: true,
+    // defaultOpen: true,
   },
   { title: "NI theme" },
   { title: "COVID theme" },
@@ -77,7 +78,9 @@ const themes = [
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [updateQuestionnaireTheme] = useMutation(updateTheme);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
+  const [questionnaireEQId, setEQId] = useState("");
   const params = useParams();
 
   const handleBlur = ({ value }) => {
@@ -89,6 +92,17 @@ const ThemesPage = ({ questionnaire }) => {
     }
   };
 
+  const handleEQIdBlur = ({ value }) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaireTheme({
+        variables: {
+          input: { questionnaireId: id, shortName: "default", eqId: value },
+        },
+      });
+    }
+  };
+  console.log(themes);
   return (
     <Container>
       <ScrollPane>
@@ -137,7 +151,7 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {themes.map(({ title, defaultOpen }) => (
+                    {themes.map(({ title, defaultOpen, eqId }) => (
                       <CollapsibleToggled
                         key={`${title}-toggle`}
                         title={title}
@@ -147,13 +161,17 @@ const ThemesPage = ({ questionnaire }) => {
                             closing; this should be removed in future tickets where 
                             we add the actual functionality. 
                           */}
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Praesent ut eros a turpis tincidunt consectetur
-                          sit amet quis enim. Vivamus scelerisque finibus erat
-                          id mattis. In leo dolor, faucibus non volutpat vel,
-                          pellentesque et nibh.
-                        </p>
+                        <p />
+                        <Field>
+                          <Label>EQ ID</Label>
+                        </Field>
+                        <div>{eqId}</div>
+                        <StyledInput
+                          value={eqId}
+                          onChange={({ value }) => setEQId(value)}
+                          onBlur={(e) => handleEQIdBlur({ ...e.target })}
+                          data-test="change-eq-id"
+                        />
                         <p>
                           Phasellus viverra malesuada tincidunt. Fusce vulputate
                           odio mauris, eu finibus nisl luctus quis. Sed
