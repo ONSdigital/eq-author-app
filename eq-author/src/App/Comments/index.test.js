@@ -50,9 +50,6 @@ const mockUseQuery = {
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
   useQuery: () => mockUseQuery,
-}));
-
-jest.mock("react-apollo", () => ({
   useSubscription: () => [mockUseSubscription],
 }));
 
@@ -65,14 +62,8 @@ jest.mock("App/MeContext", () => ({
  */
 
 describe("Comments panel", () => {
-  let mockComponentId;
-
   const renderPanel = (props) =>
-    render(<CommentsPanel componentId={mockComponentId} {...props} />);
-
-  beforeEach(() => {
-    mockComponentId = "page-1";
-  });
+    render(<CommentsPanel componentId="page-1" {...props} />);
 
   afterEach(() => {
     jest.clearAllMocks();
