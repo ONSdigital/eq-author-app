@@ -31,7 +31,6 @@ exports[`RuleEditor should render 1`] = `
     id="ruleId"
     label="Then"
     onChange={[Function]}
-    validationErrors={Array []}
     value={
       Object {
         "id": "1",
@@ -41,6 +40,12 @@ exports[`RuleEditor should render 1`] = `
           "id": "pageId",
         },
         "section": null,
+        "validationErrorInfo": Object {
+          "__typename": "ValidationErrorInfo",
+          "errors": Array [],
+          "id": "1",
+          "totalCount": 0,
+        },
       }
     }
   />

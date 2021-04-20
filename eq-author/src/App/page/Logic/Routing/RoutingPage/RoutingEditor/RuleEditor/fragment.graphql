@@ -13,6 +13,14 @@ fragment RuleEditor on RoutingRule2 {
       id
       displayName
     }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        errorCode
+      }
+      totalCount
+    }
   }
   expressionGroup {
     id
