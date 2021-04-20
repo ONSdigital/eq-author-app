@@ -239,7 +239,7 @@ const Comment = ({
         {editing ? (
           <CommentEditor
             data-test="Comment__CommentEditor"
-            showCancel
+            canClose
             confirmText={"Save"}
             initialValue={commentText}
             variant={"growable"}
