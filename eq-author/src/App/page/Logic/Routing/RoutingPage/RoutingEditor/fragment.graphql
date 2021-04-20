@@ -1,4 +1,4 @@
-# import "./RuleEditor/fragment.graphql"
+#import "./RuleEditor/fragment.graphql"
 
 fragment RoutingEditor on Routing2 {
   id
@@ -15,6 +15,14 @@ fragment RoutingEditor on Routing2 {
     section {
       id
       displayName
+    }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        errorCode
+      }
+      totalCount
     }
   }
 }

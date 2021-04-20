@@ -25,6 +25,7 @@ const {
   ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND,
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
   ERR_DESTINATION_MOVED,
+  ERR_DESTINATION_REQUIRED,
   ERR_DESTINATION_DELETED,
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
@@ -1301,53 +1302,47 @@ describe("schema validation", () => {
       );
     });
 
-    it("should return an error if a routing destination has been deleted", () => {
+    it("should return an error if a routing destination has not been specified", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = {
-        id: "routing_1",
-        else: {
-          id: "else_1",
-          logical: END_OF_QUESTIONNAIRE,
-        },
+        ...defaultRouting,
         rules: [
           {
-            id: "rule_1",
+            ...defaultRouting.rules[0],
             destination: {
               id: "destination_1",
-              pageId: null,
-            },
-            expressionGroup: {
-              id: "expressionGroup_1",
-              operator: AND,
-              expressions: [
-                {
-                  id: "expression_1",
-                  condition: GREATER_THAN,
-                  left: {
-                    type: ANSWER,
-                    answerId: "answer_1",
-                  },
-                  right: {
-                    type: CUSTOM,
-                    customValue: {
-                      number: 5,
-                    },
-                  },
-                },
-              ],
             },
           },
         ],
       };
 
-      const validationErrors = validation(questionnaire);
+      const destinationMissingErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_REQUIRED
+      );
+      expect(destinationMissingErrors).toHaveLength(1);
+    });
 
-      expect(validationErrors).toHaveLength(1);
-      expect(validationErrors[0]).toMatchObject({
-        id: uuidRejex,
-        type: "routing",
-        field: "destination",
-        errorCode: ERR_DESTINATION_DELETED,
-      });
+    it("should return an error if a routing destination has been deleted", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = {
+        ...defaultRouting,
+        else: {
+          id: "else_1",
+          pageId: "i-dont-exist",
+        },
+        rules: [
+          {
+            ...defaultRouting.rules[0],
+            destination: {
+              id: "destination_1",
+              pageId: "i-dont-exist",
+            },
+          },
+        ],
+      };
+
+      const destinationDeletedErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_DELETED
+      );
+      expect(destinationDeletedErrors).toHaveLength(2);
     });
 
     it("should return an error if the destination has been moved before the routing page", () => {

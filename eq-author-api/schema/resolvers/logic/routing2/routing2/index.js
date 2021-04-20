@@ -2,7 +2,6 @@ const { find } = require("lodash/fp");
 
 const { createMutation } = require("../../../createMutation");
 
-const isMutuallyExclusive = require("../../../../../utils/isMutuallyExclusive");
 const {
   createRouting,
   createDestination,
@@ -10,15 +9,10 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
+  updateDestination,
 } = require("../../../../../src/businessLogic");
 
 const { getPages, getPageById, getRoutingById } = require("../../../utils");
-
-const isMutuallyExclusiveDestination = isMutuallyExclusive([
-  "sectionId",
-  "pageId",
-  "logical",
-]);
 
 const Resolvers = {};
 
@@ -62,7 +56,7 @@ Resolvers.Mutation = {
               }),
             ],
           }),
-          destination: createDestination({ logical: "Default" }),
+          destination: createDestination(),
         }),
       ],
     });
@@ -70,18 +64,9 @@ Resolvers.Mutation = {
     return page.routing;
   }),
 
-  updateRouting2: createMutation((root, { input }, ctx) => {
-    if (!isMutuallyExclusiveDestination(input.else)) {
-      throw new Error("Can only provide one destination.");
-    }
-
+  updateRouting2: createMutation((_, { input }, ctx) => {
     const routing = getRoutingById(ctx, input.id);
-
-    routing.else = {
-      id: routing.else.id,
-      ...input.else,
-    };
-
+    routing.else = updateDestination(routing.else, input.else);
     return routing;
   }),
 };
