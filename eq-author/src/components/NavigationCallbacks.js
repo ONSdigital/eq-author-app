@@ -56,7 +56,9 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
 
 export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
   const addQuestionPage = useCreateQuestionPage();
+
   const addFolderWithPage = useCreatePageWithFolder();
+
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
 
