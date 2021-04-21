@@ -19,6 +19,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 }));
 
 jest.mock("hooks/useCreateFolder", () => ({
+  useCreatePageWithFolder: jest.fn(),
   useCreateFolder: jest.fn(),
 }));
 
@@ -62,7 +63,7 @@ describe("Navigation callbacks", () => {
     useCreateFolder.mockImplementation(() => addFolder);
 
     useSetNavigationCallbacksForPage({
-      page: { position: 0 },
+      page: { position: 0, folder: { enabled: true } },
       folder: { id: "folder-1", position: 0 },
       section: { id: "section-1" },
     });
