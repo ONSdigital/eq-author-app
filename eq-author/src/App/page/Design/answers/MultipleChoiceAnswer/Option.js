@@ -15,7 +15,7 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
-import { MISSING_LABEL, ADDITIONAL_LABEL_MISSING, buildLabelError } from "constants/validationMessages";
+import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 
 const ENTER_KEY = 13;
 
@@ -154,7 +154,6 @@ export class StatelessOption extends Component {
       option,
       onChange,
       onUpdate,
-      onUpdateAdditionalAnswer,
       type,
       children,
       labelPlaceholder,
@@ -163,14 +162,8 @@ export class StatelessOption extends Component {
       label,
     } = this.props;
 
-    console.log('option :>> ', option.label);
-    console.log('onUpdateAdditionalAnswer :>> ', onUpdateAdditionalAnswer);
-
     const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-    const errorMsgOther = ADDITIONAL_LABEL_MISSING;
-
     const labelError = option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ERR_VALID_REQUIRED") && errorMsg;
-    const additionalLabelError = option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther;
     
     return (
       <StyledOption id={getIdForObject(option)} key={option.id}>
@@ -185,7 +178,7 @@ export class StatelessOption extends Component {
                 id={`option-label-${option.id}`}
                 name="label"
                 value={option.label}
-                placeholder={labelPlaceholder}
+                placeholder={option.id}
                 onChange={onChange}
                 onBlur={onUpdate}
                 onKeyDown={this.handleKeyDown}
@@ -211,33 +204,8 @@ export class StatelessOption extends Component {
               data-test="option-description"
             />
           </OptionField>
-
-          
-          {/* This replaces incoming child component */}
-
-          {option.additionalAnswer && (
-          <OptionField data-test="other-answer">
-            <Label htmlFor={`other-label-${option.additionalAnswer.id}`}>
-              {label || "Other label"}
-            </Label>
-            <WrappingInput
-              id={`other-label-${option.additionalAnswer.id}`}
-              name="otherLabel"
-              // value={option.additionalAnswer.label}
-              onChange={onChange}
-              onBlur={onUpdate}
-              onKeyDown={this.handleKeyDown}
-              data-test="other-label"
-              data-autofocus={autoFocus || null}
-              bold
-              errorValidationMsg={additionalLabelError}
-            />
-          </OptionField>
-          )}
-
-          {/* {children} */}
-
-
+          {children}
+          {/* {React.cloneElement(children, { optionErrorMsg: false })} */}
           {this.renderToolbar()}
         </div>
       </StyledOption>

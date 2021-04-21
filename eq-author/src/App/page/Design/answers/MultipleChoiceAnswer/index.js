@@ -15,6 +15,7 @@ import { CHECKBOX } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
+import { ADDITIONAL_LABEL_MISSING } from "constants/validationMessages";
 
 import gql from "graphql-tag";
 
@@ -120,9 +121,10 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
 
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
+    const errorMsgOther = ADDITIONAL_LABEL_MISSING;
+    const additionalLabelError = answer.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther;
 
-
-console.log('onUpdate :>> ', onUpdate);
+    console.log('additionalLabelError :>> ', additionalLabelError);
 
     return (
       <BasicAnswer
@@ -153,14 +155,13 @@ console.log('onUpdate :>> ', onUpdate);
                   onEnterKey={this.handleAddOption}
                   hasDeleteButton={showDeleteOption}
                   hideMoveButtons={numberOfOptions === 1}
-                  onUpdateAdditionalAnswer={onUpdate}
+                  answer={answer}
                 >
-                  {/* {option.additionalAnswer && (
+                  {option.additionalAnswer && (
                     <SpecialOptionWrapper data-test="other-answer">
                      <BasicAnswer
                       {...props}
                         answer={option.additionalAnswer}
-                        // answer={option}
                         onUpdate={onUpdate}
                         showDescription={false}
                         labelText="Other label"
@@ -168,9 +169,10 @@ console.log('onUpdate :>> ', onUpdate);
                         errorLabel="Other label"
                         bold={false}
                         type={answer.type}
+                        optionErrorMsg={additionalLabelError}
                       />
                     </SpecialOptionWrapper>
-                   )} */}
+                   )}
                 </Option>
                 </>
               )}

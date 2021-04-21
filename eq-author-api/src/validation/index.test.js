@@ -307,10 +307,10 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
       expect(validationPageErrors[0]).toMatchObject({
-        errorCode: "ERR_VALID_REQUIRED",
+        errorCode: "ADDITIONAL_LABEL_MISSING",
         field: "label",
         id: uuidRejex,
-        type: "option",
+        type: "option-additional",
       });
     });
   });
