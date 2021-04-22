@@ -729,7 +729,7 @@ type Mutation {
 
   updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
   updatePreviewTheme(input: UpdatePreviewThemeInput!): Questionnaire
-  enableTheme(input: EnableThemeInput!): Theme
+  enableTheme(input: EnableThemeInput!): [Theme]
   updateTheme(input: UpdateThemeInput!): Theme
   disableTheme(input: DisableThemeInput!): Theme
 

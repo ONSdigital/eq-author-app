@@ -1,0 +1,10 @@
+mutation EnableTheme($input: EnableThemeInput!) {
+  enableTheme(input: $input) {
+    id
+    enabled
+    shortName
+    eqId
+    legalBasisCode
+    formType
+  }
+}

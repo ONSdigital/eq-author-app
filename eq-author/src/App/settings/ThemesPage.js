@@ -128,6 +128,8 @@ const ThemesPage = ({ questionnaire }) => {
     }
   };
 
+  console.log(questionnaireThemes);
+
   return (
     <Container>
       <ScrollPane>
