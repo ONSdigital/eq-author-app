@@ -1,6 +1,6 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/validationErrorInfo.graphql"
-#import "./fragments/page.graphql"
+# import "./fragments/page.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
@@ -12,39 +12,38 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
       }
     }
     ... on MultipleChoiceAnswer {
-                 options {
-                    id
-                    label
-                    qCode
-                    additionalAnswer {
-                      ... on BasicAnswer {
-                        validationErrorInfo {
-                          ...ValidationErrorInfo
-                        }
-                      }
-                    }
-                    validationErrorInfo {
-                      ...ValidationErrorInfo
-                    }
-                  }
-                  mutuallyExclusiveOption {
-                    id
-                    label
-                    qCode
-                  }
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
-              }
-    page {
-      ...Page
-      title
-      displayName
-      position
-      pageType
+      options {
+        id
+        label
+        qCode
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      mutuallyExclusiveOption {
+        id
+        label
+        qCode
+      }
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
+    page {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    # page {
+    #   ...Page
+    #   title
+    #   displayName
+    #   position
+    #   pageType
+    #   validationErrorInfo {
+    #     ...ValidationErrorInfo
+    #   }
+    # }
   }
 }

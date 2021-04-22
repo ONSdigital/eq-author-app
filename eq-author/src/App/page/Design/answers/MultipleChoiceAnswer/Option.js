@@ -179,6 +179,7 @@ export class StatelessOption extends Component {
                 name="label"
                 value={option.label}
                 placeholder={option.id}
+                // placeholder={labelPlaceholder}
                 onChange={onChange}
                 onBlur={onUpdate}
                 onKeyDown={this.handleKeyDown}

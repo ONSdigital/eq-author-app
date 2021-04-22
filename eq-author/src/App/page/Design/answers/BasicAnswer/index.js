@@ -38,7 +38,6 @@ export const StatelessBasicAnswer = ({
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   console.log('answer :>> ', answer);
-  console.log('optionErrorMsg:>> ', optionErrorMsg ? optionErrorMsg : 'nadaaaa');
 
   return (
     <div>
@@ -52,6 +51,7 @@ export const StatelessBasicAnswer = ({
           value={answer.label}
           data-autofocus={autoFocus || null}
           placeholder={answer.id}
+          // placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
           errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({

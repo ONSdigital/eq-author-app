@@ -158,9 +158,11 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   answer={answer}
                 >
                   {option.additionalAnswer && (
+                    console.log('option :>> ', option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther),
                     <SpecialOptionWrapper data-test="other-answer">
                      <BasicAnswer
                       {...props}
+                      key={option.id}
                         answer={option.additionalAnswer}
                         onUpdate={onUpdate}
                         showDescription={false}
@@ -169,7 +171,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                         errorLabel="Other label"
                         bold={false}
                         type={answer.type}
-                        optionErrorMsg={additionalLabelError}
+                        optionErrorMsg={ option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther}
                       />
                     </SpecialOptionWrapper>
                    )}
