@@ -87,6 +87,7 @@ enum HistoryEventTypes {
 
 type Theme {
   id: ID!
+  title: String
   enabled: Boolean!
   shortName: ThemeShortName!
   legalBasisCode: LegalBasisCode

@@ -62,25 +62,44 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const themes = [
-  {
-    title: "GB theme",
-    // defaultOpen: true,
-  },
-  { title: "NI theme" },
-  { title: "COVID theme" },
-  { title: "EPE theme" },
-  { title: "EPE NI theme" },
-  { title: "UKIS theme" },
-  { title: "UKIS NI theme" },
-];
+const EqIdInput = ({ eqId, onBlur, shortName }) => {
+  const [state, setState] = useState(eqId);
+  return (
+    <StyledInput
+      value={state}
+      onChange={({ value }) => setState(value)}
+      onBlur={(e) => onBlur({ ...e.target }, shortName)}
+      data-test="change-eq-id"
+    />
+  );
+};
+
+EqIdInput.propTypes = {
+  eqId: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  shortName: PropTypes.string.isRequired,
+};
+
+// const themes = [
+//   {
+//     title: "GB theme",
+//     shortName: "default",
+//     enabled: true,
+//     eqId: "h",
+//   },
+//   { title: "NI theme", enabled: true, eqId: "i" },
+//   { title: "COVID theme" },
+//   { title: "EPE theme" },
+//   { title: "EPE NI theme" },
+//   { title: "UKIS theme" },
+//   { title: "UKIS NI theme" },
+// ];
 
 const ThemesPage = ({ questionnaire }) => {
-  const { type, surveyId, id } = questionnaire;
+  const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [updateQuestionnaireTheme] = useMutation(updateTheme);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
-  const [questionnaireEQId, setEQId] = useState("");
   const params = useParams();
 
   const handleBlur = ({ value }) => {
@@ -92,17 +111,17 @@ const ThemesPage = ({ questionnaire }) => {
     }
   };
 
-  const handleEQIdBlur = ({ value }) => {
+  const handleEQIdBlur = ({ value }, shortName) => {
     value = value.trim();
     if (value !== "") {
       updateQuestionnaireTheme({
         variables: {
-          input: { questionnaireId: id, shortName: "default", eqId: value },
+          input: { questionnaireId: id, shortName, eqId: value },
         },
       });
     }
   };
-  console.log(themes);
+
   return (
     <Container>
       <ScrollPane>
@@ -151,11 +170,11 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {themes.map(({ title, defaultOpen, eqId }) => (
+                    {questionnaireThemes.map(({ shortName, eqId, enabled }) => (
                       <CollapsibleToggled
-                        key={`${title}-toggle`}
-                        title={title}
-                        defaultOpen={defaultOpen}
+                        key={`${shortName}-toggle`}
+                        title={shortName}
+                        defaultOpen={enabled}
                       >
                         {/* Added some filler text to demonstrate the opening and 
                             closing; this should be removed in future tickets where 
@@ -165,12 +184,10 @@ const ThemesPage = ({ questionnaire }) => {
                         <Field>
                           <Label>EQ ID</Label>
                         </Field>
-                        <div>{eqId}</div>
-                        <StyledInput
-                          value={eqId}
-                          onChange={({ value }) => setEQId(value)}
-                          onBlur={(e) => handleEQIdBlur({ ...e.target })}
-                          data-test="change-eq-id"
+                        <EqIdInput
+                          eqId={eqId}
+                          shortName={shortName}
+                          onBlur={handleEQIdBlur}
                         />
                         <p>
                           Phasellus viverra malesuada tincidunt. Fusce vulputate

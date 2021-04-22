@@ -36,7 +36,11 @@ fragment Questionnaire on Questionnaire {
   title
   description
   surveyId
+  theme
   themes {
+    title
+    shortName
+    enabled
     eqId
   }
   qcodes
