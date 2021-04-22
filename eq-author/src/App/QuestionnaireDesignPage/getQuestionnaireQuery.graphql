@@ -38,10 +38,13 @@ fragment Questionnaire on Questionnaire {
   surveyId
   theme
   themes {
+    id
     title
     shortName
     enabled
     eqId
+    legalBasisCode
+    formType
   }
   qcodes
   navigation

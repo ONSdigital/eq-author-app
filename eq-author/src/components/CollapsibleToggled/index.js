@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+
+import enableThemeMutation from "graphql/enableTheme.graphql";
+import disableThemeMutation from "graphql/disableTheme.graphql";
+import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
@@ -28,8 +32,12 @@ const CollapsibleToggled = ({
   defaultOpen = false,
   headerContent,
   children,
+  questionnaireId,
+  shortName,
 }) => {
-  const [isOpen, toggleCollapsible] = useState(defaultOpen);
+  const [enableTheme] = useMutation(enableThemeMutation);
+  const [disableTheme] = useMutation(disableThemeMutation);
+  const handleToggle = defaultOpen ? disableTheme : enableTheme;
 
   return (
     <Wrapper data-test="CollapsibleToggled">
@@ -38,12 +46,18 @@ const CollapsibleToggled = ({
         <ToggleSwitch
           name={`${title}-toggle-switch`}
           hideLabels={false}
-          onChange={() => toggleCollapsible(!isOpen)}
-          checked={isOpen}
+          onChange={() =>
+            handleToggle({
+              variables: { input: { questionnaireId, shortName } },
+            })
+          }
+          checked={defaultOpen}
         />
         {headerContent}
       </Header>
-      {isOpen && <Body data-test="CollapsibleToggled__Body">{children}</Body>}
+      {defaultOpen && (
+        <Body data-test="CollapsibleToggled__Body">{children}</Body>
+      )}
     </Wrapper>
   );
 };
@@ -67,4 +81,6 @@ CollapsibleToggled.propTypes = {
    * The content to show when the collapsible is open.
    */
   children: PropTypes.node.isRequired,
+  questionnaireId: PropTypes.string.isRequired,
+  shortName: PropTypes.string.isRequired,
 };

@@ -75,25 +75,31 @@ const EqIdInput = ({ eqId, onBlur, shortName }) => {
 };
 
 EqIdInput.propTypes = {
-  eqId: PropTypes.string.isRequired,
+  eqId: PropTypes.string,
   onBlur: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
 };
 
-// const themes = [
-//   {
-//     title: "GB theme",
-//     shortName: "default",
-//     enabled: true,
-//     eqId: "h",
-//   },
-//   { title: "NI theme", enabled: true, eqId: "i" },
-//   { title: "COVID theme" },
-//   { title: "EPE theme" },
-//   { title: "EPE NI theme" },
-//   { title: "UKIS theme" },
-//   { title: "UKIS NI theme" },
-// ];
+const themes = [
+  {
+    title: "GB theme",
+    shortName: "default",
+  },
+  { title: "NI theme", shortName: "northernireland" },
+  { title: "COVID theme", shortName: "covid" },
+  { title: "EPE theme", shortName: "epe" },
+  { title: "EPE NI theme", shortName: "epeni" },
+  { title: "UKIS theme", shortName: "ukis" },
+  { title: "UKIS NI theme", shortName: "ukisni" },
+];
+
+const matchThemes = (themes, questionnaireThemes) =>
+  themes.map((theme) => {
+    const target = questionnaireThemes.find(
+      ({ shortName }) => shortName === theme.shortName
+    );
+    return target ? { ...theme, ...target, title: theme.title } : theme;
+  });
 
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
@@ -170,34 +176,38 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {questionnaireThemes.map(({ shortName, eqId, enabled }) => (
-                      <CollapsibleToggled
-                        key={`${shortName}-toggle`}
-                        title={shortName}
-                        defaultOpen={enabled}
-                      >
-                        {/* Added some filler text to demonstrate the opening and 
+                    {matchThemes(themes, questionnaireThemes).map(
+                      ({ shortName, title, eqId, enabled }) => (
+                        <CollapsibleToggled
+                          key={`${title}-toggle`}
+                          title={title}
+                          defaultOpen={enabled}
+                          questionnaireId={id}
+                          shortName={shortName}
+                        >
+                          {/* Added some filler text to demonstrate the opening and 
                             closing; this should be removed in future tickets where 
                             we add the actual functionality. 
                           */}
-                        <p />
-                        <Field>
-                          <Label>EQ ID</Label>
-                        </Field>
-                        <EqIdInput
-                          eqId={eqId}
-                          shortName={shortName}
-                          onBlur={handleEQIdBlur}
-                        />
-                        <p>
-                          Phasellus viverra malesuada tincidunt. Fusce vulputate
-                          odio mauris, eu finibus nisl luctus quis. Sed
-                          dignissim dapibus sapien, at sollicitudin neque auctor
-                          non. Interdum et malesuada fames ac ante ipsum primis
-                          in faucibus.
-                        </p>
-                      </CollapsibleToggled>
-                    ))}
+                          <p />
+                          <Field>
+                            <Label>EQ ID</Label>
+                          </Field>
+                          <EqIdInput
+                            eqId={eqId}
+                            shortName={shortName}
+                            onBlur={handleEQIdBlur}
+                          />
+                          <p>
+                            Phasellus viverra malesuada tincidunt. Fusce
+                            vulputate odio mauris, eu finibus nisl luctus quis.
+                            Sed dignissim dapibus sapien, at sollicitudin neque
+                            auctor non. Interdum et malesuada fames ac ante
+                            ipsum primis in faucibus.
+                          </p>
+                        </CollapsibleToggled>
+                      )
+                    )}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
