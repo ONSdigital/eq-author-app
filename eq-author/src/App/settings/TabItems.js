@@ -1,7 +1,7 @@
 import { buildSettingsPath } from "utils/UrlUtils";
-import { SOCIAL } from "constants/questionnaire-types";
+// import { SOCIAL } from "constants/questionnaire-types";
 
-const tabItems = (params, surveyType) => [
+const tabItems = (params) => [
   {
     title: `General`,
     url: `${buildSettingsPath(params)}/general`,
