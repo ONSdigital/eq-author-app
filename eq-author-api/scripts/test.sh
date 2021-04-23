@@ -30,7 +30,8 @@ trap finish EXIT
 
 echo "waiting on Dynamo to start..."
 
-./node_modules/.bin/wait-on http://$DYNAMO_HOST/shell
+# Poll the endpoint once a second, for 20 seconds, then fail if a successful response has not been heard.
+./node_modules/.bin/wait-on -d 1000 -t 20000 http://$DYNAMO_HOST/shell
 
 echo "running tests..."
 
