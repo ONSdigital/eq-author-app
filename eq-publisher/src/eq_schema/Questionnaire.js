@@ -54,7 +54,7 @@ class Questionnaire {
     this.data_version = questionnaireJson.qcodes ? "0.0.1" : "0.0.2";
     this.survey_id = questionnaireJson.surveyId
       ? questionnaireJson.surveyId
-      : "";
+      : "999";
     this.title = questionnaireJson.title;
 
     const ctx = this.createContext(questionnaireJson);
