@@ -1,15 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import {
-  CURRENCY,
-  DATE,
-  UNIT,
-  DURATION,
-  TEXTAREA,
-} from "constants/answer-types";
+import { CURRENCY, DATE, DURATION, TEXTAREA } from "constants/answer-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
-import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
+import { screen, render, fireEvent, waitFor } from "tests/utils/rtl";
 
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
@@ -18,7 +12,15 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import VALIDATIONS_SUBSCRIPTION from "graphql/validationsSubscription.graphql";
 import { characterErrors } from "constants/validationMessages";
 
-import { UnwrappedGroupedAnswerProperties } from "./";
+import { useMutation } from "@apollo/react-hooks";
+import { GroupedAnswerProperties } from "./";
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual(),
+  useMutation: jest.fn(),
+}));
+
+useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 describe("Grouped Answer Properties", () => {
   let props;
@@ -65,14 +67,8 @@ describe("Grouped Answer Properties", () => {
     };
   });
 
-  afterEach(async () => {
-    await act(async () => {
-      await flushPromises();
-    });
-  });
-
   it("should render the answers grouped by type", () => {
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    const wrapper = shallow(<GroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(accordions).toHaveLength(2);
     expect(accordions.at(0).prop("title")).toEqual("Currency properties");
@@ -80,12 +76,12 @@ describe("Grouped Answer Properties", () => {
   });
 
   it("should show one copy of the shared property decimal", () => {
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    const wrapper = shallow(<GroupedAnswerProperties {...props} />);
     expect(wrapper.find("[data-test='decimals']")).toHaveLength(1);
   });
 
   it("should render the options for each answer", () => {
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    const wrapper = shallow(<GroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(
       accordions.at(0).find("[data-test='answer-title']").at(0)
@@ -108,13 +104,23 @@ describe("Grouped Answer Properties", () => {
       condition: "Equal",
     };
 
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    const wrapper = shallow(<GroupedAnswerProperties {...props} />);
 
     expect(wrapper.find(GroupValidations)).toHaveLength(1);
     expect(wrapper.find(GroupValidations).props()).toMatchObject({
       type: CURRENCY,
       totalValidation: props.page.totalValidation,
     });
+  });
+
+  it("should show error if there is a mismatch in the decimals and previous answer validation", () => {
+    const [one] = props.page.answers;
+    one.validationErrorInfo = {
+      errors: [{ errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY" }],
+    };
+    props.page.answers[0] = one;
+    const wrapper = shallow(<GroupedAnswerProperties {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("should update all the answers of the type when their decimals are changed", async () => {
@@ -185,35 +191,32 @@ describe("Grouped Answer Properties", () => {
         },
       },
     ];
-    const { getByTestId } = render(
-      <UnwrappedGroupedAnswerProperties {...props} />,
-      {
-        route: "/q/1/page/2",
-        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        mocks,
-      }
-    );
-    fireEvent.change(getByTestId("number-input"), {
+    const updateAnswersOfType = jest.fn();
+    useMutation.mockImplementation(() => [updateAnswersOfType]);
+
+    render(<GroupedAnswerProperties {...props} />, {
+      route: "/q/1/page/2",
+      urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      mocks,
+    });
+
+    fireEvent.change(screen.getByTestId("number-input"), {
       target: { value: "2" },
     });
 
-    fireEvent.blur(getByTestId("number-input"));
-    await act(async () => {
-      await flushPromises();
-    });
-    expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
-      decimals: 2,
-    });
-  });
+    fireEvent.blur(screen.getByTestId("number-input"));
 
-  it("should show error if there is a mismatch in the decimals and previous answer validation", () => {
-    props.page.answers[0] = {
-      validationErrorInfo: {
-        errors: [{ errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY" }],
-      },
-    };
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    await waitFor(() =>
+      expect(updateAnswersOfType).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            properties: { decimals: 2 },
+            questionPageId: "pageId",
+            type: "Currency",
+          },
+        },
+      })
+    );
   });
 
   describe("Unit answers", () => {
@@ -257,7 +260,7 @@ describe("Grouped Answer Properties", () => {
 
     it("should show error message if there is no unit type selected", () => {
       const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        <GroupedAnswerProperties {...unitProps} />,
         {
           route: "/q/1/page/0",
           urlParamMatcher: "/q/:questionnaireId/page/:pageId",
@@ -269,83 +272,87 @@ describe("Grouped Answer Properties", () => {
     });
 
     it("should save the unit type when an empty string", () => {
+      const updateAnswersOfType = jest.fn();
+      useMutation.mockImplementation(() => [updateAnswersOfType]);
       unitProps.page.answers[0].properties.unit = "Acres";
       const inputId = "autocomplete-input";
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...unitProps} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
+      render(<GroupedAnswerProperties {...unitProps} />, {
+        route: "/q/1/page/0",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      });
 
-      getByTestId(inputId).focus();
+      screen.getByTestId(inputId).focus();
 
-      fireEvent.change(getByTestId(inputId), {
+      fireEvent.change(screen.getByTestId(inputId), {
         target: { value: "" },
       });
 
-      getByTestId(inputId).blur();
+      screen.getByTestId(inputId).blur();
 
-      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
-      expect(unitProps.updateAnswersOfType).toHaveBeenLastCalledWith(
-        UNIT,
-        "pageId",
-        { unit: "" }
-      );
+      expect(updateAnswersOfType).toHaveBeenCalledTimes(1);
+      expect(updateAnswersOfType).toHaveBeenLastCalledWith({
+        variables: {
+          input: {
+            properties: {
+              unit: "",
+            },
+            questionPageId: "pageId",
+            type: "Unit",
+          },
+        },
+      });
     });
 
     it("should save the unit type", () => {
+      const updateAnswersOfType = jest.fn();
+      useMutation.mockImplementation(() => [updateAnswersOfType]);
       const inputId = "autocomplete-input";
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...unitProps} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
+      render(<GroupedAnswerProperties {...unitProps} />, {
+        route: "/q/1/page/0",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      });
 
-      getByTestId(inputId).focus();
+      screen.getByTestId(inputId).focus();
 
-      fireEvent.change(getByTestId(inputId), {
+      fireEvent.change(screen.getByTestId(inputId), {
         target: { value: "cent" },
       });
 
-      fireEvent.click(getByTestId("autocomplete-option-1"));
+      fireEvent.click(screen.getByTestId("autocomplete-option-1"));
 
-      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
-      expect(unitProps.updateAnswersOfType).toHaveBeenLastCalledWith(
-        UNIT,
-        "pageId",
-        { unit: "Square centimetres" }
-      );
+      expect(updateAnswersOfType).toHaveBeenCalledTimes(1);
+      expect(updateAnswersOfType).toHaveBeenLastCalledWith({
+        variables: {
+          input: {
+            properties: {
+              unit: "Square centimetres",
+            },
+            questionPageId: "pageId",
+            type: "Unit",
+          },
+        },
+      });
     });
 
     it("should have a default value", () => {
       const inputId = "autocomplete-input";
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...unitProps} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
+      render(<GroupedAnswerProperties {...unitProps} />, {
+        route: "/q/1/page/0",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      });
 
-      expect(getByTestId(inputId).value).toEqual("");
+      expect(screen.getByTestId(inputId).value).toEqual("");
     });
 
     it("should have a set initial value", () => {
       unitProps.page.answers[0].properties.unit = "Acres";
       const inputId = "autocomplete-input";
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...unitProps} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
+      render(<GroupedAnswerProperties {...unitProps} />, {
+        route: "/q/1/page/0",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      });
 
-      expect(getByTestId(inputId).value).toEqual("Acres (ac)");
+      expect(screen.getByTestId(inputId).value).toEqual("Acres (ac)");
     });
   });
 
@@ -378,119 +385,124 @@ describe("Grouped Answer Properties", () => {
     });
 
     it("should show one copy of the shared duration properties", () => {
-      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      const wrapper = shallow(<GroupedAnswerProperties {...props} />);
       expect(wrapper.find(DurationProperties)).toHaveLength(1);
     });
 
     it("should update all the duration answers when their unit is changed", () => {
-      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      const updateAnswersOfType = jest.fn();
+      useMutation.mockImplementation(() => [updateAnswersOfType]);
+      const wrapper = shallow(<GroupedAnswerProperties {...props} />);
       const durationPropertiesElement = wrapper.find(DurationProperties).dive();
       durationPropertiesElement
         .find("[data-test='duration-select']")
         .simulate("change", { value: YEARS });
-      expect(props.updateAnswersOfType).toHaveBeenCalledWith(
-        DURATION,
-        "pageId",
-        {
-          unit: YEARS,
-        }
-      );
+      expect(updateAnswersOfType).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            properties: {
+              unit: "Years",
+            },
+            questionPageId: "pageId",
+            type: "Duration",
+          },
+        },
+      });
     });
   });
 
   describe("Text answers", () => {
     const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
     const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
-
-    it(`Should render 'Enter a character less than x' error on textarea answers`, () => {
-      const newProps = {
-        page: {
-          id: "pageId",
-          answers: [
-            {
-              id: "1",
-              type: TEXTAREA,
-              displayName: "qq",
-              properties: {
-                maxLength: 8,
-                required: false,
-              },
-              validationErrorInfo: {
-                id: "1",
-                errors: [
-                  {
-                    errorCode: ERR_MAX_LENGTH_TOO_SMALL,
-                    field: "properties",
-                    id:
-                      "answers-50903a1b-a33b-44c1-b135-3bb8626f81b3-properties",
-                    type: "answers",
-                    __typename: "ValidationError",
-                  },
-                ],
-                totalCount: 1,
-              },
-              __typename: "BasicAnswer",
+    const newProps = ({ maxLength, errorCode }) => ({
+      page: {
+        id: "pageId",
+        answers: [
+          {
+            id: "1",
+            type: TEXTAREA,
+            displayName: "qq",
+            properties: {
+              maxLength,
+              required: false,
             },
-          ],
-        },
-        updateAnswersOfType: jest.fn(),
-      };
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...newProps} />,
-        {
-          route: "/q/1/page/2",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
-
-      const errMsg = getByTestId("MaxCharacterTooSmall");
-      expect(errMsg).toBeTruthy();
-      expect(errMsg.textContent).toBe(characterErrors.CHAR_MUST_EXCEED_9);
+            validationErrorInfo: {
+              id: "1",
+              errors: [
+                {
+                  errorCode,
+                  field: "properties",
+                  id: "answers-50903a1b-a33b-44c1-b135-3bb8626f81b3-properties",
+                  type: "answers",
+                  __typename: "ValidationError",
+                },
+              ],
+              totalCount: 1,
+            },
+            __typename: "BasicAnswer",
+          },
+        ],
+      },
+      updateAnswersOfType: jest.fn(),
     });
-    it(`Should render 'Enter a character more than x' error on textarea answers`, () => {
-      const newProps = {
-        page: {
-          id: "pageId",
-          answers: [
-            {
-              id: "1",
-              type: TEXTAREA,
-              displayName: "qq",
-              properties: {
-                maxLength: 2001,
-                required: false,
-              },
-              validationErrorInfo: {
-                id: "1",
-                errors: [
-                  {
-                    errorCode: ERR_MAX_LENGTH_TOO_LARGE,
-                    field: "properties",
-                    id:
-                      "answers-50903a1b-a33b-44c1-b135-3bb8626f81b3-properties",
-                    type: "answers",
-                    __typename: "ValidationError",
-                  },
-                ],
-                totalCount: 1,
-              },
-              __typename: "BasicAnswer",
-            },
-          ],
-        },
-        updateAnswersOfType: jest.fn(),
-      };
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...newProps} />,
+
+    it("should render 'Enter a character less than x' error on textarea answers", () => {
+      render(
+        <GroupedAnswerProperties
+          {...newProps({ maxLength: "8", errorCode: ERR_MAX_LENGTH_TOO_SMALL })}
+        />,
         {
           route: "/q/1/page/2",
           urlParamMatcher: "/q/:questionnaireId/page/:pageId",
         }
       );
 
-      const errMsg = getByTestId("MaxCharacterTooBig");
-      expect(errMsg).toBeTruthy();
-      expect(errMsg.textContent).toBe(characterErrors.CHAR_LIMIT_2000_EXCEEDED);
+      expect(screen.getByTestId("MaxCharacterTooSmall")).toBeVisible();
+      expect(screen.getByTestId("MaxCharacterTooSmall").textContent).toBe(
+        characterErrors.CHAR_MUST_EXCEED_9
+      );
+    });
+
+    it("should render 'Enter a character more than x' error on textarea answers", () => {
+      render(
+        <GroupedAnswerProperties
+          {...newProps({
+            maxLength: "2001",
+            errorCode: ERR_MAX_LENGTH_TOO_LARGE,
+          })}
+        />,
+        {
+          route: "/q/1/page/2",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(screen.getByTestId("MaxCharacterTooBig")).toBeVisible();
+      expect(screen.getByTestId("MaxCharacterTooBig").textContent).toBe(
+        characterErrors.CHAR_LIMIT_2000_EXCEEDED
+      );
+    });
+
+    it("should not render an error message if erroCode isn't related to length", () => {
+      render(
+        <GroupedAnswerProperties
+          {...newProps({
+            maxLength: "2001",
+            errorCode: "ERR_MAX_LENGTH_SUPER_LARGE",
+          })}
+        />,
+        {
+          route: "/q/1/page/2",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(
+        screen.queryByTestId("MaxCharacterTooBig")
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("MaxCharacterTooSmall")
+      ).not.toBeInTheDocument();
     });
   });
 });

@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
-const Required = ({ id, value, onChange }) => (
+const ToggleProperty = ({ id, value, onChange }) => (
   <ToggleSwitch id={id} name={id} onChange={onChange} checked={value} />
 );
 
-Required.propTypes = {
+ToggleProperty.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default Required;
+export default ToggleProperty;

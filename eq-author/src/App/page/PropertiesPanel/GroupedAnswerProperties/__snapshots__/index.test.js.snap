@@ -27,20 +27,50 @@ exports[`Grouped Answer Properties should render the options for each answer 3`]
 exports[`Grouped Answer Properties should show error if there is a mismatch in the decimals and previous answer validation 1`] = `
 Array [
   <Accordion
-    key="undefined"
-    title="undefined properties"
+    key="Currency"
+    title="Currency properties"
   >
-    <GroupedAnswerProperties__Padding />
+    <GroupedAnswerProperties__Padding>
+      <GroupedAnswerProperties__GroupContainer>
+        <InlineField
+          id="page-id-currency-decimals"
+          label="Decimals"
+        >
+          <Decimal
+            data-test="decimals"
+            hasDecimalInconsistency={true}
+            id="page-id-currency-decimals"
+            onBlur={[Function]}
+            value={5}
+          />
+        </InlineField>
+        <GroupedAnswerProperties__ValidationWarning
+          icon={[Function]}
+        >
+          Enter a decimal that is the same as the associated question page
+        </GroupedAnswerProperties__ValidationWarning>
+      </GroupedAnswerProperties__GroupContainer>
+    </GroupedAnswerProperties__Padding>
     <GroupedAnswerProperties__AnswerPropertiesContainer
-      key="null"
+      key="BasicAnswer1"
     >
       <GroupedAnswerProperties__Padding>
         <GroupedAnswerProperties__AnswerTitle
           data-test="answer-title"
-        />
-        <Apollo(Apollo(UnwrappedAnswerProperties))
+        >
+          Currency 1
+        </GroupedAnswerProperties__AnswerTitle>
+        <AnswerProperties
           answer={
             Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 1",
+              "id": "1",
+              "properties": Object {
+                "decimals": 5,
+                "required": false,
+              },
+              "type": "Currency",
               "validationErrorInfo": Object {
                 "errors": Array [
                   Object {
@@ -54,6 +84,14 @@ Array [
         <Memo(AnswerValidation)
           answer={
             Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 1",
+              "id": "1",
+              "properties": Object {
+                "decimals": 5,
+                "required": false,
+              },
+              "type": "Currency",
               "validationErrorInfo": Object {
                 "errors": Array [
                   Object {
@@ -66,6 +104,59 @@ Array [
         />
       </GroupedAnswerProperties__Padding>
     </GroupedAnswerProperties__AnswerPropertiesContainer>
+    <GroupedAnswerProperties__AnswerPropertiesContainer
+      key="BasicAnswer3"
+    >
+      <GroupedAnswerProperties__Padding>
+        <GroupedAnswerProperties__AnswerTitle
+          data-test="answer-title"
+        >
+          Currency 2
+        </GroupedAnswerProperties__AnswerTitle>
+        <AnswerProperties
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 2",
+              "id": "3",
+              "properties": Object {
+                "decimals": 2,
+                "required": false,
+              },
+              "type": "Currency",
+            }
+          }
+        />
+        <Memo(AnswerValidation)
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 2",
+              "id": "3",
+              "properties": Object {
+                "decimals": 2,
+                "required": false,
+              },
+              "type": "Currency",
+            }
+          }
+        />
+      </GroupedAnswerProperties__Padding>
+    </GroupedAnswerProperties__AnswerPropertiesContainer>
+    <GroupedAnswerProperties__GroupContainer>
+      <GroupedAnswerProperties__Padding>
+        <GroupValidations
+          type="Currency"
+          validationError={
+            Object {
+              "errors": Array [],
+              "id": "1",
+              "totalCount": 0,
+            }
+          }
+        />
+      </GroupedAnswerProperties__Padding>
+    </GroupedAnswerProperties__GroupContainer>
   </Accordion>,
   <Accordion
     key="Date"
@@ -81,7 +172,7 @@ Array [
         >
           Date 1
         </GroupedAnswerProperties__AnswerTitle>
-        <Apollo(Apollo(UnwrappedAnswerProperties))
+        <AnswerProperties
           answer={
             Object {
               "__typename": "BasicAnswer",
@@ -108,66 +199,6 @@ Array [
                 "required": false,
               },
               "type": "Date",
-            }
-          }
-        />
-      </GroupedAnswerProperties__Padding>
-    </GroupedAnswerProperties__AnswerPropertiesContainer>
-  </Accordion>,
-  <Accordion
-    key="Currency"
-    title="Currency properties"
-  >
-    <GroupedAnswerProperties__Padding>
-      <GroupedAnswerProperties__GroupContainer>
-        <InlineField
-          id="page-id-currency-decimals"
-          label="Decimals"
-        >
-          <Decimal
-            data-test="decimals"
-            hasDecimalInconsistency={false}
-            id="page-id-currency-decimals"
-            onBlur={[Function]}
-            value={2}
-          />
-        </InlineField>
-      </GroupedAnswerProperties__GroupContainer>
-    </GroupedAnswerProperties__Padding>
-    <GroupedAnswerProperties__AnswerPropertiesContainer
-      key="BasicAnswer3"
-    >
-      <GroupedAnswerProperties__Padding>
-        <GroupedAnswerProperties__AnswerTitle
-          data-test="answer-title"
-        >
-          Currency 2
-        </GroupedAnswerProperties__AnswerTitle>
-        <Apollo(Apollo(UnwrappedAnswerProperties))
-          answer={
-            Object {
-              "__typename": "BasicAnswer",
-              "displayName": "Currency 2",
-              "id": "3",
-              "properties": Object {
-                "decimals": 2,
-                "required": false,
-              },
-              "type": "Currency",
-            }
-          }
-        />
-        <Memo(AnswerValidation)
-          answer={
-            Object {
-              "__typename": "BasicAnswer",
-              "displayName": "Currency 2",
-              "id": "3",
-              "properties": Object {
-                "decimals": 2,
-                "required": false,
-              },
-              "type": "Currency",
             }
           }
         />
