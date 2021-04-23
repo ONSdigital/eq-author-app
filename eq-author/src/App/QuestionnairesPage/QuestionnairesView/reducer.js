@@ -107,7 +107,9 @@ const reducer = (state, action) => {
         ...state,
         autoFocusId: null,
         currentSortColumn: action.payload,
-        currentSortOrder: SORT_ORDER.ASCENDING,
+        currentSortOrder: ["locked", "starred"].includes(action.payload)
+          ? SORT_ORDER.DESCENDING
+          : SORT_ORDER.ASCENDING,
       });
     case ACTIONS.REVERSE_SORT:
       return buildState({
