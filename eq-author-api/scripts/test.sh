@@ -28,10 +28,6 @@ function finish {
 }
 trap finish EXIT
 
-echo "waiting on Dynamo to start..."
-
-./node_modules/.bin/wait-on http://$DYNAMO_HOST/shell
-
 echo "running tests..."
 
 AWS_REGION=${AWS_REGION} \
