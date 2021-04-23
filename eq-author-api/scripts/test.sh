@@ -30,7 +30,7 @@ trap finish EXIT
 
 echo "waiting on Dynamo to start..."
 
-./node_modules/.bin/wait-on -d 2000 -t 10000 http://$DYNAMO_HOST/shell
+./node_modules/.bin/wait-on -d 1000 -t 20000 http://$DYNAMO_HOST/shell
 
 echo "running tests..."
 
