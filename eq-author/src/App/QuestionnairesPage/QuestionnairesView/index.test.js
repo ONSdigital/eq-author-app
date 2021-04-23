@@ -659,9 +659,15 @@ describe("QuestionnairesView", () => {
       beforeEach(() => {
         props.questionnaires = [
           buildQuestionnaire(4, { createdAt: "2019-05-10T12:36:50.984Z" }),
-          buildQuestionnaire(2, { createdAt: "2019-05-09T12:36:50.984Z" }),
+          buildQuestionnaire(2, {
+            createdAt: "2019-05-09T12:36:50.984Z",
+            locked: true,
+          }),
           buildQuestionnaire(1, { createdAt: "2019-05-11T12:36:50.984Z" }),
-          buildQuestionnaire(3, { createdAt: "2019-05-08T12:36:50.984Z" }),
+          buildQuestionnaire(3, {
+            createdAt: "2019-05-08T12:36:50.984Z",
+            starred: true,
+          }),
           buildQuestionnaire(5, { createdAt: "2019-05-12T12:36:50.984Z" }),
         ];
       });
@@ -707,6 +713,40 @@ describe("QuestionnairesView", () => {
             `Questionnaire ${reverseNum} Title`
           );
         }
+      });
+
+      it("should sort by locked descending when locked header is clicked", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByTestId("lock-sort-button");
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 2 Title`
+        );
+
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 4 Title`
+        );
+      });
+
+      it("should sort by starred descending when starred header is clicked", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByTestId("star-sort-button");
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 3 Title`
+        );
+
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 4 Title`
+        );
       });
 
       it("should sort across multiple pages", () => {
