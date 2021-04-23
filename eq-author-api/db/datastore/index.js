@@ -1,6 +1,6 @@
 const { logger } = require("../../utils/logger");
 
-const DEFAULT_DATABASE = "dynamodb";
+const DEFAULT_DATABASE = "mongodb";
 const RETRY_TIME = "10000";
 const databaseName = process.env.DATABASE || DEFAULT_DATABASE;
 

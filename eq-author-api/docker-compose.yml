@@ -4,10 +4,11 @@ services:
     build:
       context: .
     depends_on:
-      - dynamo
+      - mongo
+      - mongo-express
       - jaeger
     links:
-      - dynamo
+      - mongo
       - jaeger
       - firestore
     volumes:
@@ -19,11 +20,6 @@ services:
       - AWS_REGION=eu-west-1
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-      - DYNAMO_ENDPOINT_OVERRIDE=http://dynamo:8000
-      - DYNAMO_QUESTIONNAIRE_TABLE_NAME=dev-author-questionnaires
-      - DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=dev-author-questionnaire-versions
-      - DYNAMO_USER_TABLE_NAME=dev-author-users
-      - DYNAMO_COMMENTS_TABLE_NAME=dev-author-comments
       - NODE_ENV=development
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
       - PUBLISHER_URL=http://localhost:9000/publish/
@@ -45,18 +41,6 @@ services:
       - yarn
       - start:dev
 
-  firestore:
-    image: mtlynch/firestore-emulator-docker
-    environment:
-      - FIRESTORE_PROJECT_ID=eq-author-api
-    ports:
-      - 8070:8080
-
-  dynamo:
-    image: amazon/dynamodb-local
-    ports:
-      - 8050:8000
-
   redis:
     image: redis:5-alpine
     ports:
@@ -72,6 +56,13 @@ services:
       - 14250
       - 14268
       - 16686:16686
+
+  firestore:
+    image: mtlynch/firestore-emulator-docker
+    environment:
+      - FIRESTORE_PROJECT_ID=eq-author-api
+    ports:
+      - 8070:8080
 
   mongo:
     image: mongo
