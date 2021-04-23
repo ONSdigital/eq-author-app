@@ -38,6 +38,20 @@ describe("Collapsible", () => {
 
       expect(getByTestId("collapsible-body")).toBeVisible();
     });
+
+    it("Swaps the prefix to 'Hide' after the collapsible is opened", () => {
+      const { getByTestId } = renderCollapsible({ showHide: true });
+
+      expect(getByTestId("collapsible-toggle-button").textContent).toContain(
+        "Show"
+      );
+
+      getByTestId("collapsible-toggle-button").click();
+
+      expect(getByTestId("collapsible-toggle-button").textContent).toContain(
+        "Hide"
+      );
+    });
   });
 
   describe("Closing", () => {
@@ -61,6 +75,23 @@ describe("Collapsible", () => {
       getByTestId("collapsible-hide-button").click();
 
       expect(getByTestId("collapsible-body")).not.toBeVisible();
+    });
+
+    it("Swaps the prefix to 'Show' after the collapsible is closed", () => {
+      const { getByTestId } = renderCollapsible({
+        showHide: true,
+        defaultOpen: true,
+      });
+
+      expect(getByTestId("collapsible-toggle-button").textContent).toContain(
+        "Hide"
+      );
+
+      getByTestId("collapsible-toggle-button").click();
+
+      expect(getByTestId("collapsible-toggle-button").textContent).toContain(
+        "Show"
+      );
     });
   });
 });

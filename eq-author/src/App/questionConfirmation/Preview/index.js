@@ -18,7 +18,7 @@ import MultipleChoiceAnswerOptionsReplay from "./MultipleChoiceAnswerOptionsRepl
 import { RADIO } from "constants/answer-types";
 import { colors } from "constants/theme";
 import Panel from "components/Panel";
-import CommentsPanel from "components/CommentsPanel";
+import CommentsPanel from "App/Comments";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 

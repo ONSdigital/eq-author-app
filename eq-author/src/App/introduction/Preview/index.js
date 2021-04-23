@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import Loading from "components/Loading";
 import { colors } from "constants/theme";
 import PageTitle from "components/preview/elements/PageTitle";
-import CommentsPanel from "components/CommentsPanel";
+import CommentsPanel from "App/Comments";
 import IntroductionLayout from "../IntroductionLayout";
 
 import iconChevron from "./icon-chevron.svg";

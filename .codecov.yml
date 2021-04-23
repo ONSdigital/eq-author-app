@@ -1,3 +1,6 @@
+ignore:
+  - "eq-author/src/storybook"
+
 coverage:
   status:
     project:
