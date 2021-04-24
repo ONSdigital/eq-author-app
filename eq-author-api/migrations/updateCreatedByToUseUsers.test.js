@@ -1,5 +1,5 @@
-const { cloneDeep } = require("lodash");
-const { v4: uuidv4 } = require("uuid");
+// const { cloneDeep } = require("lodash");
+// const { v4: uuidv4 } = require("uuid");
 
 //const updateCreatedByToUseUsers = require("./updateCreatedByToUseUsers.js");
 //const { getUserByName, getUserByEmail } = updateCreatedByToUseUsers;
@@ -8,11 +8,11 @@ const { v4: uuidv4 } = require("uuid");
 //const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
 describe.skip("updateCreatedByToUseUsers", () => {
-  const buildQuestionnaire = (createdBy) => ({
-    id: "1",
-    title: "Test Questionnaire",
-    createdBy,
-  });
+  // const buildQuestionnaire = (createdBy) => ({
+  //   id: "1",
+  //   title: "Test Questionnaire",
+  //   createdBy,
+  // });
   it("dummy test", async () => {});
   // beforeAll(async () => {
   //   await createUser({ name: AUTHOR_TEAM_NAME, externalId: "1234" });
