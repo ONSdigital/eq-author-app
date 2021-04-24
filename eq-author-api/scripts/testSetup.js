@@ -5,11 +5,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   const { MongoClient } = require("mongodb");
-  connection = await MongoClient.connect(process.env.MONGO_URL, {
+  const connection = await MongoClient.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  db = await connection.db();
+  const db = await connection.db();
   await db.collection("questionnaires").deleteMany({});
   await db.collection("versions").deleteMany({});
   await db.collection("users").deleteMany({});
