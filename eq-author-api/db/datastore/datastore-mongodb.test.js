@@ -1,10 +1,16 @@
-const datastore = require("./datastore-mongodb");
 const mockQuestionnnaire = require("./mock-questionnaire");
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 const { v4: uuidv4 } = require("uuid");
 
 describe("MongoDB Datastore", () => {
   let questionnaire, user, firstUser, mockComment, ctx;
+  let mongoDB;
+  jest.isolateModules(() => {
+    mongoDB = require("./datastore-mongodb");
+  });
+  beforeAll(() => {
+    jest.resetModules();
+  });
 
   beforeEach(() => {
     questionnaire = mockQuestionnnaire();
@@ -44,88 +50,88 @@ describe("MongoDB Datastore", () => {
   describe("Error handling for failed DB connection", () => {
     it("Should throw error on connect to db", async () => {
       expect(() =>
-        datastore.connectDB("BrokenConnectionString")
+        mongoDB.connectDB("BrokenConnectionString")
       ).rejects.toThrow();
     });
 
     it("Should not throw error on listQuestionnaires", async () => {
-      expect(() => datastore.listQuestionnaires()).not.toThrow();
+      expect(() => mongoDB.listQuestionnaires()).not.toThrow();
     });
 
     it("Should not throw error on createQuestionnaire", async () => {
       expect(() =>
-        datastore.createQuestionnaire(questionnaire, ctx)
+        mongoDB.createQuestionnaire(questionnaire, ctx)
       ).not.toThrow();
     });
 
     it("Should not throw error on getQuestionnaire", async () => {
-      expect(() => datastore.getQuestionnaire("567")).not.toThrow();
+      expect(() => mongoDB.getQuestionnaire("567")).not.toThrow();
     });
 
     it("Should not throw error on getQuestionnaireMetaById ", async () => {
-      expect(() => datastore.getQuestionnaireMetaById("567")).not.toThrow();
+      expect(() => mongoDB.getQuestionnaireMetaById("567")).not.toThrow();
     });
 
     it("Should not throw error on saveQuestionnaire", async () => {
-      expect(() => datastore.saveQuestionnaire(questionnaire)).not.toThrow();
+      expect(() => mongoDB.saveQuestionnaire(questionnaire)).not.toThrow();
     });
 
     it("Should not throw error on saveMetadata", async () => {
       questionnaire.id = "567";
-      expect(() => datastore.saveMetadata(questionnaire)).not.toThrow();
+      expect(() => mongoDB.saveMetadata(questionnaire)).not.toThrow();
     });
 
     it("Should not throw error on deleteQuestionnaire", async () => {
-      expect(() => datastore.deleteQuestionnaire("567")).not.toThrow();
+      expect(() => mongoDB.deleteQuestionnaire("567")).not.toThrow();
     });
 
     it("Should not throw error on listUsers", async () => {
-      expect(() => datastore.listUsers()).not.toThrow();
+      expect(() => mongoDB.listUsers()).not.toThrow();
     });
 
     it("Should not throw error on createUser", async () => {
-      expect(() => datastore.createUser(user)).not.toThrow();
+      expect(() => mongoDB.createUser(user)).not.toThrow();
     });
 
     it("Should not throw error on getUserByExternalId", async () => {
-      expect(() => datastore.deleteQuestionnaire("567")).not.toThrow();
+      expect(() => mongoDB.deleteQuestionnaire("567")).not.toThrow();
     });
 
     it("Should not throw error on getUserById", async () => {
-      expect(() => datastore.getUserById("567")).not.toThrow();
+      expect(() => mongoDB.getUserById("567")).not.toThrow();
     });
 
     it("Should not throw error on updateUser", async () => {
-      expect(() => datastore.updateUser(user)).not.toThrow();
+      expect(() => mongoDB.updateUser(user)).not.toThrow();
     });
 
     it("Should not throw error on createComments", async () => {
-      expect(() => datastore.createComments("567")).not.toThrow();
+      expect(() => mongoDB.createComments("567")).not.toThrow();
     });
 
     it("Should not throw error on saveComments", async () => {
       expect(() =>
-        datastore.saveComments({ questionnaireId: "567" })
+        mongoDB.saveComments({ questionnaireId: "567" })
       ).not.toThrow();
     });
 
     it("Should not throw error on getCommentsForQuestionnaire", async () => {
-      expect(() => datastore.getCommentsForQuestionnaire("567")).not.toThrow();
+      expect(() => mongoDB.getCommentsForQuestionnaire("567")).not.toThrow();
     });
 
     it("Should not throw error on createHistoryEvent", async () => {
-      expect(() => datastore.createHistoryEvent("567", {})).not.toThrow();
+      expect(() => mongoDB.createHistoryEvent("567", {})).not.toThrow();
     });
   });
 
   describe("Main functions", () => {
     beforeAll(async () => {
-      await datastore.connectDB();
+      await mongoDB.connectDB();
     });
 
     describe("Getting a list of questionnaires when empty", () => {
       it("Should return an empty array if no questionnaires are found", async () => {
-        const listOfQuestionnaires = await datastore.listQuestionnaires();
+        const listOfQuestionnaires = await mongoDB.listQuestionnaires();
         expect(listOfQuestionnaires.length).toBe(0);
         expect(Array.isArray(listOfQuestionnaires)).toBeTruthy();
       });
@@ -135,7 +141,7 @@ describe("MongoDB Datastore", () => {
       it("Should give the questionnaire an ID if one is not given", async () => {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
         expect(questionnaire.id).toBeFalsy();
-        const questionnaireFromDb = await datastore.createQuestionnaire(
+        const questionnaireFromDb = await mongoDB.createQuestionnaire(
           questionnaire,
           ctx
         );
@@ -147,7 +153,7 @@ describe("MongoDB Datastore", () => {
         expect(questionnaire.id).toBeFalsy();
         questionnaire.id = "123";
         expect(questionnaire.id).toBeTruthy();
-        const questionnaireFromDb = await datastore.createQuestionnaire(
+        const questionnaireFromDb = await mongoDB.createQuestionnaire(
           questionnaire,
           ctx
         );
@@ -157,17 +163,17 @@ describe("MongoDB Datastore", () => {
 
     describe("Getting the latest questionnaire version", () => {
       it("Should should handle when an ID is not provided", () => {
-        expect(() => datastore.getQuestionnaire()).not.toThrow();
+        expect(() => mongoDB.getQuestionnaire()).not.toThrow();
       });
 
       it("Should return null when it cannot find the questionnaire", async () => {
-        const questionnaireFromDb = await datastore.getQuestionnaire("567");
+        const questionnaireFromDb = await mongoDB.getQuestionnaire("567");
         expect(questionnaireFromDb).toBeNull();
-        expect(datastore.getQuestionnaire("567")).resolves.toBeNull();
+        expect(mongoDB.getQuestionnaire("567")).resolves.toBeNull();
       });
 
       it("Should transform Timestamps into JS Date objects", async () => {
-        const questionnaireFromDb = await datastore.getQuestionnaire("123");
+        const questionnaireFromDb = await mongoDB.getQuestionnaire("123");
         expect(questionnaireFromDb.createdAt instanceof Date).toBeTruthy();
         expect(questionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
       });
@@ -177,27 +183,27 @@ describe("MongoDB Datastore", () => {
         delete questionnaire.metadata;
         delete questionnaire.editors;
         questionnaire.id = "456";
-        await datastore.createQuestionnaire(questionnaire, ctx);
-        const questionnaireFromDb = await datastore.getQuestionnaire("456");
+        await mongoDB.createQuestionnaire(questionnaire, ctx);
+        const questionnaireFromDb = await mongoDB.getQuestionnaire("456");
         expect(questionnaireFromDb.id).toMatch("456");
       });
     });
 
     describe("Getting the base questionnaire", () => {
       it("Should handle when an ID is not provided", () => {
-        expect(() => datastore.getQuestionnaireMetaById()).not.toThrow();
+        expect(() => mongoDB.getQuestionnaireMetaById()).not.toThrow();
       });
 
       it("Should return null when it cannot find the questionnaire", async () => {
-        const baseQuestionnaireFromDb = await datastore.getQuestionnaireMetaById(
+        const baseQuestionnaireFromDb = await mongoDB.getQuestionnaireMetaById(
           "567"
         );
         expect(baseQuestionnaireFromDb).toBeNull();
-        expect(datastore.getQuestionnaire("567")).resolves.toBeNull();
+        expect(mongoDB.getQuestionnaire("567")).resolves.toBeNull();
       });
 
       it("Should transform Timestamps into JS Data objects", async () => {
-        const baseQuestionnaireFromDb = await datastore.getQuestionnaireMetaById(
+        const baseQuestionnaireFromDb = await mongoDB.getQuestionnaireMetaById(
           "123"
         );
 
@@ -211,12 +217,12 @@ describe("MongoDB Datastore", () => {
 
     describe("Saving a questionnaire", () => {
       it("Should handle when an ID cannot be found within the given questionnaire", () => {
-        expect(() => datastore.saveQuestionnaire(questionnaire)).not.toThrow();
+        expect(() => mongoDB.saveQuestionnaire(questionnaire)).not.toThrow();
       });
 
       it("Should update the 'updatedAt' property", async () => {
         const updatedAt = new Date();
-        const savedQuestionnaire = await datastore.saveQuestionnaire({
+        const savedQuestionnaire = await mongoDB.saveQuestionnaire({
           id: "123",
           updatedAt,
           ...questionnaire,
@@ -227,7 +233,7 @@ describe("MongoDB Datastore", () => {
 
     describe("Getting a list of questionnaires", () => {
       it("Should transform Timestamps into JS Date objects", async () => {
-        const listOfQuestionnaires = await datastore.listQuestionnaires();
+        const listOfQuestionnaires = await mongoDB.listQuestionnaires();
 
         expect(listOfQuestionnaires[0].updatedAt instanceof Date).toBeTruthy();
         expect(listOfQuestionnaires[0].createdAt instanceof Date).toBeTruthy();
@@ -236,13 +242,13 @@ describe("MongoDB Datastore", () => {
 
     describe("Deleting a questionnaire", () => {
       it("Should handle when an ID has not been given", () => {
-        expect(() => datastore.deleteQuestionnaire()).not.toThrow();
+        expect(() => mongoDB.deleteQuestionnaire()).not.toThrow();
       });
     });
 
     describe("Getting a list of users", () => {
       it("Should return an empty array if no users are found", async () => {
-        const listOfUsers = await datastore.listUsers();
+        const listOfUsers = await mongoDB.listUsers();
         expect(listOfUsers.length).toBe(0);
         expect(Array.isArray(listOfUsers)).toBeTruthy();
       });
@@ -250,43 +256,43 @@ describe("MongoDB Datastore", () => {
 
     describe("Creating a user", () => {
       it("Should create a user with a provided id", async () => {
-        const userFromDb = await datastore.createUser(firstUser);
+        const userFromDb = await mongoDB.createUser(firstUser);
         expect(userFromDb.id).toBeTruthy();
         expect(userFromDb.id).toMatch("999-999");
       });
 
       it("Should give the user an ID if one is not given", async () => {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-        const userFromDb = await datastore.createUser(user);
+        const userFromDb = await mongoDB.createUser(user);
         expect(userFromDb.id).toBeTruthy();
         expect(userFromDb.id).toMatch(uuidRegex);
       });
 
       it("Should use the email as the users name if one is not given", async () => {
         delete user.name;
-        const userFromDb = await datastore.createUser(user);
+        const userFromDb = await mongoDB.createUser(user);
         expect(userFromDb.name).toBeTruthy();
         expect(userFromDb.name).toMatch(userFromDb.email);
       });
 
       it("Should handle any errors that may occur", () => {
         delete user.email;
-        expect(() => datastore.createUser(user)).not.toThrow();
+        expect(() => mongoDB.createUser(user)).not.toThrow();
       });
     });
 
     describe("Getting a user by their external ID", () => {
       it("Should handle when an ID is not provided", () => {
-        expect(() => datastore.getUserByExternalId()).not.toThrow();
+        expect(() => mongoDB.getUserByExternalId()).not.toThrow();
       });
 
       it("Should return nothing if the user cannot be found", async () => {
-        const user = await datastore.getUserByExternalId("123");
+        const user = await mongoDB.getUserByExternalId("123");
         expect(user).toBeUndefined();
       });
 
       it("Should return the user from the externalId", async () => {
-        const userFromDb = await datastore.getUserByExternalId(
+        const userFromDb = await mongoDB.getUserByExternalId(
           firstUser.externalId
         );
         expect(userFromDb.id).toBe(firstUser.id);
@@ -295,28 +301,28 @@ describe("MongoDB Datastore", () => {
 
     describe("Getting a user by their ID", () => {
       it("Should handle when an ID is not provided", () => {
-        expect(() => datastore.getUserById()).not.toThrow();
+        expect(() => mongoDB.getUserById()).not.toThrow();
       });
       it("Should return nothing if the user cannot be found", async () => {
-        const user = await datastore.getUserById("123");
+        const user = await mongoDB.getUserById("123");
         expect(user).toBeUndefined();
       });
       it("Should return user from the ID", async () => {
-        const userFromDb = await datastore.getUserById(firstUser.id);
+        const userFromDb = await mongoDB.getUserById(firstUser.id);
         expect(userFromDb.id).toBe(firstUser.id);
       });
     });
 
     describe("Getting a list of users 2", () => {
       it("Should use the Firestore document ID as the ID for each user", async () => {
-        const usersFromDb = await datastore.listUsers();
+        const usersFromDb = await mongoDB.listUsers();
         expect(usersFromDb[0].id).toBe(firstUser.id);
       });
     });
 
     describe("Updating a user", () => {
       it("Should handle not finding an ID within the given user object", () => {
-        expect(() => datastore.updateUser(user)).not.toThrow();
+        expect(() => mongoDB.updateUser(user)).not.toThrow();
       });
       it("Should return the updated user object", async () => {
         const changedUser = {
@@ -324,7 +330,7 @@ describe("MongoDB Datastore", () => {
           name: "Harry James Potter",
           id: "999-999",
         };
-        const userFromDb = await datastore.updateUser(changedUser);
+        const userFromDb = await mongoDB.updateUser(changedUser);
 
         expect(userFromDb).toMatchObject(changedUser);
       });
@@ -344,14 +350,14 @@ describe("MongoDB Datastore", () => {
       });
       it("Should handle when a qid has not been given", () => {
         expect(() =>
-          datastore.createHistoryEvent(null, mockHistoryEvent)
+          mongoDB.createHistoryEvent(null, mockHistoryEvent)
         ).not.toThrow();
       });
       it("Should handle when an event has not been given", () => {
-        expect(() => datastore.createHistoryEvent("123", null)).not.toThrow();
+        expect(() => mongoDB.createHistoryEvent("123", null)).not.toThrow();
       });
       it("Should put the new history event at the front of the list", async () => {
-        const questionnaireHistory = await datastore.createHistoryEvent(
+        const questionnaireHistory = await mongoDB.createHistoryEvent(
           "123",
           mockHistoryEvent
         );
@@ -362,15 +368,13 @@ describe("MongoDB Datastore", () => {
 
     describe("Saving a base questionnaire", () => {
       it("Should handle when an ID cannot be found within the given base questionnaire", async () => {
-        await expect(datastore.saveMetadata({})).rejects.toThrow();
+        await expect(mongoDB.saveMetadata({})).rejects.toThrow();
       });
 
       it("Should update the 'updatedAt' property", async () => {
-        const baseQuestionnaire = await datastore.getQuestionnaireMetaById(
-          "123"
-        );
+        const baseQuestionnaire = await mongoDB.getQuestionnaireMetaById("123");
         baseQuestionnaire.updatedAt = new Date();
-        const updatedBaseQuestionnaire = await datastore.saveMetadata(
+        const updatedBaseQuestionnaire = await mongoDB.saveMetadata(
           baseQuestionnaire
         );
 
@@ -382,10 +386,10 @@ describe("MongoDB Datastore", () => {
 
     describe("Creating default comments", () => {
       it("Should handle when a questionnaireId has not been given", () => {
-        expect(() => datastore.createComments()).not.toThrow();
+        expect(() => mongoDB.createComments()).not.toThrow();
       });
       it("Should return a default comments object", async () => {
-        const commentsFromDb = await datastore.createComments("123");
+        const commentsFromDb = await mongoDB.createComments("123");
         expect(commentsFromDb).toMatchObject({
           comments: {},
           questionnaireId: "123",
@@ -396,7 +400,7 @@ describe("MongoDB Datastore", () => {
     describe("Saving a comment", () => {
       it("Should handle a questionnaireId not being found within the given comments object", () => {
         expect(() =>
-          datastore.saveComments({ comments: [mockComment] })
+          mongoDB.saveComments({ comments: [mockComment] })
         ).not.toThrow();
       });
       it("Should return the questionnaire comments object", async () => {
@@ -404,7 +408,7 @@ describe("MongoDB Datastore", () => {
           "123-456-789": [mockComment],
         };
 
-        const commentsFromDb = await datastore.saveComments({
+        const commentsFromDb = await mongoDB.saveComments({
           questionnaireId: "123",
           comments: mockCommentObj,
         });
@@ -414,12 +418,10 @@ describe("MongoDB Datastore", () => {
 
     describe("Getting the comments for a questionnaire", () => {
       it("Should handle when a questionnareId has not been given", () => {
-        expect(() => datastore.getCommentsForQuestionnaire()).not.toThrow();
+        expect(() => mongoDB.getCommentsForQuestionnaire()).not.toThrow();
       });
       it("Should transform Firestore Timestamps into JS Date objects", async () => {
-        const listOfComments = await datastore.getCommentsForQuestionnaire(
-          "123"
-        );
+        const listOfComments = await mongoDB.getCommentsForQuestionnaire("123");
         expect(
           listOfComments.comments["123-456-789"][0].createdTime instanceof Date
         ).toBeTruthy();
