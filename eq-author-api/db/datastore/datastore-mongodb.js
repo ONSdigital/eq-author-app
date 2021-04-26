@@ -13,23 +13,23 @@ let dbo, connection;
 const createIndexes = async () => {
   let collection = dbo.collection("questionnaires");
   let result = await collection.createIndex({ id: 1 });
-  logger.info(`Questionnaire Index created: ${result}`);
+  logger.debug(`Questionnaire Index created: ${result}`);
 
   collection = dbo.collection("versions");
   result = await collection.createIndex({ id: 1, updatedAt: -1 });
-  logger.info(`versions Index created: ${result}`);
+  logger.debug(`versions Index created: ${result}`);
 
   collection = dbo.collection("comments");
   result = await collection.createIndex({ questionnaireId: 1 });
-  logger.info(`comments Index created: ${result}`);
+  logger.debug(`comments Index created: ${result}`);
 
   collection = dbo.collection("users");
   result = await collection.createIndex({ id: 1 });
-  logger.info(`Users id Index created: ${result}`);
+  logger.debug(`Users id Index created: ${result}`);
 
   collection = dbo.collection("users");
   result = await collection.createIndex({ externalId: 1 });
-  logger.info(`Users externalId Index created: ${result}`);
+  logger.debug(`Users externalId Index created: ${result}`);
 };
 
 const connectDB = async (overrideUrl = "") => {
@@ -40,7 +40,7 @@ const connectDB = async (overrideUrl = "") => {
       useUnifiedTopology: true,
     });
     dbo = await connection.db();
-    logger.info("Database connected");
+    logger.debug("Database connected");
     createIndexes();
   } catch (error) {
     logger.info(error);
@@ -93,7 +93,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
     logger.error(error);
   }
 
-  logger.info(`Created questionnaire with ID: ${id}`);
+  logger.debug(`Created questionnaire with ID: ${id}`);
 
   return {
     ...questionnaire,
@@ -110,7 +110,7 @@ const getQuestionnaire = async (id) => {
     );
 
     if (!questionnaire) {
-      logger.info("No questionnaires found");
+      logger.debug("No questionnaires found");
       return null;
     }
     if (!questionnaire.sections) {
@@ -140,7 +140,7 @@ const getQuestionnaireMetaById = async (id) => {
     const questionnaire = await collection.findOne({ id: id });
 
     if (!questionnaire) {
-      logger.info("No base questionnaire found");
+      logger.debug("No base questionnaire found");
       return null;
     }
 
@@ -241,7 +241,7 @@ const getUserByExternalId = async (externalId) => {
     const user = await collection.findOne({ externalId: externalId });
 
     if (!user) {
-      logger.info(`User with external ID ${externalId} not found`);
+      logger.debug(`User with external ID ${externalId} not found`);
       return;
     }
 
@@ -259,7 +259,7 @@ const getUserById = async (id) => {
     const user = await collection.findOne({ id: id });
 
     if (!user) {
-      logger.info("No users found");
+      logger.debug("No users found");
       return;
     }
 
@@ -277,7 +277,7 @@ const listQuestionnaires = async () => {
     const questionnaires = await collection.find().toArray();
 
     if (questionnaires.length === 0) {
-      logger.info("No questionnaires found");
+      logger.debug("No questionnaires found");
       return [];
     }
 
@@ -318,7 +318,7 @@ const listUsers = async () => {
     const collection = dbo.collection("users");
     const users = await collection.find().toArray();
     if (users.length === 0) {
-      logger.info("No users found");
+      logger.debug("No users found");
       return [];
     }
 
@@ -454,7 +454,7 @@ const getUserByName = async (name) => {
       name: name,
     });
     if (!user) {
-      logger.info("No user found by name");
+      logger.debug("No user found by name");
       return;
     }
     return user;
@@ -472,7 +472,7 @@ const getUserByEmail = async (email) => {
       email: email,
     });
     if (!user) {
-      logger.info("No user found by name");
+      logger.debug("No user found by name");
       return;
     }
     return user;
