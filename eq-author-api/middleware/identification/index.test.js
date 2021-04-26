@@ -118,15 +118,19 @@ describe("auth middleware", () => {
       it("if user exists should add user to request", async () => {
         let sub = uuidv4();
         let auth = { name: "foo", sub };
-        await createUser({ name: "foo", externalId: sub });
+        await createUser({
+          name: "foo",
+          externalId: sub,
+          email: "test@test.com",
+        });
         const expected = jwt.sign(auth, uuidv4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);
         expect(req.user).toMatchObject({
-          //id: expect.any(String),
+          id: expect.any(String),
           externalId: sub,
           name: "foo",
-          isVerified: false,
+          isVerified: true,
         });
         expect(next).toHaveBeenCalled();
       });
