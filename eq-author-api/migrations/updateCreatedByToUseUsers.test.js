@@ -2,9 +2,12 @@ const { cloneDeep } = require("lodash");
 const { v4: uuidv4 } = require("uuid");
 
 const updateCreatedByToUseUsers = require("./updateCreatedByToUseUsers.js");
-const { getUserByName, getUserByEmail } = updateCreatedByToUseUsers;
 
-const { createUser } = require("../db/datastore");
+const {
+  createUser,
+  getUserByName,
+  getUserByEmail,
+} = require("../db/datastore");
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
 describe("updateCreatedByToUseUsers", () => {
@@ -13,8 +16,13 @@ describe("updateCreatedByToUseUsers", () => {
     title: "Test Questionnaire",
     createdBy,
   });
+
   beforeAll(async () => {
-    await createUser({ name: AUTHOR_TEAM_NAME, externalId: "1234" });
+    await createUser({
+      name: AUTHOR_TEAM_NAME,
+      externalId: "1234",
+      email: "test@test.com",
+    });
   });
   // This test must remain for your migration to always work
   it("should be deterministic", async () => {
@@ -26,7 +34,7 @@ describe("updateCreatedByToUseUsers", () => {
 
   it("should update a createdBy to reflect the id in the users table using name", async () => {
     const name = uuidv4();
-    await createUser({ name, externalId: "12345" });
+    await createUser({ name, externalId: "12345", email: "test@test.com" });
     const questionnaire = buildQuestionnaire(name);
     await updateCreatedByToUseUsers(questionnaire);
     const testUser = await getUserByName(name);
