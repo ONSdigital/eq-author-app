@@ -364,10 +364,11 @@ const Resolvers = {
       let theme = getThemeByShortName(ctx, shortName);
       if (!theme) {
         theme = createTheme({ shortName });
+
         ctx.questionnaire.themes.push(theme);
       }
-      theme.enabled = true;
-      return ctx.questionnaire.themes;
+      theme = { ...theme, enabled: true };
+      return theme;
     }),
     updateTheme: createMutation((root, { input }, ctx) => {
       const theme = getThemeByShortName(ctx, input.shortName);

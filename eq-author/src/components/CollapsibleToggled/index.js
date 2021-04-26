@@ -5,6 +5,7 @@ import { colors } from "constants/theme";
 
 import enableThemeMutation from "graphql/enableTheme.graphql";
 import disableThemeMutation from "graphql/disableTheme.graphql";
+import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
@@ -49,6 +50,29 @@ const CollapsibleToggled = ({
           onChange={() =>
             handleToggle({
               variables: { input: { questionnaireId, shortName } },
+              ...(!defaultOpen && {
+                update: (client, { data: { enableTheme } }) => {
+                  const { questionnaire } = client.readQuery({
+                    query: getQuestionnaireQuery,
+                    variables: {
+                      input: { questionnaireId },
+                    },
+                  });
+                  // check here if the theme is in the array
+                  client.writeQuery({
+                    query: getQuestionnaireQuery,
+                    variables: {
+                      input: { questionnaireId },
+                    },
+                    data: {
+                      questionnaire: {
+                        ...questionnaire,
+                        themes: [...questionnaire.themes, enableTheme],
+                      },
+                    },
+                  });
+                },
+              }),
             })
           }
           checked={defaultOpen}

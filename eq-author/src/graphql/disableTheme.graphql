@@ -1,8 +1,8 @@
 mutation DisableTheme($input: DisableThemeInput!) {
   disableTheme(input: $input) {
     id
-    enabled
     shortName
+    enabled
     eqId
     legalBasisCode
     formType

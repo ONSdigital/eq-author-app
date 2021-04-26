@@ -39,7 +39,6 @@ fragment Questionnaire on Questionnaire {
   theme
   themes {
     id
-    title
     shortName
     enabled
     eqId
