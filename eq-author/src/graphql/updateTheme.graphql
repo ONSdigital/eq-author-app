@@ -1,7 +1,6 @@
 mutation UpdateTheme($input: UpdateThemeInput!) {
   updateTheme(input: $input) {
     id
-    title
     shortName
     eqId
     legalBasisCode
