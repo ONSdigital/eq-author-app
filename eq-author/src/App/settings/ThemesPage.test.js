@@ -41,6 +41,7 @@ describe("Settings page", () => {
       description: "Questionnaire",
       surveyId: "123",
       theme: "default",
+      themes: [],
       displayName: "Tests",
       createdBy: {
         ...user,
