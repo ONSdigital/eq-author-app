@@ -87,7 +87,6 @@ enum HistoryEventTypes {
 
 type Theme {
   id: ID!
-  title: String
   enabled: Boolean!
   shortName: ThemeShortName!
   legalBasisCode: LegalBasisCode
@@ -729,7 +728,7 @@ type Mutation {
 
   updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
   updatePreviewTheme(input: UpdatePreviewThemeInput!): Questionnaire
-  enableTheme(input: EnableThemeInput!): [Theme]
+  enableTheme(input: EnableThemeInput!): Theme
   updateTheme(input: UpdateThemeInput!): Theme
   disableTheme(input: DisableThemeInput!): Theme
 
