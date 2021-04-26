@@ -1226,7 +1226,11 @@ const Resolvers = {
     displayName: (option) => getName(option, "Option"),
     additionalAnswer: (option) => option.additionalAnswer,
     validationErrorInfo: ({ id }, args, ctx) =>
-      returnValidationErrors(ctx, id, ({ optionId }) => id === optionId),
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ optionId, type }) => id === optionId && type === "option"
+      ),
   },
 
   ValidationType: {

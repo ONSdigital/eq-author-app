@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
 import { Field, Label } from "components/Forms";
@@ -15,7 +16,13 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import {
+  MISSING_LABEL,
+  ADDITIONAL_LABEL_MISSING,
+  buildLabelError,
+} from "constants/validationMessages";
+
+import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 
 const ENTER_KEY = 13;
 
@@ -54,54 +61,53 @@ StyledOption.propTypes = {
   duration: PropTypes.number,
 };
 
-export class StatelessOption extends Component {
-  static propTypes = {
-    option: CustomPropTypes.option.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onEnterKey: PropTypes.func,
-    hasDeleteButton: PropTypes.bool.isRequired,
-    type: PropTypes.oneOf([RADIO, CHECKBOX]).isRequired,
-    children: PropTypes.node,
-    labelPlaceholder: PropTypes.string,
-    descriptionPlaceholder: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    label: PropTypes.string,
-    getValidationError: PropTypes.func,
-    canMoveUp: PropTypes.bool,
-    onMoveUp: PropTypes.func,
-    canMoveDown: PropTypes.bool,
-    onMoveDown: PropTypes.func,
-    hideMoveButtons: PropTypes.bool,
-  };
+const StatelessOption = ({
+  option,
+  onChange,
+  onUpdate,
+  onDelete,
+  onEnterKey,
+  hasDeleteButton,
+  type,
+  children,
+  labelPlaceholder = "",
+  descriptionPlaceholder,
+  autoFocus = true,
+  label,
+  getValidationError = () => {},
+  canMoveUp,
+  onMoveUp,
+  canMoveDown,
+  onMoveDown,
+  hideMoveButtons,
+}) => {
+  const [otherLabelValue, setOtherLabelValue] = useState(
+    option?.additionalAnswer?.label ?? ""
+  );
+  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
 
-  static defaultProps = {
-    labelPlaceholder: "",
-    autoFocus: true,
-    getValidationError: () => {},
-  };
+  const handleDeleteClick = () => onDelete(option.id);
 
-  handleDeleteClick = () => {
-    this.props.onDelete(this.props.option.id);
-  };
-
-  handleKeyDown = (e) => {
+  const handleKeyDown = (e) => {
     if (e.keyCode === ENTER_KEY) {
-      this.props.onEnterKey(e);
+      onEnterKey(e);
     }
   };
 
-  renderToolbar() {
-    const {
-      hideMoveButtons,
-      hasDeleteButton,
-      canMoveUp,
-      onMoveUp,
-      canMoveDown,
-      onMoveDown,
-    } = this.props;
+  const handleSaveOtherLabel = () =>
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          additionalAnswer: {
+            id: option.additionalAnswer.id,
+            label: otherLabelValue,
+          },
+        },
+      },
+    });
 
+  const renderToolbar = () => {
     return (
       <ButtonsContainer>
         {!hideMoveButtons && (
@@ -139,7 +145,7 @@ export class StatelessOption extends Component {
             <DeleteButton
               size="medium"
               aria-label="Delete option"
-              onClick={this.handleDeleteClick}
+              onClick={handleDeleteClick}
               data-test="btn-delete-option"
               disabled={!hasDeleteButton}
             />
@@ -147,91 +153,101 @@ export class StatelessOption extends Component {
         )}
       </ButtonsContainer>
     );
-  }
+  };
 
-  render() {
-    const {
-      option,
-      onChange,
-      onUpdate,
-      type,
-      children,
-      labelPlaceholder,
-      descriptionPlaceholder,
-      autoFocus,
-      label,
-    } = this.props;
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  const labelError =
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
+    ) && errorMsg;
+  const otherLabelError =
+    option.additionalAnswer?.validationErrorInfo?.errors?.length &&
+    ADDITIONAL_LABEL_MISSING;
 
-    const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-    const labelError = option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ERR_VALID_REQUIRED") && errorMsg;
-    
-    return (
-      <StyledOption id={getIdForObject(option)} key={option.id}>
-        <div>
-          <Flex>
-            <DummyMultipleChoice type={type} />
-            <OptionField>
-              <Label htmlFor={`option-label-${option.id}`}>
-                {label || "Label"}
-              </Label>
-              <WrappingInput
-                id={`option-label-${option.id}`}
-                name="label"
-                value={option.label}
-                placeholder={option.id}
-                // placeholder={labelPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
-                onKeyDown={this.handleKeyDown}
-                data-test="option-label"
-                data-autofocus={autoFocus || null}
-                bold
-                errorValidationMsg={labelError}
-              />
-            </OptionField>
-          </Flex>
+  return (
+    <StyledOption id={getIdForObject(option)} key={option.id}>
+      <div>
+        <Flex>
+          <DummyMultipleChoice type={type} />
           <OptionField>
-            <Label htmlFor={`option-description-${option.id}`}>
-              Description (optional)
+            <Label htmlFor={`option-label-${option.id}`}>
+              {label || "Label"}
             </Label>
             <WrappingInput
-              id={`option-description-${option.id}`}
-              name="description"
-              value={option.description}
-              placeholder={descriptionPlaceholder}
+              id={`option-label-${option.id}`}
+              name="label"
+              value={option.label}
+              placeholder={option.id}
+              // placeholder={labelPlaceholder}
               onChange={onChange}
               onBlur={onUpdate}
-              onKeyDown={this.handleKeyDown}
-              data-test="option-description"
+              onKeyDown={handleKeyDown}
+              data-test="option-label"
+              data-autofocus={autoFocus || null}
+              bold
+              errorValidationMsg={labelError}
             />
           </OptionField>
-          {/* <OptionField>
-            <Label htmlFor={`option-other-${option.id}`}>
-              Description (optional)
-            </Label>
-            <WrappingInput
-              id={`option-other-${option.id}`}
-              name="description"
-              value={option.description}
-              placeholder={descriptionPlaceholder}
-              onChange={onChange}
-              onBlur={console.log}
-              onKeyDown={this.handleKeyDown}
-              data-test="option-description"
-            />
-          </OptionField> */}
-          {children}
-          {this.renderToolbar()}
-        </div>
-      </StyledOption>
-    );
-  }
-}
+        </Flex>
+        <OptionField>
+          <Label htmlFor={`option-description-${option.id}`}>
+            Description (optional)
+          </Label>
+          <WrappingInput
+            id={`option-description-${option.id}`}
+            name="description"
+            value={option.description}
+            placeholder={descriptionPlaceholder}
+            onChange={onChange}
+            onBlur={onUpdate}
+            onKeyDown={handleKeyDown}
+            data-test="option-description"
+          />
+        </OptionField>
+        <OptionField>
+          <Label htmlFor={`option-other-${option.id}`}>Other</Label>
+          <WrappingInput
+            id={`option-otherlabel-${option.id}`}
+            name="otherLabel"
+            value={otherLabelValue}
+            placeholder={descriptionPlaceholder}
+            onChange={({ value }) => setOtherLabelValue(value)}
+            onBlur={handleSaveOtherLabel}
+            onKeyDown={handleKeyDown}
+            data-test="option-description"
+            errorValidationMsg={otherLabelError}
+          />
+        </OptionField>
+        {/* {children} */}
+        {renderToolbar()}
+      </div>
+    </StyledOption>
+  );
+};
+
+StatelessOption.propTypes = {
+  option: CustomPropTypes.option.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEnterKey: PropTypes.func,
+  hasDeleteButton: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf([RADIO, CHECKBOX]).isRequired,
+  children: PropTypes.node,
+  labelPlaceholder: PropTypes.string,
+  descriptionPlaceholder: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  label: PropTypes.string,
+  getValidationError: PropTypes.func,
+  canMoveUp: PropTypes.bool,
+  onMoveUp: PropTypes.func,
+  canMoveDown: PropTypes.bool,
+  onMoveDown: PropTypes.func,
+  hideMoveButtons: PropTypes.bool,
+};
 
 StatelessOption.fragments = {
   Option: optionFragment,
 };
 
-export default flowRight(
-  withEntityEditor("option")
-)(StatelessOption);
+export default flowRight(withEntityEditor("option"))(StatelessOption);

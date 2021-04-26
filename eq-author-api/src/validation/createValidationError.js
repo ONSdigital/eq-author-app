@@ -115,11 +115,12 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         ({ options } = answer);
         option = options[nextVal];
         validationErr.optionId = option.id;
-        if (dataPath[index + 2] && dataPath[index + 2] === "additionalAnswer") {
-          validationErr.type = "option-additional";
-        } else {
-          validationErr.type = "option";
-        }
+        validationErr.type = "option";
+        break;
+
+      case "additionalAnswer":
+        validationErr.answerId = option.additionalAnswer.id;
+        validationErr.type = "option-additionalAnswer";
         break;
 
       case "routing":
