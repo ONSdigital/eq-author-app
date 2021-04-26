@@ -43,7 +43,7 @@ const connectDB = async (overrideUrl = "") => {
     logger.info("Database connected");
     createIndexes();
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     throw error;
   }
 };
