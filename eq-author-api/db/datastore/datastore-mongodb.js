@@ -447,6 +447,42 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
   }
 };
 
+const getUserByName = async (name) => {
+  try {
+    const collection = dbo.collection("users");
+    const user = await collection.findOne({
+      name: name,
+    });
+    if (!user) {
+      logger.debug("No user found by name");
+      return;
+    }
+    return user;
+  } catch (error) {
+    logger.error(`Unable to get a user by name`);
+    logger.error(error);
+    return error;
+  }
+};
+
+const getUserByEmail = async (email) => {
+  try {
+    const collection = dbo.collection("users");
+    const user = await collection.findOne({
+      email: email,
+    });
+    if (!user) {
+      logger.debug("No user found by name");
+      return;
+    }
+    return user;
+  } catch (error) {
+    logger.error(`Unable to get a user by name`);
+    logger.error(error);
+    return error;
+  }
+};
+
 module.exports = {
   createQuestionnaire,
   saveQuestionnaire,
@@ -464,5 +500,7 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  getUserByName,
+  getUserByEmail,
   connectDB,
 };
