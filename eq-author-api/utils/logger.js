@@ -11,6 +11,18 @@ switch (process.env.NODE_ENV) {
         translateTime: "dd/mm/yyyy h:MM:ss",
       },
     });
+    logger.level = "debug";
+    break;
+  }
+  case "test": {
+    logger = require("pino")({
+      prettyPrint: {
+        colorize: true,
+        ignore: "pid,hostname",
+        translateTime: "dd/mm/yyyy h:MM:ss",
+      },
+    });
+    logger.level = "warn";
     break;
   }
   default: {

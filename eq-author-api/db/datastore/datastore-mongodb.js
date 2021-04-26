@@ -13,23 +13,23 @@ let dbo, connection;
 const createIndexes = async () => {
   let collection = dbo.collection("questionnaires");
   let result = await collection.createIndex({ id: 1 });
-  logger.debug(`Questionnaire Index created: ${result}`);
+  logger.info(`Questionnaire Index created: ${result}`);
 
   collection = dbo.collection("versions");
   result = await collection.createIndex({ id: 1, updatedAt: -1 });
-  logger.debug(`versions Index created: ${result}`);
+  logger.info(`versions Index created: ${result}`);
 
   collection = dbo.collection("comments");
   result = await collection.createIndex({ questionnaireId: 1 });
-  logger.debug(`comments Index created: ${result}`);
+  logger.info(`comments Index created: ${result}`);
 
   collection = dbo.collection("users");
   result = await collection.createIndex({ id: 1 });
-  logger.debug(`Users id Index created: ${result}`);
+  logger.info(`Users id Index created: ${result}`);
 
   collection = dbo.collection("users");
   result = await collection.createIndex({ externalId: 1 });
-  logger.debug(`Users externalId Index created: ${result}`);
+  logger.info(`Users externalId Index created: ${result}`);
 };
 
 const connectDB = async (overrideUrl = "") => {
@@ -40,7 +40,7 @@ const connectDB = async (overrideUrl = "") => {
       useUnifiedTopology: true,
     });
     dbo = await connection.db();
-    logger.debug("Database connected");
+    logger.info("Database connected");
     createIndexes();
   } catch (error) {
     logger.info(error);
@@ -89,11 +89,10 @@ const createQuestionnaire = async (questionnaire, ctx) => {
     collection = dbo.collection("versions");
     await collection.insertOne(versionQuestionnaire);
   } catch (error) {
-    logger.error(`Unable to create questionnaire with ID: ${id}`);
-    logger.error(error);
+    logger.error(error, `Unable to create questionnaire with ID: ${id}`);
   }
 
-  logger.debug(`Created questionnaire with ID: ${id}`);
+  logger.info(`Created questionnaire with ID: ${id}`);
 
   return {
     ...questionnaire,
@@ -110,7 +109,7 @@ const getQuestionnaire = async (id) => {
     );
 
     if (!questionnaire) {
-      logger.debug("No questionnaires found");
+      logger.info("No questionnaires found");
       return null;
     }
     if (!questionnaire.sections) {
@@ -125,12 +124,12 @@ const getQuestionnaire = async (id) => {
       questionnaire.editors = [];
     }
     return questionnaire;
-  } catch (err) {
+  } catch (error) {
     logger.error(
+      error,
       `Unable to get latest version of questionnaire with ID: ${id}`
     );
-    logger.error(err);
-    return err;
+    return;
   }
 };
 
@@ -140,14 +139,13 @@ const getQuestionnaireMetaById = async (id) => {
     const questionnaire = await collection.findOne({ id: id });
 
     if (!questionnaire) {
-      logger.debug("No base questionnaire found");
+      logger.info("No base questionnaire found");
       return null;
     }
 
     return questionnaire;
   } catch (error) {
-    logger.error(`Error getting base questionnaire with ID ${id}`);
-    logger.error(error);
+    logger.error(error, `Error getting base questionnaire with ID ${id}`);
     return;
   }
 };
@@ -186,8 +184,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {
-    logger.error(`Error updating questionnaire with ID ${id}`);
-    logger.error(error);
+    logger.error(error, `Error updating questionnaire with ID ${id}`);
     return;
   }
 };
@@ -198,8 +195,7 @@ const deleteQuestionnaire = async (id) => {
     await collection.deleteOne({ id: id });
     return;
   } catch (error) {
-    logger.error(`Unable to delete questionnaire with ID: ${id}`);
-    logger.error(error);
+    logger.error(error, `Unable to delete questionnaire with ID: ${id}`);
     return;
   }
 };
@@ -223,8 +219,7 @@ const createUser = async (user) => {
     const collection = dbo.collection("users");
     await collection.insertOne({ ...user, id, name, email });
   } catch (error) {
-    logger.error(`Error creating user with ID: ${id}: `);
-    logger.error(error);
+    logger.error(error, `Error creating user with ID: ${id}: `);
     return;
   }
 
@@ -241,14 +236,13 @@ const getUserByExternalId = async (externalId) => {
     const user = await collection.findOne({ externalId: externalId });
 
     if (!user) {
-      logger.debug(`User with external ID ${externalId} not found`);
+      logger.info(`User with external ID ${externalId} not found`);
       return;
     }
 
     return { ...user, id: user.id };
   } catch (error) {
-    logger.error(`Unable to find user with external ID ${externalId}`);
-    logger.error(error);
+    logger.error(error, `Unable to find user with external ID ${externalId}`);
     return;
   }
 };
@@ -259,15 +253,14 @@ const getUserById = async (id) => {
     const user = await collection.findOne({ id: id });
 
     if (!user) {
-      logger.debug("No users found");
+      logger.info("No users found");
       return;
     }
 
     return { ...user, id: user.id };
   } catch (error) {
-    logger.error(`Error getting user with ID: ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Error getting user with ID: ${id}`);
+    return;
   }
 };
 
@@ -277,7 +270,7 @@ const listQuestionnaires = async () => {
     const questionnaires = await collection.find().toArray();
 
     if (questionnaires.length === 0) {
-      logger.debug("No questionnaires found");
+      logger.info("No questionnaires found");
       return [];
     }
 
@@ -287,8 +280,7 @@ const listQuestionnaires = async () => {
 
     return transformedQuestionnaires;
   } catch (error) {
-    logger.error("Unable to retrieve questionnaires");
-    logger.error(error);
+    logger.error(error, "Unable to retrieve questionnaires");
     return;
   }
 };
@@ -306,10 +298,10 @@ const createComments = async (questionnaireId) => {
     return defaultComments;
   } catch (error) {
     logger.error(
+      error,
       `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -318,15 +310,14 @@ const listUsers = async () => {
     const collection = dbo.collection("users");
     const users = await collection.find().toArray();
     if (users.length === 0) {
-      logger.debug("No users found");
+      logger.info("No users found");
       return [];
     }
 
     return users;
   } catch (error) {
-    logger.error(`Unable to get a list of all users`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable to get a list of all users`);
+    return;
   }
 };
 
@@ -345,9 +336,8 @@ const saveMetadata = async (metadata) => {
     await collection.updateOne({ id: id }, { $set: updatedMetadata });
     return updatedMetadata;
   } catch (error) {
-    logger.error(`Cannot update base questionnaire with ID ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Cannot update base questionnaire with ID ${id}`);
+    return;
   }
 };
 
@@ -376,10 +366,10 @@ const createHistoryEvent = async (qid, event) => {
     return questionnaire.history;
   } catch (error) {
     logger.error(
+      error,
       `Error creating history event in questionnaire with ID ${qid}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -396,9 +386,8 @@ const updateUser = async (changedUser) => {
     await collection.updateOne({ id: id }, { $set: { ...user } });
     return user;
   } catch (error) {
-    logger.error(`Unable update user with ID ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable update user with ID ${id}`);
+    return;
   }
 };
 
@@ -421,10 +410,10 @@ const saveComments = async (updatedCommentsObject) => {
     return updatedComments;
   } catch (error) {
     logger.error(
+      error,
       `Unable to save comments for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -440,10 +429,10 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
     return comments;
   } catch (error) {
     logger.error(
+      error,
       `Unable to get comments for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -454,14 +443,13 @@ const getUserByName = async (name) => {
       name: name,
     });
     if (!user) {
-      logger.debug("No user found by name");
+      logger.info("No user found by name");
       return;
     }
     return user;
   } catch (error) {
-    logger.error(`Unable to get a user by name`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable to get a user by name`);
+    return;
   }
 };
 
@@ -472,14 +460,13 @@ const getUserByEmail = async (email) => {
       email: email,
     });
     if (!user) {
-      logger.debug("No user found by name");
+      logger.info("No user found by name");
       return;
     }
     return user;
   } catch (error) {
-    logger.error(`Unable to get a user by name`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable to get a user by name`);
+    return;
   }
 };
 
