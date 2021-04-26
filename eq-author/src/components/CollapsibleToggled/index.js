@@ -2,12 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
-
-import enableThemeMutation from "graphql/enableTheme.graphql";
-import disableThemeMutation from "graphql/disableTheme.graphql";
-import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
-import { useMutation } from "@apollo/react-hooks";
-
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Wrapper = styled.div``;
@@ -33,13 +27,8 @@ const CollapsibleToggled = ({
   defaultOpen = false,
   headerContent,
   children,
-  questionnaireId,
-  shortName,
+  onChange,
 }) => {
-  const [enableTheme] = useMutation(enableThemeMutation);
-  const [disableTheme] = useMutation(disableThemeMutation);
-  const handleToggle = defaultOpen ? disableTheme : enableTheme;
-
   return (
     <Wrapper data-test="CollapsibleToggled">
       <Header data-test="CollapsibleToggled__Header">
@@ -47,34 +36,7 @@ const CollapsibleToggled = ({
         <ToggleSwitch
           name={`${title}-toggle-switch`}
           hideLabels={false}
-          onChange={() =>
-            handleToggle({
-              variables: { input: { questionnaireId, shortName } },
-              ...(!defaultOpen && {
-                update: (client, { data: { enableTheme } }) => {
-                  const { questionnaire } = client.readQuery({
-                    query: getQuestionnaireQuery,
-                    variables: {
-                      input: { questionnaireId },
-                    },
-                  });
-                  // check here if the theme is in the array
-                  client.writeQuery({
-                    query: getQuestionnaireQuery,
-                    variables: {
-                      input: { questionnaireId },
-                    },
-                    data: {
-                      questionnaire: {
-                        ...questionnaire,
-                        themes: [...questionnaire.themes, enableTheme],
-                      },
-                    },
-                  });
-                },
-              }),
-            })
-          }
+          onChange={onChange}
           checked={defaultOpen}
         />
         {headerContent}
@@ -107,4 +69,5 @@ CollapsibleToggled.propTypes = {
   children: PropTypes.node.isRequired,
   questionnaireId: PropTypes.string.isRequired,
   shortName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

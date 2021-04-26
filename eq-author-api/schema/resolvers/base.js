@@ -367,7 +367,7 @@ const Resolvers = {
 
         ctx.questionnaire.themes.push(theme);
       }
-      theme = { ...theme, enabled: true };
+      theme.enabled = true;
       return theme;
     }),
     updateTheme: createMutation((root, { input }, ctx) => {

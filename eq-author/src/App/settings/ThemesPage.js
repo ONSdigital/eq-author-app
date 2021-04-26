@@ -6,10 +6,13 @@ import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateTheme from "graphql/updateTheme.graphql";
+import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
+import enableThemeMutation from "graphql/enableTheme.graphql";
+import disableThemeMutation from "graphql/disableTheme.graphql";
 import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
@@ -81,10 +84,7 @@ EqIdInput.propTypes = {
 };
 
 const themes = [
-  {
-    title: "GB theme",
-    shortName: "default",
-  },
+  { title: "GB theme", shortName: "default" },
   { title: "NI theme", shortName: "northernireland" },
   { title: "COVID theme", shortName: "covid" },
   { title: "EPE theme", shortName: "epe" },
@@ -128,7 +128,39 @@ const ThemesPage = ({ questionnaire }) => {
     }
   };
 
-  console.log(questionnaireThemes);
+  const [enableTheme] = useMutation(enableThemeMutation);
+  const [disableTheme] = useMutation(disableThemeMutation);
+
+  const toggleTheme = ({ shortName, enabled }) => {
+    const handleToggle = enabled ? disableTheme : enableTheme;
+
+    handleToggle({
+      variables: { input: { questionnaireId: id, shortName } },
+      ...(!enabled && {
+        update: (client, { data: { enableTheme } }) => {
+          const { questionnaire } = client.readQuery({
+            query: getQuestionnaireQuery,
+            variables: {
+              input: { questionnaireId: id },
+            },
+          });
+          // check here if the theme is in the array
+          client.writeQuery({
+            query: getQuestionnaireQuery,
+            variables: {
+              input: { questionnaireId: id },
+            },
+            data: {
+              questionnaire: {
+                ...questionnaire,
+                themes: [...questionnaire.themes, enableTheme],
+              },
+            },
+          });
+        },
+      }),
+    });
+  };
 
   return (
     <Container>
@@ -186,6 +218,7 @@ const ThemesPage = ({ questionnaire }) => {
                           defaultOpen={enabled}
                           questionnaireId={id}
                           shortName={shortName}
+                          onChange={() => toggleTheme({ shortName, enabled })}
                         >
                           {/* Added some filler text to demonstrate the opening and 
                             closing; this should be removed in future tickets where 
