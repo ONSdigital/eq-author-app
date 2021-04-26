@@ -34,7 +34,7 @@ describe("loadQuestionnaire", () => {
     await new Promise((resolve) => {
       loadQuestionnaire(req, res, resolve);
     });
-    expect(req.questionnaire).toEqual(undefined);
+    expect(req.questionnaire).toEqual(null);
   });
   it("should not load private questionnaire if user is not an editor", async () => {
     const ctx = await buildContext({ isPublic: false });

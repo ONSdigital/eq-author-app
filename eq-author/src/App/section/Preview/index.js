@@ -9,7 +9,7 @@ import { isEmpty, get } from "lodash";
 import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
-import CommentsPanel from "components/CommentsPanel";
+import CommentsPanel from "App/Comments";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
