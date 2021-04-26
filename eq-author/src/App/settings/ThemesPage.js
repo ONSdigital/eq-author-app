@@ -84,7 +84,7 @@ EqIdInput.propTypes = {
 };
 
 const themes = [
-  { title: "GB theme", shortName: "default" },
+  { title: "GB theme", shortName: "default", enabled: true },
   { title: "NI theme", shortName: "northernireland" },
   { title: "COVID theme", shortName: "covid" },
   { title: "EPE theme", shortName: "epe" },
