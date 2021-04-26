@@ -310,7 +310,7 @@ describe("schema validation", () => {
         errorCode: "ADDITIONAL_LABEL_MISSING",
         field: "label",
         id: uuidRejex,
-        type: "option-additional",
+        type: "option-additionalAnswer",
       });
     });
   });

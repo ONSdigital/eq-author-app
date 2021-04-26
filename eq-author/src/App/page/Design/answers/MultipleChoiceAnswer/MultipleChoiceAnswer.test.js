@@ -142,8 +142,10 @@ describe("MultipleChoiceAnswer", () => {
       option
     );
 
+    console.log(Options.debug({verbose:true}));
+
     expect(
-      Options.find("MultipleChoiceAnswer__SpecialOptionWrapper")
+      Options.find("Field__StyledField")
     ).toHaveLength(1);
   });
 
