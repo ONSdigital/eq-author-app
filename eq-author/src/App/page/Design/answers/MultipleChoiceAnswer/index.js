@@ -122,10 +122,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
     const errorMsgOther = ADDITIONAL_LABEL_MISSING;
-    const additionalLabelError = answer.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther;
-
-    console.log('additionalLabelError :>> ', additionalLabelError);
-
+console.log('answer :>> ', answer);
     return (
       <BasicAnswer
         answer={answer}
@@ -158,11 +155,11 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   answer={answer}
                 >
                   {option.additionalAnswer && (
-                    console.log('option :>> ', option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther),
+                    console.log('option :>> ', option),
                     <SpecialOptionWrapper data-test="other-answer">
                      <BasicAnswer
-                      {...props}
-                      key={option.id}
+                        {...props}
+                        key={option.additionalAnswer.id}
                         answer={option.additionalAnswer}
                         onUpdate={onUpdate}
                         showDescription={false}

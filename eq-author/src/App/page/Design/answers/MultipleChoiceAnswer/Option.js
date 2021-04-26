@@ -205,8 +205,22 @@ export class StatelessOption extends Component {
               data-test="option-description"
             />
           </OptionField>
+          {/* <OptionField>
+            <Label htmlFor={`option-other-${option.id}`}>
+              Description (optional)
+            </Label>
+            <WrappingInput
+              id={`option-other-${option.id}`}
+              name="description"
+              value={option.description}
+              placeholder={descriptionPlaceholder}
+              onChange={onChange}
+              onBlur={console.log}
+              onKeyDown={this.handleKeyDown}
+              data-test="option-description"
+            />
+          </OptionField> */}
           {children}
-          {/* {React.cloneElement(children, { optionErrorMsg: false })} */}
           {this.renderToolbar()}
         </div>
       </StyledOption>

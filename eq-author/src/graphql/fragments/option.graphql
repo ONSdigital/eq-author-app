@@ -10,9 +10,6 @@ fragment Option on Option {
   displayName
   additionalAnswer {
     ...Answer
-    validationErrorInfo {
-        ...ValidationErrorInfo
-      }
     ... on BasicAnswer {
       validationErrorInfo {
         ...ValidationErrorInfo

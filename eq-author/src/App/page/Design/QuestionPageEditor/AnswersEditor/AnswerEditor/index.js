@@ -86,6 +86,7 @@ class AnswerEditor extends React.Component {
 
   renderAnswer(answer) {
     const { type } = answer;
+    console.log('this.props :>> ', this.props);
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
       return <BasicAnswer type={type} {...this.props} />;
     }

@@ -37,8 +37,6 @@ export const StatelessBasicAnswer = ({
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
-  console.log('answer :>> ', answer);
-
   return (
     <div>
       <Field>
