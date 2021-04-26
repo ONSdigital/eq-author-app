@@ -1,110 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Option should match snapshot 1`] = `
-<Option__StyledOption
-  duration={200}
-  id="Option1"
-  key="1"
->
-  <div>
-    <Option__Flex>
-      <MultipleChoice
-        type="Radio"
-      />
-      <Option__OptionField>
-        <Label
-          bold={true}
-          htmlFor="option-label-1"
-        >
-          Label
-        </Label>
-        <withChangeHandler(WrappingInput)
-          bold={true}
-          data-autofocus={true}
-          data-test="option-label"
-          id="option-label-1"
-          name="label"
-          onBlur={[MockFunction]}
-          onChange={[MockFunction]}
-          onKeyDown={[Function]}
-          placeholder=""
-          value=""
-        />
-      </Option__OptionField>
-    </Option__Flex>
-    <Option__OptionField>
-      <Label
-        bold={true}
-        htmlFor="option-description-1"
-      >
-        Description (optional)
-      </Label>
-      <withChangeHandler(WrappingInput)
-        data-test="option-description"
-        id="option-description-1"
-        name="description"
-        onBlur={[MockFunction]}
-        onChange={[MockFunction]}
-        onKeyDown={[Function]}
-        value=""
-      />
-    </Option__OptionField>
-    <Option__ButtonsContainer>
-      <Tooltip
-        content="Move answer up"
-        offset={
+<withEntityEditor(StatelessOption)
+  endRequest={[Function]}
+  hasDeleteButton={true}
+  onChange={[MockFunction]}
+  onDelete={[MockFunction]}
+  onEnterKey={[MockFunction]}
+  onFocus={[MockFunction]}
+  onUpdate={[MockFunction]}
+  option={
+    Object {
+      "__typename": "Option",
+      "description": "",
+      "id": "1",
+      "label": "",
+    }
+  }
+  startRequest={[Function]}
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
           Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete option"
-        offset={
-          Object {
-            "bottom": 10,
-          }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete option"
-          data-test="btn-delete-option"
-          disabled={false}
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </Option__ButtonsContainer>
-  </div>
-</Option__StyledOption>
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+      "subscribe": [MockFunction],
+    }
+  }
+  type="Radio"
+/>
 `;
 
 exports[`Option should render a checkbox 1`] = `
@@ -1623,108 +1555,45 @@ exports[`Option should render a checkbox 1`] = `
 `;
 
 exports[`Option shouldn't render delete button if not applicable 1`] = `
-<Option__StyledOption
-  duration={200}
-  id="Option1"
-  key="1"
->
-  <div>
-    <Option__Flex>
-      <MultipleChoice
-        type="Radio"
-      />
-      <Option__OptionField>
-        <Label
-          bold={true}
-          htmlFor="option-label-1"
-        >
-          Label
-        </Label>
-        <withChangeHandler(WrappingInput)
-          bold={true}
-          data-autofocus={true}
-          data-test="option-label"
-          id="option-label-1"
-          name="label"
-          onBlur={[MockFunction]}
-          onChange={[MockFunction]}
-          onKeyDown={[Function]}
-          placeholder=""
-          value=""
-        />
-      </Option__OptionField>
-    </Option__Flex>
-    <Option__OptionField>
-      <Label
-        bold={true}
-        htmlFor="option-description-1"
-      >
-        Description (optional)
-      </Label>
-      <withChangeHandler(WrappingInput)
-        data-test="option-description"
-        id="option-description-1"
-        name="description"
-        onBlur={[MockFunction]}
-        onChange={[MockFunction]}
-        onKeyDown={[Function]}
-        value=""
-      />
-    </Option__OptionField>
-    <Option__ButtonsContainer>
-      <Tooltip
-        content="Move answer up"
-        offset={
+<withEntityEditor(StatelessOption)
+  endRequest={[Function]}
+  hasDeleteButton={false}
+  onChange={[MockFunction]}
+  onDelete={[MockFunction]}
+  onEnterKey={[MockFunction]}
+  onFocus={[MockFunction]}
+  onUpdate={[MockFunction]}
+  option={
+    Object {
+      "__typename": "Option",
+      "description": "",
+      "id": "1",
+      "label": "",
+    }
+  }
+  startRequest={[Function]}
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction] {
+        "calls": Array [
+          Array [],
+          Array [],
+        ],
+        "results": Array [
           Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
+            "type": "return",
+            "value": undefined,
+          },
           Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete option"
-        offset={
-          Object {
-            "bottom": 10,
-          }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete option"
-          data-test="btn-delete-option"
-          disabled={true}
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </Option__ButtonsContainer>
-  </div>
-</Option__StyledOption>
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+      "subscribe": [MockFunction],
+    }
+  }
+  type="Radio"
+/>
 `;

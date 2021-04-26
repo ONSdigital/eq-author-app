@@ -15,7 +15,6 @@ import { CHECKBOX } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
-import { ADDITIONAL_LABEL_MISSING } from "constants/validationMessages";
 
 import gql from "graphql-tag";
 
@@ -121,8 +120,6 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
 
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
-    const errorMsgOther = ADDITIONAL_LABEL_MISSING;
-console.log('answer :>> ', answer);
     return (
       <BasicAnswer
         answer={answer}
@@ -142,7 +139,6 @@ console.log('answer :>> ', answer);
               Transition={OptionTransition}
             >
               {(props, option) => (
-                <>
                 <Option
                   {...otherProps}
                   {...props}
@@ -153,27 +149,7 @@ console.log('answer :>> ', answer);
                   hasDeleteButton={showDeleteOption}
                   hideMoveButtons={numberOfOptions === 1}
                   answer={answer}
-                >
-                  {option.additionalAnswer && (
-                    console.log('option :>> ', option),
-                    <SpecialOptionWrapper data-test="other-answer">
-                     <BasicAnswer
-                        {...props}
-                        key={option.additionalAnswer.id}
-                        answer={option.additionalAnswer}
-                        onUpdate={onUpdate}
-                        showDescription={false}
-                        labelText="Other label"
-                        labelPlaceholder=""
-                        errorLabel="Other label"
-                        bold={false}
-                        type={answer.type}
-                        optionErrorMsg={ option.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") && errorMsgOther}
-                      />
-                    </SpecialOptionWrapper>
-                   )}
-                </Option>
-                </>
+                />
               )}
             </Reorder>
             {answer.mutuallyExclusiveOption && (

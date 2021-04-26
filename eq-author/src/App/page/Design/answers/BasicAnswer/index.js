@@ -48,8 +48,7 @@ export const StatelessBasicAnswer = ({
           onBlur={onUpdate}
           value={answer.label}
           data-autofocus={autoFocus || null}
-          placeholder={answer.id}
-          // placeholder={labelPlaceholder}
+          placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
           errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({

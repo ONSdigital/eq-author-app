@@ -47,6 +47,7 @@ export const OptionField = styled(Field)`
 export const StyledOption = styled.div`
   border: 1px solid ${colors.bordersLight};
   padding: 1em 1em 0;
+  padding-bottom: ${option => option?.additionalAnswer && '1em'};
   border-radius: ${radius};
   position: relative;
 
@@ -69,12 +70,10 @@ const StatelessOption = ({
   onEnterKey,
   hasDeleteButton,
   type,
-  children,
   labelPlaceholder = "",
   descriptionPlaceholder,
   autoFocus = true,
   label,
-  getValidationError = () => {},
   canMoveUp,
   onMoveUp,
   canMoveDown,
@@ -87,13 +86,11 @@ const StatelessOption = ({
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
 
   const handleDeleteClick = () => onDelete(option.id);
-
   const handleKeyDown = (e) => {
     if (e.keyCode === ENTER_KEY) {
       onEnterKey(e);
     }
   };
-
   const handleSaveOtherLabel = () =>
     updateOption({
       variables: {
@@ -161,7 +158,7 @@ const StatelessOption = ({
       ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
     ) && errorMsg;
   const otherLabelError =
-    option.additionalAnswer?.validationErrorInfo?.errors?.length &&
+    option.additionalAnswer?.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") &&
     ADDITIONAL_LABEL_MISSING;
 
   return (
@@ -177,8 +174,7 @@ const StatelessOption = ({
               id={`option-label-${option.id}`}
               name="label"
               value={option.label}
-              placeholder={option.id}
-              // placeholder={labelPlaceholder}
+              placeholder={labelPlaceholder}
               onChange={onChange}
               onBlur={onUpdate}
               onKeyDown={handleKeyDown}
@@ -204,21 +200,21 @@ const StatelessOption = ({
             data-test="option-description"
           />
         </OptionField>
+        {option.additionalAnswer && (
         <OptionField>
-          <Label htmlFor={`option-other-${option.id}`}>Other</Label>
+          <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>Other Label</Label>
           <WrappingInput
-            id={`option-otherlabel-${option.id}`}
+            id={`option-otherLabel-${option.additionalAnswer.id}`}
             name="otherLabel"
             value={otherLabelValue}
-            placeholder={descriptionPlaceholder}
             onChange={({ value }) => setOtherLabelValue(value)}
             onBlur={handleSaveOtherLabel}
             onKeyDown={handleKeyDown}
-            data-test="option-description"
+            data-test="other-answer"
             errorValidationMsg={otherLabelError}
           />
         </OptionField>
-        {/* {children} */}
+        )}
         {renderToolbar()}
       </div>
     </StyledOption>
@@ -238,7 +234,6 @@ StatelessOption.propTypes = {
   descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   label: PropTypes.string,
-  getValidationError: PropTypes.func,
   canMoveUp: PropTypes.bool,
   onMoveUp: PropTypes.func,
   canMoveDown: PropTypes.bool,
