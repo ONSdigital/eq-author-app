@@ -31,4 +31,5 @@ REDIS_DOMAIN_NAME=0.0.0.0 \
 REDIS_PORT=${REDIS_PORT} \
 SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit/ \
 DATABASE=mongodb \
+NODE_ENV=test \
 yarn jest --runInBand --detectOpenHandles --forceExit "$@"
