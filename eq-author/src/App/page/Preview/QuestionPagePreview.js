@@ -12,7 +12,7 @@ import EditorLayout from "components/EditorLayout";
 import { colors } from "constants/theme";
 
 import QuestionPageEditor from "../Design/QuestionPageEditor";
-import CommentsPanel from "components/CommentsPanel";
+import CommentsPanel from "App/Comments";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";

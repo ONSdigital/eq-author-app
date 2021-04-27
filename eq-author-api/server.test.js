@@ -108,7 +108,7 @@ describe("Server", () => {
         `/export/${importResponseData.id}`
       );
 
-      const overwrittenFields = ["id", "createdAt", "updatedAt"];
+      const overwrittenFields = ["_id", "id", "createdAt", "updatedAt"];
       expect(JSON.parse(dumpResponse.text)).toMatchObject(
         omit(questionnaireJSON, overwrittenFields)
       );

@@ -11,7 +11,10 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import { useCreateFolder } from "hooks/useCreateFolder";
+import {
+  useCreateFolder,
+  useCreatePageWithFolder,
+} from "hooks/useCreateFolder";
 
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
@@ -19,6 +22,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 }));
 
 jest.mock("hooks/useCreateFolder", () => ({
+  useCreatePageWithFolder: jest.fn(),
   useCreateFolder: jest.fn(),
 }));
 
@@ -29,6 +33,8 @@ jest.mock("react", () => ({
 }));
 
 describe("Navigation callbacks", () => {
+  afterEach(() => jest.clearAllMocks());
+
   it("should throw an error when undefined callbacks used", () => {
     expect(() => defaultCallbacks.onAddQuestionPage()).toThrow();
     expect(() => defaultCallbacks.onAddCalculatedSummaryPage()).toThrow();
@@ -62,7 +68,7 @@ describe("Navigation callbacks", () => {
     useCreateFolder.mockImplementation(() => addFolder);
 
     useSetNavigationCallbacksForPage({
-      page: { position: 0 },
+      page: { position: 0, folder: { enabled: true, position: 5 } },
       folder: { id: "folder-1", position: 0 },
       section: { id: "section-1" },
     });
@@ -74,7 +80,60 @@ describe("Navigation callbacks", () => {
     callbacks.onAddFolder();
 
     expect(addQuestionPage).toHaveBeenCalledTimes(1);
+    expect(addQuestionPage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        folderId: "folder-1",
+        position: 1,
+      })
+    );
     expect(addCalculatedSummaryPage).toHaveBeenCalledTimes(1);
+    expect(addCalculatedSummaryPage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        folderId: "folder-1",
+        position: 1,
+      })
+    );
+    expect(addFolder).toHaveBeenCalledTimes(1);
+  });
+
+  it("useSetNavigationCallbacksForPage: should generate correct callback functions outside folder", () => {
+    let contextValue;
+    useContext.mockImplementation(() => ({
+      callbacks: contextValue,
+      setCallbacks: (value) => {
+        contextValue = value;
+      },
+    }));
+
+    const addPageWithFolder = jest.fn();
+    const addFolder = jest.fn();
+    useCreatePageWithFolder.mockImplementation(() => addPageWithFolder);
+    useCreateFolder.mockImplementation(() => addFolder);
+
+    useSetNavigationCallbacksForPage({
+      page: { position: 0, folder: { enabled: false } },
+      folder: { id: "folder-1", position: 0 },
+      section: { id: "section-1" },
+    });
+
+    const callbacks = useNavigationCallbacks();
+
+    callbacks.onAddQuestionPage();
+    expect(addPageWithFolder).toHaveBeenCalledTimes(1);
+    expect(addPageWithFolder).toHaveBeenCalledWith({
+      sectionId: "section-1",
+      position: 1,
+    });
+
+    callbacks.onAddCalculatedSummaryPage();
+    expect(addPageWithFolder).toHaveBeenCalledTimes(2);
+    expect(addPageWithFolder).toHaveBeenCalledWith({
+      sectionId: "section-1",
+      position: 1,
+      isCalcSum: true,
+    });
+    callbacks.onAddFolder();
+
     expect(addFolder).toHaveBeenCalledTimes(1);
   });
 });
