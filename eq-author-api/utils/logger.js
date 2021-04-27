@@ -22,7 +22,7 @@ switch (process.env.NODE_ENV) {
         translateTime: "dd/mm/yyyy h:MM:ss",
       },
     });
-    logger.level = "warn";
+    logger.level = "silent";
     break;
   }
   default: {
