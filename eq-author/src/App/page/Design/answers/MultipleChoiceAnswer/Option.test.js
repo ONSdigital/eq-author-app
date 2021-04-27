@@ -8,6 +8,28 @@ import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import { merge } from "lodash";
 import createMockStore from "tests/utils/createMockStore";
+import { useMutation } from "@apollo/react-hooks";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(),
+}));
+
+useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
+
+// jest.mock("@apollo/react-hooks", () => ({
+//   useMutation: () => [
+//     jest.fn(
+//       () =>
+//         new Promise((resolve) =>
+//           resolve({
+//             data: {
+//               createFolder: { id: "new-folder", pages: [{ id: "page-1" }] },
+//             },
+//           })
+//         )
+//     ),
+//   ],
+// }));
 
 describe("Option", () => {
   let mockMutations;
@@ -19,6 +41,11 @@ describe("Option", () => {
     id: "1",
     label: "",
     description: "",
+    additionAnswer: {
+      id: "additional1",
+      label: "",
+      type: "TextField",
+    },
     __typename: "Option",
   };
 
@@ -70,11 +97,19 @@ describe("Option", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should call onChange on input", () => {
-    wrapper.find("[data-test='option-label']").simulate("change");
-    wrapper.find("[data-test='option-description']").simulate("change");
+  it.only("should call onChange on input", () => {
+    wrapper = render(mount, { autoFocus: false });
+    console.log(wrapper.debug({verbose:true}));
 
-    expect(mockMutations.onChange).toHaveBeenCalledTimes(2);
+    const input = wrapper
+      .find(`[data-test="option-label"]`)
+      .first()
+      .simulate("change");
+
+    // wrapper.find("[data-test='option-label']").first().simulate("change");
+    // wrapper.find("[data-test='option-description']").first().simulate("change");
+
+    expect(input.mockMutations.onChange).toHaveBeenCalledTimes(1);
   });
 
   it("should update label on blur", () => {
