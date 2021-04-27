@@ -10,25 +10,25 @@ exports[`Tooltip should render 1`] = `
     Click me
   </button>
   <div
-    class="__react_component_tooltip tc8380f8c-8f84-4f29-be6d-c656e5d95c14 place-bottom type-dark"
+    class="__react_component_tooltip tda7fba0a-8cdb-4006-80a5-59a538cb6203 place-bottom type-dark"
     data-id="tooltip"
     id="tooltip-1"
   >
     <style>
       
-  	.tc8380f8c-8f84-4f29-be6d-c656e5d95c14 {
+  	.tda7fba0a-8cdb-4006-80a5-59a538cb6203 {
 	    color: #fff;
 	    background: #222;
 	    border: 1px solid transparent;
   	}
 
-  	.tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-top {
+  	.tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-top {
         margin-top: -10px;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-top::before {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-top::before {
         border-top: 8px solid transparent;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-top::after {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-top::after {
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
         bottom: -6px;
@@ -39,13 +39,13 @@ exports[`Tooltip should render 1`] = `
         border-top-width: 6px;
     }
 
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-bottom {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-bottom {
         margin-top: 10px;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-bottom::before {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-bottom::before {
         border-bottom: 8px solid transparent;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-bottom::after {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-bottom::after {
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
         top: -6px;
@@ -56,13 +56,13 @@ exports[`Tooltip should render 1`] = `
         border-bottom-width: 6px;
     }
 
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-left {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-left {
         margin-left: -10px;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-left::before {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-left::before {
         border-left: 8px solid transparent;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-left::after {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-left::after {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
         right: -6px;
@@ -73,13 +73,13 @@ exports[`Tooltip should render 1`] = `
         border-left-width: 6px;
     }
 
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-right {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-right {
         margin-left: 10px;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-right::before {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-right::before {
         border-right: 8px solid transparent;
     }
-    .tc8380f8c-8f84-4f29-be6d-c656e5d95c14.place-right::after {
+    .tda7fba0a-8cdb-4006-80a5-59a538cb6203.place-right::after {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
         left: -6px;
