@@ -91,6 +91,7 @@ const ContentPickerSelect = ({
   selectedContentDisplayName = defaultContentName,
   selectedMetadataDisplayName = defaultMetadataName,
   onSubmit,
+  hasError,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -118,12 +119,13 @@ const ContentPickerSelect = ({
         data-test={contentPickerSelectID}
         onClick={() => setPickerOpen(true)}
         disabled={loading || !isNil(error) || disabled}
+        hasError={hasError}
         {...otherProps}
       >
         <ContentSelected>{buildTitle(contentSelectButtonText)}</ContentSelected>
       </ContentSelectButton>
     ),
-    [loading, contentSelectButtonText, error, disabled]
+    [loading, contentSelectButtonText, error, disabled, hasError]
   );
 
   const handlePickerSubmit = (selected) => {
