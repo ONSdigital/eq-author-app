@@ -136,6 +136,7 @@ describe("Server", () => {
         sub: "1234",
         name: "tracing_test",
         externalId: "1234",
+        email: "test@test.com",
       };
       await createUser(user);
 
