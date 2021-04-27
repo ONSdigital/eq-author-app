@@ -5,7 +5,6 @@ import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import { useMutation } from "@apollo/react-hooks";
-import userEvent from "@testing-library/user-event";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
