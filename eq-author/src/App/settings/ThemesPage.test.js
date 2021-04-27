@@ -5,6 +5,7 @@ import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import { useMutation } from "@apollo/react-hooks";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -12,8 +13,7 @@ jest.mock("@apollo/react-hooks", () => ({
 }));
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
-
-const renderSettingsPage = (questionnaire, user, mocks) => {
+const renderThemesPage = (questionnaire, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
       <ThemesPage questionnaire={questionnaire} />
@@ -26,7 +26,7 @@ const renderSettingsPage = (questionnaire, user, mocks) => {
   );
 };
 
-describe("Settings page", () => {
+describe("Themes page", () => {
   let mockQuestionnaire, user, mocks;
 
   beforeEach(() => {
@@ -41,7 +41,15 @@ describe("Settings page", () => {
       description: "Questionnaire",
       surveyId: "123",
       theme: "default",
-      themes: [],
+      themes: [
+        { title: "GB theme", shortName: "default", enabled: true },
+        { title: "NI theme", shortName: "northernireland" },
+        { title: "COVID theme", shortName: "covid" },
+        { title: "EPE theme", shortName: "epe" },
+        { title: "EPE NI theme", shortName: "epeni" },
+        { title: "UKIS theme", shortName: "ukis" },
+        { title: "UKIS NI theme", shortName: "ukisni" },
+      ],
       displayName: "Tests",
       createdBy: {
         ...user,
@@ -222,7 +230,7 @@ describe("Settings page", () => {
   });
 
   it("Should render themes page", () => {
-    const { getByTestId } = renderSettingsPage(mockQuestionnaire, user, mocks);
+    const { getByTestId } = renderThemesPage(mockQuestionnaire, user, mocks);
 
     expect(getByTestId("theme-description")).toBeTruthy();
   });
@@ -230,7 +238,7 @@ describe("Settings page", () => {
   it("Should change surveyId", () => {
     const onBlur = jest.fn();
     useMutation.mockImplementation(() => [onBlur]);
-    renderSettingsPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire, user, mocks);
 
     const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
 
@@ -253,7 +261,7 @@ describe("Settings page", () => {
   it("Should not change surveyId", () => {
     const onBlur = jest.fn();
     useMutation.mockImplementation(() => [onBlur]);
-    renderSettingsPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire, user, mocks);
 
     const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
 
@@ -267,5 +275,79 @@ describe("Settings page", () => {
     expect(questionnaireIdInput.value).toBe(" ");
     fireEvent.blur(questionnaireIdInput);
     expect(onBlur).not.toHaveBeenCalled();
+  });
+
+  it("Should render themes", () => {
+    const toggleTheme = jest.fn();
+    useMutation.mockImplementation(() => [toggleTheme]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    expect(screen.getByText(`EPE theme`)).toBeVisible();
+  });
+
+  it("Should toggle theme enabled", () => {
+    const toggleTheme = jest.fn();
+    useMutation.mockImplementation(() => [toggleTheme]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const toggleSwitch = screen.getByTestId(`COVID theme-input`);
+
+    fireEvent.click(toggleSwitch);
+    expect(toggleTheme).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            shortName: "covid",
+          },
+        },
+      })
+    );
+  });
+
+  it("Should display EQ ID", () => {
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    expect(screen.getByText("EQ ID")).toBeVisible();
+  });
+
+  it("Should handle EQ ID update", () => {
+    const handleEQIdBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleEQIdBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const eqIdInput = screen.getByTestId("default-eq-id-input");
+
+    fireEvent.change(eqIdInput, {
+      target: { value: "123" },
+    });
+
+    fireEvent.blur(eqIdInput);
+    expect(handleEQIdBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            eqId: "123",
+            shortName: "default",
+          },
+        },
+      })
+    );
+  });
+
+  it("Should handle EQ ID change when not empty", () => {
+    const handleEQIdBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleEQIdBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const eqIdInput = screen.getByTestId("default-eq-id-input");
+
+    fireEvent.change(eqIdInput, {
+      target: { value: " " },
+    });
+
+    fireEvent.blur(eqIdInput);
+    expect(handleEQIdBlur).not.toHaveBeenCalled();
   });
 });

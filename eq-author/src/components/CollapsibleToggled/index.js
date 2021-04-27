@@ -34,6 +34,7 @@ const CollapsibleToggled = ({
       <Header data-test="CollapsibleToggled__Header">
         <h2>{title}</h2>
         <ToggleSwitch
+          id={`${title}`}
           name={`${title}-toggle-switch`}
           hideLabels={false}
           onChange={onChange}

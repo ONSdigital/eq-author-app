@@ -65,21 +65,21 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const EqIdInput = ({ eqId, onBlur, shortName }) => {
+const EqIdInput = ({ eqId = "", handleBlur, shortName }) => {
   const [state, setState] = useState(eqId);
   return (
     <StyledInput
       value={state}
       onChange={({ value }) => setState(value)}
-      onBlur={(e) => onBlur({ ...e.target }, shortName)}
-      data-test="change-eq-id"
+      onBlur={(e) => handleBlur({ ...e.target }, shortName)}
+      data-test={`${shortName}-eq-id-input`}
     />
   );
 };
 
 EqIdInput.propTypes = {
   eqId: PropTypes.string,
-  onBlur: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
 };
 
@@ -219,6 +219,7 @@ const ThemesPage = ({ questionnaire }) => {
                           questionnaireId={id}
                           shortName={shortName}
                           onChange={() => toggleTheme({ shortName, enabled })}
+                          data-test={`${shortName}-toggle`}
                         >
                           {/* Added some filler text to demonstrate the opening and 
                             closing; this should be removed in future tickets where 
@@ -231,7 +232,7 @@ const ThemesPage = ({ questionnaire }) => {
                           <EqIdInput
                             eqId={eqId}
                             shortName={shortName}
-                            onBlur={handleEQIdBlur}
+                            handleBlur={handleEQIdBlur}
                           />
                           <p>
                             Phasellus viverra malesuada tincidunt. Fusce

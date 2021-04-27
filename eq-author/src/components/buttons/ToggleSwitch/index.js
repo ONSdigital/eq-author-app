@@ -152,6 +152,7 @@ class ToggleSwitch extends React.Component {
             onChange={onChange}
             checked={checked}
             ref={this.inputRef}
+            data-test={`${id}-input`}
           />
           <ToggleSwitchBackground
             role="presentation"
