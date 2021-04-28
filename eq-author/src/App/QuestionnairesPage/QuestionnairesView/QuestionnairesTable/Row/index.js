@@ -17,11 +17,14 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
+import Button from "components/buttons/Button";
 
 import FormattedDate from "./FormattedDate";
 import questionConfirmationIcon from "./icon-questionnaire.svg";
-import { ReactComponent as UnstyledStarredIcon } from "assets/icon-starred.svg";
-import { ReactComponent as UnstyledUnstarredIcon } from "assets/icon-unstarred.svg";
+import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
+import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
+import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
+import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
 
 import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
@@ -38,42 +41,20 @@ export const QuestionnaireLink = styled(NavLink)`
   }
 `;
 
-const StarredIcon = styled(UnstyledStarredIcon)`
-  display: block;
-  margin: auto;
-`;
-
-const UnstarredIcon = styled(UnstyledUnstarredIcon)`
-  display: block;
-  margin: auto;
-`;
-
-export const StarButton = styled.button`
-  border: 0;
-  border-radius: 5px;
+export const IconTextButton = styled(Button).attrs({
+  small: true,
+  variant: "tertiary",
+})`
   padding: 0.5em 0.65em;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: center;
-  margin-left: 0.65em;
-
-  background-color: transparent;
-
-  &:hover {
-    background-color: ${colors.blue};
+  margin-left: 0.35em;
+  svg {
+    display: block;
+    margin: auto;
   }
-
-  &:hover polygon {
+  &:hover svg * {
     transition: 0.1s;
     fill: ${colors.white};
   }
-
-  &:hover path {
-    transition: 0.1s;
-    fill: ${colors.white};
-  }
-
-  transition: 0.1s;
 `;
 
 export const ShortTitle = styled.span`
@@ -115,10 +96,14 @@ export const TR = styled.tr`
 
 const TD = styled.td`
   line-height: 1.3;
-  padding: 0 1em;
+  padding-left: 0.5em;
   font-size: 0.9em;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  &:first-of-type {
+    padding-left: 0.65em;
+  }
 `;
 
 export const DuplicateQuestionnaireButton = styled(DuplicateButton)`
@@ -128,7 +113,7 @@ export const DuplicateQuestionnaireButton = styled(DuplicateButton)`
 const Permissions = styled.ul`
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 0.5em;
   display: flex;
 `;
 
@@ -157,6 +142,7 @@ const propTypes = {
   history: CustomPropTypes.history.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  onLockQuestionnaire: PropTypes.func.isRequired,
   exit: PropTypes.bool,
   enter: PropTypes.bool,
   autoFocus: PropTypes.bool,
@@ -175,10 +161,12 @@ export const Row = ({
     updatedAt,
     permission,
     starred,
+    locked,
   },
   history,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
+  onLockQuestionnaire,
   autoFocus,
 }) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
@@ -262,7 +250,13 @@ export const Row = ({
     toggleQuestionnaireStarred(id);
   };
 
-  const hasWritePermisson = permission === WRITE;
+  const handleLock = (e) => {
+    e.stopPropagation();
+    onLockQuestionnaire({ id, locked });
+  };
+
+  const hasWritePermission = permission === WRITE;
+  const canDelete = hasWritePermission && !locked;
 
   return (
     <>
@@ -293,13 +287,6 @@ export const Row = ({
         </TD>
         <TD>{createdBy.displayName}</TD>
         <TD>
-          <Tooltip content={starred ? "Starred" : "Not starred"} place="top">
-            <StarButton onClick={handleStar}>
-              {starred ? <StarredIcon /> : <UnstarredIcon />}
-            </StarButton>
-          </Tooltip>
-        </TD>
-        <TD>
           <FormattedDate date={createdAt} />
         </TD>
         <TD>
@@ -308,8 +295,31 @@ export const Row = ({
         <TD>
           <Permissions>
             <Permission>View</Permission>
-            <Permission disabled={!hasWritePermisson}>Edit</Permission>
+            <Permission disabled={!hasWritePermission}>Edit</Permission>
           </Permissions>
+        </TD>
+        <TD>
+          <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
+            <IconTextButton
+              title="Lock"
+              onClick={handleLock}
+              data-test="lockButton"
+              disabled={!hasWritePermission}
+            >
+              {locked ? <LockedIcon /> : <UnlockedIcon />}
+            </IconTextButton>
+          </Tooltip>
+        </TD>
+        <TD>
+          <Tooltip content={starred ? "Starred" : "Not starred"} place="top">
+            <IconTextButton
+              title="Star"
+              onClick={handleStar}
+              data-test="starButton"
+            >
+              {starred ? <StarredIcon /> : <UnstarredIcon />}
+            </IconTextButton>
+          </Tooltip>
         </TD>
         <TD>
           <div onFocus={handleButtonFocus} data-test="action-btn-group">
@@ -323,7 +333,7 @@ export const Row = ({
                 hideText
                 data-test="btn-delete-questionnaire"
                 onClick={handleDeleteQuestionnaire}
-                disabled={!hasWritePermisson}
+                disabled={!canDelete}
               />
             </ButtonGroup>
           </div>

@@ -12,10 +12,10 @@ const { createUser } = require("../../db/datastore");
 
 jest.mock("./verifyJwtToken", () => {
   const jwt = require("jsonwebtoken");
-  return jest.fn(accessToken => {
+  return jest.fn((accessToken) => {
     const jwtToken = jwt.decode(accessToken);
 
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       resolve(jwtToken.id !== "invalid.token");
     });
   });
@@ -118,7 +118,11 @@ describe("auth middleware", () => {
       it("if user exists should add user to request", async () => {
         let sub = uuidv4();
         let auth = { name: "foo", sub };
-        await createUser({ name: "foo", externalId: sub });
+        await createUser({
+          name: "foo",
+          externalId: sub,
+          email: "test@test.com",
+        });
         const expected = jwt.sign(auth, uuidv4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);

@@ -1,4 +1,4 @@
-import { chunk, clamp, sortBy, reverse, get, flowRight } from "lodash";
+import { chunk, clamp, sortBy, reverse, flowRight } from "lodash";
 
 import { WRITE } from "constants/questionnaire-permissions";
 
@@ -25,7 +25,7 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
 
 const sortQuestionnaires = (state) => (questionnaires) => {
   const sortedQuestionnaires = sortBy(questionnaires, (questionnaire) => {
-    const sortKey = get(questionnaire, state.currentSortColumn);
+    const sortKey = questionnaire?.[state.currentSortColumn] ?? false;
     return sortKey?.toUpperCase?.() ?? sortKey;
   });
 
@@ -107,7 +107,9 @@ const reducer = (state, action) => {
         ...state,
         autoFocusId: null,
         currentSortColumn: action.payload,
-        currentSortOrder: SORT_ORDER.ASCENDING,
+        currentSortOrder: ["locked", "starred"].includes(action.payload)
+          ? SORT_ORDER.DESCENDING
+          : SORT_ORDER.ASCENDING,
       });
     case ACTIONS.REVERSE_SORT:
       return buildState({

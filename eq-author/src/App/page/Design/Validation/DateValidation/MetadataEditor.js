@@ -9,6 +9,7 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => (
     answerId={answer.id}
     onSubmit={onChangeUpdate}
     selectedContentDisplayName={get(validation.previousAnswer, "displayName")}
+    selectedMetadataDisplayName={get(validation.metadata, "displayName")}
     selectedId={get(validation.previousAnswer, "id")}
   />
 );

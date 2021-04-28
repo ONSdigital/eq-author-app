@@ -11,6 +11,7 @@ const createCalculatedSummary = require("./createCalculatedSummary");
 const createFolder = require("./createFolder");
 const createSection = require("./createSection");
 const createTheme = require("./createTheme");
+const updateDestination = require("./updateDestination");
 
 module.exports = {
   createRouting,
@@ -26,4 +27,5 @@ module.exports = {
   createFolder,
   createSection,
   createTheme,
+  updateDestination,
 };

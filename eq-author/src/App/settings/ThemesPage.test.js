@@ -1,9 +1,17 @@
 import React from "react";
-import { render, act, flushPromises } from "tests/utils/rtl";
+import { render, act, flushPromises, screen, fireEvent } from "tests/utils/rtl";
 import ThemesPage from "./ThemesPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import { useMutation } from "@apollo/react-hooks";
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useMutation: jest.fn(),
+}));
+
+useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
@@ -31,7 +39,7 @@ describe("Settings page", () => {
       summary: true,
       collapsibleSummary: false,
       description: "Questionnaire",
-      surveyId: "1",
+      surveyId: "123",
       theme: "default",
       displayName: "Tests",
       createdBy: {
@@ -216,5 +224,47 @@ describe("Settings page", () => {
     const { getByTestId } = renderSettingsPage(mockQuestionnaire, user, mocks);
 
     expect(getByTestId("theme-description")).toBeTruthy();
+  });
+
+  it("Should change surveyId", () => {
+    const onBlur = jest.fn();
+    useMutation.mockImplementation(() => [onBlur]);
+    renderSettingsPage(mockQuestionnaire, user, mocks);
+
+    const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
+
+    expect(questionnaireIdInput).toBeVisible();
+    expect(questionnaireIdInput.value).toBe("123");
+
+    fireEvent.change(questionnaireIdInput, {
+      target: { value: "124" },
+    });
+
+    expect(questionnaireIdInput.value).toBe("124");
+    fireEvent.blur(questionnaireIdInput);
+    expect(onBlur).toHaveBeenCalledWith({
+      variables: {
+        input: { id: expect.any(String), surveyId: "124" },
+      },
+    });
+  });
+
+  it("Should not change surveyId", () => {
+    const onBlur = jest.fn();
+    useMutation.mockImplementation(() => [onBlur]);
+    renderSettingsPage(mockQuestionnaire, user, mocks);
+
+    const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
+
+    expect(questionnaireIdInput).toBeVisible();
+    expect(questionnaireIdInput.value).toBe("123");
+
+    fireEvent.change(questionnaireIdInput, {
+      target: { value: " " },
+    });
+
+    expect(questionnaireIdInput.value).toBe(" ");
+    fireEvent.blur(questionnaireIdInput);
+    expect(onBlur).not.toHaveBeenCalled();
   });
 });

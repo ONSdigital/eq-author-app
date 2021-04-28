@@ -11,14 +11,17 @@ import {
   duplicatesAnswers,
 } from "utils/getAllAnswersFlatMap";
 
-import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
-
 import { PAGE } from "constants/entities";
+import { useParams } from "react-router-dom";
 
-import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from "./";
+import QuestionnaireDesignPage from "./";
+import useQuestionnaireQuery from "./useQuestionnaireQuery";
 
-import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
+import {
+  ERR_PAGE_NOT_FOUND,
+  ERR_UNAUTHORIZED_QUESTIONNAIRE,
+} from "constants/error-codes";
 
 jest.mock("components/BaseLayout/PermissionsBanner", () => ({
   __esModule: true,
@@ -37,20 +40,48 @@ jest.mock("@apollo/react-hooks", () => ({
   useQuery: jest.fn(),
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useLocation: jest.fn(),
+  useMatch: jest.fn(),
+  useParams: jest.fn(),
+}));
+
+jest.mock("hooks/useValidationsSubscription", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+jest.mock("./useQuestionnaireQuery", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 describe("QuestionnaireDesignPage", () => {
-  const defaultSetup = (changes = {}, routing = {}) => {
-    const questionnaire = buildQuestionnaire();
-    questionnaire.totalErrorCount = 0;
-    questionnaire.introduction = {
-      id: "1",
+  const setup = ({
+    questionnaireChanges = {},
+    questionnaireQuery: { data, loading = false, error = null } = {},
+    routing = {},
+  } = {}) => {
+    const questionnaire = {
+      ...buildQuestionnaire(),
+      totalErrorCount: 0,
+      introduction: { id: "1" },
+      ...questionnaireChanges,
     };
+
     const page = questionnaire.sections[0].folders[0].pages[0];
-    useQuery.mockImplementation(() => ({ loading: false, data: { page } }));
-    const validations = {
-      id: "3",
-      errorCount: 0,
-      pages: [],
-    };
+
+    useQuestionnaireQuery.mockImplementation(() => ({
+      loading,
+      error,
+      data: data !== undefined ? data : { questionnaire },
+    }));
+
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      data: { page },
+    }));
 
     const user = {
       id: "123",
@@ -63,30 +94,15 @@ describe("QuestionnaireDesignPage", () => {
       signOut: jest.fn(),
     };
 
-    const match = {
-      params: {
-        questionnaireId: questionnaire.id,
-        entityName: PAGE,
-        entityId: page.id,
-      },
-    };
-
-    const props = {
-      questionnaire,
-      validations,
-      match,
-      loading: false,
-      error: {},
-      ...changes,
-    };
-
-    const signOut = jest.fn();
+    useParams.mockImplementation(() => ({
+      questionnaireId: questionnaire.id,
+      entityName: PAGE,
+      entityId: page.id,
+    }));
 
     const utils = render(
-      <MeContext.Provider value={{ me: user, signOut }}>
-        <QuestionnaireContext.Provider value={{ questionnaire }}>
-          <QuestionnaireDesignPage {...props} />
-        </QuestionnaireContext.Provider>
+      <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
+        <QuestionnaireDesignPage />
       </MeContext.Provider>,
       {
         route: `/q/${questionnaire.id}/page/${page.id}/design`,
@@ -94,11 +110,12 @@ describe("QuestionnaireDesignPage", () => {
         ...routing,
       }
     );
+
     return { ...utils, questionnaire, page };
   };
 
   it("should render", () => {
-    const { getByTestId } = defaultSetup();
+    const { getByTestId } = setup();
     expect(getByTestId("question-page-editor")).toBeVisible();
     expect(getByTestId("main-navigation")).toBeVisible();
     expect(getByTestId("side-nav")).toBeVisible();
@@ -107,35 +124,49 @@ describe("QuestionnaireDesignPage", () => {
   it("should redirect to a loading screen", () => {
     const route = `/q/questionnaire/`;
     const urlParamMatcher = "/q/:questionnaireId/";
-    const { getByTestId } = defaultSetup(
-      { loading: true },
-      { route, urlParamMatcher }
-    );
+    const { getByTestId } = setup({
+      questionnaireQuery: { loading: true },
+      routing: {
+        route,
+        urlParamMatcher,
+      },
+    });
     expect(getByTestId("loading")).toBeVisible();
   });
 
-  it("should throw error when conditions aren't met", () => {
+  it("should throw error when questionnaire not found and no graphql errors", () => {
     jest.spyOn(console, "error");
     // needed to stop error printing to console
     // eslint-disable-next-line no-console
     console.error.mockImplementation(() => {});
     expect(() =>
-      defaultSetup({
-        loading: false,
-        error: null,
-        questionnaire: null,
+      setup({
+        questionnaireQuery: { data: { questionnaire: null } },
       })
     ).toThrow(ERR_PAGE_NOT_FOUND);
   });
 
+  it("should throw error when access to questionnaire is unauthorized", () => {
+    expect(() =>
+      setup({
+        questionnaireQuery: {
+          error: {
+            networkError: { bodyText: ERR_UNAUTHORIZED_QUESTIONNAIRE },
+          },
+          loading: false,
+        },
+      })
+    ).toThrow(ERR_UNAUTHORIZED_QUESTIONNAIRE);
+  });
+
   describe("Document title", () => {
     it("should display existing title if loading", () => {
-      defaultSetup({ loading: true });
+      setup({ questionnaireQuery: { loading: true } });
       expect(document.title).toEqual("- Page 1.1.1");
     });
 
     it("should display questionnaire title if no longer loading", () => {
-      defaultSetup();
+      setup();
       expect(document.title).toEqual("questionnaire - Page 1.1.1");
     });
   });

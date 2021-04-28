@@ -126,6 +126,7 @@ const createNewQuestionnaire = (input) => {
     id: uuidv4(),
     theme: "default",
     legalBasis: "Voluntary",
+    qcodes: true,
     navigation: false,
     createdAt: new Date(),
     metadata: [],
@@ -138,6 +139,7 @@ const createNewQuestionnaire = (input) => {
     publishStatus: UNPUBLISHED,
     previewTheme: defaultTheme.shortName,
     themes: [defaultTheme],
+    locked: false,
   };
 
   let changes = {};
@@ -248,6 +250,13 @@ const Resolvers = {
       },
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
+    lockStatusUpdated: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["lockStatusUpdated"]),
+        ({ id }, input) => input.id === null || id === input.id
+      ),
+      resolve: (questionnaire) => questionnaire,
+    },
     commentsUpdated: {
       resolve: ({ componentId }) => {
         return { id: componentId };
@@ -301,13 +310,22 @@ const Resolvers = {
 
       return questionnaire;
     },
-    setQuestionnaireLocked: createMutation(
-      (root, { input: { locked } }, ctx) => {
-        ctx.questionnaire.locked = locked;
-        return ctx.questionnaire;
-      },
-      { ignoreLockStatus: true }
-    ),
+    setQuestionnaireLocked: async (root, { input }, ctx) => {
+      const { questionnaireId, locked } = input;
+      const questionnaire = await getQuestionnaire(questionnaireId);
+      if (!questionnaire) {
+        throw new UserInputError(
+          `Questionnaire with ID ${questionnaireId} does not exist.`
+        );
+      }
+
+      enforceHasWritePermission(questionnaire, ctx.user);
+      questionnaire.locked = locked;
+      await saveQuestionnaire(questionnaire);
+
+      pubsub.publish("lockStatusUpdated", questionnaire);
+      return questionnaire;
+    },
     deleteQuestionnaire: async (_, { input }, ctx) => {
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
@@ -471,12 +489,25 @@ const Resolvers = {
 
       return section;
     }),
-    moveFolder: createMutation((_, { input }, ctx) => {
-      const section = getSectionByFolderId(ctx, input.id);
-      const folderToMove = first(remove(section.folders, { id: input.id }));
-      section.folders.splice(input.position, 0, folderToMove);
-      return folderToMove;
-    }),
+    moveFolder: createMutation(
+      (_, { input: { id, position, sectionId } }, ctx) => {
+        const section = getSectionByFolderId(ctx, id);
+        const folderToMove = first(remove(section.folders, { id }));
+
+        if (!section.folders.length) {
+          onFolderDeleted(ctx, folderToMove);
+          section.folders.push(createFolder());
+        }
+
+        if (sectionId) {
+          const newSection = getSectionById(ctx, sectionId);
+          newSection.folders.splice(position, 0, folderToMove);
+        } else {
+          section.folders.splice(position, 0, folderToMove);
+        }
+        return folderToMove;
+      }
+    ),
     duplicateFolder: createMutation((_, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
       const folder = getFolderById(ctx, input.id);

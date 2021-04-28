@@ -5,7 +5,7 @@ import {
   buildQuestionnaire,
   buildSections,
 } from "tests/utils/createMockQuestionnaire";
-import MovePageModal from "App/page/Design/MovePageModal";
+import MovePageModal from "App/page/Design/MoveEntityModal";
 
 describe("Question Page Editor", () => {
   let wrapper, mockHandlers, page, mockEvent, questionnaire, match;
@@ -52,6 +52,18 @@ describe("Question Page Editor", () => {
     };
 
     wrapper = render({});
+  });
+
+  it("should open delete dialog", () => {
+    wrapper = render({ questionnaire });
+    wrapper.find("[data-test='btn-delete']").simulate("click");
+    expect(wrapper.state("showDeleteConfirmDialog")).toEqual(true);
+  });
+
+  it("should open move dialog", () => {
+    wrapper = render({ questionnaire });
+    wrapper.find("[data-test='btn-move']").simulate("click");
+    expect(wrapper.state("showMovePageDialog")).toEqual(true);
   });
 
   describe("DeleteConfirmDialog", () => {
@@ -107,7 +119,7 @@ describe("Question Page Editor", () => {
 
     it("should call handler when confirmed", () => {
       const moveWrapper = wrapper.find(MovePageModal);
-      moveWrapper.simulate("movePage");
+      moveWrapper.props().onMove();
       expect(mockHandlers.onMovePage).toHaveBeenCalled();
     });
 

@@ -50,7 +50,7 @@ const { getUserById } = require("../../db/datastore");
 describe("questionnaire", () => {
   let ctx, questionnaire;
   const surveyId = "123";
-  const surveyVersion = "1";
+  const surveyVersion = 1;
 
   afterEach(async () => {
     if (!questionnaire) {
@@ -230,15 +230,17 @@ describe("questionnaire", () => {
         );
 
         const updatedUser = await getUserById(ctx.user.id);
-
-        // Testing "backwards" for now - can remove once refactored to only use mongo
-        // Dynamoose sets empty arrays to undefined, hence we have to check that starredQuestionnaires
-        // is either length 0 or undefined
-        expect([0, undefined]).toContain(updatedUser.starredQuestionnaires);
+        expect(updatedUser.starredQuestionnaires).toHaveLength(0);
       });
     });
 
     describe("locking", () => {
+      it("should throw an error if questionnaire doesn't exist", async () => {
+        expect(
+          setQuestionnaireLocked({ questionnaireId: "nope", locked: true })
+        ).rejects.toThrow();
+      });
+
       it("should allow questionnaire to be locked and unlocked", async () => {
         await setQuestionnaireLocked(
           {
@@ -742,11 +744,11 @@ describe("questionnaire", () => {
     });
 
     it("should initialise new questionnaires at version 1", () => {
-      expect(ctx.questionnaire.surveyVersion).toEqual("1");
+      expect(ctx.questionnaire.surveyVersion).toEqual(1);
     });
 
     it("should increment the version number by 1 when a change is made", async () => {
-      expect(ctx.questionnaire.surveyVersion).toEqual("1");
+      expect(ctx.questionnaire.surveyVersion).toEqual(1);
 
       ctx.questionnaire.publishStatus = "Published";
 
@@ -765,7 +767,7 @@ describe("questionnaire", () => {
       };
 
       await updateAnswer(ctx, update);
-      expect(ctx.questionnaire.surveyVersion).toEqual("2");
+      expect(ctx.questionnaire.surveyVersion).toEqual(2);
     });
   });
 });

@@ -108,7 +108,7 @@ describe("Server", () => {
         `/export/${importResponseData.id}`
       );
 
-      const overwrittenFields = ["id", "createdAt", "updatedAt"];
+      const overwrittenFields = ["_id", "id", "createdAt", "updatedAt"];
       expect(JSON.parse(dumpResponse.text)).toMatchObject(
         omit(questionnaireJSON, overwrittenFields)
       );
@@ -136,6 +136,7 @@ describe("Server", () => {
         sub: "1234",
         name: "tracing_test",
         externalId: "1234",
+        email: "test@test.com",
       };
       await createUser(user);
 

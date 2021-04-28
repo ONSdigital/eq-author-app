@@ -15,6 +15,12 @@ import QuestionnairesView, { STORAGE_KEY } from "./";
 
 import { UNPUBLISHED } from "constants/publishStatus";
 
+import { useLockUnlockQuestionnaire } from "hooks/useSetQuestionnaireLocked";
+
+jest.mock("hooks/useSetQuestionnaireLocked", () => ({
+  useLockUnlockQuestionnaire: jest.fn(() => [jest.fn(), jest.fn()]),
+}));
+
 jest.mock("lodash", () => ({
   ...jest.requireActual("lodash"),
   debounce: jest.fn((fn) => fn),
@@ -38,11 +44,20 @@ describe("QuestionnairesView", () => {
     createdBy: user,
     permission: WRITE,
     publishStatus: UNPUBLISHED,
+    starred: false,
+    locked: false,
     ...overrides,
   });
   let props;
   beforeEach(() => {
-    const questionnaires = [buildQuestionnaire(1), buildQuestionnaire(2)];
+    const questionnaires = [
+      buildQuestionnaire(1),
+      {
+        ...buildQuestionnaire(2),
+        locked: true,
+      },
+      buildQuestionnaire(3),
+    ];
 
     props = {
       questionnaires,
@@ -165,6 +180,52 @@ describe("QuestionnairesView", () => {
       expect(queryByLabelText("Questionnaire title")).toBeFalsy();
     });
 
+    describe("Locking", () => {
+      it("should show lock confirmation modal when lock button pushed (unlocked questionnaire)", () => {
+        const lockQuestionnaire = jest.fn();
+        useLockUnlockQuestionnaire.mockImplementation(() => [
+          lockQuestionnaire,
+          jest.fn(),
+        ]);
+
+        const { getAllByTitle, getByText } = render(
+          <QuestionnairesView {...props} />
+        );
+        const lockButton = getAllByTitle("Lock")[0];
+        fireEvent.click(lockButton);
+
+        const confirmButton = getByText("Lock");
+        expect(confirmButton).not.toBeNull();
+
+        fireEvent.click(confirmButton);
+        expect(lockQuestionnaire).toHaveBeenCalledWith(
+          props.questionnaires[0].id
+        );
+      });
+
+      it("should show unlock confirmation modal when lock button pushed (locked questionnaire)", () => {
+        const unlockQuestionnaire = jest.fn();
+        useLockUnlockQuestionnaire.mockImplementation(() => [
+          jest.fn(),
+          unlockQuestionnaire,
+        ]);
+
+        const { getAllByTitle, getByText } = render(
+          <QuestionnairesView {...props} />
+        );
+        const lockButton = getAllByTitle("Lock")[1];
+        fireEvent.click(lockButton);
+
+        const confirmButton = getByText("Unlock");
+        expect(confirmButton).not.toBeNull();
+
+        fireEvent.click(confirmButton);
+        expect(unlockQuestionnaire).toHaveBeenCalledWith(
+          props.questionnaires[1].id
+        );
+      });
+    });
+
     describe("Deletion", () => {
       it("should call onDeleteQuestionnaire when a questionnaire is deleted", () => {
         const { getAllByTitle, getByTestId } = render(
@@ -205,18 +266,18 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const deleteButton = getAllByTitle("Delete")[1];
+        const deleteButton = getAllByTitle("Delete")[2];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
         rerender(
           <QuestionnairesView
             {...props}
-            questionnaires={props.questionnaires.slice(0, 1)}
+            questionnaires={props.questionnaires.slice(0, 2)}
           />
         );
 
-        expect(getByTitle("Questionnaire 1")).toEqual(document.activeElement);
+        expect(getByTitle("Questionnaire 2")).toEqual(document.activeElement);
       });
 
       it("should not blow up if you delete the last item", async () => {
@@ -598,9 +659,15 @@ describe("QuestionnairesView", () => {
       beforeEach(() => {
         props.questionnaires = [
           buildQuestionnaire(4, { createdAt: "2019-05-10T12:36:50.984Z" }),
-          buildQuestionnaire(2, { createdAt: "2019-05-09T12:36:50.984Z" }),
+          buildQuestionnaire(2, {
+            createdAt: "2019-05-09T12:36:50.984Z",
+            locked: true,
+          }),
           buildQuestionnaire(1, { createdAt: "2019-05-11T12:36:50.984Z" }),
-          buildQuestionnaire(3, { createdAt: "2019-05-08T12:36:50.984Z" }),
+          buildQuestionnaire(3, {
+            createdAt: "2019-05-08T12:36:50.984Z",
+            starred: true,
+          }),
           buildQuestionnaire(5, { createdAt: "2019-05-12T12:36:50.984Z" }),
         ];
       });
@@ -646,6 +713,40 @@ describe("QuestionnairesView", () => {
             `Questionnaire ${reverseNum} Title`
           );
         }
+      });
+
+      it("should sort by locked descending when locked header is clicked", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByTestId("lock-sort-button");
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 2 Title`
+        );
+
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 4 Title`
+        );
+      });
+
+      it("should sort by starred descending when starred header is clicked", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByTestId("star-sort-button");
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 3 Title`
+        );
+
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          `Questionnaire 4 Title`
+        );
       });
 
       it("should sort across multiple pages", () => {

@@ -54,6 +54,7 @@ type Questionnaire {
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
+  qcodes: Boolean
   navigation: Boolean
   createdAt: DateTime
   updatedAt: DateTime
@@ -506,6 +507,7 @@ type Destination2 {
   page: Page
   folder: Folder
   logical: LogicalDestination2
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Routing2 {
@@ -877,6 +879,7 @@ input UpdateQuestionnaireInput {
   additionalGuidancePanel: String
   theme: String
   legalBasis: LegalBasis
+  qcodes: Boolean
   navigation: Boolean
   surveyId: String
   summary: Boolean
@@ -1124,6 +1127,7 @@ input MoveSectionInput {
 input MoveFolderInput {
   id: ID!
   position: Int!
+  sectionId: ID
 }
 
 input MovePageInput {
@@ -1284,6 +1288,7 @@ type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
+  lockStatusUpdated(id: ID): Questionnaire!
 }
 
 input PublishQuestionnaireInput {

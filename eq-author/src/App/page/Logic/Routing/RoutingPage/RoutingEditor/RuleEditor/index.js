@@ -99,7 +99,6 @@ export const UnwrappedRuleEditor = ({
     destination,
     expressionGroup,
     expressionGroup: { expressions },
-    validationErrorInfo,
   } = rule;
 
   const existingRadioConditions = {};
@@ -123,10 +122,6 @@ export const UnwrappedRuleEditor = ({
       });
     }
   };
-
-  const validationErrors = validationErrorInfo.totalCount
-    ? validationErrorInfo.errors
-    : [];
 
   const groupOperatorError =
     expressionGroupErrors[
@@ -217,7 +212,6 @@ export const UnwrappedRuleEditor = ({
         onChange={handleDestinationChange}
         value={destination}
         data-test="select-then"
-        validationErrors={validationErrors}
       />
     </Rule>
   );

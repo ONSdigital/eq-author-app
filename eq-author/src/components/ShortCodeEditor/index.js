@@ -34,7 +34,7 @@ const ShortCodeEditor = ({ shortCode: shortCodeFromDb, onUpdate }) => {
 
   return (
     <>
-      <ShortCodeTitle htmlFor="alias">Short code</ShortCodeTitle>
+      <ShortCodeTitle htmlFor="alias">Folder name</ShortCodeTitle>
       <Wrapper>
         <InputBox
           id="shortCode"
