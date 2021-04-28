@@ -364,6 +364,7 @@ const Resolvers = {
       let theme = getThemeByShortName(ctx, shortName);
       if (!theme) {
         theme = createTheme({ shortName });
+
         ctx.questionnaire.themes.push(theme);
       }
       theme.enabled = true;
