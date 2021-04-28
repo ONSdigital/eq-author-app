@@ -21,7 +21,7 @@ describe("Collapsible toggled", () => {
     const { getByTestId } = render(
       <CollapsibleToggled
         title="Anakin? I told you were coming to this, I was right. THE JEDI ARE TAKING OVER!"
-        defaultOpen
+        isOpen
       >
         <p>The opression of the Sith will never return. You have lost.</p>
       </CollapsibleToggled>

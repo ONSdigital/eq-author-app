@@ -1,0 +1,10 @@
+mutation DisableTheme($input: DisableThemeInput!) {
+  disableTheme(input: $input) {
+    id
+    shortName
+    enabled
+    eqId
+    legalBasisCode
+    formType
+  }
+}
