@@ -195,6 +195,7 @@ ContentPickerSelect.propTypes = {
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   answerData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
   metadataData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
+  hasError: PropTypes.bool,
 };
 
 export default ContentPickerSelect;
