@@ -65,13 +65,26 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const EqIdInput = ({ eqId = "", handleBlur, shortName }) => {
+const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
   const [state, setState] = useState(eqId);
+  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+
+  const handleEQIdBlur = ({ value }, shortName) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaireTheme({
+        variables: {
+          input: { questionnaireId, shortName, eqId: value },
+        },
+      });
+    }
+  };
+
   return (
     <StyledInput
       value={state}
       onChange={({ value }) => setState(value)}
-      onBlur={(e) => handleBlur({ ...e.target }, shortName)}
+      onBlur={(e) => handleEQIdBlur({ ...e.target }, shortName)}
       data-test={`${shortName}-eq-id-input`}
     />
   );
@@ -79,7 +92,7 @@ const EqIdInput = ({ eqId = "", handleBlur, shortName }) => {
 
 EqIdInput.propTypes = {
   eqId: PropTypes.string,
-  handleBlur: PropTypes.func.isRequired,
+  questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
 };
 
@@ -104,7 +117,6 @@ const matchThemes = (themes, questionnaireThemes) =>
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [updateQuestionnaireTheme] = useMutation(updateTheme);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
 
@@ -113,17 +125,6 @@ const ThemesPage = ({ questionnaire }) => {
     if (value !== "") {
       updateQuestionnaire({
         variables: { input: { id, surveyId: value } },
-      });
-    }
-  };
-
-  const handleEQIdBlur = ({ value }, shortName) => {
-    value = value.trim();
-    if (value !== "") {
-      updateQuestionnaireTheme({
-        variables: {
-          input: { questionnaireId: id, shortName, eqId: value },
-        },
       });
     }
   };
@@ -225,8 +226,8 @@ const ThemesPage = ({ questionnaire }) => {
                           </Field>
                           <EqIdInput
                             eqId={eqId}
+                            questionnaireId={id}
                             shortName={shortName}
-                            handleBlur={handleEQIdBlur}
                           />
                         </CollapsibleToggled>
                       )
