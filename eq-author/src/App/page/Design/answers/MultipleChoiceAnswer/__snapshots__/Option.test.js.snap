@@ -215,7 +215,7 @@ exports[`Option should render a checkbox 1`] = `
   width: 1.4em;
   display: inline-block;
   margin: 2em 1em 0 0;
-  border-radius: 4px;
+  border-radius: 100%;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
@@ -301,7 +301,7 @@ exports[`Option should render a checkbox 1`] = `
       "subscribe": [MockFunction],
     }
   }
-  type="Checkbox"
+  type="Radio"
 >
   <withEntityEditor(StatelessOption)
     endRequest={[Function]}
@@ -347,7 +347,7 @@ exports[`Option should render a checkbox 1`] = `
         "subscribe": [MockFunction],
       }
     }
-    type="Checkbox"
+    type="Radio"
   >
     <StatelessOption
       endRequest={[Function]}
@@ -394,7 +394,7 @@ exports[`Option should render a checkbox 1`] = `
           "subscribe": [MockFunction],
         }
       }
-      type="Checkbox"
+      type="Radio"
     >
       <Option__StyledOption
         duration={200}
@@ -475,7 +475,7 @@ exports[`Option should render a checkbox 1`] = `
                     className="c1"
                   >
                     <MultipleChoice
-                      type="Checkbox"
+                      type="Radio"
                     >
                       <StyledComponent
                         forwardedComponent={
@@ -508,11 +508,11 @@ exports[`Option should render a checkbox 1`] = `
                           }
                         }
                         forwardedRef={null}
-                        type="Checkbox"
+                        type="Radio"
                       >
                         <div
                           className="c2"
-                          type="Checkbox"
+                          type="Radio"
                         />
                       </StyledComponent>
                     </MultipleChoice>

@@ -62,7 +62,7 @@ StyledOption.propTypes = {
   duration: PropTypes.number,
 };
 
-const StatelessOption = ({
+export const StatelessOption = ({
   option,
   onChange,
   onUpdate,
@@ -229,7 +229,6 @@ StatelessOption.propTypes = {
   onEnterKey: PropTypes.func,
   hasDeleteButton: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([RADIO, CHECKBOX]).isRequired,
-  children: PropTypes.node,
   labelPlaceholder: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,

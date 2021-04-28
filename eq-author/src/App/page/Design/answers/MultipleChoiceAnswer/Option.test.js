@@ -2,13 +2,17 @@ import React from "react";
 
 import WrappingInput from "components/Forms/WrappingInput";
 import { shallow, mount } from "enzyme";
-import StatelessOption from "./Option";
+import { StatelessOption } from "./Option";
 import DeleteButton from "components/buttons/DeleteButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import { merge } from "lodash";
 import createMockStore from "tests/utils/createMockStore";
 import { useMutation } from "@apollo/react-hooks";
+import { props } from "lodash/fp";
+
+import { render as rtlRender, fireEvent, flushPromises, screen } from "tests/utils/rtl";
+
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
@@ -41,13 +45,24 @@ describe("Option", () => {
     id: "1",
     label: "",
     description: "",
-    additionAnswer: {
+    additionalAnswer: {
       id: "additional1",
       label: "",
       type: "TextField",
     },
     __typename: "Option",
   };
+
+  // const createWrapper = (otherProps, render = shallow) => {
+  //   return render(<StatelessOption
+  //           {...mockMutations}
+  //           option={option}
+  //           hasDeleteButton
+  //           type={RADIO}
+  //           store={store}
+  //           {...otherProps}
+  //         />);
+  // };
 
   const render = (method = shallow, otherProps) => {
     wrapper = method(
@@ -65,6 +80,16 @@ describe("Option", () => {
   };
 
   beforeEach(() => {
+
+    // props = {
+    //   onBlur: jest.fn(),
+    //   onChange: jest.fn(),
+    //   onUpdate: jest.fn(),
+    //   onFocus: jest.fn(),
+    //   onDelete: jest.fn(),
+    //   onEnterKey: jest.fn(),
+    // };
+
     mockEvent = {
       stopPropagation: jest.fn(),
       preventDefault: jest.fn(),
@@ -73,6 +98,7 @@ describe("Option", () => {
     store = createMockStore();
 
     mockMutations = {
+      onBlur: jest.fn(),
       onChange: jest.fn(),
       onUpdate: jest.fn(),
       onFocus: jest.fn(),
@@ -97,19 +123,50 @@ describe("Option", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it.only("should call onChange on input", () => {
-    wrapper = render(mount, { autoFocus: false });
-    console.log(wrapper.debug({verbose:true}));
 
-    const input = wrapper
-      .find(`[data-test="option-label"]`)
-      .first()
-      .simulate("change");
 
-    // wrapper.find("[data-test='option-label']").first().simulate("change");
+  // it.only("should call onChange and onBlur correctly", async () => {
+  //   const { getByTestId } = render(( otherProps) => <StatelessOption {...mockMutations}
+  //     option={option}
+  //     hasDeleteButton
+  //     type={RADIO}
+  //     store={store}
+  //     {...otherProps}
+  //    {...props} />);
+
+  //   fireEvent.change(getByTestId("option-label"), {
+  //     target: { value: "2" },
+  //   });
+  //   fireEvent.blur(getByTestId("number-input"));
+  //   await flushPromises();
+  //   expect(props.onBlur).toHaveBeenCalledWith(2);
+  // });
+
+
+
+
+  it.only("should call onChange on input", async() => {
+    render(rtlRender, { type: CHECKBOX });
+    // screen.debug();
+
+    fireEvent.change(screen.getByTestId("option-label"), {
+          target: { value: "2" },
+        });
+        // fireEvent.blur(screen.getByTestId("option-label"));
+        // await flushPromises();
+        expect(mockMutations.onChange).toHaveBeenCalledTimes(2);
+
+    // const input = wrapper
+    //   .find(`[data-test="option-label"]`)
+    //   .first()
+    //   .simulate("change");
+
+    // wrapper
+    // .find("[data-test='option-label']")
+    // .first().simulate("change");
     // wrapper.find("[data-test='option-description']").first().simulate("change");
 
-    expect(input.mockMutations.onChange).toHaveBeenCalledTimes(1);
+    // expect(mockMutations.onChange).toHaveBeenCalledTimes(1);
   });
 
   it("should update label on blur", () => {
@@ -133,6 +190,8 @@ describe("Option", () => {
   });
 
   it("should call onEnterKey when Enter key pressed", () => {
+    console.log(wrapper.debug({verbose:true}));
+
     wrapper
       .find(WrappingInput)
       .first()
