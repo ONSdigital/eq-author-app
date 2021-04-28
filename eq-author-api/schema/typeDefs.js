@@ -459,6 +459,11 @@ enum ThemeShortName {
   social
   census
   northernireland
+  covid
+  ukis
+  ukisni
+  epe
+  epeni
 }
 
 type Metadata {

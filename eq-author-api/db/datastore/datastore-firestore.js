@@ -58,8 +58,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
       .doc(uuidv4())
       .set(versionQuestionnaire);
   } catch (error) {
-    logger.error(`Unable to create questionnaire with ID: ${id}`);
-    logger.error(error);
+    logger.error(error, `Unable to create questionnaire with ID: ${id}`);
   }
 
   logger.info(`Created questionnaire with ID: ${id}`);
@@ -90,12 +89,12 @@ const getQuestionnaire = async (id) => {
       updatedAt: doc.data().updatedAt.toDate(),
     }));
     return transformedQuestionnaires[0];
-  } catch (err) {
+  } catch (error) {
     logger.error(
+      error,
       `Unable to get latest version of questionnaire with ID: ${id}`
     );
-    logger.error(err);
-    return err;
+    return;
   }
 };
 
@@ -122,8 +121,7 @@ const getQuestionnaireMetaById = async (id) => {
     };
     return questionnaire;
   } catch (error) {
-    logger.error(`Error getting base questionnaire with ID ${id}`);
-    logger.error(error);
+    logger.error(error, `Error getting base questionnaire with ID ${id}`);
     return;
   }
 };
@@ -166,8 +164,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {
-    logger.error(`Error updating questionnaire with ID ${id}`);
-    logger.error(error);
+    logger.error(error, `Error updating questionnaire with ID ${id}`);
     return;
   }
 };
@@ -192,8 +189,7 @@ const listQuestionnaires = async () => {
 
     return questionnaires || [];
   } catch (error) {
-    logger.error("Unable to retrieve questionnaires");
-    logger.error(error);
+    logger.error(error, "Unable to retrieve questionnaires");
     return;
   }
 };
@@ -203,8 +199,7 @@ const deleteQuestionnaire = async (id) => {
     await db.collection("questionnaires").doc(id).delete();
     return;
   } catch (error) {
-    logger.error(`Unable to delete questionnaire with ID: ${id}`);
-    logger.error(error);
+    logger.error(error, `Unable to delete questionnaire with ID: ${id}`);
     return;
   }
 };
@@ -230,8 +225,7 @@ const createUser = async (user) => {
       .doc(id)
       .set({ ...user, id, name, email });
   } catch (error) {
-    logger.error(`Error creating user with ID: ${id}: `);
-    logger.error(error);
+    logger.error(error, `Error creating user with ID: ${id}: `);
     return;
   }
 
@@ -258,8 +252,7 @@ const getUserByExternalId = async (externalId) => {
 
     return { ...doc.data(), id: doc.id };
   } catch (error) {
-    logger.error(`Unable to find user with external ID ${externalId}`);
-    logger.error(error);
+    logger.error(error, `Unable to find user with external ID ${externalId}`);
     return;
   }
 };
@@ -275,9 +268,8 @@ const getUserById = async (id) => {
 
     return { ...userSnapshot.data(), id: userSnapshot.id };
   } catch (error) {
-    logger.error(`Error getting user with ID: ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Error getting user with ID: ${id}`);
+    return;
   }
 };
 
@@ -292,9 +284,8 @@ const listUsers = async () => {
 
     return usersSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (error) {
-    logger.error(`Unable to get a list of all users`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable to get a list of all users`);
+    return;
   }
 };
 
@@ -322,10 +313,10 @@ const createHistoryEvent = async (qid, event) => {
     return questionnaire.history;
   } catch (error) {
     logger.error(
+      error,
       `Error creating history event in questionnaire with ID ${qid}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -346,9 +337,8 @@ const saveMetadata = async (metadata) => {
       .update({ ...updatedMetadata });
     return updatedMetadata;
   } catch (error) {
-    logger.error(`Cannot update base questionnaire with ID ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Cannot update base questionnaire with ID ${id}`);
+    return;
   }
 };
 
@@ -364,10 +354,10 @@ const createComments = async (questionnaireId) => {
     return defaultComments;
   } catch (error) {
     logger.error(
+      error,
       `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -417,10 +407,10 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
     return data;
   } catch (error) {
     logger.error(
+      error,
       `Unable to get comments for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -439,10 +429,10 @@ const saveComments = async (updatedCommentsObject) => {
     return updatedComments;
   } catch (error) {
     logger.error(
+      error,
       `Unable to save comments for questionnaire with ID ${questionnaireId}`
     );
-    logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -460,9 +450,8 @@ const updateUser = async (changedUser) => {
       .update({ ...user });
     return user;
   } catch (error) {
-    logger.error(`Unable update user with ID ${id}`);
-    logger.error(error);
-    return error;
+    logger.error(error, `Unable update user with ID ${id}`);
+    return;
   }
 };
 

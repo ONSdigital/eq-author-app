@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
-
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Wrapper = styled.div``;
@@ -25,20 +24,20 @@ const Body = styled.div`
 
 const CollapsibleToggled = ({
   title,
-  defaultOpen = false,
+  isOpen = false,
   headerContent,
   children,
+  onChange,
 }) => {
-  const [isOpen, toggleCollapsible] = useState(defaultOpen);
-
   return (
     <Wrapper data-test="CollapsibleToggled">
       <Header data-test="CollapsibleToggled__Header">
         <h2>{title}</h2>
         <ToggleSwitch
+          id={`${title}`}
           name={`${title}-toggle-switch`}
           hideLabels={false}
-          onChange={() => toggleCollapsible(!isOpen)}
+          onChange={onChange}
           checked={isOpen}
         />
         {headerContent}
@@ -56,9 +55,9 @@ CollapsibleToggled.propTypes = {
    */
   title: PropTypes.string.isRequired,
   /**
-   * If true, the collapsible will be open when first rendered.
+   * If true, the collapsible will be open.
    */
-  defaultOpen: PropTypes.bool,
+  isOpen: PropTypes.bool,
   /**
    * Content to append to the end of the header, if necessary.
    */
@@ -67,4 +66,8 @@ CollapsibleToggled.propTypes = {
    * The content to show when the collapsible is open.
    */
   children: PropTypes.node.isRequired,
+  /**
+   * Function called when toggle value is changed.
+   */
+  onChange: PropTypes.func.isRequired,
 };

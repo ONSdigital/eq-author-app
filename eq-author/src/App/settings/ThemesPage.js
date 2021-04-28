@@ -5,10 +5,14 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import updateTheme from "graphql/updateTheme.graphql";
+import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
+import enableThemeMutation from "graphql/enableTheme.graphql";
+import disableThemeMutation from "graphql/disableTheme.graphql";
 import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
@@ -61,21 +65,57 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
+const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
+  const [state, setState] = useState(eqId);
+  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+
+  const handleEQIdBlur = ({ value }, shortName) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaireTheme({
+        variables: {
+          input: { questionnaireId, shortName, eqId: value },
+        },
+      });
+    }
+  };
+
+  return (
+    <StyledInput
+      value={state}
+      onChange={({ value }) => setState(value)}
+      onBlur={(e) => handleEQIdBlur({ ...e.target }, shortName)}
+      data-test={`${shortName}-eq-id-input`}
+    />
+  );
+};
+
+EqIdInput.propTypes = {
+  eqId: PropTypes.string,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
+};
+
 const themes = [
-  {
-    title: "GB theme",
-    defaultOpen: true,
-  },
-  { title: "NI theme" },
-  { title: "COVID theme" },
-  { title: "EPE theme" },
-  { title: "EPE NI theme" },
-  { title: "UKIS theme" },
-  { title: "UKIS NI theme" },
+  { title: "GB theme", shortName: "default", enabled: true },
+  { title: "NI theme", shortName: "northernireland" },
+  { title: "COVID theme", shortName: "covid" },
+  { title: "EPE theme", shortName: "epe" },
+  { title: "EPE NI theme", shortName: "epeni" },
+  { title: "UKIS theme", shortName: "ukis" },
+  { title: "UKIS NI theme", shortName: "ukisni" },
 ];
 
+const matchThemes = (themes, questionnaireThemes) =>
+  themes.map((theme) => {
+    const target = questionnaireThemes.find(
+      ({ shortName }) => shortName === theme.shortName
+    );
+    return target ? { ...theme, ...target, title: theme.title } : theme;
+  });
+
 const ThemesPage = ({ questionnaire }) => {
-  const { type, surveyId, id } = questionnaire;
+  const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
@@ -87,6 +127,40 @@ const ThemesPage = ({ questionnaire }) => {
         variables: { input: { id, surveyId: value } },
       });
     }
+  };
+
+  const [enableTheme] = useMutation(enableThemeMutation);
+  const [disableTheme] = useMutation(disableThemeMutation);
+
+  const toggleTheme = ({ shortName, enabled }) => {
+    const handleToggle = enabled ? disableTheme : enableTheme;
+
+    handleToggle({
+      variables: { input: { questionnaireId: id, shortName } },
+      ...(!enabled && {
+        update: (client, { data: { enableTheme } }) => {
+          const { questionnaire } = client.readQuery({
+            query: getQuestionnaireQuery,
+            variables: {
+              input: { questionnaireId: id },
+            },
+          });
+          // check here if the theme is in the array
+          client.writeQuery({
+            query: getQuestionnaireQuery,
+            variables: {
+              input: { questionnaireId: id },
+            },
+            data: {
+              questionnaire: {
+                ...questionnaire,
+                themes: [...questionnaire.themes, enableTheme],
+              },
+            },
+          });
+        },
+      }),
+    });
   };
 
   return (
@@ -137,32 +211,27 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {themes.map(({ title, defaultOpen }) => (
-                      <CollapsibleToggled
-                        key={`${title}-toggle`}
-                        title={title}
-                        defaultOpen={defaultOpen}
-                      >
-                        {/* Added some filler text to demonstrate the opening and 
-                            closing; this should be removed in future tickets where 
-                            we add the actual functionality. 
-                          */}
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Praesent ut eros a turpis tincidunt consectetur
-                          sit amet quis enim. Vivamus scelerisque finibus erat
-                          id mattis. In leo dolor, faucibus non volutpat vel,
-                          pellentesque et nibh.
-                        </p>
-                        <p>
-                          Phasellus viverra malesuada tincidunt. Fusce vulputate
-                          odio mauris, eu finibus nisl luctus quis. Sed
-                          dignissim dapibus sapien, at sollicitudin neque auctor
-                          non. Interdum et malesuada fames ac ante ipsum primis
-                          in faucibus.
-                        </p>
-                      </CollapsibleToggled>
-                    ))}
+                    {matchThemes(themes, questionnaireThemes).map(
+                      ({ shortName, title, eqId, enabled }) => (
+                        <CollapsibleToggled
+                          key={`${title}-toggle`}
+                          title={title}
+                          isOpen={enabled}
+                          onChange={() => toggleTheme({ shortName, enabled })}
+                          data-test={`${shortName}-toggle`}
+                        >
+                          <p />
+                          <Field>
+                            <Label>EQ ID</Label>
+                          </Field>
+                          <EqIdInput
+                            eqId={eqId}
+                            questionnaireId={id}
+                            shortName={shortName}
+                          />
+                        </CollapsibleToggled>
+                      )
+                    )}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>

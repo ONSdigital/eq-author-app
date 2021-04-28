@@ -1,0 +1,9 @@
+mutation UpdateTheme($input: UpdateThemeInput!) {
+  updateTheme(input: $input) {
+    id
+    shortName
+    eqId
+    legalBasisCode
+    formType
+  }
+}

@@ -127,7 +127,7 @@ const createApp = () => {
         };
       },
     },
-    extensions,
+    plugins: extensions,
   });
 
   server.applyMiddleware({ app });
