@@ -215,16 +215,10 @@ const ThemesPage = ({ questionnaire }) => {
                         <CollapsibleToggled
                           key={`${title}-toggle`}
                           title={title}
-                          defaultOpen={enabled}
-                          questionnaireId={id}
-                          shortName={shortName}
+                          isOpen={enabled}
                           onChange={() => toggleTheme({ shortName, enabled })}
                           data-test={`${shortName}-toggle`}
                         >
-                          {/* Added some filler text to demonstrate the opening and 
-                            closing; this should be removed in future tickets where 
-                            we add the actual functionality. 
-                          */}
                           <p />
                           <Field>
                             <Label>EQ ID</Label>
@@ -234,13 +228,6 @@ const ThemesPage = ({ questionnaire }) => {
                             shortName={shortName}
                             handleBlur={handleEQIdBlur}
                           />
-                          <p>
-                            Phasellus viverra malesuada tincidunt. Fusce
-                            vulputate odio mauris, eu finibus nisl luctus quis.
-                            Sed dignissim dapibus sapien, at sollicitudin neque
-                            auctor non. Interdum et malesuada fames ac ante
-                            ipsum primis in faucibus.
-                          </p>
                         </CollapsibleToggled>
                       )
                     )}

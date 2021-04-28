@@ -24,7 +24,7 @@ const Body = styled.div`
 
 const CollapsibleToggled = ({
   title,
-  defaultOpen = false,
+  isOpen = false,
   headerContent,
   children,
   onChange,
@@ -38,13 +38,11 @@ const CollapsibleToggled = ({
           name={`${title}-toggle-switch`}
           hideLabels={false}
           onChange={onChange}
-          checked={defaultOpen}
+          checked={isOpen}
         />
         {headerContent}
       </Header>
-      {defaultOpen && (
-        <Body data-test="CollapsibleToggled__Body">{children}</Body>
-      )}
+      {isOpen && <Body data-test="CollapsibleToggled__Body">{children}</Body>}
     </Wrapper>
   );
 };
@@ -57,9 +55,9 @@ CollapsibleToggled.propTypes = {
    */
   title: PropTypes.string.isRequired,
   /**
-   * If true, the collapsible will be open when first rendered.
+   * If true, the collapsible will be open.
    */
-  defaultOpen: PropTypes.bool,
+  isOpen: PropTypes.bool,
   /**
    * Content to append to the end of the header, if necessary.
    */
@@ -68,7 +66,8 @@ CollapsibleToggled.propTypes = {
    * The content to show when the collapsible is open.
    */
   children: PropTypes.node.isRequired,
-  questionnaireId: PropTypes.string.isRequired,
-  shortName: PropTypes.string.isRequired,
+  /**
+   * Function called when toggle value is changed.
+   */
   onChange: PropTypes.func.isRequired,
 };
