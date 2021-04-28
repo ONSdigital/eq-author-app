@@ -100,6 +100,7 @@ export const mapMutateToProps = ({ mutate }) => ({
       "latestDateInput",
       "minDurationInput",
       "maxDurationInput",
+      "totalInput",
     ].find((x) => rest[x]);
     return mutate({
       variables: { input: filter(INPUT_FRAGMENT, input) },

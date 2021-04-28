@@ -1644,6 +1644,22 @@ describe("schema validation", () => {
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(0);
     });
+
+    it("should not return errors when piping valid date range answers in title", () => {
+      questionnaire.updatedAt = new Date();
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "daterange_1",
+        type: DATE_RANGE,
+        label: "Date from",
+        secondaryLabel: "Date to",
+      };
+
+      questionnaire.sections[0].folders[0].pages[1].title = `<p><span data-piped="answers" data-id="daterange_1from" data-type="Date">[Date from]</span></p>
+         <p><span data-piped="answers" data-id="daterange_1to" data-type="Date">[Date to]</span></p>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(0);
+    });
   });
 
   describe("totalValidation", () => {
