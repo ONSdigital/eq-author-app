@@ -1,47 +1,127 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Option should match snapshot 1`] = `
-<withEntityEditor(StatelessOption)
-  endRequest={[Function]}
-  hasDeleteButton={true}
-  onChange={[MockFunction]}
-  onDelete={[MockFunction]}
-  onEnterKey={[MockFunction]}
-  onFocus={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option={
-    Object {
-      "__typename": "Option",
-      "additionAnswer": Object {
-        "id": "additional1",
-        "label": "",
-        "type": "TextField",
-      },
-      "description": "",
-      "id": "1",
-      "label": "",
-    }
-  }
-  startRequest={[Function]}
-  store={
-    Object {
-      "dispatch": [MockFunction],
-      "getState": [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
+<Option__StyledOption
+  duration={200}
+  id="Option1"
+  key="1"
+>
+  <div>
+    <Option__Flex>
+      <MultipleChoice
+        type="Radio"
+      />
+      <Option__OptionField>
+        <Label
+          bold={true}
+          htmlFor="option-label-1"
+        >
+          Label
+        </Label>
+        <withChangeHandler(WrappingInput)
+          bold={true}
+          data-autofocus={true}
+          data-test="option-label"
+          id="option-label-1"
+          name="label"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          onKeyDown={[Function]}
+          placeholder=""
+          value=""
+        />
+      </Option__OptionField>
+    </Option__Flex>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-description-1"
+      >
+        Description (optional)
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="option-description"
+        id="option-description-1"
+        name="description"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-otherLabel-additional1"
+      >
+        Other Label
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="other-answer"
+        id="option-otherLabel-additional1"
+        name="otherLabel"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+    <Option__ButtonsContainer>
+      <Tooltip
+        content="Move answer up"
+        offset={
           Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-      "subscribe": [MockFunction],
-    }
-  }
-  type="Radio"
-/>
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-up"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Move answer down"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-down"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Delete option"
+        offset={
+          Object {
+            "bottom": 10,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete option"
+          data-test="btn-delete-option"
+          disabled={false}
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </Option__ButtonsContainer>
+  </div>
+</Option__StyledOption>
 `;
 
 exports[`Option should render a checkbox 1`] = `
@@ -215,7 +295,7 @@ exports[`Option should render a checkbox 1`] = `
   width: 1.4em;
   display: inline-block;
   margin: 2em 1em 0 0;
-  border-radius: 100%;
+  border-radius: 4px;
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
@@ -259,8 +339,9 @@ exports[`Option should render a checkbox 1`] = `
   margin-bottom: 1em;
 }
 
-<Connect(withEntityEditor(StatelessOption))
+<StatelessOption
   hasDeleteButton={true}
+  onBlur={[MockFunction]}
   onChange={[MockFunction]}
   onDelete={[MockFunction]}
   onEnterKey={[MockFunction]}
@@ -269,7 +350,7 @@ exports[`Option should render a checkbox 1`] = `
   option={
     Object {
       "__typename": "Option",
-      "additionAnswer": Object {
+      "additionalAnswer": Object {
         "id": "additional1",
         "label": "",
         "type": "TextField",
@@ -279,301 +360,596 @@ exports[`Option should render a checkbox 1`] = `
       "label": "",
     }
   }
-  store={
-    Object {
-      "dispatch": [MockFunction],
-      "getState": [MockFunction] {
-        "calls": Array [
-          Array [],
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-      "subscribe": [MockFunction],
-    }
-  }
-  type="Radio"
+  type="Checkbox"
 >
-  <withEntityEditor(StatelessOption)
-    endRequest={[Function]}
-    hasDeleteButton={true}
-    onChange={[MockFunction]}
-    onDelete={[MockFunction]}
-    onEnterKey={[MockFunction]}
-    onFocus={[MockFunction]}
-    onUpdate={[MockFunction]}
-    option={
-      Object {
-        "__typename": "Option",
-        "additionAnswer": Object {
-          "id": "additional1",
-          "label": "",
-          "type": "TextField",
-        },
-        "description": "",
-        "id": "1",
-        "label": "",
-      }
-    }
-    startRequest={[Function]}
-    store={
-      Object {
-        "dispatch": [MockFunction],
-        "getState": [MockFunction] {
-          "calls": Array [
-            Array [],
-            Array [],
-          ],
-          "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        },
-        "subscribe": [MockFunction],
-      }
-    }
-    type="Radio"
+  <Option__StyledOption
+    duration={200}
+    id="Option1"
+    key="1"
   >
-    <StatelessOption
-      endRequest={[Function]}
-      hasDeleteButton={true}
-      onChange={[Function]}
-      onDelete={[MockFunction]}
-      onEnterKey={[MockFunction]}
-      onFocus={[MockFunction]}
-      onSubmit={[Function]}
-      onUpdate={[Function]}
-      option={
+    <StyledComponent
+      duration={200}
+      forwardedComponent={
         Object {
-          "__typename": "Option",
-          "additionAnswer": Object {
-            "id": "additional1",
-            "label": "",
-            "type": "TextField",
+          "$$typeof": Symbol(react.forward_ref),
+          "_foldedDefaultProps": Object {
+            "duration": 200,
           },
-          "description": "",
-          "id": "1",
-          "label": "",
-        }
-      }
-      startRequest={[Function]}
-      store={
-        Object {
-          "dispatch": [MockFunction],
-          "getState": [MockFunction] {
-            "calls": Array [
-              Array [],
-              Array [],
-            ],
-            "results": Array [
-              Object {
-                "type": "return",
-                "value": undefined,
-              },
-              Object {
-                "type": "return",
-                "value": undefined,
-              },
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "Option__StyledOption-sc-1n4ne5g-3",
+            "isStatic": false,
+            "lastClassName": "c0",
+            "rules": Array [
+              "border:1px solid ",
+              "#d6d8da",
+              ";padding:1em 1em 0;padding-bottom:",
+              [Function],
+              ";border-radius:",
+              "4px",
+              ";position:relative;margin-bottom:1em;",
             ],
           },
-          "subscribe": [MockFunction],
+          "displayName": "Option__StyledOption",
+          "foldedComponentIds": Array [],
+          "propTypes": Object {
+            "duration": [Function],
+          },
+          "render": [Function],
+          "styledComponentId": "Option__StyledOption-sc-1n4ne5g-3",
+          "target": "div",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
         }
       }
-      type="Radio"
+      forwardedRef={null}
+      id="Option1"
     >
-      <Option__StyledOption
-        duration={200}
+      <div
+        className="c0"
         id="Option1"
-        key="1"
       >
-        <StyledComponent
-          duration={200}
-          forwardedComponent={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "_foldedDefaultProps": Object {
-                "duration": 200,
-              },
-              "attrs": Array [],
-              "componentStyle": ComponentStyle {
-                "componentId": "Option__StyledOption-sc-1n4ne5g-3",
-                "isStatic": false,
-                "lastClassName": "c0",
-                "rules": Array [
-                  "border:1px solid ",
-                  "#d6d8da",
-                  ";padding:1em 1em 0;padding-bottom:",
-                  [Function],
-                  ";border-radius:",
-                  "4px",
-                  ";position:relative;margin-bottom:1em;",
-                ],
-              },
-              "displayName": "Option__StyledOption",
-              "foldedComponentIds": Array [],
-              "propTypes": Object {
-                "duration": [Function],
-              },
-              "render": [Function],
-              "styledComponentId": "Option__StyledOption-sc-1n4ne5g-3",
-              "target": "div",
-              "toString": [Function],
-              "warnTooManyClasses": [Function],
-              "withComponent": [Function],
-            }
-          }
-          forwardedRef={null}
-          id="Option1"
-        >
-          <div
-            className="c0"
-            id="Option1"
-          >
-            <div>
-              <Option__Flex>
-                <StyledComponent
-                  forwardedComponent={
-                    Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "Option__Flex-sc-1n4ne5g-1",
-                        "isStatic": false,
-                        "lastClassName": "c1",
-                        "rules": Array [
-                          "display:flex;align-items:flex-start;",
-                        ],
-                      },
-                      "displayName": "Option__Flex",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "Option__Flex-sc-1n4ne5g-1",
-                      "target": "div",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
-                    }
-                  }
-                  forwardedRef={null}
+        <div>
+          <Option__Flex>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "Option__Flex-sc-1n4ne5g-1",
+                    "isStatic": false,
+                    "lastClassName": "c1",
+                    "rules": Array [
+                      "display:flex;align-items:flex-start;",
+                    ],
+                  },
+                  "displayName": "Option__Flex",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "Option__Flex-sc-1n4ne5g-1",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <div
+                className="c1"
+              >
+                <MultipleChoice
+                  type="Checkbox"
                 >
-                  <div
-                    className="c1"
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "MultipleChoice-sc-4w22f3-0",
+                          "isStatic": false,
+                          "lastClassName": "c2",
+                          "rules": Array [
+                            "background:",
+                            "#E4E8EB",
+                            ";background-size:cover;height:1.4em;width:1.4em;display:inline-block;margin:2em 1em 0 0;border-radius:",
+                            [Function],
+                            ";flex:0 0 auto;",
+                          ],
+                        },
+                        "displayName": "MultipleChoice",
+                        "foldedComponentIds": Array [],
+                        "propTypes": Object {
+                          "type": [Function],
+                        },
+                        "render": [Function],
+                        "styledComponentId": "MultipleChoice-sc-4w22f3-0",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                    type="Checkbox"
                   >
-                    <MultipleChoice
-                      type="Radio"
+                    <div
+                      className="c2"
+                      type="Checkbox"
+                    />
+                  </StyledComponent>
+                </MultipleChoice>
+                <Option__OptionField>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "Option__OptionField-sc-1n4ne5g-2",
+                          "isStatic": false,
+                          "lastClassName": "c3",
+                          "rules": Array [
+                            "margin-bottom:1.5em;",
+                          ],
+                        },
+                        "displayName": "Option__OptionField",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "Option__OptionField-sc-1n4ne5g-2",
+                        "target": [Function],
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <Field
+                      className="c3"
+                      disabled={false}
+                      last={false}
                     >
-                      <StyledComponent
-                        forwardedComponent={
-                          Object {
-                            "$$typeof": Symbol(react.forward_ref),
-                            "attrs": Array [],
-                            "componentStyle": ComponentStyle {
-                              "componentId": "MultipleChoice-sc-4w22f3-0",
-                              "isStatic": false,
-                              "lastClassName": "c2",
-                              "rules": Array [
-                                "background:",
-                                "#E4E8EB",
-                                ";background-size:cover;height:1.4em;width:1.4em;display:inline-block;margin:2em 1em 0 0;border-radius:",
-                                [Function],
-                                ";flex:0 0 auto;",
-                              ],
-                            },
-                            "displayName": "MultipleChoice",
-                            "foldedComponentIds": Array [],
-                            "propTypes": Object {
-                              "type": [Function],
-                            },
-                            "render": [Function],
-                            "styledComponentId": "MultipleChoice-sc-4w22f3-0",
-                            "target": "div",
-                            "toString": [Function],
-                            "warnTooManyClasses": [Function],
-                            "withComponent": [Function],
-                          }
-                        }
-                        forwardedRef={null}
-                        type="Radio"
+                      <Field__StyledField
+                        className="c3"
+                        disabled={false}
+                        last={false}
                       >
-                        <div
-                          className="c2"
-                          type="Radio"
-                        />
-                      </StyledComponent>
-                    </MultipleChoice>
-                    <Option__OptionField>
-                      <StyledComponent
-                        forwardedComponent={
-                          Object {
-                            "$$typeof": Symbol(react.forward_ref),
-                            "attrs": Array [],
-                            "componentStyle": ComponentStyle {
-                              "componentId": "Option__OptionField-sc-1n4ne5g-2",
-                              "isStatic": false,
-                              "lastClassName": "c3",
-                              "rules": Array [
-                                "margin-bottom:1.5em;",
-                              ],
-                            },
-                            "displayName": "Option__OptionField",
-                            "foldedComponentIds": Array [],
-                            "render": [Function],
-                            "styledComponentId": "Option__OptionField-sc-1n4ne5g-2",
-                            "target": [Function],
-                            "toString": [Function],
-                            "warnTooManyClasses": [Function],
-                            "withComponent": [Function],
-                          }
-                        }
-                        forwardedRef={null}
-                      >
-                        <Field
+                        <StyledComponent
                           className="c3"
                           disabled={false}
+                          forwardedComponent={
+                            Object {
+                              "$$typeof": Symbol(react.forward_ref),
+                              "attrs": Array [],
+                              "componentStyle": ComponentStyle {
+                                "componentId": "Field__StyledField-sc-5cw3uj-0",
+                                "isStatic": false,
+                                "lastClassName": "c4",
+                                "rules": Array [
+                                  "display:block;width:100%;margin-bottom:",
+                                  [Function],
+                                  "em;position:relative;",
+                                  [Function],
+                                ],
+                              },
+                              "displayName": "Field__StyledField",
+                              "foldedComponentIds": Array [],
+                              "render": [Function],
+                              "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
+                              "target": "div",
+                              "toString": [Function],
+                              "warnTooManyClasses": [Function],
+                              "withComponent": [Function],
+                            }
+                          }
+                          forwardedRef={null}
                           last={false}
                         >
-                          <Field__StyledField
-                            className="c3"
+                          <div
+                            className="c4 c3"
                             disabled={false}
-                            last={false}
+                          >
+                            <Label
+                              bold={true}
+                              htmlFor="option-label-1"
+                            >
+                              <Label__StyledLabel
+                                bold={true}
+                                htmlFor="option-label-1"
+                              >
+                                <StyledComponent
+                                  bold={true}
+                                  forwardedComponent={
+                                    Object {
+                                      "$$typeof": Symbol(react.forward_ref),
+                                      "attrs": Array [],
+                                      "componentStyle": ComponentStyle {
+                                        "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                        "isStatic": false,
+                                        "lastClassName": "c5",
+                                        "rules": Array [
+                                          "display:",
+                                          [Function],
+                                          ";margin-bottom:",
+                                          [Function],
+                                          ";font-weight:",
+                                          [Function],
+                                          ";vertical-align:middle;color:",
+                                          "#333333",
+                                          ";line-height:1.3;",
+                                        ],
+                                      },
+                                      "displayName": "Label__StyledLabel",
+                                      "foldedComponentIds": Array [],
+                                      "render": [Function],
+                                      "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                      "target": "label",
+                                      "toString": [Function],
+                                      "warnTooManyClasses": [Function],
+                                      "withComponent": [Function],
+                                    }
+                                  }
+                                  forwardedRef={null}
+                                  htmlFor="option-label-1"
+                                >
+                                  <label
+                                    className="c5"
+                                    htmlFor="option-label-1"
+                                  >
+                                    Label
+                                  </label>
+                                </StyledComponent>
+                              </Label__StyledLabel>
+                            </Label>
+                            <withChangeHandler(WrappingInput)
+                              bold={true}
+                              data-autofocus={true}
+                              data-test="option-label"
+                              id="option-label-1"
+                              name="label"
+                              onBlur={[MockFunction]}
+                              onChange={[MockFunction]}
+                              onKeyDown={[Function]}
+                              placeholder=""
+                              value=""
+                            >
+                              <WrappingInput
+                                bold={true}
+                                data-autofocus={true}
+                                data-test="option-label"
+                                id="option-label-1"
+                                name="label"
+                                onBlur={[MockFunction]}
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder=""
+                                value=""
+                              >
+                                <WrappingInput__StyleContext
+                                  bold={true}
+                                  onChange={[Function]}
+                                  onKeyDown={[Function]}
+                                >
+                                  <StyledComponent
+                                    bold={true}
+                                    forwardedComponent={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "WrappingInput__StyleContext-mcpw45-0",
+                                          "isStatic": false,
+                                          "lastClassName": "c8",
+                                          "rules": Array [
+                                            "font-weight:",
+                                            [Function],
+                                            ";",
+                                          ],
+                                        },
+                                        "displayName": "WrappingInput__StyleContext",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
+                                        "target": "div",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      }
+                                    }
+                                    forwardedRef={null}
+                                    onChange={[Function]}
+                                    onKeyDown={[Function]}
+                                  >
+                                    <div
+                                      className="c6"
+                                      onChange={[Function]}
+                                      onKeyDown={[Function]}
+                                    >
+                                      <WrappingInput__TextArea
+                                        aria-invalid="false"
+                                        data-autofocus={true}
+                                        data-test="option-label"
+                                        id="option-label-1"
+                                        name="label"
+                                        onBlur={[MockFunction]}
+                                        onChange={[Function]}
+                                        onKeyDown={[Function]}
+                                        placeholder=""
+                                        value=""
+                                      >
+                                        <StyledComponent
+                                          aria-invalid="false"
+                                          data-autofocus={true}
+                                          data-test="option-label"
+                                          forwardedComponent={
+                                            Object {
+                                              "$$typeof": Symbol(react.forward_ref),
+                                              "attrs": Array [],
+                                              "componentStyle": ComponentStyle {
+                                                "componentId": "WrappingInput__TextArea-mcpw45-1",
+                                                "isStatic": false,
+                                                "lastClassName": "c7",
+                                                "rules": Array [
+                                                  "font-size:1em;border:thin solid ",
+                                                  "#999999",
+                                                  ";padding:0.5em;color:",
+                                                  "#333333",
+                                                  ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
+                                                  "#3B7A9E",
+                                                  ";outline-color:",
+                                                  "#3B7A9E",
+                                                  ";}&:focus,&:focus-within{",
+                                                  "border-color:",
+                                                  "#3B7A9E",
+                                                  ";outline-color:",
+                                                  "#3B7A9E",
+                                                  ";box-shadow:0 0 0 3px ",
+                                                  "#FDBD56",
+                                                  ";",
+                                                  ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
+                                                  "#3B7A9E",
+                                                  ";}&[disabled]{opacity:0.8;pointer-events:none;}",
+                                                  [Function],
+                                                  ";",
+                                                  ";font-weight:inherit;resize:none;overflow:hidden;",
+                                                ],
+                                              },
+                                              "displayName": "WrappingInput__TextArea",
+                                              "foldedComponentIds": Array [],
+                                              "render": [Function],
+                                              "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
+                                              "target": Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "render": [Function],
+                                              },
+                                              "toString": [Function],
+                                              "warnTooManyClasses": [Function],
+                                              "withComponent": [Function],
+                                            }
+                                          }
+                                          forwardedRef={null}
+                                          id="option-label-1"
+                                          name="label"
+                                          onBlur={[MockFunction]}
+                                          onChange={[Function]}
+                                          onKeyDown={[Function]}
+                                          placeholder=""
+                                          value=""
+                                        >
+                                          <ForwardRef(TextareaAutosize)
+                                            aria-invalid="false"
+                                            className="c7"
+                                            data-autofocus={true}
+                                            data-test="option-label"
+                                            id="option-label-1"
+                                            name="label"
+                                            onBlur={[MockFunction]}
+                                            onChange={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder=""
+                                            value=""
+                                          >
+                                            <textarea
+                                              aria-invalid="false"
+                                              className="c7"
+                                              data-autofocus={true}
+                                              data-test="option-label"
+                                              id="option-label-1"
+                                              name="label"
+                                              onBlur={[MockFunction]}
+                                              onChange={[Function]}
+                                              onKeyDown={[Function]}
+                                              placeholder=""
+                                              value=""
+                                            />
+                                          </ForwardRef(TextareaAutosize)>
+                                        </StyledComponent>
+                                      </WrappingInput__TextArea>
+                                    </div>
+                                  </StyledComponent>
+                                </WrappingInput__StyleContext>
+                              </WrappingInput>
+                            </withChangeHandler(WrappingInput)>
+                          </div>
+                        </StyledComponent>
+                      </Field__StyledField>
+                    </Field>
+                  </StyledComponent>
+                </Option__OptionField>
+              </div>
+            </StyledComponent>
+          </Option__Flex>
+          <Option__OptionField>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "Option__OptionField-sc-1n4ne5g-2",
+                    "isStatic": false,
+                    "lastClassName": "c3",
+                    "rules": Array [
+                      "margin-bottom:1.5em;",
+                    ],
+                  },
+                  "displayName": "Option__OptionField",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "Option__OptionField-sc-1n4ne5g-2",
+                  "target": [Function],
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <Field
+                className="c3"
+                disabled={false}
+                last={false}
+              >
+                <Field__StyledField
+                  className="c3"
+                  disabled={false}
+                  last={false}
+                >
+                  <StyledComponent
+                    className="c3"
+                    disabled={false}
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "Field__StyledField-sc-5cw3uj-0",
+                          "isStatic": false,
+                          "lastClassName": "c4",
+                          "rules": Array [
+                            "display:block;width:100%;margin-bottom:",
+                            [Function],
+                            "em;position:relative;",
+                            [Function],
+                          ],
+                        },
+                        "displayName": "Field__StyledField",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                    last={false}
+                  >
+                    <div
+                      className="c4 c3"
+                      disabled={false}
+                    >
+                      <Label
+                        bold={true}
+                        htmlFor="option-description-1"
+                      >
+                        <Label__StyledLabel
+                          bold={true}
+                          htmlFor="option-description-1"
+                        >
+                          <StyledComponent
+                            bold={true}
+                            forwardedComponent={
+                              Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                  "isStatic": false,
+                                  "lastClassName": "c5",
+                                  "rules": Array [
+                                    "display:",
+                                    [Function],
+                                    ";margin-bottom:",
+                                    [Function],
+                                    ";font-weight:",
+                                    [Function],
+                                    ";vertical-align:middle;color:",
+                                    "#333333",
+                                    ";line-height:1.3;",
+                                  ],
+                                },
+                                "displayName": "Label__StyledLabel",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                "target": "label",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              }
+                            }
+                            forwardedRef={null}
+                            htmlFor="option-description-1"
+                          >
+                            <label
+                              className="c5"
+                              htmlFor="option-description-1"
+                            >
+                              Description (optional)
+                            </label>
+                          </StyledComponent>
+                        </Label__StyledLabel>
+                      </Label>
+                      <withChangeHandler(WrappingInput)
+                        data-test="option-description"
+                        id="option-description-1"
+                        name="description"
+                        onBlur={[MockFunction]}
+                        onChange={[MockFunction]}
+                        onKeyDown={[Function]}
+                        value=""
+                      >
+                        <WrappingInput
+                          bold={false}
+                          data-test="option-description"
+                          id="option-description-1"
+                          name="description"
+                          onBlur={[MockFunction]}
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          value=""
+                        >
+                          <WrappingInput__StyleContext
+                            bold={false}
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
                           >
                             <StyledComponent
-                              className="c3"
-                              disabled={false}
+                              bold={false}
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
                                   "attrs": Array [],
                                   "componentStyle": ComponentStyle {
-                                    "componentId": "Field__StyledField-sc-5cw3uj-0",
+                                    "componentId": "WrappingInput__StyleContext-mcpw45-0",
                                     "isStatic": false,
-                                    "lastClassName": "c4",
+                                    "lastClassName": "c8",
                                     "rules": Array [
-                                      "display:block;width:100%;margin-bottom:",
+                                      "font-weight:",
                                       [Function],
-                                      "em;position:relative;",
-                                      [Function],
+                                      ";",
                                     ],
                                   },
-                                  "displayName": "Field__StyledField",
+                                  "displayName": "WrappingInput__StyleContext",
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
-                                  "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
+                                  "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
                                   "target": "div",
                                   "toString": [Function],
                                   "warnTooManyClasses": [Function],
@@ -581,558 +957,554 @@ exports[`Option should render a checkbox 1`] = `
                                 }
                               }
                               forwardedRef={null}
-                              last={false}
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
                             >
                               <div
-                                className="c4 c3"
-                                disabled={false}
+                                className="c8"
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
                               >
-                                <Label
-                                  bold={true}
-                                  htmlFor="option-label-1"
+                                <WrappingInput__TextArea
+                                  aria-invalid="false"
+                                  data-test="option-description"
+                                  id="option-description-1"
+                                  name="description"
+                                  onBlur={[MockFunction]}
+                                  onChange={[Function]}
+                                  onKeyDown={[Function]}
+                                  value=""
                                 >
-                                  <Label__StyledLabel
-                                    bold={true}
-                                    htmlFor="option-label-1"
-                                  >
-                                    <StyledComponent
-                                      bold={true}
-                                      forwardedComponent={
-                                        Object {
+                                  <StyledComponent
+                                    aria-invalid="false"
+                                    data-test="option-description"
+                                    forwardedComponent={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "WrappingInput__TextArea-mcpw45-1",
+                                          "isStatic": false,
+                                          "lastClassName": "c7",
+                                          "rules": Array [
+                                            "font-size:1em;border:thin solid ",
+                                            "#999999",
+                                            ";padding:0.5em;color:",
+                                            "#333333",
+                                            ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";}&:focus,&:focus-within{",
+                                            "border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";box-shadow:0 0 0 3px ",
+                                            "#FDBD56",
+                                            ";",
+                                            ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
+                                            "#3B7A9E",
+                                            ";}&[disabled]{opacity:0.8;pointer-events:none;}",
+                                            [Function],
+                                            ";",
+                                            ";font-weight:inherit;resize:none;overflow:hidden;",
+                                          ],
+                                        },
+                                        "displayName": "WrappingInput__TextArea",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
+                                        "target": Object {
                                           "$$typeof": Symbol(react.forward_ref),
-                                          "attrs": Array [],
-                                          "componentStyle": ComponentStyle {
-                                            "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
-                                            "isStatic": false,
-                                            "lastClassName": "c5",
-                                            "rules": Array [
-                                              "display:",
-                                              [Function],
-                                              ";margin-bottom:",
-                                              [Function],
-                                              ";font-weight:",
-                                              [Function],
-                                              ";vertical-align:middle;color:",
-                                              "#333333",
-                                              ";line-height:1.3;",
-                                            ],
-                                          },
-                                          "displayName": "Label__StyledLabel",
-                                          "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
-                                          "target": "label",
-                                          "toString": [Function],
-                                          "warnTooManyClasses": [Function],
-                                          "withComponent": [Function],
-                                        }
+                                        },
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
                                       }
-                                      forwardedRef={null}
-                                      htmlFor="option-label-1"
+                                    }
+                                    forwardedRef={null}
+                                    id="option-description-1"
+                                    name="description"
+                                    onBlur={[MockFunction]}
+                                    onChange={[Function]}
+                                    onKeyDown={[Function]}
+                                    value=""
+                                  >
+                                    <ForwardRef(TextareaAutosize)
+                                      aria-invalid="false"
+                                      className="c7"
+                                      data-test="option-description"
+                                      id="option-description-1"
+                                      name="description"
+                                      onBlur={[MockFunction]}
+                                      onChange={[Function]}
+                                      onKeyDown={[Function]}
+                                      value=""
                                     >
-                                      <label
-                                        className="c5"
-                                        htmlFor="option-label-1"
-                                      >
-                                        Label
-                                      </label>
-                                    </StyledComponent>
-                                  </Label__StyledLabel>
-                                </Label>
-                                <withChangeHandler(WrappingInput)
-                                  bold={true}
-                                  data-autofocus={true}
-                                  data-test="option-label"
-                                  id="option-label-1"
-                                  name="label"
+                                      <textarea
+                                        aria-invalid="false"
+                                        className="c7"
+                                        data-test="option-description"
+                                        id="option-description-1"
+                                        name="description"
+                                        onBlur={[MockFunction]}
+                                        onChange={[Function]}
+                                        onKeyDown={[Function]}
+                                        value=""
+                                      />
+                                    </ForwardRef(TextareaAutosize)>
+                                  </StyledComponent>
+                                </WrappingInput__TextArea>
+                              </div>
+                            </StyledComponent>
+                          </WrappingInput__StyleContext>
+                        </WrappingInput>
+                      </withChangeHandler(WrappingInput)>
+                    </div>
+                  </StyledComponent>
+                </Field__StyledField>
+              </Field>
+            </StyledComponent>
+          </Option__OptionField>
+          <Option__OptionField>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "Option__OptionField-sc-1n4ne5g-2",
+                    "isStatic": false,
+                    "lastClassName": "c3",
+                    "rules": Array [
+                      "margin-bottom:1.5em;",
+                    ],
+                  },
+                  "displayName": "Option__OptionField",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "Option__OptionField-sc-1n4ne5g-2",
+                  "target": [Function],
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <Field
+                className="c3"
+                disabled={false}
+                last={false}
+              >
+                <Field__StyledField
+                  className="c3"
+                  disabled={false}
+                  last={false}
+                >
+                  <StyledComponent
+                    className="c3"
+                    disabled={false}
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "Field__StyledField-sc-5cw3uj-0",
+                          "isStatic": false,
+                          "lastClassName": "c4",
+                          "rules": Array [
+                            "display:block;width:100%;margin-bottom:",
+                            [Function],
+                            "em;position:relative;",
+                            [Function],
+                          ],
+                        },
+                        "displayName": "Field__StyledField",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                    last={false}
+                  >
+                    <div
+                      className="c4 c3"
+                      disabled={false}
+                    >
+                      <Label
+                        bold={true}
+                        htmlFor="option-otherLabel-additional1"
+                      >
+                        <Label__StyledLabel
+                          bold={true}
+                          htmlFor="option-otherLabel-additional1"
+                        >
+                          <StyledComponent
+                            bold={true}
+                            forwardedComponent={
+                              Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                  "isStatic": false,
+                                  "lastClassName": "c5",
+                                  "rules": Array [
+                                    "display:",
+                                    [Function],
+                                    ";margin-bottom:",
+                                    [Function],
+                                    ";font-weight:",
+                                    [Function],
+                                    ";vertical-align:middle;color:",
+                                    "#333333",
+                                    ";line-height:1.3;",
+                                  ],
+                                },
+                                "displayName": "Label__StyledLabel",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                "target": "label",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              }
+                            }
+                            forwardedRef={null}
+                            htmlFor="option-otherLabel-additional1"
+                          >
+                            <label
+                              className="c5"
+                              htmlFor="option-otherLabel-additional1"
+                            >
+                              Other Label
+                            </label>
+                          </StyledComponent>
+                        </Label__StyledLabel>
+                      </Label>
+                      <withChangeHandler(WrappingInput)
+                        data-test="other-answer"
+                        id="option-otherLabel-additional1"
+                        name="otherLabel"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        value=""
+                      >
+                        <WrappingInput
+                          bold={false}
+                          data-test="other-answer"
+                          id="option-otherLabel-additional1"
+                          name="otherLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          value=""
+                        >
+                          <WrappingInput__StyleContext
+                            bold={false}
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                          >
+                            <StyledComponent
+                              bold={false}
+                              forwardedComponent={
+                                Object {
+                                  "$$typeof": Symbol(react.forward_ref),
+                                  "attrs": Array [],
+                                  "componentStyle": ComponentStyle {
+                                    "componentId": "WrappingInput__StyleContext-mcpw45-0",
+                                    "isStatic": false,
+                                    "lastClassName": "c8",
+                                    "rules": Array [
+                                      "font-weight:",
+                                      [Function],
+                                      ";",
+                                    ],
+                                  },
+                                  "displayName": "WrappingInput__StyleContext",
+                                  "foldedComponentIds": Array [],
+                                  "render": [Function],
+                                  "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
+                                  "target": "div",
+                                  "toString": [Function],
+                                  "warnTooManyClasses": [Function],
+                                  "withComponent": [Function],
+                                }
+                              }
+                              forwardedRef={null}
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                            >
+                              <div
+                                className="c8"
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
+                              >
+                                <WrappingInput__TextArea
+                                  aria-invalid="false"
+                                  data-test="other-answer"
+                                  id="option-otherLabel-additional1"
+                                  name="otherLabel"
                                   onBlur={[Function]}
                                   onChange={[Function]}
                                   onKeyDown={[Function]}
-                                  placeholder=""
                                   value=""
                                 >
-                                  <WrappingInput
-                                    bold={true}
-                                    data-autofocus={true}
-                                    data-test="option-label"
-                                    id="option-label-1"
-                                    name="label"
+                                  <StyledComponent
+                                    aria-invalid="false"
+                                    data-test="other-answer"
+                                    forwardedComponent={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "WrappingInput__TextArea-mcpw45-1",
+                                          "isStatic": false,
+                                          "lastClassName": "c7",
+                                          "rules": Array [
+                                            "font-size:1em;border:thin solid ",
+                                            "#999999",
+                                            ";padding:0.5em;color:",
+                                            "#333333",
+                                            ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";}&:focus,&:focus-within{",
+                                            "border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";box-shadow:0 0 0 3px ",
+                                            "#FDBD56",
+                                            ";",
+                                            ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
+                                            "#3B7A9E",
+                                            ";}&[disabled]{opacity:0.8;pointer-events:none;}",
+                                            [Function],
+                                            ";",
+                                            ";font-weight:inherit;resize:none;overflow:hidden;",
+                                          ],
+                                        },
+                                        "displayName": "WrappingInput__TextArea",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
+                                        "target": Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "render": [Function],
+                                        },
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      }
+                                    }
+                                    forwardedRef={null}
+                                    id="option-otherLabel-additional1"
+                                    name="otherLabel"
                                     onBlur={[Function]}
                                     onChange={[Function]}
                                     onKeyDown={[Function]}
-                                    placeholder=""
                                     value=""
                                   >
-                                    <WrappingInput__StyleContext
-                                      bold={true}
+                                    <ForwardRef(TextareaAutosize)
+                                      aria-invalid="false"
+                                      className="c7"
+                                      data-test="other-answer"
+                                      id="option-otherLabel-additional1"
+                                      name="otherLabel"
+                                      onBlur={[Function]}
                                       onChange={[Function]}
                                       onKeyDown={[Function]}
+                                      value=""
                                     >
-                                      <StyledComponent
-                                        bold={true}
-                                        forwardedComponent={
-                                          Object {
-                                            "$$typeof": Symbol(react.forward_ref),
-                                            "attrs": Array [],
-                                            "componentStyle": ComponentStyle {
-                                              "componentId": "WrappingInput__StyleContext-mcpw45-0",
-                                              "isStatic": false,
-                                              "lastClassName": "c8",
-                                              "rules": Array [
-                                                "font-weight:",
-                                                [Function],
-                                                ";",
-                                              ],
-                                            },
-                                            "displayName": "WrappingInput__StyleContext",
-                                            "foldedComponentIds": Array [],
-                                            "render": [Function],
-                                            "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
-                                            "target": "div",
-                                            "toString": [Function],
-                                            "warnTooManyClasses": [Function],
-                                            "withComponent": [Function],
-                                          }
-                                        }
-                                        forwardedRef={null}
+                                      <textarea
+                                        aria-invalid="false"
+                                        className="c7"
+                                        data-test="other-answer"
+                                        id="option-otherLabel-additional1"
+                                        name="otherLabel"
+                                        onBlur={[Function]}
                                         onChange={[Function]}
                                         onKeyDown={[Function]}
-                                      >
-                                        <div
-                                          className="c6"
-                                          onChange={[Function]}
-                                          onKeyDown={[Function]}
-                                        >
-                                          <WrappingInput__TextArea
-                                            aria-invalid="false"
-                                            data-autofocus={true}
-                                            data-test="option-label"
-                                            id="option-label-1"
-                                            name="label"
-                                            onBlur={[Function]}
-                                            onChange={[Function]}
-                                            onKeyDown={[Function]}
-                                            placeholder=""
-                                            value=""
-                                          >
-                                            <StyledComponent
-                                              aria-invalid="false"
-                                              data-autofocus={true}
-                                              data-test="option-label"
-                                              forwardedComponent={
-                                                Object {
-                                                  "$$typeof": Symbol(react.forward_ref),
-                                                  "attrs": Array [],
-                                                  "componentStyle": ComponentStyle {
-                                                    "componentId": "WrappingInput__TextArea-mcpw45-1",
-                                                    "isStatic": false,
-                                                    "lastClassName": "c7",
-                                                    "rules": Array [
-                                                      "font-size:1em;border:thin solid ",
-                                                      "#999999",
-                                                      ";padding:0.5em;color:",
-                                                      "#333333",
-                                                      ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
-                                                      "#3B7A9E",
-                                                      ";outline-color:",
-                                                      "#3B7A9E",
-                                                      ";}&:focus,&:focus-within{",
-                                                      "border-color:",
-                                                      "#3B7A9E",
-                                                      ";outline-color:",
-                                                      "#3B7A9E",
-                                                      ";box-shadow:0 0 0 3px ",
-                                                      "#FDBD56",
-                                                      ";",
-                                                      ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
-                                                      "#3B7A9E",
-                                                      ";}&[disabled]{opacity:0.8;pointer-events:none;}",
-                                                      [Function],
-                                                      ";",
-                                                      ";font-weight:inherit;resize:none;overflow:hidden;",
-                                                    ],
-                                                  },
-                                                  "displayName": "WrappingInput__TextArea",
-                                                  "foldedComponentIds": Array [],
-                                                  "render": [Function],
-                                                  "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
-                                                  "target": Object {
-                                                    "$$typeof": Symbol(react.forward_ref),
-                                                    "render": [Function],
-                                                  },
-                                                  "toString": [Function],
-                                                  "warnTooManyClasses": [Function],
-                                                  "withComponent": [Function],
-                                                }
-                                              }
-                                              forwardedRef={null}
-                                              id="option-label-1"
-                                              name="label"
-                                              onBlur={[Function]}
-                                              onChange={[Function]}
-                                              onKeyDown={[Function]}
-                                              placeholder=""
-                                              value=""
-                                            >
-                                              <ForwardRef(TextareaAutosize)
-                                                aria-invalid="false"
-                                                className="c7"
-                                                data-autofocus={true}
-                                                data-test="option-label"
-                                                id="option-label-1"
-                                                name="label"
-                                                onBlur={[Function]}
-                                                onChange={[Function]}
-                                                onKeyDown={[Function]}
-                                                placeholder=""
-                                                value=""
-                                              >
-                                                <textarea
-                                                  aria-invalid="false"
-                                                  className="c7"
-                                                  data-autofocus={true}
-                                                  data-test="option-label"
-                                                  id="option-label-1"
-                                                  name="label"
-                                                  onBlur={[Function]}
-                                                  onChange={[Function]}
-                                                  onKeyDown={[Function]}
-                                                  placeholder=""
-                                                  value=""
-                                                />
-                                              </ForwardRef(TextareaAutosize)>
-                                            </StyledComponent>
-                                          </WrappingInput__TextArea>
-                                        </div>
-                                      </StyledComponent>
-                                    </WrappingInput__StyleContext>
-                                  </WrappingInput>
-                                </withChangeHandler(WrappingInput)>
+                                        value=""
+                                      />
+                                    </ForwardRef(TextareaAutosize)>
+                                  </StyledComponent>
+                                </WrappingInput__TextArea>
                               </div>
                             </StyledComponent>
-                          </Field__StyledField>
-                        </Field>
-                      </StyledComponent>
-                    </Option__OptionField>
-                  </div>
-                </StyledComponent>
-              </Option__Flex>
-              <Option__OptionField>
-                <StyledComponent
-                  forwardedComponent={
+                          </WrappingInput__StyleContext>
+                        </WrappingInput>
+                      </withChangeHandler(WrappingInput)>
+                    </div>
+                  </StyledComponent>
+                </Field__StyledField>
+              </Field>
+            </StyledComponent>
+          </Option__OptionField>
+          <Option__ButtonsContainer>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "Option__ButtonsContainer-sc-1n4ne5g-0",
+                    "isStatic": false,
+                    "lastClassName": "c9",
+                    "rules": Array [
+                      "position:absolute;right:0;top:0;display:flex;z-index:2;justify-content:flex-end;",
+                    ],
+                  },
+                  "displayName": "Option__ButtonsContainer",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "Option__ButtonsContainer-sc-1n4ne5g-0",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <div
+                className="c9"
+              >
+                <Tooltip
+                  content="Move answer up"
+                  offset={
                     Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "Option__OptionField-sc-1n4ne5g-2",
-                        "isStatic": false,
-                        "lastClassName": "c3",
-                        "rules": Array [
-                          "margin-bottom:1.5em;",
-                        ],
-                      },
-                      "displayName": "Option__OptionField",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "Option__OptionField-sc-1n4ne5g-2",
-                      "target": [Function],
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                      "bottom": 10,
+                      "top": 0,
                     }
                   }
-                  forwardedRef={null}
+                  place="top"
                 >
-                  <Field
-                    className="c3"
-                    disabled={false}
-                    last={false}
+                  <MoveButton
+                    data-for="tooltip-1"
+                    data-test="btn-move-answer-up"
+                    data-tip={true}
+                    disabled={true}
                   >
-                    <Field__StyledField
-                      className="c3"
-                      disabled={false}
-                      last={false}
+                    <MoveButton__Button
+                      aria-disabled={true}
+                      data-for="tooltip-1"
+                      data-test="btn-move-answer-up"
+                      data-tip={true}
                     >
                       <StyledComponent
-                        className="c3"
-                        disabled={false}
+                        aria-disabled={true}
+                        data-for="tooltip-1"
+                        data-test="btn-move-answer-up"
+                        data-tip={true}
                         forwardedComponent={
                           Object {
                             "$$typeof": Symbol(react.forward_ref),
                             "attrs": Array [],
                             "componentStyle": ComponentStyle {
-                              "componentId": "Field__StyledField-sc-5cw3uj-0",
+                              "componentId": "MoveButton__Button-p2kifp-0",
                               "isStatic": false,
-                              "lastClassName": "c4",
+                              "lastClassName": "c10",
                               "rules": Array [
-                                "display:block;width:100%;margin-bottom:",
-                                [Function],
-                                "em;position:relative;",
-                                [Function],
+                                "display:block;color:",
+                                "#3B7A9E",
+                                ";border:none;padding:0;width:2em;height:2em;font-size:1em;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;background:transparent;svg{pointer-events:none;}path{fill:currentColor;}&:hover{color:",
+                                "#333333",
+                                ";}&:focus{outline:3px solid ",
+                                "#FDBD56",
+                                ";}&[aria-disabled=\\"true\\"]{svg{opacity:0.3;}pointer-events:none;}",
                               ],
                             },
-                            "displayName": "Field__StyledField",
+                            "displayName": "MoveButton__Button",
                             "foldedComponentIds": Array [],
                             "render": [Function],
-                            "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
-                            "target": "div",
+                            "styledComponentId": "MoveButton__Button-p2kifp-0",
+                            "target": "button",
                             "toString": [Function],
                             "warnTooManyClasses": [Function],
                             "withComponent": [Function],
                           }
                         }
                         forwardedRef={null}
-                        last={false}
                       >
-                        <div
-                          className="c4 c3"
-                          disabled={false}
+                        <button
+                          aria-disabled={true}
+                          className="c10"
+                          data-for="tooltip-1"
+                          data-test="btn-move-answer-up"
+                          data-tip={true}
                         >
-                          <Label
-                            bold={true}
-                            htmlFor="option-description-1"
-                          >
-                            <Label__StyledLabel
-                              bold={true}
-                              htmlFor="option-description-1"
-                            >
-                              <StyledComponent
-                                bold={true}
-                                forwardedComponent={
-                                  Object {
-                                    "$$typeof": Symbol(react.forward_ref),
-                                    "attrs": Array [],
-                                    "componentStyle": ComponentStyle {
-                                      "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
-                                      "isStatic": false,
-                                      "lastClassName": "c5",
-                                      "rules": Array [
-                                        "display:",
-                                        [Function],
-                                        ";margin-bottom:",
-                                        [Function],
-                                        ";font-weight:",
-                                        [Function],
-                                        ";vertical-align:middle;color:",
-                                        "#333333",
-                                        ";line-height:1.3;",
-                                      ],
-                                    },
-                                    "displayName": "Label__StyledLabel",
-                                    "foldedComponentIds": Array [],
-                                    "render": [Function],
-                                    "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
-                                    "target": "label",
-                                    "toString": [Function],
-                                    "warnTooManyClasses": [Function],
-                                    "withComponent": [Function],
-                                  }
-                                }
-                                forwardedRef={null}
-                                htmlFor="option-description-1"
-                              >
-                                <label
-                                  className="c5"
-                                  htmlFor="option-description-1"
-                                >
-                                  Description (optional)
-                                </label>
-                              </StyledComponent>
-                            </Label__StyledLabel>
-                          </Label>
-                          <withChangeHandler(WrappingInput)
-                            data-test="option-description"
-                            id="option-description-1"
-                            name="description"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onKeyDown={[Function]}
-                            value=""
-                          >
-                            <WrappingInput
-                              bold={false}
-                              data-test="option-description"
-                              id="option-description-1"
-                              name="description"
-                              onBlur={[Function]}
-                              onChange={[Function]}
-                              onKeyDown={[Function]}
-                              value=""
-                            >
-                              <WrappingInput__StyleContext
-                                bold={false}
-                                onChange={[Function]}
-                                onKeyDown={[Function]}
-                              >
-                                <StyledComponent
-                                  bold={false}
-                                  forwardedComponent={
-                                    Object {
-                                      "$$typeof": Symbol(react.forward_ref),
-                                      "attrs": Array [],
-                                      "componentStyle": ComponentStyle {
-                                        "componentId": "WrappingInput__StyleContext-mcpw45-0",
-                                        "isStatic": false,
-                                        "lastClassName": "c8",
-                                        "rules": Array [
-                                          "font-weight:",
-                                          [Function],
-                                          ";",
-                                        ],
-                                      },
-                                      "displayName": "WrappingInput__StyleContext",
-                                      "foldedComponentIds": Array [],
-                                      "render": [Function],
-                                      "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
-                                      "target": "div",
-                                      "toString": [Function],
-                                      "warnTooManyClasses": [Function],
-                                      "withComponent": [Function],
-                                    }
-                                  }
-                                  forwardedRef={null}
-                                  onChange={[Function]}
-                                  onKeyDown={[Function]}
-                                >
-                                  <div
-                                    className="c8"
-                                    onChange={[Function]}
-                                    onKeyDown={[Function]}
-                                  >
-                                    <WrappingInput__TextArea
-                                      aria-invalid="false"
-                                      data-test="option-description"
-                                      id="option-description-1"
-                                      name="description"
-                                      onBlur={[Function]}
-                                      onChange={[Function]}
-                                      onKeyDown={[Function]}
-                                      value=""
-                                    >
-                                      <StyledComponent
-                                        aria-invalid="false"
-                                        data-test="option-description"
-                                        forwardedComponent={
-                                          Object {
-                                            "$$typeof": Symbol(react.forward_ref),
-                                            "attrs": Array [],
-                                            "componentStyle": ComponentStyle {
-                                              "componentId": "WrappingInput__TextArea-mcpw45-1",
-                                              "isStatic": false,
-                                              "lastClassName": "c7",
-                                              "rules": Array [
-                                                "font-size:1em;border:thin solid ",
-                                                "#999999",
-                                                ";padding:0.5em;color:",
-                                                "#333333",
-                                                ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
-                                                "#3B7A9E",
-                                                ";outline-color:",
-                                                "#3B7A9E",
-                                                ";}&:focus,&:focus-within{",
-                                                "border-color:",
-                                                "#3B7A9E",
-                                                ";outline-color:",
-                                                "#3B7A9E",
-                                                ";box-shadow:0 0 0 3px ",
-                                                "#FDBD56",
-                                                ";",
-                                                ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
-                                                "#3B7A9E",
-                                                ";}&[disabled]{opacity:0.8;pointer-events:none;}",
-                                                [Function],
-                                                ";",
-                                                ";font-weight:inherit;resize:none;overflow:hidden;",
-                                              ],
-                                            },
-                                            "displayName": "WrappingInput__TextArea",
-                                            "foldedComponentIds": Array [],
-                                            "render": [Function],
-                                            "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
-                                            "target": Object {
-                                              "$$typeof": Symbol(react.forward_ref),
-                                              "render": [Function],
-                                            },
-                                            "toString": [Function],
-                                            "warnTooManyClasses": [Function],
-                                            "withComponent": [Function],
-                                          }
-                                        }
-                                        forwardedRef={null}
-                                        id="option-description-1"
-                                        name="description"
-                                        onBlur={[Function]}
-                                        onChange={[Function]}
-                                        onKeyDown={[Function]}
-                                        value=""
-                                      >
-                                        <ForwardRef(TextareaAutosize)
-                                          aria-invalid="false"
-                                          className="c7"
-                                          data-test="option-description"
-                                          id="option-description-1"
-                                          name="description"
-                                          onBlur={[Function]}
-                                          onChange={[Function]}
-                                          onKeyDown={[Function]}
-                                          value=""
-                                        >
-                                          <textarea
-                                            aria-invalid="false"
-                                            className="c7"
-                                            data-test="option-description"
-                                            id="option-description-1"
-                                            name="description"
-                                            onBlur={[Function]}
-                                            onChange={[Function]}
-                                            onKeyDown={[Function]}
-                                            value=""
-                                          />
-                                        </ForwardRef(TextareaAutosize)>
-                                      </StyledComponent>
-                                    </WrappingInput__TextArea>
-                                  </div>
-                                </StyledComponent>
-                              </WrappingInput__StyleContext>
-                            </WrappingInput>
-                          </withChangeHandler(WrappingInput)>
-                        </div>
+                          <Component>
+                            <svg />
+                          </Component>
+                        </button>
                       </StyledComponent>
-                    </Field__StyledField>
-                  </Field>
-                </StyledComponent>
-              </Option__OptionField>
-              <Option__ButtonsContainer>
-                <StyledComponent
-                  forwardedComponent={
-                    Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "Option__ButtonsContainer-sc-1n4ne5g-0",
-                        "isStatic": false,
-                        "lastClassName": "c9",
-                        "rules": Array [
-                          "position:absolute;right:0;top:0;display:flex;z-index:2;justify-content:flex-end;",
-                        ],
-                      },
-                      "displayName": "Option__ButtonsContainer",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "Option__ButtonsContainer-sc-1n4ne5g-0",
-                      "target": "div",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                    </MoveButton__Button>
+                  </MoveButton>
+                  <Tooltip__StyledTooltip
+                    delayShow={200}
+                    effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
+                    id="tooltip-1"
+                    offset={
+                      Object {
+                        "bottom": 10,
+                        "top": 0,
+                      }
                     }
-                  }
-                  forwardedRef={null}
-                >
-                  <div
-                    className="c9"
+                    place="top"
                   >
-                    <Tooltip
-                      content="Move answer up"
+                    <StyledComponent
+                      delayShow={200}
+                      effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                            "isStatic": false,
+                            "lastClassName": "c11",
+                            "rules": Array [
+                              "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
+                              "4px",
+                              " !important;white-space:pre;",
+                            ],
+                          },
+                          "displayName": "Tooltip__StyledTooltip",
+                          "foldedComponentIds": Array [],
+                          "hide": [Function],
+                          "rebuild": [Function],
+                          "render": [Function],
+                          "show": [Function],
+                          "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                          "supportedWrappers": Array [
+                            "div",
+                            "span",
+                          ],
+                          "target": [Function],
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
+                      }
+                      forwardedRef={[Function]}
+                      id="tooltip-1"
                       offset={
                         Object {
                           "bottom": 10,
@@ -1141,73 +1513,15 @@ exports[`Option should render a checkbox 1`] = `
                       }
                       place="top"
                     >
-                      <MoveButton
-                        data-for="tooltip-1"
-                        data-test="btn-move-answer-up"
-                        data-tip={true}
-                        disabled={true}
-                      >
-                        <MoveButton__Button
-                          aria-disabled={true}
-                          data-for="tooltip-1"
-                          data-test="btn-move-answer-up"
-                          data-tip={true}
-                        >
-                          <StyledComponent
-                            aria-disabled={true}
-                            data-for="tooltip-1"
-                            data-test="btn-move-answer-up"
-                            data-tip={true}
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "MoveButton__Button-p2kifp-0",
-                                  "isStatic": false,
-                                  "lastClassName": "c10",
-                                  "rules": Array [
-                                    "display:block;color:",
-                                    "#3B7A9E",
-                                    ";border:none;padding:0;width:2em;height:2em;font-size:1em;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;background:transparent;svg{pointer-events:none;}path{fill:currentColor;}&:hover{color:",
-                                    "#333333",
-                                    ";}&:focus{outline:3px solid ",
-                                    "#FDBD56",
-                                    ";}&[aria-disabled=\\"true\\"]{svg{opacity:0.3;}pointer-events:none;}",
-                                  ],
-                                },
-                                "displayName": "MoveButton__Button",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "MoveButton__Button-p2kifp-0",
-                                "target": "button",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
-                              }
-                            }
-                            forwardedRef={null}
-                          >
-                            <button
-                              aria-disabled={true}
-                              className="c10"
-                              data-for="tooltip-1"
-                              data-test="btn-move-answer-up"
-                              data-tip={true}
-                            >
-                              <Component>
-                                <svg />
-                              </Component>
-                            </button>
-                          </StyledComponent>
-                        </MoveButton__Button>
-                      </MoveButton>
-                      <Tooltip__StyledTooltip
+                      <ReactTooltip
+                        className="c11"
+                        clickable={false}
                         delayShow={200}
                         effect="solid"
                         event="focus mouseover"
                         eventOff="blur mouseout"
                         id="tooltip-1"
+                        insecure={true}
                         offset={
                           Object {
                             "bottom": 10,
@@ -1215,85 +1529,143 @@ exports[`Option should render a checkbox 1`] = `
                           }
                         }
                         place="top"
+                        resizeHide={true}
+                        wrapper="div"
                       >
-                        <StyledComponent
-                          delayShow={200}
-                          effect="solid"
-                          event="focus mouseover"
-                          eventOff="blur mouseout"
-                          forwardedComponent={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "attrs": Array [],
-                              "componentStyle": ComponentStyle {
-                                "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                                "isStatic": false,
-                                "lastClassName": "c11",
-                                "rules": Array [
-                                  "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
-                                  "4px",
-                                  " !important;white-space:pre;",
-                                ],
-                              },
-                              "displayName": "Tooltip__StyledTooltip",
-                              "foldedComponentIds": Array [],
-                              "hide": [Function],
-                              "rebuild": [Function],
-                              "render": [Function],
-                              "show": [Function],
-                              "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                              "supportedWrappers": Array [
-                                "div",
-                                "span",
-                              ],
-                              "target": [Function],
-                              "toString": [Function],
-                              "warnTooManyClasses": [Function],
-                              "withComponent": [Function],
-                            }
-                          }
-                          forwardedRef={[Function]}
+                        <div
+                          className="__react_component_tooltip place-top type-dark"
+                          data-id="tooltip"
                           id="tooltip-1"
-                          offset={
-                            Object {
-                              "bottom": 10,
-                              "top": 0,
-                            }
-                          }
-                          place="top"
                         >
-                          <ReactTooltip
-                            className="c11"
-                            clickable={false}
-                            delayShow={200}
-                            effect="solid"
-                            event="focus mouseover"
-                            eventOff="blur mouseout"
-                            id="tooltip-1"
-                            insecure={true}
-                            offset={
-                              Object {
-                                "bottom": 10,
-                                "top": 0,
-                              }
-                            }
-                            place="top"
-                            resizeHide={true}
-                            wrapper="div"
-                          >
-                            <div
-                              className="__react_component_tooltip place-top type-dark"
-                              data-id="tooltip"
-                              id="tooltip-1"
-                            >
-                              Move answer up
-                            </div>
-                          </ReactTooltip>
-                        </StyledComponent>
-                      </Tooltip__StyledTooltip>
-                    </Tooltip>
-                    <Tooltip
-                      content="Move answer down"
+                          Move answer up
+                        </div>
+                      </ReactTooltip>
+                    </StyledComponent>
+                  </Tooltip__StyledTooltip>
+                </Tooltip>
+                <Tooltip
+                  content="Move answer down"
+                  offset={
+                    Object {
+                      "bottom": 10,
+                      "top": 0,
+                    }
+                  }
+                  place="top"
+                >
+                  <MoveButton
+                    data-for="tooltip-2"
+                    data-test="btn-move-answer-down"
+                    data-tip={true}
+                    disabled={true}
+                  >
+                    <MoveButton__Button
+                      aria-disabled={true}
+                      data-for="tooltip-2"
+                      data-test="btn-move-answer-down"
+                      data-tip={true}
+                    >
+                      <StyledComponent
+                        aria-disabled={true}
+                        data-for="tooltip-2"
+                        data-test="btn-move-answer-down"
+                        data-tip={true}
+                        forwardedComponent={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "attrs": Array [],
+                            "componentStyle": ComponentStyle {
+                              "componentId": "MoveButton__Button-p2kifp-0",
+                              "isStatic": false,
+                              "lastClassName": "c10",
+                              "rules": Array [
+                                "display:block;color:",
+                                "#3B7A9E",
+                                ";border:none;padding:0;width:2em;height:2em;font-size:1em;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;background:transparent;svg{pointer-events:none;}path{fill:currentColor;}&:hover{color:",
+                                "#333333",
+                                ";}&:focus{outline:3px solid ",
+                                "#FDBD56",
+                                ";}&[aria-disabled=\\"true\\"]{svg{opacity:0.3;}pointer-events:none;}",
+                              ],
+                            },
+                            "displayName": "MoveButton__Button",
+                            "foldedComponentIds": Array [],
+                            "render": [Function],
+                            "styledComponentId": "MoveButton__Button-p2kifp-0",
+                            "target": "button",
+                            "toString": [Function],
+                            "warnTooManyClasses": [Function],
+                            "withComponent": [Function],
+                          }
+                        }
+                        forwardedRef={null}
+                      >
+                        <button
+                          aria-disabled={true}
+                          className="c10"
+                          data-for="tooltip-2"
+                          data-test="btn-move-answer-down"
+                          data-tip={true}
+                        >
+                          <Component>
+                            <svg />
+                          </Component>
+                        </button>
+                      </StyledComponent>
+                    </MoveButton__Button>
+                  </MoveButton>
+                  <Tooltip__StyledTooltip
+                    delayShow={200}
+                    effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
+                    id="tooltip-2"
+                    offset={
+                      Object {
+                        "bottom": 10,
+                        "top": 0,
+                      }
+                    }
+                    place="top"
+                  >
+                    <StyledComponent
+                      delayShow={200}
+                      effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                            "isStatic": false,
+                            "lastClassName": "c11",
+                            "rules": Array [
+                              "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
+                              "4px",
+                              " !important;white-space:pre;",
+                            ],
+                          },
+                          "displayName": "Tooltip__StyledTooltip",
+                          "foldedComponentIds": Array [],
+                          "hide": [Function],
+                          "rebuild": [Function],
+                          "render": [Function],
+                          "show": [Function],
+                          "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                          "supportedWrappers": Array [
+                            "div",
+                            "span",
+                          ],
+                          "target": [Function],
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
+                      }
+                      forwardedRef={[Function]}
+                      id="tooltip-2"
                       offset={
                         Object {
                           "bottom": 10,
@@ -1302,73 +1674,15 @@ exports[`Option should render a checkbox 1`] = `
                       }
                       place="top"
                     >
-                      <MoveButton
-                        data-for="tooltip-2"
-                        data-test="btn-move-answer-down"
-                        data-tip={true}
-                        disabled={true}
-                      >
-                        <MoveButton__Button
-                          aria-disabled={true}
-                          data-for="tooltip-2"
-                          data-test="btn-move-answer-down"
-                          data-tip={true}
-                        >
-                          <StyledComponent
-                            aria-disabled={true}
-                            data-for="tooltip-2"
-                            data-test="btn-move-answer-down"
-                            data-tip={true}
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "MoveButton__Button-p2kifp-0",
-                                  "isStatic": false,
-                                  "lastClassName": "c10",
-                                  "rules": Array [
-                                    "display:block;color:",
-                                    "#3B7A9E",
-                                    ";border:none;padding:0;width:2em;height:2em;font-size:1em;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;background:transparent;svg{pointer-events:none;}path{fill:currentColor;}&:hover{color:",
-                                    "#333333",
-                                    ";}&:focus{outline:3px solid ",
-                                    "#FDBD56",
-                                    ";}&[aria-disabled=\\"true\\"]{svg{opacity:0.3;}pointer-events:none;}",
-                                  ],
-                                },
-                                "displayName": "MoveButton__Button",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "MoveButton__Button-p2kifp-0",
-                                "target": "button",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
-                              }
-                            }
-                            forwardedRef={null}
-                          >
-                            <button
-                              aria-disabled={true}
-                              className="c10"
-                              data-for="tooltip-2"
-                              data-test="btn-move-answer-down"
-                              data-tip={true}
-                            >
-                              <Component>
-                                <svg />
-                              </Component>
-                            </button>
-                          </StyledComponent>
-                        </MoveButton__Button>
-                      </MoveButton>
-                      <Tooltip__StyledTooltip
+                      <ReactTooltip
+                        className="c11"
+                        clickable={false}
                         delayShow={200}
                         effect="solid"
                         event="focus mouseover"
                         eventOff="blur mouseout"
                         id="tooltip-2"
+                        insecure={true}
                         offset={
                           Object {
                             "bottom": 10,
@@ -1376,104 +1690,95 @@ exports[`Option should render a checkbox 1`] = `
                           }
                         }
                         place="top"
+                        resizeHide={true}
+                        wrapper="div"
                       >
-                        <StyledComponent
-                          delayShow={200}
-                          effect="solid"
-                          event="focus mouseover"
-                          eventOff="blur mouseout"
-                          forwardedComponent={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "attrs": Array [],
-                              "componentStyle": ComponentStyle {
-                                "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                                "isStatic": false,
-                                "lastClassName": "c11",
-                                "rules": Array [
-                                  "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
-                                  "4px",
-                                  " !important;white-space:pre;",
-                                ],
-                              },
-                              "displayName": "Tooltip__StyledTooltip",
-                              "foldedComponentIds": Array [],
-                              "hide": [Function],
-                              "rebuild": [Function],
-                              "render": [Function],
-                              "show": [Function],
-                              "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                              "supportedWrappers": Array [
-                                "div",
-                                "span",
-                              ],
-                              "target": [Function],
-                              "toString": [Function],
-                              "warnTooManyClasses": [Function],
-                              "withComponent": [Function],
-                            }
-                          }
-                          forwardedRef={[Function]}
+                        <div
+                          className="__react_component_tooltip place-top type-dark"
+                          data-id="tooltip"
                           id="tooltip-2"
-                          offset={
-                            Object {
-                              "bottom": 10,
-                              "top": 0,
-                            }
-                          }
-                          place="top"
                         >
-                          <ReactTooltip
-                            className="c11"
-                            clickable={false}
-                            delayShow={200}
-                            effect="solid"
-                            event="focus mouseover"
-                            eventOff="blur mouseout"
-                            id="tooltip-2"
-                            insecure={true}
-                            offset={
-                              Object {
-                                "bottom": 10,
-                                "top": 0,
-                              }
-                            }
-                            place="top"
-                            resizeHide={true}
-                            wrapper="div"
-                          >
-                            <div
-                              className="__react_component_tooltip place-top type-dark"
-                              data-id="tooltip"
-                              id="tooltip-2"
-                            >
-                              Move answer down
-                            </div>
-                          </ReactTooltip>
-                        </StyledComponent>
-                      </Tooltip__StyledTooltip>
-                    </Tooltip>
-                    <Tooltip
-                      content="Delete option"
-                      offset={
-                        Object {
-                          "bottom": 10,
-                        }
-                      }
-                      place="top"
+                          Move answer down
+                        </div>
+                      </ReactTooltip>
+                    </StyledComponent>
+                  </Tooltip__StyledTooltip>
+                </Tooltip>
+                <Tooltip
+                  content="Delete option"
+                  offset={
+                    Object {
+                      "bottom": 10,
+                    }
+                  }
+                  place="top"
+                >
+                  <DeleteButton
+                    aria-label="Delete option"
+                    data-for="tooltip-3"
+                    data-test="btn-delete-option"
+                    data-tip={true}
+                    disabled={false}
+                    onClick={[Function]}
+                    size="medium"
+                    type="button"
+                  >
+                    <DeleteButton__StyledDeleteButton
+                      aria-label="Delete option"
+                      data-for="tooltip-3"
+                      data-test="btn-delete-option"
+                      data-tip={true}
+                      disabled={false}
+                      onClick={[Function]}
+                      role="button"
+                      size="medium"
+                      type="button"
                     >
-                      <DeleteButton
+                      <StyledComponent
                         aria-label="Delete option"
                         data-for="tooltip-3"
                         data-test="btn-delete-option"
                         data-tip={true}
                         disabled={false}
+                        forwardedComponent={
+                          Object {
+                            "$$typeof": Symbol(react.forward_ref),
+                            "attrs": Array [],
+                            "componentStyle": ComponentStyle {
+                              "componentId": "DeleteButton__StyledDeleteButton-barhep-0",
+                              "isStatic": false,
+                              "lastClassName": "c12",
+                              "rules": Array [
+                                "color:",
+                                "#3B7A9E",
+                                ";border:none;background:transparent;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;width:1em;height:1em;padding:0;&:hover{color:",
+                                "#333333",
+                                ";}&:focus{outline:3px solid ",
+                                "#FDBD56",
+                                ";}&[disabled]{opacity:0.3;pointer-events:none;}",
+                                [Function],
+                                ";",
+                              ],
+                            },
+                            "displayName": "DeleteButton__StyledDeleteButton",
+                            "foldedComponentIds": Array [],
+                            "render": [Function],
+                            "styledComponentId": "DeleteButton__StyledDeleteButton-barhep-0",
+                            "target": "button",
+                            "toString": [Function],
+                            "warnTooManyClasses": [Function],
+                            "withComponent": [Function],
+                          }
+                        }
+                        forwardedRef={null}
                         onClick={[Function]}
+                        role="button"
                         size="medium"
                         type="button"
                       >
-                        <DeleteButton__StyledDeleteButton
+                        <button
                           aria-label="Delete option"
+                          className="c12"
                           data-for="tooltip-3"
                           data-test="btn-delete-option"
                           data-tip={true}
@@ -1483,241 +1788,260 @@ exports[`Option should render a checkbox 1`] = `
                           size="medium"
                           type="button"
                         >
-                          <StyledComponent
-                            aria-label="Delete option"
-                            data-for="tooltip-3"
-                            data-test="btn-delete-option"
-                            data-tip={true}
-                            disabled={false}
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "DeleteButton__StyledDeleteButton-barhep-0",
-                                  "isStatic": false,
-                                  "lastClassName": "c12",
-                                  "rules": Array [
-                                    "color:",
-                                    "#3B7A9E",
-                                    ";border:none;background:transparent;cursor:pointer;transition:color 200ms ease-in,opacity 300ms ease-in;width:1em;height:1em;padding:0;&:hover{color:",
-                                    "#333333",
-                                    ";}&:focus{outline:3px solid ",
-                                    "#FDBD56",
-                                    ";}&[disabled]{opacity:0.3;pointer-events:none;}",
-                                    [Function],
-                                    ";",
-                                  ],
-                                },
-                                "displayName": "DeleteButton__StyledDeleteButton",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "DeleteButton__StyledDeleteButton-barhep-0",
-                                "target": "button",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
+                          <DeleteButton__CloseIcon>
+                            <StyledComponent
+                              forwardedComponent={
+                                Object {
+                                  "$$typeof": Symbol(react.forward_ref),
+                                  "attrs": Array [],
+                                  "componentStyle": ComponentStyle {
+                                    "componentId": "DeleteButton__CloseIcon-barhep-1",
+                                    "isStatic": false,
+                                    "lastClassName": "c13",
+                                    "rules": Array [
+                                      "pointer-events:none;display:block;width:1em;height:1em;path{fill:currentColor;}",
+                                    ],
+                                  },
+                                  "displayName": "DeleteButton__CloseIcon",
+                                  "foldedComponentIds": Array [],
+                                  "render": [Function],
+                                  "styledComponentId": "DeleteButton__CloseIcon-barhep-1",
+                                  "target": [Function],
+                                  "toString": [Function],
+                                  "warnTooManyClasses": [Function],
+                                  "withComponent": [Function],
+                                }
                               }
-                            }
-                            forwardedRef={null}
-                            onClick={[Function]}
-                            role="button"
-                            size="medium"
-                            type="button"
-                          >
-                            <button
-                              aria-label="Delete option"
-                              className="c12"
-                              data-for="tooltip-3"
-                              data-test="btn-delete-option"
-                              data-tip={true}
-                              disabled={false}
-                              onClick={[Function]}
-                              role="button"
-                              size="medium"
-                              type="button"
+                              forwardedRef={null}
                             >
-                              <DeleteButton__CloseIcon>
-                                <StyledComponent
-                                  forwardedComponent={
-                                    Object {
-                                      "$$typeof": Symbol(react.forward_ref),
-                                      "attrs": Array [],
-                                      "componentStyle": ComponentStyle {
-                                        "componentId": "DeleteButton__CloseIcon-barhep-1",
-                                        "isStatic": false,
-                                        "lastClassName": "c13",
-                                        "rules": Array [
-                                          "pointer-events:none;display:block;width:1em;height:1em;path{fill:currentColor;}",
-                                        ],
-                                      },
-                                      "displayName": "DeleteButton__CloseIcon",
-                                      "foldedComponentIds": Array [],
-                                      "render": [Function],
-                                      "styledComponentId": "DeleteButton__CloseIcon-barhep-1",
-                                      "target": [Function],
-                                      "toString": [Function],
-                                      "warnTooManyClasses": [Function],
-                                      "withComponent": [Function],
-                                    }
-                                  }
-                                  forwardedRef={null}
-                                >
-                                  <ReactComponent
-                                    className="c13"
-                                  >
-                                    <div />
-                                  </ReactComponent>
-                                </StyledComponent>
-                              </DeleteButton__CloseIcon>
-                            </button>
-                          </StyledComponent>
-                        </DeleteButton__StyledDeleteButton>
-                      </DeleteButton>
-                      <Tooltip__StyledTooltip
+                              <ReactComponent
+                                className="c13"
+                              >
+                                <div />
+                              </ReactComponent>
+                            </StyledComponent>
+                          </DeleteButton__CloseIcon>
+                        </button>
+                      </StyledComponent>
+                    </DeleteButton__StyledDeleteButton>
+                  </DeleteButton>
+                  <Tooltip__StyledTooltip
+                    delayShow={200}
+                    effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
+                    id="tooltip-3"
+                    offset={
+                      Object {
+                        "bottom": 10,
+                      }
+                    }
+                    place="top"
+                  >
+                    <StyledComponent
+                      delayShow={200}
+                      effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
+                      forwardedComponent={
+                        Object {
+                          "$$typeof": Symbol(react.forward_ref),
+                          "attrs": Array [],
+                          "componentStyle": ComponentStyle {
+                            "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                            "isStatic": false,
+                            "lastClassName": "c11",
+                            "rules": Array [
+                              "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
+                              "4px",
+                              " !important;white-space:pre;",
+                            ],
+                          },
+                          "displayName": "Tooltip__StyledTooltip",
+                          "foldedComponentIds": Array [],
+                          "hide": [Function],
+                          "rebuild": [Function],
+                          "render": [Function],
+                          "show": [Function],
+                          "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
+                          "supportedWrappers": Array [
+                            "div",
+                            "span",
+                          ],
+                          "target": [Function],
+                          "toString": [Function],
+                          "warnTooManyClasses": [Function],
+                          "withComponent": [Function],
+                        }
+                      }
+                      forwardedRef={[Function]}
+                      id="tooltip-3"
+                      offset={
+                        Object {
+                          "bottom": 10,
+                        }
+                      }
+                      place="top"
+                    >
+                      <ReactTooltip
+                        className="c11"
+                        clickable={false}
                         delayShow={200}
                         effect="solid"
                         event="focus mouseover"
                         eventOff="blur mouseout"
                         id="tooltip-3"
+                        insecure={true}
                         offset={
                           Object {
                             "bottom": 10,
                           }
                         }
                         place="top"
+                        resizeHide={true}
+                        wrapper="div"
                       >
-                        <StyledComponent
-                          delayShow={200}
-                          effect="solid"
-                          event="focus mouseover"
-                          eventOff="blur mouseout"
-                          forwardedComponent={
-                            Object {
-                              "$$typeof": Symbol(react.forward_ref),
-                              "attrs": Array [],
-                              "componentStyle": ComponentStyle {
-                                "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                                "isStatic": false,
-                                "lastClassName": "c11",
-                                "rules": Array [
-                                  "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
-                                  "4px",
-                                  " !important;white-space:pre;",
-                                ],
-                              },
-                              "displayName": "Tooltip__StyledTooltip",
-                              "foldedComponentIds": Array [],
-                              "hide": [Function],
-                              "rebuild": [Function],
-                              "render": [Function],
-                              "show": [Function],
-                              "styledComponentId": "Tooltip__StyledTooltip-ok2g1r-0",
-                              "supportedWrappers": Array [
-                                "div",
-                                "span",
-                              ],
-                              "target": [Function],
-                              "toString": [Function],
-                              "warnTooManyClasses": [Function],
-                              "withComponent": [Function],
-                            }
-                          }
-                          forwardedRef={[Function]}
+                        <div
+                          className="__react_component_tooltip place-top type-dark"
+                          data-id="tooltip"
                           id="tooltip-3"
-                          offset={
-                            Object {
-                              "bottom": 10,
-                            }
-                          }
-                          place="top"
                         >
-                          <ReactTooltip
-                            className="c11"
-                            clickable={false}
-                            delayShow={200}
-                            effect="solid"
-                            event="focus mouseover"
-                            eventOff="blur mouseout"
-                            id="tooltip-3"
-                            insecure={true}
-                            offset={
-                              Object {
-                                "bottom": 10,
-                              }
-                            }
-                            place="top"
-                            resizeHide={true}
-                            wrapper="div"
-                          >
-                            <div
-                              className="__react_component_tooltip place-top type-dark"
-                              data-id="tooltip"
-                              id="tooltip-3"
-                            >
-                              Delete option
-                            </div>
-                          </ReactTooltip>
-                        </StyledComponent>
-                      </Tooltip__StyledTooltip>
-                    </Tooltip>
-                  </div>
-                </StyledComponent>
-              </Option__ButtonsContainer>
-            </div>
-          </div>
-        </StyledComponent>
-      </Option__StyledOption>
-    </StatelessOption>
-  </withEntityEditor(StatelessOption)>
-</Connect(withEntityEditor(StatelessOption))>
+                          Delete option
+                        </div>
+                      </ReactTooltip>
+                    </StyledComponent>
+                  </Tooltip__StyledTooltip>
+                </Tooltip>
+              </div>
+            </StyledComponent>
+          </Option__ButtonsContainer>
+        </div>
+      </div>
+    </StyledComponent>
+  </Option__StyledOption>
+</StatelessOption>
 `;
 
 exports[`Option shouldn't render delete button if not applicable 1`] = `
-<withEntityEditor(StatelessOption)
-  endRequest={[Function]}
-  hasDeleteButton={false}
-  onChange={[MockFunction]}
-  onDelete={[MockFunction]}
-  onEnterKey={[MockFunction]}
-  onFocus={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option={
-    Object {
-      "__typename": "Option",
-      "additionAnswer": Object {
-        "id": "additional1",
-        "label": "",
-        "type": "TextField",
-      },
-      "description": "",
-      "id": "1",
-      "label": "",
-    }
-  }
-  startRequest={[Function]}
-  store={
-    Object {
-      "dispatch": [MockFunction],
-      "getState": [MockFunction] {
-        "calls": Array [
-          Array [],
-          Array [],
-        ],
-        "results": Array [
+<Option__StyledOption
+  duration={200}
+  id="Option1"
+  key="1"
+>
+  <div>
+    <Option__Flex>
+      <MultipleChoice
+        type="Radio"
+      />
+      <Option__OptionField>
+        <Label
+          bold={true}
+          htmlFor="option-label-1"
+        >
+          Label
+        </Label>
+        <withChangeHandler(WrappingInput)
+          bold={true}
+          data-autofocus={true}
+          data-test="option-label"
+          id="option-label-1"
+          name="label"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          onKeyDown={[Function]}
+          placeholder=""
+          value=""
+        />
+      </Option__OptionField>
+    </Option__Flex>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-description-1"
+      >
+        Description (optional)
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="option-description"
+        id="option-description-1"
+        name="description"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-otherLabel-additional1"
+      >
+        Other Label
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="other-answer"
+        id="option-otherLabel-additional1"
+        name="otherLabel"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+    <Option__ButtonsContainer>
+      <Tooltip
+        content="Move answer up"
+        offset={
           Object {
-            "type": "return",
-            "value": undefined,
-          },
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-up"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Move answer down"
+        offset={
           Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-      "subscribe": [MockFunction],
-    }
-  }
-  type="Radio"
-/>
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-down"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Delete option"
+        offset={
+          Object {
+            "bottom": 10,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete option"
+          data-test="btn-delete-option"
+          disabled={true}
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </Option__ButtonsContainer>
+  </div>
+</Option__StyledOption>
 `;
