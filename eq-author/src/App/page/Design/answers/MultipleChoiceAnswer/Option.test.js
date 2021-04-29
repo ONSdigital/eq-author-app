@@ -7,9 +7,6 @@ import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
 import { props } from "lodash/fp";
 import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
-// import { keyCodes } from "constants/keyCodes";
-
-// const { Enter } = keyCodes;
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
@@ -136,17 +133,6 @@ describe("Option", () => {
     expect(mockMutations.onDelete).toHaveBeenCalledWith(option.id);
   });
 
-  // it("should call onEnterKey when Enter key pressed", () => {
-  //   render(rtlRender, { type: CHECKBOX });
-
-  //   fireEvent.keyDown(screen.getByTestId("option-label"), merge(mockEvent,{
-  //     key: Enter,
-  //     code: 13,
-  //   }));
-
-  //   expect(mockMutations.onEnterKey).toHaveBeenCalledTimes(1);
-  // });
-
   it("should call onEnterKey when Enter key pressed", () => {
     wrapper
       .find(WrappingInput)
@@ -164,19 +150,6 @@ describe("Option", () => {
 
     expect(mockMutations.onEnterKey).not.toHaveBeenCalled();
   });
-
-  // it("can turn off auto-focus", () => {
-  //   render(rtlRender, { autoFocus: false });
-  //   fireEvent.click(screen.getByTestId("option-label"),);
-
-  //   wrapper = render(mount, { autoFocus: false });
-  //   const input = wrapper
-  //     .find(`[data-test="option-label"]`)
-  //     .first()
-  //     .getDOMNode();
-
-  //   expect(input.hasAttribute("data-autofocus")).toBe(false);
-  // });
 
   it("can turn off auto-focus", () => {
     wrapper = render(mount, { autoFocus: false });

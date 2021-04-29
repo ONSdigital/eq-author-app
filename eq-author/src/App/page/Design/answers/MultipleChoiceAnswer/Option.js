@@ -44,6 +44,10 @@ export const OptionField = styled(Field)`
   margin-bottom: 1.5em;
 `;
 
+export const LastOptionField = styled(OptionField)`
+    margin-bottom: 2.5em;
+`;
+
 export const StyledOption = styled.div`
   border: 1px solid ${colors.bordersLight};
   padding: 1em 1em 0;
@@ -201,7 +205,7 @@ export const StatelessOption = ({
           />
         </OptionField>
         {option.additionalAnswer && (
-        <OptionField>
+        <LastOptionField>
           <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>Other Label</Label>
           <WrappingInput
             id={`option-otherLabel-${option.additionalAnswer.id}`}
@@ -213,7 +217,7 @@ export const StatelessOption = ({
             data-test="other-answer"
             errorValidationMsg={otherLabelError}
           />
-        </OptionField>
+        </LastOptionField>
         )}
         {renderToolbar()}
       </div>
