@@ -16,11 +16,10 @@ export default (displayName, testId, readKey, writeKey, readToWriteMapper) =>
     withAnswerValidation(readKey),
     withUpdateValidationRule,
     withToggleValidationRule,
-    withPropRemapped(
-      "onUpdateValidationRule",
-      "onUpdate",
-      readToWriteMapper(writeKey)
-    ),
+    withPropRemapped("onUpdateValidationRule", "onUpdate", (entity) => [
+      readToWriteMapper(writeKey)(entity),
+      entity,
+    ]),
     withEntityEditor(readKey),
     withPropRenamed(readKey, "validation")
   )(Validation);
