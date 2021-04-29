@@ -125,28 +125,6 @@ describe("MultipleChoiceAnswer", () => {
     expect(Options.find(Option)).toHaveLength(1);
   });
 
-  // it("should render the Options with additional answer", () => {
-  //   const extraProps = {
-  //     canMoveDown: false,
-  //     canMoveUp: false,
-  //     onMoveUp: jest.fn(),
-  //     onMoveDown: jest.fn(),
-  //   };
-
-  //   option.additionalAnswer = {
-  //     id: "add1",
-  //   };
-
-  //   const Options = wrapper.find(Reorder).renderProp("children")(
-  //     extraProps,
-  //     option
-  //   );
-
-  //   expect(
-  //     Options.find("Field__StyledField")
-  //   ).toHaveLength(1);
-  // });
-
   describe("delete button", () => {
     const minOptions = 2;
 
