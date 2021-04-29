@@ -71,13 +71,11 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
 
   const handleEQIdBlur = ({ value }, shortName) => {
     value = value.trim();
-    if (value !== "") {
-      updateQuestionnaireTheme({
-        variables: {
-          input: { questionnaireId, shortName, eqId: value },
-        },
-      });
-    }
+    updateQuestionnaireTheme({
+      variables: {
+        input: { questionnaireId, shortName, eqId: value },
+      },
+    });
   };
 
   return (
@@ -122,11 +120,9 @@ const ThemesPage = ({ questionnaire }) => {
 
   const handleBlur = ({ value }) => {
     value = value.trim();
-    if (value !== "") {
-      updateQuestionnaire({
-        variables: { input: { id, surveyId: value } },
-      });
-    }
+    updateQuestionnaire({
+      variables: { input: { id, surveyId: value } },
+    });
   };
 
   const [enableTheme] = useMutation(enableThemeMutation);
@@ -222,7 +218,7 @@ const ThemesPage = ({ questionnaire }) => {
                         >
                           <p />
                           <Field>
-                            <Label>EQ ID</Label>
+                            <Label>eQ ID</Label>
                           </Field>
                           <EqIdInput
                             eqId={eqId}
