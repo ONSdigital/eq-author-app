@@ -44,7 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.21",
     "moment": "latest",
-    "mongodb": "^3.6.5",
+    "mongodb": "^3.6.6",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
@@ -74,7 +74,7 @@
     ]
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^1.2.3",
+    "@shelf/jest-mongodb": "^1.2.4",
     "commander": "latest",
     "dynamodb-admin": "latest",
     "eslint": "latest",
