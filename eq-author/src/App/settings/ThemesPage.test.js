@@ -257,7 +257,7 @@ describe("Themes page", () => {
     });
   });
 
-  it("Should not change surveyId", () => {
+  it("Should change to empty surveyId", () => {
     const onBlur = jest.fn();
     useMutation.mockImplementation(() => [onBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
@@ -273,7 +273,11 @@ describe("Themes page", () => {
 
     expect(questionnaireIdInput.value).toBe(" ");
     fireEvent.blur(questionnaireIdInput);
-    expect(onBlur).not.toHaveBeenCalled();
+    expect(onBlur).toHaveBeenCalledWith({
+      variables: {
+        input: { id: expect.any(String), surveyId: "" },
+      },
+    });
   });
 
   it("Should render themes", () => {
@@ -307,7 +311,7 @@ describe("Themes page", () => {
   it("Should display EQ ID", () => {
     renderThemesPage(mockQuestionnaire, user, mocks);
 
-    expect(screen.getByText("EQ ID")).toBeVisible();
+    expect(screen.getByText("eQ ID")).toBeVisible();
   });
 
   it("Should handle EQ ID update", () => {
@@ -347,6 +351,16 @@ describe("Themes page", () => {
     });
 
     fireEvent.blur(eqIdInput);
-    expect(handleEQIdBlur).not.toHaveBeenCalled();
+    expect(handleEQIdBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            eqId: "",
+            shortName: "default",
+          },
+        },
+      })
+    );
   });
 });
