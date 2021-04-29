@@ -16,7 +16,7 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
-import {
+import ERR_UNIQUE_REQUIRED, {
   MISSING_LABEL,
   ADDITIONAL_LABEL_MISSING,
   buildLabelError,
@@ -83,6 +83,7 @@ export const StatelessOption = ({
   canMoveDown,
   onMoveDown,
   hideMoveButtons,
+  getValidationError,
 }) => {
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
@@ -157,10 +158,16 @@ export const StatelessOption = ({
   };
 
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-  const labelError =
+  const uniqueErrorMsg = "ERR_UNIQUE_REQUIRED";
+ let labelError = "";
+
+  if (option.validationErrorInfo?.errors?.find(
+    ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
+  )) {labelError =  errorMsg} else if (
     option.validationErrorInfo?.errors?.find(
-      ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
-    ) && errorMsg;
+      ({ errorCode }) => errorCode === "ERR_UNIQUE_REQUIRED"
+    )) {labelError = uniqueErrorMsg}
+
   const otherLabelError =
     option.additionalAnswer?.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") &&
     ADDITIONAL_LABEL_MISSING;
