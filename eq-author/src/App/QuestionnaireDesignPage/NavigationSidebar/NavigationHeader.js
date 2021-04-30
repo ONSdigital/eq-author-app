@@ -9,7 +9,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { getPageById, getFolderById } from "utils/questionnaireUtils";
 
-import { SECTION, FOLDER, PAGE } from "constants/entities";
+import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 import AddMenu from "./AddMenu/AddMenu";
@@ -37,6 +37,10 @@ export const UnwrappedNavigationHeader = ({
     FOLDER,
     SECTION,
   ].includes(entityName);
+
+  const canAddSection = [PAGE, FOLDER, SECTION, INTRODUCTION].includes(
+    entityName
+  );
 
   let canAddQuestionConfirmation = false;
   if (entityName === PAGE) {
@@ -88,6 +92,7 @@ export const UnwrappedNavigationHeader = ({
       }
       canAddQuestionConfirmation={canAddQuestionConfirmation}
       canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
+      canAddSection={canAddSection}
       isFolder={isFolder}
       folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
     />
