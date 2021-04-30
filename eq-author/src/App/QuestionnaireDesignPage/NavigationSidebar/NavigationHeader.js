@@ -9,7 +9,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { getPageById, getFolderById } from "utils/questionnaireUtils";
 
-import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
+import { SECTION, FOLDER, PAGE } from "constants/entities";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 import AddMenu from "./AddMenu/AddMenu";
@@ -32,7 +32,7 @@ export const UnwrappedNavigationHeader = ({
     onAddCalculatedSummaryPage,
   } = useNavigationCallbacks();
 
-  const canAddQuestionAndCalculatedSummmaryPages = [
+  const canAddQuestionCalculatedSummmaryPagesAndFolder = [
     PAGE,
     FOLDER,
     SECTION,
@@ -82,10 +82,12 @@ export const UnwrappedNavigationHeader = ({
       onAddSection={handleAddSection}
       onAddQuestionConfirmation={handleAddQuestionConfirmation}
       onAddFolder={handleAddFolder}
-      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
-      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
+      canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+      canAddCalculatedSummaryPage={
+        canAddQuestionCalculatedSummmaryPagesAndFolder
+      }
       canAddQuestionConfirmation={canAddQuestionConfirmation}
-      canAddFolder={![INTRODUCTION].includes(entityName)}
+      canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
       isFolder={isFolder}
       folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
     />
