@@ -33,6 +33,7 @@ export const StatelessBasicAnswer = ({
   autoFocus,
   getValidationError,
   type,
+  optionErrorMsg,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
@@ -50,7 +51,7 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
-          errorValidationMsg={getValidationError({
+          errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({
             field: "label",
             type: "answer",
             label: errorLabel,
@@ -95,6 +96,7 @@ StatelessBasicAnswer.propTypes = {
   autoFocus: PropTypes.bool,
   getValidationError: PropTypes.func,
   type: PropTypes.string,
+  optionErrorMsg: PropTypes.string,
 };
 
 StatelessBasicAnswer.defaultProps = {

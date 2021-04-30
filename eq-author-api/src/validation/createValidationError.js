@@ -118,6 +118,11 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         validationErr.type = "option";
         break;
 
+      case "additionalAnswer":
+        validationErr.answerId = option.additionalAnswer.id;
+        validationErr.type = "option-additionalAnswer";
+        break;
+
       case "routing":
         validationErr.type = "routing";
         routing = page.routing;

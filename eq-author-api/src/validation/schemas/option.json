@@ -15,7 +15,9 @@
           "type": "string"
         },
         "label": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "type": "string",
+          "pattern": "\\w+",
+          "errorMessage": "ADDITIONAL_LABEL_MISSING"
         },
         "properties": {
           "$ref": "answer.json#/definitions/properties"

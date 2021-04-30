@@ -120,7 +120,6 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
 
     const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
     const showDeleteOption = numberOfOptions > minOptions;
-
     return (
       <BasicAnswer
         answer={answer}
@@ -149,22 +148,8 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   onEnterKey={this.handleAddOption}
                   hasDeleteButton={showDeleteOption}
                   hideMoveButtons={numberOfOptions === 1}
-                >
-                  {option.additionalAnswer && (
-                    <SpecialOptionWrapper data-test="other-answer">
-                      <BasicAnswer
-                        answer={option.additionalAnswer}
-                        onUpdate={onUpdate}
-                        showDescription={false}
-                        labelText="Other label"
-                        labelPlaceholder=""
-                        errorLabel="Other label"
-                        bold={false}
-                        type={answer.type}
-                      />
-                    </SpecialOptionWrapper>
-                  )}
-                </Option>
+                  answer={answer}
+                />
               )}
             </Reorder>
             {answer.mutuallyExclusiveOption && (

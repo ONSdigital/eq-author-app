@@ -55,6 +55,7 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
       this.dirtyField = name;
 
       const entity = fp.set(name, value, this.entity);
+
       if (!this.unmounted) {
         this.setState(() => ({ [entityPropName]: entity }), cb);
       }
@@ -67,7 +68,6 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
 
       this.dirtyField = null;
       this.props.startRequest();
-
       this.props
         .onUpdate(this.entity)
         .then(() => {

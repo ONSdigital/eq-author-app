@@ -12,23 +12,23 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
       }
     }
     ... on MultipleChoiceAnswer {
-                 options {
-                    id
-                    label
-                    qCode
-                    validationErrorInfo {
-                      ...ValidationErrorInfo
-                    }
-                  }
-                  mutuallyExclusiveOption {
-                    id
-                    label
-                    qCode
-                  }
-                  validationErrorInfo {
-                    ...ValidationErrorInfo
-                  }
-              }
+      options {
+        id
+        label
+        qCode
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      mutuallyExclusiveOption {
+        id
+        label
+        qCode
+      }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
     page {
       ...Page
       title
