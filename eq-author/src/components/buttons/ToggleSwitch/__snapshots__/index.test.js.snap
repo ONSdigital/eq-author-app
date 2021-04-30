@@ -3,7 +3,7 @@
 exports[`ToggleSwitch should render 1`] = `
 <DocumentFragment>
   .c0 {
-  padding: 0 0.8em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -11,6 +11,14 @@ exports[`ToggleSwitch should render 1`] = `
   display: none;
   color: #333333;
   font-weight: 600;
+}
+
+.c0:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c0:last-of-type {
+  padding-left: 0.5em;
 }
 
 <div
@@ -181,7 +189,7 @@ exports[`ToggleSwitch should render 1`] = `
     </div>
   </div>
   .c0 {
-  padding: 0 0.8em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -189,6 +197,14 @@ exports[`ToggleSwitch should render 1`] = `
   display: none;
   color: #999999;
   font-weight: 600;
+}
+
+.c0:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c0:last-of-type {
+  padding-left: 0.5em;
 }
 
 <div
@@ -202,7 +218,7 @@ exports[`ToggleSwitch should render 1`] = `
 exports[`ToggleSwitch should render a large toggle button 1`] = `
 <DocumentFragment>
   .c0 {
-  padding: 0 0.8em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -210,6 +226,14 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   display: none;
   color: #333333;
   font-weight: 600;
+}
+
+.c0:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c0:last-of-type {
+  padding-left: 0.5em;
 }
 
 <div
@@ -380,7 +404,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
     </div>
   </div>
   .c0 {
-  padding: 0 0.8em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -388,6 +412,14 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   display: none;
   color: #999999;
   font-weight: 600;
+}
+
+.c0:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c0:last-of-type {
+  padding-left: 0.5em;
 }
 
 <div
