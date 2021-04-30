@@ -91,8 +91,8 @@ const INPUT_FRAGMENT = gql`
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateValidationRule: ({ id, ...rest }) => {
-    const input = { id, ...rest };
+  onUpdateValidationRule: ([mutationInput, entity]) => {
+    const { id, ...rest } = mutationInput;
     const validationRule = [
       "minValueInput",
       "maxValueInput",
@@ -102,14 +102,24 @@ export const mapMutateToProps = ({ mutate }) => ({
       "maxDurationInput",
       "totalInput",
     ].find((x) => rest[x]);
-    return mutate({
-      variables: { input: filter(INPUT_FRAGMENT, input) },
-      optimisticResponse: {
-        updateValidationRule: {
-          id,
-          ...rest[validationRule],
-        },
+
+    const customAttribute =
+      entity?.customDate !== undefined ? "customDate" : "custom";
+
+    const optimisticResponse = {
+      updateValidationRule: {
+        id,
+        ...rest[validationRule],
+        enabled: entity?.enabled ?? null,
+        metadata: entity?.metadata ?? null,
+        [customAttribute]: rest[validationRule]?.custom ?? null,
+        previousAnswer: entity?.previousAnswer ?? null,
       },
+    };
+
+    return mutate({
+      variables: { input: filter(INPUT_FRAGMENT, mutationInput) },
+      optimisticResponse,
     });
   },
 });

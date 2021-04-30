@@ -14,19 +14,20 @@ describe("withUpdateValidationRule", () => {
 
   it("should call mutate", () => {
     const props = mapMutateToProps({ mutate });
-    const answer = {
+
+    const mutationInput = {
       id: "1",
       minValueInput: { inclusive: true, custom: "201", __typename: "foo" },
     };
 
-    props.onUpdateValidationRule(answer);
+    props.onUpdateValidationRule([mutationInput, { enabled: true }]);
     expect(mutate).toHaveBeenCalledWith({
       variables: {
         input: {
-          id: answer.id,
+          id: mutationInput.id,
           minValueInput: {
-            inclusive: answer.minValueInput.inclusive,
-            custom: answer.minValueInput.custom,
+            inclusive: mutationInput.minValueInput.inclusive,
+            custom: mutationInput.minValueInput.custom,
           },
         },
       },
@@ -34,8 +35,11 @@ describe("withUpdateValidationRule", () => {
         updateValidationRule: {
           __typename: "foo",
           custom: "201",
-          id: "1",
           inclusive: true,
+          id: "1",
+          enabled: true,
+          metadata: null,
+          previousAnswer: null,
         },
       },
     });
