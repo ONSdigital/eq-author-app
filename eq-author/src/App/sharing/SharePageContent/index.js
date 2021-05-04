@@ -25,7 +25,6 @@ import {
   Description,
   Section,
   ShareSectionTitle,
-  FlexContainer,
   PublicLabel,
   ShareLinkButton,
 } from "../styles/SharePageContent";
