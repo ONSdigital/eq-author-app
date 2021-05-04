@@ -32,11 +32,15 @@ export const UnwrappedNavigationHeader = ({
     onAddCalculatedSummaryPage,
   } = useNavigationCallbacks();
 
-  const canAddQuestionAndCalculatedSummmaryPages = [
+  const canAddQuestionCalculatedSummmaryPagesAndFolder = [
     PAGE,
     FOLDER,
     SECTION,
   ].includes(entityName);
+
+  const canAddSection = [PAGE, FOLDER, SECTION, INTRODUCTION].includes(
+    entityName
+  );
 
   let canAddQuestionConfirmation = false;
   if (entityName === PAGE) {
@@ -82,10 +86,13 @@ export const UnwrappedNavigationHeader = ({
       onAddSection={handleAddSection}
       onAddQuestionConfirmation={handleAddQuestionConfirmation}
       onAddFolder={handleAddFolder}
-      canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
-      canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
+      canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+      canAddCalculatedSummaryPage={
+        canAddQuestionCalculatedSummmaryPagesAndFolder
+      }
       canAddQuestionConfirmation={canAddQuestionConfirmation}
-      canAddFolder={![INTRODUCTION].includes(entityName)}
+      canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
+      canAddSection={canAddSection}
       isFolder={isFolder}
       folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
     />
