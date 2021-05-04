@@ -7,6 +7,7 @@ const defaultProps = () => ({
   canAddQuestionConfirmation: true,
   canAddCalculatedSummaryPage: true,
   canAddQuestionPage: true,
+  canAddSection: true,
   onAddMenuToggle: jest.fn(),
   onAddQuestionPage: jest.fn(),
   onAddSection: jest.fn(),
