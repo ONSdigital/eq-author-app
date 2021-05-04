@@ -103,7 +103,6 @@ exports[`QuestionnaireMeta should render 1`] = `
         >
           Section navigation
         </Label>
-        <QuestionnaireMeta__VerticalSeparator />
         <ToggleSwitch
           checked={false}
           hideLabels={false}
@@ -122,7 +121,6 @@ exports[`QuestionnaireMeta should render 1`] = `
         >
           Answers summary
         </Label>
-        <QuestionnaireMeta__VerticalSeparator />
         <ToggleSwitch
           checked={false}
           hideLabels={false}

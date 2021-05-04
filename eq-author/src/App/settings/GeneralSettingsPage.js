@@ -39,14 +39,6 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const VerticalSeparator = styled.div`
-  width: 1px;
-  height: 1.5em;
-  background-color: ${colors.blue};
-  margin-left: 0.8em;
-  margin-bottom: 0.4em;
-`;
-
 const CollapsibleWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
@@ -197,7 +189,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     <InlineField>
                       <Label>QCodes</Label>
-                      <VerticalSeparator />
                       <ToggleSwitch
                         id="toggle-qcodes"
                         name="toggle-qcodes"
@@ -219,7 +210,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     <InlineField>
                       <Label>Section navigation</Label>
-                      <VerticalSeparator />
                       <ToggleSwitch
                         id="toggle-section-navigation"
                         name="toggle-section-navigation"
@@ -246,7 +236,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     </Caption>
                     <InlineField>
                       <Label>Answers summary</Label>
-                      <VerticalSeparator />
                       <ToggleSwitch
                         id="toggle-answer-summary"
                         name="toggle-answer-summary"
@@ -268,7 +257,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <CollapsibleWrapper disabled={!summary}>
                       <InlineField>
                         <Label>Collapsible sections</Label>
-                        <VerticalSeparator />
                         <ToggleSwitch
                           id="toggle-collapsible-summary"
                           name="toggle-collapsible-summary"

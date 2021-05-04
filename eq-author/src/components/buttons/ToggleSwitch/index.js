@@ -92,11 +92,19 @@ const FlexInline = styled.div`
 `;
 
 const ToggleLabel = styled.div`
-  padding: 0 0.8em;
+  padding: 0 1em;
   align-items: center;
   display: ${(props) => (props.isHidden ? "none" : "flex")};
   color: ${(props) => (props.checked ? labelColors.on : labelColors.off)};
   font-weight: 600;
+
+  &:first-of-type {
+    padding-right: 0.5em;
+  }
+
+  &:last-of-type {
+    padding-left: 0.5em;
+  }
 `;
 
 class ToggleSwitch extends React.Component {
