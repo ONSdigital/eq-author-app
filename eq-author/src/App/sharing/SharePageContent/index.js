@@ -4,6 +4,7 @@ import config from "config";
 
 import { flowRight } from "lodash";
 import { Query, useMutation } from "react-apollo";
+import styled from "styled-components";
 
 import GET_QUESTIONNAIRE from "../graphql/GetQuestionnaire.graphql";
 import TOGGLE_PUBLIC_MUTATION from "../graphql/TogglePublicMutation.graphql";
@@ -13,6 +14,8 @@ import Error from "components/Error";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { InformationPanel } from "components/Panel";
 import { withShowToast } from "components/Toasts";
+import { Field, Label } from "components/Forms";
+
 
 import EditorSearch from "./EditorSearch";
 
@@ -22,7 +25,6 @@ import {
   Description,
   Section,
   ShareSectionTitle,
-  Separator,
   FlexContainer,
   PublicLabel,
   ShareLinkButton,
@@ -48,6 +50,16 @@ const propTypes = {
 export const TogglePublicLabel = ({ text, isActive }) => (
   <PublicLabel isActive={isActive}>{text}</PublicLabel>
 );
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
 
 export const Sharing = ({ data, showToast }) => {
   const { id, isPublic, createdBy, editors } = data.questionnaire;
@@ -90,18 +102,16 @@ export const Sharing = ({ data, showToast }) => {
         Get shareable link
       </ShareLinkButton>
       <Section>
-        <FlexContainer>
-          <ShareSectionTitle>Public access</ShareSectionTitle>
-          <Separator>
-            <ToggleSwitch
-              id="public"
-              name="public"
-              hideLabels={false}
-              onChange={togglePublic}
-              checked={isPublic}
-            />
-          </Separator>
-        </FlexContainer>
+      <InlineField>
+        <Label>Public access</Label>
+        <ToggleSwitch
+          id="public"
+          name="public"
+          hideLabels={false}
+          onChange={togglePublic}
+          checked={isPublic}
+        />
+        </InlineField>
         <InformationPanel>
           Let anyone with an Author account view your questionnaire. If public
           access is off, only editors will be able to view it.
