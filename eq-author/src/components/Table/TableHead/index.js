@@ -7,7 +7,7 @@ import Button from "components/buttons/Button";
 
 import iconArrow from "assets/icon-arrow-down.svg";
 
-import { SORT_ORDER } from "../../constants";
+import { SORT_ORDER } from "constants/sort-order";
 
 const TH = styled.th`
   color: ${colors.darkGrey};

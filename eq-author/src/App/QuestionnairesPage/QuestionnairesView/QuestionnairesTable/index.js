@@ -1,24 +1,16 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
-import { SORT_ORDER } from "../constants";
+import { SORT_ORDER } from "constants/sort-order.js";
 
 import Row from "./Row";
-import TableHead from "./TableHead";
+import TableHead from "components/Table/TableHead";
+import Table from "components/Table/Table";
 import Panel from "components/Panel";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
-
-const Table = styled.table`
-  width: 100%;
-  font-size: 1em;
-  border-collapse: collapse;
-  table-layout: fixed;
-  text-align: left;
-`;
 
 const QuestionnairesTable = ({
   questionnaires,
