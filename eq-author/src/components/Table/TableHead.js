@@ -111,7 +111,7 @@ const listHeadings = (props) =>
   props.tableHeadings.map(({ heading, sortColumn, colWidth, sortable }) =>
     sortable ? (
       <SortableTH
-        key={heading.toLowerCase}
+        key={`sortable-${heading.toLowerCase()}`}
         sortColumn={sortColumn}
         colWidth={colWidth}
         dataTest={heading.toLowerCase()}
@@ -120,7 +120,12 @@ const listHeadings = (props) =>
         {heading}
       </SortableTH>
     ) : (
-      <UnsortableTH colWidth={colWidth}>{heading}</UnsortableTH>
+      <UnsortableTH
+        key={`sortable-${heading.toLowerCase()}`}
+        colWidth={colWidth}
+      >
+        {heading}
+      </UnsortableTH>
     )
   );
 

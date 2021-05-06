@@ -26,7 +26,6 @@ const tableHeadings = [
   {
     heading: `Permissions`,
     colWidth: "10%",
-    sortable: false,
   },
   {
     heading: `Locked`,
@@ -43,7 +42,6 @@ const tableHeadings = [
   {
     heading: `Actions`,
     colWidth: "9%",
-    sortable: false,
   },
 ];
 
