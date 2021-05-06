@@ -70,7 +70,7 @@ const Type = styled.span`
 
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
-const CalSumContentPicker = ({
+const QuestionPicker = ({
   isOpen,
   onClose,
   onSubmit,
@@ -170,7 +170,7 @@ const CalSumContentPicker = ({
   );
 };
 
-CalSumContentPicker.propTypes = {
+QuestionPicker.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -180,4 +180,4 @@ CalSumContentPicker.propTypes = {
   startingSelectedType: PropTypes.string,
 };
 
-export default CalSumContentPicker;
+export default QuestionPicker;

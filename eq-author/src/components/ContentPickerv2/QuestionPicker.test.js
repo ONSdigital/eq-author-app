@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import CalSumContentPicker from "./";
+import QuestionPicker from "./";
 
 describe("CalculatedSummary content picker", () => {
   let data, onClose, onSubmit, startingSelectedAnswers, props;
@@ -93,7 +93,7 @@ describe("CalculatedSummary content picker", () => {
   });
 
   const renderContentPicker = () =>
-    render(< {...props} isOpen />);
+    render(<QuestionPicker {...props} isOpen />);
 
   it("should allow multiselect and send all answers on submit", () => {
     const { getByText } = renderContentPicker();
