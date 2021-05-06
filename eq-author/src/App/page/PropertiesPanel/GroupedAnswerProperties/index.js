@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { groupBy, kebabCase, getOr } from "lodash/fp";
-import { flatMap } from "lodash"; // look at this later
-
+import { flatMap } from "lodash";
 import getIdForObject from "utils/getIdForObject";
 
 import Accordion from "components/Accordion";
