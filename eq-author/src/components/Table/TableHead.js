@@ -121,7 +121,7 @@ const listHeadings = (props) =>
       </SortableTH>
     ) : (
       <UnsortableTH
-        key={`sortable-${heading.toLowerCase()}`}
+        key={`unsortable-${heading.toLowerCase()}`}
         colWidth={colWidth}
       >
         {heading}

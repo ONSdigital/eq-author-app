@@ -5,8 +5,9 @@ import gql from "graphql-tag";
 
 import { SORT_ORDER } from "constants/sort-order.js";
 
-import Row from "./Row";
 import TableHead from "components/Table/TableHead";
+import TableBody from "components/Table/TableBody";
+
 import Table from "components/Table";
 import Panel from "components/Panel";
 
@@ -45,24 +46,14 @@ const QuestionnairesTable = ({
           currentSortColumn={sortColumn}
           tableHeadings={tableHeadings}
         />
-        <tbody>
-          {questionnaires.map((questionnaire, index) => {
-            return (
-              <Row
-                key={questionnaire.id}
-                autoFocus={questionnaire.id === autoFocusId}
-                questionnaire={questionnaire}
-                onDeleteQuestionnaire={onDeleteQuestionnaire}
-                onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-                onLockQuestionnaire={handleLock}
-                isLastOnPage={questionnaires.length === index + 1}
-                data-test="questionnaires-row"
-              />
-            );
-          })}
-        </tbody>
+        <TableBody
+          questionnaires={questionnaires}
+          autoFocusId={autoFocusId}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          handleLock={handleLock}
+        />
       </Table>
-
       <LockModal />
     </Panel>
   );
