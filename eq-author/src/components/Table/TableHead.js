@@ -107,63 +107,25 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
-const TableHead = (props) => {
-  return (
-    <thead>
-      <tr>
-        <SortableTH
-          sortColumn="title"
-          colWidth="20%"
-          dataTest="title-sort-button"
-          {...props}
-        >
-          Title
-        </SortableTH>
-        <SortableTH
-          sortColumn="createdBy.displayName"
-          colWidth="15%"
-          dataTest="owner-sort-button"
-          {...props}
-        >
-          Owner
-        </SortableTH>
-        <SortableTH
-          sortColumn="createdAt"
-          colWidth="10%"
-          dataTest="created-sort-button"
-          {...props}
-        >
-          Created
-        </SortableTH>
-        <SortableTH
-          sortColumn="updatedAt"
-          colWidth="9%"
-          dataTest="modified-sort-button"
-          {...props}
-        >
-          Modified
-        </SortableTH>
-        <UnsortableTH colWidth="10%">Permissions</UnsortableTH>
-        <SortableTH
-          sortColumn="locked"
-          colWidth="8%"
-          dataTest="lock-sort-button"
-          {...props}
-        >
-          Locked
-        </SortableTH>
-        <SortableTH
-          sortColumn="starred"
-          colWidth="8%"
-          dataTest="star-sort-button"
-          {...props}
-        >
-          Starred
-        </SortableTH>
-        <UnsortableTH colWidth="9%">Actions</UnsortableTH>
-      </tr>
-    </thead>
+const listHeadings = (props) =>
+  props.tableHeadings.map(({ heading, sortColumn, colWidth, sortable }) =>
+    sortable ? (
+      <SortableTH
+        key={heading.toLowerCase}
+        sortColumn={sortColumn}
+        colWidth={colWidth}
+        dataTest={heading.toLowerCase()}
+        {...props}
+      >
+        {heading}
+      </SortableTH>
+    ) : (
+      <UnsortableTH colWidth={colWidth}>{heading}</UnsortableTH>
+    )
   );
+
+const TableHead = (props) => {
+  return listHeadings(props);
 };
 
 TableHead.propTypes = {
@@ -171,6 +133,7 @@ TableHead.propTypes = {
   onReverseClick: PropTypes.func,
   sortOrder: PropTypes.string,
   sortColumn: PropTypes.string,
+  tableHeadings: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 export default TableHead;

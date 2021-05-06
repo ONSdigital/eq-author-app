@@ -7,8 +7,10 @@ import { SORT_ORDER } from "constants/sort-order.js";
 
 import Row from "./Row";
 import TableHead from "components/Table/TableHead";
-import Table from "components/Table/Table";
+import Table from "components/Table";
 import Panel from "components/Panel";
+
+import tableHeadings from "./TableHeadings";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
@@ -41,6 +43,7 @@ const QuestionnairesTable = ({
           onReverseClick={onReverseSort}
           sortOrder={sortOrder}
           currentSortColumn={sortColumn}
+          tableHeadings={tableHeadings}
         />
         <tbody>
           {questionnaires.map((questionnaire, index) => {
