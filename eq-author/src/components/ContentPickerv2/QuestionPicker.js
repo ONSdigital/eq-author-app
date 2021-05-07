@@ -4,16 +4,17 @@ import PropTypes from "prop-types";
 
 import CustomPropTypes from "custom-prop-types";
 import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import { colors } from "constants/theme";
 
 import { FlatSectionMenu } from "components/ContentPickerv2/Menu";
 import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import { colors } from "constants/theme";
-
 import { Input } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
+import SearchBar from 'components/SearchBar'
+
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -89,8 +90,8 @@ const SearchInput = styled(Input).attrs({
   type: "search",
   placeholder: "Search",
 })`
-  width: 20em;
-  padding: 0.6em;
+  width: 27em;
+  padding: 0.4em;
   line-height: 1;
   padding-left: 2.5em;
   border-radius: 4px;
@@ -114,9 +115,6 @@ const QuestionPicker = ({
   ...otherProps
 }) => {
 
-  console.log('otherProps :>> ', otherProps);
-  console.log('startingSelectedAnswers :>> ', startingSelectedAnswers);
-  
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
@@ -177,16 +175,8 @@ const QuestionPicker = ({
               }
               {
                 showSearch ? (
-                  <Search>
-                    <VisuallyHidden>
-                      <label htmlFor="search">Search</label>
-                    </VisuallyHidden>
-                    <SearchInput
-                      id="search"
-                      defaultValue={""}
-                      // onChange={}
-                    />
-                  </Search>
+                  //TODO needs onChange prop
+                  <SearchBar/>
                 ) : ('')
               }
             </ModalSubtitle>
