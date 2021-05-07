@@ -29,7 +29,7 @@ module.exports = {
         const sourceQuestionnaire = await getQuestionnaire(questionnaireId);
         if (!sourceQuestionnaire) {
           throw new UserInputError(
-            `Questionnaire with ID ${id} does not exist.`
+            `Questionnaire with ID ${questionnaireId} does not exist.`
           );
         }
 
@@ -67,10 +67,12 @@ module.exports = {
               `Section with ID ${sectionId} doesn't exist in target questionnaire.`
             );
           }
+
+          // Insert each imported page into its own disabled folder per EAR-1315
           section.folders.splice(
             insertionIndex,
             0,
-            createFolder({ pages: strippedPages })
+            ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
 
