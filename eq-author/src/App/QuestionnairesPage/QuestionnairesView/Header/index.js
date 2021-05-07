@@ -38,7 +38,7 @@ const Header = ({
     <>
       <Wrapper>
 
-        <SearchBar onChange={onSearchChangeDebounced}/>
+        <SearchBar onChange={onSearchChangeDebounced} paddingType="large"/>
 
         <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} />
 

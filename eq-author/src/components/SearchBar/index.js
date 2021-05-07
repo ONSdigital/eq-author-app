@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -26,8 +26,8 @@ const SearchInput = styled(Input).attrs({
   type: "search",
   placeholder: "Search",
 })`
-  width: 20em;
-  padding: 0.6em;
+  width: ${props => props.size === "large" ? "27em" : "20em"};
+  padding: ${props => props.paddingType === "large" ? "0.6em" : "0.4em"};
   line-height: 1;
   padding-left: 2.5em;
   border-radius: 4px;
@@ -38,11 +38,10 @@ const SearchInput = styled(Input).attrs({
   }
 `;
 
-const SearchBar = ({ onChange }) => {
-
+const SearchBar = ({ onChange, size, paddingType }) => {
     return (
         <>
-        <Search>
+        <Search paddingType={paddingType}>
           <VisuallyHidden>
             <label htmlFor="search">Search</label>
           </VisuallyHidden>
@@ -50,6 +49,8 @@ const SearchBar = ({ onChange }) => {
             id="search"
             defaultValue={""}
             onChange={onChange}
+            paddingType={paddingType}
+            size={size}
           />
         </Search>
         </>
@@ -57,7 +58,9 @@ const SearchBar = ({ onChange }) => {
 };
 
 SearchBar.propTypes = {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    size: PropTypes.string,
+    paddingType: PropTypes.string,
 };
 
 export default SearchBar;

@@ -11,8 +11,6 @@ import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import { Input } from "components/Forms";
-import VisuallyHidden from "components/VisuallyHidden";
 import SearchBar from 'components/SearchBar'
 
 
@@ -36,7 +34,7 @@ const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.text};
-  margin-bottom: 0.2em;
+  margin-bottom: 0.75em;
 `;
 
 const ModalSubtitle = styled.div`
@@ -45,7 +43,7 @@ const ModalSubtitle = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  padding: 2em 1em;
+  padding: 2em 1em 1.5em;
   border-bottom: 1px solid ${colors.bordersLight};
 `;
 
@@ -70,36 +68,6 @@ const Type = styled.span`
   flex: 0 1 auto;
   justify-self: flex-end;
   margin-left: 0.5em;
-`;
-
-const Search = styled.div`
-  position: relative;
-  &::before {
-    /* content: url(${iconSearch}); */
-    display: inline-block;
-    position: absolute;
-    left: 0.5em;
-    top: 0;
-    bottom: 0;
-    height: 2em;
-    margin: auto;
-  }
-`;
-
-const SearchInput = styled(Input).attrs({
-  type: "search",
-  placeholder: "Search",
-})`
-  width: 27em;
-  padding: 0.4em;
-  line-height: 1;
-  padding-left: 2.5em;
-  border-radius: 4px;
-  border-color: ${colors.bordersLight};
-
-  &:hover {
-    outline: none;
-  }
 `;
 
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
@@ -175,8 +143,9 @@ const QuestionPicker = ({
               }
               {
                 showSearch ? (
-                  //TODO needs onChange prop
-                  <SearchBar/>
+                  //TODO needs onChange prop setup and passed here
+                  // see example in App/QuestionnairesPage/QuestionnairesView/Header
+                  <SearchBar size="large"/>
                 ) : ('')
               }
             </ModalSubtitle>

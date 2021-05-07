@@ -300,7 +300,6 @@ export const UnwrappedAnswerSelector = ({
           data={availableSummaryAnswers}
           title="Select one or more answer"
           showTypes
-          showSearch
         />
       </Answers>
     </Box>
