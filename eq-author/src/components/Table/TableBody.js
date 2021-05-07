@@ -8,7 +8,8 @@ const listQuestionnaires = (
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
-  handleLock
+  handleLock,
+  tableHeadings
 ) =>
   questionnaires.map(({ id }, index) => (
     <Row
@@ -20,6 +21,7 @@ const listQuestionnaires = (
       onLockQuestionnaire={handleLock}
       isLastOnPage={questionnaires.length === index + 1}
       data-test="questionnaire-row"
+      tableHeadings={tableHeadings}
     />
   ));
 
@@ -29,6 +31,7 @@ const TableBody = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   handleLock,
+  tableHeadings,
 }) => {
   return (
     <tbody>
@@ -37,7 +40,8 @@ const TableBody = ({
         autoFocusId,
         onDeleteQuestionnaire,
         onDuplicateQuestionnaire,
-        handleLock
+        handleLock,
+        tableHeadings
       )}
     </tbody>
   );
@@ -49,6 +53,7 @@ TableBody.propTypes = {
   onDeleteQuestionnaire: PropTypes.func,
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
+  tableHeadings: PropTypes.array, // eslint-disable-line
 };
 
 export default TableBody;

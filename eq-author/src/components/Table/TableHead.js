@@ -108,25 +108,28 @@ const UnsortableTH = styled(TH)`
 `;
 
 const listHeadings = (props) =>
-  props.tableHeadings.map(({ heading, sortColumn, colWidth, sortable }) =>
-    sortable ? (
-      <SortableTH
-        key={`sortable-${heading.toLowerCase()}`}
-        sortColumn={sortColumn}
-        colWidth={colWidth}
-        dataTest={heading.toLowerCase()}
-        {...props}
-      >
-        {heading}
-      </SortableTH>
-    ) : (
-      <UnsortableTH
-        key={`unsortable-${heading.toLowerCase()}`}
-        colWidth={colWidth}
-      >
-        {heading}
-      </UnsortableTH>
-    )
+  props.tableHeadings.map(
+    ({ heading, sortColumn, colWidth, sortable, enabled }) =>
+      enabled ? (
+        sortable ? (
+          <SortableTH
+            key={`sortable-${heading.toLowerCase()}`}
+            sortColumn={sortColumn}
+            colWidth={colWidth}
+            dataTest={heading.toLowerCase()}
+            {...props}
+          >
+            {heading}
+          </SortableTH>
+        ) : (
+          <UnsortableTH
+            key={`unsortable-${heading.toLowerCase()}`}
+            colWidth={colWidth}
+          >
+            {heading}
+          </UnsortableTH>
+        )
+      ) : null
   );
 
 const TableHead = (props) => {

@@ -147,6 +147,7 @@ const propTypes = {
   enter: PropTypes.bool,
   autoFocus: PropTypes.bool,
   isLastOnPage: PropTypes.bool,
+  tableHeadings: PropTypes.array, // eslint-disable-line
 };
 
 export const Row = ({
@@ -168,6 +169,7 @@ export const Row = ({
   onDuplicateQuestionnaire,
   onLockQuestionnaire,
   autoFocus,
+  tableHeadings,
 }) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -258,6 +260,31 @@ export const Row = ({
   const hasWritePermission = permission === WRITE;
   const canDelete = hasWritePermission && !locked;
 
+  const renderEnabled = (tableHeadings, questionnaire, columnHeading) =>
+    tableHeadings.map(({ heading, enabled }) =>
+      enabled ? (
+        heading === columnHeading ? (
+          <TD>
+            <QuestionnaireLink
+              data-test="anchor-questionnaire-title"
+              title={displayName}
+              onClick={handleLinkClick}
+              to={buildQuestionnairePath({
+                questionnaireId: id,
+              })}
+            >
+              {questionnaire.shortTitle && (
+                <ShortTitle>
+                  <Truncated>{questionnaire.shortTitle}</Truncated>
+                </ShortTitle>
+              )}
+              <Truncated>{questionnaire.title}</Truncated>
+            </QuestionnaireLink>
+          </TD>
+        ) : null
+      ) : null
+    );
+
   return (
     <>
       <TR
@@ -268,23 +295,7 @@ export const Row = ({
         onClick={handleClick}
         data-test="table-row"
       >
-        <TD>
-          <QuestionnaireLink
-            data-test="anchor-questionnaire-title"
-            title={displayName}
-            onClick={handleLinkClick}
-            to={buildQuestionnairePath({
-              questionnaireId: id,
-            })}
-          >
-            {shortTitle && (
-              <ShortTitle>
-                <Truncated>{shortTitle}</Truncated>
-              </ShortTitle>
-            )}
-            <Truncated>{title}</Truncated>
-          </QuestionnaireLink>
-        </TD>
+        {renderEnabled(tableHeadings, questionnaire, "Title")}
         <TD>{createdBy.displayName}</TD>
         <TD>
           <FormattedDate date={createdAt} />

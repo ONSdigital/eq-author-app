@@ -40,6 +40,7 @@ const Table = ({
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
+        tableHeadings={tableHeadings}
       />
     </TableWrapper>
   );
