@@ -44,6 +44,8 @@ module.exports = {
         }
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
+        // Keep piping intact for now - will show "[Deleted answer]" to users
+        // since ref. not resolvable (& validation error will occur for page)
         const strippedPages = pages.map((page) =>
           stripQCodes(
             remapAllNestedIds({ ...page, skipConditions: null, routing: null })

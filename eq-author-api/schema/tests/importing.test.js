@@ -4,29 +4,41 @@ const {
 } = require("../../tests/utils/contextBuilder/importing");
 
 describe("Importing content", () => {
-  it("should throw an error if neither sectionId or folderId provided", async () => {
-    const ctx = await buildContext({});
-    expect(
-      importQuestions(ctx, {
-        questionnaireId: "questionnaire-1",
-        questionIds: ["a", "b", "c"],
-        position: {
-          index: 0,
-        },
-      })
-    ).rejects.toThrow("Target folder or section ID must be provided");
-  });
+  describe("Error conditions", () => {
+    const defaultInput = {
+      questionnaireId: "questionnaire-id",
+      questionIds: ["q1", "q2", "q3"],
+      position: {
+        index: 0,
+        sectionId: "section-1",
+      },
+    };
 
-  it("should throw an error if source questionnaireID doesn't exist", async () => {
-    expect(
-      importQuestions(await buildContext({}), {
-        questionIds: ["a", "b", "c"],
-        questionnaireId: "nope",
-        position: {
-          sectionId: "s1",
-          index: 0,
-        },
-      })
-    ).rejects.toThrow("Questionnaire with ID nope does not exist");
+    it("should throw if neither sectionId or folderId provided", async () => {
+      expect(
+        importQuestions(await buildContext({}), {
+          ...defaultInput,
+          position: { index: 0, sectionId: null, folderId: null },
+        })
+      ).rejects.toThrow("Target folder or section ID must be provided");
+    });
+
+    it("should throw if source questionnaireID doesn't exist", async () => {
+      expect(
+        importQuestions(await buildContext({}), defaultInput)
+      ).rejects.toThrow(/Questionnaire with ID .+ does not exist/);
+    });
+
+    it("should throw if not all questions present in source questionnaire", async () => {
+      const { questionnaire: source } = await buildContext({});
+      const ctx = await buildContext({});
+
+      expect(
+        importQuestions(ctx, {
+          ...defaultInput,
+          questionnaireId: source.id,
+        })
+      ).rejects.toThrow(/Not all page IDs .+ exist in source questionnaire/);
+    });
   });
 });
