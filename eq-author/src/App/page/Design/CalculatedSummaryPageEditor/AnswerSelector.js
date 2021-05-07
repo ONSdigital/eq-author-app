@@ -298,6 +298,9 @@ export const UnwrappedAnswerSelector = ({
           onSubmit={handlePickerSubmit}
           startingSelectedAnswers={summaryAnswers}
           data={availableSummaryAnswers}
+          title="Select one or more answer"
+          showTypes
+          showSearch
         />
       </Answers>
     </Box>

@@ -12,6 +12,9 @@ import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import { colors } from "constants/theme";
 
+import { Input } from "components/Forms";
+import VisuallyHidden from "components/VisuallyHidden";
+
 const ModalFooter = styled.div`
   padding: 1.5em;
   border-top: 1px solid ${colors.bordersLight};
@@ -68,6 +71,36 @@ const Type = styled.span`
   margin-left: 0.5em;
 `;
 
+const Search = styled.div`
+  position: relative;
+  &::before {
+    /* content: url(${iconSearch}); */
+    display: inline-block;
+    position: absolute;
+    left: 0.5em;
+    top: 0;
+    bottom: 0;
+    height: 2em;
+    margin: auto;
+  }
+`;
+
+const SearchInput = styled(Input).attrs({
+  type: "search",
+  placeholder: "Search",
+})`
+  width: 20em;
+  padding: 0.6em;
+  line-height: 1;
+  padding-left: 2.5em;
+  border-radius: 4px;
+  border-color: ${colors.bordersLight};
+
+  &:hover {
+    outline: none;
+  }
+`;
+
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
 const QuestionPicker = ({
@@ -75,6 +108,9 @@ const QuestionPicker = ({
   onClose,
   onSubmit,
   startingSelectedAnswers,
+  title,
+  showTypes,
+  showSearch,
   ...otherProps
 }) => {
 
@@ -129,14 +165,30 @@ const QuestionPicker = ({
       <Container>
         <>
           <ModalHeader>
-            <ModalTitle>Select one or more answer</ModalTitle>
+            <ModalTitle>{title}</ModalTitle>
             <ModalSubtitle>
-              <Types>
-                <span>Allowed answer types:</span>
-                {validTypes.map((type) => (
-                  <Type key={type}>{type}</Type>
-                ))}
-              </Types>
+              {showTypes ? (
+                <Types>
+                  <span>Allowed answer types:</span>
+                  {validTypes.map((type) => (
+                    <Type key={type}>{type}</Type>
+                  ))}
+                </Types>) : ('')
+              }
+              {
+                showSearch ? (
+                  <Search>
+                    <VisuallyHidden>
+                      <label htmlFor="search">Search</label>
+                    </VisuallyHidden>
+                    <SearchInput
+                      id="search"
+                      defaultValue={""}
+                      // onChange={}
+                    />
+                  </Search>
+                ) : ('')
+              }
             </ModalSubtitle>
           </ModalHeader>
           <MenuContainer>
@@ -162,7 +214,7 @@ const QuestionPicker = ({
             autoFocus
             onClick={() => onSubmit(selectedAnswers)}
           >
-            Confirm
+            Select
           </Button>
         </ButtonGroup>
       </ModalFooter>
@@ -178,6 +230,9 @@ QuestionPicker.propTypes = {
     PropTypes.shape(CustomPropTypes.answers)
   ),
   startingSelectedType: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  showTypes: PropTypes.bool,
+  showSearch: PropTypes.bool
 };
 
 export default QuestionPicker;
