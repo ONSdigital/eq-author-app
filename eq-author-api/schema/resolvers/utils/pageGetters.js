@@ -15,7 +15,7 @@ const getPagesFromSection = (section) =>
 const getPagesByIds = (ctx, ids) =>
   getPages(ctx).filter(({ id }) => ids.includes(id));
 
-const getPageById = (ctx, id) => getPagesByIds(ctx, [id]);
+const getPageById = (ctx, id) => getPagesByIds(ctx, [id])?.[0];
 
 const getPageByAnswerId = (ctx, answerId) =>
   find(
