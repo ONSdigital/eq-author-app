@@ -12,7 +12,10 @@ const getPagesByFolderId = (ctx, id) => getFolderById(ctx, id).pages;
 const getPagesFromSection = (section) =>
   flatMap(section.folders, ({ pages }) => pages);
 
-const getPageById = (ctx, id) => find(getPages(ctx), { id });
+const getPagesByIds = (ctx, ids) =>
+  getPages(ctx).filter(({ id }) => ids.includes(id));
+
+const getPageById = (ctx, id) => getPagesByIds(ctx, [id]);
 
 const getPageByAnswerId = (ctx, answerId) =>
   find(
@@ -44,6 +47,7 @@ module.exports = {
   getPagesByFolderId,
   getPagesFromSection,
   getPageById,
+  getPagesByIds,
   getPageByConfirmationId,
   getPageByValidationId,
   getPageByAnswerId,
