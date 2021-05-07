@@ -5,9 +5,6 @@ import gql from "graphql-tag";
 
 import { SORT_ORDER } from "constants/sort-order.js";
 
-import TableHead from "components/Table/TableHead";
-import TableBody from "components/Table/TableBody";
-
 import Table from "components/Table";
 import Panel from "components/Panel";
 
@@ -38,22 +35,18 @@ const QuestionnairesTable = ({
 
   return (
     <Panel>
-      <Table>
-        <TableHead
-          onSortClick={onSortQuestionnaires}
-          onReverseClick={onReverseSort}
-          sortOrder={sortOrder}
-          currentSortColumn={sortColumn}
-          tableHeadings={tableHeadings}
-        />
-        <TableBody
-          questionnaires={questionnaires}
-          autoFocusId={autoFocusId}
-          onDeleteQuestionnaire={onDeleteQuestionnaire}
-          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-          handleLock={handleLock}
-        />
-      </Table>
+      <Table
+        onSortClick={onSortQuestionnaires}
+        onReverseClick={onReverseSort}
+        sortOrder={sortOrder}
+        currentSortColumn={sortColumn}
+        tableHeadings={tableHeadings}
+        questionnaires={questionnaires}
+        autoFocusId={autoFocusId}
+        onDeleteQuestionnaire={onDeleteQuestionnaire}
+        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        handleLock={handleLock}
+      />
       <LockModal />
     </Panel>
   );
