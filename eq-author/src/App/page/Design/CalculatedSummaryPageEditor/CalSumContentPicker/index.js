@@ -78,9 +78,6 @@ const CalSumContentPicker = ({
   ...otherProps
 }) => {
 
-  console.log('otherProps :>> ', otherProps);
-  console.log('startingSelectedAnswers :>> ', startingSelectedAnswers);
-  
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
