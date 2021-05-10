@@ -7,10 +7,7 @@
         "properties": {
           "type": {
             "not": {
-              "enum": [
-                "Checkbox",
-                "Radio"
-              ]
+              "enum": ["Checkbox", "Radio"]
             }
           }
         }
@@ -23,12 +20,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "Number",
-              "Percentage",
-              "Currency",
-              "Unit"
-            ]
+            "enum": ["Number", "Percentage", "Currency", "Unit"]
           }
         }
       },
@@ -95,9 +87,7 @@
           "$ref": "#/definitions/properties"
         }
       },
-      "required": [
-        "label"
-      ]
+      "required": ["label"]
     },
     "numericAnswer": {
       "properties": {
@@ -126,9 +116,7 @@
           "$ref": "option.json"
         }
       },
-      "required": [
-        "options"
-      ]
+      "required": ["options"]
     },
     "radioAnswer": {
       "properties": {
@@ -149,9 +137,7 @@
           "$ref": "option.json"
         }
       },
-      "required": [
-        "options"
-      ]
+      "required": ["options"]
     },
     "dateAnswer": {
       "properties": {
@@ -184,6 +170,25 @@
         },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "fallback": {
+          "if": {
+            "properties": {
+              "enabled": { "const": true }
+            }
+          },
+          "then": {
+            "allOf": [
+              {
+                "required": ["start"],
+                "errorMessage": "ERR_VALID_REQUIRED_START"
+              },
+              {
+                "required": ["end"],
+                "errorMessage": "ERR_VALID_REQUIRED_END"
+              }
+            ]
+          }
         }
       }
     }

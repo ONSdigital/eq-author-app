@@ -1,11 +1,34 @@
 import React from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 import { groupBy, kebabCase, getOr } from "lodash/fp";
 import { flatMap } from "lodash";
+import getIdForObject from "utils/getIdForObject";
 
 import Accordion from "components/Accordion";
 import { Autocomplete } from "components/Autocomplete";
 import IconText from "components/IconText";
+import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
+import GroupValidations from "App/page/Design/Validation/GroupValidations";
+import AnswerProperties from "./AnswerProperties";
+import InlineField from "./InlineField";
+import MultiLineField from "./MultiLineField";
+import { Fallback } from "./Fallback";
+import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
+import {
+  DurationProperties,
+  TextProperties,
+} from "./AnswerProperties/Properties";
+import Decimal from "./Decimal";
+
+import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+import {
+  characterErrors,
+  SELECTION_REQUIRED,
+} from "constants/validationMessages";
 import {
   CURRENCY,
   NUMBER,
@@ -13,28 +36,10 @@ import {
   UNIT,
   DURATION,
   TEXTAREA,
+  DATE_RANGE,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { colors } from "constants/theme";
-import getIdForObject from "utils/getIdForObject";
-
-import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
-import GroupValidations from "App/page/Design/Validation/GroupValidations";
-
-import AnswerProperties from "./AnswerProperties";
-import InlineField from "./InlineField";
-import MultiLineField from "./MultiLineField";
-import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
-import {
-  DurationProperties,
-  TextProperties,
-} from "./AnswerProperties/Properties";
-import Decimal from "./Decimal";
-import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
-import {
-  characterErrors,
-  SELECTION_REQUIRED,
-} from "constants/validationMessages";
 
 const AnswerPropertiesContainer = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
@@ -74,6 +79,21 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
+const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
+const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
+const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
+
+const lengthErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    testId: "MaxCharacterTooBig",
+    error: characterErrors.CHAR_LIMIT_2000_EXCEEDED,
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    testId: "MaxCharacterTooSmall",
+    error: characterErrors.CHAR_MUST_EXCEED_9,
+  },
+};
+
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
   x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -109,61 +129,55 @@ const filterUnitOptions = (options, query) => {
   return [common];
 };
 
-const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
-const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
-const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
-
 const isNumeric = (answerType) =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
-const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
-  if (isMaxLengthTooLarge) {
-    return (
-      <ValidationWarning
-        icon={ValidationErrorIcon}
-        data-test="MaxCharacterTooBig"
-      >
-        {characterErrors.CHAR_LIMIT_2000_EXCEEDED}
-      </ValidationWarning>
-    );
+const lengthValueError = (errorCode) => {
+  if (!lengthErrors[errorCode]) {
+    return null;
   }
 
-  if (isMaxLengthTooSmall) {
-    return (
-      <ValidationWarning
-        icon={ValidationErrorIcon}
-        data-test="MaxCharacterTooSmall"
-      >
-        {characterErrors.CHAR_MUST_EXCEED_9}
-      </ValidationWarning>
-    );
-  }
+  const { testId, error } = lengthErrors[errorCode];
+
+  return (
+    <ValidationWarning icon={ValidationErrorIcon} data-test={testId}>
+      {error}
+    </ValidationWarning>
+  );
 };
 
-export const UnwrappedGroupedAnswerProperties = ({
-  page,
-  updateAnswersOfType,
-}) => {
+export const GroupedAnswerProperties = ({ page }) => {
+  const [updateAnswersOfType] = useMutation(updateAnswersOfTypeMutation);
+  const { questionnaire } = useQuestionnaire();
+
+  const handleChange = (type, properties) => {
+    updateAnswersOfType({
+      variables: { input: { type, questionPageId: page.id, properties } },
+    });
+  };
+
   const answersByType = groupBy("type", page.answers);
+
   return Object.keys(answersByType).map((answerType) => {
     let groupedFields = null;
-    let groupValidations = null;
+
     const answers = answersByType[answerType];
-
-    const hasDecimalInconsistency = getOr(
-      [],
-      "validationErrorInfo.errors",
-      answers[0]
-    )
-      .map(({ errorCode }) => errorCode)
-      .includes(DECIMAL_INCONSISTENCY);
-
-    const hasUnitError = getOr([], "validationErrorInfo.errors", page)
-      .map(({ field }) => field)
-      .includes("unit");
 
     if (isNumeric(answerType)) {
       const id = kebabCase(`${page.id} ${answerType} decimals`);
+
+      const hasDecimalInconsistency = getOr(
+        [],
+        "validationErrorInfo.errors",
+        answers[0]
+      )
+        .map(({ errorCode }) => errorCode)
+        .includes(DECIMAL_INCONSISTENCY);
+
+      const hasUnitError = getOr([], "validationErrorInfo.errors", page)
+        .map(({ field }) => field)
+        .includes("unit");
+
       groupedFields = (
         <GroupContainer>
           <InlineField id={id} label={"Decimals"}>
@@ -171,7 +185,7 @@ export const UnwrappedGroupedAnswerProperties = ({
               id={id}
               data-test="decimals"
               onBlur={(decimals) => {
-                updateAnswersOfType(answerType, page.id, {
+                handleChange(answerType, {
                   decimals,
                 });
               }}
@@ -192,7 +206,7 @@ export const UnwrappedGroupedAnswerProperties = ({
                   filter={filterUnitOptions}
                   placeholder={"Select a unit type"}
                   updateOption={(element) => {
-                    updateAnswersOfType(answerType, page.id, {
+                    handleChange(answerType, {
                       unit:
                         element && element.children[0]?.getAttribute("value"),
                     });
@@ -220,20 +234,6 @@ export const UnwrappedGroupedAnswerProperties = ({
           )}
         </GroupContainer>
       );
-
-      if (answers.length > 1 && answers[0].type !== UNIT) {
-        groupValidations = (
-          <GroupContainer>
-            <Padding>
-              <GroupValidations
-                totalValidation={page.totalValidation}
-                validationError={page.validationErrorInfo}
-                type={answerType}
-              />
-            </Padding>
-          </GroupContainer>
-        );
-      }
     }
     if (answerType === DURATION) {
       groupedFields = (
@@ -242,7 +242,7 @@ export const UnwrappedGroupedAnswerProperties = ({
             <DurationProperties
               id="duration"
               onChange={({ value: unit }) => {
-                updateAnswersOfType(answerType, page.id, {
+                handleChange(answerType, {
                   unit,
                 });
               }}
@@ -254,21 +254,15 @@ export const UnwrappedGroupedAnswerProperties = ({
     }
 
     if (answerType === TEXTAREA) {
-      const isMaxLengthTooLarge = getOr(
-        [],
-        "validationErrorInfo.errors",
-        answers[0]
-      )
-        .map(({ errorCode }) => errorCode)
-        .includes(ERR_MAX_LENGTH_TOO_LARGE);
-
-      const isMaxLengthTooSmall = getOr(
-        [],
-        "validationErrorInfo.errors",
-        answers[0]
-      )
-        .map(({ errorCode }) => errorCode)
-        .includes(ERR_MAX_LENGTH_TOO_SMALL);
+      const errors = answers[0]?.validationErrorInfo?.errors ?? [];
+      const errorCode =
+        errors
+          .map(({ errorCode }) => errorCode)
+          .find(
+            (error) =>
+              error === ERR_MAX_LENGTH_TOO_SMALL ||
+              error === ERR_MAX_LENGTH_TOO_LARGE
+          ) ?? false;
 
       groupedFields = (
         <GroupContainer>
@@ -278,33 +272,50 @@ export const UnwrappedGroupedAnswerProperties = ({
               key={`${answers[0].id}-max-length-input`}
               maxLength={parseInt(answers[0].properties.maxLength, 10)}
               pageId={page.id}
-              invalid={isMaxLengthTooLarge || isMaxLengthTooSmall}
+              invalid={Boolean(errorCode)}
             />
           </InlineField>
-          {showMaxLengthValError(isMaxLengthTooLarge, isMaxLengthTooSmall)}
+          {lengthValueError(errorCode)}
         </GroupContainer>
       );
     }
+
     return (
       <Accordion title={`${answerType} properties`} key={answerType}>
         <Padding>{groupedFields}</Padding>
-        {answers.map((answer) => {
-          return (
-            <AnswerPropertiesContainer key={getIdForObject(answer)}>
-              <Padding>
-                <AnswerTitle data-test="answer-title">
-                  {answer.displayName}
-                </AnswerTitle>
-                <AnswerProperties answer={answer} />
-                <AnswerValidation answer={answer} />
-              </Padding>
-            </AnswerPropertiesContainer>
-          );
-        })}
-        {groupValidations}
+        {answers.map((answer) => (
+          <AnswerPropertiesContainer key={getIdForObject(answer)}>
+            <Padding>
+              <AnswerTitle data-test="answer-title">
+                {answer.displayName}
+              </AnswerTitle>
+              <AnswerProperties answer={answer} />
+              <AnswerValidation answer={answer} />
+
+              {answer.type === DATE_RANGE ? (
+                <Fallback
+                  metadata={questionnaire && questionnaire.metadata}
+                  answer={answer}
+                  onChange={handleChange}
+                />
+              ) : null}
+            </Padding>
+          </AnswerPropertiesContainer>
+        ))}
+        {answers.length > 1 && answers[0].type !== UNIT && (
+          <GroupContainer>
+            <Padding>
+              <GroupValidations
+                totalValidation={page.totalValidation}
+                validationError={page.validationErrorInfo}
+                type={answerType}
+              />
+            </Padding>
+          </GroupContainer>
+        )}
       </Accordion>
     );
   });
 };
 
-export default withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties);
+export default GroupedAnswerProperties;

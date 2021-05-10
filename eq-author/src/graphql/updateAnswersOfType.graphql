@@ -1,4 +1,4 @@
-#import "../../../../graphql/fragments/validationErrorInfo.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation UpdateAnswersOfType($input: UpdateAnswersOfTypeInput!) {
   updateAnswersOfType(input: $input) {

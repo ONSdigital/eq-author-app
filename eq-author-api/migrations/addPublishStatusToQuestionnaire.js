@@ -3,7 +3,7 @@
 const UNPUBLISHED = "Unpublished";
 
 module.exports = function addPublishStatusToQuestionnaire(questionnaire) {
-  if (!questionnaire.hasOwnProperty("publishStatus")) {
+  if (!Object.prototype.hasOwnProperty.call(questionnaire, "publishStatus")) {
     questionnaire.publishStatus = UNPUBLISHED;
   }
   return questionnaire;

@@ -247,25 +247,23 @@ Resolvers.Mutation = {
     return expression;
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
-    {
-      const routingExpressionGroups = getExpressionGroups(ctx);
-      const skipConditions = getSkipConditions(ctx);
-      const expressionGroup = find(
-        (expressionGroup) => {
-          if (some({ id: input.id }, expressionGroup.expressions)) {
-            return expressionGroup;
-          }
-        },
-        [...routingExpressionGroups, ...skipConditions]
-      );
+    const routingExpressionGroups = getExpressionGroups(ctx);
+    const skipConditions = getSkipConditions(ctx);
+    const expressionGroup = find(
+      (expressionGroup) => {
+        if (some({ id: input.id }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      },
+      [...routingExpressionGroups, ...skipConditions]
+    );
 
-      expressionGroup.expressions = reject(
-        { id: input.id },
-        expressionGroup.expressions
-      );
+    expressionGroup.expressions = reject(
+      { id: input.id },
+      expressionGroup.expressions
+    );
 
-      return expressionGroup;
-    }
+    return expressionGroup;
   }),
 };
 

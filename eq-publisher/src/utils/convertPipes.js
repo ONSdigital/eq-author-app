@@ -34,7 +34,10 @@ const FILTER_MAP = {
   Number: (value) => `${value} | format_number`,
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: (value) => `${value} | format_date`,
-  DateRange: (value) => `${value} | format_date`,
+  DateRange: (value, key) =>
+    key
+      ? `format_conditional_date (${value}, metadata['${key}'])`
+      : `${value} | format_date`,
   Unit: (value, unit) => `format_unit('${unitConversion[unit]}',${value})`,
 };
 
@@ -44,6 +47,9 @@ const PIPE_TYPES = {
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
     getUnit: ({ properties: { unit } }) => unit,
+    getFallback: ({
+      properties: { fallback: { enabled, start, end } = {} } = {},
+    }) => (enabled ? { from: start, to: end } : null),
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
@@ -69,22 +75,31 @@ const convertElementToPipe = ($elem, ctx) => {
   if (!pipeConfig) {
     return "";
   }
-
   const entity = pipeConfig.retrieve({ type, id, piped }, ctx);
   if (!entity) {
     return "";
   }
 
   const outputToRender = type === DATE_RANGE ? { id } : entity;
-
   const output = pipeConfig.render(outputToRender);
   const dataType = pipeConfig.getType(entity);
   const filter = FILTER_MAP[dataType];
   let unitType;
-
   if (dataType === UNIT) {
     unitType = pipeConfig.getUnit(entity);
     return filter ? `{{ ${filter(output, unitType)} }}` : `{{ ${output} }}`;
+  } else if (dataType === DATE_RANGE) {
+    let fallback = pipeConfig.getFallback(entity);
+    let key = null;
+    if (fallback) {
+      if (output.includes("from")) {
+        key = fallback.from || null;
+      } else if (output.includes("to")) {
+        key = fallback.to || null;
+      }
+    }
+
+    return filter ? `{{ ${filter(output, key)} }}` : `{{ ${output} }}`;
   } else {
     return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
   }

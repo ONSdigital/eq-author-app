@@ -1,6 +1,6 @@
 //This is an auto-generated file.  Do NOT modify the method signature.
 module.exports = function addHistoryToQuestionnaire(questionnaire) {
-  if (!questionnaire.hasOwnProperty("history")) {
+  if (!questionnaire.history) {
     questionnaire.history = [
       {
         id: "creationEvent",
