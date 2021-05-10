@@ -254,6 +254,7 @@ type BasicAnswer implements Answer {
   properties: JSON
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
+  mutuallyExclusiveCheckbox: Option
 }
 
 type MultipleChoiceAnswer implements Answer {

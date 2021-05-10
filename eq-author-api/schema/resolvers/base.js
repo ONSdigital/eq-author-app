@@ -27,7 +27,7 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { DATE } = require("../../constants/answerTypes");
+const { DATE, CHECKBOX, RADIO } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -588,7 +588,14 @@ const Resolvers = {
     createMutuallyExclusiveOption: createMutation((root, { input }, ctx) => {
       const answer = getAnswerById(ctx, input.answerId);
 
-      const existing = find(answer.options, { mutuallyExclusive: true });
+      let existing;
+
+      if (find([CHECKBOX, RADIO], answer.type)) {
+        existing = find(answer.options, { mutuallyExclusive: true });
+      } else {
+        existing = answer.mutuallyExclusiveCheckbox;
+      }
+
       if (!isNil(existing)) {
         throw new Error(
           "There is already an exclusive checkbox on this answer."
@@ -597,7 +604,11 @@ const Resolvers = {
 
       const option = createOption({ mutuallyExclusive: true, ...input });
 
-      answer.options.push(option);
+      if (find([CHECKBOX, RADIO], answer.type)) {
+        answer.options.push(option);
+      } else {
+        answer.mutuallyExclusiveCheckbox = option;
+      }
 
       return option;
     }),
