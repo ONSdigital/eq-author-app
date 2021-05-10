@@ -1,17 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { flowRight, merge } from "lodash";
+import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
+
+import updateAnswerMutation from "graphql/updateAnswer.graphql";
+
+import InlineField from "../InlineField";
+import { ToggleProperty, DateFormat } from "./Properties";
+import MultiLineField from "../MultiLineField";
 
 import { DATE, DATE_RANGE } from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
-
-import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
-import withUpdateValidationRule from "App/page/Design/Validation/withUpdateValidationRule";
-import InlineField from "../InlineField";
-
-import { Required, DateFormat } from "./Properties";
-import MultiLineField from "../MultiLineField";
 
 const durationsMap = {
   "dd/mm/yyyy": DAYS,
@@ -19,69 +17,56 @@ const durationsMap = {
   yyyy: YEARS,
 };
 
-export class UnwrappedAnswerProperties extends React.Component {
-  static propTypes = {
-    answer: CustomPropTypes.answer.isRequired,
-    onSubmit: PropTypes.func,
-    onUpdateAnswer: PropTypes.func.isRequired,
-    onUpdateValidationRule: PropTypes.func.isRequired,
-  };
+const getId = (name, id) => `answer-${id}-${name}`;
 
-  handleChange = (propName) => ({ value }) => {
-    const {
-      id,
-      properties: currentProperties,
-      validation,
-      type,
-    } = this.props.answer;
+const propTypes = {
+  answer: CustomPropTypes.answer.isRequired,
+};
 
-    const properties = merge({}, currentProperties, {
-      [propName]: value,
+export const AnswerProperties = ({
+  answer: { id, properties, validation, type },
+}) => {
+  const [onUpdateAnswer] = useMutation(updateAnswerMutation);
+
+  const handleChange = (name) => ({ value }) => {
+    onUpdateAnswer({
+      variables: {
+        input: {
+          id,
+          properties: { ...properties, [name]: value },
+        },
+      },
     });
 
-    this.props.onUpdateAnswer({
-      id,
-      properties,
-    });
-
-    if ((type === DATE || type === DATE_RANGE) && propName === "format") {
+    if ((type === DATE || type === DATE_RANGE) && name === "format") {
       validation.earliestDate.offset.unit = durationsMap[value];
       validation.latestDate.offset.unit = durationsMap[value];
     }
   };
 
-  getId = (name, { id }) => `answer-${id}-${name}`;
-
-  render() {
-    const { answer } = this.props;
-    return (
-      <React.Fragment>
-        <InlineField id={this.getId("required", answer)} label={"Required"}>
-          <Required
-            data-test="answer-properties-required-toggle"
-            id={this.getId("required", answer)}
-            onChange={this.handleChange("required")}
-            value={answer.properties.required}
+  return (
+    <>
+      <InlineField id={getId("required", id)} label={"Required"}>
+        <ToggleProperty
+          data-test="answer-properties-required-toggle"
+          id={getId("required", id)}
+          onChange={handleChange("required")}
+          value={properties.required}
+        />
+      </InlineField>
+      {type === DATE && (
+        <MultiLineField id={getId("date-format", id)} label={"Date type"}>
+          <DateFormat
+            id={getId("date-format", id)}
+            onChange={handleChange("format")}
+            value={properties.format}
           />
-        </InlineField>
-        {answer.type === DATE && (
-          <MultiLineField
-            id={this.getId("date-format", answer)}
-            label={"Date type"}
-          >
-            <DateFormat
-              id={this.getId("date-format", answer)}
-              onChange={this.handleChange("format")}
-              value={answer.properties.format}
-            />
-          </MultiLineField>
-        )}
-      </React.Fragment>
-    );
-  }
-}
+        </MultiLineField>
+      )}
+    </>
+  );
+};
 
-export default flowRight(
-  withUpdateValidationRule,
-  withUpdateAnswer
-)(UnwrappedAnswerProperties);
+AnswerProperties.propTypes = propTypes;
+
+export default AnswerProperties;

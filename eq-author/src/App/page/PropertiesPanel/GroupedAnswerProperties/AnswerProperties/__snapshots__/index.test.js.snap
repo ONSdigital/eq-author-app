@@ -6,7 +6,7 @@ exports[`Answer Properties should render 1`] = `
     id="answer-1-required"
     label="Required"
   >
-    <Required
+    <ToggleProperty
       data-test="answer-properties-required-toggle"
       id="answer-1-required"
       onChange={[Function]}
