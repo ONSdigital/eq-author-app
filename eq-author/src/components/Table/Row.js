@@ -267,7 +267,7 @@ export const Row = ({
         if (heading === columnHeading) {
           if (heading === Headings.TITLE) {
             return (
-              <TD>
+              <TD key={heading}>
                 <QuestionnaireLink
                   data-test="anchor-questionnaire-title"
                   title={displayName}
@@ -287,25 +287,25 @@ export const Row = ({
             );
           }
           if (heading === Headings.OWNER) {
-            return <TD>{createdBy.displayName}</TD>;
+            return <TD key={heading}>{createdBy.displayName}</TD>;
           }
           if (heading === Headings.CREATED) {
             return (
-              <TD>
+              <TD key={heading}>
                 <FormattedDate date={createdAt} />
               </TD>
             );
           }
           if (heading === Headings.MODIFIED) {
             return (
-              <TD>
+              <TD key={heading}>
                 <FormattedDate date={updatedAt} />
               </TD>
             );
           }
           if (heading === Headings.PERMISSIONS) {
             return (
-              <TD>
+              <TD key={heading}>
                 <Permissions>
                   <Permission>View</Permission>
                   <Permission disabled={!hasWritePermission}>Edit</Permission>
@@ -315,7 +315,7 @@ export const Row = ({
           }
           if (heading === Headings.LOCKED) {
             return (
-              <TD>
+              <TD key={heading}>
                 <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
                   <IconTextButton
                     title="Lock"
@@ -331,7 +331,7 @@ export const Row = ({
           }
           if (heading === Headings.STARRED) {
             return (
-              <TD>
+              <TD key={heading}>
                 <Tooltip
                   content={starred ? "Starred" : "Not starred"}
                   place="top"
@@ -349,7 +349,7 @@ export const Row = ({
           }
           if (heading === Headings.ACTIONS) {
             return (
-              <TD>
+              <TD key={heading}>
                 <div onFocus={handleButtonFocus} data-test="action-btn-group">
                   <ButtonGroup>
                     <DuplicateQuestionnaireButton
