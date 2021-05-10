@@ -370,6 +370,7 @@ export const Row = ({
           }
         }
       }
+      return null;
     });
 
   return (
