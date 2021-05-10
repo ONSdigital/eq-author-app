@@ -39,7 +39,7 @@ describe("verify Jwt token", () => {
       fetch.mockImplementation(() => {
         return {
           json: () => {
-            return new Promise(async (resolve) => {
+            return new Promise((resolve) => {
               resolve(mockGoogleFetchError);
             });
           },
@@ -79,7 +79,7 @@ describe("verify Jwt token", () => {
       fetch.mockImplementation(() => {
         return {
           json: () => {
-            return new Promise(async (resolve, reject) => {
+            return new Promise((resolve, reject) => {
               reject(mockGoogleFetchError);
             });
           },
@@ -119,7 +119,7 @@ describe("verify Jwt token", () => {
       fetch.mockImplementation(() => {
         return {
           json: () => {
-            return new Promise(async (resolve) => {
+            return new Promise((resolve) => {
               resolve(mockGoogleKeys);
             });
           },
