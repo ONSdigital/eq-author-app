@@ -250,6 +250,7 @@ type BasicAnswer implements Answer {
   secondaryLabel: String
   secondaryLabelDefault: String
   type: AnswerType!
+  options: [Option]
   page: QuestionPage
   properties: JSON
   validation: ValidationType

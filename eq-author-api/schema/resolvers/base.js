@@ -597,6 +597,10 @@ const Resolvers = {
 
       const option = createOption({ mutuallyExclusive: true, ...input });
 
+      if (!answer.options) {
+        answer.options = [];
+      }
+
       answer.options.push(option);
 
       return option;
