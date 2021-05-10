@@ -133,7 +133,11 @@ const listHeadings = (props) =>
   );
 
 const TableHead = (props) => {
-  return listHeadings(props);
+  return (
+    <thead>
+      <tr>{listHeadings(props)}</tr>
+    </thead>
+  );
 };
 
 TableHead.propTypes = {
