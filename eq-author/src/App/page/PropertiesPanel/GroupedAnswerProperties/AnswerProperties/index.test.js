@@ -1,9 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { useMutation } from "@apollo/react-hooks";
 
 import { NUMBER, DATE } from "constants/answer-types";
-import { Required, DateFormat } from "./Properties";
-import { UnwrappedAnswerProperties as AnswerProperties } from "./";
+import { ToggleProperty, DateFormat } from "./Properties";
+import { AnswerProperties } from "./";
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual(),
+  useMutation: jest.fn(),
+}));
+
+useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 describe("Answer Properties", () => {
   let props;
@@ -30,18 +38,26 @@ describe("Answer Properties", () => {
 
   describe("behaviour", () => {
     it("should handle change event for 'Required' toggle input", () => {
+      const onUpdateAnswer = jest.fn();
+      useMutation.mockImplementation(() => [onUpdateAnswer]);
       const wrapper = shallow(<AnswerProperties {...props} />);
-      wrapper.find(Required).simulate("change", { value: false });
-      expect(props.onUpdateAnswer).toHaveBeenCalledWith({
-        id: "1",
-        properties: {
-          decimals: 2,
-          required: false,
+      wrapper.find(ToggleProperty).simulate("change", { value: false });
+      expect(onUpdateAnswer).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            id: "1",
+            properties: {
+              decimals: 2,
+              required: false,
+            },
+          },
         },
       });
     });
 
     it("should handle change event for 'Date Format' number input", () => {
+      const onUpdateAnswer = jest.fn();
+      useMutation.mockImplementation(() => [onUpdateAnswer]);
       props.answer = {
         id: "1",
         type: DATE,
@@ -77,11 +93,15 @@ describe("Answer Properties", () => {
       };
       const wrapper = shallow(<AnswerProperties {...props} />);
       wrapper.find(DateFormat).simulate("change", { value: "mm/yy" });
-      expect(props.onUpdateAnswer).toHaveBeenCalledWith({
-        id: "1",
-        properties: {
-          required: true,
-          format: "mm/yy",
+      expect(onUpdateAnswer).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            id: "1",
+            properties: {
+              required: true,
+              format: "mm/yy",
+            },
+          },
         },
       });
     });

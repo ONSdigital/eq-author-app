@@ -11,7 +11,11 @@ const createPipe = ({
   pipeType = "answers",
   id = "0151378b-579d-40bf-b4d4-a378c573706a",
   text = "foo",
-} = {}) => `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
+  type = "",
+} = {}) =>
+  `<span data-piped="${pipeType}" ${
+    type === "" ? "" : `data-type="${type}"`
+  } data-id="${id}">${text}</span>`;
 
 const createContext = (metadata = []) => ({
   questionnaireJson: {
@@ -31,6 +35,26 @@ const createContext = (metadata = []) => ({
                   {
                     id: `2151378b-579d-40bf-b4d4-a378c573706a`,
                     type: DATE_RANGE,
+                  },
+                  {
+                    id: `9151378b-579d-40bf-b4d4-a378c573706a`,
+                    type: DATE_RANGE,
+                    properties: {
+                      fallback: {
+                        enabled: true,
+                        start: "2016-from",
+                        end: "2016-to",
+                      },
+                    },
+                  },
+                  {
+                    id: `5251378b-579d-40bf-b4d4-a378c573706a`,
+                    type: DATE_RANGE,
+                    properties: {
+                      fallback: {
+                        enabled: true,
+                      },
+                    },
                   },
                   { id: `3151378b-579d-40bf-b4d4-a378c573706a`, type: DATE },
                   { id: `4151378b-579d-40bf-b4d4-a378c573706a`, type: NUMBER },
@@ -124,6 +148,47 @@ describe("convertPipes", () => {
     });
 
     describe("formatting", () => {
+      // gz
+      it("should format Date Range answers with fallback from", () => {
+        const html = createPipe({
+          id: "9151378b-579d-40bf-b4d4-a378c573706afrom",
+          type: "DateRange",
+        });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ format_conditional_date (answers['answer9151378b-579d-40bf-b4d4-a378c573706afrom'], metadata['2016-from']) }}"
+        );
+      });
+
+      it("should not format Date Range answers with fallback from when from isn't supplied", () => {
+        const html = createPipe({
+          id: "5251378b-579d-40bf-b4d4-a378c573706afrom",
+          type: "DateRange",
+        });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ answers['answer5251378b-579d-40bf-b4d4-a378c573706afrom'] | format_date }}"
+        );
+      });
+
+      it("should format Date Range answers with fallback to", () => {
+        const html = createPipe({
+          id: "9151378b-579d-40bf-b4d4-a378c573706ato",
+          type: "DateRange",
+        });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ format_conditional_date (answers['answer9151378b-579d-40bf-b4d4-a378c573706ato'], metadata['2016-to']) }}"
+        );
+      });
+
+      it("should format Date Range answers with fallback to when to isn't supplied", () => {
+        const html = createPipe({
+          id: "5251378b-579d-40bf-b4d4-a378c573706ato",
+          type: "DateRange",
+        });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ answers['answer5251378b-579d-40bf-b4d4-a378c573706ato'] | format_date }}"
+        );
+      });
+
       it("should format Date Range answers with `format_date`", () => {
         const html = createPipe({ id: "2151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(

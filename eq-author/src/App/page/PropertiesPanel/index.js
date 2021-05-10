@@ -30,18 +30,16 @@ const PropertiesPane = styled.div`
   }
 `;
 
-const PropertiesPanel = ({ page }) => {
-  return (
-    <PropertiesPane>
-      <Accordion title="Optional fields">
-        <Padding>
-          <QuestionProperties page={page} />
-        </Padding>
-      </Accordion>
-      <GroupedAnswerProperties page={page} />
-    </PropertiesPane>
-  );
-};
+const PropertiesPanel = ({ page }) => (
+  <PropertiesPane>
+    <Accordion title="Optional fields">
+      <Padding>
+        <QuestionProperties page={page} />
+      </Padding>
+    </Accordion>
+    <GroupedAnswerProperties page={page} />
+  </PropertiesPane>
+);
 
 PropertiesPanel.propTypes = {
   page: CustomPropTypes.page,
