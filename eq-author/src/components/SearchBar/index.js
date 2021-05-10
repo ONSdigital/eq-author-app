@@ -41,7 +41,7 @@ const SearchInput = styled(Input).attrs({
 const SearchBar = ({ onChange, size, paddingType }) => {
     return (
         <>
-        <Search paddingType={paddingType}>
+        <Search>
           <VisuallyHidden>
             <label htmlFor="search">Search</label>
           </VisuallyHidden>
