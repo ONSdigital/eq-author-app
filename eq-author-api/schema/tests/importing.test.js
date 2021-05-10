@@ -1,9 +1,10 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
+const { getPages } = require("../resolvers/utils");
 const {
   importQuestions,
 } = require("../../tests/utils/contextBuilder/importing");
 
-describe("Importing content", () => {
+describe("Importing questions", () => {
   describe("Error conditions", () => {
     const defaultInput = {
       questionnaireId: "questionnaire-id",
@@ -32,13 +33,159 @@ describe("Importing content", () => {
     it("should throw if not all questions present in source questionnaire", async () => {
       const { questionnaire: source } = await buildContext({});
       const ctx = await buildContext({});
-
       expect(
         importQuestions(ctx, {
           ...defaultInput,
           questionnaireId: source.id,
         })
       ).rejects.toThrow(/Not all page IDs .+ exist in source questionnaire/);
+    });
+
+    it("should throw if target folder or section doesn't exist", async () => {
+      const { questionnaire: source } = await buildContext({
+        sections: [{ folders: [{ pages: [{}, {}] }] }],
+      });
+      const ctx = await buildContext({});
+      const questionIds = getPages({ questionnaire: source }).map(
+        ({ id }) => id
+      );
+      expect(
+        importQuestions(ctx, {
+          questionnaireId: source.id,
+          questionIds,
+          position: {
+            index: 0,
+            folderId: "nope",
+          },
+        })
+      ).rejects.toThrow(
+        /Folder with ID .+ doesn't exist in target questionnaire/
+      );
+
+      expect(
+        importQuestions(ctx, {
+          questionnaireId: source.id,
+          questionIds,
+          position: {
+            index: 0,
+            sectionId: "nope",
+          },
+        })
+      ).rejects.toThrow(
+        /Section with ID .+ doesn't exist in target questionnaire/
+      );
+    });
+  });
+
+  describe("Success conditions", () => {
+    const setup = async (
+      sourceStructure = { sections: [{ folders: [{ pages: [{}, {}] }] }] }
+    ) => {
+      const { questionnaire: source } = await buildContext(sourceStructure);
+      const questionIds = getPages({ questionnaire: source }).map(
+        ({ id }) => id
+      );
+      const ctx = await buildContext({
+        sections: [{ folders: [{ pages: [{}, {}] }] }],
+      });
+      return { ctx, questionIds, source };
+    };
+
+    it("should copy questions into new folders if section ID provided", async () => {
+      const { ctx, questionIds, source } = await setup();
+      expect(ctx.questionnaire.sections[0].folders).toHaveLength(1);
+      await importQuestions(ctx, {
+        questionnaireId: source.id,
+        questionIds,
+        position: {
+          index: 0,
+          sectionId: ctx.questionnaire.sections[0].id,
+        },
+      });
+      expect(ctx.questionnaire.sections[0].folders).toHaveLength(3);
+      expect(ctx.questionnaire.sections[0].folders[0].pages[0]).toMatchObject({
+        ...source.sections[0].folders[0].pages[0],
+        id: expect.any(String),
+      });
+      expect(ctx.questionnaire.sections[0].folders[1].pages[0]).toMatchObject({
+        ...source.sections[0].folders[0].pages[1],
+        id: expect.any(String),
+      });
+    });
+
+    it("should copy questions into existing folder if folder ID provided", async () => {
+      const { ctx, questionIds, source } = await setup();
+      const targetFolder = ctx.questionnaire.sections[0].folders[0];
+      expect(targetFolder.pages).toHaveLength(2);
+      await importQuestions(ctx, {
+        questionnaireId: source.id,
+        questionIds,
+        position: {
+          index: 1,
+          folderId: targetFolder.id,
+        },
+      });
+      expect(targetFolder.pages).toHaveLength(4);
+      expect(targetFolder.pages[1]).toMatchObject({
+        ...source.sections[0].folders[0].pages[0],
+        id: expect.any(String),
+      });
+      expect(targetFolder.pages[2]).toMatchObject({
+        ...source.sections[0].folders[0].pages[1],
+        id: expect.any(String),
+      });
+    });
+
+    it("should remove qCodes and re-map IDs from imported content", async () => {
+      const { ctx, questionIds, source } = await setup({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: "Checkbox",
+                        qCode: "ans-qCode",
+                        options: [{ qCode: "option-qCode" }],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      const targetFolder = ctx.questionnaire.sections[0].folders[0];
+      await importQuestions(ctx, {
+        questionnaireId: source.id,
+        questionIds,
+        position: {
+          index: 0,
+          folderId: targetFolder.id,
+        },
+      });
+      expect(targetFolder.pages[0]).toMatchObject({
+        ...source.sections[0].folders[0].pages[0],
+        id: expect.any(String),
+        answers: [
+          {
+            ...source.sections[0].folders[0].pages[0].answers[0],
+            id: expect.any(String),
+            qCode: null,
+            questionPageId: targetFolder.pages[0].id,
+            options: [
+              {
+                ...source.sections[0].folders[0].pages[0].answers[0].options[0],
+                id: expect.any(String),
+                qCode: null,
+              },
+            ],
+          },
+        ],
+      });
     });
   });
 });

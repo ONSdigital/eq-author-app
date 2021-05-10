@@ -44,11 +44,14 @@ module.exports = {
         }
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
-        // Keep piping intact for now - will show "[Deleted answer]" to users
-        // since ref. not resolvable (& validation error will occur for page)
-        const strippedPages = pages.map((page) =>
+        // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
+        const strippedPages = remapAllNestedIds(
           stripQCodes(
-            remapAllNestedIds({ ...page, skipConditions: null, routing: null })
+            pages.map((page) => ({
+              ...page,
+              skipConditions: null,
+              routing: null,
+            }))
           )
         );
 
@@ -60,7 +63,7 @@ module.exports = {
               `Folder with ID ${folderId} doesn't exist in target questionnaire.`
             );
           }
-          folder.pages.splice(insertionIndex, 0, strippedPages);
+          folder.pages.splice(insertionIndex, 0, ...strippedPages);
           section = getSectionByFolderId(ctx, folderId);
         } else {
           section = getSectionById(ctx, sectionId);
