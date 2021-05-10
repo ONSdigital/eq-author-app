@@ -4,7 +4,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 import QuestionPicker from "./";
 
 describe("Question Picker", () => {
-  let data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, showSearch, props;
+  let data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, props;
 
   beforeEach(() => {
     onClose = jest.fn();
