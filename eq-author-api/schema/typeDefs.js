@@ -283,6 +283,7 @@ type Option {
   qCode: String
   answer: Answer
   additionalAnswer: BasicAnswer
+  mutuallyExclusive: Boolean
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -770,7 +771,7 @@ type Mutation {
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   moveOption(input: MoveOptionInput!): MultipleChoiceAnswer!
   updateOption(input: UpdateOptionInput!): Option
-  deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
+  deleteOption(input: DeleteOptionInput!): Answer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!

@@ -27,7 +27,7 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { DATE } = require("../../constants/answerTypes");
+const { DATE, CHECKBOX, RADIO } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -646,6 +646,10 @@ const Resolvers = {
           );
         }
       });
+
+      if (!find([CHECKBOX, RADIO], answer.type)) {
+        delete answer.options;
+      }
 
       return answer;
     }),
