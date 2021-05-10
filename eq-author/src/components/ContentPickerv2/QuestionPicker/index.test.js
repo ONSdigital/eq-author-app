@@ -1,15 +1,16 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import CalSumContentPicker from "./";
+import QuestionPicker from "./";
 
-describe("CalculatedSummary content picker", () => {
-  let data, onClose, onSubmit, startingSelectedAnswers, props;
+describe("Question Picker", () => {
+  let data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, showSearch, props;
 
   beforeEach(() => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
+    title="Select one or more answer";
     data = [
       {
         id: "section 1",
@@ -89,11 +90,11 @@ describe("CalculatedSummary content picker", () => {
       },
     ];
 
-    props = { data, onClose, onSubmit, startingSelectedAnswers };
+    props = { data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, };
   });
 
   const renderContentPicker = () =>
-    render(< {...props} isOpen />);
+    render(<QuestionPicker {...props} isOpen />);
 
   it("should allow multiselect and send all answers on submit", () => {
     const { getByText } = renderContentPicker();
@@ -107,7 +108,7 @@ describe("CalculatedSummary content picker", () => {
     expect(percentageOne).toHaveAttribute("aria-selected", "true");
     expect(percentageTwo).toHaveAttribute("aria-selected", "true");
 
-    fireEvent.click(getByText("Confirm"));
+    fireEvent.click(getByText("Select"));
 
     expect(onSubmit).toHaveBeenCalledWith([
       {
@@ -162,7 +163,7 @@ describe("CalculatedSummary content picker", () => {
     expect(unitTwo).toHaveAttribute("disabled");
   });
 
-  it("should deselecet and reselect on successive clicks", () => {
+  it("should deselect and reselect on successive clicks", () => {
     const { getByText } = renderContentPicker();
 
     const percentageOne = getByText("Percentage 1").closest("li");
@@ -206,5 +207,25 @@ describe("CalculatedSummary content picker", () => {
 
     fireEvent.keyUp(percentageOne, { key: "Enter", keyCode: 13 });
     expect(percentageOne).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("should allow optional answer types via props", () => {
+    props = {
+      ...props,
+      showTypes: true,
+    };
+    const { getByText } = renderContentPicker();
+
+    expect(getByText("Allowed answer types:")).toBeTruthy();
+  });
+
+  it("should allow optional search bar via props", () => {
+    props = {
+      ...props,
+      showSearch: true,
+    };
+    const { getByTestId } = renderContentPicker();
+
+    expect(getByTestId("search-bar")).toBeTruthy();
   });
 });

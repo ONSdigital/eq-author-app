@@ -109,7 +109,6 @@ exports[`AnswerSelector should render when there are available summary answers 1
       isOpen={false}
       onClose={[Function]}
       onSubmit={[Function]}
-      showSearch={true}
       showTypes={true}
       startingSelectedAnswers={Array []}
       title="Select one or more answer"
@@ -147,7 +146,6 @@ exports[`AnswerSelector should render when there are no available summary answer
       isOpen={false}
       onClose={[Function]}
       onSubmit={[Function]}
-      showSearch={true}
       showTypes={true}
       startingSelectedAnswers={Array []}
       title="Select one or more answer"

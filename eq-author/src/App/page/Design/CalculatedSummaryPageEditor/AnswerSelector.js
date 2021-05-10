@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
 import { MenuItemType } from "components/ContentPickerv2/Menu";
-import QuestionPicker from "components/ContentPickerv2/QuestionPicker";
+import QuestionPicker from "components/ContentPickerv2/QuestionPicker/";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";

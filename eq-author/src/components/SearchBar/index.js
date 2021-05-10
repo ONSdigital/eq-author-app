@@ -51,6 +51,7 @@ const SearchBar = ({ onChange, size, paddingType }) => {
             onChange={onChange}
             paddingType={paddingType}
             size={size}
+            data-test="search-bar"
           />
         </Search>
         </>
