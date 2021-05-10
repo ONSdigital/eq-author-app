@@ -67,7 +67,9 @@
       "!middleware/import.js",
       "!app.js"
     ],
-    "setupFilesAfterEnv": ["<rootDir>/scripts/testSetup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/scripts/testSetup.js"
+    ],
     "preset": "@shelf/jest-mongodb",
     "watchPathIgnorePatterns": [
       "data/"
@@ -77,7 +79,7 @@
     "@shelf/jest-mongodb": "^1.2.4",
     "commander": "latest",
     "dynamodb-admin": "latest",
-    "eslint": "latest",
+    "eslint": "^7.25.0",
     "eslint-config-eq-author": "latest",
     "jest": "latest",
     "nodemon": "latest",

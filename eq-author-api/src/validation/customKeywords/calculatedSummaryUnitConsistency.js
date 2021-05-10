@@ -29,8 +29,7 @@ module.exports = function (ajv) {
       );
 
       const currentSectionAnswers = pages.reduce(
-        (acc, page) =>
-          page.hasOwnProperty("answers") ? [...acc, ...page.answers] : acc,
+        (acc, page) => (page.answers ? [...acc, ...page.answers] : acc),
         []
       );
 
