@@ -116,7 +116,7 @@ const listHeadings = (props) =>
             key={`sortable-${heading.toLowerCase()}`}
             sortColumn={sortColumn}
             colWidth={colWidth}
-            dataTest={heading.toLowerCase()}
+            dataTest={`${heading.toLowerCase()}-sort-button`}
             {...props}
           >
             {heading}

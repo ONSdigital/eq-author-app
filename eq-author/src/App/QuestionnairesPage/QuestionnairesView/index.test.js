@@ -720,7 +720,7 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByTestId("lock-sort-button");
+        const sortTitleButton = getByTestId("locked-sort-button");
         fireEvent.click(sortTitleButton);
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 2 Title`
@@ -737,7 +737,7 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByTestId("star-sort-button");
+        const sortTitleButton = getByTestId("starred-sort-button");
         fireEvent.click(sortTitleButton);
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 3 Title`
