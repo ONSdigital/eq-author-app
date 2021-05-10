@@ -17,7 +17,7 @@ const Table = ({
   onSortClick,
   onReverseClick,
   sortOrder,
-  sortColumn,
+  currentSortColumn,
   tableHeadings,
   questionnaires,
   autoFocusId,
@@ -31,7 +31,7 @@ const Table = ({
         onSortClick={onSortClick}
         onReverseClick={onReverseClick}
         sortOrder={sortOrder}
-        currentSortColumn={sortColumn}
+        currentSortColumn={currentSortColumn}
         tableHeadings={tableHeadings}
       />
       <TableBody
@@ -50,7 +50,7 @@ Table.propTypes = {
   onSortClick: PropTypes.func,
   onReverseClick: PropTypes.func,
   sortOrder: PropTypes.string,
-  sortColumn: PropTypes.string,
+  currentSortColumn: PropTypes.string,
   tableHeadings: PropTypes.array.isRequired, // eslint-disable-line
   questionnaires: PropTypes.array, // eslint-disable-line
   autoFocusId: PropTypes.string,
