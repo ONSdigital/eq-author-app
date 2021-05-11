@@ -1,13 +1,10 @@
 import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-
+import { getPages } from "utils/questionnaireUtils";
 import { RADIO } from "constants/answer-types";
 
 export const QCodeContext = createContext();
-
-export const getAllPages = ({ sections }) =>
-  sections?.flatMap(({ folders }) => folders?.flatMap(({ pages }) => pages));
 
 // flattenAnswer :: [Answer] -> [AnswerRow]
 // Flatten single answer into rows for each of:
@@ -39,7 +36,7 @@ export const flattenAnswer = (answer) =>
 // Generate list of rows of flattened answers, with parent page information,
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
-  const pages = getAllPages(questionnaire);
+  const pages = getPages(questionnaire);
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
