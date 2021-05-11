@@ -20,6 +20,8 @@ import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
+import { themeErrors } from "constants/validationMessages";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -128,6 +130,11 @@ const ThemesPage = ({ questionnaire }) => {
   const [enableTheme] = useMutation(enableThemeMutation);
   const [disableTheme] = useMutation(disableThemeMutation);
 
+  const themeErrorCount = questionnaireThemes.reduce(
+    (acc, { validationErrorInfo }) => acc + validationErrorInfo.totalCount,
+    0
+  );
+
   const toggleTheme = ({ shortName, enabled }) => {
     const handleToggle = enabled ? disableTheme : enableTheme;
 
@@ -169,7 +176,11 @@ const ThemesPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(params, type)}
+                tabItems={tabItems({
+                  params,
+                  type,
+                  themeErrorCount,
+                })}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
