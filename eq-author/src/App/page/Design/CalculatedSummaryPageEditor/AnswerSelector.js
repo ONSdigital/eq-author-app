@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
 import { MenuItemType } from "components/ContentPickerv2/Menu";
-import CalSumContentPicker from "./CalSumContentPicker";
+import QuestionPicker from "components/ContentPickerv2/QuestionPicker/";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";
@@ -292,12 +292,14 @@ export const UnwrappedAnswerSelector = ({
         {summaryAnswers.length
           ? renderAnswers(summaryAnswers, summaryAnswers?.[0]?.type)
           : renderEmptyState(availableSummaryAnswers)}
-        <CalSumContentPicker
+        <QuestionPicker
           isOpen={showPicker}
           onClose={handlePickerClose}
           onSubmit={handlePickerSubmit}
           startingSelectedAnswers={summaryAnswers}
           data={availableSummaryAnswers}
+          title="Select one or more answer"
+          showTypes
         />
       </Answers>
     </Box>
