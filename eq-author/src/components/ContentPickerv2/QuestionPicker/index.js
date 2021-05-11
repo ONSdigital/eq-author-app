@@ -4,13 +4,15 @@ import PropTypes from "prop-types";
 
 import CustomPropTypes from "custom-prop-types";
 import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import { colors } from "constants/theme";
 
 import { FlatSectionMenu } from "components/ContentPickerv2/Menu";
 import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import { colors } from "constants/theme";
+import SearchBar from 'components/SearchBar'
+
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -32,7 +34,7 @@ const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.text};
-  margin-bottom: 0.2em;
+  margin-bottom: 0.75em;
 `;
 
 const ModalSubtitle = styled.div`
@@ -41,7 +43,7 @@ const ModalSubtitle = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  padding: 2em 1em;
+  padding: 2em 1em 1.5em;
   border-bottom: 1px solid ${colors.bordersLight};
 `;
 
@@ -70,13 +72,17 @@ const Type = styled.span`
 
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
-const CalSumContentPicker = ({
+const QuestionPicker = ({
   isOpen,
   onClose,
   onSubmit,
   startingSelectedAnswers,
+  title,
+  showTypes,
+  showSearch,
   ...otherProps
 }) => {
+
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
@@ -125,14 +131,23 @@ const CalSumContentPicker = ({
       <Container>
         <>
           <ModalHeader>
-            <ModalTitle>Select one or more answer</ModalTitle>
+            <ModalTitle>{title}</ModalTitle>
             <ModalSubtitle>
-              <Types>
-                <span>Allowed answer types:</span>
-                {validTypes.map((type) => (
-                  <Type key={type}>{type}</Type>
-                ))}
-              </Types>
+              {showTypes ? (
+                <Types>
+                  <span>Allowed answer types:</span>
+                  {validTypes.map((type) => (
+                    <Type key={type}>{type}</Type>
+                  ))}
+                </Types>) : ('')
+              }
+              {
+                showSearch ? (
+                  //TODO needs onChange prop setup and passed here
+                  // see example in App/QuestionnairesPage/QuestionnairesView/Header
+                  <SearchBar size="large"/>
+                ) : ('')
+              }
             </ModalSubtitle>
           </ModalHeader>
           <MenuContainer>
@@ -158,7 +173,7 @@ const CalSumContentPicker = ({
             autoFocus
             onClick={() => onSubmit(selectedAnswers)}
           >
-            Confirm
+            Select
           </Button>
         </ButtonGroup>
       </ModalFooter>
@@ -166,7 +181,7 @@ const CalSumContentPicker = ({
   );
 };
 
-CalSumContentPicker.propTypes = {
+QuestionPicker.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -174,6 +189,9 @@ CalSumContentPicker.propTypes = {
     PropTypes.shape(CustomPropTypes.answers)
   ),
   startingSelectedType: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  showTypes: PropTypes.bool,
+  showSearch: PropTypes.bool
 };
 
-export default CalSumContentPicker;
+export default QuestionPicker;
