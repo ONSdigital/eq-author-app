@@ -370,7 +370,7 @@ describe("Themes page", () => {
     expect(screen.getByText("Form type")).toBeVisible();
   });
 
-  it("Should handle EQ ID update", () => {
+  it("Should handle Form Type update", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
@@ -395,7 +395,7 @@ describe("Themes page", () => {
     );
   });
 
-  it("Should handle EQ ID change when not empty", () => {
+  it("Should handle Form Type change when not empty", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
