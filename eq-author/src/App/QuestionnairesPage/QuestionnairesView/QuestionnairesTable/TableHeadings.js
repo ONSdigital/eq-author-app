@@ -1,53 +1,55 @@
+import * as Headings from "constants/table-headings";
+
 const tableHeadings = [
   {
-    heading: `Title`,
+    heading: Headings.TITLE,
     colWidth: "20%",
     sortColumn: "title",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Owner`,
+    heading: Headings.OWNER,
     colWidth: "15%",
     sortColumn: "createdBy.displayName",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Created`,
+    heading: Headings.CREATED,
     colWidth: "10%",
     sortColumn: "createdAt",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Modified`,
+    heading: Headings.MODIFIED,
     colWidth: "9%",
     sortColumn: "updatedAt",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Permissions`,
+    heading: Headings.PERMISSIONS,
     colWidth: "10%",
     enabled: true,
   },
   {
-    heading: `Locked`,
+    heading: Headings.LOCKED,
     colWidth: "8%",
     sortColumn: "locked",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Starred`,
+    heading: Headings.STARRED,
     colWidth: "8%",
     sortColumn: "starred",
     sortable: true,
     enabled: true,
   },
   {
-    heading: `Actions`,
+    heading: Headings.ACTIONS,
     colWidth: "9%",
     enabled: true,
   },

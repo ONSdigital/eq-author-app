@@ -5,6 +5,8 @@ import { render, fireEvent } from "tests/utils/rtl";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
+import tableHeadings from "../../App/QuestionnairesPage/QuestionnairesView/QuestionnairesTable/TableHeadings";
+
 import { colors } from "constants/theme";
 import { UNPUBLISHED } from "constants/publishStatus";
 
@@ -21,61 +23,6 @@ import { useMutation } from "@apollo/react-hooks";
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [() => null]),
 }));
-
-const tableHeadings = [
-  {
-    heading: `Title`,
-    colWidth: "20%",
-    sortColumn: "title",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Owner`,
-    colWidth: "15%",
-    sortColumn: "createdBy.displayName",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Created`,
-    colWidth: "10%",
-    sortColumn: "createdAt",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Modified`,
-    colWidth: "9%",
-    sortColumn: "updatedAt",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Permissions`,
-    colWidth: "10%",
-    enabled: true,
-  },
-  {
-    heading: `Locked`,
-    colWidth: "8%",
-    sortColumn: "locked",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Starred`,
-    colWidth: "8%",
-    sortColumn: "starred",
-    sortable: true,
-    enabled: true,
-  },
-  {
-    heading: `Actions`,
-    colWidth: "9%",
-    enabled: true,
-  },
-];
 
 describe("Row", () => {
   let props;
