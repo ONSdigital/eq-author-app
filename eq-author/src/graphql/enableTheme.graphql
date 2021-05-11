@@ -1,3 +1,5 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
 mutation EnableTheme($input: EnableThemeInput!) {
   enableTheme(input: $input) {
     id
@@ -6,5 +8,13 @@ mutation EnableTheme($input: EnableThemeInput!) {
     eqId
     legalBasisCode
     formType
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    themeSettings {
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

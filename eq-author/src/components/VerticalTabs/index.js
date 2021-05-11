@@ -69,7 +69,7 @@ const listItems = (tabItems) =>
       aria-disabled={disabled}
     >
       {title}
-      {errorCount && (
+      {errorCount > 0 && (
         <Badge variant="logic" data-test="badge-withCount">
           {errorCount}
         </Badge>

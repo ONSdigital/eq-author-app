@@ -1,5 +1,4 @@
 #import "./fragments/questionnaire.graphql"
-#import "./fragments/validationErrorInfo.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -26,12 +25,6 @@ query GetQuestionnaire($input: QueryInput!) {
         questionnaireInfo {
           totalSectionCount
         }
-      }
-    }
-    themes {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
       }
     }
   }

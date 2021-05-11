@@ -131,24 +131,28 @@ describe("schema validation", () => {
 
   describe("Themes validation", () => {
     it("should return an error if all themes are disabled", () => {
-      questionnaire.themes = [
-        {
-          id: "theme-1",
-          enabled: false,
-          shortName: "covid",
-          legalBasisCode: "NOTICE_1",
-          eqId: "dave",
-          formType: "777",
-        },
-        {
-          id: "theme-2",
-          enabled: false,
-          shortName: "default",
-          legalBasisCode: "NOTICE_1",
-          eqId: "ivan",
-          formType: "888",
-        },
-      ];
+      questionnaire.themeSettings = {
+        id: "ts-1",
+        previewTheme: "default",
+        themes: [
+          {
+            id: "theme-1",
+            enabled: false,
+            shortName: "covid",
+            legalBasisCode: "NOTICE_1",
+            eqId: "dave",
+            formType: "777",
+          },
+          {
+            id: "theme-2",
+            enabled: false,
+            shortName: "default",
+            legalBasisCode: "NOTICE_1",
+            eqId: "ivan",
+            formType: "888",
+          },
+        ],
+      };
 
       const errors = validation(questionnaire);
 

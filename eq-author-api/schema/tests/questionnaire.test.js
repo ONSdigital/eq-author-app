@@ -117,16 +117,18 @@ describe("questionnaire", () => {
         type: BUSINESS,
       });
       expect(questionnaire).toMatchObject({
-        previewTheme: "default",
-        themes: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(String),
-            shortName: "default",
-            legalBasisCode: "NOTICE_1",
-            eqId: "",
-            formType: "",
-          }),
-        ]),
+        themeSettings: {
+          previewTheme: "default",
+          themes: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              shortName: "default",
+              legalBasisCode: "NOTICE_1",
+              eqId: "",
+              formType: "",
+            }),
+          ]),
+        },
       });
     });
 
@@ -136,16 +138,18 @@ describe("questionnaire", () => {
         type: SOCIAL,
       });
       expect(questionnaire).toMatchObject({
-        previewTheme: "social",
-        themes: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(String),
-            shortName: "social",
-            legalBasisCode: "NOTICE_1",
-            eqId: "",
-            formType: "",
-          }),
-        ]),
+        themeSettings: {
+          previewTheme: "social",
+          themes: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              shortName: "social",
+              legalBasisCode: "NOTICE_1",
+              eqId: "",
+              formType: "",
+            }),
+          ]),
+        },
       });
     });
   });
@@ -299,7 +303,9 @@ describe("questionnaire", () => {
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.previewTheme).toBe(newThemeName);
+        expect(updatedQuestionnaire.themeSettings.previewTheme).toBe(
+          newThemeName
+        );
       });
 
       it("should allow setting surveyId", async () => {
@@ -316,7 +322,7 @@ describe("questionnaire", () => {
       });
 
       it("should be able to enable a new theme", async () => {
-        expect(questionnaire.themes).toHaveLength(1);
+        expect(questionnaire.themeSettings.themes).toHaveLength(1);
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
@@ -325,8 +331,10 @@ describe("questionnaire", () => {
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themes).toHaveLength(2);
-        expect(updatedQuestionnaire.themes[1].shortName).toEqual("census");
+        expect(updatedQuestionnaire.themeSettings.themes).toHaveLength(2);
+        expect(updatedQuestionnaire.themeSettings.themes[1].shortName).toEqual(
+          "census"
+        );
       });
 
       it("should be able to enable an existing theme", async () => {
@@ -338,7 +346,9 @@ describe("questionnaire", () => {
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themes[0].enabled).toEqual(true);
+        expect(updatedQuestionnaire.themeSettings.themes[0].enabled).toEqual(
+          true
+        );
       });
 
       it("should be able to disable an existing theme", async () => {
@@ -350,7 +360,9 @@ describe("questionnaire", () => {
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themes[0].enabled).toEqual(false);
+        expect(updatedQuestionnaire.themeSettings.themes[0].enabled).toEqual(
+          false
+        );
       });
 
       it("should not be able to disable a non-existent theme", () => {
@@ -376,7 +388,9 @@ describe("questionnaire", () => {
           ctx
         );
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themes[0].eqId).toEqual(newEqId);
+        expect(updatedQuestionnaire.themeSettings.themes[0].eqId).toEqual(
+          newEqId
+        );
       });
 
       it("should not be able to update a non-existing theme", () => {

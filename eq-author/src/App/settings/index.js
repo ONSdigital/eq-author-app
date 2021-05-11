@@ -4,8 +4,8 @@ import { Query } from "react-apollo";
 import GeneralSettingsPage from "./GeneralSettingsPage";
 import ThemesPage from "./ThemesPage";
 import Error from "components/Error";
-
 import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
+import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
 import { buildSettingsPath } from "utils/UrlUtils";
 import { SOCIAL } from "constants/questionnaire-types";
 
@@ -46,7 +46,7 @@ export default [
     path="/q/:questionnaireId/settings/themes"
     render={(props) => (
       <Query
-        query={getQuestionnaireQuery}
+        query={GET_THEME_SETTINGS_QUERY}
         variables={{
           input: { questionnaireId: props.match.params.questionnaireId },
         }}

@@ -8,8 +8,8 @@
         "$ref": "section.json"
       }
     },
-    "themes": {
-      "$ref": "themes.json"
+    "themeSettings": {
+      "$ref": "themeSettings.json"
     }
   }
 }

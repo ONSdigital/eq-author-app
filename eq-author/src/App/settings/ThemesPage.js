@@ -6,7 +6,6 @@ import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateTheme from "graphql/updateTheme.graphql";
-import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -115,10 +114,12 @@ const matchThemes = (themes, questionnaireThemes) =>
   });
 
 const ThemesPage = ({ questionnaire }) => {
-  const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
+  const { type, surveyId, id, themeSettings } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
+
+  const { themes: questionnaireThemes } = themeSettings;
 
   const handleBlur = ({ value }) => {
     value = value.trim();
@@ -130,39 +131,12 @@ const ThemesPage = ({ questionnaire }) => {
   const [enableTheme] = useMutation(enableThemeMutation);
   const [disableTheme] = useMutation(disableThemeMutation);
 
-  const themeErrorCount = questionnaireThemes.reduce(
-    (acc, { validationErrorInfo }) => acc + validationErrorInfo.totalCount,
-    0
-  );
+  const themeErrorCount = themeSettings.validationErrorInfo?.totalCount ?? 0;
 
   const toggleTheme = ({ shortName, enabled }) => {
-    const handleToggle = enabled ? disableTheme : enableTheme;
-
-    handleToggle({
+    const mutation = enabled ? disableTheme : enableTheme;
+    mutation({
       variables: { input: { questionnaireId: id, shortName } },
-      ...(!enabled && {
-        update: (client, { data: { enableTheme } }) => {
-          const { questionnaire } = client.readQuery({
-            query: getQuestionnaireQuery,
-            variables: {
-              input: { questionnaireId: id },
-            },
-          });
-          // check here if the theme is in the array
-          client.writeQuery({
-            query: getQuestionnaireQuery,
-            variables: {
-              input: { questionnaireId: id },
-            },
-            data: {
-              questionnaire: {
-                ...questionnaire,
-                themes: [...questionnaire.themes, enableTheme],
-              },
-            },
-          });
-        },
-      }),
     });
   };
 

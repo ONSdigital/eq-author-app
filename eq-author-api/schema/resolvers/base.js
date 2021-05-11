@@ -137,8 +137,11 @@ const createNewQuestionnaire = (input) => {
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
-    previewTheme: defaultTheme.shortName,
-    themes: [defaultTheme],
+    themeSettings: {
+      id: uuidv4(),
+      previewTheme: defaultTheme.shortName,
+      themes: [defaultTheme],
+    },
     locked: false,
   };
 
@@ -356,16 +359,15 @@ const Resolvers = {
     }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {
-        ctx.questionnaire.previewTheme = previewTheme;
-        return ctx.questionnaire;
+        ctx.questionnaire.themeSettings.previewTheme = previewTheme;
+        return ctx.questionnaire.themeSettings;
       }
     ),
     enableTheme: createMutation((root, { input: { shortName } }, ctx) => {
       let theme = getThemeByShortName(ctx, shortName);
       if (!theme) {
         theme = createTheme({ shortName });
-
-        ctx.questionnaire.themes.push(theme);
+        ctx.questionnaire.themeSettings.themes.push(theme);
       }
       theme.enabled = true;
       return theme;
@@ -1416,9 +1418,35 @@ const Resolvers = {
       ),
   },
 
+  ThemeSettings: {
+    validationErrorInfo: ({ id }, _args, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) =>
+        ["theme", "themeSettings"].includes(type)
+      ),
+    themes: (_root, _args, ctx) => {
+      const possibleThemes = [
+        { title: "GB theme", shortName: "default" },
+        { title: "NI theme", shortName: "northernireland" },
+        { title: "COVID theme", shortName: "covid" },
+        { title: "EPE theme", shortName: "epe" },
+        { title: "EPE NI theme", shortName: "epeni" },
+        { title: "UKIS theme", shortName: "ukis" },
+        { title: "UKIS NI theme", shortName: "ukisni" },
+      ];
+
+      return possibleThemes.map((theme) => ({
+        ...theme,
+        id: theme.shortName,
+        enabled: false,
+        ...(getThemeByShortName(ctx, theme.shortName) ?? {}),
+      }));
+    },
+  },
+
   Theme: {
     validationErrorInfo: ({ id }, _args, ctx) =>
       returnValidationErrors(ctx, id, ({ themeId }) => themeId === id),
+    themeSettings: (_root, _args, ctx) => ctx.questionnaire.themeSettings,
   },
 
   Date: GraphQLDate,

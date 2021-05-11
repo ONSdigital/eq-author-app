@@ -57,10 +57,14 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     const nextVal = dataPath[index + 1];
 
     switch (val) {
+      case "themeSettings":
+        validationErr.type = "themeSettings";
+        break;
+
       case "themes":
         theme = questionnaire.themes[nextVal ? nextVal : field];
-        validationErr.themeId = theme?.id;
         validationErr.type = "theme";
+        validationErr.themeId = theme?.id;
         break;
 
       case "sections":
