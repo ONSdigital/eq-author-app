@@ -375,7 +375,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
 
-    const formTypeInput = screen.getByTestId("default-eq-id-input");
+    const formTypeInput = screen.getByTestId("default-form-type-input");
 
     fireEvent.change(formTypeInput, {
       target: { value: "123" },
@@ -400,7 +400,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
 
-    const formTypeInput = screen.getByTestId("default-eq-id-input");
+    const formTypeInput = screen.getByTestId("default-form-type-input");
 
     fireEvent.change(formTypeInput, {
       target: { value: " " },
