@@ -24,7 +24,7 @@ exports[`AnswerSelector should render when there are available summary answers 1
         <ErrorInline />
       </AnswerSelector__ErrorContainer>
     </AnswerSelector__Empty>
-    <CalSumContentPicker
+    <QuestionPicker
       data={
         Array [
           Object {
@@ -109,7 +109,9 @@ exports[`AnswerSelector should render when there are available summary answers 1
       isOpen={false}
       onClose={[Function]}
       onSubmit={[Function]}
+      showTypes={true}
       startingSelectedAnswers={Array []}
+      title="Select one or more answer"
     />
   </AnswerSelector__Answers>
 </AnswerSelector__Box>
@@ -139,12 +141,14 @@ exports[`AnswerSelector should render when there are no available summary answer
         <ErrorInline />
       </AnswerSelector__ErrorContainer>
     </AnswerSelector__Empty>
-    <CalSumContentPicker
+    <QuestionPicker
       data={Array []}
       isOpen={false}
       onClose={[Function]}
       onSubmit={[Function]}
+      showTypes={true}
       startingSelectedAnswers={Array []}
+      title="Select one or more answer"
     />
   </AnswerSelector__Answers>
 </AnswerSelector__Box>
