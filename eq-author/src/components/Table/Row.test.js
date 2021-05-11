@@ -14,13 +14,68 @@ import {
   ShortTitle,
   DuplicateQuestionnaireButton,
   QuestionnaireLink,
-} from "./";
+} from "./Row";
 
 import { useMutation } from "@apollo/react-hooks";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [() => null]),
 }));
+
+const tableHeadings = [
+  {
+    heading: `Title`,
+    colWidth: "20%",
+    sortColumn: "title",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Owner`,
+    colWidth: "15%",
+    sortColumn: "createdBy.displayName",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Created`,
+    colWidth: "10%",
+    sortColumn: "createdAt",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Modified`,
+    colWidth: "9%",
+    sortColumn: "updatedAt",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Permissions`,
+    colWidth: "10%",
+    enabled: true,
+  },
+  {
+    heading: `Locked`,
+    colWidth: "8%",
+    sortColumn: "locked",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Starred`,
+    colWidth: "8%",
+    sortColumn: "starred",
+    sortable: true,
+    enabled: true,
+  },
+  {
+    heading: `Actions`,
+    colWidth: "9%",
+    enabled: true,
+  },
+];
 
 describe("Row", () => {
   let props;
@@ -29,7 +84,7 @@ describe("Row", () => {
     render(
       <table>
         <tbody>
-          <Row {...props} />
+          <Row tableHeadings={tableHeadings} {...props} />
         </tbody>
       </table>
     );
@@ -80,7 +135,7 @@ describe("Row", () => {
   });
 
   it("should handle button focus state change correctly", () => {
-    const wrapper = shallow(<Row {...props} />);
+    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
 
     const tableRow = wrapper.find(TR);
     const actionButton = wrapper.find("[data-test='action-btn-group']");
@@ -95,7 +150,7 @@ describe("Row", () => {
   });
 
   it("should navigate to the questionnaire when the row is clicked", () => {
-    const wrapper = shallow(<Row {...props} />);
+    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
 
     const tableRow = wrapper.find(TR);
     tableRow.simulate("click");
@@ -103,7 +158,7 @@ describe("Row", () => {
   });
 
   it("should only navigate to the questionnaire once when clicking the link", () => {
-    const wrapper = shallow(<Row {...props} />);
+    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
     const tableLink = wrapper.find(QuestionnaireLink);
     const stopPropagation = jest.fn();
     tableLink.simulate("click", { stopPropagation });
@@ -111,7 +166,7 @@ describe("Row", () => {
   });
 
   it("should allow duplication of a Questionnaire", () => {
-    let wrapper = shallow(<Row {...props} />);
+    let wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
     const stopPropagation = jest.fn();
     wrapper
       .find(DuplicateQuestionnaireButton)
@@ -124,12 +179,12 @@ describe("Row", () => {
   });
 
   it("should show the short title when it is provided", () => {
-    let wrapper = shallow(<Row {...props} />);
+    let wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
 
     const shortTitle = wrapper.find(ShortTitle);
     expect(shortTitle).toMatchSnapshot();
     props.questionnaire.shortTitle = "";
-    wrapper = shallow(<Row {...props} />);
+    wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
     expect(wrapper.find(ShortTitle)).toHaveLength(0);
   });
 
@@ -137,7 +192,7 @@ describe("Row", () => {
     it("should call mutation to toggle star status when star button pressed", () => {
       const mockMutation = jest.fn();
       useMutation.mockImplementation(() => [mockMutation]);
-      const wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
       wrapper
         .find("[data-test='starButton']")
         .simulate("click", { stopPropagation: jest.fn() });
@@ -147,7 +202,7 @@ describe("Row", () => {
 
   describe("locking questionnaires", () => {
     it("should pass questionnaire info to parent when lock button pressed", () => {
-      const wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
       wrapper
         .find("[data-test='lockButton']")
         .simulate("click", { stopPropagation: jest.fn() });
@@ -162,7 +217,7 @@ describe("Row", () => {
 
   describe("deletion", () => {
     it("should show the confirm delete dialog when the delete button is clicked", () => {
-      const wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
 
@@ -173,7 +228,7 @@ describe("Row", () => {
     });
 
     it("should call onDelete when the dialog is confirmed", () => {
-      const wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
       wrapper.find(DeleteConfirmDialog).simulate("delete");
@@ -186,7 +241,7 @@ describe("Row", () => {
     });
 
     it("should hide the dialog and not call delete when the dialog is closed", () => {
-      const wrapper = shallow(<Row {...props} />);
+      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
       wrapper.find(DeleteConfirmDialog).simulate("close");
