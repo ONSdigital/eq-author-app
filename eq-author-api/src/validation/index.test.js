@@ -17,6 +17,7 @@ const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
 const { AND } = require("../../constants/routingOperators");
 
 const {
+  ERR_NO_THEME_ENABLED,
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
@@ -151,7 +152,7 @@ describe("schema validation", () => {
 
       const errors = validation(questionnaire);
 
-      expect(errors[0].errorCode).toBe("ERR_NO_THEME_ENABLED");
+      expect(errors[0].errorCode).toBe(ERR_NO_THEME_ENABLED);
     });
   });
 
