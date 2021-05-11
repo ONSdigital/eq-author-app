@@ -1416,6 +1416,11 @@ const Resolvers = {
       ),
   },
 
+  Theme: {
+    validationErrorInfo: ({ id }, _args, ctx) =>
+      returnValidationErrors(ctx, id, ({ themeId }) => themeId === id),
+  },
+
   Date: GraphQLDate,
   DateTime: GraphQLDateTime,
 

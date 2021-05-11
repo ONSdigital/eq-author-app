@@ -92,6 +92,7 @@ type Theme {
   legalBasisCode: LegalBasisCode
   eqId: ID
   formType: String
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum LegalBasisCode {

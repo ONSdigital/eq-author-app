@@ -49,6 +49,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     expressionGroup,
     expression,
     validation,
+    theme,
     propertyJSON;
 
   for (let index = 0; index < dataPath.length; index++) {
@@ -56,6 +57,12 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     const nextVal = dataPath[index + 1];
 
     switch (val) {
+      case "themes":
+        theme = questionnaire.themes[nextVal ? nextVal : field];
+        validationErr.themeId = theme?.id;
+        validationErr.type = "theme";
+        break;
+
       case "sections":
         ({ sections } = questionnaire);
         section = sections[nextVal];

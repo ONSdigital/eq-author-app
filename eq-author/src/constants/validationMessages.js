@@ -171,6 +171,14 @@ export const destinationErrors = {
 
 export const MISSING_LABEL = "Enter a label";
 
+export const themeErrors = {
+  ERR_NO_THEME_ENABLED: {
+    errorCode: "ERR_NO_THEME_ENABLED",
+    message:
+      "You must turn on at least one theme to preview the questionnaire.",
+  },
+};
+
 export const ADDITIONAL_LABEL_MISSING = "Enter a label";
 export const buildLabelError = (mainString, insString, pos, pos2) => {
   if (
