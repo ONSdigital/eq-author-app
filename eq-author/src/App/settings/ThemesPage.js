@@ -49,12 +49,23 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
-const StyledInput = styled(Input)`
-  width: 31em;
+const StyledIdContainerOuter = styled.div`
+  overflow: hidden;
 `;
 
-const SecondStyledInput = styled(Input)`
-  width: 31em;
+const StyledEqIdContainer = styled.div`
+  float: left;
+  overflow: hidden;
+`;
+
+const StyledFormTypeContainer = styled.div`
+  margin-left: 1em;
+  float: left;
+  overflow: hidden;
+`;
+
+const StyledInput = styled(Input)`
+  width: 11em;
 `;
 
 const Caption = styled.p`
@@ -108,7 +119,7 @@ const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
   };
 
   return (
-    <SecondStyledInput
+    <StyledInput
       value={state}
       onChange={({ value }) => setState(value)}
       onBlur={(e) => handleFormTypeBlur({ ...e.target }, shortName)}
@@ -252,23 +263,28 @@ const ThemesPage = ({ questionnaire }) => {
                           data-test={`${shortName}-toggle`}
                         >
                           <p />
-                          <Field>
-                            <Label>eQ ID</Label>
-                          </Field>
-                          <EqIdInput
-                            eqId={eqId}
-                            questionnaireId={id}
-                            shortName={shortName}
-                          />
-
-                          <Field>
-                            <Label>Form type</Label>
-                          </Field>
-                          <FormTypeInput
-                            formType={formType}
-                            questionnaireId={id}
-                            shortName={shortName}
-                          />
+                          <StyledIdContainerOuter>
+                            <StyledEqIdContainer>
+                              <Field>
+                                <Label>eQ ID</Label>
+                              </Field>
+                              <EqIdInput
+                                eqId={eqId}
+                                questionnaireId={id}
+                                shortName={shortName}
+                              />
+                            </StyledEqIdContainer>
+                            <StyledFormTypeContainer>
+                              <Field>
+                                <Label>Form type</Label>
+                              </Field>
+                              <FormTypeInput
+                                formType={formType}
+                                questionnaireId={id}
+                                shortName={shortName}
+                              />
+                            </StyledFormTypeContainer>
+                          </StyledIdContainerOuter>
                         </CollapsibleToggled>
                       )
                     )}
