@@ -22,6 +22,7 @@ exports[`Option should match snapshot 1`] = `
           bold={true}
           data-autofocus={true}
           data-test="option-label"
+          errorValidationMsg=""
           id="option-label-1"
           name="label"
           onBlur={[MockFunction]}
@@ -49,6 +50,23 @@ exports[`Option should match snapshot 1`] = `
         value=""
       />
     </Option__OptionField>
+    <Option__LastOptionField>
+      <Label
+        bold={true}
+        htmlFor="option-otherLabel-additional1"
+      >
+        Other Label
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="other-answer"
+        id="option-otherLabel-additional1"
+        name="otherLabel"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__LastOptionField>
     <Option__ButtonsContainer>
       <Tooltip
         content="Move answer up"
@@ -186,7 +204,7 @@ exports[`Option should render a checkbox 1`] = `
   position: relative;
 }
 
-.c12 {
+.c13 {
   color: #3B7A9E;
   border: none;
   background: transparent;
@@ -199,31 +217,31 @@ exports[`Option should render a checkbox 1`] = `
   font-size: 2em;
 }
 
-.c12:hover {
+.c13:hover {
   color: #333333;
 }
 
-.c12:focus {
+.c13:focus {
   outline: 3px solid #FDBD56;
 }
 
-.c12[disabled] {
+.c13[disabled] {
   opacity: 0.3;
   pointer-events: none;
 }
 
-.c13 {
+.c14 {
   pointer-events: none;
   display: block;
   width: 1em;
   height: 1em;
 }
 
-.c13 path {
+.c14 path {
   fill: currentColor;
 }
 
-.c11 {
+.c12 {
   background-color: black !important;
   opacity: 1 !important;
   font-size: 0.8rem !important;
@@ -233,7 +251,7 @@ exports[`Option should render a checkbox 1`] = `
   white-space: pre;
 }
 
-.c10 {
+.c11 {
   display: block;
   color: #3B7A9E;
   border: none;
@@ -247,27 +265,27 @@ exports[`Option should render a checkbox 1`] = `
   background: transparent;
 }
 
-.c10 svg {
+.c11 svg {
   pointer-events: none;
 }
 
-.c10 path {
+.c11 path {
   fill: currentColor;
 }
 
-.c10:hover {
+.c11:hover {
   color: #333333;
 }
 
-.c10:focus {
+.c11:focus {
   outline: 3px solid #FDBD56;
 }
 
-.c10[aria-disabled="true"] {
+.c11[aria-disabled="true"] {
   pointer-events: none;
 }
 
-.c10[aria-disabled="true"] svg {
+.c11[aria-disabled="true"] svg {
   opacity: 0.3;
 }
 
@@ -284,7 +302,7 @@ exports[`Option should render a checkbox 1`] = `
   flex: 0 0 auto;
 }
 
-.c9 {
+.c10 {
   position: absolute;
   right: 0;
   top: 0;
@@ -314,6 +332,11 @@ exports[`Option should render a checkbox 1`] = `
   margin-bottom: 1.5em;
 }
 
+.c9 {
+  margin-bottom: 1.5em;
+  margin-bottom: 2.5em;
+}
+
 .c0 {
   border: 1px solid #d6d8da;
   padding: 1em 1em 0;
@@ -323,10 +346,8 @@ exports[`Option should render a checkbox 1`] = `
 }
 
 <StatelessOption
-  autoFocus={true}
-  getValidationError={[Function]}
   hasDeleteButton={true}
-  labelPlaceholder=""
+  onBlur={[MockFunction]}
   onChange={[MockFunction]}
   onDelete={[MockFunction]}
   onEnterKey={[MockFunction]}
@@ -335,16 +356,14 @@ exports[`Option should render a checkbox 1`] = `
   option={
     Object {
       "__typename": "Option",
+      "additionalAnswer": Object {
+        "id": "additional1",
+        "label": "",
+        "type": "TextField",
+      },
       "description": "",
       "id": "1",
       "label": "",
-    }
-  }
-  store={
-    Object {
-      "dispatch": [MockFunction],
-      "getState": [MockFunction],
-      "subscribe": [MockFunction],
     }
   }
   type="Checkbox"
@@ -364,13 +383,15 @@ exports[`Option should render a checkbox 1`] = `
           },
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "Option__StyledOption-sc-1n4ne5g-3",
+            "componentId": "Option__StyledOption-sc-1n4ne5g-4",
             "isStatic": false,
             "lastClassName": "c0",
             "rules": Array [
               "border:1px solid ",
               "#d6d8da",
-              ";padding:1em 1em 0;border-radius:",
+              ";padding:1em 1em 0;padding-bottom:",
+              [Function],
+              ";border-radius:",
               "4px",
               ";position:relative;margin-bottom:1em;",
             ],
@@ -381,7 +402,7 @@ exports[`Option should render a checkbox 1`] = `
             "duration": [Function],
           },
           "render": [Function],
-          "styledComponentId": "Option__StyledOption-sc-1n4ne5g-3",
+          "styledComponentId": "Option__StyledOption-sc-1n4ne5g-4",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -594,6 +615,7 @@ exports[`Option should render a checkbox 1`] = `
                               bold={true}
                               data-autofocus={true}
                               data-test="option-label"
+                              errorValidationMsg=""
                               id="option-label-1"
                               name="label"
                               onBlur={[MockFunction]}
@@ -606,6 +628,7 @@ exports[`Option should render a checkbox 1`] = `
                                 bold={true}
                                 data-autofocus={true}
                                 data-test="option-label"
+                                errorValidationMsg=""
                                 id="option-label-1"
                                 name="label"
                                 onBlur={[MockFunction]}
@@ -659,6 +682,7 @@ exports[`Option should render a checkbox 1`] = `
                                         data-autofocus={true}
                                         data-test="option-label"
                                         id="option-label-1"
+                                        invalid=""
                                         name="label"
                                         onBlur={[MockFunction]}
                                         onChange={[Function]}
@@ -718,6 +742,7 @@ exports[`Option should render a checkbox 1`] = `
                                           }
                                           forwardedRef={null}
                                           id="option-label-1"
+                                          invalid=""
                                           name="label"
                                           onBlur={[MockFunction]}
                                           onChange={[Function]}
@@ -731,6 +756,7 @@ exports[`Option should render a checkbox 1`] = `
                                             data-autofocus={true}
                                             data-test="option-label"
                                             id="option-label-1"
+                                            invalid=""
                                             name="label"
                                             onBlur={[MockFunction]}
                                             onChange={[Function]}
@@ -744,6 +770,7 @@ exports[`Option should render a checkbox 1`] = `
                                               data-autofocus={true}
                                               data-test="option-label"
                                               id="option-label-1"
+                                              invalid=""
                                               name="label"
                                               onBlur={[MockFunction]}
                                               onChange={[Function]}
@@ -1053,6 +1080,294 @@ exports[`Option should render a checkbox 1`] = `
               </Field>
             </StyledComponent>
           </Option__OptionField>
+          <Option__LastOptionField>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "Option__LastOptionField-sc-1n4ne5g-3",
+                    "isStatic": false,
+                    "lastClassName": "c9",
+                    "rules": Array [
+                      "margin-bottom:1.5em;",
+                      "margin-bottom:2.5em;",
+                    ],
+                  },
+                  "displayName": "Option__LastOptionField",
+                  "foldedComponentIds": Array [
+                    "Option__OptionField-sc-1n4ne5g-2",
+                  ],
+                  "render": [Function],
+                  "styledComponentId": "Option__LastOptionField-sc-1n4ne5g-3",
+                  "target": [Function],
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <Field
+                className="c9"
+                disabled={false}
+                last={false}
+              >
+                <Field__StyledField
+                  className="c9"
+                  disabled={false}
+                  last={false}
+                >
+                  <StyledComponent
+                    className="c9"
+                    disabled={false}
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "Field__StyledField-sc-5cw3uj-0",
+                          "isStatic": false,
+                          "lastClassName": "c4",
+                          "rules": Array [
+                            "display:block;width:100%;margin-bottom:",
+                            [Function],
+                            "em;position:relative;",
+                            [Function],
+                          ],
+                        },
+                        "displayName": "Field__StyledField",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "Field__StyledField-sc-5cw3uj-0",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                    last={false}
+                  >
+                    <div
+                      className="c4 c9"
+                      disabled={false}
+                    >
+                      <Label
+                        bold={true}
+                        htmlFor="option-otherLabel-additional1"
+                      >
+                        <Label__StyledLabel
+                          bold={true}
+                          htmlFor="option-otherLabel-additional1"
+                        >
+                          <StyledComponent
+                            bold={true}
+                            forwardedComponent={
+                              Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                  "isStatic": false,
+                                  "lastClassName": "c5",
+                                  "rules": Array [
+                                    "display:",
+                                    [Function],
+                                    ";margin-bottom:",
+                                    [Function],
+                                    ";font-weight:",
+                                    [Function],
+                                    ";vertical-align:middle;color:",
+                                    "#333333",
+                                    ";line-height:1.3;",
+                                  ],
+                                },
+                                "displayName": "Label__StyledLabel",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "Label__StyledLabel-sc-1i7x3oq-0",
+                                "target": "label",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              }
+                            }
+                            forwardedRef={null}
+                            htmlFor="option-otherLabel-additional1"
+                          >
+                            <label
+                              className="c5"
+                              htmlFor="option-otherLabel-additional1"
+                            >
+                              Other Label
+                            </label>
+                          </StyledComponent>
+                        </Label__StyledLabel>
+                      </Label>
+                      <withChangeHandler(WrappingInput)
+                        data-test="other-answer"
+                        id="option-otherLabel-additional1"
+                        name="otherLabel"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        value=""
+                      >
+                        <WrappingInput
+                          bold={false}
+                          data-test="other-answer"
+                          id="option-otherLabel-additional1"
+                          name="otherLabel"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          value=""
+                        >
+                          <WrappingInput__StyleContext
+                            bold={false}
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                          >
+                            <StyledComponent
+                              bold={false}
+                              forwardedComponent={
+                                Object {
+                                  "$$typeof": Symbol(react.forward_ref),
+                                  "attrs": Array [],
+                                  "componentStyle": ComponentStyle {
+                                    "componentId": "WrappingInput__StyleContext-mcpw45-0",
+                                    "isStatic": false,
+                                    "lastClassName": "c8",
+                                    "rules": Array [
+                                      "font-weight:",
+                                      [Function],
+                                      ";",
+                                    ],
+                                  },
+                                  "displayName": "WrappingInput__StyleContext",
+                                  "foldedComponentIds": Array [],
+                                  "render": [Function],
+                                  "styledComponentId": "WrappingInput__StyleContext-mcpw45-0",
+                                  "target": "div",
+                                  "toString": [Function],
+                                  "warnTooManyClasses": [Function],
+                                  "withComponent": [Function],
+                                }
+                              }
+                              forwardedRef={null}
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                            >
+                              <div
+                                className="c8"
+                                onChange={[Function]}
+                                onKeyDown={[Function]}
+                              >
+                                <WrappingInput__TextArea
+                                  aria-invalid="false"
+                                  data-test="other-answer"
+                                  id="option-otherLabel-additional1"
+                                  name="otherLabel"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onKeyDown={[Function]}
+                                  value=""
+                                >
+                                  <StyledComponent
+                                    aria-invalid="false"
+                                    data-test="other-answer"
+                                    forwardedComponent={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "WrappingInput__TextArea-mcpw45-1",
+                                          "isStatic": false,
+                                          "lastClassName": "c7",
+                                          "rules": Array [
+                                            "font-size:1em;border:thin solid ",
+                                            "#999999",
+                                            ";padding:0.5em;color:",
+                                            "#333333",
+                                            ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";}&:focus,&:focus-within{",
+                                            "border-color:",
+                                            "#3B7A9E",
+                                            ";outline-color:",
+                                            "#3B7A9E",
+                                            ";box-shadow:0 0 0 3px ",
+                                            "#FDBD56",
+                                            ";",
+                                            ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
+                                            "#3B7A9E",
+                                            ";}&[disabled]{opacity:0.8;pointer-events:none;}",
+                                            [Function],
+                                            ";",
+                                            ";font-weight:inherit;resize:none;overflow:hidden;",
+                                          ],
+                                        },
+                                        "displayName": "WrappingInput__TextArea",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "WrappingInput__TextArea-mcpw45-1",
+                                        "target": Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "render": [Function],
+                                        },
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      }
+                                    }
+                                    forwardedRef={null}
+                                    id="option-otherLabel-additional1"
+                                    name="otherLabel"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onKeyDown={[Function]}
+                                    value=""
+                                  >
+                                    <ForwardRef(TextareaAutosize)
+                                      aria-invalid="false"
+                                      className="c7"
+                                      data-test="other-answer"
+                                      id="option-otherLabel-additional1"
+                                      name="otherLabel"
+                                      onBlur={[Function]}
+                                      onChange={[Function]}
+                                      onKeyDown={[Function]}
+                                      value=""
+                                    >
+                                      <textarea
+                                        aria-invalid="false"
+                                        className="c7"
+                                        data-test="other-answer"
+                                        id="option-otherLabel-additional1"
+                                        name="otherLabel"
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onKeyDown={[Function]}
+                                        value=""
+                                      />
+                                    </ForwardRef(TextareaAutosize)>
+                                  </StyledComponent>
+                                </WrappingInput__TextArea>
+                              </div>
+                            </StyledComponent>
+                          </WrappingInput__StyleContext>
+                        </WrappingInput>
+                      </withChangeHandler(WrappingInput)>
+                    </div>
+                  </StyledComponent>
+                </Field__StyledField>
+              </Field>
+            </StyledComponent>
+          </Option__LastOptionField>
           <Option__ButtonsContainer>
             <StyledComponent
               forwardedComponent={
@@ -1062,7 +1377,7 @@ exports[`Option should render a checkbox 1`] = `
                   "componentStyle": ComponentStyle {
                     "componentId": "Option__ButtonsContainer-sc-1n4ne5g-0",
                     "isStatic": false,
-                    "lastClassName": "c9",
+                    "lastClassName": "c10",
                     "rules": Array [
                       "position:absolute;right:0;top:0;display:flex;z-index:2;justify-content:flex-end;",
                     ],
@@ -1080,7 +1395,7 @@ exports[`Option should render a checkbox 1`] = `
               forwardedRef={null}
             >
               <div
-                className="c9"
+                className="c10"
               >
                 <Tooltip
                   content="Move answer up"
@@ -1116,7 +1431,7 @@ exports[`Option should render a checkbox 1`] = `
                             "componentStyle": ComponentStyle {
                               "componentId": "MoveButton__Button-p2kifp-0",
                               "isStatic": false,
-                              "lastClassName": "c10",
+                              "lastClassName": "c11",
                               "rules": Array [
                                 "display:block;color:",
                                 "#3B7A9E",
@@ -1141,7 +1456,7 @@ exports[`Option should render a checkbox 1`] = `
                       >
                         <button
                           aria-disabled={true}
-                          className="c10"
+                          className="c11"
                           data-for="tooltip-1"
                           data-test="btn-move-answer-up"
                           data-tip={true}
@@ -1179,7 +1494,7 @@ exports[`Option should render a checkbox 1`] = `
                           "componentStyle": ComponentStyle {
                             "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
                             "isStatic": false,
-                            "lastClassName": "c11",
+                            "lastClassName": "c12",
                             "rules": Array [
                               "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
                               "4px",
@@ -1214,7 +1529,7 @@ exports[`Option should render a checkbox 1`] = `
                       place="top"
                     >
                       <ReactTooltip
-                        className="c11"
+                        className="c12"
                         clickable={false}
                         delayShow={200}
                         effect="solid"
@@ -1277,7 +1592,7 @@ exports[`Option should render a checkbox 1`] = `
                             "componentStyle": ComponentStyle {
                               "componentId": "MoveButton__Button-p2kifp-0",
                               "isStatic": false,
-                              "lastClassName": "c10",
+                              "lastClassName": "c11",
                               "rules": Array [
                                 "display:block;color:",
                                 "#3B7A9E",
@@ -1302,7 +1617,7 @@ exports[`Option should render a checkbox 1`] = `
                       >
                         <button
                           aria-disabled={true}
-                          className="c10"
+                          className="c11"
                           data-for="tooltip-2"
                           data-test="btn-move-answer-down"
                           data-tip={true}
@@ -1340,7 +1655,7 @@ exports[`Option should render a checkbox 1`] = `
                           "componentStyle": ComponentStyle {
                             "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
                             "isStatic": false,
-                            "lastClassName": "c11",
+                            "lastClassName": "c12",
                             "rules": Array [
                               "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
                               "4px",
@@ -1375,7 +1690,7 @@ exports[`Option should render a checkbox 1`] = `
                       place="top"
                     >
                       <ReactTooltip
-                        className="c11"
+                        className="c12"
                         clickable={false}
                         delayShow={200}
                         effect="solid"
@@ -1447,7 +1762,7 @@ exports[`Option should render a checkbox 1`] = `
                             "componentStyle": ComponentStyle {
                               "componentId": "DeleteButton__StyledDeleteButton-barhep-0",
                               "isStatic": false,
-                              "lastClassName": "c12",
+                              "lastClassName": "c13",
                               "rules": Array [
                                 "color:",
                                 "#3B7A9E",
@@ -1478,7 +1793,7 @@ exports[`Option should render a checkbox 1`] = `
                       >
                         <button
                           aria-label="Delete option"
-                          className="c12"
+                          className="c13"
                           data-for="tooltip-3"
                           data-test="btn-delete-option"
                           data-tip={true}
@@ -1497,7 +1812,7 @@ exports[`Option should render a checkbox 1`] = `
                                   "componentStyle": ComponentStyle {
                                     "componentId": "DeleteButton__CloseIcon-barhep-1",
                                     "isStatic": false,
-                                    "lastClassName": "c13",
+                                    "lastClassName": "c14",
                                     "rules": Array [
                                       "pointer-events:none;display:block;width:1em;height:1em;path{fill:currentColor;}",
                                     ],
@@ -1515,7 +1830,7 @@ exports[`Option should render a checkbox 1`] = `
                               forwardedRef={null}
                             >
                               <ReactComponent
-                                className="c13"
+                                className="c14"
                               >
                                 <div />
                               </ReactComponent>
@@ -1550,7 +1865,7 @@ exports[`Option should render a checkbox 1`] = `
                           "componentStyle": ComponentStyle {
                             "componentId": "Tooltip__StyledTooltip-ok2g1r-0",
                             "isStatic": false,
-                            "lastClassName": "c11",
+                            "lastClassName": "c12",
                             "rules": Array [
                               "background-color:black !important;opacity:1 !important;font-size:0.8rem !important;line-height:1 !important;padding:0.4rem 0.6rem !important;border-radius:",
                               "4px",
@@ -1584,7 +1899,7 @@ exports[`Option should render a checkbox 1`] = `
                       place="top"
                     >
                       <ReactTooltip
-                        className="c11"
+                        className="c12"
                         clickable={false}
                         delayShow={200}
                         effect="solid"
@@ -1644,6 +1959,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
           bold={true}
           data-autofocus={true}
           data-test="option-label"
+          errorValidationMsg=""
           id="option-label-1"
           name="label"
           onBlur={[MockFunction]}
@@ -1671,6 +1987,23 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         value=""
       />
     </Option__OptionField>
+    <Option__LastOptionField>
+      <Label
+        bold={true}
+        htmlFor="option-otherLabel-additional1"
+      >
+        Other Label
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="other-answer"
+        id="option-otherLabel-additional1"
+        name="otherLabel"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__LastOptionField>
     <Option__ButtonsContainer>
       <Tooltip
         content="Move answer up"

@@ -111,11 +111,10 @@ TotalValidationEditor.propTypes = {
 
 export default flowRight(
   withUpdateValidationRule,
-  withPropRemapped(
-    "onUpdateValidationRule",
-    "onUpdate",
-    numericReadToWriteMapper("totalInput")
-  ),
+  withPropRemapped("onUpdateValidationRule", "onUpdate", (entity) => [
+    numericReadToWriteMapper("totalInput")(entity),
+    entity,
+  ]),
   withEntityEditor("total"),
   withChangeUpdate
 )(TotalValidationEditor);

@@ -1,24 +1,33 @@
 import React from "react";
-
 import WrappingInput from "components/Forms/WrappingInput";
 import { shallow, mount } from "enzyme";
 import { StatelessOption } from "./Option";
-import DeleteButton from "components/buttons/DeleteButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
-
 import { merge } from "lodash";
-import createMockStore from "tests/utils/createMockStore";
+import { useMutation } from "@apollo/react-hooks";
+import { props } from "lodash/fp";
+import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(),
+}));
+
+useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 describe("Option", () => {
   let mockMutations;
   let mockEvent;
   let wrapper;
-  let store;
 
   const option = {
     id: "1",
     label: "",
     description: "",
+    additionalAnswer: {
+      id: "additional1",
+      label: "",
+      type: "TextField",
+    },
     __typename: "Option",
   };
 
@@ -29,7 +38,6 @@ describe("Option", () => {
         option={option}
         hasDeleteButton
         type={RADIO}
-        store={store}
         {...otherProps}
       />
     );
@@ -38,14 +46,14 @@ describe("Option", () => {
   };
 
   beforeEach(() => {
+
     mockEvent = {
       stopPropagation: jest.fn(),
       preventDefault: jest.fn(),
     };
 
-    store = createMockStore();
-
     mockMutations = {
+      onBlur: jest.fn(),
       onChange: jest.fn(),
       onUpdate: jest.fn(),
       onFocus: jest.fn(),
@@ -70,29 +78,57 @@ describe("Option", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should call onChange on input", () => {
-    wrapper.find("[data-test='option-label']").simulate("change");
-    wrapper.find("[data-test='option-description']").simulate("change");
+  it("should call onChange and onBlur correctly", () => {
+    const { getByTestId } = rtlRender(( otherProps) => <StatelessOption {...mockMutations}
+      option={option}
+      hasDeleteButton
+      type={RADIO}
+      {...otherProps}
+     {...props} />);
 
-    expect(mockMutations.onChange).toHaveBeenCalledTimes(2);
+    fireEvent.change(getByTestId("option-label"), {
+      target: { value: "2" },
+    });
+    fireEvent.blur(getByTestId("option-label"));
+    expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call onChange on input", async() => {
+    render(rtlRender, { type: CHECKBOX });
+    fireEvent.change(screen.getByTestId("other-answer"), {
+      target: { value: "use this text" },
+      });
+
+      expect(
+        screen.getByText(/use this text/)
+      ).toBeInTheDocument();
   });
 
   it("should update label on blur", () => {
-    wrapper.find("[data-test='option-label']").simulate("blur", mockEvent);
-
-    expect(mockMutations.onUpdate).toHaveBeenCalled();
+    render(rtlRender, { type: CHECKBOX });
+    fireEvent.blur(screen.getByTestId("option-label"), {
+      target: { value: "2" },
+    });
+    expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1);
   });
 
-  it("should update description on blur", () => {
-    wrapper
-      .find("[data-test='option-description']")
-      .simulate("blur", mockEvent);
+  it("should update Other Answer on blur", () => {
+    const handleSaveOtherLabel = jest.fn();
+    useMutation.mockImplementation(() => [
+      handleSaveOtherLabel
+    ])
+    render(rtlRender, { type: CHECKBOX });
+    fireEvent.change(screen.getByTestId("other-answer"), {
+      target: { value: "2" },
+    });
+    fireEvent.blur(screen.getByTestId("other-answer"),);
+    expect(handleSaveOtherLabel).toHaveBeenCalledTimes(1);
 
-    expect(mockMutations.onUpdate).toHaveBeenCalled();
   });
 
   it("should invoke onDelete callback when option deleted", () => {
-    wrapper.find(DeleteButton).simulate("click", mockEvent);
+    render(rtlRender, { type: CHECKBOX });
+    fireEvent.click(screen.getByTestId("btn-delete-option"),);
 
     expect(mockMutations.onDelete).toHaveBeenCalledWith(option.id);
   });

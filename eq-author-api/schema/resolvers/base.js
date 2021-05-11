@@ -536,9 +536,7 @@ const Resolvers = {
           ? flatMap(answer.options, (option) => option.additionalAnswer)
           : null
       );
-
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
-
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input.properties.format) {
@@ -547,6 +545,7 @@ const Resolvers = {
         answer.validation.latestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
       }
+
       return answer;
     }),
     updateAnswersOfType: createMutation(
@@ -1228,7 +1227,11 @@ const Resolvers = {
     displayName: (option) => getName(option, "Option"),
     additionalAnswer: (option) => option.additionalAnswer,
     validationErrorInfo: ({ id }, args, ctx) =>
-      returnValidationErrors(ctx, id, ({ optionId }) => id === optionId),
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ optionId, type }) => id === optionId && type === "option"
+      ),
   },
 
   ValidationType: {

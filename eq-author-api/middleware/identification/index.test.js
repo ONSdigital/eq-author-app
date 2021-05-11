@@ -15,7 +15,7 @@ jest.mock("./verifyJwtToken", () => {
   return jest.fn((accessToken) => {
     const jwtToken = jwt.decode(accessToken);
 
-    return new Promise(async (resolve) => {
+    return new Promise((resolve) => {
       resolve(jwtToken.id !== "invalid.token");
     });
   });

@@ -76,7 +76,10 @@ const findDeprecatedFields = (schema) => {
             type: typeName,
           });
         }
-        if (field.hasOwnProperty("args") && field.args.length > 0) {
+        if (
+          Object.prototype.hasOwnProperty.call(field, "args") &&
+          field.args.length > 0
+        ) {
           field.args.map((arg) => {
             if (findDeprecatedDirective(arg.astNode.directives)) {
               deprecatedFields.push({

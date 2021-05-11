@@ -44,7 +44,7 @@
     "jsrsasign": "latest",
     "lodash": "4.17.21",
     "moment": "latest",
-    "mongodb": "^3.6.5",
+    "mongodb": "^3.6.6",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
@@ -67,17 +67,19 @@
       "!middleware/import.js",
       "!app.js"
     ],
-    "setupFilesAfterEnv": ["<rootDir>/scripts/testSetup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/scripts/testSetup.js"
+    ],
     "preset": "@shelf/jest-mongodb",
     "watchPathIgnorePatterns": [
       "data/"
     ]
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^1.2.3",
+    "@shelf/jest-mongodb": "^1.2.4",
     "commander": "latest",
     "dynamodb-admin": "latest",
-    "eslint": "latest",
+    "eslint": "^7.25.0",
     "eslint-config-eq-author": "latest",
     "jest": "latest",
     "nodemon": "latest",

@@ -171,6 +171,7 @@ export const destinationErrors = {
 
 export const MISSING_LABEL = "Enter a label";
 
+export const ADDITIONAL_LABEL_MISSING = "Enter a label";
 export const buildLabelError = (mainString, insString, pos, pos2) => {
   if (
     typeof pos === "undefined" ||

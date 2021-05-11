@@ -119,8 +119,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
           <MultipleChoiceAnswer__ExclusiveOr>
             Or
           </MultipleChoiceAnswer__ExclusiveOr>
-          <withValidationError(Connect(withEntityEditor(StatelessOption)))
-            enableValidationMessage={true}
+          <Connect(withEntityEditor(StatelessOption))
             hasDeleteButton={true}
             hideMoveButtons={true}
             onAddExclusive={[MockFunction]}

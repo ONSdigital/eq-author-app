@@ -13,6 +13,7 @@ const Header = styled.div`
     font-size: 1em;
     color: ${colors.black};
     margin-right: 1em;
+    min-width: 7.5em;
   }
 `;
 const Body = styled.div`

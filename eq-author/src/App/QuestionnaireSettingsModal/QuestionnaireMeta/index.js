@@ -29,14 +29,6 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0 0.7em;
 `;
 
-const VerticalSeparator = styled.div`
-  width: 1px;
-  height: 1.5em;
-  background-color: ${colors.blue};
-  margin: 0 1em;
-  margin-bottom: 0.4em;
-`;
-
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
@@ -104,7 +96,6 @@ export const StatelessQuestionnaireMeta = ({
       <ToggleWrapper>
         <InlineField>
           <Label>Section navigation</Label>
-          <VerticalSeparator />
           <ToggleSwitch
             id="navigation"
             name="navigation"
@@ -122,7 +113,6 @@ export const StatelessQuestionnaireMeta = ({
 
         <InlineField>
           <Label>Answers summary</Label>
-          <VerticalSeparator />
           <ToggleSwitch
             id="summary"
             name="summary"
