@@ -364,7 +364,7 @@ describe("Themes page", () => {
     );
   });
 
-  it("Should display Form type", () => {
+  it("Should display Form Type", () => {
     renderThemesPage(mockQuestionnaire, user, mocks);
 
     expect(screen.getByText("Form type")).toBeVisible();
