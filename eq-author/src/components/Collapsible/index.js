@@ -111,6 +111,7 @@ const Collapsible = ({
             aria-expanded={isOpen}
             aria-controls="collapsible-body"
             data-test="collapsible-toggle-button"
+            className="collapsible-toggle-Collapsible-Button"
           >
             {renderTitle(showHide, isOpen, title)}
           </ToggleCollapsibleButton>
