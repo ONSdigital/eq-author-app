@@ -31,7 +31,7 @@ describe("Row", () => {
     render(
       <table>
         <tbody>
-          <Row tableHeadings={tableHeadings} {...props} />
+          <Row {...props} />
         </tbody>
       </table>
     );
@@ -41,6 +41,7 @@ describe("Row", () => {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onLockQuestionnaire: jest.fn(),
+      tableHeadings: tableHeadings,
       history: {
         push: jest.fn(),
       },
@@ -82,7 +83,7 @@ describe("Row", () => {
   });
 
   it("should handle button focus state change correctly", () => {
-    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    const wrapper = shallow(<Row {...props} />);
 
     const tableRow = wrapper.find(TR);
     const actionButton = wrapper.find("[data-test='action-btn-group']");
@@ -97,7 +98,7 @@ describe("Row", () => {
   });
 
   it("should navigate to the questionnaire when the row is clicked", () => {
-    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    const wrapper = shallow(<Row {...props} />);
 
     const tableRow = wrapper.find(TR);
     tableRow.simulate("click");
@@ -105,7 +106,7 @@ describe("Row", () => {
   });
 
   it("should only navigate to the questionnaire once when clicking the link", () => {
-    const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    const wrapper = shallow(<Row {...props} />);
     const tableLink = wrapper.find(QuestionnaireLink);
     const stopPropagation = jest.fn();
     tableLink.simulate("click", { stopPropagation });
@@ -113,7 +114,7 @@ describe("Row", () => {
   });
 
   it("should allow duplication of a Questionnaire", () => {
-    let wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    let wrapper = shallow(<Row {...props} />);
     const stopPropagation = jest.fn();
     wrapper
       .find(DuplicateQuestionnaireButton)
@@ -126,12 +127,12 @@ describe("Row", () => {
   });
 
   it("should show the short title when it is provided", () => {
-    let wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    let wrapper = shallow(<Row {...props} />);
 
     const shortTitle = wrapper.find(ShortTitle);
     expect(shortTitle).toMatchSnapshot();
     props.questionnaire.shortTitle = "";
-    wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+    wrapper = shallow(<Row {...props} />);
     expect(wrapper.find(ShortTitle)).toHaveLength(0);
   });
 
@@ -139,7 +140,7 @@ describe("Row", () => {
     it("should call mutation to toggle star status when star button pressed", () => {
       const mockMutation = jest.fn();
       useMutation.mockImplementation(() => [mockMutation]);
-      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       wrapper
         .find("[data-test='starButton']")
         .simulate("click", { stopPropagation: jest.fn() });
@@ -149,7 +150,7 @@ describe("Row", () => {
 
   describe("locking questionnaires", () => {
     it("should pass questionnaire info to parent when lock button pressed", () => {
-      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       wrapper
         .find("[data-test='lockButton']")
         .simulate("click", { stopPropagation: jest.fn() });
@@ -164,7 +165,7 @@ describe("Row", () => {
 
   describe("deletion", () => {
     it("should show the confirm delete dialog when the delete button is clicked", () => {
-      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
 
@@ -175,7 +176,7 @@ describe("Row", () => {
     });
 
     it("should call onDelete when the dialog is confirmed", () => {
-      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
       wrapper.find(DeleteConfirmDialog).simulate("delete");
@@ -188,7 +189,7 @@ describe("Row", () => {
     });
 
     it("should hide the dialog and not call delete when the dialog is closed", () => {
-      const wrapper = shallow(<Row tableHeadings={tableHeadings} {...props} />);
+      const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
       wrapper.find(DeleteConfirmDialog).simulate("close");
