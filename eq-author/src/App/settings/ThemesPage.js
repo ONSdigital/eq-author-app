@@ -109,13 +109,11 @@ const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
 
   const handleFormTypeBlur = ({ value }, shortName) => {
     value = value.trim();
-    if (value !== "") {
       updateQuestionnaireTheme({
         variables: {
           input: { questionnaireId, shortName, formType: value },
         },
       });
-    }
   };
 
   return (
