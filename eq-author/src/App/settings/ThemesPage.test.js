@@ -349,4 +349,50 @@ describe("Themes page", () => {
     fireEvent.blur(eqIdInput);
     expect(handleEQIdBlur).not.toHaveBeenCalled();
   });
+
+  it("Should display Form type", () => {
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    expect(screen.getByText("Form type")).toBeVisible();
+  });
+
+  it("Should handle EQ ID update", () => {
+    const handleFormTypeBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleFormTypeBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const formTypeInput = screen.getByTestId("default-eq-id-input");
+
+    fireEvent.change(formTypeInput, {
+      target: { value: "123" },
+    });
+
+    fireEvent.blur(formTypeInput);
+    expect(handleFormTypeBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            formType: "123",
+            shortName: "default",
+          },
+        },
+      })
+    );
+  });
+
+  it("Should handle EQ ID change when not empty", () => {
+    const handleFormTypeBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleFormTypeBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const formTypeInput = screen.getByTestId("default-eq-id-input");
+
+    fireEvent.change(formTypeInput, {
+      target: { value: " " },
+    });
+
+    fireEvent.blur(formTypeInput);
+    expect(handleFormTypeBlur).not.toHaveBeenCalled();
+  });
 });

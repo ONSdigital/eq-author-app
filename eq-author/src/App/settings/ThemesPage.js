@@ -53,6 +53,10 @@ const StyledInput = styled(Input)`
   width: 31em;
 `;
 
+const SecondStyledInput = styled(Input)`
+  width: 31em;
+`;
+
 const Caption = styled.p`
   margin-top: 0.2em;
   margin-bottom: 0.6em;
@@ -90,8 +94,39 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
   );
 };
 
+const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
+  const [state, setState] = useState(formType);
+  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+
+  const handleFormTypeBlur = ({ value }, shortName) => {
+    value = value.trim();
+    if (value !== "") {
+      updateQuestionnaireTheme({
+        variables: {
+          input: { questionnaireId, shortName, formType: value },
+        },
+      });
+    }
+  };
+
+  return (
+    <SecondStyledInput
+      value={state}
+      onChange={({ value }) => setState(value)}
+      onBlur={(e) => handleFormTypeBlur({ ...e.target }, shortName)}
+      data-test={`${shortName}-form-type-input`}
+    />
+  );
+};
+
 EqIdInput.propTypes = {
   eqId: PropTypes.string,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
+};
+
+FormTypeInput.propTypes = {
+  formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
 };
@@ -212,7 +247,7 @@ const ThemesPage = ({ questionnaire }) => {
                     </Field>
                     <HorizontalSeparator />
                     {matchThemes(themes, questionnaireThemes).map(
-                      ({ shortName, title, eqId, enabled }) => (
+                      ({ shortName, title, eqId, formType, enabled }) => (
                         <CollapsibleToggled
                           key={`${title}-toggle`}
                           title={title}
@@ -226,6 +261,15 @@ const ThemesPage = ({ questionnaire }) => {
                           </Field>
                           <EqIdInput
                             eqId={eqId}
+                            questionnaireId={id}
+                            shortName={shortName}
+                          />
+
+                          <Field>
+                            <Label>Form type</Label>
+                          </Field>
+                          <FormTypeInput
+                            formType={formType}
                             questionnaireId={id}
                             shortName={shortName}
                           />
