@@ -7,6 +7,9 @@
       "items": {
         "$ref": "section.json"
       }
+    },
+    "themes": {
+      "$ref": "themes.json"
     }
   }
 }

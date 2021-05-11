@@ -9,4 +9,5 @@ module.exports = [
   require("./option.json"),
   require("./validation.json"),
   require("./logic.json"),
+  require("./themes.json"),
 ];
