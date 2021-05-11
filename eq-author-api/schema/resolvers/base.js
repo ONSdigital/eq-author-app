@@ -647,7 +647,7 @@ const Resolvers = {
         }
       });
 
-      if (!find([CHECKBOX, RADIO], answer.type)) {
+      if (![CHECKBOX, RADIO].includes(answer.type)) {
         delete answer.options;
       }
 
