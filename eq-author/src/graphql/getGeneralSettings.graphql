@@ -1,8 +1,15 @@
 #import "./fragments/questionnaire.graphql"
 
-query GetQuestionnaire($input: QueryInput!) {
+query GetSettings($input: QueryInput!) {
   questionnaire(input: $input) {
     ...Questionnaire
+    themeSettings {
+      id
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
     sections {
       id
       displayName
