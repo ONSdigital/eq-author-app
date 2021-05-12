@@ -39,8 +39,6 @@ const {
   setQuestionnaireLocked,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const { getThemeByShortName } = require("../resolvers/utils");
-
 const {
   createAnswer,
   updateAnswer,
