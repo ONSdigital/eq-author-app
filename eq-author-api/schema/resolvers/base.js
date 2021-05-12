@@ -382,6 +382,7 @@ const Resolvers = {
           `updateTheme: No theme found with shortName '${input.shortName}''`
         );
       }
+      delete input.questionnaireId;
       return Object.assign(theme, input);
     }),
     disableTheme: createMutation((root, { input: { shortName } }, ctx) => {
