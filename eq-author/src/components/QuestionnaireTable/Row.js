@@ -151,6 +151,17 @@ const propTypes = {
   tableHeadings: PropTypes.array, // eslint-disable-line
 };
 
+const enabledRows = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
+
 export const Row = ({
   questionnaire,
   questionnaire: {

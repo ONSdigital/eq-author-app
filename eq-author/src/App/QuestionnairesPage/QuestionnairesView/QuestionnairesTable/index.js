@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 
 import { SORT_ORDER } from "constants/sort-order.js";
 
-import Table from "components/Table";
+import Table from "components/QuestionnaireTable";
 import Panel from "components/Panel";
 
 import tableHeadings from "./TableHeadings";
