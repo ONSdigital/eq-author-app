@@ -264,7 +264,7 @@ const ThemesPage = ({ questionnaire }) => {
                           <StyledIdContainerOuter>
                             <StyledEqIdContainer>
                               <Field>
-                                <Label>EQ ID</Label>
+                                <Label>eQ ID</Label>
                               </Field>
                               <EqIdInput
                                 eqId={eqId}
