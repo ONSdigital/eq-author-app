@@ -200,7 +200,7 @@ describe("Themes page", () => {
   });
 
   it("Should display Form Type", () => {
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     expect(screen.getByText("Form type")).toBeVisible();
   });
@@ -208,7 +208,7 @@ describe("Themes page", () => {
   it("Should handle Form Type update", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const formTypeInput = screen.getByTestId("default-form-type-input");
 
@@ -233,7 +233,7 @@ describe("Themes page", () => {
   it("Should remove spaces when there are any", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const formTypeInput = screen.getByTestId("default-form-type-input");
 

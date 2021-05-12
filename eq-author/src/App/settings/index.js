@@ -78,7 +78,7 @@ export default [
     path="/q/:questionnaireId/settings"
     render={(props) => (
       <Query
-        query={getQuestionnaireQuery}
+        query={GET_GENERAL_SETTINGS_QUERY}
         variables={{
           input: { questionnaireId: props.match.params.questionnaireId },
         }}
