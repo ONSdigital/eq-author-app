@@ -5,7 +5,10 @@ module.exports = (questionnaire) => {
     questionnaire.themeSettings = {
       id: uuidv4(),
       previewTheme: questionnaire.previewTheme,
-      themes: [...questionnaire.themes],
+      themes: questionnaire.themes.map((theme) => ({
+        ...theme,
+        id: theme.shortName,
+      })),
     };
     delete questionnaire.themes;
     delete questionnaire.previewTheme;

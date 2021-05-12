@@ -45,4 +45,16 @@ describe("migrations: add theme settings structure", () => {
     expect(migratedQuestionnaire).not.toHaveProperty("themes");
     expect(migratedQuestionnaire).not.toHaveProperty("previewTheme");
   });
+
+  it("should migrate to using shortName as theme ID and not UUID", () => {
+    const questionnaire = {
+      themes: themes.map((theme) => ({ ...theme, id: "imaginary-uuid" })),
+    };
+
+    expect(addThemeSettings(questionnaire)).toMatchObject({
+      themeSettings: {
+        themes,
+      },
+    });
+  });
 });

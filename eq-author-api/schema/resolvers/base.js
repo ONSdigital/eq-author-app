@@ -1,4 +1,5 @@
 const { GraphQLDate, GraphQLDateTime } = require("graphql-iso-date");
+const { SOCIAL } = require("../../constants/questionnaireTypes");
 const {
   includes,
   isNil,
@@ -114,6 +115,8 @@ const {
   noteCreationEvent,
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
+
+const { THEME_SHORT_NAMES } = require("../../constants/themes");
 
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
@@ -1423,23 +1426,17 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ type }) =>
         ["theme", "themeSettings"].includes(type)
       ),
-    themes: (_root, _args, ctx) => {
-      const possibleThemes = [
-        { title: "GB theme", shortName: "default" },
-        { title: "NI theme", shortName: "northernireland" },
-        { title: "COVID theme", shortName: "covid" },
-        { title: "EPE theme", shortName: "epe" },
-        { title: "EPE NI theme", shortName: "epeni" },
-        { title: "UKIS theme", shortName: "ukis" },
-        { title: "UKIS NI theme", shortName: "ukisni" },
-      ];
-
-      return possibleThemes.map((theme) => ({
-        ...theme,
-        id: theme.shortName,
-        enabled: false,
-        ...(getThemeByShortName(ctx, theme.shortName) ?? {}),
-      }));
+    themes: ({ themes: savedThemes }, _args, ctx) => {
+      // Return all themes as disabled by default
+      // If present in questionnaire, override with actual attributes
+      return ctx.questionnaire.type === SOCIAL
+        ? savedThemes
+        : THEME_SHORT_NAMES.map((shortName) => ({
+            shortName,
+            id: shortName,
+            enabled: false,
+            ...(getThemeByShortName(ctx, shortName) ?? {}),
+          }));
     },
   },
 

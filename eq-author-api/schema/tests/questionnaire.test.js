@@ -39,6 +39,8 @@ const {
   setQuestionnaireLocked,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
+const { getThemeByShortName } = require("../resolvers/utils");
+
 const {
   createAnswer,
   updateAnswer,
@@ -326,15 +328,22 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "census",
+            shortName: "covid",
           },
           ctx
         );
+
+        expect(questionnaire.themeSettings.themes).toHaveLength(2);
+
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.themes).toHaveLength(2);
-        expect(updatedQuestionnaire.themeSettings.themes[1].shortName).toEqual(
-          "census"
-        );
+
+        expect(
+          updatedQuestionnaire.themeSettings.themes.find(
+            ({ shortName }) => shortName === "covid"
+          )
+        ).toMatchObject({
+          enabled: true,
+        });
       });
 
       it("should be able to enable an existing theme", async () => {
