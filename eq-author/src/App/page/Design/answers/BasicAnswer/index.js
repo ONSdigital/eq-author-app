@@ -8,7 +8,13 @@ import { Field, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
-
+import Panel from "components/Panel";
+import {
+  StyledOption,
+  Flex,
+  OptionField,
+} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
+import ConfirmationOption from "../../../../questionConfirmation/Design/ConfirmationOption";
 import withValidationError from "enhancers/withValidationError";
 
 import answerFragment from "graphql/fragments/answer.graphql";
@@ -34,6 +40,10 @@ const InlineField = styled(Field)`
   }
 `;
 
+const Padding = styled.div`
+  padding: 2em 2em 1em;
+`;
+
 export const StatelessBasicAnswer = ({
   answer,
   onChange,
@@ -52,10 +62,9 @@ export const StatelessBasicAnswer = ({
   multipleAnswers,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  let orOption = true;
 
   console.log('children :>> ', children);
-  console.log('answer :>> ', answer);
-  console.log('type :>> ', type);
   console.log('multipleAnswersmultipleAnswers :>> ', multipleAnswers);
 
   return (
@@ -105,15 +114,62 @@ export const StatelessBasicAnswer = ({
             id="toggle-or-option"
             name="toggle-or-option"
             hideLabels={false}
-            // value={properties?.fallback?.enabled ?? false}
-            // onChange={({ value }) =>
-            //   onChange(type, {
-            //     fallback: { ...properties.fallback, enabled: value },
-            //   })
-            // }
-            // checked={qcodes}
+            value={orOption ?? false}
+            onChange={({ value }) =>
+              onChange({ orOption: value })
+            }
+            checked={orOption}
           />
         </InlineField>
+      )}
+      {orOption && (
+      <Panel>
+        <ConfirmationOption
+            label="Label"
+            value={answer}
+            name="positive"
+            onChange={onChange}
+            onUpdate={onUpdate}
+            data-test="positive-input"
+            confirmationoption={answer}
+          />
+
+
+        {/* <Padding>
+          <Field>
+            <Label htmlFor={`answer-or-label-${answer.id}`}>{labelText}</Label>
+            <WrappingInput
+              id={`answer-or-label-${answer.id}`}
+              name="label"
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={answer.label}
+              data-autofocus={autoFocus || null}
+              placeholder={labelPlaceholder}
+              data-test="txt-answer-or-label"
+              bold
+            />
+          </Field>
+          {showDescription && (
+            <Field>
+              <Label htmlFor={`answer-or-description-${answer.id}`}>
+                {descriptionText}
+              </Label>
+              <WrappingInput
+                id={`answer-or-description-${answer.id}`}
+                name="description"
+                cols="30"
+                rows="5"
+                onChange={onChange}
+                onBlur={onUpdate}
+                value={answer.description}
+                placeholder={descriptionPlaceholder}
+                data-test="txt-answer-or-description"
+              />
+            </Field>
+          )}
+        </Padding> */}
+      </Panel>
       )}
       
       {children}

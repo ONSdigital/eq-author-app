@@ -115,6 +115,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     collapsibleSummary,
   } = questionnaire;
 
+  console.log('summary :>> ', summary);
   const handleTitleChange = ({ value }) => {
     value = value.trim();
     if (value !== "") {
