@@ -17,6 +17,13 @@ query GetQuestionnaire($input: QueryInput!) {
       languageValue
       textValue
     }
+    themeSettings {
+      id
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
   }
 }
 fragment NavigationSidebar on Questionnaire {

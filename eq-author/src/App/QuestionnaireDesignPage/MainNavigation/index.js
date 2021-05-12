@@ -74,6 +74,7 @@ export const UnwrappedMainNavigation = ({
   hasQuestionnaire,
   totalErrorCount,
   qcodesEnabled,
+  settingsError,
   title,
   children,
 }) => {
@@ -130,6 +131,9 @@ export const UnwrappedMainNavigation = ({
                   <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
+                  {settingsError && (
+                    <SmallBadge data-test="settings-error-badge" />
+                  )}
                 </RouteButton>
                 <RouteButton
                   variant={
@@ -230,6 +234,7 @@ UnwrappedMainNavigation.propTypes = {
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
   children: PropTypes.node,
+  settingsError: PropTypes.bool,
 };
 
 export default UnwrappedMainNavigation;
