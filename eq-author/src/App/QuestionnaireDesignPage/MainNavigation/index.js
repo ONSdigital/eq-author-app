@@ -78,7 +78,7 @@ export const UnwrappedMainNavigation = ({
   children,
 }) => {
   const params = useParams();
-  const { flattenedAnswers, duplicateQCode } = useQCodeContext();
+  const { hasQCodeError } = useQCodeContext();
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     params.modifier === "settings"
@@ -89,10 +89,6 @@ export const UnwrappedMainNavigation = ({
   });
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
-
-  const emptyQCode = flattenedAnswers?.find(
-    ({ type, qCode }) => type !== "Checkbox" && !qCode
-  );
 
   return (
     <>
@@ -180,23 +176,17 @@ export const UnwrappedMainNavigation = ({
                   small
                   data-test="btn-qcodes"
                   disabled={
-                    title === "QCodes" ||
-                    totalErrorCount > 0 ||
-                    qcodesEnabled === false
+                    title === "QCodes" || totalErrorCount > 0 || !qcodesEnabled
                   }
                 >
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {qcodesEnabled && (emptyQCode || duplicateQCode) ? (
+                  {qcodesEnabled && hasQCodeError && (
                     <SmallBadge data-test="small-badge" />
-                  ) : null}
+                  )}
                 </RouteButton>
-                {me && (
-                  <>
-                    <UserProfile nav signOut left />
-                  </>
-                )}
+                {me && <UserProfile nav signOut left />}
               </ButtonGroup>
             )}
           </UtilityBtns>
@@ -204,12 +194,10 @@ export const UnwrappedMainNavigation = ({
         {children}
       </StyledMainNavigation>
       {hasQuestionnaire && (
-        <>
-          <UpdateQuestionnaireSettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setSettingsModalOpen(false)}
-          />
-        </>
+        <UpdateQuestionnaireSettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setSettingsModalOpen(false)}
+        />
       )}
     </>
   );

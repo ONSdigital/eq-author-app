@@ -3,8 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
 
-import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
-import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
+import { stripHtmlToText } from "utils/stripHTML";
+import UPDATE_ANSWER_QCODE from "graphql/updateAnswer.graphql";
+import UPDATE_OPTION_QCODE from "graphql/updateOption.graphql";
 
 import { useQCodeContext } from "components/QCodeContext";
 import ValidationError from "components/ValidationError";
@@ -17,8 +18,6 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
-
-import { removeHtml } from "utils/getAllAnswersFlatMap";
 
 import { colors } from "constants/theme";
 
@@ -34,6 +33,9 @@ import {
   DATE_RANGE,
   UNIT,
   DURATION,
+  RADIO_OPTION,
+  CHECKBOX_OPTION,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
@@ -47,8 +49,8 @@ const SpacedTableColumn = styled(TableColumn)`
 `;
 
 const ErrorWrappedInput = styled(TableInput)`
-  ${({ error }) =>
-    error &&
+  ${({ hasError }) =>
+    hasError &&
     `
     border-color: ${colors.red};
     outline-color: ${colors.red};
@@ -70,9 +72,10 @@ const QcodeValidationError = styled(ValidationError)`
   padding-top: 0.2em;
 `;
 
-const questionMatrix = {
-  CheckboxOption: "Checkbox option",
-  MutuallyExclusiveOption: "Mutually exclusive checkbox",
+const TYPE_TO_DESCRIPTION = {
+  [RADIO_OPTION]: "Radio option",
+  [CHECKBOX_OPTION]: "Checkbox option",
+  [MUTUALLY_EXCLUSIVE_OPTION]: "Mutually exclusive checkbox",
   [CHECKBOX]: "Checkbox",
   [RADIO]: "Radio",
   [TEXTFIELD]: "Text field",
@@ -86,136 +89,104 @@ const questionMatrix = {
   [DURATION]: "Duration",
 };
 
-const handleBlurReducer = ({
-  payload,
-  mutation: { updateOption, updateAnswer },
-}) => {
-  const mutationVariables = (inputValues) => {
-    return {
-      variables: {
-        input: {
-          ...inputValues,
-        },
-      },
-    };
-  };
-
-  const { id, qCode } = payload;
-
-  if (payload.option) {
-    updateOption(mutationVariables({ id, qCode }));
-  } else if (payload.secondary) {
-    updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
-  } else {
-    updateAnswer(
-      mutationVariables({
-        id,
-        qCode,
-        ...(payload.properties && { properties: payload.properties }),
-      })
-    );
-  }
-};
+const mutationVariables = (inputValues) => ({
+  variables: {
+    input: {
+      ...inputValues,
+    },
+  },
+});
 
 const Row = memo((props) => {
   const {
     id,
-    title,
-    alias,
+    questionTitle,
+    questionShortCode,
     label,
     qCode: initialQcode,
     type,
-    error,
-    noValQCodeError,
+    errorMessage,
+    option,
+    secondary,
   } = props;
-  const commonFields = useCallback(
-    (fields) => {
-      const [qCode, setQcode] = useState(initialQcode);
+  const [qCode, setQcode] = useState(initialQcode);
+  const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
+  const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
 
-      const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
-      const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-
-      const handleBlur = useCallback(
-        (id, type, qCode) => {
-          const mutation = {
-            updateOption,
-            updateAnswer,
-          };
-          if (qCode !== initialQcode) {
-            handleBlurReducer({
-              type,
-              payload: { ...fields, qCode },
-              mutation,
-            });
-          }
-        },
-        [id, type, qCode]
-      );
-
-      return (
-        <>
-          <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
-          <SpacedTableColumn>{label}</SpacedTableColumn>
-          {type === CHECKBOX ? (
-            <EmptyTableColumn />
-          ) : (
-            <SpacedTableColumn>
-              <ErrorWrappedInput
-                name={`${id}-qcode-entry`}
-                data-test={`${id}-test-input`}
-                value={qCode}
-                onChange={(e) => setQcode(e.value)}
-                onBlur={() => handleBlur(id, type, qCode)}
-                error={error}
-              />
-              {(error || noValQCodeError) && (
-                <QcodeValidationError right>
-                  {(error && QCODE_IS_NOT_UNIQUE) ||
-                    (noValQCodeError && QCODE_REQUIRED)}
-                </QcodeValidationError>
-              )}
-            </SpacedTableColumn>
-          )}
-        </>
-      );
+  const handleBlur = useCallback(
+    (qCode) => {
+      if (qCode !== initialQcode) {
+        if (option) {
+          updateOption(mutationVariables({ id, qCode }));
+        } else {
+          updateAnswer(
+            mutationVariables({
+              id,
+              [secondary ? "secondaryQCode" : "qCode"]: qCode,
+            })
+          );
+        }
+      }
     },
-    [initialQcode, error]
+    [initialQcode, qCode, option, secondary, id]
   );
-
-  if (props.nested) {
-    return (
-      <TableRow data-test={`answer-row-test`}>
-        <EmptyTableColumn />
-        <EmptyTableColumn />
-        {commonFields(props)}
-      </TableRow>
-    );
-  }
 
   return (
     <TableRow data-test={`answer-row-test`}>
-      <SpacedTableColumn>{alias}</SpacedTableColumn>
-      <SpacedTableColumn>{removeHtml(title)}</SpacedTableColumn>
-      {commonFields(props)}
+      {questionShortCode || questionTitle ? (
+        <>
+          <SpacedTableColumn>{questionShortCode}</SpacedTableColumn>
+          <SpacedTableColumn>
+            {stripHtmlToText(questionTitle)}
+          </SpacedTableColumn>
+        </>
+      ) : (
+        <>
+          <EmptyTableColumn />
+          <EmptyTableColumn />
+        </>
+      )}
+      <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
+      <SpacedTableColumn>{label}</SpacedTableColumn>
+      {[CHECKBOX, RADIO_OPTION].includes(type) ? (
+        <EmptyTableColumn />
+      ) : (
+        <SpacedTableColumn>
+          <ErrorWrappedInput
+            name={`${id}-qcode-entry`}
+            data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
+            value={qCode}
+            onChange={(e) => setQcode(e.value)}
+            onBlur={() => handleBlur(qCode)}
+            hasError={Boolean(errorMessage)}
+          />
+          {errorMessage && (
+            <QcodeValidationError right>{errorMessage}</QcodeValidationError>
+          )}
+        </SpacedTableColumn>
+      )}
     </TableRow>
   );
 });
 
 Row.propTypes = {
   id: PropTypes.string,
-  title: PropTypes.string,
-  alias: PropTypes.string,
+  questionTitle: PropTypes.string,
+  questionShortCode: PropTypes.string,
   label: PropTypes.string,
   qCode: PropTypes.string,
   type: PropTypes.string,
   qCodeCheck: PropTypes.func,
-  error: PropTypes.bool,
-  nested: PropTypes.bool,
-  noValQCodeError: PropTypes.bool,
+  errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  secondary: PropTypes.bool,
+  option: PropTypes.bool,
 };
 
-export const UnwrappedQCodeTable = () => {
-  const { flattenedAnswers, duplicates } = useQCodeContext();
+export const QCodeTable = () => {
+  const { answerRows, duplicatedQCodes } = useQCodeContext();
+  const getErrorMessage = (qCode) =>
+    (!qCode && QCODE_REQUIRED) ||
+    (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
   return (
     <Table data-test="qcodes-table">
@@ -229,18 +200,16 @@ export const UnwrappedQCodeTable = () => {
         </TableRow>
       </TableHead>
       <StyledTableBody>
-        {flattenedAnswers &&
-          flattenedAnswers.map((item, index) => (
-            <Row
-              key={`${item.id}-${index}`}
-              {...item}
-              error={duplicates[item.qCode] > 1}
-              noValQCodeError={!item.qCode}
-            />
-          ))}
+        {answerRows?.map((item, index) => (
+          <Row
+            key={`${item.id}-${index}`}
+            {...item}
+            errorMessage={getErrorMessage(item.qCode)}
+          />
+        ))}
       </StyledTableBody>
     </Table>
   );
 };
 
-export default UnwrappedQCodeTable;
+export default QCodeTable;

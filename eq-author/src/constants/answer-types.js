@@ -19,6 +19,10 @@ export const ROUTING_ANSWER_TYPES = [
   UNIT,
 ];
 
+export const RADIO_OPTION = "RadioOption";
+export const CHECKBOX_OPTION = "CheckboxOption";
+export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
+
 export default [
   CHECKBOX,
   RADIO,
