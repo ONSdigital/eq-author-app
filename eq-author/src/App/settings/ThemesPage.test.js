@@ -395,7 +395,7 @@ describe("Themes page", () => {
     );
   });
 
-  it("Should handle Form Type change when not empty", () => {
+  it("Should remove spaces when there are any", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire, user, mocks);
@@ -407,6 +407,17 @@ describe("Themes page", () => {
     });
 
     fireEvent.blur(formTypeInput);
-    expect(handleFormTypeBlur).not.toHaveBeenCalled();
+    
+    expect(handleFormTypeBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            formType: "",
+            shortName: "default",
+          },
+        },
+      })
+    );
   });
 });
