@@ -2,6 +2,7 @@ import React from "react";
 import { render, act, flushPromises, screen, fireEvent } from "tests/utils/rtl";
 import ThemesPage from "./ThemesPage";
 import { useMutation } from "@apollo/react-hooks";
+import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -196,5 +197,30 @@ describe("Themes page", () => {
         },
       })
     );
+  });
+
+  describe("Validation", () => {
+    it("should show a validation error if no themes are enabled", () => {
+      renderThemesPage({
+        ...mockQuestionnaire,
+        themeSettings: {
+          ...mockQuestionnaire.themeSettings,
+          validationErrorInfo: {
+            id: "valid-1",
+            errors: [
+              {
+                id: "error-1",
+                type: "themeSettings",
+                errorCode: "ERR_NO_THEME_ENABLED",
+              },
+            ],
+          },
+        },
+      });
+
+      expect(
+        screen.getByText(THEME_ERROR_MESSAGES.ERR_NO_THEME_ENABLED)
+      ).toBeTruthy();
+    });
   });
 });
