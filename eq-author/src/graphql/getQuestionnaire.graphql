@@ -3,6 +3,13 @@
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     ...Questionnaire
+    themeSettings {
+      id
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
     sections {
       id
       displayName
