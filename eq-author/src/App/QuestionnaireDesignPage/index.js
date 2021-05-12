@@ -24,18 +24,13 @@ import folderRoutes from "App/folder";
 
 import MainNavigation from "./MainNavigation";
 import NavigationSidebar from "./NavigationSidebar";
-import { QCodeContext } from "components/QCodeContext";
+import { QCodeContextProvider } from "components/QCodeContext";
 import { Grid, Column } from "components/Grid";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import ScrollPane from "components/ScrollPane";
 import Loading from "components/Loading";
 
-import {
-  organiseAnswers,
-  flattenAnswers,
-  duplicatesAnswers,
-} from "utils/getAllAnswersFlatMap";
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
 import useLockStatusSubscription from "hooks/useLockStatusSubscription";
@@ -89,24 +84,13 @@ export const QuestionnaireDesignPage = () => {
     throw new Error(ERR_PAGE_NOT_FOUND);
   }
 
-  let flattenedAnswers, duplicates, duplicateQCode;
-  if (questionnaire) {
-    const sections = questionnaire.sections;
-    const { answers } = organiseAnswers(sections);
-    flattenedAnswers = flattenAnswers(answers);
-    duplicates = duplicatesAnswers(flattenedAnswers);
-    duplicateQCode = Object.keys(duplicates).find((key) => duplicates[key] > 1);
-  }
-
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
       <BaseLayout questionnaire={questionnaire}>
         <ScrollPane>
           <Titled title={() => (loading ? "" : questionnaire.title)}>
             <Grid>
-              <QCodeContext.Provider
-                value={{ flattenedAnswers, duplicates, duplicateQCode }}
-              >
+              <QCodeContextProvider questionnaire={questionnaire}>
                 <CallbackContextProvider>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
@@ -160,7 +144,7 @@ export const QuestionnaireDesignPage = () => {
                     </Switch>
                   </Column>
                 </CallbackContextProvider>
-              </QCodeContext.Provider>
+              </QCodeContextProvider>
             </Grid>
           </Titled>
         </ScrollPane>
