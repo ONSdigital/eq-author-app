@@ -51,17 +51,16 @@ const StyledPanel = styled.div`
 
 const StyledIdContainerOuter = styled.div`
   overflow: hidden;
+  padding: 0 0 4px 4px;
 `;
 
 const StyledEqIdContainer = styled.div`
   float: left;
-  overflow: hidden;
 `;
 
 const StyledFormTypeContainer = styled.div`
   margin-left: 1em;
   float: left;
-  overflow: hidden;
 `;
 
 const StyledInput = styled(Input)`
@@ -109,11 +108,11 @@ const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
 
   const handleFormTypeBlur = ({ value }, shortName) => {
     value = value.trim();
-      updateQuestionnaireTheme({
-        variables: {
-          input: { questionnaireId, shortName, formType: value },
-        },
-      });
+    updateQuestionnaireTheme({
+      variables: {
+        input: { questionnaireId, shortName, formType: value },
+      },
+    });
   };
 
   return (
