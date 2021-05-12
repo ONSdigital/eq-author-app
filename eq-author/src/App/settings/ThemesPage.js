@@ -19,7 +19,10 @@ import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
-import { themeErrors } from "constants/validationMessages";
+import { THEME_TITLES } from "constants/themeSettings";
+import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
+
+import ValidationError from "components/ValidationError";
 
 const Container = styled.div`
   display: flex;
@@ -74,7 +77,7 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
     value = value.trim();
     updateQuestionnaireTheme({
       variables: {
-        input: { questionnaireId, shortName, eqId: value },
+        input: { questionnaireId, shortName, eqId: value.trim() },
       },
     });
   };
@@ -95,30 +98,11 @@ EqIdInput.propTypes = {
   shortName: PropTypes.string.isRequired,
 };
 
-const themes = [
-  { title: "GB theme", shortName: "default", enabled: true },
-  { title: "NI theme", shortName: "northernireland" },
-  { title: "COVID theme", shortName: "covid" },
-  { title: "EPE theme", shortName: "epe" },
-  { title: "EPE NI theme", shortName: "epeni" },
-  { title: "UKIS theme", shortName: "ukis" },
-  { title: "UKIS NI theme", shortName: "ukisni" },
-];
-
-const matchThemes = (themes, questionnaireThemes) =>
-  themes.map((theme) => {
-    const target = questionnaireThemes.find(
-      ({ shortName }) => shortName === theme.shortName
-    );
-    return target ? { ...theme, ...target, title: theme.title } : theme;
-  });
-
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themeSettings } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
-
   const { themes: questionnaireThemes } = themeSettings;
 
   const handleBlur = ({ value }) => {
@@ -139,6 +123,10 @@ const ThemesPage = ({ questionnaire }) => {
       variables: { input: { questionnaireId: id, shortName } },
     });
   };
+
+  const groupErrorMessages = themeSettings.validationErrorInfo.errors
+    .filter(({ type }) => type === "themeSettings")
+    .map(({ errorCode }) => THEME_ERROR_MESSAGES[errorCode]);
 
   return (
     <Container>
@@ -192,27 +180,30 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {matchThemes(themes, questionnaireThemes).map(
-                      ({ shortName, title, eqId, enabled }) => (
-                        <CollapsibleToggled
-                          key={`${title}-toggle`}
-                          title={title}
-                          isOpen={enabled}
-                          onChange={() => toggleTheme({ shortName, enabled })}
-                          data-test={`${shortName}-toggle`}
-                        >
-                          <p />
-                          <Field>
-                            <Label>eQ ID</Label>
-                          </Field>
-                          <EqIdInput
-                            eqId={eqId}
-                            questionnaireId={id}
-                            shortName={shortName}
-                          />
-                        </CollapsibleToggled>
-                      )
-                    )}
+                    {groupErrorMessages.map((errorMessage, index) => (
+                      <ValidationError key={index} right={false}>
+                        {errorMessage}
+                      </ValidationError>
+                    ))}
+                    {questionnaireThemes.map(({ shortName, eqId, enabled }) => (
+                      <CollapsibleToggled
+                        key={`${shortName}-toggle`}
+                        title={THEME_TITLES[shortName]}
+                        isOpen={enabled}
+                        onChange={() => toggleTheme({ shortName, enabled })}
+                        data-test={`${shortName}-toggle`}
+                      >
+                        <p />
+                        <Field>
+                          <Label>eQ ID</Label>
+                        </Field>
+                        <EqIdInput
+                          eqId={eqId}
+                          questionnaireId={id}
+                          shortName={shortName}
+                        />
+                      </CollapsibleToggled>
+                    ))}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
