@@ -23,6 +23,13 @@ export const AnswersEditor = ({
   onDeleteAnswer,
   moveAnswer,
 }) => {
+
+    let multipleAnswers = false;
+    answers?.length > 1 ? multipleAnswers = true : multipleAnswers =false;
+
+  console.log('answers :>> ', answers);
+  console.log('multipleAnswers :>> ', multipleAnswers);
+
   return (
     <Margin>
       <Reorder list={answers} onMove={moveAnswer} Transition={AnswerTransition}>
@@ -36,6 +43,7 @@ export const AnswersEditor = ({
             onUpdateOption={onUpdateOption}
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={onDeleteAnswer}
+            multipleAnswers={multipleAnswers}
           />
         )}
       </Reorder>
@@ -53,6 +61,7 @@ AnswersEditor.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onDeleteAnswer: PropTypes.func.isRequired,
   moveAnswer: PropTypes.func.isRequired,
+  multipleAnswers: PropTypes.bool.isRequired,
 };
 
 AnswersEditor.fragments = {

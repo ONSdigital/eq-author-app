@@ -1,11 +1,16 @@
 import React from "react";
-import { Field, Label } from "components/Forms";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
+
+import { Field, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
+
 import withValidationError from "enhancers/withValidationError";
+
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
@@ -15,9 +20,19 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { TEXTFIELD } from "constants/answer-types";
+
 import gql from "graphql-tag";
 
-import { TEXTFIELD } from "constants/answer-types";
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -34,8 +49,14 @@ export const StatelessBasicAnswer = ({
   getValidationError,
   type,
   optionErrorMsg,
+  multipleAnswers,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+
+  console.log('children :>> ', children);
+  console.log('answer :>> ', answer);
+  console.log('type :>> ', type);
+  console.log('multipleAnswersmultipleAnswers :>> ', multipleAnswers);
 
   return (
     <div>
@@ -77,6 +98,24 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
+      {!multipleAnswers && type === "Percentage" && (
+        <InlineField>
+        <Label>{`"Or" option`}</Label>
+          <ToggleSwitch
+            id="toggle-or-option"
+            name="toggle-or-option"
+            hideLabels={false}
+            // value={properties?.fallback?.enabled ?? false}
+            // onChange={({ value }) =>
+            //   onChange(type, {
+            //     fallback: { ...properties.fallback, enabled: value },
+            //   })
+            // }
+            // checked={qcodes}
+          />
+        </InlineField>
+      )}
+      
       {children}
     </div>
   );
@@ -97,6 +136,7 @@ StatelessBasicAnswer.propTypes = {
   getValidationError: PropTypes.func,
   type: PropTypes.string,
   optionErrorMsg: PropTypes.string,
+  multipleAnswers: PropTypes.bool.isRequired,
 };
 
 StatelessBasicAnswer.defaultProps = {
