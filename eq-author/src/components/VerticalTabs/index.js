@@ -70,7 +70,7 @@ const listItems = (tabItems) =>
     >
       {title}
       {errorCount > 0 && (
-        <Badge variant="logic" data-test="badge-withCount">
+        <Badge variant="logic" data-test={`errorBadge-${title}`}>
           {errorCount}
         </Badge>
       )}
