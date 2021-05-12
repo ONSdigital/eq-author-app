@@ -9,7 +9,7 @@ subscription Validation($id: ID!) {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
-      theme {
+      themes {
         id
         validationErrorInfo {
           ...ValidationErrorInfo
