@@ -53,8 +53,22 @@ const StyledPanel = styled.div`
   padding: 1.3em;
 `;
 
+const StyledIdContainerOuter = styled.div`
+  overflow: hidden;
+  padding: 0 0 4px 4px;
+`;
+
+const StyledEqIdContainer = styled.div`
+  float: left;
+`;
+
+const StyledFormTypeContainer = styled.div`
+  margin-left: 1em;
+  float: left;
+`;
+
 const StyledInput = styled(Input)`
-  width: 31em;
+  width: 11em;
 `;
 
 const Caption = styled.p`
@@ -92,8 +106,37 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
   );
 };
 
+const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
+  const [state, setState] = useState(formType);
+  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+
+  const handleFormTypeBlur = ({ value }, shortName) => {
+    value = value.trim();
+    updateQuestionnaireTheme({
+      variables: {
+        input: { questionnaireId, shortName, formType: value },
+      },
+    });
+  };
+
+  return (
+    <StyledInput
+      value={state}
+      onChange={({ value }) => setState(value)}
+      onBlur={(e) => handleFormTypeBlur({ ...e.target }, shortName)}
+      data-test={`${shortName}-form-type-input`}
+    />
+  );
+};
+
 EqIdInput.propTypes = {
   eqId: PropTypes.string,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
+};
+
+FormTypeInput.propTypes = {
+  formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
 };
@@ -185,25 +228,41 @@ const ThemesPage = ({ questionnaire }) => {
                         {errorMessage}
                       </ValidationError>
                     ))}
-                    {questionnaireThemes.map(({ shortName, eqId, enabled }) => (
-                      <CollapsibleToggled
-                        key={`${shortName}-toggle`}
-                        title={THEME_TITLES[shortName]}
-                        isOpen={enabled}
-                        onChange={() => toggleTheme({ shortName, enabled })}
-                        data-test={`${shortName}-toggle`}
-                      >
-                        <p />
-                        <Field>
-                          <Label>eQ ID</Label>
-                        </Field>
-                        <EqIdInput
-                          eqId={eqId}
-                          questionnaireId={id}
-                          shortName={shortName}
-                        />
-                      </CollapsibleToggled>
-                    ))}
+                    {questionnaireThemes.map(
+                      ({ shortName, eqId, enabled, formType }) => (
+                        <CollapsibleToggled
+                          key={`${shortName}-toggle`}
+                          title={THEME_TITLES[shortName]}
+                          isOpen={enabled}
+                          onChange={() => toggleTheme({ shortName, enabled })}
+                          data-test={`${shortName}-toggle`}
+                        >
+                          <p />
+                          <StyledIdContainerOuter>
+                            <StyledEqIdContainer>
+                              <Field>
+                                <Label>eQ ID</Label>
+                              </Field>
+                              <EqIdInput
+                                eqId={eqId}
+                                questionnaireId={id}
+                                shortName={shortName}
+                              />
+                            </StyledEqIdContainer>
+                            <StyledFormTypeContainer>
+                              <Field>
+                                <Label>Form type</Label>
+                              </Field>
+                              <FormTypeInput
+                                formType={formType}
+                                questionnaireId={id}
+                                shortName={shortName}
+                              />
+                            </StyledFormTypeContainer>
+                          </StyledIdContainerOuter>
+                        </CollapsibleToggled>
+                      )
+                    )}
                   </StyledPanel>
                 </SettingsContainer>
               </Column>

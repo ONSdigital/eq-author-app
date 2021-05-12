@@ -199,6 +199,63 @@ describe("Themes page", () => {
     );
   });
 
+  it("Should display Form Type", () => {
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    expect(screen.getByText("Form type")).toBeVisible();
+  });
+
+  it("Should handle Form Type update", () => {
+    const handleFormTypeBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleFormTypeBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const formTypeInput = screen.getByTestId("default-form-type-input");
+
+    fireEvent.change(formTypeInput, {
+      target: { value: "123" },
+    });
+
+    fireEvent.blur(formTypeInput);
+    expect(handleFormTypeBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            formType: "123",
+            shortName: "default",
+          },
+        },
+      })
+    );
+  });
+
+  it("Should remove spaces when there are any", () => {
+    const handleFormTypeBlur = jest.fn();
+    useMutation.mockImplementation(() => [handleFormTypeBlur]);
+    renderThemesPage(mockQuestionnaire, user, mocks);
+
+    const formTypeInput = screen.getByTestId("default-form-type-input");
+
+    fireEvent.change(formTypeInput, {
+      target: { value: " " },
+    });
+
+    fireEvent.blur(formTypeInput);
+
+    expect(handleFormTypeBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            formType: "",
+            shortName: "default",
+          },
+        },
+      })
+    );
+  });
+
   describe("Validation", () => {
     it("should show a validation error if no themes are enabled", () => {
       renderThemesPage({

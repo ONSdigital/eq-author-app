@@ -23,6 +23,21 @@ const ValidationWarning = styled(IconText)`
   justify-content: normal;
 `;
 
+const StyledInlineField = styled(InlineField)`
+  margin-top: 0.75em;
+`;
+
+const StyledCollapsible = styled(Collapsible)`
+  .collapsible-title {
+    padding-top: 0;
+  }
+  .collapsible-toggle-Collapsible-Button {
+    &::before {
+      margin-top: 0;
+    }
+  }
+`;
+
 const FALLBACK_ERRORS = {
   ERR_VALID_REQUIRED_START: SELECTION_REQUIRED,
   ERR_VALID_REQUIRED_END: SELECTION_REQUIRED,
@@ -48,7 +63,7 @@ export const Fallback = ({
 }) => {
   return (
     <>
-      <InlineField id={"fallback-label"} label={"Fallback"}>
+      <StyledInlineField id={"fallback-label"} label={"Fallback"}>
         <ToggleProperty
           id={"fallback-label"}
           value={properties?.fallback?.enabled ?? false}
@@ -58,7 +73,7 @@ export const Fallback = ({
             })
           }
         />
-      </InlineField>
+      </StyledInlineField>
       {properties?.fallback?.enabled
         ? fallbackSelects({ label, secondaryLabel }).map(
             ({ id, label, name }) => {
@@ -109,13 +124,13 @@ export const Fallback = ({
             }
           )
         : null}
-      <Collapsible title="What is a fallback value?">
+      <StyledCollapsible title="What is a fallback value?">
         <p>
           If this date range answer is piped into later questions, you can
           choose a fallback metadata value to be piped in its place if the
           respondent doesn&apos;t answer this question.
         </p>
-      </Collapsible>
+      </StyledCollapsible>
     </>
   );
 };
