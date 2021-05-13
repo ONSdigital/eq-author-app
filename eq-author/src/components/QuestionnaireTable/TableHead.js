@@ -8,7 +8,7 @@ import Button from "components/buttons/Button";
 import iconArrow from "assets/icon-arrow-down.svg";
 
 import { SORT_ORDER } from "constants/sort-order";
-import * as Headings from "constants/table-headings";
+import tableHeadings from "./TableHeadings";
 
 const TH = styled.th`
   color: ${colors.darkGrey};
@@ -108,17 +108,6 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
-const enabledRows = [
-  Headings.TITLE,
-  Headings.OWNER,
-  Headings.CREATED,
-  Headings.MODIFIED,
-  Headings.PERMISSIONS,
-  Headings.LOCKED,
-  Headings.STARRED,
-  Headings.ACTIONS,
-];
-
 const checkEnabled = (enabledRows, headings) =>
   enabledRows.map((heading) => {
     const headingElement = headings.find(
@@ -128,32 +117,31 @@ const checkEnabled = (enabledRows, headings) =>
   });
 
 const listHeadings = (props) =>
-  props.tableHeadings.map(
-    ({ heading, sortColumn, colWidth, sortable, enabled }) =>
-      enabled ? (
-        sortable ? (
-          <SortableTH
-            key={`sortable-${heading.toLowerCase()}`}
-            sortColumn={sortColumn}
-            colWidth={colWidth}
-            dataTest={`${heading.toLowerCase()}-sort-button`}
-            {...props}
-          >
-            {heading}
-          </SortableTH>
-        ) : (
-          <UnsortableTH
-            key={`unsortable-${heading.toLowerCase()}`}
-            colWidth={colWidth}
-          >
-            {heading}
-          </UnsortableTH>
-        )
-      ) : null
+  tableHeadings.map(({ heading, sortColumn, colWidth, sortable, enabled }) =>
+    enabled ? (
+      sortable ? (
+        <SortableTH
+          key={`sortable-${heading.toLowerCase()}`}
+          sortColumn={sortColumn}
+          colWidth={colWidth}
+          dataTest={`${heading.toLowerCase()}-sort-button`}
+          {...props}
+        >
+          {heading}
+        </SortableTH>
+      ) : (
+        <UnsortableTH
+          key={`unsortable-${heading.toLowerCase()}`}
+          colWidth={colWidth}
+        >
+          {heading}
+        </UnsortableTH>
+      )
+    ) : null
   );
 
 const TableHead = (props) => {
-  checkEnabled(enabledRows, props.tableHeadings);
+  checkEnabled(props.enabledHeadings, tableHeadings);
   return <tr>{listHeadings(props)}</tr>;
 };
 
@@ -162,7 +150,7 @@ TableHead.propTypes = {
   onReverseClick: PropTypes.func,
   sortOrder: PropTypes.string,
   sortColumn: PropTypes.string,
-  tableHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 export default TableHead;

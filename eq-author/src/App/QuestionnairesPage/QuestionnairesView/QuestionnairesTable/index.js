@@ -4,13 +4,25 @@ import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
 import { SORT_ORDER } from "constants/sort-order.js";
+import * as Headings from "constants/table-headings";
 
-import Table from "components/QuestionnaireTable";
+import QuestionnaireTable from "components/QuestionnaireTable";
 import Panel from "components/Panel";
 
-import tableHeadings from "./TableHeadings";
+import tableHeadings from "../../../../components/QuestionnaireTable/TableHeadings";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
+
+const enabledRows = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
 
 const QuestionnairesTable = ({
   questionnaires,
@@ -35,7 +47,7 @@ const QuestionnairesTable = ({
 
   return (
     <Panel>
-      <Table
+      <QuestionnaireTable
         onSortClick={onSortQuestionnaires}
         onReverseClick={onReverseSort}
         sortOrder={sortOrder}
@@ -46,6 +58,7 @@ const QuestionnairesTable = ({
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
+        enabledHeadings={enabledRows}
       />
       <LockModal />
     </Panel>

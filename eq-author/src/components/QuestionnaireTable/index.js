@@ -13,17 +13,17 @@ const TableWrapper = styled.table`
   text-align: left;
 `;
 
-const Table = ({
+const QuestionnaireTable = ({
   onSortClick,
   onReverseClick,
   sortOrder,
   currentSortColumn,
-  tableHeadings,
   questionnaires,
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   handleLock,
+  enabledHeadings,
 }) => {
   return (
     <TableWrapper>
@@ -32,7 +32,7 @@ const Table = ({
         onReverseClick={onReverseClick}
         sortOrder={sortOrder}
         currentSortColumn={currentSortColumn}
-        tableHeadings={tableHeadings}
+        enabledHeadings={enabledHeadings}
       />
       <TableBody
         questionnaires={questionnaires}
@@ -40,13 +40,12 @@ const Table = ({
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
-        tableHeadings={tableHeadings}
       />
     </TableWrapper>
   );
 };
 
-Table.propTypes = {
+QuestionnaireTable.propTypes = {
   onSortClick: PropTypes.func,
   onReverseClick: PropTypes.func,
   sortOrder: PropTypes.string,
@@ -57,6 +56,7 @@ Table.propTypes = {
   onDeleteQuestionnaire: PropTypes.func,
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
+  enabledHeadings: PropTypes.array, // eslint-disable-line
 };
 
-export default Table;
+export default QuestionnaireTable;

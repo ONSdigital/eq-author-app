@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Row from "./Row";
+import tableHeadings from "./TableHeadings";
 
 const listQuestionnaires = (
   questionnaires,
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
-  handleLock,
-  tableHeadings
+  handleLock
 ) =>
   questionnaires.map(({ id }, index) => (
     <Row
@@ -31,7 +31,6 @@ const TableBody = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   handleLock,
-  tableHeadings,
 }) => {
   return (
     <tbody>
@@ -53,7 +52,6 @@ TableBody.propTypes = {
   onDeleteQuestionnaire: PropTypes.func,
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
-  tableHeadings: PropTypes.array, // eslint-disable-line
 };
 
 export default TableBody;
