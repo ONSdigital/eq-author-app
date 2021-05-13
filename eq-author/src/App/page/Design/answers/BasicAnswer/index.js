@@ -40,7 +40,7 @@ const InlineField = styled(Field)`
   }
 `;
 
-const CollapsibleWrapper = styled.div`
+const ToggleWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
@@ -116,7 +116,7 @@ export const StatelessBasicAnswer = ({
         </Field>
       )}
       {type === "Percentage" && (
-        <CollapsibleWrapper disabled={multipleAnswers}>
+        <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
           <Label>{`"Or" option`}</Label>
             <ToggleSwitch
@@ -125,9 +125,10 @@ export const StatelessBasicAnswer = ({
               hideLabels={false}
               onChange={onChangeToggle}
               checked={toggled}
+              data-test="toggle-or-option"
             />
           </InlineField>
-        </CollapsibleWrapper>
+        </ToggleWrapper>
       )}
 
       {/* The following:
@@ -135,6 +136,7 @@ export const StatelessBasicAnswer = ({
               values (answer.label & answer.description) 
               will need to be associated with the correct "option" object when connecting to the back end !
               Not sure if Validation is required ? 
+              Will also need an object to save the toggle state to the database?
       */}
       {toggled && (
         <StyledOption>
@@ -154,7 +156,6 @@ export const StatelessBasicAnswer = ({
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
-                // errorValidationMsg={labelError}
               />
             </OptionField>
           </Flex>
