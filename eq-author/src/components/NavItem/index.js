@@ -85,7 +85,7 @@ const NavItem = ({
     <Link
       className={`${className} NavItem`}
       data-test="NavItem"
-      onClick={(e) => {
+      onClick={() => {
         history.push(titleUrl);
       }}
       disabled={disabled}

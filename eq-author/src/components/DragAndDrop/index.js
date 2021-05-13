@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -49,6 +50,12 @@ const Page = ({ id, index, title }) => {
   );
 };
 
+Page.propTypes = {
+  id: PropTypes.string.isRequired,
+  index: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
 const Section = ({ id, title, pages }) => {
   return (
     <CollapsibleNavItem title={title} icon={IconSection} defaultOpen bordered>
@@ -64,6 +71,12 @@ const Section = ({ id, title, pages }) => {
       </Droppable>
     </CollapsibleNavItem>
   );
+};
+
+Section.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  pages: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const DragAndDrop = (props) => {
@@ -118,6 +131,10 @@ const DragAndDrop = (props) => {
       </DragDropContext>
     </Panel>
   );
+};
+
+DragAndDrop.propTypes = {
+  sections: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default DragAndDrop;

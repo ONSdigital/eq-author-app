@@ -45,8 +45,8 @@ export default {
           <p>To use the keyboard support:</p>
           <ol>
             <li>
-              Tab through the page to focus on the right arrow [>] symbol beside
-              the section title
+              Tab through the page to focus on the right arrow symbol beside the
+              section title
             </li>
             <li>Press enter right arrow key - the collapsible will open</li>
             <li>Carry on tabbing through and focus on a page</li>
