@@ -108,13 +108,15 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
-const checkEnabled = (enabledRows, headings) =>
+function checkEnabled(enabledRows, headings) {
   enabledRows.map((heading) => {
     const headingElement = headings.find(
       (element) => element.heading === heading
     );
     headingElement.enabled = true;
+    return null;
   });
+}
 
 const listHeadings = (props) =>
   tableHeadings.map(({ heading, sortColumn, colWidth, sortable, enabled }) =>
@@ -142,7 +144,11 @@ const listHeadings = (props) =>
 
 const TableHead = (props) => {
   checkEnabled(props.enabledHeadings, tableHeadings);
-  return <tr>{listHeadings(props)}</tr>;
+  return (
+    <thead>
+      <tr>{listHeadings(props)}</tr>
+    </thead>
+  );
 };
 
 TableHead.propTypes = {
