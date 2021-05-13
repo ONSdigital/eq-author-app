@@ -5,7 +5,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
-import tableHeadings from "../../App/QuestionnairesPage/QuestionnairesView/QuestionnairesTable/TableHeadings";
+import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
 import { colors } from "constants/theme";
 import { UNPUBLISHED } from "constants/publishStatus";
@@ -26,6 +26,11 @@ jest.mock("@apollo/react-hooks", () => ({
 
 describe("Row", () => {
   let props;
+
+  tableHeadings.map((heading) => {
+    heading.enabled = true;
+    return null;
+  });
 
   const renderRow = (props) =>
     render(
