@@ -8,6 +8,7 @@ import Button from "components/buttons/Button";
 import iconArrow from "assets/icon-arrow-down.svg";
 
 import { SORT_ORDER } from "constants/sort-order";
+import * as Headings from "constants/table-headings";
 
 const TH = styled.th`
   color: ${colors.darkGrey};
@@ -107,6 +108,27 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
+const enabledRows = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
+
+const checkEnabled = (enabledRows, headings) =>
+  enabledRows.map((heading, index) => {
+    if (heading === headings[index].heading) {
+      const headingElement = headings.find(
+        (element) => element.heading === heading
+      );
+      headingElement.enabled = true;
+    }
+  });
+
 const listHeadings = (props) =>
   props.tableHeadings.map(
     ({ heading, sortColumn, colWidth, sortable, enabled }) =>
@@ -133,6 +155,7 @@ const listHeadings = (props) =>
   );
 
 const TableHead = (props) => {
+  checkEnabled(enabledRows, props.tableHeadings);
   return <tr>{listHeadings(props)}</tr>;
 };
 

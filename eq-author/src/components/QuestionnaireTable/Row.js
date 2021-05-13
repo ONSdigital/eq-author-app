@@ -162,6 +162,16 @@ const enabledRows = [
   Headings.ACTIONS,
 ];
 
+const checkEnabled = (enabledRows, headings) =>
+  enabledRows.map((heading, index) => {
+    if (heading === headings[index].heading) {
+      const headingElement = headings.find(
+        (element) => element.heading === heading
+      );
+      headingElement.enabled = true;
+    }
+  });
+
 export const Row = ({
   questionnaire,
   questionnaire: {
@@ -271,6 +281,8 @@ export const Row = ({
 
   const hasWritePermission = permission === WRITE;
   const canDelete = hasWritePermission && !locked;
+
+  checkEnabled(enabledRows, tableHeadings);
 
   const renderEnabled = (tableHeadings, columnHeading) =>
     tableHeadings.map(({ heading, enabled }) => {
