@@ -115,8 +115,8 @@ const Body = styled.div`
 
   li > * {
     :not(.CollapsibleNavItem) {
-      margin-left: 2em;
-      width: calc(100% - 2em);
+      margin-left: 2.6em;
+      width: calc(100% - 2.6em);
     }
 
     &.CollapsibleNavItem {
