@@ -86,8 +86,6 @@ class AnswerEditor extends React.Component {
   formatIncludes = (x) => fp.flow(fp.get("properties.format"), fp.includes(x));
 
   renderAnswer(answer) {
-    
-  console.log('this.props :>> ', this.props);
 
     const { type } = answer;
     if ([TEXTFIELD, TEXTAREA].includes(type)) {

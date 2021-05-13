@@ -8,6 +8,8 @@ import { Field, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
+import DummyMultipleChoice from "../dummy/MultipleChoice";
+
 import Panel from "components/Panel";
 import {
   StyledOption,
@@ -26,7 +28,7 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD } from "constants/answer-types";
+import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
 
 import gql from "graphql-tag";
 
@@ -129,7 +131,6 @@ export const StatelessBasicAnswer = ({
               id="toggle-or-option"
               name="toggle-or-option"
               hideLabels={false}
-              // value={toggled ?? false}
               onChange={onChangeToggle}
               checked={toggled}
             />
@@ -137,52 +138,44 @@ export const StatelessBasicAnswer = ({
         </CollapsibleWrapper>
       )}
       {toggled && (
-      <>
-        <ConfirmationOption
-            label="Label"
-            value={answer}
-            name="positive"
-            onChange={onChange}
-            onUpdate={onUpdate}
-            data-test="positive-input"
-            confirmationoption={answer}
-          />
-
-        {/* <Padding>
-          <Field>
-            <Label htmlFor={`answer-or-label-${answer.id}`}>{labelText}</Label>
-            <WrappingInput
-              id={`answer-or-label-${answer.id}`}
-              name="label"
-              onChange={onChange}
-              onBlur={onUpdate}
-              value={answer.label}
-              data-autofocus={autoFocus || null}
-              placeholder={labelPlaceholder}
-              data-test="txt-answer-or-label"
-              bold
-            />
-          </Field>
-          {showDescription && (
-            <Field>
-              <Label htmlFor={`answer-or-description-${answer.id}`}>
-                {descriptionText}
+        <StyledOption>
+          <Flex>
+            <DummyMultipleChoice type={CHECKBOX} />
+            <OptionField>
+              <Label htmlFor={`option-label-${answer.id}`}>
+                {"Label"}
               </Label>
               <WrappingInput
-                id={`answer-or-description-${answer.id}`}
-                name="description"
-                cols="30"
-                rows="5"
+                id={`option-label-${answer.id}`}
+                name="label"
+                value={answer.label}
+                placeholder={labelPlaceholder}
                 onChange={onChange}
                 onBlur={onUpdate}
-                value={answer.description}
-                placeholder={descriptionPlaceholder}
-                data-test="txt-answer-or-description"
+                // onKeyDown={handleKeyDown}
+                data-test="option-label"
+                data-autofocus={autoFocus || null}
+                bold
+                // errorValidationMsg={labelError}
               />
-            </Field>
-          )}
-        </Padding> */}
-      </>
+            </OptionField>
+          </Flex>
+          <OptionField>
+            <Label htmlFor={`option-description-${answer.id}`}>
+              Description (optional)
+            </Label>
+            <WrappingInput
+              id={`option-description-${answer.id}`}
+              name="description"
+              value={answer.description}
+              placeholder={descriptionPlaceholder}
+              onChange={onChange}
+              onBlur={onUpdate}
+              // onKeyDown={handleKeyDown}
+              data-test="option-description"
+            />
+          </OptionField>
+        </StyledOption>
       )}
       
       {children}

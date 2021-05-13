@@ -27,9 +27,6 @@ export const AnswersEditor = ({
     let multipleAnswers = false;
     answers?.length > 1 ? multipleAnswers = true : multipleAnswers =false;
 
-  console.log('answers :>> ', answers);
-  console.log('multipleAnswers :>> ', multipleAnswers);
-
   return (
     <Margin>
       <Reorder list={answers} onMove={moveAnswer} Transition={AnswerTransition}>

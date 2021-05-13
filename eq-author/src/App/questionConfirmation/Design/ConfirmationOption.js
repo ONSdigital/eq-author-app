@@ -37,11 +37,11 @@ export const UnwrappedConfirmationOption = ({
             onBlur={onUpdate}
             data-test={`${name}-option-label`}
             bold
-            // errorValidationMsg={getValidationError({
-            //   field: "label",
-            //   label: "Confirmation label",
-            //   requiredMsg: `Enter ${label.toLowerCase()}`,
-            // })}
+            errorValidationMsg={getValidationError({
+              field: "label",
+              label: "Confirmation label",
+              requiredMsg: `Enter ${label.toLowerCase()}`,
+            })}
           />
         </OptionField>
       </Flex>
