@@ -5,13 +5,14 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import CollapsibleNavItem from "components/CollapsibleNavItem";
 import NavItem from "components/NavItem";
+import { colors } from "constants/theme";
 
 import { ReactComponent as IconSection } from "assets/icon-section.svg";
 import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg";
 import { ReactComponent as PageIcon } from "assets/icon-survey-intro.svg";
 
 const Panel = styled.div`
-  background: #333333;
+  background: ${colors.black};
   width: 40%;
   float: left;
   padding: 1em 0;
@@ -39,13 +40,9 @@ const ListItem = styled.li``;
 const Page = ({ id, index, title }) => {
   return (
     <Draggable draggableId={id} index={index}>
-      {(provided) => (
-        <ListItem {...provided.draggableProps} ref={provided.innerRef}>
-          <NavItem
-            title={title}
-            icon={IconQuestionPage}
-            {...provided.dragHandleProps}
-          />
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <ListItem {...draggableProps} ref={innerRef}>
+          <NavItem title={title} icon={IconQuestionPage} {...dragHandleProps} />
         </ListItem>
       )}
     </Draggable>
@@ -56,12 +53,12 @@ const Section = ({ id, title, pages }) => {
   return (
     <CollapsibleNavItem title={title} icon={IconSection} defaultOpen bordered>
       <Droppable droppableId={id}>
-        {(provided) => (
-          <NavList ref={provided.innerRef} {...provided.droppableProps}>
+        {({ innerRef, placeholder, droppableProps }) => (
+          <NavList ref={innerRef} {...droppableProps}>
             {pages.map(({ id, ...rest }, index) => (
-              <Page key={id} id={id} {...rest} index={index} />
+              <Page key={id} id={id} index={index} {...rest} />
             ))}
-            {provided.placeholder}
+            {placeholder}
           </NavList>
         )}
       </Droppable>
@@ -90,6 +87,7 @@ const DragAndDrop = (props) => {
       return;
     }
 
+    // Move stuff around -- in the real version, this would be replaced with the mutation that calls the DB.
     const section = sections.find(({ id }) => id === source.droppableId);
     const sectionIndex = sections.indexOf(section);
     const pages = Array.from(section.pages);
