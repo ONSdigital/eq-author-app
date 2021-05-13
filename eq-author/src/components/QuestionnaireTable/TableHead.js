@@ -120,13 +120,11 @@ const enabledRows = [
 ];
 
 const checkEnabled = (enabledRows, headings) =>
-  enabledRows.map((heading, index) => {
-    if (heading === headings[index].heading) {
-      const headingElement = headings.find(
-        (element) => element.heading === heading
-      );
-      headingElement.enabled = true;
-    }
+  enabledRows.map((heading) => {
+    const headingElement = headings.find(
+      (element) => element.heading === heading
+    );
+    headingElement.enabled = true;
   });
 
 const listHeadings = (props) =>

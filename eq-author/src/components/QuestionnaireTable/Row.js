@@ -151,27 +151,6 @@ const propTypes = {
   tableHeadings: PropTypes.array, // eslint-disable-line
 };
 
-const enabledRows = [
-  Headings.TITLE,
-  Headings.OWNER,
-  Headings.CREATED,
-  Headings.MODIFIED,
-  Headings.PERMISSIONS,
-  Headings.LOCKED,
-  Headings.STARRED,
-  Headings.ACTIONS,
-];
-
-const checkEnabled = (enabledRows, headings) =>
-  enabledRows.map((heading, index) => {
-    if (heading === headings[index].heading) {
-      const headingElement = headings.find(
-        (element) => element.heading === heading
-      );
-      headingElement.enabled = true;
-    }
-  });
-
 export const Row = ({
   questionnaire,
   questionnaire: {
@@ -281,8 +260,6 @@ export const Row = ({
 
   const hasWritePermission = permission === WRITE;
   const canDelete = hasWritePermission && !locked;
-
-  checkEnabled(enabledRows, tableHeadings);
 
   const renderEnabled = (tableHeadings, columnHeading) =>
     tableHeadings.map(({ heading, enabled }) => {
