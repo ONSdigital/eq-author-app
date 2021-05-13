@@ -134,7 +134,7 @@ const DragAndDrop = (props) => {
 };
 
 DragAndDrop.propTypes = {
-  sections: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  sections: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default DragAndDrop;
