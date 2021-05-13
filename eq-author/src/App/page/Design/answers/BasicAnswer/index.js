@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
@@ -44,6 +44,11 @@ const Padding = styled.div`
   padding: 2em 2em 1em;
 `;
 
+const CollapsibleWrapper = styled.div`
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
+
 export const StatelessBasicAnswer = ({
   answer,
   onChange,
@@ -61,11 +66,20 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
+  let [toggled, setToggled] = useState(false);
+
+  useEffect(() => {
+    if (multipleAnswers) {
+      setToggled(false);
+    }
+  }, [multipleAnswers]);
+  
+  const onChangeToggle = () => {
+    setToggled(!toggled);
+  }
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-  let orOption = true;
 
   console.log('children :>> ', children);
-  console.log('multipleAnswersmultipleAnswers :>> ', multipleAnswers);
 
   return (
     <div>
@@ -107,23 +121,23 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
-      {!multipleAnswers && type === "Percentage" && (
-        <InlineField>
-        <Label>{`"Or" option`}</Label>
-          <ToggleSwitch
-            id="toggle-or-option"
-            name="toggle-or-option"
-            hideLabels={false}
-            value={orOption ?? false}
-            onChange={({ value }) =>
-              onChange({ orOption: value })
-            }
-            checked={orOption}
-          />
-        </InlineField>
+      {type === "Percentage" && (
+        <CollapsibleWrapper disabled={multipleAnswers}>
+          <InlineField>
+          <Label>{`"Or" option`}</Label>
+            <ToggleSwitch
+              id="toggle-or-option"
+              name="toggle-or-option"
+              hideLabels={false}
+              // value={toggled ?? false}
+              onChange={onChangeToggle}
+              checked={toggled}
+            />
+          </InlineField>
+        </CollapsibleWrapper>
       )}
-      {orOption && (
-      <Panel>
+      {toggled && (
+      <>
         <ConfirmationOption
             label="Label"
             value={answer}
@@ -133,7 +147,6 @@ export const StatelessBasicAnswer = ({
             data-test="positive-input"
             confirmationoption={answer}
           />
-
 
         {/* <Padding>
           <Field>
@@ -169,7 +182,7 @@ export const StatelessBasicAnswer = ({
             </Field>
           )}
         </Padding> */}
-      </Panel>
+      </>
       )}
       
       {children}
@@ -193,6 +206,7 @@ StatelessBasicAnswer.propTypes = {
   type: PropTypes.string,
   optionErrorMsg: PropTypes.string,
   multipleAnswers: PropTypes.bool.isRequired,
+  // toggled: PropTypes.bool.isRequired,
 };
 
 StatelessBasicAnswer.defaultProps = {
