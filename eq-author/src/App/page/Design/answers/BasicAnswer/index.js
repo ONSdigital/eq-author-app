@@ -10,13 +10,11 @@ import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 
-import Panel from "components/Panel";
 import {
   StyledOption,
   Flex,
   OptionField,
 } from "App/page/Design/answers/MultipleChoiceAnswer/Option";
-import ConfirmationOption from "../../../../questionConfirmation/Design/ConfirmationOption";
 import withValidationError from "enhancers/withValidationError";
 
 import answerFragment from "graphql/fragments/answer.graphql";
@@ -42,10 +40,6 @@ const InlineField = styled(Field)`
   }
 `;
 
-const Padding = styled.div`
-  padding: 2em 2em 1em;
-`;
-
 const CollapsibleWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
@@ -69,6 +63,7 @@ export const StatelessBasicAnswer = ({
   multipleAnswers,
 }) => {
   let [toggled, setToggled] = useState(false);
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   useEffect(() => {
     if (multipleAnswers) {
@@ -79,9 +74,6 @@ export const StatelessBasicAnswer = ({
   const onChangeToggle = () => {
     setToggled(!toggled);
   }
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-
-  console.log('children :>> ', children);
 
   return (
     <div>
@@ -137,6 +129,13 @@ export const StatelessBasicAnswer = ({
           </InlineField>
         </CollapsibleWrapper>
       )}
+
+      {/* The following:
+              ID's (answer.id) 
+              values (answer.label & answer.description) 
+              will need to be associated with the correct "option" object when connecting to the back end !
+              Not sure if Validation is required ? 
+      */}
       {toggled && (
         <StyledOption>
           <Flex>
@@ -152,7 +151,6 @@ export const StatelessBasicAnswer = ({
                 placeholder={labelPlaceholder}
                 onChange={onChange}
                 onBlur={onUpdate}
-                // onKeyDown={handleKeyDown}
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
@@ -171,13 +169,11 @@ export const StatelessBasicAnswer = ({
               placeholder={descriptionPlaceholder}
               onChange={onChange}
               onBlur={onUpdate}
-              // onKeyDown={handleKeyDown}
               data-test="option-description"
             />
           </OptionField>
         </StyledOption>
       )}
-      
       {children}
     </div>
   );
@@ -199,7 +195,6 @@ StatelessBasicAnswer.propTypes = {
   type: PropTypes.string,
   optionErrorMsg: PropTypes.string,
   multipleAnswers: PropTypes.bool.isRequired,
-  // toggled: PropTypes.bool.isRequired,
 };
 
 StatelessBasicAnswer.defaultProps = {

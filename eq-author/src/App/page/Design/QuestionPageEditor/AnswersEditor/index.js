@@ -58,7 +58,6 @@ AnswersEditor.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onDeleteAnswer: PropTypes.func.isRequired,
   moveAnswer: PropTypes.func.isRequired,
-  multipleAnswers: PropTypes.bool.isRequired,
 };
 
 AnswersEditor.fragments = {
