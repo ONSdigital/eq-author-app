@@ -3,13 +3,8 @@ const { logger } = require("../utils/logger");
 const request = require("request");
 
 module.exports = async (req, res) => {
-  const usingGCP = process.env.DATABASE === "firestore";
   const CONVERSION_URL = process.env.CONVERSION_URL;
-  if (!usingGCP) {
-    res
-      .status(503)
-      .json({ error: "Endpoint not supported when using AWS configuration" });
-  } else if (!CONVERSION_URL) {
+  if (!CONVERSION_URL) {
     res.status(500).json({
       error: "Cannot convert questionnaire without CONVERSION_URL env var set",
     });
