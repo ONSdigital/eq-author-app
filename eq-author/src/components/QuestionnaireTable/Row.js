@@ -263,111 +263,109 @@ export const Row = ({
 
   const renderEnabled = (tableHeadings, columnHeading) =>
     tableHeadings.map(({ heading, enabled }) => {
-      if (enabled) {
-        if (heading === columnHeading) {
-          if (heading === Headings.TITLE) {
-            return (
-              <TD key={heading}>
-                <QuestionnaireLink
-                  data-test="anchor-questionnaire-title"
-                  title={displayName}
-                  onClick={handleLinkClick}
-                  to={buildQuestionnairePath({
-                    questionnaireId: id,
-                  })}
+      if (enabled && heading === columnHeading) {
+        if (heading === Headings.TITLE) {
+          return (
+            <TD key={heading}>
+              <QuestionnaireLink
+                data-test="anchor-questionnaire-title"
+                title={displayName}
+                onClick={handleLinkClick}
+                to={buildQuestionnairePath({
+                  questionnaireId: id,
+                })}
+              >
+                {shortTitle && (
+                  <ShortTitle>
+                    <Truncated>{shortTitle}</Truncated>
+                  </ShortTitle>
+                )}
+                <Truncated>{title}</Truncated>
+              </QuestionnaireLink>
+            </TD>
+          );
+        }
+        if (heading === Headings.OWNER) {
+          return <TD key={heading}>{createdBy.displayName}</TD>;
+        }
+        if (heading === Headings.CREATED) {
+          return (
+            <TD key={heading}>
+              <FormattedDate date={createdAt} />
+            </TD>
+          );
+        }
+        if (heading === Headings.MODIFIED) {
+          return (
+            <TD key={heading}>
+              <FormattedDate date={updatedAt} />
+            </TD>
+          );
+        }
+        if (heading === Headings.PERMISSIONS) {
+          return (
+            <TD key={heading}>
+              <Permissions>
+                <Permission>View</Permission>
+                <Permission disabled={!hasWritePermission}>Edit</Permission>
+              </Permissions>
+            </TD>
+          );
+        }
+        if (heading === Headings.LOCKED) {
+          return (
+            <TD key={heading}>
+              <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
+                <IconTextButton
+                  title="Lock"
+                  onClick={handleLock}
+                  data-test="lockButton"
+                  disabled={!hasWritePermission}
                 >
-                  {shortTitle && (
-                    <ShortTitle>
-                      <Truncated>{shortTitle}</Truncated>
-                    </ShortTitle>
-                  )}
-                  <Truncated>{title}</Truncated>
-                </QuestionnaireLink>
-              </TD>
-            );
-          }
-          if (heading === Headings.OWNER) {
-            return <TD key={heading}>{createdBy.displayName}</TD>;
-          }
-          if (heading === Headings.CREATED) {
-            return (
-              <TD key={heading}>
-                <FormattedDate date={createdAt} />
-              </TD>
-            );
-          }
-          if (heading === Headings.MODIFIED) {
-            return (
-              <TD key={heading}>
-                <FormattedDate date={updatedAt} />
-              </TD>
-            );
-          }
-          if (heading === Headings.PERMISSIONS) {
-            return (
-              <TD key={heading}>
-                <Permissions>
-                  <Permission>View</Permission>
-                  <Permission disabled={!hasWritePermission}>Edit</Permission>
-                </Permissions>
-              </TD>
-            );
-          }
-          if (heading === Headings.LOCKED) {
-            return (
-              <TD key={heading}>
-                <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
-                  <IconTextButton
-                    title="Lock"
-                    onClick={handleLock}
-                    data-test="lockButton"
-                    disabled={!hasWritePermission}
-                  >
-                    {locked ? <LockedIcon /> : <UnlockedIcon />}
-                  </IconTextButton>
-                </Tooltip>
-              </TD>
-            );
-          }
-          if (heading === Headings.STARRED) {
-            return (
-              <TD key={heading}>
-                <Tooltip
-                  content={starred ? "Starred" : "Not starred"}
-                  place="top"
+                  {locked ? <LockedIcon /> : <UnlockedIcon />}
+                </IconTextButton>
+              </Tooltip>
+            </TD>
+          );
+        }
+        if (heading === Headings.STARRED) {
+          return (
+            <TD key={heading}>
+              <Tooltip
+                content={starred ? "Starred" : "Not starred"}
+                place="top"
+              >
+                <IconTextButton
+                  title="Star"
+                  onClick={handleStar}
+                  data-test="starButton"
                 >
-                  <IconTextButton
-                    title="Star"
-                    onClick={handleStar}
-                    data-test="starButton"
-                  >
-                    {starred ? <StarredIcon /> : <UnstarredIcon />}
-                  </IconTextButton>
-                </Tooltip>
-              </TD>
-            );
-          }
-          if (heading === Headings.ACTIONS) {
-            return (
-              <TD key={heading}>
-                <div onFocus={handleButtonFocus} data-test="action-btn-group">
-                  <ButtonGroup>
-                    <DuplicateQuestionnaireButton
-                      data-test="btn-duplicate-questionnaire"
-                      onClick={handleDuplicateQuestionnaire}
-                      hideText
-                    />
-                    <IconButtonDelete
-                      hideText
-                      data-test="btn-delete-questionnaire"
-                      onClick={handleDeleteQuestionnaire}
-                      disabled={!canDelete}
-                    />
-                  </ButtonGroup>
-                </div>
-              </TD>
-            );
-          }
+                  {starred ? <StarredIcon /> : <UnstarredIcon />}
+                </IconTextButton>
+              </Tooltip>
+            </TD>
+          );
+        }
+        if (heading === Headings.ACTIONS) {
+          return (
+            <TD key={heading}>
+              <div onFocus={handleButtonFocus} data-test="action-btn-group">
+                <ButtonGroup>
+                  <DuplicateQuestionnaireButton
+                    data-test="btn-duplicate-questionnaire"
+                    onClick={handleDuplicateQuestionnaire}
+                    hideText
+                  />
+                  <IconButtonDelete
+                    hideText
+                    data-test="btn-delete-questionnaire"
+                    onClick={handleDeleteQuestionnaire}
+                    disabled={!canDelete}
+                  />
+                </ButtonGroup>
+              </div>
+            </TD>
+          );
         }
       }
       return null;

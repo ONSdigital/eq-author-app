@@ -9,7 +9,7 @@ import * as Headings from "constants/table-headings";
 import QuestionnaireTable from "components/QuestionnaireTable";
 import Panel from "components/Panel";
 
-import tableHeadings from "../../../../components/QuestionnaireTable/TableHeadings";
+import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
