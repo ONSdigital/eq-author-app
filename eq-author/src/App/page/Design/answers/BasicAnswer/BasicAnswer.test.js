@@ -105,7 +105,7 @@ describe("BasicAnswer", () => {
     const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
     type="Percentage"
     />)
-    fireEvent.change(getByTestId("toggle-or-option-input"), {
+    fireEvent.click(getByTestId("toggle-or-option-input"), {
       target: { type: "checkbox", checked: true },
       });
 
