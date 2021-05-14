@@ -134,7 +134,9 @@ describe("Navigation sidebar", () => {
     it("should be disabled when on a calculated summary page", () => {
       const { getByText } = calculatedSetup();
       fireEvent.click(getByText("Calculated Summary Page"));
-      expect(getByText("Calculated Summary Page").parentElement).toBeDisabled();
+      expect(
+        getByText("Calculated Summary Page").parentElement
+      ).toHaveAttribute("disabled");
     });
   });
 
@@ -147,7 +149,10 @@ describe("Navigation sidebar", () => {
     it("should be disabled when on an introduction page", () => {
       const { getByText } = introductionSetup();
       fireEvent.click(getByText("Introduction"));
-      expect(getByText("Introduction").parentElement).toBeDisabled();
+
+      expect(getByText("Introduction").parentElement).toHaveAttribute(
+        "disabled"
+      );
     });
   });
 
@@ -156,14 +161,18 @@ describe("Navigation sidebar", () => {
       const { getByText } = confirmationSetup();
       expect(getByText("confirmation question")).toBeVisible();
       fireEvent.click(getByText("confirmation question"));
-      expect(getByText("confirmation question").parentElement).toBeDisabled();
+      expect(getByText("confirmation question").parentElement).toHaveAttribute(
+        "disabled"
+      );
     });
 
     it("should be disabled when on an confirmation pages", () => {
       const { getByText } = confirmationSetup();
       expect(getByText("confirmation question")).toBeVisible();
       fireEvent.click(getByText("confirmation question"));
-      expect(getByText("confirmation question").parentElement).toBeDisabled();
+      expect(getByText("confirmation question").parentElement).toHaveAttribute(
+        "disabled"
+      );
     });
   });
 });
