@@ -24,6 +24,7 @@ const QuestionnaireTable = ({
   onDuplicateQuestionnaire,
   handleLock,
   enabledHeadings,
+  clickable,
 }) => {
   return (
     <TableWrapper>
@@ -40,6 +41,7 @@ const QuestionnaireTable = ({
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
+        clickable={clickable}
       />
     </TableWrapper>
   );
@@ -57,6 +59,7 @@ QuestionnaireTable.propTypes = {
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
   enabledHeadings: PropTypes.array, // eslint-disable-line
+  clickable: PropTypes.bool,
 };
 
 export default QuestionnaireTable;

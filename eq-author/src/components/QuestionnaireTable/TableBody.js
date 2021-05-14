@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Row from "./Row";
+import UnclickableRow from "./UnclickableRow";
+
 import tableHeadings from "./TableHeadings";
 
 const listQuestionnaires = (
@@ -9,21 +11,37 @@ const listQuestionnaires = (
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
-  handleLock
+  handleLock,
+  tableHeadings,
+  clickable
 ) =>
-  questionnaires.map(({ id }, index) => (
-    <Row
-      key={id}
-      autoFocus={id === autoFocusId}
-      questionnaire={questionnaires[index]}
-      onDeleteQuestionnaire={onDeleteQuestionnaire}
-      onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-      onLockQuestionnaire={handleLock}
-      isLastOnPage={questionnaires.length === index + 1}
-      data-test="questionnaire-row"
-      tableHeadings={tableHeadings}
-    />
-  ));
+  clickable
+    ? questionnaires.map(({ id }, index) => (
+        <Row
+          key={id}
+          autoFocus={id === autoFocusId}
+          questionnaire={questionnaires[index]}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onLockQuestionnaire={handleLock}
+          isLastOnPage={questionnaires.length === index + 1}
+          data-test="questionnaire-row"
+          tableHeadings={tableHeadings}
+        />
+      ))
+    : questionnaires.map(({ id }, index) => (
+        <UnclickableRow
+          key={id}
+          autoFocus={id === autoFocusId}
+          questionnaire={questionnaires[index]}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onLockQuestionnaire={handleLock}
+          isLastOnPage={questionnaires.length === index + 1}
+          data-test="questionnaire-row"
+          tableHeadings={tableHeadings}
+        />
+      ));
 
 const TableBody = ({
   questionnaires,
@@ -31,6 +49,7 @@ const TableBody = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   handleLock,
+  clickable,
 }) => {
   return (
     <tbody>
@@ -40,7 +59,8 @@ const TableBody = ({
         onDeleteQuestionnaire,
         onDuplicateQuestionnaire,
         handleLock,
-        tableHeadings
+        tableHeadings,
+        clickable
       )}
     </tbody>
   );
@@ -52,6 +72,7 @@ TableBody.propTypes = {
   onDeleteQuestionnaire: PropTypes.func,
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
+  clickable: PropTypes.bool,
 };
 
 export default TableBody;
