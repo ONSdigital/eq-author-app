@@ -29,7 +29,6 @@ import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
 export const QuestionnaireItem = styled.span`
   text-decoration: none;
-  color: ${colors.blue};
   padding: 0 0.5em;
   display: flex;
   flex-direction: column;
@@ -89,7 +88,6 @@ export const TR = styled.tr`
 
   &:hover {
     background-color: ${rgba(colors.primary, 0.1)};
-    cursor: pointer;
   }
 `;
 

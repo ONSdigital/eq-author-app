@@ -59,7 +59,7 @@ const QuestionnairesTable = ({
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
         enabledHeadings={enabledRows}
-        clickable={false}
+        clickable
       />
       <LockModal />
     </Panel>
