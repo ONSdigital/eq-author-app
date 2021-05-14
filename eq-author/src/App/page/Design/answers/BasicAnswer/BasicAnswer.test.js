@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
+import { render as rtlRender, fireEvent } from "tests/utils/rtl";
 
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -14,8 +14,6 @@ describe("BasicAnswer", () => {
   let children;
   let props;
   let multipleAnswers;
-  let onChangeToggle;
-  let type;
 
   const createWrapper = (props, render = shallow) => {
     return render(<StatelessBasicAnswer {...props} />);
@@ -31,7 +29,6 @@ describe("BasicAnswer", () => {
     };
     onChange = jest.fn();
     onUpdate = jest.fn();
-    onChangeToggle = jest.fn();
     multipleAnswers = false;
     
     props = {
