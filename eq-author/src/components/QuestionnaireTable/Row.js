@@ -369,24 +369,21 @@ export const Row = ({
 
   return (
     <>
-      <TR
-        ref={rowRef}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        linkHasFocus={linkHasFocus}
-        onClick={handleClick}
-        data-test="table-row"
-      >
-        {renderEnabled(tableHeadings, Headings.TITLE)}
-        {renderEnabled(tableHeadings, Headings.OWNER)}
-        {renderEnabled(tableHeadings, Headings.CREATED)}
-        {renderEnabled(tableHeadings, Headings.MODIFIED)}
-        {renderEnabled(tableHeadings, Headings.PERMISSIONS)}
-        {renderEnabled(tableHeadings, Headings.LOCKED)}
-        {renderEnabled(tableHeadings, Headings.STARRED)}
-        {renderEnabled(tableHeadings, Headings.ACTIONS)}
-      </TR>
-
+      {tableHeadings.map((item) => {
+        return (
+          <TR
+            key={item.heading}
+            ref={rowRef}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            linkHasFocus={linkHasFocus}
+            onClick={handleClick}
+            data-test="table-row"
+          >
+            {renderEnabled(tableHeadings, item.heading)}
+          </TR>
+        );
+      })}
       <DeleteConfirmDialog
         isOpen={showDeleteModal}
         onClose={handleModalClose}

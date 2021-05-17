@@ -109,13 +109,8 @@ const UnsortableTH = styled(TH)`
 `;
 
 function checkEnabled(enabledRows, headings) {
-  enabledRows.map((heading) => {
-    const headingElement = headings.find(
-      (element) => element.heading === heading
-    );
-    headingElement.enabled = true;
-    return null;
-  });
+  const rows = enabledRows.filter((element) => element.enabled);
+  return rows;
 }
 
 const listHeadings = (props) =>
