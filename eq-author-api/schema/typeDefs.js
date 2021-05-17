@@ -250,6 +250,7 @@ type BasicAnswer implements Answer {
   secondaryLabel: String
   secondaryLabelDefault: String
   type: AnswerType!
+  options: [Option]
   page: QuestionPage
   properties: JSON
   validation: ValidationType
@@ -282,6 +283,7 @@ type Option {
   qCode: String
   answer: Answer
   additionalAnswer: BasicAnswer
+  mutuallyExclusive: Boolean
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -715,12 +717,26 @@ input SetQuestionnaireLockedInput {
   locked: Boolean!
 }
 
+input Position {
+  sectionId: ID
+  folderId: ID
+  index: Int!
+}
+
+input ImportQuestionsInput {
+  questionnaireId: ID!
+  questionIds: [ID!]!
+  position: Position!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
+
+  importQuestions(input: ImportQuestionsInput!): Section
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
@@ -769,7 +785,7 @@ type Mutation {
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   moveOption(input: MoveOptionInput!): MultipleChoiceAnswer!
   updateOption(input: UpdateOptionInput!): Option
-  deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
+  deleteOption(input: DeleteOptionInput!): Answer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!

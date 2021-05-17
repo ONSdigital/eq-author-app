@@ -3,6 +3,7 @@ const routing2 = require("./logic/routing2");
 const binaryExpression2 = require("./logic/binaryExpression2");
 const page = require("./pages");
 const questionnaireIntroduction = require("./questionnaireIntroduction");
+const importing = require("./importing");
 
 module.exports = [
   base,
@@ -10,4 +11,5 @@ module.exports = [
   binaryExpression2,
   ...page,
   ...questionnaireIntroduction,
+  importing,
 ];
