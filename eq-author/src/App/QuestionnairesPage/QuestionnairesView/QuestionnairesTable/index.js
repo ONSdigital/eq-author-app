@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
+import { useHistory } from "react-router-dom";
+
 import { SORT_ORDER } from "constants/sort-order.js";
 import * as Headings from "constants/table-headings";
+
+import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import QuestionnaireTable from "components/QuestionnaireTable";
 import Panel from "components/Panel";
@@ -40,10 +44,19 @@ const QuestionnairesTable = ({
     component: LockModal,
   } = useQuestionnaireLockingModal(targetQuestionnaire);
 
+  const history = useHistory();
+
   const handleLock = (questionnaire) => {
     setTargetQuestionnaire(questionnaire);
     triggerLockModal();
   };
+
+  const handleClick = (questionnaireId) =>
+    history.push(
+      buildQuestionnairePath({
+        questionnaireId,
+      })
+    );
 
   return (
     <Panel>
@@ -59,6 +72,7 @@ const QuestionnairesTable = ({
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
         enabledHeadings={enabledRows}
+        onRowClick={handleClick}
       />
       <LockModal />
     </Panel>

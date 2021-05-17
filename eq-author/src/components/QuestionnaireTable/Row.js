@@ -3,7 +3,7 @@ import Tooltip from "components/Forms/Tooltip";
 
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { rgba } from "polished";
 
 import CustomPropTypes from "custom-prop-types";
@@ -13,8 +13,6 @@ import DuplicateButton from "components/buttons/DuplicateButton";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
 import Button from "components/buttons/Button";
-
-import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
@@ -29,14 +27,13 @@ import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
 
 import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
-export const QuestionnaireLink = styled(NavLink)`
+export const QuestionnaireLink = styled.span`
   text-decoration: none;
   color: ${colors.blue};
   padding: 0 0.5em;
   display: flex;
   flex-direction: column;
   margin-left: -0.5em;
-
   &:focus {
     outline: none;
   }
@@ -165,12 +162,12 @@ export const Row = ({
     starred,
     locked,
   },
-  history,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onLockQuestionnaire,
   autoFocus,
   tableHeadings,
+  onClick,
 }) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -179,7 +176,7 @@ export const Row = ({
 
   const rowRef = useRef();
   const focusLink = () => {
-    rowRef.current.getElementsByTagName("a")[0].focus();
+    rowRef.current.getElementsByTagName("span")[0].focus();
   };
 
   useEffect(() => {
@@ -204,13 +201,7 @@ export const Row = ({
     }
   }, [prevAutoFocus]);
 
-  const handleClick = () => {
-    history.push(
-      buildQuestionnairePath({
-        questionnaireId: questionnaire.id,
-      })
-    );
-  };
+  const handleClick = () => onClick(id);
 
   const handleFocus = () => {
     setLinkHasFocus(true);
@@ -222,10 +213,6 @@ export const Row = ({
 
   const handleButtonFocus = (e) => {
     setLinkHasFocus(false);
-    e.stopPropagation();
-  };
-
-  const handleLinkClick = (e) => {
     e.stopPropagation();
   };
 
@@ -261,129 +248,114 @@ export const Row = ({
   const hasWritePermission = permission === WRITE;
   const canDelete = hasWritePermission && !locked;
 
-  const renderEnabled = (tableHeadings, columnHeading) =>
-    tableHeadings.map(({ heading, enabled }) => {
-      if (enabled && heading === columnHeading) {
-        switch (heading) {
-          case Headings.TITLE:
-            return (
-              <TD key={heading}>
-                <QuestionnaireLink
-                  data-test="anchor-questionnaire-title"
-                  title={displayName}
-                  onClick={handleLinkClick}
-                  to={buildQuestionnairePath({
-                    questionnaireId: id,
-                  })}
-                >
-                  {shortTitle && (
-                    <ShortTitle>
-                      <Truncated>{shortTitle}</Truncated>
-                    </ShortTitle>
-                  )}
-                  <Truncated>{title}</Truncated>
-                </QuestionnaireLink>
-              </TD>
-            );
-          case Headings.OWNER:
-            return <TD key={heading}>{createdBy.displayName}</TD>;
-          case Headings.CREATED:
-            return (
-              <TD key={heading}>
-                <FormattedDate date={createdAt} />
-              </TD>
-            );
-          case Headings.MODIFIED:
-            return (
-              <TD key={heading}>
-                <FormattedDate date={updatedAt} />
-              </TD>
-            );
-          case Headings.PERMISSIONS:
-            return (
-              <TD key={heading}>
-                <Permissions>
-                  <Permission>View</Permission>
-                  <Permission disabled={!hasWritePermission}>Edit</Permission>
-                </Permissions>
-              </TD>
-            );
-          case Headings.LOCKED:
-            return (
-              <TD key={heading}>
-                <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
-                  <IconTextButton
-                    title="Lock"
-                    onClick={handleLock}
-                    data-test="lockButton"
-                    disabled={!hasWritePermission}
-                  >
-                    {locked ? <LockedIcon /> : <UnlockedIcon />}
-                  </IconTextButton>
-                </Tooltip>
-              </TD>
-            );
-          case Headings.STARRED:
-            return (
-              <TD key={heading}>
-                <Tooltip
-                  content={starred ? "Starred" : "Not starred"}
-                  place="top"
-                >
-                  <IconTextButton
-                    title="Star"
-                    onClick={handleStar}
-                    data-test="starButton"
-                  >
-                    {starred ? <StarredIcon /> : <UnstarredIcon />}
-                  </IconTextButton>
-                </Tooltip>
-              </TD>
-            );
-          case Headings.ACTIONS:
-            return (
-              <TD key={heading}>
-                <div onFocus={handleButtonFocus} data-test="action-btn-group">
-                  <ButtonGroup>
-                    <DuplicateQuestionnaireButton
-                      data-test="btn-duplicate-questionnaire"
-                      onClick={handleDuplicateQuestionnaire}
-                      hideText
-                    />
-                    <IconButtonDelete
-                      hideText
-                      data-test="btn-delete-questionnaire"
-                      onClick={handleDeleteQuestionnaire}
-                      disabled={!canDelete}
-                    />
-                  </ButtonGroup>
-                </div>
-              </TD>
-            );
-          default:
-            return null;
-        }
-      }
-      return null;
-    });
+  const renderEnabled = (heading) => {
+    switch (heading) {
+      case Headings.TITLE:
+        return (
+          <TD key={heading}>
+            <QuestionnaireLink
+              data-test="anchor-questionnaire-title"
+              title={displayName}
+              tabIndex="0"
+            >
+              {shortTitle && (
+                <ShortTitle>
+                  <Truncated>{shortTitle}</Truncated>
+                </ShortTitle>
+              )}
+              <Truncated>{title}</Truncated>
+            </QuestionnaireLink>
+          </TD>
+        );
+      case Headings.OWNER:
+        return <TD key={heading}>{createdBy.displayName}</TD>;
+      case Headings.CREATED:
+        return (
+          <TD key={heading}>
+            <FormattedDate date={createdAt} />
+          </TD>
+        );
+      case Headings.MODIFIED:
+        return (
+          <TD key={heading}>
+            <FormattedDate date={updatedAt} />
+          </TD>
+        );
+      case Headings.PERMISSIONS:
+        return (
+          <TD key={heading}>
+            <Permissions>
+              <Permission>View</Permission>
+              <Permission disabled={!hasWritePermission}>Edit</Permission>
+            </Permissions>
+          </TD>
+        );
+      case Headings.LOCKED:
+        return (
+          <TD key={heading}>
+            <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
+              <IconTextButton
+                title="Lock"
+                onClick={handleLock}
+                data-test="lockButton"
+                disabled={!hasWritePermission}
+              >
+                {locked ? <LockedIcon /> : <UnlockedIcon />}
+              </IconTextButton>
+            </Tooltip>
+          </TD>
+        );
+      case Headings.STARRED:
+        return (
+          <TD key={heading}>
+            <Tooltip content={starred ? "Starred" : "Not starred"} place="top">
+              <IconTextButton
+                title="Star"
+                onClick={handleStar}
+                data-test="starButton"
+              >
+                {starred ? <StarredIcon /> : <UnstarredIcon />}
+              </IconTextButton>
+            </Tooltip>
+          </TD>
+        );
+      case Headings.ACTIONS:
+        return (
+          <TD key={heading}>
+            <div onFocus={handleButtonFocus} data-test="action-btn-group">
+              <ButtonGroup>
+                <DuplicateQuestionnaireButton
+                  data-test="btn-duplicate-questionnaire"
+                  onClick={handleDuplicateQuestionnaire}
+                  hideText
+                />
+                <IconButtonDelete
+                  hideText
+                  data-test="btn-delete-questionnaire"
+                  onClick={handleDeleteQuestionnaire}
+                  disabled={!canDelete}
+                />
+              </ButtonGroup>
+            </div>
+          </TD>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
-      {tableHeadings.map((item) => {
-        return (
-          <TR
-            key={item.heading}
-            ref={rowRef}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            linkHasFocus={linkHasFocus}
-            onClick={handleClick}
-            data-test="table-row"
-          >
-            {renderEnabled(tableHeadings, item.heading)}
-          </TR>
-        );
-      })}
+      <TR
+        ref={rowRef}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        linkHasFocus={linkHasFocus}
+        onClick={handleClick}
+        data-test="table-row"
+      >
+        {tableHeadings.map(renderEnabled)}
+      </TR>
       <DeleteConfirmDialog
         isOpen={showDeleteModal}
         onClose={handleModalClose}

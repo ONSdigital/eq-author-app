@@ -2,21 +2,14 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, fireEvent } from "tests/utils/rtl";
 
+import * as Headings from "constants/table-headings";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
-
-import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
 import { colors } from "constants/theme";
 import { UNPUBLISHED } from "constants/publishStatus";
 
-import {
-  Row,
-  TR,
-  ShortTitle,
-  DuplicateQuestionnaireButton,
-  QuestionnaireLink,
-} from "./Row";
+import { Row, TR, ShortTitle, DuplicateQuestionnaireButton } from "./Row";
 
 import { useMutation } from "@apollo/react-hooks";
 
@@ -24,13 +17,19 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [() => null]),
 }));
 
+const enabledRows = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
+
 describe("Row", () => {
   let props;
-
-  tableHeadings.map((heading) => {
-    heading.enabled = true;
-    return null;
-  });
 
   const renderRow = (props) =>
     render(
@@ -46,10 +45,11 @@ describe("Row", () => {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onLockQuestionnaire: jest.fn(),
-      tableHeadings: tableHeadings,
+      tableHeadings: enabledRows,
       history: {
         push: jest.fn(),
       },
+      onClick: jest.fn(),
       questionnaire: {
         id: "1",
         displayName: "Foo",
@@ -102,20 +102,12 @@ describe("Row", () => {
     expect(stopPropagation).toHaveBeenCalled();
   });
 
-  it("should navigate to the questionnaire when the row is clicked", () => {
+  it("should call onClick when row is clicked", () => {
     const wrapper = shallow(<Row {...props} />);
 
     const tableRow = wrapper.find(TR);
     tableRow.simulate("click");
-    expect(props.history.push).toHaveBeenCalled();
-  });
-
-  it("should only navigate to the questionnaire once when clicking the link", () => {
-    const wrapper = shallow(<Row {...props} />);
-    const tableLink = wrapper.find(QuestionnaireLink);
-    const stopPropagation = jest.fn();
-    tableLink.simulate("click", { stopPropagation });
-    expect(stopPropagation).toHaveBeenCalled();
+    expect(props.onClick).toHaveBeenCalledWith(props.questionnaire.id);
   });
 
   it("should allow duplication of a Questionnaire", () => {

@@ -25,6 +25,7 @@ const QuestionnaireTable = ({
   handleLock,
   enabledHeadings,
   clickable,
+  onRowClick,
 }) => {
   return (
     <TableWrapper>
@@ -42,6 +43,8 @@ const QuestionnaireTable = ({
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
         handleLock={handleLock}
         clickable={clickable}
+        enabledHeadings={enabledHeadings}
+        onRowClick={onRowClick}
       />
     </TableWrapper>
   );

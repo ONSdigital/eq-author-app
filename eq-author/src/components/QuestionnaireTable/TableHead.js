@@ -108,40 +108,37 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
-function checkEnabled(enabledRows, headings) {
-  const rows = enabledRows.filter((element) => element.enabled);
-  return rows;
-}
+const renderHeading = (props, { heading, sortColumn, colWidth, sortable }) =>
+  sortable ? (
+    <SortableTH
+      key={`sortable-${heading.toLowerCase()}`}
+      sortColumn={sortColumn}
+      colWidth={colWidth}
+      dataTest={`${heading.toLowerCase()}-sort-button`}
+      {...props}
+    >
+      {heading}
+    </SortableTH>
+  ) : (
+    <UnsortableTH
+      key={`unsortable-${heading.toLowerCase()}`}
+      colWidth={colWidth}
+    >
+      {heading}
+    </UnsortableTH>
+  );
+const TableHead = (props) => {
+  const { enabledHeadings } = props;
 
-const listHeadings = (props) =>
-  tableHeadings.map(({ heading, sortColumn, colWidth, sortable, enabled }) =>
-    enabled ? (
-      sortable ? (
-        <SortableTH
-          key={`sortable-${heading.toLowerCase()}`}
-          sortColumn={sortColumn}
-          colWidth={colWidth}
-          dataTest={`${heading.toLowerCase()}-sort-button`}
-          {...props}
-        >
-          {heading}
-        </SortableTH>
-      ) : (
-        <UnsortableTH
-          key={`unsortable-${heading.toLowerCase()}`}
-          colWidth={colWidth}
-        >
-          {heading}
-        </UnsortableTH>
-      )
-    ) : null
+  const filteredHeadings = tableHeadings.filter(({ heading }) =>
+    enabledHeadings.includes(heading)
   );
 
-const TableHead = (props) => {
-  checkEnabled(props.enabledHeadings, tableHeadings);
   return (
     <thead>
-      <tr>{listHeadings(props)}</tr>
+      <tr>
+        {filteredHeadings.map((heading) => renderHeading(props, heading))}
+      </tr>
     </thead>
   );
 };
