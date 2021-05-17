@@ -4,16 +4,18 @@
 mutation DeleteOption($input: DeleteOptionInput!) {
   deleteOption(input: $input) {
     id
-    options {
-      ...Option
-      validationErrorInfo {
-        ...ValidationErrorInfo
+    ... on MultipleChoiceAnswer {
+      options {
+        ...Option
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
       }
-    }
-    mutuallyExclusiveOption {
-      ...Option
-      validationErrorInfo {
-        ...ValidationErrorInfo
+      mutuallyExclusiveOption {
+        ...Option
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
       }
     }
   }
