@@ -717,12 +717,26 @@ input SetQuestionnaireLockedInput {
   locked: Boolean!
 }
 
+input Position {
+  sectionId: ID
+  folderId: ID
+  index: Int!
+}
+
+input ImportQuestionsInput {
+  questionnaireId: ID!
+  questionIds: [ID!]!
+  position: Position!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
+
+  importQuestions(input: ImportQuestionsInput!): Section
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
