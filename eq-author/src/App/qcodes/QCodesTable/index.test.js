@@ -1,9 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import { useMutation } from "@apollo/react-hooks";
-import { QCodeContext } from "components/QCodeContext";
-import { UnwrappedQCodeTable } from "./index";
-import { buildAnswers } from "tests/utils/createMockQuestionnaire";
+import { QCodeContextProvider } from "components/QCodeContext";
+import { QCodeTable } from "./index";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
 
@@ -21,19 +21,14 @@ jest.mock("@apollo/react-hooks", () => ({
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
-const renderWithContext = ({
-  flattenedAnswers,
-  duplicates = { 123: 5 },
-} = {}) => {
-  const utils = render(
-    <QCodeContext.Provider value={{ flattenedAnswers, duplicates }}>
-      <UnwrappedQCodeTable />
-    </QCodeContext.Provider>
+const renderWithContext = ({ questionnaire } = {}) =>
+  render(
+    <QCodeContextProvider questionnaire={questionnaire}>
+      <QCodeTable />
+    </QCodeContextProvider>
   );
-  return { ...utils };
-};
 
-const numberMatrix = {
+const numberTypes = {
   0: NUMBER,
   1: CURRENCY,
   2: UNIT,
@@ -41,145 +36,121 @@ const numberMatrix = {
   4: DURATION,
 };
 
-const numberAnswers = ({ title = "Questions", nested = true } = {}) =>
-  buildAnswers({ answerCount: 5 }).map((item, index) => {
-    if (index > 0 && nested) {
-      item.nested = true;
+const numberSetup = () => {
+  const questionnaire = buildQuestionnaire({ answerCount: 5 });
+  Object.assign(questionnaire.sections[0].folders[0].pages[0], {
+    title: "<p>Numerical question types</p>",
+    alias: "numerical-types-alias",
+  });
+  questionnaire.sections[0].folders[0].pages[0].answers.forEach(
+    (answer, index) => {
+      answer.id = `${numberTypes[index]}-id`;
+      answer.type = numberTypes[index];
+      answer.qCode = "123";
+      answer.label = numberTypes[index] + "-label";
     }
-    const type = numberMatrix[index].toLowerCase();
-    item.id = `${type}-${index}-id`;
-    item.alias = `${type}-${index}-alias`;
-    item.title = `<p>${title} ${index}</p>`;
-    item.type = numberMatrix[index];
-    item.label = `${type}-${index}-label`;
-    item.qCode = `${123}`;
-    item.properties = { required: false };
-    return item;
+  );
+
+  return renderWithContext({ questionnaire });
+};
+
+const dateSetup = () => {
+  const questionnaire = buildQuestionnaire({ answerCount: 2 });
+  Object.assign(questionnaire.sections[0].folders[0].pages[0], {
+    title: "<p>Date question types</p>",
+    alias: "date-types-alias",
+  });
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[0],
+    generateAnswer({ type: "Date" })
+  );
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[1],
+    generateAnswer({
+      type: "DateRange",
+      secondaryLabel: "To",
+      label: "From",
+      secondaryQCode: "DateRange-To-qCode",
+    })
+  );
+  return renderWithContext({ questionnaire });
+};
+
+const generateAnswer = (input) => ({
+  id: input.type + "-id",
+  qCode: input.type + "-qCode",
+  label: input.type + "-label",
+  ...input,
+});
+
+const textSetup = () => {
+  const questionnaire = buildQuestionnaire({ answerCount: 2 });
+  Object.assign(questionnaire.sections[0].folders[0].pages[0], {
+    title: "<p>Text question types</p>",
+    alias: "text-types-alias",
+  });
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[0],
+    generateAnswer({ type: "TextArea" })
+  );
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[1],
+    generateAnswer({ type: "TextField" })
+  );
+
+  return renderWithContext({ questionnaire });
+};
+
+const optionsSetup = () => {
+  const questionnaire = buildQuestionnaire({ answerCount: 2 });
+  Object.assign(questionnaire.sections[0].folders[0].pages[0], {
+    alias: "multiple-choice-answer-types-alias",
+    title: "<p>Multiple choice answer types</p>",
   });
 
-const dateAnswers = [
-  {
-    id: "date-id",
-    title: "<p>Date questions</p>",
-    alias: "date-alias",
-    label: "date-label",
-    type: "Date",
-    qCode: "date-345",
-  },
-  {
-    id: "date-range-1-id",
-    title: "<p>Date range questions</p>",
-    alias: "date-range-alias",
-    label: "To",
-    secondaryLabel: "From",
-    qCode: "date-range-345-to",
-    secondaryQCode: "99",
-    type: "DateRange",
-  },
-  {
-    id: "date-range-2-id",
-    title: "<p>Date range questions</p>",
-    alias: undefined,
-    nested: true,
-    label: "From",
-    qCode: "date-range-345-from",
-    type: "DateRange",
-    secondary: true,
-  },
-];
+  // Radio answer with one option
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[0],
+    generateAnswer({
+      type: "Radio",
+      options: [
+        {
+          id: "radio-option-1",
+          label: "radio-option-1-label",
+          type: "Option",
+        },
+      ],
+    })
+  );
 
-const textAnswers = [
-  {
-    id: "text-field-id",
-    alias: "text-field-alias",
-    title: "<p>Questions text field</p>",
-    label: "text-field-label",
-    qCode: "text-f-123",
-    type: "TextField",
-  },
-  {
-    id: "text-area-id",
-    alias: "text-area-alias",
-    title: "<p>Questions text area</p>",
-    label: "text-area-label",
-    qCode: "text-a-123",
-    type: "TextArea",
-  },
-];
+  // Checkbox answer with two options & mutually exclusive option
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[1],
+    generateAnswer({
+      type: "Checkbox",
+      options: [
+        {
+          id: "checkbox-option-1-id",
+          label: "checkbox-option-1-label",
+          qCode: "option-1",
+        },
+        {
+          id: "checkbox-option-2-id",
+          label: "checkbox-option-2-label",
+          qCode: "option-2",
+        },
+      ],
+      mutuallyExclusiveOption: {
+        id: "checkbox-option-3-id",
+        label: "Mutually-exclusive-option-label",
+        mutuallyExclusive: true,
+        qCode: "mutually-exclusive-option",
+      },
+    })
+  );
 
-const optionsAnswers = [
-  {
-    id: "radio-id",
-    alias: "radio-alias",
-    title: "<p>radio-title</p>",
-    label: "radio-label",
-    type: "Radio",
-    qCode: "radio-123",
-  },
-  {
-    id: "checkbox-id",
-    alias: "checkbox-alias",
-    title: "<p>Checkbox question</p>",
-    label: "checkbox-label",
-    type: "Checkbox",
-    options: [[Object], [Object]],
-    mutuallyExclusiveOption: {
-      id: "cb-3",
-      label: "Embedded checkbox Or",
-      mutuallyExclusive: true,
-      description: null,
-      additionalAnswer: null,
-      qCode: "29",
-    },
-  },
-  {
-    id: "checkbox-option-1-id",
-    alias: "checkbox-option-1-alias",
-    title: "<p>Checkbox option 1</p>",
-    nested: true,
-    label: "checkbox-option-1-label",
-    qCode: "option-1",
-    type: "CheckboxOption",
-    option: true,
-  },
-  {
-    id: "checkbox-option-2-id",
-    alias: "checkbox-option-2-alias",
-    title: "<p>Checkbox option 2</p>",
-    nested: true,
-    label: "checkbox-option-2-label",
-    qCode: "option-2",
-    type: "CheckboxOption",
-    option: true,
-  },
-  {
-    id: "checkbox-option-3-id",
-    alias: "checkbox-option-mutually-exclusive",
-    title: "<p>Mutually exclusive option</p>",
-    nested: true,
-    label: "Mutually-exclusive-option-label",
-    mutuallyExclusive: true,
-    qCode: "mutually-exclusive-option",
-    type: "MutuallyExclusiveOption",
-    option: true,
-  },
-];
-
-const numberSetup = () => ({
-  ...renderWithContext({ flattenedAnswers: numberAnswers() }),
-});
-
-const dateSetup = () => ({
-  ...renderWithContext({ flattenedAnswers: dateAnswers }),
-});
-
-const textSetup = () => ({
-  ...renderWithContext({ flattenedAnswers: textAnswers }),
-});
-
-const optionsSetup = () => ({
-  ...renderWithContext({ flattenedAnswers: optionsAnswers }),
-});
+  return renderWithContext({ questionnaire });
+};
 
 describe("Qcode Table", () => {
   it("should render table fields", () => {
@@ -200,11 +171,9 @@ describe("Qcode Table", () => {
   });
 
   it("should render a validation error when a qCode is missing", () => {
-    const answers = numberAnswers();
-    answers[0].qCode = "";
-    const { getAllByText } = renderWithContext({
-      flattenedAnswers: answers,
-    });
+    const questionnaire = buildQuestionnaire({ answerCount: 1 });
+    questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
+    const { getAllByText } = renderWithContext({ questionnaire });
     expect(getAllByText("Qcode required")).toBeTruthy();
   });
 
@@ -212,11 +181,11 @@ describe("Qcode Table", () => {
     const mock = jest.fn();
     useMutation.mockImplementation(jest.fn(() => [mock]));
     const utils = numberSetup();
-    fireEvent.change(utils.getByTestId("number-0-id-test-input"), {
+    fireEvent.change(utils.getByTestId("Number-id-test-input"), {
       target: { value: "123" },
     });
 
-    fireEvent.blur(utils.getByTestId("number-0-id-test-input"));
+    fireEvent.blur(utils.getByTestId("Number-id-test-input"));
     expect(mock).not.toHaveBeenCalled();
   });
 
@@ -228,35 +197,36 @@ describe("Qcode Table", () => {
         useMutation.mockImplementation(jest.fn(() => [mock]));
         utils = numberSetup();
       });
-      describe("Number", () => {
+      describe("Question page", () => {
         it("should display shortcode", () => {
-          expect(utils.getByText(/number-0-alias/)).toBeVisible();
+          expect(utils.getByText(/numerical-types-alias/)).toBeVisible();
         });
         it("should display question", () => {
-          expect(utils.getByText(/Questions 0/)).toBeVisible();
+          expect(utils.getByText(/Numerical question types/)).toBeVisible();
         });
+      });
+      describe("Number", () => {
         it("should display type", () => {
-          expect(utils.getByText(/Number/)).toBeVisible();
+          expect(utils.getByText(/^Number$/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/number-0-label/)).toBeVisible();
+          expect(utils.getByText(/Number-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("number-0-id-test-input").value).toEqual(
+          expect(utils.getByTestId("Number-id-test-input").value).toEqual(
             "123"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("number-0-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Number-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("number-0-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Number-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
             variables: {
               input: {
-                id: "number-0-id",
-                properties: { required: false },
+                id: "Number-id",
                 qCode: "187",
               },
             },
@@ -264,34 +234,27 @@ describe("Qcode Table", () => {
         });
       });
       describe("Currency", () => {
-        it("should display shortcode", () => {
-          expect(utils.queryByText(/currency-1-alias/)).toBeNull();
-        });
-        it("should display question", () => {
-          expect(utils.queryByText(/Questions 1/)).toBeNull();
-        });
         it("should display type", () => {
-          expect(utils.getByText(/Currency/)).toBeVisible();
+          expect(utils.getByText(/^Currency$/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/currency-1-label/)).toBeVisible();
+          expect(utils.getByText(/Currency-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("currency-1-id-test-input").value).toEqual(
+          expect(utils.getByTestId("Currency-id-test-input").value).toEqual(
             "123"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("currency-1-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Currency-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("currency-1-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Currency-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
             variables: {
               input: {
-                id: "currency-1-id",
-                properties: { required: false },
+                id: "Currency-id",
                 qCode: "187",
               },
             },
@@ -299,34 +262,25 @@ describe("Qcode Table", () => {
         });
       });
       describe("Unit", () => {
-        it("should display shortcode", () => {
-          expect(utils.queryByText(/unit-2-alias/)).toBeNull();
-        });
-        it("should display question", () => {
-          expect(utils.queryByText(/Questions 2/)).toBeNull();
-        });
         it("should display type", () => {
-          expect(utils.getByText(/Unit/)).toBeVisible();
+          expect(utils.getByText(/^Unit$/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/unit-2-label/)).toBeVisible();
+          expect(utils.getByText(/Unit-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("unit-2-id-test-input").value).toEqual(
-            "123"
-          );
+          expect(utils.getByTestId("Unit-id-test-input").value).toEqual("123");
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("unit-2-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Unit-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("unit-2-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Unit-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
             variables: {
               input: {
-                id: "unit-2-id",
-                properties: { required: false },
+                id: "Unit-id",
                 qCode: "187",
               },
             },
@@ -334,34 +288,27 @@ describe("Qcode Table", () => {
         });
       });
       describe("Percentage", () => {
-        it("should display shortcode", () => {
-          expect(utils.queryByText(/percentage-3-alias/)).toBeNull();
-        });
-        it("should display question", () => {
-          expect(utils.queryByText(/Questions 3/)).toBeNull();
-        });
         it("should display type", () => {
-          expect(utils.getByText(/Percentage/)).toBeVisible();
+          expect(utils.getByText(/^Percentage$/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/percentage-3-label/)).toBeVisible();
+          expect(utils.getByText(/Percentage-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("percentage-3-id-test-input").value).toEqual(
+          expect(utils.getByTestId("Percentage-id-test-input").value).toEqual(
             "123"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("percentage-3-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Percentage-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("percentage-3-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Percentage-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
             variables: {
               input: {
-                id: "percentage-3-id",
-                properties: { required: false },
+                id: "Percentage-id",
                 qCode: "187",
               },
             },
@@ -369,34 +316,27 @@ describe("Qcode Table", () => {
         });
       });
       describe("Duration", () => {
-        it("should display shortcode", () => {
-          expect(utils.queryByText(/duration-4-alias/)).toBeNull();
-        });
-        it("should display question", () => {
-          expect(utils.queryByText(/Questions 4/)).toBeNull();
-        });
         it("should display type", () => {
-          expect(utils.getByText(/Duration/)).toBeVisible();
+          expect(utils.getByText(/^Duration$/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/duration-4-label/)).toBeVisible();
+          expect(utils.getByText(/Duration-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("duration-4-id-test-input").value).toEqual(
+          expect(utils.getByTestId("Duration-id-test-input").value).toEqual(
             "123"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("duration-4-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Duration-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("duration-4-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Duration-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
             variables: {
               input: {
-                id: "duration-4-id",
-                properties: { required: false },
+                id: "Duration-id",
                 qCode: "187",
               },
             },
@@ -413,42 +353,36 @@ describe("Qcode Table", () => {
       });
       describe("Date", () => {
         it("should display shortcode", () => {
-          expect(utils.getByText(/date-alias/)).toBeVisible();
+          expect(utils.getByText(/date-types-alias/)).toBeVisible();
         });
         it("should display question", () => {
-          expect(utils.getByText(/Date questions/)).toBeVisible();
+          expect(utils.getByText(/Date question types/)).toBeVisible();
         });
         it("should display type", () => {
           expect(utils.getAllByText(/Date/)[0]).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/date-label/)).toBeVisible();
+          expect(utils.getByText(/Date-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("date-id-test-input").value).toEqual(
-            "date-345"
+          expect(utils.getByTestId("Date-id-test-input").value).toEqual(
+            "Date-qCode"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("date-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Date-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("date-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Date-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
-            variables: { input: { id: "date-id", qCode: "187" } },
+            variables: { input: { id: "Date-id", qCode: "187" } },
           });
         });
       });
 
       describe("Date range", () => {
         describe("To", () => {
-          it("should display shortcode", () => {
-            expect(utils.getByText(/date-range-alias/)).toBeVisible();
-          });
-          it("should display question", () => {
-            expect(utils.getByText(/Date range questions/)).toBeVisible();
-          });
           it("should display type", () => {
             expect(utils.getAllByText(/Date/)[1]).toBeVisible();
           });
@@ -457,17 +391,24 @@ describe("Qcode Table", () => {
           });
           it("should display answer qCode", () => {
             expect(
-              utils.getByTestId("date-range-1-id-test-input").value
-            ).toEqual("date-range-345-to");
+              utils.getByTestId("DateRange-id-secondary-test-input").value
+            ).toEqual("DateRange-To-qCode");
           });
           it("should save qCode", () => {
-            fireEvent.change(utils.getByTestId("date-range-1-id-test-input"), {
-              target: { value: "187" },
-            });
+            fireEvent.change(
+              utils.getByTestId("DateRange-id-secondary-test-input"),
+              {
+                target: { value: "187" },
+              }
+            );
 
-            fireEvent.blur(utils.getByTestId("date-range-1-id-test-input"));
+            fireEvent.blur(
+              utils.getByTestId("DateRange-id-secondary-test-input")
+            );
             expect(mock).toHaveBeenCalledWith({
-              variables: { input: { id: "date-range-1-id", qCode: "187" } },
+              variables: {
+                input: { id: "DateRange-id", secondaryQCode: "187" },
+              },
             });
           });
         });
@@ -477,19 +418,19 @@ describe("Qcode Table", () => {
             expect(utils.getByText(/From/)).toBeVisible();
           });
           it("should display answer qCode", () => {
-            expect(
-              utils.getByTestId("date-range-2-id-test-input").value
-            ).toEqual("date-range-345-from");
+            expect(utils.getByTestId("DateRange-id-test-input").value).toEqual(
+              "DateRange-qCode"
+            );
           });
           it("should save qCode", () => {
-            fireEvent.change(utils.getByTestId("date-range-2-id-test-input"), {
+            fireEvent.change(utils.getByTestId("DateRange-id-test-input"), {
               target: { value: "187" },
             });
 
-            fireEvent.blur(utils.getByTestId("date-range-2-id-test-input"));
+            fireEvent.blur(utils.getByTestId("DateRange-id-test-input"));
             expect(mock).toHaveBeenCalledWith({
               variables: {
-                input: { id: "date-range-2-id", secondaryQCode: "187" },
+                input: { id: "DateRange-id", qCode: "187" },
               },
             });
           });
@@ -505,60 +446,54 @@ describe("Qcode Table", () => {
       });
       describe("TextField", () => {
         it("should display shortcode", () => {
-          expect(utils.getByText(/text-field-alias/)).toBeVisible();
+          expect(utils.getByText(/text-types-alias/)).toBeVisible();
         });
         it("should display question", () => {
-          expect(utils.getByText(/Questions text field/)).toBeVisible();
+          expect(utils.getByText(/Text question types/)).toBeVisible();
         });
         it("should display type", () => {
           expect(utils.getByText(/Text field/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/text-field-label/)).toBeVisible();
+          expect(utils.getByText(/TextField-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("text-field-id-test-input").value).toEqual(
-            "text-f-123"
+          expect(utils.getByTestId("TextField-id-test-input").value).toEqual(
+            "TextField-qCode"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("text-field-id-test-input"), {
+          fireEvent.change(utils.getByTestId("TextField-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("text-field-id-test-input"));
+          fireEvent.blur(utils.getByTestId("TextField-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
-            variables: { input: { id: "text-field-id", qCode: "187" } },
+            variables: { input: { id: "TextField-id", qCode: "187" } },
           });
         });
       });
 
       describe("TextArea", () => {
-        it("should display shortcode", () => {
-          expect(utils.getByText(/text-area-alias/)).toBeVisible();
-        });
-        it("should display question", () => {
-          expect(utils.getByText(/Questions text area/)).toBeVisible();
-        });
         it("should display type", () => {
           expect(utils.getByText(/Text area/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/text-area-label/)).toBeVisible();
+          expect(utils.getByText(/TextArea-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("text-area-id-test-input").value).toEqual(
-            "text-a-123"
+          expect(utils.getByTestId("TextArea-id-test-input").value).toEqual(
+            "TextArea-qCode"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("text-area-id-test-input"), {
+          fireEvent.change(utils.getByTestId("TextArea-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("text-area-id-test-input"));
+          fireEvent.blur(utils.getByTestId("TextArea-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
-            variables: { input: { id: "text-area-id", qCode: "187" } },
+            variables: { input: { id: "TextArea-id", qCode: "187" } },
           });
         });
       });
@@ -572,61 +507,67 @@ describe("Qcode Table", () => {
       });
       describe("Radio", () => {
         it("should display shortcode", () => {
-          expect(utils.getByText(/radio-alias/)).toBeVisible();
+          expect(
+            utils.getByText(/multiple-choice-answer-types-alias/)
+          ).toBeVisible();
         });
         it("should display question", () => {
-          expect(utils.getByText(/radio-title/)).toBeVisible();
+          expect(utils.getByText(/Multiple choice answer types/)).toBeVisible();
         });
         it("should display type", () => {
-          expect(utils.getByText(/Radio/)).toBeVisible();
+          expect(utils.getByText("Radio")).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/radio-label/)).toBeVisible();
+          expect(utils.getByText(/Radio-label/)).toBeVisible();
         });
         it("should display answer qCode", () => {
-          expect(utils.getByTestId("radio-id-test-input").value).toEqual(
-            "radio-123"
+          expect(utils.getByTestId("Radio-id-test-input").value).toEqual(
+            "Radio-qCode"
           );
         });
         it("should save qCode", () => {
-          fireEvent.change(utils.getByTestId("radio-id-test-input"), {
+          fireEvent.change(utils.getByTestId("Radio-id-test-input"), {
             target: { value: "187" },
           });
 
-          fireEvent.blur(utils.getByTestId("radio-id-test-input"));
+          fireEvent.blur(utils.getByTestId("Radio-id-test-input"));
           expect(mock).toHaveBeenCalledWith({
-            variables: { input: { id: "radio-id", qCode: "187" } },
+            variables: { input: { id: "Radio-id", qCode: "187" } },
+          });
+        });
+
+        describe("Options", () => {
+          it("should display type", () => {
+            expect(utils.getAllByText(/Radio option/)).toHaveLength(1);
+          });
+          it("should display radio option label", () => {
+            expect(utils.getByText(/radio-option-1-label/)).toBeVisible();
+          });
+          it("should NOT display option qCode", () => {
+            expect(
+              utils.queryByTestId("radio-option-1-id-test-input")
+            ).toBeNull();
           });
         });
       });
 
       describe("Checkbox", () => {
         it("should display shortcode", () => {
-          expect(utils.getByText(/checkbox-alias/)).toBeVisible();
+          expect(
+            utils.getByText(/multiple-choice-answer-types-alias/)
+          ).toBeVisible();
         });
         it("should display question", () => {
-          expect(utils.getByText(/Checkbox question/)).toBeVisible();
+          expect(utils.getByText(/Multiple choice answer types/)).toBeVisible();
         });
         it("should display answer label", () => {
-          expect(utils.getByText(/checkbox-label/)).toBeVisible();
+          expect(utils.getByText(/Checkbox-label/)).toBeVisible();
         });
-        it("should display answer qCode", () => {
-          expect(utils.queryByTestId("checkbox-id-test-input")).toBeNull();
+        it("should NOT display answer qCode", () => {
+          expect(utils.queryByTestId("Checkbox-id-test-input")).toBeNull();
         });
 
         describe("options", () => {
-          it("should display shortcode", () => {
-            expect(utils.queryByText(/checkbox-option-1-alias/)).toBeNull();
-            expect(utils.queryByText(/checkbox-option-2-alias/)).toBeNull();
-            expect(
-              utils.queryByText(/checkbox-option-mutually-exclusive/)
-            ).toBeNull();
-          });
-          it("should display question", () => {
-            expect(utils.queryByText(/Checkbox option 1/)).toBeNull();
-            expect(utils.queryByText(/Checkbox option 2/)).toBeNull();
-            expect(utils.queryByText(/Mutually exclusive option/)).toBeNull();
-          });
           it("should display type", () => {
             expect(utils.getAllByText(/Checkbox option/)).toHaveLength(2);
             expect(
@@ -658,7 +599,6 @@ describe("Qcode Table", () => {
                 target: { value: "187" },
               }
             );
-
             fireEvent.blur(
               utils.getByTestId("checkbox-option-1-id-test-input")
             );
@@ -668,7 +608,6 @@ describe("Qcode Table", () => {
               },
             });
           });
-
           it("should save qCode for mutually exclusive option", () => {
             fireEvent.change(
               utils.getByTestId("checkbox-option-3-id-test-input"),
@@ -676,7 +615,6 @@ describe("Qcode Table", () => {
                 target: { value: "187" },
               }
             );
-
             fireEvent.blur(
               utils.getByTestId("checkbox-option-3-id-test-input")
             );

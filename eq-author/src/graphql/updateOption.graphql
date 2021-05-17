@@ -12,7 +12,6 @@ mutation UpdateOption($input: UpdateOptionInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-
     answer {
       id
       page {

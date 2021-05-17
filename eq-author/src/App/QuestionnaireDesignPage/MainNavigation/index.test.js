@@ -3,7 +3,6 @@ import { render } from "tests/utils/rtl";
 import { UnwrappedMainNavigation } from "./";
 import { MeContext } from "App/MeContext";
 import { QCodeContext } from "components/QCodeContext";
-import { buildAnswers } from "tests/utils/createMockQuestionnaire";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -15,24 +14,8 @@ jest.mock("react-apollo", () => ({
   useSubscription: () => null,
 }));
 
-const flatAnswers = () => {
-  const flattenedAnswers = buildAnswers({ answerCount: 5 });
-  flattenedAnswers.map((item, index) => {
-    if (index > 0) {
-      item.nested = true;
-    }
-    item.title = "<p>Questions 1</p>";
-    item.type = "Number";
-    item.qCode = "123";
-    item.label = `${item.type}-${index}`;
-    return item;
-  });
-  return flattenedAnswers;
-};
-
 function defaultSetup({
-  flat = flatAnswers(),
-  duplicateQCode = false,
+  hasQCodeError = false,
   changes = {},
   user = {
     id: "123",
@@ -54,7 +37,7 @@ function defaultSetup({
   };
   const utils = render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
-      <QCodeContext.Provider value={{ flattenedAnswers: flat, duplicateQCode }}>
+      <QCodeContext.Provider value={{ hasQCodeError }}>
         <UnwrappedMainNavigation {...props} />
       </QCodeContext.Provider>
     </MeContext.Provider>
@@ -64,11 +47,8 @@ function defaultSetup({
 }
 
 describe("MainNavigation", () => {
-  it("should display error badge when qCode is empty", () => {
-    const flat = flatAnswers();
-    flat[0].qCode = "";
-    const { getByTestId } = defaultSetup({ flat });
-
+  it("should display error badge when there is a qCode error", () => {
+    const { getByTestId } = defaultSetup({ hasQCodeError: true });
     expect(getByTestId("small-badge")).toBeTruthy();
   });
 
@@ -77,12 +57,6 @@ describe("MainNavigation", () => {
       changes: { hasQuestionnaire: false },
     });
     expect(queryByText("Home")).toBeNull();
-  });
-
-  it("should provide the validation error dot for the QCodes tab if there are duplicate qCodes", () => {
-    const { getByTestId } = defaultSetup({ duplicateQCode: true });
-
-    expect(getByTestId("small-badge")).toBeTruthy();
   });
 
   it("should enable all buttons if there are no errors on questionnaire", () => {
@@ -112,13 +86,11 @@ describe("MainNavigation", () => {
 
   it("should enable qcodes button when qcodes are enabled", () => {
     const { getByTestId } = defaultSetup();
-
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).not.toBeTruthy();
   });
 
   it("should disable qcodes button when qcodes are not enabled", () => {
     const { getByTestId } = defaultSetup({ changes: { qcodesEnabled: false } });
-
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 
