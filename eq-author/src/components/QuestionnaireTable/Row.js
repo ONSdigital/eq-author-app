@@ -20,8 +20,8 @@ import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
 import * as Headings from "constants/table-headings";
 
-import FormattedDate from "../../App/QuestionnairesPage/QuestionnairesView/QuestionnairesTable/Row/FormattedDate.js";
-import questionConfirmationIcon from "../../App/QuestionnairesPage/QuestionnairesView/QuestionnairesTable/Row/icon-questionnaire.svg";
+import FormattedDate from "./FormattedDate.js";
+import questionConfirmationIcon from "assets/icon-questionnaire.svg";
 import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
 import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
 import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";

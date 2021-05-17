@@ -62,4 +62,8 @@ QuestionnaireTable.propTypes = {
   clickable: PropTypes.bool,
 };
 
+QuestionnaireTable.defaultProps = {
+  clickable: true,
+};
+
 export default QuestionnaireTable;
