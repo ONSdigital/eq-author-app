@@ -146,6 +146,7 @@ const propTypes = {
   autoFocus: PropTypes.bool,
   isLastOnPage: PropTypes.bool,
   tableHeadings: PropTypes.array, // eslint-disable-line
+  onClick: PropTypes.func.isRequired,
 };
 
 export const Row = ({

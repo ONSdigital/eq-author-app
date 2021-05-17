@@ -36,6 +36,8 @@ TableBody.propTypes = {
   onDuplicateQuestionnaire: PropTypes.func,
   handleLock: PropTypes.func,
   clickable: PropTypes.bool,
+  enabledHeadings: PropTypes.array, // eslint-disable-line
+  onRowClick: PropTypes.func,
 };
 
 export default TableBody;
