@@ -24,8 +24,7 @@ export const AnswersEditor = ({
   moveAnswer,
 }) => {
 
-    let multipleAnswers = false;
-    answers?.length > 1 ? multipleAnswers = true : multipleAnswers =false;
+  const multipleAnswers = answers?.length > 1;
 
   return (
     <Margin>

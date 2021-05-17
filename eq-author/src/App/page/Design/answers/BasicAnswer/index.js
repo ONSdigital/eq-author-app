@@ -41,8 +41,8 @@ const InlineField = styled(Field)`
 `;
 
 const ToggleWrapper = styled.div`
-  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
-  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+  opacity: ${({disabled}) => (disabled ? "0.6" : "1")};
+  pointer-events: ${({disabled}) => (disabled ? "none" : "auto")};
 `;
 
 export const StatelessBasicAnswer = ({
