@@ -36,7 +36,9 @@ export const flattenAnswer = (answer) =>
 // Generate list of rows of flattened answers, with parent page information,
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
-  const pages = getPages(questionnaire);
+  const pages = getPages(questionnaire)?.filter(
+    ({ pageType }) => pageType !== "CalculatedSummaryPage"
+  );
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
