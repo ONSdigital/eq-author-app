@@ -7,7 +7,7 @@ import chevronDown from "assets/icon-chevron-down-blue.svg";
 
 import Button from "components/buttons/Button";
 
-const Wrapper = styled.div`
+const Wrapper = styled.ol`
   margin-bottom: 1em;
 `;
 
