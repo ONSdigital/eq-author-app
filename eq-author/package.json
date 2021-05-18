@@ -119,6 +119,7 @@
     "polished": "latest",
     "react": "latest",
     "react-apollo": "latest",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "latest",
     "react-firebaseui": "latest",
     "react-gtm-module": "latest",
