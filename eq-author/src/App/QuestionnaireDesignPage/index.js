@@ -98,6 +98,10 @@ export const QuestionnaireDesignPage = () => {
                         hasQuestionnaire={Boolean(questionnaire?.id)}
                         totalErrorCount={questionnaire?.totalErrorCount || 0}
                         qcodesEnabled={questionnaire?.qcodes}
+                        settingsError={
+                          questionnaire?.themeSettings?.validationErrorInfo
+                            ?.totalCount > 0
+                        }
                       />
                     </MainNav>
                     <NavigationSidebar

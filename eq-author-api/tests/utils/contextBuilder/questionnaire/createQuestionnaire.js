@@ -42,14 +42,17 @@ const createQuestionnaireMutation = `
           id
         }
       }
-      previewTheme
-      themes {
+      themeSettings {
         id
-        enabled
-        shortName
-        legalBasisCode
-        eqId
-        formType
+        previewTheme
+        themes {
+          id
+          enabled
+          shortName
+          legalBasisCode
+          eqId
+          formType
+        }
       }
     }
   }

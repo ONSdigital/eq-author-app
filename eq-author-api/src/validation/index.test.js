@@ -17,6 +17,7 @@ const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
 const { AND } = require("../../constants/routingOperators");
 
 const {
+  ERR_NO_THEME_ENABLED,
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
@@ -126,6 +127,37 @@ describe("schema validation", () => {
   it("should not return pageErrors on valid schema", () => {
     const validationPageErrors = validation(questionnaire);
     expect(validationPageErrors.length).toEqual(0);
+  });
+
+  describe("Themes validation", () => {
+    it("should return an error if all themes are disabled", () => {
+      questionnaire.themeSettings = {
+        id: "ts-1",
+        previewTheme: "default",
+        themes: [
+          {
+            id: "theme-1",
+            enabled: false,
+            shortName: "covid",
+            legalBasisCode: "NOTICE_1",
+            eqId: "dave",
+            formType: "777",
+          },
+          {
+            id: "theme-2",
+            enabled: false,
+            shortName: "default",
+            legalBasisCode: "NOTICE_1",
+            eqId: "ivan",
+            formType: "888",
+          },
+        ],
+      };
+
+      const errors = validation(questionnaire);
+
+      expect(errors[0].errorCode).toBe(ERR_NO_THEME_ENABLED);
+    });
   });
 
   describe("Question page validation", () => {

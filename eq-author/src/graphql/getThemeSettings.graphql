@@ -1,0 +1,26 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
+query GetThemeSettings($input: QueryInput!) {
+  questionnaire(input: $input) {
+    id
+    surveyId
+    themeSettings {
+      id
+      previewTheme
+      themes {
+        id
+        shortName
+        enabled
+        eqId
+        legalBasisCode
+        formType
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+  }
+}

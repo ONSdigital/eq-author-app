@@ -17,6 +17,13 @@ query GetQuestionnaire($input: QueryInput!) {
       languageValue
       textValue
     }
+    themeSettings {
+      id
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
   }
 }
 fragment NavigationSidebar on Questionnaire {
@@ -37,14 +44,6 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   theme
-  themes {
-    id
-    shortName
-    enabled
-    eqId
-    legalBasisCode
-    formType
-  }
   qcodes
   navigation
   summary

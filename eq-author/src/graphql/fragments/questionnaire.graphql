@@ -4,14 +4,6 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   theme
-  themes {
-    id
-    shortName
-    enabled
-    eqId
-    legalBasisCode
-    formType
-  }
   qcodes
   navigation
   summary

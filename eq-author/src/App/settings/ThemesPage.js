@@ -6,7 +6,6 @@ import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateTheme from "graphql/updateTheme.graphql";
-import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -19,6 +18,11 @@ import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
+
+import { THEME_TITLES } from "constants/themeSettings";
+import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
+
+import ValidationError from "components/ValidationError";
 
 const Container = styled.div`
   display: flex;
@@ -83,14 +87,12 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
   const [state, setState] = useState(eqId);
   const [updateQuestionnaireTheme] = useMutation(updateTheme);
 
-  const handleEQIdBlur = ({ value }, shortName) => {
-    value = value.trim();
+  const handleEQIdBlur = ({ value }, shortName) =>
     updateQuestionnaireTheme({
       variables: {
-        input: { questionnaireId, shortName, eqId: value },
+        input: { questionnaireId, shortName, eqId: value.trim() },
       },
     });
-  };
 
   return (
     <StyledInput
@@ -137,29 +139,12 @@ FormTypeInput.propTypes = {
   shortName: PropTypes.string.isRequired,
 };
 
-const themes = [
-  { title: "GB theme", shortName: "default", enabled: true },
-  { title: "NI theme", shortName: "northernireland" },
-  { title: "COVID theme", shortName: "covid" },
-  { title: "EPE theme", shortName: "epe" },
-  { title: "EPE NI theme", shortName: "epeni" },
-  { title: "UKIS theme", shortName: "ukis" },
-  { title: "UKIS NI theme", shortName: "ukisni" },
-];
-
-const matchThemes = (themes, questionnaireThemes) =>
-  themes.map((theme) => {
-    const target = questionnaireThemes.find(
-      ({ shortName }) => shortName === theme.shortName
-    );
-    return target ? { ...theme, ...target, title: theme.title } : theme;
-  });
-
 const ThemesPage = ({ questionnaire }) => {
-  const { type, surveyId, id, themes: questionnaireThemes } = questionnaire;
+  const { type, surveyId, id, themeSettings } = questionnaire;
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
+  const { themes: questionnaireThemes } = themeSettings;
 
   const handleBlur = ({ value }) => {
     value = value.trim();
@@ -171,36 +156,18 @@ const ThemesPage = ({ questionnaire }) => {
   const [enableTheme] = useMutation(enableThemeMutation);
   const [disableTheme] = useMutation(disableThemeMutation);
 
-  const toggleTheme = ({ shortName, enabled }) => {
-    const handleToggle = enabled ? disableTheme : enableTheme;
+  const themeErrorCount = themeSettings.validationErrorInfo?.totalCount ?? 0;
 
-    handleToggle({
+  const toggleTheme = ({ shortName, enabled }) => {
+    const mutation = enabled ? disableTheme : enableTheme;
+    mutation({
       variables: { input: { questionnaireId: id, shortName } },
-      ...(!enabled && {
-        update: (client, { data: { enableTheme } }) => {
-          const { questionnaire } = client.readQuery({
-            query: getQuestionnaireQuery,
-            variables: {
-              input: { questionnaireId: id },
-            },
-          });
-          // check here if the theme is in the array
-          client.writeQuery({
-            query: getQuestionnaireQuery,
-            variables: {
-              input: { questionnaireId: id },
-            },
-            data: {
-              questionnaire: {
-                ...questionnaire,
-                themes: [...questionnaire.themes, enableTheme],
-              },
-            },
-          });
-        },
-      }),
     });
   };
+
+  const groupErrorMessages = themeSettings.validationErrorInfo.errors
+    .filter(({ type }) => type === "themeSettings")
+    .map(({ errorCode }) => THEME_ERROR_MESSAGES[errorCode]);
 
   return (
     <Container>
@@ -212,7 +179,11 @@ const ThemesPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(params, type)}
+                tabItems={tabItems({
+                  params,
+                  type,
+                  themeErrorCount,
+                })}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
@@ -250,11 +221,16 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {matchThemes(themes, questionnaireThemes).map(
-                      ({ shortName, title, eqId, formType, enabled }) => (
+                    {groupErrorMessages.map((errorMessage, index) => (
+                      <ValidationError key={index} right={false}>
+                        {errorMessage}
+                      </ValidationError>
+                    ))}
+                    {questionnaireThemes.map(
+                      ({ shortName, eqId, enabled, formType }) => (
                         <CollapsibleToggled
-                          key={`${title}-toggle`}
-                          title={title}
+                          key={`${shortName}-toggle`}
+                          title={THEME_TITLES[shortName]}
                           isOpen={enabled}
                           onChange={() => toggleTheme({ shortName, enabled })}
                           data-test={`${shortName}-toggle`}

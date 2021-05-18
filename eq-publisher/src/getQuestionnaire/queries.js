@@ -212,14 +212,16 @@ exports.getQuestionnaire = `
       qcodes
       navigation
       surveyId
-      previewTheme
-      themes {
-        id
-        enabled
-        shortName
-        legalBasisCode
-        eqId
-        formType
+      themeSettings {
+        previewTheme
+        themes {
+          id
+          enabled
+          shortName
+          legalBasisCode
+          eqId
+          formType
+        }
       }
       summary
       collapsibleSummary

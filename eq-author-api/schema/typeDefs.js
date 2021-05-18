@@ -75,9 +75,15 @@ type Questionnaire {
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
   surveyId: String
+  themeSettings: ThemeSettings!
+  locked: Boolean
+}
+
+type ThemeSettings {
+  id: ID!
   previewTheme: String!
   themes: [Theme!]!
-  locked: Boolean
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum HistoryEventTypes {
@@ -92,6 +98,8 @@ type Theme {
   legalBasisCode: LegalBasisCode
   eqId: ID
   formType: String
+  themeSettings: ThemeSettings!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum LegalBasisCode {
@@ -743,7 +751,7 @@ type Mutation {
   deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
 
   updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
-  updatePreviewTheme(input: UpdatePreviewThemeInput!): Questionnaire
+  updatePreviewTheme(input: UpdatePreviewThemeInput!): ThemeSettings
   enableTheme(input: EnableThemeInput!): Theme
   updateTheme(input: UpdateThemeInput!): Theme
   disableTheme(input: DisableThemeInput!): Theme

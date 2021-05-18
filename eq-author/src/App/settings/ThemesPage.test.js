@@ -1,32 +1,25 @@
 import React from "react";
 import { render, act, flushPromises, screen, fireEvent } from "tests/utils/rtl";
 import ThemesPage from "./ThemesPage";
-import { MeContext } from "App/MeContext";
-import { publishStatusSubscription } from "components/EditorLayout/Header";
-import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import { useMutation } from "@apollo/react-hooks";
+import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
   useMutation: jest.fn(),
+  useSubscription: jest.fn(() => jest.fn()),
 }));
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
-const renderThemesPage = (questionnaire, user, mocks) => {
-  return render(
-    <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
-      <ThemesPage questionnaire={questionnaire} />
-    </MeContext.Provider>,
-    {
-      route: `/q/${questionnaire.id}/settings/themes`,
-      urlParamMatcher: "/q/:questionnaireId/settings/themes",
-      mocks,
-    }
-  );
+const renderThemesPage = (questionnaire) => {
+  return render(<ThemesPage questionnaire={questionnaire} />, {
+    route: `/q/${questionnaire.id}/settings/themes`,
+    urlParamMatcher: "/q/:questionnaireId/settings/themes",
+  });
 };
 
 describe("Themes page", () => {
-  let mockQuestionnaire, user, mocks;
+  let mockQuestionnaire;
 
   beforeEach(() => {
     mockQuestionnaire = {
@@ -40,186 +33,29 @@ describe("Themes page", () => {
       description: "Questionnaire",
       surveyId: "123",
       theme: "default",
-      themes: [
-        { title: "GB theme", shortName: "default", enabled: true },
-        { title: "NI theme", shortName: "northernireland" },
-        { title: "COVID theme", shortName: "covid" },
-        { title: "EPE theme", shortName: "epe" },
-        { title: "EPE NI theme", shortName: "epeni" },
-        { title: "UKIS theme", shortName: "ukis" },
-        { title: "UKIS NI theme", shortName: "ukisni" },
-      ],
-      displayName: "Tests",
-      createdBy: {
-        ...user,
+      themeSettings: {
+        previewTheme: "default",
+        validationErrorInfo: {
+          id: "valid-1",
+          errors: [],
+          totalCount: 0,
+        },
+        themes: [
+          { title: "GB theme", shortName: "default", enabled: true },
+          { title: "NI theme", shortName: "northernireland" },
+          { title: "COVID theme", shortName: "covid" },
+          { title: "EPE theme", shortName: "epe" },
+          { title: "EPE NI theme", shortName: "epeni" },
+          { title: "UKIS theme", shortName: "ukis" },
+          { title: "UKIS NI theme", shortName: "ukisni" },
+        ],
       },
+      displayName: "Tests",
       editors: [],
       isPublic: true,
       permission: true,
       sections: [],
     };
-
-    user = {
-      id: "1",
-      displayName: "Name",
-      email: "name@gmail.com",
-      picture: "",
-      admin: true,
-      name: "Name",
-      __typename: "User",
-    };
-
-    mocks = [
-      {
-        request: {
-          query: publishStatusSubscription,
-          variables: { id: mockQuestionnaire.id },
-        },
-        result: () => ({
-          data: {
-            publishStatusUpdated: {
-              id: mockQuestionnaire.id,
-              publishStatus: "Unpublished",
-              __typename: "Questionnaire",
-            },
-          },
-        }),
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              title: "Test",
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                title: "Test",
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              shortTitle: "T",
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                shortTitle: "T",
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              shortTitle: "",
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                shortTitle: "T",
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              navigation: false,
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                navigation: false,
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              summary: false,
-              collapsibleSummary: false,
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                summary: false,
-                collapsibleSummary: false,
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: updateQuestionnaireMutation,
-          variables: {
-            input: {
-              id: mockQuestionnaire.id,
-              collapsibleSummary: true,
-            },
-          },
-        },
-        result: () => {
-          return {
-            data: {
-              updateQuestionnaire: {
-                ...mockQuestionnaire,
-                collapsibleSummary: true,
-                __typename: "Questionnaire",
-              },
-            },
-          };
-        },
-      },
-    ];
   });
 
   afterEach(async () => {
@@ -229,15 +65,14 @@ describe("Themes page", () => {
   });
 
   it("Should render themes page", () => {
-    const { getByTestId } = renderThemesPage(mockQuestionnaire, user, mocks);
-
+    const { getByTestId } = renderThemesPage(mockQuestionnaire);
     expect(getByTestId("theme-description")).toBeTruthy();
   });
 
   it("Should change surveyId", () => {
     const onBlur = jest.fn();
     useMutation.mockImplementation(() => [onBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
 
@@ -260,7 +95,7 @@ describe("Themes page", () => {
   it("Should change to empty surveyId", () => {
     const onBlur = jest.fn();
     useMutation.mockImplementation(() => [onBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const questionnaireIdInput = screen.getByTestId("change-questionnaire-id");
 
@@ -283,7 +118,7 @@ describe("Themes page", () => {
   it("Should render themes", () => {
     const toggleTheme = jest.fn();
     useMutation.mockImplementation(() => [toggleTheme]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     expect(screen.getByText(`EPE theme`)).toBeVisible();
   });
@@ -291,7 +126,7 @@ describe("Themes page", () => {
   it("Should toggle theme enabled", () => {
     const toggleTheme = jest.fn();
     useMutation.mockImplementation(() => [toggleTheme]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const toggleSwitch = screen.getByTestId(`COVID theme-input`);
 
@@ -309,7 +144,7 @@ describe("Themes page", () => {
   });
 
   it("Should display EQ ID", () => {
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     expect(screen.getByText("eQ ID")).toBeVisible();
   });
@@ -317,7 +152,7 @@ describe("Themes page", () => {
   it("Should handle EQ ID update", () => {
     const handleEQIdBlur = jest.fn();
     useMutation.mockImplementation(() => [handleEQIdBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const eqIdInput = screen.getByTestId("default-eq-id-input");
 
@@ -342,7 +177,7 @@ describe("Themes page", () => {
   it("Should handle EQ ID change when not empty", () => {
     const handleEQIdBlur = jest.fn();
     useMutation.mockImplementation(() => [handleEQIdBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const eqIdInput = screen.getByTestId("default-eq-id-input");
 
@@ -365,7 +200,7 @@ describe("Themes page", () => {
   });
 
   it("Should display Form Type", () => {
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     expect(screen.getByText("Form type")).toBeVisible();
   });
@@ -373,7 +208,7 @@ describe("Themes page", () => {
   it("Should handle Form Type update", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const formTypeInput = screen.getByTestId("default-form-type-input");
 
@@ -398,7 +233,7 @@ describe("Themes page", () => {
   it("Should remove spaces when there are any", () => {
     const handleFormTypeBlur = jest.fn();
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
-    renderThemesPage(mockQuestionnaire, user, mocks);
+    renderThemesPage(mockQuestionnaire);
 
     const formTypeInput = screen.getByTestId("default-form-type-input");
 
@@ -407,7 +242,7 @@ describe("Themes page", () => {
     });
 
     fireEvent.blur(formTypeInput);
-    
+
     expect(handleFormTypeBlur).toHaveBeenCalledWith(
       expect.objectContaining({
         variables: {
@@ -419,5 +254,30 @@ describe("Themes page", () => {
         },
       })
     );
+  });
+
+  describe("Validation", () => {
+    it("should show a validation error if no themes are enabled", () => {
+      renderThemesPage({
+        ...mockQuestionnaire,
+        themeSettings: {
+          ...mockQuestionnaire.themeSettings,
+          validationErrorInfo: {
+            id: "valid-1",
+            errors: [
+              {
+                id: "error-1",
+                type: "themeSettings",
+                errorCode: "ERR_NO_THEME_ENABLED",
+              },
+            ],
+          },
+        },
+      });
+
+      expect(
+        screen.getByText(THEME_ERROR_MESSAGES.ERR_NO_THEME_ENABLED)
+      ).toBeTruthy();
+    });
   });
 });
