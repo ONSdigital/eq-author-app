@@ -32,8 +32,6 @@ const QuestionnairesTable = ({
   questionnaires,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
-  onSortQuestionnaires,
-  onReverseSort,
   autoFocusId,
   sortColumn,
   sortOrder,
@@ -61,8 +59,6 @@ const QuestionnairesTable = ({
   return (
     <Panel>
       <QuestionnaireTable
-        onSortClick={onSortQuestionnaires}
-        onReverseClick={onReverseSort}
         sortOrder={sortOrder}
         currentSortColumn={sortColumn}
         tableHeadings={tableHeadings}
@@ -108,8 +104,6 @@ QuestionnairesTable.propTypes = {
   ),
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
-  onSortQuestionnaires: PropTypes.func.isRequired,
-  onReverseSort: PropTypes.func.isRequired,
   autoFocusId: PropTypes.string,
   sortColumn: PropTypes.string.isRequired,
   sortOrder: PropTypes.oneOf([SORT_ORDER.ASCENDING, SORT_ORDER.DESCENDING]),

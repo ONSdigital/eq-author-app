@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
+
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
+
+import reducer, { buildInitialState, ACTIONS } from "./reducer";
+import usePersistedReducer from "./usePersistedReducer";
+
+import { SORT_ORDER } from "constants/sort-order";
 
 const TableWrapper = styled.table`
   width: 100%;
@@ -13,9 +19,17 @@ const TableWrapper = styled.table`
   text-align: left;
 `;
 
+export const STORAGE_KEY = "questionnaire-list-settings";
+
+const STORED_KEYS = [
+  "currentPageIndex",
+  "currentSortColumn",
+  "currentSortOrder",
+  "searchTerm",
+  "isFiltered",
+];
+
 const QuestionnaireTable = ({
-  onSortClick,
-  onReverseClick,
   sortOrder,
   currentSortColumn,
   questionnaires,
@@ -27,11 +41,45 @@ const QuestionnaireTable = ({
   clickable,
   onRowClick,
 }) => {
+  const questionnairesRef = useRef(questionnaires);
+
+  const [state, dispatch] = usePersistedReducer(
+    STORAGE_KEY,
+    STORED_KEYS,
+    reducer,
+    {
+      currentPageIndex: 0,
+      currentSortColumn: "createdAt",
+      currentSortOrder: SORT_ORDER.DESCENDING,
+      searchTerm: "",
+      isFiltered: true,
+    },
+    buildInitialState(questionnairesRef.current)
+  );
+
+  const handleSortQuestionnaires = (sortColumn) => {
+    dispatch({
+      type: ACTIONS.SORT_COLUMN,
+      payload: sortColumn,
+    });
+  };
+
+  const handleReverseSort = () => {
+    const inversion = {
+      ascending: SORT_ORDER.DESCENDING,
+      descending: SORT_ORDER.ASCENDING,
+    };
+    dispatch({
+      type: ACTIONS.REVERSE_SORT,
+      payload: inversion[state.currentSortOrder],
+    });
+  };
+
   return (
     <TableWrapper>
       <TableHead
-        onSortClick={onSortClick}
-        onReverseClick={onReverseClick}
+        onSortClick={(sortColumn) => handleSortQuestionnaires(sortColumn)}
+        onReverseClick={handleReverseSort}
         sortOrder={sortOrder}
         currentSortColumn={currentSortColumn}
         enabledHeadings={enabledHeadings}
