@@ -32,7 +32,7 @@ const StyledCollapsible = styled(Collapsible)`
     padding-top: 0;
   }
   .collapsible-toggle-Collapsible-Button {
-      &::before {
+    &::before {
       margin-top: 0;
     }
   }

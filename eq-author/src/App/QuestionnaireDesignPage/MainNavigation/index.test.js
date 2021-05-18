@@ -52,6 +52,11 @@ describe("MainNavigation", () => {
     expect(getByTestId("small-badge")).toBeTruthy();
   });
 
+  it("should display error badge when settings page has errors", () => {
+    const { getByTestId } = defaultSetup({ changes: { settingsError: true } });
+    expect(getByTestId("settings-error-badge")).toBeTruthy();
+  });
+
   it("should not render button group if questionnaire is false", () => {
     const { queryByText } = defaultSetup({
       changes: { hasQuestionnaire: false },

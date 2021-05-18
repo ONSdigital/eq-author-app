@@ -1,0 +1,23 @@
+{
+  "$id": "http://example.com/schemas/themeSettings.json",
+  "type": "object",
+  "properties": {
+    "themes": {
+      "$ref": "#/definitions/themes"
+    }
+  },
+  "definitions": {
+    "themes": {
+      "type": "array",
+      "contains": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "const": true
+          }
+        }
+      },
+      "errorMessage": "ERR_NO_THEME_ENABLED"
+    }
+  }
+}

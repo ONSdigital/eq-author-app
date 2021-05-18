@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colors } from "constants/theme";
 
 import Badge from "components/Badge";
@@ -17,7 +17,27 @@ const Title = styled(Truncated)`
   text-decoration: none;
 `;
 
-const Button = styled.button`
+const disabledStyles = css`
+  background: ${colors.orange};
+  outline: none;
+  cursor: default;
+
+  &:hover {
+    background: ${colors.orange};
+  }
+
+  ${Title} {
+    color: ${colors.black};
+  }
+
+  > svg {
+    path {
+      fill: ${colors.black};
+    }
+  }
+`;
+
+const Link = styled.a`
   display: flex;
   align-items: center;
   width: 100%;
@@ -38,21 +58,6 @@ const Button = styled.button`
     outline: 2px solid ${colors.orange};
   }
 
-  &:disabled {
-    background: ${colors.orange};
-    outline: none;
-
-    ${Title} {
-      color: ${colors.black};
-    }
-
-    > svg {
-      path {
-        fill: ${colors.black};
-      }
-    }
-  }
-
   svg {
     width: 32px;
     height: 32px;
@@ -61,6 +66,8 @@ const Button = styled.button`
       fill: ${colors.white};
     }
   }
+
+  ${({ disabled }) => (disabled ? disabledStyles : "")}
 `;
 
 const NavItem = ({
@@ -71,15 +78,20 @@ const NavItem = ({
   errorCount,
   disabled,
   className,
+  ...rest
 }) => {
   const history = useHistory();
   return (
-    <Button
+    <Link
       className={`${className} NavItem`}
       data-test="NavItem"
-      onClick={() => history.push(titleUrl)}
+      onClick={() => {
+        history.push(titleUrl);
+      }}
       disabled={disabled}
       bordered={bordered}
+      tabIndex={0}
+      {...rest}
     >
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>
@@ -91,7 +103,7 @@ const NavItem = ({
           {errorCount}
         </Badge>
       )}
-    </Button>
+    </Link>
   );
 };
 

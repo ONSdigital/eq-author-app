@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Badge from "components/Badge";
 
 import styled from "styled-components";
 import { colors, disabledStyle, hoverStyle } from "constants/theme";
@@ -59,7 +60,7 @@ const TabLink = styled(NavLink)`
 `;
 
 const listItems = (tabItems) =>
-  tabItems.map(({ url, title, disabled }) => (
+  tabItems.map(({ url, title, disabled, errorCount }) => (
     <TabLink
       exact
       to={url}
@@ -68,6 +69,11 @@ const listItems = (tabItems) =>
       aria-disabled={disabled}
     >
       {title}
+      {errorCount > 0 && (
+        <Badge variant="logic" data-test={`errorBadge-${title}`}>
+          {errorCount}
+        </Badge>
+      )}
     </TabLink>
   ));
 
@@ -84,7 +90,14 @@ VerticalTabs.propTypes = {
   title: PropTypes.string.isRequired,
   gutters: PropTypes.bool,
   cols: PropTypes.number.isRequired,
-  tabItems: PropTypes.array.isRequired, // eslint-disable-line
+  tabItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      disabled: PropTypes.bool,
+      errorCount: PropTypes.number,
+    })
+  ),
 };
 
 VerticalTabs.defaultProps = {
