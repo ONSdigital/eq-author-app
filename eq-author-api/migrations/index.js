@@ -18,6 +18,7 @@ const migrations = [
   require("./addDefaultTheme"),
   require("./addLockedStatus"),
   require("./addQuestionnaireQcodes"),
+  require("./addThemeSettings"),
 ];
 
 const currentVersion = migrations.length;
