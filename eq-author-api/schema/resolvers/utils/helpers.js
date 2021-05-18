@@ -113,6 +113,11 @@ const getMovePosition = (section, pageId, position) => {
   return { previous, next };
 };
 
+const stripQCodes = (entity) =>
+  deepMap(entity, (value, key) =>
+    ["qCode", "secondaryQCode"].includes(key) ? null : value
+  );
+
 module.exports = {
   idExists,
   getAbsolutePositionById,
@@ -121,4 +126,5 @@ module.exports = {
   remapAllNestedIds,
   getPosition,
   getMovePosition,
+  stripQCodes,
 };

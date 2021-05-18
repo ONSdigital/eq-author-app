@@ -1,24 +1,32 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
-import { SORT_ORDER } from "../constants";
+import { useHistory } from "react-router-dom";
 
-import Row from "./Row";
-import TableHead from "./TableHead";
+import { SORT_ORDER } from "constants/sort-order.js";
+import * as Headings from "constants/table-headings";
+
+import { buildQuestionnairePath } from "utils/UrlUtils";
+
+import QuestionnaireTable from "components/QuestionnaireTable";
 import Panel from "components/Panel";
+
+import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
-const Table = styled.table`
-  width: 100%;
-  font-size: 1em;
-  border-collapse: collapse;
-  table-layout: fixed;
-  text-align: left;
-`;
+const enabledRows = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
 
 const QuestionnairesTable = ({
   questionnaires,
@@ -36,38 +44,36 @@ const QuestionnairesTable = ({
     component: LockModal,
   } = useQuestionnaireLockingModal(targetQuestionnaire);
 
+  const history = useHistory();
+
   const handleLock = (questionnaire) => {
     setTargetQuestionnaire(questionnaire);
     triggerLockModal();
   };
 
+  const handleClick = (questionnaireId) =>
+    history.push(
+      buildQuestionnairePath({
+        questionnaireId,
+      })
+    );
+
   return (
     <Panel>
-      <Table>
-        <TableHead
-          onSortClick={onSortQuestionnaires}
-          onReverseClick={onReverseSort}
-          sortOrder={sortOrder}
-          currentSortColumn={sortColumn}
-        />
-        <tbody>
-          {questionnaires.map((questionnaire, index) => {
-            return (
-              <Row
-                key={questionnaire.id}
-                autoFocus={questionnaire.id === autoFocusId}
-                questionnaire={questionnaire}
-                onDeleteQuestionnaire={onDeleteQuestionnaire}
-                onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-                onLockQuestionnaire={handleLock}
-                isLastOnPage={questionnaires.length === index + 1}
-                data-test="questionnaires-row"
-              />
-            );
-          })}
-        </tbody>
-      </Table>
-
+      <QuestionnaireTable
+        onSortClick={onSortQuestionnaires}
+        onReverseClick={onReverseSort}
+        sortOrder={sortOrder}
+        currentSortColumn={sortColumn}
+        tableHeadings={tableHeadings}
+        questionnaires={questionnaires}
+        autoFocusId={autoFocusId}
+        onDeleteQuestionnaire={onDeleteQuestionnaire}
+        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        handleLock={handleLock}
+        enabledHeadings={enabledRows}
+        onRowClick={handleClick}
+      />
       <LockModal />
     </Panel>
   );

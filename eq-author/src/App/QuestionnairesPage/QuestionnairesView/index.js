@@ -9,7 +9,7 @@ import Header from "./Header";
 import PaginationNav from "./PaginationNav";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
-import { SORT_ORDER } from "./constants";
+import { SORT_ORDER } from "constants/sort-order";
 import usePersistedReducer from "./usePersistedReducer";
 import NoResultsFiltered from "./NoResultsFiltered";
 
