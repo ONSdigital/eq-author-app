@@ -10,8 +10,10 @@ module.exports = (questionnaire) => {
         id: theme.shortName,
       })),
     };
-    delete questionnaire.themes;
-    delete questionnaire.previewTheme;
+
+    // Undefined attributes will be removed as part of saveQuestionnaire call
+    questionnaire.themes = undefined;
+    questionnaire.previewTheme = undefined;
   }
 
   return questionnaire;

@@ -42,8 +42,8 @@ describe("migrations: add theme settings structure", () => {
       },
     });
 
-    expect(migratedQuestionnaire).not.toHaveProperty("themes");
-    expect(migratedQuestionnaire).not.toHaveProperty("previewTheme");
+    expect(migratedQuestionnaire.themes).toBeUndefined();
+    expect(migratedQuestionnaire.previewTheme).toBeUndefined();
   });
 
   it("should migrate to using shortName as theme ID and not UUID", () => {
