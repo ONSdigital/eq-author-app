@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { debounce } from "lodash";
 
 import Button from "components/buttons/Button";
-import SearchBar from 'components/SearchBar'
+import SearchBar from "components/SearchBar";
 import AccessFilter from "./AccessFilter";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
@@ -24,6 +24,7 @@ const Header = ({
   onSearchChange,
   onToggleFilter,
   isFiltered,
+  canCreateQuestionnaire = true,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,18 +38,19 @@ const Header = ({
   return (
     <>
       <Wrapper>
-
-        <SearchBar onChange={onSearchChangeDebounced} paddingType="large"/>
+        <SearchBar onChange={onSearchChangeDebounced} paddingType="large" />
 
         <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} />
 
-        <Button
-          onClick={handleModalOpen}
-          primary
-          data-test="create-questionnaire"
-        >
-          Create questionnaire
-        </Button>
+        {canCreateQuestionnaire && (
+          <Button
+            onClick={handleModalOpen}
+            primary
+            data-test="create-questionnaire"
+          >
+            Create questionnaire
+          </Button>
+        )}
       </Wrapper>
       <QuestionnaireSettingsModal
         isOpen={isModalOpen}

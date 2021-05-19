@@ -28,6 +28,9 @@ const QuestionnairesView = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
+  canCreateQuestionnaire,
+  enabledHeadings,
+  onQuestionnaireClick,
 }) => {
   const questionnairesRef = useRef(questionnaires);
 
@@ -61,6 +64,24 @@ const QuestionnairesView = ({
     onDeleteQuestionnaire(questionnaire.id);
   };
 
+  const handleSortQuestionnaires = (sortColumn) => {
+    dispatch({
+      type: ACTIONS.SORT_COLUMN,
+      payload: sortColumn,
+    });
+  };
+
+  const handleReverseSort = () => {
+    const inversion = {
+      ascending: SORT_ORDER.DESCENDING,
+      descending: SORT_ORDER.ASCENDING,
+    };
+    dispatch({
+      type: ACTIONS.REVERSE_SORT,
+      payload: inversion[state.currentSortOrder],
+    });
+  };
+
   const onToggleFilter = (isFiltered) =>
     dispatch({
       type: ACTIONS.TOGGLE_FILTER,
@@ -83,6 +104,7 @@ const QuestionnairesView = ({
         onSearchChange={onSearchChange}
         isFiltered={state.isFiltered}
         onToggleFilter={onToggleFilter}
+        canCreateQuestionnaire={canCreateQuestionnaire}
       />
       {isEmpty(state.questionnaires) ? (
         <NoResultsFiltered
@@ -94,9 +116,13 @@ const QuestionnairesView = ({
           questionnaires={state.currentPage}
           onDeleteQuestionnaire={handleDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onSortQuestionnaires={handleSortQuestionnaires}
+          onReverseSort={handleReverseSort}
           sortColumn={state.currentSortColumn}
           sortOrder={state.currentSortOrder}
           autoFocusId={state.autoFocusId}
+          enabledHeadings={enabledHeadings}
+          onQuestionnaireClick={onQuestionnaireClick}
         />
       )}
 
