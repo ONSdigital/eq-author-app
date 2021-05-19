@@ -30,8 +30,6 @@ const STORED_KEYS = [
 ];
 
 const QuestionnaireTable = ({
-  sortOrder,
-  currentSortColumn,
   questionnaires,
   autoFocusId,
   onDeleteQuestionnaire,
@@ -80,12 +78,12 @@ const QuestionnaireTable = ({
       <TableHead
         onSortClick={(sortColumn) => handleSortQuestionnaires(sortColumn)}
         onReverseClick={handleReverseSort}
-        sortOrder={sortOrder}
-        currentSortColumn={currentSortColumn}
+        sortOrder={state.currentSortOrder}
+        currentSortColumn={state.currentSortColumn}
         enabledHeadings={enabledHeadings}
       />
       <TableBody
-        questionnaires={questionnaires}
+        questionnaires={state.currentPage}
         autoFocusId={autoFocusId}
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
