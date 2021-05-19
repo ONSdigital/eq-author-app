@@ -8,7 +8,7 @@ exports[`BasicAnswer should render with description 1`] = `
   >
     <Label
       bold={true}
-      htmlFor="answer-label-undefined"
+      htmlFor="answer-label-ansID1"
     >
       Label
     </Label>
@@ -16,7 +16,7 @@ exports[`BasicAnswer should render with description 1`] = `
       bold={true}
       data-autofocus={true}
       data-test="txt-answer-label"
-      id="answer-label-undefined"
+      id="answer-label-ansID1"
       name="label"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -29,14 +29,14 @@ exports[`BasicAnswer should render with description 1`] = `
   >
     <Label
       bold={true}
-      htmlFor="answer-description-undefined"
+      htmlFor="answer-description-ansID1"
     >
       Description (optional)
     </Label>
     <withChangeHandler(WrappingInput)
       cols="30"
       data-test="txt-answer-description"
-      id="answer-description-undefined"
+      id="answer-description-ansID1"
       name="description"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -58,7 +58,7 @@ exports[`BasicAnswer should render without description 1`] = `
   >
     <Label
       bold={true}
-      htmlFor="answer-label-undefined"
+      htmlFor="answer-label-ansID1"
     >
       Label
     </Label>
@@ -66,7 +66,7 @@ exports[`BasicAnswer should render without description 1`] = `
       bold={true}
       data-autofocus={true}
       data-test="txt-answer-label"
-      id="answer-label-undefined"
+      id="answer-label-ansID1"
       name="label"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
