@@ -87,14 +87,12 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
   const [state, setState] = useState(eqId);
   const [updateQuestionnaireTheme] = useMutation(updateTheme);
 
-  const handleEQIdBlur = ({ value }, shortName) => {
-    value = value.trim();
+  const handleEQIdBlur = ({ value }, shortName) =>
     updateQuestionnaireTheme({
       variables: {
         input: { questionnaireId, shortName, eqId: value.trim() },
       },
     });
-  };
 
   return (
     <StyledInput

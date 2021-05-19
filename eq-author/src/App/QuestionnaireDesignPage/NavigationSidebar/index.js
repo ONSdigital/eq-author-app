@@ -28,7 +28,7 @@ import IconFolder from "assets/icon-folder.svg?inline";
 import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
-import PageIcon from "./icon-survey-intro.svg?inline";
+import PageIcon from "assets/icon-survey-intro.svg?inline";
 import { TransitionGroup } from "react-transition-group";
 
 import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
