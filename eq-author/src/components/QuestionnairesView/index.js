@@ -146,6 +146,9 @@ QuestionnairesView.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  canCreateQuestionnaire: PropTypes.bool,
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  onQuestionnaireClick: PropTypes.func,
 };
 
 export default QuestionnairesView;

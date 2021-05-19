@@ -67,6 +67,7 @@ Header.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   onToggleFilter: PropTypes.func.isRequired,
   isFiltered: PropTypes.bool.isRequired,
+  canCreateQuestionnaire: PropTypes.bool,
 };
 
 export default Header;

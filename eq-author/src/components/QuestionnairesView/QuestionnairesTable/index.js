@@ -86,8 +86,12 @@ QuestionnairesTable.propTypes = {
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
   autoFocusId: PropTypes.string,
+  onSortQuestionnaires: PropTypes.func,
+  onReverseSort: PropTypes.func,
   sortColumn: PropTypes.string.isRequired,
   sortOrder: PropTypes.oneOf([SORT_ORDER.ASCENDING, SORT_ORDER.DESCENDING]),
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  onQuestionnaireClick: PropTypes.func,
 };
 
 export default QuestionnairesTable;
