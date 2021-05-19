@@ -356,16 +356,18 @@ describe("Questionnaire", () => {
     const legalBasis = NOTICE_1;
 
     const questionnaireJson = createQuestionnaireJSON({
-      previewTheme: shortName,
-      themes: [
-        {
-          id: "mcthemeface1",
-          shortName,
-          legalBasis,
-          eqId,
-          formType,
-        },
-      ],
+      themeSettings: {
+        previewTheme: shortName,
+        themes: [
+          {
+            id: "mcthemeface1",
+            shortName,
+            legalBasis,
+            eqId,
+            formType,
+          },
+        ],
+      },
     });
 
     expect(new Questionnaire(questionnaireJson)).toEqual(

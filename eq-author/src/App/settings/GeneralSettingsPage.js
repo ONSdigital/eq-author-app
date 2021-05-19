@@ -149,7 +149,13 @@ const GeneralSettingsPage = ({ questionnaire }) => {
               <VerticalTabs
                 title="Questionnaire settings"
                 cols={2.5}
-                tabItems={tabItems(params, type)}
+                tabItems={tabItems({
+                  params,
+                  type,
+                  themeErrorCount:
+                    questionnaire?.themeSettings?.validationErrorInfo
+                      ?.totalCount,
+                })}
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>

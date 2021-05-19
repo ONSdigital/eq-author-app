@@ -9,6 +9,17 @@ mutation UpdateTheme($input: UpdateThemeInput!) {
       eqId
       legalBasisCode
       formType
+      validationErrorInfo {
+        id
+        totalCount
+      }
+      themeSettings {
+        id
+        validationErrorInfo {
+          id
+          totalCount
+        }
+      }
     }
   }
 `;

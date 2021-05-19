@@ -29,10 +29,12 @@ const NI_THEME = "northernireland";
 
 const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
 
-const getPreviewTheme = ({ themes, previewTheme }) =>
-  previewTheme &&
-  themes &&
-  themes.find((theme) => theme && theme.shortName === previewTheme);
+const getPreviewTheme = ({ themeSettings }) => {
+  const { previewTheme, themes } = themeSettings || {};
+  return (
+    themes && themes.find((theme) => theme && theme.shortName === previewTheme)
+  );
+};
 
 class Questionnaire {
   constructor(questionnaireJson) {

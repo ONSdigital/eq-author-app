@@ -1,0 +1,38 @@
+#import "./fragments/questionnaire.graphql"
+
+query GetSettings($input: QueryInput!) {
+  questionnaire(input: $input) {
+    ...Questionnaire
+    themeSettings {
+      id
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
+    sections {
+      id
+      displayName
+      position
+      folders {
+        id
+        alias
+        displayName
+        enabled
+        position
+        pages {
+          id
+          title
+          position
+          displayName
+        }
+      }
+      questionnaire {
+        id
+        questionnaireInfo {
+          totalSectionCount
+        }
+      }
+    }
+  }
+}

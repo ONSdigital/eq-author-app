@@ -1,4 +1,5 @@
 const { GraphQLDate, GraphQLDateTime } = require("graphql-iso-date");
+const { SOCIAL } = require("../../constants/questionnaireTypes");
 const {
   includes,
   isNil,
@@ -115,6 +116,8 @@ const {
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
+const { THEME_SHORT_NAMES } = require("../../constants/themes");
+
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
@@ -137,8 +140,11 @@ const createNewQuestionnaire = (input) => {
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
-    previewTheme: defaultTheme.shortName,
-    themes: [defaultTheme],
+    themeSettings: {
+      id: uuidv4(),
+      previewTheme: defaultTheme.shortName,
+      themes: [defaultTheme],
+    },
     locked: false,
   };
 
@@ -356,16 +362,15 @@ const Resolvers = {
     }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {
-        ctx.questionnaire.previewTheme = previewTheme;
-        return ctx.questionnaire;
+        ctx.questionnaire.themeSettings.previewTheme = previewTheme;
+        return ctx.questionnaire.themeSettings;
       }
     ),
     enableTheme: createMutation((root, { input: { shortName } }, ctx) => {
       let theme = getThemeByShortName(ctx, shortName);
       if (!theme) {
         theme = createTheme({ shortName });
-
-        ctx.questionnaire.themes.push(theme);
+        ctx.questionnaire.themeSettings.themes.push(theme);
       }
       theme.enabled = true;
       return theme;
@@ -377,6 +382,7 @@ const Resolvers = {
           `updateTheme: No theme found with shortName '${input.shortName}''`
         );
       }
+      delete input.questionnaireId;
       return Object.assign(theme, input);
     }),
     disableTheme: createMutation((root, { input: { shortName } }, ctx) => {
@@ -1422,6 +1428,31 @@ const Resolvers = {
         id,
         ({ confirmationOptionId }) => id === confirmationOptionId
       ),
+  },
+
+  ThemeSettings: {
+    validationErrorInfo: ({ id }, _args, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) =>
+        ["theme", "themeSettings"].includes(type)
+      ),
+    themes: ({ themes: savedThemes }, _args, ctx) => {
+      // Return all themes as disabled by default
+      // If present in questionnaire, override with actual attributes
+      return ctx.questionnaire.type === SOCIAL
+        ? savedThemes
+        : THEME_SHORT_NAMES.map((shortName) => ({
+            shortName,
+            id: shortName,
+            enabled: false,
+            ...(getThemeByShortName(ctx, shortName) ?? {}),
+          }));
+    },
+  },
+
+  Theme: {
+    validationErrorInfo: ({ id }, _args, ctx) =>
+      returnValidationErrors(ctx, id, ({ themeId }) => themeId === id),
+    themeSettings: (_root, _args, ctx) => ctx.questionnaire.themeSettings,
   },
 
   Date: GraphQLDate,
