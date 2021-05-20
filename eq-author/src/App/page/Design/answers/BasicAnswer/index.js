@@ -119,7 +119,7 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
-      {type === "Percentage" && false && (
+      {type === "Percentage" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
             <Label>{`"Or" option`}</Label>
