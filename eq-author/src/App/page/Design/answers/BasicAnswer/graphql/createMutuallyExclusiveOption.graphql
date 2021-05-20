@@ -1,0 +1,8 @@
+mutation createMutuallyExclusiveOption(
+  $input: CreateMutuallyExclusiveOptionInput!
+) {
+  createMutuallyExclusiveOption(input: $input) {
+    id
+    displayName
+  }
+}
