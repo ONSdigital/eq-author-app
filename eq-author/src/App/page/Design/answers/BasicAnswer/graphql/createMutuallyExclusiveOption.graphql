@@ -4,5 +4,8 @@ mutation createMutuallyExclusiveOption(
   createMutuallyExclusiveOption(input: $input) {
     id
     displayName
+    answer {
+      id
+    }
   }
 }
