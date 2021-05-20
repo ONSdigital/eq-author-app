@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { render as rtlRender, fireEvent } from "tests/utils/rtl";
+//import { render as rtlRender, fireEvent } from "tests/utils/rtl";
 
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
