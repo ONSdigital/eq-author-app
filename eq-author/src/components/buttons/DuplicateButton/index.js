@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import IconCopy from "assets/icon-copy.svg?inline";
@@ -12,46 +12,50 @@ const ToolTip = ({ children }) => (
   </Tooltip>
 );
 
-const DuplicateButton = ({ onClick, hideText, children, ...props }) => (
-  <Button onClick={onClick} variant="tertiary" small {...props}>
-    <IconText icon={IconCopy} hideText={hideText}>
-      {children || "Duplicate"}
-    </IconText>
-  </Button>
-);
+const DuplicateButton = ({
+  onClick,
+  hideText,
+  children,
+  disabled,
+  disableOnClick = true,
+  ...props
+}) => {
+  const [buttonClicked, setButtonClicked] = useState(false);
 
-const Component = ({ onClick, hideText, children, ...props }) => {
-  if (hideText) {
-    return (
-      <ToolTip>
-        <DuplicateButton onClick={onClick} hideText={hideText} {...props}>
-          {children}
-        </DuplicateButton>
-      </ToolTip>
-    );
-  }
+  const handleClick = (event) => {
+    if (disableOnClick) {
+      setButtonClicked(true);
+    }
+    return onClick(event);
+  };
 
-  return (
-    <DuplicateButton onClick={onClick} hideText={hideText} {...props}>
-      {children}
-    </DuplicateButton>
+  const renderButton = () => (
+    <Button
+      onClick={handleClick}
+      variant="tertiary"
+      small
+      {...props}
+      disabled={buttonClicked || disabled}
+    >
+      <IconText icon={IconCopy} hideText={hideText}>
+        {children || "Duplicate"}
+      </IconText>
+    </Button>
   );
+
+  return hideText ? <ToolTip>{renderButton()}</ToolTip> : renderButton();
 };
 
 ToolTip.propTypes = {
   children: PropTypes.node,
 };
 
-Component.propTypes = {
-  children: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
-  hideText: PropTypes.bool,
-};
-
 DuplicateButton.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
   hideText: PropTypes.bool,
+  disableOnClick: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
-export default Component;
+export default DuplicateButton;
