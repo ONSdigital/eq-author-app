@@ -1,10 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import theme, { colors } from "constants/theme";
-
-import { lostConnection, gainConnection } from "redux/saving/actions";
+import { useNetworkActivityContext } from "components/NetworkActivityContext";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -50,33 +48,37 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export class UnconnectedApp extends React.Component {
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    gainConnection: PropTypes.func.isRequired,
-    lostConnection: PropTypes.func.isRequired,
-  };
+const App = ({ children }) => {
+  const { setOnlineStatus } = useNetworkActivityContext();
 
-  componentDidMount = () => {
-    window.addEventListener("online", this.props.gainConnection);
-    window.addEventListener("offline", this.props.lostConnection);
-  };
+  const handleGainConnection = useCallback(() => setOnlineStatus(true), [
+    setOnlineStatus,
+  ]);
+  const handleLoseConnection = useCallback(() => setOnlineStatus(false), [
+    setOnlineStatus,
+  ]);
 
-  componentWillUnmount = () => {
-    window.removeEventListener("online", this.props.gainConnection);
-    window.removeEventListener("offline", this.props.lostConnection);
-  };
+  useEffect(() => {
+    window.addEventListener("online", handleGainConnection);
+    window.addEventListener("offline", handleLoseConnection);
 
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        {this.props.children} <GlobalStyle />
-      </ThemeProvider>
-    );
-  }
-}
+    // Cleanup
+    return () => {
+      window.removeEventListener("online", handleGainConnection);
+      window.removeEventListener("offline", handleLoseConnection);
+    };
+  });
 
-export default connect(null, {
-  lostConnection,
-  gainConnection,
-})(UnconnectedApp);
+  return (
+    <ThemeProvider theme={theme}>
+      {children}
+      <GlobalStyle />
+    </ThemeProvider>
+  );
+};
+
+App.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+export default App;

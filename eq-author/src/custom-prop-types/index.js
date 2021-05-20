@@ -84,9 +84,6 @@ const CustomPropTypes = {
     query: PropTypes.func.isRequired,
     readQuery: PropTypes.func.isRequired,
   }),
-  store: PropTypes.shape({
-    getState: PropTypes.func.isRequired,
-  }),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }),

@@ -4,11 +4,12 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 import { onError } from "apollo-link-error";
-import { apiDownError } from "redux/saving/actions";
 
 import auth from "components/Auth";
 
-export const errorHandler = (getStore, error) => {
+import { NetworkActivityContextRef } from "components/NetworkActivityContext";
+
+export const errorHandler = (error) => {
   const { networkError, graphQLErrors } = error;
   setSentryUser(window.localStorage.getItem("accessToken"));
 
@@ -28,7 +29,7 @@ export const errorHandler = (getStore, error) => {
       case 403:
         break;
       default:
-        getStore().dispatch(apiDownError());
+        NetworkActivityContextRef.current?.setApiErrorOccurred?.(true);
     }
   }
   if (graphQLErrors) {
@@ -39,5 +40,4 @@ export const errorHandler = (getStore, error) => {
   }
 };
 
-export default (getStore) =>
-  onError((errors) => errorHandler(getStore, errors));
+export default () => onError((errors) => errorHandler(errors));

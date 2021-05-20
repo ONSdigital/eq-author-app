@@ -106,7 +106,9 @@ const TD = styled.td`
   }
 `;
 
-export const DuplicateQuestionnaireButton = styled(DuplicateButton)`
+export const DuplicateQuestionnaireButton = styled(DuplicateButton).attrs({
+  disableOnClick: false,
+})`
   margin-right: 0.5em;
 `;
 

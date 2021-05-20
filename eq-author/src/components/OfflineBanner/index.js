@@ -1,13 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
 import { colors } from "constants/theme";
-import { connect } from "react-redux";
-import { isOffline, hasApiError, hasError } from "redux/saving/reducer";
 import WarningIcon from "components/OfflineBanner/icon-warning.svg?inline";
 import { TransitionGroup } from "react-transition-group";
 import ExpansionTransition from "components/transitions/ExpansionTransition";
 import IconText from "components/IconText";
+
+import { useNetworkActivityContext } from "components/NetworkActivityContext";
 
 const Banner = styled.div`
   background-color: ${colors.red};
@@ -48,14 +47,18 @@ const errorMessage = {
     "You're currently offline and any changes you make won't be saved. Check your connection and try again.",
 };
 
-export const UnconnectedOfflineBanner = (props) => {
+export const OfflineBanner = () => {
+  const { onlineStatus, apiErrorOccurred } = useNetworkActivityContext();
+
+  const isVisible = apiErrorOccurred || !onlineStatus;
+
   return (
     <TransitionGroup>
-      {props.hasError && (
+      {isVisible && (
         <StyledExpansionTransition finalHeight="2.5em">
           <Banner>
             <WarningMessage icon={WarningIcon}>
-              {errorMessage[props.isOffline ? "isOffline" : "apiError"]}
+              {errorMessage[apiErrorOccurred ? "apiError" : "isOffline"]}
             </WarningMessage>
           </Banner>
         </StyledExpansionTransition>
@@ -64,16 +67,4 @@ export const UnconnectedOfflineBanner = (props) => {
   );
 };
 
-UnconnectedOfflineBanner.propTypes = {
-  isOffline: PropTypes.bool.isRequired,
-  apiError: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  isOffline: isOffline(state),
-  apiError: hasApiError(state),
-  hasError: hasError(state),
-});
-
-export default connect(mapStateToProps)(UnconnectedOfflineBanner);
+export default OfflineBanner;

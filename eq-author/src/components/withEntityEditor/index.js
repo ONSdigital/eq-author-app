@@ -2,10 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 import fp from "lodash/fp";
-import { startRequest, endRequest } from "redux/saving/actions";
-import { connect } from "react-redux";
-
-const withSaveTracking = connect(null, { startRequest, endRequest });
 
 const withEntityEditor = (entityPropName) => (WrappedComponent) => {
   class EntityEditor extends React.Component {
@@ -13,8 +9,6 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
       [entityPropName]: PropTypes.object.isRequired, // eslint-disable-line
       onUpdate: PropTypes.func.isRequired,
       onSubmit: PropTypes.func,
-      startRequest: PropTypes.func,
-      endRequest: PropTypes.func,
     };
 
     state = {
@@ -67,15 +61,7 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
       }
 
       this.dirtyField = null;
-      this.props.startRequest();
-      this.props
-        .onUpdate(this.entity)
-        .then(() => {
-          this.props.endRequest();
-        })
-        .catch(() => {
-          this.props.endRequest();
-        });
+      this.props.onUpdate(this.entity);
     };
 
     componentWillUnmount() {
@@ -107,8 +93,7 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
   }
 
   EntityEditor.displayName = `withEntityEditor(${WrappedComponent.displayName})`;
-
-  return withSaveTracking(EntityEditor);
+  return EntityEditor;
 };
 
 export default withEntityEditor;

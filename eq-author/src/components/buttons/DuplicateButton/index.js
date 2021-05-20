@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 import IconCopy from "assets/icon-copy.svg?inline";
@@ -12,30 +12,38 @@ const ToolTip = ({ children }) => (
   </Tooltip>
 );
 
-const DuplicateButton = ({ onClick, hideText, children, ...props }) => (
-  <Button onClick={onClick} variant="tertiary" small {...props}>
-    <IconText icon={IconCopy} hideText={hideText}>
-      {children || "Duplicate"}
-    </IconText>
-  </Button>
-);
+const Component = ({
+  onClick,
+  hideText,
+  children,
+  disableOnClick = true,
+  ...props
+}) => {
+  const btnRef = useRef();
 
-const Component = ({ onClick, hideText, children, ...props }) => {
-  if (hideText) {
-    return (
-      <ToolTip>
-        <DuplicateButton onClick={onClick} hideText={hideText} {...props}>
-          {children}
-        </DuplicateButton>
-      </ToolTip>
-    );
-  }
+  const handleClick = (event) => {
+    if (disableOnClick) {
+      event.stopPropagation();
+      btnRef.current.disabled = true;
+    }
+    return onClick(event);
+  };
 
-  return (
-    <DuplicateButton onClick={onClick} hideText={hideText} {...props}>
-      {children}
-    </DuplicateButton>
+  const renderButton = () => (
+    <Button
+      onClick={handleClick}
+      variant="tertiary"
+      small
+      {...props}
+      ref={btnRef}
+    >
+      <IconText icon={IconCopy} hideText={hideText}>
+        {children || "Duplicate"}
+      </IconText>
+    </Button>
   );
+
+  return hideText ? <ToolTip>{renderButton()}</ToolTip> : renderButton();
 };
 
 ToolTip.propTypes = {
@@ -46,12 +54,7 @@ Component.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
   hideText: PropTypes.bool,
-};
-
-DuplicateButton.propTypes = {
-  children: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
-  hideText: PropTypes.bool,
+  disableOnClick: PropTypes.bool,
 };
 
 export default Component;

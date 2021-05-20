@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnconnectedSavingIndicator } from "./";
+import { SavingIndicator } from "./";
 
 jest.useFakeTimers();
 
@@ -21,7 +21,7 @@ describe("SavingIndicator", () => {
 
   it("should render when starting saving", () => {
     const wrapper = shallow(
-      <UnconnectedSavingIndicator isSaving={false} hasError={false} />
+      <SavingIndicator isSaving={false} hasError={false} />
     );
     wrapper.setProps({ isSaving: true });
 
@@ -30,7 +30,7 @@ describe("SavingIndicator", () => {
 
   it("should show spinner for at least one second", () => {
     const wrapper = shallow(
-      <UnconnectedSavingIndicator isSaving={false} hasError={false} />
+      <SavingIndicator isSaving={false} hasError={false} />
     );
 
     wrapper.setProps({ isSaving: true });
@@ -47,7 +47,7 @@ describe("SavingIndicator", () => {
 
   it("should hide immediately if saving for more than one second", () => {
     const wrapper = shallow(
-      <UnconnectedSavingIndicator isSaving={false} hasError={false} />
+      <SavingIndicator isSaving={false} hasError={false} />
     );
 
     wrapper.setProps({ isSaving: true });
@@ -62,9 +62,7 @@ describe("SavingIndicator", () => {
   });
 
   it("should not show if there is an error", () => {
-    const wrapper = shallow(
-      <UnconnectedSavingIndicator isSaving={false} hasError />
-    );
+    const wrapper = shallow(<SavingIndicator isSaving={false} hasError />);
 
     wrapper.setProps({ isSaving: true });
     expect(findIndicator(wrapper).exists()).toBe(false);
@@ -72,11 +70,7 @@ describe("SavingIndicator", () => {
 
   it("should not show if user doesn't have permission", () => {
     const wrapper = shallow(
-      <UnconnectedSavingIndicator
-        isSaving={false}
-        hasError={false}
-        isUnauthorized
-      />
+      <SavingIndicator isSaving={false} hasError={false} isUnauthorized />
     );
 
     wrapper.setProps({ isSaving: true });

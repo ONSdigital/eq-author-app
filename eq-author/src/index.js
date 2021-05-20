@@ -1,12 +1,11 @@
 import * as Sentry from "@sentry/browser";
 import { createHashHistory } from "history";
-import configureStore from "redux/configureStore";
 import fragmentMatcher from "apollo/fragmentMatcher";
 import createApolloClient from "apollo/createApolloClient";
 import createApolloCache from "apollo/createApolloCache";
 import createHttpLink from "apollo/createHttpLink";
 import createErrorLink from "apollo/createApolloErrorLink";
-import { ApolloLink, split } from "apollo-link";
+import { ApolloLink, split, concat } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import { getMainDefinition } from "apollo-utilities";
 import { WebSocketLink } from "apollo-link-ws";
@@ -15,6 +14,7 @@ import config from "config";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import getHeaders from "middleware/headers";
+import { NetworkActivityContextRef } from "components/NetworkActivityContext";
 
 import App from "App";
 
@@ -38,10 +38,6 @@ if (config.REACT_APP_SENTRY_DSN) {
   });
 }
 
-let store;
-
-const getStore = () => store;
-
 const cache = createApolloCache({
   addTypename: true,
   dataIdFromObject: getIdForObject,
@@ -61,6 +57,7 @@ const cache = createApolloCache({
 const history = createHashHistory();
 
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
+
 let wsUri;
 if (config.REACT_APP_API_URL.startsWith("http")) {
   wsUri = config.REACT_APP_API_URL.replace(/http([s])?:\/\//, "ws$1://");
@@ -78,6 +75,23 @@ const wsLink = new WebSocketLink({
       headers: getHeaders({}),
     }),
   },
+});
+
+const networkActivityLink = new ApolloLink((operation, forward) => {
+  if (
+    operation.query.definitions.find(
+      ({ kind }) => kind === "OperationDefinition"
+    ).operation === "mutation"
+  ) {
+    NetworkActivityContextRef.current?.setActiveRequests?.((old) => old + 1);
+  }
+
+  return forward(operation).map((data) => {
+    NetworkActivityContextRef.current?.setActiveRequests?.((old) =>
+      old > 0 ? old - 1 : old
+    );
+    return data;
+  });
 });
 
 const networkLink = split(
@@ -99,18 +113,11 @@ const headersLink = setContext((_, { headers }) =>
   }))
 );
 
-const link = ApolloLink.from([
-  createErrorLink(getStore),
-  headersLink,
-  networkLink,
-]);
+const link = ApolloLink.from([createErrorLink(), headersLink, networkLink]);
 
-const client = createApolloClient(link, cache);
-
-store = configureStore();
+const client = createApolloClient(concat(networkActivityLink, link), cache);
 
 const renderApp = render(document.getElementById("root"), {
-  store,
   client,
   history,
 });

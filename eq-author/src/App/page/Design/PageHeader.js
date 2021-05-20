@@ -44,6 +44,7 @@ export class PageHeader extends React.Component {
       position: page.position + 1,
     });
   };
+
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 

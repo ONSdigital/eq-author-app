@@ -2,17 +2,11 @@ import React from "react";
 import withEntityEditor from ".";
 import { shallow } from "enzyme";
 import { SynchronousPromise } from "synchronous-promise";
-import createMockStore from "tests/utils/createMockStore";
 
 const Component = (props) => <div {...props} />;
 
 describe("withEntityEditor", () => {
-  let wrapper,
-    entity,
-    handleUpdate,
-    handleSubmit,
-    handleStartRequest,
-    handleEndRequest;
+  let wrapper, entity, handleUpdate, handleSubmit;
   const ComponentWithEntity = withEntityEditor("entity")(Component);
 
   let store;
@@ -23,7 +17,6 @@ describe("withEntityEditor", () => {
         entity={entity}
         onUpdate={handleUpdate}
         onSubmit={handleSubmit}
-        store={store}
         {...props}
       />
     ).dive();
@@ -31,9 +24,6 @@ describe("withEntityEditor", () => {
   beforeEach(() => {
     handleUpdate = jest.fn(() => SynchronousPromise.resolve());
     handleSubmit = jest.fn(() => Promise.resolve());
-    handleStartRequest = jest.fn();
-    handleEndRequest = jest.fn();
-    store = createMockStore();
     entity = {
       id: "1",
       title: "foo",
@@ -171,38 +161,6 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).toHaveBeenCalled();
   });
 
-  it("should call startRequest on Update and stopRequest Completion", () => {
-    const newValue = "foo1";
-
-    wrapper.setProps({
-      startRequest: handleStartRequest,
-      endRequest: handleEndRequest,
-    });
-    wrapper.simulate("change", { name: "title", value: newValue });
-    wrapper.simulate("update");
-
-    expect(handleStartRequest).toHaveBeenCalled();
-    expect(handleEndRequest).toHaveBeenCalled();
-  });
-
-  it("should call startRequest and stopRequest on failure", () => {
-    const newValue = "foo1";
-    handleUpdate = jest.fn(() =>
-      SynchronousPromise.reject(new Error("message"))
-    );
-    const failingWrapper = render();
-    failingWrapper.setProps({
-      startRequest: handleStartRequest,
-      endRequest: handleEndRequest,
-    });
-
-    failingWrapper.simulate("change", { name: "title", value: newValue });
-    failingWrapper.simulate("update");
-
-    expect(handleStartRequest).toHaveBeenCalled();
-    expect(handleEndRequest).toHaveBeenCalled();
-  });
-
   it("should pass on any other props to wrapped component", () => {
     const newProps = { lol: "cats" };
 
@@ -222,11 +180,7 @@ describe("withEntityEditor", () => {
       __typename: "Foo",
     };
     const wrapper = shallow(
-      <ComponentWithEntity
-        entity={entity}
-        onUpdate={handleUpdate}
-        store={store}
-      />
+      <ComponentWithEntity entity={entity} onUpdate={handleUpdate} />
     ).dive();
 
     wrapper.simulate("change", { name: "deep.thing", value: "updated" });

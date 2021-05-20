@@ -6,7 +6,6 @@ import Reorder from "components/Reorder";
 import { times } from "lodash";
 
 import { shallow } from "enzyme";
-import createMockStore from "tests/utils/createMockStore";
 describe("MultipleChoiceAnswer", () => {
   let wrapper;
 
@@ -21,8 +20,6 @@ describe("MultipleChoiceAnswer", () => {
       },
     ],
   };
-
-  let store;
 
   const option = {
     id: "123",
@@ -65,12 +62,10 @@ describe("MultipleChoiceAnswer", () => {
         {...mockHandlers}
         answer={answer}
         minOptions={minOptions}
-        store={store}
       />
     );
 
   beforeEach(() => {
-    store = createMockStore();
     mockHandlers = {
       ...mockHandlers,
       onAddOption: jest.fn(() => Promise.resolve(option)),

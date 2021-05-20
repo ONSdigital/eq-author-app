@@ -1,13 +1,19 @@
-import React from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
 import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
-import SavingIcon from "./icon-saving.svg?inline";
-import timer from "utils/timer";
-import { connect } from "react-redux";
-import { isSaving, hasError } from "redux/saving/reducer";
+import { ReactComponent as SavingIcon } from "assets/icon-saving.svg";
+import createTimer from "utils/timer";
 import FadeTransition from "components/transitions/FadeTransition";
 import { TransitionGroup } from "react-transition-group";
 import IconText from "components/IconText";
+
+import { NetworkActivityContext } from "components/NetworkActivityContext";
 
 const Container = styled.div`
   --color-text: white;
@@ -27,76 +33,47 @@ const Icon = styled(SavingIcon)`
   animation: ${rotate360} 3s linear infinite;
 `;
 
-export class UnconnectedSavingIndicator extends React.Component {
-  static propTypes = {
-    isSaving: PropTypes.bool.isRequired,
-    hasError: PropTypes.bool.isRequired,
-    isUnauthorized: PropTypes.bool,
-    minDisplayTime: PropTypes.number,
-  };
+export const SavingIndicator = ({ isUnauthorized, minDisplayTime = 1000 }) => {
+  const [timerRunning, setTimerRunning] = useState(false);
+  const { activeRequests, apiErrorOccurred } = useContext(
+    NetworkActivityContext
+  );
+  const handleClose = useCallback(() => setTimerRunning(false), [
+    setTimerRunning,
+  ]);
+  const timer = useMemo(() => createTimer(handleClose, minDisplayTime), [
+    handleClose,
+    minDisplayTime,
+  ]);
 
-  static defaultProps = {
-    minDisplayTime: 1000,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      timerRunning: false,
-    };
-    this.timer = timer(this.handleClose, this.props.minDisplayTime);
-  }
-
-  handleClose = () => {
-    this.setState({
-      timerRunning: false,
-    });
-  };
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.isSaving && this.props.isSaving) {
-      this.timer.start();
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        timerRunning: true,
-      });
+  useEffect(() => {
+    if (activeRequests) {
+      timer.start();
+      setTimerRunning(true);
     }
-  }
+  }, [activeRequests]);
 
-  componentWillUnmount() {
-    this.timer.stop();
-  }
+  const isVisible =
+    !apiErrorOccurred && !isUnauthorized && (timerRunning || activeRequests);
 
-  renderIndicator() {
-    return (
-      <FadeTransition>
-        <Container>
-          <IconText icon={Icon} data-test="saving-indicator">
-            Saving
-          </IconText>
-        </Container>
-      </FadeTransition>
-    );
-  }
-
-  render() {
-    const isVisible =
-      !this.props.hasError &&
-      !this.props.isUnauthorized &&
-      (this.props.isSaving || this.state.timerRunning);
-    return (
-      <TransitionGroup>
-        {isVisible ? this.renderIndicator() : null}
-      </TransitionGroup>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    isSaving: isSaving(state),
-    hasError: hasError(state),
-  };
+  return (
+    <TransitionGroup>
+      {isVisible && (
+        <FadeTransition>
+          <Container>
+            <IconText icon={Icon} data-test="saving-indicator">
+              Saving
+            </IconText>
+          </Container>
+        </FadeTransition>
+      )}
+    </TransitionGroup>
+  );
 };
 
-export default connect(mapStateToProps)(UnconnectedSavingIndicator);
+SavingIndicator.propTypes = {
+  isUnauthorized: PropTypes.bool,
+  minDisplayTime: PropTypes.number,
+};
+
+export default SavingIndicator;
