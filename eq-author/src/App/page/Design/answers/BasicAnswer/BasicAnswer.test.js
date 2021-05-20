@@ -30,7 +30,7 @@ describe("BasicAnswer", () => {
     onChange = jest.fn();
     onUpdate = jest.fn();
     multipleAnswers = false;
-    
+
     props = {
       id: "1",
       answer,
@@ -78,37 +78,33 @@ describe("BasicAnswer", () => {
     expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
   });
 
-  it("should render Or option toggle ", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    />)
-      
-    expect(getByTestId("toggle-or-option")
-    ).toBeInTheDocument();
-  });
+  // it("should render Or option toggle ", async () => {
+  //   const { getByTestId } = rtlRender(() => (
+  //     <StatelessBasicAnswer {...props} type="Percentage" />
+  //   ));
 
-  it("should disable Or option toggle if multipleAnswers = true", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    multipleAnswers
-    />)
-      
-    expect(getByTestId("toggle-wrapper")).toHaveAttribute(
-      "disabled"
-    );
-  });
+  //   expect(getByTestId("toggle-or-option")).toBeInTheDocument();
+  // });
 
-  it("should show Option label if toggle is on", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    />)
-    fireEvent.click(getByTestId("toggle-or-option-input"), {
-      target: { type: "checkbox", checked: true },
-      });
+  // it("should disable Or option toggle if multipleAnswers = true", async () => {
+  //   const { getByTestId } = rtlRender(() => (
+  //     <StatelessBasicAnswer {...props} type="Percentage" multipleAnswers />
+  //   ));
 
-      expect(getByTestId("option-label")
-      ).toBeInTheDocument();
-  });
+  //   expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
+  // });
+
+  // it("should show Option label if toggle is on", async() => {
+  //   const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props}
+  //   type="Percentage"
+  //   />)
+  //   fireEvent.click(getByTestId("toggle-or-option-input"), {
+  //     target: { type: "checkbox", checked: true },
+  //     });
+
+  //     expect(getByTestId("option-label")
+  //     ).toBeInTheDocument();
+  // });
 
   describe("event handling behaviour", () => {
     let wrapper;
