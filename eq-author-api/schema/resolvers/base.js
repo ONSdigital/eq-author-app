@@ -1175,6 +1175,8 @@ const Resolvers = {
 
       return parentPage;
     },
+    mutuallyExclusiveOption: (answer) =>
+      find(answer.options, { mutuallyExclusive: true }),
     validation: (answer) =>
       ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer

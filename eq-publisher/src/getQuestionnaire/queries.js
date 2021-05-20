@@ -279,6 +279,11 @@ exports.getQuestionnaire = `
               }
               answers {
                 ...answerFragment
+                ... on BasicAnswer {
+                  mutuallyExclusiveOption {
+                    ...optionFragment
+                  }
+                }
                 ... on MultipleChoiceAnswer {
                   options {
                     ...optionFragment

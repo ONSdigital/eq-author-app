@@ -263,6 +263,7 @@ type BasicAnswer implements Answer {
   properties: JSON
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
+  mutuallyExclusiveOption: Option
 }
 
 type MultipleChoiceAnswer implements Answer {
