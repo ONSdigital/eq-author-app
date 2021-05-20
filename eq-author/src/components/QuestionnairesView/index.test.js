@@ -14,6 +14,7 @@ import { READ, WRITE } from "constants/questionnaire-permissions";
 import QuestionnairesView, { STORAGE_KEY } from "./";
 
 import { UNPUBLISHED } from "constants/publishStatus";
+import * as Headings from "constants/table-headings";
 
 import { useLockUnlockQuestionnaire } from "hooks/useSetQuestionnaireLocked";
 
@@ -25,6 +26,17 @@ jest.mock("lodash", () => ({
   ...jest.requireActual("lodash"),
   debounce: jest.fn((fn) => fn),
 }));
+
+const enabledHeadings = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
 
 describe("QuestionnairesView", () => {
   const user = {
@@ -64,6 +76,9 @@ describe("QuestionnairesView", () => {
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onCreateQuestionnaire: jest.fn(),
+      canCreateQuestionnaire: true,
+      enabledHeadings: enabledHeadings,
+      onQuestionnaireClick: jest.fn(),
     };
   });
 
