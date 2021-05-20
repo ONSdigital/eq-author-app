@@ -21,6 +21,7 @@ import withValidationError from "enhancers/withValidationError";
 
 import CREATE_MUTUALLY_EXCLUSIVE_OPTION from "./graphql/createMutuallyExclusiveOption.graphql";
 import DELETE_OPTION from "./graphql/deleteOption.graphql";
+import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
@@ -67,22 +68,25 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
-  let [toggled, setToggled] = useState(false);
+  const [toggled, setToggled] = useState(false);
+  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState();
 
   const [createMutuallyExclusiveOption] = useMutation(
     CREATE_MUTUALLY_EXCLUSIVE_OPTION
   );
+  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   useEffect(() => {
     const { options } = answer;
-    const hasMutuallyExclusive = options?.find(
+    const mutuallyExclusive = options?.find(
       ({ mutuallyExclusive }) => mutuallyExclusive === true
     );
-    if (hasMutuallyExclusive) {
+    if (mutuallyExclusive) {
       setToggled(true);
+      setMutuallyExclusiveLabel(mutuallyExclusive.label);
     }
   }, [answer]);
 
@@ -106,7 +110,17 @@ export const StatelessBasicAnswer = ({
       );
 
       deleteOption({ variables: { input: { id } } });
+      setMutuallyExclusiveLabel("");
     }
+  };
+
+  const onUpdateOption = (label) => {
+    const { options } = answer;
+    const { id } = options?.find(
+      ({ mutuallyExclusive }) => mutuallyExclusive === true
+    );
+
+    updateOption({ variables: { input: { id, label } } });
   };
 
   return (
@@ -168,14 +182,6 @@ export const StatelessBasicAnswer = ({
           </InlineField>
         </ToggleWrapper>
       )}
-
-      {/* The following:
-              ID's (answer.id) 
-              values (answer.label & answer.description) 
-              will need to be associated with the correct "option" object when connecting to the back end !
-              Not sure if Validation is required ? 
-              Will also need an object to save the toggle state to the database?
-      */}
       {toggled && (
         <StyledOption>
           <Flex>
@@ -185,10 +191,10 @@ export const StatelessBasicAnswer = ({
               <WrappingInput
                 id={`option-label-${answer.id}`}
                 name="label"
-                value={answer.label}
+                value={mutuallyExclusiveLabel}
                 placeholder={labelPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
+                onChange={({ value }) => setMutuallyExclusiveLabel(value)}
+                onBlur={({ target: { value } }) => onUpdateOption(value)}
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
