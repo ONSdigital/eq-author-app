@@ -6,6 +6,14 @@ mutation createMutuallyExclusiveOption(
 ) {
   createMutuallyExclusiveOption(input: $input) {
     ...Option
+    answer {
+      ... on BasicAnswer {
+        id
+        options {
+          ...Option
+        }
+      }
+    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

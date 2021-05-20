@@ -6,6 +6,13 @@ mutation createMutuallyExclusiveOption(
     displayName
     answer {
       id
+      ... on BasicAnswer {
+        options {
+          id
+          mutuallyExclusive
+          label
+        }
+      }
     }
   }
 }

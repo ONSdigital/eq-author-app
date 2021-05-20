@@ -2,9 +2,12 @@ mutation DeleteOption($input: DeleteOptionInput!) {
   deleteOption(input: $input) {
     id
     displayName
-    options {
-      id
-      label
+    ... on BasicAnswer {
+      options {
+        id
+        mutuallyExclusive
+        label
+      }
     }
   }
 }
