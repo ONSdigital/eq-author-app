@@ -7,6 +7,12 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
+const mockUseMutation = jest.fn();
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
+
 describe("BasicAnswer", () => {
   let answer;
   let onChange;
