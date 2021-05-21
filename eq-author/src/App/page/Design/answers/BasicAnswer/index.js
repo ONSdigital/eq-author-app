@@ -119,7 +119,7 @@ export const StatelessBasicAnswer = ({
       {type !== "Checkbox" && type !== "Radio" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
-          <Label>{`"Or" option`}</Label>
+          <Label for="toggle-or-option">{`"Or" option`}</Label>
             <ToggleSwitch
               id="toggle-or-option"
               name="toggle-or-option"

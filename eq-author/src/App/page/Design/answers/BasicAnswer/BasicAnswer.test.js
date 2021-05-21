@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { render as rtlRender, fireEvent } from "tests/utils/rtl";
+import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
 
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -83,8 +83,23 @@ describe("BasicAnswer", () => {
     type="Percentage"
     />)
       
-    expect(getByTestId("toggle-or-option")
-    ).toBeInTheDocument();
+    screen.getByRole('switch')
+  });
+
+  it("should NOT render Or option toggle if ans type === Checkbox ", async() => {
+    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
+    type="Checkbox"
+    />)
+      
+    expect(screen.queryByRole('switch')).not.toBeInTheDocument();
+  });
+
+  it("should NOT render Or option toggle if ans type === Radio ", async() => {
+    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
+    type="Radio"
+    />)
+      
+    expect(screen.queryByRole('switch')).not.toBeInTheDocument();
   });
 
   it("should disable Or option toggle if multipleAnswers = true", async() => {
