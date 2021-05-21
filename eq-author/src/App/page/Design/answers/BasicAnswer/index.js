@@ -100,6 +100,7 @@ export const StatelessBasicAnswer = ({
   const onChangeToggle = () => {
     setToggled(!toggled);
 
+
     if (!toggled) {
       createMutuallyExclusiveOption({
         variables: { input: { answerId: answer.id, label: "" } },
