@@ -79,7 +79,7 @@ describe("BasicAnswer", () => {
   });
 
   it("should render Or option toggle ", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
+    rtlRender(() => <StatelessBasicAnswer {...props} 
     type="Percentage"
     />)
       
@@ -87,7 +87,7 @@ describe("BasicAnswer", () => {
   });
 
   it("should NOT render Or option toggle if ans type === Checkbox ", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
+    rtlRender(() => <StatelessBasicAnswer {...props} 
     type="Checkbox"
     />)
       
@@ -95,7 +95,7 @@ describe("BasicAnswer", () => {
   });
 
   it("should NOT render Or option toggle if ans type === Radio ", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
+    rtlRender(() => <StatelessBasicAnswer {...props} 
     type="Radio"
     />)
       

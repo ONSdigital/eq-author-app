@@ -78,8 +78,6 @@ class AnswerTypeSelector extends React.Component {
  
 
   render() {
-    console.log('this.props :>> ', this.props);
-
     const errorValidationMsg = this.props.getValidationError({
       field: "answers",
       message: QUESTION_ANSWER_NOT_SELECTED,

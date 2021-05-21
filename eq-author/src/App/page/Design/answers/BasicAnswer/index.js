@@ -46,7 +46,6 @@ const ToggleWrapper = styled.div`
 `;
 
 export const StatelessBasicAnswer = ({
-  answerCount,
   answer,
   onChange,
   onUpdate,
