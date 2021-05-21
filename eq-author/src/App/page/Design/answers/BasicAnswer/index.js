@@ -41,8 +41,8 @@ const InlineField = styled(Field)`
 `;
 
 const ToggleWrapper = styled.div`
-  opacity: ${({disabled}) => (disabled ? "0.6" : "1")};
-  pointer-events: ${({disabled}) => (disabled ? "none" : "auto")};
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 export const StatelessBasicAnswer = ({
@@ -71,10 +71,10 @@ export const StatelessBasicAnswer = ({
       setToggled(false);
     }
   }, [multipleAnswers]);
-  
+
   const onChangeToggle = () => {
     setToggled(!toggled);
-  }
+  };
 
   return (
     <div>
@@ -90,12 +90,16 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
-          errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({
-            field: "label",
-            type: "answer",
-            label: errorLabel,
-            requiredMsg: errorMsg,
-          })}
+          errorValidationMsg={
+            optionErrorMsg
+              ? optionErrorMsg
+              : getValidationError({
+                  field: "label",
+                  type: "answer",
+                  label: errorLabel,
+                  requiredMsg: errorMsg,
+                })
+          }
         />
       </Field>
       {showDescription && (
@@ -136,9 +140,7 @@ export const StatelessBasicAnswer = ({
           <Flex>
             <DummyMultipleChoice type={CHECKBOX} />
             <OptionField>
-              <Label htmlFor={`option-label-${answer.id}`}>
-                {"Label"}
-              </Label>
+              <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
               <WrappingInput
                 id={`option-label-${answer.id}`}
                 name="label"
