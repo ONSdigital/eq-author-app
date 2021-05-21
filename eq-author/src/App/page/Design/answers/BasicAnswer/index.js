@@ -46,6 +46,7 @@ const ToggleWrapper = styled.div`
 `;
 
 export const StatelessBasicAnswer = ({
+  answerCount,
   answer,
   onChange,
   onUpdate,
@@ -115,7 +116,7 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
-      {type === "Percentage" && (
+      {type !== "Checkbox" && type !== "Radio" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
           <Label>{`"Or" option`}</Label>
@@ -130,14 +131,6 @@ export const StatelessBasicAnswer = ({
           </InlineField>
         </ToggleWrapper>
       )}
-
-      {/* The following:
-              ID's (answer.id) 
-              values (answer.label & answer.description) 
-              will need to be associated with the correct "option" object when connecting to the back end !
-              Not sure if Validation is required ? 
-              Will also need an object to save the toggle state to the database?
-      */}
       {toggled && (
         <StyledOption>
           <Flex>
