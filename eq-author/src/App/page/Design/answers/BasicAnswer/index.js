@@ -68,7 +68,6 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
-  console.log(answer);
   const [toggled, setToggled] = useState(false);
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState();
 
@@ -99,7 +98,6 @@ export const StatelessBasicAnswer = ({
 
   const onChangeToggle = () => {
     setToggled(!toggled);
-
 
     if (!toggled) {
       createMutuallyExclusiveOption({
