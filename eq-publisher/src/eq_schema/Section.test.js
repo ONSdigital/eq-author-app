@@ -1,5 +1,6 @@
 const Block = require("./Block");
 const Section = require("./Section");
+const mergeDisabledFolders = Section.mergeDisabledFolders;
 
 describe("Section", () => {
   const createSectionJSON = (options) =>
@@ -63,34 +64,31 @@ describe("Section", () => {
   });
 
   describe("mergeDisabledFolders", () => {
-    let sectionJSON;
-    beforeEach(() => {
-      sectionJSON = createSectionJSON();
+    const generateFolder = (input = {}) => ({
+      id: `folder-${Math.random()}`,
+      pages: [],
+      ...input,
     });
 
     it("should merge consecutive disabled folders together", () => {
-      sectionJSON.folders.push(sectionJSON.folders[0]);
-      const section = new Section(sectionJSON, createCtx());
-
-      expect(section.groups).toHaveLength(1);
+      const folders = [true, false, false, false].map((enabled) =>
+        generateFolder({ enabled })
+      );
+      expect(mergeDisabledFolders(folders)).toHaveLength(2);
     });
 
     it("shouldn't merge enabled folders with previous disabled folder", () => {
-      sectionJSON.folders.push({
-        ...sectionJSON.folders[0],
-        enabled: true,
-      });
-      const section = new Section(sectionJSON, createCtx());
-
-      expect(section.groups).toHaveLength(2);
+      const folders = [true, false, true, true].map((enabled) =>
+        generateFolder({ enabled })
+      );
+      expect(mergeDisabledFolders(folders)).toHaveLength(4);
     });
 
     it("shouldn't merge disabled folders with previous enabled folder", () => {
-      sectionJSON.folders.push({ ...sectionJSON.folders[0] });
-      sectionJSON.folders[0].enabled = true;
-      const section = new Section(sectionJSON, createCtx());
-
-      expect(section.groups).toHaveLength(2);
+      const folders = [true, true, false].map((enabled) =>
+        generateFolder({ enabled })
+      );
+      expect(mergeDisabledFolders(folders)).toHaveLength(3);
     });
   });
 
