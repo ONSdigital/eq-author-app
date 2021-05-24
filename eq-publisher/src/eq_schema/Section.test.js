@@ -96,6 +96,31 @@ describe("Section", () => {
     });
   });
 
+  it("should add skip conditions from folder to consistuent questions", () => {
+    const section = new Section(
+      createSectionJSON(),
+      createCtx({ questionnaireJson: { navigation: false } })
+    );
+
+    const skipConditionsOutput = {
+      when: [
+        {
+          id: "answersuper-answer-reference",
+          condition: "equals",
+          value: 42,
+        },
+      ],
+    };
+
+    expect(section.groups[0].blocks[0].skip_conditions).toBeUndefined();
+    expect(section.groups[0].blocks[1].skip_conditions).toMatchObject(
+      skipConditionsOutput
+    );
+    expect(section.groups[0].blocks[2].skip_conditions).toMatchObject(
+      skipConditionsOutput
+    );
+  });
+
   describe("Section introduction", () => {
     it("should add introduction content to first group if present", () => {
       const sectionJSON = createSectionJSON();
