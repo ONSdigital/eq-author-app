@@ -1,6 +1,7 @@
 import React from "react";
 
 import { render } from "tests/utils/rtl";
+import { colors } from "constants/theme";
 
 import CollapsibleNavItem from ".";
 
@@ -56,6 +57,33 @@ describe("Collapsible navigation item", () => {
       getByTestId("CollapsibleNavItem-toggle-button").click();
 
       expect(getByTestId("CollapsibleNavItem-body")).not.toBeVisible();
+    });
+
+    it("should show grey borders if closed, bordered & doesn't contain current page", () => {
+      const { getByTestId } = renderCollapsibleNavItem({
+        open: false,
+        bordered: true,
+        containsActiveEntity: false,
+      });
+      const button = getByTestId("CollapsibleNavItem-title");
+      const style = `1px solid ${colors.grey}`;
+
+      expect(button).toHaveStyleRule("border-bottom", style);
+      expect(button).toHaveStyleRule("border-top", style);
+    });
+
+    it("should show orange borders if closed, bordered & contains current page", () => {
+      const { getByTestId } = renderCollapsibleNavItem({
+        open: false,
+        bordered: true,
+        containsActiveEntity: true,
+      });
+
+      const button = getByTestId("CollapsibleNavItem-title");
+      const style = `1px solid ${colors.orange}`;
+
+      expect(button).toHaveStyleRule("border-bottom", style);
+      expect(button).toHaveStyleRule("border-top", style);
     });
   });
 
