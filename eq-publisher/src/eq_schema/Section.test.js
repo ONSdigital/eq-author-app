@@ -1,6 +1,5 @@
 const Block = require("./Block");
 const Section = require("./Section");
-const mergeDisabledFolders = Section.mergeDisabledFolders;
 
 describe("Section", () => {
   const createSectionJSON = (options) =>
@@ -19,10 +18,44 @@ describe("Section", () => {
               },
             ],
           },
+          {
+            id: "f2",
+            enabled: true,
+            skipConditions: [
+              {
+                id: "d0ddc0d3-9788-4663-a724-53e45fde49c7",
+                operator: "And",
+                expressions: [
+                  {
+                    id: "dd762315-8b00-40e9-a1ae-c382538de6ef",
+                    condition: "Equal",
+                    left: {
+                      type: "Number",
+                      id: "super-answer-reference",
+                    },
+                    right: {
+                      number: 42,
+                    },
+                  },
+                ],
+              },
+            ],
+            pages: [
+              {
+                id: "page-1",
+                answers: [],
+              },
+              {
+                id: "page-2",
+                answers: [],
+              },
+            ],
+          },
         ],
       },
       options
     );
+
   const createCtx = (options = {}) => ({
     routingGotos: [],
     questionnaireJson: { navigation: true },
@@ -39,7 +72,7 @@ describe("Section", () => {
         {
           id: "group1",
           title: "Section 1",
-          blocks: [expect.any(Block)],
+          blocks: expect.arrayContaining([expect.any(Block)]),
         },
       ],
     });
@@ -57,38 +90,9 @@ describe("Section", () => {
         {
           id: "group1",
           title: "",
-          blocks: [expect.any(Block)],
+          blocks: expect.arrayContaining([expect.any(Block)]),
         },
       ],
-    });
-  });
-
-  describe("mergeDisabledFolders", () => {
-    const generateFolder = (input = {}) => ({
-      id: `folder-${Math.random()}`,
-      pages: [],
-      ...input,
-    });
-
-    it("should merge consecutive disabled folders together", () => {
-      const folders = [true, false, false, false].map((enabled) =>
-        generateFolder({ enabled })
-      );
-      expect(mergeDisabledFolders(folders)).toHaveLength(2);
-    });
-
-    it("shouldn't merge enabled folders with previous disabled folder", () => {
-      const folders = [true, false, true, true].map((enabled) =>
-        generateFolder({ enabled })
-      );
-      expect(mergeDisabledFolders(folders)).toHaveLength(4);
-    });
-
-    it("shouldn't merge disabled folders with previous enabled folder", () => {
-      const folders = [true, true, false].map((enabled) =>
-        generateFolder({ enabled })
-      );
-      expect(mergeDisabledFolders(folders)).toHaveLength(3);
     });
   });
 
