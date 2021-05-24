@@ -102,15 +102,17 @@ describe("Section", () => {
       createCtx({ questionnaireJson: { navigation: false } })
     );
 
-    const skipConditionsOutput = {
-      when: [
-        {
-          id: "answersuper-answer-reference",
-          condition: "equals",
-          value: 42,
-        },
-      ],
-    };
+    const skipConditionsOutput = [
+      {
+        when: [
+          {
+            id: "answersuper-answer-reference",
+            condition: "equals",
+            value: 42,
+          },
+        ],
+      },
+    ];
 
     expect(section.groups[0].blocks[0].skip_conditions).toBeUndefined();
     expect(section.groups[0].blocks[1].skip_conditions).toMatchObject(
