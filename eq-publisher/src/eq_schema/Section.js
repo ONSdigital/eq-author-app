@@ -39,7 +39,7 @@ class Section {
     // avoids issues with runner v2: calculated summaries, repeated routing summaries, section summaries
     this.groups = [
       {
-        title: getText(section.title),
+        title: this.title || "",
         id: `group${section.id}`,
         blocks: folderGroups.reduce(
           (acc, group) => [

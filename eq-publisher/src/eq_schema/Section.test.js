@@ -37,7 +37,7 @@ describe("Section", () => {
       title: "Section 1",
       groups: [
         {
-          id: "groupf1",
+          id: "group1",
           title: "Section 1",
           blocks: [expect.any(Block)],
         },
@@ -55,7 +55,7 @@ describe("Section", () => {
       id: "section1",
       groups: [
         {
-          id: "groupf1",
+          id: "group1",
           title: "",
           blocks: [expect.any(Block)],
         },
