@@ -4,13 +4,16 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { flowRight } from "lodash";
 
+import { useHistory } from "react-router-dom";
+import { buildQuestionnairePath } from "utils/UrlUtils";
 import Layout from "components/Layout";
-
 import Loading from "components/Loading";
 import Error from "components/Error";
 
-import QuestionnairesTable from "./QuestionnairesView/QuestionnairesTable";
-import QuestionnairesView from "./QuestionnairesView";
+import * as Headings from "constants/table-headings";
+
+import QuestionnairesTable from "components/QuestionnairesView/QuestionnairesTable";
+import QuestionnairesView from "components/QuestionnairesView";
 
 import withDeleteQuestionnaire from "./withDeleteQuestionnaire";
 import withCreateQuestionnaire from "./withCreateQuestionnaire";
@@ -27,12 +30,31 @@ export const QUESTIONNAIRES_QUERY = gql`
   ${QuestionnairesTable.fragments.QuestionnaireDetails}
 `;
 
+const enabledHeadings = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.PERMISSIONS,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACTIONS,
+];
+
 const QuestionnairesPage = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
 }) => {
   useLockStatusSubscription();
+
+  const history = useHistory();
+  const handleClick = (questionnaireId) =>
+    history.push(
+      buildQuestionnairePath({
+        questionnaireId,
+      })
+    );
 
   return (
     <Layout title="Questionnaires">
@@ -54,6 +76,9 @@ const QuestionnairesPage = ({
               onDeleteQuestionnaire={onDeleteQuestionnaire}
               onDuplicateQuestionnaire={onDuplicateQuestionnaire}
               onCreateQuestionnaire={onCreateQuestionnaire}
+              enabledHeadings={enabledHeadings}
+              onQuestionnaireClick={handleClick}
+              canCreateQuestionnaire
             />
           );
         }}
