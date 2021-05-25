@@ -23,6 +23,7 @@ const answerConditions = {
   ALLOF: "AllOf",
   ANYOF: "AnyOf",
   ONEOF: "OneOf",
+  NOTANYOF: "NotAnyOf",
 };
 
 const MultipleChoiceAnswerOptions = styled.div`
@@ -232,6 +233,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             data-test="condition-dropdown"
           >
             <option value={answerConditions.ANYOF}>Any of</option>
+            <option value={answerConditions.NOTANYOF}>Not any of</option>
             <option value={answerConditions.ALLOF}>All of</option>
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
