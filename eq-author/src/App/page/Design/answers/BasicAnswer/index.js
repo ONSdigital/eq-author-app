@@ -62,6 +62,7 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
+
   let [toggled, setToggled] = useState(false);
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
