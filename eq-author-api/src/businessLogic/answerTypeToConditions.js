@@ -21,6 +21,7 @@ const answerConditions = {
   [answerTypes.CHECKBOX]: [
     conditions.ALL_OF,
     conditions.ANY_OF,
+    conditions.NOT_ANY_OF,
     conditions.UNANSWERED,
   ],
 };

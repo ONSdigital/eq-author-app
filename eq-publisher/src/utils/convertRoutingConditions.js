@@ -5,6 +5,7 @@ const routingConditionConversions = {
   LessThan: "less than",
   GreaterOrEqual: "greater than or equal to",
   LessOrEqual: "less than or equal to",
+  NotAnyOf: "not contains any",
   AllOf: "contains all",
   AnyOf: "contains any",
   Unanswered: "not set",
