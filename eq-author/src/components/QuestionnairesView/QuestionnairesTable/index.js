@@ -1,34 +1,28 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
-import { SORT_ORDER } from "../constants";
+import { SORT_ORDER } from "constants/sort-order.js";
 
-import Row from "./Row";
-import TableHead from "./TableHead";
+import QuestionnaireTable from "components/QuestionnaireTable";
 import Panel from "components/Panel";
 
-import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
+import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
-const Table = styled.table`
-  width: 100%;
-  font-size: 1em;
-  border-collapse: collapse;
-  table-layout: fixed;
-  text-align: left;
-`;
+import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
 const QuestionnairesTable = ({
   questionnaires,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
+  autoFocusId,
   onSortQuestionnaires,
   onReverseSort,
-  autoFocusId,
   sortColumn,
   sortOrder,
+  enabledHeadings,
+  onQuestionnaireClick,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
   const {
@@ -43,31 +37,20 @@ const QuestionnairesTable = ({
 
   return (
     <Panel>
-      <Table>
-        <TableHead
-          onSortClick={onSortQuestionnaires}
-          onReverseClick={onReverseSort}
-          sortOrder={sortOrder}
-          currentSortColumn={sortColumn}
-        />
-        <tbody>
-          {questionnaires.map((questionnaire, index) => {
-            return (
-              <Row
-                key={questionnaire.id}
-                autoFocus={questionnaire.id === autoFocusId}
-                questionnaire={questionnaire}
-                onDeleteQuestionnaire={onDeleteQuestionnaire}
-                onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-                onLockQuestionnaire={handleLock}
-                isLastOnPage={questionnaires.length === index + 1}
-                data-test="questionnaires-row"
-              />
-            );
-          })}
-        </tbody>
-      </Table>
-
+      <QuestionnaireTable
+        onSortClick={onSortQuestionnaires}
+        onReverseClick={onReverseSort}
+        sortOrder={sortOrder}
+        currentSortColumn={sortColumn}
+        tableHeadings={tableHeadings}
+        questionnaires={questionnaires}
+        autoFocusId={autoFocusId}
+        onDeleteQuestionnaire={onDeleteQuestionnaire}
+        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        handleLock={handleLock}
+        enabledHeadings={enabledHeadings}
+        onRowClick={onQuestionnaireClick}
+      />
       <LockModal />
     </Panel>
   );
@@ -102,11 +85,13 @@ QuestionnairesTable.propTypes = {
   ),
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
-  onSortQuestionnaires: PropTypes.func.isRequired,
-  onReverseSort: PropTypes.func.isRequired,
   autoFocusId: PropTypes.string,
+  onSortQuestionnaires: PropTypes.func,
+  onReverseSort: PropTypes.func,
   sortColumn: PropTypes.string.isRequired,
   sortOrder: PropTypes.oneOf([SORT_ORDER.ASCENDING, SORT_ORDER.DESCENDING]),
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  onQuestionnaireClick: PropTypes.func,
 };
 
 export default QuestionnairesTable;
