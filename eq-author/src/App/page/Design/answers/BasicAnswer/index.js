@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useMutation } from "@apollo/react-hooks";
 
 import styled from "styled-components";
@@ -19,7 +19,7 @@ import {
 } from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 import withValidationError from "enhancers/withValidationError";
 
-import CREATE_MUTUALLY_EXCLUSIVE_OPTION from "./graphql/createMutuallyExclusiveOption.graphql";
+import CREATE_MUTUALLY_EXCLUSIVE from "./graphql/createMutuallyExclusiveOption.graphql";
 import DELETE_OPTION from "./graphql/deleteOption.graphql";
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 
@@ -68,57 +68,34 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
-  const [toggled, setToggled] = useState(false);
-  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState();
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  const getMutuallyExclusive = ({ options }) =>
+    options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
 
-  const [createMutuallyExclusiveOption] = useMutation(
-    CREATE_MUTUALLY_EXCLUSIVE_OPTION
-  );
+  const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
 
   useEffect(() => {
-    const { options } = answer;
-    const mutuallyExclusive = options?.find(
-      ({ mutuallyExclusive }) => mutuallyExclusive === true
-    );
-    if (mutuallyExclusive) {
-      setToggled(true);
-      setMutuallyExclusiveLabel(mutuallyExclusive.label);
-    }
+    const { label } = getMutuallyExclusive(answer) || { label: "" };
+    setMutuallyExclusiveLabel(label);
   }, [answer]);
 
-  useEffect(() => {
-    if (multipleAnswers) {
-      setToggled(false);
-    }
-  }, [multipleAnswers]);
-
   const onChangeToggle = () => {
-    setToggled(!toggled);
-
-    if (!toggled) {
-      createMutuallyExclusiveOption({
+    const { id } = getMutuallyExclusive(answer) || {};
+    if (!id) {
+      createMutuallyExclusive({
         variables: { input: { answerId: answer.id, label: "" } },
       });
     } else {
-      const { options } = answer;
-      const { id } = options?.find(
-        ({ mutuallyExclusive }) => mutuallyExclusive === true
-      );
-
       deleteOption({ variables: { input: { id } } });
-      setMutuallyExclusiveLabel("");
     }
   };
 
   const onUpdateOption = (label) => {
-    const { options } = answer;
-    const { id } = options?.find(
-      ({ mutuallyExclusive }) => mutuallyExclusive === true
-    );
+    const { id } = getMutuallyExclusive(answer) || {};
 
     updateOption({ variables: { input: { id, label } } });
   };
@@ -176,13 +153,13 @@ export const StatelessBasicAnswer = ({
               name="toggle-or-option"
               hideLabels={false}
               onChange={onChangeToggle}
-              checked={toggled}
+              checked={getMutuallyExclusive(answer) && !multipleAnswers}
               data-test="toggle-or-option"
             />
           </InlineField>
         </ToggleWrapper>
       )}
-      {toggled && (
+      {getMutuallyExclusive(answer) && !multipleAnswers && (
         <StyledOption>
           <Flex>
             <DummyMultipleChoice type={CHECKBOX} />
