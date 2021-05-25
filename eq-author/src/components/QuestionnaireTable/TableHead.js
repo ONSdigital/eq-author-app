@@ -7,7 +7,8 @@ import Button from "components/buttons/Button";
 
 import iconArrow from "assets/icon-arrow-down.svg";
 
-import { SORT_ORDER } from "../../constants";
+import { SORT_ORDER } from "constants/sort-order";
+import tableHeadings from "./TableHeadings";
 
 const TH = styled.th`
   color: ${colors.darkGrey};
@@ -107,60 +108,36 @@ const UnsortableTH = styled(TH)`
   padding: 1em;
 `;
 
+const renderHeading = (props, { heading, sortColumn, colWidth, sortable }) =>
+  sortable ? (
+    <SortableTH
+      key={`sortable-${heading.toLowerCase()}`}
+      sortColumn={sortColumn}
+      colWidth={colWidth}
+      dataTest={`${heading.toLowerCase()}-sort-button`}
+      {...props}
+    >
+      {heading}
+    </SortableTH>
+  ) : (
+    <UnsortableTH
+      key={`unsortable-${heading.toLowerCase()}`}
+      colWidth={colWidth}
+    >
+      {heading}
+    </UnsortableTH>
+  );
 const TableHead = (props) => {
+  const { enabledHeadings } = props;
+
+  const filteredHeadings = tableHeadings.filter(({ heading }) =>
+    enabledHeadings.includes(heading)
+  );
+
   return (
     <thead>
       <tr>
-        <SortableTH
-          sortColumn="title"
-          colWidth="20%"
-          dataTest="title-sort-button"
-          {...props}
-        >
-          Title
-        </SortableTH>
-        <SortableTH
-          sortColumn="createdBy.displayName"
-          colWidth="15%"
-          dataTest="owner-sort-button"
-          {...props}
-        >
-          Owner
-        </SortableTH>
-        <SortableTH
-          sortColumn="createdAt"
-          colWidth="10%"
-          dataTest="created-sort-button"
-          {...props}
-        >
-          Created
-        </SortableTH>
-        <SortableTH
-          sortColumn="updatedAt"
-          colWidth="9%"
-          dataTest="modified-sort-button"
-          {...props}
-        >
-          Modified
-        </SortableTH>
-        <UnsortableTH colWidth="10%">Permissions</UnsortableTH>
-        <SortableTH
-          sortColumn="locked"
-          colWidth="8%"
-          dataTest="lock-sort-button"
-          {...props}
-        >
-          Locked
-        </SortableTH>
-        <SortableTH
-          sortColumn="starred"
-          colWidth="8%"
-          dataTest="star-sort-button"
-          {...props}
-        >
-          Starred
-        </SortableTH>
-        <UnsortableTH colWidth="9%">Actions</UnsortableTH>
+        {filteredHeadings.map((heading) => renderHeading(props, heading))}
       </tr>
     </thead>
   );
@@ -171,6 +148,7 @@ TableHead.propTypes = {
   onReverseClick: PropTypes.func,
   sortOrder: PropTypes.string,
   sortColumn: PropTypes.string,
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 export default TableHead;
