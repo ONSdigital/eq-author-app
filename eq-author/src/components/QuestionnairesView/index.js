@@ -9,7 +9,7 @@ import Header from "./Header";
 import PaginationNav from "./PaginationNav";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
-import { SORT_ORDER } from "./constants";
+import { SORT_ORDER } from "constants/sort-order";
 import usePersistedReducer from "./usePersistedReducer";
 import NoResultsFiltered from "./NoResultsFiltered";
 
@@ -28,6 +28,9 @@ const QuestionnairesView = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
+  canCreateQuestionnaire,
+  enabledHeadings,
+  onQuestionnaireClick,
 }) => {
   const questionnairesRef = useRef(questionnaires);
 
@@ -101,6 +104,7 @@ const QuestionnairesView = ({
         onSearchChange={onSearchChange}
         isFiltered={state.isFiltered}
         onToggleFilter={onToggleFilter}
+        canCreateQuestionnaire={canCreateQuestionnaire}
       />
       {isEmpty(state.questionnaires) ? (
         <NoResultsFiltered
@@ -117,6 +121,8 @@ const QuestionnairesView = ({
           sortColumn={state.currentSortColumn}
           sortOrder={state.currentSortOrder}
           autoFocusId={state.autoFocusId}
+          enabledHeadings={enabledHeadings}
+          onQuestionnaireClick={onQuestionnaireClick}
         />
       )}
 
@@ -140,6 +146,9 @@ QuestionnairesView.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  canCreateQuestionnaire: PropTypes.bool,
+  enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  onQuestionnaireClick: PropTypes.func,
 };
 
 export default QuestionnairesView;
