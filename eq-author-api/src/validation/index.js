@@ -46,6 +46,8 @@ module.exports = (questionnaire) => {
     return [];
   }
 
+  console.log(validate.errors);
+
   const uniqueErrorMessages = {};
   const formattedErrorMessages = [];
 

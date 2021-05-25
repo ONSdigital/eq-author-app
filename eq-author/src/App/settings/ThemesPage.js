@@ -227,7 +227,13 @@ const ThemesPage = ({ questionnaire }) => {
                       </ValidationError>
                     ))}
                     {questionnaireThemes.map(
-                      ({ shortName, eqId, enabled, formType }) => (
+                      ({
+                        shortName,
+                        eqId,
+                        enabled,
+                        formType,
+                        validationErrorInfo,
+                      }) => (
                         <CollapsibleToggled
                           key={`${shortName}-toggle`}
                           title={THEME_TITLES[shortName]}
@@ -256,6 +262,16 @@ const ThemesPage = ({ questionnaire }) => {
                                 questionnaireId={id}
                                 shortName={shortName}
                               />
+                              {validationErrorInfo.errors.map(
+                                ({ errorCode }, index) =>
+                                  errorCode === "ERR_FORM_TYPE_FORMAT" && (
+                                    <ValidationError key={index} right>
+                                      {
+                                        THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT
+                                      }
+                                    </ValidationError>
+                                  )
+                              )}
                             </StyledFormTypeContainer>
                           </StyledIdContainerOuter>
                         </CollapsibleToggled>
