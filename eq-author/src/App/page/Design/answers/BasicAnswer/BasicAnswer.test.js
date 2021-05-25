@@ -1,5 +1,7 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
+import { render as rtlRender, fireEvent } from "tests/utils/rtl";
+
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
@@ -11,6 +13,7 @@ describe("BasicAnswer", () => {
   let onUpdate;
   let children;
   let props;
+  let multipleAnswers;
 
   const createWrapper = (props, render = shallow) => {
     return render(<StatelessBasicAnswer {...props} />);
@@ -18,6 +21,7 @@ describe("BasicAnswer", () => {
 
   beforeEach(() => {
     answer = {
+      id: "ansID1",
       title: "Answer title",
       description: "Answer description",
       label: "",
@@ -25,12 +29,14 @@ describe("BasicAnswer", () => {
     };
     onChange = jest.fn();
     onUpdate = jest.fn();
+    multipleAnswers = false;
 
     props = {
       id: "1",
       answer,
       onChange,
       onUpdate,
+      multipleAnswers,
       type: "text field",
       children: <div>This is the child component</div>,
     };
@@ -70,6 +76,33 @@ describe("BasicAnswer", () => {
 
   it("shows default label error if missing buildLabelError insert props", () => {
     expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
+  });
+
+  it("should render Or option toggle ", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" />
+    ));
+
+    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
+  });
+
+  it("should disable Or option toggle if multipleAnswers = true", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" multipleAnswers />
+    ));
+
+    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
+  });
+
+  it("should show Option label if toggle is on", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" />
+    ));
+    fireEvent.click(getByTestId("toggle-or-option-input"), {
+      target: { type: "checkbox", checked: true },
+    });
+
+    expect(getByTestId("option-label")).toBeInTheDocument();
   });
 
   describe("event handling behaviour", () => {

@@ -1,11 +1,22 @@
-import React from "react";
-import { Field, Label } from "components/Forms";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
+
+import { Field, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
+import DummyMultipleChoice from "../dummy/MultipleChoice";
+
+import {
+  StyledOption,
+  Flex,
+  OptionField,
+} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 import withValidationError from "enhancers/withValidationError";
+
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
@@ -15,9 +26,24 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
+
 import gql from "graphql-tag";
 
-import { TEXTFIELD } from "constants/answer-types";
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
+const ToggleWrapper = styled.div`
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+`;
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -34,8 +60,20 @@ export const StatelessBasicAnswer = ({
   getValidationError,
   type,
   optionErrorMsg,
+  multipleAnswers,
 }) => {
+  let [toggled, setToggled] = useState(false);
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+
+  useEffect(() => {
+    if (multipleAnswers) {
+      setToggled(false);
+    }
+  }, [multipleAnswers]);
+
+  const onChangeToggle = () => {
+    setToggled(!toggled);
+  };
 
   return (
     <div>
@@ -51,12 +89,16 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
-          errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({
-            field: "label",
-            type: "answer",
-            label: errorLabel,
-            requiredMsg: errorMsg,
-          })}
+          errorValidationMsg={
+            optionErrorMsg
+              ? optionErrorMsg
+              : getValidationError({
+                  field: "label",
+                  type: "answer",
+                  label: errorLabel,
+                  requiredMsg: errorMsg,
+                })
+          }
         />
       </Field>
       {showDescription && (
@@ -76,6 +118,64 @@ export const StatelessBasicAnswer = ({
             data-test="txt-answer-description"
           />
         </Field>
+      )}
+      {type === "Percentage" && (
+        <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
+          <InlineField>
+            <Label>{`"Or" option`}</Label>
+            <ToggleSwitch
+              id="toggle-or-option"
+              name="toggle-or-option"
+              hideLabels={false}
+              onChange={onChangeToggle}
+              checked={toggled}
+              data-test="toggle-or-option"
+            />
+          </InlineField>
+        </ToggleWrapper>
+      )}
+
+      {/* The following:
+              ID's (answer.id) 
+              values (answer.label & answer.description) 
+              will need to be associated with the correct "option" object when connecting to the back end !
+              Not sure if Validation is required ? 
+              Will also need an object to save the toggle state to the database?
+      */}
+      {toggled && (
+        <StyledOption>
+          <Flex>
+            <DummyMultipleChoice type={CHECKBOX} />
+            <OptionField>
+              <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
+              <WrappingInput
+                id={`option-label-${answer.id}`}
+                name="label"
+                value={answer.label}
+                placeholder={labelPlaceholder}
+                onChange={onChange}
+                onBlur={onUpdate}
+                data-test="option-label"
+                data-autofocus={autoFocus || null}
+                bold
+              />
+            </OptionField>
+          </Flex>
+          <OptionField>
+            <Label htmlFor={`option-description-${answer.id}`}>
+              Description (optional)
+            </Label>
+            <WrappingInput
+              id={`option-description-${answer.id}`}
+              name="description"
+              value={answer.description}
+              placeholder={descriptionPlaceholder}
+              onChange={onChange}
+              onBlur={onUpdate}
+              data-test="option-description"
+            />
+          </OptionField>
+        </StyledOption>
       )}
       {children}
     </div>
@@ -97,6 +197,7 @@ StatelessBasicAnswer.propTypes = {
   getValidationError: PropTypes.func,
   type: PropTypes.string,
   optionErrorMsg: PropTypes.string,
+  multipleAnswers: PropTypes.bool.isRequired,
 };
 
 StatelessBasicAnswer.defaultProps = {

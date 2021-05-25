@@ -23,6 +23,10 @@ export const AnswersEditor = ({
   onDeleteAnswer,
   moveAnswer,
 }) => {
+
+  let multipleAnswers = false;
+  multipleAnswers = answers?.length > 1;
+
   return (
     <Margin>
       <Reorder list={answers} onMove={moveAnswer} Transition={AnswerTransition}>
@@ -36,6 +40,7 @@ export const AnswersEditor = ({
             onUpdateOption={onUpdateOption}
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={onDeleteAnswer}
+            multipleAnswers={multipleAnswers}
           />
         )}
       </Reorder>
