@@ -60,22 +60,26 @@ const TabLink = styled(NavLink)`
 `;
 
 const listItems = (tabItems) =>
-  tabItems.map(({ url, title, disabled, errorCount }) => (
-    <TabLink
-      exact
-      to={url}
-      key={title}
-      activeClassName="active"
-      aria-disabled={disabled}
-    >
-      {title}
-      {errorCount > 0 && (
-        <Badge variant="logic" data-test={`errorBadge-${title}`}>
-          {errorCount}
-        </Badge>
-      )}
-    </TabLink>
-  ));
+  tabItems.map(({ url, title, disabled, errorCount }) =>
+    disabled ? (
+      <React.Fragment />
+    ) : (
+      <TabLink
+        exact
+        to={url}
+        key={title}
+        activeClassName="active"
+        aria-disabled={disabled}
+      >
+        {title}
+        {errorCount > 0 && (
+          <Badge variant="logic" data-test={`errorBadge-${title}`}>
+            {errorCount}
+          </Badge>
+        )}
+      </TabLink>
+    )
+  );
 
 const VerticalTabs = ({ title, gutters, cols, tabItems }) => {
   return (
