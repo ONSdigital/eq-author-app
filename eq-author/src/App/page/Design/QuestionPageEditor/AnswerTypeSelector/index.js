@@ -82,6 +82,10 @@ class AnswerTypeSelector extends React.Component {
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;
+    let mutuallyExclusive = false;
+    // TODO-----------------add this once options from backend is merged in------------------;;;
+    // const answers = Array.from(this.props.page.answers);
+    // mutuallyExclusive = { ...answers?.options?.some(({ mutuallyExclusive }) => mutuallyExclusive === true)};
     if (this.props.page.answers[0]) {
       if (this.props.page.answers[0].type === "DateRange") {
         hasDateRange = true;
@@ -96,7 +100,7 @@ class AnswerTypeSelector extends React.Component {
       <AddAnswerButton
         variant="secondary"
         data-test="btn-add-answer"
-        disabled={hasDateRange}
+        disabled={hasDateRange || mutuallyExclusive}
       >
         <IconText icon={AddIcon}>
           Add {this.props.page.answers.length === 0 ? "an" : "another"} answer

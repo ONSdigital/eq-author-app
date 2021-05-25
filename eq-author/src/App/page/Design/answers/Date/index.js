@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
@@ -10,8 +10,17 @@ import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
 import VisuallyHidden from "components/VisuallyHidden";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import {
+  StyledOption,
+  Flex,
+  OptionField,
+} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
+import DummyMultipleChoice from "../dummy/MultipleChoice";
+
 import { colors } from "constants/theme";
 import { DATE_LABEL_REQUIRED } from "constants/validationMessages";
+import { CHECKBOX } from "constants/answer-types";
 
 import DummyDate from "../dummy/Date";
 import withValidationError from "enhancers/withValidationError";
@@ -30,6 +39,21 @@ const Fieldset = styled.fieldset`
   padding: 0;
 `;
 
+const ToggleWrapper = styled.div`
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
 const Legend = VisuallyHidden.withComponent("legend");
 
 export const UnwrappedDate = ({
@@ -44,7 +68,25 @@ export const UnwrappedDate = ({
   showYear,
   errorLabel,
   getValidationError,
-}) => (
+  multipleAnswers,
+  labelPlaceholder,
+  autoFocus,
+  descriptionPlaceholder,
+}) => {
+
+  const [toggled, setToggled] = useState(false);
+
+  useEffect(() => {
+    if (multipleAnswers) {
+      setToggled(false);
+    }
+  }, [multipleAnswers]);
+
+  const onChangeToggle = () => {
+    setToggled(!toggled);
+  };
+
+  return (
   <Fieldset>
     <Legend>Date options</Legend>
     <Field>
@@ -77,8 +119,57 @@ export const UnwrappedDate = ({
         />
       </Format>
     </Field>
+    <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
+      <InlineField>
+      <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
+        <ToggleSwitch
+          id="toggle-or-option-date"
+          name="toggle-or-option-date"
+          hideLabels={false}
+          onChange={onChangeToggle}
+          checked={toggled}
+          data-test="toggle-or-option-date"
+        />
+      </InlineField>
+    </ToggleWrapper>
+    {toggled && (
+        <StyledOption>
+          <Flex>
+            <DummyMultipleChoice type={CHECKBOX} />
+            <OptionField>
+              <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
+              <WrappingInput
+                id={`option-label-${answer.id}`}
+                name="label"
+                value={answer.label}
+                placeholder={labelPlaceholder}
+                onChange={onChange}
+                onBlur={onUpdate}
+                data-test="option-label"
+                data-autofocus={autoFocus || null}
+                bold
+              />
+            </OptionField>
+          </Flex>
+          <OptionField>
+            <Label htmlFor={`option-description-${answer.id}`}>
+              Description (optional)
+            </Label>
+            <WrappingInput
+              id={`option-description-${answer.id}`}
+              name="description"
+              value={answer.description}
+              placeholder={descriptionPlaceholder}
+              onChange={onChange}
+              onBlur={onUpdate}
+              data-test="option-description"
+            />
+          </OptionField>
+        </StyledOption>
+    )}
   </Fieldset>
 );
+      };
 
 UnwrappedDate.propTypes = {
   label: PropTypes.string,
@@ -92,6 +183,10 @@ UnwrappedDate.propTypes = {
   showMonth: PropTypes.bool,
   showYear: PropTypes.bool,
   getValidationError: PropTypes.func,
+  multipleAnswers: PropTypes.bool.isRequired,
+  labelPlaceholder: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  descriptionPlaceholder: PropTypes.string,
 };
 
 UnwrappedDate.defaultProps = {
