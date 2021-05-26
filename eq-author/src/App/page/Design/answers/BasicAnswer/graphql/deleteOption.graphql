@@ -1,0 +1,13 @@
+mutation DeleteOption($input: DeleteOptionInput!) {
+  deleteOption(input: $input) {
+    id
+    displayName
+    ... on BasicAnswer {
+      options {
+        id
+        mutuallyExclusive
+        label
+      }
+    }
+  }
+}
