@@ -1,21 +1,18 @@
-#import "./fragments/option.graphql"
-#import "./fragments/validationErrorInfo.graphql"
-
 mutation createMutuallyExclusiveOption(
   $input: CreateMutuallyExclusiveOptionInput!
 ) {
   createMutuallyExclusiveOption(input: $input) {
-    ...Option
+    id
+    displayName
     answer {
+      id
       ... on BasicAnswer {
-        id
         options {
-          ...Option
+          id
+          mutuallyExclusive
+          label
         }
       }
-    }
-    validationErrorInfo {
-      ...ValidationErrorInfo
     }
   }
 }

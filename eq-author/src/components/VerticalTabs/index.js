@@ -10,11 +10,13 @@ import { Column } from "components/Grid";
 
 const activeClassName = "active";
 
-const Title = styled.div`
+const Title = styled.h2`
   width: 100%;
   padding: 1em 1.2em;
   font-weight: bold;
   border-bottom: 1px solid ${colors.lightGrey};
+  font-size: 1em;
+  margin: 0;
 `;
 
 const StyledTabUl = styled.ul`

@@ -18,10 +18,44 @@ describe("Section", () => {
               },
             ],
           },
+          {
+            id: "f2",
+            enabled: true,
+            skipConditions: [
+              {
+                id: "d0ddc0d3-9788-4663-a724-53e45fde49c7",
+                operator: "And",
+                expressions: [
+                  {
+                    id: "dd762315-8b00-40e9-a1ae-c382538de6ef",
+                    condition: "Equal",
+                    left: {
+                      type: "Number",
+                      id: "super-answer-reference",
+                    },
+                    right: {
+                      number: 42,
+                    },
+                  },
+                ],
+              },
+            ],
+            pages: [
+              {
+                id: "page-1",
+                answers: [],
+              },
+              {
+                id: "page-2",
+                answers: [],
+              },
+            ],
+          },
         ],
       },
       options
     );
+
   const createCtx = (options = {}) => ({
     routingGotos: [],
     questionnaireJson: { navigation: true },
@@ -36,9 +70,9 @@ describe("Section", () => {
       title: "Section 1",
       groups: [
         {
-          id: "groupf1",
+          id: "group1",
           title: "Section 1",
-          blocks: [expect.any(Block)],
+          blocks: expect.arrayContaining([expect.any(Block)]),
         },
       ],
     });
@@ -54,44 +88,39 @@ describe("Section", () => {
       id: "section1",
       groups: [
         {
-          id: "groupf1",
+          id: "group1",
           title: "",
-          blocks: [expect.any(Block)],
+          blocks: expect.arrayContaining([expect.any(Block)]),
         },
       ],
     });
   });
 
-  describe("mergeDisabledFolders", () => {
-    let sectionJSON;
-    beforeEach(() => {
-      sectionJSON = createSectionJSON();
-    });
+  it("should add skip conditions from folder to consistuent questions", () => {
+    const section = new Section(
+      createSectionJSON(),
+      createCtx({ questionnaireJson: { navigation: false } })
+    );
 
-    it("should merge consecutive disabled folders together", () => {
-      sectionJSON.folders.push(sectionJSON.folders[0]);
-      const section = new Section(sectionJSON, createCtx());
+    const skipConditionsOutput = [
+      {
+        when: [
+          {
+            id: "answersuper-answer-reference",
+            condition: "equals",
+            value: 42,
+          },
+        ],
+      },
+    ];
 
-      expect(section.groups).toHaveLength(1);
-    });
-
-    it("shouldn't merge enabled folders with previous disabled folder", () => {
-      sectionJSON.folders.push({
-        ...sectionJSON.folders[0],
-        enabled: true,
-      });
-      const section = new Section(sectionJSON, createCtx());
-
-      expect(section.groups).toHaveLength(2);
-    });
-
-    it("shouldn't merge disabled folders with previous enabled folder", () => {
-      sectionJSON.folders.push({ ...sectionJSON.folders[0] });
-      sectionJSON.folders[0].enabled = true;
-      const section = new Section(sectionJSON, createCtx());
-
-      expect(section.groups).toHaveLength(2);
-    });
+    expect(section.groups[0].blocks[0].skip_conditions).toBeUndefined();
+    expect(section.groups[0].blocks[1].skip_conditions).toMatchObject(
+      skipConditionsOutput
+    );
+    expect(section.groups[0].blocks[2].skip_conditions).toMatchObject(
+      skipConditionsOutput
+    );
   });
 
   describe("Section introduction", () => {
