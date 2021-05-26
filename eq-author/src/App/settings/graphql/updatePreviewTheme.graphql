@@ -1,0 +1,11 @@
+mutation UpdatePreviewTheme($input: UpdatePreviewThemeInput!) {
+  updatePreviewTheme(input: $input) {
+    id
+    previewTheme
+    themes {
+      id
+      enabled
+      shortName
+    }
+  }
+}
