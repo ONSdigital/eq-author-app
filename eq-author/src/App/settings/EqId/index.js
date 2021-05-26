@@ -40,13 +40,17 @@ const Container = styled.div`
   float: left;
 `;
 
-const EqId = ({ eId, qId, shortName }) => {
+const EqId = ({ eId, questionnaireId, shortName }) => {
   return (
     <Container>
       <Field>
         <Label>eQ ID</Label>
       </Field>
-      <EqIdInput eqId={eId} questionnaireId={qId} shortName={shortName} />
+      <EqIdInput
+        eqId={eId}
+        questionnaireId={questionnaireId}
+        shortName={shortName}
+      />
     </Container>
   );
 };

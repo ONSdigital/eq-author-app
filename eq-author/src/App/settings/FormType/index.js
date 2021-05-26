@@ -43,7 +43,7 @@ const Container = styled.div`
   float: left;
 `;
 
-const FormType = ({ formType, qId, shortName }) => {
+const FormType = ({ formType, questionnaireId, shortName }) => {
   return (
     <Container>
       <Field>
@@ -51,7 +51,7 @@ const FormType = ({ formType, qId, shortName }) => {
       </Field>
       <FormTypeInput
         formType={formType}
-        questionnaireId={qId}
+        questionnaireId={questionnaireId}
         shortName={shortName}
       />
     </Container>

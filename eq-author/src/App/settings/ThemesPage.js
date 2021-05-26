@@ -19,6 +19,7 @@ import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
+import PreviewTheme from "./PreviewTheme";
 import FormType from "./FormType";
 import EqId from "./EqId";
 
@@ -87,7 +88,7 @@ const Text = styled.p``;
 
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themeSettings } = questionnaire;
-  const { themes: questionnaireThemes } = themeSettings;
+  const { themes: questionnaireThemes, previewTheme } = themeSettings;
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [enableTheme] = useMutation(enableThemeMutation);
@@ -114,6 +115,42 @@ const ThemesPage = ({ questionnaire }) => {
   const groupErrorMessages = themeSettings.validationErrorInfo.errors
     .filter(({ type }) => type === "themeSettings")
     .map(({ errorCode }) => THEME_ERROR_MESSAGES[errorCode]);
+
+  const renderErrors = (errors) =>
+    errors.map((errorMessage, index) => (
+      <ValidationError key={index} right={false}>
+        {errorMessage}
+      </ValidationError>
+    ));
+
+  const renderThemes = (themes, previewTheme, questionnaireId) =>
+    themes.map(({ shortName, eqId, enabled, formType }) => (
+      <CollapsibleToggled
+        key={`${shortName}-toggle`}
+        title={THEME_TITLES[shortName]}
+        isOpen={enabled}
+        onChange={() => toggleTheme({ shortName, enabled })}
+        data-test={`${shortName}-toggle`}
+        headerContent={
+          enabled && (
+            <PreviewTheme
+              questionnaireId={questionnaireId}
+              thisTheme={shortName}
+              previewTheme={previewTheme}
+            />
+          )
+        }
+      >
+        <IdContainer>
+          <EqId eId={eqId} questionnaireId={id} shortName={shortName} />
+          <FormType
+            formType={formType}
+            questionnaireId={id}
+            shortName={shortName}
+          />
+        </IdContainer>
+      </CollapsibleToggled>
+    ));
 
   return (
     <Container>
@@ -160,31 +197,8 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {groupErrorMessages.map((errorMessage, index) => (
-                      <ValidationError key={index} right={false}>
-                        {errorMessage}
-                      </ValidationError>
-                    ))}
-                    {questionnaireThemes.map(
-                      ({ shortName, eqId, enabled, formType }) => (
-                        <CollapsibleToggled
-                          key={`${shortName}-toggle`}
-                          title={THEME_TITLES[shortName]}
-                          isOpen={enabled}
-                          onChange={() => toggleTheme({ shortName, enabled })}
-                          data-test={`${shortName}-toggle`}
-                        >
-                          <IdContainer>
-                            <EqId eId={eqId} qId={id} shortName={shortName} />
-                            <FormType
-                              formType={formType}
-                              qId={id}
-                              shortName={shortName}
-                            />
-                          </IdContainer>
-                        </CollapsibleToggled>
-                      )
-                    )}
+                    {renderErrors(groupErrorMessages)}
+                    {renderThemes(questionnaireThemes, previewTheme, id)}
                   </Panel>
                 </SettingsContainer>
               </Column>
