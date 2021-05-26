@@ -3,21 +3,12 @@ const { isEmpty, reject, flatten, uniqWith, isEqual } = require("lodash");
 const {
   buildAuthorConfirmationQuestion,
 } = require("./builders/confirmationPage/ConfirmationPage");
-const translateAuthorSkipconditions = require("./builders/skipConditions");
 
 class Group {
-  constructor(title, folder, ctx) {
-    this.id = `group${folder.id}`;
+  constructor(title, section, ctx) {
+    this.id = `group${section.id}`;
     this.title = ctx.questionnaireJson.navigation ? title : "";
-    this.blocks = this.buildBlocks(folder, ctx);
-
-    this.skip_conditions = [];
-
-    if (folder.skipConditions) {
-      this.skip_conditions.push(
-        ...translateAuthorSkipconditions(folder.skipConditions, ctx)
-      );
-    }
+    this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
@@ -25,11 +16,10 @@ class Group {
         this.buildSkipConditions(this.id, ctx),
         isEqual
       );
-      this.skip_conditions.push(...skipConditions);
-    }
 
-    if (!this.skip_conditions.length) {
-      delete this.skip_conditions;
+      if (!isEmpty(skipConditions)) {
+        this.skip_conditions = skipConditions;
+      }
     }
   }
 
@@ -48,16 +38,16 @@ class Group {
     );
   }
 
-  buildBlocks(folder, ctx) {
-    return flatten(
-      folder.pages.map((page) => {
-        const block = new Block(page, folder.id, ctx);
+  buildBlocks(section, ctx) {
+    const blocks = flatten(
+      section.pages.map((page) => {
+        const block = new Block(page, section.id, ctx);
         if (page.confirmation) {
           return [
             block,
             buildAuthorConfirmationQuestion(
               page,
-              folder.id,
+              section.id,
               page.routingRuleSet,
               page.routing,
               ctx
@@ -67,6 +57,19 @@ class Group {
         return block;
       })
     );
+
+    if (!section.introductionTitle || !section.introductionContent) {
+      return blocks;
+    }
+    return [
+      Block.buildIntroBlock(
+        section.introductionTitle,
+        section.introductionContent,
+        section.id,
+        ctx
+      ),
+      ...blocks,
+    ];
   }
 }
 

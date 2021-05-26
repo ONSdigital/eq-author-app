@@ -17,6 +17,13 @@ mutation createAnswer($input: CreateAnswerInput!) {
     ...Answer
     ... on BasicAnswer {
       secondaryQCode
+      options {
+        ...Option
+        qCode
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
       validation {
         ... on NumberValidation {
           minValue {

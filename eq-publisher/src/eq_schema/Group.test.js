@@ -121,37 +121,6 @@ describe("Group", () => {
       expect(runnerJson).toMatchObject(expectedrunnerJson);
     });
 
-    it("adds skip conditions when specified for a folder", () => {
-      const ctx = createCtx();
-      const folder = {
-        id: "folder-1",
-        enabled: "true",
-        pages: [],
-        skipConditions: [
-          {
-            expressions: [
-              {
-                left: {
-                  id: "1",
-                  type: "Number",
-                },
-                condition: "Equal",
-                right: {
-                  number: 1337,
-                },
-              },
-            ],
-          },
-        ],
-      };
-
-      const group = new Group(null, folder, ctx);
-
-      expect(group.skip_conditions[0]).toMatchObject({
-        when: [{ id: "answer1", condition: "equals", value: 1337 }],
-      });
-    });
-
     it("can handle multiple skip conditions for each group", () => {
       const groupsJson = createGroupsJSON();
 
