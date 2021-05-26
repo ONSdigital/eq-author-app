@@ -75,6 +75,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
+  formTypeErrorCount,
   title,
   children,
 }) => {
@@ -88,7 +89,7 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
-  const totalErrorCountNoSettings = totalErrorCount - settingsError;
+  const totalErrorCountNoSettings = totalErrorCount - formTypeErrorCount;
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -128,7 +129,7 @@ export const UnwrappedMainNavigation = ({
                   <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
-                  {settingsError > 0 && (
+                  {settingsError && (
                     <SmallBadge data-test="settings-error-badge" />
                   )}
                 </RouteButton>
@@ -223,7 +224,8 @@ UnwrappedMainNavigation.propTypes = {
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
   children: PropTypes.node,
-  settingsError: PropTypes.number,
+  settingsError: PropTypes.bool,
+  formTypeErrorCount: PropTypes.number,
 };
 
 export default UnwrappedMainNavigation;
