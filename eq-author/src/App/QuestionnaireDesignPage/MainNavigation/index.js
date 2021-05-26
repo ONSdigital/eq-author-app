@@ -88,6 +88,7 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
+  const totalErrorCountNoSettings = totalErrorCount - settingsError;
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -108,7 +109,7 @@ export const UnwrappedMainNavigation = ({
                   variant="navigation-modal"
                   data-test="btn-preview"
                   small
-                  disabled={totalErrorCount > 0}
+                  disabled={totalErrorCountNoSettings > 0}
                 >
                   <IconText nav icon={viewIcon}>
                     View survey
@@ -127,7 +128,7 @@ export const UnwrappedMainNavigation = ({
                   <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
-                  {settingsError && (
+                  {settingsError > 0 && (
                     <SmallBadge data-test="settings-error-badge" />
                   )}
                 </RouteButton>
@@ -222,7 +223,7 @@ UnwrappedMainNavigation.propTypes = {
   totalErrorCount: PropTypes.number.isRequired,
   title: PropTypes.string,
   children: PropTypes.node,
-  settingsError: PropTypes.bool,
+  settingsError: PropTypes.number,
 };
 
 export default UnwrappedMainNavigation;

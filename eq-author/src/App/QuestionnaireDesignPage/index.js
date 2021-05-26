@@ -100,7 +100,7 @@ export const QuestionnaireDesignPage = () => {
                         qcodesEnabled={questionnaire?.qcodes}
                         settingsError={
                           questionnaire?.themeSettings?.validationErrorInfo
-                            ?.totalCount > 0
+                            ?.totalCount
                         }
                       />
                     </MainNav>
