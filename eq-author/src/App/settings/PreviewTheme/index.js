@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
 
 import UPDATE_PREVIEW_THEME from "../graphql/updatePreviewTheme.graphql";
@@ -17,7 +18,6 @@ const StyledLabel = styled(Label)`
 `;
 
 const StyledInput = styled(Input)`
-  margin: 0.5em;
   position: unset;
   margin: 0;
 `;
@@ -47,6 +47,12 @@ const PreviewTheme = ({ questionnaireId, thisTheme, previewTheme }) => {
       </StyledLabel>
     </Container>
   );
+};
+
+PreviewTheme.propTypes = {
+  questionnaireId: PropTypes.string.isRequired,
+  thisTheme: PropTypes.string.isRequired,
+  previewTheme: PropTypes.string,
 };
 
 export default PreviewTheme;

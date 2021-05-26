@@ -142,7 +142,7 @@ const ThemesPage = ({ questionnaire }) => {
         }
       >
         <IdContainer>
-          <EqId eId={eqId} questionnaireId={id} shortName={shortName} />
+          <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
           <FormType
             formType={formType}
             questionnaireId={id}

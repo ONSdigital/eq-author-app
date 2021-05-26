@@ -58,4 +58,10 @@ const FormType = ({ formType, questionnaireId, shortName }) => {
   );
 };
 
+FormType.propTypes = {
+  formType: PropTypes.string,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
+};
+
 export default FormType;

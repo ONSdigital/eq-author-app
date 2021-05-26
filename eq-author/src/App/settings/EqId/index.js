@@ -40,19 +40,25 @@ const Container = styled.div`
   float: left;
 `;
 
-const EqId = ({ eId, questionnaireId, shortName }) => {
+const EqId = ({ eqId, questionnaireId, shortName }) => {
   return (
     <Container>
       <Field>
         <Label>eQ ID</Label>
       </Field>
       <EqIdInput
-        eqId={eId}
+        eqId={eqId}
         questionnaireId={questionnaireId}
         shortName={shortName}
       />
     </Container>
   );
+};
+
+EqId.propTypes = {
+  eqId: PropTypes.string,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string.isRequired,
 };
 
 export default EqId;
