@@ -32,6 +32,11 @@ describe("BasicAnswer", () => {
       description: "Answer description",
       label: "",
       type: "TextField",
+      options: [{
+        id: "option-1",
+        label: "option-label",
+        mutuallyExclusive: false,
+      }]
     };
     onChange = jest.fn();
     onUpdate = jest.fn();
@@ -101,10 +106,12 @@ describe("BasicAnswer", () => {
   });
 
   it("should show Option label if toggle is on", async () => {
+    props.answer.options[0].mutuallyExclusive = true;
+    
     const { getByTestId } = rtlRender(() => (
       <StatelessBasicAnswer {...props} type="Percentage" />
     ));
-    fireEvent.click(getByTestId("toggle-or-option-input"), {
+    fireEvent.click(getByTestId("toggle-or-option-input"), { 
       target: { type: "checkbox", checked: true },
     });
 
