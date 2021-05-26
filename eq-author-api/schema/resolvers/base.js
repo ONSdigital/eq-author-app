@@ -66,6 +66,8 @@ const {
   remapAllNestedIds,
   returnValidationErrors,
   getThemeByShortName,
+  getPreviewTheme,
+  getFirstEnabledTheme,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -392,7 +394,19 @@ const Resolvers = {
           `disableTheme: No theme found with shortName '${shortName}''`
         );
       }
+
       theme.enabled = false;
+
+      const isPreviewTheme = getPreviewTheme(ctx) === shortName;
+
+      if (isPreviewTheme) {
+        const { shortName } = getFirstEnabledTheme(ctx) || {};
+
+        if (shortName) {
+          ctx.questionnaire.themeSettings.previewTheme = shortName;
+        }
+      }
+
       return theme;
     }),
     createHistoryNote: (root, { input }, ctx) =>
