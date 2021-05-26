@@ -4,6 +4,7 @@ query GetThemeSettings($input: QueryInput!) {
   questionnaire(input: $input) {
     id
     surveyId
+    type
     themeSettings {
       id
       previewTheme
