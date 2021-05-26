@@ -372,6 +372,53 @@ describe("questionnaire", () => {
         );
       });
 
+      it("should move the set preview theme to the first available theme when disabling a theme set as the preview theme", async () => {
+        const { themeSettings: initialThemes } = await queryQuestionnaire(ctx);
+
+        expect(initialThemes.themes[0].enabled).toBe(true);
+        expect(initialThemes.previewTheme).toBe("default");
+
+        await enableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "covid",
+          },
+          ctx
+        );
+
+        const {
+          themeSettings: themeSettingsWithTwoThemes,
+        } = await queryQuestionnaire(ctx);
+
+        expect(
+          themeSettingsWithTwoThemes.themes.find(
+            ({ shortName }) => shortName === "covid"
+          ).enabled
+        ).toBe(true);
+
+        expect(themeSettingsWithTwoThemes.previewTheme).toBe("default");
+
+        await disableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "default",
+          },
+          ctx
+        );
+
+        const {
+          themeSettings: themeSettingsWithOneTheme,
+        } = await queryQuestionnaire(ctx);
+
+        expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
+        expect(
+          themeSettingsWithTwoThemes.themes.find(
+            ({ shortName }) => shortName === "covid"
+          ).enabled
+        ).toBe(true);
+        expect(themeSettingsWithOneTheme.previewTheme).toBe("covid");
+      });
+
       it("should not be able to disable a non-existent theme", () => {
         expect(
           disableTheme(
