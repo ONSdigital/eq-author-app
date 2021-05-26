@@ -37,8 +37,12 @@ const PreviewTheme = ({ questionnaireId, thisTheme, previewTheme }) => {
           })
         }
         checked={thisTheme === previewTheme}
+        dataTest={`${thisTheme}-preview-theme-button`}
       />
-      <StyledLabel htmlFor={`${thisTheme}-preview-theme`}>
+      <StyledLabel
+        htmlFor={`${thisTheme}-preview-theme`}
+        dataTest={`${thisTheme}-preview-theme-label`}
+      >
         Preview theme
       </StyledLabel>
     </Container>
