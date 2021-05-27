@@ -73,7 +73,7 @@ export const QuestionnaireDesignPage = () => {
     data: { questionnaire } = {},
   } = useQuestionnaireQuery(questionnaireId);
 
-  const formTypeErrorCount = questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
+  const themeErrorCount = questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
     ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
   ).length;
 
@@ -106,7 +106,7 @@ export const QuestionnaireDesignPage = () => {
                           questionnaire?.themeSettings?.validationErrorInfo
                             ?.totalCount > 0
                         }
-                        formTypeErrorCount={formTypeErrorCount}
+                        themeErrorCount={themeErrorCount}
                       />
                     </MainNav>
                     <NavigationSidebar

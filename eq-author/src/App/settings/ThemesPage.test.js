@@ -45,7 +45,16 @@ describe("Themes page", () => {
             title: "GB theme",
             shortName: "default",
             enabled: true,
-            validationErrorInfo: { errors: [] },
+            validationErrorInfo: {
+              errors: [
+                {
+                  id: "1",
+                  keyword: "errorMessage",
+                  field: "formType",
+                  errorCode: "ERR_FORM_TYPE_FORMAT",
+                },
+              ],
+            },
           },
           {
             title: "NI theme",
@@ -310,22 +319,7 @@ describe("Themes page", () => {
     });
 
     it("should show a validation error if incorrect form type format is entered", () => {
-      renderThemesPage({
-        ...mockQuestionnaire,
-        themeSettings: {
-          ...mockQuestionnaire.themeSettings,
-          validationErrorInfo: {
-            id: "valid-1",
-            errors: [
-              {
-                id: "error-1",
-                type: "themeSettings",
-                errorCode: "ERR_FORM_TYPE_FORMAT",
-              },
-            ],
-          },
-        },
-      });
+      renderThemesPage(mockQuestionnaire);
 
       expect(
         screen.getByText(THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT)

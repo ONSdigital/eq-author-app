@@ -33,7 +33,7 @@ function defaultSetup({
     match: { params: { modifier: "", questionnaireId: "1" } },
     loading: false,
     qcodesEnabled: true,
-    formTypeErrorCount: 0,
+    themeErrorCount: 0,
     ...changes,
   };
   const utils = render(
@@ -92,7 +92,7 @@ describe("MainNavigation", () => {
 
   it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
     const { getByTestId } = defaultSetup({
-      changes: { totalErrorCount: 2, formTypeErrorCount: 1 },
+      changes: { totalErrorCount: 2, themeErrorCount: 1 },
     });
 
     expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
@@ -100,7 +100,7 @@ describe("MainNavigation", () => {
 
   it("should not disable preview button if there are only theme errors on the questionnaire", () => {
     const { getByTestId } = defaultSetup({
-      changes: { formTypeErrorCount: 1 },
+      changes: { themeErrorCount: 1 },
     });
 
     expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeFalsy();
