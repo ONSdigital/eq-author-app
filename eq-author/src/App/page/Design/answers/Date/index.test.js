@@ -13,7 +13,7 @@ describe("Date", () => {
   let props;
   let multipleAnswers;
 
-  const createWrapper = (props,) => {
+  const createWrapper = (props) => {
     return (<UnwrappedDate {...props} />);
   };
 
