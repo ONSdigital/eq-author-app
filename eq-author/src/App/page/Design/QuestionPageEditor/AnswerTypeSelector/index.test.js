@@ -16,8 +16,7 @@ describe("Answer Type Selector", () => {
     props = {
       onSelect: jest.fn(),
       page: {
-        answers: [
-        ],
+        answers: [],
       },
     };
   });
