@@ -16,7 +16,8 @@ describe("Answer Type Selector", () => {
     props = {
       onSelect: jest.fn(),
       page: {
-        answers: [],
+        answers: [
+        ],
       },
     };
   });
@@ -59,6 +60,23 @@ describe("Answer Type Selector", () => {
 
   it("There is a Date range selected and then unable to select any others", async () => {
     props.page.answers[0] = { type: "DateRange" };
+    render(<AnswerTypeSelector {...props} />);
+    expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
+  });
+
+  it("If options.mutuallyExclusive = true then unable to select any others", async () => {
+    props = {
+      onSelect: jest.fn(),
+      page: {
+        answers: [
+          {
+            options: [{
+              mutuallyExclusive: true,
+            }]
+          }
+        ],
+      },
+    };
     render(<AnswerTypeSelector {...props} />);
     expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
   });

@@ -89,6 +89,8 @@ class AnswerTypeSelector extends React.Component {
       return _.some((e.options), {mutuallyExclusive: true});
     });
 
+    console.log('answers :>> ', answers);
+
     if (this.props.page.answers[0]) {
       if (this.props.page.answers[0].type === "DateRange") {
         hasDateRange = true;
