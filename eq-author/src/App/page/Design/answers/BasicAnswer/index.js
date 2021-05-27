@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/react-hooks";
+
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
@@ -16,6 +18,10 @@ import {
   OptionField,
 } from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 import withValidationError from "enhancers/withValidationError";
+
+import CREATE_MUTUALLY_EXCLUSIVE from "./graphql/createMutuallyExclusiveOption.graphql";
+import DELETE_OPTION from "./graphql/deleteOption.graphql";
+import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
@@ -41,8 +47,8 @@ const InlineField = styled(Field)`
 `;
 
 const ToggleWrapper = styled.div`
-  opacity: ${({disabled}) => (disabled ? "0.6" : "1")};
-  pointer-events: ${({disabled}) => (disabled ? "none" : "auto")};
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 export const StatelessBasicAnswer = ({
@@ -62,18 +68,37 @@ export const StatelessBasicAnswer = ({
   optionErrorMsg,
   multipleAnswers,
 }) => {
-  let [toggled, setToggled] = useState(false);
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  const getMutuallyExclusive = ({ options }) =>
+    options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
+
+  const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
+  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
+  const [deleteOption] = useMutation(DELETE_OPTION);
+
+  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
 
   useEffect(() => {
-    if (multipleAnswers) {
-      setToggled(false);
-    }
-  }, [multipleAnswers]);
-  
+    const { label } = getMutuallyExclusive(answer) || { label: "" };
+    setMutuallyExclusiveLabel(label);
+  }, [answer]);
+
   const onChangeToggle = () => {
-    setToggled(!toggled);
-  }
+    const { id } = getMutuallyExclusive(answer) || {};
+    if (!id) {
+      createMutuallyExclusive({
+        variables: { input: { answerId: answer.id, label: "" } },
+      });
+    } else {
+      deleteOption({ variables: { input: { id } } });
+    }
+  };
+
+  const onUpdateOption = (label) => {
+    const { id } = getMutuallyExclusive(answer) || {};
+
+    updateOption({ variables: { input: { id, label } } });
+  };
 
   return (
     <div>
@@ -89,12 +114,16 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
-          errorValidationMsg={optionErrorMsg ? optionErrorMsg : getValidationError({
-            field: "label",
-            type: "answer",
-            label: errorLabel,
-            requiredMsg: errorMsg,
-          })}
+          errorValidationMsg={
+            optionErrorMsg
+              ? optionErrorMsg
+              : getValidationError({
+                  field: "label",
+                  type: "answer",
+                  label: errorLabel,
+                  requiredMsg: errorMsg,
+                })
+          }
         />
       </Field>
       {showDescription && (
@@ -118,41 +147,31 @@ export const StatelessBasicAnswer = ({
       {type === "Percentage" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
-          <Label>{`"Or" option`}</Label>
+            <Label>{`"Or" option`}</Label>
             <ToggleSwitch
               id="toggle-or-option"
               name="toggle-or-option"
               hideLabels={false}
               onChange={onChangeToggle}
-              checked={toggled}
+              checked={getMutuallyExclusive(answer) && !multipleAnswers}
               data-test="toggle-or-option"
             />
           </InlineField>
         </ToggleWrapper>
       )}
-
-      {/* The following:
-              ID's (answer.id) 
-              values (answer.label & answer.description) 
-              will need to be associated with the correct "option" object when connecting to the back end !
-              Not sure if Validation is required ? 
-              Will also need an object to save the toggle state to the database?
-      */}
-      {toggled && (
+      {getMutuallyExclusive(answer) && !multipleAnswers && (
         <StyledOption>
           <Flex>
             <DummyMultipleChoice type={CHECKBOX} />
             <OptionField>
-              <Label htmlFor={`option-label-${answer.id}`}>
-                {"Label"}
-              </Label>
+              <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
               <WrappingInput
                 id={`option-label-${answer.id}`}
                 name="label"
-                value={answer.label}
+                value={mutuallyExclusiveLabel}
                 placeholder={labelPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
+                onChange={({ value }) => setMutuallyExclusiveLabel(value)}
+                onBlur={({ target: { value } }) => onUpdateOption(value)}
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
@@ -212,6 +231,11 @@ StatelessBasicAnswer.fragments = {
   Answer: answerFragment,
   BasicAnswer: gql`
     fragment BasicAnswer on BasicAnswer {
+      options {
+        id
+        mutuallyExclusive
+        label
+      }
       validation {
         ... on NumberValidation {
           minValue {

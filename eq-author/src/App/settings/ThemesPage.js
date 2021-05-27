@@ -5,7 +5,7 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
-import updateTheme from "graphql/updateTheme.graphql";
+
 import { colors } from "constants/theme";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -18,6 +18,10 @@ import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
+
+import PreviewTheme from "./PreviewTheme";
+import FormType from "./FormType";
+import EqId from "./EqId";
 
 import { THEME_TITLES } from "constants/themeSettings";
 import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
@@ -48,23 +52,15 @@ const PageContainer = styled.div`
   border-left: 1px solid ${colors.lightGrey};
 `;
 
-const StyledPanel = styled.div`
+const Panel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
 `;
 
-const StyledIdContainerOuter = styled.div`
+const IdContainer = styled.div`
   overflow: hidden;
   padding: 0 0 4px 4px;
-`;
-
-const StyledEqIdContainer = styled.div`
-  float: left;
-`;
-
-const StyledFormTypeContainer = styled.div`
-  margin-left: 1em;
-  float: left;
+  margin-top: 1em;
 `;
 
 const StyledInput = styled(Input)`
@@ -83,68 +79,22 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
-  const [state, setState] = useState(eqId);
-  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+const Heading = styled.h2`
+  font-size: 1em;
+  margin-top: 0;
+`;
 
-  const handleEQIdBlur = ({ value }, shortName) =>
-    updateQuestionnaireTheme({
-      variables: {
-        input: { questionnaireId, shortName, eqId: value.trim() },
-      },
-    });
-
-  return (
-    <StyledInput
-      value={state}
-      onChange={({ value }) => setState(value)}
-      onBlur={(e) => handleEQIdBlur({ ...e.target }, shortName)}
-      data-test={`${shortName}-eq-id-input`}
-    />
-  );
-};
-
-const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
-  const [state, setState] = useState(formType);
-  const [updateQuestionnaireTheme] = useMutation(updateTheme);
-
-  const handleFormTypeBlur = ({ value }, shortName) => {
-    value = value.trim();
-    updateQuestionnaireTheme({
-      variables: {
-        input: { questionnaireId, shortName, formType: value },
-      },
-    });
-  };
-
-  return (
-    <StyledInput
-      value={state}
-      onChange={({ value }) => setState(value)}
-      onBlur={(e) => handleFormTypeBlur({ ...e.target }, shortName)}
-      data-test={`${shortName}-form-type-input`}
-    />
-  );
-};
-
-EqIdInput.propTypes = {
-  eqId: PropTypes.string,
-  questionnaireId: PropTypes.string,
-  shortName: PropTypes.string.isRequired,
-};
-
-FormTypeInput.propTypes = {
-  formType: PropTypes.string,
-  questionnaireId: PropTypes.string,
-  shortName: PropTypes.string.isRequired,
-};
+const Text = styled.p``;
 
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themeSettings } = questionnaire;
+  const { themes: questionnaireThemes, previewTheme } = themeSettings;
+
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [enableTheme] = useMutation(enableThemeMutation);
+  const [disableTheme] = useMutation(disableThemeMutation);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
-  const { themes: questionnaireThemes } = themeSettings;
 
   const handleBlur = ({ value }) => {
     value = value.trim();
@@ -153,11 +103,6 @@ const ThemesPage = ({ questionnaire }) => {
     });
   };
 
-  const [enableTheme] = useMutation(enableThemeMutation);
-  const [disableTheme] = useMutation(disableThemeMutation);
-
-  const themeErrorCount = themeSettings.validationErrorInfo?.totalCount ?? 0;
-
   const toggleTheme = ({ shortName, enabled }) => {
     const mutation = enabled ? disableTheme : enableTheme;
     mutation({
@@ -165,9 +110,50 @@ const ThemesPage = ({ questionnaire }) => {
     });
   };
 
+  const themeErrorCount = themeSettings.validationErrorInfo?.totalCount ?? 0;
+
   const groupErrorMessages = themeSettings.validationErrorInfo.errors
     .filter(({ type }) => type === "themeSettings")
     .map(({ errorCode }) => THEME_ERROR_MESSAGES[errorCode]);
+
+  const renderErrors = (errors) =>
+    errors.map((errorMessage, index) => (
+      <ValidationError key={index} right={false}>
+        {errorMessage}
+      </ValidationError>
+    ));
+
+  const renderThemes = (themes, previewTheme, questionnaireId) =>
+    themes.map(
+      ({ shortName, eqId, enabled, formType, validationErrorInfo }) => (
+        <CollapsibleToggled
+          key={`${shortName}-toggle`}
+          title={THEME_TITLES[shortName]}
+          isOpen={enabled}
+          onChange={() => toggleTheme({ shortName, enabled })}
+          data-test={`${shortName}-toggle`}
+          headerContent={
+            enabled && (
+              <PreviewTheme
+                questionnaireId={questionnaireId}
+                thisTheme={shortName}
+                previewTheme={previewTheme}
+              />
+            )
+          }
+        >
+          <IdContainer>
+            <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
+            <FormType
+              formType={formType}
+              questionnaireId={id}
+              shortName={shortName}
+              validationErrorInfo={validationErrorInfo}
+            />
+          </IdContainer>
+        </CollapsibleToggled>
+      )
+    );
 
   return (
     <Container>
@@ -187,26 +173,19 @@ const ThemesPage = ({ questionnaire }) => {
               />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
-                  <StyledPanel>
-                    <Field>
-                      <Label>Themes, IDs, form types and legal bases</Label>
-                    </Field>
-                    <Field>
-                      <p data-test="theme-description">
-                        The theme sets the design of the eQ for respondents. It
-                        changes the header across the survey, as well as the
-                        contact details and the legal basis on the introduction
-                        page. The COVID theme also changes the thank you page
-                        respondents see once they&apos;ve submitted the survey.
-                      </p>
-                    </Field>
-                    <Field>
-                      <p>
-                        The preview theme is applied when you view the survey
-                        using the View Survey button.
-                      </p>
-                    </Field>
-
+                  <Panel>
+                    <Heading>Themes, IDs, form types and legal bases</Heading>
+                    <Text data-test="theme-description">
+                      The theme sets the design of the eQ for respondents. It
+                      changes the header across the survey, as well as the
+                      contact details and the legal basis on the introduction
+                      page. The COVID theme also changes the thank you page
+                      respondents see once they&apos;ve submitted the survey.
+                    </Text>
+                    <Text>
+                      The preview theme is applied when you view the survey
+                      using the View Survey button.
+                    </Text>
                     <Field>
                       <Label>Survey ID</Label>
                       <Caption>
@@ -221,63 +200,9 @@ const ThemesPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    {groupErrorMessages.map((errorMessage, index) => (
-                      <ValidationError key={index} right={false}>
-                        {errorMessage}
-                      </ValidationError>
-                    ))}
-                    {questionnaireThemes.map(
-                      ({
-                        shortName,
-                        eqId,
-                        enabled,
-                        formType,
-                        validationErrorInfo,
-                      }) => (
-                        <CollapsibleToggled
-                          key={`${shortName}-toggle`}
-                          title={THEME_TITLES[shortName]}
-                          isOpen={enabled}
-                          onChange={() => toggleTheme({ shortName, enabled })}
-                          data-test={`${shortName}-toggle`}
-                        >
-                          <p />
-                          <StyledIdContainerOuter>
-                            <StyledEqIdContainer>
-                              <Field>
-                                <Label>eQ ID</Label>
-                              </Field>
-                              <EqIdInput
-                                eqId={eqId}
-                                questionnaireId={id}
-                                shortName={shortName}
-                              />
-                            </StyledEqIdContainer>
-                            <StyledFormTypeContainer>
-                              <Field>
-                                <Label>Form type</Label>
-                              </Field>
-                              <FormTypeInput
-                                formType={formType}
-                                questionnaireId={id}
-                                shortName={shortName}
-                              />
-                              {validationErrorInfo.errors.map(
-                                ({ errorCode }, index) =>
-                                  errorCode === "ERR_FORM_TYPE_FORMAT" && (
-                                    <ValidationError key={index} right>
-                                      {
-                                        THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT
-                                      }
-                                    </ValidationError>
-                                  )
-                              )}
-                            </StyledFormTypeContainer>
-                          </StyledIdContainerOuter>
-                        </CollapsibleToggled>
-                      )
-                    )}
-                  </StyledPanel>
+                    {renderErrors(groupErrorMessages)}
+                    {renderThemes(questionnaireThemes, previewTheme, id)}
+                  </Panel>
                 </SettingsContainer>
               </Column>
             </Grid>

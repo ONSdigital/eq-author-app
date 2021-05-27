@@ -7,6 +7,12 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
+const mockUseMutation = jest.fn();
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
+
 describe("BasicAnswer", () => {
   let answer;
   let onChange;
@@ -26,11 +32,18 @@ describe("BasicAnswer", () => {
       description: "Answer description",
       label: "",
       type: "TextField",
+      options: [
+        {
+          id: "option-1",
+          label: "option-label",
+          mutuallyExclusive: false,
+        },
+      ],
     };
     onChange = jest.fn();
     onUpdate = jest.fn();
     multipleAnswers = false;
-    
+
     props = {
       id: "1",
       answer,
@@ -78,36 +91,33 @@ describe("BasicAnswer", () => {
     expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
   });
 
-  it("should render Or option toggle ", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    />)
-      
-    expect(getByTestId("toggle-or-option")
-    ).toBeInTheDocument();
+  it("should render Or option toggle ", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" />
+    ));
+
+    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
   });
 
-  it("should disable Or option toggle if multipleAnswers = true", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    multipleAnswers
-    />)
-      
-    expect(getByTestId("toggle-wrapper")).toHaveAttribute(
-      "disabled"
-    );
+  it("should disable Or option toggle if multipleAnswers = true", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" multipleAnswers />
+    ));
+
+    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
   });
 
-  it("should show Option label if toggle is on", async() => {
-    const { getByTestId } = rtlRender(() => <StatelessBasicAnswer {...props} 
-    type="Percentage"
-    />)
+  it("should show Option label if toggle is on", async () => {
+    props.answer.options[0].mutuallyExclusive = true;
+
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" />
+    ));
     fireEvent.click(getByTestId("toggle-or-option-input"), {
       target: { type: "checkbox", checked: true },
-      });
+    });
 
-      expect(getByTestId("option-label")
-      ).toBeInTheDocument();
+    expect(getByTestId("option-label")).toBeInTheDocument();
   });
 
   describe("event handling behaviour", () => {
