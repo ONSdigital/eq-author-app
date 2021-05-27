@@ -43,7 +43,6 @@ describe("Date", () => {
       onUpdate,
       multipleAnswers,
       type: "Date",
-      // children: <div>This is the child component</div>,
     };
   });
   it("should render", () => {
