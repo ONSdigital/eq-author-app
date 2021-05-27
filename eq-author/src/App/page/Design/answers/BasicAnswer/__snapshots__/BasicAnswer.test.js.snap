@@ -51,7 +51,7 @@ exports[`BasicAnswer should render with description 1`] = `
     <BasicAnswer__InlineField>
       <Label
         bold={true}
-        for="toggle-or-option"
+        htmlFor="toggle-or-option"
       >
         "Or" option
       </Label>
@@ -101,7 +101,7 @@ exports[`BasicAnswer should render without description 1`] = `
     <BasicAnswer__InlineField>
       <Label
         bold={true}
-        for="toggle-or-option"
+        htmlFor="toggle-or-option"
       >
         "Or" option
       </Label>

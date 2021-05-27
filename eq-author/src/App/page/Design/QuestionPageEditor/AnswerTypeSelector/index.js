@@ -15,6 +15,7 @@ import withValidationError from "enhancers/withValidationError";
 import AddIcon from "./icon-add.svg?inline";
 import PopupTransition from "./PopupTransition";
 import AnswerTypeGrid from "./AnswerTypeGrid";
+const _ = require("lodash");
 
 const AddAnswerButton = styled(Button)`
   width: 100%;
@@ -75,8 +76,6 @@ class AnswerTypeSelector extends React.Component {
     this.grid = grid;
   };
 
- 
-
   render() {
     const errorValidationMsg = this.props.getValidationError({
       field: "answers",
@@ -84,11 +83,11 @@ class AnswerTypeSelector extends React.Component {
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;
-    
-    let mutuallyExclusive = false;
-    // TODO-----------------add this once options from backend is merged in------------------;;;
-    // const answers = Array.from(this.props.page.answers);
-    // mutuallyExclusive = { ...answers?.options?.some(({ mutuallyExclusive }) => mutuallyExclusive === true)};
+
+    const answers = Array.from(this.props.page.answers);
+    const mutuallyExclusive = _.some(answers, (e) => {
+      return _.some((e.options), {mutuallyExclusive: true});
+    });
 
     if (this.props.page.answers[0]) {
       if (this.props.page.answers[0].type === "DateRange") {
