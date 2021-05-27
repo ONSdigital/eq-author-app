@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 import updateTheme from "graphql/updateTheme.graphql";
 import { Input, Label, Field } from "components/Forms";
-import ValidationError from "components/ValidationError";
-import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
 
 const StyledInput = styled(Input)`
   width: 11em;
@@ -50,7 +47,7 @@ const FormType = ({
   formType,
   questionnaireId,
   shortName,
-  validationErrorInfo,
+  renderThemeErrors,
 }) => {
   return (
     <Container>
@@ -62,14 +59,7 @@ const FormType = ({
         questionnaireId={questionnaireId}
         shortName={shortName}
       />
-      {validationErrorInfo.errors.map(
-        ({ errorCode }, index) =>
-          errorCode === "ERR_FORM_TYPE_FORMAT" && (
-            <ValidationError key={index} right>
-              {THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT}
-            </ValidationError>
-          )
-      )}
+      {renderThemeErrors}
     </Container>
   );
 };
@@ -78,7 +68,7 @@ FormType.propTypes = {
   formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
-  validationErrorInfo: CustomPropTypes.validationErrorInfo,
+  renderThemeErrors: PropTypes.func,
 };
 
 export default FormType;
