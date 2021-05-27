@@ -31,7 +31,6 @@ describe("Date", () => {
       displayName: "",
       qCode: "",
     };
-    // children: <div>This is the child component</div>,
 
     onChange = jest.fn();
     onUpdate = jest.fn();
