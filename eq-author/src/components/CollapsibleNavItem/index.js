@@ -37,9 +37,13 @@ const Button = styled.button`
   overflow: hidden;
   width: 100%;
 
-  border-top: ${({ bordered }) => (bordered ? `1px solid ${colors.grey}` : "")};
-  border-bottom: ${({ bordered }) =>
-    bordered ? `1px solid ${colors.grey}` : ""};
+  ${({ bordered, borderColor }) =>
+    bordered
+      ? `
+  border-bottom: 1px solid ${borderColor};
+  border-top: 1px solid ${borderColor};
+`
+      : ""}
 
   ${hoverStyling}
 
@@ -145,6 +149,7 @@ const CollapsibleNavItem = ({
   disabled,
   className,
   children,
+  containsActiveEntity,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
 
@@ -171,6 +176,9 @@ const CollapsibleNavItem = ({
           onClick={() => history.push(titleUrl)}
           disabled={disabled}
           bordered={bordered}
+          borderColor={
+            containsActiveEntity && !isOpen ? colors.orange : colors.grey
+          }
           data-test="CollapsibleNavItem-title"
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
@@ -216,6 +224,7 @@ CollapsibleNavItem.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.func,
   open: PropTypes.bool,
+  containsActiveEntity: PropTypes.bool,
 };
 
 export default CollapsibleNavItem;
