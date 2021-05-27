@@ -4,6 +4,11 @@ import { render as rtlRender, screen, fireEvent } from "tests/utils/rtl";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
+const mockUseMutation = jest.fn();
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
 
 describe("Date", () => {
   let answer;
@@ -29,6 +34,11 @@ describe("Date", () => {
       properties: {},
       displayName: "",
       qCode: "",
+      options: [{
+        id: "option-1",
+        label: "option-label",
+        mutuallyExclusive: false,
+      }]
     };
 
     onChange = jest.fn();
@@ -61,7 +71,17 @@ describe("Date", () => {
     screen.getByRole('switch')
   });
 
+  it("should disable Or option toggle if multipleAnswers = true", async () => {
+    const { getByTestId } = rtlRender(() => (
+      <UnwrappedDate {...props} multipleAnswers />
+    ));
+
+    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
+  });
+
   it("should show Option label if toggle is on", async () => {
+    props.answer.options[0].mutuallyExclusive = true;
+
     const { getByTestId } = rtlRender(() => (
       <UnwrappedDate {...props} />
     ));

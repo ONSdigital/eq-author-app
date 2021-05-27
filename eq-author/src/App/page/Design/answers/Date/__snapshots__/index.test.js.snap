@@ -9,6 +9,13 @@ exports[`Date should render 1`] = `
       "guidance": "Guidance",
       "id": "ansID1",
       "label": "",
+      "options": Array [
+        Object {
+          "id": "option-1",
+          "label": "option-label",
+          "mutuallyExclusive": false,
+        },
+      ],
       "properties": Object {},
       "qCode": "",
       "secondaryLabel": null,
