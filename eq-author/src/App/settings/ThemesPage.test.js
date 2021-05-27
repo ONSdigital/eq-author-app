@@ -308,5 +308,28 @@ describe("Themes page", () => {
         screen.getByText(THEME_ERROR_MESSAGES.ERR_NO_THEME_ENABLED)
       ).toBeTruthy();
     });
+
+    it("should show a validation error if incorrect form type format is entered", () => {
+      renderThemesPage({
+        ...mockQuestionnaire,
+        themeSettings: {
+          ...mockQuestionnaire.themeSettings,
+          validationErrorInfo: {
+            id: "valid-1",
+            errors: [
+              {
+                id: "error-1",
+                type: "themeSettings",
+                errorCode: "ERR_FORM_TYPE_FORMAT",
+              },
+            ],
+          },
+        },
+      });
+
+      expect(
+        screen.getByText(THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT)
+      ).toBeTruthy();
+    });
   });
 });

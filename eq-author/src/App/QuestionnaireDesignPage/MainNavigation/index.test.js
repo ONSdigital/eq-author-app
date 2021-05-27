@@ -90,6 +90,22 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 
+  it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
+    const { getByTestId } = defaultSetup({
+      changes: { totalErrorCount: 2, formTypeErrorCount: 1 },
+    });
+
+    expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
+  });
+
+  it("should not disable preview button if there are only theme errors on the questionnaire", () => {
+    const { getByTestId } = defaultSetup({
+      changes: { formTypeErrorCount: 1 },
+    });
+
+    expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeFalsy();
+  });
+
   it("should enable qcodes button when qcodes are enabled", () => {
     const { getByTestId } = defaultSetup();
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).not.toBeTruthy();
