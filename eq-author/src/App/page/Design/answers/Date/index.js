@@ -4,8 +4,12 @@ import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import { flowRight } from "lodash";
+import { useMutation } from "@apollo/react-hooks";
 
 import answerFragment from "graphql/fragments/answer.graphql";
+import CREATE_MUTUALLY_EXCLUSIVE from "../BasicAnswer/graphql/createMutuallyExclusiveOption.graphql";
+import DELETE_OPTION from "../BasicAnswer/graphql/deleteOption.graphql";
+import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
@@ -74,16 +78,35 @@ export const UnwrappedDate = ({
   descriptionPlaceholder,
 }) => {
 
-  const [toggled, setToggled] = useState(false);
+  const getMutuallyExclusive = ({ options }) =>
+    options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
+
+  const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
+  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
+  const [deleteOption] = useMutation(DELETE_OPTION);
+
+  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
 
   useEffect(() => {
-    if (multipleAnswers) {
-      setToggled(false);
-    }
-  }, [multipleAnswers]);
+    const { label } = getMutuallyExclusive(answer) || { label: "" };
+    setMutuallyExclusiveLabel(label);
+  }, [answer]);
 
   const onChangeToggle = () => {
-    setToggled(!toggled);
+    const { id } = getMutuallyExclusive(answer) || {};
+    if (!id) {
+      createMutuallyExclusive({
+        variables: { input: { answerId: answer.id, label: "" } },
+      });
+    } else {
+      deleteOption({ variables: { input: { id } } });
+    }
+  };
+
+  const onUpdateOption = (label) => {
+    const { id } = getMutuallyExclusive(answer) || {};
+
+    updateOption({ variables: { input: { id, label } } });
   };
 
   return (
@@ -127,12 +150,12 @@ export const UnwrappedDate = ({
           name="toggle-or-option-date"
           hideLabels={false}
           onChange={onChangeToggle}
-          checked={toggled}
+          checked={getMutuallyExclusive(answer) && !multipleAnswers}
           data-test="toggle-or-option-date"
         />
       </InlineField>
     </ToggleWrapper>
-    {toggled && (
+    {getMutuallyExclusive(answer) && !multipleAnswers && (
         <StyledOption>
           <Flex>
             <DummyMultipleChoice type={CHECKBOX} />
@@ -141,10 +164,10 @@ export const UnwrappedDate = ({
               <WrappingInput
                 id={`option-label-${answer.id}`}
                 name="label"
-                value={answer.label}
+                value={mutuallyExclusiveLabel}
                 placeholder={labelPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
+                onChange={({ value }) => setMutuallyExclusiveLabel(value)}
+                onBlur={({ target: { value } }) => onUpdateOption(value)}
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
@@ -200,6 +223,13 @@ UnwrappedDate.fragments = {
       id
       label
       properties
+      ... on BasicAnswer {
+      options {
+        id
+        mutuallyExclusive
+        label
+      }
+      }
     }
   `,
 };
