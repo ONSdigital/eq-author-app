@@ -33,6 +33,7 @@ function defaultSetup({
     match: { params: { modifier: "", questionnaireId: "1" } },
     loading: false,
     qcodesEnabled: true,
+    formTypeErrorCount: 0,
     ...changes,
   };
   const utils = render(

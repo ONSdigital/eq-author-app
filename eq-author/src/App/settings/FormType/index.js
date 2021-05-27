@@ -68,7 +68,7 @@ FormType.propTypes = {
   formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
-  renderThemeErrors: PropTypes.func,
+  renderThemeErrors: PropTypes.array, //eslint-disable-line
 };
 
 export default FormType;
