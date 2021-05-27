@@ -13,6 +13,7 @@ mutation DisableTheme($input: DisableThemeInput!) {
     }
     themeSettings {
       id
+      previewTheme
       validationErrorInfo {
         ...ValidationErrorInfo
       }
