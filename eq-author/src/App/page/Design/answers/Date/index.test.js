@@ -9,7 +9,6 @@ describe("Date", () => {
   let answer;
   let onChange;
   let onUpdate;
-  // let children;
   let props;
   let multipleAnswers;
 
