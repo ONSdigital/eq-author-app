@@ -75,7 +75,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
-  themeErrorCount,
+  formTypeErrorCount,
   title,
   children,
 }) => {
@@ -89,7 +89,7 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
-  const totalErrorCountNoTheme = totalErrorCount - themeErrorCount;
+  const totalErrorCountNoTheme = totalErrorCount - formTypeErrorCount;
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -225,7 +225,7 @@ UnwrappedMainNavigation.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   settingsError: PropTypes.bool,
-  themeErrorCount: PropTypes.number,
+  formTypeErrorCount: PropTypes.number,
 };
 
 export default UnwrappedMainNavigation;
