@@ -83,7 +83,7 @@ class AnswerTypeSelector extends React.Component {
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;
-    
+
     const answers = Array.from(this.props.page.answers);
     const mutuallyExclusive = _.some(answers, (e) => {
       return _.some((e.options), {mutuallyExclusive: true});
