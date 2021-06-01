@@ -31,7 +31,6 @@ const updateQuestionnaire = async (ctx, input) => {
             title
             description
             theme
-            legalBasis
             navigation
             surveyId
             summary

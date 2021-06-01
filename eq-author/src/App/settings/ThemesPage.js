@@ -19,6 +19,7 @@ import ScrollPane from "components/ScrollPane";
 import { Field, Input, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
+import LegalBasis from "App/settings/LegalBasisSelect";
 import PreviewTheme from "./PreviewTheme";
 import FormType from "./FormType";
 import EqId from "./EqId";
@@ -57,10 +58,18 @@ const Panel = styled.div`
   padding: 1.3em;
 `;
 
-const IdContainer = styled.div`
+const Flex = styled.div`
   overflow: hidden;
   padding: 0 0 4px 4px;
-  margin-top: 1em;
+  margin: 1em 0;
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: wrap;
+`;
+
+const FlexBreak = styled.div`
+  flex-basis: 100%;
+  height: 0;
 `;
 
 const StyledInput = styled(Input)`
@@ -124,7 +133,7 @@ const ThemesPage = ({ questionnaire }) => {
     ));
 
   const renderThemes = (themes, previewTheme, questionnaireId) =>
-    themes.map(({ shortName, eqId, enabled, formType }) => (
+    themes.map(({ shortName, eqId, enabled, formType, legalBasisCode }) => (
       <CollapsibleToggled
         key={`${shortName}-toggle`}
         title={THEME_TITLES[shortName]}
@@ -141,14 +150,20 @@ const ThemesPage = ({ questionnaire }) => {
           )
         }
       >
-        <IdContainer>
+        <Flex>
           <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
           <FormType
             formType={formType}
             questionnaireId={id}
             shortName={shortName}
           />
-        </IdContainer>
+          <FlexBreak />
+          <LegalBasis
+            legalBasis={legalBasisCode}
+            questionnaireId={id}
+            shortName={shortName}
+          />
+        </Flex>
       </CollapsibleToggled>
     ));
 

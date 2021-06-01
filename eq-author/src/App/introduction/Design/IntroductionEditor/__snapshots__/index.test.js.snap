@@ -71,12 +71,9 @@ exports[`IntroductionEditor should render 1`] = `
       <IntroductionEditor__SectionTitle>
         Legal basis
       </IntroductionEditor__SectionTitle>
-      <LegalBasisField
-        data-test="intro-legal-basis"
-        name="legalBasis"
-        onChange={[MockFunction]}
-        value="VOLUNTARY"
-      />
+      <InformationPanel>
+        The legal basis can be changed on the Settings page
+      </InformationPanel>
     </IntroductionEditor__Padding>
   </IntroductionEditor__Section>
   <IntroductionEditor__Section>

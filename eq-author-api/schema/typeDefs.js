@@ -620,7 +620,6 @@ type QuestionnaireIntroduction {
   description: String!
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  legalBasis: LegalBasis!
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -907,7 +906,6 @@ input UpdateQuestionnaireInput {
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String
-  legalBasis: LegalBasis
   qcodes: Boolean
   navigation: Boolean
   surveyId: String
@@ -1281,7 +1279,6 @@ input UpdateQuestionnaireIntroductionInput {
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
-  legalBasis: LegalBasis!
   secondaryTitle: String!
   secondaryDescription: String!
   tertiaryTitle: String!

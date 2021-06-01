@@ -19,7 +19,6 @@ describe("Introduction Preview", () => {
           additionalGuidancePanelSwitch: false,
           secondaryTitle: "secondaryTitle",
           secondaryDescription: "<p>secondaryDescription</p>",
-          legalBasis: "NOTICE_1",
           collapsibles: [],
           tertiaryTitle: "tertiaryTitle",
           tertiaryDescription: "tertiaryDescription",
@@ -51,33 +50,6 @@ describe("Introduction Preview", () => {
     expect(
       shallow(<IntroductionPreview {...props} loading />).find(Loading)
     ).toHaveLength(1);
-  });
-
-  it("should show no legal description when legal basis is voluntary", () => {
-    props.data.questionnaireIntroduction.legalBasis = "VOLUNTARY";
-    expect(
-      shallow(<IntroductionPreview {...props} />).find(
-        "[data-test='legalBasis']"
-      )
-    ).toHaveLength(0);
-  });
-
-  it("should show section 1 legal basis when it is notice 1", () => {
-    props.data.questionnaireIntroduction.legalBasis = "NOTICE_1";
-    expect(
-      shallow(<IntroductionPreview {...props} />).find(
-        "[data-test='legalBasis']"
-      )
-    ).toMatchSnapshot();
-  });
-
-  it("should show section 3 and 4 legal basis when it is notice 2", () => {
-    props.data.questionnaireIntroduction.legalBasis = "NOTICE_2";
-    expect(
-      shallow(<IntroductionPreview {...props} />).find(
-        "[data-test='legalBasis']"
-      )
-    ).toMatchSnapshot();
   });
 
   it("should show additional guidance panel when enabled", () => {
