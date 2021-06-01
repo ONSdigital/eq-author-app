@@ -63,6 +63,23 @@ describe("Answer Type Selector", () => {
     expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
   });
 
+  it("If options.mutuallyExclusive = true then unable to select any others", async () => {
+    props = {
+      onSelect: jest.fn(),
+      page: {
+        answers: [
+          {
+            options: [{
+              mutuallyExclusive: true,
+            }]
+          }
+        ],
+      },
+    };
+    render(<AnswerTypeSelector {...props} />);
+    expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
+  });
+
   it("Select Number type then unable to select Date Range", async () => {
     props.page.answers[0] = { type: "Number" };
     render(<AnswerTypeSelector {...props} />);
