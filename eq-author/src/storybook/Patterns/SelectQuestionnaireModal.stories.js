@@ -125,23 +125,32 @@ const user = {
   displayName: "Foo",
 };
 
+const buildQuestionnaire = (index) => ({
+  id: `questionnaire${index}`,
+  displayName: `Questionnaire ${index}`,
+  title: `Questionnaire ${index} Title`,
+  shortTitle: "",
+  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  createdBy: user,
+  permission: "Write",
+      publishStatus: "Unpublished",
+  starred: false,
+  locked: false,
+});
+
+const questionnaires = [
+  buildQuestionnaire(1),
+  buildQuestionnaire(2),
+  buildQuestionnaire(3),
+  buildQuestionnaire(4),
+  buildQuestionnaire(5),
+  buildQuestionnaire(6),
+];
+
 export const MainModal = Template.bind({});
 MainModal.args = {
-  questionnaires: [
-    {
-      id: `questionnaire1`,
-      displayName: `Questionnaire 1`,
-      title: `Questionnaire 1 Title`,
-      shortTitle: "",
-      createdAt: `2019-05-30T12:36:50.984Z`,
-      updatedAt: `2019-05-30T12:36:50.984Z`,
-      createdBy: user,
-      permission: "Write",
-      publishStatus: "Unpublished",
-      starred: false,
-      locked: false,
-    }
-  ],
+  questionnaires: questionnaires,
   enabledHeadings: [
     Headings.TITLE,
     Headings.CREATED,
