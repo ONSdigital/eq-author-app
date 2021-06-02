@@ -1,0 +1,36 @@
+const copyLegalBasisToThemes = require("./copyLegalBasisToThemes");
+
+describe("Migration: copy legal basis to themes", () => {
+  it("should copy old-style global legal basis into all previously enabled themes", () => {
+    const questionnaire = {
+      legalBasis: "VOLUNTARY",
+      themeSettings: {
+        previewTheme: "default",
+        themes: [
+          {
+            title: "GB theme",
+            shortName: "default",
+            enabled: true,
+          },
+          {
+            title: "NI theme",
+            shortName: "northernireland",
+            enabled: false,
+          },
+          {
+            title: "COVID theme",
+            shortName: "covid",
+            enabled: true,
+          },
+        ],
+      },
+    };
+
+    const migratedThemes = copyLegalBasisToThemes(questionnaire).themeSettings
+      .themes;
+
+    for (const theme of migratedThemes) {
+      expect(theme.legalBasisCode).toBe(questionnaire.legalBasis);
+    }
+  });
+});
