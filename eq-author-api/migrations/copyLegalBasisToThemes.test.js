@@ -3,7 +3,9 @@ const copyLegalBasisToThemes = require("./copyLegalBasisToThemes");
 describe("Migration: copy legal basis to themes", () => {
   it("should copy old-style global legal basis into all previously enabled themes", () => {
     const questionnaire = {
-      legalBasis: "VOLUNTARY",
+      introduction: {
+        legalBasis: "VOLUNTARY",
+      },
       themeSettings: {
         previewTheme: "default",
         themes: [
@@ -30,7 +32,7 @@ describe("Migration: copy legal basis to themes", () => {
       .themes;
 
     for (const theme of migratedThemes) {
-      expect(theme.legalBasisCode).toBe(questionnaire.legalBasis);
+      expect(theme.legalBasisCode).toBe(questionnaire.introduction.legalBasis);
     }
   });
 });

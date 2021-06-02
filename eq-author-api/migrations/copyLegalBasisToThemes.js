@@ -1,7 +1,9 @@
 module.exports = (questionnaire) => {
-  if (questionnaire?.legalBasis) {
+  const existingLegalBasis = questionnaire?.introduction?.legalBasis;
+
+  if (existingLegalBasis) {
     questionnaire.themeSettings.themes.forEach(
-      (theme) => (theme.legalBasisCode = questionnaire.legalBasis)
+      (theme) => (theme.legalBasisCode = existingLegalBasis)
     );
   }
 
