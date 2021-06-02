@@ -130,7 +130,6 @@ const createNewQuestionnaire = (input) => {
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",
-    legalBasis: "Voluntary",
     qcodes: true,
     navigation: false,
     createdAt: new Date(),
@@ -379,6 +378,12 @@ const Resolvers = {
     }),
     updateTheme: createMutation((root, { input }, ctx) => {
       const theme = getThemeByShortName(ctx, input.shortName);
+
+      // Trim whitespace from input
+      for (const key of Object.keys(input)) {
+        input[key] = input[key]?.trim() ?? input[key];
+      }
+
       if (!theme) {
         throw new UserInputError(
           `updateTheme: No theme found with shortName '${input.shortName}''`
@@ -1458,6 +1463,7 @@ const Resolvers = {
             shortName,
             id: shortName,
             enabled: false,
+            legalBasisCode: "NOTICE_1",
             ...(getThemeByShortName(ctx, shortName) ?? {}),
           }));
     },

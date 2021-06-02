@@ -13,7 +13,6 @@ const updateQuestionnaireIntroductionMutation = `
       collapsibles {
         id
       }
-      legalBasis
       tertiaryTitle
       tertiaryDescription
     }

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import updateTheme from "graphql/updateTheme.graphql";
+import useUpdateTheme from "hooks/useUpdateTheme";
 import { Input, Field, Label } from "components/Forms";
 
 const StyledInput = styled(Input)`
@@ -10,21 +9,21 @@ const StyledInput = styled(Input)`
 `;
 
 const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
-  const [state, setState] = useState(eqId);
-  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+  const [value, setValue] = useState(eqId);
+  const updateTheme = useUpdateTheme();
 
-  const handleEQIdBlur = ({ value }, shortName) =>
-    updateQuestionnaireTheme({
-      variables: {
-        input: { questionnaireId, shortName, eqId: value.trim() },
-      },
+  const handleBlur = () =>
+    updateTheme({
+      questionnaireId,
+      shortName,
+      eqId: value,
     });
 
   return (
     <StyledInput
-      value={state}
-      onChange={({ value }) => setState(value)}
-      onBlur={(e) => handleEQIdBlur({ ...e.target }, shortName)}
+      value={value}
+      onChange={({ value }) => setValue(value)}
+      onBlur={handleBlur}
       data-test={`${shortName}-eq-id-input`}
     />
   );
@@ -36,9 +35,7 @@ EqIdInput.propTypes = {
   shortName: PropTypes.string.isRequired,
 };
 
-const Container = styled.div`
-  float: left;
-`;
+const Container = styled.div``;
 
 const EqId = ({ eqId, questionnaireId, shortName }) => {
   return (

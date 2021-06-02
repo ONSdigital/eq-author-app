@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LegalBasisField should render 1`] = `
+<Radio__RadioField>
+  <LegalBasisSelect__StyledLabel>
+    Legal basis
+  </LegalBasisSelect__StyledLabel>
+  <p>
+    The legal basis appears on the survey introduction page.
+  </p>
+  <LegalOption
+    key="NOTICE_1"
+    name="default"
+    onChange={[Function]}
+    selected={true}
+    value="NOTICE_1"
+  >
+    <Radio__RadioDescription>
+      Section 1 of the Statistics of Trade Act 1947.
+    </Radio__RadioDescription>
+  </LegalOption>
+  <LegalOption
+    key="NOTICE_2"
+    name="default"
+    onChange={[Function]}
+    selected={false}
+    value="NOTICE_2"
+  >
+    <Radio__RadioDescription>
+      Section 3 and 4 of the Statistics of Trade Act 1947.
+    </Radio__RadioDescription>
+  </LegalOption>
+  <LegalOption
+    key="NOTICE_NI"
+    name="default"
+    onChange={[Function]}
+    selected={false}
+    value="NOTICE_NI"
+  >
+    <Radio__RadioDescription>
+      Article 5 of the Statistics of Trade and Employment (Northern Ireland) Order 1988.
+    </Radio__RadioDescription>
+  </LegalOption>
+  <LegalOption
+    key="VOLUNTARY"
+    name="default"
+    onChange={[Function]}
+    selected={false}
+    value="VOLUNTARY"
+  >
+    <Radio__RadioDescription>
+      Voluntary
+    </Radio__RadioDescription>
+  </LegalOption>
+</Radio__RadioField>
+`;

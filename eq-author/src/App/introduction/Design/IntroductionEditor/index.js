@@ -15,8 +15,9 @@ import { colors } from "constants/theme";
 
 import transformNestedFragments from "utils/transformNestedFragments";
 
-import LegalBasisField from "./LegalBasisField";
 import CollapsiblesEditor from "./CollapsiblesEditor";
+
+import { InformationPanel } from "components/Panel";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
 import { Field, Label } from "components/Forms";
@@ -82,7 +83,6 @@ export const IntroductionEditor = ({
     secondaryDescription,
     tertiaryTitle,
     tertiaryDescription,
-    legalBasis,
   } = introduction;
 
   return (
@@ -155,12 +155,9 @@ export const IntroductionEditor = ({
           />
 
           <SectionTitle>Legal basis</SectionTitle>
-          <LegalBasisField
-            name="legalBasis"
-            value={legalBasis}
-            onChange={onChangeUpdate}
-            data-test="intro-legal-basis"
-          />
+          <InformationPanel>
+            The legal basis can be changed on the Settings page
+          </InformationPanel>
         </Padding>
       </Section>
       <Section>
@@ -242,7 +239,6 @@ const fragment = gql`
     }
     tertiaryTitle
     tertiaryDescription
-    legalBasis
   }
 `;
 
