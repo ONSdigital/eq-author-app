@@ -9,7 +9,8 @@ import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import Panel from "components/Panel";
-// import QuestionnaireTable from "components/QuestionnaireTable";
+import QuestionnaireTable from "components/QuestionnaireTable";
+import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
 import * as Headings from "constants/table-headings";
 
@@ -65,8 +66,8 @@ const MenuContainer = styled.div`
 
 
 
-export const Default = (args) => 
-// const Template = (args) => 
+// export const Default = (args) => 
+const Template = (args) => 
 
 <StyledModal isOpen hasCloseButton>
       <Container>
@@ -82,12 +83,12 @@ export const Default = (args) =>
           <MenuContainer>
             <ScrollPane>
             <Panel>
-            {/* <QuestionnaireTable
+            <QuestionnaireTable {...args}
               // onSortClick={onSortQuestionnaires}
               // onReverseClick={onReverseSort}
               // sortOrder={sortOrder}
               // currentSortColumn={sortColumn}
-              // tableHeadings={tableHeadings}
+              tableHeadings={tableHeadings}
               // questionnaires={questionnaires}
               // autoFocusId={autoFocusId}
               // onDeleteQuestionnaire={onDeleteQuestionnaire}
@@ -95,7 +96,7 @@ export const Default = (args) =>
               // handleLock={handleLock}
               // enabledHeadings={enabledHeadings}
               // onRowClick={onQuestionnaireClick}
-            /> */}
+            />
             </Panel>
             </ScrollPane>
           </MenuContainer>
@@ -117,16 +118,34 @@ export const Default = (args) =>
       </ModalFooter>
     </StyledModal>;
 
-// export const enabledHeadings = Template.bind({});
-// enabledHeadings.args = {
-//   enabledHeadings: [
-//     Headings.TITLE,
-//     Headings.OWNER,
-//     Headings.CREATED,
-//     Headings.MODIFIED,
-//     Headings.PERMISSIONS,
-//     Headings.LOCKED,
-//     Headings.STARRED,
-//     Headings.ACTIONS,
-//   ],
-// };
+const user = {
+  id: "3",
+  name: "Foo",
+  email: "foo@bar.com",
+  displayName: "Foo",
+};
+
+export const MainModal = Template.bind({});
+MainModal.args = {
+  questionnaires: [
+    {
+      id: `questionnaire1`,
+      displayName: `Questionnaire 1`,
+      title: `Questionnaire 1 Title`,
+      shortTitle: "",
+      createdAt: `2019-05-30T12:36:50.984Z`,
+      updatedAt: `2019-05-30T12:36:50.984Z`,
+      createdBy: user,
+      permission: "Write",
+      publishStatus: "Unpublished",
+      starred: false,
+      locked: false,
+    }
+  ],
+  enabledHeadings: [
+    Headings.TITLE,
+    Headings.CREATED,
+    Headings.OWNER,
+    Headings.MODIFIED,
+  ],
+};
