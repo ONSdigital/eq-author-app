@@ -44,7 +44,7 @@ class Questionnaire {
       shortName:
         (isSocialSurvey && SOCIAL_THEME) ||
         (questionnaireJson.theme === NI_THEME ? NI_THEME : DEFAULT_THEME),
-      legalBasis: introduction && introduction.legalBasis,
+      legalBasisCode: introduction && introduction.legalBasis,
       eqId: questionnaireId,
       formType: questionnaireId,
     };
@@ -66,7 +66,7 @@ class Questionnaire {
     this.theme = previewTheme.shortName;
     this.legal_basis = isSocialSurvey
       ? undefined
-      : legalBases[previewTheme.legalBasis];
+      : legalBases[previewTheme.legalBasisCode];
 
     this.navigation = {
       visible: questionnaireJson.navigation,

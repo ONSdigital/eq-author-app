@@ -17,7 +17,7 @@ export const LEGAL_BASIS_OPTIONS = [
     value: "NOTICE_1",
   },
   {
-    description: "Section 3 and 4 of the Statistics of Trade Act 1947.",
+    description: "Sections 3 and 4 of the Statistics of Trade Act 1947.",
     value: "NOTICE_2",
   },
   {
