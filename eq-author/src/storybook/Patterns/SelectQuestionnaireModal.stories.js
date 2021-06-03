@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
-// import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import SearchBar from 'components/SearchBar'
 import ScrollPane from "components/ScrollPane";
@@ -11,9 +10,10 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import Panel from "components/Panel";
 import QuestionnaireTable from "components/QuestionnaireTable";
 import tableHeadings from "components/QuestionnaireTable/TableHeadings";
+import AccessFilter from "../../components/QuestionnairesView/Header/AccessFilter";
 
 import * as Headings from "constants/table-headings";
-
+// import { useLockUnlockQuestionnaire } from "hooks/useSetQuestionnaireLocked";
 
 export default {
     title: "Patterns/Select Questionnaire Modal",
@@ -24,8 +24,6 @@ export default {
     },
   };
 
-// export const Default = (args) => <Modal isOpen {...args} />
-
 const ModalFooter = styled.div`
   padding: 1.5em;
   border-top: 1px solid ${colors.bordersLight};
@@ -34,7 +32,7 @@ const ModalFooter = styled.div`
 const StyledModal = styled(Modal)`
   .Modal {
     padding: 0;
-    width: 45em;
+    width: 55em;
   }
 `;
 
@@ -64,20 +62,28 @@ const MenuContainer = styled.div`
   height: 25em;
 `;
 
+const Wrapper = styled.div`
+  margin: 1em 0;
+  display: flex;
+  z-index: 1;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-
-// export const Default = (args) => 
 const Template = (args) => 
-
 <StyledModal isOpen hasCloseButton>
       <Container>
         <>
           <ModalHeader>
             <ModalTitle>Select the source questionnaire</ModalTitle>
             <ModalSubtitle>
+            <Wrapper>
                   {/* //TODO needs onChange prop setup and passed here
                   // see example in App/QuestionnairesPage/QuestionnairesView/Header */}
-                  <SearchBar size="large"/>
+                  <SearchBar/>
+                  {/* <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} /> */}
+                  <AccessFilter  />
+                  </Wrapper>
             </ModalSubtitle>
           </ModalHeader>
           <MenuContainer>
@@ -139,22 +145,28 @@ const buildQuestionnaire = (index) => ({
   locked: false,
 });
 
-const questionnaires = [
-  buildQuestionnaire(1),
-  buildQuestionnaire(2),
-  buildQuestionnaire(3),
-  buildQuestionnaire(4),
-  buildQuestionnaire(5),
-  buildQuestionnaire(6),
-];
+let questionArray; 
+(questionArray=[ ...Array(11).keys() ]).shift()
+
+const questionnaires = questionArray.map((index) => 
+  buildQuestionnaire(index),
+);
+
+
 
 export const MainModal = Template.bind({});
 MainModal.args = {
   questionnaires: questionnaires,
   enabledHeadings: [
     Headings.TITLE,
-    Headings.CREATED,
     Headings.OWNER,
+    Headings.CREATED,
     Headings.MODIFIED,
   ],
+  // apolloClient: {
+  //   mocks: [
+  //   jest.mock("hooks/useSetQuestionnaireLocked", () => ({
+  //     useLockUnlockQuestionnaire: jest.fn(() => [jest.fn(), jest.fn()]),
+  //   }))],
+  // },
 };
