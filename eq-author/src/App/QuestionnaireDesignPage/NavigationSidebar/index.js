@@ -20,8 +20,6 @@ import NavigationHeader from "./NavigationHeader";
 
 import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
-import NavItemTransition from "./NavItemTransition";
-import scrollIntoView from "utils/scrollIntoView";
 
 import IconSection from "assets/icon-section.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
@@ -29,7 +27,6 @@ import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import PageIcon from "assets/icon-survey-intro.svg?inline";
-import { TransitionGroup } from "react-transition-group";
 
 import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
@@ -104,48 +101,41 @@ const NavigationSidebar = ({ questionnaire }) => {
   }) => {
     const components = [];
     components.push(
-      <NavItemTransition key={`transition-page-${pageId}`}>
-        <li key={`page-${pageId}`}>
-          <NavItem
-            key={pageId}
-            title={displayName}
-            titleUrl={buildPagePath({
-              questionnaireId: questionnaire.id,
-              pageId,
-              tab,
-            })}
-            disabled={isCurrentPage(pageId, entityId)}
-            icon={
-              (pageType === QuestionPage && IconQuestionPage) ||
-              (pageType === CalculatedSummaryPage && IconSummaryPage)
-            }
-            errorCount={validationErrorInfo?.totalCount}
-          />
-        </li>
-      </NavItemTransition>
+      <li key={`page-${pageId}`}>
+        <NavItem
+          key={pageId}
+          title={displayName}
+          titleUrl={buildPagePath({
+            questionnaireId: questionnaire.id,
+            pageId,
+            tab,
+          })}
+          disabled={isCurrentPage(pageId, entityId)}
+          icon={
+            (pageType === QuestionPage && IconQuestionPage) ||
+            (pageType === CalculatedSummaryPage && IconSummaryPage)
+          }
+          errorCount={validationErrorInfo?.totalCount}
+        />
+      </li>
     );
 
     if (confirmation) {
       components.push(
-        <NavItemTransition
-          key={`transition-page-${pageId}-confirmation`}
-          onEntered={scrollIntoView}
-        >
-          <li key={`page-${pageId}-confirmation`}>
-            <NavItem
-              key={confirmation.displayName}
-              title={confirmation.displayName}
-              titleUrl={buildConfirmationPath({
-                questionnaireId: questionnaire.id,
-                confirmationId: confirmation.id,
-                tab,
-              })}
-              disabled={isCurrentPage(confirmation.id, entityId)}
-              icon={IconConfirmationPage}
-              errorCount={confirmation?.validationErrorInfo?.totalCount}
-            />
-          </li>
-        </NavItemTransition>
+        <li key={`page-${pageId}-confirmation`}>
+          <NavItem
+            key={confirmation.displayName}
+            title={confirmation.displayName}
+            titleUrl={buildConfirmationPath({
+              questionnaireId: questionnaire.id,
+              confirmationId: confirmation.id,
+              tab,
+            })}
+            disabled={isCurrentPage(confirmation.id, entityId)}
+            icon={IconConfirmationPage}
+            errorCount={confirmation?.validationErrorInfo?.totalCount}
+          />
+        </li>
       );
     }
 
@@ -156,43 +146,32 @@ const NavigationSidebar = ({ questionnaire }) => {
     const components = folders.map(
       ({ id: folderId, enabled, alias, pages, validationErrorInfo }) =>
         enabled ? (
-          <NavItemTransition
-            key={`transition-folder-${folderId}-enabled`}
-            onEntered={scrollIntoView}
-          >
-            <li key={`folder-${folderId}-enabled`}>
-              <CollapsibleNavItem
-                key={`folder-${folderId}enabled`}
-                title={alias || "Untitled folder"}
-                titleUrl={buildFolderPath({
-                  questionnaireId: questionnaire.id,
-                  folderId,
-                  tab,
-                })}
-                disabled={isCurrentPage(folderId, entityId)}
-                icon={IconFolder}
-                selfErrorCount={validationErrorInfo.totalCount}
-                childErrorCount={calculatePageErrors(pages)}
-                open
-              >
-                <NavList>
-                  <TransitionGroup component={null}>
-                    {pages.map((page) => buildPageList(page)).flat(2)}
-                  </TransitionGroup>
-                </NavList>
-              </CollapsibleNavItem>
-            </li>
-          </NavItemTransition>
+          <li key={`folder-${folderId}-enabled`}>
+            <CollapsibleNavItem
+              key={`folder-${folderId}enabled`}
+              title={alias || "Untitled folder"}
+              titleUrl={buildFolderPath({
+                questionnaireId: questionnaire.id,
+                folderId,
+                tab,
+              })}
+              disabled={isCurrentPage(folderId, entityId)}
+              icon={IconFolder}
+              selfErrorCount={validationErrorInfo.totalCount}
+              childErrorCount={calculatePageErrors(pages)}
+              open
+            >
+              <NavList>
+                {pages.map((page) => buildPageList(page)).flat(2)}
+              </NavList>
+            </CollapsibleNavItem>
+          </li>
         ) : (
           pages.map((page) => buildPageList(page)).flat(2)
         )
     );
 
-    return (
-      <TransitionGroup key={`transition-group-section-items`} component={null}>
-        {components.flat(2)}
-      </TransitionGroup>
-    );
+    return components.flat(2);
   };
 
   const buildSectionsList = (sections) => {
@@ -200,42 +179,33 @@ const NavigationSidebar = ({ questionnaire }) => {
       ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
         const allPagesInSection = folders.flatMap(({ pages }) => pages);
         return (
-          <NavItemTransition
-            key={`transition-section${sectionId}`}
-            onEntered={scrollIntoView}
-          >
-            <li key={`section-${sectionId}`}>
-              <CollapsibleNavItem
-                key={`section-${sectionId}`}
-                title={displayName}
-                titleUrl={buildSectionPath({
-                  questionnaireId: questionnaire.id,
-                  sectionId,
-                  tab,
-                })}
-                bordered
-                containsActiveEntity={allPagesInSection
-                  .map(({ id }) => isCurrentPage(id, entityId))
-                  .find(Boolean)}
-                selfErrorCount={validationErrorInfo.totalCount}
-                childErrorCount={calculatePageErrors(allPagesInSection)}
-                disabled={isCurrentPage(sectionId, entityId)}
-                icon={IconSection}
-                open={openSections}
-              >
-                <NavList>{buildFolderList(folders)}</NavList>
-              </CollapsibleNavItem>
-            </li>
-          </NavItemTransition>
+          <li key={`section-${sectionId}`}>
+            <CollapsibleNavItem
+              key={`section-${sectionId}`}
+              title={displayName}
+              titleUrl={buildSectionPath({
+                questionnaireId: questionnaire.id,
+                sectionId,
+                tab,
+              })}
+              bordered
+              containsActiveEntity={allPagesInSection
+                .map(({ id }) => isCurrentPage(id, entityId))
+                .find(Boolean)}
+              selfErrorCount={validationErrorInfo.totalCount}
+              childErrorCount={calculatePageErrors(allPagesInSection)}
+              disabled={isCurrentPage(sectionId, entityId)}
+              icon={IconSection}
+              open={openSections}
+            >
+              <NavList>{buildFolderList(folders)}</NavList>
+            </CollapsibleNavItem>
+          </li>
         );
       }
     );
 
-    return (
-      <TransitionGroup key={`transition-group-sections`} component={null}>
-        {components}
-      </TransitionGroup>
-    );
+    return components;
   };
 
   return (
