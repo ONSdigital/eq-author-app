@@ -154,7 +154,6 @@ const Folder = ({
         title={displayName}
         icon={IconFolder}
         disabled={isCurrentFolder(folderId, entityId)}
-        defaultOpen
         titleUrl={buildFolderPath({
           questionnaireId,
           folderId,
@@ -226,7 +225,6 @@ const Section = ({
       <CollapsibleNavItem
         title={displayName}
         icon={IconSection}
-        defaultOpen
         bordered
         disabled={isCurrentPage(sectionId, entityId)}
         titleUrl={buildSectionPath({
