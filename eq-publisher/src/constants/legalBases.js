@@ -4,7 +4,7 @@ module.exports = {
   NOTICE_2:
     "Notice is given under sections 3 and 4 of the Statistics of Trade Act 1947.",
   NOTICE_NI:
-    "Notice is given under article 5 of the Statistics of Trade and Employment (Northern Ireland) Order 1988",
+    "Notice is given under article 5 of the Statistics of Trade and Employment (Northern Ireland) Order 1988.",
   VOLUNTARY: undefined,
   types: {},
 };
