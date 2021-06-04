@@ -149,8 +149,10 @@ class Question {
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
     Object.assign(mutuallyExclusive.properties, { required: false });
+    console.log("Mutually exclusive qyestion : ", mutuallyExclusive);
     const mutuallyExclusiveAnswer = new Answer({
       ...mutuallyExclusive,
+      properties: { required: false },
       id: `${mutuallyExclusive.id}-exclusive`,
       type: "Checkbox",
       options: [mutuallyExclusive.mutuallyExclusiveOption],
