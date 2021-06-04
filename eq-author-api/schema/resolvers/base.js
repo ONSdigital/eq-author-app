@@ -66,6 +66,8 @@ const {
   remapAllNestedIds,
   returnValidationErrors,
   getThemeByShortName,
+  getPreviewTheme,
+  getFirstEnabledTheme,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -128,7 +130,6 @@ const createNewQuestionnaire = (input) => {
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "default",
-    legalBasis: "Voluntary",
     qcodes: true,
     navigation: false,
     createdAt: new Date(),
@@ -377,6 +378,12 @@ const Resolvers = {
     }),
     updateTheme: createMutation((root, { input }, ctx) => {
       const theme = getThemeByShortName(ctx, input.shortName);
+
+      // Trim whitespace from input
+      for (const key of Object.keys(input)) {
+        input[key] = input[key]?.trim() ?? input[key];
+      }
+
       if (!theme) {
         throw new UserInputError(
           `updateTheme: No theme found with shortName '${input.shortName}''`
@@ -392,7 +399,19 @@ const Resolvers = {
           `disableTheme: No theme found with shortName '${shortName}''`
         );
       }
+
       theme.enabled = false;
+
+      const isPreviewTheme = getPreviewTheme(ctx) === shortName;
+
+      if (isPreviewTheme) {
+        const { shortName } = getFirstEnabledTheme(ctx) || {};
+
+        if (shortName) {
+          ctx.questionnaire.themeSettings.previewTheme = shortName;
+        }
+      }
+
       return theme;
     }),
     createHistoryNote: (root, { input }, ctx) =>
@@ -1446,6 +1465,7 @@ const Resolvers = {
             shortName,
             id: shortName,
             enabled: false,
+            legalBasisCode: "NOTICE_1",
             ...(getThemeByShortName(ctx, shortName) ?? {}),
           }));
     },

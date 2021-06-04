@@ -3,6 +3,7 @@ import { render, act, flushPromises, screen, fireEvent } from "tests/utils/rtl";
 import ThemesPage from "./ThemesPage";
 import { useMutation } from "@apollo/react-hooks";
 import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
+import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -41,13 +42,38 @@ describe("Themes page", () => {
           totalCount: 0,
         },
         themes: [
-          { title: "GB theme", shortName: "default", enabled: true },
-          { title: "NI theme", shortName: "northernireland" },
-          { title: "COVID theme", shortName: "covid" },
-          { title: "EPE theme", shortName: "epe" },
-          { title: "EPE NI theme", shortName: "epeni" },
-          { title: "UKIS theme", shortName: "ukis" },
-          { title: "UKIS NI theme", shortName: "ukisni" },
+          {
+            title: "GB theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "default",
+            enabled: true,
+          },
+          {
+            title: "NI theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "northernireland",
+          },
+          {
+            title: "COVID theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "covid",
+          },
+          { title: "EPE theme", legalBasisCode: "NOTICE_1", shortName: "epe" },
+          {
+            title: "EPE NI theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "epeni",
+          },
+          {
+            title: "UKIS theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "ukis",
+          },
+          {
+            title: "UKIS NI theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "ukisni",
+          },
         ],
       },
       displayName: "Tests",
@@ -191,7 +217,7 @@ describe("Themes page", () => {
         variables: {
           input: {
             questionnaireId: expect.any(String),
-            eqId: "",
+            eqId: " ",
             shortName: "default",
           },
         },
@@ -230,30 +256,20 @@ describe("Themes page", () => {
     );
   });
 
-  it("Should remove spaces when there are any", () => {
-    const handleFormTypeBlur = jest.fn();
-    useMutation.mockImplementation(() => [handleFormTypeBlur]);
-    renderThemesPage(mockQuestionnaire);
+  describe("Legal basis", () => {
+    beforeEach(() => renderThemesPage(mockQuestionnaire));
 
-    const formTypeInput = screen.getByTestId("default-form-type-input");
-
-    fireEvent.change(formTypeInput, {
-      target: { value: " " },
+    it("should display legal basis for themes", () => {
+      expect(screen.getByText("Legal basis")).toBeVisible();
     });
 
-    fireEvent.blur(formTypeInput);
+    it("should show theme's legal basis as selected in radio list", () => {
+      const legalBasisDescription = LEGAL_BASIS_OPTIONS.find(
+        ({ value }) => value === "NOTICE_1"
+      ).description;
 
-    expect(handleFormTypeBlur).toHaveBeenCalledWith(
-      expect.objectContaining({
-        variables: {
-          input: {
-            questionnaireId: expect.any(String),
-            formType: "",
-            shortName: "default",
-          },
-        },
-      })
-    );
+      expect(screen.getByLabelText(legalBasisDescription)).toBeChecked();
+    });
   });
 
   describe("Validation", () => {

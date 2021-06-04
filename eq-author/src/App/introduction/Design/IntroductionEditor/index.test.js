@@ -18,7 +18,6 @@ describe("IntroductionEditor", () => {
         collapsibles: [],
         tertiaryTitle: "tertiary title",
         tertiaryDescription: "tertiary description",
-        legalBasis: "VOLUNTARY",
       },
       onChangeUpdate: jest.fn(),
       updateQuestionnaireIntroduction: jest.fn(),

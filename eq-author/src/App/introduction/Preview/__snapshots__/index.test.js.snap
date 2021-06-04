@@ -9,17 +9,6 @@ exports[`Introduction Preview should render 1`] = `
       missingText="Missing introduction title"
       title="foo"
     />
-    <p>
-      If the company details or structure have changed contact us on
-       
-      <Preview__Link>
-        0300 1234 931
-      </Preview__Link>
-       or email 
-      <Preview__Link>
-        surveys@ons.gov.uk
-      </Preview__Link>
-    </p>
     <Preview__Description
       dangerouslySetInnerHTML={
         Object {
@@ -28,16 +17,6 @@ exports[`Introduction Preview should render 1`] = `
       }
       data-test="description"
     />
-    <Preview__Description
-      data-test="legalBasis"
-    >
-      <Preview__H2>
-        Your response is legally required
-      </Preview__H2>
-      <p>
-        Notice is given under section 1 of the Statistics of Trade Act 1947.
-      </p>
-    </Preview__Description>
     <Preview__Button>
       Start survey
     </Preview__Button>
@@ -65,30 +44,4 @@ exports[`Introduction Preview should render 1`] = `
     />
   </Preview__Container>
 </IntroductionLayout>
-`;
-
-exports[`Introduction Preview should show section 1 legal basis when it is notice 1 1`] = `
-<Preview__Description
-  data-test="legalBasis"
->
-  <Preview__H2>
-    Your response is legally required
-  </Preview__H2>
-  <p>
-    Notice is given under section 1 of the Statistics of Trade Act 1947.
-  </p>
-</Preview__Description>
-`;
-
-exports[`Introduction Preview should show section 3 and 4 legal basis when it is notice 2 1`] = `
-<Preview__Description
-  data-test="legalBasis"
->
-  <Preview__H2>
-    Your response is legally required
-  </Preview__H2>
-  <p>
-    Notice is given under section 3 and 4 of the Statistics of Trade Act 1947.
-  </p>
-</Preview__Description>
 `;

@@ -13,7 +13,6 @@ const queryIntroductionQuery = `
       collapsibles {
         id
       }
-      legalBasis
       tertiaryTitle
       tertiaryDescription
     }

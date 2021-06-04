@@ -8,7 +8,6 @@ const {
 } = require("../../tests/utils/contextBuilder/questionnaireIntroduction");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
-const { NOTICE_2 } = require("../../constants/legalBases");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -37,7 +36,6 @@ describe("questionnaire", () => {
         secondaryTitle: expect.any(String),
         secondaryDescription: expect.any(String),
         collapsibles: expect.any(Array),
-        legalBasis: expect.any(String),
         tertiaryTitle: expect.any(String),
         tertiaryDescription: expect.any(String),
       });
@@ -53,7 +51,6 @@ describe("questionnaire", () => {
         additionalGuidancePanelSwitch: true,
         secondaryTitle: "new secondaryTitle",
         secondaryDescription: "new secondaryDescription",
-        legalBasis: NOTICE_2,
         tertiaryTitle: "new tertiaryTitle",
         tertiaryDescription: "new tertiaryDescription",
       };

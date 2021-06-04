@@ -15,6 +15,7 @@ import withValidationError from "enhancers/withValidationError";
 import AddIcon from "./icon-add.svg?inline";
 import PopupTransition from "./PopupTransition";
 import AnswerTypeGrid from "./AnswerTypeGrid";
+const _ = require("lodash");
 
 const AddAnswerButton = styled(Button)`
   width: 100%;
@@ -82,6 +83,12 @@ class AnswerTypeSelector extends React.Component {
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;
+
+    const answers = Array.from(this.props.page.answers);
+    const mutuallyExclusive = _.some(answers, (e) => {
+      return _.some((e.options), {mutuallyExclusive: true});
+    });
+
     if (this.props.page.answers[0]) {
       if (this.props.page.answers[0].type === "DateRange") {
         hasDateRange = true;
@@ -96,7 +103,7 @@ class AnswerTypeSelector extends React.Component {
       <AddAnswerButton
         variant="secondary"
         data-test="btn-add-answer"
-        disabled={hasDateRange}
+        disabled={hasDateRange || mutuallyExclusive}
       >
         <IconText icon={AddIcon}>
           Add {this.props.page.answers.length === 0 ? "an" : "another"} answer

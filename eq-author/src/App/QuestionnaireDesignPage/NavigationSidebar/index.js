@@ -214,6 +214,9 @@ const NavigationSidebar = ({ questionnaire }) => {
                   tab,
                 })}
                 bordered
+                containsActiveEntity={allPagesInSection
+                  .map(({ id }) => isCurrentPage(id, entityId))
+                  .find(Boolean)}
                 selfErrorCount={validationErrorInfo.totalCount}
                 childErrorCount={calculatePageErrors(allPagesInSection)}
                 disabled={isCurrentPage(sectionId, entityId)}

@@ -44,6 +44,27 @@ exports[`BasicAnswer should render with description 1`] = `
       value="Answer description"
     />
   </Field>
+  <BasicAnswer__ToggleWrapper
+    data-test="toggle-wrapper"
+    disabled={false}
+  >
+    <BasicAnswer__InlineField>
+      <Label
+        bold={true}
+        htmlFor="toggle-or-option"
+      >
+        "Or" option
+      </Label>
+      <ToggleSwitch
+        checked={false}
+        data-test="toggle-or-option"
+        hideLabels={false}
+        id="toggle-or-option"
+        name="toggle-or-option"
+        onChange={[Function]}
+      />
+    </BasicAnswer__InlineField>
+  </BasicAnswer__ToggleWrapper>
   <div>
     This is the child component
   </div>
@@ -73,6 +94,27 @@ exports[`BasicAnswer should render without description 1`] = `
       value=""
     />
   </Field>
+  <BasicAnswer__ToggleWrapper
+    data-test="toggle-wrapper"
+    disabled={false}
+  >
+    <BasicAnswer__InlineField>
+      <Label
+        bold={true}
+        htmlFor="toggle-or-option"
+      >
+        "Or" option
+      </Label>
+      <ToggleSwitch
+        checked={false}
+        data-test="toggle-or-option"
+        hideLabels={false}
+        id="toggle-or-option"
+        name="toggle-or-option"
+        onChange={[Function]}
+      />
+    </BasicAnswer__InlineField>
+  </BasicAnswer__ToggleWrapper>
   <div>
     This is the child component
   </div>
