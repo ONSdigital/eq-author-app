@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import styled, { css } from "styled-components";
-import { colors } from "constants/theme";
+import { colors, focusStyle } from "constants/theme";
 
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
@@ -50,12 +50,14 @@ const Link = styled.a`
   border: none;
   cursor: pointer;
 
+  ${({ isDragging }) => isDragging && focusStyle}
+
   &:hover {
     background: rgba(0, 0, 0, 0.2);
   }
 
   &:focus {
-    outline: 2px solid ${colors.orange};
+    ${focusStyle}
   }
 
   svg {
@@ -78,6 +80,7 @@ const NavItem = ({
   errorCount,
   disabled,
   className,
+  isDragging,
   ...rest
 }) => {
   const history = useHistory();
@@ -91,6 +94,7 @@ const NavItem = ({
       disabled={disabled}
       bordered={bordered}
       tabIndex={0}
+      isDragging={isDragging}
       {...rest}
     >
       {Icon && <Icon data-test="NavItem-icon" />}

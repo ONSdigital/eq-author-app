@@ -14,6 +14,9 @@ export const getFolderByPageId = (questionnaire, id) =>
     pages.some((page) => page.id === id)
   );
 
+export const getSectionById = (questionnaire, sectionId) =>
+  getSections(questionnaire)?.find(({ id }) => id === sectionId);
+
 export const getSectionByFolderId = (questionnaire, id) =>
   getSections(questionnaire)?.find(({ folders }) =>
     folders.some((folder) => folder.id === id)

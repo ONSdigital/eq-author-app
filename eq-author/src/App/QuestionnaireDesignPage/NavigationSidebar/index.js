@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import CustomPropTypes from "custom-prop-types";
-
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import { colors } from "constants/theme";
+import { useMutation } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
+
+import CustomPropTypes from "custom-prop-types";
+import styled from "styled-components";
+import { colors } from "constants/theme";
 
 import {
   buildSectionPath,
@@ -14,12 +13,17 @@ import {
   buildConfirmationPath,
   buildIntroductionPath,
 } from "utils/UrlUtils";
+import {
+  getPageById,
+  getFolderById,
+  getSectionById,
+  getSectionByFolderId,
+} from "utils/questionnaireUtils";
 
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import NavigationHeader from "./NavigationHeader";
 import CollapsibleNavItem from "components/CollapsibleNavItem";
 import NavItem from "components/NavItem";
-
-import NavigationHeader from "./NavigationHeader";
-
 import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
 
@@ -29,6 +33,9 @@ import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import PageIcon from "assets/icon-survey-intro.svg?inline";
+
+import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
+import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -102,7 +109,7 @@ const Page = ({
 
   return (
     <Draggable key={pageId} draggableId={pageId} index={position}>
-      {({ innerRef, draggableProps, dragHandleProps }) => (
+      {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
         <ListItem ref={innerRef} {...draggableProps}>
           <NavItem
             title={displayName}
@@ -114,6 +121,7 @@ const Page = ({
               tab,
             })}
             errorCount={validationErrorInfo?.totalCount}
+            isDragging={isDragging}
             {...dragHandleProps}
           />
           {confirmation && (
@@ -157,8 +165,13 @@ const Folder = ({
     );
 
   return (
-    <Draggable key={folderId} draggableId={folderId} index={position}>
-      {({ innerRef, draggableProps, dragHandleProps }) => (
+    <Draggable
+      key={folderId}
+      draggableId={folderId}
+      index={position}
+      type="folder"
+    >
+      {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
         <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
           <CollapsibleNavItem
             title={displayName}
@@ -171,6 +184,7 @@ const Folder = ({
             })}
             selfErrorCount={validationErrorInfo.totalCount}
             childErrorCount={calculatePageErrors(pages)}
+            isDragging={isDragging}
           >
             <Droppable droppableId={folderId}>
               {({ innerRef, placeholder, droppableProps }) => (
@@ -227,14 +241,13 @@ const Section = ({
         />
       );
     } else {
-      // return <p>Page</p>;
       return pages.map(({ id: pageId, ...rest }) => (
         <Page
           key={`page-${pageId}`}
           id={pageId}
           questionnaireId={questionnaireId}
-          index={position}
           {...rest}
+          position={position}
         />
       ));
     }
@@ -275,6 +288,9 @@ const NavigationSidebar = ({ questionnaire }) => {
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
 
+  const [movePage] = useMutation(MOVE_PAGE_MUTATION);
+  const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
+
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
@@ -292,8 +308,76 @@ const NavigationSidebar = ({ questionnaire }) => {
       return;
     }
 
-    //TODO
-    return;
+    const pageBeingMoved = getPageById(questionnaire, draggableId);
+    const folderBeingMoved = getFolderById(questionnaire, draggableId);
+
+    const destinationSection = getSectionById(
+      questionnaire,
+      destination.droppableId
+    );
+
+    const destinationFolder = getFolderById(
+      questionnaire,
+      destination.droppableId
+    );
+
+    // If the user is moving a folder into a folder
+    if (folderBeingMoved && destinationFolder) {
+      return;
+    }
+
+    //If the user is moving a page into a folder
+    if (pageBeingMoved && destinationFolder) {
+      const { id } = pageBeingMoved;
+      const { id: folderId } = destinationFolder;
+      const { id: sectionId } = getSectionByFolderId(questionnaire, folderId);
+      const { index: position } = destination;
+
+      movePage({
+        variables: {
+          input: {
+            id,
+            sectionId,
+            folderId,
+            position,
+          },
+        },
+      });
+    }
+
+    // If the user is moving a page into a section
+    if (pageBeingMoved && destinationSection) {
+      const { id } = pageBeingMoved;
+      const { id: sectionId } = destinationSection;
+      const { index: position } = destination;
+
+      movePage({
+        variables: {
+          input: {
+            id,
+            sectionId,
+            position,
+          },
+        },
+      });
+    }
+
+    // If the user is moving a folder into a section
+    if (folderBeingMoved && destinationSection) {
+      const { id } = folderBeingMoved;
+      const { id: sectionId } = destinationSection;
+      const { index: position } = destination;
+
+      moveFolder({
+        variables: {
+          input: {
+            id,
+            sectionId,
+            position,
+          },
+        },
+      });
+    }
   };
 
   return (

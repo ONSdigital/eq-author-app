@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import { colors, focusStyle } from "constants/theme";
 import chevron from "assets/icon-chevron.svg";
 
 import Badge from "components/Badge";
@@ -136,6 +136,7 @@ const Body = styled.div`
 
 const Wrapper = styled.div`
   margin-bottom: ${({ bordered }) => (bordered ? "0.5em" : "0")};
+  ${({ isDragging }) => isDragging && focusStyle}
 `;
 
 const CollapsibleNavItem = ({
@@ -150,6 +151,7 @@ const CollapsibleNavItem = ({
   className,
   children,
   containsActiveEntity,
+  isDragging,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
 
@@ -164,6 +166,7 @@ const CollapsibleNavItem = ({
       className={`${className} CollapsibleNavItem`}
       data-test="CollapsibleNavItem"
       bordered={bordered}
+      isDragging={isDragging}
     >
       <Header data-test="CollapsibleNavItem-header">
         <ToggleCollapsibleNavItemButton
