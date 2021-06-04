@@ -28,8 +28,6 @@ import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import PageIcon from "assets/icon-survey-intro.svg?inline";
 
-import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
-
 const Container = styled.div`
   background: ${colors.black};
   color: ${colors.white};
@@ -45,12 +43,6 @@ const NavigationScrollPane = styled(ScrollPane)`
       background: ${colors.lightGrey};
     }
   }
-`;
-
-const NavList = styled.ol`
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 const OpenAllSectionsBtn = styled(Button).attrs({
@@ -69,7 +61,15 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   }
 `;
 
-const IntroductionListItem = styled.li`
+const NavList = styled.ol`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+const ListItem = styled.li``;
+
+const IntroductionListItem = styled(ListItem)`
   padding-left: 2em;
   margin-bottom: 0.5em;
   margin-top: 2px;
@@ -79,9 +79,113 @@ const IntroductionListItem = styled.li`
   }
 `;
 
-const NavigationSidebar = ({ questionnaire }) => {
+const Page = ({
+  id: pageId,
+  questionnaireId,
+  displayName,
+  pageType,
+  confirmation,
+  validationErrorInfo,
+  ...rest
+}) => {
   const { entityId, tab = "design" } = useParams();
-  const [openSections, toggleSections] = useState(true);
+
+  const isCurrentPage = (navItemId, currentPageId) =>
+    navItemId === currentPageId;
+
+  const iconMap = {
+    QuestionPage: IconQuestionPage,
+    CalculatedSummaryPage: IconSummaryPage,
+  };
+
+  return (
+    <ListItem>
+      {console.log(rest)}
+      <NavItem
+        title={displayName}
+        icon={iconMap[pageType]}
+        disabled={isCurrentPage(pageId, entityId)}
+        titleUrl={buildPagePath({
+          questionnaireId,
+          pageId,
+          tab,
+        })}
+        errorCount={validationErrorInfo?.totalCount}
+      />
+      {confirmation && (
+        <NavItem
+          key={confirmation.displayName}
+          title={confirmation.displayName}
+          titleUrl={buildConfirmationPath({
+            questionnaireId,
+            confirmationId: confirmation.id,
+            tab,
+          })}
+          disabled={isCurrentPage(confirmation.id, entityId)}
+          icon={IconConfirmationPage}
+          errorCount={confirmation?.validationErrorInfo?.totalCount}
+        />
+      )}
+    </ListItem>
+  );
+};
+
+const Folder = ({
+  id: folderId,
+  questionnaireId,
+  displayName,
+  pages,
+  validationErrorInfo,
+}) => {
+  const { entityId, tab = "design" } = useParams();
+
+  const isCurrentFolder = (navItemId, currentPageId) =>
+    navItemId === currentPageId;
+
+  const calculatePageErrors = (pages) =>
+    pages.reduce(
+      (acc, { validationErrorInfo }) => (acc += validationErrorInfo.totalCount),
+      0
+    );
+
+  return (
+    <ListItem>
+      <CollapsibleNavItem
+        title={displayName}
+        icon={IconFolder}
+        disabled={isCurrentFolder(folderId, entityId)}
+        defaultOpen
+        titleUrl={buildFolderPath({
+          questionnaireId,
+          folderId,
+          tab,
+        })}
+        selfErrorCount={validationErrorInfo.totalCount}
+        childErrorCount={calculatePageErrors(pages)}
+      >
+        <NavList>
+          {pages.map(({ id: pageId, ...rest }) => (
+            <Page
+              key={`page-${pageId}`}
+              id={pageId}
+              questionnaireId={questionnaireId}
+              {...rest}
+            />
+          ))}
+        </NavList>
+      </CollapsibleNavItem>
+    </ListItem>
+  );
+};
+
+const Section = ({
+  id: sectionId,
+  questionnaireId,
+  displayName,
+  folders,
+  validationErrorInfo,
+}) => {
+  const { entityId, tab = "design" } = useParams();
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
@@ -92,121 +196,62 @@ const NavigationSidebar = ({ questionnaire }) => {
       0
     );
 
-  const buildPageList = ({
-    id: pageId,
-    displayName,
-    confirmation,
-    pageType,
-    validationErrorInfo,
-  }) => {
-    const components = [];
-    components.push(
-      <li key={`page-${pageId}`}>
-        <NavItem
-          key={pageId}
-          title={displayName}
-          titleUrl={buildPagePath({
-            questionnaireId: questionnaire.id,
-            pageId,
-            tab,
-          })}
-          disabled={isCurrentPage(pageId, entityId)}
-          icon={
-            (pageType === QuestionPage && IconQuestionPage) ||
-            (pageType === CalculatedSummaryPage && IconSummaryPage)
-          }
-          errorCount={validationErrorInfo?.totalCount}
+  const allPagesInSection = folders.flatMap(({ pages }) => pages);
+
+  const renderChild = ({ id: folderId, enabled, pages, ...rest }) => {
+    if (enabled) {
+      return (
+        <Folder
+          key={`folder-${folderId}`}
+          id={folderId}
+          questionnaireId={questionnaireId}
+          pages={pages}
+          {...rest}
         />
-      </li>
-    );
-
-    if (confirmation) {
-      components.push(
-        <li key={`page-${pageId}-confirmation`}>
-          <NavItem
-            key={confirmation.displayName}
-            title={confirmation.displayName}
-            titleUrl={buildConfirmationPath({
-              questionnaireId: questionnaire.id,
-              confirmationId: confirmation.id,
-              tab,
-            })}
-            disabled={isCurrentPage(confirmation.id, entityId)}
-            icon={IconConfirmationPage}
-            errorCount={confirmation?.validationErrorInfo?.totalCount}
-          />
-        </li>
       );
+    } else {
+      return pages.map(({ id: pageId, ...rest }) => (
+        <Page
+          key={`page-${pageId}`}
+          id={pageId}
+          questionnaireId={questionnaireId}
+          {...rest}
+        />
+      ));
     }
-
-    return components;
   };
 
-  const buildFolderList = (folders) => {
-    const components = folders.map(
-      ({ id: folderId, enabled, alias, pages, validationErrorInfo }) =>
-        enabled ? (
-          <li key={`folder-${folderId}-enabled`}>
-            <CollapsibleNavItem
-              key={`folder-${folderId}enabled`}
-              title={alias || "Untitled folder"}
-              titleUrl={buildFolderPath({
-                questionnaireId: questionnaire.id,
-                folderId,
-                tab,
-              })}
-              disabled={isCurrentPage(folderId, entityId)}
-              icon={IconFolder}
-              selfErrorCount={validationErrorInfo.totalCount}
-              childErrorCount={calculatePageErrors(pages)}
-              open
-            >
-              <NavList>
-                {pages.map((page) => buildPageList(page)).flat(2)}
-              </NavList>
-            </CollapsibleNavItem>
-          </li>
-        ) : (
-          pages.map((page) => buildPageList(page)).flat(2)
-        )
-    );
+  return (
+    <ListItem>
+      <CollapsibleNavItem
+        title={displayName}
+        icon={IconSection}
+        defaultOpen
+        bordered
+        disabled={isCurrentPage(sectionId, entityId)}
+        titleUrl={buildSectionPath({
+          questionnaireId,
+          sectionId,
+          tab,
+        })}
+        selfErrorCount={validationErrorInfo.totalCount}
+        childErrorCount={calculatePageErrors(allPagesInSection)}
+        containsActiveEntity={allPagesInSection
+          .map(({ id }) => isCurrentPage(id, entityId))
+          .find(Boolean)}
+      >
+        <NavList>{folders.map((folder) => renderChild(folder))}</NavList>
+      </CollapsibleNavItem>
+    </ListItem>
+  );
+};
 
-    return components.flat(2);
-  };
+const NavigationSidebar = ({ questionnaire }) => {
+  const { entityId, tab = "design" } = useParams();
+  const [openSections, toggleSections] = useState(true);
 
-  const buildSectionsList = (sections) => {
-    const components = sections.map(
-      ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
-        const allPagesInSection = folders.flatMap(({ pages }) => pages);
-        return (
-          <li key={`section-${sectionId}`}>
-            <CollapsibleNavItem
-              key={`section-${sectionId}`}
-              title={displayName}
-              titleUrl={buildSectionPath({
-                questionnaireId: questionnaire.id,
-                sectionId,
-                tab,
-              })}
-              bordered
-              containsActiveEntity={allPagesInSection
-                .map(({ id }) => isCurrentPage(id, entityId))
-                .find(Boolean)}
-              selfErrorCount={validationErrorInfo.totalCount}
-              childErrorCount={calculatePageErrors(allPagesInSection)}
-              disabled={isCurrentPage(sectionId, entityId)}
-              icon={IconSection}
-              open={openSections}
-            >
-              <NavList>{buildFolderList(folders)}</NavList>
-            </CollapsibleNavItem>
-          </li>
-        );
-      }
-    );
-
-    return components;
-  };
+  const isCurrentPage = (navItemId, currentPageId) =>
+    navItemId === currentPageId;
 
   return (
     <Container data-test="side-nav">
@@ -236,7 +281,14 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </IntroductionListItem>
               )}
-              {buildSectionsList(questionnaire.sections)}
+              {questionnaire.sections.map(({ id, ...rest }) => (
+                <Section
+                  key={`section-${id}`}
+                  id={id}
+                  questionnaireId={questionnaire.id}
+                  {...rest}
+                />
+              ))}
             </NavList>
           </NavigationScrollPane>
         </>
