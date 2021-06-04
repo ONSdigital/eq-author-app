@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import { colors } from "constants/theme";
 import { useParams } from "react-router-dom";
 
@@ -86,7 +88,7 @@ const Page = ({
   pageType,
   confirmation,
   validationErrorInfo,
-  ...rest
+  position,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -99,34 +101,39 @@ const Page = ({
   };
 
   return (
-    <ListItem>
-      {console.log(rest)}
-      <NavItem
-        title={displayName}
-        icon={iconMap[pageType]}
-        disabled={isCurrentPage(pageId, entityId)}
-        titleUrl={buildPagePath({
-          questionnaireId,
-          pageId,
-          tab,
-        })}
-        errorCount={validationErrorInfo?.totalCount}
-      />
-      {confirmation && (
-        <NavItem
-          key={confirmation.displayName}
-          title={confirmation.displayName}
-          titleUrl={buildConfirmationPath({
-            questionnaireId,
-            confirmationId: confirmation.id,
-            tab,
-          })}
-          disabled={isCurrentPage(confirmation.id, entityId)}
-          icon={IconConfirmationPage}
-          errorCount={confirmation?.validationErrorInfo?.totalCount}
-        />
+    <Draggable key={pageId} draggableId={pageId} index={position}>
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <ListItem ref={innerRef} {...draggableProps}>
+          <NavItem
+            title={displayName}
+            icon={iconMap[pageType]}
+            disabled={isCurrentPage(pageId, entityId)}
+            titleUrl={buildPagePath({
+              questionnaireId,
+              pageId,
+              tab,
+            })}
+            errorCount={validationErrorInfo?.totalCount}
+            {...dragHandleProps}
+          />
+          {confirmation && (
+            <NavItem
+              key={confirmation.displayName}
+              title={confirmation.displayName}
+              titleUrl={buildConfirmationPath({
+                questionnaireId,
+                confirmationId: confirmation.id,
+                tab,
+              })}
+              disabled={isCurrentPage(confirmation.id, entityId)}
+              icon={IconConfirmationPage}
+              errorCount={confirmation?.validationErrorInfo?.totalCount}
+              {...dragHandleProps}
+            />
+          )}
+        </ListItem>
       )}
-    </ListItem>
+    </Draggable>
   );
 };
 
@@ -136,6 +143,7 @@ const Folder = ({
   displayName,
   pages,
   validationErrorInfo,
+  position,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -149,31 +157,40 @@ const Folder = ({
     );
 
   return (
-    <ListItem>
-      <CollapsibleNavItem
-        title={displayName}
-        icon={IconFolder}
-        disabled={isCurrentFolder(folderId, entityId)}
-        titleUrl={buildFolderPath({
-          questionnaireId,
-          folderId,
-          tab,
-        })}
-        selfErrorCount={validationErrorInfo.totalCount}
-        childErrorCount={calculatePageErrors(pages)}
-      >
-        <NavList>
-          {pages.map(({ id: pageId, ...rest }) => (
-            <Page
-              key={`page-${pageId}`}
-              id={pageId}
-              questionnaireId={questionnaireId}
-              {...rest}
-            />
-          ))}
-        </NavList>
-      </CollapsibleNavItem>
-    </ListItem>
+    <Draggable key={folderId} draggableId={folderId} index={position}>
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
+          <CollapsibleNavItem
+            title={displayName}
+            icon={IconFolder}
+            disabled={isCurrentFolder(folderId, entityId)}
+            titleUrl={buildFolderPath({
+              questionnaireId,
+              folderId,
+              tab,
+            })}
+            selfErrorCount={validationErrorInfo.totalCount}
+            childErrorCount={calculatePageErrors(pages)}
+          >
+            <Droppable droppableId={folderId}>
+              {({ innerRef, placeholder, droppableProps }) => (
+                <NavList ref={innerRef} {...droppableProps}>
+                  {pages.map(({ id: pageId, ...rest }) => (
+                    <Page
+                      key={`page-${pageId}`}
+                      id={pageId}
+                      questionnaireId={questionnaireId}
+                      {...rest}
+                    />
+                  ))}
+                  {placeholder}
+                </NavList>
+              )}
+            </Droppable>
+          </CollapsibleNavItem>
+        </ListItem>
+      )}
+    </Draggable>
   );
 };
 
@@ -197,7 +214,7 @@ const Section = ({
 
   const allPagesInSection = folders.flatMap(({ pages }) => pages);
 
-  const renderChild = ({ id: folderId, enabled, pages, ...rest }) => {
+  const renderChild = ({ id: folderId, enabled, pages, position, ...rest }) => {
     if (enabled) {
       return (
         <Folder
@@ -205,15 +222,18 @@ const Section = ({
           id={folderId}
           questionnaireId={questionnaireId}
           pages={pages}
+          position={position}
           {...rest}
         />
       );
     } else {
+      // return <p>Page</p>;
       return pages.map(({ id: pageId, ...rest }) => (
         <Page
           key={`page-${pageId}`}
           id={pageId}
           questionnaireId={questionnaireId}
+          index={position}
           {...rest}
         />
       ));
@@ -238,7 +258,14 @@ const Section = ({
           .map(({ id }) => isCurrentPage(id, entityId))
           .find(Boolean)}
       >
-        <NavList>{folders.map((folder) => renderChild(folder))}</NavList>
+        <Droppable droppableId={sectionId}>
+          {({ innerRef, placeholder, droppableProps }) => (
+            <NavList ref={innerRef} {...droppableProps}>
+              {folders.map((folder) => renderChild(folder))}
+              {placeholder}
+            </NavList>
+          )}
+        </Droppable>
       </CollapsibleNavItem>
     </ListItem>
   );
@@ -250,6 +277,24 @@ const NavigationSidebar = ({ questionnaire }) => {
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
+
+  const onDragEnd = ({ destination, source, draggableId }) => {
+    // The user dropped the item outside a destination
+    if (!destination) {
+      return;
+    }
+
+    // The user dropped the item back where it started
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    //TODO
+    return;
+  };
 
   return (
     <Container data-test="side-nav">
@@ -279,14 +324,16 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </IntroductionListItem>
               )}
-              {questionnaire.sections.map(({ id, ...rest }) => (
-                <Section
-                  key={`section-${id}`}
-                  id={id}
-                  questionnaireId={questionnaire.id}
-                  {...rest}
-                />
-              ))}
+              <DragDropContext onDragEnd={onDragEnd}>
+                {questionnaire.sections.map(({ id, ...rest }) => (
+                  <Section
+                    key={`section-${id}`}
+                    id={id}
+                    questionnaireId={questionnaire.id}
+                    {...rest}
+                  />
+                ))}
+              </DragDropContext>
             </NavList>
           </NavigationScrollPane>
         </>
