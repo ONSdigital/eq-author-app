@@ -61,12 +61,7 @@ const accessFilter = <AccessFilter onToggleFilter={nullFunction} isFiltered={fal
 
 const Template = (args) => 
 <QuestionnaireSelectModal searchBar={search} accessFilter={accessFilter}> 
-<QuestionnaireTable {...args}
-      // onSortClick={nullFunction}
-      // onReverseClick={nullFunction}
-      // onRowClick={nullFunction}
-      // tableHeadings={enabledHeadings}
-    />
+  <QuestionnaireTable {...args}/>
 </QuestionnaireSelectModal>
 
 export const MainModal = Template.bind({});
