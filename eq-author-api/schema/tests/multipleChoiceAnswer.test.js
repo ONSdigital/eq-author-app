@@ -13,10 +13,6 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 
 const {
-  queryQuestionnaire,
-} = require("../../tests/utils/contextBuilder/questionnaire");
-
-const {
   createOption,
   createMutuallyExclusiveOption,
   queryOption,
