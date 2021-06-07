@@ -61,8 +61,8 @@ const QuestionnaireSelectModal = ({
     children
 }) => {
     return (
-        <StyledModal isOpen hasCloseButton>
-      <Container>
+      <StyledModal isOpen hasCloseButton >
+      <Container data-test="questionnaire-select-modal">
         <>
           <ModalHeader>
             <ModalTitle>Select the source questionnaire</ModalTitle>
