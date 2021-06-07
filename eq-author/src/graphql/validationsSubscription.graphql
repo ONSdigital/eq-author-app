@@ -16,6 +16,9 @@ subscription Validation($id: ID!) {
         }
       }
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
     sections {
       id
       validationErrorInfo {
