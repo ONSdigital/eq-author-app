@@ -4,10 +4,22 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import updateTheme from "graphql/updateTheme.graphql";
 import { Input, Label, Field } from "components/Forms";
+import ValidationError from "components/ValidationError";
+import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
 
 const StyledInput = styled(Input)`
   width: 11em;
 `;
+
+const renderThemeErrors = (errors) =>
+  errors.map(
+    ({ errorCode }, index) =>
+      errorCode === "ERR_FORM_TYPE_FORMAT" && (
+        <ValidationError key={index} right>
+          {THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT}
+        </ValidationError>
+      )
+  );
 
 const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
   const [state, setState] = useState(formType);
@@ -43,12 +55,7 @@ const Container = styled.div`
   float: left;
 `;
 
-const FormType = ({
-  formType,
-  questionnaireId,
-  shortName,
-  renderThemeErrors,
-}) => {
+const FormType = ({ formType, questionnaireId, shortName, errors }) => {
   return (
     <Container>
       <Field>
@@ -59,7 +66,7 @@ const FormType = ({
         questionnaireId={questionnaireId}
         shortName={shortName}
       />
-      {renderThemeErrors}
+      {renderThemeErrors(errors)}
     </Container>
   );
 };
@@ -68,7 +75,7 @@ FormType.propTypes = {
   formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
-  renderThemeErrors: PropTypes.array, //eslint-disable-line
+  errors: PropTypes.array, //eslint-disable-line
 };
 
 export default FormType;

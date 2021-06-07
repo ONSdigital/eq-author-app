@@ -123,14 +123,10 @@ const ThemesPage = ({ questionnaire }) => {
       </ValidationError>
     ));
 
-  const renderThemeErrors = (validationErrorInfo, errorData) =>
-    validationErrorInfo.errors.map(
-      ({ errorCode }, index) =>
-        errorCode === errorData.errorCode && (
-          <ValidationError key={index} right>
-            {errorData.errorMessage}
-          </ValidationError>
-        )
+  const findErrorsByCodePrefix = ({ errors }, prefix) =>
+    errors.map(
+      ({ errorCode, ...rest }) =>
+        errorCode.includes(prefix) && { errorCode, ...rest }
     );
 
   const renderThemes = (themes, previewTheme, questionnaireId) =>
@@ -158,10 +154,10 @@ const ThemesPage = ({ questionnaire }) => {
               formType={formType}
               questionnaireId={id}
               shortName={shortName}
-              renderThemeErrors={renderThemeErrors(validationErrorInfo, {
-                errorCode: "ERR_FORM_TYPE_FORMAT",
-                errorMessage: THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT,
-              })}
+              errors={findErrorsByCodePrefix(
+                validationErrorInfo,
+                "ERR_FORM_TYPE"
+              )}
             />
           </IdContainer>
         </CollapsibleToggled>

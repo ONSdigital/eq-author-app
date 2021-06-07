@@ -89,7 +89,7 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
-  const totalErrorCountNoTheme = totalErrorCount - formTypeErrorCount;
+  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -110,7 +110,7 @@ export const UnwrappedMainNavigation = ({
                   variant="navigation-modal"
                   data-test="btn-preview"
                   small
-                  disabled={totalErrorCountNoTheme > 0}
+                  disabled={totalErrorCountNoFormType > 0}
                 >
                   <IconText nav icon={viewIcon}>
                     View survey
