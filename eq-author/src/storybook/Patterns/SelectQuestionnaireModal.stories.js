@@ -77,10 +77,4 @@ MainModal.args = {
   onSortClick: nullFunction,
   onReverseClick: nullFunction,
   onRowClick: nullFunction,
-  // apolloClient: {
-  //   mocks: [
-  //   jest.mock("hooks/useSetQuestionnaireLocked", () => ({
-  //     useLockUnlockQuestionnaire: jest.fn(() => [jest.fn(), jest.fn()]),
-  //   }))],
-  // },
 };

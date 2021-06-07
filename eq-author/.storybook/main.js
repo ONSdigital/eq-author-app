@@ -24,6 +24,8 @@ module.exports = {
       use: ["@svgr/webpack", "url-loader"],
     });
 
+    config.resolve.alias['hooks/useToggleQuestionnaireStarred'] = require.resolve('../__mocks__/useToggleQuestionnaireStarred.js');
+
     return config;
   },
 };

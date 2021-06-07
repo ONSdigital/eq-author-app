@@ -100,7 +100,7 @@ const TD = styled.td`
   text-overflow: ellipsis;
 
   &:first-of-type {
-    padding-left: 0.65em;
+    padding-left: 1em;
   }
 `;
 
@@ -140,9 +140,9 @@ const Permission = styled.li`
 const propTypes = {
   questionnaire: CustomPropTypes.questionnaire.isRequired,
   history: CustomPropTypes.history.isRequired,
-  onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired,
-  onLockQuestionnaire: PropTypes.func.isRequired,
+  onDeleteQuestionnaire: PropTypes.func,
+  onDuplicateQuestionnaire: PropTypes.func,
+  onLockQuestionnaire: PropTypes.func,
   exit: PropTypes.bool,
   enter: PropTypes.bool,
   autoFocus: PropTypes.bool,
