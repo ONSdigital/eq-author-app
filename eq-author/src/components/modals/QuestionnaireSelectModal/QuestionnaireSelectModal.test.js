@@ -4,11 +4,9 @@ import { render, } from "tests/utils/rtl";
 import QuestionnaireSelectModal from "./";
 
 describe("Questionnaire Select Modal", () => {
-  let onClose, onSubmit, props, searchBar, accessFilter, children;
+  let  props, searchBar, accessFilter, children;
 
   beforeEach(() => {
-    onClose = jest.fn();
-    onSubmit = jest.fn();
     searchBar = <div>This is the search component</div>;
     accessFilter = <div>This is the accessFilter component</div>;
     children = <div>This is the child component</div>;
