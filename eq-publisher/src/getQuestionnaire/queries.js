@@ -198,7 +198,6 @@ exports.getQuestionnaire = `
         description
         additionalGuidancePanel
         additionalGuidancePanelSwitch
-        legalBasis
         secondaryTitle
         secondaryDescription
         collapsibles {
@@ -279,6 +278,11 @@ exports.getQuestionnaire = `
               }
               answers {
                 ...answerFragment
+                ... on BasicAnswer {
+                  mutuallyExclusiveOption {
+                    ...optionFragment
+                  }
+                }
                 ... on MultipleChoiceAnswer {
                   options {
                     ...optionFragment

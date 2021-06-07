@@ -353,7 +353,7 @@ describe("Questionnaire", () => {
     const eqId = "my-custom-eqId";
     const formType = "my-custom-formtype";
     const shortName = "census";
-    const legalBasis = NOTICE_1;
+    const legalBasisCode = NOTICE_1;
 
     const questionnaireJson = createQuestionnaireJSON({
       themeSettings: {
@@ -362,7 +362,7 @@ describe("Questionnaire", () => {
           {
             id: "mcthemeface1",
             shortName,
-            legalBasis,
+            legalBasisCode,
             eqId,
             formType,
           },
@@ -375,7 +375,7 @@ describe("Questionnaire", () => {
         theme: shortName,
         eq_id: eqId,
         form_type: formType,
-        legal_basis: legalBases[legalBasis],
+        legal_basis: legalBases[legalBasisCode],
       })
     );
   });

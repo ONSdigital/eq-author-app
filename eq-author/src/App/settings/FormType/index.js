@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import updateTheme from "graphql/updateTheme.graphql";
+import useUpdateTheme from "hooks/useUpdateTheme";
 import { Input, Label, Field } from "components/Forms";
 import ValidationError from "components/ValidationError";
 import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
@@ -22,23 +21,22 @@ const renderThemeErrors = (errors) =>
   );
 
 const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
-  const [state, setState] = useState(formType);
-  const [updateQuestionnaireTheme] = useMutation(updateTheme);
+  const [value, setValue] = useState(formType);
+  const updateTheme = useUpdateTheme();
 
-  const handleFormTypeBlur = ({ value }, shortName) => {
-    value = value.trim();
-    updateQuestionnaireTheme({
-      variables: {
-        input: { questionnaireId, shortName, formType: value },
-      },
+  const handleBlur = () => {
+    updateTheme({
+      questionnaireId,
+      shortName,
+      formType: value,
     });
   };
 
   return (
     <StyledInput
-      value={state}
-      onChange={({ value }) => setState(value)}
-      onBlur={(e) => handleFormTypeBlur({ ...e.target }, shortName)}
+      value={value}
+      onChange={({ value }) => setValue(value)}
+      onBlur={handleBlur}
       data-test={`${shortName}-form-type-input`}
     />
   );
@@ -52,7 +50,6 @@ FormTypeInput.propTypes = {
 
 const Container = styled.div`
   margin-left: 1em;
-  float: left;
 `;
 
 const FormType = ({ formType, questionnaireId, shortName, errors }) => {
