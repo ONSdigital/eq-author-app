@@ -9,7 +9,7 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import ScrollPane from "components/ScrollPane";
 import Panel from "components/Panel";
 
-const ModalFooter = styled.div`
+const ModalFooter = styled.footer`
   padding: 1.5em;
   border-top: 1px solid ${colors.bordersLight};
 `;
@@ -25,11 +25,12 @@ const Container = styled.div`
   background: white;
 `;
 
-const ModalTitle = styled.div`
+const ModalTitle = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.text};
   margin-bottom: 0.75em;
+  color: ${colors.textLight};
 `;
 
 const ModalSubtitle = styled.div`
@@ -37,7 +38,7 @@ const ModalSubtitle = styled.div`
   color: ${colors.text};
 `;
 
-const ModalHeader = styled.div`
+const ModalHeader = styled.header`
   padding: 2em 1em 1.5em;
   border-bottom: 1px solid ${colors.bordersLight};
 `;
