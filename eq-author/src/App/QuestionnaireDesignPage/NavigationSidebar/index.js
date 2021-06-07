@@ -165,12 +165,7 @@ const Folder = ({
     );
 
   return (
-    <Draggable
-      key={folderId}
-      draggableId={folderId}
-      index={position}
-      type="folder"
-    >
+    <Draggable key={folderId} draggableId={folderId} index={position}>
       {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
         <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
           <CollapsibleNavItem
@@ -186,7 +181,7 @@ const Folder = ({
             childErrorCount={calculatePageErrors(pages)}
             isDragging={isDragging}
           >
-            <Droppable droppableId={folderId}>
+            <Droppable droppableId={folderId} type="folderContent">
               {({ innerRef, placeholder, droppableProps }) => (
                 <NavList ref={innerRef} {...droppableProps}>
                   {pages.map(({ id: pageId, ...rest }) => (
@@ -271,7 +266,7 @@ const Section = ({
           .map(({ id }) => isCurrentPage(id, entityId))
           .find(Boolean)}
       >
-        <Droppable droppableId={sectionId}>
+        <Droppable droppableId={sectionId} type="sectionContent">
           {({ innerRef, placeholder, droppableProps }) => (
             <NavList ref={innerRef} {...droppableProps}>
               {folders.map((folder) => renderChild(folder))}
