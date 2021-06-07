@@ -47,32 +47,52 @@ describe("Themes page", () => {
             legalBasisCode: "NOTICE_1",
             shortName: "default",
             enabled: true,
+            validationErrorInfo: {
+              errors: [
+                {
+                  id: "1",
+                  keyword: "errorMessage",
+                  field: "formType",
+                  errorCode: "ERR_FORM_TYPE_FORMAT",
+                },
+              ],
+            },
           },
           {
             title: "NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "northernireland",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "COVID theme",
             legalBasisCode: "NOTICE_1",
             shortName: "covid",
+            validationErrorInfo: { errors: [] },
           },
-          { title: "EPE theme", legalBasisCode: "NOTICE_1", shortName: "epe" },
+          {
+            title: "EPE theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "epe",
+            validationErrorInfo: { errors: [] },
+          },
           {
             title: "EPE NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "epeni",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "UKIS theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukis",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "UKIS NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukisni",
+            validationErrorInfo: { errors: [] },
           },
         ],
       },
@@ -293,6 +313,14 @@ describe("Themes page", () => {
 
       expect(
         screen.getByText(THEME_ERROR_MESSAGES.ERR_NO_THEME_ENABLED)
+      ).toBeTruthy();
+    });
+
+    it("should show a validation error if incorrect form type format is entered", () => {
+      renderThemesPage(mockQuestionnaire);
+
+      expect(
+        screen.getByText(THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT)
       ).toBeTruthy();
     });
   });

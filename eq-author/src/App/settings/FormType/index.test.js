@@ -10,6 +10,7 @@ describe("Form type", () => {
         formType="123"
         questionnaireId="123-456-789"
         shortName="default"
+        errors={[]}
         {...props}
       />
     );

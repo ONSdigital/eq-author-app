@@ -77,7 +77,6 @@ export const UnwrappedDate = ({
   autoFocus,
   descriptionPlaceholder,
 }) => {
-
   const getMutuallyExclusive = ({ options }) =>
     options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
 
@@ -110,52 +109,52 @@ export const UnwrappedDate = ({
   };
 
   return (
-  <Fieldset>
-    <Legend>Date options</Legend>
-    <Field>
-      <Label htmlFor={`${name}-${answer.id}`}>{label}</Label>
-      <WrappingInput
-        id={`${name}-${answer.id}`}
-        name={name}
-        size="medium"
-        onChange={onChange}
-        onBlur={onUpdate}
-        value={answer[name]}
-        placeholder={placeholder}
-        data-test="date-answer-label"
-        data-autofocus
-        bold
-        errorValidationMsg={getValidationError({
-          field: name,
-          label: errorLabel,
-          requiredMsg: DATE_LABEL_REQUIRED,
-        })}
-      />
-    </Field>
-    <Field>
-      <Label>Date</Label>
-      <Format>
-        <DummyDate
-          showDay={showDay}
-          showMonth={showMonth}
-          showYear={showYear}
+    <Fieldset>
+      <Legend>Date options</Legend>
+      <Field>
+        <Label htmlFor={`${name}-${answer.id}`}>{label}</Label>
+        <WrappingInput
+          id={`${name}-${answer.id}`}
+          name={name}
+          size="medium"
+          onChange={onChange}
+          onBlur={onUpdate}
+          value={answer[name]}
+          placeholder={placeholder}
+          data-test="date-answer-label"
+          data-autofocus
+          bold
+          errorValidationMsg={getValidationError({
+            field: name,
+            label: errorLabel,
+            requiredMsg: DATE_LABEL_REQUIRED,
+          })}
         />
-      </Format>
-    </Field>
-    <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
-      <InlineField>
-      <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
-        <ToggleSwitch
-          id="toggle-or-option-date"
-          name="toggle-or-option-date"
-          hideLabels={false}
-          onChange={onChangeToggle}
-          checked={getMutuallyExclusive(answer) && !multipleAnswers}
-          data-test="toggle-or-option-date"
-        />
-      </InlineField>
-    </ToggleWrapper>
-    {getMutuallyExclusive(answer) && !multipleAnswers && (
+      </Field>
+      <Field>
+        <Label>Date</Label>
+        <Format>
+          <DummyDate
+            showDay={showDay}
+            showMonth={showMonth}
+            showYear={showYear}
+          />
+        </Format>
+      </Field>
+      <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
+        <InlineField>
+          <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
+          <ToggleSwitch
+            id="toggle-or-option-date"
+            name="toggle-or-option-date"
+            hideLabels={false}
+            onChange={onChangeToggle}
+            checked={getMutuallyExclusive(answer) && !multipleAnswers}
+            data-test="toggle-or-option-date"
+          />
+        </InlineField>
+      </ToggleWrapper>
+      {getMutuallyExclusive(answer) && !multipleAnswers && (
         <StyledOption>
           <Flex>
             <DummyMultipleChoice type={CHECKBOX} />
@@ -189,10 +188,10 @@ export const UnwrappedDate = ({
             />
           </OptionField>
         </StyledOption>
-    )}
-  </Fieldset>
-);
-      };
+      )}
+    </Fieldset>
+  );
+};
 
 UnwrappedDate.propTypes = {
   label: PropTypes.string,
@@ -224,11 +223,11 @@ UnwrappedDate.fragments = {
       label
       properties
       ... on BasicAnswer {
-      options {
-        id
-        mutuallyExclusive
-        label
-      }
+        options {
+          id
+          mutuallyExclusive
+          label
+        }
       }
     }
   `,
