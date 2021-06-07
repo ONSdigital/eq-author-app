@@ -447,6 +447,26 @@ describe("questionnaire", () => {
         );
       });
 
+      it("should strip whitespace from theme input strings", async () => {
+        const newEqId = " my-padded-new-identifier ";
+        const newFormType = "  ";
+
+        await updateTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "default",
+            eqId: newEqId,
+            formType: newFormType,
+          },
+          ctx
+        );
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.themeSettings.themes[0]).toMatchObject({
+          eqId: newEqId.trim(),
+          formType: "",
+        });
+      });
+
       it("should not be able to update a non-existing theme", () => {
         expect(
           updateTheme(

@@ -37,11 +37,6 @@ const Container = styled.div`
   }
 `;
 
-const H2 = styled.h2`
-  font-size: 1.2em;
-  margin: 0 0 0.2rem;
-`;
-
 const Description = styled.div`
   margin-bottom: 1rem;
 
@@ -101,11 +96,6 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
-const Link = styled.span`
-  text-decoration: underline;
-  color: ${colors.primary};
-`;
-
 export const IntroductionPreview = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -118,7 +108,6 @@ export const IntroductionPreview = ({ loading, data }) => {
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       description,
-      legalBasis,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -131,40 +120,16 @@ export const IntroductionPreview = ({ loading, data }) => {
     <IntroductionLayout renderPanel={() => <CommentsPanel componentId={id} />}>
       <Container>
         <PageTitle missingText="Missing introduction title" title={title} />
-        <p>
-          If the company details or structure have changed contact us on{" "}
-          <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
-        </p>
-
         {additionalGuidancePanelSwitch && (
           <GuidancePanel
             data-test="additionalGuidancePanel"
             dangerouslySetInnerHTML={{ __html: additionalGuidancePanel }}
           />
         )}
-
         <Description
           data-test="description"
           dangerouslySetInnerHTML={{ __html: description }}
         />
-        {legalBasis === "NOTICE_1" && (
-          <Description data-test="legalBasis">
-            <H2>Your response is legally required</H2>
-            <p>
-              Notice is given under section 1 of the Statistics of Trade Act
-              1947.
-            </p>
-          </Description>
-        )}
-        {legalBasis === "NOTICE_2" && (
-          <Description data-test="legalBasis">
-            <H2>Your response is legally required</H2>
-            <p>
-              Notice is given under section 3 and 4 of the Statistics of Trade
-              Act 1947.
-            </p>
-          </Description>
-        )}
         <Button>Start survey</Button>
         <PageTitle
           missingText="Missing secondary title"
@@ -207,7 +172,6 @@ const fragment = gql`
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     description
-    legalBasis
     secondaryTitle
     secondaryDescription
     collapsibles {

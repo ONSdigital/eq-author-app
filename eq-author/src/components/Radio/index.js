@@ -11,7 +11,9 @@ export const RadioField = styled.div`
 export const RadioLabel = styled.label`
   padding: 1em;
   border-radius: 0.25em;
-  margin-bottom: 0.8em;
+  &:not(:last-of-type) {
+    margin-bottom: 0.8em;
+  }
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
   cursor: pointer;

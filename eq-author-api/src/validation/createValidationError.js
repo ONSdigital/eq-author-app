@@ -62,7 +62,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         break;
 
       case "themes":
-        theme = questionnaire.themes[nextVal ? nextVal : field];
+        theme = questionnaire.themeSettings.themes[nextVal ? nextVal : field];
         validationErr.type = "theme";
         validationErr.themeId = theme?.id;
         break;
