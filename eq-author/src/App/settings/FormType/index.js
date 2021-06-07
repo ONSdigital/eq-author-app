@@ -11,14 +11,11 @@ const StyledInput = styled(Input)`
 `;
 
 const renderThemeErrors = (errors) =>
-  errors.map(
-    ({ errorCode }, index) =>
-      errorCode === "ERR_FORM_TYPE_FORMAT" && (
-        <ValidationError key={index} right>
-          {THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT}
-        </ValidationError>
-      )
-  );
+  errors.map(({ errorCode }, index) => (
+    <ValidationError key={index} right>
+      {THEME_ERROR_MESSAGES[errorCode]}
+    </ValidationError>
+  ));
 
 const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
   const [value, setValue] = useState(formType);
