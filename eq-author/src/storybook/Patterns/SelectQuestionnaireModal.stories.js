@@ -57,7 +57,7 @@ const nullFunction = () => {
 }
 
 const search = <SearchBar />
-const accessFilter = <AccessFilter onToggleFilter={nullFunction} isFiltered={false} />
+const accessFilter = <AccessFilter onToggleFilter={nullFunction} isFiltered={false} size={"small"}/>
 
 const Template = (args) => 
 <QuestionnaireSelectModal searchBar={search} accessFilter={accessFilter}> 
