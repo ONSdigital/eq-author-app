@@ -113,7 +113,7 @@ const ThemesPage = ({ questionnaire }) => {
 
   const surveyIdError =
     SURVEY_ID_ERRORS[
-      questionnaire.validationErrorInfo.errors.find(
+      questionnaire?.validationErrorInfo?.errors?.find(
         ({ field }) => field === "surveyId"
       )?.errorCode
     ];
