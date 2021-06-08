@@ -116,7 +116,7 @@
     "levenary": "^1.1.1",
     "lodash": "4.17.21",
     "moment": "latest",
-    "polished": "latest",
+    "polished": "4.1.3",
     "react": "latest",
     "react-apollo": "latest",
     "react-beautiful-dnd": "^13.1.0",
