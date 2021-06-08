@@ -26,6 +26,7 @@ const Section = ({
   displayName,
   folders,
   validationErrorInfo,
+  open,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -71,6 +72,7 @@ const Section = ({
         title={displayName}
         icon={IconSection}
         bordered
+        open={open}
         disabled={isCurrentPage(sectionId, entityId)}
         titleUrl={buildSectionPath({
           questionnaireId,

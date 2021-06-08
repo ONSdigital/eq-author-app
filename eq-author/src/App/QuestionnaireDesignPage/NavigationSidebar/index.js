@@ -209,6 +209,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                     key={`section-${id}`}
                     id={id}
                     questionnaireId={questionnaire.id}
+                    open={openSections}
                     {...rest}
                   />
                 ))}
