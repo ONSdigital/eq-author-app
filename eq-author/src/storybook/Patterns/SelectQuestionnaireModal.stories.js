@@ -2,20 +2,20 @@ import React from "react";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import Modal from "components/modals/Modal";
-import SearchBar from 'components/SearchBar'
-import QuestionnaireTable from "components/QuestionnaireTable";
+import SearchBar from "components/SearchBar";
+import QuestionnaireView from "../../components/QuestionnairesView";
 import AccessFilter from "../../components/QuestionnairesView/Header/AccessFilter";
 
 import * as Headings from "constants/table-headings";
 
 export default {
-    title: "Patterns/Select Questionnaire Modal",
-    component: Modal,
-    argTypes: {
-      onConfirm: { action: "Confirmed" },
-      onCancel: { action: "Cancelled" },
-    },
-  };
+  title: "Patterns/Select Questionnaire Modal",
+  component: Modal,
+  argTypes: {
+    onConfirm: { action: "Confirmed" },
+    onCancel: { action: "Cancelled" },
+  },
+};
 
 const user = {
   id: "3",
@@ -33,17 +33,15 @@ const buildQuestionnaire = (index) => ({
   updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
   createdBy: user,
   permission: "Write",
-      publishStatus: "Unpublished",
+  publishStatus: "Unpublished",
   starred: false,
   locked: false,
 });
 
-let questionArray; 
-(questionArray=[ ...Array(11).keys() ]).shift()
+let questionArray;
+(questionArray = [...Array(11).keys()]).shift();
 
-const questionnaires = questionArray.map((index) => 
-  buildQuestionnaire(index),
-);
+const questionnaires = questionArray.map((index) => buildQuestionnaire(index));
 
 const enabledHeadings = [
   Headings.TITLE,
@@ -54,15 +52,22 @@ const enabledHeadings = [
 
 const nullFunction = () => {
   return null;
-}
+};
 
-const searchBar = <SearchBar />
-const accessFilter = <AccessFilter onToggleFilter={nullFunction} isFiltered={false} size={"small"}/>
+const searchBar = <SearchBar />;
+const accessFilter = (
+  <AccessFilter
+    onToggleFilter={nullFunction}
+    isFiltered={false}
+    size={"small"}
+  />
+);
 
-const Template = (args) => 
-<QuestionnaireSelectModal searchBar={searchBar} accessFilter={accessFilter}> 
-  <QuestionnaireTable {...args}/>
-</QuestionnaireSelectModal>
+const Template = (args) => (
+  <QuestionnaireSelectModal searchBar={searchBar} accessFilter={accessFilter}>
+    <QuestionnairesView {...args} />
+  </QuestionnaireSelectModal>
+);
 
 export const MainModal = Template.bind({});
 MainModal.args = {
