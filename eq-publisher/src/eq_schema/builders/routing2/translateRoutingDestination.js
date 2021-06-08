@@ -1,18 +1,10 @@
 const { flatMap, get, findIndex, isNil } = require("lodash");
 
-const getAbsoluteDestination = (destination, ctx) => {
+const getAbsoluteDestination = (destination) => {
   if (destination.page) {
     return { block: `block${destination.page.id}` };
   }
-
-  // Get first folder in the section when routing to sections
-  // TODO: folder-specific routing code
-  const targetSection = ctx.questionnaireJson.sections.find(
-    ({ id }) => id === destination.section.id
-  );
-  const targetFolder = targetSection.folders[0];
-
-  return { group: `group${targetFolder.id}` };
+  return { group: `group${destination.section.id}` };
 };
 
 const getNextPageDestination = (pageId, ctx) => {
