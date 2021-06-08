@@ -1,4 +1,18 @@
-> BEFORE MAKING YOUR PR... There must be no linting errors, all tests must pass and PR is named after JIRA ticket number e.g. EAR-###.
+> ### BEFORE MAKING YOUR PR
+>
+> Please ensure:
+>
+> - There are no linting errors, all tests must pass
+> - PR is named after JIRA ticket number e.g. EAR-###
+> - **Accesibility** checks are completed:
+>   - Elements have discernible and consistent focus states
+>   - Elements can be navigated to and used by just a keyboard
+>   - Elements and text can be read out by a screen reader, and the descriptions are understandable
+> - Your feature / bug fix works across **GCP** and **AWS** (where appropriate)
+>   - Are modifications to eq-publisher-v3 required?
+>   - Are modifications to the Firestore data source required?
+
+---
 
 ### What is the context of this PR?
 
