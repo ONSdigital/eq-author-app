@@ -44,6 +44,7 @@ const Folder = ({
         <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
           <CollapsibleNavItem
             title={displayName}
+            open
             icon={IconFolder}
             disabled={isCurrentFolder(folderId, entityId)}
             titleUrl={buildFolderPath({

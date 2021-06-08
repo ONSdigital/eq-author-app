@@ -27,6 +27,7 @@ import PageIcon from "assets/icon-survey-intro.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
+import { rest } from "lodash";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -89,7 +90,7 @@ const NavigationSidebar = ({ questionnaire }) => {
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const onDragEnd = ({ destination, source, draggableId }) => {
+  const onDragEnd = async ({ destination, source, draggableId }) => {
     // The user dropped the item outside a destination
     if (!destination) {
       return;
@@ -123,10 +124,54 @@ const NavigationSidebar = ({ questionnaire }) => {
 
     //If the user is moving a page into a folder
     if (pageBeingMoved && destinationFolder) {
-      const { id } = pageBeingMoved;
-      const { id: folderId } = destinationFolder;
-      const { id: sectionId } = getSectionByFolderId(questionnaire, folderId);
+      const { id, title } = pageBeingMoved;
+      const {
+        id: folderId,
+        validationErrorInfo,
+        pages,
+        ...rest
+      } = destinationFolder;
+      const { id: sectionId, folders } = getSectionByFolderId(
+        questionnaire,
+        folderId
+      );
       const { index: position } = destination;
+
+      const optimisticResponse = {
+        movePage: {
+          position,
+          id,
+          title,
+          folder: {
+            ...rest,
+            id: folderId,
+            pages: pages.map(({ id }) => ({
+              id,
+              __typename: "Page",
+            })),
+            validationErrorInfo: {
+              errors: [],
+              ...validationErrorInfo,
+              __typename: "ValidationErrorInfo",
+            },
+            __typename: "Folder",
+          },
+          section: {
+            id: sectionId,
+            folders: {
+              ...folders.map(({ pages, ...rest }) => ({
+                ...rest,
+                pages: pages.map(({ id, position }) => ({ id, position })),
+              })),
+              __typename: "Folder",
+            },
+            __typename: "Section",
+          },
+          __typename: "Page",
+        },
+      };
+
+      console.log(optimisticResponse);
 
       movePage({
         variables: {
@@ -137,6 +182,7 @@ const NavigationSidebar = ({ questionnaire }) => {
             position,
           },
         },
+        optimisticResponse,
       });
     }
 
