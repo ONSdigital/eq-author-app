@@ -6,7 +6,8 @@ import { colors } from "constants/theme";
 import VisuallyHidden from "components/VisuallyHidden";
 
 const Container = styled.div`
-  position: absolute;
+  position: ${({ left }) => (left ? "static" : "absolute")};
+  margin-left: ${({ left }) => (left ? "-0.4rem" : "0")};
   right: 0;
   bottom: -2em;
   color: ${colors.red};
@@ -20,13 +21,13 @@ const IconContainer = styled.span`
   line-height: 1.3;
 `;
 
-const ErrorInline = ({ children }) => {
+const ErrorInline = ({ children, left }) => {
   if (!children) {
     return null;
   }
 
   return (
-    <Container data-test="error">
+    <Container data-test="error" left={left}>
       <IconContainer>
         <Icon />
         <span role="alert">
@@ -40,6 +41,7 @@ const ErrorInline = ({ children }) => {
 
 ErrorInline.propTypes = {
   children: PropTypes.string,
+  left: PropTypes.bool,
 };
 
 export default ErrorInline;

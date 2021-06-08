@@ -86,7 +86,7 @@ class AnswerTypeSelector extends React.Component {
 
     const answers = Array.from(this.props.page.answers);
     const mutuallyExclusive = _.some(answers, (e) => {
-      return _.some((e.options), {mutuallyExclusive: true});
+      return _.some(e.options, { mutuallyExclusive: true });
     });
 
     if (this.props.page.answers[0]) {

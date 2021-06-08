@@ -7,6 +7,7 @@ import { withRouter, useParams } from "react-router-dom";
 
 import { useMutation } from "@apollo/react-hooks";
 
+import { getThemeSettingsErrorCount } from "./utils";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -152,9 +153,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                 tabItems={tabItems({
                   params,
                   type,
-                  themeErrorCount:
-                    questionnaire?.themeSettings?.validationErrorInfo
-                      ?.totalCount,
+                  themeErrorCount: getThemeSettingsErrorCount(questionnaire),
                 })}
               />
               <Column gutters={false} cols={9.5}>

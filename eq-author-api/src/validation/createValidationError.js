@@ -52,6 +52,11 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     theme,
     propertyJSON;
 
+  if (!dataPath.length && field) {
+    // If dataPath is empty, the error is on the root questionnaire object
+    validationErr.type = "root";
+  }
+
   for (let index = 0; index < dataPath.length; index++) {
     const val = dataPath[index];
     const nextVal = dataPath[index + 1];
@@ -62,7 +67,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         break;
 
       case "themes":
-        theme = questionnaire.themes[nextVal ? nextVal : field];
+        theme = questionnaire.themeSettings.themes[nextVal ? nextVal : field];
         validationErr.type = "theme";
         validationErr.themeId = theme?.id;
         break;

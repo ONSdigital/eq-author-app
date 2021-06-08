@@ -18,7 +18,7 @@ describe("Date", () => {
   let multipleAnswers;
 
   const createWrapper = (props) => {
-    return (<UnwrappedDate {...props} />);
+    return <UnwrappedDate {...props} />;
   };
 
   beforeEach(() => {
@@ -34,11 +34,13 @@ describe("Date", () => {
       properties: {},
       displayName: "",
       qCode: "",
-      options: [{
-        id: "option-1",
-        label: "option-label",
-        mutuallyExclusive: false,
-      }]
+      options: [
+        {
+          id: "option-1",
+          label: "option-label",
+          mutuallyExclusive: false,
+        },
+      ],
     };
 
     onChange = jest.fn();
@@ -64,11 +66,10 @@ describe("Date", () => {
     ).toEqual("Enter a date label");
   });
 
-  it("should render Or option toggle ", async() => {
-    rtlRender(() => <UnwrappedDate {...props} 
-    />)
+  it("should render Or option toggle ", async () => {
+    rtlRender(() => <UnwrappedDate {...props} />);
 
-    screen.getByRole('switch')
+    screen.getByRole("switch");
   });
 
   it("should disable Or option toggle if multipleAnswers = true", async () => {
@@ -82,9 +83,7 @@ describe("Date", () => {
   it("should show Option label if toggle is on", async () => {
     props.answer.options[0].mutuallyExclusive = true;
 
-    const { getByTestId } = rtlRender(() => (
-      <UnwrappedDate {...props} />
-    ));
+    const { getByTestId } = rtlRender(() => <UnwrappedDate {...props} />);
     fireEvent.click(getByTestId("toggle-or-option-date-input"), {
       target: { type: "checkbox", checked: true },
     });

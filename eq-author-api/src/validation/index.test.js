@@ -34,6 +34,8 @@ const {
   ERR_NO_VALUE,
   ERR_REFERENCE_DELETED,
   ERR_REFERENCE_MOVED,
+  ERR_VALID_REQUIRED,
+  ERR_INVALID,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -157,6 +159,18 @@ describe("schema validation", () => {
       const errors = validation(questionnaire);
 
       expect(errors[0].errorCode).toBe(ERR_NO_THEME_ENABLED);
+    });
+
+    it("should return an error if survey ID missing", () => {
+      questionnaire.surveyId = null;
+      const errors = validation(questionnaire);
+      expect(errors[0].errorCode).toBe(ERR_VALID_REQUIRED);
+    });
+
+    it("should return an error if survey ID invalid", () => {
+      questionnaire.surveyId = "cat";
+      const errors = validation(questionnaire);
+      expect(errors[0].errorCode).toBe(ERR_INVALID);
     });
   });
 
