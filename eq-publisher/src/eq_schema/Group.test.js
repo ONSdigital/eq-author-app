@@ -375,7 +375,7 @@ describe("Group", () => {
         },
         {
           goto: {
-            group: "groupfolder-1",
+            group: "groupuu1d-iuhiuwfew-fewfewfewdsf-dsf-4",
             when: [
               {
                 id: "answer1",
