@@ -77,6 +77,7 @@ type Questionnaire {
   surveyId: String
   themeSettings: ThemeSettings!
   locked: Boolean
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type ThemeSettings {

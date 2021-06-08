@@ -45,6 +45,15 @@ const getQuestionnaireQuery = `
         }
       }
       locked
+      validationErrorInfo {
+        id
+        errors {
+          id
+          errorCode
+          field
+        }
+        totalCount
+      }
     }
   }
 `;

@@ -1095,6 +1095,8 @@ const Resolvers = {
       }
       return "Read";
     },
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "root"),
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },

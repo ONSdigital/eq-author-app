@@ -197,6 +197,7 @@ describe("Duplication", () => {
         "createdBy",
         "createdAt",
         "locked",
+        "validationErrorInfo",
       ];
       expect(omit(questionnaireCopy, ignoredFields)).toEqual(
         omit(queriedQuestionnaire, ignoredFields)

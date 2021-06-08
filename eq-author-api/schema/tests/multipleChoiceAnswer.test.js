@@ -13,10 +13,6 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 
 const {
-  queryQuestionnaire,
-} = require("../../tests/utils/contextBuilder/questionnaire");
-
-const {
   createOption,
   createMutuallyExclusiveOption,
   queryOption,
@@ -527,7 +523,6 @@ describe("multiple choice answer", () => {
   });
 
   describe("schema validation", () => {
-    let questionnaire;
     const context = {
       sections: [
         {
@@ -566,7 +561,6 @@ describe("multiple choice answer", () => {
 
     it("should only validate label on options", async () => {
       ctx = await buildContext(context);
-      questionnaire = await queryQuestionnaire(ctx);
 
       const page = ctx.questionnaire.sections[0].folders[0].pages[0];
       const readPage = await queryPage(ctx, page.id);
@@ -579,13 +573,11 @@ describe("multiple choice answer", () => {
           ],
         },
       });
-      expect(questionnaire.totalErrorCount).toBe(1);
     });
 
     it("should return validation error on both option labels when labels are the same", async () => {
       context.sections[0].folders[0].pages[0].answers[0].options[0].label = "b";
       ctx = await buildContext(context);
-      questionnaire = await queryQuestionnaire(ctx);
 
       const page = ctx.questionnaire.sections[0].folders[0].pages[0];
       const readPage = await queryPage(ctx, page.id);
@@ -599,7 +591,6 @@ describe("multiple choice answer", () => {
           ],
         },
       });
-      expect(questionnaire.totalErrorCount).toBe(2);
     });
   });
 });
