@@ -25,6 +25,9 @@ query GetQuestionnaire($input: QueryInput!) {
         ...ValidationErrorInfo
       }
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }
 fragment NavigationSidebar on Questionnaire {
