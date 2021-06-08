@@ -197,6 +197,7 @@ const CommentsPanel = ({ componentId }) => {
       <CommentEditor
         key={`add-comment-${componentId}`}
         className="AddComment"
+        variant={"growable"}
         onConfirm={(commentText) =>
           createComment({
             variables: {

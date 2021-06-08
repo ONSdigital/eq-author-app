@@ -23,5 +23,8 @@ query GetThemeSettings($input: QueryInput!) {
         ...ValidationErrorInfo
       }
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }

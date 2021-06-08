@@ -73,9 +73,10 @@ export const QuestionnaireDesignPage = () => {
     data: { questionnaire } = {},
   } = useQuestionnaireQuery(questionnaireId);
 
-  const formTypeErrorCount = questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
-    ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
-  ).length;
+  const formTypeErrorCount =
+    questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
+      ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
+    ).length + questionnaire?.validationErrorInfo?.totalCount;
 
   useLockStatusSubscription({ id: questionnaire?.id });
   useValidationsSubscription({ id: questionnaire?.id });
@@ -102,10 +103,11 @@ export const QuestionnaireDesignPage = () => {
                         hasQuestionnaire={Boolean(questionnaire?.id)}
                         totalErrorCount={questionnaire?.totalErrorCount || 0}
                         qcodesEnabled={questionnaire?.qcodes}
-                        settingsError={
+                        settingsError={Boolean(
                           questionnaire?.themeSettings?.validationErrorInfo
-                            ?.totalCount > 0
-                        }
+                            ?.totalCount +
+                            questionnaire?.validationErrorInfo?.totalCount
+                        )}
                         formTypeErrorCount={formTypeErrorCount}
                       />
                     </MainNav>
