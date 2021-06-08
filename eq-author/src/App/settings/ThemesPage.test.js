@@ -2,7 +2,10 @@ import React from "react";
 import { render, act, flushPromises, screen, fireEvent } from "tests/utils/rtl";
 import ThemesPage from "./ThemesPage";
 import { useMutation } from "@apollo/react-hooks";
-import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
+import {
+  THEME_ERROR_MESSAGES,
+  SURVEY_ID_ERRORS,
+} from "constants/validationMessages";
 import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
 
 jest.mock("@apollo/react-hooks", () => ({
@@ -47,32 +50,52 @@ describe("Themes page", () => {
             legalBasisCode: "NOTICE_1",
             shortName: "default",
             enabled: true,
+            validationErrorInfo: {
+              errors: [
+                {
+                  id: "1",
+                  keyword: "errorMessage",
+                  field: "formType",
+                  errorCode: "ERR_FORM_TYPE_FORMAT",
+                },
+              ],
+            },
           },
           {
             title: "NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "northernireland",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "COVID theme",
             legalBasisCode: "NOTICE_1",
             shortName: "covid",
+            validationErrorInfo: { errors: [] },
           },
-          { title: "EPE theme", legalBasisCode: "NOTICE_1", shortName: "epe" },
+          {
+            title: "EPE theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "epe",
+            validationErrorInfo: { errors: [] },
+          },
           {
             title: "EPE NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "epeni",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "UKIS theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukis",
+            validationErrorInfo: { errors: [] },
           },
           {
             title: "UKIS NI theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukisni",
+            validationErrorInfo: { errors: [] },
           },
         ],
       },
@@ -294,6 +317,54 @@ describe("Themes page", () => {
       expect(
         screen.getByText(THEME_ERROR_MESSAGES.ERR_NO_THEME_ENABLED)
       ).toBeTruthy();
+    });
+
+    it("should show a validation error if incorrect form type format is entered", () => {
+      renderThemesPage(mockQuestionnaire);
+
+      expect(
+        screen.getByText(THEME_ERROR_MESSAGES.ERR_FORM_TYPE_FORMAT)
+      ).toBeTruthy();
+    });
+
+    it("should show a validation error if survey ID is empty", () => {
+      renderThemesPage({
+        ...mockQuestionnaire,
+        validationErrorInfo: {
+          id: "vei-1",
+          errors: [
+            {
+              id: "err-1",
+              errorCode: "ERR_VALID_REQUIRED",
+              field: "surveyId",
+            },
+          ],
+          totalCount: 1,
+        },
+      });
+
+      expect(
+        screen.getByText(SURVEY_ID_ERRORS.ERR_VALID_REQUIRED)
+      ).toBeTruthy();
+    });
+
+    it("should show a validation error if survey ID is invalid", () => {
+      renderThemesPage({
+        ...mockQuestionnaire,
+        validationErrorInfo: {
+          id: "vei-1",
+          errors: [
+            {
+              id: "err-1",
+              errorCode: "ERR_INVALID",
+              field: "surveyId",
+            },
+          ],
+          totalCount: 1,
+        },
+      });
+
+      expect(screen.getByText(SURVEY_ID_ERRORS.ERR_INVALID)).toBeTruthy();
     });
   });
 });

@@ -1,3 +1,5 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     introduction {
@@ -20,9 +22,11 @@ query GetQuestionnaire($input: QueryInput!) {
     themeSettings {
       id
       validationErrorInfo {
-        id
-        totalCount
+        ...ValidationErrorInfo
       }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
 }

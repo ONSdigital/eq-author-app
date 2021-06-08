@@ -16,8 +16,11 @@ import CollapsibleToggled from "components/CollapsibleToggled";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import { Field, Input, Label } from "components/Forms";
+import { Field, Label } from "components/Forms";
+import WrappingInput from "components/Forms/WrappingInput";
 import { Grid, Column } from "components/Grid";
+
+import { getThemeSettingsErrorCount } from "./utils";
 
 import LegalBasis from "App/settings/LegalBasisSelect";
 import PreviewTheme from "./PreviewTheme";
@@ -25,7 +28,10 @@ import FormType from "./FormType";
 import EqId from "./EqId";
 
 import { THEME_TITLES } from "constants/themeSettings";
-import { THEME_ERROR_MESSAGES } from "constants/validationMessages";
+import {
+  THEME_ERROR_MESSAGES,
+  SURVEY_ID_ERRORS,
+} from "constants/validationMessages";
 
 import ValidationError from "components/ValidationError";
 
@@ -72,7 +78,7 @@ const FlexBreak = styled.div`
   height: 0;
 `;
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(WrappingInput)`
   width: 11em;
 `;
 
@@ -105,6 +111,13 @@ const ThemesPage = ({ questionnaire }) => {
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
 
+  const surveyIdError =
+    SURVEY_ID_ERRORS[
+      questionnaire?.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "surveyId"
+      )?.errorCode
+    ];
+
   const handleBlur = ({ value }) => {
     value = value.trim();
     updateQuestionnaire({
@@ -119,8 +132,6 @@ const ThemesPage = ({ questionnaire }) => {
     });
   };
 
-  const themeErrorCount = themeSettings.validationErrorInfo?.totalCount ?? 0;
-
   const groupErrorMessages = themeSettings.validationErrorInfo.errors
     .filter(({ type }) => type === "themeSettings")
     .map(({ errorCode }) => THEME_ERROR_MESSAGES[errorCode]);
@@ -132,40 +143,59 @@ const ThemesPage = ({ questionnaire }) => {
       </ValidationError>
     ));
 
+  const findErrorsByCodePrefix = ({ errors }, prefix) =>
+    errors.map(
+      ({ errorCode, ...rest }) =>
+        errorCode.includes(prefix) && { errorCode, ...rest }
+    );
+
   const renderThemes = (themes, previewTheme, questionnaireId) =>
-    themes.map(({ shortName, eqId, enabled, formType, legalBasisCode }) => (
-      <CollapsibleToggled
-        key={`${shortName}-toggle`}
-        title={THEME_TITLES[shortName]}
-        isOpen={enabled}
-        onChange={() => toggleTheme({ shortName, enabled })}
-        data-test={`${shortName}-toggle`}
-        headerContent={
-          enabled && (
-            <PreviewTheme
-              questionnaireId={questionnaireId}
-              thisTheme={shortName}
-              previewTheme={previewTheme}
+    themes.map(
+      ({
+        shortName,
+        eqId,
+        enabled,
+        formType,
+        legalBasisCode,
+        validationErrorInfo,
+      }) => (
+        <CollapsibleToggled
+          key={`${shortName}-toggle`}
+          title={THEME_TITLES[shortName]}
+          isOpen={enabled}
+          onChange={() => toggleTheme({ shortName, enabled })}
+          data-test={`${shortName}-toggle`}
+          headerContent={
+            enabled && (
+              <PreviewTheme
+                questionnaireId={questionnaireId}
+                thisTheme={shortName}
+                previewTheme={previewTheme}
+              />
+            )
+          }
+        >
+          <Flex>
+            <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
+            <FormType
+              formType={formType}
+              questionnaireId={id}
+              shortName={shortName}
+              errors={findErrorsByCodePrefix(
+                validationErrorInfo,
+                "ERR_FORM_TYPE"
+              )}
             />
-          )
-        }
-      >
-        <Flex>
-          <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
-          <FormType
-            formType={formType}
-            questionnaireId={id}
-            shortName={shortName}
-          />
-          <FlexBreak />
-          <LegalBasis
-            legalBasis={legalBasisCode}
-            questionnaireId={id}
-            shortName={shortName}
-          />
-        </Flex>
-      </CollapsibleToggled>
-    ));
+            <FlexBreak />
+            <LegalBasis
+              legalBasis={legalBasisCode}
+              questionnaireId={id}
+              shortName={shortName}
+            />
+          </Flex>
+        </CollapsibleToggled>
+      )
+    );
 
   return (
     <Container>
@@ -180,7 +210,7 @@ const ThemesPage = ({ questionnaire }) => {
                 tabItems={tabItems({
                   params,
                   type,
-                  themeErrorCount,
+                  themeErrorCount: getThemeSettingsErrorCount(questionnaire),
                 })}
               />
               <Column gutters={false} cols={9.5}>
@@ -199,16 +229,19 @@ const ThemesPage = ({ questionnaire }) => {
                       using the View Survey button.
                     </Text>
                     <Field>
-                      <Label>Survey ID</Label>
+                      <Label htmlFor="surveyId">Survey ID</Label>
                       <Caption>
                         The three-digit survey ID. For example, &apos;283&apos;
                       </Caption>
                       <StyledInput
                         maxLength="3"
+                        id="surveyId"
                         value={questionnaireId}
                         onChange={({ value }) => setQuestionnaireId(value)}
                         onBlur={(e) => handleBlur({ ...e.target })}
                         data-test="change-questionnaire-id"
+                        errorValidationMsg={surveyIdError}
+                        errorAlignLeft
                       />
                     </Field>
                     <HorizontalSeparator />

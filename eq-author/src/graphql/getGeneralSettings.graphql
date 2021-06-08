@@ -3,6 +3,10 @@
 query GetSettings($input: QueryInput!) {
   questionnaire(input: $input) {
     ...Questionnaire
+    validationErrorInfo {
+      id
+      totalCount
+    }
     themeSettings {
       id
       validationErrorInfo {

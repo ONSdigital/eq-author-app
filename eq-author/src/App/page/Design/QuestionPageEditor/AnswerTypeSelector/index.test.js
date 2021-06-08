@@ -69,10 +69,12 @@ describe("Answer Type Selector", () => {
       page: {
         answers: [
           {
-            options: [{
-              mutuallyExclusive: true,
-            }]
-          }
+            options: [
+              {
+                mutuallyExclusive: true,
+              },
+            ],
+          },
         ],
       },
     };

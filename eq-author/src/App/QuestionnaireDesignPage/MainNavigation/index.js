@@ -75,6 +75,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
+  formTypeErrorCount,
   title,
   children,
 }) => {
@@ -88,6 +89,7 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
+  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -108,7 +110,7 @@ export const UnwrappedMainNavigation = ({
                   variant="navigation-modal"
                   data-test="btn-preview"
                   small
-                  disabled={totalErrorCount > 0}
+                  disabled={totalErrorCountNoFormType > 0}
                 >
                   <IconText nav icon={viewIcon}>
                     View survey
@@ -223,6 +225,7 @@ UnwrappedMainNavigation.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   settingsError: PropTypes.bool,
+  formTypeErrorCount: PropTypes.number,
 };
 
 export default UnwrappedMainNavigation;

@@ -1095,6 +1095,8 @@ const Resolvers = {
       }
       return "Read";
     },
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "root"),
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },
@@ -1194,6 +1196,8 @@ const Resolvers = {
 
       return parentPage;
     },
+    mutuallyExclusiveOption: (answer) =>
+      find(answer.options, { mutuallyExclusive: true }),
     validation: (answer) =>
       ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer
