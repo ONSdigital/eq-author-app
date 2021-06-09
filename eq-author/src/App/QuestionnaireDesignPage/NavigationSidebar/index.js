@@ -7,13 +7,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { buildIntroductionPath } from "utils/UrlUtils";
-
-import {
-  getPageById,
-  getFolderById,
-  getSectionById,
-  getSectionByFolderId,
-} from "utils/questionnaireUtils";
+import { onDragEnd } from "./dragDropFunctions";
 
 import { DragDropContext } from "react-beautiful-dnd";
 import NavigationHeader from "./NavigationHeader";
@@ -27,7 +21,6 @@ import PageIcon from "assets/icon-survey-intro.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
-import { rest } from "lodash";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -90,143 +83,15 @@ const NavigationSidebar = ({ questionnaire }) => {
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const onDragEnd = async ({ destination, source, draggableId }) => {
-    // The user dropped the item outside a destination
-    if (!destination) {
-      return;
-    }
-
-    // The user dropped the item back where it started
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const pageBeingMoved = getPageById(questionnaire, draggableId);
-    const folderBeingMoved = getFolderById(questionnaire, draggableId);
-
-    const destinationSection = getSectionById(
+  const handleDragEnd = ({ destination, source, draggableId }) =>
+    onDragEnd(
       questionnaire,
-      destination.droppableId
+      destination,
+      source,
+      draggableId,
+      movePage,
+      moveFolder
     );
-
-    const destinationFolder = getFolderById(
-      questionnaire,
-      destination.droppableId
-    );
-
-    // If the user is moving a folder into a folder
-    if (folderBeingMoved && destinationFolder) {
-      return;
-    }
-
-    //If the user is moving a page into a folder
-    if (pageBeingMoved && destinationFolder) {
-      const { id, title } = pageBeingMoved;
-      const {
-        id: folderId,
-        validationErrorInfo,
-        pages,
-        ...rest
-      } = destinationFolder;
-      const { id: sectionId, folders } = getSectionByFolderId(
-        questionnaire,
-        folderId
-      );
-      const { index: position } = destination;
-
-      const optimisticResponse = {
-        movePage: {
-          position,
-          id,
-          title,
-          folder: {
-            ...rest,
-            id: folderId,
-            pages: pages.map(({ id }) => ({
-              id,
-              __typename: "QuestionPage",
-            })),
-            validationErrorInfo: {
-              errors: [],
-              ...validationErrorInfo,
-              __typename: "ValidationErrorInfo",
-            },
-            __typename: "Folder",
-          },
-          section: {
-            id: sectionId,
-            folders: folders.map(({ pages, validationErrorInfo, ...rest }) => ({
-              ...rest,
-              pages: pages.map(({ id, position }) => ({
-                id,
-                position,
-                __typename: "QuestionPage",
-              })),
-              validationErrorInfo: {
-                errors: [],
-                ...validationErrorInfo,
-                __typename: "ValidationErrorInfo",
-              },
-              __typename: "Folder",
-            })),
-            __typename: "Section",
-          },
-          __typename: "QuestionPage",
-        },
-      };
-
-      console.log(optimisticResponse);
-
-      movePage({
-        variables: {
-          input: {
-            id,
-            sectionId,
-            folderId,
-            position,
-          },
-        },
-        optimisticResponse,
-      });
-    }
-
-    // If the user is moving a page into a section
-    if (pageBeingMoved && destinationSection) {
-      const { id } = pageBeingMoved;
-      const { id: sectionId } = destinationSection;
-      const { index: position } = destination;
-
-      movePage({
-        variables: {
-          input: {
-            id,
-            sectionId,
-            position,
-          },
-        },
-      });
-    }
-
-    // If the user is moving a folder into a section
-    if (folderBeingMoved && destinationSection) {
-      const { id } = folderBeingMoved;
-      const { id: sectionId } = destinationSection;
-      const { index: position } = destination;
-
-      moveFolder({
-        variables: {
-          input: {
-            id,
-            sectionId,
-            position,
-          },
-        },
-      });
-    }
-  };
 
   return (
     <Container data-test="side-nav">
@@ -256,7 +121,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </IntroductionListItem>
               )}
-              <DragDropContext onDragEnd={onDragEnd}>
+              <DragDropContext onDragEnd={handleDragEnd}>
                 {questionnaire.sections.map(({ id, ...rest }) => (
                   <Section
                     key={`section-${id}`}
