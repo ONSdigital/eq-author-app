@@ -147,7 +147,7 @@ const NavigationSidebar = ({ questionnaire }) => {
             id: folderId,
             pages: pages.map(({ id }) => ({
               id,
-              __typename: "Page",
+              __typename: "QuestionPage",
             })),
             validationErrorInfo: {
               errors: [],
@@ -158,16 +158,23 @@ const NavigationSidebar = ({ questionnaire }) => {
           },
           section: {
             id: sectionId,
-            folders: {
-              ...folders.map(({ pages, ...rest }) => ({
-                ...rest,
-                pages: pages.map(({ id, position }) => ({ id, position })),
+            folders: folders.map(({ pages, validationErrorInfo, ...rest }) => ({
+              ...rest,
+              pages: pages.map(({ id, position }) => ({
+                id,
+                position,
+                __typename: "QuestionPage",
               })),
+              validationErrorInfo: {
+                errors: [],
+                ...validationErrorInfo,
+                __typename: "ValidationErrorInfo",
+              },
               __typename: "Folder",
-            },
+            })),
             __typename: "Section",
           },
-          __typename: "Page",
+          __typename: "QuestionPage",
         },
       };
 
