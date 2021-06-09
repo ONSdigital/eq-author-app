@@ -6,14 +6,14 @@ import {
 } from "utils/questionnaireUtils";
 
 // https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
-const array_move = (arr, old_index, new_index) => {
-  if (new_index >= arr.length) {
-    var k = new_index - arr.length + 1;
+const arrayMove = (arr, oldIndex, newIndex) => {
+  if (newIndex >= arr.length) {
+    var k = newIndex - arr.length + 1;
     while (k--) {
       arr.push(undefined);
     }
   }
-  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
   return arr; // for testing
 };
 
@@ -108,7 +108,7 @@ export const onDragEnd = (
     // Fix optimistic response - move the page into the new position
     optimisticResponse.movePage.section.folders.forEach(
       ({ enabled, pages }) =>
-        enabled && array_move(pages, pageBeingMoved.position, newPosition)
+        enabled && arrayMove(pages, pageBeingMoved.position, newPosition)
     );
 
     // Fix optimistic response - Fix position props in pages
@@ -170,7 +170,7 @@ export const onDragEnd = (
     );
 
     // Fix optimistic response - Move the folder into the correct position.
-    array_move(
+    arrayMove(
       optimisticResponse.movePage.section.folders,
       pageFolderIndex,
       newPosition
