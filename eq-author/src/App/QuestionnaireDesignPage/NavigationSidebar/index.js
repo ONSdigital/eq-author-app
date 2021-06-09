@@ -20,7 +20,7 @@ import Section from "./Section";
 import PageIcon from "assets/icon-survey-intro.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
-import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
+import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
 
 const Container = styled.div`
   background: ${colors.black};

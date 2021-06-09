@@ -197,18 +197,56 @@ export const onDragEnd = (
 
   // If the user is moving a folder into a section
   if (folderBeingMoved && destinationSection) {
-    const { id } = folderBeingMoved;
-    const { id: sectionId } = destinationSection;
-    const { index: position } = destination;
+    const { id: folderId, pages, ...rest } = folderBeingMoved;
+    const { id: sectionId, folders } = destinationSection;
+    const { index: newPosition } = destination;
 
+    // Template an optimistic response as best we can.
+    const optimisticResponse = {
+      moveFolder: {
+        ...rest,
+        id: folderId,
+        section: {
+          id: sectionId,
+          folders: folders.map(({ pages, ...rest }) => ({
+            ...rest,
+            pages: pages.map((page) => ({
+              ...page,
+              __typename: "QuestionPage",
+            })),
+            __typename: "Folder",
+          })),
+          __typename: "Section",
+        },
+      },
+    };
+
+    // Fix optimistic response - find the old position of the folder.
+    const oldPosition = folderBeingMoved.position;
+
+    // Fix optimistic response - move the folder.
+    arrayMove(
+      optimisticResponse.moveFolder.section.folders,
+      oldPosition,
+      newPosition
+    );
+
+    // Fix optimistic response - Fix the folders position attribute.
+    optimisticResponse.moveFolder.section.folders.forEach(
+      (folder, index) => (folder.position = index)
+    );
+
+    // Call the DB to move the page, passing in our optimistic response to
+    // avoid flickering if it takes time to respond.
     moveFolder({
       variables: {
         input: {
-          id,
+          id: folderId,
           sectionId,
-          position,
+          position: newPosition,
         },
       },
+      optimisticResponse,
     });
   }
 };
