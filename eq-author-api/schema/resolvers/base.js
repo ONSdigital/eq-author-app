@@ -564,7 +564,7 @@ const Resolvers = {
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
 
-      if (answer.type === DATE && !input.label && input.properties) {
+      if (answer.type === DATE && !input.label && input?.properties?.format) {
         answer.validation.earliestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
         answer.validation.latestDate.offset.unit =
