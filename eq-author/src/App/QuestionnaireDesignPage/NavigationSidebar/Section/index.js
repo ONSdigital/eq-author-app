@@ -85,7 +85,10 @@ const Section = ({
           .map(({ id }) => isCurrentPage(id, entityId))
           .find(Boolean)}
       >
-        <Droppable droppableId={sectionId} type="sectionContent">
+        <Droppable
+          droppableId={sectionId}
+          type={`section-${sectionId}-content`}
+        >
           {({ innerRef, placeholder, droppableProps }) => (
             <NavList ref={innerRef} {...droppableProps}>
               {folders.map((folder) => renderChild(folder))}

@@ -56,7 +56,10 @@ const Folder = ({
             childErrorCount={calculatePageErrors(pages)}
             isDragging={isDragging}
           >
-            <Droppable droppableId={folderId} type="folderContent">
+            <Droppable
+              droppableId={folderId}
+              type={`folder-${folderId}-content`}
+            >
               {({ innerRef, placeholder, droppableProps }) => (
                 <NavList ref={innerRef} {...droppableProps}>
                   {pages.map(({ id: pageId, ...rest }) => (
