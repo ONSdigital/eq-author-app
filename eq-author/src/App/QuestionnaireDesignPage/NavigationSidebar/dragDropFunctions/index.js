@@ -17,6 +17,17 @@ const array_move = (arr, old_index, new_index) => {
   return arr; // for testing
 };
 
+// https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+// Adapted to immediately drill down to find the first page in a folder
+const findFolderIndexByFirstPageAttr = (array, attr, value) => {
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i].pages[0][attr] === value) {
+      return i;
+    }
+  }
+  return -1;
+};
+
 export const onDragEnd = (
   questionnaire,
   destination,
@@ -123,18 +134,64 @@ export const onDragEnd = (
 
   // If the user is moving a page into a section
   if (pageBeingMoved && destinationSection) {
-    const { id } = pageBeingMoved;
-    const { id: sectionId } = destinationSection;
-    const { index: position } = destination;
+    const { id: pageId, title: pageTitle } = pageBeingMoved;
+    const { id: sectionId, folders } = destinationSection;
+    const { index: newPosition } = destination;
 
+    // Template an optimistic response as best we can.
+    const optimisticResponse = {
+      movePage: {
+        id: pageId,
+        title: pageTitle,
+        position: newPosition,
+        section: {
+          id: sectionId,
+          folders: folders.map(({ pages, ...rest }) => ({
+            ...rest,
+            pages: pages.map((page) => ({
+              ...page,
+              __typename: "QuestionPage",
+            })),
+            __typename: "Folder",
+          })),
+          __typename: "Section",
+        },
+        __typename: "QuestionPage",
+      },
+    };
+
+    // Fix optimistic response - Find the index of the page's parent
+    // folder, as we can move the entire folder since it will be
+    // disabled and only contain the page we want to move.
+    const pageFolderIndex = findFolderIndexByFirstPageAttr(
+      optimisticResponse.movePage.section.folders,
+      "id",
+      pageId
+    );
+
+    // Fix optimistic response - Move the folder into the correct position.
+    array_move(
+      optimisticResponse.movePage.section.folders,
+      pageFolderIndex,
+      newPosition
+    );
+
+    // Fix optimistic response - Fix the folders position attribute.
+    optimisticResponse.movePage.section.folders.forEach(
+      (folder, index) => (folder.position = index)
+    );
+
+    // Call the DB to move the page, passing in our optimistic response to
+    // avoid flickering if it takes time to respond.
     movePage({
       variables: {
         input: {
-          id,
+          id: pageId,
           sectionId,
-          position,
+          position: newPosition,
         },
       },
+      optimisticResponse,
     });
   }
 
