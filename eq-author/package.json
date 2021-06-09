@@ -138,7 +138,7 @@
     "redux-devtools-extension": "latest",
     "redux-thunk": "latest",
     "styled-components": "latest",
-    "subscriptions-transport-ws": "latest",
+    "subscriptions-transport-ws": "0.9.19",
     "synchronous-promise": "latest",
     "uncontrollable": "latest",
     "uuid": "latest"
