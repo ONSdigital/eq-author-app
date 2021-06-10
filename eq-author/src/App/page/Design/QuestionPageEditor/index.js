@@ -29,6 +29,9 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 import MetaEditor from "./MetaEditor";
 import AdditionalInfo from "./AdditionalInfo";
 
+import Collapsible from "components/Collapsible";
+import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
+
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const QuestionSegment = styled.div`
@@ -106,6 +109,14 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
         />
+        <Collapsible
+          title="Additional content"
+          className="additionalContentCollapsible"
+          withoutHideThis
+          defaultOpen
+        >
+          <QuestionProperties page={page} />
+        </Collapsible>
       </div>
 
       <AddAnswerSegment>

@@ -1,16 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import Accordion from "components/Accordion";
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 
-import QuestionProperties from "./QuestionProperties";
 import GroupedAnswerProperties from "./GroupedAnswerProperties";
-
-const Padding = styled.div`
-  padding: 0 0.5em;
-`;
 
 const PropertiesPane = styled.div`
   background: ${colors.white};
@@ -32,11 +26,6 @@ const PropertiesPane = styled.div`
 
 const PropertiesPanel = ({ page }) => (
   <PropertiesPane>
-    <Accordion title="Optional fields">
-      <Padding>
-        <QuestionProperties page={page} />
-      </Padding>
-    </Accordion>
     <GroupedAnswerProperties page={page} />
   </PropertiesPane>
 );
