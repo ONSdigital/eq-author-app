@@ -2,10 +2,7 @@ import React from "react";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import Modal from "components/modals/Modal";
-import SearchBar from "components/SearchBar";
 import QuestionnairesView from "../../components/QuestionnairesView";
-import AccessFilter from "../../components/QuestionnairesView/Header/AccessFilter";
-
 import * as Headings from "constants/table-headings";
 
 export default {

@@ -2,13 +2,11 @@ import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { isEmpty } from "lodash";
-import styled from "styled-components";
 
 import NoResults from "./NoResults";
 import QuestionnairesTable from "./QuestionnairesTable";
 import Header from "./Header";
 import PaginationNav from "./PaginationNav";
-import ScrollPane from "components/ScrollPane";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
 import { SORT_ORDER } from "constants/sort-order";
@@ -24,11 +22,6 @@ const STORED_KEYS = [
   "searchTerm",
   "isFiltered",
 ];
-
-const MenuContainer = styled.div`
-  overflow: hidden;
-  height: 25em;
-`;
 
 const QuestionnairesView = ({
   questionnaires,
