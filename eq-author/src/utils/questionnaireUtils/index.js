@@ -31,3 +31,14 @@ export const getPageById = (questionnaire, id) =>
 
 export const getPageByConfirmationId = (questionnaire, id) =>
   getPages(questionnaire)?.find(({ confirmation }) => confirmation.id === id);
+
+// https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+// Adapted to immediately drill down to find the first page in a folder
+export const findFolderIndexByFirstPageAttr = (array, attr, value) => {
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i].pages[0][attr] === value) {
+      return i;
+    }
+  }
+  return -1;
+};

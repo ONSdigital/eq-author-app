@@ -3,32 +3,12 @@ import {
   getFolderById,
   getSectionById,
   getSectionByFolderId,
+  findFolderIndexByFirstPageAttr,
 } from "utils/questionnaireUtils";
 
-// https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
-const arrayMove = (arr, oldIndex, newIndex) => {
-  if (newIndex >= arr.length) {
-    var k = newIndex - arr.length + 1;
-    while (k--) {
-      arr.push(undefined);
-    }
-  }
-  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
-  return arr; // for testing
-};
+import arrayMove from "utils/arrayMove";
 
-// https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
-// Adapted to immediately drill down to find the first page in a folder
-const findFolderIndexByFirstPageAttr = (array, attr, value) => {
-  for (var i = 0; i < array.length; i += 1) {
-    if (array[i].pages[0][attr] === value) {
-      return i;
-    }
-  }
-  return -1;
-};
-
-export const onDragEnd = (
+export default (
   questionnaire,
   destination,
   source,
@@ -87,10 +67,13 @@ export const onDragEnd = (
           id: sectionId,
           folders: folders.map(({ pages, validationErrorInfo, ...rest }) => ({
             ...rest,
-            pages: pages.map(({ id, position: oldPosition }) => ({
-              id,
-              position: oldPosition,
-              __typename: "QuestionPage",
+            pages: pages.map(({ pageType, ...rest }) => ({
+              ...rest,
+              pageType,
+              __typename:
+                pageType === "CalculatedSummaryPage"
+                  ? "CalculatedSummaryPage"
+                  : "QuestionPage",
             })),
             validationErrorInfo: {
               errors: [],
@@ -148,9 +131,13 @@ export const onDragEnd = (
           id: sectionId,
           folders: folders.map(({ pages, ...rest }) => ({
             ...rest,
-            pages: pages.map((page) => ({
-              ...page,
-              __typename: "QuestionPage",
+            pages: pages.map(({ pageType, ...rest }) => ({
+              ...rest,
+              pageType,
+              __typename:
+                pageType === "CalculatedSummaryPage"
+                  ? "CalculatedSummaryPage"
+                  : "QuestionPage",
             })),
             __typename: "Folder",
           })),
@@ -210,9 +197,13 @@ export const onDragEnd = (
           id: sectionId,
           folders: folders.map(({ pages, ...rest }) => ({
             ...rest,
-            pages: pages.map((page) => ({
-              ...page,
-              __typename: "QuestionPage",
+            pages: pages.map(({ pageType, ...rest }) => ({
+              ...rest,
+              pageType,
+              __typename:
+                pageType === "CalculatedSummaryPage"
+                  ? "CalculatedSummaryPage"
+                  : "QuestionPage",
             })),
             __typename: "Folder",
           })),

@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { buildIntroductionPath } from "utils/UrlUtils";
-import { onDragEnd } from "./dragDropFunctions";
+import onDragEnd from "./dragDropFunctions/onDragEnd";
 
 import { DragDropContext } from "react-beautiful-dnd";
 import NavigationHeader from "./NavigationHeader";
