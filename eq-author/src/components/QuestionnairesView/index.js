@@ -2,11 +2,13 @@ import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { isEmpty } from "lodash";
+import styled from "styled-components";
 
 import NoResults from "./NoResults";
 import QuestionnairesTable from "./QuestionnairesTable";
 import Header from "./Header";
 import PaginationNav from "./PaginationNav";
+import ScrollPane from "components/ScrollPane";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
 import { SORT_ORDER } from "constants/sort-order";
@@ -23,6 +25,11 @@ const STORED_KEYS = [
   "isFiltered",
 ];
 
+const MenuContainer = styled.div`
+  overflow: hidden;
+  height: 25em;
+`;
+
 const QuestionnairesView = ({
   questionnaires,
   onDeleteQuestionnaire,
@@ -31,6 +38,8 @@ const QuestionnairesView = ({
   canCreateQuestionnaire,
   enabledHeadings,
   onQuestionnaireClick,
+  padding,
+  questionnaireModal,
 }) => {
   const questionnairesRef = useRef(questionnaires);
 
@@ -105,6 +114,7 @@ const QuestionnairesView = ({
         isFiltered={state.isFiltered}
         onToggleFilter={onToggleFilter}
         canCreateQuestionnaire={canCreateQuestionnaire}
+        padding={padding}
       />
       {isEmpty(state.questionnaires) ? (
         <NoResultsFiltered
@@ -123,18 +133,20 @@ const QuestionnairesView = ({
           autoFocusId={state.autoFocusId}
           enabledHeadings={enabledHeadings}
           onQuestionnaireClick={onQuestionnaireClick}
+          questionnaireModal={questionnaireModal}
         />
       )}
-
-      <PaginationNav
-        countOnPage={state.currentPage ? state.currentPage.length : 0}
-        totalCount={state.questionnaires.length}
-        pageCount={state.pages.length}
-        currentPageIndex={state.currentPageIndex}
-        onPageChange={(newPage) =>
-          dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
-        }
-      />
+      {!questionnaireModal && (
+        <PaginationNav
+              countOnPage={state.currentPage ? state.currentPage.length : 0}
+              totalCount={state.questionnaires.length}
+              pageCount={state.pages.length}
+              currentPageIndex={state.currentPageIndex}
+              onPageChange={(newPage) =>
+                dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
+              }
+            />
+      )}
     </>
   );
 };
@@ -149,6 +161,9 @@ QuestionnairesView.propTypes = {
   canCreateQuestionnaire: PropTypes.bool,
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
+  padding: PropTypes.string,
+  questionnaireModal: PropTypes.bool,
+
 };
 
 export default QuestionnairesView;

@@ -37,6 +37,14 @@ export const QuestionnaireLink = styled.span`
   &:focus {
     outline: none;
   }
+  ${(props) =>
+    props.linkHasFocus &&
+    css`
+      color: white;
+      :nth-of-type(2n-1) {
+        color: white;
+      }
+    `}
 `;
 
 export const IconTextButton = styled(Button).attrs({
@@ -81,9 +89,14 @@ export const TR = styled.tr`
   ${(props) =>
     props.linkHasFocus &&
     css`
-      box-shadow: 0 0 0 3px ${colors.tertiary};
-      border-color: ${colors.tertiary};
+      border-color: ${colors.primary};
       z-index: 1;
+      background-color: ${colors.primary};
+      color: white;
+      :nth-of-type(2n-1) {
+        background-color: ${colors.primary};
+        color: white;
+      }
     `}
 
   &:hover {
@@ -260,6 +273,7 @@ export const Row = ({
               data-test="anchor-questionnaire-title"
               title={displayName}
               tabIndex="0"
+              linkHasFocus={linkHasFocus}
             >
               {shortTitle && (
                 <ShortTitle>

@@ -21,7 +21,7 @@ const Buttons = styled.div`
 
 const FilterButton = styled.label`
   background: white;
-  padding: ${props => props.size === "small" ? "0.4rem 1rem" : "0.5rem 1rem"};
+  padding: ${props => props.paddingType === "large" ? "0.5rem 1rem" : "0.4rem 1rem"};
   font-size: 0.9em;
   font-weight: bold;
   cursor: pointer;
@@ -63,11 +63,12 @@ const FilterButton = styled.label`
     `}
 `;
 
-const AccessFilter = ({ isFiltered, onToggleFilter, size }) => {
+const AccessFilter = ({ isFiltered, onToggleFilter, paddingType }) => {
+  console.log('AF - paddingType :>> ', paddingType);
   return (
     <Fieldset role="group">
       <Buttons>
-        <FilterButton checked={!isFiltered} size={size}>
+        <FilterButton checked={!isFiltered} paddingType={paddingType}>
           All
           <VisuallyHidden>
             <input
@@ -78,7 +79,7 @@ const AccessFilter = ({ isFiltered, onToggleFilter, size }) => {
             />
           </VisuallyHidden>
         </FilterButton>
-        <FilterButton checked={isFiltered} size={size}>
+        <FilterButton checked={isFiltered} paddingType={paddingType}>
           Editor
           <VisuallyHidden>
             <input
@@ -97,7 +98,7 @@ const AccessFilter = ({ isFiltered, onToggleFilter, size }) => {
 AccessFilter.propTypes = {
   onToggleFilter: PropTypes.func.isRequired,
   isFiltered: PropTypes.bool.isRequired,
-  size: PropTypes.string,
+  paddingType: PropTypes.string,
 };
 
 export default AccessFilter;

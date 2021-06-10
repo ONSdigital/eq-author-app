@@ -3,7 +3,7 @@ import React from "react";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
-import QuestionnaireView from "../../components/QuestionnairesView";
+import QuestionnairesView from "../../components/QuestionnairesView";
 import AccessFilter from "../../components/QuestionnairesView/Header/AccessFilter";
 
 import * as Headings from "constants/table-headings";
@@ -54,17 +54,8 @@ const nullFunction = () => {
   return null;
 };
 
-const searchBar = <SearchBar />;
-const accessFilter = (
-  <AccessFilter
-    onToggleFilter={nullFunction}
-    isFiltered={false}
-    size={"small"}
-  />
-);
-
 const Template = (args) => (
-  <QuestionnaireSelectModal searchBar={searchBar} accessFilter={accessFilter}>
+  <QuestionnaireSelectModal isOpen>
     <QuestionnairesView {...args} />
   </QuestionnaireSelectModal>
 );
@@ -73,8 +64,11 @@ export const MainModal = Template.bind({});
 MainModal.args = {
   questionnaires: questionnaires,
   enabledHeadings: enabledHeadings,
+  canCreateQuestionnaire: false,
   tableHeadings: enabledHeadings,
   onSortClick: nullFunction,
   onReverseClick: nullFunction,
   onRowClick: nullFunction,
+  padding: "small",
+  questionnaireModal: true,
 };

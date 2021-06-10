@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
+import styled from "styled-components";
 
 import { SORT_ORDER } from "constants/sort-order.js";
 
@@ -10,7 +11,12 @@ import Panel from "components/Panel";
 
 import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
-import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
+// import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
+
+const ScrollContainer = styled.div`
+  overflow: auto;
+  height: 25em;
+`;
 
 const QuestionnairesTable = ({
   questionnaires,
@@ -23,36 +29,43 @@ const QuestionnairesTable = ({
   sortOrder,
   enabledHeadings,
   onQuestionnaireClick,
+  questionnaireModal,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
-  const {
-    trigger: triggerLockModal,
-    component: LockModal,
-  } = useQuestionnaireLockingModal(targetQuestionnaire);
+  // const {
+  //   trigger: triggerLockModal,
+  //   component: LockModal,
+  // } = useQuestionnaireLockingModal(targetQuestionnaire);
 
-  const handleLock = (questionnaire) => {
-    setTargetQuestionnaire(questionnaire);
-    triggerLockModal();
-  };
+  // const handleLock = (questionnaire) => {
+  //   setTargetQuestionnaire(questionnaire);
+  //   triggerLockModal();
+  // };
+
+  const ConditionalScroll = ({questionnaireModal, wrapper, children}) => questionnaireModal ? wrapper(children) : children;
 
   return (
-    <Panel>
-      <QuestionnaireTable
-        onSortClick={onSortQuestionnaires}
-        onReverseClick={onReverseSort}
-        sortOrder={sortOrder}
-        currentSortColumn={sortColumn}
-        tableHeadings={tableHeadings}
-        questionnaires={questionnaires}
-        autoFocusId={autoFocusId}
-        onDeleteQuestionnaire={onDeleteQuestionnaire}
-        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-        handleLock={handleLock}
-        enabledHeadings={enabledHeadings}
-        onRowClick={onQuestionnaireClick}
-      />
-      <LockModal />
-    </Panel>
+    <ConditionalScroll 
+      questionnaireModal={questionnaireModal}
+      wrapper={children => <ScrollContainer>{children}</ScrollContainer>}>
+      <Panel>
+        <QuestionnaireTable
+          onSortClick={onSortQuestionnaires}
+          onReverseClick={onReverseSort}
+          sortOrder={sortOrder}
+          currentSortColumn={sortColumn}
+          tableHeadings={tableHeadings}
+          questionnaires={questionnaires}
+          autoFocusId={autoFocusId}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          // handleLock={handleLock}
+          enabledHeadings={enabledHeadings}
+          onRowClick={onQuestionnaireClick}
+        />
+        {/* <LockModal /> */}
+      </Panel>
+    </ConditionalScroll>
   );
 };
 

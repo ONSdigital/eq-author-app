@@ -79,6 +79,7 @@ const QuestionnairesPage = ({
               enabledHeadings={enabledHeadings}
               onQuestionnaireClick={handleClick}
               canCreateQuestionnaire
+              padding="large"
             />
           );
         }}
