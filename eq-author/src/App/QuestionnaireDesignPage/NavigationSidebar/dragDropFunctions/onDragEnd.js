@@ -168,8 +168,6 @@ export default (
       (folder, index) => (folder.position = index)
     );
 
-    console.log(JSON.stringify(optimisticResponse, null, 7));
-
     // Call the DB to move the page, passing in our optimistic response to
     // avoid flickering if it takes time to respond.
     movePage({
