@@ -1548,10 +1548,92 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark"
+                          className="__react_component_tooltip tde11d1ac-1146-450c-8cbc-4cfa488fe669 place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-1"
                         >
+                          <style
+                            aria-hidden="true"
+                            dangerouslySetInnerHTML={
+                              Object {
+                                "__html": "
+  	.tde11d1ac-1146-450c-8cbc-4cfa488fe669 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-top {
+        margin-top: -10px;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-bottom {
+        margin-top: 10px;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-left {
+        margin-left: -10px;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-right {
+        margin-left: 10px;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tde11d1ac-1146-450c-8cbc-4cfa488fe669.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+                              }
+                            }
+                          />
                           Move answer up
                         </div>
                       </ReactTooltip>
@@ -1709,10 +1791,92 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark"
+                          className="__react_component_tooltip te1a6a657-7d42-4204-8a9e-3b4ca91acd00 place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-2"
                         >
+                          <style
+                            aria-hidden="true"
+                            dangerouslySetInnerHTML={
+                              Object {
+                                "__html": "
+  	.te1a6a657-7d42-4204-8a9e-3b4ca91acd00 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-top {
+        margin-top: -10px;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-bottom {
+        margin-top: 10px;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-left {
+        margin-left: -10px;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-right {
+        margin-left: 10px;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .te1a6a657-7d42-4204-8a9e-3b4ca91acd00.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+                              }
+                            }
+                          />
                           Move answer down
                         </div>
                       </ReactTooltip>
@@ -1917,10 +2081,92 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark"
+                          className="__react_component_tooltip t274266ad-2e0d-413b-94dc-31df0a7ffd2b place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-3"
                         >
+                          <style
+                            aria-hidden="true"
+                            dangerouslySetInnerHTML={
+                              Object {
+                                "__html": "
+  	.t274266ad-2e0d-413b-94dc-31df0a7ffd2b {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-top {
+        margin-top: -10px;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-bottom {
+        margin-top: 10px;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-left {
+        margin-left: -10px;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-right {
+        margin-left: 10px;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .t274266ad-2e0d-413b-94dc-31df0a7ffd2b.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  ",
+                              }
+                            }
+                          />
                           Delete option
                         </div>
                       </ReactTooltip>

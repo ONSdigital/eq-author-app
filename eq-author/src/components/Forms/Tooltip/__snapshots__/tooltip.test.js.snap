@@ -10,10 +10,89 @@ exports[`Tooltip should render 1`] = `
     Click me
   </button>
   <div
-    class="__react_component_tooltip place-bottom type-dark"
+    class="__react_component_tooltip tc42e5186-eae1-461b-b93b-8ce896447bd4 place-bottom type-dark"
     data-id="tooltip"
     id="tooltip-1"
   >
+    <style
+      aria-hidden="true"
+    >
+      
+  	.tc42e5186-eae1-461b-b93b-8ce896447bd4 {
+	    color: #fff;
+	    background: #222;
+	    border: 1px solid transparent;
+  	}
+
+  	.tc42e5186-eae1-461b-b93b-8ce896447bd4.place-top {
+        margin-top: -10px;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-top::before {
+        border-top: 8px solid transparent;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-top::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+    }
+
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-bottom {
+        margin-top: 10px;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-bottom::before {
+        border-bottom: 8px solid transparent;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-bottom::after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+    }
+
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-left {
+        margin-left: -10px;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-left::before {
+        border-left: 8px solid transparent;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-left::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+    }
+
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-right {
+        margin-left: 10px;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-right::before {
+        border-right: 8px solid transparent;
+    }
+    .tc42e5186-eae1-461b-b93b-8ce896447bd4.place-right::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+    }
+  
+    </style>
     This is a button
   </div>
 </DocumentFragment>
