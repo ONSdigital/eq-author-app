@@ -33,9 +33,8 @@ module.exports = {
     );
     config.resolve.alias[
       "hooks/useSetQuestionnaireLocked"] 
-      = require.resolve("../__mocks__/useToggleQuestionnaireStarred.js"
+      = require.resolve("../__mocks__/useSetQuestionnaireLocked.js"
     );
-    
 
     return config;
   },

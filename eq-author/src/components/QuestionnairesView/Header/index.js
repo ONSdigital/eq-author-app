@@ -27,7 +27,6 @@ const Header = ({
   canCreateQuestionnaire = true,
   padding,
 }) => {
-  console.log('padding :>> ', padding);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => setIsModalOpen(true);

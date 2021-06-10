@@ -11,7 +11,7 @@ import Panel from "components/Panel";
 
 import tableHeadings from "components/QuestionnaireTable/TableHeadings";
 
-// import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
+import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
 const ScrollContainer = styled.div`
   overflow: auto;
@@ -32,15 +32,15 @@ const QuestionnairesTable = ({
   questionnaireModal,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
-  // const {
-  //   trigger: triggerLockModal,
-  //   component: LockModal,
-  // } = useQuestionnaireLockingModal(targetQuestionnaire);
+  const {
+    trigger: triggerLockModal,
+    component: LockModal,
+  } = useQuestionnaireLockingModal(targetQuestionnaire);
 
-  // const handleLock = (questionnaire) => {
-  //   setTargetQuestionnaire(questionnaire);
-  //   triggerLockModal();
-  // };
+  const handleLock = (questionnaire) => {
+    setTargetQuestionnaire(questionnaire);
+    triggerLockModal();
+  };
 
   const ConditionalScroll = ({questionnaireModal, wrapper, children}) => questionnaireModal ? wrapper(children) : children;
 
@@ -59,11 +59,11 @@ const QuestionnairesTable = ({
           autoFocusId={autoFocusId}
           onDeleteQuestionnaire={onDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-          // handleLock={handleLock}
+          handleLock={handleLock}
           enabledHeadings={enabledHeadings}
           onRowClick={onQuestionnaireClick}
         />
-        {/* <LockModal /> */}
+        <LockModal />
       </Panel>
     </ConditionalScroll>
   );
@@ -105,6 +105,7 @@ QuestionnairesTable.propTypes = {
   sortOrder: PropTypes.oneOf([SORT_ORDER.ASCENDING, SORT_ORDER.DESCENDING]),
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
+  questionnaireModal: PropTypes.bool,
 };
 
 export default QuestionnairesTable;
