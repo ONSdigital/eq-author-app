@@ -228,6 +228,7 @@ CollapsibleNavItem.propTypes = {
   icon: PropTypes.func,
   open: PropTypes.bool,
   containsActiveEntity: PropTypes.bool,
+  isDragging: PropTypes.bool,
 };
 
 export default CollapsibleNavItem;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -99,6 +100,15 @@ const Section = ({
       </CollapsibleNavItem>
     </ListItem>
   );
+};
+
+Section.propTypes = {
+  id: PropTypes.string.isRequired,
+  questionnaireId: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  folders: PropTypes.array.isRequired, // eslint-disable-line
+  validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
+  open: PropTypes.bool,
 };
 
 export default Section;

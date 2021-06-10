@@ -119,6 +119,7 @@ NavItem.propTypes = {
   errorCount: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   className: PropTypes.string,
+  isDragging: PropTypes.bool,
 };
 
 export default NavItem;

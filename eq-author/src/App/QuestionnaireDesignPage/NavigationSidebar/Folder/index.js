@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -79,6 +80,15 @@ const Folder = ({
       )}
     </Draggable>
   );
+};
+
+Folder.propTypes = {
+  id: PropTypes.string.isRequired,
+  questionnaireId: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  pages: PropTypes.array.isRequired, // eslint-disable-line
+  validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
+  position: PropTypes.number.isRequired,
 };
 
 export default Folder;

@@ -197,7 +197,7 @@ export const onDragEnd = (
 
   // If the user is moving a folder into a section
   if (folderBeingMoved && destinationSection) {
-    const { id: folderId, pages, ...rest } = folderBeingMoved;
+    const { id: folderId, ...rest } = folderBeingMoved;
     const { id: sectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
 
