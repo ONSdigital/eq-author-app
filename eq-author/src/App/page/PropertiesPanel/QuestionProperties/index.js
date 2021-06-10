@@ -42,9 +42,17 @@ export const HelpButton = styled.button`
   }
 `;
 
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1em 0;
+  width: 99%;
+`;
+
 const Caption = styled.p`
   margin-top: 0.2em;
   margin-bottom: 0.6em;
+  margin-left: 1em;
   font-size: 0.85em;
 `;
 
@@ -93,6 +101,8 @@ export class UnwrappedQuestionProperties extends React.Component {
           To provide added context to the question.
         </PropertyDescription>
 
+        <HorizontalSeparator />
+
         <Property
           id="definitionEnabled"
           data-test="definitionEnabled"
@@ -108,6 +118,8 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Only to be used to define word(s) or acronym(s) within the question.
         </PropertyDescription>
+
+        <HorizontalSeparator />
 
         <Property
           id="guidanceEnabled"
@@ -126,6 +138,8 @@ export class UnwrappedQuestionProperties extends React.Component {
           Only to be used to state what should be included or excluded from the
           answer.
         </PropertyDescription>
+
+        <HorizontalSeparator />
 
         <Property
           id="additionalInfoEnabled"

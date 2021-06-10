@@ -7,14 +7,18 @@ import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const InlineField = styled(Field)`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0;
+  margin-bottom: 0.4em;
+  margin-left: 1em;
+
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 const PropertyLabel = styled(Label)`
   font-weight: normal;
+  margin-right: 2em;
 `;
 
 const Property = ({ id, children, onChange, checked }) => (
