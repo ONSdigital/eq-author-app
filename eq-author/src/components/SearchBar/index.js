@@ -40,8 +40,6 @@ const SearchInput = styled(Input).attrs({
 `;
 
 const SearchBar = ({ onChange, size, paddingType }) => {
-  console.log('paddingType:>> ', paddingType);
-console.log('size :>> ', size);
     return (
         <>
         <Search paddingType={paddingType}>

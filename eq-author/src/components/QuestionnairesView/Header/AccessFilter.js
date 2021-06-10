@@ -64,7 +64,6 @@ const FilterButton = styled.label`
 `;
 
 const AccessFilter = ({ isFiltered, onToggleFilter, paddingType }) => {
-  console.log('AF - paddingType :>> ', paddingType);
   return (
     <Fieldset role="group">
       <Buttons>
