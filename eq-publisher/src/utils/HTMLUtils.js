@@ -1,4 +1,4 @@
-const cheerio = require("cheerio");
+const cheerio = require("cheerio").default;
 
 const { replace } = require("lodash/fp");
 
