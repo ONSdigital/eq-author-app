@@ -6,7 +6,6 @@ import { colors } from "constants/theme";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import ScrollPane from "components/ScrollPane";
 
 const ModalFooter = styled.footer`
   padding: 1.5em;
