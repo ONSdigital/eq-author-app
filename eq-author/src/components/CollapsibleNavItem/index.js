@@ -48,7 +48,7 @@ const Button = styled.button`
   ${hoverStyling}
 
   &:focus {
-    outline: 2px solid ${colors.orange};
+    ${focusStyle};
   }
 
   &:disabled {
@@ -103,7 +103,7 @@ const ToggleCollapsibleNavItemButton = styled.button`
   }
 
   &:focus {
-    outline: 2px solid ${colors.orange};
+    ${focusStyle};
   }
   ${hoverStyling}
 `;
@@ -117,17 +117,22 @@ const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: ${({ bordered }) => (bordered ? `0.45em` : "")};
 
-  li > * {
-    :not(.CollapsibleNavItem) {
-      margin-left: 2.6em;
-      width: calc(100% - 2.6em);
-    }
+  ol,
+  ul {
+    margin-left: 2.6em;
+    width: calc(100% - 2.6em);
 
-    &.CollapsibleNavItem {
-      li > * {
-        :not(.CollapsibleNavItem) {
-          margin-left: 4em;
-          width: calc(100% - 4em);
+    li {
+      .CollapsibleNavItem {
+        margin-left: -2.6em;
+        width: calc(100% - -2.6em);
+
+        .CollapsibleNavItem-body {
+          ol,
+          ul {
+            margin-left: 4em;
+            width: calc(100% - 4em);
+          }
         }
       }
     }
@@ -208,6 +213,7 @@ const CollapsibleNavItem = ({
         isOpen={isOpen}
         bordered={bordered}
         aria-hidden={!isOpen}
+        className={"CollapsibleNavItem-body"}
       >
         {children}
       </Body>

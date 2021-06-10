@@ -42,15 +42,11 @@ const Link = styled.a`
   align-items: center;
   width: 100%;
   font-size: 0.9em;
-  margin: 0;
   color: ${colors.white};
   text-decoration: none;
   padding-right: 1em;
-  background-color: transparent;
   border: none;
   cursor: pointer;
-
-  ${({ isDragging }) => isDragging && focusStyle}
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);
@@ -58,6 +54,10 @@ const Link = styled.a`
 
   &:focus {
     ${focusStyle}
+  }
+
+  &:focus-visible: {
+    outline: none;
   }
 
   svg {
@@ -80,7 +80,6 @@ const NavItem = ({
   errorCount,
   disabled,
   className,
-  isDragging,
   ...rest
 }) => {
   const history = useHistory();
@@ -94,7 +93,6 @@ const NavItem = ({
       disabled={disabled}
       bordered={bordered}
       tabIndex={0}
-      isDragging={isDragging}
       {...rest}
     >
       {Icon && <Icon data-test="NavItem-icon" />}

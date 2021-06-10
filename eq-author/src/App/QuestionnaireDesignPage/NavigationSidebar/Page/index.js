@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
+import { colors, focusStyle } from "constants/theme";
 
 import { buildPagePath, buildConfirmationPath } from "utils/UrlUtils";
 
@@ -13,7 +14,12 @@ import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import { Draggable } from "react-beautiful-dnd";
 import NavItem from "components/NavItem";
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+  ${({ isDragging }) => isDragging && focusStyle}
+`;
+
+const QuestionPage = styled(NavItem)``;
+const ConfirmationPage = styled(NavItem)``;
 
 const Page = ({
   id: pageId,
@@ -37,8 +43,8 @@ const Page = ({
   return (
     <Draggable key={pageId} draggableId={pageId} index={position}>
       {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
-        <ListItem ref={innerRef} {...draggableProps}>
-          <NavItem
+        <ListItem ref={innerRef} {...draggableProps} isDragging={isDragging}>
+          <QuestionPage
             title={displayName}
             icon={iconMap[pageType]}
             disabled={isCurrentPage(pageId, entityId)}
@@ -48,11 +54,11 @@ const Page = ({
               tab,
             })}
             errorCount={validationErrorInfo?.totalCount}
-            isDragging={isDragging}
+            hasConfirmation={Boolean(confirmation)}
             {...dragHandleProps}
           />
           {confirmation && (
-            <NavItem
+            <ConfirmationPage
               key={confirmation.displayName}
               title={confirmation.displayName}
               titleUrl={buildConfirmationPath({
