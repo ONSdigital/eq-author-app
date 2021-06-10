@@ -82,9 +82,9 @@ describe("Row", () => {
     const { getByTestId } = renderRow(props);
     const row = getByTestId("table-row");
     fireEvent.focus(row);
-    expect(row).toHaveStyleRule("border-color", `${colors.tertiary}`);
+    expect(row).toHaveStyleRule("border-color", `${colors.primary}`);
     fireEvent.blur(row);
-    expect(row).not.toHaveStyleRule("border-color", `${colors.tertiary}`);
+    expect(row).not.toHaveStyleRule("border-color", `${colors.primary}`);
   });
 
   it("should handle button focus state change correctly", () => {

@@ -38,7 +38,7 @@ export const QuestionnaireLink = styled.span`
     outline: none;
   }
   ${(props) =>
-    props.linkHasFocus &&
+    props.linkHasFocus && props.questionnaireModal &&
     css`
       color: white;
       :nth-of-type(2n-1) {
@@ -86,8 +86,21 @@ export const TR = styled.tr`
   height: 3.2em;
   position: relative;
 
+  &:hover {
+    background-color: ${rgba(colors.primary, 0.1)};
+    cursor: pointer;
+  }
+
   ${(props) =>
-    props.linkHasFocus &&
+    props.linkHasFocus && !props.questionnaireModal &&
+    css`
+      box-shadow: 0 0 0 3px ${colors.tertiary};
+      border-color: ${colors.tertiary};
+      z-index: 1;
+    `}
+
+    ${(props) =>
+    props.linkHasFocus && props.questionnaireModal &&
     css`
       border-color: ${colors.primary};
       z-index: 1;
@@ -97,12 +110,10 @@ export const TR = styled.tr`
         background-color: ${colors.primary};
         color: white;
       }
-    `}
-
-  &:hover {
-    background-color: ${rgba(colors.primary, 0.1)};
-    cursor: pointer;
+      &:hover {
+        background-color: ${colors.primary};
   }
+    `}
 `;
 
 const TD = styled.td`
@@ -162,6 +173,7 @@ const propTypes = {
   isLastOnPage: PropTypes.bool,
   tableHeadings: PropTypes.array, // eslint-disable-line
   onClick: PropTypes.func.isRequired,
+  questionnaireModal: PropTypes.bool,
 };
 
 export const Row = ({
@@ -184,7 +196,9 @@ export const Row = ({
   autoFocus,
   tableHeadings,
   onClick,
+  questionnaireModal,
 }) => {
+  console.log('questionnaireModal :>> ', questionnaireModal);
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -274,6 +288,7 @@ export const Row = ({
               title={displayName}
               tabIndex="0"
               linkHasFocus={linkHasFocus}
+              questionnaireModal={questionnaireModal}
             >
               {shortTitle && (
                 <ShortTitle>
@@ -369,6 +384,7 @@ export const Row = ({
         onBlur={handleBlur}
         linkHasFocus={linkHasFocus}
         onClick={handleClick}
+        questionnaireModal={questionnaireModal}
         data-test="table-row"
       >
         {tableHeadings.map(renderEnabled)}

@@ -62,6 +62,7 @@ const QuestionnairesTable = ({
           handleLock={handleLock}
           enabledHeadings={enabledHeadings}
           onRowClick={onQuestionnaireClick}
+          questionnaireModal={questionnaireModal}
         />
         <LockModal />
       </Panel>
