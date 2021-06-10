@@ -67,9 +67,9 @@ export default (
           id: sectionId,
           folders: folders.map(({ pages, validationErrorInfo, ...rest }) => ({
             ...rest,
-            pages: pages.map(({ pageType, ...rest }) => ({
-              ...rest,
-              pageType,
+            pages: pages.map(({ pageType, id, position }) => ({
+              id,
+              position,
               __typename:
                 pageType === "CalculatedSummaryPage"
                   ? "CalculatedSummaryPage"
@@ -131,9 +131,9 @@ export default (
           id: sectionId,
           folders: folders.map(({ pages, ...rest }) => ({
             ...rest,
-            pages: pages.map(({ pageType, ...rest }) => ({
-              ...rest,
-              pageType,
+            pages: pages.map(({ pageType, id, position }) => ({
+              id,
+              position,
               __typename:
                 pageType === "CalculatedSummaryPage"
                   ? "CalculatedSummaryPage"
@@ -168,6 +168,8 @@ export default (
       (folder, index) => (folder.position = index)
     );
 
+    console.log(JSON.stringify(optimisticResponse, null, 7));
+
     // Call the DB to move the page, passing in our optimistic response to
     // avoid flickering if it takes time to respond.
     movePage({
@@ -197,9 +199,9 @@ export default (
           id: sectionId,
           folders: folders.map(({ pages, ...rest }) => ({
             ...rest,
-            pages: pages.map(({ pageType, ...rest }) => ({
-              ...rest,
-              pageType,
+            pages: pages.map(({ pageType, id, position }) => ({
+              id,
+              position,
               __typename:
                 pageType === "CalculatedSummaryPage"
                   ? "CalculatedSummaryPage"
