@@ -7,6 +7,7 @@ import { flowRight } from "lodash";
 import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdateQuestionPage";
 import HelpModal from "./HelpModal";
 import IconText from "components/IconText";
+import { Label } from "components/Forms";
 
 import Property from "./Property";
 import InfoIcon from "./icon-info.svg?inline";
@@ -39,6 +40,12 @@ export const HelpButton = styled.button`
   &:focus {
     outline: 2px solid ${colors.tertiary};
   }
+`;
+
+const Caption = styled.p`
+  margin-top: 0.2em;
+  margin-bottom: 0.6em;
+  font-size: 0.85em;
 `;
 
 export class UnwrappedQuestionProperties extends React.Component {
@@ -78,8 +85,9 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={descriptionEnabled}
           onChange={this.handleChange}
         >
-          Question description
+          <Label>Question description</Label>
         </Property>
+        <Caption>To provide added context to the question.</Caption>
 
         <PropertyDescription>
           To provide added context to the question.
@@ -91,8 +99,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={definitionEnabled}
           onChange={this.handleChange}
         >
-          Question definition
+          <Label>Question definition</Label>
         </Property>
+        <Caption>
+          Only to be used to define word(s) or acronym(s) within the question.
+        </Caption>
 
         <PropertyDescription>
           Only to be used to define word(s) or acronym(s) within the question.
@@ -104,8 +115,12 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={guidanceEnabled}
           onChange={this.handleChange}
         >
-          Include/exclude
+          <Label>Include/exclude</Label>
         </Property>
+        <Caption>
+          Only to be used to state what should be included or excluded from the
+          answer.
+        </Caption>
 
         <PropertyDescription>
           Only to be used to state what should be included or excluded from the
@@ -118,8 +133,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={additionalInfoEnabled}
           onChange={this.handleChange}
         >
-          Additional information
+          <Label>Additional information</Label>
         </Property>
+        <Caption>
+          Information regarding why we are asking this question.
+        </Caption>
 
         <PropertyDescription>
           Information regarding why we are asking this question.

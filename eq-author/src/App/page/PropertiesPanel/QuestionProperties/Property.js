@@ -22,7 +22,13 @@ const Property = ({ id, children, onChange, checked }) => (
     <PropertyLabel inline htmlFor={id}>
       {children}
     </PropertyLabel>
-    <ToggleSwitch id={id} name={id} onChange={onChange} checked={checked} />
+    <ToggleSwitch
+      id={id}
+      name={id}
+      onChange={onChange}
+      checked={checked}
+      hideLabels={false}
+    />
   </InlineField>
 );
 
