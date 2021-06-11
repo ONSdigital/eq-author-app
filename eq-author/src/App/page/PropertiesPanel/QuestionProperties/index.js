@@ -6,6 +6,7 @@ import { flowRight } from "lodash";
 
 import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdateQuestionPage";
 import { Label } from "components/Forms";
+import ContentCollapsible from "components/Collapsible/ContentCollapsible";
 
 import Property from "./Property";
 
@@ -74,8 +75,24 @@ export class UnwrappedQuestionProperties extends React.Component {
       },
     } = this.props;
 
+    const defaultOpen = () => {
+      if (
+        descriptionEnabled ||
+        definitionEnabled ||
+        guidanceEnabled ||
+        additionalInfoEnabled
+      ) {
+        return true;
+      }
+    };
+
     return (
-      <>
+      <ContentCollapsible
+        title="Additional content"
+        className="additionalContentCollapsible"
+        withoutHideThis
+        defaultOpen={defaultOpen}
+      >
         <Property
           id="descriptionEnabled"
           data-test="descriptionEnabled"
@@ -145,7 +162,7 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Information regarding why we are asking this question.
         </PropertyDescription>
-      </>
+      </ContentCollapsible>
     );
   }
 }

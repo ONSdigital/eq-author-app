@@ -29,7 +29,6 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 import MetaEditor from "./MetaEditor";
 import AdditionalInfo from "./AdditionalInfo";
 
-import ContentCollapsible from "components/Collapsible/ContentCollapsible";
 import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
@@ -90,7 +89,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
         alertText="All edits, properties and routing settings will also be removed."
       />
       <div>
-        {/* <QuestionSegment id={getIdForObject(page)}>
+        <QuestionSegment id={getIdForObject(page)}>
           <MetaEditor
             onChange={onChange}
             onUpdate={onUpdate}
@@ -108,14 +107,9 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteOption={onDeleteOption}
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
-        /> */}
-        <ContentCollapsible
-          title="Additional content"
-          className="additionalContentCollapsible"
-          withoutHideThis
-        >
-          <QuestionProperties page={page} />
-        </ContentCollapsible>
+        />
+
+        <QuestionProperties page={page} />
       </div>
 
       <AddAnswerSegment>
