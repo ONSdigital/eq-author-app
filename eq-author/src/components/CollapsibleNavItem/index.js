@@ -141,7 +141,6 @@ const Body = styled.div`
 
 const Wrapper = styled.div`
   margin-bottom: ${({ bordered }) => (bordered ? "0.5em" : "0")};
-  ${({ isDragging }) => isDragging && focusStyle}
 `;
 
 const CollapsibleNavItem = ({
@@ -156,7 +155,6 @@ const CollapsibleNavItem = ({
   className,
   children,
   containsActiveEntity,
-  isDragging,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
 
@@ -171,7 +169,6 @@ const CollapsibleNavItem = ({
       className={`${className} CollapsibleNavItem`}
       data-test="CollapsibleNavItem"
       bordered={bordered}
-      isDragging={isDragging}
     >
       <Header data-test="CollapsibleNavItem-header">
         <ToggleCollapsibleNavItemButton

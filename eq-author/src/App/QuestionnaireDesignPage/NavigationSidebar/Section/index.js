@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { colors } from "constants/theme";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
@@ -17,6 +18,9 @@ const NavList = styled.ol`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  ${({ isDraggingOver }) =>
+    isDraggingOver && `background-color: ${colors.darkerBlack};`}
 `;
 
 const ListItem = styled.li``;
@@ -90,8 +94,12 @@ const Section = ({
           droppableId={sectionId}
           type={`section-${sectionId}-content`}
         >
-          {({ innerRef, placeholder, droppableProps }) => (
-            <NavList ref={innerRef} {...droppableProps}>
+          {({ innerRef, placeholder, droppableProps }, { isDraggingOver }) => (
+            <NavList
+              ref={innerRef}
+              isDraggingOver={isDraggingOver}
+              {...droppableProps}
+            >
               {folders.map((folder) => renderChild(folder))}
               {placeholder}
             </NavList>

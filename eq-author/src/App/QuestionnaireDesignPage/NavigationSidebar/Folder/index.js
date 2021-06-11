@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { colors, focusStyle } from "constants/theme";
 
 import { buildFolderPath } from "utils/UrlUtils";
 
@@ -16,6 +17,23 @@ const NavList = styled.ol`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  ${({ isDraggingOver }) =>
+    isDraggingOver && `background-color: ${colors.darkerBlack};`}
+`;
+
+const FolderNavItem = styled(CollapsibleNavItem)`
+  ${({ isDragging }) => isDragging && focusStyle}
+  ${({ isDragging }) =>
+    isDragging &&
+    `
+    * {
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
+    }
+  `}
 `;
 
 const ListItem = styled.li``;
@@ -43,7 +61,7 @@ const Folder = ({
     <Draggable key={folderId} draggableId={folderId} index={position}>
       {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
         <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
-          <CollapsibleNavItem
+          <FolderNavItem
             title={displayName}
             open
             icon={IconFolder}
@@ -61,8 +79,15 @@ const Folder = ({
               droppableId={folderId}
               type={`folder-${folderId}-content`}
             >
-              {({ innerRef, placeholder, droppableProps }) => (
-                <NavList ref={innerRef} {...droppableProps}>
+              {(
+                { innerRef, placeholder, droppableProps },
+                { isDraggingOver }
+              ) => (
+                <NavList
+                  ref={innerRef}
+                  isDraggingOver={isDraggingOver}
+                  {...droppableProps}
+                >
                   {pages.map(({ id: pageId, ...rest }) => (
                     <Page
                       key={`page-${pageId}`}
@@ -75,7 +100,7 @@ const Folder = ({
                 </NavList>
               )}
             </Droppable>
-          </CollapsibleNavItem>
+          </FolderNavItem>
         </ListItem>
       )}
     </Draggable>

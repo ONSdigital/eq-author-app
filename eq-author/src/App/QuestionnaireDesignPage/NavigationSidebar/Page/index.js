@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
-import { colors, focusStyle } from "constants/theme";
+import { focusStyle } from "constants/theme";
 
 import { buildPagePath, buildConfirmationPath } from "utils/UrlUtils";
 
