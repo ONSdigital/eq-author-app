@@ -15,47 +15,78 @@ import {
 export default {
   title: "Patterns/Select Questionnaire Modal",
   component: Modal,
+  argTypes: {
+    questionnaireModal: {
+      description: 'Used when rendering question list inside a Modal',
+      table: {
+        type: { 
+          summary: 'Bool', 
+          detail: 'If True: will not render pagination and will render a scrollBar for the list inside the Modal. Will also render the selected questionnaire focus differently'
+        },
+        defaultValue: { summary: 'undefined',},
+      },
+    },
+    questionnaires: {
+      description: 'JSON Array of questionnaire objects',
+      table: {
+        type: { 
+          summary: 'Array', 
+        },
+      },
+    },
+    enabledHeadings: {
+      description: 'Which heading do you want to render?',
+      table: {
+        type: { 
+          summary: 'Array', 
+          detail: 'Include the relevant titles in the array'
+        },
+      },
+    },
+    canCreateQuestionnaire: {
+      description: 'Show or hide the "Create questionnaire" button',
+      table: {
+        type: { 
+          summary: 'Bool', 
+        },
+      },
+    },
+    // tableHeadings: {
+    //   description: 'Which heading do you want to render?',
+    //   table: {
+    //     type: { 
+    //       summary: 'Array', 
+    //       detail: 'Include the relevant titles in the array'
+    //     },
+    //   },
+    // },
+    padding: {
+      description: 'Set to small for Modal',
+      table: {
+        type: { 
+          summary: 'string', 
+          detail: 'makes padding around search and filters smaller'
+        },
+      },
+    },
+  },
+
   parameters: {
     docs: {
       page: () => (
         <>
           <Title />
           <p>
-            This is a modal popup that contains a list of questions and is part of the ticket for adding import of 
+            This is a modal popup that contains a list of questions and is part of the ticket for adding import of questions into a questionnaire. 
           </p>
           <p>
-            The prototype was built using the same components that comprise the
-            existing navigaion bar.
+            We are essentially using the questionnaire home page as a component (QuestionnairesView) and piping it onto a custom modal (QuestionnaireSelectModal).
           </p>
-          <h3>Accessibility features</h3>
-          <p>
-            The library comes with out-of-the-box accessibility support,
-            including full keyboard support and configurable screen reader
-            support.
-          </p>
-          <p>
-            The cursor also changes to supply feedback to the user on what can
-            be done. For instance, a flat hand when hovering over a draggable
-            element, a clenched fist when dragging an element, and a pointed
-            finger at a non-draggable link.
-          </p>
-          <p>To use the keyboard support:</p>
-          <ol>
-            <li>
-              Tab through the page to focus on the right arrow symbol beside the
-              section title
-            </li>
-            <li>Press enter right arrow key - the collapsible will open</li>
-            <li>Carry on tabbing through and focus on a page</li>
-            <li>Press the space bar - this will select a page to grab</li>
-            <li>Using the arrow keys, move the page up and down</li>
-            <li>
-              Press the space bar again - this will drop the page into the new
-              position
-            </li>
-          </ol>
-          <Primary />
+          <p>Since we are using the same component as the home page but the design calls for a much stripped down version, we are using certain props to help in this stripping down!</p>
+          <h3>Props to consider</h3>
+          <p>These are listed in the table below with some description.</p>
           <ArgsTable story={PRIMARY_STORY} />
+          <Primary />
           <Stories />
         </>
       ),
@@ -101,7 +132,7 @@ const nullFunction = () => {
 };
 
 const Template = (args) => (
-  <QuestionnaireSelectModal isOpen>
+  <QuestionnaireSelectModal>
     <QuestionnairesView {...args} />
   </QuestionnaireSelectModal>
 );
@@ -118,3 +149,4 @@ MainModal.args = {
   padding: "small",
   questionnaireModal: true,
 };
+

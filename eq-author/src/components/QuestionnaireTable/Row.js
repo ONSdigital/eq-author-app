@@ -198,7 +198,6 @@ export const Row = ({
   onClick,
   questionnaireModal,
 }) => {
-  console.log('questionnaireModal :>> ', questionnaireModal);
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
