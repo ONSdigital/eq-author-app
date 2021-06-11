@@ -38,7 +38,7 @@ export const HelpButton = styled.button`
 
 const HorizontalSeparator = styled.hr`
   border: 0;
-  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  border-top: 0.0625em solid ${colors.grey};
   margin: 1em 0;
   width: 99%;
 `;

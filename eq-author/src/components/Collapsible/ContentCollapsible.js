@@ -8,12 +8,12 @@ import chevronDown from "assets/icon-chevron-down-blue.svg";
 import Button from "components/buttons/Button";
 import { darken } from "polished";
 
-const Wrapper = styled.ol`
-  margin-bottom: 1em;
+const Wrapper = styled.div`
+  margin: 0 2em 1em;
+  border: 1px solid ${colors.grey};
 `;
 
 const Header = styled.div`
-  margin-left: -0.5em;
   height: 100%;
   width: 100%;
   background-color: ${colors.primary};
@@ -33,10 +33,8 @@ export const Title = styled.h2`
 
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  margin-top: 1em;
   margin-left: 0.1em;
   padding: 1em 0 1em 0.5em;
-  border-left: 3px solid ${colors.lightGrey};
 `;
 
 export const ToggleCollapsibleButton = styled.button`
