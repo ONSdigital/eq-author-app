@@ -20,7 +20,14 @@ const NavList = styled.ol`
   list-style: none;
 
   ${({ isDraggingOver }) =>
-    isDraggingOver && `background-color: ${colors.darkerBlack};`}
+    isDraggingOver &&
+    `
+    background-color: ${colors.darkerBlack};
+
+    .CollapsibleNavItem .CollapsibleNavItem-body {
+      background-color: ${colors.black};
+    }
+  `}
 `;
 
 const ListItem = styled.li``;
