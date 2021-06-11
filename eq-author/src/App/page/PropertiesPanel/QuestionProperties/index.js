@@ -5,12 +5,9 @@ import styled from "styled-components";
 import { flowRight } from "lodash";
 
 import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdateQuestionPage";
-import HelpModal from "./HelpModal";
-import IconText from "components/IconText";
 import { Label } from "components/Forms";
 
 import Property from "./Property";
-import InfoIcon from "./icon-info.svg?inline";
 
 import { colors } from "constants/theme";
 
@@ -20,10 +17,6 @@ const PropertyDescription = styled.p`
   margin: 0 0 0.5em;
   font-size: 0.9em;
   ${colors.darkGrey}
-`;
-
-const FieldInfo = styled(IconText)`
-  white-space: nowrap;
 `;
 
 export const HelpButton = styled.button`
@@ -69,10 +62,6 @@ export class UnwrappedQuestionProperties extends React.Component {
       ...page,
       [name]: value,
     });
-  };
-
-  state = {
-    showModal: false,
   };
 
   render() {
@@ -156,15 +145,6 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Information regarding why we are asking this question.
         </PropertyDescription>
-
-        <HelpButton onClick={() => this.setState({ showModal: true })}>
-          <FieldInfo icon={InfoIcon}>See how these fields are used</FieldInfo>
-        </HelpButton>
-
-        <HelpModal
-          isOpen={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
-        />
       </>
     );
   }
