@@ -16,6 +16,15 @@ import NavItem from "components/NavItem";
 
 const ListItem = styled.li`
   ${({ isDragging }) => isDragging && focusStyle}
+  ${({ isDragging }) =>
+    isDragging &&
+    `
+    *, &~* * {
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
+    }`}
 `;
 
 const QuestionPage = styled(NavItem)``;
