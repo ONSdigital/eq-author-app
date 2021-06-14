@@ -18,7 +18,7 @@ export default (
 ) => {
   // The user dropped the item outside a destination
   if (!destination) {
-    return;
+    return -1;
   }
 
   // The user dropped the item back where it started
@@ -26,7 +26,7 @@ export default (
     destination.droppableId === source.droppableId &&
     destination.index === source.index
   ) {
-    return;
+    return -1;
   }
 
   const pageBeingMoved = getPageById(questionnaire, draggableId);
@@ -44,7 +44,7 @@ export default (
 
   // If the user is moving a folder into a folder
   if (folderBeingMoved && destinationFolder) {
-    return;
+    return -1;
   }
 
   //If the user is moving a page into a folder
@@ -113,6 +113,8 @@ export default (
       },
       optimisticResponse,
     });
+
+    return 1;
   }
 
   // If the user is moving a page into a section
@@ -180,6 +182,8 @@ export default (
       },
       optimisticResponse,
     });
+
+    return 1;
   }
 
   // If the user is moving a folder into a section
@@ -239,5 +243,9 @@ export default (
       },
       optimisticResponse,
     });
+
+    return 1;
   }
+
+  return -1;
 };
