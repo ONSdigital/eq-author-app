@@ -3,7 +3,7 @@ import {
   getFolderById,
   getSectionById,
   getSectionByFolderId,
-  findFolderIndexByFirstPageAttr,
+  findFolderIndexByPageAttr,
 } from "utils/questionnaireUtils";
 
 import arrayMove from "utils/arrayMove";
@@ -150,7 +150,7 @@ export default (
     // Fix optimistic response - Find the index of the page's parent
     // folder, as we can move the entire folder since it will be
     // disabled and only contain the page we want to move.
-    const pageFolderIndex = findFolderIndexByFirstPageAttr(
+    const pageFolderIndex = findFolderIndexByPageAttr(
       optimisticResponse.movePage.section.folders,
       "id",
       pageId

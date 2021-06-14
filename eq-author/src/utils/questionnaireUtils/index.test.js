@@ -8,7 +8,7 @@ import {
   getSectionByFolderId,
   getSectionByPageId,
   getPageByConfirmationId,
-  findFolderIndexByFirstPageAttr,
+  findFolderIndexByPageAttr,
 } from "./";
 
 describe("Helpers", () => {
@@ -71,15 +71,15 @@ describe("Helpers", () => {
       );
     });
 
-    it("Can find the position of a folder by a page ID", () => {
+    it("Can find the index of a folder by the first page's ID", () => {
       const folders = getFolders(questionnaire);
-      const position = findFolderIndexByFirstPageAttr(folders, "id", "1.1.1");
+      const position = findFolderIndexByPageAttr(folders, "id", "1.1.1");
       expect(position).toBe(0);
     });
 
-    it("Should return -1 if the position can't be found by page ID", () => {
+    it("Should return -1 if the index can't be found by the first page's ID", () => {
       const folders = getFolders(questionnaire);
-      const position = findFolderIndexByFirstPageAttr(folders, "id", "1.2");
+      const position = findFolderIndexByPageAttr(folders, "id", "1.2");
       expect(position).toBe(-1);
     });
   });
