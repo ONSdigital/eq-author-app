@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import Modal from "components/modals/Modal";
@@ -108,7 +108,7 @@ const buildQuestionnaire = (index) => ({
 });
 
 let questionArray;
-(questionArray = [...Array(11).keys()]).shift();
+(questionArray = [...Array(10).keys()]).shift();
 
 const questionnaires = questionArray.map((index) => buildQuestionnaire(index));
 
@@ -123,17 +123,26 @@ const nullFunction = () => {
   return null;
 };
 
-const Template = (args) => (
-  <QuestionnaireSelectModal>
+
+
+
+const Template = (args) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+
+ return (
+  <QuestionnaireSelectModal isOpen={modalIsOpen} onClose={handleModalClose}>
     <QuestionnairesView {...args} />
   </QuestionnaireSelectModal>
-);
+ )};
 
 export const MainModal = Template.bind({});
 MainModal.args = {
   questionnaires: questionnaires,
   enabledHeadings: enabledHeadings,
   canCreateQuestionnaire: false,
+  onCreateQuestionnaire: nullFunction,
+  onDeleteQuestionnaire: nullFunction,
   tableHeadings: enabledHeadings,
   onSortClick: nullFunction,
   onReverseClick: nullFunction,

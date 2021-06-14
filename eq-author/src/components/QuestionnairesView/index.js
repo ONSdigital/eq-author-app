@@ -129,7 +129,6 @@ const QuestionnairesView = ({
           questionnaireModal={questionnaireModal}
         />
       )}
-      {!questionnaireModal && (
         <PaginationNav
               countOnPage={state.currentPage ? state.currentPage.length : 0}
               totalCount={state.questionnaires.length}
@@ -139,7 +138,6 @@ const QuestionnairesView = ({
                 dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
               }
             />
-      )}
     </>
   );
 };
@@ -148,14 +146,14 @@ QuestionnairesView.propTypes = {
   questionnaires: PropTypes.arrayOf(
     propType(QuestionnairesTable.fragments.QuestionnaireDetails)
   ),
+  questionnaireModal: PropTypes.bool,
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  onDuplicateQuestionnaire: PropTypes.func,
   canCreateQuestionnaire: PropTypes.bool,
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   padding: PropTypes.string,
-  questionnaireModal: PropTypes.bool,
 
 };
 

@@ -37,15 +37,16 @@ const Panel = styled.div`
 
 const MenuContainer = styled.div`
   overflow: hidden;
-  height: 25em;
+  height: 28em;
 `;
 
 const QuestionnaireSelectModal = ({
     isOpen,
+    onClose,
     children,
 }) => {
     return (
-      <StyledModal isOpen={isOpen} hasCloseButton >
+      <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton >
       <Container data-test="questionnaire-select-modal">
         <>
           <MenuContainer>
@@ -58,7 +59,7 @@ const QuestionnaireSelectModal = ({
       </Container>
       <ModalFooter>
         <ButtonGroup horizontal align="right">
-          <Button variant="secondary" >
+          <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
           <Button
@@ -75,8 +76,9 @@ const QuestionnaireSelectModal = ({
 };
 
 QuestionnaireSelectModal.propTypes = {
-    isOpen: PropTypes.bool,
-    children: PropTypes.node,
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default QuestionnaireSelectModal;

@@ -15,7 +15,7 @@ import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLoc
 
 const ScrollContainer = styled.div`
   overflow: auto;
-  height: 25em;
+  height: 17em;
 `;
 
 const QuestionnairesTable = ({
@@ -98,7 +98,7 @@ QuestionnairesTable.propTypes = {
     propType(QuestionnairesTable.fragments.QuestionnaireDetails)
   ),
   onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  onDuplicateQuestionnaire: PropTypes.func,
   autoFocusId: PropTypes.string,
   onSortQuestionnaires: PropTypes.func,
   onReverseSort: PropTypes.func,
