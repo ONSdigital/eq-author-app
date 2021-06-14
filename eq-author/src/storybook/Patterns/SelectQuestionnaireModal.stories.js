@@ -146,7 +146,7 @@ MainModal.args = {
   tableHeadings: enabledHeadings,
   onSortClick: nullFunction,
   onReverseClick: nullFunction,
-  onRowClick: nullFunction,
+  onQuestionnaireClick: nullFunction,
   padding: "small",
   questionnaireModal: true,
 };
