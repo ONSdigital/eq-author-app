@@ -37,7 +37,7 @@ const disabledStyles = css`
   }
 `;
 
-const Link = styled.a`
+const Link = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
@@ -47,6 +47,7 @@ const Link = styled.a`
   padding-right: 1em;
   border: none;
   cursor: pointer;
+  background: none;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);
@@ -60,6 +61,10 @@ const Link = styled.a`
     outline: none;
   }
 
+  &:disabled {
+    ${disabledStyles}
+  }
+
   svg {
     width: 32px;
     height: 32px;
@@ -68,8 +73,6 @@ const Link = styled.a`
       fill: ${colors.white};
     }
   }
-
-  ${({ disabled }) => (disabled ? disabledStyles : "")}
 `;
 
 const NavItem = ({
