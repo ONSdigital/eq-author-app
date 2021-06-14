@@ -3,16 +3,6 @@ import { render, fireEvent } from "tests/utils/rtl";
 import Tooltip from ".";
 
 describe("Tooltip", () => {
-  it("should render", () => {
-    const { asFragment } = render(
-      <Tooltip content="This is a button">
-        <button>Click me</button>
-      </Tooltip>
-    );
-
-    expect(asFragment()).toMatchSnapshot();
-  });
-
   it("should render arbitrary content", () => {
     const content = (
       <ul>

@@ -9,7 +9,6 @@
 ![API](https://github.com/ONSdigital/eq-author-app/workflows/API%20Pull%20Request/badge.svg)
 ![Author](https://github.com/ONSdigital/eq-author-app/workflows/Author%20Pull%20Request/badge.svg)
 
-[![codecov](https://codecov.io/gh/ONSdigital/eq-author-app/branch/master/graph/badge.svg)](https://codecov.io/gh/ONSdigital/eq-author-app)
 [![Codacy](https://api.codacy.com/project/badge/Grade/f9cbc9e5c531436ca73ee0769a766678)](https://www.codacy.com/app/ONSDigital/eq-author-app)
 ![Snyk](https://img.shields.io/snyk/vulnerabilities/github/ONSDigital/eq-author-app.svg)
 
