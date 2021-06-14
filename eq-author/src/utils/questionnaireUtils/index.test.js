@@ -8,6 +8,7 @@ import {
   getSectionByFolderId,
   getSectionByPageId,
   getPageByConfirmationId,
+  findFolderIndexByFirstPageAttr,
 } from "./";
 
 describe("Helpers", () => {
@@ -17,72 +18,84 @@ describe("Helpers", () => {
     questionnaire = buildQuestionnaire();
   });
 
-  it("Can get all sections in a questionnaire", () => {
-    expect(getSections(questionnaire)).toMatchObject(questionnaire.sections);
+  describe("Sections", () => {
+    it("Can get all sections in a questionnaire", () => {
+      expect(getSections(questionnaire)).toMatchObject(questionnaire.sections);
+    });
+
+    it("Can get a section by a folder ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = sections.flatMap(({ folders }) => folders);
+      const firstFolder = folders[0];
+
+      expect(getSectionByFolderId(questionnaire, firstFolder.id)).toMatchObject(
+        firstSection
+      );
+    });
+
+    it("Can get a section by a page ID", () => {
+      const sections = questionnaire.sections;
+      const firstSection = sections[0];
+      const folders = sections.flatMap(({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getSectionByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstSection
+      );
+    });
   });
 
-  it("Can get all folders in a questionnaire", () => {
-    const folders = questionnaire.sections.flatMap(({ folders }) => folders);
-    expect(getFolders(questionnaire)).toMatchObject(folders);
+  describe("Folders", () => {
+    it("Can get all folders in a questionnaire", () => {
+      const folders = questionnaire.sections.flatMap(({ folders }) => folders);
+      expect(getFolders(questionnaire)).toMatchObject(folders);
+    });
+
+    it("Can get a folder by it's ID", () => {
+      const folders = questionnaire.sections.flatMap(({ folders }) => folders);
+      const firstFolder = folders[0];
+      expect(getFolderById(questionnaire, firstFolder.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can get a folder by a page ID", () => {
+      const folders = getFolders(questionnaire);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+
+      expect(getFolderByPageId(questionnaire, firstPage.id)).toMatchObject(
+        firstFolder
+      );
+    });
+
+    it("Can find the position of a folder by a page ID", () => {
+      const folders = getFolders(questionnaire);
+      const position = findFolderIndexByFirstPageAttr(folders, "id", "1.1.1");
+      expect(position).toBe(0);
+    });
   });
 
-  it("Can get all pages in a questionnaire", () => {
-    const folders = questionnaire.sections.flatMap(({ folders }) => folders);
-    const pages = folders.flatMap(({ pages }) => pages);
+  describe("Pages", () => {
+    it("Can get all pages in a questionnaire", () => {
+      const folders = questionnaire.sections.flatMap(({ folders }) => folders);
+      const pages = folders.flatMap(({ pages }) => pages);
 
-    expect(getPages(questionnaire)).toMatchObject(pages);
-  });
+      expect(getPages(questionnaire)).toMatchObject(pages);
+    });
 
-  it("Can get a folder by it's ID", () => {
-    const folders = questionnaire.sections.flatMap(({ folders }) => folders);
-    const firstFolder = folders[0];
-    expect(getFolderById(questionnaire, firstFolder.id)).toMatchObject(
-      firstFolder
-    );
-  });
+    it("Can get a page by a confirmation page ID", () => {
+      const sections = questionnaire.sections;
+      const folders = sections.flatMap(({ folders }) => folders);
+      const firstFolder = folders[0];
+      const firstPage = firstFolder.pages[0];
+      firstPage.confirmation = { id: "1" };
 
-  it("Can get a folder by a page ID", () => {
-    const folders = questionnaire.sections.flatMap(({ folders }) => folders);
-    const firstFolder = folders[0];
-    const firstPage = firstFolder.pages[0];
-
-    expect(getFolderByPageId(questionnaire, firstPage.id)).toMatchObject(
-      firstFolder
-    );
-  });
-
-  it("Can get a section by a folder ID", () => {
-    const sections = questionnaire.sections;
-    const firstSection = sections[0];
-    const folders = sections.flatMap(({ folders }) => folders);
-    const firstFolder = folders[0];
-
-    expect(getSectionByFolderId(questionnaire, firstFolder.id)).toMatchObject(
-      firstSection
-    );
-  });
-
-  it("Can get a section by a page ID", () => {
-    const sections = questionnaire.sections;
-    const firstSection = sections[0];
-    const folders = sections.flatMap(({ folders }) => folders);
-    const firstFolder = folders[0];
-    const firstPage = firstFolder.pages[0];
-
-    expect(getSectionByPageId(questionnaire, firstPage.id)).toMatchObject(
-      firstSection
-    );
-  });
-
-  it("Can get a page by a confirmation page ID", () => {
-    const sections = questionnaire.sections;
-    const folders = sections.flatMap(({ folders }) => folders);
-    const firstFolder = folders[0];
-    const firstPage = firstFolder.pages[0];
-    firstPage.confirmation = { id: "1" };
-
-    expect(
-      getPageByConfirmationId(questionnaire, firstPage.confirmation.id)
-    ).toMatchObject(firstPage);
+      expect(
+        getPageByConfirmationId(questionnaire, firstPage.confirmation.id)
+      ).toMatchObject(firstPage);
+    });
   });
 });
