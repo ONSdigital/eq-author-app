@@ -8,6 +8,8 @@ import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdat
 import { Label } from "components/Forms";
 import ContentCollapsible from "components/Collapsible/ContentCollapsible";
 
+import AdditionalInfo from "../../../page/Design/QuestionPageEditor/AdditionalInfo";
+
 import Property from "./Property";
 
 import { colors } from "constants/theme";
@@ -49,11 +51,13 @@ const Caption = styled.p`
   margin-left: 1em;
   font-size: 0.85em;
 `;
-
 export class UnwrappedQuestionProperties extends React.Component {
   static propTypes = {
     page: CustomPropTypes.page,
     onUpdateQuestionPage: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onUpdate: PropTypes.func,
+    fetchAnswers: PropTypes.func,
   };
 
   handleChange = ({ name, value }) => {
@@ -86,12 +90,14 @@ export class UnwrappedQuestionProperties extends React.Component {
       }
     };
 
+    const { page, onChange, onUpdate, fetchAnswers } = this.props;
+
     return (
       <ContentCollapsible
         title="Additional content"
         className="additionalContentCollapsible"
         withoutHideThis
-        defaultOpen={defaultOpen}
+        defaultOpen={defaultOpen()}
       >
         <Property
           id="descriptionEnabled"
@@ -106,6 +112,14 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           To provide added context to the question.
         </PropertyDescription>
+
+        <AdditionalInfo
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"descriptionEnabled"}
+        />
 
         <HorizontalSeparator />
 
@@ -124,6 +138,14 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Only to be used to define word(s) or acronym(s) within the question.
         </PropertyDescription>
+
+        <AdditionalInfo
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"definitionEnabled"}
+        />
 
         <HorizontalSeparator />
 
@@ -145,6 +167,14 @@ export class UnwrappedQuestionProperties extends React.Component {
           answer.
         </PropertyDescription>
 
+        <AdditionalInfo
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"guidanceEnabled"}
+        />
+
         <HorizontalSeparator />
 
         <Property
@@ -162,6 +192,13 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Information regarding why we are asking this question.
         </PropertyDescription>
+        <AdditionalInfo
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"additionalInfoEnabled"}
+        />
       </ContentCollapsible>
     );
   }

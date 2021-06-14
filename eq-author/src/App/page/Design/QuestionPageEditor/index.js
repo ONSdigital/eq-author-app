@@ -53,6 +53,7 @@ const propTypes = {
   page: CustomPropTypes.page.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onChangeUpdate: PropTypes.func.isRequired,
   fetchAnswers: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
 };
@@ -109,7 +110,12 @@ export const UnwrappedQuestionPageEditor = (props) => {
           data-test="answers-editor"
         />
 
-        <QuestionProperties page={page} />
+        <QuestionProperties
+          page={page}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          fetchAnswers={fetchAnswers}
+        />
       </div>
 
       <AddAnswerSegment>
