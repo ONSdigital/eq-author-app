@@ -50,11 +50,9 @@ const QuestionnaireSelectModal = ({
         <>
           <MenuContainer>
             <ModalTitle>Select the source questionnaire</ModalTitle>
-            {/* <ScrollPane> */}
               <Panel>
                 {children}
               </Panel>
-            {/* </ScrollPane> */}
           </MenuContainer>
         </>
       </Container>

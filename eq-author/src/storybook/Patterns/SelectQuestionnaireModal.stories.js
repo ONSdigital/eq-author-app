@@ -51,15 +51,6 @@ export default {
         },
       },
     },
-    // tableHeadings: {
-    //   description: 'Which heading do you want to render?',
-    //   table: {
-    //     type: { 
-    //       summary: 'Array', 
-    //       detail: 'Include the relevant titles in the array'
-    //     },
-    //   },
-    // },
     padding: {
       description: 'Set to small for Modal',
       table: {
@@ -84,7 +75,8 @@ export default {
           </p>
           <p>Since we are using the same component as the home page but the design calls for a much stripped down version, we are using certain props to help in this stripping down!</p>
           <h3>Props to consider</h3>
-          <p>These are listed in the table below with some description.</p>
+          <p>These are listed in the table below with a basic description.</p>
+          <p>click on the description down arrow for more details if available.</p>
           <ArgsTable story={PRIMARY_STORY} />
           <Primary />
           <Stories />

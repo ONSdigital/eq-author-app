@@ -4,14 +4,13 @@ import { render, } from "tests/utils/rtl";
 import QuestionnaireSelectModal from "./";
 
 describe("Questionnaire Select Modal", () => {
-  let  props, searchBar, accessFilter, children;
+  let  props, isOpen, children;
 
   beforeEach(() => {
-    searchBar = <div>This is the search component</div>;
-    accessFilter = <div>This is the accessFilter component</div>;
+    isOpen = true;
     children = <div>This is the child component</div>;
 
-    props = { searchBar, accessFilter };
+    props = { isOpen };
   });
 
   const renderModal = () =>
@@ -31,18 +30,6 @@ describe("Questionnaire Select Modal", () => {
         const { getByText } = renderModal();
         
         expect(getByText("This is the child component")).toBeInTheDocument();
-    });
-
-    it("it should render a searchBar component", async () => {
-        const { getByText } = renderModal();
-        
-        expect(getByText("This is the search component")).toBeInTheDocument();
-    });
-
-    it("it should render a accessFilter component", async () => {
-        const { getByText } = renderModal();
-        
-        expect(getByText("This is the accessFilter component")).toBeInTheDocument();
     });
 
 });
