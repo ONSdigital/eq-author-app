@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { get, flowRight } from "lodash";
@@ -9,19 +8,17 @@ import WrappingInput from "components/Forms/WrappingInput";
 import RichTextEditor from "components/RichTextEditor";
 import { Field, Label } from "components/Forms";
 
-import { colors } from "constants/theme";
-
 import focusOnNode from "utils/focusOnNode";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 
-import AnswerTransition from "./AnswersEditor/AnswerTransition";
+import AnswerTransition from "../../Design/QuestionPageEditor/AnswersEditor/AnswerTransition";
 
-import MultipleFieldEditor from "./MultipleFieldEditor";
+import MultipleFieldEditor from "../../Design/QuestionPageEditor/MultipleFieldEditor";
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/page.graphql";
 
-import { getErrorByField } from "./validationUtils.js";
+import { getErrorByField } from "../../Design/QuestionPageEditor/validationUtils.js";
 
 const contentControls = {
   bold: true,
@@ -49,13 +46,6 @@ const guidanceControls = {
   link: true,
 };
 
-const Paragraph = styled.p`
-  margin: 0 0 1em;
-  background: ${colors.lighterGrey};
-  padding: 0.5em;
-  border-left: 5px solid ${colors.lightGrey};
-`;
-
 const errorMsg = (field, page) =>
   getErrorByField(field, page.validationErrorInfo.errors);
 
@@ -71,7 +61,7 @@ export const StatelessAdditionalInfo = ({
   option,
 }) => (
   <TransitionGroup>
-    {page.additionalInfoEnabled && option === "additionalInfoEnabled" ? (
+    {page.additionalInfoEnabled && option === "additionalInfo" ? (
       <AnswerTransition
         key="additional-info"
         onEntered={() => focusOnElement("additional-info-label")}
@@ -116,13 +106,12 @@ export const StatelessAdditionalInfo = ({
       </AnswerTransition>
     ) : null}
 
-    {page.descriptionEnabled && option === "descriptionEnabled" ? (
+    {page.descriptionEnabled && option === "description" ? (
       <AnswerTransition
         key="question-description"
         onEntered={() => focusOnNode(page.description)}
       >
         <RichTextEditor
-          ref={undefined}
           id="question-description"
           name="description"
           label="Question description"
@@ -138,15 +127,12 @@ export const StatelessAdditionalInfo = ({
       </AnswerTransition>
     ) : null}
 
-    {page.definitionEnabled && option === "definitionEnabled" ? (
+    {page.definitionEnabled && option === "definition" ? (
       <AnswerTransition
         key="definition"
         onEntered={() => focusOnElement("definition-label")}
       >
         <MultipleFieldEditor id="definition" label="Question definition">
-          <Paragraph>
-            Only to be used to define word(s) or acronym(s) within the question.
-          </Paragraph>
           <Field>
             <Label htmlFor="definition-label">Label</Label>
             <WrappingInput
@@ -177,14 +163,13 @@ export const StatelessAdditionalInfo = ({
       </AnswerTransition>
     ) : null}
 
-    {page.guidanceEnabled && option === "guidanceEnabled" ? (
+    {page.guidanceEnabled && option === "guidance" ? (
       <TransitionGroup>
         <AnswerTransition
           key="question-guidance"
           onEntered={() => focusOnNode(page.guidance)}
         >
           <RichTextEditor
-            ref={page.guidance}
             id="question-guidance"
             name="guidance"
             label="Include/exclude"

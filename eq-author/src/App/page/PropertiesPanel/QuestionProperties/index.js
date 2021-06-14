@@ -8,7 +8,7 @@ import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdat
 import { Label } from "components/Forms";
 import ContentCollapsible from "components/Collapsible/ContentCollapsible";
 
-import AdditionalInfo from "../../../page/Design/QuestionPageEditor/AdditionalInfo";
+import AdditionalContentOptions from "./AdditionalContentOptions";
 
 import Property from "./Property";
 
@@ -113,12 +113,12 @@ export class UnwrappedQuestionProperties extends React.Component {
           To provide added context to the question.
         </PropertyDescription>
 
-        <AdditionalInfo
+        <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}
           page={page}
           fetchAnswers={fetchAnswers}
-          option={"descriptionEnabled"}
+          option={"description"}
         />
 
         <HorizontalSeparator />
@@ -139,12 +139,12 @@ export class UnwrappedQuestionProperties extends React.Component {
           Only to be used to define word(s) or acronym(s) within the question.
         </PropertyDescription>
 
-        <AdditionalInfo
+        <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}
           page={page}
           fetchAnswers={fetchAnswers}
-          option={"definitionEnabled"}
+          option={"definition"}
         />
 
         <HorizontalSeparator />
@@ -167,12 +167,12 @@ export class UnwrappedQuestionProperties extends React.Component {
           answer.
         </PropertyDescription>
 
-        <AdditionalInfo
+        <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}
           page={page}
           fetchAnswers={fetchAnswers}
-          option={"guidanceEnabled"}
+          option={"guidance"}
         />
 
         <HorizontalSeparator />
@@ -192,12 +192,12 @@ export class UnwrappedQuestionProperties extends React.Component {
         <PropertyDescription>
           Information regarding why we are asking this question.
         </PropertyDescription>
-        <AdditionalInfo
+        <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}
           page={page}
           fetchAnswers={fetchAnswers}
-          option={"additionalInfoEnabled"}
+          option={"additionalInfo"}
         />
       </ContentCollapsible>
     );
