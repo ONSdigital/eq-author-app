@@ -76,6 +76,12 @@ describe("Helpers", () => {
       const position = findFolderIndexByFirstPageAttr(folders, "id", "1.1.1");
       expect(position).toBe(0);
     });
+
+    it("Should return -1 if the position can't be found by page ID", () => {
+      const folders = getFolders(questionnaire);
+      const position = findFolderIndexByFirstPageAttr(folders, "id", "1.2");
+      expect(position).toBe(-1);
+    });
   });
 
   describe("Pages", () => {
