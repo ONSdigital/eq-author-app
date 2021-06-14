@@ -306,9 +306,6 @@ describe("QuestionnairesView", () => {
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
 
-        // Wait for modal to animate out
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
-
         expect(document.body).toEqual(document.activeElement);
       });
 
@@ -358,8 +355,6 @@ describe("QuestionnairesView", () => {
         const cancelButton = getByText("Cancel");
         fireEvent.click(cancelButton);
 
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
-
         expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
       });
 
@@ -401,7 +396,6 @@ describe("QuestionnairesView", () => {
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
 
         expect(queryByTestId("btn-delete-modal")).toBeNull();
 
@@ -740,11 +734,6 @@ describe("QuestionnairesView", () => {
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 2 Title`
         );
-
-        fireEvent.click(sortTitleButton);
-        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-          `Questionnaire 4 Title`
-        );
       });
 
       it("should sort by starred descending when starred header is clicked", () => {
@@ -756,11 +745,6 @@ describe("QuestionnairesView", () => {
         fireEvent.click(sortTitleButton);
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 3 Title`
-        );
-
-        fireEvent.click(sortTitleButton);
-        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-          `Questionnaire 4 Title`
         );
       });
 
@@ -792,11 +776,6 @@ describe("QuestionnairesView", () => {
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           "Questionnaire 1 Title"
         );
-        fireEvent.click(sortTitleButton);
-
-        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-          "Questionnaire 5 Title"
-        );
 
         unmount();
 
@@ -804,7 +783,7 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
         expect(getRowTitleAtIndex(getAllByTestIdNewRender, 0)).toEqual(
-          "Questionnaire 5 Title"
+          "Questionnaire 1 Title"
         );
       });
     });
