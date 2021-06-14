@@ -164,26 +164,24 @@ export const StatelessAdditionalInfo = ({
     ) : null}
 
     {page.guidanceEnabled && option === "guidance" ? (
-      <TransitionGroup>
-        <AnswerTransition
-          key="question-guidance"
-          onEntered={() => focusOnNode(page.guidance)}
-        >
-          <RichTextEditor
-            id="question-guidance"
-            name="guidance"
-            label="Include/exclude"
-            multiline
-            value={page.guidance}
-            onUpdate={onChangeUpdate}
-            controls={guidanceControls}
-            fetchAnswers={fetchAnswers}
-            metadata={get(page, "section.questionnaire.metadata", [])}
-            testSelector="txt-question-guidance"
-            errorValidationMsg={errorMsg("guidance", page)}
-          />
-        </AnswerTransition>
-      </TransitionGroup>
+      <AnswerTransition
+        key="question-guidance"
+        onEntered={() => focusOnNode(page.guidance)}
+      >
+        <RichTextEditor
+          id="question-guidance"
+          name="guidance"
+          label="Include/exclude"
+          multiline
+          value={page.guidance}
+          onUpdate={onChangeUpdate}
+          controls={guidanceControls}
+          fetchAnswers={fetchAnswers}
+          metadata={get(page, "section.questionnaire.metadata", [])}
+          testSelector="txt-question-guidance"
+          errorValidationMsg={errorMsg("guidance", page)}
+        />
+      </AnswerTransition>
     ) : null}
   </TransitionGroup>
 );
