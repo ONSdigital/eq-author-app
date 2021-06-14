@@ -57,7 +57,7 @@ const calculatedSetup = () => {
       totalCount: 1,
     },
   };
-  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  useParams.mockImplementation(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
   const numOfPages = questionnaire.sections[0].folders[1].pages;
   const newPosition = numOfPages.length + 1;
@@ -80,7 +80,7 @@ const confirmationSetup = () => {
       totalCount: 0,
     },
   };
-  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  useParams.mockImplementation(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
   questionnaire.sections[0].folders[1].pages[0].confirmation = confirmation;
   const utils = defaultSetup({ questionnaire });
