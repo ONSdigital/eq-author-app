@@ -1,5 +1,3 @@
-import { find } from "lodash";
-
 export const getSections = (questionnaire) => questionnaire?.sections;
 
 export const getFolders = (questionnaire) =>
