@@ -9,7 +9,9 @@ const borderRadii = {
   [RADIO]: "100%",
 };
 
-const MultipleChoice = styled.div`
+const MultipleChoice = styled.div.attrs({
+  "data-test": "dummy-multiple-choice",
+})`
   background: ${colors.lightMediumGrey};
   background-size: cover;
   height: 1.4em;
