@@ -37,6 +37,14 @@ export const QuestionnaireLink = styled.span`
   &:focus {
     outline: none;
   }
+  ${(props) =>
+    props.linkHasFocus && props.questionnaireModal &&
+    css`
+      color: white;
+      :nth-of-type(2n-1) {
+        color: white;
+      }
+    `}
 `;
 
 export const IconTextButton = styled(Button).attrs({
@@ -78,18 +86,34 @@ export const TR = styled.tr`
   height: 3.2em;
   position: relative;
 
+  &:hover {
+    background-color: ${rgba(colors.primary, 0.1)};
+    cursor: pointer;
+  }
+
   ${(props) =>
-    props.linkHasFocus &&
+    props.linkHasFocus && !props.questionnaireModal &&
     css`
       box-shadow: 0 0 0 3px ${colors.tertiary};
       border-color: ${colors.tertiary};
       z-index: 1;
     `}
 
-  &:hover {
-    background-color: ${rgba(colors.primary, 0.1)};
-    cursor: pointer;
+    ${(props) =>
+    props.linkHasFocus && props.questionnaireModal &&
+    css`
+      border-color: ${colors.primary};
+      z-index: 1;
+      background-color: ${colors.primary};
+      color: white;
+      :nth-of-type(2n-1) {
+        background-color: ${colors.primary};
+        color: white;
+      }
+      &:hover {
+        background-color: ${colors.primary};
   }
+    `}
 `;
 
 const TD = styled.td`
@@ -100,7 +124,7 @@ const TD = styled.td`
   text-overflow: ellipsis;
 
   &:first-of-type {
-    padding-left: 0.65em;
+    padding-left: 1em;
   }
 `;
 
@@ -140,15 +164,16 @@ const Permission = styled.li`
 const propTypes = {
   questionnaire: CustomPropTypes.questionnaire.isRequired,
   history: CustomPropTypes.history.isRequired,
-  onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired,
-  onLockQuestionnaire: PropTypes.func.isRequired,
+  onDeleteQuestionnaire: PropTypes.func,
+  onDuplicateQuestionnaire: PropTypes.func,
+  onLockQuestionnaire: PropTypes.func,
   exit: PropTypes.bool,
   enter: PropTypes.bool,
   autoFocus: PropTypes.bool,
   isLastOnPage: PropTypes.bool,
   tableHeadings: PropTypes.array, // eslint-disable-line
   onClick: PropTypes.func.isRequired,
+  questionnaireModal: PropTypes.bool,
 };
 
 export const Row = ({
@@ -171,6 +196,7 @@ export const Row = ({
   autoFocus,
   tableHeadings,
   onClick,
+  questionnaireModal,
 }) => {
   const [linkHasFocus, setLinkHasFocus] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -260,6 +286,8 @@ export const Row = ({
               data-test="anchor-questionnaire-title"
               title={displayName}
               tabIndex="0"
+              linkHasFocus={linkHasFocus}
+              questionnaireModal={questionnaireModal}
             >
               {shortTitle && (
                 <ShortTitle>
@@ -355,6 +383,7 @@ export const Row = ({
         onBlur={handleBlur}
         linkHasFocus={linkHasFocus}
         onClick={handleClick}
+        questionnaireModal={questionnaireModal}
         data-test="table-row"
       >
         {tableHeadings.map(renderEnabled)}
