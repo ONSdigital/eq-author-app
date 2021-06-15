@@ -39,10 +39,7 @@ const Page = ({
   validationErrorInfo,
   position,
 }) => {
-  const { entityId, tab = "design" } = useParams();
-
-  const isCurrentPage = (navItemId, currentPageId) =>
-    navItemId === currentPageId;
+  const { tab = "design" } = useParams();
 
   const iconMap = {
     QuestionPage: IconQuestionPage,
@@ -56,7 +53,6 @@ const Page = ({
           <QuestionPage
             title={displayName}
             icon={iconMap[pageType]}
-            disabled={isCurrentPage(pageId, entityId)}
             titleUrl={buildPagePath({
               questionnaireId,
               pageId,
@@ -64,21 +60,19 @@ const Page = ({
             })}
             errorCount={validationErrorInfo?.totalCount}
             hasConfirmation={Boolean(confirmation)}
-            {...dragHandleProps}
+            dragHandleProps={dragHandleProps}
           />
           {confirmation && (
             <ConfirmationPage
-              key={confirmation.displayName}
               title={confirmation.displayName}
+              icon={IconConfirmationPage}
               titleUrl={buildConfirmationPath({
                 questionnaireId,
                 confirmationId: confirmation.id,
                 tab,
               })}
-              disabled={isCurrentPage(confirmation.id, entityId)}
-              icon={IconConfirmationPage}
               errorCount={confirmation?.validationErrorInfo?.totalCount}
-              {...dragHandleProps}
+              dragHandleProps={dragHandleProps}
             />
           )}
         </ListItem>

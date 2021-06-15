@@ -48,6 +48,27 @@ export const disabledStyle = css`
   pointer-events: none;
 `;
 
+export const activeNavItemStyle = css`
+  background: ${colors.orange};
+  outline: none;
+  cursor: default;
+
+  &:hover {
+    background: ${colors.orange};
+  }
+
+  p,
+  span {
+    color: ${colors.black};
+  }
+
+  > svg {
+    path {
+      fill: ${colors.black};
+    }
+  }
+`;
+
 export const hoverStyle = css`
   background: rgba(0, 0, 0, 0.2);
 `;

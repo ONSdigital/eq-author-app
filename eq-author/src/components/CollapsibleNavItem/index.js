@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors, focusStyle } from "constants/theme";
+import { colors, focusStyle, activeNavItemStyle } from "constants/theme";
 import chevron from "assets/icon-chevron.svg";
 
 import Badge from "components/Badge";
@@ -24,7 +24,7 @@ const Title = styled(Truncated)`
   font-weight: bold;
 `;
 
-const Button = styled.button`
+const Link = styled(NavLink)`
   align-items: center;
   background-color: transparent;
   border: none;
@@ -36,6 +36,7 @@ const Button = styled.button`
   padding-right: 1em;
   overflow: hidden;
   width: 100%;
+  text-decoration: none;
 
   ${({ bordered, borderColor }) =>
     bordered
@@ -51,19 +52,8 @@ const Button = styled.button`
     ${focusStyle};
   }
 
-  &:disabled {
-    background: ${colors.orange};
-    outline: none;
-
-    ${Title} {
-      color: ${colors.black};
-    }
-
-    > svg {
-      path {
-        fill: ${colors.black};
-      }
-    }
+  &.activePage {
+    ${activeNavItemStyle}
   }
 
   svg {
@@ -151,14 +141,11 @@ const CollapsibleNavItem = ({
   bordered,
   selfErrorCount = 0,
   childErrorCount = 0,
-  disabled,
   className,
   children,
   containsActiveEntity,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
-
-  const history = useHistory();
 
   useEffect(() => {
     toggleCollapsible(open);
@@ -177,9 +164,9 @@ const CollapsibleNavItem = ({
           aria-expanded={isOpen}
           data-test="CollapsibleNavItem-toggle-button"
         />
-        <Button
-          onClick={() => history.push(titleUrl)}
-          disabled={disabled}
+        <Link
+          to={titleUrl}
+          activeClassName={"activePage"}
           bordered={bordered}
           borderColor={
             containsActiveEntity && !isOpen ? colors.orange : colors.grey
@@ -203,7 +190,7 @@ const CollapsibleNavItem = ({
               </VisuallyHidden>
             </Badge>
           ) : null}
-        </Button>
+        </Link>
       </Header>
       <Body
         data-test={`CollapsibleNavItem-body`}

@@ -134,7 +134,9 @@ describe("Navigation sidebar", () => {
     it("should be disabled when on a calculated summary page", () => {
       const { getByText } = calculatedSetup();
       fireEvent.click(getByText("Calculated Summary Page").parentElement);
-      expect(getByText("Calculated Summary Page").parentElement).toBeDisabled();
+      expect(getByText("Calculated Summary Page").parentElement).toHaveClass(
+        "activePage"
+      );
     });
   });
 
@@ -148,21 +150,23 @@ describe("Navigation sidebar", () => {
       const { getByText } = introductionSetup();
       fireEvent.click(getByText("Introduction"));
 
-      expect(getByText("Introduction").parentElement).toBeDisabled();
+      expect(getByText("Introduction").parentElement).toHaveClass("activePage");
     });
   });
 
   describe("Confirmation pages", () => {
     it("should render confirmation pages", () => {
       const { getByText } = confirmationSetup();
-      expect(getByText("confirmation question")).toBeVisible();
+      expect(getByText("confirmation question").parentElement).toBeVisible();
     });
 
     it("should be disabled when on an confirmation pages", async () => {
       const { getByText } = confirmationSetup();
       expect(getByText("confirmation question")).toBeVisible();
       fireEvent.click(getByText("confirmation question"));
-      expect(getByText("confirmation question").parentElement).toBeDisabled();
+      expect(getByText("confirmation question").parentElement).toHaveClass(
+        "activePage"
+      );
     });
   });
 });
