@@ -306,9 +306,6 @@ describe("QuestionnairesView", () => {
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
 
-        // Wait for modal to animate out
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
-
         expect(document.body).toEqual(document.activeElement);
       });
 
@@ -350,15 +347,13 @@ describe("QuestionnairesView", () => {
       });
 
       it("should not delete the questionnaire if the cancel button is clicked", async () => {
-        const { getAllByTitle, getByText, getByTestId } = render(
+        const { getAllByTitle, getByText } = render(
           <QuestionnairesView {...props} />
         );
         const deleteButton = getAllByTitle("Delete")[0];
         fireEvent.click(deleteButton);
         const cancelButton = getByText("Cancel");
         fireEvent.click(cancelButton);
-
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
 
         expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
       });
@@ -401,7 +396,6 @@ describe("QuestionnairesView", () => {
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
-        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
 
         expect(queryByTestId("btn-delete-modal")).toBeNull();
 
@@ -714,14 +708,13 @@ describe("QuestionnairesView", () => {
         }
       });
 
-      it("should sort by title descending when title header is clicked twice", () => {
+      it("should sort by title descending when title header is clicked twice", async() => {
         const { getByTestId, getAllByTestId } = render(
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByTestId("title-sort-button");
-        fireEvent.click(sortTitleButton);
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByTestId("title-sort-button"));
+        fireEvent.click(getByTestId("title-sort-button"));
 
         for (let index = 0, reverseNum = 5; index < 5; index++, reverseNum--) {
           expect(getRowTitleAtIndex(getAllByTestId, index)).toEqual(
@@ -735,13 +728,12 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByTestId("locked-sort-button");
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByTestId("locked-sort-button"));
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 2 Title`
         );
 
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByTestId("locked-sort-button"));
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 4 Title`
         );
@@ -752,13 +744,11 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByTestId("starred-sort-button");
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByTestId("starred-sort-button"));
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 3 Title`
         );
-
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByTestId("starred-sort-button"));
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           `Questionnaire 4 Title`
         );
@@ -773,12 +763,11 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
-        const sortTitleButton = getByText("Title");
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByText("Title"));
         // 9 is on the second page as it is sorted alphabetically, so 1,10,...16,2,3
         expect(queryByText("Questionnaire 9 Title")).toBeFalsy();
 
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByText("Title"));
         expect(queryByText("Questionnaire 9 Title")).toBeTruthy();
       });
 
@@ -787,12 +776,12 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        const sortTitleButton = getByText("Title");
-        fireEvent.click(sortTitleButton);
+        fireEvent.click(getByText("Title"));
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           "Questionnaire 1 Title"
         );
-        fireEvent.click(sortTitleButton);
+
+        fireEvent.click(getByText("Title"));
 
         expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
           "Questionnaire 5 Title"

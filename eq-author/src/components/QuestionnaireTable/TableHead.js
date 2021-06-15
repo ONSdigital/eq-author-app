@@ -19,6 +19,7 @@ const TH = styled.th`
 
   &:first-child > * {
     border-radius: ${radius} 0 0;
+    padding-left: 1em;
   }
 `;
 
