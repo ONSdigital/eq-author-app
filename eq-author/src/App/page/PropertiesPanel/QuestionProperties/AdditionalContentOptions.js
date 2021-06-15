@@ -92,8 +92,8 @@ export const StatelessAdditionalInfo = ({
         key="definition"
         onEntered={() => focusOnElement("definition-label")}
       >
-        <Field>
-          <Wrapper>
+        <Wrapper>
+          <Field>
             <Label htmlFor="definition-label">Label</Label>
             <WrappingInput
               id="definition-label"
@@ -105,9 +105,7 @@ export const StatelessAdditionalInfo = ({
               bold
               errorValidationMsg={errorMsg("definitionLabel", page)}
             />
-          </Wrapper>
-        </Field>
-        <Wrapper>
+          </Field>
           <RichTextEditor
             id="definition-content"
             name="definitionContent"
@@ -153,8 +151,8 @@ export const StatelessAdditionalInfo = ({
         key="additional-info"
         onEntered={() => focusOnElement("additional-info-label")}
       >
-        <Field>
-          <Wrapper>
+        <Wrapper>
+          <Field>
             <Label htmlFor="additional-info-label">Label</Label>
             <WrappingInput
               id="additional-info-label"
@@ -169,9 +167,7 @@ export const StatelessAdditionalInfo = ({
                 errors
               )}
             />
-          </Wrapper>
-        </Field>
-        <Wrapper>
+          </Field>
           <RichTextEditor
             id="additional-info-content"
             name="additionalInfoContent"
