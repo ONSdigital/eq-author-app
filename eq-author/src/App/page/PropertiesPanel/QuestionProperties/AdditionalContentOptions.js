@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { get, flowRight } from "lodash";
@@ -45,6 +46,10 @@ const guidanceControls = {
   link: true,
 };
 
+const Wrapper = styled.div`
+  margin: 0 1.7em 1em 0.96em;
+`;
+
 const errorMsg = (field, page) =>
   getErrorByField(field, page.validationErrorInfo.errors);
 
@@ -65,19 +70,20 @@ export const StatelessAdditionalInfo = ({
         key="question-description"
         onEntered={() => focusOnNode(page.description)}
       >
-        <RichTextEditor
-          id="question-description"
-          name="description"
-          label="Question description"
-          multiline
-          value={page.description}
-          onUpdate={onChangeUpdate}
-          controls={descriptionControls}
-          fetchAnswers={fetchAnswers}
-          metadata={get(page, "section.questionnaire.metadata", [])}
-          testSelector="txt-question-description"
-          errorValidationMsg={errorMsg("description", page)}
-        />
+        <Wrapper>
+          <RichTextEditor
+            id="question-description"
+            name="description"
+            multiline
+            value={page.description}
+            onUpdate={onChangeUpdate}
+            controls={descriptionControls}
+            fetchAnswers={fetchAnswers}
+            metadata={get(page, "section.questionnaire.metadata", [])}
+            testSelector="txt-question-description"
+            errorValidationMsg={errorMsg("description", page)}
+          />
+        </Wrapper>
       </AnswerTransition>
     ) : null}
 
@@ -87,31 +93,35 @@ export const StatelessAdditionalInfo = ({
         onEntered={() => focusOnElement("definition-label")}
       >
         <Field>
-          <Label htmlFor="definition-label">Label</Label>
-          <WrappingInput
-            id="definition-label"
-            name="definitionLabel"
-            data-test="txt-question-definition-label"
-            onChange={onChange}
-            onBlur={onUpdate}
-            value={page.definitionLabel}
-            bold
-            errorValidationMsg={errorMsg("definitionLabel", page)}
-          />
+          <Wrapper>
+            <Label htmlFor="definition-label">Label</Label>
+            <WrappingInput
+              id="definition-label"
+              name="definitionLabel"
+              data-test="txt-question-definition-label"
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={page.definitionLabel}
+              bold
+              errorValidationMsg={errorMsg("definitionLabel", page)}
+            />
+          </Wrapper>
         </Field>
-        <RichTextEditor
-          id="definition-content"
-          name="definitionContent"
-          label="Content"
-          multiline
-          value={page.definitionContent}
-          onUpdate={onChangeUpdate}
-          controls={definitionControls}
-          fetchAnswers={fetchAnswers}
-          metadata={page.section.questionnaire.metadata}
-          testSelector="txt-question-definition-content"
-          errorValidationMsg={errorMsg("definitionContent", page)}
-        />
+        <Wrapper>
+          <RichTextEditor
+            id="definition-content"
+            name="definitionContent"
+            label="Content"
+            multiline
+            value={page.definitionContent}
+            onUpdate={onChangeUpdate}
+            controls={definitionControls}
+            fetchAnswers={fetchAnswers}
+            metadata={page.section.questionnaire.metadata}
+            testSelector="txt-question-definition-content"
+            errorValidationMsg={errorMsg("definitionContent", page)}
+          />
+        </Wrapper>
       </AnswerTransition>
     ) : null}
 
@@ -120,19 +130,21 @@ export const StatelessAdditionalInfo = ({
         key="question-guidance"
         onEntered={() => focusOnNode(page.guidance)}
       >
-        <RichTextEditor
-          id="question-guidance"
-          name="guidance"
-          label="Include/exclude"
-          multiline
-          value={page.guidance}
-          onUpdate={onChangeUpdate}
-          controls={guidanceControls}
-          fetchAnswers={fetchAnswers}
-          metadata={get(page, "section.questionnaire.metadata", [])}
-          testSelector="txt-question-guidance"
-          errorValidationMsg={errorMsg("guidance", page)}
-        />
+        <Wrapper>
+          <RichTextEditor
+            id="question-guidance"
+            name="guidance"
+            label="Include/exclude"
+            multiline
+            value={page.guidance}
+            onUpdate={onChangeUpdate}
+            controls={guidanceControls}
+            fetchAnswers={fetchAnswers}
+            metadata={get(page, "section.questionnaire.metadata", [])}
+            testSelector="txt-question-guidance"
+            errorValidationMsg={errorMsg("guidance", page)}
+          />
+        </Wrapper>
       </AnswerTransition>
     ) : null}
 
@@ -142,31 +154,41 @@ export const StatelessAdditionalInfo = ({
         onEntered={() => focusOnElement("additional-info-label")}
       >
         <Field>
-          <Label htmlFor="additional-info-label">Label</Label>
-          <WrappingInput
-            id="additional-info-label"
-            name="additionalInfoLabel"
-            data-test="txt-question-additional-info-label"
-            onChange={onChange}
-            onBlur={onUpdate}
-            value={page.additionalInfoLabel}
-            bold
-            errorValidationMsg={getErrorByField("additionalInfoLabel", errors)}
-          />
+          <Wrapper>
+            <Label htmlFor="additional-info-label">Label</Label>
+            <WrappingInput
+              id="additional-info-label"
+              name="additionalInfoLabel"
+              data-test="txt-question-additional-info-label"
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={page.additionalInfoLabel}
+              bold
+              errorValidationMsg={getErrorByField(
+                "additionalInfoLabel",
+                errors
+              )}
+            />
+          </Wrapper>
         </Field>
-        <RichTextEditor
-          id="additional-info-content"
-          name="additionalInfoContent"
-          label="Content"
-          multiline
-          value={page.additionalInfoContent}
-          onUpdate={onChangeUpdate}
-          controls={contentControls}
-          fetchAnswers={fetchAnswers}
-          metadata={page.section.questionnaire.metadata}
-          testSelector="txt-question-additional-info-content"
-          errorValidationMsg={getErrorByField("additionalInfoContent", errors)}
-        />
+        <Wrapper>
+          <RichTextEditor
+            id="additional-info-content"
+            name="additionalInfoContent"
+            label="Content"
+            multiline
+            value={page.additionalInfoContent}
+            onUpdate={onChangeUpdate}
+            controls={contentControls}
+            fetchAnswers={fetchAnswers}
+            metadata={page.section.questionnaire.metadata}
+            testSelector="txt-question-additional-info-content"
+            errorValidationMsg={getErrorByField(
+              "additionalInfoContent",
+              errors
+            )}
+          />
+        </Wrapper>
       </AnswerTransition>
     ) : null}
   </TransitionGroup>

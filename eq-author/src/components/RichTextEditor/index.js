@@ -164,7 +164,7 @@ class RichTextEditor extends React.Component {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onUpdate: PropTypes.func.isRequired,
-    label: PropTypes.node.isRequired,
+    label: PropTypes.node,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     className: PropTypes.string,
@@ -545,7 +545,7 @@ class RichTextEditor extends React.Component {
           data-test="rte-field"
           disabled={disabled}
         >
-          <Label id={`label-${id}`}>{label}</Label>
+          {label && <Label id={`label-${id}`}>{label}</Label>}
           <Input
             className={className}
             size={size}
