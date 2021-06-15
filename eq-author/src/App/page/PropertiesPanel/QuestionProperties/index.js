@@ -14,14 +14,6 @@ import Property from "./Property";
 
 import { colors } from "constants/theme";
 
-const PropertyDescription = styled.p`
-  display: none;
-  font-weight: normal;
-  margin: 0 0 0.5em;
-  font-size: 0.9em;
-  ${colors.darkGrey}
-`;
-
 export const HelpButton = styled.button`
   --color-text: ${colors.primary};
   background: ${colors.white};
@@ -107,11 +99,9 @@ export class UnwrappedQuestionProperties extends React.Component {
         >
           <Label>Question description</Label>
         </Property>
-        <Caption>To provide added context to the question.</Caption>
-
-        <PropertyDescription>
-          To provide added context to the question.
-        </PropertyDescription>
+        <Caption>
+          The description is used to provide added context to the question.
+        </Caption>
 
         <AdditionalContentOptions
           onChange={onChange}
@@ -134,10 +124,6 @@ export class UnwrappedQuestionProperties extends React.Component {
         <Caption>
           Only to be used to define word(s) or acronym(s) within the question.
         </Caption>
-
-        <PropertyDescription>
-          Only to be used to define word(s) or acronym(s) within the question.
-        </PropertyDescription>
 
         <AdditionalContentOptions
           onChange={onChange}
@@ -162,11 +148,6 @@ export class UnwrappedQuestionProperties extends React.Component {
           answer.
         </Caption>
 
-        <PropertyDescription>
-          Only to be used to state what should be included or excluded from the
-          answer.
-        </PropertyDescription>
-
         <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}
@@ -189,9 +170,6 @@ export class UnwrappedQuestionProperties extends React.Component {
           Information regarding why we are asking this question.
         </Caption>
 
-        <PropertyDescription>
-          Information regarding why we are asking this question.
-        </PropertyDescription>
         <AdditionalContentOptions
           onChange={onChange}
           onUpdate={onUpdate}

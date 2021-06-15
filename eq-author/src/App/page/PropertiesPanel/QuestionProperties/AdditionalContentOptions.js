@@ -14,7 +14,6 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import AnswerTransition from "../../Design/QuestionPageEditor/AnswersEditor/AnswerTransition";
 
-import MultipleFieldEditor from "../../Design/QuestionPageEditor/MultipleFieldEditor";
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/page.graphql";
 
@@ -61,51 +60,6 @@ export const StatelessAdditionalInfo = ({
   option,
 }) => (
   <TransitionGroup>
-    {page.additionalInfoEnabled && option === "additionalInfo" ? (
-      <AnswerTransition
-        key="additional-info"
-        onEntered={() => focusOnElement("additional-info-label")}
-      >
-        <MultipleFieldEditor
-          id="additional-info"
-          label="Additional information"
-        >
-          <Field>
-            <Label htmlFor="additional-info-label">Label</Label>
-            <WrappingInput
-              id="additional-info-label"
-              name="additionalInfoLabel"
-              data-test="txt-question-additional-info-label"
-              onChange={onChange}
-              onBlur={onUpdate}
-              value={page.additionalInfoLabel}
-              bold
-              errorValidationMsg={getErrorByField(
-                "additionalInfoLabel",
-                errors
-              )}
-            />
-          </Field>
-          <RichTextEditor
-            id="additional-info-content"
-            name="additionalInfoContent"
-            label="Content"
-            multiline
-            value={page.additionalInfoContent}
-            onUpdate={onChangeUpdate}
-            controls={contentControls}
-            fetchAnswers={fetchAnswers}
-            metadata={page.section.questionnaire.metadata}
-            testSelector="txt-question-additional-info-content"
-            errorValidationMsg={getErrorByField(
-              "additionalInfoContent",
-              errors
-            )}
-          />
-        </MultipleFieldEditor>
-      </AnswerTransition>
-    ) : null}
-
     {page.descriptionEnabled && option === "description" ? (
       <AnswerTransition
         key="question-description"
@@ -132,34 +86,32 @@ export const StatelessAdditionalInfo = ({
         key="definition"
         onEntered={() => focusOnElement("definition-label")}
       >
-        <MultipleFieldEditor id="definition" label="Question definition">
-          <Field>
-            <Label htmlFor="definition-label">Label</Label>
-            <WrappingInput
-              id="definition-label"
-              name="definitionLabel"
-              data-test="txt-question-definition-label"
-              onChange={onChange}
-              onBlur={onUpdate}
-              value={page.definitionLabel}
-              bold
-              errorValidationMsg={errorMsg("definitionLabel", page)}
-            />
-          </Field>
-          <RichTextEditor
-            id="definition-content"
-            name="definitionContent"
-            label="Content"
-            multiline
-            value={page.definitionContent}
-            onUpdate={onChangeUpdate}
-            controls={definitionControls}
-            fetchAnswers={fetchAnswers}
-            metadata={page.section.questionnaire.metadata}
-            testSelector="txt-question-definition-content"
-            errorValidationMsg={errorMsg("definitionContent", page)}
+        <Field>
+          <Label htmlFor="definition-label">Label</Label>
+          <WrappingInput
+            id="definition-label"
+            name="definitionLabel"
+            data-test="txt-question-definition-label"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={page.definitionLabel}
+            bold
+            errorValidationMsg={errorMsg("definitionLabel", page)}
           />
-        </MultipleFieldEditor>
+        </Field>
+        <RichTextEditor
+          id="definition-content"
+          name="definitionContent"
+          label="Content"
+          multiline
+          value={page.definitionContent}
+          onUpdate={onChangeUpdate}
+          controls={definitionControls}
+          fetchAnswers={fetchAnswers}
+          metadata={page.section.questionnaire.metadata}
+          testSelector="txt-question-definition-content"
+          errorValidationMsg={errorMsg("definitionContent", page)}
+        />
       </AnswerTransition>
     ) : null}
 
@@ -180,6 +132,40 @@ export const StatelessAdditionalInfo = ({
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-guidance"
           errorValidationMsg={errorMsg("guidance", page)}
+        />
+      </AnswerTransition>
+    ) : null}
+
+    {page.additionalInfoEnabled && option === "additionalInfo" ? (
+      <AnswerTransition
+        key="additional-info"
+        onEntered={() => focusOnElement("additional-info-label")}
+      >
+        <Field>
+          <Label htmlFor="additional-info-label">Label</Label>
+          <WrappingInput
+            id="additional-info-label"
+            name="additionalInfoLabel"
+            data-test="txt-question-additional-info-label"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={page.additionalInfoLabel}
+            bold
+            errorValidationMsg={getErrorByField("additionalInfoLabel", errors)}
+          />
+        </Field>
+        <RichTextEditor
+          id="additional-info-content"
+          name="additionalInfoContent"
+          label="Content"
+          multiline
+          value={page.additionalInfoContent}
+          onUpdate={onChangeUpdate}
+          controls={contentControls}
+          fetchAnswers={fetchAnswers}
+          metadata={page.section.questionnaire.metadata}
+          testSelector="txt-question-additional-info-content"
+          errorValidationMsg={getErrorByField("additionalInfoContent", errors)}
         />
       </AnswerTransition>
     ) : null}
