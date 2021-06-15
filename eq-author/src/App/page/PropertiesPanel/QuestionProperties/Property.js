@@ -21,18 +21,26 @@ const PropertyLabel = styled(Label)`
   margin-right: 2em;
 `;
 
+const ToggleWrapper = styled.div`
+  display: flex;
+  margin-left: 11em;
+  position: absolute;
+`;
+
 const Property = ({ id, children, onChange, checked }) => (
   <InlineField>
     <PropertyLabel inline htmlFor={id}>
       {children}
     </PropertyLabel>
-    <ToggleSwitch
-      id={id}
-      name={id}
-      onChange={onChange}
-      checked={checked}
-      hideLabels={false}
-    />
+    <ToggleWrapper>
+      <ToggleSwitch
+        id={id}
+        name={id}
+        onChange={onChange}
+        checked={checked}
+        hideLabels={false}
+      />
+    </ToggleWrapper>
   </InlineField>
 );
 

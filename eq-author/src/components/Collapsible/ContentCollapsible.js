@@ -76,7 +76,7 @@ const HideThisButton = styled(Button)`
   }
 `;
 
-const Collapsible = ({
+const ContentCollapsible = ({
   showHide = false,
   withoutHideThis = false,
   title,
@@ -136,7 +136,7 @@ const Collapsible = ({
   );
 };
 
-Collapsible.propTypes = {
+ContentCollapsible.propTypes = {
   /**
    * Text to show on the toggle button.
    */
@@ -163,4 +163,4 @@ Collapsible.propTypes = {
   className: PropTypes.string,
 };
 
-export default Collapsible;
+export default ContentCollapsible;
