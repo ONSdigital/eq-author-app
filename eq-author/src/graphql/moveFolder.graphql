@@ -1,0 +1,22 @@
+#import "./fragments/folder.graphql"
+mutation MoveFolderMutation($input: MoveFolderInput!) {
+  moveFolder(input: $input) {
+    ...Folder
+    pages {
+      id
+      displayName
+      position
+    }
+    section {
+      id
+      folders {
+        ...Folder
+        pages {
+          id
+          displayName
+          position
+        }
+      }
+    }
+  }
+}

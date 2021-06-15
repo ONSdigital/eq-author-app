@@ -51,13 +51,20 @@ const calculatedSetup = () => {
     id,
     displayName: "Calculated Summary Page",
     pageId: CalculatedSummaryPage,
+    pageType: "CalculatedSummaryPage",
+    summaryAnswers: [],
     validationErrorInfo: {
-      totalCount: 4,
+      totalCount: 1,
     },
   };
-  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  useParams.mockImplementation(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
-  questionnaire.sections[0].folders[1].pages.push(calculated);
+  const numOfPages = questionnaire.sections[0].folders[1].pages;
+  const newPosition = numOfPages.length + 1;
+  questionnaire.sections[0].folders[1].pages.push({
+    ...calculated,
+    position: newPosition,
+  });
   const utils = defaultSetup({ questionnaire });
   return { ...utils, id: calculated.id };
 };
@@ -73,7 +80,7 @@ const confirmationSetup = () => {
       totalCount: 0,
     },
   };
-  useParams.mockImplementationOnce(() => ({ entityId: id }));
+  useParams.mockImplementation(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
   questionnaire.sections[0].folders[1].pages[0].confirmation = confirmation;
   const utils = defaultSetup({ questionnaire });
@@ -118,13 +125,6 @@ describe("Navigation sidebar", () => {
     expect(queryByText("Close all sections")).toBeNull();
   });
 
-  it("should use Untitled folder when no alias applied", () => {
-    const newQuestionnaire = buildQuestionnaire({ folderCount: 2 });
-    newQuestionnaire.sections[0].folders[1].alias = "";
-    const { getByText } = defaultSetup({ questionnaire: newQuestionnaire });
-    expect(getByText("Untitled folder")).toBeVisible();
-  });
-
   describe("Calculated summary pages", () => {
     it("should render calculated summary pages", () => {
       const { getByText } = calculatedSetup();
@@ -133,10 +133,10 @@ describe("Navigation sidebar", () => {
 
     it("should be disabled when on a calculated summary page", () => {
       const { getByText } = calculatedSetup();
-      fireEvent.click(getByText("Calculated Summary Page"));
-      expect(
-        getByText("Calculated Summary Page").parentElement
-      ).toHaveAttribute("disabled");
+      fireEvent.click(getByText("Calculated Summary Page").parentElement);
+      expect(getByText("Calculated Summary Page").parentElement).toHaveClass(
+        "activePage"
+      );
     });
   });
 
@@ -150,28 +150,22 @@ describe("Navigation sidebar", () => {
       const { getByText } = introductionSetup();
       fireEvent.click(getByText("Introduction"));
 
-      expect(getByText("Introduction").parentElement).toHaveAttribute(
-        "disabled"
-      );
+      expect(getByText("Introduction").parentElement).toHaveClass("activePage");
     });
   });
 
   describe("Confirmation pages", () => {
     it("should render confirmation pages", () => {
       const { getByText } = confirmationSetup();
-      expect(getByText("confirmation question")).toBeVisible();
-      fireEvent.click(getByText("confirmation question"));
-      expect(getByText("confirmation question").parentElement).toHaveAttribute(
-        "disabled"
-      );
+      expect(getByText("confirmation question").parentElement).toBeVisible();
     });
 
-    it("should be disabled when on an confirmation pages", () => {
+    it("should be disabled when on an confirmation pages", async () => {
       const { getByText } = confirmationSetup();
       expect(getByText("confirmation question")).toBeVisible();
       fireEvent.click(getByText("confirmation question"));
-      expect(getByText("confirmation question").parentElement).toHaveAttribute(
-        "disabled"
+      expect(getByText("confirmation question").parentElement).toHaveClass(
+        "activePage"
       );
     });
   });
