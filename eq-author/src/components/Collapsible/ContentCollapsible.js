@@ -78,7 +78,7 @@ const HideThisButton = styled(Button)`
 
 const ContentCollapsible = ({
   showHide = false,
-  withoutHideThis = false,
+  withHideThis = false,
   title,
   defaultOpen,
   className,
@@ -122,7 +122,7 @@ const ContentCollapsible = ({
         aria-hidden={!isOpen}
       >
         {children}
-        {!withoutHideThis && (
+        {withHideThis && (
           <HideThisButton
             medium
             onClick={() => setIsOpen(false)}
@@ -150,9 +150,9 @@ ContentCollapsible.propTypes = {
    */
   showHide: PropTypes.bool,
   /**
-   * If true, the 'Hide this' button is not shown.
+   * If true, the 'Hide this' button is shown.
    */
-  withoutHideThis: PropTypes.bool,
+  withHideThis: PropTypes.bool,
   /**
    * Child components of the collapsible; these will be shown when the collapsible is open.
    */

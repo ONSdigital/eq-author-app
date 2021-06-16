@@ -89,7 +89,6 @@ export class UnwrappedQuestionProperties extends React.Component {
       <ContentCollapsible
         title="Additional content"
         className="additionalContentCollapsible"
-        withoutHideThis
         defaultOpen={defaultOpen()}
       >
         <Property
