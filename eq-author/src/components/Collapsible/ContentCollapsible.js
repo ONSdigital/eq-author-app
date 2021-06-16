@@ -46,7 +46,6 @@ export const ToggleCollapsibleButton = styled.button`
   display: flex;
   align-items: center;
   position: relative;
-  color: ${colors.blue};
   background: transparent;
   cursor: pointer;
   color: ${colors.white};
