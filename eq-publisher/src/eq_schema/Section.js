@@ -12,7 +12,13 @@ class Section {
     const pages = flatMap(section.folders, (folder) =>
       flatMap(folder.pages, (page) =>
         folder.skipConditions
-          ? { ...page, skipConditions: folder.skipConditions }
+          ? {
+              ...page,
+              skipConditions: [
+                ...folder.skipConditions,
+                ...(page.skipConditions || []),
+              ],
+            }
           : page
       )
     );
