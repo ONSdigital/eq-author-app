@@ -1,37 +1,26 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import CustomPropTypes from "custom-prop-types";
-
-import { colors } from "constants/theme";
+import { useMutation } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import {
-  buildSectionPath,
-  buildFolderPath,
-  buildPagePath,
-  buildConfirmationPath,
-  buildIntroductionPath,
-} from "utils/UrlUtils";
+import CustomPropTypes from "custom-prop-types";
+import styled from "styled-components";
+import { colors } from "constants/theme";
 
-import CollapsibleNavItem from "components/CollapsibleNavItem";
-import NavItem from "components/NavItem";
+import { buildIntroductionPath } from "utils/UrlUtils";
+import onDragEnd from "./dragDropFunctions/onDragEnd";
 
+import { DragDropContext } from "react-beautiful-dnd";
 import NavigationHeader from "./NavigationHeader";
-
+import NavItem from "components/NavItem";
 import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
-import NavItemTransition from "./NavItemTransition";
-import scrollIntoView from "utils/scrollIntoView";
 
-import IconSection from "assets/icon-section.svg?inline";
-import IconFolder from "assets/icon-folder.svg?inline";
-import IconQuestionPage from "assets/icon-questionpage.svg?inline";
-import IconConfirmationPage from "assets/icon-playback.svg?inline";
-import IconSummaryPage from "assets/icon-summarypage.svg?inline";
+import Section from "./Section";
+
 import PageIcon from "assets/icon-survey-intro.svg?inline";
-import { TransitionGroup } from "react-transition-group";
 
-import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
+import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -50,12 +39,6 @@ const NavigationScrollPane = styled(ScrollPane)`
   }
 `;
 
-const NavList = styled.ol`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`;
-
 const OpenAllSectionsBtn = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
@@ -72,7 +55,15 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   }
 `;
 
-const IntroductionListItem = styled.li`
+const NavList = styled.ol`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+const ListItem = styled.li``;
+
+const IntroductionListItem = styled(ListItem)`
   padding-left: 2em;
   margin-bottom: 0.5em;
   margin-top: 2px;
@@ -86,157 +77,21 @@ const NavigationSidebar = ({ questionnaire }) => {
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
 
+  const [movePage] = useMutation(MOVE_PAGE_MUTATION);
+  const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
+
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const calculatePageErrors = (pages) =>
-    pages.reduce(
-      (acc, { validationErrorInfo }) => (acc += validationErrorInfo.totalCount),
-      0
+  const handleDragEnd = ({ destination, source, draggableId }) =>
+    onDragEnd(
+      questionnaire,
+      destination,
+      source,
+      draggableId,
+      movePage,
+      moveFolder
     );
-
-  const buildPageList = ({
-    id: pageId,
-    displayName,
-    confirmation,
-    pageType,
-    validationErrorInfo,
-  }) => {
-    const components = [];
-    components.push(
-      <NavItemTransition key={`transition-page-${pageId}`}>
-        <li key={`page-${pageId}`}>
-          <NavItem
-            key={pageId}
-            title={displayName}
-            titleUrl={buildPagePath({
-              questionnaireId: questionnaire.id,
-              pageId,
-              tab,
-            })}
-            disabled={isCurrentPage(pageId, entityId)}
-            icon={
-              (pageType === QuestionPage && IconQuestionPage) ||
-              (pageType === CalculatedSummaryPage && IconSummaryPage)
-            }
-            errorCount={validationErrorInfo?.totalCount}
-          />
-        </li>
-      </NavItemTransition>
-    );
-
-    if (confirmation) {
-      components.push(
-        <NavItemTransition
-          key={`transition-page-${pageId}-confirmation`}
-          onEntered={scrollIntoView}
-        >
-          <li key={`page-${pageId}-confirmation`}>
-            <NavItem
-              key={confirmation.displayName}
-              title={confirmation.displayName}
-              titleUrl={buildConfirmationPath({
-                questionnaireId: questionnaire.id,
-                confirmationId: confirmation.id,
-                tab,
-              })}
-              disabled={isCurrentPage(confirmation.id, entityId)}
-              icon={IconConfirmationPage}
-              errorCount={confirmation?.validationErrorInfo?.totalCount}
-            />
-          </li>
-        </NavItemTransition>
-      );
-    }
-
-    return components;
-  };
-
-  const buildFolderList = (folders) => {
-    const components = folders.map(
-      ({ id: folderId, enabled, alias, pages, validationErrorInfo }) =>
-        enabled ? (
-          <NavItemTransition
-            key={`transition-folder-${folderId}-enabled`}
-            onEntered={scrollIntoView}
-          >
-            <li key={`folder-${folderId}-enabled`}>
-              <CollapsibleNavItem
-                key={`folder-${folderId}enabled`}
-                title={alias || "Untitled folder"}
-                titleUrl={buildFolderPath({
-                  questionnaireId: questionnaire.id,
-                  folderId,
-                  tab,
-                })}
-                disabled={isCurrentPage(folderId, entityId)}
-                icon={IconFolder}
-                selfErrorCount={validationErrorInfo.totalCount}
-                childErrorCount={calculatePageErrors(pages)}
-                open
-              >
-                <NavList>
-                  <TransitionGroup component={null}>
-                    {pages.map((page) => buildPageList(page)).flat(2)}
-                  </TransitionGroup>
-                </NavList>
-              </CollapsibleNavItem>
-            </li>
-          </NavItemTransition>
-        ) : (
-          pages.map((page) => buildPageList(page)).flat(2)
-        )
-    );
-
-    return (
-      <TransitionGroup key={`transition-group-section-items`} component={null}>
-        {components.flat(2)}
-      </TransitionGroup>
-    );
-  };
-
-  const buildSectionsList = (sections) => {
-    const components = sections.map(
-      ({ id: sectionId, displayName, folders, validationErrorInfo }) => {
-        const allPagesInSection = folders.flatMap(({ pages }) => pages);
-        return (
-          <NavItemTransition
-            key={`transition-section${sectionId}`}
-            onEntered={scrollIntoView}
-          >
-            <li key={`section-${sectionId}`}>
-              <CollapsibleNavItem
-                key={`section-${sectionId}`}
-                title={displayName}
-                titleUrl={buildSectionPath({
-                  questionnaireId: questionnaire.id,
-                  sectionId,
-                  tab,
-                })}
-                bordered
-                containsActiveEntity={allPagesInSection
-                  .map(({ id }) => isCurrentPage(id, entityId))
-                  .find(Boolean)}
-                selfErrorCount={validationErrorInfo.totalCount}
-                childErrorCount={calculatePageErrors(allPagesInSection)}
-                disabled={isCurrentPage(sectionId, entityId)}
-                icon={IconSection}
-                open={openSections}
-              >
-                <NavList>{buildFolderList(folders)}</NavList>
-              </CollapsibleNavItem>
-            </li>
-          </NavItemTransition>
-        );
-      }
-    );
-
-    return (
-      <TransitionGroup key={`transition-group-sections`} component={null}>
-        {components}
-      </TransitionGroup>
-    );
-  };
 
   return (
     <Container data-test="side-nav">
@@ -266,7 +121,17 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </IntroductionListItem>
               )}
-              {buildSectionsList(questionnaire.sections)}
+              <DragDropContext onDragEnd={handleDragEnd}>
+                {questionnaire.sections.map(({ id, ...rest }) => (
+                  <Section
+                    key={`section-${id}`}
+                    id={id}
+                    questionnaireId={questionnaire.id}
+                    open={openSections}
+                    {...rest}
+                  />
+                ))}
+              </DragDropContext>
             </NavList>
           </NavigationScrollPane>
         </>

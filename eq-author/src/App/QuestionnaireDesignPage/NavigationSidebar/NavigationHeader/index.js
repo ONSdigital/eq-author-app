@@ -12,10 +12,10 @@ import { getPageById, getFolderById } from "utils/questionnaireUtils";
 import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
-import AddMenu from "./AddMenu/AddMenu";
+import AddMenu from "../AddMenu/AddMenu";
 
 import withCreateSection from "enhancers/withCreateSection";
-import withCreateQuestionConfirmation from "../withCreateQuestionConfirmation";
+import withCreateQuestionConfirmation from "../../withCreateQuestionConfirmation";
 
 import { QuestionPage } from "constants/page-types";
 

@@ -26,6 +26,7 @@ const QuestionnaireTable = ({
   enabledHeadings,
   clickable,
   onRowClick,
+  questionnaireModal
 }) => {
   return (
     <TableWrapper>
@@ -45,6 +46,7 @@ const QuestionnaireTable = ({
         clickable={clickable}
         enabledHeadings={enabledHeadings}
         onRowClick={onRowClick}
+        questionnaireModal={questionnaireModal}
       />
     </TableWrapper>
   );
@@ -64,6 +66,7 @@ QuestionnaireTable.propTypes = {
   enabledHeadings: PropTypes.array, // eslint-disable-line
   clickable: PropTypes.bool,
   onRowClick: PropTypes.func.isRequired,
+  questionnaireModal: PropTypes.bool,
 };
 
 QuestionnaireTable.defaultProps = {

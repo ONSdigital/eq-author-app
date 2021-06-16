@@ -10,6 +10,7 @@ import iconSearch from "./icon-search.svg";
 
 const Search = styled.div`
   position: relative;
+  margin-left: ${props => props.paddingType === "small" ? "1em" : "0"};
   &::before {
     content: url(${iconSearch});
     display: inline-block;
@@ -41,7 +42,7 @@ const SearchInput = styled(Input).attrs({
 const SearchBar = ({ onChange, size, paddingType }) => {
     return (
         <>
-        <Search>
+        <Search paddingType={paddingType}>
           <VisuallyHidden>
             <label htmlFor="search">Search</label>
           </VisuallyHidden>

@@ -5,7 +5,7 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 
-import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
+import { UnwrappedNavigationHeader as NavigationHeader } from "./index";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useNavigationCallbacks: () => ({

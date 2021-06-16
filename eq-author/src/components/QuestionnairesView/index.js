@@ -31,6 +31,8 @@ const QuestionnairesView = ({
   canCreateQuestionnaire,
   enabledHeadings,
   onQuestionnaireClick,
+  padding,
+  questionnaireModal,
 }) => {
   const questionnairesRef = useRef(questionnaires);
 
@@ -105,6 +107,7 @@ const QuestionnairesView = ({
         isFiltered={state.isFiltered}
         onToggleFilter={onToggleFilter}
         canCreateQuestionnaire={canCreateQuestionnaire}
+        padding={padding}
       />
       {isEmpty(state.questionnaires) ? (
         <NoResultsFiltered
@@ -123,18 +126,18 @@ const QuestionnairesView = ({
           autoFocusId={state.autoFocusId}
           enabledHeadings={enabledHeadings}
           onQuestionnaireClick={onQuestionnaireClick}
+          questionnaireModal={questionnaireModal}
         />
       )}
-
-      <PaginationNav
-        countOnPage={state.currentPage ? state.currentPage.length : 0}
-        totalCount={state.questionnaires.length}
-        pageCount={state.pages.length}
-        currentPageIndex={state.currentPageIndex}
-        onPageChange={(newPage) =>
-          dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
-        }
-      />
+        <PaginationNav
+              countOnPage={state.currentPage ? state.currentPage.length : 0}
+              totalCount={state.questionnaires.length}
+              pageCount={state.pages.length}
+              currentPageIndex={state.currentPageIndex}
+              onPageChange={(newPage) =>
+                dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
+              }
+            />
     </>
   );
 };
@@ -143,12 +146,15 @@ QuestionnairesView.propTypes = {
   questionnaires: PropTypes.arrayOf(
     propType(QuestionnairesTable.fragments.QuestionnaireDetails)
   ),
+  questionnaireModal: PropTypes.bool,
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  onDuplicateQuestionnaire: PropTypes.func,
   canCreateQuestionnaire: PropTypes.bool,
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
+  padding: PropTypes.string,
+
 };
 
 export default QuestionnairesView;
