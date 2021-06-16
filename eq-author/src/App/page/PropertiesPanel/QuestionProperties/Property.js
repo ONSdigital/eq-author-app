@@ -25,6 +25,7 @@ const ToggleWrapper = styled.div`
   display: flex;
   margin-left: 11em;
   position: absolute;
+  margin-top: -0.3em;
 `;
 
 const Property = ({ id, children, onChange, checked }) => (

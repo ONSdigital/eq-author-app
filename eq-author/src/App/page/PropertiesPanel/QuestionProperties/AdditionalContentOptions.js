@@ -132,7 +132,6 @@ export const StatelessAdditionalInfo = ({
           <RichTextEditor
             id="question-guidance"
             name="guidance"
-            label="Include/exclude"
             multiline
             value={page.guidance}
             onUpdate={onChangeUpdate}
