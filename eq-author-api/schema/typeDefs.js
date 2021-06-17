@@ -173,7 +173,12 @@ interface Skippable {
   skipConditions: [ExpressionGroup2]
 }
 
-type QuestionPage implements Page & Skippable {
+interface Routable {
+  id: ID!
+  routing: Routing2
+}
+
+type QuestionPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
   alias: String
@@ -200,7 +205,7 @@ type QuestionPage implements Page & Skippable {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type CalculatedSummaryPage implements Page {
+type CalculatedSummaryPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
   alias: String
@@ -213,6 +218,8 @@ type CalculatedSummaryPage implements Page {
   summaryAnswers: [Answer!]!
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
+  routing: Routing2
+  skipConditions: [ExpressionGroup2]
 }
 
 type ConfirmationOption {
