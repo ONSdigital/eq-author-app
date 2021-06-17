@@ -8,6 +8,8 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import { getThemeSettingsErrorCount } from "./utils";
+import { enableOn, disableOn } from "utils/featureFlags";
+
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -103,6 +105,48 @@ Pill.propTypes = {
   children: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
 };
+
+const SectionNavigationSettings = ({ id, navigation, updateQuestionnaire }) => (
+  <>
+    <InlineField>
+      <Label>Section navigation</Label>
+      <ToggleSwitch
+        id="toggle-section-navigation"
+        name="toggle-section-navigation"
+        hideLabels={false}
+        onChange={({ value }) =>
+          updateQuestionnaire({
+            variables: { input: { id, navigation: value } },
+          })
+        }
+        checked={navigation}
+      />
+    </InlineField>
+    <InformationPanel>
+      Let respondents move between sections while they&apos;re completing the
+      questionnaire.
+    </InformationPanel>
+  </>
+);
+
+const HubNavigationSettings = () => (
+  <>
+    <InlineField>
+      <Label>Hub navigation</Label>
+      <ToggleSwitch
+        id="toggle-hub-navigation"
+        name="toggle-hub-navigation"
+        hideLabels={false}
+        onChange={() => null}
+        checked={true}
+      />
+    </InlineField>
+    <InformationPanel>
+      Let respondents access different sections of the survey from a single
+      central "hub" screen
+    </InformationPanel>
+  </>
+);
 
 const GeneralSettingsPage = ({ questionnaire }) => {
   const {
@@ -213,24 +257,14 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       sent downstream.
                     </Caption>
                     <HorizontalSeparator />
-                    <InlineField>
-                      <Label>Section navigation</Label>
-                      <ToggleSwitch
-                        id="toggle-section-navigation"
-                        name="toggle-section-navigation"
-                        hideLabels={false}
-                        onChange={({ value }) =>
-                          updateQuestionnaire({
-                            variables: { input: { id, navigation: value } },
-                          })
-                        }
-                        checked={navigation}
+                    {enableOn(["hub"]) && <HubNavigationSettings />}
+                    {disableOn(["hub"]) && (
+                      <SectionNavigationSettings
+                        id={id}
+                        navigation={navigation}
+                        updateQuestionnaire={updateQuestionnaire}
                       />
-                    </InlineField>
-                    <InformationPanel>
-                      Let respondents move between sections while they&apos;re
-                      completing the questionnaire.
-                    </InformationPanel>
+                    )}
                     <HorizontalSeparator />
                     <Label>Summary page</Label>
                     <Caption>
