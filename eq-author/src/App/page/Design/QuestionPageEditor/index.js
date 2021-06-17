@@ -52,7 +52,6 @@ const propTypes = {
   page: CustomPropTypes.page.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onChangeUpdate: PropTypes.func.isRequired,
   fetchAnswers: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
 };

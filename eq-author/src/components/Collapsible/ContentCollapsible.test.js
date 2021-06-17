@@ -2,7 +2,7 @@ import React from "react";
 
 import { render } from "tests/utils/rtl";
 
-import ContentCollapsible from ".";
+import ContentCollapsible from "./ContentCollapsible";
 
 const renderCollapsible = ({
   title = "Collapsible Title",
@@ -70,7 +70,10 @@ describe("Collapsible", () => {
     });
 
     it("Can close when the hide button is clicked", () => {
-      const { getByTestId } = renderCollapsible({ defaultOpen: true });
+      const { getByTestId } = renderCollapsible({
+        defaultOpen: true,
+        withHideThis: true,
+      });
 
       getByTestId("collapsible-hide-button").click();
 
