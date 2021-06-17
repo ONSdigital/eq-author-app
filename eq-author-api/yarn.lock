@@ -4437,6 +4437,7 @@ ioredis@^4.17.3:
     standard-as-callback "^2.1.0"
 
 ioredis@latest:
+
   version "4.27.5"
   resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-4.27.5.tgz#b62192bb6198f8a5a02947902117150aef39b7f1"
   integrity sha512-JJ3HzOzU6kgUk3gKhpx8kxEYn9ruI5TkpOtGvbw/hLyWxfC19T9uCZTgmw4Mci4al4aOCCMfAjYzJ7aqQkLbJg==

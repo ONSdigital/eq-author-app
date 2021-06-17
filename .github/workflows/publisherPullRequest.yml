@@ -27,14 +27,6 @@ jobs:
           NODE_ENV: "test"
           PUBLIC_URL: "test"
           CI: true
-      - name: Upload coverage file to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./eq-publisher/coverage/coverage-final.json
-          flags: Publisher
-          name: Publisher
-          fail_ci_if_error: true
 
   Build:
     if: contains( github.event.pull_request.labels.*.name, 'dependencies') != true

@@ -38,14 +38,35 @@ colors.previewError = colors.grey;
 export const radius = "4px";
 
 export const focusStyle = css`
-  border-color: ${colors.blue};
-  outline-color: ${colors.blue};
+  border-color: none;
+  outline: 3px solid ${colors.tertiary};
   box-shadow: 0 0 0 3px ${colors.tertiary};
 `;
 
 export const disabledStyle = css`
   opacity: 0.6;
   pointer-events: none;
+`;
+
+export const activeNavItemStyle = css`
+  background: ${colors.orange};
+  outline: none;
+  cursor: default;
+
+  &:hover {
+    background: ${colors.orange};
+  }
+
+  p,
+  span {
+    color: ${colors.black};
+  }
+
+  > svg {
+    path {
+      fill: ${colors.black};
+    }
+  }
 `;
 
 export const hoverStyle = css`

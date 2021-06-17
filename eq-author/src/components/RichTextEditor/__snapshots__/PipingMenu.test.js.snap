@@ -37,6 +37,7 @@ exports[`PipingMenu should render 1`] = `
           "folders": Array [
             Object {
               "alias": "Folder 1.1",
+              "displayName": "Folder 1.1",
               "enabled": false,
               "id": "1.1",
               "pages": Array [

@@ -15,6 +15,7 @@ exports[`MoveSectionModal should render 1`] = `
           "folders": Array [
             Object {
               "alias": "Folder 1.1",
+              "displayName": "Folder 1.1",
               "enabled": false,
               "id": "1.1",
               "pages": Array [
@@ -73,6 +74,7 @@ exports[`MoveSectionModal should render 1`] = `
           "folders": Array [
             Object {
               "alias": "Folder 2.1",
+              "displayName": "Folder 2.1",
               "enabled": false,
               "id": "2.1",
               "pages": Array [
@@ -136,6 +138,7 @@ exports[`MoveSectionModal should render 1`] = `
       "folders": Array [
         Object {
           "alias": "Folder 1.1",
+          "displayName": "Folder 1.1",
           "enabled": false,
           "id": "1.1",
           "pages": Array [
@@ -201,6 +204,7 @@ exports[`MoveSectionModal should render 1`] = `
           "folders": Array [
             Object {
               "alias": "Folder 1.1",
+              "displayName": "Folder 1.1",
               "enabled": false,
               "id": "1.1",
               "pages": Array [
@@ -259,6 +263,7 @@ exports[`MoveSectionModal should render 1`] = `
           "folders": Array [
             Object {
               "alias": "Folder 2.1",
+              "displayName": "Folder 2.1",
               "enabled": false,
               "id": "2.1",
               "pages": Array [
@@ -320,6 +325,7 @@ exports[`MoveSectionModal should render 1`] = `
         "folders": Array [
           Object {
             "alias": "Folder 1.1",
+            "displayName": "Folder 1.1",
             "enabled": false,
             "id": "1.1",
             "pages": Array [

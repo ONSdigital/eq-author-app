@@ -1,9 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import styled, { css } from "styled-components";
-import { colors } from "constants/theme";
+import styled from "styled-components";
+import {
+  colors,
+  focusStyle,
+  activeNavItemStyle,
+  hoverStyle,
+} from "constants/theme";
 
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
@@ -17,45 +22,28 @@ const Title = styled(Truncated)`
   text-decoration: none;
 `;
 
-const disabledStyles = css`
-  background: ${colors.orange};
-  outline: none;
-  cursor: default;
-
-  &:hover {
-    background: ${colors.orange};
-  }
-
-  ${Title} {
-    color: ${colors.black};
-  }
-
-  > svg {
-    path {
-      fill: ${colors.black};
-    }
-  }
-`;
-
-const Link = styled.a`
+const Link = styled(NavLink)`
   display: flex;
   align-items: center;
   width: 100%;
   font-size: 0.9em;
-  margin: 0;
   color: ${colors.white};
   text-decoration: none;
   padding-right: 1em;
-  background-color: transparent;
   border: none;
   cursor: pointer;
+  background: none;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    ${hoverStyle}
   }
 
   &:focus {
-    outline: 2px solid ${colors.orange};
+    ${focusStyle}
+  }
+
+  &.activePage {
+    ${activeNavItemStyle}
   }
 
   svg {
@@ -66,8 +54,6 @@ const Link = styled.a`
       fill: ${colors.white};
     }
   }
-
-  ${({ disabled }) => (disabled ? disabledStyles : "")}
 `;
 
 const NavItem = ({
@@ -76,22 +62,18 @@ const NavItem = ({
   titleUrl,
   bordered,
   errorCount,
-  disabled,
   className,
-  ...rest
+  dragHandleProps,
 }) => {
-  const history = useHistory();
   return (
     <Link
+      to={titleUrl}
       className={`${className} NavItem`}
+      activeClassName={"activePage"}
       data-test="NavItem"
-      onClick={() => {
-        history.push(titleUrl);
-      }}
-      disabled={disabled}
       bordered={bordered}
       tabIndex={0}
-      {...rest}
+      {...dragHandleProps}
     >
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>
@@ -115,6 +97,8 @@ NavItem.propTypes = {
   errorCount: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   className: PropTypes.string,
+  isDragging: PropTypes.bool,
+  dragHandleProps: PropTypes.object, // eslint-disable-line
 };
 
 export default NavItem;
