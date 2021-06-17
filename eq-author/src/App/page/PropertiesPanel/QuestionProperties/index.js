@@ -14,22 +14,6 @@ import Property from "./Property";
 
 import { colors } from "constants/theme";
 
-export const HelpButton = styled.button`
-  --color-text: ${colors.primary};
-  background: ${colors.white};
-  margin: 0.5em 0;
-  position: relative;
-  left: -0.5em;
-  padding: 0;
-  font-size: 0.9em;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  &:focus {
-    outline: 2px solid ${colors.tertiary};
-  }
-`;
-
 const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.grey};

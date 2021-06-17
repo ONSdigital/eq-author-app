@@ -97,6 +97,12 @@ export const UnwrappedQuestionPageEditor = (props) => {
             enableValidationMessage={enableValidationMessage}
           />
         </QuestionSegment>
+        <QuestionProperties
+          page={page}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          fetchAnswers={fetchAnswers}
+        />
         <AnswersEditor
           answers={answers}
           onUpdate={onUpdateAnswer}
@@ -106,13 +112,6 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteOption={onDeleteOption}
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
-        />
-
-        <QuestionProperties
-          page={page}
-          onChange={onChange}
-          onUpdate={onUpdate}
-          fetchAnswers={fetchAnswers}
         />
       </div>
 
