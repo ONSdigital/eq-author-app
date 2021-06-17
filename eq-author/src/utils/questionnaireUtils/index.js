@@ -14,6 +14,9 @@ export const getFolderByPageId = (questionnaire, id) =>
     pages.some((page) => page.id === id)
   );
 
+export const getSectionById = (questionnaire, sectionId) =>
+  getSections(questionnaire)?.find(({ id }) => id === sectionId);
+
 export const getSectionByFolderId = (questionnaire, id) =>
   getSections(questionnaire)?.find(({ folders }) =>
     folders.some((folder) => folder.id === id)
@@ -28,3 +31,11 @@ export const getPageById = (questionnaire, id) =>
 
 export const getPageByConfirmationId = (questionnaire, id) =>
   getPages(questionnaire)?.find(({ confirmation }) => confirmation.id === id);
+
+export const findFolderIndexByPageAttr = (folders, attr, value) => {
+  const folder = folders.find((folder) =>
+    folder.pages.some((page) => page[attr] === value)
+  );
+
+  return folders.indexOf(folder);
+};

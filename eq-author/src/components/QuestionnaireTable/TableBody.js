@@ -10,6 +10,7 @@ const TableBody = ({
   handleLock,
   enabledHeadings,
   onRowClick,
+  questionnaireModal,
 }) => (
   <tbody>
     {questionnaires.map(({ id }, index) => (
@@ -24,6 +25,7 @@ const TableBody = ({
         data-test="questionnaire-row"
         tableHeadings={enabledHeadings}
         onClick={onRowClick}
+        questionnaireModal={questionnaireModal}
       />
     ))}
   </tbody>
@@ -38,6 +40,7 @@ TableBody.propTypes = {
   clickable: PropTypes.bool,
   enabledHeadings: PropTypes.array, // eslint-disable-line
   onRowClick: PropTypes.func,
+  questionnaireModal: PropTypes.bool,
 };
 
 export default TableBody;

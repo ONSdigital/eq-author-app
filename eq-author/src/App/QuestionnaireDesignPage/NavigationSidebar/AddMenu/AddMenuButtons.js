@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
-import IconPlus from "../icon-plus.svg?inline";
+import IconPlus from "assets/icon-plus.svg?inline";
 
 import { radius, colors } from "constants/theme";
 

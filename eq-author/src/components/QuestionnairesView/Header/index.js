@@ -12,7 +12,7 @@ import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 const DEBOUNCE_TIMEOUT = 200;
 
 const Wrapper = styled.div`
-  margin: 1em 0;
+  margin: 1em 0 1.5em;
   display: flex;
   z-index: 1;
   align-items: center;
@@ -25,9 +25,9 @@ const Header = ({
   onToggleFilter,
   isFiltered,
   canCreateQuestionnaire = true,
+  padding,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
@@ -38,9 +38,8 @@ const Header = ({
   return (
     <>
       <Wrapper>
-        <SearchBar onChange={onSearchChangeDebounced} paddingType="large" />
-
-        <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} />
+        <SearchBar onChange={onSearchChangeDebounced} paddingType={padding} />
+        <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} paddingType={padding} />
 
         {canCreateQuestionnaire && (
           <Button
@@ -68,6 +67,7 @@ Header.propTypes = {
   onToggleFilter: PropTypes.func.isRequired,
   isFiltered: PropTypes.bool.isRequired,
   canCreateQuestionnaire: PropTypes.bool,
+  padding: PropTypes.string,
 };
 
 export default Header;

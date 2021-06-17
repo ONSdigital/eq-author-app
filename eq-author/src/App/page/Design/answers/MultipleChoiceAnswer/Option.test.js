@@ -46,7 +46,6 @@ describe("Option", () => {
   };
 
   beforeEach(() => {
-
     mockEvent = {
       stopPropagation: jest.fn(),
       preventDefault: jest.fn(),
@@ -64,13 +63,18 @@ describe("Option", () => {
     render();
   });
 
-  it("should match snapshot", () => {
-    expect(wrapper).toMatchSnapshot();
+  it("should render a radio button with dummy radio styling", () => {
+    render(rtlRender);
+    expect(screen.queryByTestId("dummy-multiple-choice")).toHaveStyle({
+      "border-radius": "100%",
+    });
   });
 
-  it("should render a checkbox", () => {
-    render(mount, { type: CHECKBOX });
-    expect(wrapper).toMatchSnapshot();
+  it("should render a checkbox with dummy checkbox styling", () => {
+    render(rtlRender, { type: CHECKBOX });
+    expect(screen.queryByTestId("dummy-multiple-choice")).toHaveStyle({
+      "border-radius": "4px",
+    });
   });
 
   it("shouldn't render delete button if not applicable", () => {
@@ -79,12 +83,16 @@ describe("Option", () => {
   });
 
   it("should call onChange and onBlur correctly", () => {
-    const { getByTestId } = rtlRender(( otherProps) => <StatelessOption {...mockMutations}
-      option={option}
-      hasDeleteButton
-      type={RADIO}
-      {...otherProps}
-     {...props} />);
+    const { getByTestId } = rtlRender((otherProps) => (
+      <StatelessOption
+        {...mockMutations}
+        option={option}
+        hasDeleteButton
+        type={RADIO}
+        {...otherProps}
+        {...props}
+      />
+    ));
 
     fireEvent.change(getByTestId("option-label"), {
       target: { value: "2" },
@@ -93,15 +101,13 @@ describe("Option", () => {
     expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1);
   });
 
-  it("should call onChange on input", async() => {
+  it("should call onChange on input", async () => {
     render(rtlRender, { type: CHECKBOX });
     fireEvent.change(screen.getByTestId("other-answer"), {
       target: { value: "use this text" },
-      });
+    });
 
-      expect(
-        screen.getByText(/use this text/)
-      ).toBeInTheDocument();
+    expect(screen.getByText(/use this text/)).toBeInTheDocument();
   });
 
   it("should update label on blur", () => {
@@ -114,21 +120,18 @@ describe("Option", () => {
 
   it("should update Other Answer on blur", () => {
     const handleSaveOtherLabel = jest.fn();
-    useMutation.mockImplementation(() => [
-      handleSaveOtherLabel
-    ])
+    useMutation.mockImplementation(() => [handleSaveOtherLabel]);
     render(rtlRender, { type: CHECKBOX });
     fireEvent.change(screen.getByTestId("other-answer"), {
       target: { value: "2" },
     });
-    fireEvent.blur(screen.getByTestId("other-answer"),);
+    fireEvent.blur(screen.getByTestId("other-answer"));
     expect(handleSaveOtherLabel).toHaveBeenCalledTimes(1);
-
   });
 
   it("should invoke onDelete callback when option deleted", () => {
     render(rtlRender, { type: CHECKBOX });
-    fireEvent.click(screen.getByTestId("btn-delete-option"),);
+    fireEvent.click(screen.getByTestId("btn-delete-option"));
 
     expect(mockMutations.onDelete).toHaveBeenCalledWith(option.id);
   });

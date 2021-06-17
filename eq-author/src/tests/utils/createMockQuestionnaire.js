@@ -78,6 +78,7 @@ export const buildFolders = ({
     return {
       id,
       alias: `Folder ${id}`,
+      displayName: `Folder ${id}`,
       enabled: i > 0,
       position: i,
       pages: buildPages({
