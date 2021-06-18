@@ -79,7 +79,7 @@ describe("MainNavigation", () => {
   });
 
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", () => {
-    const { getByTestId } = defaultSetup({ changes: { totalErrorCount: 1 } });
+    const { getByTestId } = defaultSetup({ changes: { totalErrorCount:2 } });
     expect(getByTestId("main-navigation")).toBeTruthy();
 
     expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
