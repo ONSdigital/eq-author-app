@@ -95,6 +95,11 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeFalsy();
   });
 
+  it("should disable qcodes button if there is no surveyId BUT there is another error", () => {
+    const { getByTestId } = defaultSetup({ changes: { totalErrorCount:2 } });
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
+  });
+
   it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
     const { getByTestId } = defaultSetup({
       changes: { totalErrorCount: 2, formTypeErrorCount: 1 },

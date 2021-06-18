@@ -80,8 +80,6 @@ export const UnwrappedMainNavigation = ({
   children,
   hasSurveyID
 }) => {
-  console.log('hasSurveyID :>> ', hasSurveyID);
-  console.log('totalErrorCount :>> ', totalErrorCount);
   const params = useParams();
   const { hasQCodeError } = useQCodeContext();
   const { me } = useMe();
@@ -97,8 +95,6 @@ export const UnwrappedMainNavigation = ({
   if (!hasSurveyID) {
     totalErrorCount = totalErrorCount-1
   };
-
-  console.log('totalErrorCount2 :>> ', totalErrorCount);
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
