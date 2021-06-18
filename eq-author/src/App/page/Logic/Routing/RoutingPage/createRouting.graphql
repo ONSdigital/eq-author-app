@@ -4,10 +4,9 @@
 mutation createRouting2($input: CreateRouting2Input!) {
   createRouting2(input: $input) {
     ...RoutingEditor
-
     page {
       id
-      ... on QuestionPage {
+      ... on Routable {
         routing {
           id
         }

@@ -86,7 +86,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     <EditorLayout
       title={page.displayName}
       preview
-      logic={false}
+      logic
       validationErrorInfo={page.validationErrorInfo}
       renderPanel={() => <CommentsPanel componentId={page.id} />}
     >

@@ -1,10 +1,12 @@
 # import "./RoutingEditor/fragment.graphql"
 
-fragment RoutingPage on QuestionPage {
+fragment RoutingPage on Page {
   id
   position
-  routing {
-    ...RoutingEditor
+  ... on Routable {
+    routing {
+      ...RoutingEditor
+    }
   }
   folder {
     id
