@@ -40,7 +40,8 @@ const {
 
 const validation = require(".");
 
-const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuidRejex =
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 const addExpression = ({ questionnaire, number, condition }) => {
   questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions.push(
@@ -66,6 +67,7 @@ describe("schema validation", () => {
   beforeEach(() => {
     questionnaire = {
       id: "1",
+      type: "Business",
       sections: [
         {
           id: "section_1",
@@ -171,6 +173,13 @@ describe("schema validation", () => {
       questionnaire.surveyId = "cat";
       const errors = validation(questionnaire);
       expect(errors[0].errorCode).toBe(ERR_INVALID);
+    });
+
+    it("shouldn't return an error if survey ID is missing on a social survey", () => {
+      questionnaire.surveyId = null;
+      questionnaire.type = "Social";
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(0);
     });
   });
 
@@ -689,17 +698,18 @@ describe("schema validation", () => {
             ...answer,
             id: "a2",
           });
-          questionnaire.sections[0].folders[0].pages[0].answers[0].validation = {
-            earliestDate: {
-              enabled: true,
-              entityType: "PreviousAnswer",
-              previousAnswer: "a2",
-              relativePosition: "Before",
-            },
-            latestDate: {
-              enabled: false,
-            },
-          };
+          questionnaire.sections[0].folders[0].pages[0].answers[0].validation =
+            {
+              earliestDate: {
+                enabled: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: "a2",
+                relativePosition: "Before",
+              },
+              latestDate: {
+                enabled: false,
+              },
+            };
 
           let errors = validation(questionnaire);
           expect(errors).toEqual(
@@ -1606,7 +1616,8 @@ describe("schema validation", () => {
         expect(validation(questionnaire)).toHaveLength(0);
 
         addExpression({ questionnaire, condition: "GreaterThan" });
-        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right = null;
+        questionnaire.sections[0].folders[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right =
+          null;
 
         const errors = validation(questionnaire);
         expect(errors).toHaveLength(1);
