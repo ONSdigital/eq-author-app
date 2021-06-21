@@ -63,7 +63,7 @@ const SkipConditionsSetMsg = ({
 
 SkipConditionsSetMsg.propTypes = {
   onAddSkipConditions: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   title: PropTypes.string.isRequired,
   paragraph: PropTypes.string.isRequired,
 };
