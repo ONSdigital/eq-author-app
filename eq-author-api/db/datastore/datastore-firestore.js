@@ -442,13 +442,10 @@ const updateUser = async (changedUser) => {
     if (!id) {
       throw new Error("Cannot update user without required field: id");
     }
-    const existingUser = await db.collection("users").doc(id).get();
-    const user = Object.assign(changedUser, existingUser);
-    await db
-      .collection("users")
-      .doc(id)
-      .update({ ...user });
-    return user;
+    const doc = db.collection("users").doc(id);
+    const existingUser = await doc.get();
+    await doc.update(changedUser);
+    return { ...existingUser, ...changedUser };
   } catch (error) {
     logger.error(error, `Unable update user with ID ${id}`);
     return;
