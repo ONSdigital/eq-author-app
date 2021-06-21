@@ -184,7 +184,7 @@ exports.getQuestionnaire = `
     fallbackKey
     type
   }
-  
+
   query GetQuestionnaire($input: QueryInput!) {
     questionnaire(input: $input) {
       id
@@ -248,6 +248,25 @@ exports.getQuestionnaire = `
               summaryAnswers {
                 id
               }
+              skipConditions {
+                ...ExpressionGroup
+              }
+            }
+            ... on Routable {
+              routing {
+                rules {
+                  expressionGroup {
+                    operator
+                    ...ExpressionGroup
+                  }
+                  destination {
+                    ...destination2Fragment
+                  }
+                }
+                else {
+                  ...destination2Fragment
+                }
+              }
             }
             ... on QuestionPage {
               description
@@ -290,20 +309,6 @@ exports.getQuestionnaire = `
                   mutuallyExclusiveOption {
                     ...optionFragment
                   }
-                }
-              }
-              routing {
-                rules {
-                  expressionGroup {
-                    operator
-                    ...ExpressionGroup
-                  }
-                  destination {
-                    ...destination2Fragment
-                  }
-                }
-                else {
-                  ...destination2Fragment
                 }
               }
               skipConditions {
