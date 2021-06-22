@@ -106,48 +106,6 @@ Pill.propTypes = {
   testId: PropTypes.string.isRequired,
 };
 
-const SectionNavigationSettings = ({ id, navigation, updateQuestionnaire }) => (
-  <>
-    <InlineField>
-      <Label>Section navigation</Label>
-      <ToggleSwitch
-        id="toggle-section-navigation"
-        name="toggle-section-navigation"
-        hideLabels={false}
-        onChange={({ value }) =>
-          updateQuestionnaire({
-            variables: { input: { id, navigation: value } },
-          })
-        }
-        checked={navigation}
-      />
-    </InlineField>
-    <InformationPanel>
-      Let respondents move between sections while they&apos;re completing the
-      questionnaire.
-    </InformationPanel>
-  </>
-);
-
-const HubNavigationSettings = ({ isEnabled }) => (
-  <>
-    <InlineField>
-      <Label>Hub navigation</Label>
-      <ToggleSwitch
-        id="toggle-hub-navigation"
-        name="toggle-hub-navigation"
-        hideLabels={false}
-        onChange={() => null}
-        checked={isEnabled}
-      />
-    </InlineField>
-    <InformationPanel>
-      Let respondents access different sections of the survey from a single
-      central "hub" screen
-    </InformationPanel>
-  </>
-);
-
 const GeneralSettingsPage = ({ questionnaire }) => {
   const {
     title,
@@ -258,15 +216,51 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     </Caption>
                     <HorizontalSeparator />
                     {enableOn(["hub"]) && (
-                      <HubNavigationSettings isEnabled={hub} />
+                      <>
+                        <InlineField>
+                          <Label>Hub navigation</Label>
+                          <ToggleSwitch
+                            id="toggle-hub-navigation"
+                            name="toggle-hub-navigation"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: { id, hub: value, navigation: false },
+                                },
+                              })
+                            }
+                            checked={hub}
+                          />
+                        </InlineField>
+                        <InformationPanel>
+                          Let respondents access different sections of the
+                          survey from a single central "hub" screen
+                        </InformationPanel>
+                      </>
                     )}
                     {disableOn(["hub"]) && (
                       <>
-                        <SectionNavigationSettings
-                          id={id}
-                          navigation={navigation}
-                          updateQuestionnaire={updateQuestionnaire}
-                        />
+                        <InlineField>
+                          <Label>Section navigation</Label>
+                          <ToggleSwitch
+                            id="toggle-section-navigation"
+                            name="toggle-section-navigation"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: { id, navigation: value, hub: false },
+                                },
+                              })
+                            }
+                            checked={navigation}
+                          />
+                        </InlineField>
+                        <InformationPanel>
+                          Let respondents move between sections while
+                          they&apos;re completing the questionnaire.
+                        </InformationPanel>
                         <HorizontalSeparator />
                         <Label>Summary page</Label>
                         <Caption>
