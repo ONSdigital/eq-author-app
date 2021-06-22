@@ -17,7 +17,7 @@ import Logic from "App/shared/Logic";
 
 import { PageContextProvider } from "components/QuestionnaireContext";
 
-const ROUTING_PAGE_TYPES = ["QuestionPage"];
+const ROUTING_PAGE_TYPES = ["QuestionPage", "CalculatedSummaryPage"];
 
 export class UnwrappedQuestionRoutingRoute extends React.Component {
   static propTypes = {

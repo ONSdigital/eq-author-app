@@ -10,19 +10,35 @@
     },
     "themeSettings": {
       "$ref": "themeSettings.json"
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "type": {
+          "const": "Social"
+        }
+      }
     },
-    "surveyId": {
-      "if": {
-        "type": "string",
-        "minLength": 1
-      },
-      "then": {
-        "pattern": "^\\d{3}$",
-        "errorMessage": "ERR_INVALID"
-      },
-      "else": {
-        "$ref": "definitions.json#/definitions/populatedString"
+    {
+      "properties": {
+        "type": {
+          "const": "Business"
+        },
+        "surveyId": {
+          "if": {
+            "type": "string",
+            "minLength": 1
+          },
+          "then": {
+            "pattern": "^\\d{3}$",
+            "errorMessage": "ERR_INVALID"
+          },
+          "else": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
       }
     }
-  }
+  ]
 }
