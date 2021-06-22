@@ -285,7 +285,6 @@ const Resolvers = {
         createdBy: ctx.user.id,
       });
 
-      console.log(JSON.stringify(questionnaire, null, 7));
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
