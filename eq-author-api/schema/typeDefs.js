@@ -174,7 +174,12 @@ interface Skippable {
   skipConditions: [ExpressionGroup2]
 }
 
-type QuestionPage implements Page & Skippable {
+interface Routable {
+  id: ID!
+  routing: Routing2
+}
+
+type QuestionPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
   alias: String
@@ -201,7 +206,7 @@ type QuestionPage implements Page & Skippable {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type CalculatedSummaryPage implements Page {
+type CalculatedSummaryPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
   alias: String
@@ -214,6 +219,8 @@ type CalculatedSummaryPage implements Page {
   summaryAnswers: [Answer!]!
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
+  routing: Routing2
+  skipConditions: [ExpressionGroup2]
 }
 
 type ConfirmationOption {
@@ -808,7 +815,7 @@ type Mutation {
   updateRouting2(input: UpdateRouting2Input!): Routing2!
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2!
-  deleteRoutingRule2(input: DeleteRoutingRule2Input!): QuestionPage!
+  deleteRoutingRule2(input: DeleteRoutingRule2Input!): Routable!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!

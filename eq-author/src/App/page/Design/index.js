@@ -22,7 +22,7 @@ import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
-  CalculatedSummaryPage: { design: true, preview: true },
+  CalculatedSummaryPage: { design: true, preview: true, logic: true },
 };
 
 export const PAGE_QUERY = gql`

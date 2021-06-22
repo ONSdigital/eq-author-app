@@ -1131,11 +1131,11 @@ const Resolvers = {
 
   Skippable: {
     __resolveType: ({ pageType, pages }) =>
-      pages
-        ? "Folder"
-        : pageType === "QuestionPage"
-        ? "QuestionPage"
-        : "QuestionConfirmation",
+      pageType ? pageType : pages ? "Folder" : "QuestionConfirmation",
+  },
+
+  Routable: {
+    __resolveType: ({ pageType }) => pageType,
   },
 
   Section: {

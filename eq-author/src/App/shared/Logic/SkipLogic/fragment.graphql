@@ -7,7 +7,7 @@ query GetSkipLogic($input: QueryInput!) {
     skipConditions {
       ...SkipLogicEditor
     }
-    ... on QuestionPage {
+    ... on Page {
       position
       pageType
       displayName
