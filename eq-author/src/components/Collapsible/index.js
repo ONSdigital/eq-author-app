@@ -112,7 +112,7 @@ const Collapsible = ({
   defaultOpen,
   className,
   children,
-  variant,
+  variant = "default",
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -179,6 +179,7 @@ const Collapsible = ({
             className="collapsible-header"
             data-test="collapsible-header"
             variant={variant}
+            onClick={() => setIsOpen((isOpen) => !isOpen)}
           >
             <Title
               className="collapsible-title"
@@ -187,7 +188,6 @@ const Collapsible = ({
             >
               <ToggleCollapsibleButton
                 isOpen={isOpen}
-                onClick={() => setIsOpen((isOpen) => !isOpen)}
                 aria-expanded={isOpen}
                 aria-controls="collapsible-body"
                 data-test="collapsible-toggle-button"
@@ -251,10 +251,6 @@ Collapsible.propTypes = {
    * Value controlling the styling applied to the collapsible.
    */
   variant: PropTypes.oneOf(["default", "content"]),
-};
-
-Collapsible.defaultProps = {
-  variant: "default",
 };
 
 export default Collapsible;
