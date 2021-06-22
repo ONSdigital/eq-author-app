@@ -56,6 +56,7 @@ type Questionnaire {
   theme: ThemeShortName
   qcodes: Boolean
   navigation: Boolean
+  hub: Boolean
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -894,6 +895,7 @@ input CreateQuestionnaireInput {
   additionalGuidancePanel: String
   theme: String!
   navigation: Boolean
+  hub: Boolean
   surveyId: String!
   summary: Boolean
   type: QuestionnaireType!
@@ -910,6 +912,7 @@ input UpdateQuestionnaireInput {
   theme: String
   qcodes: Boolean
   navigation: Boolean
+  hub: Boolean
   surveyId: String
   summary: Boolean
   collapsibleSummary: Boolean

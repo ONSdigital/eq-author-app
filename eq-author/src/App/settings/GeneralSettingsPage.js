@@ -160,6 +160,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     collapsibleSummary,
   } = questionnaire;
 
+  console.log(questionnaire);
+
   const handleTitleChange = ({ value }) => {
     value = value.trim();
     if (value !== "") {
@@ -178,9 +180,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
-  const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
-    shortTitle
-  );
+  const [questionnaireShortTitle, setQuestionnaireShortTitle] =
+    useState(shortTitle);
 
   const params = useParams();
 
