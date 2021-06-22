@@ -26,7 +26,7 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
 const sortQuestionnaires = (state) => (questionnaires) => {
   const sortedQuestionnaires = sortBy(questionnaires, (questionnaire) => {
     const sortKey = get(questionnaire, state.currentSortColumn);
-    return sortKey?.toUpperCase?.() ?? sortKey;
+    return sortKey?.toUpperCase?.() ?? sortKey ?? false;
   });
 
   return state.currentSortOrder === SORT_ORDER.ASCENDING
