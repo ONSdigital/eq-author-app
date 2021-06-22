@@ -8,13 +8,11 @@ import { darken } from "polished";
 
 import Button from "components/buttons/Button";
 
-const Wrapper = styled.ol`
-  margin-bottom: 1em;
-`;
-
-const ContentWrapper = styled.div`
-  margin: 0 2em 1em;
-  border: 1px solid ${colors.grey};
+const Wrapper = styled.div`
+  margin: ${(props) =>
+    props.variant === "default" ? `0 2.5em 1em` : `0 2em 1em`};
+  border: ${(props) =>
+    props.variant === "content" && ` 1px solid ${colors.grey}`};
 `;
 
 const Header = styled.div`
@@ -127,98 +125,54 @@ const Collapsible = ({
   };
 
   return (
-    <>
-      {variant === "default" && (
-        <Wrapper className={className} data-test="collapsible">
-          <Header
-            className="collapsible-header"
-            data-test="collapsible-header"
-            variant={variant}
-          >
-            <Title
-              className="collapsible-title"
-              data-test="collapsible-title"
-              variant={variant}
-            >
-              <ToggleCollapsibleButton
-                isOpen={isOpen}
-                onClick={() => setIsOpen((isOpen) => !isOpen)}
-                aria-expanded={isOpen}
-                aria-controls="collapsible-body"
-                data-test="collapsible-toggle-button"
-                className="collapsible-toggle-Collapsible-Button"
-                variant={variant}
-              >
-                {renderTitle(showHide, isOpen, title)}
-              </ToggleCollapsibleButton>
-            </Title>
-          </Header>
-          <Body
-            className="collapsible-body"
-            data-test="collapsible-body"
+    <Wrapper className={className} data-test="collapsible" variant={variant}>
+      <Header
+        className="collapsible-header"
+        data-test="collapsible-header"
+        variant={variant}
+        onClick={
+          variant === "content" && (() => setIsOpen((isOpen) => !isOpen))
+        }
+      >
+        <Title
+          className="collapsible-title"
+          data-test="collapsible-title"
+          variant={variant}
+        >
+          <ToggleCollapsibleButton
             isOpen={isOpen}
-            aria-hidden={!isOpen}
+            onClick={
+              variant === "default" && (() => setIsOpen((isOpen) => !isOpen))
+            }
+            aria-expanded={isOpen}
+            aria-controls="collapsible-body"
+            data-test="collapsible-toggle-button"
+            className="collapsible-toggle-Collapsible-Button"
             variant={variant}
           >
-            {children}
-            {!withoutHideThis && (
-              <HideThisButton
-                medium
-                onClick={() => setIsOpen(false)}
-                data-test="collapsible-hide-button"
-              >
-                Hide this
-              </HideThisButton>
-            )}
-          </Body>
-        </Wrapper>
-      )}
-      {variant === "content" && (
-        <ContentWrapper className={className} data-test="collapsible">
-          <Header
-            className="collapsible-header"
-            data-test="collapsible-header"
-            variant={variant}
-            onClick={() => setIsOpen((isOpen) => !isOpen)}
+            {renderTitle(showHide, isOpen, title)}
+          </ToggleCollapsibleButton>
+        </Title>
+      </Header>
+      <Body
+        className="collapsible-body"
+        data-test="collapsible-body"
+        isOpen={isOpen}
+        aria-hidden={!isOpen}
+        variant={variant}
+      >
+        {children}
+        {!withoutHideThis && (
+          <HideThisButton
+            medium
+            onClick={() => setIsOpen(false)}
+            data-test="collapsible-hide-button"
           >
-            <Title
-              className="collapsible-title"
-              data-test="collapsible-title"
-              variant={variant}
-            >
-              <ToggleCollapsibleButton
-                isOpen={isOpen}
-                aria-expanded={isOpen}
-                aria-controls="collapsible-body"
-                data-test="collapsible-toggle-button"
-                className="collapsible-toggle-Collapsible-Button"
-                variant={variant}
-              >
-                {renderTitle(showHide, isOpen, title)}
-              </ToggleCollapsibleButton>
-            </Title>
-          </Header>
-          <Body
-            className="collapsible-body"
-            data-test="collapsible-body"
-            isOpen={isOpen}
-            aria-hidden={!isOpen}
-            variant={variant}
-          >
-            {children}
-            {!withoutHideThis && (
-              <HideThisButton
-                medium
-                onClick={() => setIsOpen(false)}
-                data-test="collapsible-hide-button"
-              >
-                Hide this
-              </HideThisButton>
-            )}
-          </Body>
-        </ContentWrapper>
-      )}
-    </>
+            Hide this
+          </HideThisButton>
+        )}
+      </Body>
+    </Wrapper>
   );
 };
 
