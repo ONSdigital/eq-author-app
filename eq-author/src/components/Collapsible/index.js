@@ -58,7 +58,7 @@ export const ToggleCollapsibleButton = styled.button`
   position: relative;
   color: ${(props) =>
     props.variant === "default" ? `${colors.blue}` : `${colors.white}`};
-  text-decoration: underline;
+  text-decoration: ${(props) => props.variant === "default" && `underline`};
   background: transparent;
   cursor: pointer;
 
