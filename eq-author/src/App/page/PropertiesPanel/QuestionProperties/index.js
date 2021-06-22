@@ -6,7 +6,7 @@ import { flowRight } from "lodash";
 
 import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdateQuestionPage";
 import { Label } from "components/Forms";
-import ContentCollapsible from "components/Collapsible/ContentCollapsible";
+import Collapsible from "components/Collapsible";
 
 import AdditionalContentOptions from "./AdditionalContentOptions";
 
@@ -70,10 +70,12 @@ export class UnwrappedQuestionProperties extends React.Component {
     const { page, onChange, onUpdate, fetchAnswers } = this.props;
 
     return (
-      <ContentCollapsible
+      <Collapsible
         title="Additional content"
         className="additionalContentCollapsible"
         defaultOpen={defaultOpen()}
+        withoutHideThis
+        variant="content"
       >
         <Property
           id="descriptionEnabled"
@@ -161,7 +163,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           fetchAnswers={fetchAnswers}
           option={"additionalInfo"}
         />
-      </ContentCollapsible>
+      </Collapsible>
     );
   }
 }
