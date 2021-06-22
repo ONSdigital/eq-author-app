@@ -52,7 +52,6 @@ const BASE_FIELDS = [
   ...Object.keys(baseQuestionnaireFields),
   "updatedAt",
   "history",
-  "locked",
 ];
 
 const justListFields = pick(BASE_FIELDS);
@@ -383,7 +382,7 @@ const updateUser = async (changedUser) => {
     const existingUser = await collection.findOne({ id: id });
 
     const user = Object.assign(existingUser, changedUser);
-    await collection.updateOne({ id: id }, { $set: { ...user } });
+    await collection.updateOne({ id: id }, { $set: user });
     return user;
   } catch (error) {
     logger.error(error, `Unable update user with ID ${id}`);
