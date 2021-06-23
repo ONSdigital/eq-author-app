@@ -78,6 +78,7 @@ export const UnwrappedMainNavigation = ({
   formTypeErrorCount,
   title,
   children,
+  hasSurveyID
 }) => {
   const params = useParams();
   const { hasQCodeError } = useQCodeContext();
@@ -90,6 +91,10 @@ export const UnwrappedMainNavigation = ({
     variables: { id: params.questionnaireId },
   });
   const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
+
+  if (!hasSurveyID) {
+    totalErrorCount = totalErrorCount-1
+  };
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -226,6 +231,7 @@ UnwrappedMainNavigation.propTypes = {
   children: PropTypes.node,
   settingsError: PropTypes.bool,
   formTypeErrorCount: PropTypes.number,
+  hasSurveyID: PropTypes.bool,
 };
 
 export default UnwrappedMainNavigation;
