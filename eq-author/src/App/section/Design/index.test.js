@@ -63,6 +63,7 @@ const section = {
     __typename: "Questionnaire",
     id: questionnaireId,
     navigation: true,
+    hub: false,
     questionnaireInfo: {
       __typename: "QuestionnaireInfo",
       totalSectionCount: 1,
@@ -97,6 +98,7 @@ const moveSectionMock = {
         type: "Social",
         qcodes: true,
         navigation: true,
+        hub: false,
         summary: "",
         collapsibleSummary: false,
         displayName: "Display name",
