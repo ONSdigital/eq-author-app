@@ -115,6 +115,9 @@ export class SectionEditor extends React.Component {
     const autoFocusTitle = !navHasChanged && !hasTitle;
 
     const hasNav = section.questionnaire.navigation;
+    const hasHub = section.questionnaire.hub;
+
+    console.log(section.questionnaire);
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
@@ -134,12 +137,19 @@ export class SectionEditor extends React.Component {
             id="section-title"
             name="title"
             label={
-              <DescribedText description="This is displayed in the section navigation. You can enable or disable it in 'settings'">
-                Section title
-              </DescribedText>
+              (hasNav && (
+                <DescribedText description="This is displayed in the section navigation. You can enable or disable it in 'settings'.">
+                  Section title
+                </DescribedText>
+              )) ||
+              (hasHub && (
+                <DescribedText description="This will be shown on the hub. You can enable or disable it in 'settings'.">
+                  Section title
+                </DescribedText>
+              ))
             }
             value={section.title}
-            disabled={!hasNav}
+            disabled={!hasNav && !hasHub}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"

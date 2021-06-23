@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
+import { enableOn, disableOn } from "utils/featureFlags";
+
 import { Form, Field, Input, Label, Select } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import withEntityEditor from "components/withEntityEditor";
@@ -94,20 +96,42 @@ export const StatelessQuestionnaireMeta = ({
       <HorizontalSeparator style={{ marginTop: "0.5em" }} />
 
       <ToggleWrapper>
-        <InlineField>
-          <Label>Section navigation</Label>
-          <ToggleSwitch
-            id="navigation"
-            name="navigation"
-            onChange={onChange}
-            checked={questionnaire.navigation}
-            hideLabels={false}
-          />
-        </InlineField>
-        <InformationPanel>
-          Let respondents move between sections while they&apos;re completing
-          their questionnaire.
-        </InformationPanel>
+        {enableOn(["hub"]) && (
+          <>
+            <InlineField>
+              <Label>Hub navigation</Label>
+              <ToggleSwitch
+                id="hub"
+                name="hub"
+                onChange={onChange}
+                checked={questionnaire.hub}
+                hideLabels={false}
+              />
+            </InlineField>
+            <InformationPanel>
+              Let respondents access different sections of the survey from a
+              single central "hub" screen
+            </InformationPanel>
+          </>
+        )}
+        {disableOn(["hub"]) && (
+          <>
+            <InlineField>
+              <Label>Section navigation</Label>
+              <ToggleSwitch
+                id="navigation"
+                name="navigation"
+                onChange={onChange}
+                checked={questionnaire.navigation}
+                hideLabels={false}
+              />
+            </InlineField>
+            <InformationPanel>
+              Let respondents move between sections while they&apos;re
+              completing their questionnaire.
+            </InformationPanel>
+          </>
+        )}
 
         <HorizontalSeparator />
 
