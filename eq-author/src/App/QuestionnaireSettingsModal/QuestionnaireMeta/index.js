@@ -40,6 +40,11 @@ const InlineField = styled(Field)`
   }
 `;
 
+const EnableDisableWrapper = styled.div`
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
+
 export const StatelessQuestionnaireMeta = ({
   questionnaire,
   onSubmit,
@@ -97,7 +102,7 @@ export const StatelessQuestionnaireMeta = ({
 
       <ToggleWrapper>
         {enableOn(["hub"]) && (
-          <>
+          <EnableDisableWrapper disabled={questionnaire.summary}>
             <InlineField>
               <Label>Hub navigation</Label>
               <ToggleSwitch
@@ -112,7 +117,7 @@ export const StatelessQuestionnaireMeta = ({
               Let respondents access different sections of the survey from a
               single central &quot;hub&quot; screen
             </InformationPanel>
-          </>
+          </EnableDisableWrapper>
         )}
         {disableOn(["hub"]) && (
           <>
@@ -134,21 +139,22 @@ export const StatelessQuestionnaireMeta = ({
         )}
 
         <HorizontalSeparator />
-
-        <InlineField>
-          <Label>Answers summary</Label>
-          <ToggleSwitch
-            id="summary"
-            name="summary"
-            onChange={onChange}
-            checked={questionnaire.summary}
-            hideLabels={false}
-          />
-        </InlineField>
-        <InformationPanel>
-          Let respondents check their answers before submitting their
-          questionnaire.
-        </InformationPanel>
+        <EnableDisableWrapper disabled={questionnaire.hub}>
+          <InlineField>
+            <Label>Answers summary</Label>
+            <ToggleSwitch
+              id="summary"
+              name="summary"
+              onChange={onChange}
+              checked={questionnaire.summary}
+              hideLabels={false}
+            />
+          </InlineField>
+          <InformationPanel>
+            Let respondents check their answers before submitting their
+            questionnaire.
+          </InformationPanel>
+        </EnableDisableWrapper>
       </ToggleWrapper>
       <ButtonGroup horizontal align="right">
         <Button onClick={onCancel} variant="secondary" type="button" btn-focus>
