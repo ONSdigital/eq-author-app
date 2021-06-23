@@ -115,23 +115,25 @@ exports[`QuestionnaireMeta should render 1`] = `
         Let respondents move between sections while they're completing their questionnaire.
       </InformationPanel>
       <QuestionnaireMeta__HorizontalSeparator />
-      <QuestionnaireMeta__InlineField>
-        <Label
-          bold={true}
-        >
-          Answers summary
-        </Label>
-        <ToggleSwitch
-          checked={false}
-          hideLabels={false}
-          id="summary"
-          name="summary"
-          onChange={[MockFunction]}
-        />
-      </QuestionnaireMeta__InlineField>
-      <InformationPanel>
-        Let respondents check their answers before submitting their questionnaire.
-      </InformationPanel>
+      <QuestionnaireMeta__EnableDisableWrapper>
+        <QuestionnaireMeta__InlineField>
+          <Label
+            bold={true}
+          >
+            Answers summary
+          </Label>
+          <ToggleSwitch
+            checked={false}
+            hideLabels={false}
+            id="summary"
+            name="summary"
+            onChange={[MockFunction]}
+          />
+        </QuestionnaireMeta__InlineField>
+        <InformationPanel>
+          Let respondents check their answers before submitting their questionnaire.
+        </InformationPanel>
+      </QuestionnaireMeta__EnableDisableWrapper>
     </QuestionnaireMeta__ToggleWrapper>
     <ButtonGroup
       align="right"
