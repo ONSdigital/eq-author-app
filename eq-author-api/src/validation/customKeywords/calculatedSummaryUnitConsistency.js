@@ -7,26 +7,24 @@ const {
 } = require("../../../constants/validationErrorCodes");
 const { getPath } = require("../utils");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("calculatedSummaryUnitConsistency", {
+module.exports = (ajv) =>
+  ajv.addKeyword({
+    keyword: "calculatedSummaryUnitConsistency",
     $data: true,
     validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      schema,
+      _data,
+      _parentSchema,
+      {
+        instancePath,
+        rootData: questionnaire,
+        parentData,
+        parentDataProperty: fieldName,
+      }
     ) {
-      isValid.errors = [];
+      const { sections } = getPath(instancePath);
 
-      const { sections } = getPath(dataPath);
-
-      const pages = flatMap(
-        otherFields[sections].folders,
-        (folder) => folder.pages
-      );
+      const pages = flatMap(schema[sections].folders, (folder) => folder.pages);
 
       const currentSectionAnswers = pages.reduce(
         (acc, page) => (page.answers ? [...acc, ...page.answers] : acc),
@@ -42,16 +40,18 @@ module.exports = function (ajv) {
       );
 
       if (uniq(units).length > 1) {
-        const err = createValidationError(
-          dataPath,
-          fieldName,
-          ERR_CALCULATED_UNIT_INCONSISTENCY,
-          questionnaire
-        );
-        isValid.errors.push(err);
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_CALCULATED_UNIT_INCONSISTENCY,
+            questionnaire
+          ),
+        ];
+
+        return false;
       }
 
-      return false;
+      return true;
     },
   });
-};
