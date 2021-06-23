@@ -269,26 +269,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           be collapsible, so respondents can show and hide their
                           answers for individual sections.
                         </Caption>
-                        <InlineField>
-                          <Label>Answers summary</Label>
-                          <ToggleSwitch
-                            id="toggle-answer-summary"
-                            name="toggle-answer-summary"
-                            hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaire({
-                                variables: {
-                                  input: {
-                                    id,
-                                    summary: value,
-                                    collapsibleSummary: false,
-                                  },
-                                },
-                              })
-                            }
-                            checked={summary}
-                          />
-                        </InlineField>
+
                         <CollapsibleWrapper disabled={!summary}>
                           <InlineField>
                             <Label>Collapsible sections</Label>
@@ -309,6 +290,26 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         </CollapsibleWrapper>
                       </>
                     )}
+                    <InlineField>
+                      <Label>Answers summary</Label>
+                      <ToggleSwitch
+                        id="toggle-answer-summary"
+                        name="toggle-answer-summary"
+                        hideLabels={false}
+                        onChange={({ value }) =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: {
+                                id,
+                                summary: value,
+                                collapsibleSummary: false,
+                              },
+                            },
+                          })
+                        }
+                        checked={summary}
+                      />
+                    </InlineField>
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
