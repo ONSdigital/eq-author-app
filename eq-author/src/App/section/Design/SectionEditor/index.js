@@ -117,7 +117,6 @@ export class SectionEditor extends React.Component {
     const hasNav = section.questionnaire.navigation;
     const hasHub = section.questionnaire.hub;
 
-    console.log(section.questionnaire);
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
