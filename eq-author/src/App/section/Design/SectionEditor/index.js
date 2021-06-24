@@ -5,6 +5,8 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { get, flip, partial } from "lodash";
 
+import { enableOn, disableOn } from "utils/featureFlags";
+
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
@@ -115,6 +117,8 @@ export class SectionEditor extends React.Component {
     const autoFocusTitle = !navHasChanged && !hasTitle;
 
     const hasNav = section.questionnaire.navigation;
+    const hasHub = section.questionnaire.hub;
+
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
@@ -134,12 +138,19 @@ export class SectionEditor extends React.Component {
             id="section-title"
             name="title"
             label={
-              <DescribedText description="This is displayed in the section navigation. You can enable or disable it in 'settings'">
-                Section title
-              </DescribedText>
+              (disableOn(["hub"]) && (
+                <DescribedText description="This is displayed in the section navigation. You can enable or disable it in 'settings'.">
+                  Section title
+                </DescribedText>
+              )) ||
+              (enableOn(["hub"]) && (
+                <DescribedText description="This will be shown on the hub. You can enable or disable it in 'settings'.">
+                  Section title
+                </DescribedText>
+              ))
             }
             value={section.title}
-            disabled={!hasNav}
+            disabled={!hasNav && !hasHub}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"

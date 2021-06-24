@@ -31,6 +31,7 @@ describe("Settings page", () => {
       id: "e3c3ecc4-87fb-4819-826b-ac696a4bc569",
       qcodes: true,
       navigation: true,
+      hub: false,
       summary: true,
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
@@ -171,6 +172,7 @@ describe("Settings page", () => {
             input: {
               id: mockQuestionnaire.id,
               navigation: false,
+              hub: false,
             },
           },
         },
@@ -181,6 +183,7 @@ describe("Settings page", () => {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
                 navigation: false,
+                hub: false,
                 __typename: "Questionnaire",
               },
             },
@@ -417,9 +420,9 @@ describe("Settings page", () => {
 
       const sectionNavigationToggle = getByTestId("toggle-section-navigation");
 
-      const toggle = Object.values(
-        sectionNavigationToggle.children
-      ).reduce((child) => (child.type === "checkbox" ? child : null));
+      const toggle = Object.values(sectionNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
 
       expect(queryWasCalled).toBeFalsy();
 
@@ -442,9 +445,9 @@ describe("Settings page", () => {
 
       const sectionNavigationToggle = getByTestId("toggle-answer-summary");
 
-      const toggle = Object.values(
-        sectionNavigationToggle.children
-      ).reduce((child) => (child.type === "checkbox" ? child : null));
+      const toggle = Object.values(sectionNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
 
       expect(queryWasCalled).toBeFalsy();
 
@@ -467,9 +470,9 @@ describe("Settings page", () => {
 
       const sectionNavigationToggle = getByTestId("toggle-collapsible-summary");
 
-      const toggle = Object.values(
-        sectionNavigationToggle.children
-      ).reduce((child) => (child.type === "checkbox" ? child : null));
+      const toggle = Object.values(sectionNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
 
       expect(queryWasCalled).toBeFalsy();
 
