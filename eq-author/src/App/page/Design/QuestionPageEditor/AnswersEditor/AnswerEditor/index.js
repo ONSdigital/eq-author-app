@@ -63,6 +63,8 @@ const AnswerType = styled.span`
   font-size: 0.9em;
   letter-spacing: 0;
   font-weight: bold;
+  padding-left: 2em;
+  padding-right: 2em;
 `;
 
 const Padding = styled.div`
@@ -72,6 +74,7 @@ const Padding = styled.div`
 const Buttons = styled.div`
   display: flex;
   z-index: 2;
+  padding-right: 0.5em;
 `;
 
 class AnswerEditor extends React.Component {
@@ -142,7 +145,7 @@ class AnswerEditor extends React.Component {
         <AnswerHeader>
           <AnswerTypePanel>
             <AnswerType data-test="answer-type">
-              {this.getAnswerTypeText(this.props.answer)}
+              {this.getAnswerTypeText(this.props.answer)} answer
             </AnswerType>
             <Buttons>
               <Tooltip
