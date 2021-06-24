@@ -79,7 +79,7 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         //Feature flags,
-        FEATURE_FLAGS: process.env.FEATURE_FLAGS || "",
+        REACT_APP_FEATURE_FLAGS: process.env.REACT_APP_FEATURE_FLAGS || "",
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
