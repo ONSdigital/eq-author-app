@@ -5,3 +5,5 @@ export const enableOn = (flags) => {
 
   return displayFeature;
 };
+
+export const disableOn = (flags) => !enableOn(flags);
