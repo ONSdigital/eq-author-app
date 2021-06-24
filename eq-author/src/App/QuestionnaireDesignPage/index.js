@@ -109,6 +109,7 @@ export const QuestionnaireDesignPage = () => {
                             questionnaire?.validationErrorInfo?.totalCount
                         )}
                         formTypeErrorCount={formTypeErrorCount}
+                        hasSurveyID={questionnaire?.surveyId !== ""}
                       />
                     </MainNav>
                     <NavigationSidebar

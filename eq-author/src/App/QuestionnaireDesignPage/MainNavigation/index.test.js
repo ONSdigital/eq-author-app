@@ -79,7 +79,7 @@ describe("MainNavigation", () => {
   });
 
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", () => {
-    const { getByTestId } = defaultSetup({ changes: { totalErrorCount: 1 } });
+    const { getByTestId } = defaultSetup({ changes: { totalErrorCount:2 } });
     expect(getByTestId("main-navigation")).toBeTruthy();
 
     expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
@@ -87,6 +87,16 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-sharing").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-history").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-metadata").hasAttribute("disabled")).toBeFalsy();
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
+  });
+
+  it("should NOT disable qcodes button if there is no surveyId", () => {
+    const { getByTestId } = defaultSetup({ changes: { totalErrorCount:1 } });
+    expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeFalsy();
+  });
+
+  it("should disable qcodes button if there is no surveyId BUT there is another error", () => {
+    const { getByTestId } = defaultSetup({ changes: { totalErrorCount:2 } });
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 
