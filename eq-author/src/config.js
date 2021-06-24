@@ -31,7 +31,8 @@ const config = {
     window.config.REACT_APP_GTM_PREVIEW || process.env.REACT_APP_GTM_PREVIEW,
   REACT_APP_FEATURE_FLAGS:
     window.config.REACT_APP_FEATURE_FLAGS ||
-    process.env.REACT_APP_FEATURE_FLAGS,
+    process.env.REACT_APP_FEATURE_FLAGS ||
+    "",
 };
 
 export default config;
