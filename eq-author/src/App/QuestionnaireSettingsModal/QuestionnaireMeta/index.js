@@ -115,7 +115,7 @@ export const StatelessQuestionnaireMeta = ({
             </InlineField>
             <InformationPanel>
               Let respondents access different sections of the survey from a
-              single central &quot;hub&quot; screen
+              single central &quot;hub&quot; screen.
             </InformationPanel>
           </EnableDisableWrapper>
         )}
