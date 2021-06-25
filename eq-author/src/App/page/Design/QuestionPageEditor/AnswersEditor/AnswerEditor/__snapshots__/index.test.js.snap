@@ -95,67 +95,70 @@ exports[`Answer Editor should render Checkbox 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Checkbox
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Checkbox
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <Apollo(UnwrappedMultipleChoiceAnswer)
@@ -196,67 +199,70 @@ exports[`Answer Editor should render Currency 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Currency
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Currency
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -292,67 +298,70 @@ exports[`Answer Editor should render Date 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Date
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Date
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
@@ -388,67 +397,70 @@ exports[`Answer Editor should render DateRange 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      DateRange
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        DateRange
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <DateRange
@@ -481,68 +493,71 @@ exports[`Answer Editor should render Duration 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Duration
-       (Years/Months)
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Duration
+         (Years/Months)
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -581,67 +596,70 @@ exports[`Answer Editor should render Number 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Number
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Number
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -677,67 +695,70 @@ exports[`Answer Editor should render Percentage 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Percentage
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Percentage
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -773,67 +794,70 @@ exports[`Answer Editor should render Radio 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Radio
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Radio
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <Apollo(UnwrappedMultipleChoiceAnswer)
@@ -875,67 +899,70 @@ exports[`Answer Editor should render TextArea 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      TextArea
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        TextArea
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -970,67 +997,70 @@ exports[`Answer Editor should render TextField 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      TextField
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        TextField
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
@@ -1065,68 +1095,71 @@ exports[`Answer Editor should render Unit 1`] = `
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerType
-      data-test="answer-type"
-    >
-      Centimetres
-       (cm)
-    </AnswerEditor__AnswerType>
-    <AnswerEditor__Buttons>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
       >
-        <MoveButton
-          data-test="btn-move-answer-up"
-          disabled={false}
-          onClick={[MockFunction]}
+        Centimetres
+         (cm)
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <MoveButton
-          data-test="btn-move-answer-down"
-          disabled={false}
-          onClick={[MockFunction]}
+          place="top"
         >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete answer"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
+          <MoveButton
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
           }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete answer"
-          data-test="btn-delete-answer"
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </AnswerEditor__Buttons>
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))

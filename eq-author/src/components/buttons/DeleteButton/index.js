@@ -20,7 +20,7 @@ const sizes = {
 };
 
 const StyledDeleteButton = styled.button`
-  color: ${colors.secondary};
+  color: ${colors.white};
   border: none;
   background: transparent;
   cursor: pointer;
@@ -30,7 +30,7 @@ const StyledDeleteButton = styled.button`
   padding: 0;
 
   &:hover {
-    color: ${colors.black};
+    background: ${colors.highlightBlue};
   }
 
   &:focus {
@@ -49,7 +49,7 @@ const CloseIcon = styled(Icon)`
   pointer-events: none;
   display: block;
   width: 1em;
-  height: 1em;
+  height: 0.7em;
 
   path {
     fill: currentColor;
