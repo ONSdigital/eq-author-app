@@ -11,9 +11,10 @@ export const IconDown = IconArrowDown;
 
 const Button = styled.button`
   display: block;
-  color: ${colors.secondary};
+  color: ${colors.white};
   border: none;
   padding: 0;
+  padding-top: 0.3em;
   width: 2em;
   height: 2em;
   font-size: 1em;
@@ -30,7 +31,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    color: ${colors.black};
+    background: ${colors.highlightBlue};
   }
 
   &:focus {
