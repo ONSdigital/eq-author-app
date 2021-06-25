@@ -74,7 +74,12 @@ const Padding = styled.div`
 const Buttons = styled.div`
   display: flex;
   z-index: 2;
-  padding-right: 0.5em;
+  button {
+    margin-right: 0.2em;
+  }
+  button:last-of-type {
+    margin-right: 0;
+  }
 `;
 
 class AnswerEditor extends React.Component {

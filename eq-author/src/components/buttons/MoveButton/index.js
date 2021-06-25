@@ -31,7 +31,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    color: ${colors.black};
+    background: ${colors.highlightBlue};
   }
 
   &:focus {

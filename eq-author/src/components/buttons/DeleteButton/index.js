@@ -30,7 +30,7 @@ const StyledDeleteButton = styled.button`
   padding: 0;
 
   &:hover {
-    color: ${colors.black};
+    background: ${colors.highlightBlue};
   }
 
   &:focus {
