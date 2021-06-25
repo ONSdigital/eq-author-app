@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors, radius } from "constants/theme";
+import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import fp from "lodash/fp";
 
@@ -33,7 +33,6 @@ import BasicAnswer from "App/page/Design/answers/BasicAnswer";
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
   position: relative;
-  border-radius: ${radius};
   background: ${colors.white};
   &:focus-within {
     border-color: ${colors.blue};
@@ -43,28 +42,29 @@ const Answer = styled.div`
 `;
 
 const AnswerHeader = styled.div`
-  background: ${colors.lightMediumGrey};
+  background: ${colors.blue};
   border-bottom: 1px solid ${colors.bordersLight};
-  border-radius: ${radius} ${radius} 0 0;
   display: flex;
   align-items: center;
-  position: relative;
-  justify-content: flex-end;
+  justify-content: flex-start;
+`;
+
+const AnswerTypePanel = styled.span`
+  display: flex;
+  background: ${colors.darkerBlue};
+  color: ${colors.white};
+  align-items: center;
 `;
 
 const AnswerType = styled.span`
-  text-align: center;
-  color: ${colors.textLight};
   line-height: 1;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
   z-index: 1;
   font-family: Lato, sans-serif;
   font-size: 0.9em;
   letter-spacing: 0;
   font-weight: bold;
+  padding-left: 1.6em;
+  padding-right: 2em;
 `;
 
 const Padding = styled.div`
@@ -74,7 +74,12 @@ const Padding = styled.div`
 const Buttons = styled.div`
   display: flex;
   z-index: 2;
-  position: relative;
+  button {
+    margin-right: 0.2em;
+  }
+  button:last-of-type {
+    margin-right: 0;
+  }
 `;
 
 class AnswerEditor extends React.Component {
@@ -82,11 +87,9 @@ class AnswerEditor extends React.Component {
     this.props.onDeleteAnswer(this.props.answer.id);
   };
 
-
   formatIncludes = (x) => fp.flow(fp.get("properties.format"), fp.includes(x));
 
   renderAnswer(answer) {
-
     const { type } = answer;
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
       return <BasicAnswer type={type} {...this.props} />;
@@ -145,50 +148,51 @@ class AnswerEditor extends React.Component {
     return (
       <Answer data-test="answer-editor">
         <AnswerHeader>
-          <AnswerType data-test="answer-type">
-            {this.getAnswerTypeText(this.props.answer)}
-          </AnswerType>
-
-          <Buttons>
-            <Tooltip
-              content="Move answer up"
-              place="top"
-              offset={{ top: 0, bottom: 10 }}
-            >
-              <MoveButton
-                disabled={!this.props.canMoveUp}
-                onClick={this.props.onMoveUp}
-                data-test="btn-move-answer-up"
+          <AnswerTypePanel>
+            <AnswerType data-test="answer-type">
+              {this.getAnswerTypeText(this.props.answer)} answer
+            </AnswerType>
+            <Buttons>
+              <Tooltip
+                content="Move answer up"
+                place="top"
+                offset={{ top: 0, bottom: 10 }}
               >
-                <IconUp />
-              </MoveButton>
-            </Tooltip>
-            <Tooltip
-              content="Move answer down"
-              place="top"
-              offset={{ top: 0, bottom: 10 }}
-            >
-              <MoveButton
-                disabled={!this.props.canMoveDown}
-                onClick={this.props.onMoveDown}
-                data-test="btn-move-answer-down"
+                <MoveButton
+                  disabled={!this.props.canMoveUp}
+                  onClick={this.props.onMoveUp}
+                  data-test="btn-move-answer-up"
+                >
+                  <IconUp />
+                </MoveButton>
+              </Tooltip>
+              <Tooltip
+                content="Move answer down"
+                place="top"
+                offset={{ top: 0, bottom: 10 }}
               >
-                <IconDown />
-              </MoveButton>
-            </Tooltip>
-            <Tooltip
-              content="Delete answer"
-              place="top"
-              offset={{ top: 0, bottom: 10 }}
-            >
-              <DeleteButton
-                size="medium"
-                onClick={this.handleDeleteAnswer}
-                aria-label="Delete answer"
-                data-test="btn-delete-answer"
-              />
-            </Tooltip>
-          </Buttons>
+                <MoveButton
+                  disabled={!this.props.canMoveDown}
+                  onClick={this.props.onMoveDown}
+                  data-test="btn-move-answer-down"
+                >
+                  <IconDown />
+                </MoveButton>
+              </Tooltip>
+              <Tooltip
+                content="Delete answer"
+                place="top"
+                offset={{ top: 0, bottom: 10 }}
+              >
+                <DeleteButton
+                  size="medium"
+                  onClick={this.handleDeleteAnswer}
+                  aria-label="Delete answer"
+                  data-test="btn-delete-answer"
+                />
+              </Tooltip>
+            </Buttons>
+          </AnswerTypePanel>
         </AnswerHeader>
 
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
