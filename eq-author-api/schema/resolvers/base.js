@@ -1142,7 +1142,9 @@ const Resolvers = {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     title: (section, args, ctx) =>
-      ctx.questionnaire.navigation ? section.title : "",
+      ctx.questionnaire.navigation || ctx.questionnaire.hub
+        ? section.title
+        : "",
     displayName: (section, args, ctx) =>
       ctx.questionnaire.navigation
         ? getName(section, "Section")
