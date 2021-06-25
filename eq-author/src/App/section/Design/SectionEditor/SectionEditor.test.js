@@ -110,7 +110,7 @@ describe("SectionEditor", () => {
     );
   });
 
-  it("should disable the section title when navigation is disabled", () => {
+  it("should disable the section title when navigation (andHub) is disabled", () => {
     const section = {
       ...section1,
       questionnaire: {
