@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Close button should render: large 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #3B7A9E;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+<button
+    aria-label="Delete"
+    class="c0"
+    role="button"
+    type="button"
+  >
+    <div />
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Close button should render: medium 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #3B7A9E;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+<button
+    aria-label="Delete"
+    class="c0"
+    role="button"
+    type="button"
+  >
+    <div />
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Close button should render: small 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #3B7A9E;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+<button
+    aria-label="Delete"
+    class="c0"
+    role="button"
+    type="button"
+  >
+    <div />
+  </button>
+</DocumentFragment>
+`;
