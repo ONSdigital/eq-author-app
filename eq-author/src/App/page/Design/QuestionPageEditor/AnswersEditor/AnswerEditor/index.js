@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors, radius } from "constants/theme";
+import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import fp from "lodash/fp";
 
