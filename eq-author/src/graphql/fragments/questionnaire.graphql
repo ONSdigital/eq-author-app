@@ -6,6 +6,7 @@ fragment Questionnaire on Questionnaire {
   theme
   qcodes
   navigation
+  hub
   summary
   collapsibleSummary
   type

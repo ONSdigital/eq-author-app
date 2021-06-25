@@ -8,6 +8,8 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import { getThemeSettingsErrorCount } from "./utils";
+import { enableOn, disableOn } from "utils/featureFlags";
+
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -40,7 +42,7 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const CollapsibleWrapper = styled.div`
+const EnableDisableWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
@@ -112,6 +114,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     id,
     qcodes,
     navigation,
+    hub,
     summary,
     collapsibleSummary,
   } = questionnaire;
@@ -134,9 +137,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
-  const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
-    shortTitle
-  );
+  const [questionnaireShortTitle, setQuestionnaireShortTitle] =
+    useState(shortTitle);
 
   const params = useParams();
 
@@ -213,24 +215,54 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       sent downstream.
                     </Caption>
                     <HorizontalSeparator />
-                    <InlineField>
-                      <Label>Section navigation</Label>
-                      <ToggleSwitch
-                        id="toggle-section-navigation"
-                        name="toggle-section-navigation"
-                        hideLabels={false}
-                        onChange={({ value }) =>
-                          updateQuestionnaire({
-                            variables: { input: { id, navigation: value } },
-                          })
-                        }
-                        checked={navigation}
-                      />
-                    </InlineField>
-                    <InformationPanel>
-                      Let respondents move between sections while they&apos;re
-                      completing the questionnaire.
-                    </InformationPanel>
+                    {enableOn(["hub"]) && (
+                      <>
+                        <InlineField>
+                          <Label>Hub navigation</Label>
+                          <ToggleSwitch
+                            id="toggle-hub-navigation"
+                            name="toggle-hub-navigation"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: { id, hub: value, navigation: false },
+                                },
+                              })
+                            }
+                            checked={hub}
+                          />
+                        </InlineField>
+                        <InformationPanel>
+                          Let respondents access different sections of the
+                          survey from a single central &quot;hub&quot; screen.
+                        </InformationPanel>
+                      </>
+                    )}
+                    {disableOn(["hub"]) && (
+                      <>
+                        <InlineField>
+                          <Label>Section navigation</Label>
+                          <ToggleSwitch
+                            id="toggle-section-navigation"
+                            name="toggle-section-navigation"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: { id, navigation: value, hub: false },
+                                },
+                              })
+                            }
+                            checked={navigation}
+                          />
+                        </InlineField>
+                        <InformationPanel>
+                          Let respondents move between sections while
+                          they&apos;re completing the questionnaire.
+                        </InformationPanel>
+                      </>
+                    )}
                     <HorizontalSeparator />
                     <Label>Summary page</Label>
                     <Caption>
@@ -239,27 +271,32 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       collapsible, so respondents can show and hide their
                       answers for individual sections.
                     </Caption>
-                    <InlineField>
-                      <Label>Answers summary</Label>
-                      <ToggleSwitch
-                        id="toggle-answer-summary"
-                        name="toggle-answer-summary"
-                        hideLabels={false}
-                        onChange={({ value }) =>
-                          updateQuestionnaire({
-                            variables: {
-                              input: {
-                                id,
-                                summary: value,
-                                collapsibleSummary: false,
+
+                    <EnableDisableWrapper disabled={hub}>
+                      <InlineField>
+                        <Label>Answers summary</Label>
+                        <ToggleSwitch
+                          id="toggle-answer-summary"
+                          name="toggle-answer-summary"
+                          hideLabels={false}
+                          disabled={hub}
+                          onChange={({ value }) =>
+                            updateQuestionnaire({
+                              variables: {
+                                input: {
+                                  id,
+                                  summary: value,
+                                  collapsibleSummary: false,
+                                },
                               },
-                            },
-                          })
-                        }
-                        checked={summary}
-                      />
-                    </InlineField>
-                    <CollapsibleWrapper disabled={!summary}>
+                            })
+                          }
+                          checked={summary}
+                        />
+                      </InlineField>
+                    </EnableDisableWrapper>
+
+                    <EnableDisableWrapper disabled={!summary || hub}>
                       <InlineField>
                         <Label>Collapsible sections</Label>
                         <ToggleSwitch
@@ -276,7 +313,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           checked={collapsibleSummary}
                         />
                       </InlineField>
-                    </CollapsibleWrapper>
+                    </EnableDisableWrapper>
                   </StyledPanel>
                 </SettingsContainer>
               </Column>

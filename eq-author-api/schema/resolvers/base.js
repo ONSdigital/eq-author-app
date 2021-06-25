@@ -132,6 +132,7 @@ const createNewQuestionnaire = (input) => {
     theme: "default",
     qcodes: true,
     navigation: false,
+    hub: false,
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
@@ -283,6 +284,7 @@ const Resolvers = {
         ...args.input,
         createdBy: ctx.user.id,
       });
+
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
@@ -1140,7 +1142,9 @@ const Resolvers = {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     title: (section, args, ctx) =>
-      ctx.questionnaire.navigation ? section.title : "",
+      ctx.questionnaire.navigation || ctx.questionnaire.hub
+        ? section.title
+        : "",
     displayName: (section, args, ctx) =>
       ctx.questionnaire.navigation
         ? getName(section, "Section")

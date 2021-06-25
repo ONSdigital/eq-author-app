@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
+import { enableOn, disableOn } from "utils/featureFlags";
+
 import { Form, Field, Input, Label, Select } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import withEntityEditor from "components/withEntityEditor";
@@ -36,6 +38,11 @@ const InlineField = styled(Field)`
   > * {
     margin-bottom: 0;
   }
+`;
+
+const EnableDisableWrapper = styled.div`
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
 
 export const StatelessQuestionnaireMeta = ({
@@ -94,37 +101,60 @@ export const StatelessQuestionnaireMeta = ({
       <HorizontalSeparator style={{ marginTop: "0.5em" }} />
 
       <ToggleWrapper>
-        <InlineField>
-          <Label>Section navigation</Label>
-          <ToggleSwitch
-            id="navigation"
-            name="navigation"
-            onChange={onChange}
-            checked={questionnaire.navigation}
-            hideLabels={false}
-          />
-        </InlineField>
-        <InformationPanel>
-          Let respondents move between sections while they&apos;re completing
-          their questionnaire.
-        </InformationPanel>
+        {enableOn(["hub"]) && (
+          <EnableDisableWrapper disabled={questionnaire.summary}>
+            <InlineField>
+              <Label>Hub navigation</Label>
+              <ToggleSwitch
+                id="hub"
+                name="hub"
+                onChange={onChange}
+                checked={questionnaire.hub}
+                hideLabels={false}
+              />
+            </InlineField>
+            <InformationPanel>
+              Let respondents access different sections of the survey from a
+              single central &quot;hub&quot; screen.
+            </InformationPanel>
+          </EnableDisableWrapper>
+        )}
+        {disableOn(["hub"]) && (
+          <>
+            <InlineField>
+              <Label>Section navigation</Label>
+              <ToggleSwitch
+                id="navigation"
+                name="navigation"
+                onChange={onChange}
+                checked={questionnaire.navigation}
+                hideLabels={false}
+              />
+            </InlineField>
+            <InformationPanel>
+              Let respondents move between sections while they&apos;re
+              completing their questionnaire.
+            </InformationPanel>
+          </>
+        )}
 
         <HorizontalSeparator />
-
-        <InlineField>
-          <Label>Answers summary</Label>
-          <ToggleSwitch
-            id="summary"
-            name="summary"
-            onChange={onChange}
-            checked={questionnaire.summary}
-            hideLabels={false}
-          />
-        </InlineField>
-        <InformationPanel>
-          Let respondents check their answers before submitting their
-          questionnaire.
-        </InformationPanel>
+        <EnableDisableWrapper disabled={questionnaire.hub}>
+          <InlineField>
+            <Label>Answers summary</Label>
+            <ToggleSwitch
+              id="summary"
+              name="summary"
+              onChange={onChange}
+              checked={questionnaire.summary}
+              hideLabels={false}
+            />
+          </InlineField>
+          <InformationPanel>
+            Let respondents check their answers before submitting their
+            questionnaire.
+          </InformationPanel>
+        </EnableDisableWrapper>
       </ToggleWrapper>
       <ButtonGroup horizontal align="right">
         <Button onClick={onCancel} variant="secondary" type="button" btn-focus>
