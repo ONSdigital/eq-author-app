@@ -51,7 +51,7 @@ const AnswerHeader = styled.div`
 
 const AnswerTypePanel = styled.span`
   display: flex;
-  background: #0c3e58;
+  background: ${colors.darkerBlue};
   color: ${colors.white};
   align-items: center;
 `;
