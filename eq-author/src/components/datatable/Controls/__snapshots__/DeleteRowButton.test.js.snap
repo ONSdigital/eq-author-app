@@ -3,7 +3,7 @@
 exports[`DeleteRowButton should render 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #FFFFFF;
   border: none;
   background: transparent;
   cursor: pointer;
