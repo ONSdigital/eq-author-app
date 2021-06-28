@@ -15,6 +15,7 @@ describe("SectionEditor", () => {
     questionnaire: {
       id: "2",
       navigation: true,
+      hub: false
     },
     validationErrorInfo: {
       id: "3",
@@ -32,6 +33,7 @@ describe("SectionEditor", () => {
     questionnaire: {
       id: "2",
       navigation: true,
+      hub: false
     },
     validationErrorInfo: {
       id: "3",
@@ -99,6 +101,7 @@ describe("SectionEditor", () => {
       questionnaire: {
         id: "2",
         navigation: true,
+        hub: false
       },
     };
     const wrapper = render({ section });
@@ -107,16 +110,32 @@ describe("SectionEditor", () => {
     );
   });
 
-  it("should disable the section title when navigation is disabled", () => {
+  it("should disable the section title when navigation (andHub) is disabled", () => {
     const section = {
       ...section1,
       questionnaire: {
         id: "2",
         navigation: false,
+        hub: false
       },
     };
     const wrapper = render({ section });
     expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(true);
+  });
+
+  it("should enable the section title when Hub is enabled", () => {
+    const section = {
+      ...section1,
+      questionnaire: {
+        id: "2",
+        navigation: false,
+        hub: true
+      },
+    };
+    const wrapper = render({ section });
+    expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(
+      false
+    );
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {
@@ -127,6 +146,7 @@ describe("SectionEditor", () => {
         questionnaire: {
           id: "2",
           navigation: false,
+          hub: false
         },
       },
     });
@@ -138,6 +158,7 @@ describe("SectionEditor", () => {
         questionnaire: {
           id: "2",
           navigation: true,
+          hub: false
         },
       },
     });
