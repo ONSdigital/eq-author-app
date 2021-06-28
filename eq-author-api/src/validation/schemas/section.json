@@ -7,8 +7,16 @@
             "type": "string"
         },
         "title": {
-            "type": "string",
-            "requiredWhenQuestionnaireSetting": "navigation"
+            "allOf": [
+                {
+                    "type": "string",
+                    "requiredWhenQuestionnaireSetting": "navigation"
+                },
+                {
+                    "type": "string",
+                    "requiredWhenQuestionnaireSetting": "hub"
+                }
+            ]
         },
         "introductionTitle": {
             "type": "string",
@@ -29,5 +37,7 @@
             }
         }
     },
-    "required": ["id"]
+    "required": [
+        "id"
+    ]
 }

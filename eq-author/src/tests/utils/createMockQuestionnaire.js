@@ -54,9 +54,11 @@ export const buildPages = ({
       section: {
         id: `${sectionNumber}`,
         displayName: "",
+        position: 0,
       },
       folder: {
         id: `${folderNumber}`,
+        position: 0,
       },
       answers: buildAnswers({
         sectionNumber,

@@ -37,6 +37,7 @@ describe("CalculatedSummaryPreview", () => {
       pageType: "CalculatedSummaryPage",
       section: {
         id: "1",
+        position: 0,
         questionnaire: {
           id: "1",
           metadata: [],
@@ -46,6 +47,10 @@ describe("CalculatedSummaryPreview", () => {
         id: "test",
         totalCount: 0,
         errors: [],
+      },
+      folder: {
+        id: "folder-1",
+        position: 0,
       },
     };
 
