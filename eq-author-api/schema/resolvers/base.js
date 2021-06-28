@@ -1146,7 +1146,7 @@ const Resolvers = {
         ? section.title
         : "",
     displayName: (section, args, ctx) =>
-      ctx.questionnaire.navigation
+      ctx.questionnaire.navigation || ctx.questionnaire.hub
         ? getName(section, "Section")
         : getName(omit(section, "title"), "Section"),
     position: ({ id }, args, ctx) => {
