@@ -18,6 +18,7 @@ exports[`components/AppContainer should render 1`] = `
         "green": "#0f8243",
         "grey": "#999999",
         "greyedOrange": "#D9A551",
+        "highlightBlue": "#195673",
         "highlightGreen": "#dce5b0",
         "lightBlue": "#61BDE0",
         "lightGrey": "#d6d8da",

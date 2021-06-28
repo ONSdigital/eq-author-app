@@ -3,7 +3,7 @@
 exports[`DeleteButton should render: large 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #FFFFFF;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -16,7 +16,7 @@ exports[`DeleteButton should render: large 1`] = `
 }
 
 .c0:hover {
-  color: #333333;
+  background: #195673;
 }
 
 .c0:focus {
@@ -42,7 +42,7 @@ exports[`DeleteButton should render: large 1`] = `
 exports[`DeleteButton should render: medium 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #FFFFFF;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -55,7 +55,7 @@ exports[`DeleteButton should render: medium 1`] = `
 }
 
 .c0:hover {
-  color: #333333;
+  background: #195673;
 }
 
 .c0:focus {
@@ -81,7 +81,7 @@ exports[`DeleteButton should render: medium 1`] = `
 exports[`DeleteButton should render: small 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #FFFFFF;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -94,7 +94,7 @@ exports[`DeleteButton should render: small 1`] = `
 }
 
 .c0:hover {
-  color: #333333;
+  background: #195673;
 }
 
 .c0:focus {
