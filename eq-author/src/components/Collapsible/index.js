@@ -16,35 +16,48 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  margin-left: ${(props) => props.variant === "default" && `-0.5em`};
-  height: ${(props) => props.variant === "content" && `100%`};
-  width: ${(props) => props.variant === "content" && `100%`};
-  background-color: ${(props) =>
-    props.variant === "content" && `${colors.primary}`};
-  cursor: ${(props) => props.variant === "content" && `pointer`};
+  margin-left: -0.5em;
 
-  &:hover {
-    background-color: ${(props) =>
-      props.variant === "content" && `${darken(0.1, colors.secondary)}`};
-  }
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    margin-left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: ${colors.primary};
+    cursor: pointer;
+
+    &:hover {
+      background-color: ${darken(0.1, colors.secondary)};
+    }
+`}
 `;
 
 export const Title = styled.h2`
   vertical-align: middle;
   text-align: left;
   margin: 0;
-  padding: ${(props) => props.variant === "default" && ` 0.25em 0 0.5em`};
+  padding: 0.25em 0 0.5em;
   font-size: inherit;
+
+  ${(props) => props.variant === "content" && `padding: 0;`}
 `;
 
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  margin-top: ${(props) => props.variant === "default" && `-1em`};
-  margin-left: ${(props) => props.variant === "default" && `0.1em`};
-  padding: ${(props) =>
-    props.variant === "default" ? `0 0 0 0.5em` : `1em 0 1em 0.5em`};
-  border-left: ${(props) =>
-    props.variant === "default" && ` 3px solid ${colors.lightGrey}`};
+  margin-top: -1em;
+  margin-left: 0.1em;
+  padding-left: 0.5em;
+  border-left: 3px solid ${colors.lightGrey};
+
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    margin-top: 0;
+    margin-left: 0;
+    padding: 1em 0 1em 0.5em;
+    border-left: none;
+`}
 `;
 
 export const ToggleCollapsibleButton = styled.button`
@@ -56,27 +69,38 @@ export const ToggleCollapsibleButton = styled.button`
   display: flex;
   align-items: center;
   position: relative;
-  color: ${(props) =>
-    props.variant === "default" ? `${colors.blue}` : `${colors.white}`};
   text-decoration: ${(props) => props.variant === "default" && `underline`};
   background: transparent;
   cursor: pointer;
-
   margin-left: ${(props) => props.variant === "content" && `0.5em`};
+  color: ${colors.blue};
+  text-decoration: underline;
+  margin-left: 0;
+
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    color: ${colors.white};
+    text-decoration: none;
+    margin-left: 0.5em;
+`}
 
   &:focus {
-    outline: ${(props) =>
-      props.variant === "default" && ` 2px solid ${colors.orange}`};
+    outline: 2px solid ${colors.orange};
+
+    ${(props) => props.variant === "content" && `outline: none;`}
   }
 
   &::before {
     content: "";
-    background-color: ${(props) =>
-      props.variant === "default" ? `${colors.blue}` : `${colors.white}`};
+    background-color: ${colors.blue};
     mask: url(${({ isOpen }) => (isOpen ? chevronDown : chevronRight)});
     width: 1.5em;
     height: 1.5em;
     margin-top: 0.2em;
+
+    ${(props) =>
+      props.variant === "content" && `background-color: ${colors.white}`}
   }
 
   &:hover {

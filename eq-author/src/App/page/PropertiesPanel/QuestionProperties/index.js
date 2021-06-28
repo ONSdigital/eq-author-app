@@ -56,7 +56,11 @@ export class UnwrappedQuestionProperties extends React.Component {
       },
     } = this.props;
 
-    const defaultOpen = () => descriptionEnabled || definitionEnabled || guidanceEnabled || additionalInfoEnabled;
+    const defaultOpen = () =>
+      descriptionEnabled ||
+      definitionEnabled ||
+      guidanceEnabled ||
+      additionalInfoEnabled;
 
     const { page, onChange, onUpdate, fetchAnswers } = this.props;
 
