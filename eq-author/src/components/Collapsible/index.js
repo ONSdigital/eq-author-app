@@ -153,7 +153,9 @@ const Collapsible = ({
         data-test="collapsible-header"
         variant={variant}
         onClick={
-          variant === "content" && (() => setIsOpen((isOpen) => !isOpen))
+          variant === "content"
+            ? () => setIsOpen((isOpen) => !isOpen)
+            : undefined
         }
       >
         <Title
@@ -164,7 +166,9 @@ const Collapsible = ({
           <ToggleCollapsibleButton
             isOpen={isOpen}
             onClick={
-              variant === "default" && (() => setIsOpen((isOpen) => !isOpen))
+              variant === "default"
+                ? () => setIsOpen((isOpen) => !isOpen)
+                : undefined
             }
             aria-expanded={isOpen}
             aria-controls="collapsible-body"

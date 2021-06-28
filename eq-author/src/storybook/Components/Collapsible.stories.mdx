@@ -1,7 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
 import Collapsible from "../../components/Collapsible";
-import ContentCollapsible from "../../components/Collapsible/ContentCollapsible";
 
 <Meta title="Components/Collapsible" component={Collapsible} />
 
@@ -35,9 +34,10 @@ The collapsible component is used to simplify a page by allowing the user to rev
 
 <Canvas>
   <Story name="Content">
-    <ContentCollapsible
+    <Collapsible
       title="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       withoutHideThis
+      variant="content"
     >
       <p>
         In at felis dictum, laoreet enim a, blandit diam. Pellentesque augue
@@ -52,6 +52,6 @@ The collapsible component is used to simplify a page by allowing the user to rev
         diam lorem et urna. Sed malesuada commodo iaculis. Vivamus vitae urna
         semper, gravida ligula ac, ultricies felis.
       </p>
-    </ContentCollapsible>
+    </Collapsible>
   </Story>
 </Canvas>
