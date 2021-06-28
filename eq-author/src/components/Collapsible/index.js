@@ -4,15 +4,33 @@ import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 import chevronRight from "assets/icon-chevron-right-blue.svg";
 import chevronDown from "assets/icon-chevron-down-blue.svg";
+import { darken } from "polished";
 
 import Button from "components/buttons/Button";
 
-const Wrapper = styled.ol`
-  margin-bottom: 1em;
+const Wrapper = styled.div`
+  margin: ${(props) =>
+    props.variant === "default" ? `0 2.5em 1em` : `0 2em 1em`};
+  border: ${(props) =>
+    props.variant === "content" && ` 1px solid ${colors.grey}`};
 `;
 
 const Header = styled.div`
   margin-left: -0.5em;
+
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    margin-left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: ${colors.primary};
+    cursor: pointer;
+
+    &:hover {
+      background-color: ${darken(0.1, colors.secondary)};
+    }
+`}
 `;
 
 export const Title = styled.h2`
@@ -21,14 +39,25 @@ export const Title = styled.h2`
   margin: 0;
   padding: 0.25em 0 0.5em;
   font-size: inherit;
+
+  ${(props) => props.variant === "content" && `padding: 0;`}
 `;
 
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
   margin-left: 0.1em;
-  padding: 0 0 0 0.5em;
+  padding-left: 0.5em;
   border-left: 3px solid ${colors.lightGrey};
+
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    margin-top: 0;
+    margin-left: 0;
+    padding: 1em 0 1em 0.5em;
+    border-left: none;
+`}
 `;
 
 export const ToggleCollapsibleButton = styled.button`
@@ -40,13 +69,24 @@ export const ToggleCollapsibleButton = styled.button`
   display: flex;
   align-items: center;
   position: relative;
-  color: ${colors.blue};
-  text-decoration: underline;
   background: transparent;
   cursor: pointer;
+  color: ${colors.blue};
+  text-decoration: underline;
+  margin-left: 0;
+
+  ${(props) =>
+    props.variant === "content" &&
+    `
+    color: ${colors.white};
+    text-decoration: none;
+    margin-left: 0.5em;
+`}
 
   &:focus {
     outline: 2px solid ${colors.orange};
+
+    ${(props) => props.variant === "content" && `outline: none;`}
   }
 
   &::before {
@@ -56,14 +96,18 @@ export const ToggleCollapsibleButton = styled.button`
     width: 1.5em;
     height: 1.5em;
     margin-top: 0.2em;
+
+    ${(props) =>
+      props.variant === "content" && `background-color: ${colors.white}`}
   }
 
   &:hover {
-    color: ${colors.darkerBlue};
+    color: ${(props) => props.variant === "default" && `${colors.darkerBlue}`};
   }
 
   &:hover::before {
-    background-color: ${colors.darkerBlue};
+    background-color: ${(props) =>
+      props.variant === "default" && `${colors.darkerBlue}`};
   }
 `;
 
@@ -88,6 +132,7 @@ const Collapsible = ({
   defaultOpen,
   className,
   children,
+  variant = "default",
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -102,16 +147,34 @@ const Collapsible = ({
   };
 
   return (
-    <Wrapper className={className} data-test="collapsible">
-      <Header className="collapsible-header" data-test="collapsible-header">
-        <Title className="collapsible-title" data-test="collapsible-title">
+    <Wrapper className={className} data-test="collapsible" variant={variant}>
+      <Header
+        className="collapsible-header"
+        data-test="collapsible-header"
+        variant={variant}
+        onClick={
+          variant === "content"
+            ? () => setIsOpen((isOpen) => !isOpen)
+            : undefined
+        }
+      >
+        <Title
+          className="collapsible-title"
+          data-test="collapsible-title"
+          variant={variant}
+        >
           <ToggleCollapsibleButton
             isOpen={isOpen}
-            onClick={() => setIsOpen((isOpen) => !isOpen)}
+            onClick={
+              variant === "default"
+                ? () => setIsOpen((isOpen) => !isOpen)
+                : undefined
+            }
             aria-expanded={isOpen}
             aria-controls="collapsible-body"
             data-test="collapsible-toggle-button"
             className="collapsible-toggle-Collapsible-Button"
+            variant={variant}
           >
             {renderTitle(showHide, isOpen, title)}
           </ToggleCollapsibleButton>
@@ -122,6 +185,7 @@ const Collapsible = ({
         data-test="collapsible-body"
         isOpen={isOpen}
         aria-hidden={!isOpen}
+        variant={variant}
       >
         {children}
         {!withoutHideThis && (
@@ -163,6 +227,10 @@ Collapsible.propTypes = {
    * Allows for CSS classes to be filtered down when using Styled-Components.
    */
   className: PropTypes.string,
+  /**
+   * Value controlling the styling applied to the collapsible.
+   */
+  variant: PropTypes.oneOf(["default", "content"]),
 };
 
 export default Collapsible;

@@ -5,46 +5,36 @@ import styled from "styled-components";
 import { flowRight } from "lodash";
 
 import withUpdateQuestionPage from "App/page/Design/QuestionPageEditor/withUpdateQuestionPage";
-import HelpModal from "./HelpModal";
-import IconText from "components/IconText";
+import { Label } from "components/Forms";
+import Collapsible from "components/Collapsible";
+
+import AdditionalContentOptions from "./AdditionalContentOptions";
 
 import Property from "./Property";
-import InfoIcon from "./icon-info.svg?inline";
 
 import { colors } from "constants/theme";
 
-const PropertyDescription = styled.p`
-  display: none;
-  font-weight: normal;
-  margin: 0 0 0.5em;
-  font-size: 0.9em;
-  ${colors.darkGrey}
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.grey};
+  margin: 1em 0;
+  margin-left: 0.93em;
+  width: 95%;
 `;
 
-const FieldInfo = styled(IconText)`
-  white-space: nowrap;
+const Caption = styled.p`
+  margin-top: 0.2em;
+  margin-bottom: 0.45em;
+  margin-left: 1em;
+  font-size: 0.85em;
 `;
-
-export const HelpButton = styled.button`
-  --color-text: ${colors.primary};
-  background: ${colors.white};
-  margin: 0.5em 0;
-  position: relative;
-  left: -0.5em;
-  padding: 0;
-  font-size: 0.9em;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  &:focus {
-    outline: 2px solid ${colors.tertiary};
-  }
-`;
-
 export class UnwrappedQuestionProperties extends React.Component {
   static propTypes = {
     page: CustomPropTypes.page,
     onUpdateQuestionPage: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onUpdate: PropTypes.func,
+    fetchAnswers: PropTypes.func,
   };
 
   handleChange = ({ name, value }) => {
@@ -54,10 +44,6 @@ export class UnwrappedQuestionProperties extends React.Component {
       ...page,
       [name]: value,
     });
-  };
-
-  state = {
-    showModal: false,
   };
 
   render() {
@@ -70,20 +56,43 @@ export class UnwrappedQuestionProperties extends React.Component {
       },
     } = this.props;
 
+    const defaultOpen = () =>
+      descriptionEnabled ||
+      definitionEnabled ||
+      guidanceEnabled ||
+      additionalInfoEnabled;
+
+    const { page, onChange, onUpdate, fetchAnswers } = this.props;
+
     return (
-      <>
+      <Collapsible
+        title="Additional content"
+        className="additionalContentCollapsible"
+        defaultOpen={defaultOpen()}
+        withoutHideThis
+        variant="content"
+      >
         <Property
           id="descriptionEnabled"
           data-test="descriptionEnabled"
           checked={descriptionEnabled}
           onChange={this.handleChange}
         >
-          Question description
+          <Label>Question description</Label>
         </Property>
+        <Caption>
+          The description is used to provide added context to the question.
+        </Caption>
 
-        <PropertyDescription>
-          To provide added context to the question.
-        </PropertyDescription>
+        <AdditionalContentOptions
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"description"}
+        />
+
+        <HorizontalSeparator />
 
         <Property
           id="definitionEnabled"
@@ -91,12 +100,21 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={definitionEnabled}
           onChange={this.handleChange}
         >
-          Question definition
+          <Label>Question definition</Label>
         </Property>
-
-        <PropertyDescription>
+        <Caption>
           Only to be used to define word(s) or acronym(s) within the question.
-        </PropertyDescription>
+        </Caption>
+
+        <AdditionalContentOptions
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"definition"}
+        />
+
+        <HorizontalSeparator />
 
         <Property
           id="guidanceEnabled"
@@ -104,13 +122,22 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={guidanceEnabled}
           onChange={this.handleChange}
         >
-          Include/exclude
+          <Label>Include/exclude</Label>
         </Property>
-
-        <PropertyDescription>
+        <Caption>
           Only to be used to state what should be included or excluded from the
           answer.
-        </PropertyDescription>
+        </Caption>
+
+        <AdditionalContentOptions
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"guidance"}
+        />
+
+        <HorizontalSeparator />
 
         <Property
           id="additionalInfoEnabled"
@@ -118,22 +145,20 @@ export class UnwrappedQuestionProperties extends React.Component {
           checked={additionalInfoEnabled}
           onChange={this.handleChange}
         >
-          Additional information
+          <Label>Additional information</Label>
         </Property>
-
-        <PropertyDescription>
+        <Caption>
           Information regarding why we are asking this question.
-        </PropertyDescription>
+        </Caption>
 
-        <HelpButton onClick={() => this.setState({ showModal: true })}>
-          <FieldInfo icon={InfoIcon}>See how these fields are used</FieldInfo>
-        </HelpButton>
-
-        <HelpModal
-          isOpen={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
+        <AdditionalContentOptions
+          onChange={onChange}
+          onUpdate={onUpdate}
+          page={page}
+          fetchAnswers={fetchAnswers}
+          option={"additionalInfo"}
         />
-      </>
+      </Collapsible>
     );
   }
 }
