@@ -69,10 +69,8 @@ export const ToggleCollapsibleButton = styled.button`
   display: flex;
   align-items: center;
   position: relative;
-  text-decoration: ${(props) => props.variant === "default" && `underline`};
   background: transparent;
   cursor: pointer;
-  margin-left: ${(props) => props.variant === "content" && `0.5em`};
   color: ${colors.blue};
   text-decoration: underline;
   margin-left: 0;
