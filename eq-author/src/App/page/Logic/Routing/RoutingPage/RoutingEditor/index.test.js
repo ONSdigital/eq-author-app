@@ -18,6 +18,11 @@ describe("components/RoutingRuleSet", () => {
             id: "3",
             displayName: "page",
           },
+          validationErrorInfo: {
+            id: "test",
+            totalCount: 0,
+            errors: [],
+          },
         },
       },
       createRule: jest.fn(),

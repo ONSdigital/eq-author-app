@@ -69,6 +69,7 @@ exports[`AnswerSelector should render when there are available summary answers 1
                     "displayName": "Page 1.1.1",
                     "folder": Object {
                       "id": "1",
+                      "position": 0,
                     },
                     "guidance": "",
                     "guidanceEnabled": false,
@@ -78,6 +79,7 @@ exports[`AnswerSelector should render when there are available summary answers 1
                     "section": Object {
                       "displayName": "",
                       "id": "1",
+                      "position": 0,
                     },
                     "title": "Page 1.1.1",
                     "validationErrorInfo": Object {

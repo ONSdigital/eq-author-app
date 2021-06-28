@@ -48,6 +48,7 @@ describe("QuestionPagePreview", () => {
       answers: [{ id: "1", type: TEXTFIELD }],
       section: {
         id: "1",
+        position: 0,
         questionnaire: {
           id: "1",
           metadata: [],

@@ -46,7 +46,7 @@ describe("components/NoSkipConditions", () => {
   it("should call onAddSkipConditions when button clicked", () => {
     const onAddSkipConditions = jest.fn();
     const { getByTestId } = render(
-      <NoSkipConditions onAddSkipConditions={onAddSkipConditions} />
+      <NoSkipConditions onAddSkipConditions={onAddSkipConditions} title={enabledTitle} paragraph={enabledParagraph}/>
     );
     const button = getByTestId("btn-add-skip-condition");
     fireEvent.click(button);

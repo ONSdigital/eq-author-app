@@ -44,6 +44,11 @@ exports[`components/RoutingRuleSet should render children 1`] = `
           "id": "3",
         },
         "section": null,
+        "validationErrorInfo": Object {
+          "errors": Array [],
+          "id": "test",
+          "totalCount": 0,
+        },
       }
     }
   />

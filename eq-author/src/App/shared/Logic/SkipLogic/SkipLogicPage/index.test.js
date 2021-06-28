@@ -69,6 +69,7 @@ describe("Skip Condition Page", () => {
           section: {
             position: 0,
           },
+          skipConditions: null,
         }}
       />
     );
