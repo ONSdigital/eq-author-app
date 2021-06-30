@@ -1,15 +1,15 @@
 module.exports = (ajv) => {
-  require("./requiredWhenQuestionnaireSetting")(ajv); // done
-  require("./uniquePropertyValueInArrayOfObjects")(ajv); // done
-  require("./calculatedSummaryUnitConsistency")(ajv); // done
-  require("./linkedDecimalValidation")(ajv); // done
-  require("./validateLatestAfterEarliest")(ajv); // done
-  require("./validateDuration")(ajv); // done
-  require("./validateMultipleChoiceCondition")(ajv); // done
-  require("./validateExpression")(ajv); // done ( for now )
-  require("./validateRoutingDestination")(ajv); // done
-  require("./validateRoutingLogicalAND")(ajv); // done
-  require("./validatePipingInTitle")(ajv); // done
-  require("./idExists")(ajv); // done
-  require("./idPreceedsCurrentEntity")(ajv); // done
+  require("./requiredWhenQuestionnaireSetting")(ajv);
+  require("./uniquePropertyValueInArrayOfObjects")(ajv);
+  require("./calculatedSummaryUnitConsistency")(ajv);
+  require("./linkedDecimalValidation")(ajv);
+  require("./validateLatestAfterEarliest")(ajv);
+  require("./validateDuration")(ajv);
+  require("./validateMultipleChoiceCondition")(ajv);
+  require("./validateExpression")(ajv);
+  require("./validateRoutingDestination")(ajv);
+  require("./validateRoutingLogicalAND")(ajv);
+  require("./validatePipingInTitle")(ajv);
+  require("./idExists")(ajv);
+  require("./idPreceedsCurrentEntity")(ajv);
 };
