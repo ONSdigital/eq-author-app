@@ -61,7 +61,8 @@ const TABS = [
     url: (match) => buildLogicPath(match.params),
     isActive: (match, location) =>
       location.pathname.includes("routing") ||
-      location.pathname.includes("skip"),
+      location.pathname.includes("skip") ||
+      location.pathname.includes("display"),
   },
 ];
 

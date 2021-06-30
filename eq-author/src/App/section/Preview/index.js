@@ -39,6 +39,7 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
     <EditorLayout
       design
       preview
+      logic
       title={section.displayName}
       renderPanel={() => <CommentsPanel componentId={section.id} />}
     >

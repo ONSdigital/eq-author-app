@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 import Design from "./Design";
 import Preview from "./Preview";
@@ -15,5 +15,16 @@ export default [
     key="section-preview"
     path="/q/:questionnaireId/section/:sectionId/preview"
     component={Preview}
+  />,
+  <Route
+    key="section-logic"
+    path="/q/:questionnaireId/section/:sectionId/logic"
+  >
+    <Redirect to="display" />
+  </Route>,
+  <Route
+    key="section-logic-display"
+    path="/q/:questionnaireId/section/:sectionId/display"
+    component={Preview} //Temporary preview page to test routing
   />,
 ];
