@@ -20,7 +20,7 @@ const TextProperties = ({ maxLength, pageId, invalid, ...otherProps }) => {
   const [updateMaxCharacter] = useMutation(UPDATE_ANSWERS_OF_TYPE);
 
   const handleBlur = () => {
-    const actualValue = maxChar === "" ? 2000 : maxChar;
+    const actualValue = maxChar === "" ? 2000 : parseInt(maxChar, 10);
     setMaxChar(actualValue);
     updateMaxCharacter({
       variables: {

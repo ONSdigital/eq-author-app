@@ -79,6 +79,7 @@
   ],
   "definitions": {
     "basicAnswer": {
+      "type": "object",
       "properties": {
         "label": {
           "$ref": "definitions.json#/definitions/populatedString"
@@ -90,27 +91,32 @@
       "required": ["label"]
     },
     "numericAnswer": {
+      "type": "object",
       "properties": {
         "validation": {
           "$ref": "validation.json#/definitions/numericValidations"
         }
       }
     },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "option.json"
+          },
+          {
+            "uniquePropertyValueInArrayOfObjects": "label"
+          }
+        ]
+      }
+    },
     "checkboxAnswer": {
+      "type": "object",
       "properties": {
         "options": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "option.json"
-              },
-              {
-                "uniquePropertyValueInArrayOfObjects": "label"
-              }
-            ]
-          }
+          "$ref": "#/definitions/options"
         },
         "mutuallyExclusiveOption": {
           "$ref": "option.json"
@@ -119,19 +125,10 @@
       "required": ["options"]
     },
     "radioAnswer": {
+      "type": "object",
       "properties": {
         "options": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "option.json"
-              },
-              {
-                "uniquePropertyValueInArrayOfObjects": "label"
-              }
-            ]
-          }
+          "$ref": "#/definitions/options"
         },
         "mutuallyExclusiveOption": {
           "$ref": "option.json"
@@ -140,6 +137,7 @@
       "required": ["options"]
     },
     "dateAnswer": {
+      "type": "object",
       "properties": {
         "validation": {
           "$ref": "validation.json#/definitions/dateValidations"
@@ -147,6 +145,7 @@
       }
     },
     "dateRangeAnswer": {
+      "type": "object",
       "properties": {
         "secondaryLabel": {
           "$ref": "definitions.json#/definitions/populatedString"
@@ -165,14 +164,20 @@
           }
         },
         "maxLength": {
-          "type": "string",
-          "textLengthInRange": "maxLength"
+          "type": "number",
+          "minimum": 10,
+          "maximum": 2000,
+          "errorMessage": {
+            "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
+            "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
+          }
         },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
         "fallback": {
           "if": {
+            "type": "object",
             "properties": {
               "enabled": { "const": true }
             }
@@ -180,10 +185,12 @@
           "then": {
             "allOf": [
               {
+                "type": "object",
                 "required": ["start"],
                 "errorMessage": "ERR_VALID_REQUIRED_START"
               },
               {
+                "type": "object",
                 "required": ["end"],
                 "errorMessage": "ERR_VALID_REQUIRED_END"
               }

@@ -13,9 +13,9 @@
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
-    "ajv": "latest",
-    "ajv-errors": "latest",
-    "ajv-keywords": "latest",
+    "ajv": "^8.6.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-keywords": "^5.0.0",
     "apollo-opentracing": "latest",
     "apollo-server-express": "latest",
     "body-parser": "latest",

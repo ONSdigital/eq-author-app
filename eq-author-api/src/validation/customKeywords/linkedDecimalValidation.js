@@ -1,58 +1,59 @@
-const { get } = require("lodash");
+const { get, isNumber } = require("lodash");
 
 const {
   ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY,
 } = require("../../../constants/validationErrorCodes");
 
-const getEntityKeyValue = require("../../../utils/getEntityByKeyValue");
+const { getAnswerById } = require("../../../schema/resolvers/utils");
 const createValidationError = require("../createValidationError");
 const { getPath } = require("../utils");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("linkedDecimalValidation", {
+module.exports = (ajv) =>
+  ajv.addKeyword({
+    keyword: "linkedDecimalValidation",
     $data: true,
     validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      schema,
+      _data,
+      _parentSchema,
+      {
+        rootData: questionnaire,
+        parentData,
+        parentDataProperty: fieldName,
+        instancePath,
+      }
     ) {
       isValid.errors = [];
 
-      const { sections, folders, pages, answers } = getPath(dataPath);
+      const { sections, folders, pages, answers } = getPath(instancePath);
 
       const currentAnswerValidation =
-        otherFields[sections].folders[folders].pages[pages].answers[answers]
+        schema[sections].folders[folders].pages[pages].answers[answers]
           .validation;
 
       const minValidation = currentAnswerValidation.minValue;
       const maxValidation = currentAnswerValidation.maxValue;
       [minValidation, maxValidation].forEach((validation) => {
         if (
-          validation &&
-          validation.enabled &&
-          validation.entityType === "PreviousAnswer"
+          validation?.enabled &&
+          validation?.entityType === "PreviousAnswer"
         ) {
-          const referencedAnswerId = validation.previousAnswer;
-          const referencedAnswer = getEntityKeyValue(
-            otherFields,
-            referencedAnswerId
-          )[0];
+          const referencedAnswer = getAnswerById(
+            { questionnaire },
+            validation.previousAnswer
+          );
           const referencedDecimals = get(
             referencedAnswer,
             "properties.decimals"
           );
 
           if (
-            referencedDecimals !== (null || undefined) &&
-            parentData.decimals !== (null || undefined) &&
+            isNumber(referencedDecimals) &&
+            isNumber(parentData.decimals) &&
             parentData.decimals !== referencedDecimals
           ) {
             const err = createValidationError(
-              dataPath,
+              instancePath,
               fieldName,
               ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY,
               questionnaire
@@ -61,7 +62,7 @@ module.exports = function (ajv) {
           }
         }
       });
+
       return false;
     },
   });
-};

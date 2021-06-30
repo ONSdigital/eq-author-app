@@ -27,7 +27,8 @@ const {
 const getFirstPage = (questionnaire) =>
   questionnaire.sections[0].folders[0].pages[0];
 
-const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuidRejex =
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 describe("page", () => {
   let ctx, questionnaire;
@@ -293,9 +294,8 @@ describe("page", () => {
           ],
         });
         questionnaire = ctx.questionnaire;
-        const { id: pageId, sectionId: sectionIdBeforeMove } = getFirstPage(
-          questionnaire
-        );
+        const { id: pageId, sectionId: sectionIdBeforeMove } =
+          getFirstPage(questionnaire);
         const { id: newSectionId } = questionnaire.sections[1];
 
         expect(sectionIdBeforeMove).not.toBe(newSectionId);
@@ -448,8 +448,8 @@ describe("page", () => {
         validationErrorInfo: {
           totalCount: 2,
           errors: [
-            expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
             expect.objectContaining({ errorCode: "ERR_NO_ANSWERS" }),
+            expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
           ],
         },
       });

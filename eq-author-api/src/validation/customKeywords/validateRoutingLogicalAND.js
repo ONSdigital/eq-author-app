@@ -12,21 +12,18 @@ const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
 const areUnanswered = (e) => e.condition === "Unanswered";
 
 module.exports = (ajv) => {
-  ajv.addKeyword("validateRoutingLogicalAND", {
+  ajv.addKeyword({
+    keyword: "validateRoutingLogicalAND",
     validate: function isValid(
-      otherFields,
+      _schema,
       { expressions },
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      _parentSchema,
+      { rootData: questionnaire, instancePath }
     ) {
       const invalidAnswerIds = new Set();
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
-        ([answerId, expressions]) =>
-          expressions.length > 1 && answerId && answerId.length
+        ([answerId, expressions]) => answerId && expressions.length
       );
 
       const addError = (answerId) => invalidAnswerIds.add(answerId);
@@ -63,13 +60,10 @@ module.exports = (ajv) => {
 
         // Answer precision is 10^(-decimals) - e.g. an answer with decimals = 2 iwll have precision 0.01
         // (the smallest allowable value change in an answer)
-        const precision = Math.pow(10, -answer.properties.decimals);
+        const precision = Math.pow(10, -answer?.properties?.decimals ?? 0);
 
         for (const expression of expressions) {
-          let rightHandSide =
-            expression.right &&
-            expression.right.customValue &&
-            expression.right.customValue.number;
+          let rightHandSide = expression?.right?.customValue?.number;
           if (rightHandSide === undefined || rightHandSide === null) {
             continue;
           }
@@ -116,11 +110,7 @@ module.exports = (ajv) => {
         }
 
         // Validate equals are all contained within upper / lower bounds
-        if (
-          Array.from(equalitySet).some(
-            (n) => n <= lowerLimit || n >= upperLimit
-          )
-        ) {
+        if ([...equalitySet].some((n) => n <= lowerLimit || n >= upperLimit)) {
           return addError(answerId);
         }
 
@@ -129,7 +119,7 @@ module.exports = (ajv) => {
         // in a range with only n possible values - then we know the condition cannot be met
         const possibleAnswers = rangeWidth / precision;
         if (
-          Array.from(nonequalitySet).filter(
+          [...nonequalitySet].filter(
             (nonequalityValue) =>
               nonequalityValue > lowerLimit && nonequalityValue < upperLimit
           ).length >= possibleAnswers
@@ -138,9 +128,9 @@ module.exports = (ajv) => {
         }
       });
 
-      isValid.errors = Array.from(invalidAnswerIds).map((answerId) =>
+      isValid.errors = [...invalidAnswerIds].map((answerId) =>
         createValidationError(
-          dataPath,
+          instancePath,
           answerId,
           ERR_LOGICAL_AND,
           questionnaire
