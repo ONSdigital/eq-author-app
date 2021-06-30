@@ -178,6 +178,7 @@ export const UnwrappedSectionRoute = (props) => {
       preview={hasIntroductionContent}
       title={section.displayName || ""}
       validationErrorInfo={section.validationErrorInfo}
+      logic
     >
       <Panel>{renderContent()}</Panel>
     </EditorLayout>
