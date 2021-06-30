@@ -2,9 +2,11 @@
   "$id": "http://example.com/schemas/validation.json",
   "definitions": {
     "numericValidations": {
+      "type": "object",
       "if": {
         "properties": {
           "minValue": {
+            "type": "object",
             "properties": {
               "enabled": {
                 "const": true
@@ -16,6 +18,7 @@
             }
           },
           "maxValue": {
+            "type": "object",
             "properties": {
               "enabled": {
                 "const": true
@@ -34,6 +37,7 @@
             "type": "object",
             "properties": {
               "custom": {
+                "type": "number",
                 "maximum": {
                   "$data": "2/maxValue/custom"
                 },
@@ -57,18 +61,20 @@
       "if": {
         "properties": {
           "earliestDate": {
+            "type": "object",
             "properties": {
               "enabled": { "const": true },
               "entityType": {
-                "enum": ["Custom", "Metadata"]
+                "enum": ["Custom", "Metadata", "Now"]
               }
             }
           },
           "latestDate": {
+            "type": "object",
             "properties": {
               "enabled": { "const": true },
               "entityType": {
-                "enum": ["Custom", "Metadata"]
+                "enum": ["Custom", "Metadata", "Now"]
               }
             }
           }
@@ -78,12 +84,8 @@
         "properties": {
           "earliestDate": {
             "type": "object",
-            "properties": {
-              "custom": {
-                "validateLatestAfterEarliest": {
-                  "$data": "2/latestDate"
-                }
-              }
+            "validateLatestAfterEarliest": {
+              "$data": "1/latestDate"
             }
           }
         }
@@ -122,11 +124,13 @@
           "if": {
             "properties": {
               "minDuration": {
+                "type": "object",
                 "properties": {
                   "enabled": { "const": true }
                 }
               },
               "maxDuration": {
+                "type": "object",
                 "properties": {
                   "enabled": { "const": true }
                 }
@@ -140,7 +144,7 @@
                 "properties": {
                   "duration": {
                     "validateDuration": {
-                      "$data": "2/maxDuration"
+                      "$data": "2/maxDuration/duration"
                     }
                   }
                 }

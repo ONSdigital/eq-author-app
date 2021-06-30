@@ -1,19 +1,15 @@
 const createValidationError = require("../createValidationError");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("uniquePropertyValueInArrayOfObjects", {
+module.exports = (ajv) =>
+  ajv.addKeyword({
+    keyword: "uniquePropertyValueInArrayOfObjects",
     validate: function uniqueLabelFn(
       propertyName,
-      entityData,
-      currentDataPath,
-      parentDataPath,
-      parentData,
-      ___,
-      questionnaire
+      data,
+      _parentSchema,
+      { rootData: questionnaire, parentData, instancePath }
     ) {
-      uniqueLabelFn.errors = [];
-
-      const entityValue = entityData[propertyName];
+      const entityValue = data[propertyName];
       if (!entityValue) {
         return true;
       }
@@ -26,20 +22,15 @@ module.exports = function (ajv) {
         return true;
       }
 
-      const err = createValidationError(
-        parentDataPath,
-        propertyName,
-        "ERR_UNIQUE_REQUIRED",
-        questionnaire
-      );
-
-      uniqueLabelFn.errors.push(err);
+      uniqueLabelFn.errors = [
+        createValidationError(
+          instancePath,
+          propertyName,
+          "ERR_UNIQUE_REQUIRED",
+          questionnaire
+        ),
+      ];
 
       return false;
     },
-    $data: true,
-    errors: true,
   });
-
-  return ajv;
-};

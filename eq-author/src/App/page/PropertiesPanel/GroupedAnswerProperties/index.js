@@ -270,7 +270,7 @@ export const GroupedAnswerProperties = ({ page }) => {
             <TextProperties
               id="maxCharactersInput"
               key={`${answers[0].id}-max-length-input`}
-              maxLength={parseInt(answers[0].properties.maxLength, 10)}
+              maxLength={answers[0].properties.maxLength}
               pageId={page.id}
               invalid={Boolean(errorCode)}
             />

@@ -4,66 +4,54 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("validateDuration", {
+const durationUnitTypes = {
+  days: "Days",
+  months: "Months",
+  years: "Years",
+};
+
+const getNewDate = (duration) => {
+  const { unit, value } = duration;
+  const { days, months, years } = durationUnitTypes;
+  let currentDate = new Date();
+
+  switch (unit) {
+    case days:
+      return currentDate.setDate(currentDate.getDate() + Number(value));
+    case months:
+      return currentDate.setMonth(currentDate.getMonth() + Number(value));
+    case years:
+      return currentDate.setFullYear(currentDate.getFullYear() + Number(value));
+    default:
+      throw new Error("Incorrect date unit supplied");
+  }
+};
+
+module.exports = (ajv) =>
+  ajv.addKeyword({
     $data: true,
+    keyword: "validateDuration",
     validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      maxDuration,
+      minDuration,
+      _parentSchema,
+      { instancePath, parentDataProperty: fieldName, rootData: questionnaire }
     ) {
-      isValid.errors = [];
+      const minDate = getNewDate(minDuration);
+      const maxDate = getNewDate(maxDuration);
 
-      const durationUnitTypes = {
-        days: "Days",
-        months: "Months",
-        years: "Years",
-      };
-
-      const getNewDate = (duration) => {
-        const { unit, value } = duration;
-        const { days, months, years } = durationUnitTypes;
-
-        let currentDate = new Date();
-
-        if (unit === days) {
-          currentDate.setDate(currentDate.getDate() + +Number(value));
-          return currentDate;
-        } else if (unit === months) {
-          currentDate.setMonth(currentDate.getMonth() + +Number(value));
-          return currentDate;
-        } else if (unit === years) {
-          currentDate.setFullYear(currentDate.getFullYear() + +Number(value));
-          return currentDate;
-        } else {
-          throw new Error("Incorrect date unit supplied");
-        }
-      };
-
-      const firstDate = getNewDate(otherFields.duration);
-      const secondDate = getNewDate(entityData);
-
-      const min = dataPath.includes("/minDuration");
-
-      const valid = min ? firstDate > secondDate : secondDate > firstDate;
-
-      if (!valid) {
-        const err = createValidationError(
-          dataPath,
-          fieldName,
-          ERR_MAX_DURATION_TOO_SMALL,
-          questionnaire
-        );
-        isValid.errors.push(err);
-
+      if (maxDate < minDate) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_MAX_DURATION_TOO_SMALL,
+            questionnaire
+          ),
+        ];
         return false;
       }
 
       return true;
     },
   });
-};

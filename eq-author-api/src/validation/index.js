@@ -5,13 +5,13 @@ const schemas = require("./schemas");
 
 const ajv = new Ajv({
   allErrors: true,
-  jsonPointers: true,
   $data: true,
-  strictKeywords: true,
 });
+
 require("./customKeywords")(ajv);
-require("ajv-keywords")(ajv, "select");
+require("ajv-keywords")(ajv, ["select", "uniqueItemProperties"]);
 require("ajv-errors")(ajv);
+
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
 const formatErrorMessage = (error, questionnaire) => {
@@ -23,13 +23,13 @@ const formatErrorMessage = (error, questionnaire) => {
     return error;
   }
 
-  const { dataPath, message } = error;
+  const { instancePath, message } = error;
 
-  const splitDataPath = dataPath.split("/");
-  const field = splitDataPath.pop();
+  const splitPath = instancePath.split("/");
+  const field = splitPath.pop();
 
   const newErrorMessage = createValidationError(
-    splitDataPath,
+    splitPath,
     field,
     message,
     questionnaire
@@ -51,7 +51,7 @@ module.exports = (questionnaire) => {
 
   for (const err of validate.errors) {
     if (err.keyword === "errorMessage") {
-      const key = `${err.dataPath} ${err.message}`;
+      const key = `${err.instancePath} ${err.message}`;
 
       if (uniqueErrorMessages[key]) {
         continue;

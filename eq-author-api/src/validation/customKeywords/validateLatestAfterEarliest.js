@@ -6,56 +6,53 @@ const {
 
 const createValidationError = require("../createValidationError");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("validateLatestAfterEarliest", {
+const getDate = (
+  {
+    entityType,
+    metadata,
+    relativePosition,
+    offset: { value, unit } = {},
+    custom,
+  },
+  questionnaire
+) => {
+  const date = moment(
+    entityType === "Now"
+      ? new Date()
+      : find(questionnaire.metadata, { id: metadata })?.dateValue ?? custom
+  );
+
+  return date[relativePosition === "Before" ? "subtract" : "add"](
+    value,
+    unit
+  ).unix();
+};
+
+module.exports = (ajv) =>
+  ajv.addKeyword({
     $data: true,
+    keyword: "validateLatestAfterEarliest",
     validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      latestDateVal,
+      earliestDateVal,
+      _parentSchema,
+      { rootData: questionnaire, parentDataProperty: fieldName, instancePath }
     ) {
-      isValid.errors = [];
-
-      const getDate = (data) => {
-        let date;
-        if (data.metadata) {
-          date = find(questionnaire.metadata, { id: data.metadata }).dateValue;
-        } else {
-          date = data.custom;
-        }
-
-        if (data.relativePosition === "Before") {
-          return moment(date)
-            .subtract(data.offset.value, data.offset.unit)
-            .unix();
-        }
-        return moment(date).add(data.offset.value, data.offset.unit).unix();
-      };
-
-      const a = getDate(otherFields);
-      const b = getDate(parentData);
-
-      const isLatest = dataPath.split("/").includes("latestDate");
-
-      const valid = isLatest ? a < b : a > b;
-
-      if (!valid) {
-        const err = createValidationError(
-          dataPath,
-          fieldName,
-          ERR_EARLIEST_AFTER_LATEST,
-          questionnaire
-        );
-        isValid.errors.push(err);
-
+      if (
+        getDate(earliestDateVal, questionnaire) >
+        getDate(latestDateVal, questionnaire)
+      ) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_EARLIEST_AFTER_LATEST,
+            questionnaire
+          ),
+        ];
         return false;
       }
 
       return true;
     },
   });
-};

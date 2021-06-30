@@ -17,7 +17,7 @@ const defaultAnswerPropertiesMap = {
   [DATE]: { required: false, format: "dd/mm/yyyy" },
   [UNIT]: { required: false, decimals: 0, unit: "" },
   [DURATION]: { required: false, unit: "YearsMonths" },
-  [TEXTAREA]: { required: false, maxLength: "2000" },
+  [TEXTAREA]: { required: false, maxLength: 2000 },
 };
 
 module.exports = (type) =>
