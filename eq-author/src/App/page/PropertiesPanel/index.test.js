@@ -46,10 +46,6 @@ describe("PropertiesPanel", () => {
       setup(page);
     });
 
-    it("should render", () => {
-      expect(screen.getByText(/Optional fields/)).toBeVisible();
-    });
-
     it("should not render fallback when answer type isn't 'Date range'", () => {
       expect(screen.queryByText(/Fallback value/)).not.toBeInTheDocument();
     });

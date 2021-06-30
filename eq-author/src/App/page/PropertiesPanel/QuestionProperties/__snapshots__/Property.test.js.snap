@@ -10,12 +10,14 @@ exports[`Property should render 1`] = `
       This is the child component
     </div>
   </Property__PropertyLabel>
-  <ToggleSwitch
-    checked={false}
-    hideLabels={true}
-    id="1"
-    name="1"
-    onChange={[MockFunction]}
-  />
+  <Property__ToggleWrapper>
+    <ToggleSwitch
+      checked={false}
+      hideLabels={false}
+      id="1"
+      name="1"
+      onChange={[MockFunction]}
+    />
+  </Property__ToggleWrapper>
 </Property__InlineField>
 `;

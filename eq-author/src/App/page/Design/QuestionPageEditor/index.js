@@ -27,7 +27,8 @@ import AnswerTypeSelector from "./AnswerTypeSelector";
 import withUpdateQuestionPage from "./withUpdateQuestionPage";
 
 import MetaEditor from "./MetaEditor";
-import AdditionalInfo from "./AdditionalInfo";
+
+import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
@@ -96,6 +97,12 @@ export const UnwrappedQuestionPageEditor = (props) => {
             enableValidationMessage={enableValidationMessage}
           />
         </QuestionSegment>
+        <QuestionProperties
+          page={page}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          fetchAnswers={fetchAnswers}
+        />
         <AnswersEditor
           answers={answers}
           onUpdate={onUpdateAnswer}
@@ -118,14 +125,6 @@ export const UnwrappedQuestionPageEditor = (props) => {
           page={page}
         />
       </AddAnswerSegment>
-      <QuestionSegment>
-        <AdditionalInfo
-          onChange={onChange}
-          onUpdate={onUpdate}
-          page={page}
-          fetchAnswers={fetchAnswers}
-        />
-      </QuestionSegment>
     </div>
   );
 };
