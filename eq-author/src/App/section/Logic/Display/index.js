@@ -16,7 +16,7 @@ import Error from "components/Error";
 export class UnwrappedSectionDisplay extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      page: propType(),
+      section: propType(),
       // transformNestedFragments(
       //   DisplayPage.fragments[0],
       //   DisplayPage.fragments.slice(1)
@@ -38,31 +38,20 @@ export class UnwrappedSectionDisplay extends React.Component {
       return <Loading height="20em">Loading display</Loading>;
     }
 
-    const page = get(data, "page");
+    const section = get(data, "section");
 
-    if (error || !page) {
+    if (error || !section) {
       return <Error>Something went wrong</Error>;
     }
 
-    // if (!DISPLAY_PAGE_TYPES.includes(page.pageType)) {
-    //   return (
-    //     <Redirect
-    //       to={buildPagePath({
-    //         questionnaireId: match.params.questionnaireId,
-    //         pageId: page.id,
-    //       })}
-    //     />
-    //   );
-    // }
-
-    return <DisplayPage page={page} />;
+    return <DisplayPage section={section} />;
   }
 
   render() {
-    const page = this.props.data?.page;
+    const section = this.props.data?.section;
     return (
-      //   <PageContextProvider value={page}>
-      <Logic page={page}>{this.renderContent()}</Logic>
+      //   <PageContextProvider value={section}>
+      <Logic section={section}>{this.renderContent()}</Logic>
       //   </PageContextProvider>
     );
   }
