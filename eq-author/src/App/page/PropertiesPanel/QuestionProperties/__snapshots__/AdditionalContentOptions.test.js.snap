@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdditionalInfo should display the correct error message when the additional info content is missing 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should display the correct error message when the additional info label is empty 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should render 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;

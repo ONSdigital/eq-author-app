@@ -64,6 +64,7 @@ describe("PageRoute", () => {
         loading: false,
         data: { page: buildPages()[0] },
       }));
+
       const { getByTestId } = defaultSetup();
 
       expect(getByTestId("question-page-editor")).toBeVisible();
@@ -77,6 +78,7 @@ describe("PageRoute", () => {
         totalTitle: "",
         summaryAnswers: [],
       };
+
       useQuery.mockImplementationOnce(() => ({
         loading: false,
         data: { page },

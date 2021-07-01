@@ -1,59 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuestionProperties should render 1`] = `
-<Fragment>
+<Collapsible
+  className="additionalContentCollapsible"
+  title="Additional content"
+  variant="content"
+  withoutHideThis={true}
+>
   <Property
     data-test="descriptionEnabled"
     id="descriptionEnabled"
     onChange={[Function]}
   >
-    Question description
+    <Label
+      bold={true}
+    >
+      Question description
+    </Label>
   </Property>
-  <QuestionProperties__PropertyDescription>
-    To provide added context to the question.
-  </QuestionProperties__PropertyDescription>
+  <QuestionProperties__Caption>
+    The description is used to provide added context to the question.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    option="description"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
   <Property
     data-test="definitionEnabled"
     id="definitionEnabled"
     onChange={[Function]}
   >
-    Question definition
+    <Label
+      bold={true}
+    >
+      Question definition
+    </Label>
   </Property>
-  <QuestionProperties__PropertyDescription>
+  <QuestionProperties__Caption>
     Only to be used to define word(s) or acronym(s) within the question.
-  </QuestionProperties__PropertyDescription>
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    option="definition"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
   <Property
     data-test="guidanceEnabled"
     id="guidanceEnabled"
     onChange={[Function]}
   >
-    Include/exclude
+    <Label
+      bold={true}
+    >
+      Include/exclude
+    </Label>
   </Property>
-  <QuestionProperties__PropertyDescription>
+  <QuestionProperties__Caption>
     Only to be used to state what should be included or excluded from the answer.
-  </QuestionProperties__PropertyDescription>
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    option="guidance"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
   <Property
     data-test="additionalInfoEnabled"
     id="additionalInfoEnabled"
     onChange={[Function]}
   >
-    Additional information
-  </Property>
-  <QuestionProperties__PropertyDescription>
-    Information regarding why we are asking this question.
-  </QuestionProperties__PropertyDescription>
-  <QuestionProperties__HelpButton
-    onClick={[Function]}
-  >
-    <QuestionProperties__FieldInfo
-      icon={[Function]}
+    <Label
+      bold={true}
     >
-      See how these fields are used
-    </QuestionProperties__FieldInfo>
-  </QuestionProperties__HelpButton>
-  <HelpModal
-    isOpen={false}
-    onClose={[Function]}
+      Additional information
+    </Label>
+  </Property>
+  <QuestionProperties__Caption>
+    Information regarding why we are asking this question.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    option="additionalInfo"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
   />
-</Fragment>
+</Collapsible>
 `;

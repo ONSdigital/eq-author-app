@@ -11,7 +11,7 @@
           "$ref": "definitions.json#/definitions/populatedString"
         },
         {
-          "validatePipingInTitle": "page"
+          "validatePipingInTitle": true
         }
       ]
     },

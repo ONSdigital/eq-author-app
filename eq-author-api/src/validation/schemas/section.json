@@ -1,33 +1,52 @@
 {
-    "$id": "http://example.com/schemas/section.json",
-    "type": "object",
-    "additionalProperties": true,
-    "properties": {
-        "id": {
-            "type": "string"
+  "$id": "http://example.com/schemas/section.json",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "allOf": [
+        {
+          "requiredWhenQuestionnaireSetting": "navigation"
         },
-        "title": {
-            "type": "string",
-            "requiredWhenQuestionnaireSetting": "navigation"
-        },
+        {
+          "requiredWhenQuestionnaireSetting": "hub"
+        }
+      ],
+      "errorMessage": "ERR_REQUIRED_WHEN_SETTING"
+    },
+    "folders": {
+      "type": "array",
+      "items": {
+        "$ref": "folder.json"
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
         "introductionTitle": {
-            "type": "string",
-            "requiredWhenOtherFieldsPopulated": [
-                "introductionContent"
-            ]
+          "type": ["string", "null"],
+          "maxLength": 0
         },
         "introductionContent": {
-            "type": "string",
-            "requiredWhenOtherFieldsPopulated": [
-                "introductionTitle"
-            ]
-        },
-        "folders": {
-            "type": "array",
-            "items": {
-                "$ref": "folder.json"
-            }
+          "type": ["string", "null"],
+          "maxLength": 0
         }
+      }
     },
-    "required": ["id"]
+    {
+      "properties": {
+        "introductionTitle": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "introductionContent": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      }
+    }
+  ]
 }

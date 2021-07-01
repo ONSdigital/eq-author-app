@@ -13,24 +13,27 @@ const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
 
 const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("validatePipingInTitle", {
+module.exports = (ajv) =>
+  ajv.addKeyword({
     $data: true,
+    keyword: "validatePipingInTitle",
     validate: function isValid(
-      _otherFields,
-      pageTitle,
-      _fieldValue,
-      dataPath,
-      { id: pageId },
-      fieldName,
-      questionnaire
+      _schema,
+      title,
+      _parentSchema,
+      {
+        parentData: { id: pageId },
+        parentDataProperty: fieldName,
+        instancePath,
+        rootData: questionnaire,
+      }
     ) {
       isValid.errors = [];
       const pipedIdList = [];
 
       let matches;
       do {
-        matches = pipedAnswerIdRegex.exec(pageTitle);
+        matches = pipedAnswerIdRegex.exec(title);
         if (matches && matches.length > 1) {
           const [, answerId] = matches;
           pipedIdList.push(trimDateRangeId(answerId));
@@ -44,7 +47,7 @@ module.exports = function (ajv) {
       const hasError = (errorMessage) => {
         isValid.errors.push(
           createValidationError(
-            dataPath,
+            instancePath,
             fieldName,
             errorMessage,
             questionnaire
@@ -69,4 +72,3 @@ module.exports = function (ajv) {
       return true;
     },
   });
-};

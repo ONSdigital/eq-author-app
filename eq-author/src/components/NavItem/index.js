@@ -73,6 +73,7 @@ const NavItem = ({
       data-test="NavItem"
       bordered={bordered}
       tabIndex={0}
+      onMouseDown={(e) => e.currentTarget.focus()} // workaround for https://github.com/atlassian/react-beautiful-dnd/issues/1872
       {...dragHandleProps}
     >
       {Icon && <Icon data-test="NavItem-icon" />}
