@@ -1099,6 +1099,14 @@ const Resolvers = {
 
       return section;
     }),
+    deleteDisplayCondition: createMutation((_, { input }, ctx) => {
+      const { sectionId } = input;
+
+      const section = getSectionById(ctx, sectionId);
+
+      delete section.displayConditions;
+      return section;
+    }),
   },
 
   Questionnaire: {
