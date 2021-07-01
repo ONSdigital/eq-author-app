@@ -12,22 +12,25 @@ const {
 const createValidationError = require("../createValidationError");
 
 module.exports = function (ajv) {
-  ajv.addKeyword("validateRoutingDestination", {
+  ajv.addKeyword({
+    keyword: "validateRoutingDestination",
     validate: function isValid(
-      _otherFields,
+      _schema,
       { id: routingRuleId, pageId, sectionId, logical },
-      _fieldValue,
-      dataPath,
-      _parentData,
-      _fieldName,
-      questionnaire
+      _parentSchema,
+      { rootData: questionnaire, instancePath }
     ) {
       isValid.errors = [];
       const targetId = pageId || sectionId;
 
       const hasError = (error) => {
         isValid.errors.push(
-          createValidationError(dataPath, "destination", error, questionnaire)
+          createValidationError(
+            instancePath,
+            "destination",
+            error,
+            questionnaire
+          )
         );
         return false;
       };

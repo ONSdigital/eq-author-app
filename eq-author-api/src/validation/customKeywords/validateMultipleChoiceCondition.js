@@ -6,46 +6,42 @@ const createValidationError = require("../createValidationError");
 
 const { getOptionById } = require("../../../schema/resolvers/utils");
 
-module.exports = function (ajv) {
-  ajv.addKeyword("validateMultipleChoiceCondition", {
+module.exports = (ajv) =>
+  ajv.addKeyword({
+    keyword: "validateMultipleChoiceCondition",
+    schema: false,
     validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData,
-      fieldName,
-      questionnaire
+      data,
+      {
+        rootData: questionnaire,
+        parentData,
+        parentDataProperty: fieldName,
+        instancePath,
+      }
     ) {
-      isValid.errors = [];
+      if (parentData?.right?.type === "SelectedOptions") {
+        const selectedCheckboxOptions =
+          parentData.right.optionIds?.map?.((optionId) =>
+            getOptionById({ questionnaire }, optionId)
+          ) ?? [];
 
-      if (
-        parentData &&
-        parentData.right &&
-        parentData.right.type === "SelectedOptions" &&
-        parentData.right.optionIds
-      ) {
-        const selectedCheckboxOptions = parentData.right.optionIds.map(
-          (optionId) => getOptionById({ questionnaire }, optionId)
+        const mutuallyExclusiveOption = selectedCheckboxOptions.find(
+          (option) => option?.mutuallyExclusive
         );
-
-        const mutuallyExclusiveOption = selectedCheckboxOptions.filter(
-          (option) => option && option.mutuallyExclusive
-        ).length;
 
         if (
           selectedCheckboxOptions.length > 1 &&
-          entityData === "AllOf" &&
+          data === "AllOf" &&
           mutuallyExclusiveOption
         ) {
-          const err = createValidationError(
-            dataPath,
-            fieldName,
-            ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE,
-            questionnaire
-          );
-
-          isValid.errors.push(err);
+          isValid.errors = [
+            createValidationError(
+              instancePath,
+              fieldName,
+              ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE,
+              questionnaire
+            ),
+          ];
 
           return false;
         }
@@ -53,4 +49,3 @@ module.exports = function (ajv) {
       return true;
     },
   });
-};
