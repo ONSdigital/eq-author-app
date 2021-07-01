@@ -1078,6 +1078,27 @@ const Resolvers = {
       delete parent.skipConditions;
       return parent;
     }),
+    createDisplayCondition: createMutation((_, { input }, ctx) => {
+      const { sectionId } = input;
+
+      const section = getSectionById(ctx, sectionId);
+
+      const leftHandSide = {
+        type: "Null",
+        nullReason: "DefaultDisplayCondition",
+      };
+
+      const defaultDisplayCondition = createExpressionGroup({
+        operator: "And",
+        expressions: [createExpression({ left: createLeftSide(leftHandSide) })],
+      });
+
+      section.displayConditions = section.displayConditions
+        ? [...section.displayConditions, defaultDisplayCondition]
+        : [defaultDisplayCondition];
+
+      return section;
+    }),
   },
 
   Questionnaire: {

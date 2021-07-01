@@ -149,7 +149,7 @@ type Section {
   title: String!
   alias: String
   displayName: String!
-  displayConditon: [ExpressionGroup2]
+  displayConditions: [ExpressionGroup2]
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -570,6 +570,7 @@ enum NoLeftSideReason {
   NoRoutableAnswerOnPage
   DefaultRouting
   DefaultSkipCondition
+  DefaultDisplayCondition
 }
 
 type NoLeftSide {
