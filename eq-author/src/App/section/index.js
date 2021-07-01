@@ -4,6 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import Design from "./Design";
 import Preview from "./Preview";
+import Display from "./Logic/Display";
 
 export default [
   <Route
@@ -25,6 +26,6 @@ export default [
   <Route
     key="section-logic-display"
     path="/q/:questionnaireId/section/:sectionId/display"
-    component={Preview} //Temporary preview page to test routing
+    component={Display}
   />,
 ];
