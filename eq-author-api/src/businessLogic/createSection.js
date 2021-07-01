@@ -7,6 +7,8 @@ const createSection = (input = {}) => ({
   introductionEnabled: false,
   folders: [createFolder()],
   alias: "",
+  requiredCompleted: false,
+  showOnHub: false,
   ...input,
 });
 

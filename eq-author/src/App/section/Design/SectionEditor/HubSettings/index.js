@@ -1,11 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Field, Label } from "components/Forms";
+import updateSectionMutation from "graphql/updateSection.graphql";
+import { useMutation } from "@apollo/react-hooks";
 
-import { Label } from "components/Forms";
 import Collapsible from "components/Collapsible";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
-import Property from "../../../../page/PropertiesPanel/QuestionProperties/Property";
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+  margin-left: 1em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  margin-left: 11em;
+  position: absolute;
+  margin-top: -0.3em;
+`;
 
 const Caption = styled.p`
   margin-top: 0.2em;
@@ -14,19 +33,17 @@ const Caption = styled.p`
   font-size: 0.85em;
 `;
 
-const HubSettings = ({ preHubEnabled=false }) => {
+const EnableDisableWrapper = styled.div`
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
 
-  const handleChange = () => {
-    return null;
-  };
-  // const handleChange = ({ name, value }) => {
-  //   const { page, onUpdateQuestionPage } = this.props;
+const HubSettings = ({ id, preHubEnabled=false, showOnHub }) => {
 
-  //   onUpdateQuestionPage({
-  //     ...page,
-  //     [name]: value,
-  //   });
-  // };
+  console.log('preHubEnabled :>> ', preHubEnabled);
+  
+  const [updateSection] = useMutation(updateSectionMutation);
+
 
   const defaultOpen = () =>
       preHubEnabled;
@@ -40,35 +57,58 @@ const HubSettings = ({ preHubEnabled=false }) => {
         withoutHideThis
         variant="content"
       >
-        <Property
-          id="preHub"
-          data-test="preHubEnabled"
-          checked={preHubEnabled}
-          onChange={handleChange}
-        >
+        <InlineField>
           <Label>Pre-hub section</Label>
-        </Property>
-        <Caption>
+          <ToggleWrapper>
+            <ToggleSwitch
+              id="preHubEnabled"
+              name="preHubEnabled"
+              hideLabels={false}
+              onChange={({ value }) =>
+                updateSection({
+                  variables: {
+                    input: { id, requiredCompleted: value },
+                  },
+                })
+              }
+              checked={preHubEnabled}
+            />
+            </ToggleWrapper>
+          </InlineField>
+          <Caption>
           The respondent must complete pre-hub sections before they see the &quot;hub&quot;.
         </Caption>
-
-        {/* <AdditionalContentOptions
-          onChange={onChange}
-          onUpdate={onUpdate}
-          page={page}
-          fetchAnswers={fetchAnswers}
-          option={"description"}
-        /> */}
-        
+        <EnableDisableWrapper disabled={!preHubEnabled}>
+          <InlineField>
+            <Label>Display section in hub</Label>
+            <ToggleWrapper>
+              <ToggleSwitch
+                id="showOnHub"
+                name="showOnHub"
+                hideLabels={false}
+                onChange={({ value }) =>
+                updateSection({
+                    variables: {
+                      input: { id, showOnHub: value },
+                    },
+                  })
+                }
+                checked={showOnHub}
+              />
+            </ToggleWrapper>
+          </InlineField>
+        </EnableDisableWrapper>
+        <Caption>
+          You can choose to show this section in the &quot;hub&quot; so respondents could review their answers.
+        </Caption>
       </Collapsible>
   );
 };
 
 HubSettings.propTypes = {
-  match: PropTypes.object.isRequired, // eslint-disable-line
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
+  id: PropTypes.string.isRequired,
+  preHubEnabled: PropTypes.bool.isRequired,
+  showOnHub: PropTypes.bool.isRequired,
 };
 
 export default HubSettings;
