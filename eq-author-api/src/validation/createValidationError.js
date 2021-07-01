@@ -178,7 +178,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           ? "skipConditionExpression"
           : "routingExpression";
         expression = expressionGroup.expressions[nextVal];
-        validationErr.expressionId = expression.id;
+        validationErr.expressionId = expression?.id;
         break;
     }
   }

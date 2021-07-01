@@ -503,7 +503,7 @@ describe("schema validation", () => {
                             label: "Desc",
                             qCode: "qCode1",
                             secondaryQCode: "secQCode1",
-                            properties: { maxLength: "50" },
+                            properties: { maxLength: 50 },
                           },
                         ],
                       },
@@ -515,8 +515,7 @@ describe("schema validation", () => {
           };
         });
         it(`and return an error for values less than 10 in textarea answer`, () => {
-          questionnaire.sections[0].folders[0].pages[0].answers[0].properties.maxLength =
-            "9";
+          questionnaire.sections[0].folders[0].pages[0].answers[0].properties.maxLength = 9;
           const validationPageErrors = validation(questionnaire);
           const pagepageErrors = validationPageErrors;
 
@@ -539,8 +538,7 @@ describe("schema validation", () => {
         });
 
         it(`and return and error for values greater than 2000 in textarea answer`, () => {
-          questionnaire.sections[0].folders[0].pages[0].answers[0].properties.maxLength =
-            "2001";
+          questionnaire.sections[0].folders[0].pages[0].answers[0].properties.maxLength = 2001;
           const validationPageErrors = validation(questionnaire);
           const pageErrors = validationPageErrors;
 
@@ -701,12 +699,14 @@ describe("schema validation", () => {
           questionnaire.sections[0].folders[0].pages[0].answers[0].validation =
             {
               earliestDate: {
+                id: "earliest-rule-1",
                 enabled: true,
                 entityType: "PreviousAnswer",
                 previousAnswer: "a2",
                 relativePosition: "Before",
               },
               latestDate: {
+                id: "latest-rule-1",
                 enabled: false,
               },
             };
@@ -1321,7 +1321,7 @@ describe("schema validation", () => {
               expressions: [
                 {
                   id: expressionId,
-                  condition: "AnyOf",
+                  condition: "AllOf",
                   left: {
                     type: "Answer",
                     answerId: "answer_12",
@@ -1333,7 +1333,7 @@ describe("schema validation", () => {
                 },
                 {
                   id: expressionId2,
-                  condition: "AnyOf",
+                  condition: "AllOf",
                   left: {
                     type: "Answer",
                     answerId: "answer_12",
@@ -1351,7 +1351,7 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors).toHaveLength(2);
       expect(routingErrors[0].id).toMatch(uuidRejex);
       expect(routingErrors[0].errorCode).toBe(
         ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND
