@@ -149,6 +149,7 @@ type Section {
   title: String!
   alias: String
   displayName: String!
+  displayConditon: [ExpressionGroup2]
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -832,6 +833,12 @@ type Mutation {
   createSkipCondition(input: CreateSkipConditionInput!): Skippable
   deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
   deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
+
+  createDisplayCondition(input: CreateDisplayConditionInput!): Section
+}
+
+input CreateDisplayConditionInput {
+  sectionId: ID!
 }
 
 input CreateRouting2Input {
