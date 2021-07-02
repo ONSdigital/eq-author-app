@@ -6,15 +6,20 @@ import { get } from "lodash";
 import { Redirect } from "react-router-dom";
 import { Query } from "react-apollo";
 
-import DisplayPage from "./DisplayPage";
+import { getSectionById } from "utils/questionnaireUtils";
 
+import DisplayPage from "./DisplayPage";
 import Logic from "..";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
 const DisplayLogicPage = ({ data, loading, error, match }) => {
-  const section = get(data, "section");
+  const { sectionId } = match.params;
+  const { questionnaire } = useQuestionnaire();
+
+  const section = getSectionById(questionnaire, sectionId);
 
   if (loading) {
     return <Loading height="20em">Loading display</Loading>;
