@@ -35,7 +35,7 @@
     "autoprefixer": "latest",
     "babel-eslint": "latest",
     "babel-jest": "latest",
-    "babel-loader": "latest",
+    "babel-loader": "^8.2.2",
     "babel-plugin-add-react-displayname": "latest",
     "babel-plugin-named-asset-import": "latest",
     "babel-plugin-styled-components": "latest",
