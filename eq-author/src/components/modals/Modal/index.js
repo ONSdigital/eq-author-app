@@ -8,7 +8,6 @@ import UnstyledCloseButton from "components/buttons/CloseButton";
 const ANIMATION_DURATION = 100;
 
 export const CloseButton = styled(UnstyledCloseButton).attrs({
-  "aria-label": "Close",
   size: "medium",
 })`
   position: absolute;
