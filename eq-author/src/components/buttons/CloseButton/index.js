@@ -65,7 +65,7 @@ const CloseButton = (props) => (
 CloseButton.defaultProps = {
   size: "medium",
   type: "button",
-  "aria-label": "Delete",
+  "aria-label": "Close",
 };
 
 CloseButton.propTypes = {
