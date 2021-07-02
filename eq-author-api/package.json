@@ -35,7 +35,7 @@
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
     "helmet": "latest",
-    "ioredis": "latest",
+    "ioredis": "^4.27.6",
     "jaeger-client": "latest",
     "js-yaml": "latest",
     "json-web-key": "latest",
