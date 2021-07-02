@@ -36,18 +36,13 @@ const Caption = styled.p`
 const EnableDisableWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+  margin-top: 1em;
 `;
 
-const HubSettings = ({ id, preHubEnabled=false, showOnHub }) => {
+const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
 
-  console.log('preHubEnabled :>> ', preHubEnabled);
-  
   const [updateSection] = useMutation(updateSectionMutation);
-
-
-  const defaultOpen = () =>
-      preHubEnabled;
-  //     || displaySectionInHubEnabled;
+  const defaultOpen = () => requiredCompleted;
 
   return (
     <Collapsible
@@ -61,8 +56,8 @@ const HubSettings = ({ id, preHubEnabled=false, showOnHub }) => {
           <Label>Pre-hub section</Label>
           <ToggleWrapper>
             <ToggleSwitch
-              id="preHubEnabled"
-              name="preHubEnabled"
+              id="requiredCompleted"
+              name="requiredCompleted"
               hideLabels={false}
               onChange={({ value }) =>
                 updateSection({
@@ -71,14 +66,14 @@ const HubSettings = ({ id, preHubEnabled=false, showOnHub }) => {
                   },
                 })
               }
-              checked={preHubEnabled}
+              checked={requiredCompleted}
             />
             </ToggleWrapper>
           </InlineField>
           <Caption>
           The respondent must complete pre-hub sections before they see the &quot;hub&quot;.
         </Caption>
-        <EnableDisableWrapper disabled={!preHubEnabled}>
+        <EnableDisableWrapper disabled={!requiredCompleted}>
           <InlineField>
             <Label>Display section in hub</Label>
             <ToggleWrapper>
@@ -107,7 +102,7 @@ const HubSettings = ({ id, preHubEnabled=false, showOnHub }) => {
 
 HubSettings.propTypes = {
   id: PropTypes.string.isRequired,
-  preHubEnabled: PropTypes.bool.isRequired,
+  requiredCompleted: PropTypes.bool.isRequired,
   showOnHub: PropTypes.bool.isRequired,
 };
 

@@ -1,41 +1,42 @@
-import React from "react";
-import { shallow } from "enzyme";
+// import React from "react";
+// import { shallow } from "enzyme";
 
-import { byTestAttr } from "tests/utils/selectors";
-import { UnwrappedQuestionProperties } from "./";
+// import { byTestAttr } from "tests/utils/selectors";
+// import { UnwrappedQuestionProperties } from "./";
 
-const render = (props) => shallow(<UnwrappedQuestionProperties {...props} />);
+// const render = (props) => shallow(<UnwrappedQuestionProperties {...props} />);
 
-describe("QuestionProperties", () => {
-  let props, onUpdateQuestionPage, wrapper;
+// describe("QuestionProperties", () => {
+//   let props, onUpdateQuestionPage, wrapper;
 
-  beforeEach(() => {
-    onUpdateQuestionPage = jest.fn();
-    props = {
-      page: {
-        id: "1",
-      },
-      onUpdateQuestionPage: onUpdateQuestionPage,
-    };
+//   beforeEach(() => {
+//     onUpdateQuestionPage = jest.fn();
+//     props = {
+//       page: {
+//         id: "1",
+//       },
+//       onUpdateQuestionPage: onUpdateQuestionPage,
+//     };
 
-    wrapper = render(props);
-  });
+//     wrapper = render(props);
+//   });
 
-  it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
-  });
+//   it("should render", () => {
+//     expect(wrapper).toMatchSnapshot();
+//   });
 
-  it.each([
-    "descriptionEnabled",
-    "definitionEnabled",
-    "guidanceEnabled",
-    "additionalInfoEnabled",
-  ])("should correctly call %s change handler", (id) => {
-    let value = {
-      name: "foo",
-      value: "bar",
-    };
-    wrapper.find(byTestAttr(id)).simulate("change", value);
-    expect(onUpdateQuestionPage).toHaveBeenCalledWith({ foo: "bar", id: "1" });
-  });
-});
+//   it.each([
+//     "descriptionEnabled",
+//     "definitionEnabled",
+//     "guidanceEnabled",
+//     "additionalInfoEnabled",
+//   ])("should correctly call %s change handler", (id) => {
+//     let value = {
+//       name: "foo",
+//       value: "bar",
+//     };
+//     wrapper.find(byTestAttr(id)).simulate("change", value);
+//     expect(onUpdateQuestionPage).toHaveBeenCalledWith({ foo: "bar", id: "1" });
+//   });
+// eslint-disable-next-line import/unambiguous
+// });

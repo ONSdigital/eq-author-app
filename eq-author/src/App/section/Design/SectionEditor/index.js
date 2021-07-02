@@ -120,8 +120,6 @@ export class SectionEditor extends React.Component {
     const hasNav = section.questionnaire.navigation;
     const hasHub = section.questionnaire.hub;
 
-console.log('section :>> ', section);
-
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
@@ -138,7 +136,7 @@ console.log('section :>> ', section);
         </MoveSectionQuery>
 
         {hasHub && (
-          <HubSettings id={section.id} preHubEnabled={section.requiredCompleted} showOnHub={section.showOnHub}/>
+          <HubSettings id={section.id} requiredCompleted={section.requiredCompleted} showOnHub={section.showOnHub}/>
         )}
 
         <Padding>
