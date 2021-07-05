@@ -212,6 +212,7 @@ UnwrappedDate.propTypes = {
   labelPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   descriptionPlaceholder: PropTypes.string,
+  disableMutuallyExclusive: PropTypes.bool,
 };
 
 UnwrappedDate.defaultProps = {
