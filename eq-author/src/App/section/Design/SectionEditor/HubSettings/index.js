@@ -58,6 +58,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
             <ToggleSwitch
               id="required-completed"
               name="required-completed"
+              data-test="required-completed"
               hideLabels={false}
               onChange={({ value }) =>
                 updateSection({
@@ -80,6 +81,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
               <ToggleSwitch
                 id="show-onHub"
                 name="show-onHub"
+                data-test="showOnHub"
                 hideLabels={false}
                 onChange={({ value }) =>
                 updateSection({

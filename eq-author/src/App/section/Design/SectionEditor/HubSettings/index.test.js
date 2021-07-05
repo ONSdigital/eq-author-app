@@ -1,40 +1,23 @@
 import React from "react";
-import { render as rtlRender, screen, act, flushPromises, fireEvent } from "tests/utils/rtl";
+import { render as rtlRender, act, flushPromises, fireEvent } from "tests/utils/rtl";
 
 import HubSettings from "../HubSettings";
-import updateSectionMutation from "graphql/updateSection.graphql";
+
+const mockUseMutation = jest.fn();
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
 
 describe("Section HubSettings", () => {
-  let props, id, requiredCompleted, showOnHub, queryWasCalled, mocks;
+  let props;
 
   beforeEach(() => {
       props = {
         id: "testID1",
         requiredCompleted: false,
         showOnHub: false,
-        // queryWasCalled: false,
       }
-    
-    mocks = [
-        {
-          request: {
-            query: updateSectionMutation,
-            variables: { id: id,  showOnHub: true },
-          },
-          result: () => {
-            queryWasCalled = true;
-            return {
-                data: {
-                    updateSection: {
-                    id: id,
-                    showOnHub: true,
-                    __typename: "Section",
-                    },
-                },
-            };
-          },
-        },
-    ]
   });
 
   afterEach(async () => {
@@ -49,6 +32,30 @@ describe("Pre-hub section toggle", () => {
     
         expect(getByText("Pre-hub section")).toBeInTheDocument();
       });
+
+    it("Should enable and disable Pre-hub section when toggled", async () => {
+      const { getByTestId } = rtlRender(() => <HubSettings {...props} />);
+
+      const preHubToggle = getByTestId("required-completed");
+
+      const toggle = Object.values(preHubToggle.children).reduce((child) =>
+        child.type === "checkbox" ? child : null
+      );
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(mockUseMutation.mock.calls.length).toBe(1);
+      expect(mockUseMutation).toBeCalledWith({
+        variables: {
+          input: {
+            id: props.id, requiredCompleted: true
+          },
+        },
+      });
+    });
   });
 
   describe("Display section in hub", () => {
@@ -63,6 +70,31 @@ describe("Pre-hub section toggle", () => {
       
       expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
     });
+
+    it("Should enable and disable 'Display section in hub' when toggled", async () => {
+      const { getByTestId } = rtlRender(() => <HubSettings {...props} />);
+
+      const preHubToggle = getByTestId("show-onHub");
+
+      const toggle = Object.values(preHubToggle.children).reduce((child) =>
+        child.type === "checkbox" ? child : null
+      );
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(mockUseMutation.mock.calls.length).toBe(2);
+      expect(mockUseMutation).toBeCalledWith({
+        variables: {
+          input: {
+            id: props.id, showOnHub: true
+          },
+        },
+      });
+    });
+
   });
 
 });
