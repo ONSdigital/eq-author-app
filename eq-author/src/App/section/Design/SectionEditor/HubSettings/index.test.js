@@ -1,42 +1,68 @@
-// import React from "react";
-// import { shallow } from "enzyme";
+import React from "react";
+import { render as rtlRender, screen, act, flushPromises, fireEvent } from "tests/utils/rtl";
 
-// import { byTestAttr } from "tests/utils/selectors";
-// import { UnwrappedQuestionProperties } from "./";
+import HubSettings from "../HubSettings";
+import updateSectionMutation from "graphql/updateSection.graphql";
 
-// const render = (props) => shallow(<UnwrappedQuestionProperties {...props} />);
+describe("Section HubSettings", () => {
+  let props, id, requiredCompleted, showOnHub, queryWasCalled, mocks;
 
-// describe("QuestionProperties", () => {
-//   let props, onUpdateQuestionPage, wrapper;
+  beforeEach(() => {
+      props = {
+        id: "testID1",
+        requiredCompleted: false,
+        showOnHub: false,
+        // queryWasCalled: false,
+      }
+    
+    mocks = [
+        {
+          request: {
+            query: updateSectionMutation,
+            variables: { id: id,  showOnHub: true },
+          },
+          result: () => {
+            queryWasCalled = true;
+            return {
+                data: {
+                    updateSection: {
+                    id: id,
+                    showOnHub: true,
+                    __typename: "Section",
+                    },
+                },
+            };
+          },
+        },
+    ]
+  });
 
-//   beforeEach(() => {
-//     onUpdateQuestionPage = jest.fn();
-//     props = {
-//       page: {
-//         id: "1",
-//       },
-//       onUpdateQuestionPage: onUpdateQuestionPage,
-//     };
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
 
-//     wrapper = render(props);
-//   });
+describe("Pre-hub section toggle", () => {
+    it("should render Pre-hub toggle ", async () => {
+      const { getByText } = rtlRender(() => <HubSettings {...props} />);
+    
+        expect(getByText("Pre-hub section")).toBeInTheDocument();
+      });
+  });
 
-//   it("should render", () => {
-//     expect(wrapper).toMatchSnapshot();
-//   });
+  describe("Display section in hub", () => {
+    it("should render Display section toggle ", async () => {
+      const { getByText } = rtlRender(() => <HubSettings {...props} />);
+    
+      expect(getByText("Display section in hub")).toBeInTheDocument();
+    });
 
-//   it.each([
-//     "descriptionEnabled",
-//     "definitionEnabled",
-//     "guidanceEnabled",
-//     "additionalInfoEnabled",
-//   ])("should correctly call %s change handler", (id) => {
-//     let value = {
-//       name: "foo",
-//       value: "bar",
-//     };
-//     wrapper.find(byTestAttr(id)).simulate("change", value);
-//     expect(onUpdateQuestionPage).toHaveBeenCalledWith({ foo: "bar", id: "1" });
-//   });
-// eslint-disable-next-line import/unambiguous
-// });
+    it("should render Display section toggle as disabled IF Pre-Hub toggle is OFF ", async () => {
+      const { getByTestId } = rtlRender(() => <HubSettings {...props} />);
+      
+      expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
+    });
+  });
+
+});

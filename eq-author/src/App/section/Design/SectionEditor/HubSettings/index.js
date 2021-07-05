@@ -53,11 +53,11 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
         variant="content"
       >
         <InlineField>
-          <Label>Pre-hub section</Label>
+          <Label htmlFor="required-completed">Pre-hub section</Label>
           <ToggleWrapper>
             <ToggleSwitch
-              id="requiredCompleted"
-              name="requiredCompleted"
+              id="required-completed"
+              name="required-completed"
               hideLabels={false}
               onChange={({ value }) =>
                 updateSection({
@@ -73,13 +73,13 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
           <Caption>
           The respondent must complete pre-hub sections before they see the &quot;hub&quot;.
         </Caption>
-        <EnableDisableWrapper disabled={!requiredCompleted}>
+        <EnableDisableWrapper data-test="toggle-wrapper" disabled={!requiredCompleted}>
           <InlineField>
-            <Label>Display section in hub</Label>
+            <Label htmlFor-="show-onHub">Display section in hub</Label>
             <ToggleWrapper>
               <ToggleSwitch
-                id="showOnHub"
-                name="showOnHub"
+                id="show-onHub"
+                name="show-onHub"
                 hideLabels={false}
                 onChange={({ value }) =>
                 updateSection({
@@ -102,8 +102,8 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
 
 HubSettings.propTypes = {
   id: PropTypes.string.isRequired,
-  requiredCompleted: PropTypes.bool.isRequired,
-  showOnHub: PropTypes.bool.isRequired,
+  requiredCompleted: PropTypes.bool,
+  showOnHub: PropTypes.bool,
 };
 
 export default HubSettings;
