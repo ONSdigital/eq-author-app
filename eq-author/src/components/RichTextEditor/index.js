@@ -125,9 +125,9 @@ const getAnswerPipes = getContentsOfPipingType("answers");
 const getMetadataPipes = getContentsOfPipingType("metadata");
 
 const filterEmptyTags = (value) =>
-  new DOMParser()
-    .parseFromString(value, "text/html")
-    ?.body?.innerText?.trim?.() ?? "";
+  new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
+    ? value
+    : "";
 
 class RichTextEditor extends React.Component {
   static defaultProps = {
