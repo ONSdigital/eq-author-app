@@ -1,0 +1,11 @@
+query GetSection($input: QueryInput!) {
+  section(input: $input) {
+    questionnaire {
+      id
+    }
+    id
+    displayName
+    introductionTitle
+    introductionContent
+  }
+}

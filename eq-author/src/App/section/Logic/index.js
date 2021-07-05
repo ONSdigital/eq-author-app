@@ -5,12 +5,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { rgba } from "polished";
-import { Grid, Column } from "components/Grid";
 
+import { buildSectionPath } from "utils/UrlUtils";
+
+import { Grid, Column } from "components/Grid";
 import EditorLayout from "components/EditorLayout";
 import CustomPropTypes from "custom-prop-types";
 
 import Badge from "components/Badge";
+import VerticalTabs from "components/VerticalTabs";
 
 const activeClassName = "active";
 
@@ -68,53 +71,46 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
-const TABS = [
+const TABS = (sectionId, questionnaireId) => [
   {
-    key: `display`,
-    label: "Display logic",
+    title: "Display logic",
+    url: `${buildSectionPath({
+      sectionId,
+      tab: "display",
+      questionnaireId,
+    })}`,
   },
 ];
 
-const LogicPage = ({ children, page }) => (
-  <EditorLayout
-    design
-    preview={page?.__typename !== "Folder"}
-    logic
-    validationErrorInfo={page?.validationErrorInfo}
-    title={page?.displayName || page?.alias || ""}
-    singleColumnLayout
-    mainCanvasMaxWidth="80em"
-  >
-    <LogicMainCanvas>
-      <Grid>
-        <Column gutters={false} cols={2.5}>
-          <MenuTitle>Select your logic</MenuTitle>
-          <StyledUl>
-            {TABS.map(({ key, label }) => {
-              const errors = page?.validationErrorInfo?.errors?.filter(
-                ({ type }) => type && type.includes(key)
-              );
-              return (
-                <li data-test={key} key={key}>
-                  <LogicLink exact to={key} activeClassName="active" replace>
-                    {label}
-                    {errors?.length > 0 && (
-                      <Badge variant="logic" data-test="badge-withCount">
-                        {errors.length}
-                      </Badge>
-                    )}
-                  </LogicLink>
-                </li>
-              );
-            })}
-          </StyledUl>
-        </Column>
-        <Column gutters={false} cols={9.5}>
-          <LogicContainer>{children}</LogicContainer>
-        </Column>
-      </Grid>
-    </LogicMainCanvas>
-  </EditorLayout>
+const hasIntroductionContent = (section) =>
+  section.introductionTitle || section.introductionContent;
+
+const LogicPage = ({ children, section }) => (
+  console.log(section),
+  (
+    <EditorLayout
+      design
+      preview={hasIntroductionContent(section)}
+      logic
+      validationErrorInfo={section?.validationErrorInfo}
+      title={section?.displayName || ""}
+      singleColumnLayout
+      mainCanvasMaxWidth="80em"
+    >
+      <LogicMainCanvas>
+        <Grid>
+          <VerticalTabs
+            title="Select your logic"
+            cols={2.5}
+            tabItems={TABS(section.id, section.questionnaire.id)}
+          />
+          <Column gutters={false} cols={9.5}>
+            <LogicContainer>{children}</LogicContainer>
+          </Column>
+        </Grid>
+      </LogicMainCanvas>
+    </EditorLayout>
+  )
 );
 
 LogicPage.propTypes = {
