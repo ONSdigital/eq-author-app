@@ -3,12 +3,11 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
-import DeleteButton from "components/buttons/DeleteButton";
+import UnstyledCloseButton from "components/buttons/CloseButton";
 
 const ANIMATION_DURATION = 100;
 
-export const CloseButton = styled(DeleteButton).attrs({
-  "aria-label": "Close",
+export const CloseButton = styled(UnstyledCloseButton).attrs({
   size: "medium",
 })`
   position: absolute;

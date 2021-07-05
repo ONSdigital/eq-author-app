@@ -90,4 +90,12 @@ describe("Date", () => {
 
     expect(getByTestId("option-label")).toBeInTheDocument();
   });
+
+  it("Can disable the option to have a mutually exclusive", () => {
+    const { queryByTestId } = rtlRender(() => (
+      <UnwrappedDate {...props} multipleAnswers disableMutuallyExclusive />
+    ));
+
+    expect(queryByTestId("toggle-or-option-date")).not.toBeInTheDocument();
+  });
 });

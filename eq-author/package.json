@@ -35,7 +35,7 @@
     "autoprefixer": "latest",
     "babel-eslint": "latest",
     "babel-jest": "latest",
-    "babel-loader": "latest",
+    "babel-loader": "^8.2.2",
     "babel-plugin-add-react-displayname": "latest",
     "babel-plugin-named-asset-import": "latest",
     "babel-plugin-styled-components": "latest",
@@ -91,6 +91,7 @@
   },
   "dependencies": {
     "@apollo/react-testing": "latest",
+    "@babel/plugin-transform-react-jsx": "^7.14.5",
     "@sentry/browser": "latest",
     "apollo-cache-inmemory": "1.6.2",
     "apollo-client": "latest",
