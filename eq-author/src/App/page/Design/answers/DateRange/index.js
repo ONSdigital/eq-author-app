@@ -24,6 +24,7 @@ const DateRange = ({ answer, ...otherProps }) => (
       showDay
       showMonth
       showYear
+      disableMutuallyExclusive
       {...otherProps}
     />
     <Date
@@ -33,6 +34,7 @@ const DateRange = ({ answer, ...otherProps }) => (
       showDay
       showMonth
       showYear
+      disableMutuallyExclusive
       {...otherProps}
     />
   </Wrapper>

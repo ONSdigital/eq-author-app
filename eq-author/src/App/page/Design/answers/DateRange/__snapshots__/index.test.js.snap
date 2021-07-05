@@ -23,6 +23,7 @@ exports[`DateRange should render 1`] = `
         },
       }
     }
+    disableMutuallyExclusive={true}
     key="from-1"
     name="label"
     onChange={[MockFunction]}
@@ -57,6 +58,7 @@ exports[`DateRange should render 1`] = `
         },
       }
     }
+    disableMutuallyExclusive={true}
     key="to-1"
     name="secondaryLabel"
     onChange={[MockFunction]}
