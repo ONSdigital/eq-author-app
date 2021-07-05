@@ -76,6 +76,7 @@ export const UnwrappedDate = ({
   labelPlaceholder,
   autoFocus,
   descriptionPlaceholder,
+  disableMutuallyExclusive,
 }) => {
   const getMutuallyExclusive = ({ options }) =>
     options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
@@ -141,19 +142,21 @@ export const UnwrappedDate = ({
           />
         </Format>
       </Field>
-      <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
-        <InlineField>
-          <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
-          <ToggleSwitch
-            id="toggle-or-option-date"
-            name="toggle-or-option-date"
-            hideLabels={false}
-            onChange={onChangeToggle}
-            checked={getMutuallyExclusive(answer) && !multipleAnswers}
-            data-test="toggle-or-option-date"
-          />
-        </InlineField>
-      </ToggleWrapper>
+      {!disableMutuallyExclusive && (
+        <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
+          <InlineField>
+            <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
+            <ToggleSwitch
+              id="toggle-or-option-date"
+              name="toggle-or-option-date"
+              hideLabels={false}
+              onChange={onChangeToggle}
+              checked={getMutuallyExclusive(answer) && !multipleAnswers}
+              data-test="toggle-or-option-date"
+            />
+          </InlineField>
+        </ToggleWrapper>
+      )}
       {getMutuallyExclusive(answer) && !multipleAnswers && (
         <StyledOption>
           <Flex>
@@ -209,6 +212,7 @@ UnwrappedDate.propTypes = {
   labelPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   descriptionPlaceholder: PropTypes.string,
+  disableMutuallyExclusive: PropTypes.bool,
 };
 
 UnwrappedDate.defaultProps = {

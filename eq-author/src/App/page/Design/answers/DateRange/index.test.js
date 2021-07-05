@@ -80,4 +80,12 @@ describe("DateRange", () => {
 
     expect(getByText(DATE_LABEL_REQUIRED)).toBeTruthy();
   });
+
+  it("Does not have a mutually exclusive option toggle", () => {
+    const { queryByTestId } = rtlRender(
+      <DateRange onUpdate={handleUpdate} {...props} />
+    );
+
+    expect(queryByTestId("toggle-or-option-date")).not.toBeInTheDocument();
+  });
 });
