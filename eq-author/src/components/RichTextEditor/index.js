@@ -24,18 +24,7 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import cheerio from "cheerio";
-
-import {
-  flow,
-  uniq,
-  map,
-  keyBy,
-  mapValues,
-  isNull,
-  trim,
-  get,
-} from "lodash/fp";
+import { flow, uniq, map, keyBy, mapValues, get } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ErrorInline from "components/ErrorInline";
@@ -135,17 +124,10 @@ const getContentsOfPipingType = (type) => (contents) =>
 const getAnswerPipes = getContentsOfPipingType("answers");
 const getMetadataPipes = getContentsOfPipingType("metadata");
 
-function isHtml(string) {
-  return !isNull(cheerio(trim(string)).html());
-}
-
-const filterEmptyTags = (value) => {
-  if (isHtml(value)) {
-    return cheerio(value).text().trim() === "" ? "" : value;
-  } else {
-    return value;
-  }
-};
+const filterEmptyTags = (value) =>
+  new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
+    ? value
+    : "";
 
 class RichTextEditor extends React.Component {
   static defaultProps = {
