@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set env
         run: echo "TAG=${GITHUB_REF#refs/*/}-release" >> $GITHUB_ENV
-      
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -45,7 +45,6 @@ jobs:
           docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
           docker push --all-tags $REGISTRY/$REPOSITORY
 
-
   API:
     runs-on: ubuntu-latest
     defaults:
@@ -53,7 +52,7 @@ jobs:
         working-directory: eq-author-api
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -80,12 +79,11 @@ jobs:
           docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
           docker push --all-tags $REGISTRY/$REPOSITORY
 
-
   Publisher:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: eq-publisher   
+        working-directory: eq-publisher
     strategy:
       matrix:
         node-version: [10.x]
@@ -114,4 +112,3 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG --build-arg APPLICATION_VERSION=$IMAGE_TAG .
           docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG_LATEST
           docker push --all-tags $REGISTRY/$REPOSITORY
-
