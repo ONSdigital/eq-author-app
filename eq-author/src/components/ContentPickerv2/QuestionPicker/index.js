@@ -11,10 +11,12 @@ import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import SearchBar from 'components/SearchBar'
+import SearchBar from "components/SearchBar";
+import IconText from "components/IconText";
 
+import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
-const ModalFooter = styled.div`
+const Footer = styled.footer`
   padding: 1.5em;
   border-top: 1px solid ${colors.bordersLight};
 `;
@@ -22,34 +24,30 @@ const ModalFooter = styled.div`
 const StyledModal = styled(Modal)`
   .Modal {
     padding: 0;
+    padding-top: 1em;
     width: 45em;
   }
 `;
 
-const Container = styled.div`
-  background: white;
-`;
-
-const ModalTitle = styled.div`
+const Title = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.text};
   margin-bottom: 0.75em;
 `;
 
-const ModalSubtitle = styled.div`
-  font-size: 1em;
-  color: ${colors.text};
+const Header = styled.header`
+  margin: 0 1.5em;
+
+  > * {
+    margin-bottom: 0.5em;
+  }
 `;
 
-const ModalHeader = styled.div`
-  padding: 2em 1em 1.5em;
-  border-bottom: 1px solid ${colors.bordersLight};
-`;
-
-const MenuContainer = styled.div`
+const Main = styled.main`
   overflow: hidden;
   height: 25em;
+  border-top: 1px solid ${colors.bordersLight};
 `;
 
 const Types = styled.div`
@@ -70,6 +68,8 @@ const Type = styled.span`
   margin-left: 0.5em;
 `;
 
+const WarningPanel = styled(IconText)``;
+
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
 const QuestionPicker = ({
@@ -80,9 +80,9 @@ const QuestionPicker = ({
   title,
   showTypes,
   showSearch,
+  warningPanel,
   ...otherProps
 }) => {
-
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
@@ -128,42 +128,37 @@ const QuestionPicker = ({
 
   return (
     <StyledModal isOpen={isOpen} onClose={closeModal} hasCloseButton>
-      <Container>
-        <>
-          <ModalHeader>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalSubtitle>
-              {showTypes ? (
-                <Types>
-                  <span>Allowed answer types:</span>
-                  {validTypes.map((type) => (
-                    <Type key={type}>{type}</Type>
-                  ))}
-                </Types>) : ('')
-              }
-              {
-                showSearch ? (
-                  //TODO needs onChange prop setup and passed here
-                  // see example in App/QuestionnairesPage/QuestionnairesView/Header
-                  <SearchBar size="large"/>
-                ) : ('')
-              }
-            </ModalSubtitle>
-          </ModalHeader>
-          <MenuContainer>
-            <ScrollPane>
-              <FlatSectionMenu
-                onSelected={updateSelectedAnswers}
-                selectedAnswers={selectedAnswers}
-                isDisabled={isDisabled}
-                isSelected={isSelected}
-                {...otherProps}
-              />
-            </ScrollPane>
-          </MenuContainer>
-        </>
-      </Container>
-      <ModalFooter>
+      <Header>
+        <Title>{title}</Title>
+        {showTypes ? (
+          <Types>
+            <span>Allowed answer types:</span>
+            {validTypes.map((type) => (
+              <Type key={type}>{type}</Type>
+            ))}
+          </Types>
+        ) : (
+          ""
+        )}
+        {showSearch ? <SearchBar size="large" /> : ""}
+        {warningPanel && (
+          <WarningPanel icon={WarningIcon} left>
+            {warningPanel}
+          </WarningPanel>
+        )}
+      </Header>
+      <Main>
+        <ScrollPane>
+          <FlatSectionMenu
+            onSelected={updateSelectedAnswers}
+            selectedAnswers={selectedAnswers}
+            isDisabled={isDisabled}
+            isSelected={isSelected}
+            {...otherProps}
+          />
+        </ScrollPane>
+      </Main>
+      <Footer>
         <ButtonGroup horizontal align="right">
           <Button variant="secondary" onClick={closeModal}>
             Cancel
@@ -171,12 +166,15 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
-            onClick={() => onSubmit(selectedAnswers)}
+            onClick={() => {
+              onSubmit(selectedAnswers);
+              onClose();
+            }}
           >
             Select
           </Button>
         </ButtonGroup>
-      </ModalFooter>
+      </Footer>
     </StyledModal>
   );
 };
@@ -191,7 +189,7 @@ QuestionPicker.propTypes = {
   startingSelectedType: PropTypes.string,
   title: PropTypes.string.isRequired,
   showTypes: PropTypes.bool,
-  showSearch: PropTypes.bool
+  showSearch: PropTypes.bool,
 };
 
 export default QuestionPicker;
