@@ -1,0 +1,8 @@
+mutation createDisplay($input: DisplayConditionInput!) {
+  createDisplayCondition(input: $input) {
+    id
+    displayConditions {
+      id
+    }
+  }
+}

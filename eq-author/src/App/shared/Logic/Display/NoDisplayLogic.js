@@ -45,7 +45,7 @@ const NoDisplayLogic = ({
       variant="primary"
       data-test="btn-add-display"
       disabled={disabled}
-      //   onClick={onAddDisplay}
+      onClick={onAddDisplay}
     >
       <IconText icon={IconAddRule}>Add display logic</IconText>
     </AddDisplayButton>
@@ -53,7 +53,7 @@ const NoDisplayLogic = ({
 );
 
 NoDisplayLogic.propTypes = {
-  onAddDisplay: PropTypes.func,
+  onAddDisplay: PropTypes.object, //eslint-disable-line
   disabled: PropTypes.bool,
   children: PropTypes.node,
 };

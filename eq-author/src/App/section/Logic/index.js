@@ -86,31 +86,28 @@ const hasIntroductionContent = (section) =>
   section.introductionTitle || section.introductionContent;
 
 const LogicPage = ({ children, section }) => (
-  console.log(section),
-  (
-    <EditorLayout
-      design
-      preview={hasIntroductionContent(section)}
-      logic
-      validationErrorInfo={section?.validationErrorInfo}
-      title={section?.displayName || ""}
-      singleColumnLayout
-      mainCanvasMaxWidth="80em"
-    >
-      <LogicMainCanvas>
-        <Grid>
-          <VerticalTabs
-            title="Select your logic"
-            cols={2.5}
-            tabItems={TABS(section.id, section.questionnaire.id)}
-          />
-          <Column gutters={false} cols={9.5}>
-            <LogicContainer>{children}</LogicContainer>
-          </Column>
-        </Grid>
-      </LogicMainCanvas>
-    </EditorLayout>
-  )
+  <EditorLayout
+    design
+    preview={hasIntroductionContent(section)}
+    logic
+    validationErrorInfo={section?.validationErrorInfo}
+    title={section?.displayName || ""}
+    singleColumnLayout
+    mainCanvasMaxWidth="80em"
+  >
+    <LogicMainCanvas>
+      <Grid>
+        <VerticalTabs
+          title="Select your logic"
+          cols={2.5}
+          tabItems={TABS(section.id, section.questionnaire.id)}
+        />
+        <Column gutters={false} cols={9.5}>
+          <LogicContainer>{children}</LogicContainer>
+        </Column>
+      </Grid>
+    </LogicMainCanvas>
+  </EditorLayout>
 );
 
 LogicPage.propTypes = {

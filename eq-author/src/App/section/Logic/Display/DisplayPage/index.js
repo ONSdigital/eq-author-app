@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 
 import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+
+import CREATE_DISPLAY_MUTATION from "graphql/createDisplayCondition.graphql";
 
 import DisplayEditor from "./DisplayEditor";
 import NoDisplayLogic from "App/shared/Logic/Display/NoDisplayLogic";
@@ -31,7 +34,13 @@ const Paragraph = styled.p`
   margin: 0;
 `;
 
-export const DisplayPageContent = ({ section, createDisplay }) => {
+const useCreateDisplayCondition = (input) => {
+  const [createDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION);
+  const sectionInput = { sectionId: input };
+  return createDisplayCondition({ variables: { input: sectionInput } });
+};
+
+export const DisplayPageContent = ({ section }) => {
   const { questionnaire } = useQuestionnaire();
 
   return (
@@ -44,11 +53,14 @@ export const DisplayPageContent = ({ section, createDisplay }) => {
               : "display-rule-set-empty"
           }
         >
-          {!section ? (
+          {section.displayConditions ? (
             <DisplayEditor display={section.displayConditions} />
           ) : (
             <Panel>
-              <NoDisplayLogic>
+              <NoDisplayLogic
+                onAddDisplay={useCreateDisplayCondition(section.id)}
+                data-test="display-conditions-empty"
+              >
                 <Title>{messages.NO_LOGIC_EXISTS}</Title>
                 <Paragraph>{messages.DEFAULT_DISPLAY}</Paragraph>
               </NoDisplayLogic>
@@ -62,7 +74,6 @@ export const DisplayPageContent = ({ section, createDisplay }) => {
 
 DisplayPageContent.propTypes = {
   page: CustomPropTypes.page,
-  createDisplay: PropTypes.func,
 };
 
 export default DisplayPageContent;
