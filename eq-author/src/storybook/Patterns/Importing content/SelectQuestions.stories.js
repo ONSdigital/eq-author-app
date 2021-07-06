@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import QuestionPicker from "components/ContentPickerv2/QuestionPicker/";
+import QuestionPicker from "components/ContentPickerv2/QuestionPickerV2/";
 
 export default {
   title: "Patterns/Importing content/Select questions",
@@ -47,7 +47,7 @@ Default.args = {
         )
     ),
   startingSelectedAnswers: [],
-  data: [
+  sections: [
     {
       id: "c8a21a5a-bd66-4aa7-9e8f-2e96c53640c2",
       title: "",
@@ -169,10 +169,121 @@ Default.args = {
               confirmation: null,
             },
           ],
-          validationErrorInfo: {
-            id: "cbec8e72-b828-467a-8c54-798832a57706",
-            totalCount: 0,
-          },
+        },
+      ],
+    },
+    {
+      id: "section-two",
+      title: "",
+      displayName: "Cars",
+      questionnaire: {
+        id: "77eaf38c-e2d5-4c6c-88f5-5ece3bc5d5f6",
+      },
+      folders: [
+        {
+          id: "folder-one",
+          enabled: false,
+          alias: "",
+          displayName: "Untitled folder",
+          position: 1,
+          pages: [
+            {
+              id: "page-one",
+              alias: null,
+              title: "<p>What is your favorite colour of car?</p>",
+              position: 0,
+              displayName: "What is your favorite colour of car?",
+              pageType: "QuestionPage",
+              answers: [
+                {
+                  id: "answer-one",
+                  displayName: "What is your favorite colour of car?",
+                  description: "",
+                  guidance: "",
+                  qCode: "",
+                  label: "What is your favorite colour of car?",
+                  secondaryLabel: null,
+                  secondaryLabelDefault: "Untitled answer",
+                  type: "text",
+                  properties: {
+                    required: false,
+                    decimals: 0,
+                  },
+                  secondaryQCode: null,
+                  questionTitle: "<p>What is your favorite colour of car?</p>",
+                  questionShortCode: null,
+                },
+              ],
+              confirmation: null,
+            },
+          ],
+        },
+        {
+          id: "folder-two",
+          enabled: true,
+          alias: "",
+          displayName: "Owned",
+          position: 2,
+          pages: [
+            {
+              id: "page-one",
+              alias: null,
+              title: "<p>How many cars do you own?</p>",
+              position: 0,
+              displayName: "How many cars do you own?",
+              pageType: "QuestionPage",
+              answers: [
+                {
+                  id: "answer-one",
+                  displayName: "How many cars do you own?",
+                  description: "",
+                  guidance: "",
+                  qCode: "",
+                  label: "How many cars do you own?",
+                  secondaryLabel: null,
+                  secondaryLabelDefault: "Untitled answer",
+                  type: "text",
+                  properties: {
+                    required: false,
+                    decimals: 0,
+                  },
+                  secondaryQCode: null,
+                  questionTitle: "<p>How many cars do you own?</p>",
+                  questionShortCode: null,
+                },
+              ],
+              confirmation: null,
+            },
+            {
+              id: "page-two",
+              alias: null,
+              title: "<p>Why do you own a car?</p>",
+              position: 1,
+              displayName: "Why do you own a car?",
+              pageType: "QuestionPage",
+              answers: [
+                {
+                  id: "answer-one",
+                  displayName: "Why do you own a car?",
+                  description: "",
+                  guidance: "",
+                  qCode: "",
+                  label: "Why do you own a car?",
+                  secondaryLabel: null,
+                  secondaryLabelDefault: "Untitled answer",
+                  type: "text",
+                  properties: {
+                    required: false,
+                    decimals: 0,
+                  },
+                  secondaryQCode: null,
+                  questionTitle: "<p>Why do you own a car?</p>",
+                  questionShortCode: null,
+                },
+              ],
+              confirmation: null,
+            },
+          ],
         },
       ],
     },
