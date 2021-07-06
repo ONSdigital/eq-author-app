@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+
+import { getAnswers } from "utils/questionnaireUtils";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
@@ -11,6 +13,7 @@ import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import ScrollPane from "components/ScrollPane";
+import NoSearchResults from "components/NoSearchResults";
 
 import Item from "./Item";
 import List from "./List";
@@ -57,6 +60,27 @@ const QuestionPicker = ({
   isOpen,
   onClose,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredSections, updateFilteredSections] = useState([]);
+
+  useEffect(() => {
+    updateFilteredSections(filterList(sections, searchTerm));
+  }, [sections, searchTerm]);
+
+  const filterList = (data, searchTerm) =>
+    data.map(({ folders, ...rest }) => ({
+      folders: folders.map(({ pages, ...rest }) => ({
+        pages: pages.map(({ answers, ...rest }) => ({
+          answers: answers.filter(({ displayName }) =>
+            displayName.includes(searchTerm)
+          ),
+          ...rest,
+        })),
+        ...rest,
+      })),
+      ...rest,
+    }));
+
   const handleCancel = () => {
     onClose();
   };
@@ -72,37 +96,52 @@ const QuestionPicker = ({
 
   const renderFolder = (folder) => {
     const { displayName, pages } = folder;
-    return (
-      <Item icon={<FolderIcon />} title={displayName} unselectable>
-        <List className="sublist">
-          {pages.map(({ displayName: pageTitle, answers }) =>
-            answers.map((answer) => renderAnswer(answer, pageTitle))
-          )}
-        </List>
-      </Item>
-    );
+
+    const numOfAnswersInFolder = pages.flatMap(({ answers }) => answers).length;
+
+    if (numOfAnswersInFolder > 0) {
+      return (
+        <Item icon={<FolderIcon />} title={displayName} unselectable>
+          <List className="sublist">
+            {pages.map(({ displayName: pageTitle, answers }) =>
+              answers.map((answer) => renderAnswer(answer, pageTitle))
+            )}
+          </List>
+        </Item>
+      );
+    }
+
+    return null;
   };
 
   const renderSection = (section) => {
     const { displayName, folders } = section;
 
-    return (
-      <Item variant="heading" title={displayName}>
-        <List>
-          {folders.map((folder) => {
-            const { enabled, ...rest } = folder;
+    const numOfAnswersInSection = folders.flatMap(({ pages }) =>
+      pages.flatMap(({ answers }) => answers)
+    ).length;
 
-            if (enabled) {
-              return renderFolder(rest);
-            } else {
-              return rest.pages.map(({ displayName: pageTitle, answers }) =>
-                answers.map((answer) => renderAnswer(answer, pageTitle))
-              );
-            }
-          })}
-        </List>
-      </Item>
-    );
+    if (numOfAnswersInSection > 0) {
+      return (
+        <Item variant="heading" title={displayName}>
+          <List>
+            {folders.map((folder) => {
+              const { enabled, ...rest } = folder;
+
+              if (enabled) {
+                return renderFolder(rest);
+              } else {
+                return rest.pages.map(({ displayName: pageTitle, answers }) =>
+                  answers.map((answer) => renderAnswer(answer, pageTitle))
+                );
+              }
+            })}
+          </List>
+        </Item>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -122,9 +161,19 @@ const QuestionPicker = ({
         )}
       </Header>
       <Main>
-        <ScrollPane>
-          <List>{sections.map((section) => renderSection(section))}</List>
-        </ScrollPane>
+        {getAnswers({ sections: filterList(sections, searchTerm) }).length >
+        0 ? (
+          <ScrollPane>
+            <List>
+              {filteredSections.map((section) => renderSection(section))}
+            </List>
+          </ScrollPane>
+        ) : (
+          <NoSearchResults
+            searchTerm={searchTerm}
+            alertText="Please check the answer exists."
+          />
+        )}
       </Main>
       <Footer>
         <ButtonGroup horizontal align="right">
