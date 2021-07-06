@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
 
-import iconAlert from "./icon-alert.svg";
+import { ReactComponent as iconAlert } from "assets/icon-alert.svg";
+
+import NoSearchResults from "components/NoSearchResults";
 
 const Alert = styled.div`
   background: white;
@@ -55,20 +57,18 @@ const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
   }
   if (isFiltered) {
     return (
-      <Alert>
-        <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
-        <AlertText>
-          You do not have editor access to any questionnaires matching this
-          criteria
-        </AlertText>
-      </Alert>
+      <NoSearchResults
+        searchTerm={searchTerm}
+        alertText="You do not have editor access to any questionnaires matching this
+          criteria"
+      />
     );
   }
   return (
-    <Alert>
-      <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
-      <AlertText>Please check the questionnaire exists</AlertText>
-    </Alert>
+    <NoSearchResults
+      searchTerm={searchTerm}
+      alertText="Please check the questionnaire exists"
+    />
   );
 };
 

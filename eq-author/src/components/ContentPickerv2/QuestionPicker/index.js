@@ -13,8 +13,11 @@ import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import SearchBar from "components/SearchBar";
 import IconText from "components/IconText";
+import NoSearchResults from "components/NoSearchResults";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
+
+import { getAnswers } from "utils/questionnaireUtils";
 
 const Footer = styled.footer`
   padding: 1.5em;
@@ -55,7 +58,12 @@ const Types = styled.div`
   align-items: center;
 `;
 
-const Type = styled.span`
+const TypeCaption = styled.p`
+  margin: 0;
+  padding: 0;
+`;
+
+const Type = styled.p`
   font-size: 10px;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
@@ -81,18 +89,24 @@ const QuestionPicker = ({
   showTypes,
   showSearch,
   warningPanel,
+  data,
   ...otherProps
 }) => {
-  const [selectedAnswers, setSelectedAnswers] = useState(
-    startingSelectedAnswers
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, updateFilteredData] = useState([]);
 
   useEffect(() => {
     setSelectedAnswers(startingSelectedAnswers);
   }, [startingSelectedAnswers]);
 
+  useEffect(() => {
+    updateFilteredData(filterList(data, searchTerm));
+  }, [data, searchTerm]);
+
   const closeModal = () => {
     setSelectedAnswers(startingSelectedAnswers);
+    setSearchTerm("");
     onClose();
   };
 
@@ -126,21 +140,38 @@ const QuestionPicker = ({
     return false;
   };
 
+  const filterList = (data, searchTerm) =>
+    data.map(({ folders, ...rest }) => ({
+      folders: folders.map(({ pages, ...rest }) => ({
+        pages: pages.map(({ answers, ...rest }) => ({
+          answers: answers.filter(({ displayName }) =>
+            displayName.includes(searchTerm)
+          ),
+          ...rest,
+        })),
+        ...rest,
+      })),
+      ...rest,
+    }));
+
   return (
     <StyledModal isOpen={isOpen} onClose={closeModal} hasCloseButton>
       <Header>
         <Title>{title}</Title>
-        {showTypes ? (
+        {showTypes && (
           <Types>
-            <span>Allowed answer types:</span>
+            <TypeCaption>Allowed answer types:</TypeCaption>
             {validTypes.map((type) => (
               <Type key={type}>{type}</Type>
             ))}
           </Types>
-        ) : (
-          ""
         )}
-        {showSearch ? <SearchBar size="large" /> : ""}
+        {showSearch && (
+          <SearchBar
+            size="large"
+            onChange={({ value }) => setSearchTerm(value)}
+          />
+        )}
         {warningPanel && (
           <WarningPanel icon={WarningIcon} left>
             {warningPanel}
@@ -149,13 +180,21 @@ const QuestionPicker = ({
       </Header>
       <Main>
         <ScrollPane>
-          <FlatSectionMenu
-            onSelected={updateSelectedAnswers}
-            selectedAnswers={selectedAnswers}
-            isDisabled={isDisabled}
-            isSelected={isSelected}
-            {...otherProps}
-          />
+          {getAnswers({ sections: filteredData }).length > 0 ? (
+            <FlatSectionMenu
+              onSelected={updateSelectedAnswers}
+              selectedAnswers={selectedAnswers}
+              isDisabled={isDisabled}
+              isSelected={isSelected}
+              data={filteredData}
+              {...otherProps}
+            />
+          ) : (
+            <NoSearchResults
+              searchTerm={searchTerm}
+              alertText="Please check the answer exists."
+            />
+          )}
         </ScrollPane>
       </Main>
       <Footer>
@@ -167,6 +206,7 @@ const QuestionPicker = ({
             variant="primary"
             autoFocus
             onClick={() => {
+              setSearchTerm("");
               onSubmit(selectedAnswers);
               onClose();
             }}

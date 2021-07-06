@@ -6,6 +6,9 @@ export const getFolders = (questionnaire) =>
 export const getPages = (questionnaire) =>
   getFolders(questionnaire)?.flatMap(({ pages }) => pages);
 
+export const getAnswers = (questionnaire) =>
+  getPages(questionnaire)?.flatMap(({ answers }) => answers);
+
 export const getFolderById = (questionnaire, folderId) =>
   getFolders(questionnaire)?.find(({ id }) => id === folderId);
 
