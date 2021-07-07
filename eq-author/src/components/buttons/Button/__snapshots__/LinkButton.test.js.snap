@@ -42,6 +42,11 @@ exports[`components/Button/LinkButton should render 1`] = `
   opacity: 0.6;
 }
 
+.c0:focus {
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
 <a
     class="-a c0"
     href="/test"

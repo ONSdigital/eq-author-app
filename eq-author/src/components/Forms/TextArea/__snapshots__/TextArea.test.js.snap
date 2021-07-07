@@ -22,7 +22,6 @@ exports[`components/Forms/TextArea should render correctly 1`] = `
 
 .c0:focus,
 .c0:focus-within {
-  border-color: none;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
