@@ -22,10 +22,10 @@
         "pages": [
           {
             "id": "704196ea-ec19-49dc-abe7-a2cdb0b2952d",
-            "alias": null,
+            "alias": "1",
             "title": "<p>Do you have any pets?</p>",
             "position": 0,
-            "displayName": "Do you have any pets?",
+            "displayName": "1",
             "pageType": "QuestionPage",
             "validationErrorInfo": {
               "id": "704196ea-ec19-49dc-abe7-a2cdb0b2952d",
@@ -91,10 +91,10 @@
         "pages": [
           {
             "id": "2858f2e9-a279-4903-8625-48e9346263a5",
-            "alias": null,
+            "alias": "1a",
             "title": "<p>How many pets do you have?</p>",
             "position": 0,
-            "displayName": "How many pets do you have?",
+            "displayName": "1a",
             "pageType": "QuestionPage",
             "validationErrorInfo": {
               "id": "2858f2e9-a279-4903-8625-48e9346263a5",
@@ -126,10 +126,10 @@
           },
           {
             "id": "76bdec6e-1756-4dee-888e-29491f1a4294",
-            "alias": null,
+            "alias": "1b",
             "title": "<p>What species do you have?</p>",
             "position": 1,
-            "displayName": "What species do you have?",
+            "displayName": "1b",
             "pageType": "QuestionPage",
             "validationErrorInfo": {
               "id": "76bdec6e-1756-4dee-888e-29491f1a4294",
@@ -453,6 +453,36 @@
             ],
             "confirmation": null,
             "__typename": "QuestionPage"
+          },
+          {
+            "id": "c1e1d270-b961-4488-9517-a185717a3fb9",
+            "alias": null,
+            "title": "",
+            "position": 3,
+            "displayName": "Untitled calculated summary",
+            "pageType": "CalculatedSummaryPage",
+            "validationErrorInfo": {
+              "id": "c1e1d270-b961-4488-9517-a185717a3fb9",
+              "errors": [
+                {
+                  "id": "051c5d23-6c01-46f0-a2d3-1f9f8b7e9872",
+                  "type": "page",
+                  "field": "summaryAnswers",
+                  "errorCode": "ERR_NO_ANSWERS",
+                  "__typename": "ValidationError"
+                },
+                {
+                  "id": "ad258e9d-32d2-439b-a59a-c40e7a87dfef",
+                  "type": "page",
+                  "field": "title",
+                  "errorCode": "ERR_VALID_REQUIRED",
+                  "__typename": "ValidationError"
+                }
+              ],
+              "totalCount": 2,
+              "__typename": "ValidationErrorInfo"
+            },
+            "__typename": "CalculatedSummaryPage"
           }
         ],
         "validationErrorInfo": {

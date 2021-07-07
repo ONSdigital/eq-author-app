@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
-import { getAnswers } from "utils/questionnaireUtils";
+import { getPages } from "utils/questionnaireUtils";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
 
-import SelectedAnswersContext, {
-  SelectedAnswersProvider,
-} from "./SelectedAnswersContext";
+import SelectedPageContext, {
+  SelectedPagesProvider,
+} from "./SelectedPagesContext";
 
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
@@ -61,31 +61,30 @@ const isSelected = (selectedItemsArr, item) =>
     (selectedAnswer) => selectedAnswer.id === item.id
   ) !== -1;
 
-const Answer = ({ answer, pageTitle }) => {
-  const { displayName } = answer;
-  const { selectedAnswers, updateSelectedAnswers } = useContext(
-    SelectedAnswersContext
-  );
+const Page = ({ page }) => {
+  const { title, displayName, alias } = page;
+  const { selectedPages, updateSelectedPages } =
+    useContext(SelectedPageContext);
 
-  const itemSelected = isSelected(selectedAnswers, answer);
+  const itemSelected = isSelected(selectedPages, page);
 
   const handleClick = () => {
     if (itemSelected) {
-      const selectionWithoutThisAnswer = selectedAnswers.filter(
-        (ans) => ans.id !== answer.id
+      const selectionWithoutThisPage = selectedPages.filter(
+        (selectedPage) => selectedPage.id !== page.id
       );
-      updateSelectedAnswers(selectionWithoutThisAnswer);
+      updateSelectedPages(selectionWithoutThisPage);
     } else {
-      updateSelectedAnswers([...selectedAnswers, answer]);
+      updateSelectedPages([...selectedPages, page]);
     }
   };
-
   return (
     <Item
-      title={displayName}
-      subtitle={pageTitle}
+      title={title.replace(/(<([^>]+)>)/gi, "") || displayName}
+      subtitle={alias}
       onClick={handleClick}
       selected={itemSelected}
+      dataTest="Page"
     />
   );
 };
@@ -93,17 +92,20 @@ const Answer = ({ answer, pageTitle }) => {
 const Folder = ({ folder }) => {
   const { displayName, pages } = folder;
 
-  const numOfAnswersInFolder = pages.flatMap(({ answers }) => answers).length;
+  const numOfPagesInFolder = pages.flatMap(({ pages }) => pages).length;
 
-  if (numOfAnswersInFolder > 0) {
+  if (numOfPagesInFolder > 0) {
     return (
-      <Item icon={<FolderIcon />} title={displayName} unselectable>
+      <Item
+        icon={<FolderIcon />}
+        title={displayName}
+        unselectable
+        dataTest="folder"
+      >
         <List className="sublist">
-          {pages.map(({ displayName: pageTitle, answers }) =>
-            answers.map((answer) => (
-              <Answer answer={answer} pageTitle={pageTitle} />
-            ))
-          )}
+          {pages.map((page) => (
+            <Page key={`page-${page.id}`} page={page} />
+          ))}
         </List>
       </Item>
     );
@@ -115,24 +117,22 @@ const Folder = ({ folder }) => {
 const Section = ({ section }) => {
   const { displayName, folders } = section;
 
-  const numOfAnswersInSection = folders.flatMap(({ pages }) =>
-    pages.flatMap(({ answers }) => answers)
+  const numOfPagesInSection = folders.flatMap(({ pages }) =>
+    pages.flatMap(({ pages }) => pages)
   ).length;
 
-  if (numOfAnswersInSection > 0) {
+  if (numOfPagesInSection > 0) {
     return (
       <Item variant="heading" title={displayName}>
         <List>
           {folders.map((folder) => {
-            const { enabled, ...rest } = folder;
+            const { enabled } = folder;
             if (enabled) {
-              return <Folder folder={rest} />;
+              return <Folder key={`folder-${folder.id}`} folder={folder} />;
             } else {
-              return rest.pages.map(({ displayName: pageTitle, answers }) =>
-                answers.map((answer) => (
-                  <Answer answer={answer} pageTitle={pageTitle} />
-                ))
-              );
+              return folder.pages.map((page) => (
+                <Page key={`page-${page.id}`} page={page} />
+              ));
             }
           })}
         </List>
@@ -154,7 +154,7 @@ const QuestionPicker = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSections, updateFilteredSections] = useState([]);
-  const [selectedAnswers, updateSelectedAnswers] = useState([]);
+  const [selectedPages, updateSelectedPages] = useState([]);
 
   useEffect(() => {
     updateFilteredSections(filterList(sections, searchTerm));
@@ -163,12 +163,9 @@ const QuestionPicker = ({
   const filterList = (data, searchTerm) =>
     data.map(({ folders, ...rest }) => ({
       folders: folders.map(({ pages, ...rest }) => ({
-        pages: pages.map(({ answers, ...rest }) => ({
-          answers: answers.filter(({ displayName }) =>
-            displayName.includes(searchTerm)
-          ),
-          ...rest,
-        })),
+        pages: pages.filter(({ displayName }) =>
+          displayName.includes(searchTerm)
+        ),
         ...rest,
       })),
       ...rest,
@@ -200,18 +197,17 @@ const QuestionPicker = ({
         )}
       </Header>
       <Main>
-        {getAnswers({ sections: filterList(sections, searchTerm) }).length >
-        0 ? (
+        {getPages({ sections: filterList(sections, searchTerm) }).length > 0 ? (
           <ScrollPane>
-            <SelectedAnswersProvider
-              value={{ selectedAnswers, updateSelectedAnswers }}
+            <SelectedPagesProvider
+              value={{ selectedPages, updateSelectedPages }}
             >
               <List>
                 {filteredSections.map((section) => (
-                  <Section section={section} />
+                  <Section key={`section-${section.id}`} section={section} />
                 ))}
               </List>
-            </SelectedAnswersProvider>
+            </SelectedPagesProvider>
           </ScrollPane>
         ) : (
           <NoSearchResults
@@ -228,7 +224,7 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
-            onClick={() => handleSubmit(selectedAnswers)}
+            onClick={() => handleSubmit(selectedPages)}
           >
             Select
           </Button>

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
@@ -18,10 +19,13 @@ const ListItem = styled.li`
 `;
 
 const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 0.5em 1.5em;
   border-bottom: 1px solid ${colors.lightGrey};
   cursor: pointer;
-
+  height: 2.2em;
   &:hover {
     background-color: ${colors.lighterGrey};
   }
@@ -95,7 +99,7 @@ const Subtitle = styled.p`
   color: ${colors.darkGrey};
 `;
 
-export default ({
+const WrappedItem = ({
   icon,
   title,
   subtitle,
@@ -104,14 +108,16 @@ export default ({
   unselectable,
   onClick,
   children,
+  dataTest,
 }) => {
   return (
-    <ListItem>
+    <ListItem data-test={dataTest}>
       <Item
         variant={variant}
         className={`${variant}`}
         aria-selected={selected}
         unselectable={unselectable}
+        tabIndex={0}
         onClick={onClick}
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
@@ -126,3 +132,9 @@ export default ({
     </ListItem>
   );
 };
+
+WrappedItem.propTypes = {
+  unselectable: PropTypes.bool,
+};
+
+export default WrappedItem;

@@ -10,7 +10,7 @@ describe("Question Picker", () => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
-    title="Select one or more answer";
+    title = "Select one or more answer";
     data = [
       {
         id: "section 1",
@@ -90,7 +90,14 @@ describe("Question Picker", () => {
       },
     ];
 
-    props = { data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, };
+    props = {
+      data,
+      onClose,
+      onSubmit,
+      startingSelectedAnswers,
+      title,
+      showTypes,
+    };
   });
 
   const renderContentPicker = () =>
