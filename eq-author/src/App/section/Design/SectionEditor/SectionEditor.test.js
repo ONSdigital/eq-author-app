@@ -1,5 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render as rtlRender } from "tests/utils/rtl";
+
 
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
@@ -12,6 +14,8 @@ describe("SectionEditor", () => {
     alias: "alias",
     introductionTitle: "Intro title",
     introductionContent: "Intro content",
+    requiredCompleted: true,
+    showOnHub: true,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -30,6 +34,8 @@ describe("SectionEditor", () => {
     alias: "alias",
     introductionTitle: "Intro title",
     introductionContent: "Intro content",
+    requiredCompleted: true,
+    showOnHub: true,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -136,6 +142,47 @@ describe("SectionEditor", () => {
     expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(
       false
     );
+  });
+
+  it("should enable the hub settings collapsible section when Hub is enabled", () => {
+    const section = {
+      ...section1,
+      questionnaire: {
+        id: "2",
+        navigation: false,
+        hub: true
+      },
+    };
+    const { getByText } = rtlRender(() => <SectionEditor
+      section={section}
+      showDeleteConfirmDialog={false}
+      showMoveSectionDialog={false}
+      match={match}
+      {...mockHandlers}
+    />);
+
+    expect(getByText("Hub settings")).toBeVisible();
+  });
+
+  it("should display the hub settings collapsible section as OPEN when requiredCompleted is true", () => {
+    const section = {
+      ...section1,
+      questionnaire: {
+        id: "2",
+        navigation: false,
+        hub: true
+      },
+    };
+    const { getByTestId } = rtlRender(() => <SectionEditor
+      section={section}
+      showDeleteConfirmDialog={false}
+      showMoveSectionDialog={false}
+      match={match}
+      {...mockHandlers}
+    />);
+
+  expect(getByTestId("collapsible-body")).toBeVisible();
+    
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {

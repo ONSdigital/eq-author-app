@@ -31,6 +31,8 @@ const section = {
   introductionContent: "",
   displayName: "foo",
   position: 0,
+  requiredCompleted: false,
+  showOnHub: false,
   folders: [
     {
       __typename: "Folder",
