@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
@@ -6,6 +6,10 @@ import { getAnswers } from "utils/questionnaireUtils";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
+
+import SelectedAnswersContext, {
+  SelectedAnswersProvider,
+} from "./SelectedAnswersContext";
 
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
@@ -52,6 +56,93 @@ const Title = styled.h2`
 
 const WarningPanel = styled(IconText)``;
 
+const isSelected = (selectedItemsArr, item) =>
+  selectedItemsArr.findIndex(
+    (selectedAnswer) => selectedAnswer.id === item.id
+  ) !== -1;
+
+const Answer = ({ answer, pageTitle }) => {
+  const { displayName } = answer;
+  const { selectedAnswers, updateSelectedAnswers } = useContext(
+    SelectedAnswersContext
+  );
+
+  const itemSelected = isSelected(selectedAnswers, answer);
+
+  const handleClick = () => {
+    if (itemSelected) {
+      const selectionWithoutThisAnswer = selectedAnswers.filter(
+        (ans) => ans.id !== answer.id
+      );
+      updateSelectedAnswers(selectionWithoutThisAnswer);
+    } else {
+      updateSelectedAnswers([...selectedAnswers, answer]);
+    }
+  };
+
+  return (
+    <Item
+      title={displayName}
+      subtitle={pageTitle}
+      onClick={handleClick}
+      selected={itemSelected}
+    />
+  );
+};
+
+const Folder = ({ folder }) => {
+  const { displayName, pages } = folder;
+
+  const numOfAnswersInFolder = pages.flatMap(({ answers }) => answers).length;
+
+  if (numOfAnswersInFolder > 0) {
+    return (
+      <Item icon={<FolderIcon />} title={displayName} unselectable>
+        <List className="sublist">
+          {pages.map(({ displayName: pageTitle, answers }) =>
+            answers.map((answer) => (
+              <Answer answer={answer} pageTitle={pageTitle} />
+            ))
+          )}
+        </List>
+      </Item>
+    );
+  }
+
+  return null;
+};
+
+const Section = ({ section }) => {
+  const { displayName, folders } = section;
+
+  const numOfAnswersInSection = folders.flatMap(({ pages }) =>
+    pages.flatMap(({ answers }) => answers)
+  ).length;
+
+  if (numOfAnswersInSection > 0) {
+    return (
+      <Item variant="heading" title={displayName}>
+        <List>
+          {folders.map((folder) => {
+            const { enabled, ...rest } = folder;
+            if (enabled) {
+              return <Folder folder={rest} />;
+            } else {
+              return rest.pages.map(({ displayName: pageTitle, answers }) =>
+                answers.map((answer) => (
+                  <Answer answer={answer} pageTitle={pageTitle} />
+                ))
+              );
+            }
+          })}
+        </List>
+      </Item>
+    );
+  }
+
+  return <React.Fragment />;
+};
+
 const QuestionPicker = ({
   title,
   sections,
@@ -59,9 +150,11 @@ const QuestionPicker = ({
   showSearch,
   isOpen,
   onClose,
+  onSubmit,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSections, updateFilteredSections] = useState([]);
+  const [selectedAnswers, updateSelectedAnswers] = useState([]);
 
   useEffect(() => {
     updateFilteredSections(filterList(sections, searchTerm));
@@ -85,63 +178,9 @@ const QuestionPicker = ({
     onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (selection) => {
+    onSubmit(selection);
     onClose();
-  };
-
-  const renderAnswer = (answer, pageTitle) => {
-    const { displayName } = answer;
-    return <Item title={displayName} subtitle={pageTitle} />;
-  };
-
-  const renderFolder = (folder) => {
-    const { displayName, pages } = folder;
-
-    const numOfAnswersInFolder = pages.flatMap(({ answers }) => answers).length;
-
-    if (numOfAnswersInFolder > 0) {
-      return (
-        <Item icon={<FolderIcon />} title={displayName} unselectable>
-          <List className="sublist">
-            {pages.map(({ displayName: pageTitle, answers }) =>
-              answers.map((answer) => renderAnswer(answer, pageTitle))
-            )}
-          </List>
-        </Item>
-      );
-    }
-
-    return null;
-  };
-
-  const renderSection = (section) => {
-    const { displayName, folders } = section;
-
-    const numOfAnswersInSection = folders.flatMap(({ pages }) =>
-      pages.flatMap(({ answers }) => answers)
-    ).length;
-
-    if (numOfAnswersInSection > 0) {
-      return (
-        <Item variant="heading" title={displayName}>
-          <List>
-            {folders.map((folder) => {
-              const { enabled, ...rest } = folder;
-
-              if (enabled) {
-                return renderFolder(rest);
-              } else {
-                return rest.pages.map(({ displayName: pageTitle, answers }) =>
-                  answers.map((answer) => renderAnswer(answer, pageTitle))
-                );
-              }
-            })}
-          </List>
-        </Item>
-      );
-    }
-
-    return null;
   };
 
   return (
@@ -164,9 +203,15 @@ const QuestionPicker = ({
         {getAnswers({ sections: filterList(sections, searchTerm) }).length >
         0 ? (
           <ScrollPane>
-            <List>
-              {filteredSections.map((section) => renderSection(section))}
-            </List>
+            <SelectedAnswersProvider
+              value={{ selectedAnswers, updateSelectedAnswers }}
+            >
+              <List>
+                {filteredSections.map((section) => (
+                  <Section section={section} />
+                ))}
+              </List>
+            </SelectedAnswersProvider>
           </ScrollPane>
         ) : (
           <NoSearchResults
@@ -180,7 +225,11 @@ const QuestionPicker = ({
           <Button variant="secondary" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="primary" autoFocus onClick={handleSubmit}>
+          <Button
+            variant="primary"
+            autoFocus
+            onClick={() => handleSubmit(selectedAnswers)}
+          >
             Select
           </Button>
         </ButtonGroup>

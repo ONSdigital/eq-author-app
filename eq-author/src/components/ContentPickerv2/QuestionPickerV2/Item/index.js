@@ -19,9 +19,7 @@ const ListItem = styled.li`
 
 const Item = styled.div`
   padding: 0.5em 1.5em;
-
   border-bottom: 1px solid ${colors.lightGrey};
-
   cursor: pointer;
 
   &:hover {
@@ -104,6 +102,7 @@ export default ({
   variant,
   selected,
   unselectable,
+  onClick,
   children,
 }) => {
   return (
@@ -113,6 +112,7 @@ export default ({
         className={`${variant}`}
         aria-selected={selected}
         unselectable={unselectable}
+        onClick={onClick}
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
         {variant !== "heading" && (

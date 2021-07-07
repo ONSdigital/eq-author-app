@@ -21,12 +21,17 @@ export const MenuItem = styled.li`
   color: var(--color);
   display: flex;
   align-items: center;
-  padding: 0 1.5em;
+  font-size: 0.9em;
+  padding: 0 1em;
   height: 3.5em;
   background-color: ${colors.white};
+  position: relative;
   cursor: pointer;
   border-top: 1px solid ${colors.lightGrey};
   border-bottom: 1px solid ${colors.lightGrey};
+  margin: -1px 0;
+  width: 100%;
+  overflow: hidden;
   transition: all 100ms ease-in-out;
 
   &[disabled] {
@@ -116,15 +121,14 @@ export const MenuItemType = styled.span`
   justify-self: flex-end;
 `;
 
-export const SectionTitle = styled.h3`
-  font-size: 1em;
+export const SectionTitle = styled.div`
   background: #f4f5f6;
-  padding: 0.5em 1.5em;
+  font-size: 11px;
+  padding: 0.3rem 1rem;
   letter-spacing: 0.05em;
   font-weight: bold;
   color: ${colors.darkGrey};
   line-height: 1.1;
-  margin: 0;
 
   &:not(:first-of-type) {
     border-top: 1px solid ${colors.lightMediumGrey};
@@ -173,13 +177,7 @@ Menu.propTypes = {
   isSelected: PropTypes.func.isRequired,
 };
 
-const SubMenu = ({
-  data,
-  onSelected,
-  isSelected,
-  isDisabled,
-  hideQuestionType,
-}) => {
+const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -213,7 +211,7 @@ const SubMenu = ({
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
-              {!hideQuestionType && <MenuItemType>{item.type}</MenuItemType>}
+              <MenuItemType>{item.type}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>
                   {item.properties.unit ? item.properties.unit : "Missing unit"}
