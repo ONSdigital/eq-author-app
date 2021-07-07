@@ -34,14 +34,10 @@ const Paragraph = styled.p`
   margin: 0;
 `;
 
-const useCreateDisplayCondition = (input) => {
-  const [createDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION);
-  const sectionInput = { sectionId: input };
-  return createDisplayCondition({ variables: { input: sectionInput } });
-};
-
 export const DisplayPageContent = ({ section }) => {
-  const { questionnaire } = useQuestionnaire();
+  const [useCreateDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION, {
+    variables: { input: { sectionId: section.id } },
+  });
 
   return (
     <div data-test="display-page-content">
@@ -58,7 +54,7 @@ export const DisplayPageContent = ({ section }) => {
           ) : (
             <Panel>
               <NoDisplayLogic
-                onAddDisplay={useCreateDisplayCondition(section.id)}
+                onAddDisplay={useCreateDisplayCondition}
                 data-test="display-conditions-empty"
               >
                 <Title>{messages.NO_LOGIC_EXISTS}</Title>
