@@ -20,6 +20,7 @@ const migrations = [
   require("./addQuestionnaireQcodes"),
   require("./addThemeSettings"),
   require("./copyLegalBasisToThemes"),
+  require("./addSectionHubSettings"),
 ];
 
 const currentVersion = migrations.length;

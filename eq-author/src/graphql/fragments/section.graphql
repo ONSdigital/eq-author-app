@@ -4,6 +4,8 @@ fragment Section on Section {
   alias
   introductionTitle
   introductionContent
+  requiredCompleted
+  showOnHub
   questionnaire {
     id
     navigation

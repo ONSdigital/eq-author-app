@@ -13,6 +13,8 @@ describe("SectionIntroPreview", () => {
       alias: "",
       introductionTitle: "<p>title</p>",
       introductionContent: "<h2>Content</h2>",
+      requiredCompleted: false,
+      showOnHub: false,
       questionnaire: {
         id: "1",
         navigation: true,

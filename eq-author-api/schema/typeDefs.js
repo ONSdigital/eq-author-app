@@ -149,6 +149,8 @@ type Section {
   title: String!
   alias: String
   displayName: String!
+  requiredCompleted: Boolean
+  showOnHub: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -947,6 +949,8 @@ input CreateSectionInput {
   alias: String
   questionnaireId: ID!
   position: Int
+  requiredCompleted: Boolean
+  showOnHub: Boolean
 }
 
 input UpdateSectionInput {
@@ -955,6 +959,8 @@ input UpdateSectionInput {
   alias: String
   introductionTitle: String
   introductionContent: String
+  requiredCompleted: Boolean
+  showOnHub: Boolean
 }
 
 input DeleteSectionInput {
