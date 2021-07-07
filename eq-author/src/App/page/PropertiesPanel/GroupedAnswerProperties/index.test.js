@@ -449,7 +449,7 @@ describe("Grouped Answer Properties", () => {
     it("should render 'Enter a character less than x' error on textarea answers", () => {
       render(
         <GroupedAnswerProperties
-          {...newProps({ maxLength: "8", errorCode: ERR_MAX_LENGTH_TOO_SMALL })}
+          {...newProps({ maxLength: 8, errorCode: ERR_MAX_LENGTH_TOO_SMALL })}
         />,
         {
           route: "/q/1/page/2",
@@ -467,7 +467,7 @@ describe("Grouped Answer Properties", () => {
       render(
         <GroupedAnswerProperties
           {...newProps({
-            maxLength: "2001",
+            maxLength: 2001,
             errorCode: ERR_MAX_LENGTH_TOO_LARGE,
           })}
         />,
@@ -487,7 +487,7 @@ describe("Grouped Answer Properties", () => {
       render(
         <GroupedAnswerProperties
           {...newProps({
-            maxLength: "2001",
+            maxLength: 2001,
             errorCode: "ERR_MAX_LENGTH_SUPER_LARGE",
           })}
         />,

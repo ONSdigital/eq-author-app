@@ -23,7 +23,7 @@
   "dependencies": {
     "husky": "latest",
     "lint-staged": "latest",
-    "prettier": "^2.3.1",
+    "prettier": "^2.3.2",
     "prettylint": "latest"
   },
   "lint-staged": {
