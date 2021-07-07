@@ -4,7 +4,7 @@ import { darken } from "polished";
 
 import { propTypes } from "./propTypes";
 
-import { radius, colors } from "constants/theme";
+import { radius, colors, focusStyle } from "constants/theme";
 
 export const primaryButton = css`
   --color-text: ${colors.white};
@@ -285,6 +285,10 @@ const Button = styled.button`
   &[disabled] {
     pointer-events: none;
     opacity: 0.6;
+  }
+
+  &:focus {
+    ${focusStyle}
   }
 
   ${(props) => props.variant === "primary" && primaryButton};

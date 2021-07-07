@@ -39,7 +39,6 @@ colors.previewError = colors.grey;
 export const radius = "4px";
 
 export const focusStyle = css`
-  border-color: none;
   outline: 3px solid ${colors.tertiary};
   box-shadow: 0 0 0 3px ${colors.tertiary};
 `;

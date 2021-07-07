@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import QuestionPicker from "components/ContentPickerv2/QuestionPickerV2/";
+import QuestionPicker from "components/QuestionPicker";
 
 import mockSections from "./mockSections.json";
 
@@ -27,7 +27,6 @@ const Template = ({ isOpen, onClose, ...rest }) => {
       <QuestionPicker
         isOpen={modalIsOpen}
         onClose={() => setModalIsOpen(false)}
-        warningPanel="You cannot import folders but you can import any questions they contain."
         {...rest}
       />
     </>
@@ -39,7 +38,8 @@ Default.args = {
   title: "Select the question(s) to import",
   isOpen: false,
   showSearch: true,
-  hideQuestionType: true,
+  warningPanel:
+    "You cannot import folders but you can import any questions they contain.",
   onSubmit: (selectedAnswers) =>
     alert(
       "You have selected the following questions:\n\n" +
@@ -48,6 +48,6 @@ Default.args = {
           "•"
         )
     ),
-  startingSelectedAnswers: [],
+  startingSelectedQuestions: [],
   sections: mockSections,
 };

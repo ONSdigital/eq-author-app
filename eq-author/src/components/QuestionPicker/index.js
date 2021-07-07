@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import PropTypes from "prop-types";
 
 import { getPages } from "utils/questionnaireUtils";
+
+import { colors } from "constants/theme";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
@@ -88,6 +90,9 @@ const Page = ({ page }) => {
     />
   );
 };
+Page.propTypes = {
+  page: PropTypes.object, // eslint-disable-line
+};
 
 const Folder = ({ folder }) => {
   const { displayName, pages } = folder;
@@ -113,6 +118,9 @@ const Folder = ({ folder }) => {
 
   return <React.Fragment />;
 };
+Folder.propTypes = {
+  folder: PropTypes.object, // eslint-disable-line
+};
 
 const Section = ({ section }) => {
   const { displayName, folders } = section;
@@ -123,7 +131,7 @@ const Section = ({ section }) => {
 
   if (numOfPagesInSection > 0) {
     return (
-      <Item variant="heading" title={displayName}>
+      <Item variant="heading" title={displayName} unselectable>
         <List>
           {folders.map((folder) => {
             const { enabled } = folder;
@@ -142,6 +150,9 @@ const Section = ({ section }) => {
 
   return <React.Fragment />;
 };
+Section.propTypes = {
+  section: PropTypes.object, // eslint-disable-line
+};
 
 const QuestionPicker = ({
   title,
@@ -151,6 +162,7 @@ const QuestionPicker = ({
   isOpen,
   onClose,
   onSubmit,
+  startingSelectedQuestions = [],
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSections, updateFilteredSections] = useState([]);
@@ -159,6 +171,10 @@ const QuestionPicker = ({
   useEffect(() => {
     updateFilteredSections(filterList(sections, searchTerm));
   }, [sections, searchTerm]);
+
+  useEffect(() => {
+    updateSelectedPages(startingSelectedQuestions);
+  }, [startingSelectedQuestions]);
 
   const filterList = (data, searchTerm) =>
     data.map(({ folders, ...rest }) => ({
@@ -232,6 +248,31 @@ const QuestionPicker = ({
       </Footer>
     </StyledModal>
   );
+};
+QuestionPicker.propTypes = {
+  title: PropTypes.string.isRequired,
+  sections: PropTypes.array.isRequired, // eslint-disable-line
+  startingSelectedQuestions: PropTypes.array, // eslint-disable-line
+  warningPanel: PropTypes.string,
+  showSearch: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  /**
+   * Called when:
+   *
+   * - the 'Cancel' button is pressed;
+   * - or when the 'x' button is pressed;
+   * - or when when the 'Select' button  is pressed (after the 'onSubmit' function is called).
+   */
+  onClose: PropTypes.func.isRequired,
+  /**
+   * Called when the 'Select' button is pressed (before the 'onClose' function is called).
+   *
+   * This function is passed an array of pages that are the pages the user selected.
+   *
+   * You don't need to have this handler close the modal, as the 'Select' button calls the
+   * 'onClose' function after running 'onSubmit'.
+   */
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default QuestionPicker;

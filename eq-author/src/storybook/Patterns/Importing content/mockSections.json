@@ -453,36 +453,6 @@
             ],
             "confirmation": null,
             "__typename": "QuestionPage"
-          },
-          {
-            "id": "c1e1d270-b961-4488-9517-a185717a3fb9",
-            "alias": null,
-            "title": "",
-            "position": 3,
-            "displayName": "Untitled calculated summary",
-            "pageType": "CalculatedSummaryPage",
-            "validationErrorInfo": {
-              "id": "c1e1d270-b961-4488-9517-a185717a3fb9",
-              "errors": [
-                {
-                  "id": "051c5d23-6c01-46f0-a2d3-1f9f8b7e9872",
-                  "type": "page",
-                  "field": "summaryAnswers",
-                  "errorCode": "ERR_NO_ANSWERS",
-                  "__typename": "ValidationError"
-                },
-                {
-                  "id": "ad258e9d-32d2-439b-a59a-c40e7a87dfef",
-                  "type": "page",
-                  "field": "title",
-                  "errorCode": "ERR_VALID_REQUIRED",
-                  "__typename": "ValidationError"
-                }
-              ],
-              "totalCount": 2,
-              "__typename": "ValidationErrorInfo"
-            },
-            "__typename": "CalculatedSummaryPage"
           }
         ],
         "validationErrorInfo": {

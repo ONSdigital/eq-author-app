@@ -861,7 +861,7 @@ describe("QuestionnairesView", () => {
       });
 
       it("should show a message when there are no results found", () => {
-        const { getByLabelText, queryByText, debug } = render(
+        const { getByLabelText, queryByText } = render(
           <QuestionnairesView {...props} />
         );
 

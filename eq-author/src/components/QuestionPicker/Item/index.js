@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+import { colors, focusStyle } from "constants/theme";
 
 const ListItem = styled.li`
   list-style: none;
@@ -30,12 +30,21 @@ const Item = styled.div`
     background-color: ${colors.lighterGrey};
   }
 
+  &:focus {
+    ${focusStyle}
+  }
+
   ${({ unselectable }) =>
     unselectable &&
     `
     cursor: default;
     &:hover {
         background-color: transparent;
+    }
+
+    &:focus{
+      outline: none;
+      box-shadow: none;
     }
   `}
 
@@ -110,6 +119,12 @@ const WrappedItem = ({
   children,
   dataTest,
 }) => {
+  const onEnterUp = (keyCode, callback) => {
+    if (keyCode === 13) {
+      callback();
+    }
+  };
+
   return (
     <ListItem data-test={dataTest}>
       <Item
@@ -117,8 +132,9 @@ const WrappedItem = ({
         className={`${variant}`}
         aria-selected={selected}
         unselectable={unselectable}
-        tabIndex={0}
+        tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
+        onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
         {variant !== "heading" && (
