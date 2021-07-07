@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import QuestionPicker from "components/QuestionPicker";
 
@@ -18,7 +19,7 @@ function createUnorderedList(list, bulletChar) {
   return result;
 }
 
-const Template = ({ isOpen, onClose, ...rest }) => {
+const Template = ({ isOpen, ...rest }) => {
   const [modalIsOpen, setModalIsOpen] = useState(isOpen);
 
   return (
@@ -31,6 +32,9 @@ const Template = ({ isOpen, onClose, ...rest }) => {
       />
     </>
   );
+};
+Template.propTypes = {
+  isOpen: PropTypes.bool,
 };
 
 export const Default = Template.bind({});

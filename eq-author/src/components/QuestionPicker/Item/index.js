@@ -3,21 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
-const ListItem = styled.li`
-  list-style: none;
-  margin: 0
-  padding: 0;
-
-  ol.sublist li *,
-  ul.sublist li * {
-      padding-left: 2rem;
-  }
-
-  &${Item}:first-of-type .heading {
-    border-top: 1px solid ${colors.lightGrey};
-  }
-`;
-
 const Item = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,6 +64,21 @@ const Item = styled.div`
             color: ${colors.white};
         }
     `}
+`;
+
+const ListItem = styled.li`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  ol.sublist li *,
+  ul.sublist li * {
+    padding-left: 2rem;
+  }
+
+  &${Item}:first-of-type .heading {
+    border-top: 1px solid ${colors.lightGrey};
+  }
 `;
 const Heading = styled.h3`
   font-size: 1em;
@@ -142,15 +142,22 @@ const WrappedItem = ({
             {icon} {title}
           </Title>
         )}
-        {variant == "heading" && <Heading>{title}</Heading>}
+        {variant === "heading" && <Heading>{title}</Heading>}
       </Item>
       {children}
     </ListItem>
   );
 };
-
 WrappedItem.propTypes = {
+  icon: PropTypes.node,
   unselectable: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+  variant: PropTypes.string,
+  selected: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+  dataTest: PropTypes.string,
 };
 
 export default WrappedItem;

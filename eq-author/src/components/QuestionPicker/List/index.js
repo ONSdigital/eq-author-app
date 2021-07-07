@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { colors } from "constants/theme";
-
-import Item from "../Item";
+import PropTypes from "prop-types";
 
 const OrderedList = styled.ol`
   padding: 0;
@@ -11,6 +9,10 @@ const OrderedList = styled.ol`
 
 const List = ({ children, className }) => {
   return <OrderedList className={className}>{children}</OrderedList>;
+};
+List.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
 };
 
 export default List;
