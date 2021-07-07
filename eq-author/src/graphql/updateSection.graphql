@@ -8,6 +8,8 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     displayName
     introductionTitle
     introductionContent
+    requiredCompleted
+    showOnHub
     validationErrorInfo {
       ...ValidationErrorInfo
     }
