@@ -1,12 +1,14 @@
-//This is an auto-generated file.  Do NOT modify the method signature.
 module.exports = function addSectionHubSettings(questionnaire) {
   questionnaire.sections.forEach((section) => {
-    if (!section.requiredCompleted || section.requiredCompleted === undefined || section.requiredCompleted === null) {
+    console.log('section :>> ', section);
+    if (section.requiredCompleted === undefined || section.requiredCompleted === null) {
       section.requiredCompleted = false;
     }
-    if (!section.showOnHub || section.showOnHub === undefined || section.showOnHub === null) {
+    if (section.showOnHub === undefined || section.showOnHub === null) {
       section.showOnHub = true;
     }
+    console.log('section : after >> ', section);
+
   });
 
   return questionnaire;

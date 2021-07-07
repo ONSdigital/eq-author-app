@@ -1,7 +1,6 @@
-const { get } = require("lodash");
 const addSectionHubSettings = require("./addSectionHubSettings");
 
-describe("addOptionalFieldProperties", () => {
+describe("addSectionHubSettings", () => {
   let questionnaire;
   beforeEach(() => {
     questionnaire = {
@@ -16,15 +15,32 @@ describe("addOptionalFieldProperties", () => {
     };
   });
 
-  it("should enable optional field when description has content", () => {
-
+  it("should add requiredCompleted: false and showOnHub: true to each section if they don't exist", () => {
     expect(addSectionHubSettings(questionnaire)).toMatchObject({
-      // questionnaire: {
         sections: [
           {
           id: "section1",
           requiredCompleted: false,
           showOnHub: true,
+        },
+        {
+          id: "section2",
+          requiredCompleted: false,
+          showOnHub: true,
+        }
+      ]
+    });
+  });
+
+  it("should not make any changes to requiredCompleted or showOnHub if they already exist in a section", () => {
+    questionnaire.sections[0].requiredCompleted = true;
+    questionnaire.sections[0].showOnHub = false;
+    expect(addSectionHubSettings(questionnaire)).toMatchObject({
+        sections: [
+          {
+          id: "section1",
+          requiredCompleted: true,
+          showOnHub: false,
         },
         {
           id: "section2",
