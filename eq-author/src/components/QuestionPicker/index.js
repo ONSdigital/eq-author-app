@@ -111,7 +111,7 @@ const Folder = ({ folder }) => {
     );
   }
 
-  return null;
+  return <React.Fragment />;
 };
 
 const Section = ({ section }) => {
