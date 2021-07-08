@@ -42,6 +42,7 @@ export const Wizard = ({
   onCancel,
   onBack,
   children,
+  confirmEnabled = true,
 }) => {
   return (
     <StyledModal isOpen={isOpen} onClose={onCancel} hasCloseButton>
@@ -53,6 +54,7 @@ export const Wizard = ({
           primaryActionText={confirmText}
           secondaryAction={onCancel}
           secondaryActionText={cancelText}
+          primaryEnabled={confirmEnabled}
         />
       </Footer>
     </StyledModal>
@@ -67,6 +69,7 @@ Wizard.propTypes = {
   onCancel: PropTypes.func,
   onBack: PropTypes.func,
   children: PropTypes.node,
+  confirmEnabled: PropTypes.bool,
 };
 
 const Heading = styled.h2`

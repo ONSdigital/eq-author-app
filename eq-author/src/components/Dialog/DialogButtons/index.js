@@ -24,20 +24,36 @@ const DialogActionButtons = (props) => {
     secondaryActionText,
     tertiaryAction,
     tertiaryActionText,
+    primaryEnabled = true,
+    secondaryEnabled = true,
+    tertiaryEnabled = true,
   } = props;
 
   return (
     <StyledButtonGroup>
-      <ActionButton variant="primary" onClick={primaryAction} autoFocus>
+      <ActionButton
+        variant="primary"
+        onClick={primaryAction}
+        autoFocus
+        disabled={!primaryEnabled}
+      >
         {primaryActionText}
       </ActionButton>
       {secondaryAction && (
-        <ActionButton variant="secondary" onClick={secondaryAction}>
+        <ActionButton
+          variant="secondary"
+          onClick={secondaryAction}
+          disabled={!secondaryEnabled}
+        >
           {secondaryActionText}
         </ActionButton>
       )}
       {tertiaryAction && (
-        <ActionButton variant="secondary" onClick={tertiaryAction}>
+        <ActionButton
+          variant="secondary"
+          onClick={tertiaryAction}
+          disabled={!tertiaryEnabled}
+        >
           {tertiaryActionText}
         </ActionButton>
       )}
@@ -52,6 +68,9 @@ DialogActionButtons.propTypes = {
   secondaryActionText: PropTypes.string,
   tertiaryAction: PropTypes.func,
   tertiaryActionText: PropTypes.string,
+  primaryEnabled: PropTypes.bool,
+  secondaryEnabled: PropTypes.bool,
+  tertiaryEnabled: PropTypes.bool,
 };
 
 export default DialogActionButtons;

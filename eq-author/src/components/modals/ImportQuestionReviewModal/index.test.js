@@ -31,6 +31,8 @@ describe("Import questions review modal", () => {
     );
 
     expect(screen.queryByText(/No questions selected/)).toBeTruthy();
+    // Import button should be disabled when no questions selected
+    expect(screen.getByText(/^Import$/)).toBeDisabled();
 
     userEvent.click(screen.queryByText(/Select questions/));
 
@@ -65,7 +67,10 @@ describe("Import questions review modal", () => {
         onBack={jest.fn()}
       />
     );
+
     userEvent.click(screen.queryByText(/Select questions/));
+
+    // Import button enabled / clickable when questions selected
     userEvent.click(screen.queryByText(/^Import$/));
 
     expect(mockHandleConfirm).toHaveBeenCalledWith(mockQuestions);

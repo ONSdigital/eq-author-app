@@ -107,6 +107,7 @@ const ImportQuestionReviewModal = ({
       onConfirm={() => onConfirm(selectedQuestions)}
       onCancel={onCancel}
       onBack={onBack}
+      confirmEnabled={Boolean(selectedQuestions.length)}
     >
       <Header>
         <Heading> Import questions from {questionnaire.title} </Heading>
@@ -120,7 +121,9 @@ const ImportQuestionReviewModal = ({
         {selectedQuestions.length ? (
           <>
             <SpacedRow>
-              <ContentHeading> Questions to import </ContentHeading>
+              <ContentHeading>
+                Question{selectedQuestions.length > 1 ? "s" : ""} to import
+              </ContentHeading>
               <RemoveAllButton onClick={handleRemoveAll}>
                 Remove all
               </RemoveAllButton>
@@ -134,7 +137,7 @@ const ImportQuestionReviewModal = ({
             ))}
           </>
         ) : (
-          <ContentHeading> No questions selected </ContentHeading>
+          <ContentHeading> No questions selected. </ContentHeading>
         )}
         <Button onClick={handleSelectQuestions}>Select questions</Button>
       </Content>
