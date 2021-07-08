@@ -5,7 +5,7 @@ import { render } from "tests/utils/rtl";
 import QuestionPicker from ".";
 import mockSections from "../../tests/mocks/mockSections.json";
 
-describe.only("QuestionPicker", () => {
+describe("QuestionPicker", () => {
   const defaultProps = {
     title: "Select the question(s) to import",
     isOpen: true,
