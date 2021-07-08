@@ -1,0 +1,8 @@
+mutation deleteAllDisplayConditions($input: DisplayConditionInput!) {
+  deleteDisplayConditions(input: $input) {
+    id
+    displayConditions {
+      id
+    }
+  }
+}

@@ -35,8 +35,10 @@ const Paragraph = styled.p`
 `;
 
 export const DisplayPageContent = ({ section }) => {
-  const [useCreateDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION, {
-    variables: { input: { sectionId: section.id } },
+  const { id } = section;
+
+  const [createDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION, {
+    variables: { input: { sectionId: id } },
   });
 
   return (
@@ -50,11 +52,15 @@ export const DisplayPageContent = ({ section }) => {
           }
         >
           {section.displayConditions ? (
-            <DisplayEditor display={section.displayConditions} />
+            <DisplayEditor
+              onAddDisplay={createDisplayCondition}
+              displayConditions={section.displayConditions}
+              sectionId={id}
+            />
           ) : (
             <Panel>
               <NoDisplayLogic
-                onAddDisplay={useCreateDisplayCondition}
+                onAddDisplay={createDisplayCondition}
                 data-test="display-conditions-empty"
               >
                 <Title>{messages.NO_LOGIC_EXISTS}</Title>

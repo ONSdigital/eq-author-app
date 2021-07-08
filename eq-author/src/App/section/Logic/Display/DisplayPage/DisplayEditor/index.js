@@ -1,27 +1,15 @@
 import React from "react";
-import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
-// import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
+import { colors } from "constants/theme";
 
 import Transition from "components/transitions/BounceTransition";
-// import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
+import DisplayConditionEditor from "./RuleEditor/DisplayConditionEditor";
 
-// import transformNestedFragments from "utils/transformNestedFragments";
-
-// import fragment from "./fragment.graphql";
-// import withUpdateRouting from "./withUpdateRouting";
-// import withCreateRule from "./withCreateRule";
-// import RuleEditor from "./RuleEditor";
-
-export const LABEL_IF = "IF";
-export const LABEL_ELSE = "Else";
-export const LABEL_ELSE_IF = "ELSE IF";
-
-const AddRuleButton = styled(Button)`
+const AddDisplayConditionButton = styled(Button)`
   display: block;
   margin: 2em auto;
   padding: 0.8em 2em;
@@ -29,54 +17,49 @@ const AddRuleButton = styled(Button)`
   border-width: 2px;
 `;
 
-const DisplayEditor = ({ display, updateDisplay, createRule }) => {
-  //   const handleAddClick = () => {
-  //     createRule(display.id);
-  //   };
+const Footer = styled.div`
+  padding: 0.5em 1em;
+  margin-top: -1px;
+  border-bottom: 3px solid ${colors.primary};
+  border-left: 1px solid ${colors.lightMediumGrey};
+  border-right: 1px solid ${colors.lightMediumGrey};
+  display: flex;
+  align-items: center;
+`;
 
-  //   handleElseChange = (destination) => {
-  //     this.props.updateRouting({
-  //       display,
-  //       else: destination,
-  //     });
-  //   };
-
+const DisplayEditor = ({ onAddDisplay, displayConditions, sectionId }) => {
   return (
     <>
-      {/* <TransitionGroup component={null}>
-        {display.rules.map((rule, index) => (
-          <Transition key={rule.id}>
-            <RuleEditor
-              rule={rule}
-              key={rule.id}
-              ifLabel={index > 0 ? LABEL_ELSE_IF : LABEL_IF}
+      <TransitionGroup>
+        {displayConditions.map((expressionGroup, index) => (
+          <Transition key={expressionGroup.id}>
+            <DisplayConditionEditor
+              sectionId={sectionId}
+              noun={"Test"}
+              expressionGroupIndex={index}
+              expressionGroup={expressionGroup}
+              key={expressionGroup.id}
             />
           </Transition>
         ))}
-      </TransitionGroup> */}
-      <AddRuleButton
+      </TransitionGroup>
+      <Footer />
+      <AddDisplayConditionButton
         variant="secondary"
         small
-        // onClick={handleAddClick}
-        data-test="btn-add-rule"
+        onClick={onAddDisplay}
+        data-test="btn-add-display-condition"
       >
-        Add rule
-      </AddRuleButton>
-
-      {/* <DestinationSelector
-        id="else"
-        label={LABEL_ELSE}
-        value={display?.else}
-        // onChange={handleElseChange}
-        data-test="select-else"
-      /> */}
+        Add OR statement
+      </AddDisplayConditionButton>
     </>
   );
 };
 
 DisplayEditor.propTypes = {
-  updateDisplay: PropTypes.func.isRequired,
-  createRule: PropTypes.func.isRequired,
+  sectionId: PropTypes.string.isRequired,
+  noun: PropTypes.string,
+  displayConditions: PropTypes.object.isRequired, //eslint-disable-line
 };
 
 export default DisplayEditor;
