@@ -126,6 +126,7 @@ const ImportQuestionReviewModal = ({
             {selectedQuestions.map((question, index) => (
               <QuestionRow
                 question={question}
+                key={index}
                 onRemove={() => removeQuestionAtIndex(index)}
               />
             ))}
