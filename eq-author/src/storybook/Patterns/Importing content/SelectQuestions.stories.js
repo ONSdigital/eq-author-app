@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import QuestionPicker from "components/QuestionPicker";
 
-import mockSections from "./mockSections.json";
+import mockSections from "../../../tests/mocks/mockSections.json";
 
 export default {
   title: "Patterns/Importing content/Select questions",
