@@ -1,5 +1,5 @@
 const { getExpressions } = require("../schema/resolvers/utils");
-const removeExpressionLeftId = require("./removeExpressionLeftId.js");
+const updateExpressionSchema = require("./updateExpressionSchema");
 
 const questionnaire = {
   sections: [
@@ -28,6 +28,17 @@ const questionnaire = {
                             type: "Answer",
                             answerId: "434",
                           },
+                          right: {
+                            options: [
+                              {
+                                id: "176",
+                              },
+                              {
+                                id: "177",
+                              },
+                            ],
+                            optionIds: ["176", "177"],
+                          },
                         },
                       ],
                     },
@@ -42,14 +53,16 @@ const questionnaire = {
   ],
 };
 
-describe("Migration: remove obsolete left ID, typename, options from left side of expression group", () => {
-  it("should remove ID, typename and options from expression group's lhs", () => {
+describe("Migration: update expression schema to avoid using `options` and duplicated IDs", () => {
+  it("should remove ID, typename and options from expression group's lhs, options from rhs", () => {
     const newExpressions = getExpressions({
-      questionnaire: removeExpressionLeftId(questionnaire),
+      questionnaire: updateExpressionSchema(questionnaire),
     });
     expect(newExpressions[0].left.id).toBeUndefined();
     expect(newExpressions[0].left._typename).toBeUndefined();
     expect(newExpressions[0].left.options).toBeUndefined();
     expect(newExpressions[0].left.answerId).toBe("434");
+    expect(newExpressions[0].right.options).toBeUndefined();
+    expect(newExpressions[0].right.optionIds).toStrictEqual(["176", "177"]);
   });
 });

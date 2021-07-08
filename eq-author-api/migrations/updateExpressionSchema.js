@@ -5,6 +5,7 @@ module.exports = (questionnaire) => {
     delete expression.left.id;
     delete expression.left.__typename;
     delete expression.left.options;
+    delete expression.right.options;
   });
 
   return questionnaire;
