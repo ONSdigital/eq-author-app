@@ -1,4 +1,5 @@
-import React, { useMutation } from "react";
+import React from "react";
+import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
@@ -115,6 +116,7 @@ const DisplayConditionEditor = ({
       <Expressions>
         <TransitionGroup>
           {expressionGroup.expressions.map((expression, index) => {
+            console.log("expression " + expression);
             const component = (
               <Transition key={expression.id}>
                 <BinaryExpressionEditor
