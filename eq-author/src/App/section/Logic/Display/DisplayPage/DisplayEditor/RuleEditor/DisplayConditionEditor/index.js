@@ -86,8 +86,10 @@ const DisplayConditionEditor = ({
       <RemoveDisplayConditionButton
         onClick={() =>
           deleteAllDisplayConditions({
-            input: {
-              sectionId,
+            variables: {
+              input: {
+                sectionId,
+              },
             },
           })
         }
@@ -98,21 +100,32 @@ const DisplayConditionEditor = ({
     </Header>
   );
 
-  const middle = (
+  const MiddleOr = ({ expressionGroupId }) => (
     <Middle>
       <Label inline>{LABEL_OR}</Label>
       <RemoveDisplayConditionButton
-        onClick={deleteOneDisplayCondition}
+        onClick={() =>
+          deleteOneDisplayCondition({
+            variables: {
+              input: {
+                id: expressionGroupId,
+              },
+            },
+          })
+        }
         data-test="btn-remove-display-condition"
       >
         {LABEL_REMOVE_GROUP}
       </RemoveDisplayConditionButton>
     </Middle>
   );
-
   return (
     <div data-test="display-condition" className={className}>
-      {expressionGroupIndex > 0 ? middle : header}
+      {expressionGroupIndex > 0 ? (
+        <MiddleOr expressionGroupId={expressionGroup.id} />
+      ) : (
+        header
+      )}
       <Expressions>
         <TransitionGroup>
           {expressionGroup.expressions.map((expression, index) => {
