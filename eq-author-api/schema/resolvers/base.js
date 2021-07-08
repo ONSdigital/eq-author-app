@@ -1102,7 +1102,8 @@ const Resolvers = {
     deleteDisplayCondition: createMutation((_, { input }, ctx) => {
       const parent = getSections(ctx).find(
         ({ displayConditions }) =>
-          displayConditions && displayConditions.find(({ id }) => id === id)
+          displayConditions &&
+          displayConditions.find(({ id }) => id === input.id)
       );
 
       parent.displayConditions.splice(
