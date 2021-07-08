@@ -1,6 +1,7 @@
 const { filter, find, flatMap, some } = require("lodash");
 const { getPages, getPageById } = require("./pageGetters");
 const { getFolders, getFolderById } = require("./folderGetters");
+const { getSections } = require("./sectionGetters");
 const { getConfirmations, getConfirmationById } = require("./pageGetters");
 
 const getRouting = (ctx) =>
@@ -31,6 +32,9 @@ const getSkipConditionById = (ctx, id) => {
   return find(skipConditions, { id });
 };
 
+const getDisplayConditions = (ctx) =>
+  flatMap(filter(getSections(ctx), "displayConditions"), "displayConditions");
+
 const getExpressionGroups = (ctx) =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
@@ -55,12 +59,20 @@ const getExpressions = (ctx) => {
     filter(getExpressionGroups(ctx), "expressions"),
     "expressions"
   );
+
   const skipConditionExpressions = flatMap(
     filter(getSkipConditions(ctx), "expressions"),
     "expressions"
   );
+  const displayConditionExpressions = flatMap(
+    getDisplayConditions(ctx).map(({ expressions }) => expressions)
+  );
 
-  return [...routingExpressions, ...skipConditionExpressions];
+  return [
+    ...routingExpressions,
+    ...skipConditionExpressions,
+    ...displayConditionExpressions,
+  ];
 };
 
 const getExpressionById = (ctx, id) => find(getExpressions(ctx), { id });
