@@ -28,16 +28,16 @@ const DialogActionButtons = (props) => {
 
   return (
     <StyledButtonGroup>
-      <ActionButton primary onClick={primaryAction} autoFocus>
+      <ActionButton variant="primary" onClick={primaryAction} autoFocus>
         {primaryActionText}
       </ActionButton>
       {secondaryAction && (
-        <ActionButton secondary onClick={secondaryAction}>
+        <ActionButton variant="secondary" onClick={secondaryAction}>
           {secondaryActionText}
         </ActionButton>
       )}
       {tertiaryAction && (
-        <ActionButton tertiary onClick={tertiaryAction}>
+        <ActionButton variant="secondary" onClick={tertiaryAction}>
           {tertiaryActionText}
         </ActionButton>
       )}
