@@ -49,11 +49,10 @@ const RemoveAllButton = styled.button`
   font-size: 1em;
 `;
 
-const dummyQuestions = [
-  { alias: "Q1", title: "How many roads must a man walk down?" },
-  { alias: "Q2", title: "What is the airspeed velocity of a swallow?" },
-  { alias: "Q3", title: "What is your favourite colour?" },
-];
+const ContentHeading = styled.h4`
+  margin: 1em 0;
+  color: ${colors.textLight};
+`;
 
 const QuestionRow = ({ question: { alias, title }, onRemove }) => {
   return (
@@ -73,10 +72,13 @@ const QuestionRow = ({ question: { alias, title }, onRemove }) => {
   );
 };
 
-const ContentHeading = styled.h4`
-  margin: 1em 0;
-  color: ${colors.textLight};
-`;
+QuestionRow.propTypes = {
+  question: PropTypes.shape({
+    alias: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
+  onRemove: PropTypes.func.isRequired,
+};
 
 const ImportQuestionReviewModal = ({
   isOpen,
@@ -138,6 +140,17 @@ const ImportQuestionReviewModal = ({
       </Content>
     </Wizard>
   );
+};
+
+ImportQuestionReviewModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onSelectQuestions: PropTypes.func.isRequired,
+  questionnaire: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }),
 };
 
 export default ImportQuestionReviewModal;

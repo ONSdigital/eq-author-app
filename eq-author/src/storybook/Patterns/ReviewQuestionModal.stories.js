@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ImportQuestionReviewModal from "components/modals/ImportQuestionReviewModal";
 import useModal from "hooks/useModal";
 
