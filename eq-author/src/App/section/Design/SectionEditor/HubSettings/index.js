@@ -94,7 +94,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
           </InlineField>
         </EnableDisableWrapper>
         <Caption>
-        If this is set to no, respondents cannot go back to this section and change their answers.
+        If this is off, respondents cannot go back to this section and change their answers.
         </Caption>
       </Collapsible>
   );
