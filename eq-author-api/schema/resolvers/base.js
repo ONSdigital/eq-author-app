@@ -1099,6 +1099,23 @@ const Resolvers = {
 
       return section;
     }),
+    deleteDisplayCondition: createMutation((_, { input }, ctx) => {
+      const parent = getSections(ctx).find(
+        ({ displayConditions }) =>
+          displayConditions && displayConditions.find(({ id }) => id === id)
+      );
+
+      parent.displayConditions.splice(
+        parent.displayConditions.findIndex(({ id }) => id === input.id),
+        1
+      );
+
+      if (parent.displayConditions.length === 0) {
+        delete parent.displayConditions;
+      }
+
+      return parent;
+    }),
     deleteDisplayConditions: createMutation((_, { input }, ctx) => {
       const { sectionId } = input;
 

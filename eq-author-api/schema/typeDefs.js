@@ -837,11 +837,16 @@ type Mutation {
   deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
   deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
   createDisplayCondition(input: DisplayConditionInput!): Section
+  deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
 }
 
 input DisplayConditionInput {
   sectionId: ID!
+}
+
+input DeleteDisplayConditionInput {
+  id: ID!
 }
 
 input CreateRouting2Input {
