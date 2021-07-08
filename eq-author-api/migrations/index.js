@@ -21,6 +21,7 @@ const migrations = [
   require("./addThemeSettings"),
   require("./copyLegalBasisToThemes"),
   require("./addSectionHubSettings"),
+  require("./removeExpressionLeftId"),
 ];
 
 const currentVersion = migrations.length;
