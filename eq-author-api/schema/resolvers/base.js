@@ -1099,7 +1099,7 @@ const Resolvers = {
 
       return section;
     }),
-    deleteDisplayCondition: createMutation((_, { input }, ctx) => {
+    deleteDisplayConditions: createMutation((_, { input }, ctx) => {
       const { sectionId } = input;
 
       const section = getSectionById(ctx, sectionId);

@@ -837,7 +837,7 @@ type Mutation {
   deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
   deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
   createDisplayCondition(input: DisplayConditionInput!): Section
-  deleteDisplayCondition(input: DisplayConditionInput!): Section
+  deleteDisplayConditions(input: DisplayConditionInput!): Section
 }
 
 input DisplayConditionInput {
