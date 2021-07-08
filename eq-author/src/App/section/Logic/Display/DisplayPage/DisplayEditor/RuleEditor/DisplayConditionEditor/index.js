@@ -63,7 +63,7 @@ const RemoveDisplayConditionButton = styled(Button).attrs({
 
 const DisplayConditionEditor = ({
   sectionId,
-  noun = "question",
+  noun,
   expressionGroup,
   expressionGroupIndex,
   className,
@@ -78,7 +78,7 @@ const DisplayConditionEditor = ({
 
   const existingRadioConditions = {};
 
-  const labelGroupTitle = `Skip this ${noun}`;
+  const labelGroupTitle = `Display this ${noun}`;
 
   const header = (
     <Header>
@@ -116,7 +116,6 @@ const DisplayConditionEditor = ({
       <Expressions>
         <TransitionGroup>
           {expressionGroup.expressions.map((expression, index) => {
-            console.log("expression " + expression);
             const component = (
               <Transition key={expression.id}>
                 <BinaryExpressionEditor
@@ -148,6 +147,10 @@ DisplayConditionEditor.propTypes = {
   expressionGroup: PropTypes.object.isRequired, //eslint-disable-line
   expressionGroupIndex: PropTypes.number.isRequired,
   className: PropTypes.string,
+};
+
+DisplayConditionEditor.defaultProps = {
+  noun: "section",
 };
 
 export default DisplayConditionEditor;

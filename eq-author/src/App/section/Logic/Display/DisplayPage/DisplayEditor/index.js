@@ -35,7 +35,6 @@ const DisplayEditor = ({ onAddDisplay, displayConditions, sectionId }) => {
           <Transition key={expressionGroup.id}>
             <DisplayConditionEditor
               sectionId={sectionId}
-              noun={"Test"}
               expressionGroupIndex={index}
               expressionGroup={expressionGroup}
               key={expressionGroup.id}
