@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import useModal from "hooks/useModal";
 import Wizard, {
   Header,
   Heading,
@@ -15,7 +16,19 @@ import {
   PRIMARY_STORY,
 } from "@storybook/addon-docs/blocks";
 
-const Template = (args) => <Wizard {...args} />;
+const Template = (args) => {
+  const [trigger, Modal] = useModal({
+    ...args,
+    component: Wizard,
+  });
+
+  return (
+    <>
+      <Modal />
+      <button onClick={trigger}>Trigger modal</button>
+    </>
+  );
+};
 
 export const WizardModal = Template.bind({});
 WizardModal.args = {
