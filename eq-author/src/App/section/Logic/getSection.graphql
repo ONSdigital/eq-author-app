@@ -1,3 +1,4 @@
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
 query GetSection($input: QueryInput!) {
   section(input: $input) {
     questionnaire {
@@ -9,6 +10,9 @@ query GetSection($input: QueryInput!) {
     introductionContent
     displayConditions {
       id
+      expressions {
+        ...BinaryExpressionEditor
+      }
     }
   }
 }
