@@ -16,7 +16,7 @@ import {
   PRIMARY_STORY,
 } from "@storybook/addon-docs/blocks";
 
-const Template = (args) => {
+export const Default = (args) => {
   const [trigger, Modal] = useModal({
     ...args,
     component: Wizard,
@@ -30,8 +30,7 @@ const Template = (args) => {
   );
 };
 
-export const WizardModal = Template.bind({});
-WizardModal.args = {
+Default.args = {
   confirmText: "Onward!",
   isOpen: true,
   children: (
@@ -72,7 +71,7 @@ WizardModal.args = {
 };
 
 export default {
-  title: "Patterns/Wizard Modal",
+  title: "Patterns/Modals/Wizard",
   component: Wizard,
   args: {
     isOpen: true,

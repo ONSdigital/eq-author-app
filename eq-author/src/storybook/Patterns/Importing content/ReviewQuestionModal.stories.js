@@ -39,7 +39,7 @@ Modal.args = {
 };
 
 export default {
-  title: "Patterns/Review questions modal",
+  title: "Patterns/Importing content/Review questions",
   component: Modal,
   args: {
     isOpen: true,
