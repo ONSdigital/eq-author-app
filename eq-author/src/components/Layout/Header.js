@@ -45,7 +45,7 @@ const StyledUserProfile = styled(UserProfile)`
   margin-right: 0.5em;
 `;
 
-const UserProfileWrapper = styled("div")`
+const UserProfileWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
