@@ -58,7 +58,8 @@ const DisplayEditor = ({ onAddDisplay, displayConditions, sectionId }) => {
 DisplayEditor.propTypes = {
   sectionId: PropTypes.string.isRequired,
   noun: PropTypes.string,
-  displayConditions: PropTypes.func.isRequired,
+  onAddDisplay: PropTypes.func.isRequired,
+  displayConditions: PropTypes.array.isRequired, //eslint-disable-line
 };
 
 export default DisplayEditor;
