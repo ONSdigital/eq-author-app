@@ -128,7 +128,7 @@ const Row = memo((props) => {
         }
       }
     },
-    [initialQcode, qCode, option, secondary, id]
+    [initialQcode, option, secondary, id, updateAnswer, updateOption]
   );
 
   return (

@@ -41,6 +41,15 @@ const Autocomplete = ({
   // builds a list of elements
   const comboElements = useRef(new Map());
 
+  // any filter function added needs to accept query as a param and return an array
+  const [filterOptions, categories] = React.useMemo(
+    () =>
+      filter && typeof filter === "function"
+        ? filter(options, query)
+        : [options.filter((option) => option.toLowerCase().includes(query))],
+    [query, options, filter]
+  );
+
   // Allow dynamically modifying the selected value from parent component
   useEffect(() => {
     setSelectedOption(defaultValue);
@@ -66,7 +75,7 @@ const Autocomplete = ({
       focusEl(comboElements.current.get(index));
       setSelectedIndex(index);
     },
-    [selectedIndex]
+    [selectedIndex, categories, filterOptions.length]
   );
 
   const onArrowUp = useCallback(
@@ -91,7 +100,7 @@ const Autocomplete = ({
     const selectedElement = comboElements.current.get(selectedIndex);
     setSelectedOption(selectedElement.innerText);
     updateOption(selectedElement);
-  }, [selectedIndex]);
+  }, [selectedIndex, updateOption]);
 
   const handleSelect = useCallback(
     (event) => {
@@ -99,7 +108,7 @@ const Autocomplete = ({
 
       onSelect();
     },
-    [selectedIndex, isOpen]
+    [onSelect]
   );
 
   const handleInputChange = useCallback(
@@ -110,7 +119,7 @@ const Autocomplete = ({
         setSelectedOption(null);
       }
     },
-    [setQuery, selectedOption, isOpen]
+    [setQuery, selectedOption]
   );
 
   const handleClick = useCallback(
@@ -121,22 +130,19 @@ const Autocomplete = ({
       updateOption(clickedElement);
       setQuery("");
     },
-    [selectedIndex, isOpen]
+    [updateOption]
   );
 
-  const handleOtherKeyDown = useCallback(
-    (event) => {
-      const inputElement = comboElements.current.get(-1);
-      const eventIsOnInput = event.target === inputElement;
-      if (!eventIsOnInput) {
-        // this resets list back to top
-        // check with Joe if this is okay
-        comboElements.current.has(1) && comboElements.current.get(1).focus();
-        inputElement.focus();
-      }
-    },
-    [isOpen]
-  );
+  const handleOtherKeyDown = useCallback((event) => {
+    const inputElement = comboElements.current.get(-1);
+    const eventIsOnInput = event.target === inputElement;
+    if (!eventIsOnInput) {
+      // this resets list back to top
+      // check with Joe if this is okay
+      comboElements.current.has(1) && comboElements.current.get(1).focus();
+      inputElement.focus();
+    }
+  }, []);
 
   const handleBlur = useCallback(
     (e) => {
@@ -149,7 +155,7 @@ const Autocomplete = ({
         setIsOpen(false);
       }
     },
-    [query, isOpen, selectedOption]
+    [selectedOption, updateOption]
   );
 
   const handleKeyDown = useCallback(
@@ -185,14 +191,22 @@ const Autocomplete = ({
         }
       }
     },
-    [query, selectedIndex, isOpen]
+    [
+      selectedIndex,
+      isOpen,
+      filterOptions.length,
+      handleOtherKeyDown,
+      handleSelect,
+      onArrowDown,
+      onArrowUp,
+    ]
   );
 
   useEffect(() => {
     if (selectedIndex >= 0) {
       setSelectedIndex(-1);
     }
-  }, [query, isOpen, selectedOption]);
+  }, [query, isOpen, selectedOption, selectedIndex]);
 
   // ------------------------------------------------------
   // provides hint to screen reader when query is empty
@@ -203,15 +217,6 @@ const Autocomplete = ({
   const tAssistiveHint = () =>
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
-
-  // any filter function added needs to accept query as a param and return an array
-  const [filterOptions, categories] = React.useMemo(
-    () =>
-      filter && typeof filter === "function"
-        ? filter(options, query)
-        : [options.filter((option) => option.toLowerCase().includes(query))],
-    [query, options]
-  );
 
   const results = React.useMemo(
     () =>
@@ -246,7 +251,7 @@ const Autocomplete = ({
           </ListItem>
         );
       }),
-    [query, options, filterOptions, categories, handleClick, selectedOption]
+    [filterOptions, categories, handleClick, selectedIndex]
   );
 
   return (

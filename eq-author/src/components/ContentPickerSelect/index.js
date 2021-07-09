@@ -101,17 +101,20 @@ const ContentPickerSelect = ({
       ? [answerData, selectedContentDisplayName]
       : [metadataData, selectedMetadataDisplayName];
 
-  const buildTitle = (selectedContent) =>
-    typeof selectedContent === "string" ? (
-      selectedContent
-    ) : (
-      <>
-        <ContentSelectedTitle ref={elementToTruncate}>
-          {formatTitle(selectedContent)}
-        </ContentSelectedTitle>
-        <span>{`${selectedContent.displayName}`}</span>
-      </>
-    );
+  const buildTitle = useCallback(
+    (selectedContent) =>
+      typeof selectedContent === "string" ? (
+        selectedContent
+      ) : (
+        <>
+          <ContentSelectedTitle ref={elementToTruncate}>
+            {formatTitle(selectedContent)}
+          </ContentSelectedTitle>
+          <span>{`${selectedContent.displayName}`}</span>
+        </>
+      ),
+    [elementToTruncate]
+  );
 
   const contentSelectButton = useCallback(
     () => (

@@ -34,7 +34,7 @@ export const Status = ({
       bump.current = !bump.current;
     }, 1500),
     []
-  );
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     debounced.current = false;

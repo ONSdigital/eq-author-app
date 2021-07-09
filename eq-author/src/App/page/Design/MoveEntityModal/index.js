@@ -102,7 +102,16 @@ const MoveEntityModal = ({
           />
         </MoveModal>
       ),
-    [selectedSection, questionnaire, selected, isOpen, entity]
+    [
+      selectedSection,
+      questionnaire,
+      selected,
+      isOpen,
+      entity,
+      handleMove,
+      onClose,
+      options,
+    ]
   );
 };
 
