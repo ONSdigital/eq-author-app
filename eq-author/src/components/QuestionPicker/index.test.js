@@ -74,7 +74,7 @@ describe("QuestionPicker", () => {
 
   describe("Testing the search UI", () => {
     it("Types pet into the search bar and returns the question Why do you not have pets?", () => {
-      const { getByText, getByTestId } = renderQuestionPicker({});
+      const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
 
       const searchBar =  getByTestId("search-bar");
 
@@ -83,10 +83,12 @@ describe("QuestionPicker", () => {
       });
   
       expect(getByText("Why do you not have any pets?")).toBeInTheDocument();
+      expect(queryByText("Do you have a car?")).not.toBeInTheDocument();
+
     });
 
     it("Types car into the search bar and returns the question Do you have a car && what colour car do you have?", () => {
-      const { getByText, getByTestId } = renderQuestionPicker({});
+      const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
 
       const searchBar =  getByTestId("search-bar");
 
@@ -96,6 +98,8 @@ describe("QuestionPicker", () => {
   
       expect(getByText("Do you have a car?")).toBeInTheDocument();
       expect(getByText("What colour car do you have?")).toBeInTheDocument();
+      expect(queryByText("Why do you not have any pets?")).not.toBeInTheDocument();
+
     });
 
     it("Doesnt show the search bar if showSearch is false", () => {
