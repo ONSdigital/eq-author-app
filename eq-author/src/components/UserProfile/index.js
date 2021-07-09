@@ -1,13 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
-import { withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
-
-import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
-import { withMe } from "App/MeContext";
+import { useMe } from "App/MeContext";
 
 import Tooltip from "components/Forms/Tooltip";
 import { colors } from "constants/theme";
@@ -56,56 +51,37 @@ export const NavLogoutButton = styled(Button)`
   text-align: centre;
 `;
 
-const UserProfile = ({ me, nav, signOut }) => {
+const UserProfile = ({ nav }) => {
+  const { me, signOut } = useMe();
+
   if (!me) {
     return null;
   }
+
   return (
     <Tooltip content="Sign Out">
-      <>
-        {nav && (
-          <NavLogoutButton
-            onClick={() => {
-              signOut();
-            }}
-            variant="navigation"
-            small
-          >
-            <IconText nav icon={signOutIcon}>
-              Sign out
-            </IconText>
-          </NavLogoutButton>
-        )}
-
-        {!nav && (
-          <LogoutButton
-            onClick={() => {
-              signOut();
-            }}
-            variant="tertiary-light"
-            small
-          >
-            <UserAvatar
-              src={me.picture || guestAvatar}
-              alt=""
-              role="presentation"
-            />
-            <UserName data-test="username">{me.displayName}</UserName>
-          </LogoutButton>
-        )}
-      </>
+      {nav ? (
+        <NavLogoutButton onClick={signOut} variant="navigation" small>
+          <IconText nav icon={signOutIcon}>
+            Sign out
+          </IconText>
+        </NavLogoutButton>
+      ) : (
+        <LogoutButton onClick={signOut} variant="tertiary-light" small>
+          <UserAvatar
+            src={me.picture || guestAvatar}
+            alt="Avatar"
+            role="presentation"
+          />
+          <UserName data-test="username">{me.displayName}</UserName>
+        </LogoutButton>
+      )}
     </Tooltip>
   );
 };
 
 UserProfile.propTypes = {
-  client: PropTypes.shape({
-    resetStore: PropTypes.func.isRequired,
-  }).isRequired,
-  me: CustomPropTypes.user,
-  left: PropTypes.bool,
-  signOut: PropTypes.func.isRequired,
   nav: PropTypes.bool,
 };
 
-export default flowRight(withApollo, withMe, withRouter)(UserProfile);
+export default UserProfile;
