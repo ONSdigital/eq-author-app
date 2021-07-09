@@ -30,7 +30,7 @@ describe("QuestionPicker", () => {
 
     });
 
-    describe("Function Firing ", () => {
+    describe("Functions Firing", () => {
       it("onSubmit Fires", () => {
         const { getByText } = renderQuestionPicker({});
 
@@ -39,6 +39,35 @@ describe("QuestionPicker", () => {
         fireEvent.click(selectButton);
 
         expect(defaultProps.onSubmit).toHaveBeenCalled();
+      });
+
+      it("onClose Fires", () => {
+        const { getByLabelText } = renderQuestionPicker({});
+
+        const closeButton = getByLabelText('Close');
+
+        fireEvent.click(closeButton);
+
+        // getByLabelText can also grab the aria label
+        expect(defaultProps.onClose).toHaveBeenCalled();
+      });
+    });
+
+    describe("Interaction testing", () => {
+      it("tests clicks on individual questions and registers the clicks", () => {
+        const { getByText } = renderQuestionPicker({});
+
+        // This is a bit strange of a test. I'm grabbing the aria attribute from the closest div
+        // and making an expectation on tha, since the aria is on the div, not the <p>. 
+        // Allows us to check the clicking interactions are
+        // firing, but there may be a better way of doing this.
+        const firstQuestion = getByText("1a").closest("div");
+        fireEvent.click(firstQuestion);
+        expect(firstQuestion.getAttribute("aria-selected")).toBe("true");
+
+
+        fireEvent.click(firstQuestion);
+        expect(firstQuestion.getAttribute("aria-selected")).toBe("false");
       });
 
     });
@@ -76,7 +105,7 @@ describe("QuestionPicker", () => {
         showSearch: false,
         warningPanel:
           "You cannot import folders but you can import any questions they contain.",
-        onSubmit: (selectedAnswers) => jest.fn(selectedAnswers),
+        onSubmit: jest.fn(),
         onClose: jest.fn(),
         startingSelectedQuestions: [],
         sections: mockSections,
@@ -89,8 +118,6 @@ describe("QuestionPicker", () => {
       const searchBar =  queryByTestId("search-bar");
 
       expect(searchBar).toBeNull();
-
-
     });
   });
 
