@@ -3,6 +3,7 @@ query GetSection($input: QueryInput!) {
   section(input: $input) {
     questionnaire {
       id
+      hub
     }
     id
     displayName

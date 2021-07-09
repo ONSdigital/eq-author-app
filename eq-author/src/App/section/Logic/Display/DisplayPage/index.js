@@ -35,7 +35,7 @@ const Paragraph = styled.p`
 `;
 
 export const DisplayPageContent = ({ section }) => {
-  const { id } = section;
+  const { id, questionnaire } = section;
 
   const [createDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION, {
     variables: { input: { sectionId: id } },
@@ -62,9 +62,14 @@ export const DisplayPageContent = ({ section }) => {
               <NoDisplayLogic
                 onAddDisplay={createDisplayCondition}
                 data-test="display-conditions-empty"
+                disabled={!questionnaire.hub}
               >
                 <Title>{messages.NO_LOGIC_EXISTS}</Title>
-                <Paragraph>{messages.DEFAULT_DISPLAY}</Paragraph>
+                {questionnaire.hub ? (
+                  <Paragraph>{messages.DEFAULT_DISPLAY}</Paragraph>
+                ) : (
+                  <Paragraph>{messages.HUB_ACTIVE}</Paragraph>
+                )}
               </NoDisplayLogic>
             </Panel>
           )}

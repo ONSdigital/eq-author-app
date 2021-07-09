@@ -33,7 +33,7 @@ const AddDisplayButton = styled(Button)`
 
 const NoDisplayLogic = ({
   onAddDisplay,
-  disabled = false,
+  disabled,
   children,
   ...otherProps
 }) => (
