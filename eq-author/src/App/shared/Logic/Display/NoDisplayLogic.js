@@ -53,7 +53,7 @@ const NoDisplayLogic = ({
 );
 
 NoDisplayLogic.propTypes = {
-  onAddDisplay: PropTypes.object, //eslint-disable-line
+  onAddDisplay: PropTypes.func,
   disabled: PropTypes.bool,
   children: PropTypes.node,
 };

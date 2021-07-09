@@ -9,6 +9,7 @@ query GetSection($input: QueryInput!) {
     displayName
     introductionTitle
     introductionContent
+    position
     displayConditions {
       id
       expressions {

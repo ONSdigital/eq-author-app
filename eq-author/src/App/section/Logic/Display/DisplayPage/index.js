@@ -14,14 +14,14 @@ import NoDisplayLogic from "App/shared/Logic/Display/NoDisplayLogic";
 import Panel from "components/Panel";
 import Transition from "components/transitions/BounceTransition";
 
-import { useQuestionnaire } from "components/QuestionnaireContext";
-
 const messages = {
   NO_LOGIC_EXISTS: "No display logic exists for this section",
-  HUB_ACTIVE:
+  HUB_INACTIVE:
     "You can only add display logic when hub navigation is turned on. You can turn on hub navigation in Settings.",
   DEFAULT_DISPLAY:
     "All respondents will see this section unless display logic is added. When you add display logic rules,  the section will only show to respondents if the conditions of any of the rules are met.",
+  FIRST_SECTION:
+    "You can't add display logic to the first section in a questionnaire",
 };
 
 const Title = styled.h2`
@@ -35,11 +35,13 @@ const Paragraph = styled.p`
 `;
 
 export const DisplayPageContent = ({ section }) => {
-  const { id, questionnaire } = section;
+  const { id, questionnaire, position } = section;
 
   const [createDisplayCondition] = useMutation(CREATE_DISPLAY_MUTATION, {
     variables: { input: { sectionId: id } },
   });
+
+  const isFirstSection = position === 0;
 
   return (
     <div data-test="display-page-content">
@@ -62,13 +64,18 @@ export const DisplayPageContent = ({ section }) => {
               <NoDisplayLogic
                 onAddDisplay={createDisplayCondition}
                 data-test="display-conditions-empty"
-                disabled={!questionnaire.hub}
+                disabled={!questionnaire.hub || isFirstSection}
               >
                 <Title>{messages.NO_LOGIC_EXISTS}</Title>
-                {questionnaire.hub ? (
+                {questionnaire.hub && !isFirstSection ? (
                   <Paragraph>{messages.DEFAULT_DISPLAY}</Paragraph>
+                ) : !questionnaire.hub ? (
+                  <Paragraph>{messages.HUB_INACTIVE}</Paragraph>
                 ) : (
-                  <Paragraph>{messages.HUB_ACTIVE}</Paragraph>
+                  questionnaire.hub &&
+                  isFirstSection && (
+                    <Paragraph>{messages.FIRST_SECTION}</Paragraph>
+                  )
                 )}
               </NoDisplayLogic>
             </Panel>
