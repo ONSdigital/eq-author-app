@@ -51,7 +51,7 @@ describe("Pre-hub section toggle", () => {
       expect(mockUseMutation).toBeCalledWith({
         variables: {
           input: {
-            id: props.id, requiredCompleted: true
+            id: props.id, requiredCompleted: true, showOnHub: true
           },
         },
       });
@@ -62,7 +62,7 @@ describe("Pre-hub section toggle", () => {
     it("should render Display section toggle ", async () => {
       const { getByText } = rtlRender(() => <HubSettings {...props} />);
     
-      expect(getByText("Display section in hub")).toBeInTheDocument();
+      expect(getByText("Show section on hub and summary pages")).toBeInTheDocument();
     });
 
     it("should render Display section toggle as disabled IF Pre-Hub toggle is OFF ", async () => {
