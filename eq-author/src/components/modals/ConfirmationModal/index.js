@@ -106,7 +106,7 @@ export const useConfirmationModal = ({ action, ...props }) => {
           onCancel={handleCancel}
         />
       ),
-      [props, action]
+      [props, handleCancel, handleConfirm, isOpen]
     ),
   };
 };

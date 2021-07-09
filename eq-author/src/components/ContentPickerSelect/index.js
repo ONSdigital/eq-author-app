@@ -125,7 +125,15 @@ const ContentPickerSelect = ({
         <ContentSelected>{buildTitle(contentSelectButtonText)}</ContentSelected>
       </ContentSelectButton>
     ),
-    [loading, contentSelectButtonText, error, disabled, hasError]
+    [
+      loading,
+      contentSelectButtonText,
+      error,
+      disabled,
+      hasError,
+      buildTitle,
+      otherProps,
+    ]
   );
 
   const handlePickerSubmit = (selected) => {
