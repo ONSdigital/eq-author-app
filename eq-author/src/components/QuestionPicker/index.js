@@ -176,16 +176,20 @@ const QuestionPicker = ({
     updateSelectedPages(startingSelectedQuestions);
   }, [startingSelectedQuestions]);
 
-  const filterList = (data, searchTerm) =>
-    data.map(({ folders, ...rest }) => ({
+
+  const filterList = (data, searchTerm) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+    return data.map(({ folders, ...rest }) => ({
       folders: folders.map(({ pages, ...rest }) => ({
         pages: pages.filter(({ displayName }) =>
-          displayName.includes(searchTerm)
+        displayName.toLowerCase().includes(lowerCaseSearchTerm)
         ),
         ...rest,
       })),
       ...rest,
     }));
+  };
 
   const handleCancel = () => {
     onClose();
