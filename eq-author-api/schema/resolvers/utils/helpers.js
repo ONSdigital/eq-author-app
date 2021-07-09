@@ -11,9 +11,15 @@ const generateOrderedIdMap = ({ questionnaire }) => {
       return;
     }
 
-    Object.keys(obj)
-      .sort()
-      .forEach((key) => traverseIds(obj[key]));
+    for (const key of Object.keys(obj)) {
+      if (key === "id") {
+        continue; // Process parent's ID after all children are processed
+      }
+
+      if (typeof obj[key] === "object") {
+        traverseIds(obj[key]);
+      }
+    }
 
     if (obj.id && typeof obj.id === "string") {
       map.set(obj.id, map.size);
@@ -28,8 +34,11 @@ const generateOrderedIdMap = ({ questionnaire }) => {
 // Only re-compute ordered ID hash map when necessary (different questionnaire / questionnaire has changed)
 const getOrderedIdMap = (ctx) => {
   if (getOrderedIdMap.lastInvokation) {
-    const { questionnaireId, updatedAt, result } =
-      getOrderedIdMap.lastInvokation;
+    const {
+      questionnaireId,
+      updatedAt,
+      result,
+    } = getOrderedIdMap.lastInvokation;
     if (
       ctx.questionnaire.id === questionnaireId &&
       ctx.questionnaire.updatedAt === updatedAt
