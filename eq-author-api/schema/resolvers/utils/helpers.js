@@ -1,6 +1,8 @@
 const deepMap = require("deep-map");
 const { v4: uuidv4 } = require("uuid");
 
+const collator = new Intl.Collator("en", { numeric: true });
+
 // Transforms questionnaire into a hash map, mapping IDs to absolute positions
 // Thereafter allows O(1) lookup to check if IDs exist & get their positions
 const generateOrderedIdMap = ({ questionnaire }) => {
@@ -12,7 +14,7 @@ const generateOrderedIdMap = ({ questionnaire }) => {
     }
 
     Object.keys(obj)
-      .sort()
+      .sort(collator.compare)
       .forEach((key) => traverseIds(obj[key]));
 
     if (obj.id && typeof obj.id === "string") {
