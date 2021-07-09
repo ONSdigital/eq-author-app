@@ -20,7 +20,7 @@ const sizes = {
 };
 
 const StyledDeleteButton = styled.button`
-  color: ${colors.white};
+  color: ${colors.secondary};
   border: none;
   background: transparent;
   cursor: pointer;

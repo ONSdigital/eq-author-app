@@ -11,7 +11,7 @@ export const IconDown = IconArrowDown;
 
 const Button = styled.button`
   display: block;
-  color: ${colors.white};
+  color: ${colors.secondary};
   border: none;
   padding: 0;
   padding-top: 0.3em;
