@@ -27,6 +27,7 @@ export const Status = ({
   const debounced = useRef(false);
   const bump = useRef(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncer = useCallback(
     debounce((content) => {
       setContent(content);
@@ -34,7 +35,7 @@ export const Status = ({
       bump.current = !bump.current;
     }, 1500),
     []
-  ); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   useEffect(() => {
     debounced.current = false;
