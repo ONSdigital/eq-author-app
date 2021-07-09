@@ -30,8 +30,11 @@ const generateOrderedIdMap = ({ questionnaire }) => {
 // Only re-compute ordered ID hash map when necessary (different questionnaire / questionnaire has changed)
 const getOrderedIdMap = (ctx) => {
   if (getOrderedIdMap.lastInvokation) {
-    const { questionnaireId, updatedAt, result } =
-      getOrderedIdMap.lastInvokation;
+    const {
+      questionnaireId,
+      updatedAt,
+      result,
+    } = getOrderedIdMap.lastInvokation;
     if (
       ctx.questionnaire.id === questionnaireId &&
       ctx.questionnaire.updatedAt === updatedAt
