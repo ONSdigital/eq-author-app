@@ -4,8 +4,6 @@ import CustomPropTypes from "custom-prop-types";
 
 import { useQuery } from "@apollo/react-hooks";
 
-import { getSectionById } from "utils/questionnaireUtils";
-
 import GET_SECTION from "../getSection.graphql";
 import DisplayPage from "./DisplayPage";
 import Logic from "..";

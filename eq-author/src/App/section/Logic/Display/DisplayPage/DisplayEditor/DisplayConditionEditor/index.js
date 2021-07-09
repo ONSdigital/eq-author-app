@@ -159,6 +159,7 @@ DisplayConditionEditor.propTypes = {
   noun: PropTypes.string,
   expressionGroup: PropTypes.object.isRequired, //eslint-disable-line
   expressionGroupIndex: PropTypes.number.isRequired,
+  expressionGroupId: PropTypes.string,
   className: PropTypes.string,
 };
 

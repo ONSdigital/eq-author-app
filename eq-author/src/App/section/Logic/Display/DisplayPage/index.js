@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 
 import { TransitionGroup } from "react-transition-group";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
 import CREATE_DISPLAY_MUTATION from "graphql/createDisplayCondition.graphql";
@@ -87,7 +86,7 @@ export const DisplayPageContent = ({ section }) => {
 };
 
 DisplayPageContent.propTypes = {
-  page: CustomPropTypes.page,
+  section: CustomPropTypes.section,
 };
 
 export default DisplayPageContent;

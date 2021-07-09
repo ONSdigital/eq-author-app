@@ -7,7 +7,7 @@ import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 
 import Transition from "components/transitions/BounceTransition";
-import DisplayConditionEditor from "./RuleEditor/DisplayConditionEditor";
+import DisplayConditionEditor from "./DisplayConditionEditor";
 
 const AddDisplayConditionButton = styled(Button)`
   display: block;
