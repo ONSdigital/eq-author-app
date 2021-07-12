@@ -182,8 +182,8 @@ const QuestionPicker = ({
 
     return data.map(({ folders, ...rest }) => ({
       folders: folders.map(({ pages, ...rest }) => ({
-        pages: pages.filter(({ displayName }) =>
-        displayName.toLowerCase().includes(lowerCaseSearchTerm)
+        pages: pages.filter(({ displayName, alias, title }) =>
+        `${alias ? alias : ""} ${title ? title : displayName}`.toLowerCase().includes(lowerCaseSearchTerm)
         ),
         ...rest,
       })),
