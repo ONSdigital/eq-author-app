@@ -225,14 +225,4 @@ describe("Question Picker", () => {
 
     expect(getByText("Allowed answer types:")).toBeTruthy();
   });
-
-  it("should allow optional search bar via props", () => {
-    props = {
-      ...props,
-      showSearch: true,
-    };
-    const { getByTestId } = renderContentPicker();
-
-    expect(getByTestId("search-bar")).toBeTruthy();
-  });
 });
