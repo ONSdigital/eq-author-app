@@ -20,8 +20,6 @@ describe("Logic page", () => {
       },
       id: "1",
       position: 1,
-      introductionTitle: "Test",
-      introductionContent: "Test",
     };
 
     me = {
@@ -33,8 +31,8 @@ describe("Logic page", () => {
     };
   });
 
-  it("should enable logic tab when section has an introduction title", () => {
-    const { debug } = render(
+  it("should disable preview tab when section has no introduction title or introduction content", () => {
+    const { getByTestId } = render(
       <MeContext.Provider value={{ me }}>
         <Logic section={section}>
           <p>Test</p>
@@ -45,6 +43,42 @@ describe("Logic page", () => {
         urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
       }
     );
-    debug();
+    expect(getByTestId("tabs-nav").querySelector("span")).toHaveTextContent(
+      "Preview"
+    );
+  });
+
+  it("should enable preview tab when section has introduction title", () => {
+    section.introductionTitle = "Test";
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me }}>
+        <Logic section={section}>
+          <p>Test</p>
+        </Logic>
+      </MeContext.Provider>,
+      {
+        route: `/q/${section.questionnaire.id}/section/${section.id}/logic`,
+        urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
+      }
+    );
+    expect(getByTestId("tabs-nav").querySelector("span")).toBeFalsy();
+    expect(getByTestId("preview")).toBeInTheDocument();
+  });
+
+  it("should enable preview tab when section has introduction content", () => {
+    section.introductionContent = "Test";
+    const { getByTestId } = render(
+      <MeContext.Provider value={{ me }}>
+        <Logic section={section}>
+          <p>Test</p>
+        </Logic>
+      </MeContext.Provider>,
+      {
+        route: `/q/${section.questionnaire.id}/section/${section.id}/logic`,
+        urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
+      }
+    );
+    expect(getByTestId("tabs-nav").querySelector("span")).toBeFalsy();
+    expect(getByTestId("preview")).toBeInTheDocument();
   });
 });
