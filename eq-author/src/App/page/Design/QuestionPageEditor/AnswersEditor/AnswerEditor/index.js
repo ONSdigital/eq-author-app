@@ -159,6 +159,7 @@ class AnswerEditor extends React.Component {
                 offset={{ top: 0, bottom: 10 }}
               >
                 <MoveButton
+                  color="white"
                   disabled={!this.props.canMoveUp}
                   onClick={this.props.onMoveUp}
                   data-test="btn-move-answer-up"
@@ -172,6 +173,7 @@ class AnswerEditor extends React.Component {
                 offset={{ top: 0, bottom: 10 }}
               >
                 <MoveButton
+                  color="white"
                   disabled={!this.props.canMoveDown}
                   onClick={this.props.onMoveDown}
                   data-test="btn-move-answer-down"
@@ -185,6 +187,7 @@ class AnswerEditor extends React.Component {
                 offset={{ top: 0, bottom: 10 }}
               >
                 <DeleteButton
+                  color="white"
                   size="medium"
                   onClick={this.handleDeleteAnswer}
                   aria-label="Delete answer"
