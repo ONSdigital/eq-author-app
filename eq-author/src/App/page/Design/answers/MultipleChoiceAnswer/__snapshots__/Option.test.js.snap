@@ -79,6 +79,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         place="top"
       >
         <MoveButton
+          color="secondary"
           data-test="btn-move-answer-up"
           disabled={true}
         >
@@ -96,6 +97,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         place="top"
       >
         <MoveButton
+          color="secondary"
           data-test="btn-move-answer-down"
           disabled={true}
         >
@@ -113,6 +115,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
       >
         <DeleteButton
           aria-label="Delete option"
+          color="secondary"
           data-test="btn-delete-option"
           disabled={true}
           onClick={[Function]}

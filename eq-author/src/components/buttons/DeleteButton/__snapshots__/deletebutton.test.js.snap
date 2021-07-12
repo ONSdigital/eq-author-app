@@ -3,7 +3,7 @@
 exports[`DeleteButton should render: large 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #FFFFFF;
+  color: #3B7A9E;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -31,6 +31,7 @@ exports[`DeleteButton should render: large 1`] = `
 <button
     aria-label="Delete"
     class="c0"
+    color="secondary"
     role="button"
     type="button"
   >
@@ -42,7 +43,7 @@ exports[`DeleteButton should render: large 1`] = `
 exports[`DeleteButton should render: medium 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #FFFFFF;
+  color: #3B7A9E;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -70,6 +71,7 @@ exports[`DeleteButton should render: medium 1`] = `
 <button
     aria-label="Delete"
     class="c0"
+    color="secondary"
     role="button"
     type="button"
   >
@@ -81,7 +83,7 @@ exports[`DeleteButton should render: medium 1`] = `
 exports[`DeleteButton should render: small 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #FFFFFF;
+  color: #3B7A9E;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -109,6 +111,7 @@ exports[`DeleteButton should render: small 1`] = `
 <button
     aria-label="Delete"
     class="c0"
+    color="secondary"
     role="button"
     type="button"
   >
