@@ -72,7 +72,6 @@ DeleteButton.defaultProps = {
 DeleteButton.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
   color: PropTypes.oneOf(["white", "secondary"]), 
-  size: PropTypes.string,
   type: PropTypes.string,
 };
 
