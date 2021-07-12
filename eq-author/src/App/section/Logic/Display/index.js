@@ -44,12 +44,6 @@ const DisplayLogicPage = ({ match }) => {
 DisplayLogicPage.propTypes = {
   data: PropTypes.shape({
     section: CustomPropTypes.section,
-    // propType(
-    // transformNestedFragments(
-    //   DisplayPage.fragments[0],
-    //   DisplayPage.fragments.slice(1)
-    // )
-    // )
   }),
   loading: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line
