@@ -2,29 +2,38 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Modal from "components/modals/Modal";
-import { colors, focusStyle } from "constants/theme";
+import { colors, focusStyle, getTextHoverStyle } from "constants/theme";
 import DialogButtons from "components/Dialog/DialogButtons";
 import Warning from "./Warning";
+import { ReactComponent as Chevron } from "assets/icon-chevron-left.svg";
+import { darken } from "polished";
 
 const BackButton = styled.button`
   position: relative;
+  top: -0.5em;
+  left: -0.25em;
+  font-weight: bold;
   font-size: 0.8em;
-  color: ${colors.blue};
+  color: ${colors.darkGrey};
   border: 0;
   background: transparent;
   text-decoration: underline;
   cursor: pointer;
   margin: 1em 0 0 0.5em;
   padding: 0.5em;
-  &::before {
-    content: "<";
-    padding-right: 0.5em;
-    display: inline-block;
-    text-decoration: none;
-  }
   &:focus {
     ${focusStyle}
   }
+  svg {
+    width: 1em;
+    padding-right: 0.5em;
+    margin-bottom: 0.1em;
+    path:last-of-type {
+      fill: currentColor;
+    }
+  }
+  ${getTextHoverStyle(colors.darkGrey)}
+}
 `;
 
 const StyledModal = styled(Modal)`
@@ -32,6 +41,12 @@ const StyledModal = styled(Modal)`
     padding: 0;
     min-width: 40%;
   }
+`;
+
+export const SpacedRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Wizard = ({
@@ -46,7 +61,11 @@ export const Wizard = ({
 }) => {
   return (
     <StyledModal isOpen={isOpen} onClose={onCancel} hasCloseButton>
-      <BackButton onClick={onBack}>Back</BackButton>
+      <BackButton onClick={onBack}>
+        <SpacedRow>
+          <Chevron /> Back
+        </SpacedRow>
+      </BackButton>
       {children}
       <Footer>
         <DialogButtons
@@ -85,7 +104,7 @@ const Subheading = styled.h4`
 `;
 
 const Header = styled.header`
-  padding: 0.5em 1em 1em;
+  padding: 0 1em 1em;
   ${borderStyle}
 `;
 
@@ -93,8 +112,8 @@ const Footer = styled.footer`
   padding: 0 1em 1em;
 `;
 
-const Content = styled.header`
-  padding: 0.5em 1em 1em;
+const Content = styled.main`
+  padding: 0 1em 1em;
   ${borderStyle}
 `;
 
