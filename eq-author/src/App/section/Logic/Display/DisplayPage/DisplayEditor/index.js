@@ -17,7 +17,7 @@ const AddDisplayConditionButton = styled(Button)`
   border-width: 2px;
 `;
 
-const Footer = styled.div`
+const HorizontalBorder = styled.div`
   padding: 0.5em 1em;
   margin-top: -1px;
   border-bottom: 3px solid ${colors.primary};
@@ -42,7 +42,7 @@ const DisplayEditor = ({ onAddDisplay, displayConditions, sectionId }) => {
           </Transition>
         ))}
       </TransitionGroup>
-      <Footer />
+      <HorizontalBorder />
       <AddDisplayConditionButton
         variant="secondary"
         small
