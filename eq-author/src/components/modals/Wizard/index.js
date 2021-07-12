@@ -32,7 +32,6 @@ const BackButton = styled.button`
     }
   }
   ${getTextHoverStyle(colors.darkGrey)}
-}
 `;
 
 const StyledModal = styled(Modal)`
