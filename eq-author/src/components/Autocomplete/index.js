@@ -41,6 +41,15 @@ const Autocomplete = ({
   // builds a list of elements
   const comboElements = useRef(new Map());
 
+  // any filter function added needs to accept query as a param and return an array
+  const [filterOptions, categories] = React.useMemo(
+    () =>
+      filter && typeof filter === "function"
+        ? filter(options, query)
+        : [options.filter((option) => option.toLowerCase().includes(query))],
+    [query, options, filter]
+  );
+
   // Allow dynamically modifying the selected value from parent component
   useEffect(() => {
     setSelectedOption(defaultValue);
@@ -66,8 +75,7 @@ const Autocomplete = ({
       focusEl(comboElements.current.get(index));
       setSelectedIndex(index);
     },
-    // eslint-disable-next-line
-    [selectedIndex]
+    [selectedIndex, categories, filterOptions.length]
   );
 
   const onArrowUp = useCallback(
@@ -183,7 +191,6 @@ const Autocomplete = ({
         }
       }
     },
-    // eslint-disable-next-line
     [
       selectedIndex,
       isOpen,
@@ -191,14 +198,19 @@ const Autocomplete = ({
       handleSelect,
       onArrowDown,
       onArrowUp,
+      filterOptions.length,
     ]
   );
 
-  useEffect(() => {
-    if (selectedIndex >= 0) {
-      setSelectedIndex(-1);
-    }
-  }, [query, isOpen, selectedOption, selectedIndex]);
+  useEffect(
+    () => {
+      if (selectedIndex >= 0) {
+        setSelectedIndex(-1);
+      }
+    },
+    // eslint-disable-next-line
+    [query, isOpen, selectedOption]
+  );
 
   // ------------------------------------------------------
   // provides hint to screen reader when query is empty
@@ -209,15 +221,6 @@ const Autocomplete = ({
   const tAssistiveHint = () =>
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
-
-  // any filter function added needs to accept query as a param and return an array
-  const [filterOptions, categories] = React.useMemo(
-    () =>
-      filter && typeof filter === "function"
-        ? filter(options, query)
-        : [options.filter((option) => option.toLowerCase().includes(query))],
-    [query, options, filter]
-  );
 
   const results = React.useMemo(
     () =>
