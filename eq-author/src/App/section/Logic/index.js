@@ -41,7 +41,7 @@ const hasIntroductionContent = (section) =>
 const LogicPage = ({ children, section }) => (
   <EditorLayout
     design
-    preview={hasIntroductionContent(section)}
+    preview={Boolean(hasIntroductionContent(section))}
     logic
     validationErrorInfo={section?.validationErrorInfo}
     title={section?.displayName || ""}
