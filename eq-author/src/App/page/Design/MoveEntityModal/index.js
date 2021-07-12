@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import MoveModal from "components/MoveModal";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -48,32 +48,36 @@ const MoveEntityModal = ({
 
   const [selectedSectionId, setSelectedSectionId] = useState(sectionId);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleMove = ({ position, folderId }) =>
-    onMove({
-      from: {
-        id: selected.id,
-        sectionId,
-        position: selected.position,
-      },
-      to: {
-        id: selected.id,
-        sectionId: selectedSectionId,
-        folderId,
-        position: position,
-      },
-    });
+  const handleMove = useCallback(
+    ({ position, folderId }) =>
+      onMove({
+        from: {
+          id: selected.id,
+          sectionId,
+          position: selected.position,
+        },
+        to: {
+          id: selected.id,
+          sectionId: selectedSectionId,
+          folderId,
+          position: position,
+        },
+      }),
+    [onMove, sectionId, selected.id, selected.position, selectedSectionId]
+  );
 
   const selectedSection =
     questionnaire &&
     questionnaire.sections.find(({ id }) => id === selectedSectionId);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const options =
-    entity === "Page"
-      ? (folders) => buildPageList(folders)
-      : (folders) =>
-          folders.map((item) => (!item.enabled ? item.pages[0] : item));
+  const options = useMemo(
+    () =>
+      entity === "Page"
+        ? (folders) => buildPageList(folders)
+        : (folders) =>
+            folders.map((item) => (!item.enabled ? item.pages[0] : item)),
+    [entity]
+  );
 
   return useMemo(
     () =>

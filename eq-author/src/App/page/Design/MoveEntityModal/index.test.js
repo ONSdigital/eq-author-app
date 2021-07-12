@@ -135,18 +135,6 @@ describe("MoveEntityModal: entity === 'Folder'", () => {
   });
 });
 
-describe("MoveEntityModal: questionnaire not loaded", () => {
-  it("shouldn't render if questionnaire not yet available", () => {
-    useQuestionnaire.mockImplementationOnce(() => ({
-      questionnaire: undefined,
-    }));
-
-    setup({ selected: null });
-
-    expect(screen.queryByTestId("move-modal")).not.toBeInTheDocument();
-  });
-});
-
 describe("MovePageModal: buildPageList", () => {
   let output, folders;
 
