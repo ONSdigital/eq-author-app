@@ -21,8 +21,6 @@ const InlineField = styled(Field)`
 
 const ToggleWrapper = styled.div`
   display: flex;
-  margin-left: 11em;
-  position: absolute;
   margin-top: -0.3em;
 `;
 
@@ -63,7 +61,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
               onChange={({ value }) =>
                 updateSection({
                   variables: {
-                    input: { id, requiredCompleted: value },
+                    input: { id, requiredCompleted: value, showOnHub: true },
                   },
                 })
               }
@@ -72,11 +70,11 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
             </ToggleWrapper>
           </InlineField>
           <Caption>
-          The respondent must complete pre-hub sections before they see the &quot;hub&quot;.
+          The respondent must complete pre-hub sections before they see the hub.
         </Caption>
         <EnableDisableWrapper data-test="toggle-wrapper" disabled={!requiredCompleted}>
           <InlineField>
-            <Label htmlFor-="show-onHub">Display section in hub</Label>
+            <Label htmlFor-="show-onHub">Show section on hub and summary pages</Label>
             <ToggleWrapper>
               <ToggleSwitch
                 id="show-onHub"
@@ -96,7 +94,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
           </InlineField>
         </EnableDisableWrapper>
         <Caption>
-          You can choose to show this section in the &quot;hub&quot; so respondents could review their answers.
+        If this is off, respondents cannot go back to this section and change their answers.
         </Caption>
       </Collapsible>
   );
