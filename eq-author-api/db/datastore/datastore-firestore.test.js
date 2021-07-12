@@ -53,56 +53,16 @@ jest.mock("@google-cloud/firestore", () => {
 });
 
 describe("Firestore Datastore", () => {
-  let questionnaire, baseQuestionnaire, user, ctx;
+  let questionnaireWithoutSections,
+    questionnaire,
+    sections,
+    baseQuestionnaire,
+    user,
+    ctx;
 
-  beforeAll(async () => {
-    await connectDB();
-  });
+  beforeAll(connectDB);
 
   beforeEach(() => {
-    questionnaire = {
-      title: "Working from home",
-      theme: "default",
-      legalBasis: "Voluntary",
-      navigation: false,
-      metadata: [],
-      sections: [
-        {
-          id: uuidv4(),
-          title: "",
-          introductionEnabled: false,
-          pages: [
-            {
-              id: uuidv4(),
-              pageType: "QuestionPage",
-              title: "",
-              description: "",
-              descriptionEnabled: false,
-              guidanceEnabled: false,
-              definitionEnabled: false,
-              additionalInfoEnabled: false,
-              answers: [],
-              routing: null,
-              alias: null,
-            },
-          ],
-          alias: "",
-        },
-      ],
-      summary: false,
-      version: 13,
-      surveyVersion: 1,
-      editors: [],
-      isPublic: true,
-      publishStatus: "Unpublished",
-      createdAt: {
-        toDate: () => new Date(),
-      },
-      updatedAt: {
-        toDate: () => new Date(),
-      },
-    };
-
     baseQuestionnaire = {
       isPublic: true,
       title: "Working from home",
@@ -125,6 +85,47 @@ describe("Firestore Datastore", () => {
       publishStatus: "Unpublished",
       introduction: {},
       editors: [],
+    };
+
+    questionnaireWithoutSections = {
+      ...baseQuestionnaire,
+      theme: "default",
+      legalBasis: "Voluntary",
+      navigation: false,
+      metadata: [],
+      summary: false,
+      version: 13,
+      surveyVersion: 1,
+    };
+
+    sections = [
+      {
+        id: uuidv4(),
+        title: "",
+        introductionEnabled: false,
+        position: 0,
+        pages: [
+          {
+            id: uuidv4(),
+            pageType: "QuestionPage",
+            title: "",
+            description: "",
+            descriptionEnabled: false,
+            guidanceEnabled: false,
+            definitionEnabled: false,
+            additionalInfoEnabled: false,
+            answers: [],
+            routing: null,
+            alias: null,
+          },
+        ],
+        alias: "",
+      },
+    ];
+
+    questionnaire = {
+      ...questionnaireWithoutSections,
+      sections,
     };
 
     user = {
@@ -150,7 +151,8 @@ describe("Firestore Datastore", () => {
 
   describe("Creating a questionnaire", () => {
     it("Should give the questionnaire an ID if one is not given", async () => {
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       expect(questionnaire.id).toBeFalsy();
       const questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
       expect(questionnaire.id).toBeTruthy();
@@ -186,6 +188,28 @@ describe("Firestore Datastore", () => {
 
       expect(questionnaireFromDb.createdAt instanceof Date).toBeTruthy();
       expect(questionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
+    });
+
+    it("Should reconstruct sections from subcollection if present", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          {
+            data: () => questionnaireWithoutSections,
+            ref: {
+              collection: () => ({
+                get: () => ({
+                  empty: false,
+                  docs: sections.map((section) => ({ data: () => section })),
+                }),
+              }),
+            },
+          },
+        ],
+      }));
+
+      const questionnaireFromDb = await getQuestionnaire("123");
+      expect(questionnaireFromDb.sections).toEqual(sections);
     });
   });
 
@@ -262,7 +286,8 @@ describe("Firestore Datastore", () => {
 
   describe("Creating a user", () => {
     it("Should give the user an ID if one is not given", async () => {
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       const userFromDb = await createUser(user);
       expect(userFromDb.id).toBeTruthy();
       expect(userFromDb.id).toMatch(uuidRegex);
