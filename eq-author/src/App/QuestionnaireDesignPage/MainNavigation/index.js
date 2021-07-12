@@ -78,7 +78,7 @@ export const UnwrappedMainNavigation = ({
   formTypeErrorCount,
   title,
   children,
-  hasSurveyID
+  hasSurveyID,
 }) => {
   const params = useParams();
   const { hasQCodeError } = useQCodeContext();
@@ -93,8 +93,8 @@ export const UnwrappedMainNavigation = ({
   const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
 
   if (!hasSurveyID) {
-    totalErrorCount = totalErrorCount-1
-  };
+    totalErrorCount = totalErrorCount - 1;
+  }
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
@@ -197,7 +197,7 @@ export const UnwrappedMainNavigation = ({
                     <SmallBadge data-test="small-badge" />
                   )}
                 </RouteButton>
-                {me && <UserProfile nav signOut left />}
+                {me && <UserProfile nav />}
               </ButtonGroup>
             )}
           </UtilityBtns>
