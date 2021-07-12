@@ -6,7 +6,7 @@ exports[`Tabs should enable the Logic tab when prop is passed 1`] = `
   data-test="logic"
   isActive={[Function]}
   key="logic"
-  to="/q/1/page/3/routing"
+  to="/q/1/page/3/logic"
 >
   <Badge
     data-test="small-badge"

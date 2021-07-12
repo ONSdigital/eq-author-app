@@ -228,7 +228,7 @@ describe("buildLogicPath", () => {
       pageId,
       tab: "design",
     });
-    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/routing`);
+    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/logic`);
   });
 
   it("builds a confirmation Routing path", () => {
@@ -239,7 +239,7 @@ describe("buildLogicPath", () => {
     });
 
     expect(path).toEqual(
-      `/q/${questionnaireId}/question-confirmation/${confirmationId}/routing`
+      `/q/${questionnaireId}/question-confirmation/${confirmationId}/logic`
     );
   });
 });
