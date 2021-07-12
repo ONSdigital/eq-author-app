@@ -11,7 +11,6 @@ import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import SearchBar from "components/SearchBar";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -78,7 +77,6 @@ const QuestionPicker = ({
   startingSelectedAnswers,
   title,
   showTypes,
-  showSearch,
   ...otherProps
 }) => {
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -141,13 +139,6 @@ const QuestionPicker = ({
               ) : (
                 ""
               )}
-              {showSearch ? (
-                //TODO needs onChange prop setup and passed here
-                // see example in App/QuestionnairesPage/QuestionnairesView/Header
-                <SearchBar size="large" />
-              ) : (
-                ""
-              )}
             </ModalSubtitle>
           </ModalHeader>
           <MenuContainer>
@@ -191,7 +182,6 @@ QuestionPicker.propTypes = {
   startingSelectedType: PropTypes.string,
   title: PropTypes.string.isRequired,
   showTypes: PropTypes.bool,
-  showSearch: PropTypes.bool,
 };
 
 export default QuestionPicker;
