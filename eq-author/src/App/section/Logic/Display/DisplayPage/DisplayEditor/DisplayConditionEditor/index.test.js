@@ -5,13 +5,13 @@ import { RADIO } from "constants/answer-types";
 
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
-import SkipConditionEditor from ".";
+import DisplayConditionEditor from ".";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [jest.fn()]),
 }));
 
-describe("SkipConditionEditor", () => {
+describe("DisplayConditionEditor", () => {
   let defaultProps;
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe("SkipConditionEditor", () => {
   });
 
   it("should render", () => {
-    const wrapper = shallow(<SkipConditionEditor {...defaultProps} />);
+    const wrapper = shallow(<DisplayConditionEditor {...defaultProps} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -47,7 +47,7 @@ describe("SkipConditionEditor", () => {
       },
     ];
 
-    const wrapper = shallow(<SkipConditionEditor {...defaultProps} />);
+    const wrapper = shallow(<DisplayConditionEditor {...defaultProps} />);
 
     expect(
       wrapper.find(BinaryExpressionEditor).first().prop("canAddCondition")
