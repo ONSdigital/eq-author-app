@@ -57,10 +57,6 @@ describe("QuestionPicker", () => {
       it("tests clicks on individual questions and registers the clicks", () => {
         const { getByText } = renderQuestionPicker({});
 
-        // This is a bit strange of a test. I'm grabbing the aria attribute from the closest div
-        // and making an expectation on tha, since the aria is on the div, not the <p>. 
-        // Allows us to check the clicking interactions are
-        // firing, but there may be a better way of doing this.
         const firstQuestion = getByText("1a").closest("div");
         fireEvent.click(firstQuestion);
         expect(firstQuestion.getAttribute("aria-selected")).toBe("true");
