@@ -43,7 +43,11 @@ const getExpressionGroups = (ctx) =>
 
 const getAllExpressionGroups = (ctx) => {
   const expressionGroups = getExpressionGroups(ctx);
-  return [...expressionGroups, ...getSkipConditions(ctx)];
+  return [
+    ...expressionGroups,
+    ...getSkipConditions(ctx),
+    ...getDisplayConditions(ctx),
+  ];
 };
 
 const getExpressionGroupByExpressionId = (ctx, expressionId) =>
@@ -55,7 +59,7 @@ const getExpressionGroupByExpressionId = (ctx, expressionId) =>
   );
 
 const getExpressionGroupById = (ctx, id) =>
-  find(getExpressionGroups(ctx), { id });
+  find(getAllExpressionGroups(ctx), { id });
 
 const getExpressions = (ctx) => {
   const routingExpressions = flatMap(
