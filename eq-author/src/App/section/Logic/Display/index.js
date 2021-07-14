@@ -45,7 +45,7 @@ DisplayLogicPage.propTypes = {
   data: PropTypes.shape({
     section: CustomPropTypes.section,
   }),
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object, // eslint-disable-line
   match: PropTypes.shape({
     params: PropTypes.shape({
