@@ -24,13 +24,9 @@ exports[`Date Answer should render 1`] = `
       <DateAnswer__DateFieldLabel>
         Month
       </DateAnswer__DateFieldLabel>
-      <DateAnswer__Select>
-        <option
-          value=""
-        >
-          Select month
-        </option>
-      </DateAnswer__Select>
+      <DateAnswer__DateInput
+        placeholder="MM"
+      />
     </DateAnswer__MonthDateField>
     <DateAnswer__YearDateField>
       <DateAnswer__DateFieldLabel>
