@@ -17,7 +17,7 @@ const Field = styled.div`
 `;
 
 const SelectField = styled(Field)`
-  width: 12em;
+  width: 5em;
 `;
 
 const Input = styled(DummyTextInput)`
