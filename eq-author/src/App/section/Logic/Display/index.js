@@ -4,7 +4,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import { useQuery } from "@apollo/react-hooks";
 
-import GET_SECTION from "../getSection.graphql";
+import GET_SECTION from "graphql/getSection.graphql";
 import DisplayPage from "./DisplayPage";
 import Logic from "..";
 

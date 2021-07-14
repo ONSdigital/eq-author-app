@@ -1,18 +1,27 @@
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
 
 query GetSection($input: QueryInput!) {
   section(input: $input) {
     id
-    alias
     displayName
     introductionTitle
     introductionContent
     position
-    validationErrorInfo {
-      totalCount
+    displayConditions {
       id
+      expressions {
+        ...BinaryExpressionEditor
+      }
+    }
+    questionnaire {
+      id
+      hub
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
     folders {
       id
