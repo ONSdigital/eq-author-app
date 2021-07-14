@@ -32,7 +32,7 @@ export default ({ component: Modal, onConfirm, onCancel, ...props }) => {
           onCancel={handleCancel}
         />
       ),
-      [onConfirm, onCancel, props]
+      [props, isOpen, handleCancel, handleConfirm]
     ),
   ];
 };
