@@ -19,6 +19,8 @@ const {
   getSkipConditions,
   getAllExpressionGroups,
   returnValidationErrors,
+  getDisplayConditions,
+  getDisplayConditionById,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -116,6 +118,11 @@ Resolvers.Mutation = {
 
     const skipCondition = getSkipConditionById(ctx, input.expressionGroupId);
 
+    const displayCondition = getDisplayConditionById(
+      ctx,
+      input.expressionGroupId
+    );
+
     let leftHandSide = {
       type: "Null",
     };
@@ -141,6 +148,17 @@ Resolvers.Mutation = {
       });
 
       skipCondition.expressions.push(expression);
+    }
+
+    if (displayCondition) {
+      leftHandSide.nullReason = "DefaultDisplayCondition";
+
+      expression = createExpression({
+        left: createLeftSide(leftHandSide),
+        condition: null,
+      });
+
+      displayCondition.expressions.push(expression);
     }
 
     return expression;
@@ -249,15 +267,18 @@ Resolvers.Mutation = {
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     const routingExpressionGroups = getExpressionGroups(ctx);
     const skipConditions = getSkipConditions(ctx);
+    const displayConditions = getDisplayConditions(ctx);
+
     const expressionGroup = find(
       (expressionGroup) => {
         if (some({ id: input.id }, expressionGroup.expressions)) {
           return expressionGroup;
         }
       },
-      [...routingExpressionGroups, ...skipConditions]
+      [...routingExpressionGroups, ...skipConditions, ...displayConditions]
     );
 
+    // Delete the expression group (e.g. skip condition or display condition) with a given ID
     expressionGroup.expressions = reject(
       { id: input.id },
       expressionGroup.expressions
