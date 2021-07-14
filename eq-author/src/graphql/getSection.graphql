@@ -12,6 +12,7 @@ query GetSection($input: QueryInput!) {
     position
     displayConditions {
       id
+      operator
       expressions {
         ...BinaryExpressionEditor
       }
