@@ -3,7 +3,7 @@
 exports[`DeleteRowButton should render 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #FFFFFF;
+  color: #3B7A9E;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -37,6 +37,7 @@ exports[`DeleteRowButton should render 1`] = `
 <button
     aria-label="Delete"
     class="c0 c1"
+    color="secondary"
     role="button"
     type="button"
   >
