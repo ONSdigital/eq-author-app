@@ -4,7 +4,7 @@ import { darken } from "polished";
 
 import { propTypes } from "./propTypes";
 
-import { radius, colors } from "constants/theme";
+import { radius, colors, focusStyle } from "constants/theme";
 
 export const primaryButton = css`
   --color-text: ${colors.white};
@@ -247,20 +247,6 @@ export const smallMediumButton = css`
   font-size: 0.9em;
 `;
 
-export const btnfocus = css`
-  &:focus {
-    box-shadow: 0 0 0 3px ${colors.tertiary};
-    outline: 0;
-  }
-`;
-
-export const btnfocusWithin = css`
-  &:focus-within {
-    box-shadow: 0 0 0 3px ${colors.tertiary};
-    outline: 0;
-  }
-`;
-
 const Button = styled.button`
   display: inline-flex;
   flex: 0 0 auto;
@@ -287,6 +273,10 @@ const Button = styled.button`
     opacity: 0.6;
   }
 
+  &:focus-within {
+    ${focusStyle}
+  }
+
   ${(props) => props.variant === "primary" && primaryButton};
   ${(props) => props.variant === "secondary" && secondaryButton};
   ${(props) => props.variant === "tertiary" && tertiaryButton};
@@ -303,8 +293,6 @@ const Button = styled.button`
   ${(props) => props.medium && mediumButton};
   ${(props) => props.small && smallButton};
   ${(props) => props["small-medium"] && smallMediumButton};
-  ${(props) => props["btn-focus"] && btnfocus};
-  ${(props) => props["btn-focus-within"] && btnfocusWithin};
 `;
 
 Button.propTypes = {
