@@ -2,6 +2,7 @@
 
 exports[`MoveButton should render 1`] = `
 <MoveButton__Button
+  color="secondary"
   onClick={[MockFunction]}
 >
   Some content
