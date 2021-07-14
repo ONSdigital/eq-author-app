@@ -23,6 +23,12 @@
       "items": {
         "$ref": "folder.json"
       }
+    },
+    "displayConditions": {
+      "type": "array",
+      "items": {
+        "$ref": "logic.json#/definitions/expressionGroup"
+      }
     }
   },
   "anyOf": [
