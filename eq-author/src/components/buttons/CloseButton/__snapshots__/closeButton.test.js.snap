@@ -3,7 +3,7 @@
 exports[`Close button should render: large 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #666666;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -42,7 +42,7 @@ exports[`Close button should render: large 1`] = `
 exports[`Close button should render: medium 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #666666;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -81,7 +81,7 @@ exports[`Close button should render: medium 1`] = `
 exports[`Close button should render: small 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #3B7A9E;
+  color: #666666;
   border: none;
   background: transparent;
   cursor: pointer;

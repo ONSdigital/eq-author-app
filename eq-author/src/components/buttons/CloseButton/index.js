@@ -20,7 +20,7 @@ const sizes = {
 };
 
 const StyledCloseButton = styled.button`
-  color: ${colors.secondary};
+  color: ${colors.darkGrey};
   border: none;
   background: transparent;
   cursor: pointer;

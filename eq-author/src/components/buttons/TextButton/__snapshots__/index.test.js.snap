@@ -52,7 +52,8 @@ exports[`components/TextButton renders 1`] = `
   opacity: 0.6;
 }
 
-.c0:focus {
+.c0:focus-within {
+  border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }

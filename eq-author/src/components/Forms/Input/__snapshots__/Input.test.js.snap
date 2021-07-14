@@ -20,6 +20,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
 
 .c0:focus,
 .c0:focus-within {
+  border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
@@ -89,11 +90,11 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
                 ";outline-color:",
                 "#3B7A9E",
                 ";}&:focus,&:focus-within{",
-                "outline:3px solid ",
-                "#FDBD56",
-                ";box-shadow:0 0 0 3px ",
-                "#FDBD56",
-                ";",
+                "
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+",
                 ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border-style:solid;border-color:",
                 "#3B7A9E",
                 ";}&[disabled]{opacity:0.8;pointer-events:none;}",

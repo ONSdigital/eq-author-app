@@ -1,4 +1,5 @@
 import { css } from "styled-components";
+import { darken } from "polished";
 
 export const colors = {
   blue: "#3B7A9E",
@@ -38,7 +39,8 @@ colors.previewError = colors.grey;
 
 export const radius = "4px";
 
-export const focusStyle = css`
+export const focusStyle = `
+  border-color: transparent;
   outline: 3px solid ${colors.tertiary};
   box-shadow: 0 0 0 3px ${colors.tertiary};
 `;
@@ -71,6 +73,12 @@ export const activeNavItemStyle = css`
 
 export const hoverStyle = css`
   background: rgba(0, 0, 0, 0.2);
+`;
+
+export const getTextHoverStyle = (color) => css`
+  &:hover {
+    color: ${darken(0.1, color)};
+  }
 `;
 
 export default {
