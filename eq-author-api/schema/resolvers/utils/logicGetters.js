@@ -35,6 +35,9 @@ const getSkipConditionById = (ctx, id) => {
 const getDisplayConditions = (ctx) =>
   flatMap(filter(getSections(ctx), "displayConditions"), "displayConditions");
 
+const getDisplayConditionById = (ctx, id) =>
+  find(getDisplayConditions(ctx), { id });
+
 const getExpressionGroups = (ctx) =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
@@ -92,4 +95,6 @@ module.exports = {
   getSkippables,
   getSkipConditions,
   getSkipConditionById,
+  getDisplayConditions,
+  getDisplayConditionById,
 };
