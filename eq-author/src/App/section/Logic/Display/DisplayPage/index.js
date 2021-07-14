@@ -52,7 +52,7 @@ export const DisplayPageContent = ({ section }) => {
               : "display-rule-set-empty"
           }
         >
-          {section.displayConditions ? (
+          {section.displayConditions && questionnaire.hub ? (
             <DisplayEditor
               onAddDisplay={createDisplayCondition}
               displayConditions={section.displayConditions}
