@@ -86,6 +86,7 @@ export const UnwrappedTabs = (props) => {
 
         error.type.includes("routing") ||
         error.type.includes("skipCondition") ||
+        error.type.includes("displayCondition") ||
         error.type.includes("expression")
           ? logic.push(error)
           : design.push(error);
