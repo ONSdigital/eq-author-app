@@ -11,7 +11,7 @@ export const IconDown = IconArrowDown;
 
 const Button = styled.button`
   display: block;
-  color: ${colors.white};
+  color: ${(props) => props.color === 'white' ? colors.white : colors.secondary};
   border: none;
   padding: 0;
   padding-top: 0.3em;
@@ -59,10 +59,14 @@ const MoveButton = ({ disabled, onClick, children, ...otherProps }) => {
       onClick,
     };
   }
+
+
+
   return <Button {...props}>{children}</Button>;
 };
 
 MoveButton.propTypes = {
+  color: PropTypes.oneOf(["white", "secondary"]), 
   children: PropTypes.node.isRequired,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
@@ -70,6 +74,8 @@ MoveButton.propTypes = {
 
 MoveButton.defaultProps = {
   disabled: false,
+  color: "secondary", 
+
 };
 
 export default MoveButton;
