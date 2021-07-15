@@ -25,7 +25,7 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
         includeTargetPage: includeSelf,
         preprocessAnswers,
       }),
-    [questionnaire, pageId]
+    [questionnaire, pageId, includeSelf]
   );
 
   return (

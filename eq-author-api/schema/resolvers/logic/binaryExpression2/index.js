@@ -114,11 +114,10 @@ Resolvers.Mutation = {
 
     let leftHandSide = {
       type: "Null",
+      nullReason: "DefaultRouting",
     };
 
     let expression;
-
-    leftHandSide.nullReason = "DefaultRouting";
 
     expression = createExpression({
       left: createLeftSide(leftHandSide),

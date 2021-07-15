@@ -20,7 +20,7 @@ export const useTruncation = () => {
 
   useEffect(() => {
     checkTruncation();
-  }, []);
+  }, [checkTruncation]);
 
   useEffect(() => {
     const resizeListener = throttle(() => {

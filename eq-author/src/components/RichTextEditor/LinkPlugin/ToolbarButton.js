@@ -28,7 +28,7 @@ const LinkPicker = ({ isOpen, onClose, onLinkChosen, defaultText }) => {
   useEffect(() => {
     setText(defaultText);
     setURL("");
-  }, [isOpen]);
+  }, [isOpen, defaultText]);
 
   const onInsertPushed = () => {
     onClose();
