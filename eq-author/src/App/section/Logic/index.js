@@ -9,6 +9,7 @@ import { buildSectionPath } from "utils/UrlUtils";
 import { Grid, Column } from "components/Grid";
 import EditorLayout from "components/EditorLayout";
 import CustomPropTypes from "custom-prop-types";
+import { enableOn } from "utils/featureFlags";
 
 import VerticalTabs from "components/VerticalTabs";
 
@@ -45,7 +46,7 @@ const LogicPage = ({ children, section }) => (
   <EditorLayout
     design
     preview={Boolean(hasIntroductionContent(section))}
-    logic
+    logic={enableOn(["hub"])}
     validationErrorInfo={section.validationErrorInfo}
     title={section.displayName || ""}
     singleColumnLayout
