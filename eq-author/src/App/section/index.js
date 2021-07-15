@@ -6,6 +6,8 @@ import Design from "./Design";
 import Preview from "./Preview";
 import Display from "./Logic/Display";
 
+import { enableOn } from "utils/featureFlags";
+
 export default [
   <Route
     key="section-design"
@@ -21,11 +23,17 @@ export default [
     key="section-logic"
     path="/q/:questionnaireId/section/:sectionId/logic"
   >
-    <Redirect to="display" />
+    {enableOn(["hub"]) ? (
+      <Redirect to={"display"} />
+    ) : (
+      <Redirect to={"design"} />
+    )}
   </Route>,
   <Route
     key="section-logic-display"
     path="/q/:questionnaireId/section/:sectionId/display"
     component={Display}
-  />,
+  >
+    {!enableOn(["hub"]) && <Redirect to={"design"} />}
+  </Route>,
 ];

@@ -54,7 +54,7 @@ describe("Logic page", () => {
 
   it("should enable preview tab when section has introduction title", () => {
     section.introductionTitle = "Test";
-    const { getByTestId, container } = render(
+    const { getByTestId } = render(
       <MeContext.Provider value={{ me }}>
         <Logic section={section}>
           <p>Test</p>
