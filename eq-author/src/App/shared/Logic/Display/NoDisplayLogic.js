@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
@@ -25,7 +25,7 @@ const AddDisplayButton = styled(Button)`
   margin: 2em auto 1em;
   ${({ disabled }) =>
     disabled &&
-    css`
+    `
       pointer-events: none;
       opacity: 0.6;
     `}
