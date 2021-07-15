@@ -63,7 +63,7 @@ const getExpressionGroupById = (ctx, id) =>
 
 const getExpressions = (ctx) => {
   const routingExpressions = flatMap(
-    filter(getExpressionGroups(ctx), "expressions"),
+    filter(getAllExpressionGroups(ctx), "expressions"),
     "expressions"
   );
 
