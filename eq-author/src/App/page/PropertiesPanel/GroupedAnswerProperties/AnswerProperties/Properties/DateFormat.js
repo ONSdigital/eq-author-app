@@ -8,17 +8,17 @@ const DateFormat = ({ id, value, onChange }) => (
   <Field>
       {enableOn(["hub"]) ? 
 
-        <Select value={value} onChange={onChange} id={id} name={id}>
-            <option value="dd/mm/yyyy">dd / mm / yyyy</option>
-            <option value="mm/yyyy">mm / yyyy</option>
-            <option value="yyyy">yyyy</option> 
+        <Select data-test="select" value={value} onChange={onChange} id={id} name={id}>
+            <option data-test="day-month-year" value="dd/mm/yyyy">dd / mm / yyyy</option>
+            <option data-test="month-year" value="mm/yyyy">mm / yyyy</option>
+            <option data-test="year" value="yyyy">yyyy</option> 
         </Select>
 
       : 
-        <Select value={value} onChange={onChange} id={id} name={id}>
-          <option value="dd/mm/yyyy">dd / Month / yyyy</option>
-          <option value="mm/yyyy">Month / yyyy</option>
-          <option value="yyyy">yyyy</option>
+        <Select data-test="select" value={value} onChange={onChange} id={id} name={id}>
+          <option data-test="day-month-year" value="dd/mm/yyyy">dd / Month / yyyy</option>
+          <option data-test="month-year" value="mm/yyyy">Month / yyyy</option>
+          <option data-test="year" value="yyyy">yyyy</option>
         </Select>
       }
 

@@ -1,37 +1,40 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
-
-import { Select } from "components/Forms";
-
 import DateFormat from "./DateFormat";
+import { render, fireEvent } from "tests/utils/rtl";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<DateFormat {...props} />);
-};
 
-describe("DateFormat Property", () => {
-  let props, wrapper;
+describe("Date Format Tests", () => {
+   describe("Testing render conditions with various props", () => {
+       let props;
 
-  beforeEach(() => {
-    props = {
-      id: "1",
-      value: "dd/mm/yyyy",
-      onChange: jest.fn(),
-    };
-  });
+      beforeEach(() => {
+        props = {
+          id: "1",
+          value: "dd/mm/yyyy",
+          onChange: jest.fn(),
+        };
+      });
 
-  it("should render", () => {
-    wrapper = createWrapper(props, shallow);
-    expect(wrapper).toMatchSnapshot();
-  });
+      it("Can render with default props", () => {
+        const { getByTestId } = render(<DateFormat  {...props}/>);
 
-  it("should handle change event for input", () => {
-    wrapper = createWrapper(props, mount);
-    wrapper.find(Select).simulate("change", { target: { value: "mm/yy" } });
+        expect(getByTestId('day-month-year')).toBeInTheDocument();
+        expect(getByTestId('month-year')).toBeInTheDocument();
+        expect(getByTestId('year')).toBeInTheDocument();
 
-    expect(props.onChange).toHaveBeenCalledWith({
-      name: "1",
-      value: "mm/yy",
+      });
+
+      it("should handle change event for input", () => {
+        
+        const { getByTestId } = render(<DateFormat  {...props}/>);
+
+        fireEvent.change(getByTestId('select'), { target: { value: "mm/yyyy" } })
+
+        expect(props.onChange).toHaveBeenCalledWith({
+          name: "1",
+          value: "mm/yyyy",
+        });
+
+      });
     });
-  });
 });
