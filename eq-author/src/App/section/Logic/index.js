@@ -32,7 +32,7 @@ const TABS = (sectionId, questionnaireId, validationErrorInfo) => [
       tab: "display",
       questionnaireId,
     })}`,
-    errorCount: validationErrorInfo.errors.filter(
+    errorCount: validationErrorInfo?.errors?.filter(
       ({ type }) => type && type.includes("display")
     ).length,
   },
@@ -46,8 +46,8 @@ const LogicPage = ({ children, section }) => (
     design
     preview={Boolean(hasIntroductionContent(section))}
     logic
-    validationErrorInfo={section?.validationErrorInfo}
-    title={section?.displayName || ""}
+    validationErrorInfo={section.validationErrorInfo}
+    title={section.displayName || ""}
     singleColumnLayout
     mainCanvasMaxWidth="80em"
   >
@@ -59,7 +59,7 @@ const LogicPage = ({ children, section }) => (
           tabItems={TABS(
             section.id,
             section.questionnaire.id,
-            section?.validationErrorInfo
+            section.validationErrorInfo
           )}
         />
         <Column gutters={false} cols={9.5}>
