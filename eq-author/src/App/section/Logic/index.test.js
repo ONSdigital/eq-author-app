@@ -43,14 +43,18 @@ describe("Logic page", () => {
         urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
       }
     );
-    expect(getByTestId("tabs-nav").querySelector("span")).toHaveTextContent(
-      "Preview"
-    );
+    expect(
+      getByTestId("tabs-nav").querySelector(`a[data-test="preview"]`)
+    ).toBeFalsy();
+    expect(
+      getByTestId("tabs-nav").querySelector(`span[data-test="preview"]`)
+    ).toBeTruthy();
+    expect(getByTestId("preview")).toBeInTheDocument();
   });
 
   it("should enable preview tab when section has introduction title", () => {
     section.introductionTitle = "Test";
-    const { getByTestId } = render(
+    const { getByTestId, container } = render(
       <MeContext.Provider value={{ me }}>
         <Logic section={section}>
           <p>Test</p>
@@ -61,7 +65,12 @@ describe("Logic page", () => {
         urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
       }
     );
-    expect(getByTestId("tabs-nav").querySelector("span")).toBeFalsy();
+    expect(
+      getByTestId("tabs-nav").querySelector(`a[data-test="preview"]`)
+    ).toBeTruthy();
+    expect(
+      getByTestId("tabs-nav").querySelector(`span[data-test="preview"]`)
+    ).toBeFalsy();
     expect(getByTestId("preview")).toBeInTheDocument();
   });
 
@@ -78,7 +87,12 @@ describe("Logic page", () => {
         urlParamMatcher: "/q/:questionnaireId/section/:sectionId/logic",
       }
     );
-    expect(getByTestId("tabs-nav").querySelector("span")).toBeFalsy();
+    expect(
+      getByTestId("tabs-nav").querySelector(`a[data-test="preview"]`)
+    ).toBeTruthy();
+    expect(
+      getByTestId("tabs-nav").querySelector(`span[data-test="preview"]`)
+    ).toBeFalsy();
     expect(getByTestId("preview")).toBeInTheDocument();
   });
 });
