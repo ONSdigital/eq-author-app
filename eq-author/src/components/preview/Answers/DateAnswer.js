@@ -78,10 +78,10 @@ const DateAnswer = ({ answer }) => {
         {format.includes("mm") && (
           <MonthDateField data-test="month-input">
             <DateFieldLabel>Month</DateFieldLabel>
-            {disableOn(["hub"]) && (
+            {enableOn(["hub"]) && (
               <DateInput placeholder="MM" />
             )}
-            {enableOn(["hub"]) && (
+            {disableOn(["hub"]) && (
               <Select>
                 <option value="">Select month</option>
               </Select>
