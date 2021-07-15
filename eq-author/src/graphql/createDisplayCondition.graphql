@@ -4,6 +4,7 @@ mutation createDisplay($input: DisplayConditionInput!) {
     id
     displayConditions {
       id
+      operator
       expressions {
         ...BinaryExpressionEditor
       }
