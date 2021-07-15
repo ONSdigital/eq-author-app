@@ -24,7 +24,7 @@ const LogicContainer = styled.div`
   border-left: 1px solid ${colors.lightGrey};
 `;
 
-const TABS = (sectionId, questionnaireId) => [
+const TABS = (sectionId, questionnaireId, validationErrorInfo) => [
   {
     title: "Display logic",
     url: `${buildSectionPath({
@@ -32,6 +32,9 @@ const TABS = (sectionId, questionnaireId) => [
       tab: "display",
       questionnaireId,
     })}`,
+    errorCount: validationErrorInfo.errors.filter(
+      ({ type }) => type && type.includes("display")
+    ).length,
   },
 ];
 
@@ -53,7 +56,11 @@ const LogicPage = ({ children, section }) => (
         <VerticalTabs
           title="Select your logic"
           cols={2.5}
-          tabItems={TABS(section.id, section.questionnaire.id)}
+          tabItems={TABS(
+            section.id,
+            section.questionnaire.id,
+            section?.validationErrorInfo
+          )}
         />
         <Column gutters={false} cols={9.5}>
           <LogicContainer>{children}</LogicContainer>
