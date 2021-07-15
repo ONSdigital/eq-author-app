@@ -51,6 +51,7 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
     if (dependencies.every((x) => x)) {
       setCallbacks(callbacks);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies);
 };
 

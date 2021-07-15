@@ -4,7 +4,7 @@ import DELETE_SKIP_CONDITION from "./deleteSkipCondition.graphql";
 import DELETE_SKIP_CONDITIONS from "./deleteSkipConditions.graphql";
 import GET_SKIPPABLE_QUERY from "./fragment.graphql";
 
-const createMutationHook = (mutationQuery, input, refetchParentId) => {
+const useCreateMutationHook = (mutationQuery, input, refetchParentId) => {
   const [mutationFn] = useMutation(mutationQuery, {
     variables: {
       input,
@@ -25,10 +25,10 @@ const createMutationHook = (mutationQuery, input, refetchParentId) => {
 };
 
 export const useCreateSkipCondition = ({ parentId }) =>
-  createMutationHook(CREATE_SKIP_CONDITION, { parentId }, parentId);
+  useCreateMutationHook(CREATE_SKIP_CONDITION, { parentId }, parentId);
 
 export const useDeleteSkipConditions = ({ parentId }) =>
-  createMutationHook(DELETE_SKIP_CONDITIONS, { parentId }, parentId);
+  useCreateMutationHook(DELETE_SKIP_CONDITIONS, { parentId }, parentId);
 
 export const useDeleteSkipCondition = ({ id, parentId }) =>
-  createMutationHook(DELETE_SKIP_CONDITION, { id }, parentId);
+  useCreateMutationHook(DELETE_SKIP_CONDITION, { id }, parentId);

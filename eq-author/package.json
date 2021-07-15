@@ -53,6 +53,7 @@
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-loader": "latest",
     "eslint-plugin-graphql": "^4.0.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "latest",
     "fs-extra": "latest",
     "html-webpack-plugin": "^4.5.2",

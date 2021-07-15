@@ -38,7 +38,8 @@ export const QuestionnaireLink = styled.span`
     outline: none;
   }
   ${(props) =>
-    props.linkHasFocus && props.questionnaireModal &&
+    props.linkHasFocus &&
+    props.questionnaireModal &&
     css`
       color: white;
       :nth-of-type(2n-1) {
@@ -92,15 +93,17 @@ export const TR = styled.tr`
   }
 
   ${(props) =>
-    props.linkHasFocus && !props.questionnaireModal &&
+    props.linkHasFocus &&
+    !props.questionnaireModal &&
     css`
       box-shadow: 0 0 0 3px ${colors.tertiary};
       border-color: ${colors.tertiary};
       z-index: 1;
     `}
 
-    ${(props) =>
-    props.linkHasFocus && props.questionnaireModal &&
+  ${(props) =>
+    props.linkHasFocus &&
+    props.questionnaireModal &&
     css`
       border-color: ${colors.primary};
       z-index: 1;
@@ -112,7 +115,7 @@ export const TR = styled.tr`
       }
       &:hover {
         background-color: ${colors.primary};
-  }
+      }
     `}
 `;
 
@@ -228,7 +231,7 @@ export const Row = ({
     if (!prevAutoFocus && autoFocus) {
       focusLink();
     }
-  }, [prevAutoFocus]);
+  }, [prevAutoFocus, autoFocus]);
 
   const handleClick = () => onClick(id);
 

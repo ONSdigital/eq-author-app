@@ -71,8 +71,14 @@ export const getDuplicatedQCodes = (flattenedAnswers) => {
 };
 
 export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
-  const answerRows = getFlattenedAnswerRows(questionnaire) ?? [];
-  const duplicatedQCodes = getDuplicatedQCodes(answerRows) ?? [];
+  const answerRows = useMemo(
+    () => getFlattenedAnswerRows(questionnaire) ?? [],
+    [questionnaire]
+  );
+  const duplicatedQCodes = useMemo(
+    () => getDuplicatedQCodes(answerRows) ?? [],
+    [answerRows]
+  );
 
   const hasQCodeError =
     duplicatedQCodes?.length ||
