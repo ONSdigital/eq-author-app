@@ -95,7 +95,7 @@ const ContextProvider = ({ history, client, children }) => {
       signOut(history, client);
       setSignInSuccess(false);
     }
-  }, [firebaseUser, awaitingFirebase]);
+  }, [firebaseUser, awaitingFirebase, history, client]);
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {(innerProps) => {

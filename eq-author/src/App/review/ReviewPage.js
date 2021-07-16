@@ -47,6 +47,7 @@ const ReviewPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
   const { me } = useMe();
   const { questionnaire } = useQuestionnaire();
+  const [comment, setComment] = useState({ value: "" });
 
   const sendReview = (review) =>
     reviewQuestionnaire({
@@ -63,8 +64,6 @@ const ReviewPage = ({ match, history }) => {
   if (!me.admin || publishStatus !== AWAITING_APPROVAL) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
-
-  const [comment, setComment] = useState({ value: "" });
 
   return (
     <Container>
