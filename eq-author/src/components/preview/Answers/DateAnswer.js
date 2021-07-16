@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { Field, Input, Label } from "./elements";
-
+import { enableOn } from "utils/featureFlags";
 import iconSelect from "./icon-select.svg";
 import { colors } from "constants/theme";
 
@@ -21,12 +21,12 @@ const DateField = styled.div`
 `;
 
 const DayDateField = styled(DateField)`
-  max-width: 6em;
+  max-width: ${props => props.enableOn ? '5em' : '6em'};
 `;
 
 const MonthDateField = styled(DateField)`
   flex: 2;
-  max-width: 15em;
+  max-width: ${props => props.enableOn ? '5em' : '15em'};
 `;
 
 const YearDateField = styled(DateField)`
@@ -69,22 +69,25 @@ const DateAnswer = ({ answer }) => {
       <Label description={description}>{label}</Label>
       <DateFields>
         {format.includes("dd") && (
-          <DayDateField data-test="day-input">
+          <DayDateField data-test="day-input" enableOn={enableOn(["hub"])}>
             <DateFieldLabel>Day</DateFieldLabel>
             <DateInput placeholder="DD" />
           </DayDateField>
         )}
 
         {format.includes("mm") && (
-          <MonthDateField data-test="month-input">
+          <MonthDateField data-test="month-input" enableOn={enableOn(["hub"])}>
             <DateFieldLabel>Month</DateFieldLabel>
-            <Select>
-              <option value="">Select month</option>
-            </Select>
+              {enableOn(["hub"]) ? 
+                  <DateInput placeholder="MM" /> : 
+                  <Select>
+                    <option value="">Select month</option>
+                  </Select>
+              }
           </MonthDateField>
         )}
 
-        <YearDateField>
+        <YearDateField enableOn={enableOn(["hub"])}>
           <DateFieldLabel>Year</DateFieldLabel>
           <DateInput placeholder="YYYY" />
         </YearDateField>
