@@ -9,8 +9,10 @@ Resolvers.ExpressionGroup2 = {
   expressions: (expressionGroup) => expressionGroup.expressions,
   validationErrorInfo: ({ id }, args, ctx) => {
     const expressionGroupErrors = ctx.validationErrorInfo.filter(
-      ({ expressionGroupId, skipConditionId }) =>
-        expressionGroupId === id || skipConditionId === id
+      ({ expressionGroupId, skipConditionId, displayConditionId }) =>
+        expressionGroupId === id ||
+        skipConditionId === id ||
+        displayConditionId === id
     );
 
     if (!expressionGroupErrors) {

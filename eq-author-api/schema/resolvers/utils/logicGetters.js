@@ -1,6 +1,7 @@
 const { filter, find, flatMap, some } = require("lodash");
 const { getPages, getPageById } = require("./pageGetters");
 const { getFolders, getFolderById } = require("./folderGetters");
+const { getSections } = require("./sectionGetters");
 const { getConfirmations, getConfirmationById } = require("./pageGetters");
 
 const getRouting = (ctx) =>
@@ -31,12 +32,22 @@ const getSkipConditionById = (ctx, id) => {
   return find(skipConditions, { id });
 };
 
+const getDisplayConditions = (ctx) =>
+  flatMap(filter(getSections(ctx), "displayConditions"), "displayConditions");
+
+const getDisplayConditionById = (ctx, id) =>
+  find(getDisplayConditions(ctx), { id });
+
 const getExpressionGroups = (ctx) =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
 const getAllExpressionGroups = (ctx) => {
   const expressionGroups = getExpressionGroups(ctx);
-  return [...expressionGroups, ...getSkipConditions(ctx)];
+  return [
+    ...expressionGroups,
+    ...getSkipConditions(ctx),
+    ...getDisplayConditions(ctx),
+  ];
 };
 
 const getExpressionGroupByExpressionId = (ctx, expressionId) =>
@@ -48,19 +59,27 @@ const getExpressionGroupByExpressionId = (ctx, expressionId) =>
   );
 
 const getExpressionGroupById = (ctx, id) =>
-  find(getExpressionGroups(ctx), { id });
+  find(getAllExpressionGroups(ctx), { id });
 
 const getExpressions = (ctx) => {
   const routingExpressions = flatMap(
-    filter(getExpressionGroups(ctx), "expressions"),
+    filter(getAllExpressionGroups(ctx), "expressions"),
     "expressions"
   );
+
   const skipConditionExpressions = flatMap(
     filter(getSkipConditions(ctx), "expressions"),
     "expressions"
   );
+  const displayConditionExpressions = flatMap(
+    getDisplayConditions(ctx).map(({ expressions }) => expressions)
+  );
 
-  return [...routingExpressions, ...skipConditionExpressions];
+  return [
+    ...routingExpressions,
+    ...skipConditionExpressions,
+    ...displayConditionExpressions,
+  ];
 };
 
 const getExpressionById = (ctx, id) => find(getExpressions(ctx), { id });
@@ -80,4 +99,6 @@ module.exports = {
   getSkippables,
   getSkipConditions,
   getSkipConditionById,
+  getDisplayConditions,
+  getDisplayConditionById,
 };

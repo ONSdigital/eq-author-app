@@ -148,7 +148,8 @@ type Section {
   id: ID!
   title: String!
   alias: String
-  displayName: String!
+  displayName: String
+  displayConditions: [ExpressionGroup2]
   requiredCompleted: Boolean
   showOnHub: Boolean
   folders: [Folder]
@@ -571,6 +572,7 @@ enum NoLeftSideReason {
   NoRoutableAnswerOnPage
   DefaultRouting
   DefaultSkipCondition
+  DefaultDisplayCondition
 }
 
 type NoLeftSide {
@@ -834,6 +836,17 @@ type Mutation {
   createSkipCondition(input: CreateSkipConditionInput!): Skippable
   deleteSkipCondition(input: DeleteSkipConditionInput!): Skippable
   deleteSkipConditions(input: DeleteSkipConditionsInput!): Skippable
+  createDisplayCondition(input: DisplayConditionInput!): Section
+  deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
+  deleteDisplayConditions(input: DisplayConditionInput!): Section
+}
+
+input DisplayConditionInput {
+  sectionId: ID!
+}
+
+input DeleteDisplayConditionInput {
+  id: ID!
 }
 
 input CreateRouting2Input {

@@ -10,6 +10,7 @@ import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
 import CommentsPanel from "App/Comments";
+import { enableOn } from "utils/featureFlags";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
@@ -39,8 +40,10 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
     <EditorLayout
       design
       preview
+      logic={enableOn(["hub"])}
       title={section.displayName}
       renderPanel={() => <CommentsPanel componentId={section.id} />}
+      validationErrorInfo={section.validationErrorInfo}
     >
       <SectionIntroPreview section={section} />
     </EditorLayout>

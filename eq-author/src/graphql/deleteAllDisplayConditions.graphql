@@ -1,0 +1,12 @@
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
+mutation deleteAllDisplayConditions($input: DisplayConditionInput!) {
+  deleteDisplayConditions(input: $input) {
+    id
+    displayConditions {
+      id
+      expressions {
+        ...BinaryExpressionEditor
+      }
+    }
+  }
+}

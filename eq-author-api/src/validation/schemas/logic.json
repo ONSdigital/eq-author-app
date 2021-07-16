@@ -211,6 +211,29 @@
           }
         }
       }
+    },
+    "displayConditions": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "expressions": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/expression"
+                },
+                {
+                  "$ref": "#/definitions/expression-unanswered"
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }

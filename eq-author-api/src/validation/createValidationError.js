@@ -46,6 +46,8 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     rule,
     skipConditions,
     skipCondition,
+    displayConditions,
+    displayCondition,
     expressionGroup,
     expression,
     validation,
@@ -172,11 +174,24 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         validationErr.type = "skipCondition";
         break;
 
+      case "displayConditions":
+        displayConditions = section.displayConditions;
+        displayCondition = displayConditions[nextVal];
+        validationErr.displayConditionId = displayCondition.id;
+        validationErr.type = "displayCondition";
+        break;
+
       case "expressions":
-        expressionGroup = expressionGroup || skipCondition;
-        validationErr.type = skipCondition
-          ? "skipConditionExpression"
-          : "routingExpression";
+        expressionGroup = expressionGroup || skipCondition || displayCondition;
+        if (expressionGroup) {
+          validationErr.type = "routingExpression";
+        }
+        if (skipCondition) {
+          validationErr.type = "skipConditionExpression";
+        }
+        if (displayCondition) {
+          validationErr.type = "displayConditionExpression";
+        }
         expression = expressionGroup.expressions[nextVal];
         validationErr.expressionId = expression?.id;
         break;
