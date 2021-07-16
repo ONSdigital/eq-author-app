@@ -1,7 +1,8 @@
-import { shallow } from "enzyme";
-import React from "react";
 
+import React from "react";
+import { render } from "tests/utils/rtl";
 import DateAnswer from "./DateAnswer";
+
 
 describe("Date Answer", () => {
   let answer;
@@ -15,31 +16,52 @@ describe("Date Answer", () => {
       },
     };
   });
+  const renderDateAnswer = () =>
+    render(<DateAnswer answer={answer} />);
 
-  it("should render", () => {
-    expect(shallow(<DateAnswer answer={answer} />)).toMatchSnapshot();
+
+    describe("Testing render conditions", () => {
+
+      it("Can render with default props", () => {
+        const { getByText } = renderDateAnswer({});
+
+        expect(getByText(answer.label)).toBeInTheDocument();
+      });
+
+      it("should not render day input if no day in format", () => {
+        answer.properties.format = "mm/yyyy";
+        
+        const { queryByText } = renderDateAnswer({});
+
+        expect(queryByText("Day")).not.toBeInTheDocument();
+        expect(queryByText("Month")).toBeInTheDocument();
+        expect(queryByText("Year")).toBeInTheDocument();
+
+      });
+
+      it("should not render month input if no month in format", () => {
+        answer.properties.format = "dd/yyyy";
+        
+        const { queryByText } = renderDateAnswer({});
+
+        expect(queryByText("Day")).toBeInTheDocument();
+        expect(queryByText("Month")).not.toBeInTheDocument();
+        expect(queryByText("Year")).toBeInTheDocument();
+
+      });
+    
+      it("default format if its undefined", () => {
+        answer.properties.format = undefined;
+        
+        const { queryByText } = renderDateAnswer({});
+
+        expect(queryByText("Day")).toBeInTheDocument();
+        expect(queryByText("Month")).toBeInTheDocument();
+        expect(queryByText("Year")).toBeInTheDocument();
+
+      });
+      
+
+    });
   });
 
-  it("should not render day input if no day in format", () => {
-    answer.properties.format = "mm/yyyy";
-    expect(
-      shallow(<DateAnswer answer={answer} />).exists('[data-test="day-input"]')
-    ).toBeFalsy();
-  });
-
-  it("should not render month input if no month in format", () => {
-    answer.properties.format = "yyyy";
-    expect(
-      shallow(<DateAnswer answer={answer} />).exists(
-        '[data-test="month-input"]'
-      )
-    ).toBeFalsy();
-  });
-
-  it("should default format to dd/mm/yyyy", () => {
-    answer.properties.format = undefined;
-    expect(
-      shallow(<DateAnswer answer={answer} />).exists('[data-test="day-input"]')
-    ).toBeTruthy();
-  });
-});
