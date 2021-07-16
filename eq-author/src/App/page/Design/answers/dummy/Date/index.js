@@ -40,6 +40,7 @@ const Wrapper = styled.div`
 const Label = styled.p`
   font-size: 0.9em;
   margin: 0 0 0.5rem;
+  font-weight: bold;
 `;
 
 const Date = ({ showDay, showMonth, showYear }) => {

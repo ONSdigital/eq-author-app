@@ -21,16 +21,16 @@ const DateField = styled.div`
 `;
 
 const DayDateField = styled(DateField)`
-  max-width: 6em;
+  max-width: ${props => props.enableOn ? '5em' : '6em'};
 `;
 
 const MonthDateField = styled(DateField)`
   flex: 2;
-  max-width: ${props => props.enableOn ? '6em' : '15em'};
+  max-width: ${props => props.enableOn ? '5em' : '15em'};
 `;
 
 const YearDateField = styled(DateField)`
-  max-width: 6em;
+  max-width: ${props => props.enableOn ? '6em' : '6em'};
   margin-right: 0;
 `;
 
@@ -69,7 +69,7 @@ const DateAnswer = ({ answer }) => {
       <Label description={description}>{label}</Label>
       <DateFields>
         {format.includes("dd") && (
-          <DayDateField data-test="day-input">
+          <DayDateField data-test="day-input" enableOn={enableOn(["hub"])}>
             <DateFieldLabel>Day</DateFieldLabel>
             <DateInput placeholder="DD" />
           </DayDateField>
@@ -87,7 +87,7 @@ const DateAnswer = ({ answer }) => {
           </MonthDateField>
         )}
 
-        <YearDateField>
+        <YearDateField enableOn={enableOn(["hub"])}>
           <DateFieldLabel>Year</DateFieldLabel>
           <DateInput placeholder="YYYY" />
         </YearDateField>
