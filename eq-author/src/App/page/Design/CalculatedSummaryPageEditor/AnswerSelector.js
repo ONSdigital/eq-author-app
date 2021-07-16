@@ -283,7 +283,7 @@ export const UnwrappedAnswerSelector = ({
           preprocessAnswers: filterAvailableAnswers,
         })
       )?.filter((section) => section.id === page.section.id) || [],
-    [questionnaire, page.id]
+    [questionnaire, page.id, page.section.id]
   );
 
   return (

@@ -25,7 +25,7 @@ export const PreviousAnswerContentPicker = ({
         preprocessAnswers: (answer) =>
           allowedAnswerTypes.includes(answer.type) ? answer : [],
       }),
-    [questionnaire, id]
+    [questionnaire, id, allowedAnswerTypes]
   );
 
   return (

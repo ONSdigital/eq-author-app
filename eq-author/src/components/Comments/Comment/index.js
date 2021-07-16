@@ -175,7 +175,7 @@ const Comment = ({
         });
       }
     },
-    [id, subjectId, rootId, isReply]
+    [id, subjectId, rootId, isReply, updateComment, updateReply]
   );
 
   const onDeleteComment = useCallback(() => {
@@ -199,7 +199,7 @@ const Comment = ({
         },
       });
     }
-  }, [id, subjectId, rootId, isReply]);
+  }, [id, subjectId, rootId, isReply, deleteReply, deleteComment]);
 
   return (
     <Wrapper data-test="Comment">
