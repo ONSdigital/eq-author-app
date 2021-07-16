@@ -18,6 +18,10 @@ const Field = styled.div`
   }
 `;
 
+const YearField = styled(Field)`
+    width: ${props => props.enableOn ? '6em' : '5em'};
+`;
+
 const SelectField = styled(Field)`
   width: ${props => props.enableOn ? '5em' : '12em'};
 `;
@@ -54,10 +58,10 @@ const Date = ({ showDay, showMonth, showYear }) => {
         </SelectField>
       )}
       {showYear && (
-        <Field data-test="dummy-date-year">
+        <YearField data-test="dummy-date-year" enableOn={enableOn(["hub"])}>
           <Label>Year</Label>
           <Input />
-        </Field>
+        </YearField>
       )}
     </Wrapper>
   );
