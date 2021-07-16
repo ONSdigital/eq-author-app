@@ -30,7 +30,7 @@ const MonthDateField = styled(DateField)`
 `;
 
 const YearDateField = styled(DateField)`
-  max-width: ${props => props.enableOn ? '6em' : '6em'};
+  max-width: 6em;
   margin-right: 0;
 `;
 
