@@ -94,7 +94,7 @@ Page.propTypes = {
 const Folder = ({ folder }) => {
   const { displayName, pages } = folder;
 
-  const numOfPagesInFolder = pages.flatMap(({ pages }) => pages).length;
+  const numOfPagesInFolder = pages.length;
 
   if (numOfPagesInFolder > 0) {
     return (
