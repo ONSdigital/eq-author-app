@@ -21,81 +21,79 @@ describe("QuestionPicker", () => {
   const renderQuestionPicker = (args) =>
     render(<QuestionPicker isOpen {...defaultProps} {...args} />);
 
-    describe("Testing the render", () => {
-      it("Can render", () => {
-        const { getByText } = renderQuestionPicker({});
+  describe("Testing the render", () => {
+    it("Can render", () => {
+      const { getByText } = renderQuestionPicker({});
 
-        expect(getByText(defaultProps.title)).toBeInTheDocument();
-      });
+      expect(getByText(defaultProps.title)).toBeInTheDocument();
+    });
+  });
 
+  describe("Functions Firing", () => {
+    it("onSubmit Fires", () => {
+      const { getByText } = renderQuestionPicker({});
+
+      const selectButton = getByText("Select");
+
+      fireEvent.click(selectButton);
+
+      expect(defaultProps.onSubmit).toHaveBeenCalled();
     });
 
-    describe("Functions Firing", () => {
-      it("onSubmit Fires", () => {
-        const { getByText } = renderQuestionPicker({});
+    it("onClose Fires", () => {
+      const { getByLabelText } = renderQuestionPicker({});
 
-        const selectButton = getByText("Select");
+      const closeButton = getByLabelText("Close");
 
-        fireEvent.click(selectButton);
+      fireEvent.click(closeButton);
 
-        expect(defaultProps.onSubmit).toHaveBeenCalled();
-      });
-
-      it("onClose Fires", () => {
-        const { getByLabelText } = renderQuestionPicker({});
-
-        const closeButton = getByLabelText('Close');
-
-        fireEvent.click(closeButton);
-
-        // getByLabelText can also grab the aria label
-        expect(defaultProps.onClose).toHaveBeenCalled();
-      });
+      // getByLabelText can also grab the aria label
+      expect(defaultProps.onClose).toHaveBeenCalled();
     });
+  });
 
-    describe("Interaction testing", () => {
-      it("tests clicks on individual questions and registers the clicks", () => {
-        const { getByText } = renderQuestionPicker({});
+  describe("Interaction testing", () => {
+    it("tests clicks on individual questions and registers the clicks", () => {
+      const { getByText } = renderQuestionPicker({});
 
-        const firstQuestion = getByText("1a").closest("div");
-        fireEvent.click(firstQuestion);
-        expect(firstQuestion.getAttribute("aria-selected")).toBe("true");
+      const firstQuestion = getByText("1a").closest("div");
+      fireEvent.click(firstQuestion);
 
+      expect(firstQuestion.getAttribute("aria-selected")).toBeTruthy();
 
-        fireEvent.click(firstQuestion);
-        expect(firstQuestion.getAttribute("aria-selected")).toBe("false");
-      });
-
+      fireEvent.click(firstQuestion);
+      expect(firstQuestion.getAttribute("aria-selected")).toBeFalsy();
     });
+  });
 
   describe("Testing the search UI", () => {
     it("Types pet into the search bar and returns the question Why do you not have pets?", () => {
       const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
 
-      const searchBar =  getByTestId("search-bar");
+      const searchBar = getByTestId("search-bar");
 
       fireEvent.change(searchBar, {
         target: { value: "pet" },
       });
-  
+
       expect(getByText("Why do you not have any pets?")).toBeInTheDocument();
       expect(queryByText("Do you have a car?")).not.toBeInTheDocument();
-
     });
 
     it("Types car into the search bar and returns the question Do you have a car && what colour car do you have?", () => {
       const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
 
-      const searchBar =  getByTestId("search-bar");
+      const searchBar = getByTestId("search-bar");
 
       fireEvent.change(searchBar, {
         target: { value: "car" },
       });
-  
+
       expect(getByText("Do you have a car?")).toBeInTheDocument();
       expect(getByText("What colour car do you have?")).toBeInTheDocument();
-      expect(queryByText("Why do you not have any pets?")).not.toBeInTheDocument();
-
+      expect(
+        queryByText("Why do you not have any pets?")
+      ).not.toBeInTheDocument();
     });
 
     it("Doesnt show the search bar if showSearch is false", () => {
@@ -112,14 +110,14 @@ describe("QuestionPicker", () => {
       };
 
       const renderQuestionPicker = (args) =>
-      render(<QuestionPicker isOpen {...defaultPropsWithSearchFalse} {...args} />);
+        render(
+          <QuestionPicker isOpen {...defaultPropsWithSearchFalse} {...args} />
+        );
 
       const { queryByTestId } = renderQuestionPicker({});
-      const searchBar =  queryByTestId("search-bar");
+      const searchBar = queryByTestId("search-bar");
 
       expect(searchBar).toBeNull();
     });
   });
-
-
 });

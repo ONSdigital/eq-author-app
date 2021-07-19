@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { getPages } from "utils/questionnaireUtils";
+import { stripHtmlToText } from "utils/stripHTML";
 
 import { colors } from "constants/theme";
 
@@ -58,7 +59,7 @@ const Title = styled.h2`
 
 const WarningPanel = styled(IconText)``;
 
-const isSelected = (items, target) => item.find(({id}) => id === target.id);
+const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Page = ({ page }) => {
   const { title, displayName, alias } = page;
@@ -79,7 +80,7 @@ const Page = ({ page }) => {
   };
   return (
     <Item
-      title={title.replace(/(<([^>]+)>)/gi, "") || displayName}
+      title={stripHtmlToText(title) || displayName}
       subtitle={alias}
       onClick={handleClick}
       selected={itemSelected}
@@ -122,7 +123,7 @@ Folder.propTypes = {
 const Section = ({ section }) => {
   const { displayName, folders } = section;
 
- const numOfPagesInSection = folders.reduce((count, ({ pages })) => count + pages.length, 0);
+  const numOfPagesInSection = getPages({ sections: [section] }).length;
 
   if (numOfPagesInSection > 0) {
     return (
@@ -171,14 +172,15 @@ const QuestionPicker = ({
     updateSelectedPages(startingSelectedQuestions);
   }, [startingSelectedQuestions]);
 
-
   const filterList = (data, searchTerm) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
     return data.map(({ folders, ...rest }) => ({
       folders: folders.map(({ pages, ...rest }) => ({
         pages: pages.filter(({ displayName, alias, title }) =>
-        `${alias ? alias : ""} ${title ? title : displayName}`.toLowerCase().includes(lowerCaseSearchTerm)
+          `${alias ? alias : ""} ${title ? title : displayName}`
+            .toLowerCase()
+            .includes(lowerCaseSearchTerm)
         ),
         ...rest,
       })),

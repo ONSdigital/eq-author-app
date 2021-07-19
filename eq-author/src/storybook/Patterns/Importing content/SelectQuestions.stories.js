@@ -12,7 +12,7 @@ export default {
 
 // https://stackoverflow.com/questions/56248544/how-to-show-unordered-list-within-window-alert/56248648
 const createUnorderedList = (list, bulletChar) =>
-  list.reduce((acc, val) => acc += `${bulletChar} ${val}\n`, "");
+  list.reduce((acc, val) => (acc += `${bulletChar} ${val}\n`), ""); //eslint-disable-line
 
 const Template = ({ isOpen, ...rest }) => {
   const [modalIsOpen, setModalIsOpen] = useState(isOpen);
