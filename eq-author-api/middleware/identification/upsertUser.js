@@ -18,6 +18,7 @@ const checkForUpdates = (user, existingUser) => {
 };
 
 module.exports = async (req, res, next) => {
+  console.log("next :>> ", next);
   const { user } = req;
   if (!user.isVerified) {
     if (

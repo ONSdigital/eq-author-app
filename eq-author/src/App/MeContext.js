@@ -19,14 +19,59 @@ const signIn = (setSignInSuccess, history, user) => {
 
   const signInUrl = config.REACT_APP_SIGN_IN_URL;
 
+  console.log("setSignInSuccess :>> ", setSignInSuccess);
+  console.log("user.emailVerified :>> ", user.emailVerified);
+  console.log("user :>> ", user);
+
+  const actionCodeSettings = {
+    url: signInUrl,
+    // This must be true.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: "com.example.ios",
+    },
+    android: {
+      packageName: "com.example.android",
+      installApp: true,
+      minimumVersion: "12",
+    },
+    dynamicLinkDomain: "example.page.link",
+  };
+
   return window
     .fetch(signInUrl, {
       method: "POST",
       headers: { authorization: `Bearer ${user.ra}` },
     })
     .then((res) => {
+      console.log("response :>> ", res);
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
+      }
+      if (!user.emailVerified) {
+        console.log("Inside sendemailLink :>> ", user.email);
+        auth()
+          .sendSignInLinkToEmail(user.email, actionCodeSettings)
+          .then(() => {
+            console.log(
+              "It sent!!!!  actionCodeSettings :>> ",
+              actionCodeSettings
+            );
+            // setFirebaseUser(user);
+            // setAwaitingFirebase(false);
+            // The link was successfully sent. Inform the user.
+            // Save the email locally so you don't need to ask the user for it again
+            // if they open the link on the same device.
+            // window.localStorage.setItem("emailForSignIn", email);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("errorCode :>> ", errorCode);
+            console.log("errorMessage :>> ", errorMessage);
+            // ...
+          });
       }
       history.push(
         get(
