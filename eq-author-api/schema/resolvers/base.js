@@ -1078,6 +1078,53 @@ const Resolvers = {
       delete parent.skipConditions;
       return parent;
     }),
+    createDisplayCondition: createMutation((_, { input }, ctx) => {
+      const { sectionId } = input;
+
+      const section = getSectionById(ctx, sectionId);
+
+      const leftHandSide = {
+        type: "Null",
+        nullReason: "DefaultDisplayCondition",
+      };
+
+      const defaultDisplayCondition = createExpressionGroup({
+        operator: "And",
+        expressions: [createExpression({ left: createLeftSide(leftHandSide) })],
+      });
+
+      section.displayConditions = section.displayConditions
+        ? [...section.displayConditions, defaultDisplayCondition]
+        : [defaultDisplayCondition];
+
+      return section;
+    }),
+    deleteDisplayCondition: createMutation((_, { input }, ctx) => {
+      const parent = getSections(ctx).find(
+        ({ displayConditions }) =>
+          displayConditions &&
+          displayConditions.find(({ id }) => id === input.id)
+      );
+
+      parent.displayConditions.splice(
+        parent.displayConditions.findIndex(({ id }) => id === input.id),
+        1
+      );
+
+      if (parent.displayConditions.length === 0) {
+        delete parent.displayConditions;
+      }
+
+      return parent;
+    }),
+    deleteDisplayConditions: createMutation((_, { input }, ctx) => {
+      const { sectionId } = input;
+
+      const section = getSectionById(ctx, sectionId);
+
+      delete section.displayConditions;
+      return section;
+    }),
   },
 
   Questionnaire: {

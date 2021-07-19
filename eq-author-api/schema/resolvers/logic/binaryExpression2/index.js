@@ -12,12 +12,10 @@ const {
   getAnswers,
   getAnswerById,
   getOptions,
-  getExpressionGroups,
   getExpressionGroupById,
   getExpressionById,
-  getSkipConditionById,
-  getSkipConditions,
   getAllExpressionGroups,
+  getExpressionGroupByExpressionId,
   returnValidationErrors,
 } = require("../../utils");
 
@@ -114,34 +112,19 @@ Resolvers.Mutation = {
       input.expressionGroupId
     );
 
-    const skipCondition = getSkipConditionById(ctx, input.expressionGroupId);
-
     let leftHandSide = {
       type: "Null",
+      nullReason: "DefaultRouting",
     };
 
     let expression;
 
-    if (expressionGroup) {
-      leftHandSide.nullReason = "DefaultRouting";
+    expression = createExpression({
+      left: createLeftSide(leftHandSide),
+      condition: null,
+    });
 
-      expression = createExpression({
-        left: createLeftSide(leftHandSide),
-      });
-
-      expressionGroup.expressions.push(expression);
-    }
-
-    if (skipCondition) {
-      leftHandSide.nullReason = "DefaultSkipCondition";
-
-      expression = createExpression({
-        left: createLeftSide(leftHandSide),
-        condition: null,
-      });
-
-      skipCondition.expressions.push(expression);
-    }
+    expressionGroup.expressions.push(expression);
 
     return expression;
   }),
@@ -247,17 +230,9 @@ Resolvers.Mutation = {
     return expression;
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
-    const routingExpressionGroups = getExpressionGroups(ctx);
-    const skipConditions = getSkipConditions(ctx);
-    const expressionGroup = find(
-      (expressionGroup) => {
-        if (some({ id: input.id }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      },
-      [...routingExpressionGroups, ...skipConditions]
-    );
+    const expressionGroup = getExpressionGroupByExpressionId(ctx, input.id);
 
+    // Delete the expression group (e.g. skip condition or display condition) with a given ID
     expressionGroup.expressions = reject(
       { id: input.id },
       expressionGroup.expressions

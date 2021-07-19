@@ -27,6 +27,7 @@ export default (
       storageKey,
       JSON.stringify(pick(state, storedKeys))
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, Object.values(pick(state, storedKeys)));
   return [state, dispatch];
 };

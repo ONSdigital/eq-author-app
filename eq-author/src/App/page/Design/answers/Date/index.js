@@ -31,10 +31,10 @@ import withValidationError from "enhancers/withValidationError";
 
 const Format = styled.div`
   padding: 1em;
-  width: 66.66%;
+  width: 300px;
   border-radius: 3px;
   opacity: 0.5 !important;
-  border: 1px solid ${colors.bordersLight};
+  border: 1px solid ${colors.black};
 `;
 
 const Fieldset = styled.fieldset`

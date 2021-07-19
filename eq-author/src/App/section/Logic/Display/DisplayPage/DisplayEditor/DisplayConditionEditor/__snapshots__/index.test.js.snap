@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisplayConditionEditor should render 1`] = `
+<div
+  data-test="display-condition"
+>
+  <DisplayConditionEditor__Header>
+    <Label
+      bold={true}
+      inline={true}
+    >
+      Display this section
+    </Label>
+    <DisplayConditionEditor__RemoveDisplayConditionButton
+      data-test="btn-remove-display-conditions"
+      onClick={[Function]}
+      type="button"
+      variant="primary"
+    >
+      Remove logic rule
+    </DisplayConditionEditor__RemoveDisplayConditionButton>
+  </DisplayConditionEditor__Header>
+  <DisplayConditionEditor__Expressions>
+    <TransitionGroup
+      childFactory={[Function]}
+      component="div"
+    />
+  </DisplayConditionEditor__Expressions>
+</div>
+`;

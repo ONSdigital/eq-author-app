@@ -11,7 +11,12 @@ const config = {
 };
 
 module.exports = {
-  extends: ["eslint-config-eq-author", "eslint-config-eq-author/react"],
+  // parser: "@babel/eslint-parser",
+  extends: [
+    "eslint-config-eq-author",
+    "eslint-config-eq-author/react",
+    "plugin:react-hooks/recommended",
+  ],
   settings: {
     react: {
       version: "latest",

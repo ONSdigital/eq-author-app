@@ -2,6 +2,7 @@ const { Firestore } = require("@google-cloud/firestore");
 const { v4: uuidv4 } = require("uuid");
 const { logger } = require("../../utils/logger");
 const { pick } = require("lodash/fp");
+const { omit } = require("lodash");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const {
@@ -28,73 +29,94 @@ const BASE_FIELDS = [
 
 const justListFields = pick(BASE_FIELDS);
 
+const saveSections = (parentDoc, sections) =>
+  Promise.all(
+    sections.map((section, position) =>
+      parentDoc
+        .collection("sections")
+        .doc(section.id)
+        .set({ ...section, position })
+    )
+  );
+
 const createQuestionnaire = async (questionnaire, ctx) => {
   const updatedAt = new Date();
-
-  if (!questionnaire.id) {
-    questionnaire.id = uuidv4();
-  }
-
-  let { id } = questionnaire;
+  const id = questionnaire.id ?? uuidv4();
+  const { sections } = questionnaire;
 
   const baseQuestionnaire = removeEmpty({
+    id,
     ...justListFields(questionnaire),
     history: [questionnaireCreationEvent(questionnaire, ctx)],
     updatedAt,
   });
 
   const versionQuestionnaire = removeEmpty({
+    id,
     ...questionnaire,
     updatedAt,
+    sections: undefined,
   });
 
   try {
-    await db.collection("questionnaires").doc(id).set(baseQuestionnaire);
-
-    await db
-      .collection("questionnaires")
-      .doc(id)
-      .collection("versions")
-      .doc(uuidv4())
-      .set(versionQuestionnaire);
+    const baseDoc = db.collection("questionnaires").doc(id);
+    await baseDoc.set(baseQuestionnaire);
+    const versionDoc = baseDoc.collection("versions").doc(uuidv4());
+    await versionDoc.set(versionQuestionnaire);
+    await saveSections(versionDoc, sections);
   } catch (error) {
     logger.error(error, `Unable to create questionnaire with ID: ${id}`);
   }
 
   logger.info(`Created questionnaire with ID: ${id}`);
 
-  return {
-    ...questionnaire,
-    updatedAt,
-  };
+  return { ...versionQuestionnaire, sections };
 };
 
 const getQuestionnaire = async (id) => {
   try {
-    const questionnaireSnapshot = await db
-      .collection("questionnaires")
-      .doc(id)
-      .collection("versions")
-      .orderBy("createdAt", "desc")
-      .limit(1)
-      .get();
-    if (questionnaireSnapshot.empty) {
-      logger.info("No questionnaires found");
-      return null;
+    const latestVersionSnapshot = (
+      await db
+        .collection("questionnaires")
+        .doc(id)
+        .collection("versions")
+        .orderBy("createdAt", "desc")
+        .limit(1)
+        .get()
+    ).docs?.[0];
+
+    if (!latestVersionSnapshot) {
+      throw new Error("Document doesn't exist");
     }
-    const transformedQuestionnaires = questionnaireSnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      editors: doc.data().editors || [],
-      createdAt: doc.data().createdAt.toDate(),
-      updatedAt: doc.data().updatedAt.toDate(),
-    }));
-    return transformedQuestionnaires[0];
+
+    const sectionsSnapshot = await latestVersionSnapshot?.ref
+      ?.collection("sections")
+      ?.get();
+
+    const sections =
+      !sectionsSnapshot || sectionsSnapshot.empty
+        ? []
+        : sectionsSnapshot.docs
+            .map((snap) => snap.data())
+            .sort(({ position: a }, { position: b }) => a - b);
+
+    const version = latestVersionSnapshot.data();
+
+    const transformedQuestionnaire = {
+      ...version,
+      sections: sections.length ? sections : version.sections || [],
+      editors: version.editors || [],
+      createdAt: version.createdAt.toDate(),
+      updatedAt: version.updatedAt.toDate(),
+    };
+
+    return transformedQuestionnaire;
   } catch (error) {
     logger.error(
       error,
       `Unable to get latest version of questionnaire with ID: ${id}`
     );
-    return;
+    return null;
   }
 };
 
@@ -146,21 +168,19 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       ...changedQuestionnaire,
     });
 
-    await db
-      .collection("questionnaires")
-      .doc(id)
-      .update({ ...justListFields(updatedQuestionnaire), updatedAt });
+    const { sections } = updatedQuestionnaire;
 
-    await db
-      .collection("questionnaires")
-      .doc(id)
-      .collection("versions")
-      .doc(uuidv4())
-      .set({
-        ...updatedQuestionnaire,
-        updatedAt,
-        createdAt,
-      });
+    const baseDoc = db.collection("questionnaires").doc(id);
+    baseDoc.update({ ...justListFields(updatedQuestionnaire), updatedAt });
+
+    const versionDoc = baseDoc.collection("versions").doc(uuidv4());
+    versionDoc.set({
+      ...omit(updatedQuestionnaire, "sections"),
+      updatedAt,
+      createdAt: new Date(),
+    });
+
+    await saveSections(versionDoc, sections);
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {

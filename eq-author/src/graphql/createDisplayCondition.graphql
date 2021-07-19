@@ -1,0 +1,13 @@
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
+mutation createDisplay($input: DisplayConditionInput!) {
+  createDisplayCondition(input: $input) {
+    id
+    displayConditions {
+      id
+      operator
+      expressions {
+        ...BinaryExpressionEditor
+      }
+    }
+  }
+}
