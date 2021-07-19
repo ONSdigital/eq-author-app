@@ -11,13 +11,8 @@ export default {
 };
 
 // https://stackoverflow.com/questions/56248544/how-to-show-unordered-list-within-window-alert/56248648
-function createUnorderedList(list, bulletChar) {
-  var result = "";
-  for (var i = 0; i < list.length; ++i) {
-    result += bulletChar + " " + list[i] + "\n";
-  }
-  return result;
-}
+const createUnorderedList = (list, bulletChar) =>
+  list.reduce((acc, val) => acc += `${bulletChar} ${val}\n`, "");
 
 const Template = ({ isOpen, ...rest }) => {
   const [modalIsOpen, setModalIsOpen] = useState(isOpen);
