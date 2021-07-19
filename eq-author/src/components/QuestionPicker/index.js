@@ -58,10 +58,7 @@ const Title = styled.h2`
 
 const WarningPanel = styled(IconText)``;
 
-const isSelected = (selectedItemsArr, item) =>
-  selectedItemsArr.findIndex(
-    (selectedAnswer) => selectedAnswer.id === item.id
-  ) !== -1;
+const isSelected = (items, target) => item.find(({id}) => id === target.id);
 
 const Page = ({ page }) => {
   const { title, displayName, alias } = page;
