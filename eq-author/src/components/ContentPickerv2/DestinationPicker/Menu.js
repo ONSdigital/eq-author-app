@@ -65,7 +65,21 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { current, later, other } = buildTabs(data);
 
-  const tabs = later.destinations ? [current, later, other] : [current, other];
+  const getRequiredTabs = () => {
+    const requiredTabs = [];
+
+    if (current.destinations.length !== 0) {
+      requiredTabs.push(current);
+    }
+    if (later.destinations.length !== 0) {
+      requiredTabs.push(later);
+    }
+    requiredTabs.push(other);
+
+    return requiredTabs;
+  };
+
+  const tabs = getRequiredTabs();
 
   return (
     <ColumnContainer data-test="destination-picker-menu">
