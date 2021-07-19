@@ -71,7 +71,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
     if (current.destinations.length !== 0) {
       requiredTabs.push(current);
     }
-    if (later.destinations.length !== 0) {
+    if (later?.destinations?.length !== 0 && later.destinations) {
       requiredTabs.push(later);
     }
     requiredTabs.push(other);
