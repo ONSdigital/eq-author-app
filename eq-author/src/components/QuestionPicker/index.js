@@ -122,9 +122,7 @@ Folder.propTypes = {
 const Section = ({ section }) => {
   const { displayName, folders } = section;
 
-  const numOfPagesInSection = folders.flatMap(({ pages }) =>
-    pages.flatMap(({ pages }) => pages)
-  ).length;
+ const numOfPagesInSection = folders.reduce((count, ({ pages })) => count + pages.length, 0);
 
   if (numOfPagesInSection > 0) {
     return (
