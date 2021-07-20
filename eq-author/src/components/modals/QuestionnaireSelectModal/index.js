@@ -40,7 +40,13 @@ const MenuContainer = styled.div`
   height: 28em;
 `;
 
-const QuestionnaireSelectModal = ({ isOpen, onClose, onSelect, children }) => {
+const QuestionnaireSelectModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  children,
+  disableSelect,
+}) => {
   return (
     <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
       <Container data-test="questionnaire-select-modal">
@@ -56,7 +62,12 @@ const QuestionnaireSelectModal = ({ isOpen, onClose, onSelect, children }) => {
           <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" autoFocus onClick={onSelect}>
+          <Button
+            variant="primary"
+            autoFocus
+            onClick={onSelect}
+            disabled={disableSelect}
+          >
             Select
           </Button>
         </ButtonGroup>

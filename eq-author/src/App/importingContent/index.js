@@ -27,6 +27,7 @@ const SelectQuestionnaire = ({
       onSelect={() => onSelect(selectedQuestionnaire)}
       onClose={onCancel}
       onCancel={onCancel}
+      disableSelect={!selectedQuestionnaire}
     >
       <QuestionnairesView
         questionnaires={questionnaires}
