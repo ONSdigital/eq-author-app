@@ -20,9 +20,9 @@ const user = {
 
 const buildQuestionnaire = (index) => ({
   id: `questionnaire${index}`,
-  displayName: `Questionnaire ${index}`,
-  title: `Questionnaire ${index}'s title`,
-  shortTitle: "",
+  displayName: `Questionnaire about Thing ${index}`,
+  title: `Questionnaire about Thing ${index}`,
+  shortTitle: `Thing ${index}`,
   createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
   updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
   createdBy: user,
@@ -33,9 +33,11 @@ const buildQuestionnaire = (index) => ({
 });
 
 let questionArray;
-(questionArray = [...Array(4).keys()]).shift();
+questionArray = [...Array(2).keys()];
 
-const questionnaires = questionArray.map((index) => buildQuestionnaire(index));
+const questionnaires = questionArray.map((index) =>
+  buildQuestionnaire(index + 1)
+);
 
 export default {
   title: "Examples/Importing content",
