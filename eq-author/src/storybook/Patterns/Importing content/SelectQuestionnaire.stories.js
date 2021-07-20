@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
-import QuestionnairesView from "../../../components/QuestionnairesView";
+import QuestionnairesView from "components/QuestionnairesView";
 import * as Headings from "constants/table-headings";
 import {
   Title,
