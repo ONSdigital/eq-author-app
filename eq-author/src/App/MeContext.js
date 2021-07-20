@@ -77,6 +77,7 @@ const ContextProvider = ({ history, client, children }) => {
   const [signInSuccess, setSignInSuccess] = useState(false);
   const loggedInEverywhere = firebaseUser && signInSuccess;
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
+  const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -89,9 +90,14 @@ const ContextProvider = ({ history, client, children }) => {
     if (awaitingFirebase) {
       return;
     }
-    if (firebaseUser) {
+    if (firebaseUser && firebaseUser.emailVerified) {
       signIn(setSignInSuccess, history, firebaseUser);
+      setSentEmailVerification(false);
     } else {
+      if (firebaseUser && !firebaseUser.emailVerified) {
+        firebaseUser.sendEmailVerification();
+        setSentEmailVerification(true);
+      }
       signOut(history, client);
       setSignInSuccess(false);
     }
@@ -102,7 +108,7 @@ const ContextProvider = ({ history, client, children }) => {
         const me = get(innerProps, "data.me");
         const isSigningIn =
           awaitingFirebase ||
-          (firebaseUser && !signInSuccess) || // firebase done but not us
+          (firebaseUser && firebaseUser.emailVerified && !signInSuccess) || // firebase done but not us
           (loggedInEverywhere && innerProps.loading); // we are done and awaiting apollo
 
         return (
@@ -114,6 +120,7 @@ const ContextProvider = ({ history, client, children }) => {
               },
               awaitingUserQuery: innerProps.loading,
               isSigningIn,
+              sentEmailVerification,
             }}
           >
             {children}
@@ -135,13 +142,14 @@ export const MeProvider = flowRight(withApollo, withRouter)(ContextProvider);
 export const withMe = (Component) => {
   const InnerComponent = (props) => (
     <MeContext.Consumer>
-      {({ me, signIn, signOut, isSigningIn }) => (
+      {({ me, signIn, signOut, isSigningIn, sentEmailVerification }) => (
         <Component
           {...props}
           me={me}
           signIn={signIn}
           signOut={signOut}
           isSigningIn={isSigningIn}
+          sentEmailVerification={sentEmailVerification}
         />
       )}
     </MeContext.Consumer>
