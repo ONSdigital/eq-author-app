@@ -1,0 +1,668 @@
+[
+  {
+    "id": "37e0cfc1-4718-4fe1-b59b-93e71db60779",
+    "title": "",
+    "displayName": "Pets",
+    "questionnaire": {
+      "id": "55b63e93-4c5c-4b79-a1de-1b209caba221",
+      "__typename": "Questionnaire"
+    },
+    "validationErrorInfo": {
+      "id": "37e0cfc1-4718-4fe1-b59b-93e71db60779",
+      "totalCount": 0,
+      "__typename": "ValidationErrorInfo"
+    },
+    "folders": [
+      {
+        "id": "82c0eb2a-65b3-4b23-b378-8fc1b169ce4e",
+        "enabled": false,
+        "alias": "",
+        "displayName": "Untitled folder",
+        "position": 0,
+        "pages": [
+          {
+            "id": "704196ea-ec19-49dc-abe7-a2cdb0b2952d",
+            "alias": "1",
+            "title": "<p>Do you have any pets?</p>",
+            "position": 0,
+            "displayName": "1",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "704196ea-ec19-49dc-abe7-a2cdb0b2952d",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "1fc13257-c1f8-4a91-bd84-9f02f7c52a90",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Radio",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "5e88289e-e213-4f83-ac46-de019ea6e57b",
+                    "displayName": "Yes",
+                    "label": "Yes",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "8e34da0b-015e-4e29-a3cc-846fda9e7856",
+                    "displayName": "No",
+                    "label": "No",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          }
+        ],
+        "validationErrorInfo": {
+          "id": "82c0eb2a-65b3-4b23-b378-8fc1b169ce4e",
+          "totalCount": 0,
+          "__typename": "ValidationErrorInfo"
+        },
+        "__typename": "Folder"
+      },
+      {
+        "id": "ee8850c0-5fe5-4433-b478-553f139d620c",
+        "enabled": true,
+        "alias": "Have pets",
+        "displayName": "Have pets",
+        "position": 1,
+        "pages": [
+          {
+            "id": "2858f2e9-a279-4903-8625-48e9346263a5",
+            "alias": "1a",
+            "title": "<p>How many pets do you have?</p>",
+            "position": 0,
+            "displayName": "1a",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "2858f2e9-a279-4903-8625-48e9346263a5",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "43cc3e27-a6ef-4525-a734-954d016220b2",
+                "displayName": "Number of pets",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "Number of pets",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": "Untitled answer",
+                "type": "Number",
+                "properties": {
+                  "required": false,
+                  "decimals": 0
+                },
+                "secondaryQCode": null,
+                "__typename": "BasicAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          },
+          {
+            "id": "76bdec6e-1756-4dee-888e-29491f1a4294",
+            "alias": "1b",
+            "title": "<p>What species do you have?</p>",
+            "position": 1,
+            "displayName": "1b",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "76bdec6e-1756-4dee-888e-29491f1a4294",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "d222a38a-0a97-45f1-91aa-995a272eec32",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Checkbox",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "2602b2d8-5aae-4cd5-9a64-b8be762a3748",
+                    "displayName": "Dog",
+                    "label": "Dog",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "431a32a4-5f4f-4b58-82cb-9c9fd5292ec8",
+                    "displayName": "Cat",
+                    "label": "Cat",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "b3040c09-1811-48f1-8d1d-b15b520e4186",
+                    "displayName": "Rat",
+                    "label": "Rat",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "fd7611b3-fd57-4cbf-9406-cb8f2a7c7c8b",
+                    "displayName": "Bird",
+                    "label": "Bird",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "450e17b8-a2eb-4cfc-84cd-d140be37df8f",
+                    "displayName": "Hamster",
+                    "label": "Hamster",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "549b085a-4ab6-4a89-a6d2-0fabc8f13d4d",
+                    "displayName": "Other",
+                    "label": "Other",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          }
+        ],
+        "validationErrorInfo": {
+          "id": "ee8850c0-5fe5-4433-b478-553f139d620c",
+          "totalCount": 0,
+          "__typename": "ValidationErrorInfo"
+        },
+        "__typename": "Folder"
+      },
+      {
+        "id": "52a459fe-3fd5-4b9b-bf8a-d014a6bf7be4",
+        "enabled": true,
+        "alias": "No pets",
+        "displayName": "No pets",
+        "position": 2,
+        "pages": [
+          {
+            "id": "223b5530-3306-48f3-9875-d7ae9c7af18f",
+            "alias": null,
+            "title": "<p>Why do you not have any pets?</p>",
+            "position": 0,
+            "displayName": "Why do you not have any pets?",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "223b5530-3306-48f3-9875-d7ae9c7af18f",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "dbc3946f-da41-455a-ad68-5bee1b564937",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Radio",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "f9314784-ea3f-4a1d-aad8-20fbd62b30c8",
+                    "displayName": "I don't like them",
+                    "label": "I don't like them",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "314d5d4d-99bf-4a35-a89b-a185cf286be1",
+                    "displayName": "I'm not allowed them where I live",
+                    "label": "I'm not allowed them where I live",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "7c65d595-358e-4254-9b33-caa339d7efa7",
+                    "displayName": "I can't afford one",
+                    "label": "I can't afford one",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "df1e7995-b06f-4b74-9483-ef85f75d29a0",
+                    "displayName": "I'm allergic",
+                    "label": "I'm allergic",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "9a7777bd-acea-43e6-a9b0-c7e482e5f1f3",
+                    "displayName": "Other",
+                    "label": "Other",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          },
+          {
+            "id": "2d54a1af-4896-410e-9e7b-22ae94e447d4",
+            "alias": null,
+            "title": "<p>If you could, would you get one?</p>",
+            "position": 1,
+            "displayName": "If you could, would you get one?",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "2d54a1af-4896-410e-9e7b-22ae94e447d4",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "f492145c-07b9-4803-9962-04e03032bfdb",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Radio",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "45d89dff-40f6-4ac2-9715-7a7601632db0",
+                    "displayName": "Yes",
+                    "label": "Yes",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "0e32a297-b7f1-44d4-b55e-b7cf0f2ff8d9",
+                    "displayName": "No",
+                    "label": "No",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          },
+          {
+            "id": "25726d95-c631-44ae-b8d9-74a63211ba3f",
+            "alias": null,
+            "title": "<p>What species would you get?</p>",
+            "position": 2,
+            "displayName": "What species would you get?",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "25726d95-c631-44ae-b8d9-74a63211ba3f",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "6d2fb32c-b3de-4a44-b581-ee443acd11f3",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Checkbox",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "c6e7926b-cf0f-4912-8fc3-6c0b266b8d4c",
+                    "displayName": "Dog",
+                    "label": "Dog",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "b8c35cd7-e3f9-4d22-aab8-a3ebef76a183",
+                    "displayName": "Cat",
+                    "label": "Cat",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "00364be5-f6d6-48be-99e1-47f61e9ecca1",
+                    "displayName": "Bird",
+                    "label": "Bird",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "525ea516-df04-4125-abd1-68d67414de68",
+                    "displayName": "Rat",
+                    "label": "Rat",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "9505a8b1-0fe5-41a6-8885-f14b77895863",
+                    "displayName": "Hamster",
+                    "label": "Hamster",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "144ed963-7a7b-4e96-8dca-20f5668a557a",
+                    "displayName": "Other",
+                    "label": "Other",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          }
+        ],
+        "validationErrorInfo": {
+          "id": "52a459fe-3fd5-4b9b-bf8a-d014a6bf7be4",
+          "totalCount": 0,
+          "__typename": "ValidationErrorInfo"
+        },
+        "__typename": "Folder"
+      }
+    ],
+    "__typename": "Section"
+  },
+  {
+    "id": "c07786d3-02c1-42d9-b59e-9d9eb5dc009c",
+    "title": "",
+    "displayName": "Cars",
+    "questionnaire": {
+      "id": "55b63e93-4c5c-4b79-a1de-1b209caba221",
+      "__typename": "Questionnaire"
+    },
+    "validationErrorInfo": {
+      "id": "c07786d3-02c1-42d9-b59e-9d9eb5dc009c",
+      "totalCount": 0,
+      "__typename": "ValidationErrorInfo"
+    },
+    "folders": [
+      {
+        "id": "dcd63d51-c558-49eb-8e3e-97670e4149f4",
+        "enabled": false,
+        "alias": "",
+        "displayName": "Untitled folder",
+        "position": 0,
+        "pages": [
+          {
+            "id": "ba22ec79-d45a-49c7-b4ff-2444da4f3c3a",
+            "alias": null,
+            "title": "<p>Do you have a car?</p>",
+            "position": 0,
+            "displayName": "Do you have a car?",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "ba22ec79-d45a-49c7-b4ff-2444da4f3c3a",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "39abe747-642b-464e-9b62-8360b85ec71f",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Radio",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "f1f1b2c8-f399-48de-a0fe-8d5545e7a275",
+                    "displayName": "Yes",
+                    "label": "Yes",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "a07ddc7d-d7d1-4b38-9af0-923e7246d762",
+                    "displayName": "No",
+                    "label": "No",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          }
+        ],
+        "validationErrorInfo": {
+          "id": "dcd63d51-c558-49eb-8e3e-97670e4149f4",
+          "totalCount": 0,
+          "__typename": "ValidationErrorInfo"
+        },
+        "__typename": "Folder"
+      },
+      {
+        "id": "a723c4f4-3134-42bf-9df0-c77aa541e0a4",
+        "enabled": false,
+        "alias": "",
+        "displayName": "Untitled folder",
+        "position": 1,
+        "pages": [
+          {
+            "id": "3e2b0981-4891-4531-8c29-3c4619709c9a",
+            "alias": null,
+            "title": "<p>What colour car do you have?</p>",
+            "position": 0,
+            "displayName": "What colour car do you have?",
+            "pageType": "QuestionPage",
+            "validationErrorInfo": {
+              "id": "3e2b0981-4891-4531-8c29-3c4619709c9a",
+              "errors": [],
+              "totalCount": 0,
+              "__typename": "ValidationErrorInfo"
+            },
+            "answers": [
+              {
+                "id": "a755c4eb-19a2-4a5f-9586-a04bb4f95e82",
+                "displayName": "Untitled answer",
+                "description": "",
+                "guidance": "",
+                "qCode": "",
+                "label": "",
+                "secondaryLabel": null,
+                "secondaryLabelDefault": null,
+                "type": "Radio",
+                "properties": {
+                  "required": false
+                },
+                "options": [
+                  {
+                    "id": "db9bb01d-dfef-47ce-b1f4-7ff26f1d2f82",
+                    "displayName": "Red",
+                    "label": "Red",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "2924b03a-b3db-43b1-ba3f-07613fa22121",
+                    "displayName": "Yellow",
+                    "label": "Yellow",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "eda4aaa2-6bd4-49ce-ba18-4b0225f0cda4",
+                    "displayName": "Pink",
+                    "label": "Pink",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "43eed7c0-fc48-468b-98e6-0bfdf0203970",
+                    "displayName": "Green",
+                    "label": "Green",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "3acef3a6-4500-445e-8613-abea82ae3802",
+                    "displayName": "Purple",
+                    "label": "Purple",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "c762e8bc-33fb-4658-a20a-99136241d61d",
+                    "displayName": "Orange",
+                    "label": "Orange",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  },
+                  {
+                    "id": "fd2d7551-60a7-46cd-89b7-37a46ba8b36c",
+                    "displayName": "Blue",
+                    "label": "Blue",
+                    "description": null,
+                    "value": null,
+                    "qCode": null,
+                    "__typename": "Option"
+                  }
+                ],
+                "mutuallyExclusiveOption": null,
+                "__typename": "MultipleChoiceAnswer"
+              }
+            ],
+            "confirmation": null,
+            "__typename": "QuestionPage"
+          }
+        ],
+        "validationErrorInfo": {
+          "id": "a723c4f4-3134-42bf-9df0-c77aa541e0a4",
+          "totalCount": 0,
+          "__typename": "ValidationErrorInfo"
+        },
+        "__typename": "Folder"
+      }
+    ],
+    "__typename": "Section"
+  }
+]
