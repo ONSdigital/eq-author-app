@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius, focusStyle, getTextHoverStyle } from "constants/theme";
+import { stripHtmlToText } from "utils/stripHTML";
+
 import Wizard, {
   Header,
   Heading,
@@ -54,13 +56,13 @@ const ContentHeading = styled.h4`
   color: ${colors.textLight};
 `;
 
-const QuestionRow = ({ question: { alias, title }, onRemove }) => {
+const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => {
   return (
     <QuestionContainer>
       <SpacedRow>
         <div>
           <p>{alias}</p>
-          <p>{title}</p>
+          <p>{stripHtmlToText(title) || displayName} </p>
         </div>
         <RemoveButton onClick={onRemove}>
           <span role="img" aria-label="Remove">
