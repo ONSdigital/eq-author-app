@@ -22,6 +22,8 @@ const IconWithText = styled.span`
       fill: var(--color-text);
     }
   }
+
+  ${({ left }) => left && "justify-content: left;"}
 `;
 
 const IconwithTextBelow = styled.div`
