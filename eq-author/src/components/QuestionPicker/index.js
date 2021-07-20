@@ -157,6 +157,7 @@ const QuestionPicker = ({
   showSearch,
   isOpen,
   onClose,
+  onCancel,
   onSubmit,
   startingSelectedQuestions = [],
 }) => {
@@ -188,17 +189,12 @@ const QuestionPicker = ({
     }));
   };
 
-  const handleCancel = () => {
-    onClose();
-  };
-
   const handleSubmit = (selection) => {
     onSubmit(selection);
-    onClose();
   };
 
   return (
-    <StyledModal isOpen={isOpen} onClose={handleCancel} hasCloseButton>
+    <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
       <Header>
         <Title>{title}</Title>
         {showSearch && (
@@ -235,7 +231,7 @@ const QuestionPicker = ({
       </Main>
       <Footer>
         <ButtonGroup horizontal align="right">
-          <Button variant="secondary" onClick={handleCancel}>
+          <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
           <Button

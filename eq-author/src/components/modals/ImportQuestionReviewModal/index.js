@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius, focusStyle, getTextHoverStyle } from "constants/theme";
@@ -81,17 +81,20 @@ QuestionRow.propTypes = {
 };
 
 const ImportQuestionReviewModal = ({
+  questionnaire,
+  startingSelectedQuestions,
   isOpen,
   onConfirm,
   onCancel,
   onBack,
-  onSelectQuestions, // (questionnaire, callback) -> void
-  questionnaire,
+  onSelectQuestions,
 }) => {
   const [selectedQuestions, setSelectedQuestions] = useState([]);
 
-  const handleSelectQuestions = () =>
-    onSelectQuestions(questionnaire, setSelectedQuestions);
+  useEffect(
+    () => setSelectedQuestions(startingSelectedQuestions),
+    [startingSelectedQuestions]
+  );
 
   const removeQuestionAtIndex = (index) =>
     setSelectedQuestions((questions) =>
@@ -139,7 +142,7 @@ const ImportQuestionReviewModal = ({
         ) : (
           <ContentHeading> No questions selected. </ContentHeading>
         )}
-        <Button onClick={handleSelectQuestions}>Select questions</Button>
+        <Button onClick={onSelectQuestions}>Select questions</Button>
       </Content>
     </Wizard>
   );

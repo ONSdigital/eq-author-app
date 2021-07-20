@@ -1,6 +1,7 @@
 query GetQuestionnaireList {
   questionnaires {
     id
+    title
     displayName
     createdAt
     createdBy {

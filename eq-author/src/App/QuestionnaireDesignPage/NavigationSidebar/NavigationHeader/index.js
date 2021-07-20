@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { withRouter, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import gql from "graphql-tag";
-import { flowRight } from "lodash";
 
+import { flowRight } from "lodash";
 import { getPageById, getFolderById } from "utils/questionnaireUtils";
 import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
 
@@ -78,6 +78,8 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
+  const getQuestionnaires = () => {};
+
   const isFolder = entityName === FOLDER;
 
   return (
@@ -103,7 +105,10 @@ export const UnwrappedNavigationHeader = ({
         folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
       />
       {importingContent && (
-        <ImportingContent stopImporting={() => setImportingContent(false)} />
+        <ImportingContent
+          questionnaires={getQuestionnaires()}
+          stopImporting={() => setImportingContent(false)}
+        />
       )}
     </>
   );

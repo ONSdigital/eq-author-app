@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Query } from "react-apollo";
 
 import * as Headings from "constants/table-headings";
+
+import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
+import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
 
 import QuestionnairesView from "components/QuestionnairesView";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
@@ -46,7 +50,7 @@ const SelectQuestionnaire = ({
   );
 };
 
-const ImportingContent = ({ questionnaires, stopImporting }) => {
+const ImportingContent = ({ stopImporting }) => {
   /*
    * Modal display states
    */
@@ -62,6 +66,8 @@ const ImportingContent = ({ questionnaires, stopImporting }) => {
 
   const [questionnaireImportingFrom, setQuestionnaireImportingFrom] =
     useState(null);
+
+  const [questionsToImport, setQuestionsToImport] = useState([]);
 
   /*
    * Handlers
@@ -83,6 +89,17 @@ const ImportingContent = ({ questionnaires, stopImporting }) => {
     setSelectingQuestionnaire(true);
   };
 
+  const onQuestionPickerCancel = () => {
+    setSelectingQuestions(false);
+    setReviewingQuestions(true);
+  };
+
+  const onQuestionPickerSubmit = (selection) => {
+    setQuestionsToImport(selection);
+    setSelectingQuestions(false);
+    setReviewingQuestions(true);
+  };
+
   const onGlobalCancel = () => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(false);
@@ -93,12 +110,26 @@ const ImportingContent = ({ questionnaires, stopImporting }) => {
   return (
     <>
       {selectingQuestionnaire && (
-        <SelectQuestionnaire
-          isOpen={selectingQuestionnaire}
-          onCancel={onGlobalCancel}
-          questionnaires={questionnaires}
-          onSelect={onSelectQuestionnaire}
-        />
+        <Query query={GET_QUESTIONNAIRE_LIST}>
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <p>Loading</p>;
+            }
+
+            if (error || !data) {
+              return <p>Error</p>;
+            }
+
+            return (
+              <SelectQuestionnaire
+                isOpen={selectingQuestionnaire}
+                onCancel={onGlobalCancel}
+                questionnaires={data.questionnaires}
+                onSelect={onSelectQuestionnaire}
+              />
+            );
+          }}
+        </Query>
       )}
       {reviewingQuestions && (
         <ReviewQuestionsModal
@@ -107,16 +138,41 @@ const ImportingContent = ({ questionnaires, stopImporting }) => {
           onCancel={onGlobalCancel}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
+          startingSelectedQuestions={questionsToImport}
         />
       )}
       {selectingQuestions && (
-        <QuestionPicker
-          isOpen={selectingQuestions}
-          sections={[]}
-          startingSelectedQuestions={[]}
-          warningPanel="You cannot import folders but you can import any questions they contain."
-          showSearch
-        />
+        <Query
+          query={GET_QUESTIONNAIRE}
+          variables={{
+            input: { questionnaireId: questionnaireImportingFrom.id },
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <p>Loading</p>;
+            }
+
+            if (error || !data) {
+              return <p>Error</p>;
+            }
+
+            const { sections } = data.questionnaire;
+
+            return (
+              <QuestionPicker
+                isOpen={selectingQuestions}
+                sections={sections}
+                startingSelectedQuestions={questionsToImport}
+                warningPanel="You cannot import folders but you can import any questions they contain."
+                showSearch
+                onClose={onGlobalCancel}
+                onCancel={onQuestionPickerCancel}
+                onSubmit={onQuestionPickerSubmit}
+              />
+            );
+          }}
+        </Query>
       )}
     </>
   );
