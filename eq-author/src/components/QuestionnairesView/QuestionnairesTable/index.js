@@ -20,6 +20,7 @@ const ScrollContainer = styled.div`
 
 const QuestionnairesTable = ({
   questionnaires,
+  selectedQuestionnaire,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   autoFocusId,
@@ -32,22 +33,22 @@ const QuestionnairesTable = ({
   questionnaireModal,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
-  const {
-    trigger: triggerLockModal,
-    component: LockModal,
-  } = useQuestionnaireLockingModal(targetQuestionnaire);
+  const { trigger: triggerLockModal, component: LockModal } =
+    useQuestionnaireLockingModal(targetQuestionnaire);
 
   const handleLock = (questionnaire) => {
     setTargetQuestionnaire(questionnaire);
     triggerLockModal();
   };
 
-  const ConditionalScroll = ({questionnaireModal, wrapper, children}) => questionnaireModal ? wrapper(children) : children;
+  const ConditionalScroll = ({ questionnaireModal, wrapper, children }) =>
+    questionnaireModal ? wrapper(children) : children;
 
   return (
-    <ConditionalScroll 
+    <ConditionalScroll
       questionnaireModal={questionnaireModal}
-      wrapper={children => <ScrollContainer>{children}</ScrollContainer>}>
+      wrapper={(children) => <ScrollContainer>{children}</ScrollContainer>}
+    >
       <Panel>
         <QuestionnaireTable
           onSortClick={onSortQuestionnaires}
@@ -56,6 +57,7 @@ const QuestionnairesTable = ({
           currentSortColumn={sortColumn}
           tableHeadings={tableHeadings}
           questionnaires={questionnaires}
+          selectedQuestionnaire={selectedQuestionnaire}
           autoFocusId={autoFocusId}
           onDeleteQuestionnaire={onDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}

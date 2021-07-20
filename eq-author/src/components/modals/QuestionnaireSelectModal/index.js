@@ -40,20 +40,14 @@ const MenuContainer = styled.div`
   height: 28em;
 `;
 
-const QuestionnaireSelectModal = ({
-    isOpen,
-    onClose,
-    children,
-}) => {
-    return (
-      <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton >
+const QuestionnaireSelectModal = ({ isOpen, onClose, onSelect, children }) => {
+  return (
+    <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
       <Container data-test="questionnaire-select-modal">
         <>
           <MenuContainer>
             <ModalTitle>Select the source questionnaire</ModalTitle>
-              <Panel>
-                {children}
-              </Panel>
+            <Panel>{children}</Panel>
           </MenuContainer>
         </>
       </Container>
@@ -62,23 +56,19 @@ const QuestionnaireSelectModal = ({
           <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
-          <Button
-            variant="primary"
-            autoFocus
-            onClick={() => alert("clicked!")}
-          >
+          <Button variant="primary" autoFocus onClick={onSelect}>
             Select
           </Button>
         </ButtonGroup>
       </ModalFooter>
     </StyledModal>
-    );
+  );
 };
 
 QuestionnaireSelectModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default QuestionnaireSelectModal;

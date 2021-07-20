@@ -19,6 +19,7 @@ const QuestionnaireTable = ({
   sortOrder,
   currentSortColumn,
   questionnaires,
+  selectedQuestionnaire,
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
@@ -26,7 +27,7 @@ const QuestionnaireTable = ({
   enabledHeadings,
   clickable,
   onRowClick,
-  questionnaireModal
+  questionnaireModal,
 }) => {
   return (
     <TableWrapper>
@@ -39,6 +40,7 @@ const QuestionnaireTable = ({
       />
       <TableBody
         questionnaires={questionnaires}
+        selectedQuestionnaire={selectedQuestionnaire}
         autoFocusId={autoFocusId}
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}

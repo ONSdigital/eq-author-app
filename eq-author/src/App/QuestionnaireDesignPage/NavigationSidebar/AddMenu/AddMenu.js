@@ -9,6 +9,7 @@ import IconQuestion from "assets/icon-questionpage.svg?inline";
 import IconSummary from "assets/icon-summarypage.svg?inline";
 import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
+import IconImport from "assets/icon-import.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -86,6 +87,13 @@ const AddMenu = ({
       dataTest: "btn-add-calculated-summary",
       icon: IconSummary,
       text: "Calculated summary",
+    },
+    {
+      handleClick: () => alert("hi"),
+      disabled: false,
+      dataTest: "btn-import-content",
+      icon: IconImport,
+      text: "Import content",
     },
   ];
 

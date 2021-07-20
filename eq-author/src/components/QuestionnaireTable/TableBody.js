@@ -4,6 +4,7 @@ import Row from "./Row";
 
 const TableBody = ({
   questionnaires,
+  selectedQuestionnaire,
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
@@ -16,6 +17,7 @@ const TableBody = ({
     {questionnaires.map(({ id }, index) => (
       <Row
         key={id}
+        selected={selectedQuestionnaire?.id === id}
         autoFocus={id === autoFocusId}
         questionnaire={questionnaires[index]}
         onDeleteQuestionnaire={onDeleteQuestionnaire}

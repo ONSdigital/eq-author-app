@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Tooltip from "components/Forms/Tooltip";
 
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { rgba } from "polished";
 
@@ -40,7 +40,7 @@ export const QuestionnaireLink = styled.span`
   ${(props) =>
     props.linkHasFocus &&
     props.questionnaireModal &&
-    css`
+    `
       color: white;
       :nth-of-type(2n-1) {
         color: white;
@@ -92,19 +92,19 @@ export const TR = styled.tr`
     cursor: pointer;
   }
 
-  ${(props) =>
-    props.linkHasFocus &&
-    !props.questionnaireModal &&
-    css`
+  ${({ linkHasFocus, questionnaireModal }) =>
+    linkHasFocus &&
+    !questionnaireModal &&
+    `
       box-shadow: 0 0 0 3px ${colors.tertiary};
       border-color: ${colors.tertiary};
       z-index: 1;
     `}
 
-  ${(props) =>
-    props.linkHasFocus &&
-    props.questionnaireModal &&
-    css`
+  ${({ linkHasFocus, questionnaireModal }) =>
+    linkHasFocus &&
+    questionnaireModal &&
+    `
       border-color: ${colors.primary};
       z-index: 1;
       background-color: ${colors.primary};
@@ -115,6 +115,16 @@ export const TR = styled.tr`
       }
       &:hover {
         background-color: ${colors.primary};
+      }
+    `}
+
+    ${({ selected }) =>
+    selected &&
+    `background-color: ${colors.primary} !important;
+    
+      * {
+        color: white;
+        cursor: default;
       }
     `}
 `;
@@ -159,7 +169,7 @@ const Permission = styled.li`
   }
   ${(props) =>
     props.disabled &&
-    css`
+    `
       background: ${colors.lightGrey};
     `}
 `;
@@ -193,6 +203,7 @@ export const Row = ({
     starred,
     locked,
   },
+  selected,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onLockQuestionnaire,
@@ -381,6 +392,7 @@ export const Row = ({
   return (
     <>
       <TR
+        selected={selected}
         ref={rowRef}
         onFocus={handleFocus}
         onBlur={handleBlur}

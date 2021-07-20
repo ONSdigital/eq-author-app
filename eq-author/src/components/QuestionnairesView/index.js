@@ -25,6 +25,7 @@ const STORED_KEYS = [
 
 const QuestionnairesView = ({
   questionnaires,
+  selectedQuestionnaire,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
@@ -117,6 +118,7 @@ const QuestionnairesView = ({
       ) : (
         <QuestionnairesTable
           questionnaires={state.currentPage}
+          selectedQuestionnaire={selectedQuestionnaire}
           onDeleteQuestionnaire={handleDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}
           onSortQuestionnaires={handleSortQuestionnaires}
@@ -129,15 +131,15 @@ const QuestionnairesView = ({
           questionnaireModal={questionnaireModal}
         />
       )}
-        <PaginationNav
-              countOnPage={state.currentPage ? state.currentPage.length : 0}
-              totalCount={state.questionnaires.length}
-              pageCount={state.pages.length}
-              currentPageIndex={state.currentPageIndex}
-              onPageChange={(newPage) =>
-                dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
-              }
-            />
+      <PaginationNav
+        countOnPage={state.currentPage ? state.currentPage.length : 0}
+        totalCount={state.questionnaires.length}
+        pageCount={state.pages.length}
+        currentPageIndex={state.currentPageIndex}
+        onPageChange={(newPage) =>
+          dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
+        }
+      />
     </>
   );
 };
@@ -154,7 +156,6 @@ QuestionnairesView.propTypes = {
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   padding: PropTypes.string,
-
 };
 
 export default QuestionnairesView;
