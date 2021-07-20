@@ -42,6 +42,7 @@ const AddMenu = ({
   onAddQuestionPage,
   canAddQuestionPage,
   onAddSection,
+  onStartImportingContent,
   canAddSection,
   onAddCalculatedSummaryPage,
   canAddCalculatedSummaryPage,
@@ -89,7 +90,7 @@ const AddMenu = ({
       text: "Calculated summary",
     },
     {
-      handleClick: () => alert("hi"),
+      handleClick: onStartImportingContent,
       disabled: false,
       dataTest: "btn-import-content",
       icon: IconImport,

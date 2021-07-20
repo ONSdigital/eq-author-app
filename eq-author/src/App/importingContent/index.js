@@ -5,6 +5,7 @@ import * as Headings from "constants/table-headings";
 import QuestionnairesView from "components/QuestionnairesView";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
+import QuestionPicker from "components/QuestionPicker";
 
 const SelectQuestionnaire = ({
   isOpen,
@@ -45,23 +46,36 @@ const SelectQuestionnaire = ({
   );
 };
 
-const ImportingContent = ({ active, questionnaires }) => {
-  // Modal display states
-  const [selectingQuestionnaire, setSelectingQuestionnaire] = useState(false);
+const ImportingContent = ({ questionnaires, stopImporting }) => {
+  /*
+   * Modal display states
+   */
+
+  //True as it's the first modal in the process
+  const [selectingQuestionnaire, setSelectingQuestionnaire] = useState(true);
   const [reviewingQuestions, setReviewingQuestions] = useState(false);
+  const [selectingQuestions, setSelectingQuestions] = useState(false);
 
-  // Effects
-  useEffect(() => setSelectingQuestionnaire(active), [active]);
+  /*
+   * Data
+   */
 
-  // Data
   const [questionnaireImportingFrom, setQuestionnaireImportingFrom] =
     useState(null);
 
-  // Handlers
+  /*
+   * Handlers
+   */
+
   const onSelectQuestionnaire = (questionnaire) => {
     setQuestionnaireImportingFrom(questionnaire);
     setSelectingQuestionnaire(false);
     setReviewingQuestions(true);
+  };
+
+  const onSelectQuestions = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestions(true);
   };
 
   const onBackFromReviewingQuestions = () => {
@@ -73,6 +87,7 @@ const ImportingContent = ({ active, questionnaires }) => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(false);
     setQuestionnaireImportingFrom(null);
+    stopImporting();
   };
 
   return (
@@ -91,6 +106,16 @@ const ImportingContent = ({ active, questionnaires }) => {
           questionnaire={questionnaireImportingFrom}
           onCancel={onGlobalCancel}
           onBack={onBackFromReviewingQuestions}
+          onSelectQuestions={onSelectQuestions}
+        />
+      )}
+      {selectingQuestions && (
+        <QuestionPicker
+          isOpen={selectingQuestions}
+          sections={[]}
+          startingSelectedQuestions={[]}
+          warningPanel="You cannot import folders but you can import any questions they contain."
+          showSearch
         />
       )}
     </>
