@@ -43,6 +43,18 @@ export class SignInPage extends React.Component {
     if (this.props.me) {
       return <Redirect to="/" />;
     }
+    if (this.props.sentEmailVerification) {
+      return (
+        <Layout title="Email verification">
+          <SignInPanel>
+            <Text>
+              Awaiting email verification, please check your inbox, follow
+              instructions and then refresh this page.
+            </Text>
+          </SignInPanel>
+        </Layout>
+      );
+    }
     if (this.props.isSigningIn) {
       return (
         <Layout title="Logging in...">
@@ -64,6 +76,7 @@ export class SignInPage extends React.Component {
 SignInPage.propTypes = {
   me: CustomPropTypes.me,
   isSigningIn: propTypes.bool,
+  sentEmailVerification: propTypes.bool,
 };
 
 export default withMe(SignInPage);
