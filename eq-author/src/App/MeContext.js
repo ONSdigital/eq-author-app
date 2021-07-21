@@ -86,13 +86,12 @@ const ContextProvider = ({ history, client, children }) => {
       setAwaitingFirebase(false);
     });
   }, []);
-  const getURL = window.location.origin;
-  console.log("getURL :>> ", getURL);
+  const verifyRedirectUrl = window.location.origin;
 
   useEffect(() => {
     const actionCodeSettings = {
       //This is the redirect URL for AFTER you have clicked the email link and verified the email address
-      url: getURL,
+      url: verifyRedirectUrl,
       // This must be true.
       handleCodeInApp: true,
     };
