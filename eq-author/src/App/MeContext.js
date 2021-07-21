@@ -13,6 +13,8 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
+const verifyRedirectUrl = window.location.origin;
+
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
   localStorage.setItem("refreshToken", user.refreshToken);
@@ -86,7 +88,6 @@ const ContextProvider = ({ history, client, children }) => {
       setAwaitingFirebase(false);
     });
   }, []);
-  const verifyRedirectUrl = window.location.origin;
 
   useEffect(() => {
     const actionCodeSettings = {
