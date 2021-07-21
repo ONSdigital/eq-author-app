@@ -53,6 +53,7 @@ const signOut = (history, client) => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   history.push("/sign-in");
+  auth.signOut();
 };
 
 export const CURRENT_USER_QUERY = gql`
