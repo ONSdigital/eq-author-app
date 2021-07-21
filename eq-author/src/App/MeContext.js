@@ -100,15 +100,19 @@ const ContextProvider = ({ history, client, children }) => {
     if (firebaseUser && firebaseUser.emailVerified) {
       signIn(setSignInSuccess, history, firebaseUser);
       setSentEmailVerification(false);
-    } else {
-      if (firebaseUser && !firebaseUser.emailVerified) {
+    } else if (firebaseUser && !firebaseUser.emailVerified) {
+      if (!sentEmailVerification) {
         firebaseUser.sendEmailVerification(actionCodeSettings);
         setSentEmailVerification(true);
       }
+      setSignInSuccess(false);
+      history.push("/sign-in");
+    } else {
       signOut(history, client);
       setSignInSuccess(false);
+      setSentEmailVerification(false);
     }
-  }, [firebaseUser, awaitingFirebase, history, client]);
+  }, [firebaseUser, awaitingFirebase, sentEmailVerification, history, client]);
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {(innerProps) => {

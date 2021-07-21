@@ -8,6 +8,7 @@ import Loading from "components/Loading";
 
 import Panel from "components/Panel";
 import Layout from "components/Layout";
+import Button from "components/buttons/Button";
 
 import { withMe } from "App/MeContext";
 
@@ -29,7 +30,6 @@ const SignInPanel = styled(Panel)`
     text-transform: initial;
   }
 `;
-
 export class SignInPage extends React.Component {
   render() {
     const uiConfig = {
@@ -39,6 +39,9 @@ export class SignInPage extends React.Component {
       callbacks: {
         signInSuccessWithAuthResult: () => false,
       },
+    };
+    const handleSignOut = () => {
+      this.props.signOut();
     };
     if (this.props.me) {
       return <Redirect to="/" />;
@@ -51,6 +54,9 @@ export class SignInPage extends React.Component {
               Awaiting email verification, please check your inbox, follow
               instructions and then refresh this page.
             </Text>
+            <Button variant="tertiary" onClick={handleSignOut}>
+              Sign in
+            </Button>
           </SignInPanel>
         </Layout>
       );
@@ -77,6 +83,7 @@ SignInPage.propTypes = {
   me: CustomPropTypes.me,
   isSigningIn: propTypes.bool,
   sentEmailVerification: propTypes.bool,
+  signOut: propTypes.func,
 };
 
 export default withMe(SignInPage);
