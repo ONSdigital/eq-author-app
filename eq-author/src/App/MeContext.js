@@ -87,6 +87,12 @@ const ContextProvider = ({ history, client, children }) => {
   }, []);
 
   useEffect(() => {
+    const actionCodeSettings = {
+      //This is the redirect URL for AFTER you have clicked the email link and verified the email address
+      url: "http://localhost:3000",
+      // This must be true.
+      handleCodeInApp: true,
+    };
     if (awaitingFirebase) {
       return;
     }
@@ -95,7 +101,7 @@ const ContextProvider = ({ history, client, children }) => {
       setSentEmailVerification(false);
     } else {
       if (firebaseUser && !firebaseUser.emailVerified) {
-        firebaseUser.sendEmailVerification();
+        firebaseUser.sendEmailVerification(actionCodeSettings);
         setSentEmailVerification(true);
       }
       signOut(history, client);
