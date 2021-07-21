@@ -10,7 +10,7 @@ describe("Question Picker", () => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
-    title="Select one or more answer";
+    title = "Select one or more answer";
     data = [
       {
         id: "section 1",
@@ -90,7 +90,14 @@ describe("Question Picker", () => {
       },
     ];
 
-    props = { data, onClose, onSubmit, startingSelectedAnswers, title, showTypes, };
+    props = {
+      data,
+      onClose,
+      onSubmit,
+      startingSelectedAnswers,
+      title,
+      showTypes,
+    };
   });
 
   const renderContentPicker = () =>
@@ -217,15 +224,5 @@ describe("Question Picker", () => {
     const { getByText } = renderContentPicker();
 
     expect(getByText("Allowed answer types:")).toBeTruthy();
-  });
-
-  it("should allow optional search bar via props", () => {
-    props = {
-      ...props,
-      showSearch: true,
-    };
-    const { getByTestId } = renderContentPicker();
-
-    expect(getByTestId("search-bar")).toBeTruthy();
   });
 });

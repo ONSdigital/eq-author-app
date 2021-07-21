@@ -314,15 +314,10 @@ describe("QuestionnairesView", () => {
           .fill("")
           .map((_, index) => buildQuestionnaire(index));
 
-        const {
-          getByText,
-          getAllByTitle,
-          getByTitle,
-          getByTestId,
-          rerender,
-        } = render(
-          <QuestionnairesView {...props} questionnaires={questionnaires} />
-        );
+        const { getByText, getAllByTitle, getByTitle, getByTestId, rerender } =
+          render(
+            <QuestionnairesView {...props} questionnaires={questionnaires} />
+          );
 
         // Move to page 2
         const nextButton = getByText("Go to next page");
@@ -708,7 +703,7 @@ describe("QuestionnairesView", () => {
         }
       });
 
-      it("should sort by title descending when title header is clicked twice", async() => {
+      it("should sort by title descending when title header is clicked twice", async () => {
         const { getByTestId, getAllByTestId } = render(
           <QuestionnairesView {...props} />
         );
@@ -883,7 +878,7 @@ describe("QuestionnairesView", () => {
         });
 
         expect(
-          queryByText("No results found for 'not in any questionnaire'")
+          queryByText("No results found for 'not in any questionnaire'.")
         ).toBeTruthy();
       });
 
