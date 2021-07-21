@@ -122,6 +122,7 @@ const { THEME_SHORT_NAMES } = require("../../constants/themes");
 
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
+const { lte } = require("lodash/fp");
 
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
@@ -174,10 +175,14 @@ const publishCommentUpdates = (componentId) => {
 
 const Resolvers = {
   Query: {
-    questionnaires: async (root, args, ctx) => {
-      const questionnaires = await listQuestionnaires();
+    questionnaires: async (root, { input }, ctx) => {
+      /**
+       * Resolver logic
+       */
 
-      return questionnaires.filter((questionnaire) => {
+      let questionnaires = await listQuestionnaires();
+
+      questionnaires = questionnaires.filter((questionnaire) => {
         if (ctx.user.admin === true || questionnaire.isPublic) {
           return true;
         }
@@ -186,6 +191,37 @@ const Resolvers = {
           ctx.user.id
         );
       });
+
+      /**
+       * Check if query supplied any filters; if no, return unfiltered list.
+       */
+
+      const { filter } = input;
+
+      const shouldApplyFilter = filter !== null && filter !== undefined;
+
+      if (!shouldApplyFilter) {
+        return questionnaires;
+      }
+
+      /**
+       * If yes, check which filter to apply and return filtered list.
+       */
+
+      const shouldApplyNeIdsFilter =
+        filter.ne?.ids !== null &&
+        filter.ne?.ids !== undefined &&
+        filter.ne?.ids !== [];
+
+      if (shouldApplyNeIdsFilter) {
+        const ids = filter.ne.ids;
+
+        questionnaires = questionnaires.filter(
+          (questionnaire) => !ids.includes(questionnaire.id)
+        );
+      }
+
+      return questionnaires;
     },
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     history: async (root, { input }) =>
