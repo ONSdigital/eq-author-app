@@ -108,7 +108,7 @@ const ContextProvider = ({ history, client, children }) => {
         const me = get(innerProps, "data.me");
         const isSigningIn =
           awaitingFirebase ||
-          (firebaseUser && firebaseUser.emailVerified && !signInSuccess) || // firebase done but not us
+          (firebaseUser && !signInSuccess) || // firebase done but not us
           (loggedInEverywhere && innerProps.loading); // we are done and awaiting apollo
 
         return (
