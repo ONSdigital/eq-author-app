@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
+import { useParams, useLocation } from "react-router-dom";
 
 import * as Headings from "constants/table-headings";
 
@@ -107,10 +108,17 @@ const ImportingContent = ({ stopImporting }) => {
     stopImporting();
   };
 
+  const { questionnaireId: currentQuestionnaireId } = useParams();
+
   return (
     <>
       {selectingQuestionnaire && (
-        <Query query={GET_QUESTIONNAIRE_LIST}>
+        <Query
+          query={GET_QUESTIONNAIRE_LIST}
+          variables={{
+            input: { filter: { ne: { ids: [currentQuestionnaireId] } } },
+          }}
+        >
           {({ loading, error, data }) => {
             if (loading) {
               return <p>Loading</p>;

@@ -122,7 +122,6 @@ const { THEME_SHORT_NAMES } = require("../../constants/themes");
 
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
-const { lte } = require("lodash/fp");
 
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
