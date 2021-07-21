@@ -16,6 +16,8 @@ import Truncated from "components/Truncated";
 import { keyCodes } from "constants/keyCodes";
 import { destinationKey } from "constants/destinations";
 
+import { enableOn, disableOn } from "utils/featureFlags";
+
 const ColumnContainer = styled.div`
   display: flex;
   height: 100%;
@@ -71,7 +73,11 @@ const Menu = ({ data, onSelected, isSelected }) => {
     if (current.destinations.length !== 0) {
       requiredTabs.push(current);
     }
-    if (later?.destinations?.length !== 0 && later.destinations) {
+    if (
+      later?.destinations?.length !== 0 &&
+      later.destinations &&
+      disableOn(["hub"])
+    ) {
       requiredTabs.push(later);
     }
     requiredTabs.push(other);
@@ -104,24 +110,26 @@ const Menu = ({ data, onSelected, isSelected }) => {
       <Column width={56}>
         <ScrollPane>
           <MenuItemList>
-            {tabs[selectedTab].destinations.map((dest) => (
-              <SubMenuItem
-                key={dest.id}
-                aria-selected={isSelected(dest)}
-                onClick={() => onSelected(dest)}
-                tabIndex={0}
-                onKeyUp={(event) =>
-                  (event.key === Enter || event.key === Space) &&
-                  onSelected(dest)
-                }
-              >
-                <MenuItemTitles>
-                  <MenuItemTitle>
-                    <Truncated>{dest.displayName}</Truncated>
-                  </MenuItemTitle>
-                </MenuItemTitles>
-              </SubMenuItem>
-            ))}
+            {tabs[selectedTab].destinations.map((dest) =>
+              enableOn(["hub"]) && dest.id === "EndOfQuestionnaire" ? null : (
+                <SubMenuItem
+                  key={dest.id}
+                  aria-selected={isSelected(dest)}
+                  onClick={() => onSelected(dest)}
+                  tabIndex={0}
+                  onKeyUp={(event) =>
+                    (event.key === Enter || event.key === Space) &&
+                    onSelected(dest)
+                  }
+                >
+                  <MenuItemTitles>
+                    <MenuItemTitle>
+                      <Truncated>{dest.displayName}</Truncated>
+                    </MenuItemTitle>
+                  </MenuItemTitles>
+                </SubMenuItem>
+              )
+            )}
           </MenuItemList>
         </ScrollPane>
       </Column>
