@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import * as Headings from "constants/table-headings";
-import { getSectionByPageId } from "utils/questionnaireUtils";
+import { getSectionByPageId, getPageById } from "utils/questionnaireUtils";
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
@@ -16,7 +16,6 @@ import QuestionnairesView from "components/QuestionnairesView";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import QuestionPicker from "components/QuestionPicker";
-import { getPageById } from "../../utils/questionnaireUtils";
 
 const SelectQuestionnaire = ({
   isOpen,
@@ -132,13 +131,15 @@ const ImportingContent = ({ stopImporting }) => {
     };
 
     switch (currentEntityName) {
-      case "section":
+      case "section": {
         input.position = {
           sectionId: currentEntityId,
           index: 0,
         };
         break;
-      case "page":
+      }
+
+      case "page": {
         const { id: sectionId } = getSectionByPageId(
           sourceQuestionnaire,
           currentEntityId
@@ -149,8 +150,11 @@ const ImportingContent = ({ stopImporting }) => {
           index: position + 1,
         };
         break;
-      default:
+      }
+
+      default: {
         throw new Error("Unknown entity");
+      }
     }
 
     importContent({ variables: { input } });
