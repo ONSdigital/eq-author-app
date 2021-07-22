@@ -51,8 +51,8 @@ export class SignInPage extends React.Component {
         <Layout title="Email verification">
           <SignInPanel>
             <Text>
-              Awaiting email verification, please check your inbox, follow
-              instructions and then refresh this page.
+              Awaiting email verification, please check your inbox and follow
+              instructions.
             </Text>
             <Button variant="tertiary" onClick={handleSignOut}>
               Sign in
