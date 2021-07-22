@@ -15,13 +15,20 @@ import {
   NextPage,
 } from "constants/destinations";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 describe("Content picker", () => {
-  let data, onClose, onSubmit, startingSelectedAnswers, props;
+  let data, onClose, onSubmit, startingSelectedAnswers, questionnaire, props;
 
   beforeEach(() => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
+    questionnaire = { hub: false };
     data = [
       {
         id: "section 1",
@@ -77,6 +84,8 @@ describe("Content picker", () => {
         ],
       },
     ];
+
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
 
     props = { data, onClose, onSubmit, startingSelectedAnswers };
   });

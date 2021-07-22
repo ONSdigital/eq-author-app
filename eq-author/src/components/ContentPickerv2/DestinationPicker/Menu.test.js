@@ -12,6 +12,12 @@ import {
   EndOfCurrentSection,
 } from "constants/destinations";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 const props = {
   data: {
     logicalDestinations: [
@@ -86,6 +92,8 @@ const props = {
   isSelected: jest.fn(),
 };
 
+const questionnaire = { hub: false };
+
 function setup({ data, isSelected, ...extra }) {
   const onSelected = jest.fn();
   const utils = render(
@@ -126,6 +134,10 @@ function defaultSetup() {
 }
 
 describe("Destination Picker Menu", () => {
+  beforeEach(() => {
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
+  });
+
   it("should default to current section tab", () => {
     const { getByText } = defaultSetup();
     expect(getByText("Question one")).toBeVisible();

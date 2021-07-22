@@ -3,6 +3,12 @@ import { render } from "tests/utils/rtl";
 
 import DestinationPicker, { Title } from "./";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 const data = () => ({
   logicalDestinations: [
     {
@@ -37,6 +43,7 @@ const data = () => ({
 });
 const onSelected = jest.fn();
 const isSelected = jest.fn();
+const questionnaire = { hub: false };
 
 const props = {
   data: data(),
@@ -46,6 +53,7 @@ const props = {
 
 describe("Destination Picker", () => {
   it("should render", () => {
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
     const { getByText } = render(<DestinationPicker {...props} />);
     expect(getByText(Title)).toBeVisible();
   });
