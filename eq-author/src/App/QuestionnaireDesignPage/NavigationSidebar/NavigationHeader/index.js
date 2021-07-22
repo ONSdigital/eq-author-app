@@ -48,6 +48,8 @@ export const UnwrappedNavigationHeader = ({
       page?.pageType === QuestionPage && !page?.confirmation;
   }
 
+  const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
+
   const handleAddQuestionPage = (createInsideFolder) => {
     setOpenMenu(!openMenu);
     onAddQuestionPage(createInsideFolder);
@@ -101,6 +103,7 @@ export const UnwrappedNavigationHeader = ({
         canAddQuestionConfirmation={canAddQuestionConfirmation}
         canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddSection={canAddSection}
+        canImportContent={canImportContent}
         isFolder={isFolder}
         folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
       />

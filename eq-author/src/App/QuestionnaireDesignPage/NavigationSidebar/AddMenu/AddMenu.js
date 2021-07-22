@@ -48,6 +48,7 @@ const AddMenu = ({
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
+  canImportContent,
   onAddFolder,
   canAddFolder,
   isFolder,
@@ -91,7 +92,7 @@ const AddMenu = ({
     },
     {
       handleClick: onStartImportingContent,
-      disabled: false,
+      disabled: !canImportContent,
       dataTest: "btn-import-content",
       icon: IconImport,
       text: "Import content",
