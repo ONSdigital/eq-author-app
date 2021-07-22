@@ -1,0 +1,5 @@
+mutation ImportStuff($input: ImportQuestionsInput!) {
+  importQuestions(input: $input) {
+    id
+  }
+}

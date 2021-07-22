@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
-import { useParams, useLocation } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import * as Headings from "constants/table-headings";
+import { getSectionByPageId } from "utils/questionnaireUtils";
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
+import IMPORT_CONTENT from "graphql/importContent.graphql";
 
 import QuestionnairesView from "components/QuestionnairesView";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import QuestionPicker from "components/QuestionPicker";
+import { getPageById } from "../../utils/questionnaireUtils";
 
 const SelectQuestionnaire = ({
   isOpen,
@@ -65,16 +71,23 @@ const ImportingContent = ({ stopImporting }) => {
    * Data
    */
 
+  const [questionsToImport, setQuestionsToImport] = useState([]);
   const [questionnaireImportingFrom, setQuestionnaireImportingFrom] =
     useState(null);
 
-  const [questionsToImport, setQuestionsToImport] = useState([]);
+  const {
+    questionnaireId: currentQuestionnaireId,
+    entityName: currentEntityName,
+    entityId: currentEntityId,
+  } = useParams();
 
-  const { questionnaireId: currentQuestionnaireId } = useParams();
+  const { questionnaire: sourceQuestionnaire } = useQuestionnaire();
 
   /*
    * Handlers
    */
+
+  const [importContent] = useMutation(IMPORT_CONTENT);
 
   const onSelectQuestionnaire = (questionnaire) => {
     setQuestionnaireImportingFrom(questionnaire);
@@ -103,16 +116,45 @@ const ImportingContent = ({ stopImporting }) => {
     setReviewingQuestions(true);
   };
 
-  const onReviewQuestionsSubmit = (selection) => {
-    console.log(selection);
-    console.log(currentQuestionnaireId);
-  };
-
   const onGlobalCancel = () => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(false);
     setQuestionnaireImportingFrom(null);
     stopImporting();
+  };
+
+  const onReviewQuestionsSubmit = (selectedQuestions) => {
+    const questionIds = selectedQuestions.map(({ id }) => id);
+
+    let input = {
+      questionIds,
+      questionnaireId: questionnaireImportingFrom.id,
+    };
+
+    switch (currentEntityName) {
+      case "section":
+        input.position = {
+          sectionId: currentEntityId,
+          index: 0,
+        };
+        break;
+      case "page":
+        const { id: sectionId } = getSectionByPageId(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+        const { position } = getPageById(sourceQuestionnaire, currentEntityId);
+        input.position = {
+          sectionId,
+          index: position + 1,
+        };
+        break;
+      default:
+        throw new Error("Unknown entity");
+    }
+
+    importContent({ variables: { input } });
+    onGlobalCancel();
   };
 
   return (
