@@ -139,7 +139,6 @@ const ImportingContent = ({ stopImporting }) => {
 
         break;
       }
-
       case "page": {
         const { id: sectionId } = getSectionByPageId(
           sourceQuestionnaire,
@@ -155,7 +154,6 @@ const ImportingContent = ({ stopImporting }) => {
 
         break;
       }
-
       default: {
         throw new Error("Unknown entity");
       }
