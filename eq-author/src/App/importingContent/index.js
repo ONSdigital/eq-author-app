@@ -70,6 +70,8 @@ const ImportingContent = ({ stopImporting }) => {
 
   const [questionsToImport, setQuestionsToImport] = useState([]);
 
+  const { questionnaireId: currentQuestionnaireId } = useParams();
+
   /*
    * Handlers
    */
@@ -101,14 +103,17 @@ const ImportingContent = ({ stopImporting }) => {
     setReviewingQuestions(true);
   };
 
+  const onReviewQuestionsSubmit = (selection) => {
+    console.log(selection);
+    console.log(currentQuestionnaireId);
+  };
+
   const onGlobalCancel = () => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(false);
     setQuestionnaireImportingFrom(null);
     stopImporting();
   };
-
-  const { questionnaireId: currentQuestionnaireId } = useParams();
 
   return (
     <>
@@ -144,6 +149,7 @@ const ImportingContent = ({ stopImporting }) => {
           isOpen={reviewingQuestions}
           questionnaire={questionnaireImportingFrom}
           onCancel={onGlobalCancel}
+          onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
           startingSelectedQuestions={questionsToImport}
