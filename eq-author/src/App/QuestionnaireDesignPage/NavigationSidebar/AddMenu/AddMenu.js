@@ -91,7 +91,7 @@ const AddMenu = ({
       text: "Calculated summary",
     },
     {
-      handleClick: onStartImportingContent,
+      handleClick: () => onStartImportingContent(false),
       disabled: !canImportContent,
       dataTest: "btn-import-content",
       icon: IconImport,
@@ -127,6 +127,13 @@ const AddMenu = ({
                 dataTest: "btn-add-calculated-summary-inside",
                 icon: IconSummary,
                 text: "Calculated summary",
+              },
+              {
+                handleClick: () => onStartImportingContent(true),
+                disabled: !canImportContent,
+                dataTest: "btn-import-content",
+                icon: IconImport,
+                text: "Import content",
               },
             ].map((item) => (
               <MenuButton key={`${item.dataTest}-folder`} {...item} />

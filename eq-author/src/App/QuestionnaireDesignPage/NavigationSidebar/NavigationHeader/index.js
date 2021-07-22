@@ -25,6 +25,7 @@ export const UnwrappedNavigationHeader = ({
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [importingContent, setImportingContent] = useState(false);
+  const [targetInsideFolder, setTargetInsideFolder] = useState(false);
 
   const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
@@ -75,7 +76,8 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
-  const handleStartImportingContent = () => {
+  const handleStartImportingContent = (targetInsideFolder) => {
+    setTargetInsideFolder(targetInsideFolder);
     setImportingContent(true);
     setOpenMenu(!openMenu);
   };
@@ -111,6 +113,7 @@ export const UnwrappedNavigationHeader = ({
         <ImportingContent
           questionnaires={getQuestionnaires()}
           stopImporting={() => setImportingContent(false)}
+          targetInsideFolder={targetInsideFolder}
         />
       )}
     </>

@@ -6,7 +6,12 @@ import { useMutation } from "@apollo/react-hooks";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import * as Headings from "constants/table-headings";
-import { getSectionByPageId, getPageById } from "utils/questionnaireUtils";
+import {
+  getSectionByPageId,
+  getSectionByFolderId,
+  getPageById,
+  getFolderById,
+} from "utils/questionnaireUtils";
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
@@ -56,7 +61,7 @@ const SelectQuestionnaire = ({
   );
 };
 
-const ImportingContent = ({ stopImporting }) => {
+const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   /*
    * Modal display states
    */
@@ -136,6 +141,34 @@ const ImportingContent = ({ stopImporting }) => {
           sectionId: currentEntityId,
           index: 0,
         };
+
+        break;
+      }
+      case "folder": {
+        // Outside a folder
+
+        const { id: sectionId } = getSectionByFolderId(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+
+        const { position } = getFolderById(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+
+        input.position = {
+          sectionId,
+        };
+
+        if (targetInsideFolder) {
+          input.position.folderId = currentEntityId;
+          input.position.index = 0;
+        }
+
+        if (!targetInsideFolder) {
+          input.position.index = position + 1;
+        }
 
         break;
       }
