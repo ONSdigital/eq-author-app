@@ -136,6 +136,7 @@ const ImportingContent = ({ stopImporting }) => {
           sectionId: currentEntityId,
           index: 0,
         };
+
         break;
       }
 
@@ -144,11 +145,14 @@ const ImportingContent = ({ stopImporting }) => {
           sourceQuestionnaire,
           currentEntityId
         );
+
         const { position } = getPageById(sourceQuestionnaire, currentEntityId);
+
         input.position = {
           sectionId,
           index: position + 1,
         };
+
         break;
       }
 
