@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { last } from "lodash";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
 import {
   MenuItemList,
   ParentMenuItem,
@@ -15,8 +17,6 @@ import Truncated from "components/Truncated";
 
 import { keyCodes } from "constants/keyCodes";
 import { destinationKey } from "constants/destinations";
-
-import { enableOn, disableOn } from "utils/featureFlags";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -67,6 +67,8 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { current, later, other } = buildTabs(data);
 
+  const { questionnaire } = useQuestionnaire();
+
   const getRequiredTabs = () => {
     const requiredTabs = [];
 
@@ -76,7 +78,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
     if (
       later?.destinations?.length !== 0 &&
       later.destinations &&
-      disableOn(["hub"])
+      !questionnaire.hub
     ) {
       requiredTabs.push(later);
     }
@@ -111,7 +113,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
         <ScrollPane>
           <MenuItemList>
             {tabs[selectedTab].destinations.map((dest) =>
-              enableOn(["hub"]) && dest.id === "EndOfQuestionnaire" ? null : (
+              questionnaire.hub && dest.id === "EndOfQuestionnaire" ? null : (
                 <SubMenuItem
                   key={dest.id}
                   aria-selected={isSelected(dest)}
