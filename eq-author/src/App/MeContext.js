@@ -13,6 +13,8 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
+const verifyRedirectUrl = window.location.origin;
+
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
   localStorage.setItem("refreshToken", user.refreshToken);
@@ -53,6 +55,7 @@ const signOut = (history, client) => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   history.push("/sign-in");
+  auth.signOut();
 };
 
 export const CURRENT_USER_QUERY = gql`
@@ -77,6 +80,7 @@ const ContextProvider = ({ history, client, children }) => {
   const [signInSuccess, setSignInSuccess] = useState(false);
   const loggedInEverywhere = firebaseUser && signInSuccess;
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
+  const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -86,16 +90,31 @@ const ContextProvider = ({ history, client, children }) => {
   }, []);
 
   useEffect(() => {
+    const actionCodeSettings = {
+      //This is the redirect URL for AFTER you have clicked the email link and verified the email address
+      url: verifyRedirectUrl,
+      // This must be true.
+      handleCodeInApp: true,
+    };
     if (awaitingFirebase) {
       return;
     }
-    if (firebaseUser) {
+    if (firebaseUser && firebaseUser.emailVerified) {
       signIn(setSignInSuccess, history, firebaseUser);
+      setSentEmailVerification(false);
+    } else if (firebaseUser && !firebaseUser.emailVerified) {
+      if (!sentEmailVerification) {
+        firebaseUser.sendEmailVerification(actionCodeSettings);
+        setSentEmailVerification(true);
+      }
+      setSignInSuccess(false);
+      history.push("/sign-in");
     } else {
       signOut(history, client);
       setSignInSuccess(false);
+      setSentEmailVerification(false);
     }
-  }, [firebaseUser, awaitingFirebase, history, client]);
+  }, [firebaseUser, awaitingFirebase, sentEmailVerification, history, client]);
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {(innerProps) => {
@@ -114,6 +133,7 @@ const ContextProvider = ({ history, client, children }) => {
               },
               awaitingUserQuery: innerProps.loading,
               isSigningIn,
+              sentEmailVerification,
             }}
           >
             {children}
@@ -135,13 +155,14 @@ export const MeProvider = flowRight(withApollo, withRouter)(ContextProvider);
 export const withMe = (Component) => {
   const InnerComponent = (props) => (
     <MeContext.Consumer>
-      {({ me, signIn, signOut, isSigningIn }) => (
+      {({ me, signIn, signOut, isSigningIn, sentEmailVerification }) => (
         <Component
           {...props}
           me={me}
           signIn={signIn}
           signOut={signOut}
           isSigningIn={isSigningIn}
+          sentEmailVerification={sentEmailVerification}
         />
       )}
     </MeContext.Consumer>
