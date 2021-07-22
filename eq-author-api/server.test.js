@@ -18,6 +18,7 @@ const mockUser = {
   externalId: "externalId",
   email: "mock@mock.com",
   isVerified: true,
+  emailVerified: true,
 };
 
 jest.mock("./tracer");
