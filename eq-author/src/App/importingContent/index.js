@@ -145,8 +145,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         break;
       }
       case "folder": {
-        // Outside a folder
-
         const { id: sectionId } = getSectionByFolderId(
           sourceQuestionnaire,
           currentEntityId
