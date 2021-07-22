@@ -174,7 +174,7 @@ const publishCommentUpdates = (componentId) => {
 
 const Resolvers = {
   Query: {
-    questionnaires: async (root, { input }, ctx) => {
+    questionnaires: async (root, { input = {} }, ctx) => {
       /**
        * Resolver logic
        */
@@ -222,7 +222,25 @@ const Resolvers = {
 
       return questionnaires;
     },
-    questionnaire: (root, args, ctx) => ctx.questionnaire,
+    questionnaire: async (root, { input }, ctx) => {
+      /**
+       * If we have asked for a different questionnaire, go and get it.
+       */
+      if (input.questionnaireId) {
+        const questionnaire = await getQuestionnaire(input.questionnaireId);
+
+        if (questionnaire) {
+          /**
+           * Update CTX so custom resolvers can run correctly.
+           */
+          ctx.questionnaire = questionnaire;
+        } else {
+          ctx.questionnaire = null;
+        }
+      }
+
+      return ctx.questionnaire;
+    },
     history: async (root, { input }) =>
       getQuestionnaireMetaById(input.questionnaireId).then(
         ({ history }) => history
