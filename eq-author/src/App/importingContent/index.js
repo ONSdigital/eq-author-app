@@ -219,11 +219,11 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         >
           {({ loading, error, data }) => {
             if (loading) {
-              return <p>Loading</p>;
+              return <React.Fragment />;
             }
 
             if (error || !data) {
-              return <p>Error</p>;
+              return <React.Fragment />;
             }
 
             return (
@@ -257,11 +257,11 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         >
           {({ loading, error, data }) => {
             if (loading) {
-              return <p>Loading</p>;
+              return <React.Fragment />;
             }
 
             if (error || !data) {
-              return <p>Error</p>;
+              return <React.Fragment />;
             }
 
             const { sections } = data.questionnaire;
