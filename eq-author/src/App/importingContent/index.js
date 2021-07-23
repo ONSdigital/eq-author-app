@@ -11,6 +11,7 @@ import {
   getSectionByFolderId,
   getPageById,
   getFolderById,
+  getFolderByPageId,
 } from "utils/questionnaireUtils";
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
@@ -162,9 +163,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         if (targetInsideFolder) {
           input.position.folderId = currentEntityId;
           input.position.index = 0;
-        }
-
-        if (!targetInsideFolder) {
+        } else {
           input.position.index = position + 1;
         }
 
@@ -176,12 +175,27 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           currentEntityId
         );
 
-        const { position } = getPageById(sourceQuestionnaire, currentEntityId);
-
         input.position = {
           sectionId,
-          index: position + 1,
         };
+
+        const {
+          enabled: parentFolderIsEnabled,
+          id: folderId,
+          position: positionOfParentFolder,
+        } = getFolderByPageId(sourceQuestionnaire, currentEntityId);
+
+        const { position: positionOfPreviousPage } = getPageById(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+
+        if (parentFolderIsEnabled) {
+          input.position.folderId = folderId;
+          input.position.index = positionOfPreviousPage + 1;
+        } else {
+          input.position.index = positionOfParentFolder + 1;
+        }
 
         break;
       }
