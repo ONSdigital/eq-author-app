@@ -32,6 +32,7 @@ module.exports = (logger) => async (authHeader) => {
       id: payload.serviceName,
       name: payload.serviceName,
       isVerified: true,
+      emailVerified: true,
     };
   }
 
