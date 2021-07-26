@@ -32,6 +32,7 @@ module.exports = (logger) => async (authHeader) => {
       id: payload.serviceName,
       name: payload.serviceName,
       isVerified: true,
+      emailVerified: true,
     };
   }
 
@@ -53,6 +54,7 @@ module.exports = (logger) => async (authHeader) => {
     email: payload.email,
     isVerified: false,
     admin: payload.admin || false,
+    emailVerified: payload.email_verified,
   };
 
   const dbUser = await getUserByExternalId(payload.sub);
