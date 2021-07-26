@@ -112,7 +112,7 @@ const ImportQuestionReviewModal = ({
       onConfirm={() => onConfirm(selectedQuestions)}
       onCancel={onCancel}
       onBack={onBack}
-      confirmEnabled={Boolean(selectedQuestions.length)}
+      confirmEnabled={Boolean(selectedQuestions?.length) || false}
     >
       <Header>
         <Heading> Import questions from {questionnaire.title} </Heading>
@@ -123,7 +123,7 @@ const ImportQuestionReviewModal = ({
         </Subheading>
       </Header>
       <Content>
-        {selectedQuestions.length ? (
+        {selectedQuestions?.length ? (
           <>
             <SpacedRow>
               <ContentHeading>

@@ -13,17 +13,15 @@ const mockQuestions = [
   { alias: "Q3", title: "What is your favourite colour?" },
 ];
 
-const mockHandleSelectQuestions = jest.fn((_questionnaire, callback) =>
-  callback(mockQuestions)
-);
+const mockOnSelectQuestions = jest.fn();
 
 describe("Import questions review modal", () => {
-  it("should allow selecting and removing questions", () => {
+  it("Should call onSelectQuestions when the button is clicked", () => {
     render(
       <ImportQuestionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
-        onSelectQuestions={mockHandleSelectQuestions}
+        onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -36,18 +34,55 @@ describe("Import questions review modal", () => {
 
     userEvent.click(screen.queryByText(/Select questions/));
 
-    // All questions should now be present
-    expect(screen.queryByText(/Questions to import/)).toBeTruthy();
-    mockQuestions.forEach((q) =>
-      expect(screen.queryByText(q.title)).toBeTruthy()
+    expect(mockOnSelectQuestions.mock.calls.length).toBe(1);
+  });
+
+  it("Should display the selected questions when there are some", () => {
+    render(
+      <ImportQuestionReviewModal
+        questionnaire={mockQuestionnaire}
+        isOpen
+        startingSelectedQuestions={mockQuestions}
+        onSelectQuestions={mockOnSelectQuestions}
+        onConfirm={jest.fn()}
+        onCancel={jest.fn()}
+        onBack={jest.fn()}
+      />
     );
 
-    // Can delete an item
+    expect(screen.getByText(mockQuestions[0].title)).toBeTruthy();
+  });
+
+  it("Should remove a selected question when there are some", () => {
+    render(
+      <ImportQuestionReviewModal
+        questionnaire={mockQuestionnaire}
+        isOpen
+        startingSelectedQuestions={mockQuestions}
+        onSelectQuestions={mockOnSelectQuestions}
+        onConfirm={jest.fn()}
+        onCancel={jest.fn()}
+        onBack={jest.fn()}
+      />
+    );
+
     userEvent.click(screen.getAllByText(/✕/)[0]);
     expect(screen.queryByText(mockQuestions[0].title)).toBeFalsy();
-    expect(screen.queryByText(mockQuestions[1].title)).toBeTruthy();
+  });
 
-    // Can delete all items
+  it("Should be able to delete all items", () => {
+    render(
+      <ImportQuestionReviewModal
+        questionnaire={mockQuestionnaire}
+        isOpen
+        startingSelectedQuestions={mockQuestions}
+        onSelectQuestions={mockOnSelectQuestions}
+        onConfirm={jest.fn()}
+        onCancel={jest.fn()}
+        onBack={jest.fn()}
+      />
+    );
+
     userEvent.click(screen.getByText(/Remove all/));
     mockQuestions.forEach((q) =>
       expect(screen.queryByText(q.title)).toBeFalsy()
@@ -61,14 +96,13 @@ describe("Import questions review modal", () => {
       <ImportQuestionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
-        onSelectQuestions={mockHandleSelectQuestions}
+        onSelectQuestions={mockOnSelectQuestions}
+        startingSelectedQuestions={mockQuestions}
         onConfirm={mockHandleConfirm}
         onCancel={jest.fn()}
         onBack={jest.fn()}
       />
     );
-
-    userEvent.click(screen.queryByText(/Select questions/));
 
     // Import button enabled / clickable when questions selected
     userEvent.click(screen.queryByText(/^Import$/));
