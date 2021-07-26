@@ -114,7 +114,7 @@ const WrappedItem = ({
   subtitle,
   variant,
   selected,
-  unselectable,
+  unselectable = false,
   onClick,
   children,
   dataTest,
@@ -131,7 +131,7 @@ const WrappedItem = ({
         variant={variant}
         className={`${variant}`}
         aria-selected={selected}
-        unselectable={`${unselectable}`}
+        unselectable={unselectable}
         tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
         onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
