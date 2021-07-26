@@ -35,8 +35,8 @@ export const tabTitles = {
 
 const { Enter, Space } = keyCodes;
 
-const otherDestinations = ({ pages, logicalDestinations }) => {
-  const dest = logicalDestinations.map((item) => {
+const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
+  const dest = logicalDestinations(questionnaire).map((item) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
@@ -47,7 +47,7 @@ const otherDestinations = ({ pages, logicalDestinations }) => {
   return dest;
 };
 
-const buildTabs = (data) => ({
+const buildTabs = (data, questionnaire) => ({
   current: {
     title: tabTitles.current,
     destinations: data.pages,
@@ -58,16 +58,16 @@ const buildTabs = (data) => ({
   },
   other: {
     title: tabTitles.other,
-    destinations: otherDestinations(data),
+    destinations: otherDestinations(data, questionnaire),
   },
 });
 
 const Menu = ({ data, onSelected, isSelected }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const { current, later, other } = buildTabs(data);
-
   const { questionnaire } = useQuestionnaire();
+
+  const { current, later, other } = buildTabs(data, questionnaire);
 
   const getRequiredTabs = () => {
     const requiredTabs = [];
@@ -112,25 +112,26 @@ const Menu = ({ data, onSelected, isSelected }) => {
       <Column width={56}>
         <ScrollPane>
           <MenuItemList>
-            {tabs[selectedTab].destinations.map((dest) =>
-              questionnaire.hub && dest.id === "EndOfQuestionnaire" ? null : (
-                <SubMenuItem
-                  key={dest.id}
-                  aria-selected={isSelected(dest)}
-                  onClick={() => onSelected(dest)}
-                  tabIndex={0}
-                  onKeyUp={(event) =>
-                    (event.key === Enter || event.key === Space) &&
-                    onSelected(dest)
-                  }
-                >
-                  <MenuItemTitles>
-                    <MenuItemTitle>
-                      <Truncated>{dest.displayName}</Truncated>
-                    </MenuItemTitle>
-                  </MenuItemTitles>
-                </SubMenuItem>
-              )
+            {tabs[selectedTab].destinations.map(
+              (dest) =>
+                dest.enabled !== false && (
+                  <SubMenuItem
+                    key={dest.id}
+                    aria-selected={isSelected(dest)}
+                    onClick={() => onSelected(dest)}
+                    tabIndex={0}
+                    onKeyUp={(event) =>
+                      (event.key === Enter || event.key === Space) &&
+                      onSelected(dest)
+                    }
+                  >
+                    <MenuItemTitles>
+                      <MenuItemTitle>
+                        <Truncated>{dest.displayName}</Truncated>
+                      </MenuItemTitle>
+                    </MenuItemTitles>
+                  </SubMenuItem>
+                )
             )}
           </MenuItemList>
         </ScrollPane>
