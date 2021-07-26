@@ -109,6 +109,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const onBackFromReviewingQuestions = () => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(true);
+    setQuestionsToImport([]);
   };
 
   const onQuestionPickerCancel = () => {
@@ -126,6 +127,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(false);
     setQuestionnaireImportingFrom(null);
+    setQuestionsToImport([]);
     stopImporting();
   };
 
