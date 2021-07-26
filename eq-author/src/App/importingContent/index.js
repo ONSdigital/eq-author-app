@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
+import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
@@ -283,6 +284,18 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       )}
     </>
   );
+};
+
+SelectQuestionnaire.propTypes = {
+  isOpen: PropTypes.bool,
+  questionnaires: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
+
+ImportingContent.propTypes = {
+  stopImporting: PropTypes.func.isRequired,
+  targetInsideFolder: PropTypes.bool,
 };
 
 export default ImportingContent;

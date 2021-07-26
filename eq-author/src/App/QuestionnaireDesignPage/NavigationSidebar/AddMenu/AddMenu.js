@@ -163,6 +163,8 @@ AddMenu.propTypes = {
   canAddFolder: PropTypes.bool.isRequired,
   isFolder: PropTypes.bool.isRequired,
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  canImportContent: PropTypes.bool,
+  onStartImportingContent: PropTypes.func.isRequired,
 };
 
 export default AddMenu;

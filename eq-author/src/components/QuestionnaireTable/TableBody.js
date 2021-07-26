@@ -43,6 +43,7 @@ TableBody.propTypes = {
   enabledHeadings: PropTypes.array, // eslint-disable-line
   onRowClick: PropTypes.func,
   questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
 };
 
 export default TableBody;

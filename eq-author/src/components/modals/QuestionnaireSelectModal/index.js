@@ -80,6 +80,8 @@ QuestionnaireSelectModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  onSelect: PropTypes.func,
+  disableSelect: PropTypes.bool,
 };
 
 export default QuestionnaireSelectModal;

@@ -159,6 +159,7 @@ ImportQuestionReviewModal.propTypes = {
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }),
+  startingSelectedQuestions: PropTypes.array, // eslint-disable-line
 };
 
 export default ImportQuestionReviewModal;

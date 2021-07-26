@@ -109,6 +109,7 @@ QuestionnairesTable.propTypes = {
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
 };
 
 export default QuestionnairesTable;

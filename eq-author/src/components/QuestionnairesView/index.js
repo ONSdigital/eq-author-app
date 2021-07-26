@@ -156,6 +156,7 @@ QuestionnairesView.propTypes = {
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   padding: PropTypes.string,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
 };
 
 export default QuestionnairesView;

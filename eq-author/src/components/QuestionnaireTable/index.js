@@ -69,6 +69,7 @@ QuestionnaireTable.propTypes = {
   clickable: PropTypes.bool,
   onRowClick: PropTypes.func.isRequired,
   questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
 };
 
 QuestionnaireTable.defaultProps = {

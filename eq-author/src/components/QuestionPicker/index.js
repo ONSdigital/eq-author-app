@@ -254,13 +254,10 @@ QuestionPicker.propTypes = {
   showSearch: PropTypes.bool,
   isOpen: PropTypes.bool,
   /**
-   * Called when:
-   *
-   * - the 'Cancel' button is pressed;
-   * - or when the 'x' button is pressed;
-   * - or when when the 'Select' button  is pressed (after the 'onSubmit' function is called).
+   * Called when the 'x' button is pressed;
    */
   onClose: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   /**
    * Called when the 'Select' button is pressed (before the 'onClose' function is called).
    *

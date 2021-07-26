@@ -187,6 +187,7 @@ const propTypes = {
   tableHeadings: PropTypes.array, // eslint-disable-line
   onClick: PropTypes.func.isRequired,
   questionnaireModal: PropTypes.bool,
+  selected: PropTypes.bool,
 };
 
 export const Row = ({
