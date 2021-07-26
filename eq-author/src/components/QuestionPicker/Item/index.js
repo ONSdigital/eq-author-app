@@ -7,10 +7,10 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0.5em 1.5em;
+  padding: 1.5em;
   border-bottom: 1px solid ${colors.lightGrey};
   cursor: pointer;
-  height: 2.2em;
+  height: 2em;
   &:hover {
     background-color: ${colors.lighterGrey};
   }
@@ -82,7 +82,7 @@ const ListItem = styled.li`
 `;
 const Heading = styled.h3`
   font-size: 1em;
-  padding: 0.5em 1.5em;
+  padding: 1.5em;
   font-weight: bold;
   color: ${colors.darkGrey};
   margin: 0;
@@ -97,8 +97,10 @@ const Title = styled.p`
   align-items: center;
 
   svg {
-    width: 2em;
-    height: 2em;
+    width: 1.75em;
+    height: 1.75em;
+    fill: ${colors.darkGrey};
+    margin-right: 1em;
   }
 `;
 
