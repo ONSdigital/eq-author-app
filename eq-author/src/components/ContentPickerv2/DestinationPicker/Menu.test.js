@@ -3,8 +3,6 @@ import { render, fireEvent } from "tests/utils/rtl";
 
 import Menu, { tabTitles } from "./Menu";
 
-import { colors } from "constants/theme";
-
 import {
   destinationKey,
   EndOfQuestionnaire,
