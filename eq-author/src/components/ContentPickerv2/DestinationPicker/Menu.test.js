@@ -92,8 +92,6 @@ const props = {
   isSelected: jest.fn(),
 };
 
-let questionnaire;
-
 function setup({ data, isSelected, ...extra }) {
   const onSelected = jest.fn();
   const utils = render(
@@ -134,30 +132,32 @@ function defaultSetup() {
 }
 
 describe("Destination Picker Menu", () => {
+  let questionnaire;
+
   describe("Hub is disabled", () => {
     beforeEach(() => {
       questionnaire = { hub: false };
       useQuestionnaire.mockImplementation(() => ({ questionnaire }));
     });
 
-    it("should default to current section tab", () => {
+    it("should default to current section tab by checking if a question page in current section is visible", () => {
       const { getByText } = defaultSetup();
       expect(getByText("Question one")).toBeVisible();
     });
 
-    it("should show active styling for current tab", () => {
+    it("should show active for current tab", () => {
       const { getByText } = defaultSetup();
-      expect(getByText(tabTitles.current)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
     });
 
     it("should display question pages in 'Current section'", () => {
       const { getByText } = defaultSetup();
-      expect(getByText(tabTitles.current)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
       expect(getByText("Question one")).toBeVisible();
       expect(getByText("Question two")).toBeVisible();
@@ -168,9 +168,9 @@ describe("Destination Picker Menu", () => {
     it("should display sections in 'Later sections'", () => {
       const { queryByText, getByText, click } = defaultSetup();
       click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
       expect(queryByText("Section one")).toBeFalsy();
       expect(getByText("Section two")).toBeVisible();
@@ -181,44 +181,42 @@ describe("Destination Picker Menu", () => {
     it("should display 'Other destinations' options", () => {
       const { getByText, click } = defaultSetup();
       click(tabTitles.other);
-      expect(getByText(tabTitles.other)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.other)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
       expect(getByText(destinationKey[NextPage])).toBeVisible();
       expect(getByText(destinationKey[EndOfCurrentSection])).toBeVisible();
       expect(getByText(destinationKey[EndOfQuestionnaire])).toBeVisible();
     });
 
-    it("should display only display 'Current section' and 'Other destinations' tab when missing destinations in the 'Later sections'", () => {});
-
     it("should be able to change destination tabs with Space or enter", () => {
       const { getByText, keyPress } = defaultSetup();
 
-      expect(getByText(tabTitles.current)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
 
       // doesn't change with other keyDown
       keyPress(tabTitles.later, { key: "Escape", code: "Escape" });
-      expect(getByText(tabTitles.current)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
 
       // changes with Enter
       keyPress(tabTitles.later, { key: "Enter", code: "Enter" });
-      expect(getByText(tabTitles.later)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
 
       // changes with Space
       keyPress(tabTitles.other, { key: " ", code: "Space" });
-      expect(getByText(tabTitles.other)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.other)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
     });
 
@@ -226,9 +224,9 @@ describe("Destination Picker Menu", () => {
       const { getByText, click } = defaultSetup();
 
       click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveStyleRule(
-        "background-color",
-        colors.lighterGrey
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
       );
     });
 
