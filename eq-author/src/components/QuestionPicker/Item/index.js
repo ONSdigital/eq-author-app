@@ -30,6 +30,7 @@ const Item = styled.div`
     &:focus{
       outline: none;
       box-shadow: none;
+      border-color: ${colors.lightGrey};
     }
   `}
 
