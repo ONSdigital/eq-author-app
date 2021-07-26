@@ -44,7 +44,7 @@ const makeAdmin = async (
     databaseURL: `https://${projectName}.firebaseio.com`,
   });
 
-  await admin.auth().setCustomUserClaims(program.uid, {
+  await admin.auth().setCustomUserClaims(uid, {
     admin: !remove,
   });
 
@@ -52,15 +52,16 @@ const makeAdmin = async (
   return userRecord.customClaims.admin;
 };
 
+const options = program.opts();
 makeAdmin(
-  program.projectName,
-  program.uid,
-  program.serviceAccountKey,
-  program.remove
+  options.projectName,
+  options.uid,
+  options.serviceAccountKey,
+  options.remove
 )
   .then((isAdmin) => {
     logger.info(
-      `User ${program.uid} in ${program.projectName} is ${
+      `User ${options.uid} in ${options.projectName} is ${
         isAdmin === true ? "now" : "no longer"
       } an admin`
     );
