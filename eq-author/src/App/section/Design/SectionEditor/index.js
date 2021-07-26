@@ -109,11 +109,6 @@ export class SectionEditor extends React.Component {
       onDeleteSectionConfirm,
       match,
     } = this.props;
-    console.log(
-      "collapsibleSummary :>> ",
-      section.questionnaire.collapsibleSummary
-    );
-    console.log("this.props :>> ", this.props);
 
     const handleUpdate = partial(flip(onChange), onUpdate);
 
@@ -126,7 +121,6 @@ export class SectionEditor extends React.Component {
     const hasNav = section.questionnaire.navigation;
     const hasHub = section.questionnaire.hub;
     const hasCollapsibleSummary = section.questionnaire.collapsibleSummary;
-    console.log("hasCollapsibleSummary :>> ", hasCollapsibleSummary);
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
