@@ -9,11 +9,7 @@ import {
 
 import ContentPicker from "./";
 
-import {
-  destinationKey,
-  EndOfQuestionnaire,
-  NextPage,
-} from "constants/destinations";
+import { EndOfQuestionnaire, NextPage } from "constants/destinations";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -566,20 +562,19 @@ describe("Content picker", () => {
       props = {
         ...props,
         data: {
-          logicalDestinations: [
+          logicalDestinations: jest.fn(() => [
             {
               id: NextPage,
-              // displayName: "destinationKey[NextPage]",
               displayName: NextPage,
               logicalDestination: NextPage,
             },
             {
               id: EndOfQuestionnaire,
-              // displayName: destinationKey[EndOfQuestionnaire],
               displayName: EndOfQuestionnaire,
               logicalDestination: EndOfQuestionnaire,
+              displayEnabled: !questionnaire.hub,
             },
-          ],
+          ]),
           pages: [
             {
               id: "1",
@@ -657,11 +652,11 @@ describe("Content picker", () => {
       fireEvent.click(destinationItem);
       fireEvent.click(confirmButton);
 
-      // expect(onSubmit).toHaveBeenCalledWith({
-      //   displayName: "Question one",
-      //   id: "1",
-      //   section: [{ displayName: "Section one", id: "section-1" }],
-      // });
+      expect(onSubmit).toHaveBeenCalledWith({
+        displayName: "Question one",
+        id: "1",
+        section: [{ displayName: "Section one", id: "section-1" }],
+      });
       debug();
     });
   });

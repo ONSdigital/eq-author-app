@@ -16,26 +16,23 @@ jest.mock("components/QuestionnaireContext", () => ({
   useQuestionnaire: jest.fn(),
 }));
 
-jest.mock("constants/destinations", () => ({
-  logicalDestinations: jest.fn(),
-}));
+let questionnaire;
 
 const props = {
   data: {
-    logicalDestinations: [
+    logicalDestinations: jest.fn(() => [
       {
         id: NextPage,
-        // displayName: destinationKey[NextPage],
         displayName: NextPage,
         logicalDestination: NextPage,
       },
       {
         id: EndOfQuestionnaire,
-        // displayName: destinationKey[EndOfQuestionnaire],
         displayName: EndOfQuestionnaire,
         logicalDestination: EndOfQuestionnaire,
+        displayEnabled: !questionnaire.hub,
       },
-    ],
+    ]),
     pages: [
       {
         id: "1",
@@ -136,15 +133,13 @@ function defaultSetup() {
 }
 
 describe("Destination Picker Menu", () => {
-  let questionnaire;
-
   describe("Hub is disabled", () => {
     beforeEach(() => {
       questionnaire = { hub: false };
       useQuestionnaire.mockImplementation(() => ({ questionnaire }));
     });
 
-    it.only("should default to current section tab by checking if a question page in current section is visible", () => {
+    it("should default to current section tab by checking if a question page in current section is visible", () => {
       const { getByText } = defaultSetup();
       expect(getByText("Question one")).toBeVisible();
     });

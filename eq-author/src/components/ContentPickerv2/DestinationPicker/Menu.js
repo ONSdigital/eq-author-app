@@ -36,6 +36,7 @@ export const tabTitles = {
 const { Enter, Space } = keyCodes;
 
 const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
+  console.log(destinationKey);
   const dest = logicalDestinations(questionnaire).map((item) => {
     item.displayName = destinationKey[item.id];
     return item;
@@ -114,7 +115,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
           <MenuItemList>
             {tabs[selectedTab].destinations.map(
               (dest) =>
-                dest.enabled !== false && (
+                dest.displayEnabled !== false && (
                   <SubMenuItem
                     key={dest.id}
                     aria-selected={isSelected(dest)}
@@ -143,7 +144,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
 Menu.propTypes = {
   data: PropTypes.shape({
     pages: PropTypes.array,
-    logicalDestinations: PropTypes.array,
+    logicalDestinations: PropTypes.func,
     sections: PropTypes.array,
   }),
   onSelected: PropTypes.func.isRequired,

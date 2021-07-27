@@ -13,7 +13,7 @@ export const logicalDestinations = (questionnaire) => [
     id: EndOfQuestionnaire,
     logicalDestination: EndOfQuestionnaire,
     displayName: EndOfQuestionnaire,
-    enabled: !questionnaire.hub,
+    displayEnabled: !questionnaire.hub,
   },
 ];
 
