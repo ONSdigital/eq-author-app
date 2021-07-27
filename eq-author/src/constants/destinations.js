@@ -16,10 +16,3 @@ export const logicalDestinations = (questionnaire) => [
     displayEnabled: !questionnaire.hub,
   },
 ];
-
-export const destinationKey = {
-  [EndOfQuestionnaire]: "End of questionnaire",
-  [EndOfCurrentSection]: "End of current section",
-  [NextPage]: "Next page",
-  [Default]: "Select a destination",
-};

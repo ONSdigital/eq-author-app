@@ -3,6 +3,10 @@ import { render } from "tests/utils/rtl";
 
 import DestinationPicker, { Title } from "./";
 
+import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+
+import { destinationKey } from "constants/destinationKey";
+
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 jest.mock("components/QuestionnaireContext", () => ({
@@ -10,18 +14,19 @@ jest.mock("components/QuestionnaireContext", () => ({
 }));
 
 const data = () => ({
-  logicalDestinations: [
+  logicalDestinations: jest.fn(() => [
     {
-      id: "NextPage",
-      displayName: "Next page",
-      logicalDestination: "NextPage",
+      id: NextPage,
+      displayName: destinationKey[NextPage],
+      logicalDestination: NextPage,
     },
     {
-      id: "EndOfQuestionnaire",
-      displayName: "End of questionnaire",
-      logicalDestination: "EndOfQuestionnaire",
+      id: EndOfQuestionnaire,
+      displayName: destinationKey[EndOfQuestionnaire],
+      logicalDestination: EndOfQuestionnaire,
+      displayEnabled: !questionnaire.hub,
     },
-  ],
+  ]),
   pages: [
     {
       id: "4e5f227c-e53e-41e8-ae26-03ba2c38e12d",

@@ -10,6 +10,7 @@ import {
 import ContentPicker from "./";
 
 import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -565,12 +566,12 @@ describe("Content picker", () => {
           logicalDestinations: jest.fn(() => [
             {
               id: NextPage,
-              displayName: NextPage,
+              displayName: destinationKey[NextPage],
               logicalDestination: NextPage,
             },
             {
               id: EndOfQuestionnaire,
-              displayName: EndOfQuestionnaire,
+              displayName: destinationKey[EndOfQuestionnaire],
               logicalDestination: EndOfQuestionnaire,
               displayEnabled: !questionnaire.hub,
             },
@@ -643,7 +644,7 @@ describe("Content picker", () => {
       expect(modalHeader).toBeTruthy();
     });
 
-    it.only("should call onSubmit with selected question", () => {
+    it("should call onSubmit with selected question", () => {
       const { getByText, debug } = renderContentPicker();
 
       const destinationItem = getByText("Question one");

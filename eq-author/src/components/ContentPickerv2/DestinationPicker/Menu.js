@@ -16,7 +16,7 @@ import ScrollPane from "components/ScrollPane";
 import Truncated from "components/Truncated";
 
 import { keyCodes } from "constants/keyCodes";
-import { destinationKey } from "constants/destinations";
+import { destinationKey } from "constants/destinationKey";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -36,7 +36,6 @@ export const tabTitles = {
 const { Enter, Space } = keyCodes;
 
 const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
-  console.log(destinationKey);
   const dest = logicalDestinations(questionnaire).map((item) => {
     item.displayName = destinationKey[item.id];
     return item;

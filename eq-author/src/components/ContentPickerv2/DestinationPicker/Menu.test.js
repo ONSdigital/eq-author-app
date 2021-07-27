@@ -4,11 +4,12 @@ import { render, fireEvent } from "tests/utils/rtl";
 import Menu, { tabTitles } from "./Menu";
 
 import {
-  destinationKey,
   EndOfQuestionnaire,
   NextPage,
   EndOfCurrentSection,
 } from "constants/destinations";
+
+import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -23,12 +24,12 @@ const props = {
     logicalDestinations: jest.fn(() => [
       {
         id: NextPage,
-        displayName: NextPage,
+        displayName: destinationKey[NextPage],
         logicalDestination: NextPage,
       },
       {
         id: EndOfQuestionnaire,
-        displayName: EndOfQuestionnaire,
+        displayName: destinationKey[EndOfQuestionnaire],
         logicalDestination: EndOfQuestionnaire,
         displayEnabled: !questionnaire.hub,
       },
