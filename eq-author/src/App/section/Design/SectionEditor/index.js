@@ -109,6 +109,7 @@ export class SectionEditor extends React.Component {
       onDeleteSectionConfirm,
       match,
     } = this.props;
+
     const handleUpdate = partial(flip(onChange), onUpdate);
 
     const navHasChanged =
@@ -119,6 +120,7 @@ export class SectionEditor extends React.Component {
 
     const hasNav = section.questionnaire.navigation;
     const hasHub = section.questionnaire.hub;
+    const hasCollapsibleSummary = section.questionnaire.collapsibleSummary;
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
@@ -136,7 +138,11 @@ export class SectionEditor extends React.Component {
         </MoveSectionQuery>
 
         {hasHub && (
-          <HubSettings id={section.id} requiredCompleted={section.requiredCompleted} showOnHub={section.showOnHub}/>
+          <HubSettings
+            id={section.id}
+            requiredCompleted={section.requiredCompleted}
+            showOnHub={section.showOnHub}
+          />
         )}
 
         <Padding>
@@ -156,7 +162,7 @@ export class SectionEditor extends React.Component {
               ))
             }
             value={section.title}
-            disabled={!hasNav && !hasHub}
+            disabled={!hasNav && !hasHub && !hasCollapsibleSummary}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"

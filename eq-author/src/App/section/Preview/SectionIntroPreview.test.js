@@ -18,6 +18,7 @@ describe("SectionIntroPreview", () => {
       questionnaire: {
         id: "1",
         navigation: true,
+        hub: true,
       },
       validationErrorInfo: {
         id: "vei1",
