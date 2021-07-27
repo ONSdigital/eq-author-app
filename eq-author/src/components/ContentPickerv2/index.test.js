@@ -18,10 +18,6 @@ jest.mock("components/QuestionnaireContext", () => ({
   useQuestionnaire: jest.fn(),
 }));
 
-jest.mock("constants/destinations", () => ({
-  logicalDestinations: jest.fn(),
-}));
-
 describe("Content picker", () => {
   let data, onClose, onSubmit, startingSelectedAnswers, questionnaire, props;
 
@@ -645,7 +641,7 @@ describe("Content picker", () => {
     });
 
     it("should call onSubmit with selected question", () => {
-      const { getByText, debug } = renderContentPicker();
+      const { getByText } = renderContentPicker();
 
       const destinationItem = getByText("Question one");
       const confirmButton = getByText("Confirm");
@@ -658,7 +654,6 @@ describe("Content picker", () => {
         id: "1",
         section: [{ displayName: "Section one", id: "section-1" }],
       });
-      debug();
     });
   });
 });
