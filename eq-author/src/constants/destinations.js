@@ -3,7 +3,7 @@ export const NextPage = "NextPage";
 export const Default = "Default";
 export const EndOfCurrentSection = "EndOfCurrentSection";
 
-export const logicalDestinations = [
+export const logicalDestinations = (questionnaire) => [
   {
     id: NextPage,
     logicalDestination: NextPage,
@@ -13,12 +13,6 @@ export const logicalDestinations = [
     id: EndOfQuestionnaire,
     logicalDestination: EndOfQuestionnaire,
     displayName: EndOfQuestionnaire,
+    displayEnabled: !questionnaire.hub,
   },
 ];
-
-export const destinationKey = {
-  [EndOfQuestionnaire]: "End of questionnaire",
-  [EndOfCurrentSection]: "End of current section",
-  [NextPage]: "Next page",
-  [Default]: "Select a destination",
-};
