@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import IconText from "components/IconText";
-import WarningIcon from "constants/icon-warning.svg?inline";
+import WarningIcon from "assets/icon-error.svg?inline";
 import VisuallyHidden from "../VisuallyHidden/index";
 
 const ErrorStyling = styled(IconText)`

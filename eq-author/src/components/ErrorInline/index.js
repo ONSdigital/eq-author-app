@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Icon from "./icon-error.svg?inline";
+import Icon from "assets/icon-error.svg?inline";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import VisuallyHidden from "components/VisuallyHidden";
@@ -11,7 +11,6 @@ const Container = styled.div`
   right: 0;
   bottom: -2em;
   color: ${colors.orange};
-  fill: ${colors.orange};
   font-weight: normal;
 `;
 
