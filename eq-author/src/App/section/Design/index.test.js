@@ -70,7 +70,6 @@ const section = {
       __typename: "QuestionnaireInfo",
       totalSectionCount: 1,
     },
-    collapsibleSummary: false,
   },
   validationErrorInfo: {
     id: "1",

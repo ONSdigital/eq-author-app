@@ -14,9 +14,6 @@
         },
         {
           "requiredWhenQuestionnaireSetting": "hub"
-        },
-        {
-          "requiredWhenQuestionnaireSetting": "collapsibleSummary"
         }
       ],
       "errorMessage": "ERR_REQUIRED_WHEN_SETTING"
