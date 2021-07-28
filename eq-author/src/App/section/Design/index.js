@@ -214,7 +214,6 @@ export const SECTION_QUERY = gql`
         questionnaireInfo {
           totalSectionCount
         }
-        collapsibleSummary
       }
     }
   }
