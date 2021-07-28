@@ -3,19 +3,30 @@ import { render } from "tests/utils/rtl";
 
 import DestinationPicker, { Title } from "./";
 
+import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+
+import { destinationKey } from "constants/destinationKey";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
 const data = () => ({
-  logicalDestinations: [
+  logicalDestinations: jest.fn(() => [
     {
-      id: "NextPage",
-      displayName: "Next page",
-      logicalDestination: "NextPage",
+      id: NextPage,
+      displayName: destinationKey[NextPage],
+      logicalDestination: NextPage,
     },
     {
-      id: "EndOfQuestionnaire",
-      displayName: "End of questionnaire",
-      logicalDestination: "EndOfQuestionnaire",
+      id: EndOfQuestionnaire,
+      displayName: destinationKey[EndOfQuestionnaire],
+      logicalDestination: EndOfQuestionnaire,
+      displayEnabled: !questionnaire.hub,
     },
-  ],
+  ]),
   pages: [
     {
       id: "4e5f227c-e53e-41e8-ae26-03ba2c38e12d",
@@ -37,6 +48,7 @@ const data = () => ({
 });
 const onSelected = jest.fn();
 const isSelected = jest.fn();
+const questionnaire = { hub: false };
 
 const props = {
   data: data(),
@@ -46,6 +58,7 @@ const props = {
 
 describe("Destination Picker", () => {
   it("should render", () => {
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
     const { getByText } = render(<DestinationPicker {...props} />);
     expect(getByText(Title)).toBeVisible();
   });
