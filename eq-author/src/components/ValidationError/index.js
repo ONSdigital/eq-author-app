@@ -8,7 +8,7 @@ import WarningIcon from "constants/icon-warning.svg?inline";
 import VisuallyHidden from "../VisuallyHidden/index";
 
 const ErrorStyling = styled(IconText)`
-  color: ${colors.red};
+  color: ${colors.orange};
   width: ${(props) => (props.right ? "100%" : "80%")};
   justify-content: ${(props) =>
     props.right === false ? "flex-start" : "flex-end"};

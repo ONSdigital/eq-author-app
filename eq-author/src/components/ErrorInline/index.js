@@ -10,8 +10,8 @@ const Container = styled.div`
   margin-left: ${({ left }) => (left ? "-0.4rem" : "0")};
   right: 0;
   bottom: -2em;
-  color: ${colors.red};
-  fill: ${colors.red};
+  color: ${colors.orange};
+  fill: ${colors.orange};
   font-weight: normal;
 `;
 
