@@ -14,6 +14,7 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
+import Badge from "components/Badge";
 
 import UserProfile from "components/UserProfile";
 
@@ -52,22 +53,6 @@ const Flex = styled.div`
 
 export const UtilityBtns = styled.div`
   display: flex;
-`;
-
-const SmallBadge = styled.span`
-  border-radius: 50%;
-  background-color: ${colors.red};
-  border: 1px solid ${colors.white};
-  font-weight: normal;
-  z-index: 2;
-  pointer-events: none;
-  width: 0.75em;
-  height: 0.75em;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 2px;
-  right: 2px;
 `;
 
 export const UnwrappedMainNavigation = ({
@@ -135,7 +120,10 @@ export const UnwrappedMainNavigation = ({
                     Settings
                   </IconText>
                   {settingsError && (
-                    <SmallBadge data-test="settings-error-badge" />
+                    <Badge
+                      data-test="settings-error-badge"
+                      variant="main-nav"
+                    />
                   )}
                 </RouteButton>
                 <RouteButton
@@ -194,7 +182,7 @@ export const UnwrappedMainNavigation = ({
                     QCodes
                   </IconText>
                   {qcodesEnabled && hasQCodeError && (
-                    <SmallBadge data-test="small-badge" />
+                    <Badge data-test="small-badge" variant="main-nav" />
                   )}
                 </RouteButton>
                 {me && <UserProfile nav />}
