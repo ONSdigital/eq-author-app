@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import Icon from "assets/icon-error.svg?inline";
 import styled from "styled-components";
-import { colors } from "constants/theme";
+
 import VisuallyHidden from "components/VisuallyHidden";
+import ErrorPanel from "components/Panel/ErrorPanel";
 
 const Container = styled.div`
-  position: ${({ left }) => (left ? "static" : "absolute")};
+  /* position: ${({ left }) => (left ? "static" : "absolute")}; */
   margin-left: ${({ left }) => (left ? "-0.4rem" : "0")};
   right: 0;
   bottom: -2em;
-  color: ${colors.orange};
   font-weight: normal;
 `;
 
@@ -26,15 +27,17 @@ const ErrorInline = ({ children, left }) => {
   }
 
   return (
-    <Container data-test="error" left={left}>
-      <IconContainer>
-        <Icon />
-        <span role="alert">
-          <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
-          {children}
-        </span>
-      </IconContainer>
-    </Container>
+    <ErrorPanel>
+      <Container data-test="error" left={left}>
+        <IconContainer>
+          <Icon />
+          <span role="alert">
+            <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
+            {children}
+          </span>
+        </IconContainer>
+      </Container>
+    </ErrorPanel>
   );
 };
 

@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
-import IconText from "components/IconText";
 import WarningIcon from "assets/icon-error.svg?inline";
-import VisuallyHidden from "../VisuallyHidden/index";
+import IconText from "components/IconText";
+import VisuallyHidden from "components/VisuallyHidden";
+import ErrorPanel from "components/Panel/ErrorPanel";
 
 const ErrorStyling = styled(IconText)`
-  color: ${colors.orange};
+  color: ${colors.error};
   width: ${(props) => (props.right ? "100%" : "80%")};
   justify-content: ${(props) =>
     props.right === false ? "flex-start" : "flex-end"};
@@ -16,15 +17,17 @@ const ErrorStyling = styled(IconText)`
 `;
 
 const ValidationError = ({ children, right, className, test }) => (
-  <ErrorStyling
-    icon={WarningIcon}
-    className={className}
-    right={right}
-    data-test={test}
-  >
-    <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
-    {children}
-  </ErrorStyling>
+  <ErrorPanel>
+    <ErrorStyling
+      icon={WarningIcon}
+      className={className}
+      right={right}
+      data-test={test}
+    >
+      <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
+      {children}
+    </ErrorStyling>
+  </ErrorPanel>
 );
 
 ValidationError.propTypes = {

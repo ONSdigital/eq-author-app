@@ -16,8 +16,10 @@ export const colors = {
   lighterGrey: "#f5f5f5",
   disabledGreyOnOrange: "#7A6340",
   red: "#D0021B",
+  lightOrange: "#FFDFCD",
   orange: "#FDBD56",
   amber: "#fe781f",
+  darkOrange: "#FF600A",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
   black: "#333333",
@@ -36,6 +38,8 @@ colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;
 colors.bordersLight = colors.lightGrey;
 colors.previewError = colors.grey;
+colors.errorPrimary = colors.darkOrange;
+colors.errorSecondary = colors.lightOrange;
 
 export const radius = "4px";
 
