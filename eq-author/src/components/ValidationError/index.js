@@ -9,19 +9,20 @@ import VisuallyHidden from "components/VisuallyHidden";
 import ErrorPanel from "components/Panel/ErrorPanel";
 
 const ErrorStyling = styled(IconText)`
-  color: ${colors.error};
+  /* color: ${colors.error};
   width: ${(props) => (props.right ? "100%" : "80%")};
   justify-content: ${(props) =>
-    props.right === false ? "flex-start" : "flex-end"};
-  margin: 0.5em 0;
+    props.right === false ? "flex-start" : "flex-end"}; */
+  /* margin: 0.5em 0; */
+  margin: 0.5em 1em 0.5em 0.1em;
 `;
 
-const ValidationError = ({ children, right, className, test }) => (
-  <ErrorPanel>
+const ValidationError = ({ children, right, test }) => (
+  <ErrorPanel right={right}>
     <ErrorStyling
       icon={WarningIcon}
-      className={className}
-      right={right}
+      // className={className}
+      // right={right}
       data-test={test}
     >
       <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
@@ -33,7 +34,7 @@ const ValidationError = ({ children, right, className, test }) => (
 ValidationError.propTypes = {
   children: PropTypes.node,
   right: PropTypes.bool,
-  className: PropTypes.string,
+  // className: PropTypes.string,
   test: PropTypes.string,
 };
 
