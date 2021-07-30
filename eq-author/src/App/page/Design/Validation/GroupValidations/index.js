@@ -156,9 +156,7 @@ class GroupValidations extends Component {
           <Details>{this.renderContents() || <Title>Total</Title>}</Details>
         </TotalButton>
         {error && (
-          <ValidationError right>
-            {errorMessages[error.errorCode]}
-          </ValidationError>
+          <ValidationError>{errorMessages[error.errorCode]}</ValidationError>
         )}
         <GroupValidationModal
           isOpen={this.state.isModalOpen}

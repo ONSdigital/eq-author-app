@@ -177,7 +177,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         rightSideErrors[error.errorCode].message;
     }
 
-    return message ? <ValidationError right>{message}</ValidationError> : null;
+    return message ? <ValidationError>{message}</ValidationError> : null;
   };
 
   renderRadioOptionSelector(hasError) {

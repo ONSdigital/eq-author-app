@@ -36,7 +36,7 @@ const CustomEditor = ({ total, type, onUpdate, onChange, errors }) => (
       data-test="total-validation-number-input"
     />
     {errors?.[0]?.errorCode === "ERR_NO_VALUE" && (
-      <ValidationError right={false}> {ERR_NO_VALUE} </ValidationError>
+      <ValidationError> {ERR_NO_VALUE} </ValidationError>
     )}
   </Field>
 );

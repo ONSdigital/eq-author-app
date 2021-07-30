@@ -56,9 +56,7 @@ const PreviousAnswerEditor = ({
     <>
       {component}
       {errorCode && (
-        <ValidationError right={false}>
-          {errorMessages[errorCode]}
-        </ValidationError>
+        <ValidationError>{errorMessages[errorCode]}</ValidationError>
       )}
     </>
   );

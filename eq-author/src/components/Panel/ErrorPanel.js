@@ -3,16 +3,25 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
-const ErrorPanel = ({ right, children }) => {
+const ErrorPanel = ({ variant, children }) => {
   const StyledPanel = styled.div`
     background-color: ${colors.errorSecondary};
     border: 0;
     border-radius: 0;
     border-left: 0.5em solid ${colors.errorPrimary};
     margin: 1em 0;
-    /* margin-left: ${right ? `70%` : `5%`}; */
     display: inline-block;
     width: auto;
+
+    ${variant === "destination" &&
+    `
+    margin-left: 43.1%
+    `}
+
+    ${variant === "logic" &&
+    `
+    margin-left: 60.5%;
+  `}
 
     p {
       margin: 0;
@@ -24,7 +33,11 @@ const ErrorPanel = ({ right, children }) => {
 
 ErrorPanel.propTypes = {
   children: PropTypes.string.isRequired,
-  right: PropTypes.bool,
+  variant: PropTypes.string,
+};
+
+ErrorPanel.defaultProps = {
+  variant: "default",
 };
 
 export default ErrorPanel;

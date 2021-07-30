@@ -92,7 +92,11 @@ export const UnwrappedDestinationSelector = ({
         </Grid>
       </RoutingRuleResult>
       {errorMessage && (
-        <RepositionedValidationError test="destination-validation-error" right>
+        <RepositionedValidationError
+          variant="destination"
+          test="destination-validation-error"
+          right
+        >
           <p>{errorMessage}</p>
         </RepositionedValidationError>
       )}

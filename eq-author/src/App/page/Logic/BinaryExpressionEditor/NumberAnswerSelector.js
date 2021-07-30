@@ -87,13 +87,11 @@ class NumberAnswerSelector extends React.Component {
   handleError = () => {
     const { expression, groupErrorMessage } = this.props;
     let message = null;
-    let rightAlign = true;
 
     const errors = expression.validationErrorInfo.errors;
 
     if (errors.some(({ field }) => field === "condition")) {
       message = OPERATOR_REQUIRED;
-      rightAlign = false;
     } else if (
       errors.some(
         ({ errorCode }) =>
@@ -111,11 +109,7 @@ class NumberAnswerSelector extends React.Component {
       message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
     }
 
-    return (
-      <ValidationError right={rightAlign}>
-        {message || groupErrorMessage}
-      </ValidationError>
-    );
+    return <ValidationError>{message || groupErrorMessage}</ValidationError>;
   };
 
   render() {
