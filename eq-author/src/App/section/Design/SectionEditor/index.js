@@ -162,7 +162,7 @@ export class SectionEditor extends React.Component {
               ))
             }
             value={section.title}
-            disabled={!hasNav && !hasHub && !hasCollapsibleSummary}
+            // disabled={!hasNav && !hasHub && !hasCollapsibleSummary}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"
