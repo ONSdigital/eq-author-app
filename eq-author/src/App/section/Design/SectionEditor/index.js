@@ -118,9 +118,7 @@ export class SectionEditor extends React.Component {
 
     const autoFocusTitle = !navHasChanged && !hasTitle;
 
-    const hasNav = section.questionnaire.navigation;
     const hasHub = section.questionnaire.hub;
-    const hasCollapsibleSummary = section.questionnaire.collapsibleSummary;
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
@@ -162,7 +160,6 @@ export class SectionEditor extends React.Component {
               ))
             }
             value={section.title}
-            // disabled={!hasNav && !hasHub && !hasCollapsibleSummary}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"
