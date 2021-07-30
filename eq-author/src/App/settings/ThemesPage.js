@@ -138,9 +138,7 @@ const ThemesPage = ({ questionnaire }) => {
 
   const renderErrors = (errors) =>
     errors.map((errorMessage, index) => (
-      <ValidationError key={index} right={false}>
-        {errorMessage}
-      </ValidationError>
+      <ValidationError key={index}>{errorMessage}</ValidationError>
     ));
 
   const findErrorsByCodePrefix = ({ errors }, prefix) =>

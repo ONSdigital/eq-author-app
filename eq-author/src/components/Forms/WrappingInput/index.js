@@ -30,7 +30,6 @@ class WrappingInput extends React.Component {
     bold: PropTypes.bool,
     placeholder: PropTypes.string,
     errorValidationMsg: PropTypes.string,
-    errorAlignRight: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -51,13 +50,7 @@ class WrappingInput extends React.Component {
   };
 
   render() {
-    const {
-      bold,
-      placeholder,
-      errorValidationMsg,
-      errorAlignRight,
-      ...otherProps
-    } = this.props;
+    const { bold, placeholder, errorValidationMsg, ...otherProps } = this.props;
     return (
       <StyleContext
         bold={bold}
@@ -71,9 +64,7 @@ class WrappingInput extends React.Component {
           aria-invalid={Boolean(errorValidationMsg).toString()}
         />
         {errorValidationMsg && (
-          <ValidationError right={errorAlignRight}>
-            {errorValidationMsg}
-          </ValidationError>
+          <ValidationError>{errorValidationMsg}</ValidationError>
         )}
       </StyleContext>
     );
