@@ -15,7 +15,7 @@ import Button from "components/buttons/Button";
 import Panel, { InformationPanel } from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 import { FORM_TYPES_MUST_BE_UNIQUE } from "constants/validationMessages";
 
 import triggerPublishMutation from "./triggerPublish.graphql";
@@ -246,7 +246,9 @@ const PublishPage = ({ match, history }) => {
                         />
 
                         {variant.unique === false && (
-                          <ErrorInline>{FORM_TYPES_MUST_BE_UNIQUE}</ErrorInline>
+                          <ValidationError>
+                            {FORM_TYPES_MUST_BE_UNIQUE}
+                          </ValidationError>
                         )}
                       </ErrorContext>
                     </Shadow>

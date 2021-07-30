@@ -27,7 +27,7 @@ import createFormatStripper from "./utils/createFormatStripper";
 import { flow, uniq, map, keyBy, mapValues, get } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 
 const styleMap = {
   ITALIC: {
@@ -567,7 +567,9 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
-        {errorValidationMsg && <ErrorInline>{errorValidationMsg}</ErrorInline>}
+        {errorValidationMsg && (
+          <ValidationError>{errorValidationMsg}</ValidationError>
+        )}
       </Wrapper>
     );
   }

@@ -10,7 +10,7 @@ const ErrorPanel = ({ right, children }) => {
     border-radius: 0;
     border-left: 0.5em solid ${colors.errorPrimary};
     margin: 1em 0;
-    /* margin-left: */
+    /* margin-left: ${right ? `70%` : `5%`}; */
     display: inline-block;
     width: auto;
 

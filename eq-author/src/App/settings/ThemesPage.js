@@ -241,7 +241,7 @@ const ThemesPage = ({ questionnaire }) => {
                         onBlur={(e) => handleBlur({ ...e.target })}
                         data-test="change-questionnaire-id"
                         errorValidationMsg={surveyIdError}
-                        errorAlignLeft
+                        errorAlignRight={false}
                       />
                     </Field>
                     <HorizontalSeparator />

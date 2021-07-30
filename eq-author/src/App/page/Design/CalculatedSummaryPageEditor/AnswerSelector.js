@@ -10,7 +10,7 @@ import AnswerPicker from "components/AnswerPicker";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 import {
   CALCSUM_ANSWER_NOT_SELECTED,
   CALCSUM_SUMMARY_ANSWERS_THE_SAME,
@@ -219,14 +219,14 @@ export const UnwrappedAnswerSelector = ({
                 ))}
               </AnswerList>
               {minOfTwoAnswersError && (
-                <ErrorInline>
+                <ValidationError>
                   {buildLabelError(
                     CALCSUM_ANSWER_NOT_SELECTED,
                     (unit || answers[0].type).toLowerCase(),
                     20,
                     19
                   )}
-                </ErrorInline>
+                </ValidationError>
               )}
             </ErrorContext>
           </SectionListItem>
@@ -267,7 +267,7 @@ export const UnwrappedAnswerSelector = ({
           >
             Select an answer
           </EmptyButton>
-          <ErrorInline>{errorValidationMsg}</ErrorInline>
+          <ValidationError>{errorValidationMsg}</ValidationError>
         </ErrorContainer>
       </Empty>
     );
