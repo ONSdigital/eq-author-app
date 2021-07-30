@@ -161,7 +161,7 @@ const Row = memo((props) => {
             hasError={Boolean(errorMessage)}
           />
           {errorMessage && (
-            <QcodeValidationError right>{errorMessage}</QcodeValidationError>
+            <QcodeValidationError>{errorMessage}</QcodeValidationError>
           )}
         </SpacedTableColumn>
       )}

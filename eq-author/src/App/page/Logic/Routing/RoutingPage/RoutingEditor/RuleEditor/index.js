@@ -148,7 +148,7 @@ export const UnwrappedRuleEditor = ({
         <option value="And">AND</option>
       </SmallSelect>
       {groupOperatorError && (
-        <GroupOperatorValidationError right={false}>
+        <GroupOperatorValidationError>
           {groupOperatorError}
         </GroupOperatorValidationError>
       )}

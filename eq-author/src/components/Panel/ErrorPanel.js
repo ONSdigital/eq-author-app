@@ -15,12 +15,12 @@ const ErrorPanel = ({ variant, children }) => {
 
     ${variant === "destination" &&
     `
-    margin-left: 43.1%
+      margin-left: 43.1%
     `}
 
     ${variant === "logic" &&
     `
-    margin-left: 60.5%;
+      margin-left: 60.5%;
   `}
 
     p {

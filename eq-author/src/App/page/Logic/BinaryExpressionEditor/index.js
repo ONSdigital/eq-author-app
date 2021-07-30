@@ -203,7 +203,7 @@ export const UnwrappedBinaryExpressionEditor = ({
         </Column>
       </Grid>
       {answerPickerError && (
-        <ValidationError icon={WarningIcon}>
+        <ValidationError icon={WarningIcon} variant="logic">
           {answerPickerError}
         </ValidationError>
       )}
