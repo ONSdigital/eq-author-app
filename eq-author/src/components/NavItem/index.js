@@ -14,6 +14,8 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
+let selected = false;
+
 const Title = styled(Truncated)`
   color: ${colors.white};
   flex: 0 1 75%;
@@ -44,6 +46,7 @@ const Link = styled(NavLink)`
 
   &.activePage {
     ${activeNavItemStyle}
+    ${(selected = true)}
   }
 
   svg {
@@ -79,7 +82,12 @@ const NavItem = ({
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>
       {errorCount > 0 && (
-        <Badge variant="nav" medium data-test="NavItem-error">
+        <Badge
+          variant="nav"
+          medium
+          data-test="NavItem-error"
+          selected={selected}
+        >
           <VisuallyHidden>
             <span>Amount of errors:</span>
           </VisuallyHidden>

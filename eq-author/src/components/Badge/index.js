@@ -49,11 +49,14 @@ const mediumBadge = css`
 `;
 
 const Badge = styled.span`
-  background-color: ${colors.errorPrimary} !important;
-  color: ${colors.text} !important;
+  /* background-color: ${colors.errorPrimary} !important;
+  color: ${colors.text} !important; */
   font-weight: normal;
   z-index: 2;
   pointer-events: none;
+  background-color: ${(props) =>
+    props.selected ? `${colors.black}` : `${colors.errorPrimary}`};
+  color: ${(props) => (props.selected ? `${colors.white}` : `${colors.black}`)};
 
   ${(props) => props.variant === "logic" && logicBadge};
   ${(props) => props.variant === "nav" && navBadge};

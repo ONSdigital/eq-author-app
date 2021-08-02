@@ -97,7 +97,7 @@ export const UnwrappedDestinationSelector = ({
           test="destination-validation-error"
           right
         >
-          <p>{errorMessage}</p>
+          {errorMessage}
         </RepositionedValidationError>
       )}
     </>
