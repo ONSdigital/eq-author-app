@@ -95,22 +95,25 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 
   const [importContent] = useMutation(IMPORT_CONTENT);
 
+  // Global
+
+  const onGlobalCancel = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestionnaire(false);
+    setQuestionnaireImportingFrom(null);
+    setQuestionsToImport([]);
+    stopImporting();
+  };
+
+  // Selecting a questionnaire
+
   const onSelectQuestionnaire = (questionnaire) => {
     setQuestionnaireImportingFrom(questionnaire);
     setSelectingQuestionnaire(false);
     setReviewingQuestions(true);
   };
 
-  const onSelectQuestions = () => {
-    setReviewingQuestions(false);
-    setSelectingQuestions(true);
-  };
-
-  const onBackFromReviewingQuestions = () => {
-    setReviewingQuestions(false);
-    setSelectingQuestionnaire(true);
-    setQuestionsToImport([]);
-  };
+  // Selecting questions to import
 
   const onQuestionPickerCancel = () => {
     setSelectingQuestions(false);
@@ -123,12 +126,24 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     setReviewingQuestions(true);
   };
 
-  const onGlobalCancel = () => {
+  // Reviewing questions to import
+
+  const onSelectQuestions = () => {
     setReviewingQuestions(false);
-    setSelectingQuestionnaire(false);
-    setQuestionnaireImportingFrom(null);
+    setSelectingQuestions(true);
+  };
+
+  const onBackFromReviewingQuestions = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestionnaire(true);
     setQuestionsToImport([]);
-    stopImporting();
+  };
+
+  const onRemoveAllSelectedQuestions = () => setQuestionsToImport([]);
+
+  const onRemoveSingleSelectedQuestion = (index) => {
+    const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
+    setQuestionsToImport(filteredQuestions);
   };
 
   const onReviewQuestionsSubmit = (selectedQuestions) => {
@@ -244,11 +259,13 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         <ReviewQuestionsModal
           isOpen={reviewingQuestions}
           questionnaire={questionnaireImportingFrom}
+          startingSelectedQuestions={questionsToImport}
           onCancel={onGlobalCancel}
           onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
-          startingSelectedQuestions={questionsToImport}
+          onRemoveAll={onRemoveAllSelectedQuestions}
+          onRemoveSingle={onRemoveSingleSelectedQuestion}
         />
       )}
       {selectingQuestions && (

@@ -56,23 +56,21 @@ const ContentHeading = styled.h4`
   color: ${colors.textLight};
 `;
 
-const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => {
-  return (
-    <QuestionContainer>
-      <SpacedRow>
-        <div>
-          <p>{alias}</p>
-          <p>{stripHtmlToText(title) || displayName} </p>
-        </div>
-        <RemoveButton onClick={onRemove}>
-          <span role="img" aria-label="Remove">
-            ✕
-          </span>
-        </RemoveButton>
-      </SpacedRow>
-    </QuestionContainer>
-  );
-};
+const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
+  <QuestionContainer>
+    <SpacedRow>
+      <div>
+        <p>{alias}</p>
+        <p>{stripHtmlToText(title) || displayName} </p>
+      </div>
+      <RemoveButton onClick={onRemove}>
+        <span role="img" aria-label="Remove">
+          ✕
+        </span>
+      </RemoveButton>
+    </SpacedRow>
+  </QuestionContainer>
+);
 
 QuestionRow.propTypes = {
   question: PropTypes.shape({
@@ -90,65 +88,52 @@ const ImportQuestionReviewModal = ({
   onCancel,
   onBack,
   onSelectQuestions,
-}) => {
-  const [selectedQuestions, setSelectedQuestions] = useState([]);
-
-  useEffect(
-    () => setSelectedQuestions(startingSelectedQuestions),
-    [startingSelectedQuestions]
-  );
-
-  const removeQuestionAtIndex = (index) =>
-    setSelectedQuestions((questions) =>
-      questions.filter((_, i) => i !== index)
-    );
-
-  const handleRemoveAll = () => setSelectedQuestions([]);
-
-  return (
-    <Wizard
-      isOpen={isOpen}
-      confirmText="Import"
-      onConfirm={() => onConfirm(selectedQuestions)}
-      onCancel={onCancel}
-      onBack={onBack}
-      confirmEnabled={Boolean(selectedQuestions?.length) || false}
-    >
-      <Header>
-        <Heading> Import questions from {questionnaire.title} </Heading>
-        <Subheading>
-          <Warning>
-            Question logic, piping and Qcodes will not be imported.
-          </Warning>
-        </Subheading>
-      </Header>
-      <Content>
-        {selectedQuestions?.length ? (
-          <>
-            <SpacedRow>
-              <ContentHeading>
-                Question{selectedQuestions.length > 1 ? "s" : ""} to import
-              </ContentHeading>
-              <RemoveAllButton onClick={handleRemoveAll}>
-                Remove all
-              </RemoveAllButton>
-            </SpacedRow>
-            {selectedQuestions.map((question, index) => (
-              <QuestionRow
-                question={question}
-                key={index}
-                onRemove={() => removeQuestionAtIndex(index)}
-              />
-            ))}
-          </>
-        ) : (
-          <ContentHeading> No questions selected. </ContentHeading>
-        )}
-        <Button onClick={onSelectQuestions}>Select questions</Button>
-      </Content>
-    </Wizard>
-  );
-};
+  onRemoveSingle,
+  onRemoveAll,
+}) => (
+  <Wizard
+    isOpen={isOpen}
+    confirmText="Import"
+    onConfirm={() => onConfirm(startingSelectedQuestions)}
+    onCancel={onCancel}
+    onBack={onBack}
+    confirmEnabled={Boolean(startingSelectedQuestions?.length) || false}
+  >
+    <Header>
+      <Heading> Import questions from {questionnaire.title} </Heading>
+      <Subheading>
+        <Warning>
+          Question logic, piping and Qcodes will not be imported.
+        </Warning>
+      </Subheading>
+    </Header>
+    <Content>
+      {startingSelectedQuestions?.length ? (
+        <>
+          <SpacedRow>
+            <ContentHeading>
+              Question{startingSelectedQuestions.length > 1 ? "s" : ""} to
+              import
+            </ContentHeading>
+            <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
+          </SpacedRow>
+          {startingSelectedQuestions.map((question, index) => (
+            <QuestionRow
+              question={question}
+              key={index}
+              onRemove={() => onRemoveSingle(index)}
+            />
+          ))}
+        </>
+      ) : (
+        <ContentHeading> No questions selected. </ContentHeading>
+      )}
+      <Button onClick={onSelectQuestions}>
+        Select {startingSelectedQuestions.length >= 1 && "more"} questions
+      </Button>
+    </Content>
+  </Wizard>
+);
 
 ImportQuestionReviewModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
