@@ -50,7 +50,7 @@
     "enzyme-to-json": "latest",
     "eslint": "latest",
     "eslint-config-eq-author": "latest",
-    "eslint-import-resolver-webpack": "^0.13.0",
+    "eslint-import-resolver-webpack": "^0.13.1",
     "eslint-loader": "latest",
     "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-react-hooks": "^4.2.0",
