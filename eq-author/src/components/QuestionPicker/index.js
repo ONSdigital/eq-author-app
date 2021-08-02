@@ -239,6 +239,7 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
+            disabled={selectedPages.length == 0}
             onClick={() => handleSubmit(selectedPages)}
           >
             Select
