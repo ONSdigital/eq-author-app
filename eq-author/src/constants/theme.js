@@ -40,6 +40,7 @@ colors.bordersLight = colors.lightGrey;
 colors.previewError = colors.grey;
 colors.errorPrimary = colors.darkOrange;
 colors.errorSecondary = colors.lightOrange;
+colors.badgeSelectedBackground = colors.darkerBlack;
 
 export const radius = "4px";
 
@@ -66,6 +67,10 @@ export const activeNavItemStyle = css`
   p,
   span {
     color: ${colors.black};
+  }
+  div {
+    background-color: ${colors.badgeSelectedBackground};
+    color: ${colors.white};
   }
 
   > svg {
