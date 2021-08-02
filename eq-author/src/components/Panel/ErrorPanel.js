@@ -22,6 +22,10 @@ const ErrorPanel = ({ variant, children }) => {
     `
       margin-left: 12.5%;
   `}
+      ${variant === "confirm" &&
+    `
+      margin-left: 3%;
+  `}
   `;
 
   return <StyledPanel>{children}</StyledPanel>;
