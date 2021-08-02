@@ -57,7 +57,9 @@ const Title = styled.h2`
   margin-bottom: 0.75em;
 `;
 
-const WarningPanel = styled(IconText)``;
+const WarningPanel = styled(IconText)`
+  font-weight: bold;
+`;
 
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
