@@ -288,6 +288,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 
             return (
               <QuestionPicker
+                title="Select the question(s) to import"
                 isOpen={selectingQuestions}
                 sections={sections}
                 startingSelectedQuestions={questionsToImport}

@@ -7,10 +7,10 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.5em;
+  padding-left: 1.5em;
   border-bottom: 1px solid ${colors.lightGrey};
   cursor: pointer;
-  height: 2em;
+  height: 3em;
   &:hover {
     background-color: ${colors.lighterGrey};
   }
@@ -37,7 +37,7 @@ const Item = styled.div`
   ${({ variant }) =>
     variant === "heading" &&
     `
-        padding: 0;
+        height: 2em; 
         background-color: ${colors.lightMediumGrey};
 
         cursor: default;
@@ -74,7 +74,7 @@ const ListItem = styled.li`
 
   ol.sublist li *,
   ul.sublist li * {
-    padding-left: 2rem;
+    padding-left: 2.1rem;
   }
 
   &${Item}:first-of-type .heading {
@@ -83,7 +83,6 @@ const ListItem = styled.li`
 `;
 const Heading = styled.h3`
   font-size: 1em;
-  padding: 1.5em;
   font-weight: bold;
   color: ${colors.darkGrey};
   margin: 0;
@@ -102,6 +101,7 @@ const Title = styled.p`
     height: 1.75em;
     fill: ${colors.darkGrey};
     margin-right: 1em;
+    margin-left: -0.2em;
   }
 `;
 

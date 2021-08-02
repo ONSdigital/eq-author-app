@@ -53,7 +53,7 @@ const Footer = styled.footer`
 const Title = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
-  color: ${colors.text};
+  color: ${colors.darkGrey};
   margin-bottom: 0.75em;
 `;
 

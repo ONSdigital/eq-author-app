@@ -24,9 +24,8 @@ const BackButton = styled.button`
     ${focusStyle}
   }
   svg {
-    width: 1em;
-    padding-right: 0.5em;
-    margin-bottom: 0.1em;
+    width: 1.5em;
+
     path:last-of-type {
       fill: currentColor;
     }
