@@ -138,7 +138,7 @@ export const ErrorContext = styled.div`
     props.isInvalid &&
     css`
       margin-bottom: 2.5em;
-      border: 1px solid ${colors.red};
+      border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
 `;
@@ -249,27 +249,29 @@ export const UnwrappedAnswerSelector = ({
     });
 
     return (
-      <Empty>
-        <EmptyTitle>{`No answers ${
-          availableSummaryAnswers.length ? "selected" : "available"
-        }`}</EmptyTitle>
-        <EmptyText>
-          {availableSummaryAnswers.length
-            ? "Select an answer using the button below."
-            : "There are no answers to provide a calculated summary."}
-        </EmptyText>
-        <ErrorContainer>
-          <EmptyButton
-            small
-            onClick={handlePickerOpen}
-            data-test="answer-selector-empty"
-            disabled={!availableSummaryAnswers.length}
-          >
-            Select an answer
-          </EmptyButton>
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        </ErrorContainer>
-      </Empty>
+      <>
+        <Empty>
+          <EmptyTitle>{`No answers ${
+            availableSummaryAnswers.length ? "selected" : "available"
+          }`}</EmptyTitle>
+          <EmptyText>
+            {availableSummaryAnswers.length
+              ? "Select an answer using the button below."
+              : "There are no answers to provide a calculated summary."}
+          </EmptyText>
+          <ErrorContainer>
+            <EmptyButton
+              small
+              onClick={handlePickerOpen}
+              data-test="answer-selector-empty"
+              disabled={!availableSummaryAnswers.length}
+            >
+              Select an answer
+            </EmptyButton>
+          </ErrorContainer>
+        </Empty>
+        <ValidationError>{errorValidationMsg}</ValidationError>
+      </>
     );
   };
 

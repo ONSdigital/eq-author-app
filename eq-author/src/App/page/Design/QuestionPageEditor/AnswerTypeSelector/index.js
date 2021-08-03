@@ -42,7 +42,7 @@ const ErrorContext = styled.div`
   ${(props) =>
     props.isInvalid &&
     css`
-      border: 1px solid ${colors.red};
+      border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
 `;

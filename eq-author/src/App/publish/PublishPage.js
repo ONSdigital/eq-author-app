@@ -36,13 +36,13 @@ export const ErrorContext = styled.div`
     css`
       margin-bottom: 2em;
       input {
-        border: 1px solid ${colors.red};
+        border: 1px solid ${colors.errorPrimary};
         :focus {
           outline-style: none;
           border: none;
           outline: none;
           box-shadow: none;
-          outline: 3px solid ${colors.red};
+          outline: 3px solid ${colors.errorPrimary};
         }
       }
     `}

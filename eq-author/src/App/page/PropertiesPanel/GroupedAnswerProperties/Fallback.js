@@ -7,20 +7,13 @@ import MultiLineField from "./MultiLineField";
 import { ToggleProperty } from "./AnswerProperties/Properties";
 import { SimpleSelect } from "components/Forms/Select";
 import Collapsible from "components/Collapsible";
-import IconText from "components/IconText";
+import ValidationError from "components/ValidationError";
 
 import { colors } from "constants/theme";
 import { SELECTION_REQUIRED } from "constants/validationMessages";
-import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 
 const Select = styled(SimpleSelect)`
-  ${({ hasError }) => hasError && `border-color: ${colors.red};`}
-`;
-
-const ValidationWarning = styled(IconText)`
-  color: ${colors.red};
-  margin-top: 0.5em;
-  justify-content: normal;
+  ${({ hasError }) => hasError && `border-color: ${colors.errorPrimary};`}
 `;
 
 const StyledInlineField = styled(InlineField)`
@@ -115,9 +108,9 @@ export const Fallback = ({
                         })}
                   </Select>
                   {errorCode ? (
-                    <ValidationWarning icon={ValidationErrorIcon}>
+                    <ValidationError>
                       <>{FALLBACK_ERRORS[errorCode]}</>
-                    </ValidationWarning>
+                    </ValidationError>
                   ) : null}
                 </MultiLineField>
               );
