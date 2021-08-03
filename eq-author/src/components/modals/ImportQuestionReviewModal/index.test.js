@@ -14,6 +14,8 @@ const mockQuestions = [
 ];
 
 const mockOnSelectQuestions = jest.fn();
+const mockOnRemoveSingle = jest.fn();
+const mockOnRemoveAll = jest.fn();
 
 describe("Import questions review modal", () => {
   it("Should call onSelectQuestions when the button is clicked", () => {
@@ -22,6 +24,7 @@ describe("Import questions review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectQuestions={mockOnSelectQuestions}
+        startingSelectedQuestions={[]}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -53,7 +56,7 @@ describe("Import questions review modal", () => {
     expect(screen.getByText(mockQuestions[0].title)).toBeTruthy();
   });
 
-  it("Should remove a selected question when there are some", () => {
+  it("Should call onRemoveSingle with the index of the item that is signaled to be removed", () => {
     render(
       <ImportQuestionReviewModal
         questionnaire={mockQuestionnaire}
@@ -63,11 +66,13 @@ describe("Import questions review modal", () => {
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveSingle={mockOnRemoveSingle}
       />
     );
 
     userEvent.click(screen.getAllByText(/✕/)[0]);
-    expect(screen.queryByText(mockQuestions[0].title)).toBeFalsy();
+    expect(mockOnRemoveSingle).toHaveBeenCalledTimes(1);
+    expect(mockOnRemoveSingle).toHaveBeenCalledWith(0);
   });
 
   it("Should be able to delete all items", () => {
@@ -80,13 +85,12 @@ describe("Import questions review modal", () => {
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveAll={mockOnRemoveAll}
       />
     );
 
     userEvent.click(screen.getByText(/Remove all/));
-    mockQuestions.forEach((q) =>
-      expect(screen.queryByText(q.title)).toBeFalsy()
-    );
+    expect(mockOnRemoveAll).toHaveBeenCalledTimes(1);
   });
 
   it("Should pass on selected questions when user confirms import", () => {

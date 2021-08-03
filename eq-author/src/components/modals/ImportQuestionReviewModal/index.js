@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius, focusStyle, getTextHoverStyle } from "constants/theme";
@@ -141,6 +141,8 @@ ImportQuestionReviewModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   onSelectQuestions: PropTypes.func.isRequired,
+  onRemoveSingle: PropTypes.func.isRequired,
+  onRemoveAll: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }),
