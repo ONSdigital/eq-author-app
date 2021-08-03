@@ -9,19 +9,23 @@ import {
 
 import ContentPicker from "./";
 
-import {
-  destinationKey,
-  EndOfQuestionnaire,
-  NextPage,
-} from "constants/destinations";
+import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+import { destinationKey } from "constants/destinationKey";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
 
 describe("Content picker", () => {
-  let data, onClose, onSubmit, startingSelectedAnswers, props;
+  let data, onClose, onSubmit, startingSelectedAnswers, questionnaire, props;
 
   beforeEach(() => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
+    questionnaire = { hub: false };
     data = [
       {
         id: "section 1",
@@ -77,6 +81,8 @@ describe("Content picker", () => {
         ],
       },
     ];
+
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
 
     props = { data, onClose, onSubmit, startingSelectedAnswers };
   });
@@ -553,7 +559,7 @@ describe("Content picker", () => {
       props = {
         ...props,
         data: {
-          logicalDestinations: [
+          logicalDestinations: jest.fn(() => [
             {
               id: NextPage,
               displayName: destinationKey[NextPage],
@@ -563,8 +569,9 @@ describe("Content picker", () => {
               id: EndOfQuestionnaire,
               displayName: destinationKey[EndOfQuestionnaire],
               logicalDestination: EndOfQuestionnaire,
+              displayEnabled: !questionnaire.hub,
             },
-          ],
+          ]),
           pages: [
             {
               id: "1",

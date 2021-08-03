@@ -7,10 +7,10 @@ module.exports = (metadata) => {
   return {
     id: uuidv4(),
     title: `<p>You are completing this for <span data-piped="metadata" data-id="${
-      find(metadata, { key: "trad_as" }).id
-    }">trad_as</span> (<span data-piped="metadata" data-id="${
       find(metadata, { key: "ru_name" }).id
-    }">ru_name</span>)</p>`,
+    }">ru_name</span> (<span data-piped="metadata" data-id="${
+      find(metadata, { key: "trad_as" }).id
+    }">trad_as</span>)</p>`,
     additionalGuidancePanelSwitch: false,
     additionalGuidancePanel: "",
     description:
