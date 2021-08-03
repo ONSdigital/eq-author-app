@@ -9,6 +9,7 @@ query GetQuestionnaire($input: QueryInput!) {
     locked
     totalErrorCount
     ...NavigationSidebar
+    hub
     metadata {
       id
       displayName

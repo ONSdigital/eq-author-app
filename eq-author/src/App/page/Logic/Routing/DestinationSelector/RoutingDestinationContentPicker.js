@@ -12,9 +12,10 @@ import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
 import {
   logicalDestinations,
-  destinationKey,
   EndOfQuestionnaire,
 } from "constants/destinations";
+
+import { destinationKey } from "constants/destinationKey";
 
 const logicalDisplayName = (logical) =>
   destinationKey[logical] || destinationKey[EndOfQuestionnaire];

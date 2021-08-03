@@ -3,18 +3,25 @@ import { render, fireEvent } from "tests/utils/rtl";
 
 import Menu, { tabTitles } from "./Menu";
 
-import { colors } from "constants/theme";
-
 import {
-  destinationKey,
   EndOfQuestionnaire,
   NextPage,
   EndOfCurrentSection,
 } from "constants/destinations";
 
+import { destinationKey } from "constants/destinationKey";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
+let questionnaire;
+
 const props = {
   data: {
-    logicalDestinations: [
+    logicalDestinations: jest.fn(() => [
       {
         id: NextPage,
         displayName: destinationKey[NextPage],
@@ -24,8 +31,9 @@ const props = {
         id: EndOfQuestionnaire,
         displayName: destinationKey[EndOfQuestionnaire],
         logicalDestination: EndOfQuestionnaire,
+        displayEnabled: !questionnaire.hub,
       },
-    ],
+    ]),
     pages: [
       {
         id: "1",
@@ -126,131 +134,171 @@ function defaultSetup() {
 }
 
 describe("Destination Picker Menu", () => {
-  it("should default to current section tab", () => {
-    const { getByText } = defaultSetup();
-    expect(getByText("Question one")).toBeVisible();
+  describe("Hub is disabled", () => {
+    beforeEach(() => {
+      questionnaire = { hub: false };
+      useQuestionnaire.mockImplementation(() => ({ questionnaire }));
+    });
+
+    it("should default to current section tab by checking if a question page in current section is visible", () => {
+      const { getByText } = defaultSetup();
+      expect(getByText("Question one")).toBeVisible();
+    });
+
+    it("should show active for current tab", () => {
+      const { getByText } = defaultSetup();
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+    });
+
+    it("should display question pages in 'Current section'", () => {
+      const { getByText } = defaultSetup();
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+      expect(getByText("Question one")).toBeVisible();
+      expect(getByText("Question two")).toBeVisible();
+      expect(getByText("Question three")).toBeVisible();
+      expect(getByText("Question four")).toBeVisible();
+    });
+
+    it("should display sections in 'Later sections'", () => {
+      const { queryByText, getByText, click } = defaultSetup();
+      click(tabTitles.later);
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+      expect(queryByText("Section one")).toBeFalsy();
+      expect(getByText("Section two")).toBeVisible();
+      expect(getByText("Section three")).toBeVisible();
+      expect(getByText("Section four")).toBeVisible();
+    });
+
+    it("should display 'Other destinations' options", () => {
+      const { getByText, click } = defaultSetup();
+      click(tabTitles.other);
+      expect(getByText(tabTitles.other)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+      expect(getByText(destinationKey[NextPage])).toBeVisible();
+      expect(getByText(destinationKey[EndOfCurrentSection])).toBeVisible();
+      expect(getByText(destinationKey[EndOfQuestionnaire])).toBeVisible();
+    });
+
+    it("should be able to change destination tabs with Space or enter", () => {
+      const { getByText, keyPress } = defaultSetup();
+
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+
+      // doesn't change with other keyDown
+      keyPress(tabTitles.later, { key: "Escape", code: "Escape" });
+      expect(getByText(tabTitles.current)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+
+      // changes with Enter
+      keyPress(tabTitles.later, { key: "Enter", code: "Enter" });
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+
+      // changes with Space
+      keyPress(tabTitles.other, { key: " ", code: "Space" });
+      expect(getByText(tabTitles.other)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+    });
+
+    it("should be able to change destination tabs with click", () => {
+      const { getByText, click } = defaultSetup();
+
+      click(tabTitles.later);
+      expect(getByText(tabTitles.later)).toHaveAttribute(
+        "aria-selected",
+        "true"
+      );
+    });
+
+    it("should be able to select destination with Enter", () => {
+      const { onSelected, keyPress } = defaultSetup();
+
+      keyPress("Question two", { key: "Enter", code: "Enter" });
+      expect(onSelected).toHaveBeenCalledTimes(1);
+      expect(onSelected).toHaveBeenCalledWith(props.data.pages[1]);
+    });
+
+    it("should be able to select destination with Space", () => {
+      const { onSelected, keyPress } = defaultSetup();
+
+      keyPress("Question three", { key: " ", code: "Space" });
+      expect(onSelected).toHaveBeenCalledTimes(1);
+      expect(onSelected).toHaveBeenCalledWith(props.data.pages[2]);
+    });
+
+    it("should be able to select destination with click", () => {
+      const { onSelected, click } = defaultSetup();
+
+      click("Question two");
+      expect(onSelected).toHaveBeenCalledTimes(1);
+      expect(onSelected).toHaveBeenCalledWith(props.data.pages[1]);
+    });
+
+    it("should return last question page if clicking 'End of current section'", () => {
+      const { onSelected, click } = defaultSetup();
+
+      click("Other destinations");
+      click(destinationKey[EndOfCurrentSection]);
+      expect(onSelected).toHaveBeenCalledTimes(1);
+      expect(onSelected).toHaveBeenCalledWith({
+        ...props.data.pages[3],
+        displayName: destinationKey[EndOfCurrentSection],
+      });
+    });
+
+    it("should display 'Later sections' when hub is disabled", () => {
+      const { queryByText } = defaultSetup();
+      expect(queryByText(tabTitles.later)).toBeTruthy();
+    });
+
+    it("should display 'End of questionnaire' when hub is disabled", () => {
+      const { click, queryByText } = defaultSetup();
+      click(tabTitles.other);
+      expect(queryByText("End of questionnaire")).toBeTruthy();
+    });
   });
 
-  it("should show active styling for current tab", () => {
-    const { getByText } = defaultSetup();
-    expect(getByText(tabTitles.current)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-  });
+  describe("Hub is enabled", () => {
+    beforeEach(() => {
+      questionnaire = { hub: true };
+      useQuestionnaire.mockImplementation(() => ({ questionnaire }));
+    });
 
-  it("should display question pages in 'Current section'", () => {
-    const { getByText } = defaultSetup();
-    expect(getByText(tabTitles.current)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-    expect(getByText("Question one")).toBeVisible();
-    expect(getByText("Question two")).toBeVisible();
-    expect(getByText("Question three")).toBeVisible();
-    expect(getByText("Question four")).toBeVisible();
-  });
+    it("should not display 'Later sections' when hub is enabled", () => {
+      const { queryByText } = defaultSetup();
+      expect(queryByText(tabTitles.later)).toBeFalsy();
+    });
 
-  it("should display sections in 'Later sections'", () => {
-    const { queryByText, getByText, click } = defaultSetup();
-    click(tabTitles.later);
-    expect(getByText(tabTitles.later)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-    expect(queryByText("Section one")).toBeFalsy();
-    expect(getByText("Section two")).toBeVisible();
-    expect(getByText("Section three")).toBeVisible();
-    expect(getByText("Section four")).toBeVisible();
-  });
+    it("should display 'Current section' and 'Other destinations' when hub is enabled", () => {
+      const { queryByText } = defaultSetup();
+      expect(queryByText(tabTitles.current)).toBeTruthy();
+      expect(queryByText(tabTitles.other)).toBeTruthy();
+    });
 
-  it("should display 'Other destinations' options", () => {
-    const { getByText, click } = defaultSetup();
-    click(tabTitles.other);
-    expect(getByText(tabTitles.other)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-    expect(getByText(destinationKey[NextPage])).toBeVisible();
-    expect(getByText(destinationKey[EndOfCurrentSection])).toBeVisible();
-    expect(getByText(destinationKey[EndOfQuestionnaire])).toBeVisible();
-  });
-
-  it("should display only display 'Current section' and 'Other destinations' tab when missing destinations in the 'Later sections'", () => {});
-
-  it("should be able to change destination tabs with Space or enter", () => {
-    const { getByText, keyPress } = defaultSetup();
-
-    expect(getByText(tabTitles.current)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-
-    // doesn't change with other keyDown
-    keyPress(tabTitles.later, { key: "Escape", code: "Escape" });
-    expect(getByText(tabTitles.current)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-
-    // changes with Enter
-    keyPress(tabTitles.later, { key: "Enter", code: "Enter" });
-    expect(getByText(tabTitles.later)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-
-    // changes with Space
-    keyPress(tabTitles.other, { key: " ", code: "Space" });
-    expect(getByText(tabTitles.other)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-  });
-
-  it("should be able to change destination tabs with click", () => {
-    const { getByText, click } = defaultSetup();
-
-    click(tabTitles.later);
-    expect(getByText(tabTitles.later)).toHaveStyleRule(
-      "background-color",
-      colors.lighterGrey
-    );
-  });
-
-  it("should be able to select destination with Enter", () => {
-    const { onSelected, keyPress } = defaultSetup();
-
-    keyPress("Question two", { key: "Enter", code: "Enter" });
-    expect(onSelected).toHaveBeenCalledTimes(1);
-    expect(onSelected).toHaveBeenCalledWith(props.data.pages[1]);
-  });
-
-  it("should be able to select destination with Space", () => {
-    const { onSelected, keyPress } = defaultSetup();
-
-    keyPress("Question three", { key: " ", code: "Space" });
-    expect(onSelected).toHaveBeenCalledTimes(1);
-    expect(onSelected).toHaveBeenCalledWith(props.data.pages[2]);
-  });
-
-  it("should be able to select destination with click", () => {
-    const { onSelected, click } = defaultSetup();
-
-    click("Question two");
-    expect(onSelected).toHaveBeenCalledTimes(1);
-    expect(onSelected).toHaveBeenCalledWith(props.data.pages[1]);
-  });
-
-  it("should return last question page if clicking 'End of current section'", () => {
-    const { onSelected, click } = defaultSetup();
-
-    click("Other destinations");
-    click(destinationKey[EndOfCurrentSection]);
-    expect(onSelected).toHaveBeenCalledTimes(1);
-    expect(onSelected).toHaveBeenCalledWith({
-      ...props.data.pages[3],
-      displayName: destinationKey[EndOfCurrentSection],
+    it("should not display 'End of questionnaire' when hub is enabled", () => {
+      const { click, queryByText } = defaultSetup();
+      click(tabTitles.other);
+      expect(queryByText("End of questionnaire")).toBeFalsy();
     });
   });
 });

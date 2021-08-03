@@ -5,7 +5,7 @@ const fs = require("fs").promises;
 const { logger } = require("../utils/logger");
 
 program
-  .description("A utility that applies the admin role to a firebase user.")
+  .description("A utility that applies the verified email to a firebase user.")
   .usage("-p <projectName> -u <uid> -k <serviceAccountKey> [-r]")
   .option(
     "-k, --service-account-key <serviceAccountKey>",
@@ -15,13 +15,13 @@ program
     "-p, --projectName <projectName>",
     "firebase project name used for DatabaseURL"
   )
-  .option("-u, --uid <uid>", "firebase user Id to make admin")
-  .option("-r, --remove", "remove the admin role")
+  .option("-u, --uid <uid>", "firebase user Id to make verifiy email")
+  .option("-r, --remove", "remove the email verified role")
   .parse(process.argv);
 
 const formatError = (arg) => `Missing ${arg}. See -h for usage info.`;
 
-const makeAdmin = async (
+const makeEmailVerified = async (
   projectName,
   uid,
   serviceAccountKey,
@@ -44,26 +44,26 @@ const makeAdmin = async (
     databaseURL: `https://${projectName}.firebaseio.com`,
   });
 
-  await admin.auth().setCustomUserClaims(uid, {
-    admin: !remove,
+  await admin.auth().updateUser(uid, {
+    emailVerified: !remove,
   });
 
   const userRecord = await admin.auth().getUser(uid);
-  return userRecord.customClaims.admin;
+  return userRecord.customClaims.emailVerified;
 };
 
 const options = program.opts();
-makeAdmin(
+makeEmailVerified(
   options.projectName,
   options.uid,
   options.serviceAccountKey,
   options.remove
 )
-  .then((isAdmin) => {
+  .then((isEmailVerified) => {
     logger.info(
-      `User ${options.uid} in ${options.projectName} is ${
-        isAdmin === true ? "now" : "no longer"
-      } an admin`
+      `User ${options.uid} in ${options.projectName} has ${
+        isEmailVerified === true ? "email verified" : "not email verified"
+      }`
     );
     process.exit(0);
   })
