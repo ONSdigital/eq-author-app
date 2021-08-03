@@ -17,12 +17,15 @@ const ErrorPanel = ({ variant, children }) => {
     `
       margin-left: 43.1%;
     `}
-
     ${variant === "logic" &&
     `
       margin-left: 12.5%;
   `}
-      ${variant === "confirm" &&
+    ${variant === "confirm" &&
+    `
+      margin-left: 3%;
+  `}
+    ${variant === "calc-sum" &&
     `
       margin-left: 3%;
   `}

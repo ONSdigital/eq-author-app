@@ -50,8 +50,7 @@ const OpenAllSectionsBtn = styled(Button).attrs({
   font-size: 0.9em;
 
   &:focus {
-    outline: 2px solid ${colors.orange};
-    outline-offset: -2px;
+    outline: 1px solid ${colors.orange};
   }
 `;
 

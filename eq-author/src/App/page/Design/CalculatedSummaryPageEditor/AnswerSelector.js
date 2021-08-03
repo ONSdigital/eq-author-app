@@ -113,7 +113,7 @@ const EmptyText = styled.div`
 `;
 
 const ErrorContainer = styled.div`
-  border: 1px solid red;
+  border: 2px solid ${colors.errorPrimary};
   padding: 10px;
   position: relative;
 `;
