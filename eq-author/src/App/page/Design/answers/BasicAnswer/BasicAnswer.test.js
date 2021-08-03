@@ -14,12 +14,7 @@ jest.mock("@apollo/react-hooks", () => ({
 }));
 
 describe("BasicAnswer", () => {
-  let answer;
-  let onChange;
-  let onUpdate;
-  let children;
-  let props;
-  let multipleAnswers;
+  let answer, onChange, onUpdate, children, props, multipleAnswers;
 
   const createWrapper = (props, render = shallow) => {
     return render(<StatelessBasicAnswer {...props} />);
@@ -37,6 +32,7 @@ describe("BasicAnswer", () => {
           id: "option-1",
           label: "option-label",
           mutuallyExclusive: false,
+          description: "option description",
         },
       ],
     };
@@ -51,7 +47,11 @@ describe("BasicAnswer", () => {
       onUpdate,
       multipleAnswers,
       type: "text field",
-      children: <div>This is the child component</div>,
+      children: (
+        <>
+          <div>This is the child component</div>
+        </>
+      ),
     };
   });
 
@@ -128,6 +128,18 @@ describe("BasicAnswer", () => {
     });
 
     expect(getByTestId("option-label")).toBeInTheDocument();
+  });
+
+  it("should show option label when it exists", () => {
+    props.answer.options[0].mutuallyExclusive = true;
+
+    const { getByTestId } = rtlRender(() => (
+      <StatelessBasicAnswer {...props} type="Percentage" />
+    ));
+    fireEvent.click(getByTestId("toggle-or-option-input"), {
+      target: { type: "checkbox", checked: true },
+    });
+    expect(screen.getByText(/option description/)).toBeInTheDocument();
   });
 
   describe("event handling behaviour", () => {
