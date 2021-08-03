@@ -47,11 +47,7 @@ describe("BasicAnswer", () => {
       onUpdate,
       multipleAnswers,
       type: "text field",
-      children: (
-        <>
-          <div>This is the child component</div>
-        </>
-      ),
+      children: <div>This is the child component</div>,
     };
   });
 
