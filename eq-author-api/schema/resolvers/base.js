@@ -1188,14 +1188,8 @@ const Resolvers = {
   Section: {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
-    title: (section, args, ctx) =>
-      ctx.questionnaire.navigation || ctx.questionnaire.hub
-        ? section.title
-        : "",
-    displayName: (section, args, ctx) =>
-      ctx.questionnaire.navigation || ctx.questionnaire.hub
-        ? getName(section, "Section")
-        : getName(omit(section, "title"), "Section"),
+    title: (section) => section.title,
+    displayName: (section) => getName(section, "Section"),
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
