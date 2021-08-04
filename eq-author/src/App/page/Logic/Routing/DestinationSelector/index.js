@@ -18,12 +18,6 @@ const DESTINATION_TYPE = {
   CalculatedSummaryPage: "CalculatedSummaryPage",
 };
 
-const RepositionedValidationError = styled(ValidationError)`
-  padding-left: 41%;
-  justify-content: unset;
-  margin-top: 0;
-`;
-
 const RoutingRuleResult = styled.div`
   padding: 0.5em 0.5em 0.5em 1.5em;
   background: ${colors.lightMediumGrey};
@@ -92,13 +86,13 @@ export const UnwrappedDestinationSelector = ({
         </Grid>
       </RoutingRuleResult>
       {errorMessage && (
-        <RepositionedValidationError
+        <ValidationError
           variant="destination"
           test="destination-validation-error"
           right
         >
           {errorMessage}
-        </RepositionedValidationError>
+        </ValidationError>
       )}
     </>
   );

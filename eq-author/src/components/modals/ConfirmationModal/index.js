@@ -61,7 +61,7 @@ const ConfirmationModal = ({
       </Grid>
       <Grid align="center">
         <TextColumn>
-          <ValidationError variant="confirm">{message}</ValidationError>
+          <ValidationError variant="confirmation">{message}</ValidationError>
         </TextColumn>
       </Grid>
       <ButtonGroupStyled>

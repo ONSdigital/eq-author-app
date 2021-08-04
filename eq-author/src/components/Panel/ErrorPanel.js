@@ -1,7 +1,23 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
+
+const destinationPanel = css`
+  margin-left: 43.1%;
+`;
+
+const logicPanel = css`
+  margin-left: 12.5%;
+`;
+
+const confirmationPanel = css`
+  margin-left: 3%;
+`;
+
+const calcSumPanel = css`
+  margin-left: 3.8%;
+`;
 
 const ErrorPanel = ({ variant, children }) => {
   const StyledPanel = styled.div`
@@ -13,22 +29,10 @@ const ErrorPanel = ({ variant, children }) => {
     display: inline-block;
     width: auto;
 
-    ${variant === "destination" &&
-    `
-      margin-left: 43.1%;
-    `}
-    ${variant === "logic" &&
-    `
-      margin-left: 12.5%;
-  `}
-    ${variant === "confirm" &&
-    `
-      margin-left: 3%;
-  `}
-    ${variant === "calc-sum" &&
-    `
-      margin-left: 3.8%;
-  `}
+    ${variant === "destination" && destinationPanel};
+    ${variant === "logic" && logicPanel};
+    ${variant === "confirmation" && confirmationPanel};
+    ${variant === "calc-sum" && calcSumPanel};
   `;
 
   return <StyledPanel>{children}</StyledPanel>;
