@@ -44,6 +44,7 @@ colors.errorPrimary = colors.darkOrange;
 colors.errorSecondary = colors.lightOrange;
 colors.badgeSelectedBackground = colors.darkerBlack;
 colors.badgeSelectedText = colors.white;
+colors.calcSumEmptyContent = colors.mediumGrey;
 
 export const radius = "4px";
 

@@ -88,7 +88,7 @@ const SelectButton = styled(Button)`
 `;
 
 const Empty = styled.div`
-  color: ${colors.mediumGrey};
+  color: ${colors.calcSumEmptyContent};
   text-align: center;
   padding: 1em 2em;
 
