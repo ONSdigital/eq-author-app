@@ -36,7 +36,7 @@ export const ErrorContext = styled.div`
     css`
       margin-bottom: 2em;
       input {
-        border: 1px solid ${colors.errorPrimary};
+        border: 2px solid ${colors.errorPrimary};
         :focus {
           outline-style: none;
           border: none;

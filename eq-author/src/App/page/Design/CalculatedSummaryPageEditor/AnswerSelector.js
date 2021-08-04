@@ -88,9 +88,9 @@ const SelectButton = styled(Button)`
 `;
 
 const Empty = styled.div`
-  color: #7a7a7a;
+  color: ${colors.mediumGrey};
   text-align: center;
-  padding: 1em 2em 2em;
+  padding: 1em 2em;
 
   &::before {
     display: block;
@@ -270,7 +270,9 @@ export const UnwrappedAnswerSelector = ({
             </EmptyButton>
           </ErrorContainer>
         </Empty>
-        <ValidationError>{errorValidationMsg}</ValidationError>
+        <ValidationError variant="calc-sum">
+          {errorValidationMsg}
+        </ValidationError>
       </>
     );
   };

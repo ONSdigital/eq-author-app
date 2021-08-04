@@ -27,7 +27,7 @@ const ErrorPanel = ({ variant, children }) => {
   `}
     ${variant === "calc-sum" &&
     `
-      margin-left: 3%;
+      margin-left: 3.8%;
   `}
   `;
 

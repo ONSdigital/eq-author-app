@@ -13,6 +13,7 @@ export const colors = {
   darkGrey: "#666666",
   lightGrey: "#d6d8da",
   lightMediumGrey: "#E4E8EB",
+  mediumGrey: "#7a7a7a",
   lighterGrey: "#f5f5f5",
   disabledGreyOnOrange: "#7A6340",
   red: "#D0021B",
@@ -42,6 +43,7 @@ colors.previewError = colors.grey;
 colors.errorPrimary = colors.darkOrange;
 colors.errorSecondary = colors.lightOrange;
 colors.badgeSelectedBackground = colors.darkerBlack;
+colors.badgeSelectedText = colors.white;
 
 export const radius = "4px";
 
@@ -71,7 +73,7 @@ export const activeNavItemStyle = css`
   }
   div {
     background-color: ${colors.badgeSelectedBackground};
-    color: ${colors.white};
+    color: ${colors.badgeSelectedText};
   }
 
   > svg {
