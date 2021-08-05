@@ -13,7 +13,7 @@ const TableWrapper = styled.table`
   text-align: left;
 
   ${({ variant }) =>
-    variant == "selectModal" &&
+    variant === "selectModal" &&
     `
     height: 17em;
     overflow-y: scroll;
