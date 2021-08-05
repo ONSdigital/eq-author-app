@@ -112,6 +112,7 @@ QuestionnairesTable.propTypes = {
   onQuestionnaireClick: PropTypes.func,
   questionnaireModal: PropTypes.bool,
   selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+  variant: PropTypes.string,
 };
 
 export default QuestionnairesTable;

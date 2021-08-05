@@ -99,6 +99,7 @@ QuestionnaireSelectModal.propTypes = {
   children: PropTypes.node.isRequired,
   onSelect: PropTypes.func,
   disableSelect: PropTypes.bool,
+  questionnaires: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default QuestionnaireSelectModal;

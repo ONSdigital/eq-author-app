@@ -50,6 +50,7 @@ PaginationNavTable.propTypes = {
   pageCount: PropTypes.number.isRequired,
   currentPageIndex: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
+  padding: PropTypes.string,
 };
 
 export default PaginationNavTable;

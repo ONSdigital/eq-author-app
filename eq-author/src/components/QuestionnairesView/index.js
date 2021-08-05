@@ -161,6 +161,7 @@ QuestionnairesView.propTypes = {
   onQuestionnaireClick: PropTypes.func,
   padding: PropTypes.string,
   selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+  variant: PropTypes.string,
 };
 
 export default QuestionnairesView;
