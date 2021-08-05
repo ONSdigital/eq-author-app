@@ -389,6 +389,10 @@ const Resolvers = {
       return questionnaire;
     },
     deleteQuestionnaire: async (_, { input }, ctx) => {
+      if (!ctx.questionnaire) {
+        const questionnaire = await getQuestionnaire(input.id);
+        ctx.questionnaire = questionnaire;
+      }
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
