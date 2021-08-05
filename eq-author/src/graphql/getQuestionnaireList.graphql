@@ -2,11 +2,19 @@ query GetQuestionnaireList($input: QuestionnairesInput) {
   questionnaires(input: $input) {
     id
     title
+    shortTitle
     displayName
+    starred
+    locked
     createdAt
+    updatedAt
     createdBy {
       id
       name
+      email
+      displayName
     }
+    permission
+    publishStatus
   }
 }

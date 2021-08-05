@@ -243,7 +243,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
             if (error || !data) {
               return <React.Fragment />;
             }
-
+            console.log(data.questionnaires);
             return (
               <SelectQuestionnaire
                 isOpen={selectingQuestionnaire}
