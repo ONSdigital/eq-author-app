@@ -39,6 +39,10 @@ const Goto = styled.span`
   margin-right: 1em;
 `;
 
+const ErrorContainer = styled.div`
+  margin-left: 1.5em;
+`;
+
 const typeToPropertyName = {
   [DESTINATION_TYPE.Section]: "sectionId",
   [DESTINATION_TYPE.QuestionPage]: "pageId",
@@ -86,13 +90,14 @@ export const UnwrappedDestinationSelector = ({
         </Grid>
       </RoutingRuleResult>
       {errorMessage && (
-        <ValidationError
-          variant="destination"
-          test="destination-validation-error"
-          right
-        >
-          {errorMessage}
-        </ValidationError>
+        <ErrorContainer>
+          <ValidationError
+            variant="destination"
+            test="destination-validation-error"
+          >
+            {errorMessage}
+          </ValidationError>
+        </ErrorContainer>
       )}
     </>
   );

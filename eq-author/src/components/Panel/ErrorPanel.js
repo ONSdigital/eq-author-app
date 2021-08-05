@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
 const destinationPanel = css`
-  margin-left: 43.1%;
+  margin-left: 41.7%;
 `;
 
 const logicPanel = css`
