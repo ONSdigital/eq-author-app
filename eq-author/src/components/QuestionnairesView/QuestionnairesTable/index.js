@@ -31,6 +31,7 @@ const QuestionnairesTable = ({
   enabledHeadings,
   onQuestionnaireClick,
   questionnaireModal,
+  variant,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
   const { trigger: triggerLockModal, component: LockModal } =
@@ -65,6 +66,7 @@ const QuestionnairesTable = ({
           enabledHeadings={enabledHeadings}
           onRowClick={onQuestionnaireClick}
           questionnaireModal={questionnaireModal}
+          variant={variant}
         />
         <LockModal />
       </Panel>

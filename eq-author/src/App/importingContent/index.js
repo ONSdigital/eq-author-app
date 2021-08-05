@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
-import * as Headings from "constants/table-headings";
 import {
   getSectionByPageId,
   getSectionByFolderId,
@@ -19,49 +18,9 @@ import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
 import IMPORT_CONTENT from "graphql/importContent.graphql";
 
-import QuestionnairesView from "components/QuestionnairesView";
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import QuestionPicker from "components/QuestionPicker";
-
-const SelectQuestionnaire = ({
-  isOpen,
-  questionnaires = [],
-  onSelect,
-  onCancel,
-}) => {
-  const [selectedQuestionnaire, setSelectedQuestionnaire] = useState(null);
-
-  const enabledHeadings = [
-    Headings.TITLE,
-    Headings.OWNER,
-    Headings.CREATED,
-    Headings.MODIFIED,
-  ];
-
-  return (
-    <QuestionnaireSelectModal
-      isOpen={isOpen}
-      onSelect={() => onSelect(selectedQuestionnaire)}
-      onClose={onCancel}
-      onCancel={onCancel}
-      disableSelect={!selectedQuestionnaire}
-    >
-      <QuestionnairesView
-        questionnaires={questionnaires}
-        selectedQuestionnaire={selectedQuestionnaire}
-        enabledHeadings={enabledHeadings}
-        canCreateQuestionnaire={false}
-        padding="small"
-        onQuestionnaireClick={(questionnaireId) =>
-          setSelectedQuestionnaire(
-            questionnaires.find(({ id }) => id === questionnaireId)
-          )
-        }
-      />
-    </QuestionnaireSelectModal>
-  );
-};
 
 const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   /*
@@ -243,13 +202,14 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
             if (error || !data) {
               return <React.Fragment />;
             }
-            console.log(data.questionnaires);
+
             return (
-              <SelectQuestionnaire
+              <QuestionnaireSelectModal
                 isOpen={selectingQuestionnaire}
-                onCancel={onGlobalCancel}
-                questionnaires={data.questionnaires}
                 onSelect={onSelectQuestionnaire}
+                onClose={onGlobalCancel}
+                onCancel={onGlobalCancel}
+                questionnaires={data.questionnaires || []}
               />
             );
           }}
@@ -304,13 +264,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       )}
     </>
   );
-};
-
-SelectQuestionnaire.propTypes = {
-  isOpen: PropTypes.bool,
-  questionnaires: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
 };
 
 ImportingContent.propTypes = {

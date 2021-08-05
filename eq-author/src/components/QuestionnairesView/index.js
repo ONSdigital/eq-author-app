@@ -33,6 +33,7 @@ const QuestionnairesView = ({
   enabledHeadings,
   onQuestionnaireClick,
   padding,
+  variant,
   questionnaireModal,
 }) => {
   const questionnairesRef = useRef(questionnaires);
@@ -110,12 +111,13 @@ const QuestionnairesView = ({
         canCreateQuestionnaire={canCreateQuestionnaire}
         padding={padding}
       />
-      {isEmpty(state.questionnaires) ? (
+      {isEmpty(state.questionnaires) && (
         <NoResultsFiltered
           searchTerm={state.searchTerm}
           isFiltered={state.isFiltered}
         />
-      ) : (
+      )}
+      {!isEmpty(state.questionnaires) && (
         <QuestionnairesTable
           questionnaires={state.currentPage}
           selectedQuestionnaire={selectedQuestionnaire}
@@ -129,6 +131,7 @@ const QuestionnairesView = ({
           enabledHeadings={enabledHeadings}
           onQuestionnaireClick={onQuestionnaireClick}
           questionnaireModal={questionnaireModal}
+          variant={variant}
         />
       )}
       <PaginationNav

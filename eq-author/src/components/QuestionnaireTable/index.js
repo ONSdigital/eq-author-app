@@ -11,6 +11,14 @@ const TableWrapper = styled.table`
   border-collapse: collapse;
   table-layout: fixed;
   text-align: left;
+
+  ${({ variant }) =>
+    variant == "selectModal" &&
+    `
+    height: 17em;
+    overflow-y: scroll;
+    display: block;
+  `}
 `;
 
 const QuestionnaireTable = ({
@@ -28,9 +36,10 @@ const QuestionnaireTable = ({
   clickable,
   onRowClick,
   questionnaireModal,
+  variant,
 }) => {
   return (
-    <TableWrapper>
+    <TableWrapper variant={variant}>
       <TableHead
         onSortClick={onSortClick}
         onReverseClick={onReverseClick}
