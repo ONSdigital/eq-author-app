@@ -46,14 +46,14 @@ import {
 } from "constants/error-codes";
 
 const NavColumn = styled(Column)`
-  background-color: ${colors.darkerBlack};
+  background-color: ${colors.black};
 `;
 
 const MainNav = styled.div`
   width: 72px;
   border: 0;
   float: left;
-  background-color: ${colors.darkerBlack};
+  background-color: ${colors.black};
 `;
 
 const LoadingPlaceholder = () => (

@@ -41,7 +41,7 @@ import {
 
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
-  background: ${colors.darkerBlack};
+  background: ${colors.black};
   position: relative;
 `;
 

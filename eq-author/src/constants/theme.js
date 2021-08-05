@@ -24,8 +24,8 @@ export const colors = {
   lightGreen: " #EDF4F0",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
-  black: "#333333",
-  darkerBlack: "#222222",
+  black: "#222222",
+  sidebarBlack: "#333333",
   white: "#FFFFFF",
   greyedOrange: "#D9A551",
 };
@@ -42,7 +42,7 @@ colors.bordersLight = colors.lightGrey;
 colors.previewError = colors.grey;
 colors.errorPrimary = colors.darkOrange;
 colors.errorSecondary = colors.lightOrange;
-colors.badgeSelectedBackground = colors.darkerBlack;
+colors.badgeSelectedBackground = colors.black;
 colors.badgeSelectedText = colors.white;
 colors.calcSumEmptyContent = colors.mediumGrey;
 

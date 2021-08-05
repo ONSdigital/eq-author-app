@@ -23,7 +23,7 @@ import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
 
 const Container = styled.div`
-  background: ${colors.black};
+  background: ${colors.sidebarBlack};
   color: ${colors.white};
   display: flex;
   flex-direction: column;
