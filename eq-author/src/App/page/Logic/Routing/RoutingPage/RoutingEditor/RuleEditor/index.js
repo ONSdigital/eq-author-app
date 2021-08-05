@@ -140,10 +140,7 @@ export const UnwrappedRuleEditor = ({
         hasError={groupOperatorError}
         onChange={handleGroupOperatorChange}
       >
-        <option value={null} disabled hidden>
-          {" "}
-          Select AND/OR{" "}
-        </option>
+        <option value={null}> Select OR/AND condition</option>
         <option value="Or">OR</option>
         <option value="And">AND</option>
       </SmallSelect>
