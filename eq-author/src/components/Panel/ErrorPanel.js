@@ -15,10 +15,6 @@ const confirmationPanel = css`
   margin-left: 3%;
 `;
 
-const calcSumPanel = css`
-  margin-left: 3.8%;
-`;
-
 const ErrorPanel = ({ variant, children }) => {
   const StyledPanel = styled.div`
     background-color: ${colors.errorSecondary};
@@ -32,7 +28,6 @@ const ErrorPanel = ({ variant, children }) => {
     ${variant === "destination" && destinationPanel};
     ${variant === "logic" && logicPanel};
     ${variant === "confirmation" && confirmationPanel};
-    ${variant === "calc-sum" && calcSumPanel};
   `;
 
   return <StyledPanel>{children}</StyledPanel>;

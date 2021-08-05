@@ -112,10 +112,14 @@ const EmptyText = styled.div`
   margin-bottom: 1em;
 `;
 
-const ErrorContainer = styled.div`
+const ErrorButtonContainer = styled.div`
   border: 2px solid ${colors.errorPrimary};
   padding: 10px;
   position: relative;
+`;
+
+const ErrorContainer = styled.div`
+  margin-left: 2em;
 `;
 
 const TypeChip = styled(MenuItemType)`
@@ -259,7 +263,7 @@ export const UnwrappedAnswerSelector = ({
               ? "Select an answer using the button below."
               : "There are no answers to provide a calculated summary."}
           </EmptyText>
-          <ErrorContainer>
+          <ErrorButtonContainer>
             <EmptyButton
               small
               onClick={handlePickerOpen}
@@ -268,11 +272,11 @@ export const UnwrappedAnswerSelector = ({
             >
               Select an answer
             </EmptyButton>
-          </ErrorContainer>
+          </ErrorButtonContainer>
         </Empty>
-        <ValidationError variant="calc-sum">
-          {errorValidationMsg}
-        </ValidationError>
+        <ErrorContainer>
+          <ValidationError>{errorValidationMsg}</ValidationError>
+        </ErrorContainer>
       </>
     );
   };
