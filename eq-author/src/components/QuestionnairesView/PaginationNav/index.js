@@ -18,7 +18,7 @@ const Results = styled.div`
   position: absolute;
 
   ${({ padding }) =>
-    padding == "small" &&
+    padding === "small" &&
     `
     margin-left: 1em;
   `}
