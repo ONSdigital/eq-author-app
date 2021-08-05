@@ -142,6 +142,7 @@ const QuestionnairesView = ({
         onPageChange={(newPage) =>
           dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
         }
+        padding={padding}
       />
     </>
   );

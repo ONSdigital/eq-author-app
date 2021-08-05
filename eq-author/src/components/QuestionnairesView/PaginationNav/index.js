@@ -16,6 +16,12 @@ const Results = styled.div`
   color: ${colors.textLight};
   font-size: 0.9em;
   position: absolute;
+
+  ${({ padding }) =>
+    padding == "small" &&
+    `
+    margin-left: 1em;
+  `}
 `;
 
 const PaginationNavTable = ({
@@ -24,9 +30,10 @@ const PaginationNavTable = ({
   pageCount,
   currentPageIndex,
   onPageChange,
+  padding,
 }) => (
   <Wrapper>
-    <Results>
+    <Results padding={padding}>
       Showing {countOnPage} of {totalCount}
     </Results>
     <PaginationNav
