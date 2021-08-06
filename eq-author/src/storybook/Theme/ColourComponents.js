@@ -18,7 +18,7 @@ const ColourContainer = styled.div`
 `;
 
 const Caption = styled.p`
-  margin: 0;
+  margin: 0 auto;
   margin-top: 1em;
   width: 5em;
 `;
@@ -38,11 +38,18 @@ const Circle = styled.div`
   margin: 0 auto;
 `;
 
+const camelize = (str) =>
+  str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
+    if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+    return index === 0 ? match.toLowerCase() : match.toUpperCase();
+  });
+
 export const Colour = ({ colour, name }) => (
   <ColourContainer>
     <Circle colour={colour} />
     <Caption>{name}</Caption>
     <SubCaption>{colour}</SubCaption>
+    <SubCaption>colors.{camelize(name)}</SubCaption>
   </ColourContainer>
 );
 
