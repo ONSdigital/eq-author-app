@@ -45,7 +45,7 @@ export const Colour = ({ colour, name }) => (
     <Circle colour={colour} />
     <Caption>{name}</Caption>
     <SubCaption>{colour}</SubCaption>
-    <SubCaption>colors.{_.camelCase(name)}</SubCaption>
+    <SubCaption>colors.{camelCase(name)}</SubCaption>
   </ColourContainer>
 );
 
