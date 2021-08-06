@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
@@ -44,6 +45,11 @@ export const Colour = ({ colour, name }) => (
     <SubCaption>{colour}</SubCaption>
   </ColourContainer>
 );
+
+Colour.propTypes = {
+  colour: PropTypes.string,
+  name: PropTypes.string,
+};
 
 export const Palette = () => (
   <>
