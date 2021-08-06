@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { camelCase } from "lodash";
 import { colors } from "constants/theme";
 
 const Container = styled.div`
@@ -18,9 +19,10 @@ const ColourContainer = styled.div`
 `;
 
 const Caption = styled.p`
-  margin: 0;
+  margin: 0 auto;
   margin-top: 1em;
-  width: 5em;
+  width: 6em;
+  font-weight: bold;
 `;
 
 const SubCaption = styled.p`
@@ -43,6 +45,7 @@ export const Colour = ({ colour, name }) => (
     <Circle colour={colour} />
     <Caption>{name}</Caption>
     <SubCaption>{colour}</SubCaption>
+    <SubCaption>colors.{camelCase(name)}</SubCaption>
   </ColourContainer>
 );
 
