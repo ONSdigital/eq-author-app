@@ -79,6 +79,7 @@ export const Palette = () => (
       <Colour colour={colors.highlightGreen} name="Highlight green" />
     </Container>
     <Container>
+      <Colour colour={colors.red} name="Red" />
       <Colour colour={colors.orange} name="Orange" />
       <Colour colour={colors.amber} name="Amber" />
       <Colour colour={colors.greyedOrange} name="Greyed orange" />
