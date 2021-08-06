@@ -14,15 +14,19 @@ import Wizard, {
 } from "components/modals/Wizard";
 import Button from "components/buttons/Button";
 
+const QuestionsPane = styled.div`
+  max-height: 17em;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin-bottom: 0.5em;
+`;
+
 const QuestionContainer = styled.div`
   background-color: ${colors.blue};
   border-radius: ${radius};
   margin: 0 0 0.5em;
   color: ${colors.white};
   padding: 0.5em 1em;
-  &:last-of-type {
-    margin-bottom: 1em;
-  }
   p {
     margin: 0;
   }
@@ -117,13 +121,15 @@ const ImportQuestionReviewModal = ({
             </ContentHeading>
             <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
           </SpacedRow>
-          {startingSelectedQuestions.map((question, index) => (
-            <QuestionRow
-              question={question}
-              key={index}
-              onRemove={() => onRemoveSingle(index)}
-            />
-          ))}
+          <QuestionsPane>
+            {startingSelectedQuestions.map((question, index) => (
+              <QuestionRow
+                question={question}
+                key={index}
+                onRemove={() => onRemoveSingle(index)}
+              />
+            ))}
+          </QuestionsPane>
         </>
       ) : (
         <ContentHeading> No questions selected. </ContentHeading>

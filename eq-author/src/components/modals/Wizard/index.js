@@ -106,6 +106,8 @@ const Header = styled.header`
 `;
 
 const Footer = styled.footer`
+  background-color: white;
+  z-index: 99;
   padding: 0 1em 1em;
 `;
 

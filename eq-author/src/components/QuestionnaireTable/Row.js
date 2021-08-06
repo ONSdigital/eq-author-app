@@ -77,6 +77,7 @@ const ButtonGroup = styled.div`
 `;
 
 export const TR = styled.tr`
+  scroll-margin-top: 3em;
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   background-color: rgba(0, 0, 0, 0);
@@ -228,6 +229,12 @@ export const Row = ({
       focusLink();
     }
   }, [autoFocus]);
+
+  useEffect(() => {
+    if (selected) {
+      rowRef.current.scrollIntoView();
+    }
+  }, [selected]);
 
   function usePrevious(value) {
     const ref = useRef();

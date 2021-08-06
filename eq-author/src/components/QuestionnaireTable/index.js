@@ -46,6 +46,7 @@ const QuestionnaireTable = ({
         sortOrder={sortOrder}
         currentSortColumn={currentSortColumn}
         enabledHeadings={enabledHeadings}
+        sticky={variant === "selectModal"}
       />
       <TableBody
         questionnaires={questionnaires}
