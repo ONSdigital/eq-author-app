@@ -20,7 +20,8 @@ const ColourContainer = styled.div`
 const Caption = styled.p`
   margin: 0 auto;
   margin-top: 1em;
-  width: 5em;
+  width: 6em;
+  font-weight: bold;
 `;
 
 const SubCaption = styled.p`
