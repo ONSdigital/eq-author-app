@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
-import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
-
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -47,7 +45,7 @@ export const Colour = ({ colour, name }) => (
   </ColourContainer>
 );
 
-export const Palette = (args) => (
+export const Palette = () => (
   <>
     <Container>
       <Colour colour={colors.blue} name="Blue" />
@@ -85,7 +83,7 @@ export const Palette = (args) => (
   </>
 );
 
-export const Semantic = (args) => (
+export const Semantic = () => (
   <Container>
     <Colour colour={colors.primary} name="Primary" />
     <Colour colour={colors.secondary} name="Secondary" />
