@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { camelCase } from "lodash";
 import { colors } from "constants/theme";
 
 const Container = styled.div`
@@ -39,18 +40,12 @@ const Circle = styled.div`
   margin: 0 auto;
 `;
 
-const camelize = (str) =>
-  str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-    if (+match === 0) return ""; // eslint-disable-line
-    return index === 0 ? match.toLowerCase() : match.toUpperCase();
-  });
-
 export const Colour = ({ colour, name }) => (
   <ColourContainer>
     <Circle colour={colour} />
     <Caption>{name}</Caption>
     <SubCaption>{colour}</SubCaption>
-    <SubCaption>colors.{camelize(name)}</SubCaption>
+    <SubCaption>colors.{_.camelCase(name)}</SubCaption>
   </ColourContainer>
 );
 
