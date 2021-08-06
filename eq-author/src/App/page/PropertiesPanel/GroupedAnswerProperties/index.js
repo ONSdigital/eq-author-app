@@ -129,7 +129,11 @@ const lengthValueError = (errorCode) => {
 
   const { testId, error } = lengthErrors[errorCode];
 
-  return <ValidationError data-test={testId}>{error}</ValidationError>;
+  return (
+    <ValidationError variant="logic" test={testId}>
+      {error}
+    </ValidationError>
+  );
 };
 
 export const GroupedAnswerProperties = ({ page }) => {
@@ -209,10 +213,7 @@ export const GroupedAnswerProperties = ({ page }) => {
                 />
               </MultiLineField>
               {hasUnitError && (
-                <ValidationError
-                  icon={ValidationErrorIcon}
-                  data-test="unitRequired"
-                >
+                <ValidationError icon={ValidationErrorIcon} test="unitRequired">
                   {SELECTION_REQUIRED}
                 </ValidationError>
               )}

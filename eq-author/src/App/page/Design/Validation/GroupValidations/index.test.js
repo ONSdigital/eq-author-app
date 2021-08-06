@@ -145,10 +145,10 @@ describe("GroupValidations", () => {
   });
 
   it("should display validation error when present ", () => {
-    const wrapper = shallow(<GroupValidations {...props} />).find(
+    const wrapper = mount(<GroupValidations {...props} />).find(
       "ValidationError"
     );
 
-    expect(wrapper.shallow().text().includes(ERR_NO_VALUE)).toBeTruthy();
+    expect(wrapper.text().includes(ERR_NO_VALUE)).toBeTruthy();
   });
 });
