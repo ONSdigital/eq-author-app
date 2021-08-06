@@ -15,23 +15,22 @@ const confirmationPanel = css`
   margin-left: 3%;
 `;
 
-const ErrorPanel = ({ variant, children }) => {
-  const StyledPanel = styled.div`
-    background-color: ${colors.errorSecondary};
-    border: 0;
-    border-radius: 0;
-    border-left: 0.5em solid ${colors.errorPrimary};
-    margin: 1em 0;
-    display: inline-block;
-    width: auto;
+const StyledPanel = styled.div`
+  background-color: ${colors.errorSecondary};
+  border: 0;
+  border-radius: 0;
+  border-left: 0.5em solid ${colors.errorPrimary};
+  margin: 1em 0;
+  display: inline-block;
+  width: auto;
+  ${(props) => props.variant === "destination" && destinationPanel};
+  ${(props) => props.variant === "logic" && logicPanel};
+  ${(props) => props.variant === "confirmation" && confirmationPanel};
+`;
 
-    ${variant === "destination" && destinationPanel};
-    ${variant === "logic" && logicPanel};
-    ${variant === "confirmation" && confirmationPanel};
-  `;
-
-  return <StyledPanel>{children}</StyledPanel>;
-};
+const ErrorPanel = ({ variant, children }) => (
+  <StyledPanel variant={variant}>{children}</StyledPanel>
+);
 
 ErrorPanel.propTypes = {
   children: PropTypes.string.isRequired,

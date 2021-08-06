@@ -109,7 +109,7 @@ export const Fallback = ({
                   </Select>
                   {errorCode ? (
                     <ValidationError>
-                      <>{FALLBACK_ERRORS[errorCode]}</>
+                      {FALLBACK_ERRORS[errorCode]}
                     </ValidationError>
                   ) : null}
                 </MultiLineField>
