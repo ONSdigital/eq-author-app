@@ -69,7 +69,7 @@ const sizes = {
 const Wrapper = styled.div`
   position: relative;
   line-height: 1.5;
-  margin-bottom: 2em;
+  margin-bottom: ${(props) => (props.hasError ? "0" : "2")}em;
 `;
 
 Wrapper.defaultProps = {
@@ -517,8 +517,10 @@ class RichTextEditor extends React.Component {
       ...otherProps
     } = this.props;
 
+    const hasError = errorValidationMsg && true;
+
     return (
-      <Wrapper>
+      <Wrapper hasError={hasError}>
         <Field
           onClick={this.handleClick}
           onMouseDown={this.handleMouseDown}
@@ -526,7 +528,7 @@ class RichTextEditor extends React.Component {
           onFocus={this.handleFocus}
           data-test="rte-field"
           disabled={disabled}
-          last={errorValidationMsg && true}
+          last={hasError}
         >
           {label && <Label id={`label-${id}`}>{label}</Label>}
           <Input
