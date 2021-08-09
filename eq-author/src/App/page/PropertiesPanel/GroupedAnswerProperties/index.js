@@ -129,11 +129,7 @@ const lengthValueError = (errorCode) => {
 
   const { testId, error } = lengthErrors[errorCode];
 
-  return (
-    <ValidationError variant="logic" test={testId}>
-      {error}
-    </ValidationError>
-  );
+  return <ValidationError test={testId}>{error}</ValidationError>;
 };
 
 export const GroupedAnswerProperties = ({ page }) => {
