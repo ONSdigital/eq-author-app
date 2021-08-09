@@ -35,6 +35,9 @@ describe("QuestionPicker", () => {
 
       const selectButton = getByText("Select");
 
+      const firstQuestion = getByText("1a").closest("div");
+
+      fireEvent.click(firstQuestion);
       fireEvent.click(selectButton);
 
       expect(defaultProps.onSubmit).toHaveBeenCalled();

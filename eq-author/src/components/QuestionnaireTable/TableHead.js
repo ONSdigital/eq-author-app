@@ -10,6 +10,24 @@ import iconArrow from "assets/icon-arrow-down.svg";
 import { SORT_ORDER } from "constants/sort-order";
 import tableHeadings from "./TableHeadings";
 
+const Thead = styled.thead`
+  background-color: ${colors.white};
+
+  ${({ sticky }) =>
+    sticky &&
+    `
+      position: sticky;
+      top: 0;
+      z-index: 99;
+
+      button {
+        opacity: 1;
+        background-color: ${colors.white};
+      }
+    
+  `}
+`;
+
 const TH = styled.th`
   color: ${colors.darkGrey};
   width: ${(props) => props.colWidth};
@@ -129,18 +147,18 @@ const renderHeading = (props, { heading, sortColumn, colWidth, sortable }) =>
     </UnsortableTH>
   );
 const TableHead = (props) => {
-  const { enabledHeadings } = props;
+  const { enabledHeadings, sticky } = props;
 
   const filteredHeadings = tableHeadings.filter(({ heading }) =>
     enabledHeadings.includes(heading)
   );
 
   return (
-    <thead>
+    <Thead sticky={sticky}>
       <tr>
         {filteredHeadings.map((heading) => renderHeading(props, heading))}
       </tr>
-    </thead>
+    </Thead>
   );
 };
 
@@ -150,6 +168,7 @@ TableHead.propTypes = {
   sortOrder: PropTypes.string,
   sortColumn: PropTypes.string,
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
+  sticky: PropTypes.bool,
 };
 
 export default TableHead;

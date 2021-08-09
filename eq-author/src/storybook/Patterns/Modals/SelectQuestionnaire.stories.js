@@ -12,7 +12,7 @@ import {
 } from "@storybook/addon-docs/blocks";
 
 export default {
-  title: "Patterns/Importing content/Select a questionnaire",
+  title: "Patterns/Modals/Select a questionnaire",
   component: QuestionnaireSelectModal,
   argTypes: {
     questionnaireModal: {

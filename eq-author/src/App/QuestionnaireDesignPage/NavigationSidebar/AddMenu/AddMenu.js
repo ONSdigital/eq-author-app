@@ -9,6 +9,7 @@ import IconQuestion from "assets/icon-questionpage.svg?inline";
 import IconSummary from "assets/icon-summarypage.svg?inline";
 import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
+import IconImport from "assets/icon-import.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -41,11 +42,13 @@ const AddMenu = ({
   onAddQuestionPage,
   canAddQuestionPage,
   onAddSection,
+  onStartImportingContent,
   canAddSection,
   onAddCalculatedSummaryPage,
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
+  canImportContent,
   onAddFolder,
   canAddFolder,
   isFolder,
@@ -87,6 +90,13 @@ const AddMenu = ({
       icon: IconSummary,
       text: "Calculated summary",
     },
+    {
+      handleClick: () => onStartImportingContent(false),
+      disabled: !canImportContent,
+      dataTest: "btn-import-content",
+      icon: IconImport,
+      text: "Import content",
+    },
   ];
 
   return (
@@ -118,6 +128,13 @@ const AddMenu = ({
                 icon: IconSummary,
                 text: "Calculated summary",
               },
+              {
+                handleClick: () => onStartImportingContent(true),
+                disabled: !canImportContent,
+                dataTest: "btn-import-content",
+                icon: IconImport,
+                text: "Import content",
+              },
             ].map((item) => (
               <MenuButton key={`${item.dataTest}-folder`} {...item} />
             ))}
@@ -146,6 +163,8 @@ AddMenu.propTypes = {
   canAddFolder: PropTypes.bool.isRequired,
   isFolder: PropTypes.bool.isRequired,
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  canImportContent: PropTypes.bool,
+  onStartImportingContent: PropTypes.func.isRequired,
 };
 
 export default AddMenu;
