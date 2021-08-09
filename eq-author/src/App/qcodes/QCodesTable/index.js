@@ -44,7 +44,7 @@ import {
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
-  color: ${colors.darkGrey};
+  color: ${colors.text};
   word-break: break-word;
 `;
 

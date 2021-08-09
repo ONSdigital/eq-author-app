@@ -9,6 +9,7 @@ import ErrorPanel from "components/Panel/ErrorPanel";
 
 const ErrorStyling = styled(IconText)`
   margin: 0.5em 1em 0.5em 0.1em;
+  font-weight: normal;
 `;
 
 const ValidationError = ({ variant, children, test }) => (
