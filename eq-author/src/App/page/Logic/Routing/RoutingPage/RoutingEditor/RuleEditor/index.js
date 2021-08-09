@@ -57,7 +57,7 @@ const Header = styled.div`
 
 const SmallSelect = styled(Select)`
   display: block;
-  width: auto;
+  width: 14.2em;
   margin-bottom: 0;
   line-height: 1.25;
 `;
@@ -136,7 +136,9 @@ export const UnwrappedRuleEditor = ({
         hasError={groupOperatorError}
         onChange={handleGroupOperatorChange}
       >
-        <option value={null}> Select OR/AND condition</option>
+        {groupOperatorError && (
+          <option value={null}> Select OR/AND condition</option>
+        )}
         <option value="Or">OR</option>
         <option value="And">AND</option>
       </SmallSelect>
