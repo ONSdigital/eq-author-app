@@ -526,6 +526,7 @@ class RichTextEditor extends React.Component {
           onFocus={this.handleFocus}
           data-test="rte-field"
           disabled={disabled}
+          last={errorValidationMsg && true}
         >
           {label && <Label id={`label-${id}`}>{label}</Label>}
           <Input
