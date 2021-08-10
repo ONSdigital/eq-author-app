@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { last } from "lodash";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -40,10 +39,7 @@ const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
-  dest.splice(1, 0, {
-    ...last(pages),
-    displayName: destinationKey.EndOfCurrentSection,
-  });
+
   return dest;
 };
 
