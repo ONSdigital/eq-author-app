@@ -6,7 +6,7 @@ import QuestionPicker from "components/QuestionPicker";
 import mockSections from "tests/mocks/mockSections.json";
 
 export default {
-  title: "Patterns/Importing content/Select questions",
+  title: "Patterns/Modals/Select questions",
   component: QuestionPicker,
 };
 

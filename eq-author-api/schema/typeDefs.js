@@ -660,7 +660,7 @@ type Comment {
 }
 
 type Query {
-  questionnaires: [Questionnaire]
+  questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History!]!
   section(input: QueryInput!): Section
@@ -676,6 +676,18 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
+}
+
+input CommonFilters {
+  ids: [ID!]
+}
+
+input QuestionnairesFilter {
+  ne: CommonFilters
+}
+
+input QuestionnairesInput {
+  filter: QuestionnairesFilter
 }
 
 input QueryInput {
