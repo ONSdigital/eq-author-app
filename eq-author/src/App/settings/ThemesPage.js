@@ -33,6 +33,7 @@ import {
   SURVEY_ID_ERRORS,
 } from "constants/validationMessages";
 
+import UPDATE_PREVIEW_THEME from "./graphql/updatePreviewTheme.graphql";
 import ValidationError from "components/ValidationError";
 
 const Container = styled.div`
@@ -108,6 +109,7 @@ const ThemesPage = ({ questionnaire }) => {
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [enableTheme] = useMutation(enableThemeMutation);
   const [disableTheme] = useMutation(disableThemeMutation);
+  const [updatePreviewTheme] = useMutation(UPDATE_PREVIEW_THEME);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
 
@@ -125,7 +127,26 @@ const ThemesPage = ({ questionnaire }) => {
     });
   };
 
-  const toggleTheme = ({ shortName, enabled }) => {
+  const toggleTheme = ({ shortName, enabled, themes, questionnaireId }) => {
+    // console.log(
+    //   "toggleTheme : shortName enabled themes questionnaireId previewTheme = ",
+    //   shortName,
+    //   enabled,
+    //   themes,
+    //   questionnaireId,
+    //   previewTheme
+    // );
+    const openThemes = themes.filter((theme) => theme.enabled);
+    const openThemeCount = openThemes.length + (enabled ? -1 : 1);
+    // console.log("toggleTheme : ", openThemeCount, previewTheme);
+    if (openThemeCount === 1) {
+      console.log("UPDATE PREVIEW THEME", questionnaireId, shortName, enabled);
+
+      updatePreviewTheme({
+        variables: { input: { questionnaireId, previewTheme: shortName } },
+      });
+    }
+
     const mutation = enabled ? disableTheme : enableTheme;
     mutation({
       variables: { input: { questionnaireId: id, shortName } },
@@ -163,7 +184,9 @@ const ThemesPage = ({ questionnaire }) => {
           key={`${shortName}-toggle`}
           title={THEME_TITLES[shortName]}
           isOpen={enabled}
-          onChange={() => toggleTheme({ shortName, enabled })}
+          onChange={() =>
+            toggleTheme({ shortName, enabled, themes, questionnaireId })
+          }
           data-test={`${shortName}-toggle`}
           headerContent={
             enabled && (
