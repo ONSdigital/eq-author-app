@@ -1,34 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Grouped Answer Properties should render the options for each answer 1`] = `
-<GroupedAnswerProperties__AnswerTitle
-  data-test="answer-title"
->
-  Currency 1
-</GroupedAnswerProperties__AnswerTitle>
-`;
+exports[`Grouped Answer Properties should render the options for each answer 1`] = `null`;
 
-exports[`Grouped Answer Properties should render the options for each answer 2`] = `
-<GroupedAnswerProperties__AnswerTitle
-  data-test="answer-title"
->
-  Currency 2
-</GroupedAnswerProperties__AnswerTitle>
-`;
+exports[`Grouped Answer Properties should render the options for each answer 2`] = `null`;
 
-exports[`Grouped Answer Properties should render the options for each answer 3`] = `
-<GroupedAnswerProperties__AnswerTitle
-  data-test="answer-title"
->
-  Date 1
-</GroupedAnswerProperties__AnswerTitle>
-`;
+exports[`Grouped Answer Properties should render the options for each answer 3`] = `null`;
 
 exports[`Grouped Answer Properties should show error if there is a mismatch in the decimals and previous answer validation 1`] = `
 Array [
-  <Accordion
-    key="Currency"
+  <Collapsible
+    className="propertiesCollapsible"
     title="Currency properties"
+    variant="content"
+    withoutHideThis={true}
   >
     <GroupedAnswerProperties__Padding>
       <GroupedAnswerProperties__GroupContainer>
@@ -157,10 +141,12 @@ Array [
         />
       </GroupedAnswerProperties__Padding>
     </GroupedAnswerProperties__GroupContainer>
-  </Accordion>,
-  <Accordion
-    key="Date"
+  </Collapsible>,
+  <Collapsible
+    className="propertiesCollapsible"
     title="Date properties"
+    variant="content"
+    withoutHideThis={true}
   >
     <GroupedAnswerProperties__Padding />
     <GroupedAnswerProperties__AnswerPropertiesContainer
@@ -204,6 +190,6 @@ Array [
         />
       </GroupedAnswerProperties__Padding>
     </GroupedAnswerProperties__AnswerPropertiesContainer>
-  </Accordion>,
+  </Collapsible>,
 ]
 `;

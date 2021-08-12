@@ -5,7 +5,7 @@ import { groupBy, kebabCase, getOr } from "lodash/fp";
 import { flatMap } from "lodash";
 import getIdForObject from "utils/getIdForObject";
 
-import Accordion from "components/Accordion";
+import Collapsible from "components/Collapsible";
 import { Autocomplete } from "components/Autocomplete";
 import IconText from "components/IconText";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
@@ -60,6 +60,11 @@ const ValidationWarning = styled(IconText)`
 
 const ValidationWarningUnit = styled(ValidationWarning)`
   margin-top: -0.5em;
+`;
+
+const PropertiesOuter = styled.div`
+  padding: 2em;
+  background-color: pink;
 `;
 
 const Padding = styled.div`
@@ -281,7 +286,12 @@ export const GroupedAnswerProperties = ({ page }) => {
     }
 
     return (
-      <Accordion title={`${answerType} properties`} key={answerType}>
+      <Collapsible
+        className="propertiesCollapsible"
+        title={`${answerType} properties`}
+        variant="content"
+        withoutHideThis={true}
+      >
         <Padding>{groupedFields}</Padding>
         {answers.map((answer) => (
           <AnswerPropertiesContainer key={getIdForObject(answer)}>
@@ -313,7 +323,7 @@ export const GroupedAnswerProperties = ({ page }) => {
             </Padding>
           </GroupContainer>
         )}
-      </Accordion>
+      </Collapsible>
     );
   });
 };

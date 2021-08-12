@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
@@ -40,6 +41,14 @@ const AddAnswerSegment = styled.div`
   padding: 0 2em 2em;
 `;
 
+const PanelWrapper = styled.div`
+  background: ${colors.white};
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid ${colors.bordersLight};
+  border-bottom: 1px solid ${colors.bordersLight};
+`;
+
 const propTypes = {
   onUpdateAnswer: PropTypes.func.isRequired,
   onAddAnswer: PropTypes.func.isRequired,
@@ -54,6 +63,7 @@ const propTypes = {
   onUpdate: PropTypes.func.isRequired,
   fetchAnswers: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
+  renderPanel: PropTypes.func,
 };
 export const UnwrappedQuestionPageEditor = (props) => {
   const {
@@ -71,6 +81,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
     onAddAnswer,
     onDeleteAnswer,
     match,
+    renderPanel,
   } = props;
 
   useSetNavigationCallbacksForPage({
@@ -80,52 +91,59 @@ export const UnwrappedQuestionPageEditor = (props) => {
   });
 
   return (
-    <div data-test="question-page-editor">
-      <PageHeader
-        {...props}
-        onUpdate={onUpdate}
-        onChange={onChange}
-        alertText="All edits, properties and routing settings will also be removed."
-      />
-      <div>
-        <QuestionSegment id={getIdForObject(page)}>
-          <MetaEditor
+    console.log(renderPanel),
+    (
+      <div data-test="question-page-editor">
+        <PageHeader
+          {...props}
+          onUpdate={onUpdate}
+          onChange={onChange}
+          alertText="All edits, properties and routing settings will also be removed."
+        />
+        <div>
+          <QuestionSegment id={getIdForObject(page)}>
+            <MetaEditor
+              onChange={onChange}
+              onUpdate={onUpdate}
+              page={page}
+              fetchAnswers={fetchAnswers}
+              enableValidationMessage={enableValidationMessage}
+            />
+          </QuestionSegment>
+          <QuestionProperties
+            page={page}
             onChange={onChange}
             onUpdate={onUpdate}
-            page={page}
             fetchAnswers={fetchAnswers}
-            enableValidationMessage={enableValidationMessage}
           />
-        </QuestionSegment>
-        <QuestionProperties
-          page={page}
-          onChange={onChange}
-          onUpdate={onUpdate}
-          fetchAnswers={fetchAnswers}
-        />
-        <AnswersEditor
-          answers={answers}
-          onUpdate={onUpdateAnswer}
-          onAddOption={onAddOption}
-          onAddExclusive={onAddExclusive}
-          onUpdateOption={onUpdateOption}
-          onDeleteOption={onDeleteOption}
-          onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
-          data-test="answers-editor"
-        />
-      </div>
+          <AnswersEditor
+            answers={answers}
+            onUpdate={onUpdateAnswer}
+            onAddOption={onAddOption}
+            onAddExclusive={onAddExclusive}
+            onUpdateOption={onUpdateOption}
+            onDeleteOption={onDeleteOption}
+            onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
+            data-test="answers-editor"
+          />
 
-      <AddAnswerSegment>
-        <AnswerTypeSelector
-          answerCount={answers.length}
-          onSelect={(answerType) =>
-            onAddAnswer(match.params.pageId, answerType).then(focusOnEntity)
-          }
-          data-test="add-answer"
-          page={page}
-        />
-      </AddAnswerSegment>
-    </div>
+          <PanelWrapper data-test="property-panel">
+            {renderPanel ? renderPanel() : null}
+          </PanelWrapper>
+        </div>
+
+        <AddAnswerSegment>
+          <AnswerTypeSelector
+            answerCount={answers.length}
+            onSelect={(answerType) =>
+              onAddAnswer(match.params.pageId, answerType).then(focusOnEntity)
+            }
+            data-test="add-answer"
+            page={page}
+          />
+        </AddAnswerSegment>
+      </div>
+    )
   );
 };
 

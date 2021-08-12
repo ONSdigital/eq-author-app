@@ -100,6 +100,7 @@ class AnswerTypeSelector extends React.Component {
 
     const isInvalid = Boolean(errorValidationMsg);
     const trigger = (
+      // new variant in here
       <AddAnswerButton
         variant="secondary"
         data-test="btn-add-answer"

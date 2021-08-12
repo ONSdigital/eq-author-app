@@ -71,10 +71,17 @@ const EditorLayout = ({
       </Header>
       <ScrollPane scrollToTop>
         <StyledGrid {...otherProps}>
-          <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
+          <Column cols={singleColumnLayout ? 12 : 12} gutters={false}>
             <Margin>
-              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
+              <MainCanvas maxWidth={mainCanvasMaxWidth}>
+                {children}
+
+                {/* <PanelWrapper data-test="property-panel">
+                  {renderPanel ? renderPanel() : null}
+                </PanelWrapper> */}
+              </MainCanvas>
             </Margin>
+
             {onAddQuestionPage && (
               <Centered>
                 <Button
@@ -88,13 +95,6 @@ const EditorLayout = ({
               </Centered>
             )}
           </Column>
-          {singleColumnLayout ? null : (
-            <Column cols={3} gutters={false}>
-              <PanelWrapper data-test="right-hand-panel">
-                {renderPanel ? renderPanel() : null}
-              </PanelWrapper>
-            </Column>
-          )}
         </StyledGrid>
       </ScrollPane>
     </Container>
