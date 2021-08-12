@@ -8,13 +8,13 @@ const StyledInlineField = styled(Field)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
   margin-bottom: 0;
 `;
 
 const InlineField = ({ id, label, children, ...otherProps }) => (
   <StyledInlineField key={id} {...otherProps}>
-    <Label bold={false} inline htmlFor={id}>
+    <Label bold={true} inline htmlFor={id}>
       {label}
     </Label>
     {children}

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
+import { Column } from "components/Grid";
 
 import Collapsible from "components/Collapsible";
 import IconText from "components/IconText";
@@ -30,27 +31,31 @@ const NumberProperties = ({
   answer,
 }) => (
   <Collapsible title="Number properties" withoutHideThis variant="content">
-    <InlineField id={id} label={"Required"}>
-      <ToggleProperty
-        data-test="answer-properties-required-toggle"
-        id={id}
-        onChange={handleChange}
-        value={answer.properties.required}
-      />
-    </InlineField>
-    <InlineField id={id} label={"Decimals"}>
-      <Decimal
-        id={id}
-        data-test="decimals"
-        onBlur={(decimals) => {
-          handleChange(answer.type, {
-            decimals,
-          });
-        }}
-        value={answer.properties.decimals}
-        hasDecimalInconsistency={hasDecimalInconsistency}
-      />
-    </InlineField>
+    <Column cols={3} gutters={true}>
+      <InlineField id={id} label={"Required"}>
+        <ToggleProperty
+          data-test="answer-properties-required-toggle"
+          id={id}
+          onChange={handleChange}
+          value={answer.properties.required}
+        />
+      </InlineField>
+    </Column>
+    <Column cols={6} gutters={false}>
+      <InlineField id={id} label={"Decimals"}>
+        <Decimal
+          id={id}
+          data-test="decimals"
+          onBlur={(decimals) => {
+            handleChange(answer.type, {
+              decimals,
+            });
+          }}
+          value={answer.properties.decimals}
+          hasDecimalInconsistency={hasDecimalInconsistency}
+        />
+      </InlineField>
+    </Column>
     {hasDecimalInconsistency && (
       <ValidationWarning icon={ValidationErrorIcon}>
         {characterErrors.DECIMAL_MUST_BE_SAME}
