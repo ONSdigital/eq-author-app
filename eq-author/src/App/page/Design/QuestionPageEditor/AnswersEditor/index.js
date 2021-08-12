@@ -22,8 +22,8 @@ export const AnswersEditor = ({
   onAddExclusive,
   onDeleteAnswer,
   moveAnswer,
+  renderPanel,
 }) => {
-
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
 
@@ -41,6 +41,7 @@ export const AnswersEditor = ({
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={onDeleteAnswer}
             multipleAnswers={multipleAnswers}
+            renderPanel={renderPanel}
           />
         )}
       </Reorder>

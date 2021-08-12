@@ -41,12 +41,6 @@ const AddAnswerSegment = styled.div`
   padding: 0 2em 2em;
 `;
 
-const PanelWrapper = styled.div`
-  background: ${colors.white};
-  width: 100%;
-  height: 100%;
-`;
-
 const propTypes = {
   onUpdateAnswer: PropTypes.func.isRequired,
   onAddAnswer: PropTypes.func.isRequired,
@@ -121,11 +115,8 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteOption={onDeleteOption}
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
+          renderPanel={renderPanel}
         />
-
-        <PanelWrapper data-test="property-panel">
-          {renderPanel ? renderPanel() : null}
-        </PanelWrapper>
       </div>
 
       <AddAnswerSegment>
