@@ -38,7 +38,7 @@ export const ButtonsContainer = styled.div`
 export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-top: 1.2em;
+  margin-top: 1.5em;
 `;
 
 export const OptionField = styled(Field)`
