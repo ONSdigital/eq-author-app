@@ -101,7 +101,7 @@ class Accordion extends Component {
               aria-controls={`accordion-${kebabTitle}`}
               data-test={`accordion-${kebabTitle}-button`}
             >
-              dave - {title}
+              {title}
             </Button>
           </Title>
         </Header>
