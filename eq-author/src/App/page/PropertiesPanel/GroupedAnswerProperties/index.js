@@ -62,11 +62,6 @@ const ValidationWarningUnit = styled(ValidationWarning)`
   margin-top: -0.5em;
 `;
 
-const PropertiesOuter = styled.div`
-  padding: 2em;
-  background-color: pink;
-`;
-
 const Padding = styled.div`
   padding: 0 0.5em;
   min-height: 1em;
