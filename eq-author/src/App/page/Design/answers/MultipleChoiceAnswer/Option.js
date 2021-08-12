@@ -35,7 +35,7 @@ export const ButtonsContainer = styled.div`
   justify-content: flex-start;
 `;
 
-export const StyledFlex = styled.div`
+export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
   margin-top: 1.2em;
@@ -186,7 +186,7 @@ export const StatelessOption = ({
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
         {renderToolbar()}
-        <StyledFlex>
+        <Flex>
           <DummyMultipleChoice type={type} />
           <OptionField>
             <Label htmlFor={`option-label-${option.id}`}>
@@ -206,7 +206,7 @@ export const StatelessOption = ({
               errorValidationMsg={labelError}
             />
           </OptionField>
-        </StyledFlex>
+        </Flex>
         <OptionField>
           <Label htmlFor={`option-description-${option.id}`}>
             Description (optional)
