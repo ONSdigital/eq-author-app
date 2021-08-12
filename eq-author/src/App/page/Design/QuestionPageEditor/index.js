@@ -45,8 +45,6 @@ const PanelWrapper = styled.div`
   background: ${colors.white};
   width: 100%;
   height: 100%;
-  border-left: 1px solid ${colors.bordersLight};
-  border-bottom: 1px solid ${colors.bordersLight};
 `;
 
 const propTypes = {
@@ -91,59 +89,56 @@ export const UnwrappedQuestionPageEditor = (props) => {
   });
 
   return (
-    console.log(renderPanel),
-    (
-      <div data-test="question-page-editor">
-        <PageHeader
-          {...props}
-          onUpdate={onUpdate}
-          onChange={onChange}
-          alertText="All edits, properties and routing settings will also be removed."
-        />
-        <div>
-          <QuestionSegment id={getIdForObject(page)}>
-            <MetaEditor
-              onChange={onChange}
-              onUpdate={onUpdate}
-              page={page}
-              fetchAnswers={fetchAnswers}
-              enableValidationMessage={enableValidationMessage}
-            />
-          </QuestionSegment>
-          <QuestionProperties
-            page={page}
+    <div data-test="question-page-editor">
+      <PageHeader
+        {...props}
+        onUpdate={onUpdate}
+        onChange={onChange}
+        alertText="All edits, properties and routing settings will also be removed."
+      />
+      <div>
+        <QuestionSegment id={getIdForObject(page)}>
+          <MetaEditor
             onChange={onChange}
             onUpdate={onUpdate}
-            fetchAnswers={fetchAnswers}
-          />
-          <AnswersEditor
-            answers={answers}
-            onUpdate={onUpdateAnswer}
-            onAddOption={onAddOption}
-            onAddExclusive={onAddExclusive}
-            onUpdateOption={onUpdateOption}
-            onDeleteOption={onDeleteOption}
-            onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
-            data-test="answers-editor"
-          />
-
-          <PanelWrapper data-test="property-panel">
-            {renderPanel ? renderPanel() : null}
-          </PanelWrapper>
-        </div>
-
-        <AddAnswerSegment>
-          <AnswerTypeSelector
-            answerCount={answers.length}
-            onSelect={(answerType) =>
-              onAddAnswer(match.params.pageId, answerType).then(focusOnEntity)
-            }
-            data-test="add-answer"
             page={page}
+            fetchAnswers={fetchAnswers}
+            enableValidationMessage={enableValidationMessage}
           />
-        </AddAnswerSegment>
+        </QuestionSegment>
+        <QuestionProperties
+          page={page}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          fetchAnswers={fetchAnswers}
+        />
+        <AnswersEditor
+          answers={answers}
+          onUpdate={onUpdateAnswer}
+          onAddOption={onAddOption}
+          onAddExclusive={onAddExclusive}
+          onUpdateOption={onUpdateOption}
+          onDeleteOption={onDeleteOption}
+          onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
+          data-test="answers-editor"
+        />
+
+        <PanelWrapper data-test="property-panel">
+          {renderPanel ? renderPanel() : null}
+        </PanelWrapper>
       </div>
-    )
+
+      <AddAnswerSegment>
+        <AnswerTypeSelector
+          answerCount={answers.length}
+          onSelect={(answerType) =>
+            onAddAnswer(match.params.pageId, answerType).then(focusOnEntity)
+          }
+          data-test="add-answer"
+          page={page}
+        />
+      </AddAnswerSegment>
+    </div>
   );
 };
 

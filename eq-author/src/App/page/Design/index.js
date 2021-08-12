@@ -53,9 +53,8 @@ export const UnwrappedPageRoute = (props) => {
     fetchPolicy: "cache-and-network",
   });
 
-  const renderPanel = () => {
+  const renderPanel = () =>
     page?.pageType === QuestionPage && <PropertiesPanel page={page} />;
-  };
 
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
@@ -64,7 +63,7 @@ export const UnwrappedPageRoute = (props) => {
           key={page.id} // resets the state of the RichTextEditors when navigating pages
           {...props}
           page={page}
-          renderPanel={renderPanel()}
+          renderPanel={renderPanel}
         />
       );
     }
@@ -96,7 +95,7 @@ export const UnwrappedPageRoute = (props) => {
       <EditorLayout
         title={page?.displayName || ""}
         onAddQuestionPage={onAddQuestionPage}
-        renderPanel={renderPanel()}
+        renderPanel={renderPanel}
         validationErrorInfo={page?.validationErrorInfo}
         {...(availableTabMatrix[page?.pageType] || {})}
       >
