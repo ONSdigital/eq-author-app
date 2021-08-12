@@ -290,7 +290,8 @@ export const GroupedAnswerProperties = ({ page }) => {
         className="propertiesCollapsible"
         title={`${answerType} properties`}
         variant="content"
-        withoutHideThis={true}
+        withoutHideThis
+        key="answer"
       >
         <Padding>{groupedFields}</Padding>
         {answers.map((answer) => (

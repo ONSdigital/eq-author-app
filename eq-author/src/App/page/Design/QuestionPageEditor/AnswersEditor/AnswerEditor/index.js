@@ -29,6 +29,7 @@ import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/page/Design/answers/DateRange";
 import Date from "App/page/Design/answers/Date";
 import BasicAnswer from "App/page/Design/answers/BasicAnswer";
+import AnswerProperties from "App/page/PropertiesPanel/GroupedAnswerProperties/AnswerProperties";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -205,9 +206,9 @@ class AnswerEditor extends React.Component {
         </AnswerHeader>
 
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
-        <PanelWrapper data-test="property-panel">
-          {this.props.renderPanel ? this.props.renderPanel() : null}
-        </PanelWrapper>
+        {/* {this.props.renderPanel ? this.props.renderPanel() : null} */}
+
+        <AnswerProperties answer={this.props.answer} />
       </Answer>
     );
   }
