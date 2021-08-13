@@ -28,16 +28,17 @@ const ENTER_KEY = 13;
 
 export const ButtonsContainer = styled.div`
   position: absolute;
-  right: 0;
+  left: 10px;
   top: 0;
   display: flex;
   z-index: 2;
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 
 export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
+  margin-top: 1.5em;
 `;
 
 export const OptionField = styled(Field)`
@@ -45,13 +46,13 @@ export const OptionField = styled(Field)`
 `;
 
 export const LastOptionField = styled(OptionField)`
-    margin-bottom: 2.5em;
+  margin-bottom: 2.5em;
 `;
 
 export const StyledOption = styled.div`
   border: 1px solid ${colors.bordersLight};
   padding: 1em 1em 0;
-  padding-bottom: ${option => option?.additionalAnswer && '1em'};
+  padding-bottom: ${(option) => option?.additionalAnswer && "1em"};
   border-radius: ${radius};
   position: relative;
 
@@ -156,28 +157,35 @@ export const StatelessOption = ({
     );
   };
 
-  const {
-    ERR_UNIQUE_REQUIRED,
-  } = messageTemplate;
+  const { ERR_UNIQUE_REQUIRED } = messageTemplate;
 
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-  const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label"});
+  const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
   let labelError = "";
 
-  if (option.validationErrorInfo?.errors?.find(
-    ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
-  )) {labelError =  errorMsg} else if (
+  if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
+    )
+  ) {
+    labelError = errorMsg;
+  } else if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_UNIQUE_REQUIRED"
-    )) {labelError = uniqueErrorMsg}
+    )
+  ) {
+    labelError = uniqueErrorMsg;
+  }
 
   const otherLabelError =
-    option.additionalAnswer?.validationErrorInfo?.errors?.find(({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING") &&
-    ADDITIONAL_LABEL_MISSING;
+    option.additionalAnswer?.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING"
+    ) && ADDITIONAL_LABEL_MISSING;
 
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
+        {renderToolbar()}
         <Flex>
           <DummyMultipleChoice type={type} />
           <OptionField>
@@ -215,21 +223,22 @@ export const StatelessOption = ({
           />
         </OptionField>
         {option.additionalAnswer && (
-        <LastOptionField>
-          <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>Other Label</Label>
-          <WrappingInput
-            id={`option-otherLabel-${option.additionalAnswer.id}`}
-            name="otherLabel"
-            value={otherLabelValue}
-            onChange={({ value }) => setOtherLabelValue(value)}
-            onBlur={handleSaveOtherLabel}
-            onKeyDown={handleKeyDown}
-            data-test="other-answer"
-            errorValidationMsg={otherLabelError}
-          />
-        </LastOptionField>
+          <LastOptionField>
+            <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>
+              Other Label
+            </Label>
+            <WrappingInput
+              id={`option-otherLabel-${option.additionalAnswer.id}`}
+              name="otherLabel"
+              value={otherLabelValue}
+              onChange={({ value }) => setOtherLabelValue(value)}
+              onBlur={handleSaveOtherLabel}
+              onKeyDown={handleKeyDown}
+              data-test="other-answer"
+              errorValidationMsg={otherLabelError}
+            />
+          </LastOptionField>
         )}
-        {renderToolbar()}
       </div>
     </StyledOption>
   );
