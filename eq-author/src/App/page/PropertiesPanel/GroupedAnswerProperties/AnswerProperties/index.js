@@ -8,6 +8,7 @@ import updateAnswerMutation from "graphql/updateAnswer.graphql";
 
 import { DateFormat, DurationProperties } from "./Properties";
 import NumberProperties from "./Properties/NumberProperties";
+import DateRangeProperties from "./Properties/DateRangeProperties";
 
 import * as answerTypes from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
@@ -91,6 +92,15 @@ export const AnswerProperties = ({
           answer={answer}
           id="duration"
           onChange={handleChange("required")}
+          unit={answer.properties.unit}
+          getId={getId}
+        />
+      )}
+      {type === answerTypes.DATE_RANGE && (
+        <DateRangeProperties
+          answer={answer}
+          onChange={handleChange("required")}
+          id="duration"
           unit={answer.properties.unit}
           getId={getId}
         />
