@@ -23,7 +23,9 @@ export const SimpleSelect = styled.select`
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
   border: ${({ hasError }) =>
-    hasError ? `2px solid ${colors.red}` : `thin solid ${colors.grey}`};
+    hasError
+      ? `2px solid ${colors.errorPrimary}`
+      : `thin solid ${colors.grey}`};
 
   line-height: 1.2;
 

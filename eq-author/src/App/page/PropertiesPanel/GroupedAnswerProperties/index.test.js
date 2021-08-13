@@ -459,7 +459,7 @@ describe("Grouped Answer Properties", () => {
 
       expect(screen.getByTestId("MaxCharacterTooSmall")).toBeVisible();
       expect(screen.getByTestId("MaxCharacterTooSmall").textContent).toBe(
-        characterErrors.CHAR_MUST_EXCEED_9
+        "Error:" + String.fromCharCode(160) + characterErrors.CHAR_MUST_EXCEED_9
       );
     });
 
@@ -479,11 +479,13 @@ describe("Grouped Answer Properties", () => {
 
       expect(screen.getByTestId("MaxCharacterTooBig")).toBeVisible();
       expect(screen.getByTestId("MaxCharacterTooBig").textContent).toBe(
-        characterErrors.CHAR_LIMIT_2000_EXCEEDED
+        "Error:" +
+          String.fromCharCode(160) +
+          characterErrors.CHAR_LIMIT_2000_EXCEEDED
       );
     });
 
-    it("should not render an error message if erroCode isn't related to length", () => {
+    it("should not render an error message if errorCode isn't related to length", () => {
       render(
         <GroupedAnswerProperties
           {...newProps({

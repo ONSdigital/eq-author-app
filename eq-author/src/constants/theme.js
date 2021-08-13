@@ -13,15 +13,19 @@ export const colors = {
   darkGrey: "#666666",
   lightGrey: "#d6d8da",
   lightMediumGrey: "#E4E8EB",
+  mediumGrey: "#7a7a7a",
   lighterGrey: "#f5f5f5",
   disabledGreyOnOrange: "#7A6340",
   red: "#D0021B",
+  lightOrange: "#FFDFCD",
   orange: "#FDBD56",
   amber: "#fe781f",
+  darkOrange: "#FF600A",
+  lightGreen: "#EDF4F0",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
-  black: "#333333",
-  darkerBlack: "#222222",
+  black: "#222222",
+  sidebarBlack: "#333333",
   white: "#FFFFFF",
   greyedOrange: "#D9A551",
 };
@@ -36,6 +40,11 @@ colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;
 colors.bordersLight = colors.lightGrey;
 colors.previewError = colors.grey;
+colors.errorPrimary = colors.darkOrange;
+colors.errorSecondary = colors.lightOrange;
+colors.badgeSelectedBackground = colors.black;
+colors.badgeSelectedText = colors.white;
+colors.calcSumEmptyContent = colors.mediumGrey;
 
 export const radius = "4px";
 
@@ -62,6 +71,10 @@ export const activeNavItemStyle = css`
   p,
   span {
     color: ${colors.black};
+  }
+  div {
+    background-color: ${colors.badgeSelectedBackground};
+    color: ${colors.badgeSelectedText};
   }
 
   > svg {

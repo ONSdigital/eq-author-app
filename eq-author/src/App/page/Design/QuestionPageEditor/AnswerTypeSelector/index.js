@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import Popout, { Container, Layer } from "components/Popout";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 
 import { colors } from "constants/theme";
@@ -42,7 +42,7 @@ const ErrorContext = styled.div`
   ${(props) =>
     props.isInvalid &&
     css`
-      border: 1px solid ${colors.red};
+      border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
 `;
@@ -128,7 +128,7 @@ class AnswerTypeSelector extends React.Component {
             doNotShowDR={hasOtherAnswerType}
           />
         </Popout>
-        {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
+        {isInvalid && <ValidationError>{errorValidationMsg}</ValidationError>}
       </ErrorContext>
     );
   }
