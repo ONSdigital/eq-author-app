@@ -174,10 +174,14 @@ const publishCommentUpdates = (componentId) => {
 
 const Resolvers = {
   Query: {
-    questionnaires: async (root, args, ctx) => {
-      const questionnaires = await listQuestionnaires();
+    questionnaires: async (root, { input = {} }, ctx) => {
+      /**
+       * Resolver logic
+       */
 
-      return questionnaires.filter((questionnaire) => {
+      let questionnaires = await listQuestionnaires();
+
+      questionnaires = questionnaires.filter((questionnaire) => {
         if (ctx.user.admin === true || questionnaire.isPublic) {
           return true;
         }
@@ -186,8 +190,57 @@ const Resolvers = {
           ctx.user.id
         );
       });
+
+      /**
+       * Check if query supplied any filters; if no, return unfiltered list.
+       */
+
+      const { filter } = input;
+
+      const shouldApplyFilter = filter !== null && filter !== undefined;
+
+      if (!shouldApplyFilter) {
+        return questionnaires;
+      }
+
+      /**
+       * If yes, check which filter to apply and return filtered list.
+       */
+
+      const shouldApplyNeIdsFilter =
+        filter.ne?.ids !== null &&
+        filter.ne?.ids !== undefined &&
+        filter.ne?.ids !== [];
+
+      if (shouldApplyNeIdsFilter) {
+        const ids = filter.ne.ids;
+
+        questionnaires = questionnaires.filter(
+          (questionnaire) => !ids.includes(questionnaire.id)
+        );
+      }
+
+      return questionnaires;
     },
-    questionnaire: (root, args, ctx) => ctx.questionnaire,
+    questionnaire: async (root, { input }, ctx) => {
+      /**
+       * If we have asked for a different questionnaire, go and get it.
+       */
+      if (input.questionnaireId) {
+        const questionnaire = await getQuestionnaire(input.questionnaireId);
+
+        if (questionnaire) {
+          /**
+           * Update CTX so custom resolvers can run correctly.
+           */
+          ctx.questionnaire = questionnaire;
+        } else {
+          ctx.questionnaire = null;
+        }
+      }
+
+      return ctx.questionnaire;
+    },
     history: async (root, { input }) =>
       getQuestionnaireMetaById(input.questionnaireId).then(
         ({ history }) => history
@@ -336,6 +389,10 @@ const Resolvers = {
       return questionnaire;
     },
     deleteQuestionnaire: async (_, { input }, ctx) => {
+      if (!ctx.questionnaire) {
+        const questionnaire = await getQuestionnaire(input.id);
+        ctx.questionnaire = questionnaire;
+      }
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
@@ -1196,14 +1253,8 @@ const Resolvers = {
   Section: {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
-    title: (section, args, ctx) =>
-      ctx.questionnaire.navigation || ctx.questionnaire.hub
-        ? section.title
-        : "",
-    displayName: (section, args, ctx) =>
-      ctx.questionnaire.navigation || ctx.questionnaire.hub
-        ? getName(section, "Section")
-        : getName(omit(section, "title"), "Section"),
+    title: (section) => section.title,
+    displayName: (section) => getName(section, "Section"),
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },

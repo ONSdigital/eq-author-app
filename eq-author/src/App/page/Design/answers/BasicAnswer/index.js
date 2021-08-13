@@ -72,15 +72,23 @@ export const StatelessBasicAnswer = ({
   const getMutuallyExclusive = ({ options }) =>
     options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
 
+  const getMutuallyExclusiveDesc = ({ options }) =>
+    options?.find(({ description }) => description);
+
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
+  const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
 
   useEffect(() => {
     const { label } = getMutuallyExclusive(answer) || { label: "" };
     setMutuallyExclusiveLabel(label);
+    const { description } = getMutuallyExclusiveDesc(answer) || {
+      description: "",
+    };
+    setMutuallyExclusiveDesc(description);
   }, [answer]);
 
   const onChangeToggle = () => {
@@ -98,6 +106,12 @@ export const StatelessBasicAnswer = ({
     const { id } = getMutuallyExclusive(answer) || {};
 
     updateOption({ variables: { input: { id, label } } });
+  };
+
+  const onUpdateOptionDesc = (description) => {
+    const { id } = getMutuallyExclusive(answer) || {};
+
+    updateOption({ variables: { input: { id, description } } });
   };
 
   return (
@@ -185,10 +199,10 @@ export const StatelessBasicAnswer = ({
             <WrappingInput
               id={`option-description-${answer.id}`}
               name="description"
-              value={answer.description}
+              value={mutuallyExclusiveDesc}
               placeholder={descriptionPlaceholder}
-              onChange={onChange}
-              onBlur={onUpdate}
+              onChange={({ value }) => setMutuallyExclusiveDesc(value)}
+              onBlur={({ target: { value } }) => onUpdateOptionDesc(value)}
               data-test="option-description"
             />
           </OptionField>
@@ -235,6 +249,7 @@ StatelessBasicAnswer.fragments = {
         id
         mutuallyExclusive
         label
+        description
       }
       validation {
         ... on NumberValidation {

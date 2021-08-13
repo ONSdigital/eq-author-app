@@ -49,7 +49,7 @@ const makeEmailVerified = async (
   });
 
   const userRecord = await admin.auth().getUser(uid);
-  return userRecord.customClaims.emailVerified;
+  return userRecord.emailVerified;
 };
 
 const options = program.opts();

@@ -53,11 +53,13 @@ const Footer = styled.footer`
 const Title = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
-  color: ${colors.text};
+  color: ${colors.darkGrey};
   margin-bottom: 0.75em;
 `;
 
-const WarningPanel = styled(IconText)``;
+const WarningPanel = styled(IconText)`
+  font-weight: bold;
+`;
 
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
@@ -157,6 +159,7 @@ const QuestionPicker = ({
   showSearch,
   isOpen,
   onClose,
+  onCancel,
   onSubmit,
   startingSelectedQuestions = [],
 }) => {
@@ -188,17 +191,12 @@ const QuestionPicker = ({
     }));
   };
 
-  const handleCancel = () => {
-    onClose();
-  };
-
   const handleSubmit = (selection) => {
     onSubmit(selection);
-    onClose();
   };
 
   return (
-    <StyledModal isOpen={isOpen} onClose={handleCancel} hasCloseButton>
+    <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
       <Header>
         <Title>{title}</Title>
         {showSearch && (
@@ -235,12 +233,13 @@ const QuestionPicker = ({
       </Main>
       <Footer>
         <ButtonGroup horizontal align="right">
-          <Button variant="secondary" onClick={handleCancel}>
+          <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
           <Button
             variant="primary"
             autoFocus
+            disabled={selectedPages.length === 0}
             onClick={() => handleSubmit(selectedPages)}
           >
             Select
@@ -258,13 +257,10 @@ QuestionPicker.propTypes = {
   showSearch: PropTypes.bool,
   isOpen: PropTypes.bool,
   /**
-   * Called when:
-   *
-   * - the 'Cancel' button is pressed;
-   * - or when the 'x' button is pressed;
-   * - or when when the 'Select' button  is pressed (after the 'onSubmit' function is called).
+   * Called when the 'x' button is pressed;
    */
   onClose: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   /**
    * Called when the 'Select' button is pressed (before the 'onClose' function is called).
    *

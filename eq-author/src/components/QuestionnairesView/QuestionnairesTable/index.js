@@ -20,6 +20,7 @@ const ScrollContainer = styled.div`
 
 const QuestionnairesTable = ({
   questionnaires,
+  selectedQuestionnaire,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   autoFocusId,
@@ -30,24 +31,25 @@ const QuestionnairesTable = ({
   enabledHeadings,
   onQuestionnaireClick,
   questionnaireModal,
+  variant,
 }) => {
   const [targetQuestionnaire, setTargetQuestionnaire] = useState({});
-  const {
-    trigger: triggerLockModal,
-    component: LockModal,
-  } = useQuestionnaireLockingModal(targetQuestionnaire);
+  const { trigger: triggerLockModal, component: LockModal } =
+    useQuestionnaireLockingModal(targetQuestionnaire);
 
   const handleLock = (questionnaire) => {
     setTargetQuestionnaire(questionnaire);
     triggerLockModal();
   };
 
-  const ConditionalScroll = ({questionnaireModal, wrapper, children}) => questionnaireModal ? wrapper(children) : children;
+  const ConditionalScroll = ({ questionnaireModal, wrapper, children }) =>
+    questionnaireModal ? wrapper(children) : children;
 
   return (
-    <ConditionalScroll 
+    <ConditionalScroll
       questionnaireModal={questionnaireModal}
-      wrapper={children => <ScrollContainer>{children}</ScrollContainer>}>
+      wrapper={(children) => <ScrollContainer>{children}</ScrollContainer>}
+    >
       <Panel>
         <QuestionnaireTable
           onSortClick={onSortQuestionnaires}
@@ -56,6 +58,7 @@ const QuestionnairesTable = ({
           currentSortColumn={sortColumn}
           tableHeadings={tableHeadings}
           questionnaires={questionnaires}
+          selectedQuestionnaire={selectedQuestionnaire}
           autoFocusId={autoFocusId}
           onDeleteQuestionnaire={onDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}
@@ -63,6 +66,7 @@ const QuestionnairesTable = ({
           enabledHeadings={enabledHeadings}
           onRowClick={onQuestionnaireClick}
           questionnaireModal={questionnaireModal}
+          variant={variant}
         />
         <LockModal />
       </Panel>
@@ -107,6 +111,8 @@ QuestionnairesTable.propTypes = {
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+  variant: PropTypes.string,
 };
 
 export default QuestionnairesTable;

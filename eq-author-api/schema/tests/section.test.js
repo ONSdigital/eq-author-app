@@ -163,17 +163,18 @@ describe("section", () => {
       });
     });
 
-    it("should resolve title to empty string if navigation is off", async () => {
+    it("should resolve title string if navigation is off", async () => {
       ctx.questionnaire.sections[1].title = "Test title";
       queriedSection = await querySection(ctx, questionnaire.sections[1].id);
       expect(queriedSection).toMatchObject({
         title: "Test title",
         displayName: "Alias",
       });
+      ctx.questionnaire.sections[1].title = "Test title";
       ctx.questionnaire.navigation = false;
       queriedSection = await querySection(ctx, questionnaire.sections[1].id);
       expect(queriedSection).toMatchObject({
-        title: "",
+        title: "Test title",
         displayName: "Alias",
       });
     });
@@ -233,6 +234,26 @@ describe("section", () => {
 
         questionnaire = ctx.questionnaire;
         section = questionnaire.sections[0];
+      });
+
+      it("should not validate the section title if Hub is off", async () => {
+        ctx = await buildContext({
+          sections: [
+            {
+              title: "",
+            },
+          ],
+          hub: false,
+        });
+
+        questionnaire = ctx.questionnaire;
+        const section = questionnaire.sections[0];
+
+        const queriedSection = await querySection(ctx, section.id);
+        expect(queriedSection.validationErrorInfo).toMatchObject({
+          totalCount: 0,
+        });
+        expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
       it("should be valid if neither introduction title nor introduction content are populated", async () => {

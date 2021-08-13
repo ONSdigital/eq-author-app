@@ -25,6 +25,7 @@ const STORED_KEYS = [
 
 const QuestionnairesView = ({
   questionnaires,
+  selectedQuestionnaire,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
@@ -32,6 +33,7 @@ const QuestionnairesView = ({
   enabledHeadings,
   onQuestionnaireClick,
   padding,
+  variant,
   questionnaireModal,
 }) => {
   const questionnairesRef = useRef(questionnaires);
@@ -109,14 +111,16 @@ const QuestionnairesView = ({
         canCreateQuestionnaire={canCreateQuestionnaire}
         padding={padding}
       />
-      {isEmpty(state.questionnaires) ? (
+      {isEmpty(state.questionnaires) && (
         <NoResultsFiltered
           searchTerm={state.searchTerm}
           isFiltered={state.isFiltered}
         />
-      ) : (
+      )}
+      {!isEmpty(state.questionnaires) && (
         <QuestionnairesTable
           questionnaires={state.currentPage}
+          selectedQuestionnaire={selectedQuestionnaire}
           onDeleteQuestionnaire={handleDeleteQuestionnaire}
           onDuplicateQuestionnaire={onDuplicateQuestionnaire}
           onSortQuestionnaires={handleSortQuestionnaires}
@@ -127,17 +131,19 @@ const QuestionnairesView = ({
           enabledHeadings={enabledHeadings}
           onQuestionnaireClick={onQuestionnaireClick}
           questionnaireModal={questionnaireModal}
+          variant={variant}
         />
       )}
-        <PaginationNav
-              countOnPage={state.currentPage ? state.currentPage.length : 0}
-              totalCount={state.questionnaires.length}
-              pageCount={state.pages.length}
-              currentPageIndex={state.currentPageIndex}
-              onPageChange={(newPage) =>
-                dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
-              }
-            />
+      <PaginationNav
+        countOnPage={state.currentPage ? state.currentPage.length : 0}
+        totalCount={state.questionnaires.length}
+        pageCount={state.pages.length}
+        currentPageIndex={state.currentPageIndex}
+        onPageChange={(newPage) =>
+          dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
+        }
+        padding={padding}
+      />
     </>
   );
 };
@@ -154,7 +160,8 @@ QuestionnairesView.propTypes = {
   enabledHeadings: PropTypes.array.isRequired, // eslint-disable-line
   onQuestionnaireClick: PropTypes.func,
   padding: PropTypes.string,
-
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+  variant: PropTypes.string,
 };
 
 export default QuestionnairesView;

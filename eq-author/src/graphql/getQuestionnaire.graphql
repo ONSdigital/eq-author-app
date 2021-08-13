@@ -16,6 +16,7 @@ query GetQuestionnaire($input: QueryInput!) {
         pages {
           id
           title
+          alias
           position
           displayName
         }
