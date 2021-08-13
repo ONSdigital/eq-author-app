@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flatMap } from "lodash";
 import { groupBy, getOr } from "lodash/fp";
+import { useMutation } from "@apollo/react-hooks";
 
 import { colors } from "constants/theme";
 import { UNIT } from "constants/answer-types";
@@ -25,6 +26,8 @@ import MultiLineField from "../../MultiLineField";
 import Decimal from "../../Decimal";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
+
+import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
 
 const ValidationWarning = styled(IconText)`
   color: ${colors.red};
@@ -85,6 +88,14 @@ const NumberProperties = ({
     .map(({ field }) => field)
     .includes("unit");
 
+  const handleUnitChange = (type, properties) => {
+    updateAnswersOfType({
+      variables: { input: { type, questionPageId: page.id, properties } },
+    });
+  };
+
+  const [updateAnswersOfType] = useMutation(updateAnswersOfTypeMutation);
+
   return (
     <Collapsible
       title={`${answer.type} properties`}
@@ -123,7 +134,7 @@ const NumberProperties = ({
                 filter={filterUnitOptions}
                 placeholder={"Select a unit type"}
                 updateOption={(element) => {
-                  handleChange(answer.type, {
+                  handleUnitChange(answer.type, {
                     unit: element && element.children[0]?.getAttribute("value"),
                   });
                 }}
