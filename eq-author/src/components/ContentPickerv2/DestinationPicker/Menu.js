@@ -34,7 +34,7 @@ export const tabTitles = {
 
 const { Enter, Space } = keyCodes;
 
-const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
+const otherDestinations = ({ logicalDestinations }, questionnaire) => {
   const dest = logicalDestinations(questionnaire).map((item) => {
     item.displayName = destinationKey[item.id];
     return item;
