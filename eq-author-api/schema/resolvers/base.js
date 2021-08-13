@@ -376,6 +376,14 @@ const Resolvers = {
         ctx.questionnaire.themeSettings.themes.push(theme);
       }
       theme.enabled = true;
+
+      const openThemes = ctx.questionnaire.themeSettings.themes.filter(
+        (theme) => theme.enabled === true
+      );
+      if (openThemes.length === 1) {
+        ctx.questionnaire.themeSettings.previewTheme = shortName;
+      }
+
       return theme;
     }),
     updateTheme: createMutation((root, { input }, ctx) => {

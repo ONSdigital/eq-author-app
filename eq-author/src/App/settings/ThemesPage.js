@@ -127,26 +127,7 @@ const ThemesPage = ({ questionnaire }) => {
     });
   };
 
-  const toggleTheme = ({ shortName, enabled, themes, questionnaireId }) => {
-    // console.log(
-    //   "toggleTheme : shortName enabled themes questionnaireId previewTheme = ",
-    //   shortName,
-    //   enabled,
-    //   themes,
-    //   questionnaireId,
-    //   previewTheme
-    // );
-    const openThemes = themes.filter((theme) => theme.enabled);
-    const openThemeCount = openThemes.length + (enabled ? -1 : 1);
-    // console.log("toggleTheme : ", openThemeCount, previewTheme);
-    if (openThemeCount === 1) {
-      console.log("UPDATE PREVIEW THEME", questionnaireId, shortName, enabled);
-
-      updatePreviewTheme({
-        variables: { input: { questionnaireId, previewTheme: shortName } },
-      });
-    }
-
+  const toggleTheme = ({ shortName, enabled }) => {
     const mutation = enabled ? disableTheme : enableTheme;
     mutation({
       variables: { input: { questionnaireId: id, shortName } },
@@ -184,9 +165,7 @@ const ThemesPage = ({ questionnaire }) => {
           key={`${shortName}-toggle`}
           title={THEME_TITLES[shortName]}
           isOpen={enabled}
-          onChange={() =>
-            toggleTheme({ shortName, enabled, themes, questionnaireId })
-          }
+          onChange={() => toggleTheme({ shortName, enabled })}
           data-test={`${shortName}-toggle`}
           headerContent={
             enabled && (
