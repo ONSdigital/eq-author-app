@@ -90,11 +90,7 @@ export const AnswerProperties = ({
         <DurationProperties
           answer={answer}
           id="duration"
-          onChange={({ value: unit }) => {
-            handleChange(answer.type, {
-              unit,
-            });
-          }}
+          onChange={handleChange("required")}
           unit={answer.properties.unit}
           getId={getId}
         />
