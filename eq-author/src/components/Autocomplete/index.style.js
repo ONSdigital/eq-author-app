@@ -47,7 +47,7 @@ export const RoundedInput = styled(Input)`
   ${({ hasError }) =>
     hasError &&
     css`
-      border-color: ${colors.red};
+      border-color: ${colors.errorPrimary};
     `}
   ${({ borderless }) =>
     borderless &&

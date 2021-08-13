@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { colors } from "constants/theme";
 
 const Info = styled.div`
   border: none;
-  border-left: 8px solid #0f8243;
+  border-left: 8px solid ${colors.green};
   color: #222;
-  background: #edf4f0;
+  background: ${colors.lightGreen};
   padding: 1rem;
   margin-bottom: 2rem;
 `;

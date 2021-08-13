@@ -7,7 +7,6 @@ import getIdForObject from "utils/getIdForObject";
 
 import Accordion from "components/Accordion";
 import { Autocomplete } from "components/Autocomplete";
-import IconText from "components/IconText";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import AnswerProperties from "./AnswerProperties";
@@ -24,6 +23,7 @@ import Decimal from "./Decimal";
 import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
+import ValidationError from "components/ValidationError";
 
 import {
   characterErrors,
@@ -50,16 +50,6 @@ const AnswerPropertiesContainer = styled.div`
     margin-bottom: 0.5em;
     border: 0;
   }
-`;
-
-const ValidationWarning = styled(IconText)`
-  color: ${colors.red};
-  margin-top: 0.5em;
-  justify-content: normal;
-`;
-
-const ValidationWarningUnit = styled(ValidationWarning)`
-  margin-top: -0.5em;
 `;
 
 const Padding = styled.div`
@@ -139,11 +129,7 @@ const lengthValueError = (errorCode) => {
 
   const { testId, error } = lengthErrors[errorCode];
 
-  return (
-    <ValidationWarning icon={ValidationErrorIcon} data-test={testId}>
-      {error}
-    </ValidationWarning>
-  );
+  return <ValidationError test={testId}>{error}</ValidationError>;
 };
 
 export const GroupedAnswerProperties = ({ page }) => {
@@ -194,9 +180,9 @@ export const GroupedAnswerProperties = ({ page }) => {
             />
           </InlineField>
           {hasDecimalInconsistency && (
-            <ValidationWarning icon={ValidationErrorIcon}>
+            <ValidationError>
               {characterErrors.DECIMAL_MUST_BE_SAME}
-            </ValidationWarning>
+            </ValidationError>
           )}
           {answerType === UNIT && (
             <>
@@ -223,12 +209,9 @@ export const GroupedAnswerProperties = ({ page }) => {
                 />
               </MultiLineField>
               {hasUnitError && (
-                <ValidationWarningUnit
-                  icon={ValidationErrorIcon}
-                  data-test="unitRequired"
-                >
+                <ValidationError icon={ValidationErrorIcon} test="unitRequired">
                   {SELECTION_REQUIRED}
-                </ValidationWarningUnit>
+                </ValidationError>
               )}
             </>
           )}

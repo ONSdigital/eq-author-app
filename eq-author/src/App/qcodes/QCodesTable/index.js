@@ -44,7 +44,7 @@ import {
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
-  color: ${colors.darkGrey};
+  color: ${colors.text};
   word-break: break-word;
 `;
 
@@ -52,9 +52,9 @@ const ErrorWrappedInput = styled(TableInput)`
   ${({ hasError }) =>
     hasError &&
     `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
   `}
 `;
 
@@ -161,7 +161,7 @@ const Row = memo((props) => {
             hasError={Boolean(errorMessage)}
           />
           {errorMessage && (
-            <QcodeValidationError right>{errorMessage}</QcodeValidationError>
+            <QcodeValidationError>{errorMessage}</QcodeValidationError>
           )}
         </SpacedTableColumn>
       )}

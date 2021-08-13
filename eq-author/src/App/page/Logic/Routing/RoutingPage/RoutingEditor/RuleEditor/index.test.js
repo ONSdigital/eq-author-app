@@ -233,7 +233,7 @@ describe("RuleEditor", () => {
 
     const dropdown = getByTestId("match-select");
 
-    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.red}`);
+    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.errorPrimary}`);
   });
 
   it("should delete expression group's operator iff penultimate expression deleted", () => {

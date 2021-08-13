@@ -5,7 +5,7 @@ import AutoResizeTextArea from "react-textarea-autosize";
 import withChangeHandler from "components/Forms/withChangeHandler";
 import { invoke } from "lodash";
 import { sharedStyles } from "components/Forms/css";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 
 const ENTER_KEY = 13;
 
@@ -30,7 +30,6 @@ class WrappingInput extends React.Component {
     bold: PropTypes.bool,
     placeholder: PropTypes.string,
     errorValidationMsg: PropTypes.string,
-    errorAlignLeft: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -51,13 +50,7 @@ class WrappingInput extends React.Component {
   };
 
   render() {
-    const {
-      bold,
-      placeholder,
-      errorValidationMsg,
-      errorAlignLeft,
-      ...otherProps
-    } = this.props;
+    const { bold, placeholder, errorValidationMsg, ...otherProps } = this.props;
     return (
       <StyleContext
         bold={bold}
@@ -71,9 +64,7 @@ class WrappingInput extends React.Component {
           aria-invalid={Boolean(errorValidationMsg).toString()}
         />
         {errorValidationMsg && (
-          <ErrorInline left={Boolean(errorAlignLeft)}>
-            {errorValidationMsg}
-          </ErrorInline>
+          <ValidationError>{errorValidationMsg}</ValidationError>
         )}
       </StyleContext>
     );

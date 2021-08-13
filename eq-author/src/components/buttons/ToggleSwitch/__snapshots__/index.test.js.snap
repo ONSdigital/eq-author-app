@@ -9,7 +9,7 @@ exports[`ToggleSwitch should render 1`] = `
   -ms-flex-align: center;
   align-items: center;
   display: none;
-  color: #333333;
+  color: #222222;
   font-weight: 600;
 }
 
@@ -30,7 +30,7 @@ exports[`ToggleSwitch should render 1`] = `
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
-  color: #333333;
+  color: #222222;
   display: block;
   width: 100%;
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
@@ -224,7 +224,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   -ms-flex-align: center;
   align-items: center;
   display: none;
-  color: #333333;
+  color: #222222;
   font-weight: 600;
 }
 
@@ -245,7 +245,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
-  color: #333333;
+  color: #222222;
   display: block;
   width: 100%;
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
