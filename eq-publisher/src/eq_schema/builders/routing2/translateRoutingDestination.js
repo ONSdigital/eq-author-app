@@ -21,7 +21,6 @@ const getNextGroupSection = (pageId, ctx) => {
 
   const currentPageIndex = findIndex(pages, { id: pageId });
   const currentPage = pages[currentPageIndex];
-  const nextPage = pages[currentPageIndex + 1];
 
   // grab only elements in the array after currentPageIndex
   const afterCurrentPage = pages.slice(currentPageIndex);
