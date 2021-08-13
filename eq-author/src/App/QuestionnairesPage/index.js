@@ -58,11 +58,19 @@ const QuestionnairesPage = ({
   });
 
   if (loading) {
-    return <Loading height="24.25rem">Questionnaires loading…</Loading>;
+    return (
+      <Layout title="Questionnaires">
+        <Loading height="24.25rem">Questionnaires loading…</Loading>
+      </Layout>
+    );
   }
 
   if (error || !data) {
-    return <Error>Oops! Questionnaires could not be found</Error>;
+    return (
+      <Layout title="Questionnaires">
+        <Error>Oops! Questionnaires could not be found</Error>
+      </Layout>
+    );
   }
   const handleClick = (questionnaireId) =>
     history.push(
