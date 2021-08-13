@@ -14,7 +14,7 @@ const StyledInlineField = styled(Field)`
 
 const InlineField = ({ id, label, children, ...otherProps }) => (
   <StyledInlineField key={id} {...otherProps}>
-    <Label bold={true} inline htmlFor={id}>
+    <Label bold inline htmlFor={id}>
       {label}
     </Label>
     {children}

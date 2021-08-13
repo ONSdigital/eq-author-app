@@ -208,7 +208,7 @@ class AnswerEditor extends React.Component {
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
         {/* {this.props.renderPanel ? this.props.renderPanel() : null} */}
 
-        <AnswerProperties answer={this.props.answer} />
+        <AnswerProperties answer={this.props.answer} page={this.props.page} />
       </Answer>
     );
   }
@@ -227,6 +227,7 @@ AnswerEditor.propTypes = {
   onMoveUp: PropTypes.func.isRequired,
   onMoveDown: PropTypes.func.isRequired,
   renderPanel: PropTypes.func,
+  page: PropTypes.object, //eslint-disable-line
 };
 
 AnswerEditor.fragments = {

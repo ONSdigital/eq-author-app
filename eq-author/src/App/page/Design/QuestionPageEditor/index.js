@@ -116,6 +116,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
           renderPanel={renderPanel}
+          page={page}
         />
       </div>
 

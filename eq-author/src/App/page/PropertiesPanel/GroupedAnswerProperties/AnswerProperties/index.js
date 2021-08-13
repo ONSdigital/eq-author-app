@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
+import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { getOr } from "lodash/fp";
 
@@ -22,6 +23,7 @@ const getId = (name, id) => `answer-${id}-${name}`;
 
 const propTypes = {
   answer: CustomPropTypes.answer.isRequired,
+  page: PropTypes.object, //eslint-disable-line
 };
 
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
@@ -29,6 +31,7 @@ const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 export const AnswerProperties = ({
   answer: { id, properties, validation, type },
   answer,
+  page,
 }) => {
   const [onUpdateAnswer] = useMutation(updateAnswerMutation);
 
@@ -65,11 +68,13 @@ export const AnswerProperties = ({
     <>
       {(type === answerTypes.NUMBER ||
         type === answerTypes.CURRENCY ||
-        type === answerTypes.PERCENTAGE) && (
+        type === answerTypes.PERCENTAGE ||
+        type === answerTypes.UNIT) && (
         <NumberProperties
           answer={answer}
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
+          page={page}
         />
       )}
       {type === answerTypes.DATE && (

@@ -22,7 +22,7 @@ export const AnswersEditor = ({
   onAddExclusive,
   onDeleteAnswer,
   moveAnswer,
-  renderPanel,
+  page,
 }) => {
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
@@ -41,7 +41,7 @@ export const AnswersEditor = ({
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={onDeleteAnswer}
             multipleAnswers={multipleAnswers}
-            renderPanel={renderPanel}
+            page={page}
           />
         )}
       </Reorder>
@@ -59,6 +59,7 @@ AnswersEditor.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onDeleteAnswer: PropTypes.func.isRequired,
   moveAnswer: PropTypes.func.isRequired,
+  page: PropTypes.object, //eslint-disable-line
 };
 
 AnswersEditor.fragments = {
