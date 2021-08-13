@@ -33,7 +33,6 @@ import {
   SURVEY_ID_ERRORS,
 } from "constants/validationMessages";
 
-import UPDATE_PREVIEW_THEME from "./graphql/updatePreviewTheme.graphql";
 import ValidationError from "components/ValidationError";
 
 const Container = styled.div`
