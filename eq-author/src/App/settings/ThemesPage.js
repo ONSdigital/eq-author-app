@@ -109,7 +109,6 @@ const ThemesPage = ({ questionnaire }) => {
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [enableTheme] = useMutation(enableThemeMutation);
   const [disableTheme] = useMutation(disableThemeMutation);
-  const [updatePreviewTheme] = useMutation(UPDATE_PREVIEW_THEME);
   const [questionnaireId, setQuestionnaireId] = useState(surveyId);
   const params = useParams();
 
