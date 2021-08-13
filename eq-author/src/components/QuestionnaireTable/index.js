@@ -11,6 +11,14 @@ const TableWrapper = styled.table`
   border-collapse: collapse;
   table-layout: fixed;
   text-align: left;
+
+  ${({ variant }) =>
+    variant === "selectModal" &&
+    `
+    height: 17em;
+    overflow-y: scroll;
+    display: block;
+  `}
 `;
 
 const QuestionnaireTable = ({
@@ -19,6 +27,7 @@ const QuestionnaireTable = ({
   sortOrder,
   currentSortColumn,
   questionnaires,
+  selectedQuestionnaire,
   autoFocusId,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
@@ -26,19 +35,22 @@ const QuestionnaireTable = ({
   enabledHeadings,
   clickable,
   onRowClick,
-  questionnaireModal
+  questionnaireModal,
+  variant,
 }) => {
   return (
-    <TableWrapper>
+    <TableWrapper variant={variant}>
       <TableHead
         onSortClick={onSortClick}
         onReverseClick={onReverseClick}
         sortOrder={sortOrder}
         currentSortColumn={currentSortColumn}
         enabledHeadings={enabledHeadings}
+        sticky={variant === "selectModal"}
       />
       <TableBody
         questionnaires={questionnaires}
+        selectedQuestionnaire={selectedQuestionnaire}
         autoFocusId={autoFocusId}
         onDeleteQuestionnaire={onDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
@@ -67,6 +79,8 @@ QuestionnaireTable.propTypes = {
   clickable: PropTypes.bool,
   onRowClick: PropTypes.func.isRequired,
   questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+  variant: PropTypes.string,
 };
 
 QuestionnaireTable.defaultProps = {

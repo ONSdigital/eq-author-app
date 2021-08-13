@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
 import { flowRight } from "lodash";
+
+import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import { useHistory } from "react-router-dom";
 import { buildQuestionnairePath } from "utils/UrlUtils";
@@ -15,7 +16,9 @@ import * as Headings from "constants/table-headings";
 import QuestionnairesTable from "components/QuestionnairesView/QuestionnairesTable";
 import QuestionnairesView from "components/QuestionnairesView";
 
-import withDeleteQuestionnaire from "./withDeleteQuestionnaire";
+import deleteQuestionnaireMutation from "graphql/deleteQuestionnaire.graphql";
+
+import { withShowToast } from "components/Toasts";
 import withCreateQuestionnaire from "./withCreateQuestionnaire";
 import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
 
@@ -42,13 +45,25 @@ const enabledHeadings = [
 ];
 
 const QuestionnairesPage = ({
-  onDeleteQuestionnaire,
+  showToast,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
 }) => {
   useLockStatusSubscription();
-
   const history = useHistory();
+  const [deleteQuestionnaire] = useMutation(deleteQuestionnaireMutation);
+
+  const { error, data, loading, refetch } = useQuery(QUESTIONNAIRES_QUERY, {
+    fetchPolicy: "network-only",
+  });
+
+  if (loading) {
+    return <Loading height="24.25rem">Questionnaires loading…</Loading>;
+  }
+
+  if (error || !data) {
+    return <Error>Oops! Questionnaires could not be found</Error>;
+  }
   const handleClick = (questionnaireId) =>
     history.push(
       buildQuestionnairePath({
@@ -56,46 +71,36 @@ const QuestionnairesPage = ({
       })
     );
 
+  const onDeleteQuestionnaire = (id) => {
+    deleteQuestionnaire({ variables: { input: { id } } })
+      .then(() => showToast("Questionnaire deleted"))
+      .then(() => refetch());
+  };
+
   return (
     <Layout title="Questionnaires">
-      <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
-        {(response) => {
-          const { loading, error, data } = response;
-
-          if (loading) {
-            return <Loading height="24.25rem">Questionnaires loading…</Loading>;
-          }
-
-          if (error) {
-            return <Error>Oops! Questionnaires could not be found</Error>;
-          }
-
-          return (
-            <QuestionnairesView
-              questionnaires={data.questionnaires}
-              onDeleteQuestionnaire={onDeleteQuestionnaire}
-              onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-              onCreateQuestionnaire={onCreateQuestionnaire}
-              enabledHeadings={enabledHeadings}
-              onQuestionnaireClick={handleClick}
-              canCreateQuestionnaire
-              padding="large"
-            />
-          );
-        }}
-      </Query>
+      <QuestionnairesView
+        questionnaires={data.questionnaires}
+        onDeleteQuestionnaire={onDeleteQuestionnaire}
+        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        onCreateQuestionnaire={onCreateQuestionnaire}
+        enabledHeadings={enabledHeadings}
+        onQuestionnaireClick={handleClick}
+        canCreateQuestionnaire
+        padding="large"
+      />
     </Layout>
   );
 };
 
 QuestionnairesPage.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
-  onDeleteQuestionnaire: PropTypes.func.isRequired,
+  showToast: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
 };
 
 export default flowRight(
+  withShowToast,
   withCreateQuestionnaire,
-  withDuplicateQuestionnaire,
-  withDeleteQuestionnaire
+  withDuplicateQuestionnaire
 )(QuestionnairesPage);

@@ -11,7 +11,7 @@ import {
 import DragAndDrop from "components/DragAndDrop";
 
 export default {
-  title: "Patterns/Drag and drop",
+  title: "Examples/Drag and drop",
   component: DragAndDrop,
   parameters: {
     docs: {

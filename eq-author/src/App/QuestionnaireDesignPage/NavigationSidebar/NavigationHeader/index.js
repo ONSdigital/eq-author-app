@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { withRouter, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import gql from "graphql-tag";
+
 import { flowRight } from "lodash";
-import { useNavigationCallbacks } from "components/NavigationCallbacks";
-
-import { useQuestionnaire } from "components/QuestionnaireContext";
-
 import { getPageById, getFolderById } from "utils/questionnaireUtils";
-
 import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
+import ImportingContent from "App/importingContent";
+
+import { useNavigationCallbacks } from "components/NavigationCallbacks";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 import AddMenu from "../AddMenu/AddMenu";
 
 import withCreateSection from "enhancers/withCreateSection";
@@ -24,13 +24,13 @@ export const UnwrappedNavigationHeader = ({
   onAddSection,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const [importingContent, setImportingContent] = useState(false);
+  const [targetInsideFolder, setTargetInsideFolder] = useState(false);
+
   const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
-  const {
-    onAddQuestionPage,
-    onAddFolder,
-    onAddCalculatedSummaryPage,
-  } = useNavigationCallbacks();
+  const { onAddQuestionPage, onAddFolder, onAddCalculatedSummaryPage } =
+    useNavigationCallbacks();
 
   const canAddQuestionCalculatedSummmaryPagesAndFolder = [
     PAGE,
@@ -48,6 +48,8 @@ export const UnwrappedNavigationHeader = ({
     canAddQuestionConfirmation =
       page?.pageType === QuestionPage && !page?.confirmation;
   }
+
+  const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const handleAddQuestionPage = (createInsideFolder) => {
     setOpenMenu(!openMenu);
@@ -74,28 +76,47 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
+  const handleStartImportingContent = (targetInsideFolder) => {
+    setTargetInsideFolder(targetInsideFolder);
+    setImportingContent(true);
+    setOpenMenu(!openMenu);
+  };
+
+  const getQuestionnaires = () => {};
+
   const isFolder = entityName === FOLDER;
 
   return (
-    <AddMenu
-      data-test="add-menu"
-      addMenuOpen={openMenu}
-      onAddMenuToggle={() => setOpenMenu(!openMenu)}
-      onAddQuestionPage={handleAddQuestionPage}
-      onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
-      onAddSection={handleAddSection}
-      onAddQuestionConfirmation={handleAddQuestionConfirmation}
-      onAddFolder={handleAddFolder}
-      canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
-      canAddCalculatedSummaryPage={
-        canAddQuestionCalculatedSummmaryPagesAndFolder
-      }
-      canAddQuestionConfirmation={canAddQuestionConfirmation}
-      canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
-      canAddSection={canAddSection}
-      isFolder={isFolder}
-      folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
-    />
+    <>
+      <AddMenu
+        data-test="add-menu"
+        addMenuOpen={openMenu}
+        onAddMenuToggle={() => setOpenMenu(!openMenu)}
+        onAddQuestionPage={handleAddQuestionPage}
+        onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
+        onAddSection={handleAddSection}
+        onAddQuestionConfirmation={handleAddQuestionConfirmation}
+        onAddFolder={handleAddFolder}
+        onStartImportingContent={handleStartImportingContent}
+        canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddCalculatedSummaryPage={
+          canAddQuestionCalculatedSummmaryPagesAndFolder
+        }
+        canAddQuestionConfirmation={canAddQuestionConfirmation}
+        canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddSection={canAddSection}
+        canImportContent={canImportContent}
+        isFolder={isFolder}
+        folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
+      />
+      {importingContent && (
+        <ImportingContent
+          questionnaires={getQuestionnaires()}
+          stopImporting={() => setImportingContent(false)}
+          targetInsideFolder={targetInsideFolder}
+        />
+      )}
+    </>
   );
 };
 
