@@ -80,7 +80,16 @@ export const AnswerProperties = ({
       {type === answerTypes.DATE && (
         <DateFormat
           answer={answer}
-          id={getId("date-format", id)}
+          label="Date type"
+          onChange={handleChange("format")}
+          value={properties.format}
+          getId={getId}
+        />
+      )}
+      {type === answerTypes.DURATION && (
+        <DateFormat
+          answer={answer}
+          label="Field"
           onChange={handleChange("format")}
           value={properties.format}
           getId={getId}

@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
 
+import { DATE } from "constants/answer-types";
+
 import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
 
@@ -11,15 +13,19 @@ import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
-const DateFormat = ({ answer, id, value, onChange, getId }) => (
-  <Collapsible variant="content" title="Date properties" withoutHideThis>
-    <MultiLineField id={getId("date-format", id)} label={"Date type"}>
+const DateFormat = ({ answer, label, value, onChange, getId }) => (
+  <Collapsible
+    variant="content"
+    title={`${answer.type} properties`}
+    withoutHideThis
+  >
+    <MultiLineField id={getId("date-format", answer.id)} label={label}>
       <Select
         data-test="select"
         value={value}
         onChange={onChange}
-        id={id}
-        name={id}
+        id={getId("date-format", answer.id)}
+        name={getId("date-format", answer.id)}
       >
         <option
           data-test="day-month-year"
@@ -34,15 +40,20 @@ const DateFormat = ({ answer, id, value, onChange, getId }) => (
         </option>
       </Select>
     </MultiLineField>
-    <MultiLineField id={getId("date-format", id)} label={"Validation settings"}>
-      <AnswerValidation answer={answer} />
-    </MultiLineField>
+    {answer.type === DATE && (
+      <MultiLineField
+        id={getId("date-format", answer.id)}
+        label={"Validation settings"}
+      >
+        <AnswerValidation answer={answer} />
+      </MultiLineField>
+    )}
   </Collapsible>
 );
 
 DateFormat.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   getId: PropTypes.func,
