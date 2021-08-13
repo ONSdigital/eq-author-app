@@ -22,10 +22,8 @@ const getNextGroupSection = (pageId, ctx) => {
   const currentPageIndex = findIndex(pages, { id: pageId });
   const currentPage = pages[currentPageIndex];
 
-  // grab only elements in the array after currentPageIndex
   const afterCurrentPage = pages.slice(currentPageIndex);
 
-  // return first element that doesn't match id
   const nextSection = afterCurrentPage.find(
     (page) => currentPage.sectionId !== page.sectionId
   );
