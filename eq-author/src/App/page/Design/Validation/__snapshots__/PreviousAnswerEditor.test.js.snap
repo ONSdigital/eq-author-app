@@ -19,9 +19,7 @@ exports[`Custom Editor should render 1`] = `
       onSubmit={[MockFunction]}
     />
   </FieldWithInclude>
-  <ValidationError
-    right={false}
-  >
+  <ValidationError>
     Answer required
   </ValidationError>
 </Fragment>

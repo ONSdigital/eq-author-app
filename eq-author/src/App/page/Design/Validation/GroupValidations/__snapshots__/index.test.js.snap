@@ -15,9 +15,7 @@ exports[`GroupValidations should render 1`] = `
       </SidebarButton__Title>
     </GroupValidations__Details>
   </GroupValidations__TotalButton>
-  <ValidationError
-    right={true}
-  >
+  <ValidationError>
     Value is required
   </ValidationError>
   <GroupValidations__GroupValidationModal

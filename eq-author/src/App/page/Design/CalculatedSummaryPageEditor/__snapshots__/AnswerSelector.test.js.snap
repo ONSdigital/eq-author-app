@@ -10,7 +10,7 @@ exports[`AnswerSelector should render when there are available summary answers 1
       <AnswerSelector__EmptyText>
         Select an answer using the button below.
       </AnswerSelector__EmptyText>
-      <AnswerSelector__ErrorContainer>
+      <AnswerSelector__ErrorButtonContainer>
         <AnswerSelector__EmptyButton
           data-test="answer-selector-empty"
           disabled={false}
@@ -21,9 +21,11 @@ exports[`AnswerSelector should render when there are available summary answers 1
         >
           Select an answer
         </AnswerSelector__EmptyButton>
-        <ErrorInline />
-      </AnswerSelector__ErrorContainer>
+      </AnswerSelector__ErrorButtonContainer>
     </AnswerSelector__Empty>
+    <AnswerSelector__ErrorContainer>
+      <ValidationError />
+    </AnswerSelector__ErrorContainer>
     <QuestionPicker
       data={
         Array [
@@ -130,7 +132,7 @@ exports[`AnswerSelector should render when there are no available summary answer
       <AnswerSelector__EmptyText>
         There are no answers to provide a calculated summary.
       </AnswerSelector__EmptyText>
-      <AnswerSelector__ErrorContainer>
+      <AnswerSelector__ErrorButtonContainer>
         <AnswerSelector__EmptyButton
           data-test="answer-selector-empty"
           disabled={true}
@@ -141,9 +143,11 @@ exports[`AnswerSelector should render when there are no available summary answer
         >
           Select an answer
         </AnswerSelector__EmptyButton>
-        <ErrorInline />
-      </AnswerSelector__ErrorContainer>
+      </AnswerSelector__ErrorButtonContainer>
     </AnswerSelector__Empty>
+    <AnswerSelector__ErrorContainer>
+      <ValidationError />
+    </AnswerSelector__ErrorContainer>
     <QuestionPicker
       data={Array []}
       isOpen={false}

@@ -2,16 +2,16 @@ import { css } from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
 const invalidStyle = css`
-  border-color: ${colors.red};
+  border-color: ${colors.errorPrimary};
   &:focus,
   &:focus-within {
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
   }
   &:hover {
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
   }
 `;
 

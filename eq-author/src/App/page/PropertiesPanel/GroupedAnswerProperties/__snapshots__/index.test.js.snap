@@ -28,11 +28,9 @@ Array [
             value={5}
           />
         </InlineField>
-        <GroupedAnswerProperties__ValidationWarning
-          icon={[Function]}
-        >
+        <ValidationError>
           Enter a decimal that is the same as the associated question page
-        </GroupedAnswerProperties__ValidationWarning>
+        </ValidationError>
       </GroupedAnswerProperties__GroupContainer>
     </GroupedAnswerProperties__Padding>
     <GroupedAnswerProperties__AnswerPropertiesContainer
