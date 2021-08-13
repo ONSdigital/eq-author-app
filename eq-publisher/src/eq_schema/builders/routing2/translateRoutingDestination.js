@@ -31,7 +31,7 @@ const getNextGroupSection = (pageId, ctx) => {
     (page) => currentPage.sectionId !== page.sectionId
   );
 
-  if (isNil(nextPage)) {
+  if (isNil(nextSection)) {
     return {
       group: get(ctx, "questionnaireJson.summary")
         ? "summary-group"
