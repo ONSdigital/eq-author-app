@@ -10,7 +10,7 @@ import AnswerTransition from "./AnswerTransition";
 import AnswerEditor from "./AnswerEditor";
 
 const Margin = styled.div`
-  margin-top: 3em;
+  margin-top: 2em;
 `;
 
 export const AnswersEditor = ({

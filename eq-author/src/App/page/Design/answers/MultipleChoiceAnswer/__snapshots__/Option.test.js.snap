@@ -7,6 +7,63 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
   key="1"
 >
   <div>
+    <Option__ButtonsContainer>
+      <Tooltip
+        content="Move answer up"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          color="secondary"
+          data-test="btn-move-answer-up"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Move answer down"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          color="secondary"
+          data-test="btn-move-answer-down"
+          disabled={true}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Delete option"
+        offset={
+          Object {
+            "bottom": 10,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete option"
+          color="secondary"
+          data-test="btn-delete-option"
+          disabled={true}
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </Option__ButtonsContainer>
     <Option__Flex>
       <MultipleChoice
         type="Radio"
@@ -67,63 +124,6 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         value=""
       />
     </Option__LastOptionField>
-    <Option__ButtonsContainer>
-      <Tooltip
-        content="Move answer up"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          color="secondary"
-          data-test="btn-move-answer-up"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Move answer down"
-        offset={
-          Object {
-            "bottom": 10,
-            "top": 0,
-          }
-        }
-        place="top"
-      >
-        <MoveButton
-          color="secondary"
-          data-test="btn-move-answer-down"
-          disabled={true}
-        >
-          <Component />
-        </MoveButton>
-      </Tooltip>
-      <Tooltip
-        content="Delete option"
-        offset={
-          Object {
-            "bottom": 10,
-          }
-        }
-        place="top"
-      >
-        <DeleteButton
-          aria-label="Delete option"
-          color="secondary"
-          data-test="btn-delete-option"
-          disabled={true}
-          onClick={[Function]}
-          size="medium"
-          type="button"
-        />
-      </Tooltip>
-    </Option__ButtonsContainer>
   </div>
 </Option__StyledOption>
 `;
