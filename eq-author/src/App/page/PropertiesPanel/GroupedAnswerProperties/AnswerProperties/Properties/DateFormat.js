@@ -13,13 +13,13 @@ import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
-const DateFormat = ({ answer, label, value, onChange, getId }) => (
+const DateFormat = ({ answer, value, onChange, getId }) => (
   <Collapsible
     variant="content"
     title={`${answer.type} properties`}
     withoutHideThis
   >
-    <MultiLineField id={getId("date-format", answer.id)} label={label}>
+    <MultiLineField id={getId("date-format", answer.id)} label={"Date type"}>
       <Select
         data-test="select"
         value={value}
@@ -53,7 +53,6 @@ const DateFormat = ({ answer, label, value, onChange, getId }) => (
 
 DateFormat.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  label: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   getId: PropTypes.func,

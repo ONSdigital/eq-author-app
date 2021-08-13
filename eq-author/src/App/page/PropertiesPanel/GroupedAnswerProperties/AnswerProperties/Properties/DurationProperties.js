@@ -23,7 +23,7 @@ const DurationProperties = ({
   const id = getId("duration", answer.id);
   return (
     <Collapsible variant="content" title="Duration properties" withoutHideThis>
-      <InlineField id={id} label={"Required"}>
+      <InlineField id={id} label={"Answer required"}>
         <ToggleProperty
           data-test="answer-properties-required-toggle"
           id={id}
