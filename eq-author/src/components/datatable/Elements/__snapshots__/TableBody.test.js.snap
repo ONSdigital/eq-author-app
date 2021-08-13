@@ -3,7 +3,7 @@
 exports[`TableBody should render 1`] = `
 <DocumentFragment>
   .c0 {
-  color: #333333;
+  color: #222222;
 }
 
 <table>

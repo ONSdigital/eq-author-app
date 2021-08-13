@@ -87,7 +87,7 @@ describe("Text Property", () => {
     expect(inputBox.value).toBe("2000");
   });
 
-  it("when max character is out of range, box border should be red", async () => {
+  it("when max character is out of range, box border should be errorPrimary", async () => {
     props = {
       pageId: "2",
       maxLength: 9,
@@ -96,7 +96,7 @@ describe("Text Property", () => {
     const { getByTestId } = renderTextProperties(props, mocks);
     const inputBox = getByTestId("maxCharacterInput");
 
-    expect(inputBox).toHaveStyle(`border-color: ${colors.red};`);
+    expect(inputBox).toHaveStyle(`border-color: ${colors.errorPrimary};`);
   });
 
   it("when max character is in range, box border should be black", async () => {

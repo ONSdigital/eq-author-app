@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 const MaxCharacters = styled(Input)`
   width: 5em;
-  border-color: ${(props) => (props.invalid ? colors.red : "")};
+  border-color: ${(props) => (props.invalid ? colors.errorPrimary : "")};
   &[type="number"]::-webkit-inner-spin-button,
   &[type="number"]::-webkit-outer-spin-button {
     appearance: none;

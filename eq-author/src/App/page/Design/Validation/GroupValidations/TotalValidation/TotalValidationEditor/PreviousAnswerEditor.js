@@ -36,9 +36,7 @@ const PreviousAnswerEditor = ({ total, onChangeUpdate, errors }) => {
         hasError={Boolean(error)}
       />
       {error && (
-        <ValidationError right={false}>
-          {errorMessages[error.errorCode]}
-        </ValidationError>
+        <ValidationError>{errorMessages[error.errorCode]}</ValidationError>
       )}
     </Field>
   );

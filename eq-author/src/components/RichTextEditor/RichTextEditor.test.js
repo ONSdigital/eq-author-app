@@ -599,7 +599,7 @@ describe("components/RichTextEditor", function () {
         <RichTextEditor {...validationProps} />
       );
 
-      expect(validationWrapper.find("ErrorInline")).toHaveLength(1);
+      expect(validationWrapper.find("ValidationError")).toHaveLength(1);
     });
   });
 });

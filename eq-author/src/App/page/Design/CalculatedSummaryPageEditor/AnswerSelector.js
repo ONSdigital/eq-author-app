@@ -10,7 +10,7 @@ import AnswerPicker from "components/AnswerPicker";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";
-import ErrorInline from "components/ErrorInline";
+import ValidationError from "components/ValidationError";
 import {
   CALCSUM_ANSWER_NOT_SELECTED,
   CALCSUM_SUMMARY_ANSWERS_THE_SAME,
@@ -88,9 +88,9 @@ const SelectButton = styled(Button)`
 `;
 
 const Empty = styled.div`
-  color: #7a7a7a;
+  color: ${colors.calcSumEmptyContent};
   text-align: center;
-  padding: 1em 2em 2em;
+  padding: 1em 2em;
 
   &::before {
     display: block;
@@ -112,10 +112,14 @@ const EmptyText = styled.div`
   margin-bottom: 1em;
 `;
 
-const ErrorContainer = styled.div`
-  border: 1px solid red;
+const ErrorButtonContainer = styled.div`
+  border: 2px solid ${colors.errorPrimary};
   padding: 10px;
   position: relative;
+`;
+
+const ErrorContainer = styled.div`
+  margin-left: 2em;
 `;
 
 const TypeChip = styled(MenuItemType)`
@@ -138,7 +142,7 @@ export const ErrorContext = styled.div`
     props.isInvalid &&
     css`
       margin-bottom: 2.5em;
-      border: 1px solid ${colors.red};
+      border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
 `;
@@ -219,14 +223,14 @@ export const UnwrappedAnswerSelector = ({
                 ))}
               </AnswerList>
               {minOfTwoAnswersError && (
-                <ErrorInline>
+                <ValidationError>
                   {buildLabelError(
                     CALCSUM_ANSWER_NOT_SELECTED,
                     (unit || answers[0].type).toLowerCase(),
                     20,
                     19
                   )}
-                </ErrorInline>
+                </ValidationError>
               )}
             </ErrorContext>
           </SectionListItem>
@@ -249,27 +253,31 @@ export const UnwrappedAnswerSelector = ({
     });
 
     return (
-      <Empty>
-        <EmptyTitle>{`No answers ${
-          availableSummaryAnswers.length ? "selected" : "available"
-        }`}</EmptyTitle>
-        <EmptyText>
-          {availableSummaryAnswers.length
-            ? "Select an answer using the button below."
-            : "There are no answers to provide a calculated summary."}
-        </EmptyText>
+      <>
+        <Empty>
+          <EmptyTitle>{`No answers ${
+            availableSummaryAnswers.length ? "selected" : "available"
+          }`}</EmptyTitle>
+          <EmptyText>
+            {availableSummaryAnswers.length
+              ? "Select an answer using the button below."
+              : "There are no answers to provide a calculated summary."}
+          </EmptyText>
+          <ErrorButtonContainer>
+            <EmptyButton
+              small
+              onClick={handlePickerOpen}
+              data-test="answer-selector-empty"
+              disabled={!availableSummaryAnswers.length}
+            >
+              Select an answer
+            </EmptyButton>
+          </ErrorButtonContainer>
+        </Empty>
         <ErrorContainer>
-          <EmptyButton
-            small
-            onClick={handlePickerOpen}
-            data-test="answer-selector-empty"
-            disabled={!availableSummaryAnswers.length}
-          >
-            Select an answer
-          </EmptyButton>
-          <ErrorInline>{errorValidationMsg}</ErrorInline>
+          <ValidationError>{errorValidationMsg}</ValidationError>
         </ErrorContainer>
-      </Empty>
+      </>
     );
   };
 

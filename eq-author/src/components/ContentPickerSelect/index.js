@@ -25,7 +25,9 @@ export const ContentSelectButton = styled(Button).attrs({
   font-size: 1em;
   font-weight: normal;
   border: ${({ hasError }) =>
-    hasError ? `3px solid ${colors.negative}` : `1px solid ${colors.borders}`};
+    hasError
+      ? `3px solid ${colors.errorPrimary}`
+      : `1px solid ${colors.borders}`};
   background-color: ${colors.white};
   width: 100%;
   justify-content: space-between;

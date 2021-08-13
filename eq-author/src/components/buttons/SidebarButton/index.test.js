@@ -11,7 +11,9 @@ describe("sidebarbutton", () => {
 
   it("should render sidebutton with error", () => {
     const { getByRole } = render(<SidebarButton hasError />);
-    expect(getByRole("button")).toHaveStyle(`border-color: ${colors.red}`);
+    expect(getByRole("button")).toHaveStyle(
+      `border-color: ${colors.errorPrimary}`
+    );
   });
 });
 

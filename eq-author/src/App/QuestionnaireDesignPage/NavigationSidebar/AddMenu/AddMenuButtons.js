@@ -24,8 +24,7 @@ export const AddButton = styled(Button).attrs({
   z-index: 15;
 
   &:focus {
-    outline: 3px solid #fdbd56;
-    outline-offset: -3px;
+    outline: 1px solid ${colors.orange};
   }
 `;
 

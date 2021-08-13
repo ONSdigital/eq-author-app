@@ -27,9 +27,9 @@ export const TotalButton = styled(SidebarButton)`
   ${({ hasError }) =>
     hasError &&
     `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
     border-radius: 4px;
     margin-bottom: 0;
   `}
@@ -156,9 +156,7 @@ class GroupValidations extends Component {
           <Details>{this.renderContents() || <Title>Total</Title>}</Details>
         </TotalButton>
         {error && (
-          <ValidationError right>
-            {errorMessages[error.errorCode]}
-          </ValidationError>
+          <ValidationError>{errorMessages[error.errorCode]}</ValidationError>
         )}
         <GroupValidationModal
           isOpen={this.state.isModalOpen}

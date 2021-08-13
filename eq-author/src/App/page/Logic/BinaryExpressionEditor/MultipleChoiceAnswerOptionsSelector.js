@@ -39,9 +39,9 @@ const MultipleChoiceAnswerOptions = styled.div`
   ${({ hasError }) =>
     hasError &&
     `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
     border-radius: 4px;
     margin-bottom: 0.5em;
   `}
@@ -177,7 +177,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         rightSideErrors[error.errorCode].message;
     }
 
-    return message ? <ValidationError right>{message}</ValidationError> : null;
+    return message ? <ValidationError>{message}</ValidationError> : null;
   };
 
   renderRadioOptionSelector(hasError) {

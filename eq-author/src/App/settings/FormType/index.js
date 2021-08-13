@@ -12,7 +12,7 @@ const StyledInput = styled(Input)`
 
 const renderThemeErrors = (errors) =>
   errors.map(({ errorCode }, index) => (
-    <ValidationError key={index} right>
+    <ValidationError key={index}>
       {THEME_ERROR_MESSAGES[errorCode]}
     </ValidationError>
   ));
