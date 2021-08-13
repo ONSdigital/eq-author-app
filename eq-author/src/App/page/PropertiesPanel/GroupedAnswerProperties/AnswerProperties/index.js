@@ -6,7 +6,7 @@ import { getOr } from "lodash/fp";
 
 import updateAnswerMutation from "graphql/updateAnswer.graphql";
 
-import { DateFormat } from "./Properties";
+import { DateFormat, DurationProperties } from "./Properties";
 import NumberProperties from "./Properties/NumberProperties";
 
 import * as answerTypes from "constants/answer-types";
@@ -87,11 +87,15 @@ export const AnswerProperties = ({
         />
       )}
       {type === answerTypes.DURATION && (
-        <DateFormat
+        <DurationProperties
           answer={answer}
-          label="Field"
-          onChange={handleChange("format")}
-          value={properties.format}
+          id="duration"
+          onChange={({ value: unit }) => {
+            handleChange(answer.type, {
+              unit,
+            });
+          }}
+          unit={answer.properties.unit}
           getId={getId}
         />
       )}
