@@ -82,7 +82,6 @@ const getLogicalDestination = (pageId, { logical }, ctx) => {
         : "confirmation-group",
     };
   } else if (logical === "EndOfCurrentSection") {
-    //TODO return the group ID of the first Group in the next Secion
     return getNextGroupSection(pageId, ctx);
   } else if (logical === "NextPage") {
     return getNextPageDestination(pageId, ctx);
