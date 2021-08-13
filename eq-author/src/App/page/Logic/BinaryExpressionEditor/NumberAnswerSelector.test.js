@@ -140,11 +140,7 @@ describe("NumberAnswerSelector", () => {
       <NumberAnswerSelector hasError {...defaultProps} />
     );
 
-    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "80%");
-    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule(
-      "justify-content",
-      "flex-start"
-    );
+    expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "100%");
     expect(getByText(OPERATOR_REQUIRED)).toBeTruthy();
   });
 });

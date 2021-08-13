@@ -222,7 +222,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
 
     const dropdown = getByTestId("condition-dropdown");
 
-    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.red}`);
+    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.errorPrimary}`);
   });
 
   it("should include or in option label when mutually exclusive", async () => {

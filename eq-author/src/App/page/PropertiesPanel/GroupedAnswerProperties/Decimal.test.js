@@ -25,7 +25,7 @@ describe("Decimal Property", () => {
     props.hasDecimalInconsistency = true;
     const { getByTestId } = render(<Decimal {...props} />);
     expect(getByTestId("number-input")).toHaveStyle(`
-      border-color: ${colors.red};
+      border-color: ${colors.errorPrimary};
     `);
   });
 
