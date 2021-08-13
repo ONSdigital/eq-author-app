@@ -63,12 +63,13 @@ export const AnswerProperties = ({
 
   return (
     <>
-      {type === answerTypes.NUMBER && (
+      {(type === answerTypes.NUMBER ||
+        type === answerTypes.CURRENCY ||
+        type === answerTypes.PERCENTAGE) && (
         <NumberProperties
-          id={getId("required", id)}
+          answer={answer}
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
-          answer={answer}
         />
       )}
       {type === answerTypes.DATE && (

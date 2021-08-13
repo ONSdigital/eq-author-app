@@ -24,49 +24,56 @@ const ValidationWarning = styled(IconText)`
   justify-content: normal;
 `;
 
+const getId = (name, id) => `answer-${id}-${name}`;
+
 const NumberProperties = ({
+  answer,
   hasDecimalInconsistency,
   handleChange,
-  id,
-  answer,
-}) => (
-  <Collapsible title="Number properties" withoutHideThis variant="content">
-    <Column cols={3} gutters={true}>
-      <InlineField id={id} label={"Required"}>
-        <ToggleProperty
-          data-test="answer-properties-required-toggle"
-          id={id}
-          onChange={handleChange}
-          value={answer.properties.required}
-        />
-      </InlineField>
-    </Column>
-    <Column cols={6} gutters={false}>
-      <InlineField id={id} label={"Decimals"}>
-        <Decimal
-          id={id}
-          data-test="decimals"
-          onBlur={(decimals) => {
-            handleChange(answer.type, {
-              decimals,
-            });
-          }}
-          value={answer.properties.decimals}
-          hasDecimalInconsistency={hasDecimalInconsistency}
-        />
-      </InlineField>
-    </Column>
-    {hasDecimalInconsistency && (
-      <ValidationWarning icon={ValidationErrorIcon}>
-        {characterErrors.DECIMAL_MUST_BE_SAME}
-      </ValidationWarning>
-    )}
-    <AnswerValidation answer={answer} />
-  </Collapsible>
-);
+}) => {
+  const id = getId("required", answer.id);
+  return (
+    <Collapsible
+      title={`${answer.type} properties`}
+      withoutHideThis
+      variant="content"
+    >
+      <Column cols={3} gutters>
+        <InlineField id={id} label={"Required"}>
+          <ToggleProperty
+            data-test="answer-properties-required-toggle"
+            id={id}
+            onChange={handleChange}
+            value={answer.properties.required}
+          />
+        </InlineField>
+      </Column>
+      <Column cols={6} gutters={false}>
+        <InlineField id={id} label={"Decimals"}>
+          <Decimal
+            id={id}
+            data-test="decimals"
+            onBlur={(decimals) => {
+              handleChange(answer.type, {
+                decimals,
+              });
+            }}
+            value={answer.properties.decimals}
+            hasDecimalInconsistency={hasDecimalInconsistency}
+          />
+        </InlineField>
+      </Column>
+      {hasDecimalInconsistency && (
+        <ValidationWarning icon={ValidationErrorIcon}>
+          {characterErrors.DECIMAL_MUST_BE_SAME}
+        </ValidationWarning>
+      )}
+      <AnswerValidation answer={answer} />
+    </Collapsible>
+  );
+};
 
 NumberProperties.propTypes = {
-  id: PropTypes.string,
   hasDecimalInconsistency: PropTypes.bool,
   handleChange: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
