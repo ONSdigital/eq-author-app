@@ -206,7 +206,6 @@ class AnswerEditor extends React.Component {
         </AnswerHeader>
 
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
-        {/* {this.props.renderPanel ? this.props.renderPanel() : null} */}
 
         <AnswerProperties answer={this.props.answer} page={this.props.page} />
       </Answer>

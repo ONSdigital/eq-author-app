@@ -39,8 +39,6 @@ const ValidationWarningUnit = styled(ValidationWarning)`
   margin-top: -0.5em;
 `;
 
-const getId = (name, id) => `answer-${id}-${name}`;
-
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
   x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -81,6 +79,7 @@ const NumberProperties = ({
   hasDecimalInconsistency,
   handleChange,
   page,
+  getId,
 }) => {
   const id = getId("required", answer.id);
 
@@ -174,6 +173,7 @@ NumberProperties.propTypes = {
   handleChange: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
+  getId: PropTypes.func,
 };
 
 export default NumberProperties;

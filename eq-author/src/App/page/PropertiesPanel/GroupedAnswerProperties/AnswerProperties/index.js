@@ -8,7 +8,6 @@ import updateAnswerMutation from "graphql/updateAnswer.graphql";
 
 import { DateFormat } from "./Properties";
 import NumberProperties from "./Properties/NumberProperties";
-import MultiLineField from "../MultiLineField";
 
 import * as answerTypes from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
@@ -75,16 +74,17 @@ export const AnswerProperties = ({
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
           page={page}
+          getId={getId}
         />
       )}
       {type === answerTypes.DATE && (
-        <MultiLineField id={getId("date-format", id)} label={"Date type"}>
-          <DateFormat
-            id={getId("date-format", id)}
-            onChange={handleChange("format")}
-            value={properties.format}
-          />
-        </MultiLineField>
+        <DateFormat
+          answer={answer}
+          id={getId("date-format", id)}
+          onChange={handleChange("format")}
+          value={properties.format}
+          getId={getId}
+        />
       )}
     </>
   );
