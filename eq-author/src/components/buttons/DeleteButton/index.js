@@ -20,7 +20,8 @@ const sizes = {
 };
 
 const StyledDeleteButton = styled.button`
-  color: ${(props) => props.color === 'white' ? colors.white : colors.secondary};
+  color: ${(props) =>
+    props.color === "white" ? colors.white : colors.secondary};
   border: none;
   background: transparent;
   cursor: pointer;
@@ -31,6 +32,7 @@ const StyledDeleteButton = styled.button`
 
   &:hover {
     background: ${colors.highlightBlue};
+    color: ${colors.white};
   }
 
   &:focus {
@@ -63,7 +65,7 @@ const DeleteButton = (props) => (
 );
 
 DeleteButton.defaultProps = {
-  color: "secondary", 
+  color: "secondary",
   size: "medium",
   type: "button",
   "aria-label": "Delete",
@@ -71,7 +73,7 @@ DeleteButton.defaultProps = {
 
 DeleteButton.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
-  color: PropTypes.oneOf(["white", "secondary"]), 
+  color: PropTypes.oneOf(["white", "secondary"]),
   type: PropTypes.string,
 };
 
