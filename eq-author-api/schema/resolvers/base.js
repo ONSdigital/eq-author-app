@@ -14,6 +14,7 @@ const {
   first,
   some,
   concat,
+  filter,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
@@ -433,6 +434,12 @@ const Resolvers = {
         ctx.questionnaire.themeSettings.themes.push(theme);
       }
       theme.enabled = true;
+      const themes = filter(ctx.questionnaire.themeSettings.themes, {
+        enabled: true,
+      });
+      if (themes.length === 1) {
+        ctx.questionnaire.themeSettings.previewTheme = shortName;
+      }
       return theme;
     }),
     updateTheme: createMutation((root, { input }, ctx) => {
