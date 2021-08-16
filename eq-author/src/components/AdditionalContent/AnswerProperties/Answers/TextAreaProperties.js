@@ -7,7 +7,7 @@ import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
 
 import Required from "components/AdditionalContent/Required";
-import InlineField from "components/AdditionalContent/InlineField";
+import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 import { TextProperties } from "./";
 
 const TextAreaProperties = ({ answer, page, onChange, getId }) => {

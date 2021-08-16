@@ -19,24 +19,24 @@ import IconText from "components/IconText";
 import { Autocomplete } from "components/Autocomplete";
 import Required from "components/AdditionalContent/Required";
 
-import ValidationErrorIcon from "../../validation-warning-icon.svg?inline";
-import InlineField from "../../InlineField";
-import MultiLineField from "../../MultiLineField";
-import Decimal from "../../Decimal";
+import ValidationError from "components/ValidationError";
+import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
 
-const ValidationWarning = styled(IconText)`
-  color: ${colors.red};
-  margin-top: 0.5em;
-  justify-content: normal;
-`;
+// const ValidationWarning = styled(IconText)`
+//   color: ${colors.red};
+//   margin-top: 0.5em;
+//   justify-content: normal;
+// `;
 
-const ValidationWarningUnit = styled(ValidationWarning)`
-  margin-top: -0.5em;
-`;
+// const ValidationWarningUnit = styled(ValidationWarning)`
+//   margin-top: -0.5em;
+// `;
 
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -140,20 +140,17 @@ const NumberProperties = ({
               />
             </MultiLineField>
             {hasUnitError && (
-              <ValidationWarningUnit
-                icon={ValidationErrorIcon}
-                data-test="unitRequired"
-              >
+              <ValidationError test="unitRequired">
                 {SELECTION_REQUIRED}
-              </ValidationWarningUnit>
+              </ValidationError>
             )}
           </>
         )}
       </Column>
       {hasDecimalInconsistency && (
-        <ValidationWarning icon={ValidationErrorIcon}>
+        <ValidationError>
           {characterErrors.DECIMAL_MUST_BE_SAME}
-        </ValidationWarning>
+        </ValidationError>
       )}
       <AnswerValidation answer={answer} />
     </Collapsible>

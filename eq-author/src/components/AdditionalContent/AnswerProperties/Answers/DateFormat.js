@@ -6,7 +6,7 @@ import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
 import Required from "components/AdditionalContent/Required";
 
-import MultiLineField from "../../MultiLineField";
+import MultiLineField from "../Format/MultiLineField";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 

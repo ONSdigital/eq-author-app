@@ -8,10 +8,13 @@ import updateAnswerMutation from "graphql/updateAnswer.graphql";
 
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
-import { DateFormat, DurationProperties } from "./Properties";
-import NumberProperties from "./Properties/NumberProperties";
-import DateRangeProperties from "./Properties/DateRangeProperties";
-import TextAreaProperties from "./Properties/TextAreaProperties";
+import {
+  DateFormat,
+  DurationProperties,
+} from "components/AdditionalContent/AnswerProperties/Answers";
+import NumberProperties from "components/AdditionalContent/AnswerProperties/Answers/NumberProperties";
+import DateRangeProperties from "components/AdditionalContent/AnswerProperties/Answers/DateRangeProperties";
+import TextAreaProperties from "components/AdditionalContent/AnswerProperties/Answers/TextAreaProperties";
 
 import * as answerTypes from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";

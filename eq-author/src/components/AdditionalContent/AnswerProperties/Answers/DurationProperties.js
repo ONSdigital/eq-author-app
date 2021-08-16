@@ -8,7 +8,7 @@ import Required from "components/AdditionalContent/Required";
 
 import * as durationTypes from "constants/duration-types";
 
-import MultiLineField from "../../MultiLineField";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 
 const DurationProperties = ({
   answer,

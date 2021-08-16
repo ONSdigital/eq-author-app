@@ -5,25 +5,26 @@ import { groupBy, kebabCase, getOr } from "lodash/fp";
 import { flatMap } from "lodash";
 import getIdForObject from "utils/getIdForObject";
 
+import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import Collapsible from "components/Collapsible";
 import { Autocomplete } from "components/Autocomplete";
+import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import ValidationError from "components/ValidationError";
+
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import AnswerProperties from "./AnswerProperties";
-import InlineField from "./InlineField";
-import MultiLineField from "./MultiLineField";
+
 import { Fallback } from "./Fallback";
 import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 import {
-  DurationProperties,
   TextProperties,
-} from "./AnswerProperties/Properties";
-import Decimal from "./Decimal";
+  DurationProperties,
+} from "components/AdditionalContent/AnswerProperties/Answers";
 
 import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
-
-import { useQuestionnaire } from "components/QuestionnaireContext";
-import ValidationError from "components/ValidationError";
 
 import {
   characterErrors,

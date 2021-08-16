@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 
-import MultiLineField from "../../MultiLineField";
-import InlineField from "../../InlineField";
+import InlineField from "../Format/InlineField";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 

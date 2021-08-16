@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import InlineField from "./InlineField";
+import InlineField from ".";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<InlineField {...props} />);

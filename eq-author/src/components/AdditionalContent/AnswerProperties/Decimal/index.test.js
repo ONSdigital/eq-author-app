@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent, flushPromises } from "tests/utils/rtl";
 
 import { colors } from "constants/theme";
-import Decimal from "./Decimal";
+import Decimal from ".";
 
 describe("Decimal Property", () => {
   let props;
