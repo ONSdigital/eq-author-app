@@ -82,7 +82,6 @@ export const AnswerProperties = ({
       {type === answerTypes.DATE && (
         <DateFormat
           answer={answer}
-          label="Date type"
           onChange={handleChange("format")}
           handleRequiredChange={handleChange("required")}
           value={properties.format}
@@ -92,7 +91,6 @@ export const AnswerProperties = ({
       {type === answerTypes.DURATION && (
         <DurationProperties
           answer={answer}
-          id="duration"
           onChange={handleChange("required")}
           unit={answer.properties.unit}
           getId={getId}
@@ -102,8 +100,6 @@ export const AnswerProperties = ({
         <DateRangeProperties
           answer={answer}
           onChange={handleChange("required")}
-          id="duration"
-          unit={answer.properties.unit}
           getId={getId}
         />
       )}
@@ -111,8 +107,6 @@ export const AnswerProperties = ({
         <TextAreaProperties
           answer={answer}
           onChange={handleChange("required")}
-          id="duration"
-          unit={answer.properties.unit}
           page={page}
           getId={getId}
         />

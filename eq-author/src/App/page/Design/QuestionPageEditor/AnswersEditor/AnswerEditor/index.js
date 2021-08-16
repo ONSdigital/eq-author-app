@@ -83,12 +83,6 @@ const Buttons = styled.div`
   }
 `;
 
-const PanelWrapper = styled.div`
-  background: ${colors.white};
-  width: 100%;
-  height: 100%;
-`;
-
 class AnswerEditor extends React.Component {
   handleDeleteAnswer = () => {
     this.props.onDeleteAnswer(this.props.answer.id);

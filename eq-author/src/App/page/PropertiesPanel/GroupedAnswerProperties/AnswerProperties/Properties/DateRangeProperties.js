@@ -35,7 +35,6 @@ const DateRangeProperties = ({ answer, onChange, getId }) => {
 
 DateRangeProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  value: PropTypes.string.isRequired,
   getId: PropTypes.func,
   onChange: PropTypes.func,
 };

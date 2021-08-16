@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
