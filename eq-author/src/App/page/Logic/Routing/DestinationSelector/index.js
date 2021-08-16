@@ -18,12 +18,6 @@ const DESTINATION_TYPE = {
   CalculatedSummaryPage: "CalculatedSummaryPage",
 };
 
-const RepositionedValidationError = styled(ValidationError)`
-  padding-left: 41%;
-  justify-content: unset;
-  margin-top: 0;
-`;
-
 const RoutingRuleResult = styled.div`
   padding: 0.5em 0.5em 0.5em 1.5em;
   background: ${colors.lightMediumGrey};
@@ -43,6 +37,10 @@ const Label = styled.label`
 const Goto = styled.span`
   float: right;
   margin-right: 1em;
+`;
+
+const ErrorContainer = styled.div`
+  margin-left: 1.5em;
 `;
 
 const typeToPropertyName = {
@@ -92,9 +90,14 @@ export const UnwrappedDestinationSelector = ({
         </Grid>
       </RoutingRuleResult>
       {errorMessage && (
-        <RepositionedValidationError test="destination-validation-error" right>
-          <p>{errorMessage}</p>
-        </RepositionedValidationError>
+        <ErrorContainer>
+          <ValidationError
+            variant="destination"
+            test="destination-validation-error"
+          >
+            {errorMessage}
+          </ValidationError>
+        </ErrorContainer>
       )}
     </>
   );

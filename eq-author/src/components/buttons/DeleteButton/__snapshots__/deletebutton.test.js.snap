@@ -17,6 +17,7 @@ exports[`DeleteButton should render: large 1`] = `
 
 .c0:hover {
   background: #195673;
+  color: #FFFFFF;
 }
 
 .c0:focus {
@@ -57,6 +58,7 @@ exports[`DeleteButton should render: medium 1`] = `
 
 .c0:hover {
   background: #195673;
+  color: #FFFFFF;
 }
 
 .c0:focus {
@@ -97,6 +99,7 @@ exports[`DeleteButton should render: small 1`] = `
 
 .c0:hover {
   background: #195673;
+  color: #FFFFFF;
 }
 
 .c0:focus {

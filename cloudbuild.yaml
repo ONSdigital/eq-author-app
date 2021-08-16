@@ -1,0 +1,121 @@
+steps:
+  - name: 'node:$_NODE_VERSION'
+    id: yarn_install_and_build
+    dir: eq-author
+    entrypoint: /bin/bash
+    args:
+      - '-c'
+      - |
+        if [ $_ENV = "staging" ]; then
+          yarn install
+          yarn build
+        else
+          echo "*************************************************************"
+          echo "* Yarn install and build not required                                        *"
+          echo "*************************************************************"
+        fi
+
+  - name: docker
+    id: build_and_push_author
+    dir: eq-author
+    entrypoint: sh
+    waitFor:
+      - yarn_install_and_build
+    args: 
+      - '-c'
+      - |
+        if [ $_ENV = "staging" ]; then
+          docker build -t "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA" .
+          docker push "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA"
+        else
+          echo "*************************************************************"
+          echo "* Build not required                                        *"
+          echo "*************************************************************"
+        fi
+
+  - name: docker
+    id: build_and_push_author_api
+    dir: eq-author-api
+    entrypoint: sh
+    waitFor:
+      - '-'
+    args: 
+      - '-c'
+      - |
+        if [ $_ENV = "staging" ]; then
+          docker build -t "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA" .
+          docker push "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA"
+        else
+          echo "*************************************************************"
+          echo "* Build not required                                        *"
+          echo "*************************************************************"
+        fi
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    id: tag_author_release
+    entrypoint: /bin/bash
+    args:
+      - '-c'
+      - |
+        if [ $_ENV = "preprod" ]; then
+          gcloud container images add-tag \
+          eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA \
+          eu.gcr.io/ons-eqbs-images/eq-author:$TAG_NAME
+        else
+          echo "*************************************************************"
+          echo "* Tagging not required                                      *"
+          echo "*************************************************************"
+        fi
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    id: tag_author_api_release
+    entrypoint: /bin/bash
+    args:
+      - '-c'
+      - |
+        if [ $_ENV = "preprod" ]; then
+          gcloud container images add-tag \
+          eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA \
+          eu.gcr.io/ons-eqbs-images/eq-author-api:$TAG_NAME
+        else
+          echo "*************************************************************"
+          echo "* Tagging not required                                      *"
+          echo "*************************************************************"
+        fi
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    id: deploy_author_api
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if [ $_ENV = "staging" ]; then
+          gcloud run deploy eq-author-api \
+          --image "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA" \
+          --region europe-west2 \
+          --platform managed
+        else
+          gcloud run deploy eq-author-api \
+          --image "eu.gcr.io/ons-eqbs-images/eq-author-api:$TAG_NAME" \
+          --region europe-west2 \
+          --platform managed
+        fi
+ 
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    id: deploy_author
+    entrypoint: sh
+    args:
+      - '-c'
+      - |
+        if [ $_ENV = "staging" ]; then
+          gcloud run deploy eq-author \
+          --image "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA" \
+          --region europe-west2 \
+          --platform managed
+        else
+          gcloud run deploy eq-author \
+          --image "eu.gcr.io/ons-eqbs-images/eq-author:$TAG_NAME" \
+          --region europe-west2 \
+          --platform managed
+        fi
+timeout: 1200s

@@ -18,9 +18,7 @@ exports[`Custom Editor should render 1`] = `
     type="Currency"
     value={5}
   />
-  <ValidationError
-    right={false}
-  >
+  <ValidationError>
      
     Value is required
      

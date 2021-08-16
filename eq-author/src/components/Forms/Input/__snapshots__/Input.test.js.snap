@@ -5,7 +5,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
-  color: #333333;
+  color: #222222;
   display: block;
   width: 100%;
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
@@ -84,7 +84,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
                 "font-size:1em;border:thin solid ",
                 "#999999",
                 ";padding:0.5em;color:",
-                "#333333",
+                "#222222",
                 ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
                 "#3B7A9E",
                 ";outline-color:",

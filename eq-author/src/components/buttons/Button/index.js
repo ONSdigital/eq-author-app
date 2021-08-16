@@ -84,10 +84,10 @@ export const negativeButton = css`
 
 export const navigationButton = css`
   --color-text: ${colors.grey};
-  --color-bg: ${colors.darkerBlack};
+  --color-bg: ${colors.black};
 
   position: relative;
-  border-bottom: 1px solid ${colors.darkerBlack};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 
   &:hover {
@@ -109,10 +109,10 @@ export const navigationButton = css`
 
 export const navigationModalButton = css`
   --color-text: ${colors.grey};
-  --color-bg: ${colors.darkerBlack};
+  --color-bg: ${colors.black};
 
   position: relative;
-  border-bottom: 1px solid ${colors.darkerBlack};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 
   &:hover {
@@ -128,15 +128,15 @@ export const navigationOnButton = css`
   --color-bg: ${colors.tertiary};
 
   position: relative;
-  border-bottom: 1px solid ${colors.darkerBlack};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 `;
 
 export const signoutButton = css`
-  color: ${colors.darkerBlack};
+  color: ${colors.black};
 
-  --color-text: ${colors.darkerBlack};
-  --color-bg: ${colors.darkerBlack};
+  --color-text: ${colors.black};
+  --color-bg: ${colors.black};
 
   position: relative;
   border-radius: 0;
@@ -144,7 +144,7 @@ export const signoutButton = css`
   &:hover {
     background-color: ${darken(0.1, colors.orange)};
 
-    --color-text: ${darken(0.1, colors.darkerBlack)};
+    --color-text: ${darken(0.1, colors.black)};
     --color-bg: ${darken(0.1, colors.orange)};
     border-color: var(--color-bg);
     border-radius: 0;
@@ -196,7 +196,7 @@ export const navHeaderButton = css`
 `;
 
 export const navAddMenuButton = css`
-  --color-text: ${colors.darkerBlack};
+  --color-text: ${colors.black};
   --color-bg: ${colors.tertiary};
 
   border: none;

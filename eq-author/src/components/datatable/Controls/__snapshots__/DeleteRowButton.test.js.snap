@@ -17,6 +17,7 @@ exports[`DeleteRowButton should render 1`] = `
 
 .c0:hover {
   background: #195673;
+  color: #FFFFFF;
 }
 
 .c0:focus {
