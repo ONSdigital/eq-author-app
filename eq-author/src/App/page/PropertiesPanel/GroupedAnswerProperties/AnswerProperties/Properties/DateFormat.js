@@ -4,10 +4,9 @@ import { enableOn } from "utils/featureFlags";
 
 import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
+import Required from "components/AdditionalContent/Required";
 
 import MultiLineField from "../../MultiLineField";
-import InlineField from "../../InlineField";
-import { ToggleProperty } from ".";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
@@ -20,22 +19,13 @@ const DateFormat = ({
   handleRequiredChange,
   getId,
 }) => {
-  const id = getId("date", answer.id);
-
   return (
     <Collapsible
       variant="content"
       title={`${answer.type} properties`}
       withoutHideThis
     >
-      <InlineField id={id} label={"Required"}>
-        <ToggleProperty
-          data-test="answer-properties-required-toggle"
-          id={id}
-          onChange={handleRequiredChange}
-          value={answer.properties.required}
-        />
-      </InlineField>
+      <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
       <MultiLineField id={getId("date-format", answer.id)} label={"Date type"}>
         <Select
           data-test="select"

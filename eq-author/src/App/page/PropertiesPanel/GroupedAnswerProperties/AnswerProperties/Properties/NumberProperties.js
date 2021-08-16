@@ -17,8 +17,7 @@ import { Column } from "components/Grid";
 import Collapsible from "components/Collapsible";
 import IconText from "components/IconText";
 import { Autocomplete } from "components/Autocomplete";
-
-import { ToggleProperty } from ".";
+import Required from "components/AdditionalContent/Required";
 
 import ValidationErrorIcon from "../../validation-warning-icon.svg?inline";
 import InlineField from "../../InlineField";
@@ -102,14 +101,7 @@ const NumberProperties = ({
       variant="content"
     >
       <Column cols={3} gutters>
-        <InlineField id={id} label={"Required"}>
-          <ToggleProperty
-            data-test="answer-properties-required-toggle"
-            id={id}
-            onChange={handleChange}
-            value={answer.properties.required}
-          />
-        </InlineField>
+        <Required answer={answer} onChange={handleChange} getId={getId} />
       </Column>
       <Column cols={6} gutters={false}>
         <InlineField id={id} label={"Decimals"}>

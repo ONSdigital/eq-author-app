@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Collapsible from "components/Collapsible";
+import Required from "components/AdditionalContent/Required";
 
 import MultiLineField from "../../MultiLineField";
 import InlineField from "../../InlineField";
-import { ToggleProperty } from ".";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
@@ -19,12 +19,7 @@ const DateRangeProperties = ({ answer, onChange, getId }) => {
       withoutHideThis
     >
       <InlineField id={id} label={"Answer required"}>
-        <ToggleProperty
-          data-test="answer-properties-required-toggle"
-          id={id}
-          onChange={onChange}
-          value={answer.properties.required}
-        />
+        <Required answer={answer} onChange={onChange} getId={getId} />
       </InlineField>
       <MultiLineField id={id} label={"Validation settings"}>
         <AnswerValidation answer={answer} />

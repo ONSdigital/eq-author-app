@@ -4,12 +4,11 @@ import { Select } from "components/Forms";
 import { map, groupBy } from "lodash";
 
 import Collapsible from "components/Collapsible";
+import Required from "components/AdditionalContent/Required";
 
 import * as durationTypes from "constants/duration-types";
 
 import MultiLineField from "../../MultiLineField";
-import InlineField from "../../InlineField";
-import { ToggleProperty } from "../Properties";
 
 const DurationProperties = ({
   answer,
@@ -23,14 +22,7 @@ const DurationProperties = ({
   const id = getId("duration", answer.id);
   return (
     <Collapsible variant="content" title="Duration properties" withoutHideThis>
-      <InlineField id={id} label={"Answer required"}>
-        <ToggleProperty
-          data-test="answer-properties-required-toggle"
-          id={id}
-          onChange={onChange}
-          value={answer.properties.required}
-        />
-      </InlineField>
+      <Required answer={answer} onChange={onChange} getId={getId} />
       <MultiLineField label="Fields" id={getId("duration", answer.id)}>
         <Select value={unit} {...otherProps} data-test="duration-select">
           {map(sortedUnits, (unit, durationType) => {

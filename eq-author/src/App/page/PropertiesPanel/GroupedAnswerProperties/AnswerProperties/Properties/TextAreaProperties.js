@@ -6,8 +6,9 @@ import { characterErrors } from "constants/validationMessages";
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
 
-import InlineField from "../../InlineField";
-import { ToggleProperty, TextProperties } from "./";
+import Required from "components/AdditionalContent/Required";
+import InlineField from "components/AdditionalContent/InlineField";
+import { TextProperties } from "./";
 
 const TextAreaProperties = ({ answer, page, onChange, getId }) => {
   const id = getId("textarea", answer.id);
@@ -52,14 +53,7 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
       title={`Text area properties`}
       withoutHideThis
     >
-      <InlineField id={id} label={"Required"}>
-        <ToggleProperty
-          data-test="answer-properties-required-toggle"
-          id={id}
-          onChange={onChange}
-          value={answer.properties.required}
-        />
-      </InlineField>
+      <Required answer={answer} onChange={onChange} getId={getId} />
       <InlineField id="maxCharactersField" label={"Max characters"}>
         <TextProperties
           id="maxCharactersInput"

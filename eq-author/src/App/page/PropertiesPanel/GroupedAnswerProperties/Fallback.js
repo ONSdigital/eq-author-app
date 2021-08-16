@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import InlineField from "./InlineField";
 import MultiLineField from "./MultiLineField";
-import { ToggleProperty } from "./AnswerProperties/Properties";
+import ToggleProperty from "components/AdditionalContent/ToggleProperty";
 import { SimpleSelect } from "components/Forms/Select";
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
