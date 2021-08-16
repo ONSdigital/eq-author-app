@@ -18,7 +18,7 @@ import Collapsible from "components/Collapsible";
 import IconText from "components/IconText";
 import { Autocomplete } from "components/Autocomplete";
 
-import { ToggleProperty } from "../Properties";
+import { ToggleProperty } from ".";
 
 import ValidationErrorIcon from "../../validation-warning-icon.svg?inline";
 import InlineField from "../../InlineField";

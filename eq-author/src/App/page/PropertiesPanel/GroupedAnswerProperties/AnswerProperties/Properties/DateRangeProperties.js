@@ -5,7 +5,7 @@ import Collapsible from "components/Collapsible";
 
 import MultiLineField from "../../MultiLineField";
 import InlineField from "../../InlineField";
-import { ToggleProperty } from "../Properties";
+import { ToggleProperty } from ".";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 

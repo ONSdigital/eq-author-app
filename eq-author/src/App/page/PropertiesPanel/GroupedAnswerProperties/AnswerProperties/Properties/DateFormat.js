@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
 
-import { DATE } from "constants/answer-types";
-
 import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
 
 import MultiLineField from "../../MultiLineField";
 import InlineField from "../../InlineField";
-import { ToggleProperty } from "../Properties";
+import { ToggleProperty } from ".";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
@@ -59,14 +57,12 @@ const DateFormat = ({
           </option>
         </Select>
       </MultiLineField>
-      {answer.type === DATE && (
-        <MultiLineField
-          id={getId("date-format", answer.id)}
-          label={"Validation settings"}
-        >
-          <AnswerValidation answer={answer} />
-        </MultiLineField>
-      )}
+      <MultiLineField
+        id={getId("date-format", answer.id)}
+        label={"Validation settings"}
+      >
+        <AnswerValidation answer={answer} />
+      </MultiLineField>
     </Collapsible>
   );
 };
