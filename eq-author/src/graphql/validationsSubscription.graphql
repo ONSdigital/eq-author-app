@@ -105,6 +105,17 @@ subscription Validation($id: ID!) {
                 }
               }
               ... on MultipleChoiceAnswer {
+                options {
+                  id
+                  label
+                  qCode
+                  validationErrorInfo {
+                    ...ValidationErrorInfo
+                  }
+                  additionalAnswer {
+                    id
+                  }
+                }
                 id
                 validationErrorInfo {
                   ...ValidationErrorInfo
