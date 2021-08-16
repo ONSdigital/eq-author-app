@@ -16,6 +16,8 @@ import NumberProperties from "components/AdditionalContent/AnswerProperties/Answ
 import DateRangeProperties from "components/AdditionalContent/AnswerProperties/Answers/DateRangeProperties";
 import TextAreaProperties from "components/AdditionalContent/AnswerProperties/Answers/TextAreaProperties";
 
+import { durationConversion } from "constants/duration-types";
+
 import * as answerTypes from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 
@@ -70,7 +72,9 @@ export const AnswerProperties = ({
       }
 
       if (type === answerTypes.DURATION && name === "format") {
-        answer.properties.unit = value;
+        // console.log(durationConversion[value]);
+        // console.log(value);
+        answer.properties.unit = durationConversion[value];
       }
     };
 

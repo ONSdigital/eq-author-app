@@ -134,7 +134,9 @@ class AnswerEditor extends React.Component {
       );
     }
     if (answer.type === DURATION) {
+      console.log(answer.properties.unit);
       const durationConfig = durationConversion[answer.properties.unit];
+      // console.log(durationConfig);
       return (
         <>
           {DURATION}
