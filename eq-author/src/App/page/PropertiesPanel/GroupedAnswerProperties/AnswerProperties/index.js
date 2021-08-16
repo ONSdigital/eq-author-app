@@ -68,6 +68,10 @@ export const AnswerProperties = ({
         validation.earliestDate.offset.unit = durationsMap[value];
         validation.latestDate.offset.unit = durationsMap[value];
       }
+
+      if (type === answerTypes.DURATION && name === "format") {
+        answer.properties.unit = value;
+      }
     };
 
   return (
@@ -96,7 +100,8 @@ export const AnswerProperties = ({
       {type === answerTypes.DURATION && (
         <DurationProperties
           answer={answer}
-          onChange={handleChange("required")}
+          onChange={handleChange("format")}
+          handleRequiredChange={handleChange("required")}
           unit={answer.properties.unit}
           getId={getId}
         />

@@ -1,11 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flatMap } from "lodash";
 import { groupBy, getOr } from "lodash/fp";
 import { useMutation } from "@apollo/react-hooks";
 
-import { colors } from "constants/theme";
 import { UNIT } from "constants/answer-types";
 import {
   characterErrors,
@@ -15,7 +13,6 @@ import { unitConversion } from "constants/unit-types";
 
 import { Column } from "components/Grid";
 import Collapsible from "components/Collapsible";
-import IconText from "components/IconText";
 import { Autocomplete } from "components/Autocomplete";
 import Required from "components/AdditionalContent/Required";
 
@@ -27,16 +24,6 @@ import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
-
-// const ValidationWarning = styled(IconText)`
-//   color: ${colors.red};
-//   margin-top: 0.5em;
-//   justify-content: normal;
-// `;
-
-// const ValidationWarningUnit = styled(ValidationWarning)`
-//   margin-top: -0.5em;
-// `;
 
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||

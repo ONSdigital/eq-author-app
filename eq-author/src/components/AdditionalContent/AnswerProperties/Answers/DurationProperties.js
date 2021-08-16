@@ -14,6 +14,7 @@ const DurationProperties = ({
   answer,
   unit,
   getId,
+  handleRequiredChange,
   onChange,
   ...otherProps
 }) => {
@@ -22,9 +23,14 @@ const DurationProperties = ({
   const id = getId("duration", answer.id);
   return (
     <Collapsible variant="content" title="Duration properties" withoutHideThis>
-      <Required answer={answer} onChange={onChange} getId={getId} />
+      <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
       <MultiLineField label="Fields" id={getId("duration", answer.id)}>
-        <Select value={unit} {...otherProps} data-test="duration-select">
+        <Select
+          onChange={onChange}
+          value={unit}
+          {...otherProps}
+          data-test="duration-select"
+        >
           {map(sortedUnits, (unit, durationType) => {
             return (
               <optgroup label={durationType} key={durationType}>
@@ -49,6 +55,7 @@ DurationProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   unit: PropTypes.string.isRequired,
   getId: PropTypes.func,
+  handleRequiredChange: PropTypes.func,
   onChange: PropTypes.func,
 };
 
