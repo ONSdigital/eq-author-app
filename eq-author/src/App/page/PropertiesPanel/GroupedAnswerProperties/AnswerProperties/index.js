@@ -83,6 +83,7 @@ export const AnswerProperties = ({
           answer={answer}
           label="Date type"
           onChange={handleChange("format")}
+          handleRequiredChange={handleChange("required")}
           value={properties.format}
           getId={getId}
         />

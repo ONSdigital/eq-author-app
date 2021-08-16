@@ -10,7 +10,7 @@ import { ToggleProperty } from "../Properties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 const DateRangeProperties = ({ answer, onChange, getId }) => {
-  const id = getId("duration", answer.id);
+  const id = getId("date-range", answer.id);
 
   return (
     <Collapsible
@@ -26,10 +26,7 @@ const DateRangeProperties = ({ answer, onChange, getId }) => {
           value={answer.properties.required}
         />
       </InlineField>
-      <MultiLineField
-        id={getId("date-format", answer.id)}
-        label={"Validation settings"}
-      >
+      <MultiLineField id={id} label={"Validation settings"}>
         <AnswerValidation answer={answer} />
       </MultiLineField>
     </Collapsible>
