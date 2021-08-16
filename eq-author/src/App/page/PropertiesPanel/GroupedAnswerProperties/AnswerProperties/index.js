@@ -6,6 +6,8 @@ import { getOr } from "lodash/fp";
 
 import updateAnswerMutation from "graphql/updateAnswer.graphql";
 
+import Collapsible from "components/Collapsible";
+import Required from "components/AdditionalContent/Required";
 import { DateFormat, DurationProperties } from "./Properties";
 import NumberProperties from "./Properties/NumberProperties";
 import DateRangeProperties from "./Properties/DateRangeProperties";
@@ -110,6 +112,32 @@ export const AnswerProperties = ({
           page={page}
           getId={getId}
         />
+      )}
+      {type === answerTypes.TEXTFIELD && (
+        <Collapsible
+          variant="content"
+          title={`Text field properties`}
+          withoutHideThis
+        >
+          <Required
+            answer={answer}
+            onChange={handleChange("required")}
+            getId={getId}
+          />
+        </Collapsible>
+      )}
+      {(type === answerTypes.RADIO || type === answerTypes.CHECKBOX) && (
+        <Collapsible
+          variant="content"
+          title={`${answer.type} properties`}
+          withoutHideThis
+        >
+          <Required
+            answer={answer}
+            onChange={handleChange("required")}
+            getId={getId}
+          />
+        </Collapsible>
       )}
     </>
   );
