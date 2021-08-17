@@ -20,7 +20,6 @@ const DurationProperties = ({
 }) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
 
-  const id = getId("duration", answer.id);
   return (
     <Collapsible variant="content" title="Duration properties" withoutHideThis>
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />

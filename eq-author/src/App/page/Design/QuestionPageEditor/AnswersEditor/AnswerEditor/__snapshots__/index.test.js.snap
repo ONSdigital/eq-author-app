@@ -194,6 +194,23 @@ exports[`Answer Editor should render Checkbox 1`] = `
       type="Checkbox"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "options": Array [
+          Object {
+            "description": "",
+            "id": "1",
+            "label": "",
+          },
+        ],
+        "title": "",
+        "type": "Checkbox",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -296,6 +313,16 @@ exports[`Answer Editor should render Currency 1`] = `
       type="Currency"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "Currency",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -398,6 +425,16 @@ exports[`Answer Editor should render Date 1`] = `
       showYear={false}
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "Date",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -497,6 +534,16 @@ exports[`Answer Editor should render DateRange 1`] = `
       onUpdateOption={[MockFunction]}
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "DateRange",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -603,6 +650,19 @@ exports[`Answer Editor should render Duration 1`] = `
       type="Duration"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "properties": Object {
+          "unit": "YearsMonths",
+        },
+        "title": "",
+        "type": "Duration",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -705,6 +765,16 @@ exports[`Answer Editor should render Number 1`] = `
       type="Number"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "Number",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -807,6 +877,16 @@ exports[`Answer Editor should render Percentage 1`] = `
       type="Percentage"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "Percentage",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -915,6 +995,23 @@ exports[`Answer Editor should render Radio 1`] = `
       type="Radio"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "options": Array [
+          Object {
+            "description": "",
+            "id": "1",
+            "label": "",
+          },
+        ],
+        "title": "",
+        "type": "Radio",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -1016,6 +1113,16 @@ exports[`Answer Editor should render TextArea 1`] = `
       type="TextArea"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "TextArea",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -1117,6 +1224,16 @@ exports[`Answer Editor should render TextField 1`] = `
       type="TextField"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "title": "",
+        "type": "TextField",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
 
@@ -1223,5 +1340,18 @@ exports[`Answer Editor should render Unit 1`] = `
       type="Unit"
     />
   </AnswerEditor__Padding>
+  <AnswerProperties
+    answer={
+      Object {
+        "description": "",
+        "id": "1",
+        "properties": Object {
+          "unit": "Centimetres",
+        },
+        "title": "",
+        "type": "Unit",
+      }
+    }
+  />
 </AnswerEditor__Answer>
 `;
