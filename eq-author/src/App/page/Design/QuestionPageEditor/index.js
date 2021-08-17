@@ -29,6 +29,7 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 import MetaEditor from "./MetaEditor";
 
 import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
+import TotalValidation from "../Validation/GroupValidations/TotalValidation";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
@@ -118,6 +119,16 @@ export const UnwrappedQuestionPageEditor = (props) => {
           page={page}
         />
       </div>
+
+      {page.totalValidation && (
+        <>
+          <TotalValidation
+            total={page.totalValidation}
+            validationError={page.validationErrorInfo}
+            type={answers[0].type}
+          />
+        </>
+      )}
 
       <AddAnswerSegment>
         <AnswerTypeSelector
