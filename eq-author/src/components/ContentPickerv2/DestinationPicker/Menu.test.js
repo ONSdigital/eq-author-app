@@ -28,6 +28,11 @@ const props = {
         logicalDestination: NextPage,
       },
       {
+        id: EndOfCurrentSection,
+        logicalDestination: EndOfCurrentSection,
+        displayName: EndOfCurrentSection,
+      },
+      {
         id: EndOfQuestionnaire,
         displayName: destinationKey[EndOfQuestionnaire],
         logicalDestination: EndOfQuestionnaire,
@@ -256,13 +261,15 @@ describe("Destination Picker Menu", () => {
 
     it("should return last question page if clicking 'End of current section'", () => {
       const { onSelected, click } = defaultSetup();
+      const LogicalDestinationArray = props.data.logicalDestinations();
 
       click("Other destinations");
       click(destinationKey[EndOfCurrentSection]);
       expect(onSelected).toHaveBeenCalledTimes(1);
       expect(onSelected).toHaveBeenCalledWith({
-        ...props.data.pages[3],
         displayName: destinationKey[EndOfCurrentSection],
+        id: LogicalDestinationArray[1].id,
+        logicalDestination: LogicalDestinationArray[1].logicalDestination,
       });
     });
 
