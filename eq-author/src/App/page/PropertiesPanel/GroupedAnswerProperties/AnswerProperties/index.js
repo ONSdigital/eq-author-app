@@ -16,8 +16,6 @@ import NumberProperties from "components/AdditionalContent/AnswerProperties/Answ
 import DateRangeProperties from "components/AdditionalContent/AnswerProperties/Answers/DateRangeProperties";
 import TextAreaProperties from "components/AdditionalContent/AnswerProperties/Answers/TextAreaProperties";
 
-import { durationConversion } from "constants/duration-types";
-
 import * as answerTypes from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 
@@ -70,12 +68,6 @@ export const AnswerProperties = ({
         validation.earliestDate.offset.unit = durationsMap[value];
         validation.latestDate.offset.unit = durationsMap[value];
       }
-
-      if (type === answerTypes.DURATION && name === "format") {
-        // console.log(durationConversion[value]);
-        // console.log(value);
-        answer.properties.unit = durationConversion[value];
-      }
     };
 
   return (
@@ -104,7 +96,7 @@ export const AnswerProperties = ({
       {type === answerTypes.DURATION && (
         <DurationProperties
           answer={answer}
-          onChange={handleChange("format")}
+          onChange={handleChange("unit")}
           handleRequiredChange={handleChange("required")}
           unit={answer.properties.unit}
           getId={getId}
