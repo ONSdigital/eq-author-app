@@ -27,7 +27,7 @@ export const Body = styled.div`
   display: block;
   margin-top: 0;
   margin-left: 0;
-  padding: 1em 0 1em 0.5em;
+  padding: 1em 0 0 0.5em;
   border-left: none;
 `;
 

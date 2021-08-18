@@ -122,11 +122,14 @@ export const UnwrappedQuestionPageEditor = (props) => {
       </div>
 
       {page.totalValidation && (
-        <ContentContainer title="Total number validation">
+        <ContentContainer
+          title={`Total ${answers[0].type.toLowerCase()} validation`}
+        >
           <TotalValidation
             total={page.totalValidation}
             validationError={page.validationErrorInfo}
             type={answers[0].type}
+            withoutDisableMessage
           />
         </ContentContainer>
       )}
