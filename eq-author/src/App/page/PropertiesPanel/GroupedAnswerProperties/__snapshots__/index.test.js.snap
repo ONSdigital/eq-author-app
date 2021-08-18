@@ -10,6 +10,7 @@ exports[`Grouped Answer Properties should show error if there is a mismatch in t
 Array [
   <Collapsible
     className="propertiesCollapsible"
+    key="answer"
     title="Currency properties"
     variant="content"
     withoutHideThis={true}
@@ -142,6 +143,7 @@ Array [
   </Collapsible>,
   <Collapsible
     className="propertiesCollapsible"
+    key="answer"
     title="Date properties"
     variant="content"
     withoutHideThis={true}

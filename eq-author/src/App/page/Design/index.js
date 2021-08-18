@@ -12,7 +12,6 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
-import PropertiesPanel from "../PropertiesPanel";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
@@ -53,9 +52,6 @@ export const UnwrappedPageRoute = (props) => {
     fetchPolicy: "cache-and-network",
   });
 
-  const renderPanel = () =>
-    page?.pageType === QuestionPage && <PropertiesPanel page={page} />;
-
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
       return (
@@ -63,7 +59,6 @@ export const UnwrappedPageRoute = (props) => {
           key={page.id} // resets the state of the RichTextEditors when navigating pages
           {...props}
           page={page}
-          renderPanel={renderPanel}
         />
       );
     }
@@ -95,7 +90,6 @@ export const UnwrappedPageRoute = (props) => {
       <EditorLayout
         title={page?.displayName || ""}
         onAddQuestionPage={onAddQuestionPage}
-        renderPanel={renderPanel}
         validationErrorInfo={page?.validationErrorInfo}
         singleColumnLayout
         {...(availableTabMatrix[page?.pageType] || {})}
