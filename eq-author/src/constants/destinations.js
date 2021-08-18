@@ -10,6 +10,11 @@ export const logicalDestinations = (questionnaire) => [
     displayName: NextPage,
   },
   {
+    id: EndOfCurrentSection,
+    logicalDestination: EndOfCurrentSection,
+    displayName: EndOfCurrentSection,
+  },
+  {
     id: EndOfQuestionnaire,
     logicalDestination: EndOfQuestionnaire,
     displayName: EndOfQuestionnaire,
