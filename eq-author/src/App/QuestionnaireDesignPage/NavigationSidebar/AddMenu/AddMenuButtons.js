@@ -59,7 +59,7 @@ const StyledIconTextAdd = styled(IconText)`
   }
 `;
 
-export const AddContent = "Add content";
+export const AddContent = "Add / import content";
 
 export const MenuAddButton = (
   <AddButton data-test="btn-add-menu">
