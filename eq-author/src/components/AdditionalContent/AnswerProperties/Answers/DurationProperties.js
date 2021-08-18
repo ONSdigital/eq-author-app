@@ -21,7 +21,11 @@ const DurationProperties = ({
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
 
   return (
-    <Collapsible variant="content" title="Duration properties" withoutHideThis>
+    <Collapsible
+      variant="properties"
+      title="Duration properties"
+      withoutHideThis
+    >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
       <MultiLineField label="Fields" id={getId("duration", answer.id)}>
         <Select

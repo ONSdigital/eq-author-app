@@ -69,7 +69,7 @@ const AnswerType = styled.span`
 `;
 
 const Padding = styled.div`
-  padding: 1em 6em 1em 1.5em;
+  padding: 1em 1em 1em 1.5em;
 `;
 
 const Buttons = styled.div`
@@ -199,9 +199,10 @@ class AnswerEditor extends React.Component {
           </AnswerTypePanel>
         </AnswerHeader>
 
-        <Padding>{this.renderAnswer(this.props.answer)}</Padding>
-
-        <AnswerProperties answer={this.props.answer} page={this.props.page} />
+        <Padding>
+          {this.renderAnswer(this.props.answer)}
+          <AnswerProperties answer={this.props.answer} page={this.props.page} />
+        </Padding>
       </Answer>
     );
   }

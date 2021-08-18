@@ -119,7 +119,7 @@ export const AnswerProperties = ({
       )}
       {type === answerTypes.TEXTFIELD && (
         <Collapsible
-          variant="content"
+          variant="properties"
           title={`Text field properties`}
           withoutHideThis
         >
@@ -132,7 +132,7 @@ export const AnswerProperties = ({
       )}
       {(type === answerTypes.RADIO || type === answerTypes.CHECKBOX) && (
         <Collapsible
-          variant="content"
+          variant="properties"
           title={`${answer.type} properties`}
           withoutHideThis
         >

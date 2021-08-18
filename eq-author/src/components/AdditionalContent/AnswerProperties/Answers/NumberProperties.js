@@ -85,7 +85,7 @@ const NumberProperties = ({
     <Collapsible
       title={`${answer.type} properties`}
       withoutHideThis
-      variant="content"
+      variant="properties"
     >
       <Column cols={3} gutters>
         <Required answer={answer} onChange={handleChange} getId={getId} />

@@ -21,7 +21,7 @@ const DateFormat = ({
 }) => {
   return (
     <Collapsible
-      variant="content"
+      variant="properties"
       title={`${answer.type} properties`}
       withoutHideThis
     >
