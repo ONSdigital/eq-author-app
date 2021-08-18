@@ -14,7 +14,7 @@ const DateRangeProperties = ({ answer, onChange, getId }) => {
 
   return (
     <Collapsible
-      variant="content"
+      variant="properties"
       title={`Date range properties`}
       withoutHideThis
     >

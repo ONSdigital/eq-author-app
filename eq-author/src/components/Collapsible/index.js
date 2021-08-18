@@ -9,16 +9,32 @@ import { darken } from "polished";
 import Button from "components/buttons/Button";
 
 const Wrapper = styled.div`
-  margin: ${(props) => (props.variant === "default" ? `0` : `0 2em 1em`)};
-  border: ${(props) =>
-    props.variant === "content" && ` 1px solid ${colors.grey}`};
+  ${({ variant }) =>
+    variant === "default" &&
+    `
+    margin: 0;
+  `}
+
+  ${({ variant }) =>
+    variant === "content" &&
+    `
+    margin: 0 2em 1em;
+    border: 1px solid ${colors.grey};
+  `}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    margin: 0;
+    border: 1px solid ${colors.grey};
+  `}
 `;
 
 const Header = styled.div`
   margin-left: -0.5em;
 
-  ${(props) =>
-    props.variant === "content" &&
+  ${({ variant }) =>
+    variant === "content" &&
     `
     margin-left: 0;
     height: 100%;
@@ -29,7 +45,15 @@ const Header = styled.div`
     &:hover {
       background-color: ${darken(0.1, colors.secondary)};
     }
-`}
+  `}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    margin-left: 0;
+    cursor: pointer;
+    background-color: ${colors.sidebarBlack}
+  `}
 `;
 
 export const Title = styled.h2`
@@ -39,7 +63,8 @@ export const Title = styled.h2`
   padding: 0.25em 0 0.5em;
   font-size: inherit;
 
-  ${(props) => props.variant === "content" && `padding: 0;`}
+  ${({ variant }) => variant === "content" && `padding: 0;`}
+  ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
 
 export const Body = styled.div`
@@ -49,13 +74,19 @@ export const Body = styled.div`
   padding-left: 0.5em;
   border-left: 3px solid ${colors.lightGrey};
 
-  ${(props) =>
-    props.variant === "content" &&
+  ${({ variant }) =>
+    (variant === "content" || variant === "properties") &&
     `
     margin-top: 0;
     margin-left: 0;
     padding: 1em 0 1em 0.5em;
     border-left: none;
+`}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    padding: 1em;
 `}
 `;
 
@@ -74,8 +105,8 @@ export const ToggleCollapsibleButton = styled.button`
   text-decoration: underline;
   margin-left: 0;
 
-  ${(props) =>
-    props.variant === "content" &&
+  ${({ variant }) =>
+    (variant === "content" || variant === "properties") &&
     `
     color: ${colors.white};
     text-decoration: none;
@@ -85,7 +116,8 @@ export const ToggleCollapsibleButton = styled.button`
   &:focus {
     outline: 2px solid ${colors.orange};
 
-    ${(props) => props.variant === "content" && `outline: none;`}
+    ${({ variant }) =>
+      (variant === "content" || variant === "properties") && `outline: none;`}
   }
 
   &::before {
@@ -96,17 +128,20 @@ export const ToggleCollapsibleButton = styled.button`
     height: 1.5em;
     margin-top: 0.2em;
 
-    ${(props) =>
-      props.variant === "content" && `background-color: ${colors.white}`}
+    ${({ variant }) =>
+      variant === "content" && `background-color: ${colors.white}`}
+
+    ${({ variant }) =>
+      variant === "properties" && `background-color: ${colors.white}`}
   }
 
   &:hover {
-    color: ${(props) => props.variant === "default" && `${colors.darkerBlue}`};
+    color: ${({ variant }) => variant === "default" && `${colors.darkerBlue}`};
   }
 
   &:hover::before {
-    background-color: ${(props) =>
-      props.variant === "default" && `${colors.darkerBlue}`};
+    background-color: ${({ variant }) =>
+      variant === "default" && `${colors.darkerBlue}`};
   }
 `;
 
@@ -152,7 +187,7 @@ const Collapsible = ({
         data-test="collapsible-header"
         variant={variant}
         onClick={
-          variant === "content"
+          variant === "content" || variant === "properties"
             ? () => setIsOpen((isOpen) => !isOpen)
             : undefined
         }

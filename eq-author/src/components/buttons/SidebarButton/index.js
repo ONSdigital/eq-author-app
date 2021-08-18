@@ -8,7 +8,7 @@ const SidebarButton = styled.button.attrs({ role: "button" })`
   padding: 0.5em;
   color: ${colors.text};
   border-radius: ${radius};
-  border: 1px solid ${colors.bordersLight};
+  border: 1px solid ${colors.borders};
   text-align: left;
   font-size: 1em;
   transition: all 100ms ease-out;

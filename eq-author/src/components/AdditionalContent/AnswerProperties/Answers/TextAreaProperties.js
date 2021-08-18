@@ -49,7 +49,7 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
 
   return (
     <Collapsible
-      variant="content"
+      variant="properties"
       title={`Text area properties`}
       withoutHideThis
     >

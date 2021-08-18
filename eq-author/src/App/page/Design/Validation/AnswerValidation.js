@@ -46,6 +46,15 @@ import {
   UNIT,
 } from "constants/answer-types";
 
+const ValidationGroup = styled.div`
+  display: flex;
+
+  button {
+    width: 15em;
+    margin-right: 1em;
+  }
+`;
+
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
     return null;
@@ -128,12 +137,6 @@ export const validationTypes = [
 const getValidationsForType = (type) =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-export const SidebarValidation = styled(SidebarButton)`
-  &:not(:first-of-type) {
-    margin-top: 0.5em;
-  }
-`;
-
 const errorCodes = {
   ERR_EARLIEST_AFTER_LATEST: EARLIEST_BEFORE_LATEST_DATE,
   ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
@@ -198,7 +201,7 @@ const AnswerValidation = ({ answer }) => {
       };
 
       validationComponents.push(
-        <SidebarValidation
+        <SidebarButton
           id={type.id}
           key={type.id}
           data-test={`sidebar-button-${kebabCase(type.title)}`}
@@ -211,7 +214,7 @@ const AnswerValidation = ({ answer }) => {
           {enabled && value !== undefined && value !== null && (
             <Detail>{value}</Detail>
           )}
-        </SidebarValidation>
+        </SidebarButton>
       );
 
       if (errors.length) {
@@ -241,7 +244,7 @@ const AnswerValidation = ({ answer }) => {
 
   return (
     <ValidationContext.Provider value={{ answer }}>
-      {validationComponents}
+      <ValidationGroup>{validationComponents}</ValidationGroup>
       <ModalWithNav
         id={modalId}
         onClose={handleModalClose}
