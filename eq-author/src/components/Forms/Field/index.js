@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const StyledField = styled.div`
   display: block;
-  width: 100%;
   margin-bottom: ${(props) => (props.last ? "0" : "1")}em;
   position: relative;
   ${(props) => props.disabled && "opacity: 0.6;"}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { flatMap } from "lodash";
 import { groupBy, getOr } from "lodash/fp";
 import { useMutation } from "@apollo/react-hooks";
+import styled from "styled-components";
 
 import { UNIT } from "constants/answer-types";
 import {
@@ -10,20 +11,36 @@ import {
   SELECTION_REQUIRED,
 } from "constants/validationMessages";
 import { unitConversion } from "constants/unit-types";
+import { colors } from "constants/theme";
 
-import { Column } from "components/Grid";
 import Collapsible from "components/Collapsible";
 import { Autocomplete } from "components/Autocomplete";
 import Required from "components/AdditionalContent/Required";
-
 import ValidationError from "components/ValidationError";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
+import { Label } from "components/Forms";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const HorizontalRule = styled.hr`
+  margin: 1em 0 1.5em 0;
+`;
+
+const VerticalRule = styled.div`
+  width: 1px;
+  height: 2.5em;
+  background-color: ${colors.grey};
+  margin: 0 1.4em 0 0.5em;
+`;
 
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -87,10 +104,9 @@ const NumberProperties = ({
       withoutHideThis
       variant="properties"
     >
-      <Column cols={3} gutters>
+      <Container>
         <Required answer={answer} onChange={handleChange} getId={getId} />
-      </Column>
-      <Column cols={6} gutters={false}>
+        <VerticalRule />
         <InlineField id={id} label={"Decimals"}>
           <Decimal
             id={id}
@@ -104,36 +120,38 @@ const NumberProperties = ({
             hasDecimalInconsistency={hasDecimalInconsistency}
           />
         </InlineField>
-        {answer.type === UNIT && (
-          <>
-            <MultiLineField id="unit" label={"Type"}>
-              <Autocomplete
-                options={unitConversion}
-                filter={filterUnitOptions}
-                placeholder={"Select a unit type"}
-                updateOption={(element) => {
-                  handleUnitChange(answer.type, {
-                    unit: element && element.children[0]?.getAttribute("value"),
-                  });
-                }}
-                hasError={hasUnitError}
-                defaultValue={
-                  answer.properties.unit
-                    ? `${answer.properties.unit} (${
-                        unitConversion[answer.properties.unit].abbreviation
-                      })`
-                    : ""
-                }
-              />
-            </MultiLineField>
-            {hasUnitError && (
-              <ValidationError test="unitRequired">
-                {SELECTION_REQUIRED}
-              </ValidationError>
-            )}
-          </>
-        )}
-      </Column>
+      </Container>
+      <HorizontalRule />
+      <Label>Validation settings</Label>
+      {answer.type === UNIT && (
+        <>
+          <MultiLineField id="unit" label={"Type"}>
+            <Autocomplete
+              options={unitConversion}
+              filter={filterUnitOptions}
+              placeholder={"Select a unit type"}
+              updateOption={(element) => {
+                handleUnitChange(answer.type, {
+                  unit: element && element.children[0]?.getAttribute("value"),
+                });
+              }}
+              hasError={hasUnitError}
+              defaultValue={
+                answer.properties.unit
+                  ? `${answer.properties.unit} (${
+                      unitConversion[answer.properties.unit].abbreviation
+                    })`
+                  : ""
+              }
+            />
+          </MultiLineField>
+          {hasUnitError && (
+            <ValidationError test="unitRequired">
+              {SELECTION_REQUIRED}
+            </ValidationError>
+          )}
+        </>
+      )}
       {hasDecimalInconsistency && (
         <ValidationError>
           {characterErrors.DECIMAL_MUST_BE_SAME}

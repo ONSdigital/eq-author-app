@@ -14,8 +14,8 @@ const InlineField = styled(Field)`
   }
 `;
 
-const ToggleProperty = ({ id, value, onChange }) => (
-  <InlineField>
+const ToggleProperty = ({ id, value, onChange, className }) => (
+  <InlineField className={className}>
     <ToggleSwitch
       id={id}
       name={id}

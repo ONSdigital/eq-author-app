@@ -82,6 +82,12 @@ export const Body = styled.div`
     padding: 1em 0 1em 0.5em;
     border-left: none;
 `}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    padding: 1em;
+`}
 `;
 
 export const ToggleCollapsibleButton = styled.button`

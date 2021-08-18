@@ -7,7 +7,8 @@ import { colors } from "constants/theme";
 import Number, { NumberInput } from "components/Forms/Number";
 
 const SmallerNumber = styled(Number)`
-  width: 4em;
+  width: 7em;
+  margin-left: 1em;
 
   ${NumberInput} {
     ${(props) =>

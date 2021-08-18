@@ -6,10 +6,8 @@ import { Field, Label } from "components/Forms";
 
 const StyledInlineField = styled(Field)`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: left;
   margin-bottom: 0;
+  align-items: center;
 `;
 
 const InlineField = ({ id, label, children, ...otherProps }) => (
