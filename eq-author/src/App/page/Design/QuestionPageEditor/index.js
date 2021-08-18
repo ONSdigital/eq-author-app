@@ -32,6 +32,7 @@ import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
 import TotalValidation from "../Validation/GroupValidations/TotalValidation";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import ContentContainer from "components/ContentContainer";
 
 const QuestionSegment = styled.div`
   padding: 0 2em;
@@ -121,13 +122,13 @@ export const UnwrappedQuestionPageEditor = (props) => {
       </div>
 
       {page.totalValidation && (
-        <>
+        <ContentContainer title="Total number validation">
           <TotalValidation
             total={page.totalValidation}
             validationError={page.validationErrorInfo}
             type={answers[0].type}
           />
-        </>
+        </ContentContainer>
       )}
 
       <AddAnswerSegment>
