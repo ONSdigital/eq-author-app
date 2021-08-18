@@ -46,9 +46,9 @@ const NumberAnswerRoutingSelector = styled.div`
   ${({ hasError }) =>
     hasError &&
     `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
     border-radius: 4px;
     margin-bottom: 0.5em;
   `}
@@ -87,13 +87,11 @@ class NumberAnswerSelector extends React.Component {
   handleError = () => {
     const { expression, groupErrorMessage } = this.props;
     let message = null;
-    let rightAlign = true;
 
     const errors = expression.validationErrorInfo.errors;
 
     if (errors.some(({ field }) => field === "condition")) {
       message = OPERATOR_REQUIRED;
-      rightAlign = false;
     } else if (
       errors.some(
         ({ errorCode }) =>
@@ -111,11 +109,7 @@ class NumberAnswerSelector extends React.Component {
       message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
     }
 
-    return (
-      <ValidationError right={rightAlign}>
-        {message || groupErrorMessage}
-      </ValidationError>
-    );
+    return <ValidationError>{message || groupErrorMessage}</ValidationError>;
   };
 
   render() {

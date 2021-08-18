@@ -40,10 +40,6 @@ const Transition = styled(BounceTransition)`
   margin-bottom: 2em;
 `;
 
-const GroupOperatorValidationError = styled(ValidationError)`
-  margin-bottom: 0;
-`;
-
 export const Title = styled.h2`
   letter-spacing: 0.05em;
   font-size: 0.9em;
@@ -60,7 +56,7 @@ const Header = styled.div`
 `;
 
 const SmallSelect = styled(Select)`
-  display: inline-block;
+  display: block;
   width: 14.2em;
   margin-bottom: 0;
   line-height: 1.25;
@@ -147,9 +143,7 @@ export const UnwrappedRuleEditor = ({
         <option value="And">AND</option>
       </SmallSelect>
       {groupOperatorError && (
-        <GroupOperatorValidationError right={false}>
-          {groupOperatorError}
-        </GroupOperatorValidationError>
+        <ValidationError>{groupOperatorError}</ValidationError>
       )}
     </>
   );

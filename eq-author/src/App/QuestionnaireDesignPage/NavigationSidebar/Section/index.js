@@ -22,7 +22,7 @@ const NavList = styled.ol`
   ${({ isDraggingOver }) =>
     isDraggingOver &&
     `
-    background-color: ${colors.darkerBlack};
+    background-color: ${colors.black};
 
     .CollapsibleNavItem .CollapsibleNavItem-body {
       background-color: ${colors.black};

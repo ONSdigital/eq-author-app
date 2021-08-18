@@ -67,10 +67,11 @@ export const Palette = () => (
     </Container>
     <Container>
       <Colour colour={colors.black} name="Black" />
-      <Colour colour={colors.darkerBlack} name="Darker black" />
+      <Colour colour={colors.sidebarBlack} name="Sidebar black" />
     </Container>
     <Container>
       <Colour colour={colors.grey} name="Grey" />
+      <Colour colour={colors.mediumGrey} name="Medium grey" />
       <Colour colour={colors.darkGrey} name="Dark grey" />
       <Colour colour={colors.lightGrey} name="Light grey" />
       <Colour colour={colors.lightMediumGrey} name="Light medium grey" />
@@ -79,6 +80,7 @@ export const Palette = () => (
     </Container>
     <Container>
       <Colour colour={colors.green} name="Green" />
+      <Colour colour={colors.lightGreen} name="Light green" />
       <Colour colour={colors.highlightGreen} name="Highlight green" />
     </Container>
     <Container>
@@ -86,6 +88,8 @@ export const Palette = () => (
       <Colour colour={colors.orange} name="Orange" />
       <Colour colour={colors.amber} name="Amber" />
       <Colour colour={colors.greyedOrange} name="Greyed orange" />
+      <Colour colour={colors.lightOrange} name="Light orange" />
+      <Colour colour={colors.darkOrange} name="Dark orange" />
     </Container>
     <Container>
       <Colour colour={colors.white} name="White" />
@@ -105,5 +109,16 @@ export const Semantic = () => (
     <Colour colour={colors.borders} name="Borders" />
     <Colour colour={colors.bordersLight} name="Borders light" />
     <Colour colour={colors.previewError} name="Preview error" />
+    <Colour colour={colors.errorPrimary} name="Error primary" />
+    <Colour colour={colors.errorSecondary} name="Error secondary" />
+    <Colour
+      colour={colors.badgeSelectedBackground}
+      name="Badge selected background"
+    />
+    <Colour colour={colors.badgeSelectedText} name="Badge selected text" />
+    <Colour
+      colour={colors.calcSumEmptyContent}
+      name="Calculated summary empty content"
+    />
   </Container>
 );

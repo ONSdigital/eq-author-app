@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { last } from "lodash";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -35,15 +34,12 @@ export const tabTitles = {
 
 const { Enter, Space } = keyCodes;
 
-const otherDestinations = ({ pages, logicalDestinations }, questionnaire) => {
+const otherDestinations = ({ logicalDestinations }, questionnaire) => {
   const dest = logicalDestinations(questionnaire).map((item) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
-  dest.splice(1, 0, {
-    ...last(pages),
-    displayName: destinationKey.EndOfCurrentSection,
-  });
+
   return dest;
 };
 

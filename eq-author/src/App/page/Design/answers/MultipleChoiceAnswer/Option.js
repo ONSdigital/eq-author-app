@@ -28,16 +28,17 @@ const ENTER_KEY = 13;
 
 export const ButtonsContainer = styled.div`
   position: absolute;
-  right: 0;
+  left: 10px;
   top: 0;
   display: flex;
   z-index: 2;
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 
 export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
+  margin-top: 1.5em;
 `;
 
 export const OptionField = styled(Field)`
@@ -184,6 +185,7 @@ export const StatelessOption = ({
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
+        {renderToolbar()}
         <Flex>
           <DummyMultipleChoice type={type} />
           <OptionField>
@@ -237,7 +239,6 @@ export const StatelessOption = ({
             />
           </LastOptionField>
         )}
-        {renderToolbar()}
       </div>
     </StyledOption>
   );

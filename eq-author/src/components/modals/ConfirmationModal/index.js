@@ -7,16 +7,10 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
 import PropTypes from "prop-types";
 
-import { ReactComponent as WarningIcon } from "assets/icon-warning.svg";
+import ValidationError from "components/ValidationError";
 
 const Title = styled.h2`
   color: ${colors.darkGrey};
-`;
-
-const WarningText = styled.p`
-  color: ${colors.red};
-  font-weight: bold;
-  margin: 0;
 `;
 
 const IconColumn = styled(Column).attrs({ cols: 1, gutters: false })`
@@ -66,11 +60,8 @@ const ConfirmationModal = ({
         </TextColumn>
       </Grid>
       <Grid align="center">
-        <IconColumn>
-          <WarningIcon />
-        </IconColumn>
         <TextColumn>
-          <WarningText>{message}</WarningText>
+          <ValidationError variant="confirmation">{message}</ValidationError>
         </TextColumn>
       </Grid>
       <ButtonGroupStyled>

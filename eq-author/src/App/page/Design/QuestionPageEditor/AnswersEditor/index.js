@@ -10,7 +10,7 @@ import AnswerTransition from "./AnswerTransition";
 import AnswerEditor from "./AnswerEditor";
 
 const Margin = styled.div`
-  margin-top: 3em;
+  margin-top: 2em;
 `;
 
 export const AnswersEditor = ({
@@ -23,7 +23,6 @@ export const AnswersEditor = ({
   onDeleteAnswer,
   moveAnswer,
 }) => {
-
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
 
