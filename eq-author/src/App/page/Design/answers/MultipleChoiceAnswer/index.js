@@ -49,6 +49,10 @@ const SpecialOptionWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
+const StyledSplitButton = styled(SplitButton)`
+  margin-bottom: 1em;
+`;
+
 export class UnwrappedMultipleChoiceAnswer extends Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
@@ -171,7 +175,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
           </TransitionGroup>
 
           <div>
-            <SplitButton
+            <StyledSplitButton
               onPrimaryAction={this.handleAddOption}
               primaryText={
                 answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
@@ -197,7 +201,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                   </MenuItem>
                 )}
               </Dropdown>
-            </SplitButton>
+            </StyledSplitButton>
           </div>
         </AnswerWrapper>
       </BasicAnswer>

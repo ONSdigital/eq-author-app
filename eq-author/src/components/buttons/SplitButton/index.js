@@ -35,10 +35,11 @@ class SplitButton extends React.Component {
       open,
       children,
       dataTest,
+      className,
     } = this.props;
     const trigger = <MenuButton data-test={`${dataTest}-menu`} />;
     return (
-      <FlexContainer>
+      <FlexContainer className={className}>
         <PrimaryButton onClick={onPrimaryAction} data-test={dataTest}>
           {primaryText}
         </PrimaryButton>
