@@ -55,6 +55,23 @@ const ValidationGroup = styled.div`
   }
 `;
 
+const ErrorGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  div {
+    margin-bottom: 0.5em;
+
+    &:first-of-type {
+      margin-top: 0.5em;
+    }
+
+    div {
+      margin: 0;
+    }
+  }
+`;
+
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
     return null;
@@ -148,9 +165,11 @@ const errorCodes = {
 };
 
 const renderError = (error) => (
-  <ValidationError key={error.id}>
-    {errorCodes[error.errorCode]}
-  </ValidationError>
+  <div>
+    <ValidationError key={error.id}>
+      {errorCodes[error.errorCode]}
+    </ValidationError>
+  </div>
 );
 
 const titleText = (id, title, enabled, inclusive) => {
@@ -183,6 +202,7 @@ const AnswerValidation = ({ answer }) => {
   }
 
   const validationComponents = [];
+  const errorComponents = [];
 
   for (let i = 0; i < validValidationTypes.length; i += 2) {
     const minimumType = validValidationTypes[i];
@@ -232,19 +252,20 @@ const AnswerValidation = ({ answer }) => {
         });
 
         if (individualErrors.length) {
-          validationComponents.push(renderError(individualErrors[0]));
+          errorComponents.push(renderError(individualErrors[0]));
         }
       }
     }
 
     if (groupErrors.length) {
-      validationComponents.push(renderError(groupErrors[0]));
+      errorComponents.push(renderError(groupErrors[0]));
     }
   }
 
   return (
     <ValidationContext.Provider value={{ answer }}>
       <ValidationGroup>{validationComponents}</ValidationGroup>
+      <ErrorGroup>{errorComponents}</ErrorGroup>
       <ModalWithNav
         id={modalId}
         onClose={handleModalClose}

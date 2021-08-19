@@ -15,7 +15,7 @@ const MultiLineControl = styled.div`
 
 const MultiLineField = ({ id, label, children }) => (
   <StyledMultiLineField key={id}>
-    <Label bold={false} inline htmlFor={id}>
+    <Label bold inline htmlFor={id}>
       {label}
     </Label>
     <MultiLineControl>{children}</MultiLineControl>

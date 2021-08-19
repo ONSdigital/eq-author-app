@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Select } from "components/Forms";
 import { map, groupBy } from "lodash";
+import styled from "styled-components";
 
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
@@ -9,6 +10,14 @@ import Required from "components/AdditionalContent/Required";
 import * as durationTypes from "constants/duration-types";
 
 import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+
+const StyledSelect = styled(Select)`
+  width: 15em;
+`;
+
+const HorizontalRule = styled.hr`
+  margin: 1em 0 1em 0;
+`;
 
 const DurationProperties = ({
   answer,
@@ -27,8 +36,9 @@ const DurationProperties = ({
       withoutHideThis
     >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
+      <HorizontalRule />
       <MultiLineField label="Fields" id={getId("duration", answer.id)}>
-        <Select
+        <StyledSelect
           onChange={onChange}
           value={unit}
           {...otherProps}
@@ -48,7 +58,7 @@ const DurationProperties = ({
               </optgroup>
             );
           })}
-        </Select>
+        </StyledSelect>
       </MultiLineField>
     </Collapsible>
   );
