@@ -18,7 +18,6 @@ import { Autocomplete } from "components/Autocomplete";
 import Required from "components/AdditionalContent/Required";
 import ValidationError from "components/ValidationError";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import { Label } from "components/Forms";
 

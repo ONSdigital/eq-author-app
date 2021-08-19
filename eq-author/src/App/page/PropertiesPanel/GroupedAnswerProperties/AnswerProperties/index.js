@@ -5,6 +5,7 @@ import CustomPropTypes from "custom-prop-types";
 import { getOr } from "lodash/fp";
 
 import updateAnswerMutation from "graphql/updateAnswer.graphql";
+import updateAnswersOfTypeMutation from "graphql/updateAnswersOfType.graphql";
 
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
@@ -40,6 +41,7 @@ export const AnswerProperties = ({
   page,
 }) => {
   const [onUpdateAnswer] = useMutation(updateAnswerMutation);
+  const [updateAnswersOfType] = useMutation(updateAnswersOfTypeMutation);
 
   const hasDecimalInconsistency = getOr(
     [],
@@ -79,14 +81,18 @@ export const AnswerProperties = ({
         },
       },
     });
+  };
 
-    if (
-      (type === answerTypes.DATE || type === answerTypes.DATE_RANGE) &&
-      name === "format"
-    ) {
-      validation.earliestDate.offset.unit = durationsMap[value];
-      validation.latestDate.offset.unit = durationsMap[value];
-    }
+  const handleAnswersOfTypeChange = (name, questionPageId, type) => (value) => {
+    updateAnswersOfType({
+      variables: {
+        input: {
+          type,
+          questionPageId,
+          properties: { ...properties, [name]: value },
+        },
+      },
+    });
   };
 
   return (
@@ -99,7 +105,11 @@ export const AnswerProperties = ({
           answer={answer}
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
-          handleDecimalChange={handleDecimalChange("decimals")}
+          handleDecimalChange={handleAnswersOfTypeChange(
+            "decimals",
+            page.id,
+            type
+          )}
           page={page}
           getId={getId}
         />
