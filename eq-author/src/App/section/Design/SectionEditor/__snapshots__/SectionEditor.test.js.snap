@@ -18,6 +18,9 @@ exports[`SectionEditor should render 1`] = `
   >
     <Component />
   </MoveSectionQuery>
+  <SectionSummary
+    id="section-1"
+  />
   <SectionEditor__Padding>
     <RichTextEditor
       autoFocus={false}
@@ -119,6 +122,9 @@ exports[`SectionEditor should render 2`] = `
   >
     <Component />
   </MoveSectionQuery>
+  <SectionSummary
+    id="section-2"
+  />
   <SectionEditor__Padding>
     <RichTextEditor
       autoFocus={false}
