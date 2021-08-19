@@ -72,17 +72,6 @@ export const AnswerProperties = ({
       }
     };
 
-  const handleDecimalChange = (name) => (value) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id,
-          properties: { ...properties, [name]: value },
-        },
-      },
-    });
-  };
-
   const handleAnswersOfTypeChange = (name, questionPageId, type) => (value) => {
     updateAnswersOfType({
       variables: {

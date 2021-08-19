@@ -114,6 +114,7 @@ const NumberProperties = ({
         <InlineField id={id} label={"Decimals"}>
           <Decimal
             id={answer.id}
+            answer={answer}
             data-test="decimals"
             onBlur={handleDecimalChange}
             value={answer.properties.decimals}

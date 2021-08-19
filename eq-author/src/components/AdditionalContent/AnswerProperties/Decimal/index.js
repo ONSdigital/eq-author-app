@@ -31,12 +31,13 @@ const SmallerNumber = styled(Number)`
   }
 `;
 
-const Decimal = ({ id, value, onBlur, hasDecimalInconsistency }) => {
+const Decimal = ({ id, answer, value, onBlur, hasDecimalInconsistency }) => {
   const [decimal, setDecimal] = useState(value);
   return (
     <>
       <SmallerNumber
         id={id}
+        answer={answer}
         name={id}
         onChange={({ value: decimals }) => setDecimal(decimals)}
         onBlur={() => onBlur(decimal)}
@@ -50,6 +51,7 @@ const Decimal = ({ id, value, onBlur, hasDecimalInconsistency }) => {
 
 Decimal.propTypes = {
   id: PropTypes.string.isRequired,
+  answer: PropTypes.object, //eslint-disable-line
   value: PropTypes.number.isRequired,
   onBlur: PropTypes.func.isRequired,
   hasDecimalInconsistency: PropTypes.bool.isRequired,

@@ -44,6 +44,7 @@ const UnitSymbol = styled.div`
 const Number = (props) => {
   const {
     id,
+    answer,
     onChange,
     onBlur,
     value,
@@ -80,11 +81,12 @@ const Number = (props) => {
   };
 
   return (
+    // Need value prop to be the value from the answer object, but it also needs to be possible to edit value
     <StyledDiv className={className}>
       <NumberInput
         id={id}
         data-test={props["data-test"]}
-        value={value}
+        value={answer.properties.decimals}
         onChange={handleChange}
         type="number"
         onBlur={handleBlur}
@@ -126,6 +128,7 @@ Number.defaultProps = {
 
 Number.propTypes = {
   id: PropTypes.string,
+  answer: PropTypes.object, //eslint-disable-line
   name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
