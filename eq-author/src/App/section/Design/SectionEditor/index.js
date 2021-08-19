@@ -12,6 +12,7 @@ import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
 import { Label } from "components/Forms";
 import HubSettings from "./HubSettings";
+import SectionSummary from "./SectionSummary";
 
 import { colors, radius } from "constants/theme";
 
@@ -142,6 +143,11 @@ export class SectionEditor extends React.Component {
             showOnHub={section.showOnHub}
           />
         )}
+
+        <SectionSummary
+          id={section.id}
+          sectionSummary={section.sectionSummary}
+        />
 
         <Padding>
           <RichTextEditor

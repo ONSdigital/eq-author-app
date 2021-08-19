@@ -152,6 +152,7 @@ type Section {
   displayConditions: [ExpressionGroup2]
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -976,6 +977,7 @@ input CreateSectionInput {
   position: Int
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input UpdateSectionInput {
@@ -986,6 +988,7 @@ input UpdateSectionInput {
   introductionContent: String
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input DeleteSectionInput {
