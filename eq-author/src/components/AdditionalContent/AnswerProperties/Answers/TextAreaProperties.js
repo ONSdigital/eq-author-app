@@ -1,14 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { characterErrors } from "constants/validationMessages";
+import { colors } from "constants/theme";
 
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
-
 import Required from "components/AdditionalContent/Required";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 import { TextProperties } from "./";
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const VerticalRule = styled.div`
+  width: 1px;
+  height: 2.5em;
+  background-color: ${colors.grey};
+  margin: 0 1.4em 0 0.5em;
+`;
 
 const TextAreaProperties = ({ answer, page, onChange, getId }) => {
   const id = getId("textarea", answer.id);
@@ -53,16 +65,20 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
       title={`Text area properties`}
       withoutHideThis
     >
-      <Required answer={answer} onChange={onChange} getId={getId} />
-      <InlineField id="maxCharactersField" label={"Max characters"}>
-        <TextProperties
-          id="maxCharactersInput"
-          key={`${answer.id}-max-length-input`}
-          maxLength={answer.properties.maxLength}
-          pageId={page.id}
-          invalid={Boolean(errorCode)}
-        />
-      </InlineField>
+      <Container>
+        <Required answer={answer} onChange={onChange} getId={getId} />
+        <VerticalRule />
+        <InlineField id="maxCharactersField" label={"Max characters"}>
+          <TextProperties
+            id="maxCharactersInput"
+            key={`${answer.id}-max-length-input`}
+            maxLength={answer.properties.maxLength}
+            pageId={page.id}
+            invalid={Boolean(errorCode)}
+          />
+        </InlineField>
+      </Container>
+
       {lengthValueError(errorCode)}
     </Collapsible>
   );

@@ -7,7 +7,9 @@ import { colors } from "constants/theme";
 import PropTypes from "prop-types";
 
 const MaxCharacters = styled(Input)`
-  width: 5em;
+  margin-left: 1em;
+  width: 7em;
+  padding: 0.25em 0.5em;
   border-color: ${(props) => (props.invalid ? colors.errorPrimary : "")};
   &[type="number"]::-webkit-inner-spin-button,
   &[type="number"]::-webkit-outer-spin-button {
