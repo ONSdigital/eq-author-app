@@ -9,7 +9,7 @@ import updateAnswerMutation from "graphql/updateAnswer.graphql";
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
 import {
-  DateFormat,
+  DateProperties,
   DurationProperties,
 } from "components/AdditionalContent/AnswerProperties/Answers";
 import NumberProperties from "components/AdditionalContent/AnswerProperties/Answers/NumberProperties";
@@ -49,26 +49,24 @@ export const AnswerProperties = ({
     .map(({ errorCode }) => errorCode)
     .includes(DECIMAL_INCONSISTENCY);
 
-  const handleChange =
-    (name) =>
-    ({ value }) => {
-      onUpdateAnswer({
-        variables: {
-          input: {
-            id,
-            properties: { ...properties, [name]: value },
-          },
+  const handleChange = (name) => ({ value }) => {
+    onUpdateAnswer({
+      variables: {
+        input: {
+          id,
+          properties: { ...properties, [name]: value },
         },
-      });
+      },
+    });
 
-      if (
-        (type === answerTypes.DATE || type === answerTypes.DATE_RANGE) &&
-        name === "format"
-      ) {
-        validation.earliestDate.offset.unit = durationsMap[value];
-        validation.latestDate.offset.unit = durationsMap[value];
-      }
-    };
+    if (
+      (type === answerTypes.DATE || type === answerTypes.DATE_RANGE) &&
+      name === "format"
+    ) {
+      validation.earliestDate.offset.unit = durationsMap[value];
+      validation.latestDate.offset.unit = durationsMap[value];
+    }
+  };
 
   return (
     <>
@@ -86,7 +84,7 @@ export const AnswerProperties = ({
         />
       )}
       {type === answerTypes.DATE && (
-        <DateFormat
+        <DateProperties
           answer={answer}
           onChange={handleChange("format")}
           handleRequiredChange={handleChange("required")}

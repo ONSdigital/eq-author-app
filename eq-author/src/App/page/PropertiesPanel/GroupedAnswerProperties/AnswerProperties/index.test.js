@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import { useMutation } from "@apollo/react-hooks";
 
 import { NUMBER, DATE } from "constants/answer-types";
-import { DateFormat } from "components/AdditionalContent/AnswerProperties/Answers";
+import { DateProperties } from "components/AdditionalContent/AnswerProperties/Answers";
 import ToggleProperty from "components/AdditionalContent/ToggleProperty";
 import { AnswerProperties } from "./";
 
@@ -93,7 +93,7 @@ describe("Answer Properties", () => {
         },
       };
       const wrapper = shallow(<AnswerProperties {...props} />);
-      wrapper.find(DateFormat).simulate("change", { value: "mm/yy" });
+      wrapper.find(DateProperties).simulate("change", { value: "mm/yy" });
       expect(onUpdateAnswer).toHaveBeenCalledWith({
         variables: {
           input: {

@@ -23,7 +23,7 @@ const VerticalRule = styled.div`
 `;
 
 const TextAreaProperties = ({ answer, page, onChange, getId }) => {
-  const id = getId("textarea", answer.id);
+  // const id = getId("textarea", answer.id);
   const errors = answer?.validationErrorInfo?.errors ?? [];
 
   const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";

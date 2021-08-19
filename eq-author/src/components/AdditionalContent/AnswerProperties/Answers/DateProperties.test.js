@@ -1,5 +1,5 @@
 import React from "react";
-import DateFormat from "./DateFormat";
+import DateProperties from "./DateProperties";
 import { render, fireEvent } from "tests/utils/rtl";
 
 describe("Date Format Tests", () => {
@@ -15,7 +15,7 @@ describe("Date Format Tests", () => {
     });
 
     it("Can render with default props", () => {
-      const { getByTestId } = render(<DateFormat {...props} />);
+      const { getByTestId } = render(<DateProperties {...props} />);
 
       expect(getByTestId("day-month-year")).toBeInTheDocument();
       expect(getByTestId("month-year")).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Date Format Tests", () => {
     });
 
     it("should handle change event for input", () => {
-      const { getByTestId } = render(<DateFormat {...props} />);
+      const { getByTestId } = render(<DateProperties {...props} />);
 
       fireEvent.change(getByTestId("select"), { target: { value: "mm/yyyy" } });
 
