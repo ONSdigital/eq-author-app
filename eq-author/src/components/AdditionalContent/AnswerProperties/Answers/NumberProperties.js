@@ -42,6 +42,10 @@ const VerticalRule = styled.div`
   margin: 0 1.4em 0 0.5em;
 `;
 
+const StyledAutocomplete = styled(Autocomplete)`
+  width: 15em;
+`;
+
 const filterCondition = (x, query) =>
   x.unit.toLowerCase().includes(query.toLowerCase().trim()) ||
   x.abbreviation.toLowerCase().includes(query.toLowerCase().trim()) ||
@@ -119,29 +123,27 @@ const NumberProperties = ({
         </InlineField>
       </Container>
       <HorizontalRule />
-      <Label>Validation settings</Label>
       {answer.type === UNIT && (
         <>
-          <MultiLineField id="unit" label={"Type"}>
-            <Autocomplete
-              options={unitConversion}
-              filter={filterUnitOptions}
-              placeholder={"Select a unit type"}
-              updateOption={(element) => {
-                handleUnitChange(answer.type, {
-                  unit: element && element.children[0]?.getAttribute("value"),
-                });
-              }}
-              hasError={hasUnitError}
-              defaultValue={
-                answer.properties.unit
-                  ? `${answer.properties.unit} (${
-                      unitConversion[answer.properties.unit].abbreviation
-                    })`
-                  : ""
-              }
-            />
-          </MultiLineField>
+          <Label id="unit">Unit type</Label>
+          <StyledAutocomplete
+            options={unitConversion}
+            filter={filterUnitOptions}
+            placeholder={"Select a unit type"}
+            updateOption={(element) => {
+              handleUnitChange(answer.type, {
+                unit: element && element.children[0]?.getAttribute("value"),
+              });
+            }}
+            hasError={hasUnitError}
+            defaultValue={
+              answer.properties.unit
+                ? `${answer.properties.unit} (${
+                    unitConversion[answer.properties.unit].abbreviation
+                  })`
+                : ""
+            }
+          />
           {hasUnitError && (
             <ValidationError test="unitRequired">
               {SELECTION_REQUIRED}
@@ -149,6 +151,7 @@ const NumberProperties = ({
           )}
         </>
       )}
+      <Label>Validation settings</Label>
       {hasDecimalInconsistency && (
         <ValidationError>
           {characterErrors.DECIMAL_MUST_BE_SAME}
