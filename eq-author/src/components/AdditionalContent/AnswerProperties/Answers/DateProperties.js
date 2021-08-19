@@ -8,11 +8,9 @@ import Required from "components/AdditionalContent/Required";
 
 import MultiLineField from "../Format/MultiLineField";
 import InlineField from "../Format/InlineField";
-
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 import styled from "styled-components";
-import { colors } from "constants/theme";
 
 const Container = styled.div`
   display: flex;
@@ -23,11 +21,8 @@ const HorizontalRule = styled.hr`
   margin: 1em 0 1.5em 0;
 `;
 
-const VerticalRule = styled.div`
-  width: 1px;
-  height: 2.5em;
-  background-color: ${colors.grey};
-  margin: 0 1.4em 0 0.5em;
+const HorizontalSpacer = styled.div`
+  margin: 1em 0 0 0;
 `;
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
@@ -45,14 +40,11 @@ const DateProperties = ({
       title={`${answer.type} properties`}
       withoutHideThis
     >
-      <Container>
-        <Required
-          answer={answer}
-          onChange={handleRequiredChange}
-          getId={getId}
-        />
+      <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
 
-        <VerticalRule />
+      <HorizontalRule />
+
+      <Container>
         <InlineField id={getId("date-format", answer.id)} label={"Date type"}>
           <Select
             data-test="select"
@@ -75,13 +67,14 @@ const DateProperties = ({
           </Select>
         </InlineField>
       </Container>
-      <HorizontalRule />
-      <MultiLineField
-        id={getId("date-format", answer.id)}
-        label={"Validation settings"}
-      >
-        <AnswerValidation answer={answer} />
-      </MultiLineField>
+      <HorizontalSpacer>
+        <MultiLineField
+          id={getId("date-format", answer.id)}
+          label={"Validation settings"}
+        >
+          <AnswerValidation answer={answer} />
+        </MultiLineField>
+      </HorizontalSpacer>
     </Collapsible>
   );
 };
