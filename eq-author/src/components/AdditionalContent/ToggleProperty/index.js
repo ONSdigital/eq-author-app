@@ -30,6 +30,7 @@ ToggleProperty.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 export default ToggleProperty;

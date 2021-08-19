@@ -81,6 +81,7 @@ const NumberProperties = ({
   answer,
   hasDecimalInconsistency,
   handleChange,
+  handleDecimalChange,
   page,
   getId,
 }) => {
@@ -109,13 +110,9 @@ const NumberProperties = ({
         <VerticalRule />
         <InlineField id={id} label={"Decimals"}>
           <Decimal
-            id={id}
+            id={answer.id}
             data-test="decimals"
-            onBlur={(decimals) => {
-              handleChange(answer.type, {
-                decimals,
-              });
-            }}
+            onBlur={handleDecimalChange}
             value={answer.properties.decimals}
             hasDecimalInconsistency={hasDecimalInconsistency}
           />
@@ -165,6 +162,7 @@ const NumberProperties = ({
 NumberProperties.propTypes = {
   hasDecimalInconsistency: PropTypes.bool,
   handleChange: PropTypes.func,
+  handleDecimalChange: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
   getId: PropTypes.func,

@@ -80,6 +80,7 @@ export const AnswerProperties = ({
           answer={answer}
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
+          handleDecimalChange={handleChange("decimals")}
           page={page}
           getId={getId}
         />
