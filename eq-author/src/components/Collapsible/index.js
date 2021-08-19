@@ -9,8 +9,7 @@ import { darken } from "polished";
 import Button from "components/buttons/Button";
 
 const Wrapper = styled.div`
-  margin: ${(props) =>
-    props.variant === "default" ? `0 2.5em 1em` : `0 2em 1em`};
+  margin: ${(props) => (props.variant === "default" ? `0` : `0 2em 1em`)};
   border: ${(props) =>
     props.variant === "content" && ` 1px solid ${colors.grey}`};
 `;
@@ -46,8 +45,6 @@ export const Title = styled.h2`
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
-  margin-left: 0.1em;
-  padding-left: 0.5em;
   border-left: 3px solid ${colors.lightGrey};
 
   ${(props) =>
