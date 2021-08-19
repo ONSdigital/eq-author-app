@@ -63,7 +63,6 @@ const propTypes = {
   onUpdate: PropTypes.func.isRequired,
   fetchAnswers: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
-  renderPanel: PropTypes.func,
 };
 export const UnwrappedQuestionPageEditor = (props) => {
   const {
@@ -81,7 +80,6 @@ export const UnwrappedQuestionPageEditor = (props) => {
     onAddAnswer,
     onDeleteAnswer,
     match,
-    renderPanel,
   } = props;
 
   useSetNavigationCallbacksForPage({
@@ -134,7 +132,6 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteOption={onDeleteOption}
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
-          renderPanel={renderPanel}
           page={page}
         />
       </div>

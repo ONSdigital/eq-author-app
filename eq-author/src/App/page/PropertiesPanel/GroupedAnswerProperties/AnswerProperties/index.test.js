@@ -3,7 +3,8 @@ import { shallow } from "enzyme";
 import { useMutation } from "@apollo/react-hooks";
 
 import { NUMBER, DATE } from "constants/answer-types";
-import { ToggleProperty, DateFormat } from "./Properties";
+import { DateFormat } from "components/AdditionalContent/AnswerProperties/Answers";
+import ToggleProperty from "components/AdditionalContent/ToggleProperty";
 import { AnswerProperties } from "./";
 
 jest.mock("@apollo/react-hooks", () => ({

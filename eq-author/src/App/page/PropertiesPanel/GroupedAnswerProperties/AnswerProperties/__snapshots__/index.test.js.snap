@@ -2,16 +2,20 @@
 
 exports[`Answer Properties should render 1`] = `
 <Fragment>
-  <InlineField
-    id="answer-1-required"
-    label="Required"
-  >
-    <ToggleProperty
-      data-test="answer-properties-required-toggle"
-      id="answer-1-required"
-      onChange={[Function]}
-      value={true}
-    />
-  </InlineField>
+  <NumberProperties
+    answer={
+      Object {
+        "id": "1",
+        "properties": Object {
+          "decimals": 2,
+          "required": true,
+        },
+        "type": "Number",
+      }
+    }
+    getId={[Function]}
+    handleChange={[Function]}
+    hasDecimalInconsistency={false}
+  />
 </Fragment>
 `;

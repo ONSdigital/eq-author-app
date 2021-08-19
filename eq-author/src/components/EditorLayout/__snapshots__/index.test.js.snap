@@ -27,7 +27,7 @@ exports[`Editor Layout should render 1`] = `
         routing={true}
       >
         <Column
-          cols={12}
+          cols={9}
           gutters={false}
         >
           <EditorLayout__Margin>
@@ -35,11 +35,16 @@ exports[`Editor Layout should render 1`] = `
               maxWidth="70em"
             >
               Content
-              <EditorLayout__PanelWrapper
-                data-test="property-panel"
-              />
             </MainCanvas>
           </EditorLayout__Margin>
+        </Column>
+        <Column
+          cols={3}
+          gutters={false}
+        >
+          <EditorLayout__PanelWrapper
+            data-test="right-hand-panel"
+          />
         </Column>
       </EditorLayout__StyledGrid>
     </ScrollPane>
