@@ -27,7 +27,6 @@ const Caption = styled.p`
 `;
 
 const SectionSummary = ({ id, sectionSummary }) => {
-  console.log(`sectionSummary`, sectionSummary);
   const [updateSection] = useMutation(updateSectionMutation);
 
   return (
