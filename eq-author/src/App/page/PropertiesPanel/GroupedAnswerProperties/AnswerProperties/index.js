@@ -49,7 +49,28 @@ export const AnswerProperties = ({
     .map(({ errorCode }) => errorCode)
     .includes(DECIMAL_INCONSISTENCY);
 
-  const handleChange = (name) => ({ value }) => {
+  const handleChange =
+    (name) =>
+    ({ value }) => {
+      onUpdateAnswer({
+        variables: {
+          input: {
+            id,
+            properties: { ...properties, [name]: value },
+          },
+        },
+      });
+
+      if (
+        (type === answerTypes.DATE || type === answerTypes.DATE_RANGE) &&
+        name === "format"
+      ) {
+        validation.earliestDate.offset.unit = durationsMap[value];
+        validation.latestDate.offset.unit = durationsMap[value];
+      }
+    };
+
+  const handleDecimalChange = (name) => (value) => {
     onUpdateAnswer({
       variables: {
         input: {
@@ -78,7 +99,7 @@ export const AnswerProperties = ({
           answer={answer}
           hasDecimalInconsistency={hasDecimalInconsistency}
           handleChange={handleChange("required")}
-          handleDecimalChange={handleChange("decimals")}
+          handleDecimalChange={handleDecimalChange("decimals")}
           page={page}
           getId={getId}
         />
