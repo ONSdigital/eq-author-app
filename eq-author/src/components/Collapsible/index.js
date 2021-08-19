@@ -45,8 +45,6 @@ export const Title = styled.h2`
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
-  margin-left: 0.1em;
-  padding-left: 0.5em;
   border-left: 3px solid ${colors.lightGrey};
 
   ${(props) =>
