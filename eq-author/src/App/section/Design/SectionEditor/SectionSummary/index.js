@@ -10,8 +10,8 @@ import ToggleSwitch from "components/buttons/ToggleSwitch";
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
-  margin-bottom: 0.4em;
-  margin-left: 2em;
+  margin-bottom: 0.4rem;
+  margin-left: 2rem;
 `;
 
 const ToggleWrapper = styled.div`
@@ -20,9 +20,9 @@ const ToggleWrapper = styled.div`
 `;
 
 const Caption = styled.p`
-  margin-top: 0.2em;
-  margin-bottom: 2em;
-  margin-left: 2.4em;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
   font-size: 0.85em;
 `;
 
