@@ -57,6 +57,7 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": false,
+    "coverageReporters": ["text", "text-summary", "json", "json-summary"],
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",
