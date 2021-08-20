@@ -112,5 +112,3 @@ theme colours and action names.
 
 `yarn build-storybook -o ../docs` deploy updates to static site (run from eq-author folder).
 
-
-test
