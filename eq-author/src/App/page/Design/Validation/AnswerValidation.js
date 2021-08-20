@@ -14,6 +14,8 @@ import DateValidation from "./DateValidation";
 import NumericValidation from "./NumericValidation/index";
 import ValidationError from "components/ValidationError";
 
+import { Field } from "components/Forms";
+
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
 import {
@@ -46,9 +48,18 @@ import {
   UNIT,
 } from "constants/answer-types";
 
-const ValidationGroup = styled.div`
+const ValidationGroupTop = styled.div`
   display: flex;
+  button {
+    width: 15em;
+    margin-right: 1em;
+  }
+`;
 
+const ValidationGroupBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
   button {
     width: 15em;
     margin-right: 1em;
@@ -70,6 +81,13 @@ const ErrorGroup = styled.div`
       margin: 0;
     }
   }
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
 `;
 
 const formatValue = (value, { type, properties }) => {
@@ -201,7 +219,14 @@ const AnswerValidation = ({ answer }) => {
     return null;
   }
 
-  const validationComponents = [];
+  const validationComponentsMinValue = [];
+  const validationComponentsMaxValue = [];
+
+  const validationComponentsEarliestDate = [];
+  const validationComponentsLatestDate = [];
+
+  const validationComponentsMinDuration = [];
+  const validationComponentsMaxDuration = [];
   const errorComponents = [];
 
   for (let i = 0; i < validValidationTypes.length; i += 2) {
@@ -220,22 +245,117 @@ const AnswerValidation = ({ answer }) => {
         setStartingTabId(type.id);
       };
 
-      validationComponents.push(
-        <SidebarButton
-          id={type.id}
-          key={type.id}
-          data-test={`sidebar-button-${kebabCase(type.title)}`}
-          onClick={handleSidebarButtonClick}
-          hasError={errors.length || groupErrors.length}
-        >
-          <Title>
-            {titleText(type.id, type.title, validation.enabled, inclusive)}
-          </Title>
-          {enabled && value !== undefined && value !== null && (
-            <Detail>{value}</Detail>
-          )}
-        </SidebarButton>
-      );
+      if (validation.__typename.includes("MinValue")) {
+        validationComponentsMaxValue.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+
+      if (validation.__typename.includes("MaxValue")) {
+        validationComponentsMaxValue.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+
+      if (validation.__typename.includes("EarliestDate")) {
+        validationComponentsEarliestDate.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+      if (validation.__typename.includes("LatestDate")) {
+        validationComponentsLatestDate.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+
+      if (validation.__typename.includes("MinDuration")) {
+        validationComponentsMinDuration.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+      if (validation.__typename.includes("MaxDuration")) {
+        validationComponentsMaxDuration.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            hasError={errors.length || groupErrors.length}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
 
       if (errors.length) {
         const individualErrors = [];
@@ -264,7 +384,27 @@ const AnswerValidation = ({ answer }) => {
 
   return (
     <ValidationContext.Provider value={{ answer }}>
-      <ValidationGroup>{validationComponents}</ValidationGroup>
+      <InlineField>
+        <ValidationGroupTop>{validationComponentsMinValue}</ValidationGroupTop>
+        <ValidationGroupTop>{validationComponentsMaxValue}</ValidationGroupTop>
+      </InlineField>
+
+      <InlineField>
+        <ValidationGroupTop>
+          {validationComponentsEarliestDate}
+        </ValidationGroupTop>
+        <ValidationGroupTop>
+          {validationComponentsLatestDate}
+        </ValidationGroupTop>
+      </InlineField>
+      <InlineField>
+        <ValidationGroupBottom>
+          {validationComponentsMinDuration}
+        </ValidationGroupBottom>
+        <ValidationGroupBottom>
+          {validationComponentsMaxDuration}
+        </ValidationGroupBottom>
+      </InlineField>
       <ErrorGroup>{errorComponents}</ErrorGroup>
       <ModalWithNav
         id={modalId}

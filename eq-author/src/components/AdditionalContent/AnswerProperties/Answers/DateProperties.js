@@ -25,6 +25,10 @@ const HorizontalSpacer = styled.div`
   margin: 1em 0 0 0;
 `;
 
+const AnswerValidationSurround = styled.div`
+  margin: 1em 0 0 0;
+`;
+
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
 const DateProperties = ({
@@ -72,7 +76,9 @@ const DateProperties = ({
           id={getId("date-format", answer.id)}
           label={"Validation settings"}
         >
-          <AnswerValidation answer={answer} />
+          <AnswerValidationSurround>
+            <AnswerValidation answer={answer} />
+          </AnswerValidationSurround>
         </MultiLineField>
       </HorizontalSpacer>
     </Collapsible>

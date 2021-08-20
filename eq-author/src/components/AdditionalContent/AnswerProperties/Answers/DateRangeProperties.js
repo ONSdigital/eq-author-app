@@ -7,8 +7,6 @@ import MultiLineField from "components/AdditionalContent/AnswerProperties/Format
 
 import InlineField from "../Format/InlineField";
 import styled from "styled-components";
-import { colors } from "constants/theme";
-
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 const Container = styled.div`
