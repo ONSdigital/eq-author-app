@@ -12,22 +12,14 @@ import DurationValidation from "./DurationValidation";
 import DateValidation from "./DateValidation";
 
 import NumericValidation from "./NumericValidation/index";
-import ValidationError from "components/ValidationError";
 
 import { Field } from "components/Forms";
 
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
 import {
-  EARLIEST_BEFORE_LATEST_DATE,
-  MAX_GREATER_THAN_MIN,
-  DURATION_ERROR_MESSAGE,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
-  ERR_OFFSET_NO_VALUE,
-  ERR_NO_VALUE,
-  ERR_REFERENCE_MOVED,
-  ERR_REFERENCE_DELETED,
 } from "constants/validationMessages";
 
 import {
@@ -50,6 +42,7 @@ import {
 
 const ValidationGroupTop = styled.div`
   display: flex;
+  align-self: flex-start;
   button {
     width: 15em;
     margin-right: 1em;
@@ -60,26 +53,11 @@ const ValidationGroupBottom = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 1em;
+  align-self: flex-start;
+
   button {
     width: 15em;
     margin-right: 1em;
-  }
-`;
-
-const ErrorGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  div {
-    margin-bottom: 0.5em;
-
-    &:first-of-type {
-      margin-top: 0.5em;
-    }
-
-    div {
-      margin: 0;
-    }
   }
 `;
 
@@ -172,24 +150,6 @@ export const validationTypes = [
 const getValidationsForType = (type) =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const errorCodes = {
-  ERR_EARLIEST_AFTER_LATEST: EARLIEST_BEFORE_LATEST_DATE,
-  ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
-  ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
-  ERR_NO_VALUE: ERR_NO_VALUE,
-  ERR_OFFSET_NO_VALUE,
-  ERR_REFERENCE_MOVED,
-  ERR_REFERENCE_DELETED,
-};
-
-const renderError = (error) => (
-  <div>
-    <ValidationError key={error.id}>
-      {errorCodes[error.errorCode]}
-    </ValidationError>
-  </div>
-);
-
 const titleText = (id, title, enabled, inclusive) => {
   if (!enabled) {
     return `Set ${title.toLowerCase()}`;
@@ -227,7 +187,6 @@ const AnswerValidation = ({ answer }) => {
 
   const validationComponentsMinDuration = [];
   const validationComponentsMaxDuration = [];
-  const errorComponents = [];
 
   for (let i = 0; i < validValidationTypes.length; i += 2) {
     const minimumType = validValidationTypes[i];
@@ -252,7 +211,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -271,7 +230,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -290,7 +249,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -308,7 +267,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -327,7 +286,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -345,7 +304,7 @@ const AnswerValidation = ({ answer }) => {
             key={type.id}
             data-test={`sidebar-button-${kebabCase(type.title)}`}
             onClick={handleSidebarButtonClick}
-            hasError={errors.length || groupErrors.length}
+            errors={[...errors, ...groupErrors]}
           >
             <Title>
               {titleText(type.id, type.title, validation.enabled, inclusive)}
@@ -356,29 +315,6 @@ const AnswerValidation = ({ answer }) => {
           </SidebarButton>
         );
       }
-
-      if (errors.length) {
-        const individualErrors = [];
-        errors.forEach((error) => {
-          const target = [
-            "ERR_NO_VALUE",
-            "ERR_REFERENCE_MOVED",
-            "ERR_REFERENCE_DELETED",
-            "ERR_OFFSET_NO_VALUE",
-          ].includes(error.errorCode)
-            ? individualErrors
-            : groupErrors;
-          target.push(error);
-        });
-
-        if (individualErrors.length) {
-          errorComponents.push(renderError(individualErrors[0]));
-        }
-      }
-    }
-
-    if (groupErrors.length) {
-      errorComponents.push(renderError(groupErrors[0]));
     }
   }
 
@@ -405,7 +341,6 @@ const AnswerValidation = ({ answer }) => {
           {validationComponentsMaxDuration}
         </ValidationGroupBottom>
       </InlineField>
-      <ErrorGroup>{errorComponents}</ErrorGroup>
       <ModalWithNav
         id={modalId}
         onClose={handleModalClose}
