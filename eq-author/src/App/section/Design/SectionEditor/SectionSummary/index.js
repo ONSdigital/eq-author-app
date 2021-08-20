@@ -20,7 +20,7 @@ const ToggleWrapper = styled.div`
 `;
 
 const Caption = styled.p`
-  margin-top: 0rem;
+  margin-top: 0s;
   margin-bottom: 2rem;
   margin-left: 2rem;
   font-size: 0.85em;
