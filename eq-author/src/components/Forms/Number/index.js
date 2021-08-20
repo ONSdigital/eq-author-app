@@ -81,12 +81,11 @@ const Number = (props) => {
   };
 
   return (
-    // Need value prop to be the value from the answer object, but it also needs to be possible to edit value
     <StyledDiv className={className}>
       <NumberInput
         id={id}
         data-test={props["data-test"]}
-        value={answer.properties.decimals}
+        value={value}
         onChange={handleChange}
         type="number"
         onBlur={handleBlur}
