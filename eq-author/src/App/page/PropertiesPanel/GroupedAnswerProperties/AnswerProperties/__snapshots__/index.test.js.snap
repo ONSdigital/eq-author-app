@@ -15,7 +15,13 @@ exports[`Answer Properties should render 1`] = `
     }
     getId={[Function]}
     handleChange={[Function]}
+    handleDecimalChange={[Function]}
     hasDecimalInconsistency={false}
+    page={
+      Object {
+        "id": "1",
+      }
+    }
   />
 </Fragment>
 `;

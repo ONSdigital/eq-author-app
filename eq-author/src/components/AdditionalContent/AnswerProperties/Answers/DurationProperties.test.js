@@ -18,9 +18,11 @@ describe("Required Property", () => {
         properties: {
           required: true,
         },
+        type: "duration",
       },
       unit: YEARSMONTHS,
       onChange: jest.fn(),
+      getId: jest.fn(),
     };
   });
 
