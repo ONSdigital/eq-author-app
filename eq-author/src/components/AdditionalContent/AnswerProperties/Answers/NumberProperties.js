@@ -111,6 +111,8 @@ const NumberProperties = ({
       if (type === "answer" && field === "unit") {
         return true;
       }
+
+      return false;
     }
   ).length;
 

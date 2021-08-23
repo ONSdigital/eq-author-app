@@ -292,6 +292,7 @@ Collapsible.propTypes = {
    * Value controlling the styling applied to the collapsible.
    */
   variant: PropTypes.oneOf(["default", "content"]),
+  errorCount: PropTypes.number,
 };
 
 export default Collapsible;
