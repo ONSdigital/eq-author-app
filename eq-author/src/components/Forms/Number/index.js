@@ -44,7 +44,6 @@ const UnitSymbol = styled.div`
 const Number = (props) => {
   const {
     id,
-    answer,
     onChange,
     onBlur,
     value,
