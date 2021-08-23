@@ -27,6 +27,9 @@ describe("Answer Properties", () => {
           decimals: 2,
         },
       },
+      page: {
+        id: "1",
+      },
       loading: false,
       onUpdateAnswer: jest.fn(),
       onUpdateValidationRule: jest.fn(),

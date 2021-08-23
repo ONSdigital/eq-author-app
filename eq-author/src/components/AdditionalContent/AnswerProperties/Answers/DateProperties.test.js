@@ -8,9 +8,20 @@ describe("Date Format Tests", () => {
 
     beforeEach(() => {
       props = {
+        answer: {
+          id: "1",
+          type: "Date",
+          properties: {
+            required: true,
+          },
+          validation: {
+            __typeName: "validation",
+          },
+        },
         id: "1",
         value: "dd/mm/yyyy",
         onChange: jest.fn(),
+        handleRequiredChange: jest.fn(),
       };
     });
 
