@@ -26,9 +26,11 @@ describe("Date Error", () => {
         validation: {
           minValue: {
             enabled: false,
+            __typename: "MinValue",
           },
           maxValue: {
             enabled: false,
+            __typename: "MaxValue",
           },
         },
       },
@@ -53,9 +55,11 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
@@ -81,9 +85,11 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
@@ -109,9 +115,11 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
@@ -142,9 +150,11 @@ describe("Date Error", () => {
             },
             relativePosition: "Before",
             entityType: PREVIOUS_ANSWER,
+            __typename: "EarliestDate",
           },
           latestDate: {
             enabled: false,
+            __typename: "LatestDate",
           },
         },
       },
@@ -170,9 +180,11 @@ describe("Date Error", () => {
             },
             relativePosition: "Before",
             entityType: NOW,
+            __typename: "EarliestDate",
           },
           latestDate: {
             enabled: false,
+            __typename: "LatestDate",
           },
         },
       },
