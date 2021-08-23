@@ -38,7 +38,7 @@ const DateProperties = ({
   handleRequiredChange,
   getId,
 }) => {
-  const id = `answer-${answer.id}-duration`;
+  const id = getId("date-format", answer.id);
 
   return (
     <Collapsible

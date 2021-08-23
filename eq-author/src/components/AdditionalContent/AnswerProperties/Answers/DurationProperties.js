@@ -37,7 +37,7 @@ const DurationProperties = ({
     >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
       <HorizontalRule />
-      <MultiLineField label="Fields" id={`answer-${answer.id}-duration`}>
+      <MultiLineField label="Fields" id={getId("duration", answer.id)}>
         <StyledSelect
           onChange={onChange}
           value={unit}

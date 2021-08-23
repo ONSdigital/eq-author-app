@@ -22,6 +22,7 @@ describe("Date Format Tests", () => {
         value: "dd/mm/yyyy",
         onChange: jest.fn(),
         handleRequiredChange: jest.fn(),
+        getId: jest.fn(),
       };
     });
 
