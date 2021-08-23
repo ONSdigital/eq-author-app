@@ -23,6 +23,7 @@ const AutocompleteProps = {
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
   borderless: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 const Autocomplete = ({

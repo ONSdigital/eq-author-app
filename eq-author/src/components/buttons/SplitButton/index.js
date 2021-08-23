@@ -18,6 +18,7 @@ class SplitButton extends React.Component {
     open: PropTypes.bool,
     children: PropTypes.node,
     dataTest: PropTypes.string,
+    className: PropTypes.string,
   };
 
   static defaultProps = {

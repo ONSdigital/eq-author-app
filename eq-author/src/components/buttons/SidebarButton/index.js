@@ -1,6 +1,29 @@
+import React from "react";
 import styled, { css } from "styled-components";
 import { colors, radius } from "constants/theme";
 import chevron from "./icon-chevron.svg";
+import ValidationError from "components/ValidationError";
+
+import {
+  EARLIEST_BEFORE_LATEST_DATE,
+  MAX_GREATER_THAN_MIN,
+  DURATION_ERROR_MESSAGE,
+  ERR_OFFSET_NO_VALUE,
+  ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
+} from "constants/validationMessages";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  div {
+    margin-top: 0.5em;
+    width: 15em;
+  }
+`;
 
 const SidebarButton = styled.button.attrs({ role: "button" })`
   display: block;
@@ -76,4 +99,23 @@ export const Detail = styled.span`
   color: ${colors.black};
 `;
 
-export default SidebarButton;
+const errorCodes = {
+  ERR_EARLIEST_AFTER_LATEST: EARLIEST_BEFORE_LATEST_DATE,
+  ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
+  ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
+  ERR_NO_VALUE: ERR_NO_VALUE,
+  ERR_OFFSET_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
+};
+
+export default ({ errors = [], ...rest }) => (
+  <Container>
+    <SidebarButton hasError={errors.length} {...rest} />
+    {errors.length > 0 && (
+      <ValidationError key={errors[0].id}>
+        {errorCodes[errors[0].errorCode]}
+      </ValidationError>
+    )}
+  </Container>
+);
