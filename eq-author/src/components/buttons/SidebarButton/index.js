@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+
 import { colors, radius } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 import ValidationError from "components/ValidationError";
@@ -109,7 +111,7 @@ const errorCodes = {
   ERR_REFERENCE_DELETED,
 };
 
-export default ({ errors = [], ...rest }) => (
+const WrappedSidebarButton = ({ errors = [], ...rest }) => (
   <Container>
     <SidebarButton hasError={errors.length} {...rest} />
     {errors.length > 0 && (
@@ -119,3 +121,9 @@ export default ({ errors = [], ...rest }) => (
     )}
   </Container>
 );
+
+export default WrappedSidebarButton;
+
+WrappedSidebarButton.propTypes = {
+  errors: PropTypes.array, //eslint-disable-line
+};

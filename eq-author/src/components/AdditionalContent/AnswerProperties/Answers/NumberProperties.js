@@ -102,11 +102,26 @@ const NumberProperties = ({
 
   const [updateAnswersOfType] = useMutation(updateAnswersOfTypeMutation);
 
+  const errorCount = answer.validationErrorInfo.errors.filter(
+    ({ type, field }) => {
+      if (type === "validation") {
+        return true;
+      }
+
+      if (type === "answer" && field === "unit") {
+        return true;
+      }
+
+      return false;
+    }
+  ).length;
+
   return (
     <Collapsible
       title={`${answer.type} properties`}
       withoutHideThis
       variant="properties"
+      errorCount={errorCount}
     >
       <Container>
         <Required answer={answer} onChange={handleChange} getId={getId} />

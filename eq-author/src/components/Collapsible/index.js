@@ -7,12 +7,22 @@ import chevronDown from "assets/icon-chevron-down-blue.svg";
 import { darken } from "polished";
 
 import Button from "components/buttons/Button";
+import Badge from "components/Badge";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const Wrapper = styled.div`
   ${({ variant }) =>
     variant === "default" &&
     `
     margin: 0;
+  `}
+
+  ${({ hasError, isOpen }) =>
+    hasError &&
+    !isOpen &&
+    `
+    outline-offset: 2px;
+    outline: 2px solid ${colors.errorPrimary};
   `}
 
   ${({ variant }) =>
@@ -62,6 +72,10 @@ export const Title = styled.h2`
   margin: 0;
   padding: 0.25em 0 0.5em;
   font-size: inherit;
+
+  ${Badge} {
+    margin-left: 1em;
+  }
 
   ${({ variant }) => variant === "content" && `padding: 0;`}
   ${({ variant }) => variant === "properties" && `padding: 0;`}
@@ -165,6 +179,7 @@ const Collapsible = ({
   className,
   children,
   variant = "default",
+  errorCount,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -179,7 +194,13 @@ const Collapsible = ({
   };
 
   return (
-    <Wrapper className={className} data-test="collapsible" variant={variant}>
+    <Wrapper
+      className={className}
+      data-test="collapsible"
+      variant={variant}
+      hasError={errorCount}
+      isOpen={isOpen}
+    >
       <Header
         className="collapsible-header"
         data-test="collapsible-header"
@@ -209,6 +230,14 @@ const Collapsible = ({
             variant={variant}
           >
             {renderTitle(showHide, isOpen, title)}
+            {errorCount > 0 && !isOpen && (
+              <Badge variant="nav" medium data-test="NavItem-error">
+                <VisuallyHidden>
+                  <span>Amount of errors:</span>
+                </VisuallyHidden>
+                {errorCount}
+              </Badge>
+            )}
           </ToggleCollapsibleButton>
         </Title>
       </Header>
@@ -263,6 +292,7 @@ Collapsible.propTypes = {
    * Value controlling the styling applied to the collapsible.
    */
   variant: PropTypes.oneOf(["default", "content"]),
+  errorCount: PropTypes.number,
 };
 
 export default Collapsible;

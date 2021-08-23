@@ -64,6 +64,7 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
       variant="properties"
       title={`Text area properties`}
       withoutHideThis
+      errorCount={errorCode ? 1 : 0}
     >
       <Container>
         <Required answer={answer} onChange={onChange} getId={getId} />

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
+import { reduce } from "lodash";
 
 import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
@@ -38,6 +39,17 @@ const DateProperties = ({
   handleRequiredChange,
   getId,
 }) => {
+  const errorCount = reduce(
+    answer.validationErrorInfo.errors,
+    (result, { type }) => {
+      if (type === "validation") {
+        result = result + 1;
+      }
+      return result;
+    },
+    0
+  );
+
   const id = getId("date-format", answer.id);
 
   return (
@@ -45,6 +57,7 @@ const DateProperties = ({
       variant="properties"
       title={`${answer.type} properties`}
       withoutHideThis
+      errorCount={errorCount}
     >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
 
