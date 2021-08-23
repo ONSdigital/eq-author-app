@@ -194,7 +194,7 @@ const AnswerValidation = ({ answer }) => {
     const groupErrors = [];
 
     for (const type of [minimumType, maximumType]) {
-      const validation = answer?.validation?.[type.id] || {};
+      const validation = answer?.validation?.[type.id] || { __typename: "" };
       const errors = validation?.validationErrorInfo?.errors || [];
       const { enabled, inclusive } = validation;
       const value = enabled ? type.preview(validation, answer) : null;
