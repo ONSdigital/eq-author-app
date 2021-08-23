@@ -193,24 +193,24 @@ exports[`Answer Editor should render Checkbox 1`] = `
       onUpdateOption={[MockFunction]}
       type="Checkbox"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "options": Array [
-          Object {
-            "description": "",
-            "id": "1",
-            "label": "",
-          },
-        ],
-        "title": "",
-        "type": "Checkbox",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "options": Array [
+            Object {
+              "description": "",
+              "id": "1",
+              "label": "",
+            },
+          ],
+          "title": "",
+          "type": "Checkbox",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -312,17 +312,17 @@ exports[`Answer Editor should render Currency 1`] = `
       showDescription={true}
       type="Currency"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "Currency",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "Currency",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -424,17 +424,17 @@ exports[`Answer Editor should render Date 1`] = `
       showMonth={false}
       showYear={false}
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "Date",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "Date",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -533,17 +533,17 @@ exports[`Answer Editor should render DateRange 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "DateRange",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "DateRange",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -649,20 +649,20 @@ exports[`Answer Editor should render Duration 1`] = `
       showDescription={true}
       type="Duration"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "properties": Object {
-          "unit": "YearsMonths",
-        },
-        "title": "",
-        "type": "Duration",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "properties": Object {
+            "unit": "YearsMonths",
+          },
+          "title": "",
+          "type": "Duration",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -764,17 +764,17 @@ exports[`Answer Editor should render Number 1`] = `
       showDescription={true}
       type="Number"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "Number",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "Number",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -876,17 +876,17 @@ exports[`Answer Editor should render Percentage 1`] = `
       showDescription={true}
       type="Percentage"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "Percentage",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "Percentage",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -994,24 +994,24 @@ exports[`Answer Editor should render Radio 1`] = `
       onUpdateOption={[MockFunction]}
       type="Radio"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "options": Array [
-          Object {
-            "description": "",
-            "id": "1",
-            "label": "",
-          },
-        ],
-        "title": "",
-        "type": "Radio",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "options": Array [
+            Object {
+              "description": "",
+              "id": "1",
+              "label": "",
+            },
+          ],
+          "title": "",
+          "type": "Radio",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -1112,17 +1112,17 @@ exports[`Answer Editor should render TextArea 1`] = `
       onUpdateOption={[MockFunction]}
       type="TextArea"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "TextArea",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "TextArea",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -1223,17 +1223,17 @@ exports[`Answer Editor should render TextField 1`] = `
       onUpdateOption={[MockFunction]}
       type="TextField"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "title": "",
-        "type": "TextField",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "TextField",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
 
@@ -1339,19 +1339,19 @@ exports[`Answer Editor should render Unit 1`] = `
       showDescription={true}
       type="Unit"
     />
-  </AnswerEditor__Padding>
-  <AnswerProperties
-    answer={
-      Object {
-        "description": "",
-        "id": "1",
-        "properties": Object {
-          "unit": "Centimetres",
-        },
-        "title": "",
-        "type": "Unit",
+    <AnswerProperties
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "properties": Object {
+            "unit": "Centimetres",
+          },
+          "title": "",
+          "type": "Unit",
+        }
       }
-    }
-  />
+    />
+  </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;

@@ -1,33 +1,38 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 
 import DurationProperties from "./DurationProperties";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<DurationProperties {...props} />);
-};
+const renderDurationProperties = (props = {}) =>
+  render(<DurationProperties {...props} />);
 
 describe("Required Property", () => {
-  let props, wrapper;
+  let props;
 
   beforeEach(() => {
     props = {
+      answer: {
+        id: "1",
+        properties: {
+          required: true,
+        },
+      },
       unit: YEARSMONTHS,
       onChange: jest.fn(),
     };
-    wrapper = createWrapper(props, shallow);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByTestId } = renderDurationProperties(props);
+    expect(getByTestId("collapsible")).toBeTruthy();
   });
 
   it("should handle change event for input", () => {
-    wrapper.simulate("change", { target: { unit: YEARS } });
-    expect(props.onChange).toHaveBeenCalledWith({
-      target: { unit: YEARS },
-    });
+    const { getByTestId } = renderDurationProperties(props);
+    const select = getByTestId("duration-select");
+    fireEvent.change(select, { target: { unit: YEARS } });
+    expect(props.onChange).toHaveBeenCalledTimes(1);
   });
 });

@@ -38,6 +38,8 @@ const DateProperties = ({
   handleRequiredChange,
   getId,
 }) => {
+  const id = `answer-${answer.id}-duration`;
+
   return (
     <Collapsible
       variant="properties"
@@ -49,13 +51,13 @@ const DateProperties = ({
       <HorizontalRule />
 
       <Container>
-        <InlineField id={getId("date-format", answer.id)} label={"Date type"}>
+        <InlineField id={id} label={"Date type"}>
           <Select
             data-test="select"
             value={value}
             onChange={onChange}
-            id={getId("date-format", answer.id)}
-            name={getId("date-format", answer.id)}
+            id={id}
+            name={id}
           >
             <option
               data-test="day-month-year"
@@ -72,10 +74,7 @@ const DateProperties = ({
         </InlineField>
       </Container>
       <HorizontalSpacer>
-        <MultiLineField
-          id={getId("date-format", answer.id)}
-          label={"Validation settings"}
-        >
+        <MultiLineField id={id} label={"Validation settings"}>
           <AnswerValidationSurround>
             <AnswerValidation answer={answer} />
           </AnswerValidationSurround>

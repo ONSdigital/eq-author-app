@@ -149,7 +149,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
       </OptionTransition>
     </TransitionGroup>
     <div>
-      <SplitButton
+      <MultipleChoiceAnswer__StyledSplitButton
         dataTest="btn-add-option"
         onPrimaryAction={[Function]}
         onToggleOpen={[Function]}
@@ -171,7 +171,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
             Add an “Or” option
           </MenuItem>
         </Dropdown>
-      </SplitButton>
+      </MultipleChoiceAnswer__StyledSplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
 </withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
@@ -308,7 +308,7 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
       </Reorder>
     </TransitionGroup>
     <div>
-      <SplitButton
+      <MultipleChoiceAnswer__StyledSplitButton
         dataTest="btn-add-option"
         onPrimaryAction={[Function]}
         onToggleOpen={[Function]}
@@ -323,7 +323,7 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
             Add “Other” option
           </MenuItem>
         </Dropdown>
-      </SplitButton>
+      </MultipleChoiceAnswer__StyledSplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
 </withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
@@ -434,7 +434,7 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
       </Reorder>
     </TransitionGroup>
     <div>
-      <SplitButton
+      <MultipleChoiceAnswer__StyledSplitButton
         dataTest="btn-add-option"
         onPrimaryAction={[Function]}
         onToggleOpen={[Function]}
@@ -449,7 +449,7 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
             Add “Other” option
           </MenuItem>
         </Dropdown>
-      </SplitButton>
+      </MultipleChoiceAnswer__StyledSplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
 </withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
