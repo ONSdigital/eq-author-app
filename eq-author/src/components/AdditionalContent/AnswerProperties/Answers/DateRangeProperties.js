@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { reduce, some } from "lodash";
 
 import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
@@ -21,11 +22,33 @@ const HorizontalRule = styled.hr`
 const DateRangeProperties = ({ answer, onChange, getId }) => {
   const id = getId("date-range", answer.id);
 
+  const errorCount = reduce(
+    answer.validationErrorInfo.errors,
+    (result, value) => {
+      const { type, field } = value;
+
+      // If the field already exists, skip it.
+      if (some(result, ["field", field])) {
+        return result;
+      }
+
+      // Add any validation errors.
+      if (type === "validation") {
+        result.push(value);
+        return result;
+      }
+
+      return result;
+    },
+    []
+  ).length;
+
   return (
     <Collapsible
       variant="properties"
       title={`Date range properties`}
       withoutHideThis
+      errorCount={errorCount}
     >
       <Container>
         <InlineField id={id}>
