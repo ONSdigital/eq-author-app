@@ -31,7 +31,7 @@ describe("Required Property", () => {
           id: "1",
         },
       },
-      onChange: jest.fn(),
+      onBlur: jest.fn(),
       getId: jest.fn(),
     };
 
@@ -42,5 +42,14 @@ describe("Required Property", () => {
     const updateAnswersOfType = jest.fn();
     useMutation.mockImplementation(() => [updateAnswersOfType]);
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should handle change event for input", () => {
+    wrapper.simulate("blur", {
+      target: { answer: { properties: { decimals: 1 } } },
+    });
+    expect(props.onBlur).toHaveBeenCalledWith({
+      target: { answer: { properties: { decimals: 1 } } },
+    });
   });
 });
