@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import { useMutation } from "@apollo/react-hooks";
 
 import { NUMBER, DATE } from "constants/answer-types";
@@ -26,6 +26,9 @@ describe("Answer Properties", () => {
           required: true,
           decimals: 2,
         },
+        validationErrorInfo: {
+          errors: [],
+        },
       },
       page: {
         id: "1",
@@ -41,11 +44,14 @@ describe("Answer Properties", () => {
   });
 
   describe("behaviour", () => {
-    it("should handle change event for 'Required' toggle input", () => {
+    it.only("should handle change event for 'Required' toggle input", () => {
       const onUpdateAnswer = jest.fn();
       useMutation.mockImplementation(() => [onUpdateAnswer]);
-      const wrapper = shallow(<AnswerProperties {...props} />);
+      const wrapper = mount(<AnswerProperties {...props} />);
       wrapper.find(ToggleProperty).simulate("change", { value: false });
+      // console.log(input.html());
+      // console.log(wrapper.find(ToggleProperty).val());
+      console.log(wrapper.find(ToggleProperty).get(0).value);
       expect(onUpdateAnswer).toHaveBeenCalledWith({
         variables: {
           input: {
