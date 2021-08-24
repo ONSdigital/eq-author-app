@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const HorizontalRule = styled.hr`
-  margin: 1em 0 1.5em 0;
+  margin: 1em 0 1.5em;
 `;
 
 const DateRangeProperties = ({ answer, onChange, getId }) => {

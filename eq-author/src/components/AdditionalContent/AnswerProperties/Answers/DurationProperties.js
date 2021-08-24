@@ -16,7 +16,7 @@ const StyledSelect = styled(Select)`
 `;
 
 const HorizontalRule = styled.hr`
-  margin: 1em 0 1em 0;
+  margin: 1em 0;
 `;
 
 const DurationProperties = ({

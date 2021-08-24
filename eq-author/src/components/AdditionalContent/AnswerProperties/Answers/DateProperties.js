@@ -19,15 +19,15 @@ const Container = styled.div`
 `;
 
 const HorizontalRule = styled.hr`
-  margin: 1em 0 1.5em 0;
+  margin: 1em 0 1.5em;
 `;
 
 const HorizontalSpacer = styled.div`
-  margin: 1em 0 0 0;
+  margin: 1em 0 0;
 `;
 
 const AnswerValidationSurround = styled.div`
-  margin: 1em 0 0 0;
+  margin: 1em 0 0;
 `;
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
