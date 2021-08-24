@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import { useMutation } from "@apollo/react-hooks";
 
@@ -31,6 +31,8 @@ describe("Required Property", () => {
         },
       },
       onBlur: jest.fn(),
+      handleChange: jest.fn(),
+      handleDecimalChange: jest.fn(),
       getId: jest.fn(),
     };
   });
@@ -40,14 +42,14 @@ describe("Required Property", () => {
     expect(getByTestId("number-input")).toBeInTheDocument();
   });
 
-  it("should handle blur event for input", () => {
-    const { debug } = renderNumberProperties(props);
-    debug();
-    // wrapper.simulate("blur", {
-    //   target: { answer: { properties: { decimals: 1 } } },
-    // });
-    // expect(props.onBlur).toHaveBeenCalledWith({
-    //   target: { answer: { properties: { decimals: 1 } } },
-    // });
+  it("should handle change event for input", () => {
+    const { getByTestId } = renderNumberProperties(props);
+    const decimalInput = getByTestId("number-input");
+
+    fireEvent.change(decimalInput, {
+      target: { value: 1 },
+    });
+
+    expect(decimalInput).toHaveValue(1);
   });
 });
