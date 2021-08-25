@@ -116,12 +116,39 @@ const NumberProperties = ({
     }
   ).length;
 
+  const checkUnitCollapsible = (answer) => {
+    let unitCollapsibleOpen = false;
+
+    if (answer.type === "Unit" && answer.properties.unit !== "") {
+      unitCollapsibleOpen = true;
+    }
+
+    return unitCollapsibleOpen;
+  };
+
+  const checkDefaultOpen = (answer) => {
+    let collapsibleOpen = false;
+
+    if (
+      answer.properties.required ||
+      answer.properties.decimals !== 0 ||
+      answer.validation.maxValue.enabled ||
+      answer.validation.minValue.enabled ||
+      checkUnitCollapsible(answer)
+    ) {
+      collapsibleOpen = true;
+    }
+
+    return collapsibleOpen;
+  };
+
   return (
     <Collapsible
       title={`${answer.type} properties`}
       withoutHideThis
       variant="properties"
       errorCount={errorCount}
+      defaultOpen={checkDefaultOpen(answer)}
     >
       <Container>
         <Required answer={answer} onChange={handleChange} getId={getId} />
