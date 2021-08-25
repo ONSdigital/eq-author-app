@@ -167,6 +167,10 @@ export const destinationErrors = {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
   },
+  ERR_DESTINATION_INVALID_WITH_HUB: {
+    errorCode: "ERR_DESTINATION_INVALID_WITH_HUB",
+    message: "Destination not applicable with hub navigation.",
+  },
 };
 
 export const SURVEY_ID_ERRORS = {
