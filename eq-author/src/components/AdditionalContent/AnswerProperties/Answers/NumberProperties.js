@@ -116,12 +116,24 @@ const NumberProperties = ({
     }
   ).length;
 
+  const defaultAnswerRequired = false;
+  const decimals = 0;
+  let collapsibleOpen = false;
+
+  if (
+    answer.properties.required !== defaultAnswerRequired ||
+    answer.properties.decimals !== decimals
+  ) {
+    collapsibleOpen = true;
+  }
+
   return (
     <Collapsible
       title={`${answer.type} properties`}
       withoutHideThis
       variant="properties"
       errorCount={errorCount}
+      defaultOpen={collapsibleOpen}
     >
       <Container>
         <Required answer={answer} onChange={handleChange} getId={getId} />
