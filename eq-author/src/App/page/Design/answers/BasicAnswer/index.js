@@ -22,7 +22,9 @@ import withValidationError from "enhancers/withValidationError";
 import CREATE_MUTUALLY_EXCLUSIVE from "./graphql/createMutuallyExclusiveOption.graphql";
 import DELETE_OPTION from "./graphql/deleteOption.graphql";
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-
+import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
+import UPDATE_ANSWER_OF_TYPE from "graphql/updateAnswersOfType.graphql";
+import Required from "components/AdditionalContent/Required";
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
@@ -33,17 +35,22 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
+import { colors } from "constants/theme";
+import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
+import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 
 import gql from "graphql-tag";
 
-const InlineField = styled(Field)`
+const Container = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.4em;
+`;
 
-  > * {
-    margin-bottom: 0;
-  }
+const VerticalRule = styled.div`
+  width: 1px;
+  height: 2.5em;
+  background-color: ${colors.grey};
+  margin: 0 1.4em 0 0.5em;
 `;
 
 const ToggleWrapper = styled.div`
@@ -67,6 +74,7 @@ export const StatelessBasicAnswer = ({
   type,
   optionErrorMsg,
   multipleAnswers,
+  page,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const getMutuallyExclusive = ({ options }) =>
@@ -78,6 +86,8 @@ export const StatelessBasicAnswer = ({
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
+  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
+  const [onUpdateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
   const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
@@ -112,6 +122,31 @@ export const StatelessBasicAnswer = ({
     const { id } = getMutuallyExclusive(answer) || {};
 
     updateOption({ variables: { input: { id, description } } });
+  };
+
+  const onUpdateRequired =
+    (id) =>
+    ({ value }) => {
+      onUpdateAnswer({
+        variables: {
+          input: { id, properties: { ...answer.properties, required: value } },
+        },
+      });
+    };
+
+  const onDecimalChange = (value) => {
+    onUpdateAnswerOfType({
+      variables: {
+        input: {
+          type: answer.type,
+          questionPageId: page.id,
+          properties: {
+            ...answer.properties,
+            decimals: value,
+          },
+        },
+      },
+    });
   };
 
   return (
@@ -158,6 +193,20 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
+      <Container>
+        <Required answer={answer} onChange={onUpdateRequired(answer.id)} />
+        <VerticalRule />
+        <InlineField id={answer.id} label={"Decimals"}>
+          <Decimal
+            id={answer.id}
+            answer={answer}
+            data-test="decimals"
+            onBlur={onDecimalChange}
+            value={answer.properties.decimals}
+            hasDecimalInconsistency={false}
+          />
+        </InlineField>
+      </Container>
       {type !== "Checkbox" && type !== "Radio" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
           <InlineField>
@@ -229,6 +278,7 @@ StatelessBasicAnswer.propTypes = {
   type: PropTypes.string,
   optionErrorMsg: PropTypes.string,
   multipleAnswers: PropTypes.bool.isRequired,
+  page: PropTypes.object, //eslint-disable-line
 };
 
 StatelessBasicAnswer.defaultProps = {

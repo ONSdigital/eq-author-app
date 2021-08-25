@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
@@ -33,6 +33,9 @@ const SmallerNumber = styled(Number)`
 
 const Decimal = ({ id, answer, value, onBlur, hasDecimalInconsistency }) => {
   const [decimal, setDecimal] = useState(value);
+  useEffect(() => {
+    setDecimal(value);
+  }, [value]);
   return (
     <>
       <SmallerNumber
