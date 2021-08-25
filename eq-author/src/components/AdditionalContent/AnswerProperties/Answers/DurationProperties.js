@@ -29,11 +29,24 @@ const DurationProperties = ({
 }) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
 
+  const defaultAnswerRequired = false;
+  const defaultUnit = "YearsMonths";
+
+  let collapsibleOpen = false;
+
+  if (
+    answer.properties.required !== defaultAnswerRequired ||
+    answer.properties.unit !== defaultUnit
+  ) {
+    collapsibleOpen = true;
+  }
+
   return (
     <Collapsible
       variant="properties"
       title="Duration properties"
       withoutHideThis
+      defaultOpen={collapsibleOpen}
     >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
       <HorizontalRule />
