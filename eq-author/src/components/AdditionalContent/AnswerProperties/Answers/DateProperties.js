@@ -52,12 +52,28 @@ const DateProperties = ({
 
   const id = getId("date-format", answer.id);
 
+  const checkDefaultOpen = (answer) => {
+    let collapsibleOpen = false;
+
+    if (
+      answer.properties.format !== "dd/mm/yyyy" ||
+      answer.required ||
+      answer.validation.earliestDate.enabled ||
+      answer.validation.latestDate.enabled
+    ) {
+      collapsibleOpen = true;
+    }
+
+    return collapsibleOpen;
+  };
+
   return (
     <Collapsible
       variant="properties"
       title={`${answer.type} properties`}
       withoutHideThis
       errorCount={errorCount}
+      defaultOpen={checkDefaultOpen(answer)}
     >
       <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
 

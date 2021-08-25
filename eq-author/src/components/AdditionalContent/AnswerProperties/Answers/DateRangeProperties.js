@@ -43,12 +43,29 @@ const DateRangeProperties = ({ answer, onChange, getId }) => {
     []
   ).length;
 
+  const checkDefaultOpen = (answer) => {
+    let collapsibleOpen = false;
+
+    if (
+      answer.properties.required ||
+      answer.validation.earliestDate.enabled ||
+      answer.validation.latestDate.enabled ||
+      answer.validation.maxDuration.enabled ||
+      answer.validation.minDuration.enabled
+    ) {
+      collapsibleOpen = true;
+    }
+
+    return collapsibleOpen;
+  };
+
   return (
     <Collapsible
       variant="properties"
       title={`Date range properties`}
       withoutHideThis
       errorCount={errorCount}
+      defaultOpen={checkDefaultOpen(answer)}
     >
       <Container>
         <InlineField id={id}>
