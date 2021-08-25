@@ -23,7 +23,6 @@ const VerticalRule = styled.div`
 `;
 
 const TextAreaProperties = ({ answer, page, onChange, getId }) => {
-  // const id = getId("textarea", answer.id);
   const errors = answer?.validationErrorInfo?.errors ?? [];
 
   const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
@@ -59,12 +58,24 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
           error === ERR_MAX_LENGTH_TOO_LARGE
       ) ?? false;
 
+  const defaultAnswerRequired = false;
+  const defaultMaxLength = 2000;
+  let collapsibleOpen = false;
+
+  if (
+    answer.properties.required !== defaultAnswerRequired ||
+    answer.properties.maxLength !== defaultMaxLength
+  ) {
+    collapsibleOpen = true;
+  }
+
   return (
     <Collapsible
       variant="properties"
       title={`Text area properties`}
       withoutHideThis
       errorCount={errorCode ? 1 : 0}
+      defaultOpen={collapsibleOpen}
     >
       <Container>
         <Required answer={answer} onChange={onChange} getId={getId} />

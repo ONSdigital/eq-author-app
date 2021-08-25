@@ -84,6 +84,8 @@ export const AnswerProperties = ({
     });
   };
 
+  const defaultAnswerRequired = false;
+
   return (
     <>
       {(type === answerTypes.NUMBER ||
@@ -141,6 +143,7 @@ export const AnswerProperties = ({
           variant="properties"
           title={`Text field properties`}
           withoutHideThis
+          defaultOpen={answer.properties.required !== defaultAnswerRequired}
         >
           <Required
             answer={answer}
@@ -154,6 +157,7 @@ export const AnswerProperties = ({
           variant="properties"
           title={`${answer.type} properties`}
           withoutHideThis
+          defaultOpen={answer.properties.required !== defaultAnswerRequired}
         >
           <Required
             answer={answer}
