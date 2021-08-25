@@ -24,6 +24,11 @@ describe("Required Property", () => {
         properties: {
           decimals: 0,
         },
+        validation: {
+          maxValue: {
+            enabled: true,
+          },
+        },
         validationErrorInfo: {
           totalCount: 0,
           errors: [],
