@@ -38,6 +38,8 @@ import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
 import { colors } from "constants/theme";
 import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 import gql from "graphql-tag";
 
@@ -91,6 +93,7 @@ export const StatelessBasicAnswer = ({
 
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
   const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
+  const [advancedProperties, setAdvancedProperties] = useState(false);
 
   useEffect(() => {
     const { label } = getMutuallyExclusive(answer) || { label: "" };
@@ -196,7 +199,7 @@ export const StatelessBasicAnswer = ({
       <Container>
         <Required answer={answer} onChange={onUpdateRequired(answer.id)} />
         <VerticalRule />
-        <InlineField id={answer.id} label={"Decimals"}>
+        <InlineField id={answer.id} htmlFor="Decimals" label={"Decimals"}>
           <Decimal
             id={answer.id}
             answer={answer}
@@ -207,10 +210,38 @@ export const StatelessBasicAnswer = ({
           />
         </InlineField>
       </Container>
-      {type !== "Checkbox" && type !== "Radio" && (
+      <Container>
+        <ToggleWrapper data-test="toggle-wrapper-advanced-properties">
+          <InlineField
+            id="advanced-properties"
+            htmlFor="advanced-properties"
+            label="Advaned properties"
+          >
+            <ToggleSwitch
+              id="advanced-properties"
+              name="advanced-properties"
+              hideLabels={false}
+              onChange={() => setAdvancedProperties(!advancedProperties)}
+              data-test="advanced-properties"
+              checked={advancedProperties}
+            />
+          </InlineField>
+        </ToggleWrapper>
+      </Container>
+      {advancedProperties && (
+        <Container>
+          <MultiLineField id="validation-settingd" label="Validation settings">
+            <AnswerValidation answer={answer} />
+          </MultiLineField>
+        </Container>
+      )}
+      {advancedProperties && type !== "Checkbox" && type !== "Radio" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
-          <InlineField>
-            <Label htmlFor="toggle-or-option">{`"Or" option`}</Label>
+          <InlineField
+            id="toggle-or-option"
+            htmlFor="toggle-or-option"
+            label={`"Or" option`}
+          >
             <ToggleSwitch
               id="toggle-or-option"
               name="toggle-or-option"
