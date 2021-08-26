@@ -55,6 +55,10 @@ const VerticalRule = styled.div`
   margin: 0 1.4em 0 0.5em;
 `;
 
+const HorizontalRule = styled.hr`
+  margin: 1em 0 1.5em;
+`;
+
 const ToggleWrapper = styled.div`
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
@@ -229,11 +233,17 @@ export const StatelessBasicAnswer = ({
         </ToggleWrapper>
       </Container>
       {advancedProperties && (
-        <Container>
-          <MultiLineField id="validation-settingd" label="Validation settings">
-            <AnswerValidation answer={answer} />
-          </MultiLineField>
-        </Container>
+        <>
+          <HorizontalRule />
+          <Container>
+            <MultiLineField
+              id="validation-settingd"
+              label="Validation settings"
+            >
+              <AnswerValidation answer={answer} />
+            </MultiLineField>
+          </Container>
+        </>
       )}
       {advancedProperties && type !== "Checkbox" && type !== "Radio" && (
         <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
