@@ -5,7 +5,7 @@
         margin: 0;
         background-color: #fafbfc;
       }
-      .title-bar {
+      #title-bar {
         display: flex;
         height: 3em;
         margin-bottom: 1em;
@@ -13,23 +13,23 @@
         font-family: "Lato", sans-serif;
         margin-bottom: 3em;
       }
-      .title-bar-icon {
+      #title-bar-icon {
         margin-left: 3em;
         position: relative;
         top: 35%;
       }
-      .content-container {
+      #content-container {
         padding-left: 3em;
         padding-right: 3em;
       }
-      .content {
+      #content {
         display: flex;
         border: 0.1em solid #d6d8da;
         border-radius: 3px;
         height: 5em;
         background-color: white;
       }
-      .icon-container {
+      #icon-container {
         margin-right: 1em;
         height: 5.2em;
         width: 5.2em;
@@ -39,23 +39,23 @@
         top: -0.1em;
         border-radius: 3px;
       }
-      .icon {
+      #icon {
         position: relative;
         top: 20%;
         width: 2.8em;
         margin-left: 1.2em;
       }
-      .text-container {
+      #text-container {
         font-family: "Lato", sans-serif;
         color: #222222;
       }
-      .title {
+      #title {
         position: relative;
         top: 23%;
         font-weight: bold;
         border-bottom: 0.1em;
       }
-      .description {
+      #description {
         position: relative;
         top: 30%;
         display: block;
@@ -63,22 +63,19 @@
     </style>
   </head>
   <body>
-    <div class="title-bar">
+    <div id="title-bar">
       <span>
-        <img
-          class="title-bar-icon"
-          src="eq-author/src/components/Logo/logo.svg"
-        />
+        <img id="title-bar-icon" src="eq-author/src/components/Logo/logo.svg" />
       </span>
     </div>
-    <div class="content-container">
-      <div class="content">
-        <span class="icon-container">
-          <img class="icon" src="eq-author/src/assets/icon-construction.svg" />
+    <div id="content-container">
+      <div id="content">
+        <span id="icon-container">
+          <img id="icon" src="eq-author/src/assets/icon-construction.svg" />
         </span>
-        <div class="text-container">
-          <span class="title">Author offline</span>
-          <span class="description">
+        <div id="text-container">
+          <span id="title">Author offline</span>
+          <span id="description">
             We have taken Author offline for some essential maintenance.
           </span>
         </div>
