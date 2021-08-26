@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { Select } from "components/Forms";
 import { map, groupBy } from "lodash";
 import styled from "styled-components";
-
-import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
 
 import * as durationTypes from "constants/duration-types";
@@ -15,33 +13,15 @@ const StyledSelect = styled(Select)`
   width: 15em;
 `;
 
-const HorizontalRule = styled.hr`
-  margin: 1em 0;
-`;
-
-const DurationProperties = ({
-  answer,
-  unit,
-  getId,
-  handleRequiredChange,
-  onChange,
-  ...otherProps
-}) => {
+const DurationProperties = ({ answer, onUpdateRequired, onUpdateUnit }) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
 
   return (
-    <Collapsible
-      variant="properties"
-      title="Duration properties"
-      withoutHideThis
-    >
-      <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
-      <HorizontalRule />
-      <MultiLineField label="Fields" id={getId("duration", answer.id)}>
+    <>
+      <MultiLineField label="Fields" id="duration">
         <StyledSelect
-          onChange={onChange}
-          value={unit}
-          {...otherProps}
+          onChange={({ value }) => onUpdateUnit(value)}
+          value={answer.properties.unit}
           data-test="duration-select"
         >
           {map(sortedUnits, (unit, durationType) => {
@@ -60,16 +40,15 @@ const DurationProperties = ({
           })}
         </StyledSelect>
       </MultiLineField>
-    </Collapsible>
+      <Required answer={answer} onChange={onUpdateRequired} />
+    </>
   );
 };
 
 DurationProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  unit: PropTypes.string.isRequired,
-  getId: PropTypes.func,
-  handleRequiredChange: PropTypes.func,
-  onChange: PropTypes.func,
+  onUpdateRequired: PropTypes.func,
+  onUpdateUnit: PropTypes.func,
 };
 
 export default DurationProperties;

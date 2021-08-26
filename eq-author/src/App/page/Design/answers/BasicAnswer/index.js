@@ -48,7 +48,7 @@ const Container = styled.div`
 `;
 
 const HorizontalRule = styled.hr`
-  margin: 1em 0 1.5em;
+  margin: 0.2em 0 0.9em;
 `;
 
 const ToggleWrapper = styled.div`
@@ -146,6 +146,21 @@ export const StatelessBasicAnswer = ({
     });
   };
 
+  const onUpdateUnit = (value) => {
+    onUpdateAnswerOfType({
+      variables: {
+        input: {
+          type: answer.type,
+          questionPageId: page.id,
+          properties: {
+            ...answer.properties,
+            unit: value,
+          },
+        },
+      },
+    });
+  };
+
   return (
     <div>
       <Field>
@@ -194,14 +209,20 @@ export const StatelessBasicAnswer = ({
         answer={answer}
         onUpdateDecimal={onUpdateDecimal}
         onUpdateRequired={onUpdateRequired}
+        onUpdateUnit={onUpdateUnit}
       />
       <AdvancedProperties>
         <HorizontalRule />
-        <Container>
-          <MultiLineField id="validation-settingd" label="Validation settings">
-            <AnswerValidation answer={answer} />
-          </MultiLineField>
-        </Container>
+        {type !== "Duration" && (
+          <Container>
+            <MultiLineField
+              id="validation-settingd"
+              label="Validation settings"
+            >
+              <AnswerValidation answer={answer} />
+            </MultiLineField>
+          </Container>
+        )}
         {type !== "Checkbox" && type !== "Radio" && (
           <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
             <InlineField

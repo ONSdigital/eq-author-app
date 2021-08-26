@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import Required from "components/AdditionalContent/Required";
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const NumberProperties = ({ answer, onUpdateRequired, onUpdateDecimal }) => {
   return (
     <>
       <Container>
-        <InlineField id="decimal" htmlFor="decimal" label="Decimal places">
+        <MultiLineField id="decimal" htmlFor="decimal" label="Decimal places">
           <Decimal
             id={answer.id}
             answer={answer}
@@ -24,7 +24,7 @@ const NumberProperties = ({ answer, onUpdateRequired, onUpdateDecimal }) => {
             value={answer.properties.decimals}
             hasDecimalInconsistency={false}
           />
-        </InlineField>
+        </MultiLineField>
       </Container>
       <Container>
         <Required answer={answer} onChange={onUpdateRequired} />

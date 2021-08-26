@@ -6,15 +6,19 @@ import { Field, Label } from "components/Forms";
 
 const StyledInlineField = styled(Field)`
   display: flex;
-  margin-bottom: 0;
+  margin-bottom: 0.2em;
+  align-items: center;
+`;
+const StyledLabel = styled(Label)`
+  margin-right: 0.2em;
   align-items: center;
 `;
 
 const InlineField = ({ id, label, children, ...otherProps }) => (
   <StyledInlineField key={id} {...otherProps}>
-    <Label bold inline htmlFor={id}>
+    <StyledLabel bold inline htmlFor={id}>
       {label}
-    </Label>
+    </StyledLabel>
     {children}
   </StyledInlineField>
 );

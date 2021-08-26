@@ -33,13 +33,14 @@ export const ScrollPaneCSS = css`
 
 export const Wrapper = styled.div`
   box-sizing: border-box;
+  padding: 0 0 0 0em;
 `;
 
 export const RoundedInput = styled(Input)`
   background: white url("${Icon}") no-repeat left center;
   border-radius: ${radius};
   box-sizing: border-box;
-  padding-left: 2em;
+  padding: 0.3em 0em 0.3em 2em;
   outline: none;
   &::placeholder {
     color: ${colors.darkGrey};
@@ -62,7 +63,7 @@ export const DropDown = styled.ul`
   border-bottom-left-radius: ${radius};
   border-bottom-right-radius: ${radius};
   color: ${colors.darkGrey};
-  margin: -0.05em 0 0 1.8em;
+  margin: -0.05em 0 0 0;
   max-height: 7em;
   padding-left: 0;
   overflow-y: auto;

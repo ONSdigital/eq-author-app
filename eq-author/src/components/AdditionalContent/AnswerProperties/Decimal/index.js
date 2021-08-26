@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
-import { colors } from "constants/theme";
+import { colors, radius } from "constants/theme";
 
 import Number, { NumberInput } from "components/Forms/Number";
 
 const SmallerNumber = styled(Number)`
   width: 7em;
-  margin-left: 1em;
+  margin-left: 0em;
 
   ${NumberInput} {
     ${(props) =>
@@ -26,7 +26,7 @@ const SmallerNumber = styled(Number)`
           outline-color: ${colors.errorPrimary};
         }
       `}
-    border-radius: 0;
+    border-radius: ${radius};
     padding: 0.25em 0.5em;
   }
 `;

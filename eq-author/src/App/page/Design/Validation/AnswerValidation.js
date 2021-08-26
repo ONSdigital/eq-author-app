@@ -320,27 +320,39 @@ const AnswerValidation = ({ answer }) => {
 
   return (
     <ValidationContext.Provider value={{ answer }}>
-      <InlineField>
-        <ValidationGroupTop>{validationComponentsMinValue}</ValidationGroupTop>
-        <ValidationGroupTop>{validationComponentsMaxValue}</ValidationGroupTop>
-      </InlineField>
-
-      <InlineField>
-        <ValidationGroupTop>
-          {validationComponentsEarliestDate}
-        </ValidationGroupTop>
-        <ValidationGroupTop>
-          {validationComponentsLatestDate}
-        </ValidationGroupTop>
-      </InlineField>
-      <InlineField>
-        <ValidationGroupBottom>
-          {validationComponentsMinDuration}
-        </ValidationGroupBottom>
-        <ValidationGroupBottom>
-          {validationComponentsMaxDuration}
-        </ValidationGroupBottom>
-      </InlineField>
+      {(validationComponentsMinValue.length > 0 ||
+        validationComponentsMaxValue.length > 0) && (
+        <InlineField>
+          <ValidationGroupTop>
+            {validationComponentsMinValue}
+          </ValidationGroupTop>
+          <ValidationGroupTop>
+            {validationComponentsMaxValue}
+          </ValidationGroupTop>
+        </InlineField>
+      )}
+      {(validationComponentsEarliestDate.length > 0 ||
+        validationComponentsLatestDate.length > 0) && (
+        <InlineField>
+          <ValidationGroupTop>
+            {validationComponentsEarliestDate}
+          </ValidationGroupTop>
+          <ValidationGroupTop>
+            {validationComponentsLatestDate}
+          </ValidationGroupTop>
+        </InlineField>
+      )}
+      {(validationComponentsMinDuration.length > 0 ||
+        validationComponentsMaxDuration.length > 0) && (
+        <InlineField>
+          <ValidationGroupBottom>
+            {validationComponentsMinDuration}
+          </ValidationGroupBottom>
+          <ValidationGroupBottom>
+            {validationComponentsMaxDuration}
+          </ValidationGroupBottom>
+        </InlineField>
+      )}
       <ModalWithNav
         id={modalId}
         onClose={handleModalClose}

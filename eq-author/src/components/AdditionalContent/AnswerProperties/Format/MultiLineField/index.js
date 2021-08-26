@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 
 const StyledMultiLineField = styled(Field)`
-  padding: 0.2em 0;
+  padding: 0em 0;
   margin-bottom: 0.5em;
 `;
 
 const MultiLineControl = styled.div`
-  margin-top: 0.4em;
+  margin-top: 0.3em;
 `;
 
 const MultiLineField = ({ id, label, children }) => (
