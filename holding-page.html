@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+      .title-bar {
+        display: flex;
+        height: 3em;
+        border-bottom: 0.1em solid grey;
+        margin-bottom: 1em;
+        background-color: #333333;
+        font-family: "Lato", sans-serif;
+        margin-bottom: 3em;
+      }
+      .title-bar-icon {
+        margin-left: 3em;
+        position: relative;
+        top: 35%;
+      }
+      .content-container {
+        padding-left: 3em;
+        padding-right: 3em;
+      }
+      .content {
+        display: flex;
+        border: 0.1em solid grey;
+        border-radius: 1px;
+        height: 5em;
+      }
+      .icon {
+        border-right: 0.1em solid grey;
+        margin-right: 1em;
+        background-color: #3b7a9e;
+        width: 5em;
+      }
+      .text-container {
+        font-family: "Lato", sans-serif;
+      }
+      .title {
+        position: relative;
+        top: 30%;
+        font-weight: bold;
+        border-bottom: 0.1em;
+      }
+      .description {
+        position: relative;
+        top: 30%;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title-bar">
+      <span>
+        <img
+          class="title-bar-icon"
+          src="eq-author/src/components/Logo/logo.svg"
+        />
+      </span>
+    </div>
+    <div class="content-container">
+      <div class="content">
+        <img class="icon" src="eq-author/src/assets/icon-construction.svg" />
+        <div class="text-container">
+          <span class="title">Author offline</span>
+          <span class="description">
+            We have taken Author offline for some essential maintenance.
+          </span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
