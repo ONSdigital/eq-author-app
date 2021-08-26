@@ -201,8 +201,6 @@ export const StatelessBasicAnswer = ({
         </Field>
       )}
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired(answer.id)} />
-        <VerticalRule />
         <InlineField id={answer.id} htmlFor="Decimals" label={"Decimals"}>
           <Decimal
             id={answer.id}
@@ -213,6 +211,9 @@ export const StatelessBasicAnswer = ({
             hasDecimalInconsistency={false}
           />
         </InlineField>
+      </Container>
+      <Container>
+        <Required answer={answer} onChange={onUpdateRequired(answer.id)} />
       </Container>
       <Container>
         <ToggleWrapper data-test="toggle-wrapper-advanced-properties">
