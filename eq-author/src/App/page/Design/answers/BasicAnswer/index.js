@@ -213,7 +213,7 @@ export const StatelessBasicAnswer = ({
       />
       <AdvancedProperties>
         <HorizontalRule />
-        {type !== "Duration" && (
+        {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
           <Container>
             <MultiLineField
               id="validation-settingd"
