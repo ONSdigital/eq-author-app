@@ -24,7 +24,6 @@ import DELETE_OPTION from "./graphql/deleteOption.graphql";
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 import UPDATE_ANSWER_OF_TYPE from "graphql/updateAnswersOfType.graphql";
-import Required from "components/AdditionalContent/Required";
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
@@ -35,24 +34,17 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
-import { colors } from "constants/theme";
-import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
+import AnswerProperties from "components/AdditionalContent/AnswerProperties";
+import AdvancedProperties from "components/AdditionalContent/AdvancedProperties";
 
 import gql from "graphql-tag";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const VerticalRule = styled.div`
-  width: 1px;
-  height: 2.5em;
-  background-color: ${colors.grey};
-  margin: 0 1.4em 0 0.5em;
 `;
 
 const HorizontalRule = styled.hr`
@@ -97,7 +89,6 @@ export const StatelessBasicAnswer = ({
 
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
   const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
-  const [advancedProperties, setAdvancedProperties] = useState(false);
 
   useEffect(() => {
     const { label } = getMutuallyExclusive(answer) || { label: "" };
@@ -121,27 +112,26 @@ export const StatelessBasicAnswer = ({
 
   const onUpdateOption = (label) => {
     const { id } = getMutuallyExclusive(answer) || {};
-
     updateOption({ variables: { input: { id, label } } });
   };
 
   const onUpdateOptionDesc = (description) => {
     const { id } = getMutuallyExclusive(answer) || {};
-
     updateOption({ variables: { input: { id, description } } });
   };
 
-  const onUpdateRequired =
-    (id) =>
-    ({ value }) => {
-      onUpdateAnswer({
-        variables: {
-          input: { id, properties: { ...answer.properties, required: value } },
+  const onUpdateRequired = ({ value }) => {
+    onUpdateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, required: value },
         },
-      });
-    };
+      },
+    });
+  };
 
-  const onDecimalChange = (value) => {
+  const onUpdateDecimal = (value) => {
     onUpdateAnswerOfType({
       variables: {
         input: {
@@ -200,105 +190,72 @@ export const StatelessBasicAnswer = ({
           />
         </Field>
       )}
-      <Container>
-        <InlineField id={answer.id} htmlFor="Decimals" label={"Decimals"}>
-          <Decimal
-            id={answer.id}
-            answer={answer}
-            data-test="decimals"
-            onBlur={onDecimalChange}
-            value={answer.properties.decimals}
-            hasDecimalInconsistency={false}
-          />
-        </InlineField>
-      </Container>
-      <Container>
-        <Required answer={answer} onChange={onUpdateRequired(answer.id)} />
-      </Container>
-      <Container>
-        <ToggleWrapper data-test="toggle-wrapper-advanced-properties">
-          <InlineField
-            id="advanced-properties"
-            htmlFor="advanced-properties"
-            label="Advanced properties"
-          >
-            <ToggleSwitch
-              id="advanced-properties"
-              name="advanced-properties"
-              hideLabels={false}
-              onChange={() => setAdvancedProperties(!advancedProperties)}
-              data-test="advanced-properties"
-              checked={advancedProperties}
-            />
-          </InlineField>
-        </ToggleWrapper>
-      </Container>
-      {advancedProperties && (
-        <>
-          <HorizontalRule />
-          <Container>
-            <MultiLineField
-              id="validation-settingd"
-              label="Validation settings"
-            >
-              <AnswerValidation answer={answer} />
-            </MultiLineField>
-          </Container>
-        </>
-      )}
-      {advancedProperties && type !== "Checkbox" && type !== "Radio" && (
-        <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
-          <InlineField
-            id="toggle-or-option"
-            htmlFor="toggle-or-option"
-            label={`"Or" option`}
-          >
-            <ToggleSwitch
+      <AnswerProperties
+        answer={answer}
+        onUpdateDecimal={onUpdateDecimal}
+        onUpdateRequired={onUpdateRequired}
+      />
+      <AdvancedProperties>
+        <HorizontalRule />
+        <Container>
+          <MultiLineField id="validation-settingd" label="Validation settings">
+            <AnswerValidation answer={answer} />
+          </MultiLineField>
+        </Container>
+        {type !== "Checkbox" && type !== "Radio" && (
+          <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
+            <InlineField
               id="toggle-or-option"
-              name="toggle-or-option"
-              hideLabels={false}
-              onChange={onChangeToggle}
-              checked={getMutuallyExclusive(answer) && !multipleAnswers}
-              data-test="toggle-or-option"
-            />
-          </InlineField>
-        </ToggleWrapper>
-      )}
-      {getMutuallyExclusive(answer) && !multipleAnswers && (
-        <StyledOption>
-          <Flex>
-            <DummyMultipleChoice type={CHECKBOX} />
+              htmlFor="toggle-or-option"
+              label={`"Or" option`}
+            >
+              <ToggleSwitch
+                id="toggle-or-option"
+                name="toggle-or-option"
+                hideLabels={false}
+                onChange={onChangeToggle}
+                checked={getMutuallyExclusive(answer) && !multipleAnswers}
+                data-test="toggle-or-option"
+              />
+            </InlineField>
+          </ToggleWrapper>
+        )}
+        {getMutuallyExclusive(answer) && !multipleAnswers && (
+          <StyledOption>
+            <Flex>
+              <DummyMultipleChoice type={CHECKBOX} />
+              <OptionField>
+                <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
+                <WrappingInput
+                  id={`option-label-${answer.id}`}
+                  name="label"
+                  value={mutuallyExclusiveLabel}
+                  placeholder={labelPlaceholder}
+                  onChange={({ value }) => setMutuallyExclusiveLabel(value)}
+                  onBlur={({ target: { value } }) => onUpdateOption(value)}
+                  data-test="option-label"
+                  data-autofocus={autoFocus || null}
+                  bold
+                />
+              </OptionField>
+            </Flex>
             <OptionField>
-              <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
+              <Label htmlFor={`option-description-${answer.id}`}>
+                Description (optional)
+              </Label>
               <WrappingInput
-                id={`option-label-${answer.id}`}
-                name="label"
-                value={mutuallyExclusiveLabel}
-                placeholder={labelPlaceholder}
-                onChange={({ value }) => setMutuallyExclusiveLabel(value)}
-                onBlur={({ target: { value } }) => onUpdateOption(value)}
-                data-test="option-label"
-                data-autofocus={autoFocus || null}
-                bold
+                id={`option-description-${answer.id}`}
+                name="description"
+                value={mutuallyExclusiveDesc}
+                placeholder={descriptionPlaceholder}
+                onChange={({ value }) => setMutuallyExclusiveDesc(value)}
+                onBlur={({ target: { value } }) => onUpdateOptionDesc(value)}
+                data-test="option-description"
               />
             </OptionField>
-          </Flex>
-          <OptionField>
-            <Label htmlFor={`option-description-${answer.id}`}>
-              Description (optional)
-            </Label>
-            <WrappingInput
-              id={`option-description-${answer.id}`}
-              name="description"
-              value={mutuallyExclusiveDesc}
-              placeholder={descriptionPlaceholder}
-              onChange={({ value }) => setMutuallyExclusiveDesc(value)}
-              onBlur={({ target: { value } }) => onUpdateOptionDesc(value)}
-              data-test="option-description"
-            />
-          </OptionField>
-        </StyledOption>
-      )}
+          </StyledOption>
+        )}
+      </AdvancedProperties>
       {children}
     </div>
   );
