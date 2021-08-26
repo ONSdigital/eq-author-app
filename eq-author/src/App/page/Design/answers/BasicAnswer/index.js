@@ -215,7 +215,7 @@ export const StatelessBasicAnswer = ({
           <InlineField
             id="advanced-properties"
             htmlFor="advanced-properties"
-            label="Advaned properties"
+            label="Advanced properties"
           >
             <ToggleSwitch
               id="advanced-properties"
