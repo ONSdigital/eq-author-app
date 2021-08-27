@@ -3,16 +3,36 @@ import CustomPropTypes from "custom-prop-types";
 import NumberProperties from "./Answers/NumberProperties";
 import UnitProperties from "./Answers/UnitProperties";
 import DurationProperties from "./Answers/DurationProperties";
+import TextFieldProperties from "./Answers/TextFieldProperties";
+import TextAreaProperties from "./Answers/TextAreaProperties";
+import {
+  TEXTFIELD,
+  NUMBER,
+  CURRENCY,
+  PERCENTAGE,
+  TEXTAREA,
+  CHECKBOX,
+  RADIO,
+  DATE_RANGE,
+  UNIT,
+  DURATION,
+} from "constants/answer-types";
 
 const AnswerProperties = (props) => {
-  if (["Number", "Currency", "Percentage"].includes(props.answer.type)) {
+  if ([NUMBER, CURRENCY, PERCENTAGE].includes(props.answer.type)) {
     return <NumberProperties {...props} />;
   }
-  if (["Unit"].includes(props.answer.type)) {
+  if ([UNIT].includes(props.answer.type)) {
     return <UnitProperties {...props} />;
   }
-  if (["Duration"].includes(props.answer.type)) {
+  if ([DURATION].includes(props.answer.type)) {
     return <DurationProperties {...props} />;
+  }
+  if ([TEXTFIELD].includes(props.answer.type)) {
+    return <TextFieldProperties {...props} />;
+  }
+  if ([TEXTAREA].includes(props.answer.type)) {
+    return <TextAreaProperties {...props} />;
   }
   return null;
 };

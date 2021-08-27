@@ -137,10 +137,7 @@ export const StatelessBasicAnswer = ({
         input: {
           type: answer.type,
           questionPageId: page.id,
-          properties: {
-            ...answer.properties,
-            decimals: value,
-          },
+          properties: { ...answer.properties, decimals: value },
         },
       },
     });
@@ -152,10 +149,18 @@ export const StatelessBasicAnswer = ({
         input: {
           type: answer.type,
           questionPageId: page.id,
-          properties: {
-            ...answer.properties,
-            unit: value,
-          },
+          properties: { ...answer.properties, unit: value },
+        },
+      },
+    });
+  };
+
+  const onUpdateMaxLength = (value) => {
+    onUpdateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, maxLength: value },
         },
       },
     });
@@ -210,6 +215,7 @@ export const StatelessBasicAnswer = ({
         onUpdateDecimal={onUpdateDecimal}
         onUpdateRequired={onUpdateRequired}
         onUpdateUnit={onUpdateUnit}
+        onUpdateMaxLength={onUpdateMaxLength}
       />
       <AdvancedProperties>
         <HorizontalRule />

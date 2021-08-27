@@ -1,29 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { characterErrors } from "constants/validationMessages";
-import { colors } from "constants/theme";
+import { radius, colors } from "constants/theme";
+import Number, { NumberInput } from "components/Forms/Number";
 
-import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
 import Required from "components/AdditionalContent/Required";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
-import { TextProperties } from "./";
 
+const SmallNumber = styled(Number)`
+  width: 7em;
+  margin-left: 0em;
+
+  ${NumberInput} {
+    ${(props) =>
+      props.invalid &&
+      css`
+        border-color: ${colors.errorPrimary};
+        &:focus,
+        &:focus-within {
+          border-color: ${colors.errorPrimary};
+          outline-color: ${colors.errorPrimary};
+          box-shadow: 0 0 0 2px ${colors.errorPrimary};
+        }
+        &:hover {
+          border-color: ${colors.errorPrimary};
+          outline-color: ${colors.errorPrimary};
+        }
+      `}
+    border-radius: ${radius};
+    padding: 0.25em 0.5em;
+  }
+`;
 const Container = styled.div`
   display: flex;
 `;
 
-const VerticalRule = styled.div`
-  width: 1px;
-  height: 2.5em;
-  background-color: ${colors.grey};
-  margin: 0 1.4em 0 0.5em;
-`;
-
-const TextAreaProperties = ({ answer, page, onChange, getId }) => {
-  // const id = getId("textarea", answer.id);
+const TextAreaProperties = ({
+  answer,
+  onUpdateMaxLength,
+  onUpdateRequired,
+}) => {
   const errors = answer?.validationErrorInfo?.errors ?? [];
 
   const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
@@ -59,37 +78,40 @@ const TextAreaProperties = ({ answer, page, onChange, getId }) => {
           error === ERR_MAX_LENGTH_TOO_LARGE
       ) ?? false;
 
+  const [maxLength, setMaxLength] = useState(answer.properties.maxLength);
+  useEffect(() => {
+    setMaxLength(answer.properties.maxLength);
+  }, [answer.properties.maxLength]);
+
   return (
-    <Collapsible
-      variant="properties"
-      title={`Text area properties`}
-      withoutHideThis
-      errorCount={errorCode ? 1 : 0}
-    >
+    <>
       <Container>
-        <Required answer={answer} onChange={onChange} getId={getId} />
-        <VerticalRule />
         <InlineField id="maxCharactersField" label={"Max characters"}>
-          <TextProperties
+          <SmallNumber
             id="maxCharactersInput"
-            key={`${answer.id}-max-length-input`}
-            maxLength={answer.properties.maxLength}
-            pageId={page.id}
+            answer={answer}
+            name={answer.id}
+            value={maxLength}
+            onBlur={() => onUpdateMaxLength(maxLength)}
+            onChange={({ value }) => setMaxLength(value)}
+            max={2000}
             invalid={Boolean(errorCode)}
           />
         </InlineField>
       </Container>
-
       {lengthValueError(errorCode)}
-    </Collapsible>
+      <Container>
+        <Required answer={answer} onChange={onUpdateRequired} />
+      </Container>
+    </>
   );
 };
 
 TextAreaProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
-  onChange: PropTypes.func.isRequired,
-  getId: PropTypes.func,
+  onUpdateRequired: PropTypes.func,
+  onUpdateMaxLength: PropTypes.func,
 };
 
 export default TextAreaProperties;
