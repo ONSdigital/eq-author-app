@@ -1,20 +1,26 @@
-import React, { Component } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { TransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import focusOnEntity from "utils/focusOnEntity";
-
+import withValidationError from "enhancers/withValidationError";
+import withEntityEditor from "components/withEntityEditor";
 import Option from "../MultipleChoiceAnswer/Option";
 import OptionTransition from "../MultipleChoiceAnswer/OptionTransition";
 import BasicAnswer from "../BasicAnswer";
-
+import { Field, Label } from "components/Forms";
+import WrappingInput from "components/Forms/WrappingInput";
+import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
-import { CHECKBOX } from "constants/answer-types";
+import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
+import AnswerProperties from "components/AdditionalContent/AnswerProperties";
 
 import gql from "graphql-tag";
 
@@ -53,161 +59,193 @@ const StyledSplitButton = styled(SplitButton)`
   margin-bottom: 1em;
 `;
 
-export class UnwrappedMultipleChoiceAnswer extends Component {
-  static propTypes = {
-    answer: CustomPropTypes.answer.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    onAddOption: PropTypes.func.isRequired,
-    onUpdateOption: PropTypes.func.isRequired,
-    onDeleteOption: PropTypes.func.isRequired,
-    minOptions: PropTypes.number.isRequired,
-    onAddExclusive: PropTypes.func.isRequired,
-    onMoveOption: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    minOptions: 1,
-  };
-
-  state = {
-    open: false,
-  };
-
-  handleOptionDelete = (optionId) => {
-    this.props.onDeleteOption(optionId, this.props.answer.id);
-  };
-
-  handleAddOption = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return this.props
-      .onAddOption(this.props.answer.id, { hasAdditionalAnswer: false })
-      .then(focusOnEntity);
-  };
-
-  handleAddExclusive = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return this.props
-      .onAddExclusive(this.props.answer.id)
-      .then(this.handleToggleOpen(false))
-      .then(focusOnEntity);
-  };
-
-  handleAddOther = (e) => {
-    e.preventDefault();
-    return this.props
-      .onAddOption(this.props.answer.id, { hasAdditionalAnswer: true })
-      .then((res) => {
-        this.handleToggleOpen(false);
-        return res;
-      })
-      .then((res) => res.option)
-      .then(focusOnEntity);
-  };
-
-  handleToggleOpen = (open) => {
-    this.setState({
-      open,
+export const UnwrappedMultipleChoiceAnswer = ({
+  answer,
+  onUpdateOption,
+  onUpdate,
+  minOptions,
+  onMoveOption,
+  onChange,
+  autoFocus,
+  getValidationError,
+  optionErrorMsg,
+  errorLabel,
+  type,
+  onDeleteOption,
+  onAddOption,
+  onAddExclusive,
+  ...otherProps
+}) => {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    setOpen(false);
+  }, [answer]);
+  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
+  const onUpdateRequired = ({ value }) => {
+    onUpdateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, required: value },
+        },
+      },
     });
   };
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
-  render() {
-    const {
-      answer,
-      onUpdateOption,
-      onUpdate,
-      minOptions,
-      onMoveOption,
-      ...otherProps
-    } = this.props;
+  const handleOptionDelete = (optionId) => {
+    onDeleteOption(optionId, answer.id);
+  };
 
-    const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
-    const showDeleteOption = numberOfOptions > minOptions;
-    return (
-      <BasicAnswer
-        answer={answer}
-        onUpdate={onUpdate}
-        autoFocus={false}
-        labelText="Label (optional)"
-        type={answer.type}
-      >
-        <AnswerWrapper>
-          <TransitionGroup
-            component={Options}
-            data-test="multiple-choice-options"
+  const handleAddOption = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddOption(answer.id, { hasAdditionalAnswer: false }).then(focusOnEntity);
+  };
+
+  const handleAddExclusive = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddExclusive(answer.id).then(focusOnEntity);
+  };
+
+  const handleAddOther = (e) => {
+    e.preventDefault();
+    onAddOption(answer.id, { hasAdditionalAnswer: true }).then(focusOnEntity);
+  };
+
+  const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
+  const showDeleteOption = numberOfOptions > minOptions;
+  return (
+    <>
+      <Field>
+        <Label htmlFor={`answer-label-${answer.id}`}>
+          {"Label (optional)"}
+        </Label>
+        <WrappingInput
+          id={`answer-label-${answer.id}`}
+          name="label"
+          onChange={onChange}
+          onBlur={onUpdate}
+          value={answer.label}
+          data-autofocus={autoFocus || null}
+          placeholder={""}
+          data-test="txt-answer-label"
+          bold
+          errorValidationMsg={
+            optionErrorMsg
+              ? optionErrorMsg
+              : getValidationError({
+                  field: "label",
+                  type: "answer",
+                  label: errorLabel,
+                  requiredMsg: errorMsg,
+                })
+          }
+        />
+      </Field>
+      <AnswerProperties answer={answer} onUpdateRequired={onUpdateRequired} />
+      <AnswerWrapper>
+        <TransitionGroup
+          component={Options}
+          data-test="multiple-choice-options"
+        >
+          <Reorder
+            list={answer.options}
+            onMove={onMoveOption}
+            Transition={OptionTransition}
           >
-            <Reorder
-              list={answer.options}
-              onMove={onMoveOption}
-              Transition={OptionTransition}
-            >
-              {(props, option) => (
+            {(props, option) => (
+              <Option
+                {...otherProps}
+                {...props}
+                option={option}
+                onDelete={handleOptionDelete}
+                onUpdate={onUpdateOption}
+                onEnterKey={handleAddOption}
+                hasDeleteButton={showDeleteOption}
+                hideMoveButtons={numberOfOptions === 1}
+                answer={answer}
+              />
+            )}
+          </Reorder>
+          {answer.mutuallyExclusiveOption && (
+            <OptionTransition key={answer.mutuallyExclusiveOption.id}>
+              <SpecialOptionWrapper data-test="exclusive-option">
+                <ExclusiveOr>Or</ExclusiveOr>
                 <Option
                   {...otherProps}
-                  {...props}
-                  option={option}
-                  onDelete={this.handleOptionDelete}
+                  option={answer.mutuallyExclusiveOption}
+                  onDelete={handleOptionDelete}
                   onUpdate={onUpdateOption}
-                  onEnterKey={this.handleAddOption}
-                  hasDeleteButton={showDeleteOption}
-                  hideMoveButtons={numberOfOptions === 1}
-                  answer={answer}
+                  onEnterKey={handleAddOption}
+                  hasDeleteButton
+                  hideMoveButtons
                 />
-              )}
-            </Reorder>
-            {answer.mutuallyExclusiveOption && (
-              <OptionTransition key={answer.mutuallyExclusiveOption.id}>
-                <SpecialOptionWrapper data-test="exclusive-option">
-                  <ExclusiveOr>Or</ExclusiveOr>
-                  <Option
-                    {...otherProps}
-                    option={answer.mutuallyExclusiveOption}
-                    onDelete={this.handleOptionDelete}
-                    onUpdate={onUpdateOption}
-                    onEnterKey={this.handleAddOption}
-                    hasDeleteButton
-                    hideMoveButtons
-                  />
-                </SpecialOptionWrapper>
-              </OptionTransition>
-            )}
-          </TransitionGroup>
+              </SpecialOptionWrapper>
+            </OptionTransition>
+          )}
+        </TransitionGroup>
 
-          <div>
-            <StyledSplitButton
-              onPrimaryAction={this.handleAddOption}
-              primaryText={
-                answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-              }
-              onToggleOpen={this.handleToggleOpen}
-              open={this.state.open}
-              dataTest="btn-add-option"
-            >
-              <Dropdown>
+        <div>
+          <StyledSplitButton
+            onPrimaryAction={handleAddOption}
+            primaryText={
+              answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
+            }
+            onToggleOpen={(setopen) => setOpen(setopen)}
+            open={open}
+            dataTest="btn-add-option"
+          >
+            <Dropdown>
+              <MenuItem
+                onClick={handleAddOther}
+                data-test="btn-add-option-other"
+              >
+                Add &ldquo;Other&rdquo; option
+              </MenuItem>
+              {answer.type === CHECKBOX && (
                 <MenuItem
-                  onClick={this.handleAddOther}
-                  data-test="btn-add-option-other"
+                  onClick={handleAddExclusive}
+                  disabled={answer.mutuallyExclusiveOption !== null}
+                  data-test="btn-add-mutually-exclusive-option"
                 >
-                  Add &ldquo;Other&rdquo; option
+                  Add an &ldquo;Or&rdquo; option
                 </MenuItem>
-                {answer.type === CHECKBOX && (
-                  <MenuItem
-                    onClick={this.handleAddExclusive}
-                    disabled={answer.mutuallyExclusiveOption !== null}
-                    data-test="btn-add-mutually-exclusive-option"
-                  >
-                    Add an &ldquo;Or&rdquo; option
-                  </MenuItem>
-                )}
-              </Dropdown>
-            </StyledSplitButton>
-          </div>
-        </AnswerWrapper>
-      </BasicAnswer>
-    );
-  }
-}
+              )}
+            </Dropdown>
+          </StyledSplitButton>
+        </div>
+      </AnswerWrapper>
+    </>
+  );
+};
+
+UnwrappedMultipleChoiceAnswer.defaultProps = {
+  minOptions: 1,
+  labelText: "Label",
+  errorLabel: "Answer label",
+  autoFocus: true,
+  getValidationError: () => {},
+  type: TEXTFIELD,
+};
+
+UnwrappedMultipleChoiceAnswer.propTypes = {
+  answer: CustomPropTypes.answer.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onAddOption: PropTypes.func.isRequired,
+  onUpdateOption: PropTypes.func.isRequired,
+  onDeleteOption: PropTypes.func.isRequired,
+  minOptions: PropTypes.number.isRequired,
+  onAddExclusive: PropTypes.func.isRequired,
+  onMoveOption: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool,
+  getValidationError: PropTypes.func.isRequired,
+  optionErrorMsg: PropTypes.string,
+  errorLabel: PropTypes.string,
+  type: PropTypes.string,
+};
 
 UnwrappedMultipleChoiceAnswer.fragments = {
   MultipleChoice: gql`
@@ -236,4 +274,7 @@ UnwrappedMultipleChoiceAnswer.fragments = {
   `,
 };
 
-export default withMoveOption(UnwrappedMultipleChoiceAnswer);
+export default flowRight(
+  withValidationError("answer"),
+  withEntityEditor("answer")
+)(withMoveOption(UnwrappedMultipleChoiceAnswer));
