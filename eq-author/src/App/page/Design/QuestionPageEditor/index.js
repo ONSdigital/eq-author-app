@@ -133,6 +133,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
           page={page}
+          metadata={page.section.questionnaire.metadata}
         />
       </div>
 
@@ -202,6 +203,7 @@ UnwrappedQuestionPageEditor.fragments = {
           metadata {
             id
             displayName
+            type
           }
         }
       }

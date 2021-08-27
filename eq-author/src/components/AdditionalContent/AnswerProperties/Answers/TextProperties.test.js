@@ -1,12 +1,12 @@
 import React from "react";
 import { render, fireEvent, flushPromises } from "tests/utils/rtl";
-import TextProperties from "./TextProperties";
+import TextFieldProperties from "./TextFieldProperties";
 import UPDATE_ANSWERS_OF_TYPE from "./updateAnswersOfTypeMutation.graphql";
 import { colors } from "constants/theme";
 import { act } from "react-dom/test-utils";
 
 const renderTextProperties = (props, mocks) => {
-  return render(<TextProperties {...props} />, { mocks });
+  return render(<TextFieldProperties {...props} />, { mocks });
 };
 
 describe("Text Property", () => {

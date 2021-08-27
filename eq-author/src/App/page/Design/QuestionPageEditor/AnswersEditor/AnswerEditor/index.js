@@ -218,6 +218,7 @@ AnswerEditor.propTypes = {
   onMoveDown: PropTypes.func.isRequired,
   renderPanel: PropTypes.func,
   page: PropTypes.object, //eslint-disable-line
+  metadata: PropTypes.array, //eslint-disable-line
 };
 
 AnswerEditor.fragments = {

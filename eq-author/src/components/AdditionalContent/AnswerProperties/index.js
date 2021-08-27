@@ -6,6 +6,7 @@ import DurationProperties from "./Answers/DurationProperties";
 import TextFieldProperties from "./Answers/TextFieldProperties";
 import TextAreaProperties from "./Answers/TextAreaProperties";
 import DateProperties from "./Answers/DateProperties";
+import DateRangeProperties from "./Answers/DateRangeProperties";
 import {
   TEXTFIELD,
   NUMBER,
@@ -38,6 +39,9 @@ const AnswerProperties = (props) => {
   }
   if ([DATE].includes(props.answer.type)) {
     return <DateProperties {...props} />;
+  }
+  if ([DATE_RANGE].includes(props.answer.type)) {
+    return <DateRangeProperties {...props} />;
   }
   return null;
 };

@@ -1,72 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { reduce, some } from "lodash";
-
-import Collapsible from "components/Collapsible";
 import Required from "components/AdditionalContent/Required";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
-
-import InlineField from "../Format/InlineField";
 import styled from "styled-components";
-import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const HorizontalRule = styled.hr`
-  margin: 1em 0 1.5em;
-`;
-
-const DateRangeProperties = ({ answer, onChange, getId }) => {
-  const id = getId("date-range", answer.id);
-
-  const errorCount = reduce(
-    answer.validationErrorInfo.errors,
-    (result, value) => {
-      const { type, field } = value;
-
-      // If the field already exists, skip it.
-      if (some(result, ["field", field])) {
-        return result;
-      }
-
-      // Add any validation errors.
-      if (type === "validation") {
-        result.push(value);
-        return result;
-      }
-
-      return result;
-    },
-    []
-  ).length;
-
+const DateRangeProperties = ({ answer, onUpdateRequired }) => {
   return (
-    <Collapsible
-      variant="properties"
-      title={`Date range properties`}
-      withoutHideThis
-      errorCount={errorCount}
-    >
+    <>
       <Container>
-        <InlineField id={id}>
-          <Required answer={answer} onChange={onChange} getId={getId} />
-        </InlineField>
+        <Required answer={answer} onChange={onUpdateRequired} />
       </Container>
-      <HorizontalRule />
-      <MultiLineField id={id} label={"Validation settings"}>
-        <AnswerValidation answer={answer} />
-      </MultiLineField>
-    </Collapsible>
+    </>
   );
 };
 
 DateRangeProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  getId: PropTypes.func,
-  onChange: PropTypes.func,
+  onUpdateRequired: PropTypes.func,
 };
 
 export default DateRangeProperties;

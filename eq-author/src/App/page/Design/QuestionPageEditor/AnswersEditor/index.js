@@ -23,6 +23,7 @@ export const AnswersEditor = ({
   onDeleteAnswer,
   moveAnswer,
   page,
+  metadata,
 }) => {
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
@@ -42,6 +43,7 @@ export const AnswersEditor = ({
             onDeleteAnswer={onDeleteAnswer}
             multipleAnswers={multipleAnswers}
             page={page}
+            metadata={metadata}
           />
         )}
       </Reorder>
@@ -60,6 +62,7 @@ AnswersEditor.propTypes = {
   onDeleteAnswer: PropTypes.func.isRequired,
   moveAnswer: PropTypes.func.isRequired,
   page: PropTypes.object, //eslint-disable-line
+  metadata: PropTypes.array, //eslint-disable-line
 };
 
 AnswersEditor.fragments = {
