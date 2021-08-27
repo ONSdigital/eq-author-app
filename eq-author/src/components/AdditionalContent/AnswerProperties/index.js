@@ -5,6 +5,7 @@ import UnitProperties from "./Answers/UnitProperties";
 import DurationProperties from "./Answers/DurationProperties";
 import TextFieldProperties from "./Answers/TextFieldProperties";
 import TextAreaProperties from "./Answers/TextAreaProperties";
+import DateProperties from "./Answers/DateProperties";
 import {
   TEXTFIELD,
   NUMBER,
@@ -16,6 +17,7 @@ import {
   DATE_RANGE,
   UNIT,
   DURATION,
+  DATE,
 } from "constants/answer-types";
 
 const AnswerProperties = (props) => {
@@ -33,6 +35,9 @@ const AnswerProperties = (props) => {
   }
   if ([TEXTAREA].includes(props.answer.type)) {
     return <TextAreaProperties {...props} />;
+  }
+  if ([DATE].includes(props.answer.type)) {
+    return <DateProperties {...props} />;
   }
   return null;
 };

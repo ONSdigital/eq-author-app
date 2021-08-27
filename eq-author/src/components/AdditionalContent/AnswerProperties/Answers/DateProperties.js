@@ -1,15 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
-import { reduce } from "lodash";
 
-import Collapsible from "components/Collapsible";
 import { Select } from "components/Forms";
 import Required from "components/AdditionalContent/Required";
 
-import MultiLineField from "../Format/MultiLineField";
-import InlineField from "../Format/InlineField";
-import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
+import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
 
 import styled from "styled-components";
 
@@ -18,59 +14,24 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const HorizontalRule = styled.hr`
-  margin: 1em 0 1.5em;
-`;
-
-const HorizontalSpacer = styled.div`
-  margin: 1em 0 0;
-`;
-
-const AnswerValidationSurround = styled.div`
-  margin: 1em 0 0;
-`;
-
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
 const DateProperties = ({
   answer,
   value,
-  onChange,
-  handleRequiredChange,
-  getId,
+  onUpdateFormat,
+  onUpdateRequired,
 }) => {
-  const errorCount = reduce(
-    answer.validationErrorInfo.errors,
-    (result, { type }) => {
-      if (type === "validation") {
-        result = result + 1;
-      }
-      return result;
-    },
-    0
-  );
-
-  const id = getId("date-format", answer.id);
-
   return (
-    <Collapsible
-      variant="properties"
-      title={`${answer.type} properties`}
-      withoutHideThis
-      errorCount={errorCount}
-    >
-      <Required answer={answer} onChange={handleRequiredChange} getId={getId} />
-
-      <HorizontalRule />
-
+    <>
       <Container>
-        <InlineField id={id} label={"Date type"}>
+        <MultiLineField id="date-format" label={"Date type"}>
           <Select
             data-test="select"
             value={value}
-            onChange={onChange}
-            id={id}
-            name={id}
+            onChange={onUpdateFormat}
+            id="date-format"
+            name="format"
           >
             <option
               data-test="day-month-year"
@@ -84,24 +45,18 @@ const DateProperties = ({
               yyyy
             </option>
           </Select>
-        </InlineField>
-      </Container>
-      <HorizontalSpacer>
-        <MultiLineField id={id} label={"Validation settings"}>
-          <AnswerValidationSurround>
-            <AnswerValidation answer={answer} />
-          </AnswerValidationSurround>
         </MultiLineField>
-      </HorizontalSpacer>
-    </Collapsible>
+      </Container>
+      <Required answer={answer} onChange={onUpdateRequired} />
+    </>
   );
 };
 
 DateProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  handleRequiredChange: PropTypes.func.isRequired,
+  onUpdateRequired: PropTypes.func.isRequired,
+  onUpdateFormat: PropTypes.func.isRequired,
   getId: PropTypes.func,
 };
 
