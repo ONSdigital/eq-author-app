@@ -7,6 +7,8 @@ import TextFieldProperties from "./Answers/TextFieldProperties";
 import TextAreaProperties from "./Answers/TextAreaProperties";
 import DateProperties from "./Answers/DateProperties";
 import DateRangeProperties from "./Answers/DateRangeProperties";
+import RadioProperties from "./Answers/RadioProperties";
+import CheckboxProperties from "./Answers/CheckboxProperties";
 import {
   TEXTFIELD,
   NUMBER,
@@ -43,6 +45,13 @@ const AnswerProperties = (props) => {
   if ([DATE_RANGE].includes(props.answer.type)) {
     return <DateRangeProperties {...props} />;
   }
+  if ([RADIO].includes(props.answer.type)) {
+    return <RadioProperties {...props} />;
+  }
+  if ([CHECKBOX].includes(props.answer.type)) {
+    return <CheckboxProperties {...props} />;
+  }
+
   return null;
 };
 
