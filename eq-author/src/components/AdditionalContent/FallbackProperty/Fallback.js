@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
 import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
-import ToggleProperty from "components/AdditionalContent/ToggleProperty";
 import { SimpleSelect } from "components/Forms/Select";
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
@@ -15,10 +14,6 @@ import { SELECTION_REQUIRED } from "constants/validationMessages";
 
 const Select = styled(SimpleSelect)`
   ${({ hasError }) => hasError && `border-color: ${colors.errorPrimary};`}
-`;
-
-const StyledInlineField = styled(InlineField)`
-  margin-top: 0.75em;
 `;
 
 const StyledCollapsible = styled(Collapsible)`
