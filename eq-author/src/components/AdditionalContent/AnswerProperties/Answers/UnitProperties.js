@@ -71,7 +71,7 @@ const UnitProperties = ({
                 element && element.children[0]?.getAttribute("value")
               );
             }}
-            hasError={false}
+            hasError={errors.length > 0}
             defaultValue={
               answer.properties.unit
                 ? `${answer.properties.unit} (${
