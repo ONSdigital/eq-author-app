@@ -6,8 +6,10 @@ import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
 import Required from "components/AdditionalContent/Required";
 import { Autocomplete } from "components/Autocomplete";
 import { unitConversion } from "constants/unit-types";
-import { flatMap } from "lodash";
+import { flatMap, filter } from "lodash";
 import { groupBy } from "lodash/fp";
+import { unitPropertyErrors } from "constants/validationMessages";
+import ValidationError from "components/ValidationError";
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +57,7 @@ const UnitProperties = ({
   onUpdateDecimal,
   onUpdateRequired,
 }) => {
+  const errors = filter(answer.validationErrorInfo.errors, { field: "unit" });
   return (
     <>
       <Container>
@@ -79,6 +82,11 @@ const UnitProperties = ({
           />
         </MultiLineField>
       </Container>
+      {errors.length !== 0 && (
+        <ValidationError>
+          {unitPropertyErrors[errors[0].errorCode].message}
+        </ValidationError>
+      )}
       <Container>
         <MultiLineField id="decimal" htmlFor="decimal" label="Decimal places">
           <Decimal
@@ -87,7 +95,6 @@ const UnitProperties = ({
             data-test="decimals"
             onBlur={onUpdateDecimal}
             value={answer.properties.decimals}
-            hasDecimalInconsistency={false}
           />
         </MultiLineField>
       </Container>

@@ -196,3 +196,17 @@ export const buildLabelError = (mainString, insString, pos, pos2) => {
     mainString.slice(0, pos) + insString + mainString.slice(pos2);
   return newLabelError;
 };
+
+export const decimalErrors = {
+  ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY: {
+    errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+    message: "Enter a decimal that is the same as the associated question page",
+  },
+};
+
+export const unitPropertyErrors = {
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Selection required",
+  },
+};

@@ -22,7 +22,6 @@ const NumberProperties = ({ answer, onUpdateRequired, onUpdateDecimal }) => {
             data-test="decimals"
             onBlur={onUpdateDecimal}
             value={answer.properties.decimals}
-            hasDecimalInconsistency={false}
           />
         </MultiLineField>
       </Container>

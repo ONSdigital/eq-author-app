@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-
+import { filter } from "lodash";
 import { colors, radius } from "constants/theme";
+import { decimalErrors } from "constants/validationMessages";
+import ValidationError from "components/ValidationError";
 
 import Number, { NumberInput } from "components/Forms/Number";
 
@@ -12,7 +14,7 @@ const SmallerNumber = styled(Number)`
 
   ${NumberInput} {
     ${(props) =>
-      props.hasDecimalInconsistency &&
+      props.hasError &&
       css`
         border-color: ${colors.errorPrimary};
         &:focus,
@@ -31,11 +33,14 @@ const SmallerNumber = styled(Number)`
   }
 `;
 
-const Decimal = ({ id, answer, value, onBlur, hasDecimalInconsistency }) => {
+const Decimal = ({ id, answer, value, onBlur }) => {
   const [decimal, setDecimal] = useState(value);
   useEffect(() => {
     setDecimal(value);
   }, [value]);
+  const errors = filter(answer.validationErrorInfo.errors, {
+    field: "decimals",
+  });
   return (
     <>
       <SmallerNumber
@@ -45,9 +50,14 @@ const Decimal = ({ id, answer, value, onBlur, hasDecimalInconsistency }) => {
         onChange={({ value: decimals }) => setDecimal(decimals)}
         onBlur={() => onBlur(decimal)}
         value={decimal}
-        hasDecimalInconsistency={hasDecimalInconsistency}
+        hasError={errors.length !== 0}
         max={6} //System limit enforced by eq-runner
       />
+      {errors.length !== 0 && (
+        <ValidationError>
+          {decimalErrors[errors[0].errorCode].message}
+        </ValidationError>
+      )}
     </>
   );
 };
@@ -57,7 +67,6 @@ Decimal.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   value: PropTypes.number.isRequired,
   onBlur: PropTypes.func.isRequired,
-  hasDecimalInconsistency: PropTypes.bool.isRequired,
 };
 
 export default Decimal;
