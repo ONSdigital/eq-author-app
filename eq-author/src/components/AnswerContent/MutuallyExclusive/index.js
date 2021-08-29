@@ -2,22 +2,35 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-
+import { Field, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import DummyMultipleChoice from "App/page/Design/answers/dummy/MultipleChoice";
+import { colors, radius } from "constants/theme";
 import { CHECKBOX } from "constants/answer-types";
 import InlineField from "components/AnswerContent/Format/InlineField";
-import { Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
-import {
-  StyledOption,
-  Flex,
-  OptionField,
-} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 
 const ToggleWrapper = styled.div`
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+`;
+
+export const StyledOption = styled.div`
+  border: 1px solid ${colors.bordersLight};
+  padding: 0em 1em 0em 1em;
+  border-radius: ${radius};
+  position: relative;
+  margin-bottom: 1em;
+`;
+
+export const Flex = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-top: 0.75em;
+`;
+
+export const OptionField = styled(Field)`
+  margin-bottom: 1em;
 `;
 
 const MutuallyExclusive = ({
