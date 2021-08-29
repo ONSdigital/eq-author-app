@@ -10,7 +10,6 @@ import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 
 import Date from "../Date";
-import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";

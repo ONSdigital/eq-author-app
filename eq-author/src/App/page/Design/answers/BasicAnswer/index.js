@@ -26,7 +26,6 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD } from "constants/answer-types";
-import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
