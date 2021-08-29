@@ -1,13 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 
 import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
-import ToggleProperty from "components/AnswerContent/ToggleProperty";
-
-const StyledToggleProperty = styled(ToggleProperty)`
-  margin: 0;
-`;
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Required = ({ answer, label, updateAnswer }) => {
   const onUpdateRequired = ({ value }) => {
@@ -22,11 +17,12 @@ const Required = ({ answer, label, updateAnswer }) => {
   };
   return (
     <InlineField id={answer.id} label={label}>
-      <StyledToggleProperty
+      <ToggleSwitch
         data-test="answer-properties-required-toggle"
         id={answer.id}
         onChange={onUpdateRequired}
-        value={answer.properties.required}
+        checked={answer.properties.required}
+        hideLabels={false}
       />
     </InlineField>
   );
