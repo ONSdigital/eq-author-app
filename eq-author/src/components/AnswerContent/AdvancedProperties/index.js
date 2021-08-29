@@ -14,10 +14,15 @@ const ToggleWrapper = styled.div`
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
+const HorizontalRule = styled.hr`
+  margin: 0.2em 0 0.9em;
+`;
+
 const AdvancedProperties = ({
   answer: { id, advancedProperties },
   updateAnswer,
   children,
+  enableHorizontalRule,
 }) => {
   const onUpdateFormat = (value) => {
     updateAnswer({
@@ -31,32 +36,36 @@ const AdvancedProperties = ({
   };
   return (
     <>
-      <Container>
-        <ToggleWrapper data-test="toggle-wrapper-advanced-properties">
-          <InlineField
+      <ToggleWrapper data-test="toggle-wrapper-advanced-properties">
+        <InlineField
+          id="advanced-properties"
+          htmlFor="advanced-properties"
+          label="Advanced properties"
+        >
+          <ToggleSwitch
             id="advanced-properties"
-            htmlFor="advanced-properties"
-            label="Advanced properties"
-          >
-            <ToggleSwitch
-              id="advanced-properties"
-              name="advanced-properties"
-              hideLabels={false}
-              onChange={() => onUpdateFormat(!advancedProperties)}
-              data-test="advanced-properties"
-              checked={advancedProperties || false}
-            />
-          </InlineField>
-        </ToggleWrapper>
-      </Container>
-      <>{advancedProperties && children}</>
+            name="advanced-properties"
+            hideLabels={false}
+            onChange={() => onUpdateFormat(!advancedProperties)}
+            data-test="advanced-properties"
+            checked={advancedProperties || false}
+          />
+        </InlineField>
+      </ToggleWrapper>
+      {advancedProperties && enableHorizontalRule && <HorizontalRule />}
+      {advancedProperties && children}
     </>
   );
+};
+
+AdvancedProperties.defaultProps = {
+  enableHorizontalRule: true,
 };
 
 AdvancedProperties.propTypes = {
   answer: PropType.object, //eslint-disable-line
   updateAnswer: PropType.func,
   children: PropType.node.isRequired,
+  enableHorizontalRule: PropType.bool,
 };
 export default AdvancedProperties;

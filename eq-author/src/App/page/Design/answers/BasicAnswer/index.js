@@ -35,10 +35,6 @@ import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 
 import gql from "graphql-tag";
 
-const HorizontalRule = styled.hr`
-  margin: 0.2em 0 0.9em;
-`;
-
 export const StatelessBasicAnswer = ({
   answer,
   onChange,
@@ -115,7 +111,6 @@ export const StatelessBasicAnswer = ({
         page={page}
       />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
-        <HorizontalRule />
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
           <MultiLineField id="validation-settingd" label="Validation settings">
             <AnswerValidation answer={answer} />

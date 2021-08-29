@@ -21,9 +21,6 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const HorizontalRule = styled.hr`
-  margin: 0.2em 0 0.9em;
-`;
 const DateRange = ({ answer, metadata, ...otherProps }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
 
@@ -49,7 +46,6 @@ const DateRange = ({ answer, metadata, ...otherProps }) => {
       />
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
-        <HorizontalRule />
         <MultiLineField id="validation-settingd" label="Validation settings">
           <AnswerValidation answer={answer} />
         </MultiLineField>

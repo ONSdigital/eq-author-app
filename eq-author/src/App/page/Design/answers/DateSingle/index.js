@@ -17,10 +17,6 @@ import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 
-const HorizontalRule = styled.hr`
-  margin: 0.2em 0 0.9em;
-`;
-
 export const DateSingle = ({
   answer,
   onChange,
@@ -49,7 +45,6 @@ export const DateSingle = ({
       />
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
-        <HorizontalRule />
         <MultiLineField id="validation-settingd" label="Validation settings">
           <AnswerValidation answer={answer} />
         </MultiLineField>
