@@ -43,7 +43,6 @@ export const StatelessBasicAnswer = ({
   answer,
   onChange,
   onUpdate,
-  children,
   labelPlaceholder,
   labelText,
   errorLabel,
@@ -115,7 +114,7 @@ export const StatelessBasicAnswer = ({
         updateAnswerOfType={updateAnswerOfType}
         page={page}
       />
-      <AdvancedProperties>
+      <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         <HorizontalRule />
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
           <MultiLineField id="validation-settingd" label="Validation settings">
@@ -131,7 +130,6 @@ export const StatelessBasicAnswer = ({
           autoFocus={autoFocus}
         />
       </AdvancedProperties>
-      {children}
     </div>
   );
 };

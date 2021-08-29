@@ -48,7 +48,7 @@ const DateRange = ({ answer, metadata, ...otherProps }) => {
         {...otherProps}
       />
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
-      <AdvancedProperties>
+      <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         <HorizontalRule />
         <MultiLineField id="validation-settingd" label="Validation settings">
           <AnswerValidation answer={answer} />

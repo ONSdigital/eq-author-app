@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropType from "prop-types";
 import styled from "styled-components";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
@@ -14,8 +14,21 @@ const ToggleWrapper = styled.div`
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
-const AdvancedProperties = ({ children }) => {
-  const [advancedProperties, setAdvancedProperties] = useState(false);
+const AdvancedProperties = ({
+  answer: { id, advancedProperties },
+  updateAnswer,
+  children,
+}) => {
+  const onUpdateFormat = (value) => {
+    updateAnswer({
+      variables: {
+        input: {
+          id: id,
+          advancedProperties: value,
+        },
+      },
+    });
+  };
   return (
     <>
       <Container>
@@ -29,9 +42,9 @@ const AdvancedProperties = ({ children }) => {
               id="advanced-properties"
               name="advanced-properties"
               hideLabels={false}
-              onChange={() => setAdvancedProperties(!advancedProperties)}
+              onChange={() => onUpdateFormat(!advancedProperties)}
               data-test="advanced-properties"
-              checked={advancedProperties}
+              checked={advancedProperties || false}
             />
           </InlineField>
         </ToggleWrapper>
@@ -42,6 +55,8 @@ const AdvancedProperties = ({ children }) => {
 };
 
 AdvancedProperties.propTypes = {
+  answer: PropType.object, //eslint-disable-line
+  updateAnswer: PropType.func,
   children: PropType.node.isRequired,
 };
 export default AdvancedProperties;

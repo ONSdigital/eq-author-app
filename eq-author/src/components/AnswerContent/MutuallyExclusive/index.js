@@ -32,27 +32,29 @@ const MutuallyExclusive = ({
   const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
 
   useEffect(() => {
-    setMutuallyExclusiveLabel(answer.options[0].label || "");
-    setMutuallyExclusiveDesc(answer.options[0].description || "");
+    setMutuallyExclusiveLabel(answer.options?.[0].label ?? "");
+    setMutuallyExclusiveDesc(answer.options?.[0].description ?? "");
   }, [answer]);
 
   const onChangeToggle = () => {
-    if (answer.options) {
+    if (!answer.options) {
       createMutuallyExclusive({
         variables: { input: { answerId: answer.id, label: "" } },
       });
     } else {
-      deleteOption({ variables: { input: { id: answer.options[0].id } } });
+      deleteOption({ variables: { input: { id: answer.options?.[0].id } } });
     }
   };
 
   const onUpdateOption = (label) => {
-    updateOption({ variables: { input: { id: answer.options[0].id, label } } });
+    updateOption({
+      variables: { input: { id: answer.options?.[0].id, label } },
+    });
   };
 
   const onUpdateOptionDesc = (description) => {
     updateOption({
-      variables: { input: { id: answer.options[0].id, description } },
+      variables: { input: { id: answer.options?.[0].id, description } },
     });
   };
 
