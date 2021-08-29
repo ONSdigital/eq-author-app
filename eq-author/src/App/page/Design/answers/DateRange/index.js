@@ -11,7 +11,7 @@ import EarliestDateValidationRule from "graphql/fragments/earliest-date-validati
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";

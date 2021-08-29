@@ -2,12 +2,7 @@ import React from "react";
 import PropType from "prop-types";
 import styled from "styled-components";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`;
+import InlineField from "components/AnswerContent/Format/InlineField";
 
 const ToggleWrapper = styled.div`
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};

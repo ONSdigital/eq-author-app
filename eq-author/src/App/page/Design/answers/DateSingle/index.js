@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
-import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 
 import answerFragment from "graphql/fragments/answer.graphql";
@@ -11,7 +10,7 @@ import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 
 import Date from "../Date";
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";

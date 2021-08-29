@@ -1,7 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
@@ -27,7 +26,7 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD } from "constants/answer-types";
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
