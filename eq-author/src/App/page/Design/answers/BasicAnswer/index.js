@@ -65,18 +65,6 @@ export const StatelessBasicAnswer = ({
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
-  const onUpdateUnit = (value) => {
-    updateAnswerOfType({
-      variables: {
-        input: {
-          type: answer.type,
-          questionPageId: page.id,
-          properties: { ...answer.properties, unit: value },
-        },
-      },
-    });
-  };
-
   return (
     <div>
       <Field>
@@ -125,7 +113,6 @@ export const StatelessBasicAnswer = ({
         answer={answer}
         updateAnswer={updateAnswer}
         updateAnswerOfType={updateAnswerOfType}
-        onUpdateUnit={onUpdateUnit}
         page={page}
       />
       <AdvancedProperties>

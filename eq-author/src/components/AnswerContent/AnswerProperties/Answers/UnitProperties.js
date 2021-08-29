@@ -51,14 +51,19 @@ const filterUnitOptions = (options, query) => {
   return [common];
 };
 
-const UnitProperties = ({
-  answer,
-  page,
-  onUpdateUnit,
-  updateAnswer,
-  updateAnswerOfType,
-}) => {
+const UnitProperties = ({ answer, page, updateAnswer, updateAnswerOfType }) => {
   const errors = filter(answer.validationErrorInfo.errors, { field: "unit" });
+  const onUpdateUnit = (value) => {
+    updateAnswerOfType({
+      variables: {
+        input: {
+          type: answer.type,
+          questionPageId: page.id,
+          properties: { ...answer.properties, unit: value },
+        },
+      },
+    });
+  };
   return (
     <>
       <Container>
@@ -110,8 +115,6 @@ const UnitProperties = ({
 UnitProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
-  onUpdateUnit: PropTypes.func,
-  onUpdateDecimal: PropTypes.func,
   updateAnswer: PropTypes.func,
   updateAnswerOfType: PropTypes.func,
 };
