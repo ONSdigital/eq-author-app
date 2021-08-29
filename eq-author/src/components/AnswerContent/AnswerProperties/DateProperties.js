@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
-const DateProperties = ({ answer, value, updateAnswer }) => {
+const DateProperties = ({ answer, updateAnswer }) => {
   const onUpdateFormat = ({ value }) => {
     updateAnswer({
       variables: {
