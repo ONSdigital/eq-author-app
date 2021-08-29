@@ -45,6 +45,7 @@ export const UnwrappedDate = ({
   showYear,
   errorLabel,
   getValidationError,
+  showDummyDate,
 }) => {
   return (
     <Fieldset>
@@ -69,16 +70,18 @@ export const UnwrappedDate = ({
           })}
         />
       </Field>
-      <Field>
-        <Label>Date</Label>
-        <Format>
-          <DummyDate
-            showDay={showDay}
-            showMonth={showMonth}
-            showYear={showYear}
-          />
-        </Format>
-      </Field>
+      {showDummyDate && (
+        <Field>
+          <Label>Date</Label>
+          <Format>
+            <DummyDate
+              showDay={showDay}
+              showMonth={showMonth}
+              showYear={showYear}
+            />
+          </Format>
+        </Field>
+      )}
     </Fieldset>
   );
 };
@@ -94,12 +97,14 @@ UnwrappedDate.propTypes = {
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,
   showYear: PropTypes.bool,
+  showDummyDate: PropTypes.bool,
   getValidationError: PropTypes.func,
 };
 
 UnwrappedDate.defaultProps = {
   label: "Label",
   name: "label",
+  showDummyDate: true,
 };
 
 UnwrappedDate.fragments = {

@@ -40,6 +40,7 @@ export const DateSingle = ({
         showYear
         onChange={onChange}
         onUpdate={onUpdate}
+        showDummyDate={false}
         {...otherProps}
       />
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />

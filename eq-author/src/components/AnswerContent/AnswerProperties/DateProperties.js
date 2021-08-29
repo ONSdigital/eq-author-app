@@ -5,7 +5,7 @@ import { enableOn } from "utils/featureFlags";
 import { Select } from "components/Forms";
 import Required from "components/AnswerContent/Required";
 
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 
 import styled from "styled-components";
 
@@ -33,7 +33,7 @@ const DateProperties = ({ answer, value, updateAnswer }) => {
         <MultiLineField id="date-format" label={"Date type"}>
           <Select
             data-test="select"
-            value={value}
+            value={answer.properties.format}
             onChange={onUpdateFormat}
             id="date-format"
             name="format"
