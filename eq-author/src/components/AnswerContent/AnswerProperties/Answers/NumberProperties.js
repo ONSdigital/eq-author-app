@@ -2,16 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
-import Required from "components/AdditionalContent/Required";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import Decimal from "components/AnswerContent/AnswerProperties/Decimal";
+import Required from "components/AnswerContent/Required";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const NumberProperties = ({ answer, updateAnswer, onUpdateDecimal }) => {
+const NumberProperties = ({
+  answer,
+  page,
+  updateAnswer,
+  updateAnswerOfType,
+}) => {
   return (
     <>
       <Container>
@@ -19,8 +24,9 @@ const NumberProperties = ({ answer, updateAnswer, onUpdateDecimal }) => {
           <Decimal
             id={answer.id}
             answer={answer}
+            page={page}
             data-test="decimals"
-            onBlur={onUpdateDecimal}
+            updateAnswerOfType={updateAnswerOfType}
             value={answer.properties.decimals}
           />
         </MultiLineField>
@@ -33,9 +39,10 @@ const NumberProperties = ({ answer, updateAnswer, onUpdateDecimal }) => {
 };
 
 NumberProperties.propTypes = {
-  updateAnswer: PropTypes.func,
-  onUpdateDecimal: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
+  page: PropTypes.object, //eslint-disable-line
+  updateAnswer: PropTypes.func,
+  updateAnswerOfType: PropTypes.func,
 };
 
 export default NumberProperties;

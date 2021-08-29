@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropType from "prop-types";
 import styled from "styled-components";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
 
 const Container = styled.div`
   display: flex;

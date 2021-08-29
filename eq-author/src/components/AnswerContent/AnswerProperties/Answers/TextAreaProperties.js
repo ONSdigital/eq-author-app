@@ -7,8 +7,8 @@ import { radius, colors } from "constants/theme";
 import Number, { NumberInput } from "components/Forms/Number";
 
 import ValidationError from "components/ValidationError";
-import Required from "components/AdditionalContent/Required";
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
+import Required from "components/AnswerContent/Required";
+import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
 
 const SmallNumber = styled(Number)`
   width: 7em;

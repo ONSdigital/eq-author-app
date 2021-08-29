@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
-import ToggleProperty from "components/AdditionalContent/ToggleProperty";
+import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
+import ToggleProperty from "components/AnswerContent/ToggleProperty";
 
 const StyledToggleProperty = styled(ToggleProperty)`
   margin: 0;

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "tests/utils/rtl";
 
-import ToggleProperty from "components/AdditionalContent/ToggleProperty";
+import ToggleProperty from "components/AnswerContent/ToggleProperty";
 
 const createWrapper = (props = {}) => render(<ToggleProperty {...props} />);
 

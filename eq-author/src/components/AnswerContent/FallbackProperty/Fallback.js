@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 import { SimpleSelect } from "components/Forms/Select";
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
@@ -52,6 +52,7 @@ const fallbackSelects = ({ label, secondaryLabel }) => [
 
 const Fallback = ({
   metadata,
+  answer,
   answer: { properties, validationErrorInfo, label, secondaryLabel },
   updateAnswer,
 }) => {
@@ -141,7 +142,7 @@ const Fallback = ({
 Fallback.propTypes = {
   metadata: PropTypes.arrayOf(CustomPropTypes.metadata).isRequired,
   answer: CustomPropTypes.answer.isRequired,
-  onUpdateFallback: PropTypes.func.isRequired,
+  updateAnswer: PropTypes.func.isRequired,
 };
 
 export default Fallback;

@@ -33,7 +33,7 @@ const SmallerNumber = styled(Number)`
   }
 `;
 
-const Decimal = ({ id, answer, value, onBlur }) => {
+const Decimal = ({ id, answer, value, updateAnswerOfType, page }) => {
   const [decimal, setDecimal] = useState(value);
   useEffect(() => {
     setDecimal(value);
@@ -41,6 +41,17 @@ const Decimal = ({ id, answer, value, onBlur }) => {
   const errors = filter(answer.validationErrorInfo.errors, {
     field: "decimals",
   });
+  const onUpdateDecimal = (value) => {
+    updateAnswerOfType({
+      variables: {
+        input: {
+          type: answer.type,
+          questionPageId: page.id,
+          properties: { ...answer.properties, decimals: value },
+        },
+      },
+    });
+  };
   return (
     <>
       <SmallerNumber
@@ -48,7 +59,7 @@ const Decimal = ({ id, answer, value, onBlur }) => {
         answer={answer}
         name={id}
         onChange={({ value: decimals }) => setDecimal(decimals)}
-        onBlur={() => onBlur(decimal)}
+        onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
         hasError={errors.length !== 0}
         max={6} //System limit enforced by eq-runner
@@ -65,8 +76,9 @@ const Decimal = ({ id, answer, value, onBlur }) => {
 Decimal.propTypes = {
   id: PropTypes.string.isRequired,
   answer: PropTypes.object, //eslint-disable-line
+  page: PropTypes.object, //eslint-disable-line
   value: PropTypes.number.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  updateAnswerOfType: PropTypes.func.isRequired,
 };
 
 export default Decimal;

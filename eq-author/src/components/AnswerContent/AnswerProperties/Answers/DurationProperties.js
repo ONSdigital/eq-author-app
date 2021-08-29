@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Select } from "components/Forms";
 import { map, groupBy } from "lodash";
 import styled from "styled-components";
-import Required from "components/AdditionalContent/Required";
+import Required from "components/AnswerContent/Required";
 
 import * as durationTypes from "constants/duration-types";
 
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 
 const StyledSelect = styled(Select)`
   width: 15em;

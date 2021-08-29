@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import Required from "components/AdditionalContent/Required";
+import Required from "components/AnswerContent/Required";
 
 const Container = styled.div`
   display: flex;

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
-import Decimal from "components/AdditionalContent/AnswerProperties/Decimal";
-import Required from "components/AdditionalContent/Required";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import Decimal from "components/AnswerContent/AnswerProperties/Decimal";
+import Required from "components/AnswerContent/Required";
 import { Autocomplete } from "components/Autocomplete";
 import { unitConversion } from "constants/unit-types";
 import { flatMap, filter } from "lodash";
@@ -53,9 +53,10 @@ const filterUnitOptions = (options, query) => {
 
 const UnitProperties = ({
   answer,
+  page,
   onUpdateUnit,
-  onUpdateDecimal,
   updateAnswer,
+  updateAnswerOfType,
 }) => {
   const errors = filter(answer.validationErrorInfo.errors, { field: "unit" });
   return (
@@ -92,8 +93,9 @@ const UnitProperties = ({
           <Decimal
             id={answer.id}
             answer={answer}
+            page={page}
             data-test="decimals"
-            onBlur={onUpdateDecimal}
+            updateAnswerOfType={updateAnswerOfType}
             value={answer.properties.decimals}
           />
         </MultiLineField>
@@ -107,9 +109,11 @@ const UnitProperties = ({
 
 UnitProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
+  page: PropTypes.object, //eslint-disable-line
   onUpdateUnit: PropTypes.func,
   onUpdateDecimal: PropTypes.func,
   updateAnswer: PropTypes.func,
+  updateAnswerOfType: PropTypes.func,
 };
 
 export default UnitProperties;

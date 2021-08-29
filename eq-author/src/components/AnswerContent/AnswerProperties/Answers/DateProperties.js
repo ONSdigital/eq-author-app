@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
 
 import { Select } from "components/Forms";
-import Required from "components/AdditionalContent/Required";
+import Required from "components/AnswerContent/Required";
 
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 
 import styled from "styled-components";
 

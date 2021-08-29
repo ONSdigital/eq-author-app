@@ -65,18 +65,6 @@ export const StatelessBasicAnswer = ({
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
-  const onUpdateDecimal = (value) => {
-    updateAnswerOfType({
-      variables: {
-        input: {
-          type: answer.type,
-          questionPageId: page.id,
-          properties: { ...answer.properties, decimals: value },
-        },
-      },
-    });
-  };
-
   const onUpdateUnit = (value) => {
     updateAnswerOfType({
       variables: {
@@ -137,8 +125,8 @@ export const StatelessBasicAnswer = ({
         answer={answer}
         updateAnswer={updateAnswer}
         updateAnswerOfType={updateAnswerOfType}
-        onUpdateDecimal={onUpdateDecimal}
         onUpdateUnit={onUpdateUnit}
+        page={page}
       />
       <AdvancedProperties>
         <HorizontalRule />
