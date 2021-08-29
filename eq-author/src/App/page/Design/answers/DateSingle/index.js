@@ -45,9 +45,7 @@ export const DateSingle = ({
       />
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
-        <MultiLineField id="validation-settingd" label="Validation settings">
-          <AnswerValidation answer={answer} />
-        </MultiLineField>
+        <AnswerValidation answer={answer} />
         <MutuallyExclusive
           answer={answer}
           createMutuallyExclusive={createMutuallyExclusive}

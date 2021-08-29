@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { kebabCase, get, startCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import ModalWithNav from "components/modals/ModalWithNav";
 import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
@@ -319,49 +319,51 @@ const AnswerValidation = ({ answer }) => {
   }
 
   return (
-    <ValidationContext.Provider value={{ answer }}>
-      {(validationComponentsMinValue.length > 0 ||
-        validationComponentsMaxValue.length > 0) && (
-        <InlineField>
-          <ValidationGroupTop>
-            {validationComponentsMinValue}
-          </ValidationGroupTop>
-          <ValidationGroupTop>
-            {validationComponentsMaxValue}
-          </ValidationGroupTop>
-        </InlineField>
-      )}
-      {(validationComponentsEarliestDate.length > 0 ||
-        validationComponentsLatestDate.length > 0) && (
-        <InlineField>
-          <ValidationGroupTop>
-            {validationComponentsEarliestDate}
-          </ValidationGroupTop>
-          <ValidationGroupTop>
-            {validationComponentsLatestDate}
-          </ValidationGroupTop>
-        </InlineField>
-      )}
-      {(validationComponentsMinDuration.length > 0 ||
-        validationComponentsMaxDuration.length > 0) && (
-        <InlineField>
-          <ValidationGroupBottom>
-            {validationComponentsMinDuration}
-          </ValidationGroupBottom>
-          <ValidationGroupBottom>
-            {validationComponentsMaxDuration}
-          </ValidationGroupBottom>
-        </InlineField>
-      )}
-      <ModalWithNav
-        id={modalId}
-        onClose={handleModalClose}
-        navItems={validValidationTypes}
-        title={`${startCase(answer.type)} validation`}
-        isOpen={modalIsOpen}
-        startingTabId={startingTabId}
-      />
-    </ValidationContext.Provider>
+    <MultiLineField id="validation-settingd" label="Validation settings">
+      <ValidationContext.Provider value={{ answer }}>
+        {(validationComponentsMinValue.length > 0 ||
+          validationComponentsMaxValue.length > 0) && (
+          <InlineField>
+            <ValidationGroupTop>
+              {validationComponentsMinValue}
+            </ValidationGroupTop>
+            <ValidationGroupTop>
+              {validationComponentsMaxValue}
+            </ValidationGroupTop>
+          </InlineField>
+        )}
+        {(validationComponentsEarliestDate.length > 0 ||
+          validationComponentsLatestDate.length > 0) && (
+          <InlineField>
+            <ValidationGroupTop>
+              {validationComponentsEarliestDate}
+            </ValidationGroupTop>
+            <ValidationGroupTop>
+              {validationComponentsLatestDate}
+            </ValidationGroupTop>
+          </InlineField>
+        )}
+        {(validationComponentsMinDuration.length > 0 ||
+          validationComponentsMaxDuration.length > 0) && (
+          <InlineField>
+            <ValidationGroupBottom>
+              {validationComponentsMinDuration}
+            </ValidationGroupBottom>
+            <ValidationGroupBottom>
+              {validationComponentsMaxDuration}
+            </ValidationGroupBottom>
+          </InlineField>
+        )}
+        <ModalWithNav
+          id={modalId}
+          onClose={handleModalClose}
+          navItems={validValidationTypes}
+          title={`${startCase(answer.type)} validation`}
+          isOpen={modalIsOpen}
+          startingTabId={startingTabId}
+        />
+      </ValidationContext.Provider>
+    </MultiLineField>
   );
 };
 

@@ -111,9 +111,7 @@ export const StatelessBasicAnswer = ({
       />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
-          <MultiLineField id="validation-settingd" label="Validation settings">
-            <AnswerValidation answer={answer} />
-          </MultiLineField>
+          <AnswerValidation answer={answer} />
         )}
         <MutuallyExclusive
           answer={answer}
