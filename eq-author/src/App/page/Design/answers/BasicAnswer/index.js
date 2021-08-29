@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 
 import styled from "styled-components";
@@ -7,16 +7,9 @@ import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
 import { Field, Label } from "components/Forms";
-import ToggleSwitch from "components/buttons/ToggleSwitch";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
-import DummyMultipleChoice from "../dummy/MultipleChoice";
 
-import {
-  StyledOption,
-  Flex,
-  OptionField,
-} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 import withValidationError from "enhancers/withValidationError";
 
 import CREATE_MUTUALLY_EXCLUSIVE from "./graphql/createMutuallyExclusiveOption.graphql";
@@ -33,27 +26,17 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
-import InlineField from "components/AdditionalContent/AnswerProperties/Format/InlineField";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
+import { TEXTFIELD } from "constants/answer-types";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
-import AnswerProperties from "components/AdditionalContent/AnswerProperties";
-import AdvancedProperties from "components/AdditionalContent/AdvancedProperties";
+import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
+import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 
 import gql from "graphql-tag";
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const HorizontalRule = styled.hr`
   margin: 0.2em 0 0.9em;
-`;
-
-const ToggleWrapper = styled.div`
-  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
-  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 export const StatelessBasicAnswer = ({
@@ -75,53 +58,15 @@ export const StatelessBasicAnswer = ({
   page,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-  const getMutuallyExclusive = ({ options }) =>
-    options?.find(({ mutuallyExclusive }) => mutuallyExclusive === true);
-
-  const getMutuallyExclusiveDesc = ({ options }) =>
-    options?.find(({ description }) => description);
 
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
-  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
-  const [onUpdateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
-
-  const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
-  const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
-
-  useEffect(() => {
-    const { label } = getMutuallyExclusive(answer) || { label: "" };
-    setMutuallyExclusiveLabel(label);
-    const { description } = getMutuallyExclusiveDesc(answer) || {
-      description: "",
-    };
-    setMutuallyExclusiveDesc(description);
-  }, [answer]);
-
-  const onChangeToggle = () => {
-    const { id } = getMutuallyExclusive(answer) || {};
-    if (!id) {
-      createMutuallyExclusive({
-        variables: { input: { answerId: answer.id, label: "" } },
-      });
-    } else {
-      deleteOption({ variables: { input: { id } } });
-    }
-  };
-
-  const onUpdateOption = (label) => {
-    const { id } = getMutuallyExclusive(answer) || {};
-    updateOption({ variables: { input: { id, label } } });
-  };
-
-  const onUpdateOptionDesc = (description) => {
-    const { id } = getMutuallyExclusive(answer) || {};
-    updateOption({ variables: { input: { id, description } } });
-  };
+  const [updateAnswer] = useMutation(UPDATE_ANSWER);
+  const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const onUpdateRequired = ({ value }) => {
-    onUpdateAnswer({
+    updateAnswer({
       variables: {
         input: {
           id: answer.id,
@@ -132,7 +77,7 @@ export const StatelessBasicAnswer = ({
   };
 
   const onUpdateDecimal = (value) => {
-    onUpdateAnswerOfType({
+    updateAnswerOfType({
       variables: {
         input: {
           type: answer.type,
@@ -144,7 +89,7 @@ export const StatelessBasicAnswer = ({
   };
 
   const onUpdateUnit = (value) => {
-    onUpdateAnswerOfType({
+    updateAnswerOfType({
       variables: {
         input: {
           type: answer.type,
@@ -156,7 +101,7 @@ export const StatelessBasicAnswer = ({
   };
 
   const onUpdateMaxLength = (value) => {
-    onUpdateAnswer({
+    updateAnswer({
       variables: {
         input: {
           id: answer.id,
@@ -220,68 +165,18 @@ export const StatelessBasicAnswer = ({
       <AdvancedProperties>
         <HorizontalRule />
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
-          <Container>
-            <MultiLineField
-              id="validation-settingd"
-              label="Validation settings"
-            >
-              <AnswerValidation answer={answer} />
-            </MultiLineField>
-          </Container>
+          <MultiLineField id="validation-settingd" label="Validation settings">
+            <AnswerValidation answer={answer} />
+          </MultiLineField>
         )}
-        {type !== "Checkbox" && type !== "Radio" && (
-          <ToggleWrapper data-test="toggle-wrapper" disabled={multipleAnswers}>
-            <InlineField
-              id="toggle-or-option"
-              htmlFor="toggle-or-option"
-              label={`"Or" option`}
-            >
-              <ToggleSwitch
-                id="toggle-or-option"
-                name="toggle-or-option"
-                hideLabels={false}
-                onChange={onChangeToggle}
-                checked={getMutuallyExclusive(answer) && !multipleAnswers}
-                data-test="toggle-or-option"
-              />
-            </InlineField>
-          </ToggleWrapper>
-        )}
-        {getMutuallyExclusive(answer) && !multipleAnswers && (
-          <StyledOption>
-            <Flex>
-              <DummyMultipleChoice type={CHECKBOX} />
-              <OptionField>
-                <Label htmlFor={`option-label-${answer.id}`}>{"Label"}</Label>
-                <WrappingInput
-                  id={`option-label-${answer.id}`}
-                  name="label"
-                  value={mutuallyExclusiveLabel}
-                  placeholder={labelPlaceholder}
-                  onChange={({ value }) => setMutuallyExclusiveLabel(value)}
-                  onBlur={({ target: { value } }) => onUpdateOption(value)}
-                  data-test="option-label"
-                  data-autofocus={autoFocus || null}
-                  bold
-                />
-              </OptionField>
-            </Flex>
-            <OptionField>
-              <Label htmlFor={`option-description-${answer.id}`}>
-                Description (optional)
-              </Label>
-              <WrappingInput
-                id={`option-description-${answer.id}`}
-                name="description"
-                value={mutuallyExclusiveDesc}
-                placeholder={descriptionPlaceholder}
-                onChange={({ value }) => setMutuallyExclusiveDesc(value)}
-                onBlur={({ target: { value } }) => onUpdateOptionDesc(value)}
-                data-test="option-description"
-              />
-            </OptionField>
-          </StyledOption>
-        )}
+        <MutuallyExclusive
+          answer={answer}
+          createMutuallyExclusive={createMutuallyExclusive}
+          disabled={multipleAnswers}
+          updateOption={updateOption}
+          deleteOption={deleteOption}
+          autoFocus={autoFocus}
+        />
       </AdvancedProperties>
       {children}
     </div>

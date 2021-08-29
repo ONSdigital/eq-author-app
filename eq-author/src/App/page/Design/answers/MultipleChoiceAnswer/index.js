@@ -20,7 +20,7 @@ import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
-import AnswerProperties from "components/AdditionalContent/AnswerProperties";
+import AnswerProperties from "components/AnswerContent/AnswerProperties";
 
 import gql from "graphql-tag";
 

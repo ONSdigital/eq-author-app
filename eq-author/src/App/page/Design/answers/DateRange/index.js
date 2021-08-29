@@ -11,19 +11,14 @@ import EarliestDateValidationRule from "graphql/fragments/earliest-date-validati
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
-import MultiLineField from "components/AdditionalContent/AnswerProperties/Format/MultiLineField";
-import AnswerProperties from "components/AdditionalContent/AnswerProperties";
-import AdvancedProperties from "components/AdditionalContent/AdvancedProperties";
+import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
-import Fallback from "components/AdditionalContent/FallbackProperty/Fallback";
+import Fallback from "components/AnswerContent/FallbackProperty/Fallback";
 
 const Wrapper = styled.div`
   width: 100%;
-`;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const HorizontalRule = styled.hr`
@@ -74,11 +69,9 @@ const DateRange = ({ answer, metadata, ...otherProps }) => {
       <AnswerProperties answer={answer} onUpdateRequired={onUpdateRequired} />
       <AdvancedProperties>
         <HorizontalRule />
-        <Container>
-          <MultiLineField id="validation-settingd" label="Validation settings">
-            <AnswerValidation answer={answer} />
-          </MultiLineField>
-        </Container>
+        <MultiLineField id="validation-settingd" label="Validation settings">
+          <AnswerValidation answer={answer} />
+        </MultiLineField>
         <Fallback
           answer={answer}
           metadata={metadata}
