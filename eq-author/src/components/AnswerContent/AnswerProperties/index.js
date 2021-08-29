@@ -1,14 +1,14 @@
 import React from "react";
 import CustomPropTypes from "custom-prop-types";
-import NumberProperties from "./Answers/NumberProperties";
-import UnitProperties from "./Answers/UnitProperties";
-import DurationProperties from "./Answers/DurationProperties";
-import TextFieldProperties from "./Answers/TextFieldProperties";
-import TextAreaProperties from "./Answers/TextAreaProperties";
-import DateProperties from "./Answers/DateProperties";
-import DateRangeProperties from "./Answers/DateRangeProperties";
-import RadioProperties from "./Answers/RadioProperties";
-import CheckboxProperties from "./Answers/CheckboxProperties";
+import NumberProperties from "./NumberProperties";
+import UnitProperties from "./UnitProperties";
+import DurationProperties from "./DurationProperties";
+import TextFieldProperties from "./TextFieldProperties";
+import TextAreaProperties from "./TextAreaProperties";
+import DateProperties from "./DateProperties";
+import DateRangeProperties from "./DateRangeProperties";
+import RadioProperties from "./RadioProperties";
+import CheckboxProperties from "./CheckboxProperties";
 import {
   TEXTFIELD,
   NUMBER,

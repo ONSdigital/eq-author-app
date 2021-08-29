@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import MultiLineField from "./";
+import MultiLineField from ".";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<MultiLineField {...props} />);

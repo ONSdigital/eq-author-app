@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import Decimal from "components/AnswerContent/AnswerProperties/Decimal";
+import Decimal from "components/AnswerContent/Decimal";
 import Required from "components/AnswerContent/Required";
 import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
 
