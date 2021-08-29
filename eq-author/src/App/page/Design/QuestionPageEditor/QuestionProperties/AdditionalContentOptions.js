@@ -13,12 +13,12 @@ import focusOnNode from "utils/focusOnNode";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 
-import AnswerTransition from "../../Design/QuestionPageEditor/AnswersEditor/AnswerTransition";
+import AnswerTransition from "../AnswersEditor/AnswerTransition";
 
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/page.graphql";
 
-import { getErrorByField } from "../../Design/QuestionPageEditor/validationUtils.js";
+import { getErrorByField } from "../validationUtils.js";
 
 const contentControls = {
   bold: true,

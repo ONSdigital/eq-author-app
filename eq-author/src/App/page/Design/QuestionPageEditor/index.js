@@ -28,7 +28,7 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 
 import MetaEditor from "./MetaEditor";
 
-import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
+import QuestionProperties from "./QuestionProperties";
 import TotalValidation from "../Validation/GroupValidations/TotalValidation";
 
 import {
