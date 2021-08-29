@@ -1,22 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import styled from "styled-components";
 import Required from "components/AnswerContent/Required";
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const TextFieldProperties = ({ answer, updateAnswer }) => {
-  return (
-    <>
-      <Container>
-        <Required answer={answer} updateAnswer={updateAnswer} />
-      </Container>
-    </>
-  );
+  return <Required answer={answer} updateAnswer={updateAnswer} />;
 };
 
 TextFieldProperties.propTypes = {

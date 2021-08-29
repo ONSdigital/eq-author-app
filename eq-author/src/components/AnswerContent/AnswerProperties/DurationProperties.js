@@ -4,10 +4,8 @@ import { Select } from "components/Forms";
 import { map, groupBy } from "lodash";
 import styled from "styled-components";
 import Required from "components/AnswerContent/Required";
-
 import * as durationTypes from "constants/duration-types";
-
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 
 const StyledSelect = styled(Select)`
   width: 15em;

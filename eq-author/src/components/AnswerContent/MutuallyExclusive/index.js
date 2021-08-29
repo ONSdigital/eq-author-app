@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import DummyMultipleChoice from "App/page/Design/answers/dummy/MultipleChoice";
 import { CHECKBOX } from "constants/answer-types";
-import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
+import InlineField from "components/AnswerContent/Format/InlineField";
 import { Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import {

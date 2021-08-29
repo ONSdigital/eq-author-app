@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
+import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Required = ({ answer, label, updateAnswer }) => {

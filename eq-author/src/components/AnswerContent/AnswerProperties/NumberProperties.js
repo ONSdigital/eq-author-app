@@ -1,15 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import styled from "styled-components";
 import Decimal from "components/AnswerContent/Decimal";
 import Required from "components/AnswerContent/Required";
-import MultiLineField from "components/AnswerContent/AnswerProperties/Format/MultiLineField";
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`;
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 
 const NumberProperties = ({
   answer,
@@ -19,21 +12,17 @@ const NumberProperties = ({
 }) => {
   return (
     <>
-      <Container>
-        <MultiLineField id="decimal" htmlFor="decimal" label="Decimal places">
-          <Decimal
-            id={answer.id}
-            answer={answer}
-            page={page}
-            data-test="decimals"
-            updateAnswerOfType={updateAnswerOfType}
-            value={answer.properties.decimals}
-          />
-        </MultiLineField>
-      </Container>
-      <Container>
-        <Required answer={answer} updateAnswer={updateAnswer} />
-      </Container>
+      <MultiLineField id="decimal" htmlFor="decimal" label="Decimal places">
+        <Decimal
+          id={answer.id}
+          answer={answer}
+          page={page}
+          data-test="decimals"
+          updateAnswerOfType={updateAnswerOfType}
+          value={answer.properties.decimals}
+        />
+      </MultiLineField>
+      <Required answer={answer} updateAnswer={updateAnswer} />
     </>
   );
 };
