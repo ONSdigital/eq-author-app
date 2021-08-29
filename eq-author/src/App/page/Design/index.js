@@ -91,7 +91,6 @@ export const UnwrappedPageRoute = (props) => {
         title={page?.displayName || ""}
         onAddQuestionPage={onAddQuestionPage}
         validationErrorInfo={page?.validationErrorInfo}
-        singleColumnLayout
         {...(availableTabMatrix[page?.pageType] || {})}
       >
         <Panel>{renderContent()}</Panel>
