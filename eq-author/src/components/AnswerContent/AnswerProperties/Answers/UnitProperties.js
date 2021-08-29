@@ -55,7 +55,7 @@ const UnitProperties = ({
   answer,
   onUpdateUnit,
   onUpdateDecimal,
-  onUpdateRequired,
+  updateAnswer,
 }) => {
   const errors = filter(answer.validationErrorInfo.errors, { field: "unit" });
   return (
@@ -99,7 +99,7 @@ const UnitProperties = ({
         </MultiLineField>
       </Container>
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
@@ -109,7 +109,7 @@ UnitProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   onUpdateUnit: PropTypes.func,
   onUpdateDecimal: PropTypes.func,
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
 };
 
 export default UnitProperties;

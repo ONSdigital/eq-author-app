@@ -8,11 +8,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const CheckboxProperties = ({ answer, onUpdateRequired }) => {
+const CheckboxProperties = ({ answer, updateAnswer }) => {
   return (
     <>
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
@@ -20,7 +20,7 @@ const CheckboxProperties = ({ answer, onUpdateRequired }) => {
 
 CheckboxProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
 };
 
 export default CheckboxProperties;

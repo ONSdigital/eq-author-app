@@ -38,11 +38,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const TextAreaProperties = ({
-  answer,
-  onUpdateMaxLength,
-  onUpdateRequired,
-}) => {
+const TextAreaProperties = ({ answer, updateAnswer }) => {
   const errors = answer?.validationErrorInfo?.errors ?? [];
 
   const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
@@ -83,6 +79,17 @@ const TextAreaProperties = ({
     setMaxLength(answer.properties.maxLength);
   }, [answer.properties.maxLength]);
 
+  const onUpdateMaxLength = (value) => {
+    updateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, maxLength: value },
+        },
+      },
+    });
+  };
+
   return (
     <>
       <Container>
@@ -101,7 +108,7 @@ const TextAreaProperties = ({
       </Container>
       {lengthValueError(errorCode)}
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
@@ -110,8 +117,7 @@ const TextAreaProperties = ({
 TextAreaProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
-  onUpdateRequired: PropTypes.func,
-  onUpdateMaxLength: PropTypes.func,
+  updateAnswer: PropTypes.func,
 };
 
 export default TextAreaProperties;

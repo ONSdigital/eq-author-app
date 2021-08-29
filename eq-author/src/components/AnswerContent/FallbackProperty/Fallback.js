@@ -53,8 +53,18 @@ const fallbackSelects = ({ label, secondaryLabel }) => [
 const Fallback = ({
   metadata,
   answer: { properties, validationErrorInfo, label, secondaryLabel },
-  onUpdateFallback,
+  updateAnswer,
 }) => {
+  const onUpdateFallback = (value) => {
+    updateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, fallback: value },
+        },
+      },
+    });
+  };
   return (
     <>
       <InlineField id={"fallback-label"} label={"Fallback"}>

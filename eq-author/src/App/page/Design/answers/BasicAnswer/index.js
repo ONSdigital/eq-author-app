@@ -59,22 +59,11 @@ export const StatelessBasicAnswer = ({
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
+  const [updateAnswer] = useMutation(UPDATE_ANSWER);
+  const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
-  const [updateAnswer] = useMutation(UPDATE_ANSWER);
-  const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
-
-  const onUpdateRequired = ({ value }) => {
-    updateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, required: value },
-        },
-      },
-    });
-  };
 
   const onUpdateDecimal = (value) => {
     updateAnswerOfType({
@@ -95,17 +84,6 @@ export const StatelessBasicAnswer = ({
           type: answer.type,
           questionPageId: page.id,
           properties: { ...answer.properties, unit: value },
-        },
-      },
-    });
-  };
-
-  const onUpdateMaxLength = (value) => {
-    updateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, maxLength: value },
         },
       },
     });
@@ -157,10 +135,10 @@ export const StatelessBasicAnswer = ({
       )}
       <AnswerProperties
         answer={answer}
+        updateAnswer={updateAnswer}
+        updateAnswerOfType={updateAnswerOfType}
         onUpdateDecimal={onUpdateDecimal}
-        onUpdateRequired={onUpdateRequired}
         onUpdateUnit={onUpdateUnit}
-        onUpdateMaxLength={onUpdateMaxLength}
       />
       <AdvancedProperties>
         <HorizontalRule />

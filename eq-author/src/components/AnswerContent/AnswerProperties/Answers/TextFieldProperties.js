@@ -9,18 +9,18 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const TextFieldProperties = ({ answer, onUpdateRequired }) => {
+const TextFieldProperties = ({ answer, updateAnswer }) => {
   return (
     <>
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
 };
 
 TextFieldProperties.propTypes = {
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
 };
 

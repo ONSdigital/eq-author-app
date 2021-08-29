@@ -9,13 +9,23 @@ const StyledToggleProperty = styled(ToggleProperty)`
   margin: 0;
 `;
 
-const Required = ({ answer, label, onChange }) => {
+const Required = ({ answer, label, updateAnswer }) => {
+  const onUpdateRequired = ({ value }) => {
+    updateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, required: value },
+        },
+      },
+    });
+  };
   return (
     <InlineField id={answer.id} label={label}>
       <StyledToggleProperty
         data-test="answer-properties-required-toggle"
         id={answer.id}
-        onChange={onChange}
+        onChange={onUpdateRequired}
         value={answer.properties.required}
       />
     </InlineField>
@@ -24,7 +34,7 @@ const Required = ({ answer, label, onChange }) => {
 
 Required.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  onChange: PropTypes.func.isRequired,
+  updateAnswer: PropTypes.func.isRequired,
   label: PropTypes.string,
 };
 

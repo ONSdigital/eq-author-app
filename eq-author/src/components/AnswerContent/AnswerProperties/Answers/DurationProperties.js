@@ -13,7 +13,7 @@ const StyledSelect = styled(Select)`
   width: 15em;
 `;
 
-const DurationProperties = ({ answer, onUpdateRequired, onUpdateUnit }) => {
+const DurationProperties = ({ answer, updateAnswer, onUpdateUnit }) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
 
   return (
@@ -40,14 +40,14 @@ const DurationProperties = ({ answer, onUpdateRequired, onUpdateUnit }) => {
           })}
         </StyledSelect>
       </MultiLineField>
-      <Required answer={answer} onChange={onUpdateRequired} />
+      <Required answer={answer} updateAnswer={updateAnswer} />
     </>
   );
 };
 
 DurationProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
   onUpdateUnit: PropTypes.func,
 };
 

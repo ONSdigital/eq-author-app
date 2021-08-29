@@ -16,12 +16,17 @@ const Container = styled.div`
 
 const monthText = enableOn(["hub"]) ? "mm" : "Month";
 
-const DateProperties = ({
-  answer,
-  value,
-  onUpdateFormat,
-  onUpdateRequired,
-}) => {
+const DateProperties = ({ answer, value, updateAnswer }) => {
+  const onUpdateFormat = ({ value }) => {
+    updateAnswer({
+      variables: {
+        input: {
+          id: answer.id,
+          properties: { ...answer.properties, format: value },
+        },
+      },
+    });
+  };
   return (
     <>
       <Container>
@@ -47,7 +52,7 @@ const DateProperties = ({
           </Select>
         </MultiLineField>
       </Container>
-      <Required answer={answer} onChange={onUpdateRequired} />
+      <Required answer={answer} updateAnswer={updateAnswer} />
     </>
   );
 };
@@ -55,8 +60,7 @@ const DateProperties = ({
 DateProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   value: PropTypes.string.isRequired,
-  onUpdateRequired: PropTypes.func.isRequired,
-  onUpdateFormat: PropTypes.func.isRequired,
+  updateAnswer: PropTypes.func.isRequired,
   getId: PropTypes.func,
 };
 

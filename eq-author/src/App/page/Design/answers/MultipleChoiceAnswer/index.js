@@ -76,21 +76,13 @@ export const UnwrappedMultipleChoiceAnswer = ({
   onAddExclusive,
   ...otherProps
 }) => {
+  const [updateAnswer] = useMutation(UPDATE_ANSWER);
+
   const [open, setOpen] = useState(false);
   useEffect(() => {
     setOpen(false);
   }, [answer]);
-  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
-  const onUpdateRequired = ({ value }) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, required: value },
-        },
-      },
-    });
-  };
+
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   const handleOptionDelete = (optionId) => {
@@ -144,7 +136,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
           }
         />
       </Field>
-      <AnswerProperties answer={answer} onUpdateRequired={onUpdateRequired} />
+      <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AnswerWrapper>
         <TransitionGroup
           component={Options}

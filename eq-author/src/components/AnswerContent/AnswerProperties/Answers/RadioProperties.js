@@ -8,11 +8,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const RadioProperties = ({ answer, onUpdateRequired }) => {
+const RadioProperties = ({ answer, updateAnswer }) => {
   return (
     <>
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
@@ -20,7 +20,7 @@ const RadioProperties = ({ answer, onUpdateRequired }) => {
 
 RadioProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
 };
 
 export default RadioProperties;

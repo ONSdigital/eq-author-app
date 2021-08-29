@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const NumberProperties = ({ answer, onUpdateRequired, onUpdateDecimal }) => {
+const NumberProperties = ({ answer, updateAnswer, onUpdateDecimal }) => {
   return (
     <>
       <Container>
@@ -26,14 +26,14 @@ const NumberProperties = ({ answer, onUpdateRequired, onUpdateDecimal }) => {
         </MultiLineField>
       </Container>
       <Container>
-        <Required answer={answer} onChange={onUpdateRequired} />
+        <Required answer={answer} updateAnswer={updateAnswer} />
       </Container>
     </>
   );
 };
 
 NumberProperties.propTypes = {
-  onUpdateRequired: PropTypes.func,
+  updateAnswer: PropTypes.func,
   onUpdateDecimal: PropTypes.func,
   answer: PropTypes.object, //eslint-disable-line
 };

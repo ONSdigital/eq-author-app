@@ -32,29 +32,7 @@ export const DateSingle = ({
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
-  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
-
-  const onUpdateRequired = ({ value }) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, required: value },
-        },
-      },
-    });
-  };
-
-  const onUpdateFormat = ({ value }) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, format: value },
-        },
-      },
-    });
-  };
+  const [updateAnswer] = useMutation(UPDATE_ANSWER);
 
   return (
     <>
@@ -69,11 +47,7 @@ export const DateSingle = ({
         onUpdate={onUpdate}
         {...otherProps}
       />
-      <AnswerProperties
-        answer={answer}
-        onUpdateFormat={onUpdateFormat}
-        onUpdateRequired={onUpdateRequired}
-      />
+      <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties>
         <HorizontalRule />
         <MultiLineField id="validation-settingd" label="Validation settings">

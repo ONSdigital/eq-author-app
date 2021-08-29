@@ -25,27 +25,8 @@ const HorizontalRule = styled.hr`
   margin: 0.2em 0 0.9em;
 `;
 const DateRange = ({ answer, metadata, ...otherProps }) => {
-  const [onUpdateAnswer] = useMutation(UPDATE_ANSWER);
-  const onUpdateRequired = ({ value }) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, required: value },
-        },
-      },
-    });
-  };
-  const onUpdateFallback = (value) => {
-    onUpdateAnswer({
-      variables: {
-        input: {
-          id: answer.id,
-          properties: { ...answer.properties, fallback: value },
-        },
-      },
-    });
-  };
+  const [updateAnswer] = useMutation(UPDATE_ANSWER);
+
   return (
     <Wrapper data-test="date-range-editor">
       <Date
@@ -66,7 +47,7 @@ const DateRange = ({ answer, metadata, ...otherProps }) => {
         showYear
         {...otherProps}
       />
-      <AnswerProperties answer={answer} onUpdateRequired={onUpdateRequired} />
+      <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties>
         <HorizontalRule />
         <MultiLineField id="validation-settingd" label="Validation settings">
@@ -75,7 +56,7 @@ const DateRange = ({ answer, metadata, ...otherProps }) => {
         <Fallback
           answer={answer}
           metadata={metadata}
-          onUpdateFallback={onUpdateFallback}
+          updateAnswer={updateAnswer}
         />
       </AdvancedProperties>
     </Wrapper>
