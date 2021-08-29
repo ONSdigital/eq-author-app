@@ -13,9 +13,24 @@ const StyledSelect = styled(Select)`
   width: 15em;
 `;
 
-const DurationProperties = ({ answer, updateAnswer, onUpdateUnit }) => {
+const DurationProperties = ({
+  answer,
+  page,
+  updateAnswer,
+  updateAnswerOfType,
+}) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
-
+  const onUpdateUnit = (value) => {
+    updateAnswerOfType({
+      variables: {
+        input: {
+          type: answer.type,
+          questionPageId: page.id,
+          properties: { ...answer.properties, unit: value },
+        },
+      },
+    });
+  };
   return (
     <>
       <MultiLineField label="Fields" id="duration">
@@ -47,8 +62,9 @@ const DurationProperties = ({ answer, updateAnswer, onUpdateUnit }) => {
 
 DurationProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
+  page: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func,
-  onUpdateUnit: PropTypes.func,
+  updateAnswerOfType: PropTypes.func,
 };
 
 export default DurationProperties;
