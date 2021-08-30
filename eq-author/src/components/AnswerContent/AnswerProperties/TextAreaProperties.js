@@ -8,7 +8,7 @@ import Number, { NumberInput } from "components/Forms/Number";
 
 import ValidationError from "components/ValidationError";
 import Required from "components/AnswerContent/Required";
-import InlineField from "components/AnswerContent/AnswerProperties/Format/InlineField";
+import InlineField from "components/AnswerContent/Format/InlineField";
 
 const SmallNumber = styled(Number)`
   width: 7em;
