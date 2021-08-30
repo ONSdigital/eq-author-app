@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { filter } from "lodash";
-import { colors, radius } from "constants/theme";
+import { radius } from "constants/theme";
 import { decimalErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
@@ -13,21 +13,6 @@ const SmallerNumber = styled(Number)`
   margin-left: 0em;
 
   ${NumberInput} {
-    ${(props) =>
-      props.hasError &&
-      css`
-        border-color: ${colors.errorPrimary};
-        &:focus,
-        &:focus-within {
-          border-color: ${colors.errorPrimary};
-          outline-color: ${colors.errorPrimary};
-          box-shadow: 0 0 0 2px ${colors.errorPrimary};
-        }
-        &:hover {
-          border-color: ${colors.errorPrimary};
-          outline-color: ${colors.errorPrimary};
-        }
-      `}
     border-radius: ${radius};
     padding: 0.25em 0.5em;
   }
@@ -61,7 +46,7 @@ const Decimal = ({ id, answer, value, updateAnswerOfType, page }) => {
         onChange={({ value: decimals }) => setDecimal(decimals)}
         onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
-        hasError={errors.length !== 0}
+        invalid={errors.length !== 0}
         max={6} //System limit enforced by eq-runner
       />
       {errors.length !== 0 && (

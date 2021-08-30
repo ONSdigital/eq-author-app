@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { characterErrors } from "constants/validationMessages";
-import { radius, colors } from "constants/theme";
+import { radius } from "constants/theme";
 import Number, { NumberInput } from "components/Forms/Number";
 
 import ValidationError from "components/ValidationError";
@@ -15,21 +15,6 @@ const SmallNumber = styled(Number)`
   margin-left: 0em;
 
   ${NumberInput} {
-    ${(props) =>
-      props.invalid &&
-      css`
-        border-color: ${colors.errorPrimary};
-        &:focus,
-        &:focus-within {
-          border-color: ${colors.errorPrimary};
-          outline-color: ${colors.errorPrimary};
-          box-shadow: 0 0 0 2px ${colors.errorPrimary};
-        }
-        &:hover {
-          border-color: ${colors.errorPrimary};
-          outline-color: ${colors.errorPrimary};
-        }
-      `}
     border-radius: ${radius};
     padding: 0.25em 0.5em;
   }
