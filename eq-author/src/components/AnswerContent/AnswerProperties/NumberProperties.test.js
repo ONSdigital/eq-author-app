@@ -1,17 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import { useMutation } from "@apollo/react-hooks";
-
 import NumberProperties from "./NumberProperties";
 
 const renderNumberProperties = (props = {}) =>
   render(<NumberProperties {...props} />);
-
-jest.mock("@apollo/react-hooks", () => ({
-  useMutation: jest.fn(),
-}));
-useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 describe("Required Property", () => {
   let props;
@@ -30,10 +23,11 @@ describe("Required Property", () => {
           id: "1",
         },
       },
-      onBlur: jest.fn(),
-      handleChange: jest.fn(),
-      handleDecimalChange: jest.fn(),
-      getId: jest.fn(),
+      page: {
+        id: 1,
+      },
+      updateAnswer: jest.fn(),
+      updateAnswerOfType: jest.fn(),
     };
   });
 
