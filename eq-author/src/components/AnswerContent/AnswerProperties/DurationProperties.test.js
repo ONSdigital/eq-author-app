@@ -1,8 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-
-import { YEARSMONTHS, YEARS } from "constants/duration-types";
-
+import { YEARS } from "constants/duration-types";
 import DurationProperties from "./DurationProperties";
 
 const renderDurationProperties = (props = {}) =>
@@ -20,21 +18,23 @@ describe("Required Property", () => {
         },
         type: "duration",
       },
-      unit: YEARSMONTHS,
-      onChange: jest.fn(),
-      getId: jest.fn(),
+      page: {
+        id: 1,
+      },
+      updateAnswer: jest.fn(),
+      updateAnswerOfType: jest.fn(),
     };
   });
 
   it("should render", () => {
     const { getByTestId } = renderDurationProperties(props);
-    expect(getByTestId("collapsible")).toBeTruthy();
+    expect(getByTestId("duration-select")).toBeTruthy();
   });
 
   it("should handle change event for input", () => {
     const { getByTestId } = renderDurationProperties(props);
     const select = getByTestId("duration-select");
     fireEvent.change(select, { target: { unit: YEARS } });
-    expect(props.onChange).toHaveBeenCalledTimes(1);
+    expect(props.updateAnswerOfType).toHaveBeenCalledTimes(1);
   });
 });
