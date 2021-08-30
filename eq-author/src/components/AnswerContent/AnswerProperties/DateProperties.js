@@ -54,9 +54,7 @@ const DateProperties = ({ answer, updateAnswer }) => {
 
 DateProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
-  value: PropTypes.string.isRequired,
   updateAnswer: PropTypes.func.isRequired,
-  getId: PropTypes.func,
 };
 
 export default DateProperties;

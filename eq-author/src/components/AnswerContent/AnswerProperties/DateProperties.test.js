@@ -20,11 +20,7 @@ describe("Date Format Tests", () => {
             id: "1",
           },
         },
-        id: "1",
-        value: "dd/mm/yyyy",
-        onChange: jest.fn(),
-        handleRequiredChange: jest.fn(),
-        getId: jest.fn(),
+        updateAnswer: jest.fn(),
       };
     });
 
@@ -41,7 +37,7 @@ describe("Date Format Tests", () => {
 
       fireEvent.change(getByTestId("select"), { target: { value: "mm/yyyy" } });
 
-      expect(props.onChange).toHaveBeenCalledTimes(1);
+      expect(props.updateAnswer).toHaveBeenCalledTimes(1);
     });
   });
 });
