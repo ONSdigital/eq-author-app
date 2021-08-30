@@ -4,6 +4,7 @@ exports[`Date should render 1`] = `
 <DateSingle
   answer={
     Object {
+      "advancedProperties": true,
       "description": "date description",
       "displayName": "",
       "guidance": "Guidance",
@@ -24,12 +25,10 @@ exports[`Date should render 1`] = `
       "type": "Date",
     }
   }
-  id="1"
   label="Label"
   multipleAnswers={false}
   name="label"
   onChange={[MockFunction]}
   onUpdate={[MockFunction]}
-  type="Date"
 />
 `;

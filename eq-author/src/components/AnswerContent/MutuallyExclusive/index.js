@@ -84,7 +84,7 @@ const MutuallyExclusive = ({
             name="toggle-or-option"
             hideLabels={false}
             onChange={onChangeToggle}
-            checked={answer.options}
+            checked={Boolean(answer.options)}
             data-test="toggle-or-option"
           />
         </InlineField>

@@ -104,6 +104,7 @@ describe("Question Page Editor", () => {
           type: "TextField",
         },
       ],
+      section: { questionnaire: { metadata: [] } },
     };
 
     section = {

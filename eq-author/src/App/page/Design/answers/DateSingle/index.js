@@ -66,7 +66,6 @@ DateSingle.propTypes = {
   labelPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   descriptionPlaceholder: PropTypes.string,
-  disableMutuallyExclusive: PropTypes.bool,
 };
 
 DateSingle.defaultProps = {

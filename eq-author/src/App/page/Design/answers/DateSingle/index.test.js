@@ -1,6 +1,6 @@
 import React from "react";
-import UnwrappedDate from "./";
-import { render as rtlRender, screen, fireEvent } from "tests/utils/rtl";
+import DateSingle from "./";
+import { render, fireEvent } from "tests/utils/rtl";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
@@ -10,6 +10,9 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
 }));
 
+const renderDateSingleProperties = (props = {}) =>
+  render(<DateSingle {...props} />);
+
 describe("Date", () => {
   let answer;
   let onChange;
@@ -18,7 +21,7 @@ describe("Date", () => {
   let multipleAnswers;
 
   const createWrapper = (props) => {
-    return <UnwrappedDate {...props} />;
+    return <DateSingle {...props} />;
   };
 
   beforeEach(() => {
@@ -34,6 +37,7 @@ describe("Date", () => {
       properties: {},
       displayName: "",
       qCode: "",
+      advancedProperties: true,
       options: [
         {
           id: "option-1",
@@ -48,12 +52,10 @@ describe("Date", () => {
     multipleAnswers = false;
 
     props = {
-      id: "1",
       answer,
       onChange,
       onUpdate,
       multipleAnswers,
-      type: "Date",
     };
   });
   it("should render", () => {
@@ -62,20 +64,18 @@ describe("Date", () => {
 
   it("shows missing label error", () => {
     expect(
-      buildLabelError(MISSING_LABEL, `${lowerCase(props.type)}`, 8, 7)
+      buildLabelError(MISSING_LABEL, `${lowerCase(answer.type)}`, 8, 7)
     ).toEqual("Enter a date label");
   });
 
   it("should render Or option toggle ", async () => {
-    rtlRender(() => <UnwrappedDate {...props} />);
-
-    screen.getByRole("switch");
+    const { getByTestId } = renderDateSingleProperties(props);
+    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
   });
 
   it("should disable Or option toggle if multipleAnswers = true", async () => {
-    const { getByTestId } = rtlRender(() => (
-      <UnwrappedDate {...props} multipleAnswers />
-    ));
+    props.multipleAnswers = true;
+    const { getByTestId } = renderDateSingleProperties(props);
 
     expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
   });
@@ -83,19 +83,19 @@ describe("Date", () => {
   it("should show Option label if toggle is on", async () => {
     props.answer.options[0].mutuallyExclusive = true;
 
-    const { getByTestId } = rtlRender(() => <UnwrappedDate {...props} />);
-    fireEvent.click(getByTestId("toggle-or-option-date-input"), {
+    const { getByTestId } = renderDateSingleProperties(props);
+    fireEvent.click(getByTestId("toggle-or-option-input"), {
       target: { type: "checkbox", checked: true },
     });
 
     expect(getByTestId("option-label")).toBeInTheDocument();
   });
 
-  it("Can disable the option to have a mutually exclusive", () => {
-    const { queryByTestId } = rtlRender(() => (
-      <UnwrappedDate {...props} multipleAnswers disableMutuallyExclusive />
-    ));
+  // **** unclear what this was testing ******
+  // it("Can disable the option to have a mutually exclusive", () => {
+  //   props.multipleAnswers = true
+  //   const { getByTestId } = renderDateSingleProperties(props)
 
-    expect(queryByTestId("toggle-or-option-date")).not.toBeInTheDocument();
-  });
+  //   expect(getByTestId("toggle-or-option")).not.toBeInTheDocument();
+  // });
 });
