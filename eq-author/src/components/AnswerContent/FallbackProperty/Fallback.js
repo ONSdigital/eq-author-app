@@ -71,6 +71,7 @@ const Fallback = ({
       <InlineField id={"fallback-label"} label={"Fallback"}>
         <ToggleSwitch
           id={"fallback-label"}
+          name="fallback"
           hideLabels={false}
           checked={properties?.fallback?.enabled ?? false}
           onChange={({ value }) =>

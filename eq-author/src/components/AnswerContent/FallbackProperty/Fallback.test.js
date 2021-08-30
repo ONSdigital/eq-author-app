@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "tests/utils/rtl";
-import { Fallback } from "./Fallback";
+import Fallback from "./Fallback";
 import { buildAnswers } from "tests/utils/createMockQuestionnaire";
 
 const answer = (properties) => ({
@@ -11,7 +11,7 @@ const answer = (properties) => ({
 });
 
 describe("Fallback", () => {
-  let onChange;
+  let updateAnswer;
   const metadata = [
     {
       id: "1",
@@ -34,7 +34,7 @@ describe("Fallback", () => {
       render(
         <Fallback
           metadata={metadata}
-          onChange={jest.fn()}
+          updateAnswer={jest.fn()}
           answer={answer({ properties: {} })}
         />
       );
@@ -44,10 +44,14 @@ describe("Fallback", () => {
 
   describe("Fallback disabled", () => {
     beforeEach(() => {
-      onChange = jest.fn();
+      updateAnswer = jest.fn();
 
       render(
-        <Fallback metadata={metadata} onChange={onChange} answer={answer()} />
+        <Fallback
+          metadata={metadata}
+          updateAnswer={updateAnswer}
+          answer={answer()}
+        />
       );
     });
     it("should render", () => {
@@ -56,20 +60,28 @@ describe("Fallback", () => {
 
     it("should fire onChange when toggling fallback", () => {
       fireEvent.click(screen.getByTestId("fallback-label-input"));
-      expect(onChange).toHaveBeenCalledWith("DateRange", {
-        fallback: { enabled: true },
+      expect(updateAnswer).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            id: "1.1.1.1",
+            properties: {
+              fallback: { enabled: true },
+              required: false,
+            },
+          },
+        },
       });
     });
   });
 
   describe("Fallback enabled", () => {
-    let onChange;
+    let updateAnswer;
     beforeEach(() => {
-      onChange = jest.fn();
+      updateAnswer = jest.fn();
       render(
         <Fallback
           metadata={metadata}
-          onChange={onChange}
+          updateAnswer={updateAnswer}
           answer={answer({
             properties: { required: false, fallback: { enabled: true } },
             label: "Start",
@@ -89,10 +101,16 @@ describe("Fallback", () => {
         target: { value: "metadata-one" },
       });
 
-      expect(onChange).toHaveBeenCalledWith("DateRange", {
-        fallback: expect.objectContaining({
-          start: "metadata-one",
-        }),
+      expect(updateAnswer).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            id: "1.1.1.1",
+            properties: {
+              fallback: { enabled: true, start: "metadata-one" },
+              required: false,
+            },
+          },
+        },
       });
     });
   });
