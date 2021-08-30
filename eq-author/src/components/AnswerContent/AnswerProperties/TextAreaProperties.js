@@ -31,14 +31,16 @@ const TextAreaProperties = ({ answer, updateAnswer }) => {
   }, [answer.properties.maxLength]);
 
   const onUpdateMaxLength = (value) => {
+    const newValue = value === null ? 2000 : value;
     updateAnswer({
       variables: {
         input: {
           id: answer.id,
-          properties: { ...answer.properties, maxLength: value },
+          properties: { ...answer.properties, maxLength: newValue },
         },
       },
     });
+    setMaxLength(newValue);
   };
 
   return (
@@ -53,6 +55,7 @@ const TextAreaProperties = ({ answer, updateAnswer }) => {
           onChange={({ value }) => setMaxLength(value)}
           max={2000}
           invalid={errors.length > 0}
+          data-test="maxCharacterInput"
         />
       </InlineField>
       {errors.length > 0 && (

@@ -16,7 +16,7 @@ describe("Required Property", () => {
         properties: {
           required: true,
         },
-        type: "duration",
+        type: "Duration",
       },
       page: {
         id: 1,
