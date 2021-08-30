@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-import { characterErrors } from "constants/validationMessages";
+import { filter } from "lodash";
+import { textAreaErrors } from "constants/validationMessages";
 import { radius } from "constants/theme";
 import Number, { NumberInput } from "components/Forms/Number";
 
@@ -19,45 +19,11 @@ const SmallNumber = styled(Number)`
     padding: 0.25em 0.5em;
   }
 `;
-const Container = styled.div`
-  display: flex;
-`;
 
 const TextAreaProperties = ({ answer, updateAnswer }) => {
-  const errors = answer?.validationErrorInfo?.errors ?? [];
-
-  const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
-  const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
-
-  const lengthErrors = {
-    ERR_MAX_LENGTH_TOO_LARGE: {
-      testId: "MaxCharacterTooBig",
-      error: characterErrors.CHAR_LIMIT_2000_EXCEEDED,
-    },
-    ERR_MAX_LENGTH_TOO_SMALL: {
-      testId: "MaxCharacterTooSmall",
-      error: characterErrors.CHAR_MUST_EXCEED_9,
-    },
-  };
-
-  const lengthValueError = (errorCode) => {
-    if (!lengthErrors[errorCode]) {
-      return null;
-    }
-
-    const { testId, error } = lengthErrors[errorCode];
-
-    return <ValidationError test={testId}>{error}</ValidationError>;
-  };
-
-  const errorCode =
-    errors
-      .map(({ errorCode }) => errorCode)
-      .find(
-        (error) =>
-          error === ERR_MAX_LENGTH_TOO_SMALL ||
-          error === ERR_MAX_LENGTH_TOO_LARGE
-      ) ?? false;
+  const errors = filter(answer.validationErrorInfo.errors, {
+    field: "maxLength",
+  });
 
   const [maxLength, setMaxLength] = useState(answer.properties.maxLength);
   useEffect(() => {
@@ -77,24 +43,24 @@ const TextAreaProperties = ({ answer, updateAnswer }) => {
 
   return (
     <>
-      <Container>
-        <InlineField id="maxCharactersField" label={"Max characters"}>
-          <SmallNumber
-            id="maxCharactersInput"
-            answer={answer}
-            name={answer.id}
-            value={maxLength}
-            onBlur={() => onUpdateMaxLength(maxLength)}
-            onChange={({ value }) => setMaxLength(value)}
-            max={2000}
-            invalid={Boolean(errorCode)}
-          />
-        </InlineField>
-      </Container>
-      {lengthValueError(errorCode)}
-      <Container>
-        <Required answer={answer} updateAnswer={updateAnswer} />
-      </Container>
+      <InlineField id="maxCharactersField" label={"Max characters"}>
+        <SmallNumber
+          id="maxCharactersInput"
+          answer={answer}
+          name={answer.id}
+          value={maxLength}
+          onBlur={() => onUpdateMaxLength(maxLength)}
+          onChange={({ value }) => setMaxLength(value)}
+          max={2000}
+          invalid={errors.length > 0}
+        />
+      </InlineField>
+      {errors.length > 0 && (
+        <ValidationError>
+          {textAreaErrors[errors[0].errorCode].message}
+        </ValidationError>
+      )}
+      <Required answer={answer} updateAnswer={updateAnswer} />
     </>
   );
 };

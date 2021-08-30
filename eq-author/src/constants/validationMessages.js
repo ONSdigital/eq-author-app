@@ -61,6 +61,17 @@ export const sectionErrors = {
   SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
 };
 
+export const textAreaErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_large",
+    message: "Enter a character limit less than or equal to 2000",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 10",
+  },
+};
+
 export const characterErrors = {
   CHAR_LIMIT_2000_EXCEEDED:
     "Enter a character limit less than or equal to 2000",
