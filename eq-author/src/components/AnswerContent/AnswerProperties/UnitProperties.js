@@ -94,7 +94,6 @@ const UnitProperties = ({ answer, page, updateAnswer, updateAnswerOfType }) => {
       )}
       <MultiLineField id="decimal" htmlFor="decimal" label="Decimal places">
         <Decimal
-          id={answer.id}
           answer={answer}
           page={page}
           data-test="decimals"

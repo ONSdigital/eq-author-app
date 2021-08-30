@@ -9,10 +9,13 @@ describe("Decimal Property", () => {
 
   beforeEach(() => {
     props = {
-      id: "1",
+      answer: {
+        id: "1",
+        validationErrorInfo: { errors: [] },
+      },
+      page: { id: "1" },
       value: 2,
-      hasDecimalInconsistency: false,
-      onBlur: jest.fn(),
+      updateAnswerOfType: jest.fn(),
     };
   });
 
@@ -22,7 +25,10 @@ describe("Decimal Property", () => {
   });
 
   it("should render with Error", () => {
-    props.hasDecimalInconsistency = true;
+    props.answer.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+      field: "decimals",
+    };
     const { getByTestId } = render(<Decimal {...props} />);
     expect(getByTestId("number-input")).toHaveStyle(`
       border-color: ${colors.errorPrimary};
@@ -36,6 +42,14 @@ describe("Decimal Property", () => {
     });
     fireEvent.blur(getByTestId("number-input"));
     await flushPromises();
-    expect(props.onBlur).toHaveBeenCalledWith(2);
+    expect(props.updateAnswerOfType).toHaveBeenCalledWith({
+      variables: {
+        input: {
+          properties: { decimals: 2 },
+          questionPageId: "1",
+          type: undefined,
+        },
+      },
+    });
   });
 });

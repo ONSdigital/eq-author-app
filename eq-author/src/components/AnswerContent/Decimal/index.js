@@ -18,7 +18,7 @@ const SmallerNumber = styled(Number)`
   }
 `;
 
-const Decimal = ({ id, answer, value, updateAnswerOfType, page }) => {
+const Decimal = ({ answer, value, updateAnswerOfType, page }) => {
   const [decimal, setDecimal] = useState(value);
   useEffect(() => {
     setDecimal(value);
@@ -40,9 +40,8 @@ const Decimal = ({ id, answer, value, updateAnswerOfType, page }) => {
   return (
     <>
       <SmallerNumber
-        id={id}
-        answer={answer}
-        name={id}
+        id={answer.id}
+        name={answer.id}
         onChange={({ value: decimals }) => setDecimal(decimals)}
         onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
@@ -59,7 +58,6 @@ const Decimal = ({ id, answer, value, updateAnswerOfType, page }) => {
 };
 
 Decimal.propTypes = {
-  id: PropTypes.string.isRequired,
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
   value: PropTypes.number.isRequired,

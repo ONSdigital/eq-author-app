@@ -1,94 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Answer Editor should correctly calculates date format 1`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={false}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 1`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 2`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 2`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 3`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "dd/mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={true}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 3`] = `null`;
 
 exports[`Answer Editor should render Checkbox 1`] = `
 <AnswerEditor__Answer
@@ -164,7 +80,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
           "description": "",
@@ -182,6 +98,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -192,23 +109,6 @@ exports[`Answer Editor should render Checkbox 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       type="Checkbox"
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "options": Array [
-            Object {
-              "description": "",
-              "id": "1",
-              "label": "",
-            },
-          ],
-          "title": "",
-          "type": "Checkbox",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -312,16 +212,6 @@ exports[`Answer Editor should render Currency 1`] = `
       showDescription={true}
       type="Currency"
     />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "Currency",
-        }
-      }
-    />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
@@ -400,7 +290,7 @@ exports[`Answer Editor should render Date 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
+    <DateSingle
       answer={
         Object {
           "description": "",
@@ -411,6 +301,8 @@ exports[`Answer Editor should render Date 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      label="Label"
+      name="label"
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -423,16 +315,6 @@ exports[`Answer Editor should render Date 1`] = `
       showDay={false}
       showMonth={false}
       showYear={false}
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "Date",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -532,16 +414,6 @@ exports[`Answer Editor should render DateRange 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "DateRange",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -649,19 +521,6 @@ exports[`Answer Editor should render Duration 1`] = `
       showDescription={true}
       type="Duration"
     />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "properties": Object {
-            "unit": "YearsMonths",
-          },
-          "title": "",
-          "type": "Duration",
-        }
-      }
-    />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
@@ -763,16 +622,6 @@ exports[`Answer Editor should render Number 1`] = `
       onUpdateOption={[MockFunction]}
       showDescription={true}
       type="Number"
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "Number",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -876,16 +725,6 @@ exports[`Answer Editor should render Percentage 1`] = `
       showDescription={true}
       type="Percentage"
     />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "Percentage",
-        }
-      }
-    />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
@@ -964,7 +803,7 @@ exports[`Answer Editor should render Radio 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
           "description": "",
@@ -982,6 +821,7 @@ exports[`Answer Editor should render Radio 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       minOptions={2}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
@@ -993,23 +833,6 @@ exports[`Answer Editor should render Radio 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       type="Radio"
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "options": Array [
-            Object {
-              "description": "",
-              "id": "1",
-              "label": "",
-            },
-          ],
-          "title": "",
-          "type": "Radio",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -1112,16 +935,6 @@ exports[`Answer Editor should render TextArea 1`] = `
       onUpdateOption={[MockFunction]}
       type="TextArea"
     />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "TextArea",
-        }
-      }
-    />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
 `;
@@ -1222,16 +1035,6 @@ exports[`Answer Editor should render TextField 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       type="TextField"
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "title": "",
-          "type": "TextField",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -1338,19 +1141,6 @@ exports[`Answer Editor should render Unit 1`] = `
       onUpdateOption={[MockFunction]}
       showDescription={true}
       type="Unit"
-    />
-    <AnswerProperties
-      answer={
-        Object {
-          "description": "",
-          "id": "1",
-          "properties": Object {
-            "unit": "Centimetres",
-          },
-          "title": "",
-          "type": "Unit",
-        }
-      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>

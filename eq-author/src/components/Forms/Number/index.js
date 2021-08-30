@@ -128,7 +128,6 @@ Number.defaultProps = {
 
 Number.propTypes = {
   id: PropTypes.string,
-  answer: PropTypes.object, //eslint-disable-line
   name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,

@@ -4,13 +4,13 @@ exports[`InlineLabel should render 1`] = `
 <InlineField__StyledInlineField
   key="1"
 >
-  <Label
+  <InlineField__StyledLabel
     bold={true}
     htmlFor="1"
     inline={true}
   >
     Label
-  </Label>
+  </InlineField__StyledLabel>
   <input
     type="text"
   />
