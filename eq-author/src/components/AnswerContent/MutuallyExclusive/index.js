@@ -6,6 +6,7 @@ import { Field, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import DummyMultipleChoice from "App/page/Design/answers/dummy/MultipleChoice";
 import { colors, radius } from "constants/theme";
+import { MISSING_LABEL } from "constants/validationMessages";
 import { CHECKBOX } from "constants/answer-types";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -43,7 +44,6 @@ const MutuallyExclusive = ({
 }) => {
   const [mutuallyExclusiveLabel, setMutuallyExclusiveLabel] = useState("");
   const [mutuallyExclusiveDesc, setMutuallyExclusiveDesc] = useState("");
-
   useEffect(() => {
     setMutuallyExclusiveLabel(answer.options?.[0].label ?? "");
     setMutuallyExclusiveDesc(answer.options?.[0].description ?? "");
@@ -105,6 +105,9 @@ const MutuallyExclusive = ({
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
+                errorValidationMsg={
+                  mutuallyExclusiveLabel === "" ? MISSING_LABEL : ""
+                }
               />
             </OptionField>
           </Flex>
