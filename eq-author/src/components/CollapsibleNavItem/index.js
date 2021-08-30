@@ -203,6 +203,10 @@ const CollapsibleNavItem = ({
   );
 };
 
+CollapsibleNavItem.defaultProps = {
+  bordered: false,
+};
+
 CollapsibleNavItem.propTypes = {
   title: PropTypes.string.isRequired,
   titleUrl: PropTypes.string.isRequired,

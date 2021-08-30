@@ -82,6 +82,9 @@ exports[`AnswerSelector should render when there are available summary answers 1
                       "displayName": "",
                       "id": "1",
                       "position": 0,
+                      "questionnaire": Object {
+                        "metadata": Array [],
+                      },
                     },
                     "title": "Page 1.1.1",
                     "validationErrorInfo": Object {

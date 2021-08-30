@@ -55,6 +55,9 @@ export const buildPages = ({
         id: `${sectionNumber}`,
         displayName: "",
         position: 0,
+        questionnaire: {
+          metadata: [],
+        },
       },
       folder: {
         id: `${folderNumber}`,
