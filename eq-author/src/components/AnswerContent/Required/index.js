@@ -19,6 +19,7 @@ const Required = ({ answer, label, updateAnswer }) => {
     <InlineField id={answer.id} label={label}>
       <ToggleSwitch
         data-test="answer-properties-required-toggle"
+        name="required"
         id={answer.id}
         onChange={onUpdateRequired}
         checked={answer.properties.required}
