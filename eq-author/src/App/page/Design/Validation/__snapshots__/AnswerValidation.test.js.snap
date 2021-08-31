@@ -128,7 +128,7 @@ exports[`AnswerValidation should not render when there are no valid validation t
 
 exports[`AnswerValidation should render 1`] = `
 <MultiLineField
-  id="validation-settingd"
+  id="validation-setting"
   label="Validation settings"
 >
   <ContextProvider
