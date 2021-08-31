@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -10,22 +10,23 @@ import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
 import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
+import SearchBar from "components/SearchBar";
 
-const ModalTitle = styled.div`
+const ModalTitle = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.textLight};
+  margin-top: 0;
 `;
 
 const ModalHeader = styled.div`
   padding: 4em 1em 1em;
   border-bottom: 1px solid ${colors.bordersLight};
-  display: flex;
-  align-items: center;
 `;
 
 const ModalToolbar = styled.div`
-  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const MenuContainer = styled.div`
@@ -38,35 +39,87 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
 
-  const contents = (
-    <MenuContainer>
-      {option === OPTION_ANSWERS ? (
-        <ScrollPane>
-          {data.length ? (
-            <FlatSectionMenu data={data} {...otherProps} />
-          ) : (
-            ErrorMessage("answers")
-          )}
-        </ScrollPane>
-      ) : data.length ? (
-        <SectionMenu data={data} {...otherProps} />
-      ) : (
-        ErrorMessage("answers")
-      )}
-    </MenuContainer>
-  );
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
+      const results = filterResultsByPageDetails(
+        data,
+        searchTerm.toLocaleLowerCase()
+      );
+
+      setSearchResults(results);
+    } else {
+      setSearchResults(data);
+    }
+  }, [searchTerm, data]);
+
+  const filterResultsByPageDetails = (data, searchTerm) =>
+    data.map(({ folders, ...rest }) => ({
+      folders: folders.map(({ pages, ...rest }) => ({
+        pages: pages.filter(({ displayName, alias, title, answers }) => {
+          const string = `${alias ? alias : ""} ${title ? title : displayName}`;
+          const matches = string.toLowerCase().includes(searchTerm);
+
+          if (matches) {
+            return true;
+          } else {
+            const filteredAnswers = answers.filter(
+              ({ displayName, title, alias }) => {
+                const string = `${alias ? alias : ""} ${
+                  title ? title : displayName
+                }`;
+                const matches = string.toLowerCase().includes(searchTerm);
+
+                return matches;
+              }
+            );
+
+            if (filteredAnswers.length) {
+              answers = filteredAnswers;
+              return true;
+            }
+
+            return false;
+          }
+        }),
+        ...rest,
+      })),
+      ...rest,
+    }));
+
   return (
     <>
       <ModalHeader>
         <ModalTitle>Select an answer</ModalTitle>
         <ModalToolbar>
+          <SearchBar onChange={({ value }) => setSearchTerm(value)} />
           <Options
             onChange={(e) => setOption(e.target.value)}
             option={option}
           />
         </ModalToolbar>
       </ModalHeader>
-      {contents}
+      <MenuContainer>
+        {option === OPTION_ANSWERS && (
+          <ScrollPane>
+            {searchResults.length > 0 && (
+              <FlatSectionMenu data={searchResults} {...otherProps} />
+            )}
+          </ScrollPane>
+        )}
+        {option === OPTION_SECTIONS && searchResults.length > 0 && (
+          <SectionMenu data={searchResults} {...otherProps} />
+        )}
+        {searchResults.length === 0 && ErrorMessage("answers")}
+      </MenuContainer>
     </>
   );
 };

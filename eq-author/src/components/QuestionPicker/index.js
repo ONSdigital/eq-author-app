@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { getPages } from "utils/questionnaireUtils";
 import { stripHtmlToText } from "utils/stripHTML";
+import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleOrShortCode";
 
 import { colors } from "constants/theme";
 
@@ -168,28 +169,14 @@ const QuestionPicker = ({
   const [selectedPages, updateSelectedPages] = useState([]);
 
   useEffect(() => {
-    updateFilteredSections(filterList(sections, searchTerm));
+    updateFilteredSections(
+      searchByQuestionTitleOrShortCode(sections, searchTerm)
+    );
   }, [sections, searchTerm]);
 
   useEffect(() => {
     updateSelectedPages(startingSelectedQuestions);
   }, [startingSelectedQuestions]);
-
-  const filterList = (data, searchTerm) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-
-    return data.map(({ folders, ...rest }) => ({
-      folders: folders.map(({ pages, ...rest }) => ({
-        pages: pages.filter(({ displayName, alias, title }) =>
-          `${alias ? alias : ""} ${title ? title : displayName}`
-            .toLowerCase()
-            .includes(lowerCaseSearchTerm)
-        ),
-        ...rest,
-      })),
-      ...rest,
-    }));
-  };
 
   const handleSubmit = (selection) => {
     onSubmit(selection);
@@ -212,7 +199,9 @@ const QuestionPicker = ({
         )}
       </Header>
       <Main>
-        {getPages({ sections: filterList(sections, searchTerm) }).length > 0 ? (
+        {getPages({
+          sections: searchByQuestionTitleOrShortCode(sections, searchTerm),
+        }).length > 0 ? (
           <ScrollPane>
             <SelectedPagesProvider
               value={{ selectedPages, updateSelectedPages }}
