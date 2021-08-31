@@ -90,12 +90,4 @@ describe("Date", () => {
 
     expect(getByTestId("option-label")).toBeInTheDocument();
   });
-
-  // **** unclear what this was testing ******
-  // it("Can disable the option to have a mutually exclusive", () => {
-  //   props.multipleAnswers = true
-  //   const { getByTestId } = renderDateSingleProperties(props)
-
-  //   expect(getByTestId("toggle-or-option")).not.toBeInTheDocument();
-  // });
 });

@@ -71,16 +71,6 @@ describe("AnswerValidation", () => {
     expect(modal.prop("isOpen")).toEqual(false);
   });
 
-  // it("should correctly update state when opening a Modal", () => {
-  //   const wrapper = render(props);
-  //   wrapper.find(SidebarValidation).first().simulate("click");
-
-  //   setTimeout(() => {
-  //     const modal = wrapper.find(ModalWithNav);
-  //     expect(modal.prop("isOpen")).toBe(true);
-  //   }, 1000);
-  // });
-
   it("should correctly update state when closing a Modal", () => {
     const wrapper = render(props);
     wrapper.find(ModalWithNav).simulate("close");
