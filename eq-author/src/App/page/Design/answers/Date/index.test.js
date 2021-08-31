@@ -1,6 +1,5 @@
 import React from "react";
 import UnwrappedDate from "./";
-import { render as rtlRender, screen, fireEvent } from "tests/utils/rtl";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 

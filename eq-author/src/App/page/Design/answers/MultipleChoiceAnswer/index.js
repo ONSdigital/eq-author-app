@@ -151,6 +151,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
               <Option
                 {...otherProps}
                 {...props}
+                type={type}
                 option={option}
                 onDelete={handleOptionDelete}
                 onUpdate={onUpdateOption}
@@ -173,6 +174,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
                   onEnterKey={handleAddOption}
                   hasDeleteButton
                   hideMoveButtons
+                  type={type}
                 />
               </SpecialOptionWrapper>
             </OptionTransition>
