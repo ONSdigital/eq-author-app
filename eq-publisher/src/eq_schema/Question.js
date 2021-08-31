@@ -56,32 +56,30 @@ class Question {
     if (dateRange) {
       this.type = DATE_RANGE;
       this.answers = this.buildDateRangeAnswers(dateRange);
-      const {
-        earliestDate,
-        latestDate,
-        minDuration,
-        maxDuration,
-      } = dateRange.validation;
+      const { earliestDate, latestDate, minDuration, maxDuration } =
+        dateRange.validation;
 
-      if (earliestDate.enabled || latestDate.enabled) {
-        this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
-        this.answers[1].maximum = Answer.buildDateValidation(latestDate);
-      }
-
-      if (minDuration.enabled || maxDuration.enabled) {
-        if (minDuration.enabled) {
-          set(
-            this,
-            `period_limits.minimum.${minDuration.duration.unit}`.toLowerCase(),
-            minDuration.duration.value
-          );
+      if (dateRange.advancedProperty) {
+        if (earliestDate.enabled || latestDate.enabled) {
+          this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
+          this.answers[1].maximum = Answer.buildDateValidation(latestDate);
         }
-        if (maxDuration.enabled) {
-          set(
-            this,
-            `period_limits.maximum.${maxDuration.duration.unit}`.toLowerCase(),
-            maxDuration.duration.value
-          );
+
+        if (minDuration.enabled || maxDuration.enabled) {
+          if (minDuration.enabled) {
+            set(
+              this,
+              `period_limits.minimum.${minDuration.duration.unit}`.toLowerCase(),
+              minDuration.duration.value
+            );
+          }
+          if (maxDuration.enabled) {
+            set(
+              this,
+              `period_limits.maximum.${maxDuration.duration.unit}`.toLowerCase(),
+              maxDuration.duration.value
+            );
+          }
         }
       }
     } else if (mutuallyExclusive) {
