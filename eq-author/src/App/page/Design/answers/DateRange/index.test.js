@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import DateRange from "./";
-import createMockStore from "tests/utils/createMockStore";
 import { DATE_LABEL_REQUIRED } from "constants/validationMessages";
 import { render as rtlRender } from "tests/utils/rtl";
 

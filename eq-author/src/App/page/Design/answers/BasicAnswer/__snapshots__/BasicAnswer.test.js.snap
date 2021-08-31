@@ -47,6 +47,7 @@ exports[`BasicAnswer should render with description 1`] = `
   <AnswerProperties
     answer={
       Object {
+        "advancedProperties": true,
         "description": "Answer description",
         "id": "ansID1",
         "label": "",
@@ -58,6 +59,9 @@ exports[`BasicAnswer should render with description 1`] = `
             "mutuallyExclusive": false,
           },
         ],
+        "properties": Object {
+          "required": false,
+        },
         "title": "Answer title",
         "type": "TextField",
       }
@@ -68,6 +72,7 @@ exports[`BasicAnswer should render with description 1`] = `
   <AdvancedProperties
     answer={
       Object {
+        "advancedProperties": true,
         "description": "Answer description",
         "id": "ansID1",
         "label": "",
@@ -79,6 +84,9 @@ exports[`BasicAnswer should render with description 1`] = `
             "mutuallyExclusive": false,
           },
         ],
+        "properties": Object {
+          "required": false,
+        },
         "title": "Answer title",
         "type": "TextField",
       }
@@ -89,6 +97,7 @@ exports[`BasicAnswer should render with description 1`] = `
     <MutuallyExclusive
       answer={
         Object {
+          "advancedProperties": true,
           "description": "Answer description",
           "id": "ansID1",
           "label": "",
@@ -100,6 +109,9 @@ exports[`BasicAnswer should render with description 1`] = `
               "mutuallyExclusive": false,
             },
           ],
+          "properties": Object {
+            "required": false,
+          },
           "title": "Answer title",
           "type": "TextField",
         }
@@ -140,6 +152,7 @@ exports[`BasicAnswer should render without description 1`] = `
   <AnswerProperties
     answer={
       Object {
+        "advancedProperties": true,
         "description": "Answer description",
         "id": "ansID1",
         "label": "",
@@ -151,6 +164,9 @@ exports[`BasicAnswer should render without description 1`] = `
             "mutuallyExclusive": false,
           },
         ],
+        "properties": Object {
+          "required": false,
+        },
         "title": "Answer title",
         "type": "TextField",
       }
@@ -161,6 +177,7 @@ exports[`BasicAnswer should render without description 1`] = `
   <AdvancedProperties
     answer={
       Object {
+        "advancedProperties": true,
         "description": "Answer description",
         "id": "ansID1",
         "label": "",
@@ -172,6 +189,9 @@ exports[`BasicAnswer should render without description 1`] = `
             "mutuallyExclusive": false,
           },
         ],
+        "properties": Object {
+          "required": false,
+        },
         "title": "Answer title",
         "type": "TextField",
       }
@@ -182,6 +202,7 @@ exports[`BasicAnswer should render without description 1`] = `
     <MutuallyExclusive
       answer={
         Object {
+          "advancedProperties": true,
           "description": "Answer description",
           "id": "ansID1",
           "label": "",
@@ -193,6 +214,9 @@ exports[`BasicAnswer should render without description 1`] = `
               "mutuallyExclusive": false,
             },
           ],
+          "properties": Object {
+            "required": false,
+          },
           "title": "Answer title",
           "type": "TextField",
         }
