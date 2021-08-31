@@ -40,14 +40,12 @@ const DurationProperties = ({
           {map(sortedUnits, (unit, durationType) => {
             return (
               <optgroup label={durationType} key={durationType}>
-                {map(unit, (durationConfig, key) => {
-                  const optionLabel = durationConfig.abbreviation;
-                  return (
+                {map(unit, (durationConfig, key) => (
                     <option value={`${durationConfig.duration}`} key={key}>
-                      {optionLabel}
+                      {durationConfig.abbreviation}
                     </option>
                   );
-                })}
+                )}
               </optgroup>
             );
           })}
