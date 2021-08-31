@@ -11,7 +11,7 @@ jest.mock("@apollo/react-hooks", () => ({
 }));
 
 const createMultipleChoice = (props) => {
-  render(<UnwrappedMultipleChoiceAnswer {...props} />);
+  return render(<UnwrappedMultipleChoiceAnswer {...props} />);
 };
 
 describe("radio", () => {
@@ -60,7 +60,13 @@ describe("radio", () => {
     };
   });
 
-  it("should render", () => {
+  it("should render a radio", () => {
+    expect(createMultipleChoice(props)).toMatchSnapshot();
+  });
+
+  it("should render a checkbox", () => {
+    props.answer.type = CHECKBOX;
+    props.type = CHECKBOX;
     expect(createMultipleChoice(props)).toMatchSnapshot();
   });
 });
