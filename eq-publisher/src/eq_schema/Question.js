@@ -59,7 +59,7 @@ class Question {
       const { earliestDate, latestDate, minDuration, maxDuration } =
         dateRange.validation;
 
-      if (dateRange.advancedProperty) {
+      if (dateRange.advancedProperties) {
         if (earliestDate.enabled || latestDate.enabled) {
           this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
           this.answers[1].maximum = Answer.buildDateValidation(latestDate);
