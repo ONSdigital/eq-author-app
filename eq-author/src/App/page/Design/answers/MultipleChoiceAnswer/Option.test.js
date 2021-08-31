@@ -5,7 +5,6 @@ import { StatelessOption } from "./Option";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
-import { props } from "lodash/fp";
 import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
 
 jest.mock("@apollo/react-hooks", () => ({
@@ -32,15 +31,14 @@ describe("Option", () => {
   };
 
   const render = (method = shallow, otherProps) => {
-    wrapper = method(
-      <StatelessOption
-        {...mockMutations}
-        option={option}
-        hasDeleteButton
-        type={RADIO}
-        {...otherProps}
-      />
-    );
+    const props = {
+      ...mockMutations,
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...otherProps,
+    };
+    wrapper = method(<StatelessOption {...props} />);
 
     return wrapper;
   };
@@ -83,16 +81,13 @@ describe("Option", () => {
   });
 
   it("should call onChange and onBlur correctly", () => {
-    const { getByTestId } = rtlRender((otherProps) => (
-      <StatelessOption
-        {...mockMutations}
-        option={option}
-        hasDeleteButton
-        type={RADIO}
-        {...otherProps}
-        {...props}
-      />
-    ));
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
 
     fireEvent.change(getByTestId("option-label"), {
       target: { value: "2" },

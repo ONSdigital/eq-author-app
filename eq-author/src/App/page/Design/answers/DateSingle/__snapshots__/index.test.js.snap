@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date should render 1`] = `
+<DateSingle
+  answer={
+    Object {
+      "advancedProperties": true,
+      "description": "date description",
+      "displayName": "",
+      "guidance": "Guidance",
+      "id": "ansID1",
+      "label": "",
+      "options": Array [
+        Object {
+          "id": "option-1",
+          "label": "option-label",
+          "mutuallyExclusive": false,
+        },
+      ],
+      "properties": Object {},
+      "qCode": "",
+      "secondaryLabel": null,
+      "secondaryLabelDefault": "",
+      "title": "Date title",
+      "type": "Date",
+    }
+  }
+  label="Label"
+  multipleAnswers={false}
+  name="label"
+  onChange={[MockFunction]}
+  onUpdate={[MockFunction]}
+/>
+`;

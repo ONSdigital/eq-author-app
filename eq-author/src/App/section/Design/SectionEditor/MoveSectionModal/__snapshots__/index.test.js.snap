@@ -44,6 +44,9 @@ exports[`MoveSectionModal should render 1`] = `
                     "displayName": "",
                     "id": "1",
                     "position": 0,
+                    "questionnaire": Object {
+                      "metadata": Array [],
+                    },
                   },
                   "title": "Page 1.1.1",
                   "validationErrorInfo": Object {
@@ -105,6 +108,9 @@ exports[`MoveSectionModal should render 1`] = `
                     "displayName": "",
                     "id": "2",
                     "position": 0,
+                    "questionnaire": Object {
+                      "metadata": Array [],
+                    },
                   },
                   "title": "Page 2.1.1",
                   "validationErrorInfo": Object {
@@ -171,6 +177,9 @@ exports[`MoveSectionModal should render 1`] = `
                 "displayName": "",
                 "id": "1",
                 "position": 0,
+                "questionnaire": Object {
+                  "metadata": Array [],
+                },
               },
               "title": "Page 1.1.1",
               "validationErrorInfo": Object {
@@ -239,6 +248,9 @@ exports[`MoveSectionModal should render 1`] = `
                     "displayName": "",
                     "id": "1",
                     "position": 0,
+                    "questionnaire": Object {
+                      "metadata": Array [],
+                    },
                   },
                   "title": "Page 1.1.1",
                   "validationErrorInfo": Object {
@@ -300,6 +312,9 @@ exports[`MoveSectionModal should render 1`] = `
                     "displayName": "",
                     "id": "2",
                     "position": 0,
+                    "questionnaire": Object {
+                      "metadata": Array [],
+                    },
                   },
                   "title": "Page 2.1.1",
                   "validationErrorInfo": Object {
@@ -364,6 +379,9 @@ exports[`MoveSectionModal should render 1`] = `
                   "displayName": "",
                   "id": "1",
                   "position": 0,
+                  "questionnaire": Object {
+                    "metadata": Array [],
+                  },
                 },
                 "title": "Page 1.1.1",
                 "validationErrorInfo": Object {

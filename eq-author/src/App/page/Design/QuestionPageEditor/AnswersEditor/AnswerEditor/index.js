@@ -27,7 +27,7 @@ import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 
 import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/page/Design/answers/DateRange";
-import Date from "App/page/Design/answers/Date";
+import DateSingle from "App/page/Design/answers/DateSingle";
 import BasicAnswer from "App/page/Design/answers/BasicAnswer";
 
 const Answer = styled.div`
@@ -68,7 +68,7 @@ const AnswerType = styled.span`
 `;
 
 const Padding = styled.div`
-  padding: 1em 6em 1em 1.5em;
+  padding: 1em 1em 1em 1.5em;
 `;
 
 const Buttons = styled.div`
@@ -110,7 +110,7 @@ class AnswerEditor extends React.Component {
     }
     // Only option left is Date as validation done in prop types
     return (
-      <Date
+      <DateSingle
         {...this.props}
         showDay={this.formatIncludes("dd")(answer)}
         showMonth={this.formatIncludes("mm")(answer)}
@@ -216,6 +216,9 @@ AnswerEditor.propTypes = {
   canMoveUp: PropTypes.bool.isRequired,
   onMoveUp: PropTypes.func.isRequired,
   onMoveDown: PropTypes.func.isRequired,
+  renderPanel: PropTypes.func,
+  page: PropTypes.object, //eslint-disable-line
+  metadata: PropTypes.array, //eslint-disable-line
 };
 
 AnswerEditor.fragments = {
@@ -231,7 +234,7 @@ AnswerEditor.fragments = {
     ${BasicAnswer.fragments.BasicAnswer}
     ${MultipleChoiceAnswer.fragments.MultipleChoice}
     ${DateRange.fragments.DateRange}
-    ${Date.fragments.Date}
+    ${DateSingle.fragments.Date}
   `,
 };
 

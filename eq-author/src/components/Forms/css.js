@@ -27,7 +27,7 @@ export const sharedStyles = css`
 
   &:hover {
     border-color: ${colors.blue};
-    outline-color: ${colors.blue};
+    box-shadow: 0 0 0 1pt ${colors.blue};
   }
 
   &:focus,
