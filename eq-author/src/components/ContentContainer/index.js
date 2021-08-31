@@ -53,8 +53,7 @@ export const HeaderText = styled.div`
   }
 `;
 
-const ContentContainer = ({ title, children }) => {
-  return (
+const ContentContainer = ({ title, children }) => (
     <Wrapper data-test="collapsible">
       <Header className="content-header" data-test="content-header">
         <Title className="content-title" data-test="content-title">
@@ -64,9 +63,7 @@ const ContentContainer = ({ title, children }) => {
       <Body className="collapsible-body" data-test="collapsible-body" isOpen>
         {children}
       </Body>
-    </Wrapper>
-  );
-};
+    </Wrapper>);
 
 ContentContainer.propTypes = {
   title: PropTypes.string.isRequired,
