@@ -7,6 +7,7 @@ exports[`DateRange should render 1`] = `
   <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
+        "advancedProperties": true,
         "description": "test",
         "displayName": "Untitled answer",
         "guidance": "",
@@ -17,13 +18,13 @@ exports[`DateRange should render 1`] = `
         },
         "qCode": "yuky",
         "secondaryLabel": "",
+        "secondaryLabelDefault": "",
         "type": "DateRange",
         "validationErrorInfo": Object {
           "errors": Array [],
         },
       }
     }
-    disableMutuallyExclusive={true}
     key="from-1"
     name="label"
     onChange={[MockFunction]}
@@ -31,17 +32,11 @@ exports[`DateRange should render 1`] = `
     showDay={true}
     showMonth={true}
     showYear={true}
-    store={
-      Object {
-        "dispatch": [MockFunction],
-        "getState": [MockFunction],
-        "subscribe": [MockFunction],
-      }
-    }
   />
   <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
+        "advancedProperties": true,
         "description": "test",
         "displayName": "Untitled answer",
         "guidance": "",
@@ -52,13 +47,13 @@ exports[`DateRange should render 1`] = `
         },
         "qCode": "yuky",
         "secondaryLabel": "",
+        "secondaryLabelDefault": "",
         "type": "DateRange",
         "validationErrorInfo": Object {
           "errors": Array [],
         },
       }
     }
-    disableMutuallyExclusive={true}
     key="to-1"
     name="secondaryLabel"
     onChange={[MockFunction]}
@@ -66,13 +61,100 @@ exports[`DateRange should render 1`] = `
     showDay={true}
     showMonth={true}
     showYear={true}
-    store={
+  />
+  <AnswerProperties
+    answer={
       Object {
-        "dispatch": [MockFunction],
-        "getState": [MockFunction],
-        "subscribe": [MockFunction],
+        "advancedProperties": true,
+        "description": "test",
+        "displayName": "Untitled answer",
+        "guidance": "",
+        "id": "1",
+        "label": "",
+        "properties": Object {
+          "required": false,
+        },
+        "qCode": "yuky",
+        "secondaryLabel": "",
+        "secondaryLabelDefault": "",
+        "type": "DateRange",
+        "validationErrorInfo": Object {
+          "errors": Array [],
+        },
       }
     }
+    updateAnswer={[MockFunction]}
   />
+  <AdvancedProperties
+    answer={
+      Object {
+        "advancedProperties": true,
+        "description": "test",
+        "displayName": "Untitled answer",
+        "guidance": "",
+        "id": "1",
+        "label": "",
+        "properties": Object {
+          "required": false,
+        },
+        "qCode": "yuky",
+        "secondaryLabel": "",
+        "secondaryLabelDefault": "",
+        "type": "DateRange",
+        "validationErrorInfo": Object {
+          "errors": Array [],
+        },
+      }
+    }
+    enableHorizontalRule={true}
+    updateAnswer={[MockFunction]}
+  >
+    <Memo(AnswerValidation)
+      answer={
+        Object {
+          "advancedProperties": true,
+          "description": "test",
+          "displayName": "Untitled answer",
+          "guidance": "",
+          "id": "1",
+          "label": "",
+          "properties": Object {
+            "required": false,
+          },
+          "qCode": "yuky",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
+          "type": "DateRange",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+          },
+        }
+      }
+    />
+    <Fallback
+      answer={
+        Object {
+          "advancedProperties": true,
+          "description": "test",
+          "displayName": "Untitled answer",
+          "guidance": "",
+          "id": "1",
+          "label": "",
+          "properties": Object {
+            "required": false,
+          },
+          "qCode": "yuky",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
+          "type": "DateRange",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+          },
+        }
+      }
+      metadata={Array []}
+      updateAnswer={[MockFunction]}
+    />
+  </AdvancedProperties>
 </DateRange__Wrapper>
 `;
