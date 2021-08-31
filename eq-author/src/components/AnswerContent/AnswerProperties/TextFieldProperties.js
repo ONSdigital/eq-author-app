@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Required from "components/AnswerContent/Required";
 
-const TextFieldProperties = ({ answer, updateAnswer }) => {
-  return <Required answer={answer} updateAnswer={updateAnswer} />;
-};
+const TextFieldProperties = ({ answer, updateAnswer }) => (<Required answer={answer} updateAnswer={updateAnswer} />);
 
 TextFieldProperties.propTypes = {
   updateAnswer: PropTypes.func,
