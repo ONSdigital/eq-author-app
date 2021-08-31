@@ -12,7 +12,6 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
-import PropertiesPanel from "../PropertiesPanel";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
@@ -91,9 +90,6 @@ export const UnwrappedPageRoute = (props) => {
       <EditorLayout
         title={page?.displayName || ""}
         onAddQuestionPage={onAddQuestionPage}
-        renderPanel={() =>
-          page?.pageType === QuestionPage && <PropertiesPanel page={page} />
-        }
         validationErrorInfo={page?.validationErrorInfo}
         {...(availableTabMatrix[page?.pageType] || {})}
       >

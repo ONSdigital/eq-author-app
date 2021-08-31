@@ -61,6 +61,17 @@ export const sectionErrors = {
   SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
 };
 
+export const textAreaErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_large",
+    message: "Enter a character limit less than or equal to 2000",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 10",
+  },
+};
+
 export const characterErrors = {
   CHAR_LIMIT_2000_EXCEEDED:
     "Enter a character limit less than or equal to 2000",
@@ -167,6 +178,10 @@ export const destinationErrors = {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
   },
+  ERR_DESTINATION_INVALID_WITH_HUB: {
+    errorCode: "ERR_DESTINATION_INVALID_WITH_HUB",
+    message: "Destination not applicable with hub navigation.",
+  },
 };
 
 export const SURVEY_ID_ERRORS = {
@@ -195,4 +210,18 @@ export const buildLabelError = (mainString, insString, pos, pos2) => {
   const newLabelError =
     mainString.slice(0, pos) + insString + mainString.slice(pos2);
   return newLabelError;
+};
+
+export const decimalErrors = {
+  ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY: {
+    errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+    message: "Enter a decimal that is the same as the associated question page",
+  },
+};
+
+export const unitPropertyErrors = {
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Selection required",
+  },
 };

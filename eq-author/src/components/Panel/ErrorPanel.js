@@ -33,7 +33,7 @@ const ErrorPanel = ({ variant, children }) => (
 );
 
 ErrorPanel.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.object, //eslint-disable-line
   variant: PropTypes.string,
 };
 

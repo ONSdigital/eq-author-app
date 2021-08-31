@@ -1,94 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Answer Editor should correctly calculates date format 1`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={false}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 1`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 2`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 2`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 3`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "dd/mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={true}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 3`] = `null`;
 
 exports[`Answer Editor should render Checkbox 1`] = `
 <AnswerEditor__Answer
@@ -164,7 +80,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
           "description": "",
@@ -182,6 +98,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -373,7 +290,7 @@ exports[`Answer Editor should render Date 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
+    <DateSingle
       answer={
         Object {
           "description": "",
@@ -384,6 +301,8 @@ exports[`Answer Editor should render Date 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      label="Label"
+      name="label"
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -884,7 +803,7 @@ exports[`Answer Editor should render Radio 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
           "description": "",
@@ -902,6 +821,7 @@ exports[`Answer Editor should render Radio 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       minOptions={2}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
