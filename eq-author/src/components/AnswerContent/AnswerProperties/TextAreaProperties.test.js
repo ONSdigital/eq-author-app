@@ -4,9 +4,7 @@ import TextAreaProperties from "./TextAreaProperties";
 import { colors } from "constants/theme";
 import { act } from "react-dom/test-utils";
 
-const renderTextProperties = (props) => {
-  return render(<TextAreaProperties {...props} />);
-};
+const renderTextProperties = (props) => render(<TextAreaProperties {...props} />);
 
 describe("Text Property", () => {
   let props;
