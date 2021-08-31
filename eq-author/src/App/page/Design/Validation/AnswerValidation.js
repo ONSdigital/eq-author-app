@@ -319,7 +319,7 @@ const AnswerValidation = ({ answer }) => {
   }
 
   return (
-    <MultiLineField id="validation-settingd" label="Validation settings">
+    <MultiLineField id="validation-setting" label="Validation settings">
       <ValidationContext.Provider value={{ answer }}>
         {(validationComponentsMinValue.length > 0 ||
           validationComponentsMaxValue.length > 0) && (
