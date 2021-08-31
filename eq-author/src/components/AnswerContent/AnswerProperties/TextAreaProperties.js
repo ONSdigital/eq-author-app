@@ -12,7 +12,7 @@ import InlineField from "components/AnswerContent/Format/InlineField";
 
 const SmallNumber = styled(Number)`
   width: 7em;
-  margin-left: 0em;
+  margin-left: 0;
 
   ${NumberInput} {
     border-radius: ${radius};

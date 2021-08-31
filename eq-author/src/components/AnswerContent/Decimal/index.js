@@ -10,7 +10,7 @@ import Number, { NumberInput } from "components/Forms/Number";
 
 const SmallerNumber = styled(Number)`
   width: 7em;
-  margin-left: 0em;
+  margin-left: 0;
 
   ${NumberInput} {
     border-radius: ${radius};

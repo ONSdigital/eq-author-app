@@ -18,7 +18,7 @@ const ToggleWrapper = styled.div`
 
 export const StyledOption = styled.div`
   border: 1px solid ${colors.bordersLight};
-  padding: 0em 1em 0em 1em;
+  padding: 0 1em;
   border-radius: ${radius};
   position: relative;
   margin-bottom: 1em;

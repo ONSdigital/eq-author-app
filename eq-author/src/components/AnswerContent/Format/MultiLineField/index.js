@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 
 const StyledMultiLineField = styled(Field)`
-  padding: 0em 0;
+  padding: 0;
   margin-bottom: 0.5em;
 `;
 
