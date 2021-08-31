@@ -82,7 +82,12 @@ describe("Question Page Editor", () => {
       additionalInfoLabel: "<p>Additional Info Label</p>",
       additionalInfoContent: "<p>Additional Info Content</p>",
       additionalInfoEnabled: true,
-      validationErrorInfo: [],
+      validationErrorInfo: {
+        totalCount: 0,
+        errors: [],
+        id: "1",
+        __typename: "ValidationErrorInfo",
+      },
       answers: [
         {
           __typename: "BasicAnswer",
@@ -99,6 +104,7 @@ describe("Question Page Editor", () => {
           type: "TextField",
         },
       ],
+      section: { questionnaire: { metadata: [] } },
     };
 
     section = {

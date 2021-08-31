@@ -1,6 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should display when unit type is null 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should display when unit type is null 1`] = `
+<SidebarButton__Detail>
+  5 
+</SidebarButton__Detail>
+`;
 
 exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 1`] = `null`;
 
@@ -10,23 +14,59 @@ exports[`AnswerValidation Numeric answer validation preview maxValue should not 
 
 exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 1`] = `
+<SidebarButton__Detail>
+  5%
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 2`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 2`] = `
+<SidebarButton__Detail>
+  5
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 3`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 3`] = `
+<SidebarButton__Detail>
+  £5
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 4`] = `
+<SidebarButton__Detail>
+  5 cm
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 1`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 2`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 2`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 3`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 3`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 4`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should display when unit type is null 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should display when unit type is null 1`] = `
+<SidebarButton__Detail>
+  5 
+</SidebarButton__Detail>
+`;
 
 exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 1`] = `null`;
 
@@ -36,107 +76,151 @@ exports[`AnswerValidation Numeric answer validation preview minValue should not 
 
 exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 1`] = `
+<SidebarButton__Detail>
+  5%
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 2`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 2`] = `
+<SidebarButton__Detail>
+  5
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 3`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 3`] = `
+<SidebarButton__Detail>
+  £5
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 4`] = `
+<SidebarButton__Detail>
+  5 cm
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 1`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 1`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 2`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 2`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 3`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 3`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 4`] = `null`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 4`] = `
+<SidebarButton__Detail>
+  foobar
+</SidebarButton__Detail>
+`;
 
 exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
 
 exports[`AnswerValidation should render 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "answer": Object {
-        "id": "1",
-        "type": "Number",
-        "validation": Object {
-          "maxValue": Object {
-            "enabled": false,
-            "validationErrorInfo": Object {
-              "errors": Array [],
-            },
-          },
-          "minValue": Object {
-            "enabled": false,
-            "validationErrorInfo": Object {
-              "errors": Array [],
-            },
-          },
-        },
-      },
-    }
-  }
+<MultiLineField
+  id="validation-setting"
+  label="Validation settings"
 >
-  <AnswerValidation__SidebarValidation
-    data-test="sidebar-button-min-value"
-    hasError={0}
-    id="minValue"
-    key="minValue"
-    onClick={[Function]}
-  >
-    <SidebarButton__Title>
-      Set min value
-    </SidebarButton__Title>
-  </AnswerValidation__SidebarValidation>
-  <AnswerValidation__SidebarValidation
-    data-test="sidebar-button-max-value"
-    hasError={0}
-    id="maxValue"
-    key="maxValue"
-    onClick={[Function]}
-  >
-    <SidebarButton__Title>
-      Set max value
-    </SidebarButton__Title>
-  </AnswerValidation__SidebarValidation>
-  <ModalWithNav
-    id="modal-validation-1"
-    isOpen={false}
-    navItems={
-      Array [
-        Object {
-          "id": "minValue",
-          "preview": [Function],
-          "render": [Function],
-          "title": "Min value",
-          "types": Array [
-            "Currency",
-            "Number",
-            "Percentage",
-            "Unit",
-          ],
+  <ContextProvider
+    value={
+      Object {
+        "answer": Object {
+          "id": "1",
+          "type": "Number",
+          "validation": Object {
+            "maxValue": Object {
+              "__typename": "MaxValue",
+              "enabled": false,
+              "validationErrorInfo": Object {
+                "errors": Array [],
+              },
+            },
+            "minValue": Object {
+              "__typename": "MinValue",
+              "enabled": false,
+              "validationErrorInfo": Object {
+                "errors": Array [],
+              },
+            },
+          },
         },
-        Object {
-          "id": "maxValue",
-          "preview": [Function],
-          "render": [Function],
-          "title": "Max value",
-          "types": Array [
-            "Currency",
-            "Number",
-            "Percentage",
-            "Unit",
-          ],
-        },
-      ]
+      }
     }
-    onClose={[Function]}
-    startingTabId={null}
-    title="Number validation"
-  />
-</ContextProvider>
+  >
+    <AnswerValidation__InlineField>
+      <AnswerValidation__ValidationGroupTop />
+      <AnswerValidation__ValidationGroupTop>
+        <WrappedSidebarButton
+          data-test="sidebar-button-min-value"
+          errors={Array []}
+          id="minValue"
+          key="minValue"
+          onClick={[Function]}
+        >
+          <SidebarButton__Title>
+            Set min value
+          </SidebarButton__Title>
+        </WrappedSidebarButton>
+        <WrappedSidebarButton
+          data-test="sidebar-button-max-value"
+          errors={Array []}
+          id="maxValue"
+          key="maxValue"
+          onClick={[Function]}
+        >
+          <SidebarButton__Title>
+            Set max value
+          </SidebarButton__Title>
+        </WrappedSidebarButton>
+      </AnswerValidation__ValidationGroupTop>
+    </AnswerValidation__InlineField>
+    <ModalWithNav
+      id="modal-validation-1"
+      isOpen={false}
+      navItems={
+        Array [
+          Object {
+            "id": "minValue",
+            "preview": [Function],
+            "render": [Function],
+            "title": "Min value",
+            "types": Array [
+              "Currency",
+              "Number",
+              "Percentage",
+              "Unit",
+            ],
+          },
+          Object {
+            "id": "maxValue",
+            "preview": [Function],
+            "render": [Function],
+            "title": "Max value",
+            "types": Array [
+              "Currency",
+              "Number",
+              "Percentage",
+              "Unit",
+            ],
+          },
+        ]
+      }
+      onClose={[Function]}
+      startingTabId={null}
+      title="Number validation"
+    />
+  </ContextProvider>
+</MultiLineField>
 `;
 
 exports[`AnswerValidation validation object array should render the Earliest date validation 1`] = `

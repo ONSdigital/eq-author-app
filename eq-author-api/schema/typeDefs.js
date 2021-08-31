@@ -258,6 +258,7 @@ interface Answer {
   type: AnswerType!
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
 }
 
 type BasicAnswer implements Answer {
@@ -274,6 +275,7 @@ type BasicAnswer implements Answer {
   options: [Option]
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
@@ -293,6 +295,7 @@ type MultipleChoiceAnswer implements Answer {
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -1140,6 +1143,7 @@ input UpdateAnswerInput {
   qCode: String
   secondaryQCode: String
   properties: JSON
+  advancedProperties: Boolean
 }
 
 input UpdateAnswersOfTypeInput {

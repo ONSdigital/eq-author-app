@@ -75,6 +75,7 @@ const EditorLayout = ({
             <Margin>
               <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
+
             {onAddQuestionPage && (
               <Centered>
                 <Button
