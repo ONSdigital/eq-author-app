@@ -144,16 +144,16 @@ const Template = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  questionnaires: questionnaires,
-  enabledHeadings: enabledHeadings,
-  canCreateQuestionnaire: false,
-  onCreateQuestionnaire: nullFunction,
-  onDeleteQuestionnaire: nullFunction,
-  tableHeadings: enabledHeadings,
-  onSortClick: nullFunction,
-  onReverseClick: nullFunction,
-  onQuestionnaireClick: nullFunction,
-  padding: "small",
-  questionnaireModal: true,
-};
+// Default.args = {
+//   questionnaires: questionnaires,
+//   enabledHeadings: enabledHeadings,
+//   canCreateQuestionnaire: false,
+//   onCreateQuestionnaire: nullFunction,
+//   onDeleteQuestionnaire: nullFunction,
+//   tableHeadings: enabledHeadings,
+//   onSortClick: nullFunction,
+//   onReverseClick: nullFunction,
+//   onQuestionnaireClick: nullFunction,
+//   padding: "small",
+//   questionnaireModal: true,
+// };
