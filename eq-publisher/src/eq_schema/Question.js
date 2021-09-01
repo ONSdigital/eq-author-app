@@ -64,22 +64,19 @@ class Question {
           this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
           this.answers[1].maximum = Answer.buildDateValidation(latestDate);
         }
-
-        if (minDuration.enabled || maxDuration.enabled) {
-          if (minDuration.enabled) {
-            set(
-              this,
-              `period_limits.minimum.${minDuration.duration.unit}`.toLowerCase(),
-              minDuration.duration.value
-            );
-          }
-          if (maxDuration.enabled) {
-            set(
-              this,
-              `period_limits.maximum.${maxDuration.duration.unit}`.toLowerCase(),
-              maxDuration.duration.value
-            );
-          }
+        if (minDuration.enabled) {
+          set(
+            this,
+            `period_limits.minimum.${minDuration.duration.unit}`.toLowerCase(),
+            minDuration.duration.value
+          );
+        }
+        if (maxDuration.enabled) {
+          set(
+            this,
+            `period_limits.maximum.${maxDuration.duration.unit}`.toLowerCase(),
+            maxDuration.duration.value
+          );
         }
       }
     } else if (mutuallyExclusive) {
