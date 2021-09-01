@@ -8,6 +8,7 @@ exports.getQuestionnaire = `
     guidance
     properties
     qCode
+    advancedProperties
     ...BasicAnswer
   }
   

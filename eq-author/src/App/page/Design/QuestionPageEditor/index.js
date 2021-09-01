@@ -204,6 +204,7 @@ UnwrappedQuestionPageEditor.fragments = {
             id
             displayName
             type
+            key
           }
         }
       }
