@@ -91,10 +91,19 @@
       "required": ["label"]
     },
     "numericAnswer": {
-      "type": "object",
-      "properties": {
-        "validation": {
-          "$ref": "validation.json#/definitions/numericValidations"
+      "if": {
+        "properties": {
+          "advancedProperties": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "$ref": "validation.json#/definitions/numericValidations"
+          }
         }
       }
     },
@@ -137,23 +146,54 @@
       "required": ["options"]
     },
     "dateAnswer": {
-      "type": "object",
-      "properties": {
-        "validation": {
-          "$ref": "validation.json#/definitions/dateValidations"
+      "if": {
+        "properties": {
+          "advancedProperties": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "$ref": "validation.json#/definitions/dateValidations"
+          }
         }
       }
     },
     "dateRangeAnswer": {
-      "type": "object",
-      "properties": {
-        "secondaryLabel": {
-          "$ref": "definitions.json#/definitions/populatedString"
+      "allOf": [{
+        "type": "object",
+        "properties": {
+          "secondaryLabel": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
         },
-        "validation": {
-          "$ref": "validation.json#/definitions/dateRangeValidations"
+        "if": {
+          "properties": {
+            "advancedProperties": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "validation": {
+              "$ref": "validation.json#/definitions/dateRangeValidations"
+            },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "fallback":{
+                  "$ref": "#/definitions/fallback"
+                }
+              }
+            }
+          }
         }
-      }
+      }]
     },
     "properties": {
       "type": "object",
@@ -174,29 +214,29 @@
         },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
-        },
-        "fallback": {
-          "if": {
-            "type": "object",
-            "properties": {
-              "enabled": { "const": true }
-            }
-          },
-          "then": {
-            "allOf": [
-              {
-                "type": "object",
-                "required": ["start"],
-                "errorMessage": "ERR_VALID_REQUIRED_START"
-              },
-              {
-                "type": "object",
-                "required": ["end"],
-                "errorMessage": "ERR_VALID_REQUIRED_END"
-              }
-            ]
-          }
         }
+      }
+    },
+    "fallback": {
+      "if": {
+        "type": "object",
+        "properties": {
+          "enabled": { "const": true }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["start"],
+            "errorMessage": "ERR_VALID_REQUIRED_START"
+          },
+          {
+            "type": "object",
+            "required": ["end"],
+            "errorMessage": "ERR_VALID_REQUIRED_END"
+          }
+        ]
       }
     }
   }

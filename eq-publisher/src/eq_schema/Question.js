@@ -56,19 +56,14 @@ class Question {
     if (dateRange) {
       this.type = DATE_RANGE;
       this.answers = this.buildDateRangeAnswers(dateRange);
-      const {
-        earliestDate,
-        latestDate,
-        minDuration,
-        maxDuration,
-      } = dateRange.validation;
+      const { earliestDate, latestDate, minDuration, maxDuration } =
+        dateRange.validation;
 
-      if (earliestDate.enabled || latestDate.enabled) {
-        this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
-        this.answers[1].maximum = Answer.buildDateValidation(latestDate);
-      }
-
-      if (minDuration.enabled || maxDuration.enabled) {
+      if (dateRange.advancedProperties) {
+        if (earliestDate.enabled || latestDate.enabled) {
+          this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
+          this.answers[1].maximum = Answer.buildDateValidation(latestDate);
+        }
         if (minDuration.enabled) {
           set(
             this,

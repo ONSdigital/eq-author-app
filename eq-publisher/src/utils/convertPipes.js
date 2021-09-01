@@ -91,7 +91,7 @@ const convertElementToPipe = ($elem, ctx) => {
   } else if (dataType === DATE_RANGE) {
     let fallback = pipeConfig.getFallback(entity);
     let key = null;
-    if (fallback) {
+    if (entity.advancedProperties && fallback) {
       if (output.includes("from")) {
         key = fallback.from || null;
       } else if (output.includes("to")) {
