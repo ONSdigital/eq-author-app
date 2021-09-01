@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
+import { render, fireEvent, screen } from "tests/utils/rtl";
 
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -27,6 +27,10 @@ describe("BasicAnswer", () => {
       description: "Answer description",
       label: "",
       type: "TextField",
+      advancedProperties: true,
+      properties: {
+        required: false,
+      },
       options: [
         {
           id: "option-1",
@@ -88,27 +92,15 @@ describe("BasicAnswer", () => {
   });
 
   it("should render Or option toggle ", async () => {
-    rtlRender(() => <StatelessBasicAnswer {...props} type="Percentage" />);
-
-    screen.getByRole("switch");
-  });
-
-  it("should NOT render Or option toggle if ans type === Checkbox ", async () => {
-    rtlRender(() => <StatelessBasicAnswer {...props} type="Checkbox" />);
-
-    expect(screen.queryByRole("switch")).not.toBeInTheDocument();
-  });
-
-  it("should NOT render Or option toggle if ans type === Radio ", async () => {
-    rtlRender(() => <StatelessBasicAnswer {...props} type="Radio" />);
-
-    expect(screen.queryByRole("switch")).not.toBeInTheDocument();
+    props.type = "Percentage";
+    const { getByTestId } = render(<StatelessBasicAnswer {...props} />);
+    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
   });
 
   it("should disable Or option toggle if multipleAnswers = true", async () => {
-    const { getByTestId } = rtlRender(() => (
-      <StatelessBasicAnswer {...props} type="Percentage" multipleAnswers />
-    ));
+    props.type = "Percentage";
+    props.multipleAnswers = true;
+    const { getByTestId } = render(<StatelessBasicAnswer {...props} />);
 
     expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
   });
@@ -116,9 +108,9 @@ describe("BasicAnswer", () => {
   it("should show Option label if toggle is on", async () => {
     props.answer.options[0].mutuallyExclusive = true;
 
-    const { getByTestId } = rtlRender(() => (
+    const { getByTestId } = render(
       <StatelessBasicAnswer {...props} type="Percentage" />
-    ));
+    );
     fireEvent.click(getByTestId("toggle-or-option-input"), {
       target: { type: "checkbox", checked: true },
     });
@@ -129,9 +121,9 @@ describe("BasicAnswer", () => {
   it("should show option label when it exists", () => {
     props.answer.options[0].mutuallyExclusive = true;
 
-    const { getByTestId } = rtlRender(() => (
+    const { getByTestId } = render(
       <StatelessBasicAnswer {...props} type="Percentage" />
-    ));
+    );
     fireEvent.click(getByTestId("toggle-or-option-input"), {
       target: { type: "checkbox", checked: true },
     });

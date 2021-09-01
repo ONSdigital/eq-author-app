@@ -28,9 +28,18 @@ import withUpdateQuestionPage from "./withUpdateQuestionPage";
 
 import MetaEditor from "./MetaEditor";
 
-import QuestionProperties from "../../PropertiesPanel/QuestionProperties";
+import QuestionProperties from "./QuestionProperties";
+import TotalValidation from "../Validation/GroupValidations/TotalValidation";
+
+import {
+  ERR_NO_VALUE,
+  ERR_REFERENCE_MOVED,
+  ERR_REFERENCE_DELETED,
+} from "constants/validationMessages";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import ContentContainer from "components/ContentContainer";
+import ValidationError from "components/ValidationError";
 
 const QuestionSegment = styled.div`
   padding: 0 2em;
@@ -79,6 +88,17 @@ export const UnwrappedQuestionPageEditor = (props) => {
     section: page?.section,
   });
 
+  const totalValidationErrors = page.validationErrorInfo.errors.filter(
+    ({ field }) => field === "totalValidation"
+  );
+  const error = totalValidationErrors?.[0];
+
+  const errorMessages = {
+    ERR_NO_VALUE,
+    ERR_REFERENCE_MOVED,
+    ERR_REFERENCE_DELETED,
+  };
+
   return (
     <div data-test="question-page-editor">
       <PageHeader
@@ -112,8 +132,26 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onDeleteOption={onDeleteOption}
           onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
           data-test="answers-editor"
+          page={page}
+          metadata={page.section.questionnaire.metadata}
         />
       </div>
+
+      {page.totalValidation && (
+        <ContentContainer
+          title={`Total ${answers[0].type.toLowerCase()} validation`}
+        >
+          <TotalValidation
+            total={page.totalValidation}
+            validationError={page.validationErrorInfo}
+            type={answers[0].type}
+            withoutDisableMessage
+          />
+          {error && (
+            <ValidationError>{errorMessages[error.errorCode]}</ValidationError>
+          )}
+        </ContentContainer>
+      )}
 
       <AddAnswerSegment>
         <AnswerTypeSelector
@@ -165,6 +203,8 @@ UnwrappedQuestionPageEditor.fragments = {
           metadata {
             id
             displayName
+            type
+            key
           }
         }
       }

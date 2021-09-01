@@ -4,6 +4,7 @@ exports[`Date should render 1`] = `
 <Memo(Connect(withEntityEditor(withValidationError(UnwrappedDate))))
   answer={
     Object {
+      "advancedProperties": true,
       "description": "date description",
       "displayName": "",
       "guidance": "Guidance",

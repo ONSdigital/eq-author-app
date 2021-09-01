@@ -39,6 +39,7 @@ const createContext = (metadata = []) => ({
                   {
                     id: `9151378b-579d-40bf-b4d4-a378c573706a`,
                     type: DATE_RANGE,
+                    advancedProperties: true,
                     properties: {
                       fallback: {
                         enabled: true,
@@ -50,6 +51,7 @@ const createContext = (metadata = []) => ({
                   {
                     id: `5251378b-579d-40bf-b4d4-a378c573706a`,
                     type: DATE_RANGE,
+                    advancedProperties: true,
                     properties: {
                       fallback: {
                         enabled: true,

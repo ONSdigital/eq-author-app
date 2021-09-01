@@ -15,7 +15,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
 
 .c0:hover {
   border-color: #3B7A9E;
-  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
 }
 
 .c0:focus,
@@ -87,7 +87,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
                 "#222222",
                 ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
                 "#3B7A9E",
-                ";outline-color:",
+                ";box-shadow:0 0 0 1pt ",
                 "#3B7A9E",
                 ";}&:focus,&:focus-within{",
                 "

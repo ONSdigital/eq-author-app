@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { kebabCase, get, startCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-
+import MultiLineField from "components/AnswerContent/Format/MultiLineField";
 import ModalWithNav from "components/modals/ModalWithNav";
 import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
@@ -12,20 +12,14 @@ import DurationValidation from "./DurationValidation";
 import DateValidation from "./DateValidation";
 
 import NumericValidation from "./NumericValidation/index";
-import ValidationError from "components/ValidationError";
+
+import { Field } from "components/Forms";
 
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
 import {
-  EARLIEST_BEFORE_LATEST_DATE,
-  MAX_GREATER_THAN_MIN,
-  DURATION_ERROR_MESSAGE,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
-  ERR_OFFSET_NO_VALUE,
-  ERR_NO_VALUE,
-  ERR_REFERENCE_MOVED,
-  ERR_REFERENCE_DELETED,
 } from "constants/validationMessages";
 
 import {
@@ -45,6 +39,34 @@ import {
   PERCENTAGE,
   UNIT,
 } from "constants/answer-types";
+
+const ValidationGroupTop = styled.div`
+  display: flex;
+  align-self: flex-start;
+  button {
+    width: 15em;
+    margin-right: 1em;
+  }
+`;
+
+const ValidationGroupBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
+  align-self: flex-start;
+
+  button {
+    width: 15em;
+    margin-right: 1em;
+  }
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+`;
 
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
@@ -128,28 +150,6 @@ export const validationTypes = [
 const getValidationsForType = (type) =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-export const SidebarValidation = styled(SidebarButton)`
-  &:not(:first-of-type) {
-    margin-top: 0.5em;
-  }
-`;
-
-const errorCodes = {
-  ERR_EARLIEST_AFTER_LATEST: EARLIEST_BEFORE_LATEST_DATE,
-  ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
-  ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
-  ERR_NO_VALUE: ERR_NO_VALUE,
-  ERR_OFFSET_NO_VALUE,
-  ERR_REFERENCE_MOVED,
-  ERR_REFERENCE_DELETED,
-};
-
-const renderError = (error) => (
-  <ValidationError key={error.id}>
-    {errorCodes[error.errorCode]}
-  </ValidationError>
-);
-
 const titleText = (id, title, enabled, inclusive) => {
   if (!enabled) {
     return `Set ${title.toLowerCase()}`;
@@ -179,7 +179,14 @@ const AnswerValidation = ({ answer }) => {
     return null;
   }
 
-  const validationComponents = [];
+  const validationComponentsMinValue = [];
+  const validationComponentsMaxValue = [];
+
+  const validationComponentsEarliestDate = [];
+  const validationComponentsLatestDate = [];
+
+  const validationComponentsMinDuration = [];
+  const validationComponentsMaxDuration = [];
 
   for (let i = 0; i < validValidationTypes.length; i += 2) {
     const minimumType = validValidationTypes[i];
@@ -187,7 +194,7 @@ const AnswerValidation = ({ answer }) => {
     const groupErrors = [];
 
     for (const type of [minimumType, maximumType]) {
-      const validation = answer?.validation?.[type.id] || {};
+      const validation = answer?.validation?.[type.id] || { __typename: "" };
       const errors = validation?.validationErrorInfo?.errors || [];
       const { enabled, inclusive } = validation;
       const value = enabled ? type.preview(validation, answer) : null;
@@ -197,60 +204,166 @@ const AnswerValidation = ({ answer }) => {
         setStartingTabId(type.id);
       };
 
-      validationComponents.push(
-        <SidebarValidation
-          id={type.id}
-          key={type.id}
-          data-test={`sidebar-button-${kebabCase(type.title)}`}
-          onClick={handleSidebarButtonClick}
-          hasError={errors.length || groupErrors.length}
-        >
-          <Title>
-            {titleText(type.id, type.title, validation.enabled, inclusive)}
-          </Title>
-          {enabled && value !== undefined && value !== null && (
-            <Detail>{value}</Detail>
-          )}
-        </SidebarValidation>
-      );
-
-      if (errors.length) {
-        const individualErrors = [];
-        errors.forEach((error) => {
-          const target = [
-            "ERR_NO_VALUE",
-            "ERR_REFERENCE_MOVED",
-            "ERR_REFERENCE_DELETED",
-            "ERR_OFFSET_NO_VALUE",
-          ].includes(error.errorCode)
-            ? individualErrors
-            : groupErrors;
-          target.push(error);
-        });
-
-        if (individualErrors.length) {
-          validationComponents.push(renderError(individualErrors[0]));
-        }
+      if (validation.__typename.includes("MinValue")) {
+        validationComponentsMaxValue.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
       }
-    }
 
-    if (groupErrors.length) {
-      validationComponents.push(renderError(groupErrors[0]));
+      if (validation.__typename.includes("MaxValue")) {
+        validationComponentsMaxValue.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+
+      if (validation.__typename.includes("EarliestDate")) {
+        validationComponentsEarliestDate.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+      if (validation.__typename.includes("LatestDate")) {
+        validationComponentsLatestDate.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+
+      if (validation.__typename.includes("MinDuration")) {
+        validationComponentsMinDuration.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
+      if (validation.__typename.includes("MaxDuration")) {
+        validationComponentsMaxDuration.push(
+          <SidebarButton
+            id={type.id}
+            key={type.id}
+            data-test={`sidebar-button-${kebabCase(type.title)}`}
+            onClick={handleSidebarButtonClick}
+            errors={[...errors, ...groupErrors]}
+          >
+            <Title>
+              {titleText(type.id, type.title, validation.enabled, inclusive)}
+            </Title>
+            {enabled && value !== undefined && value !== null && (
+              <Detail>{value}</Detail>
+            )}
+          </SidebarButton>
+        );
+      }
     }
   }
 
   return (
-    <ValidationContext.Provider value={{ answer }}>
-      {validationComponents}
-      <ModalWithNav
-        id={modalId}
-        onClose={handleModalClose}
-        navItems={validValidationTypes}
-        title={`${startCase(answer.type)} validation`}
-        isOpen={modalIsOpen}
-        startingTabId={startingTabId}
-      />
-    </ValidationContext.Provider>
+    <MultiLineField id="validation-setting" label="Validation settings">
+      <ValidationContext.Provider value={{ answer }}>
+        {(validationComponentsMinValue.length > 0 ||
+          validationComponentsMaxValue.length > 0) && (
+          <InlineField>
+            <ValidationGroupTop>
+              {validationComponentsMinValue}
+            </ValidationGroupTop>
+            <ValidationGroupTop>
+              {validationComponentsMaxValue}
+            </ValidationGroupTop>
+          </InlineField>
+        )}
+        {(validationComponentsEarliestDate.length > 0 ||
+          validationComponentsLatestDate.length > 0) && (
+          <InlineField>
+            <ValidationGroupTop>
+              {validationComponentsEarliestDate}
+            </ValidationGroupTop>
+            <ValidationGroupTop>
+              {validationComponentsLatestDate}
+            </ValidationGroupTop>
+          </InlineField>
+        )}
+        {(validationComponentsMinDuration.length > 0 ||
+          validationComponentsMaxDuration.length > 0) && (
+          <InlineField>
+            <ValidationGroupBottom>
+              {validationComponentsMinDuration}
+            </ValidationGroupBottom>
+            <ValidationGroupBottom>
+              {validationComponentsMaxDuration}
+            </ValidationGroupBottom>
+          </InlineField>
+        )}
+        <ModalWithNav
+          id={modalId}
+          onClose={handleModalClose}
+          navItems={validValidationTypes}
+          title={`${startCase(answer.type)} validation`}
+          isOpen={modalIsOpen}
+          startingTabId={startingTabId}
+        />
+      </ValidationContext.Provider>
+    </MultiLineField>
   );
 };
 

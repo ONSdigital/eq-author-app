@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { Detail as SidebarButtonDetail } from "components/buttons/SidebarButton";
+import { Detail } from "components/buttons/SidebarButton";
 
 import AnswerValidation from "./AnswerValidation";
 
@@ -26,9 +26,11 @@ describe("Date Error", () => {
         validation: {
           minValue: {
             enabled: false,
+            __typename: "MinValue",
           },
           maxValue: {
             enabled: false,
+            __typename: "MaxValue",
           },
         },
       },
@@ -53,16 +55,16 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
       });
-      expect(
-        wrapper.find(SidebarButtonDetail).at(0).prop("children")
-      ).toMatchSnapshot();
+      expect(wrapper.find(Detail).at(0).prop("children")).toMatchSnapshot();
     });
 
     it("should render preview dates with offset", () => {
@@ -81,19 +83,19 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
       });
-      expect(
-        wrapper.find(SidebarButtonDetail).at(0).prop("children")
-      ).toMatchSnapshot();
+      expect(wrapper.find(Detail).at(0).prop("children")).toMatchSnapshot();
     });
 
-    it("should render a preview without a customDate", () => {
+    it("should not render a preview without a customDate", () => {
       const wrapper = render({
         ...props,
         answer: {
@@ -109,16 +111,16 @@ describe("Date Error", () => {
               },
               relativePosition: "Before",
               entityType: CUSTOM,
+              __typename: "EarliestDate",
             },
             latestDate: {
               enabled: false,
+              __typename: "LatestDate",
             },
           },
         },
       });
-      expect(
-        wrapper.find(SidebarButtonDetail).at(0).prop("children")
-      ).toMatchSnapshot();
+      expect(wrapper.find(Detail).exists()).toBeFalsy();
     });
   });
 
@@ -142,16 +144,16 @@ describe("Date Error", () => {
             },
             relativePosition: "Before",
             entityType: PREVIOUS_ANSWER,
+            __typename: "EarliestDate",
           },
           latestDate: {
             enabled: false,
+            __typename: "LatestDate",
           },
         },
       },
     });
-    expect(
-      wrapper.find(SidebarButtonDetail).at(0).prop("children")
-    ).toMatchSnapshot();
+    expect(wrapper.find(Detail).at(0).prop("children")).toMatchSnapshot();
   });
 
   it("should render a preview startDate", () => {
@@ -170,15 +172,15 @@ describe("Date Error", () => {
             },
             relativePosition: "Before",
             entityType: NOW,
+            __typename: "EarliestDate",
           },
           latestDate: {
             enabled: false,
+            __typename: "LatestDate",
           },
         },
       },
     });
-    expect(
-      wrapper.find(SidebarButtonDetail).at(0).prop("children")
-    ).toMatchSnapshot();
+    expect(wrapper.find(Detail).at(0).prop("children")).toMatchSnapshot();
   });
 });

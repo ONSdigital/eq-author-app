@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiLineLabel should render 1`] = `
+<MultiLineField__StyledMultiLineField
+  key="1"
+>
+  <Label
+    bold={true}
+    htmlFor="1"
+    inline={true}
+  >
+    Label
+  </Label>
+  <MultiLineField__MultiLineControl>
+    <input
+      type="text"
+    />
+  </MultiLineField__MultiLineControl>
+</MultiLineField__StyledMultiLineField>
+`;

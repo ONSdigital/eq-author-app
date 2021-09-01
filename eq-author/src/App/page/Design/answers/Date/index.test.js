@@ -1,6 +1,5 @@
 import React from "react";
 import UnwrappedDate from "./";
-import { render as rtlRender, screen, fireEvent } from "tests/utils/rtl";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
@@ -34,6 +33,7 @@ describe("Date", () => {
       properties: {},
       displayName: "",
       qCode: "",
+      advancedProperties: true,
       options: [
         {
           id: "option-1",
@@ -64,38 +64,5 @@ describe("Date", () => {
     expect(
       buildLabelError(MISSING_LABEL, `${lowerCase(props.type)}`, 8, 7)
     ).toEqual("Enter a date label");
-  });
-
-  it("should render Or option toggle ", async () => {
-    rtlRender(() => <UnwrappedDate {...props} />);
-
-    screen.getByRole("switch");
-  });
-
-  it("should disable Or option toggle if multipleAnswers = true", async () => {
-    const { getByTestId } = rtlRender(() => (
-      <UnwrappedDate {...props} multipleAnswers />
-    ));
-
-    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
-  });
-
-  it("should show Option label if toggle is on", async () => {
-    props.answer.options[0].mutuallyExclusive = true;
-
-    const { getByTestId } = rtlRender(() => <UnwrappedDate {...props} />);
-    fireEvent.click(getByTestId("toggle-or-option-date-input"), {
-      target: { type: "checkbox", checked: true },
-    });
-
-    expect(getByTestId("option-label")).toBeInTheDocument();
-  });
-
-  it("Can disable the option to have a mutually exclusive", () => {
-    const { queryByTestId } = rtlRender(() => (
-      <UnwrappedDate {...props} multipleAnswers disableMutuallyExclusive />
-    ));
-
-    expect(queryByTestId("toggle-or-option-date")).not.toBeInTheDocument();
   });
 });
