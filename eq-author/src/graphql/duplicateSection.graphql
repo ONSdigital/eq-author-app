@@ -37,7 +37,10 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
               }
               mutuallyExclusiveOption {
                 id
+                displayName
                 label
+                description
+                value
                 qCode
               }
             }
@@ -52,7 +55,7 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
           }
         }
         ... on CalculatedSummaryPage {
-            id
+          id
         }
         validationErrorInfo {
           ...ValidationErrorInfo
