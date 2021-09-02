@@ -98,10 +98,9 @@ const transformedQuestionnaire = (sections, version) => {
   version.updatedAt = version.updatedAt.toDate();
   version.createdAt = version.createdAt.toDate();
   version.editors = version.editors || [];
-
   return {
     ...version,
-    sections: [...newSections],
+    sections: newSections || [],
   };
 };
 
