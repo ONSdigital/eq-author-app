@@ -31,13 +31,15 @@ const Wrapper = styled.div`
 `;
 
 const ToastContainer = ({ toasts, onDismissToast }) => {
+  console.log(`toasts inside Container`, toasts);
+  console.log(`onDismissToast`, onDismissToast);
   return (
     <Wrapper>
       <OuterContainer>
         <InnerContainer>
           <ToastList>
             {toasts.map(({ id, message }) => (
-              <Toast key={id} id={id} timeout={5000} onClose={onDismissToast}>
+              <Toast key={id} id={id} timeout={1000} onClose={onDismissToast}>
                 <StyledDiv>{message}</StyledDiv>
               </Toast>
             ))}
