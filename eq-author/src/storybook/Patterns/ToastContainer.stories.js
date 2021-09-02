@@ -1,49 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ToastContainer from "../../components/Toasts/ToastContainer";
-import Toast from "../../components/Toasts/ToastContainer/Toast";
-import ToastList from "../../components/Toasts/ToastContainer/ToastList";
 
 export default {
   title: "Patterns/Toasts",
   component: ToastContainer,
 };
 
-// const toast = () => <ToastContainer toasts={toastArray} onDismissToast={handleDismissToast} />,;
-
-let toastArray = [{ message: "Your toast is ready!", id: 1 }];
-// let toastArray = [];
-
-// const [toasts, setToasts] = useState([]);
-const handleDismissToast = () => {
-  return toastArray.filter(({ id }) => id !== 1);
-  // console.log(
-  //   `filter`,
-  //   toastArray.filter(({ id }) => id !== 1)
-  // );
-  console.log(`toastArray`, toastArray);
-  // toastArray = [];
-};
-
-const Template = (args) => {
+let id = 1;
+const Template = () => {
   const [showToast, setShowToast] = useState(false);
+  const [toasts, setToasts] = useState([
+    { message: "Your toast is ready!", id: id },
+  ]);
+  const handleDismissToast = (idToRemove) => {
+    setToasts(toasts.filter(({ id }) => id !== idToRemove));
+    // toastArray.filter(({ id }) => id !== 1);
+    // toastArray = [];
+    setShowToast(false);
+    setToasts([{ message: "Your toast is ready!", id: id }]);
+  };
+  console.log(`showToast`, showToast);
+  console.log(`toasts`, toasts);
 
+  // useEffect(() => {
+  // }, [showToast]);
+
+  console.log(`id`, id);
   return (
     <>
       <button onClick={() => setShowToast(true)}>Get some toast!</button>
-      {showToast && <ToastContainer {...args} />}
+      {showToast && (
+        <ToastContainer
+          toasts={toasts}
+          onDismissToast={handleDismissToast}
+          // {...args}
+        />
+      )}
     </>
   );
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  toasts: toastArray,
-  onDismissToast: handleDismissToast,
-};
-
-// export const Horizontal = Template.bind({});
-// Horizontal.args = {
-//   horizontal: true,
-//   children: [button("First"), button("Second")],
+// Default.args = {
+// toasts: toastArray,
+// onDismissToast: handleDismissToast,
 // };

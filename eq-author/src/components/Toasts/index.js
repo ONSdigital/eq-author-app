@@ -13,7 +13,7 @@ const ToastContext = createContext({
 const Toasts = ({ children }) => {
   const [toasts, setToasts] = useState([]);
   const handleDismissToast = (idToRemove) => {
-    toasts.filter(({ id }) => id !== idToRemove);
+    setToasts(toasts.filter(({ id }) => id !== idToRemove));
     console.log(`toasts inside dismiss`, toasts);
   };
   console.log(`handleDismissToast`, handleDismissToast);
