@@ -76,7 +76,6 @@ const createQuestionnaire = async (questionnaire, ctx) => {
 const transformedQuestionnaire = (sections, version) => {
   const newSections = sections.length ? sections : version.sections || [];
   newSections.forEach((section) => {
-    logger.info(section);
     section.folders.forEach((folder) => {
       folder.pages.forEach((page) => {
         page.answers.forEach((answer) => {
