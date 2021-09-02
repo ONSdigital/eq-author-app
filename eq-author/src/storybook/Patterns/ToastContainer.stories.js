@@ -15,27 +15,20 @@ const Template = () => {
   ]);
   const handleDismissToast = (idToRemove) => {
     setToasts(toasts.filter(({ id }) => id !== idToRemove));
-    // toastArray.filter(({ id }) => id !== 1);
-    // toastArray = [];
-    setShowToast(false);
-    setToasts([{ message: "Your toast is ready!", id: id }]);
   };
-  console.log(`showToast`, showToast);
-  console.log(`toasts`, toasts);
 
-  // useEffect(() => {
-  // }, [showToast]);
+  useEffect(() => {
+    if (toasts.length === 0) {
+      setShowToast(false);
+      setToasts([{ message: `Your toast is ready!" ${id}`, id: ++id }]);
+    }
+  }, [toasts]);
 
-  console.log(`id`, id);
   return (
     <>
       <button onClick={() => setShowToast(true)}>Get some toast!</button>
       {showToast && (
-        <ToastContainer
-          toasts={toasts}
-          onDismissToast={handleDismissToast}
-          // {...args}
-        />
+        <ToastContainer toasts={toasts} onDismissToast={handleDismissToast} />
       )}
     </>
   );
@@ -43,6 +36,4 @@ const Template = () => {
 
 export const Default = Template.bind({});
 // Default.args = {
-// toasts: toastArray,
-// onDismissToast: handleDismissToast,
 // };

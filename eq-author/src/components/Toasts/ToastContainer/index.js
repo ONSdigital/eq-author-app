@@ -31,8 +31,6 @@ const Wrapper = styled.div`
 `;
 
 const ToastContainer = ({ toasts, onDismissToast }) => {
-  console.log(`toasts inside Container`, toasts);
-  console.log(`onDismissToast`, onDismissToast);
   return (
     <Wrapper>
       <OuterContainer>

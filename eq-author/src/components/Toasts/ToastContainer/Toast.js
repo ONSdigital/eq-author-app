@@ -32,8 +32,6 @@ export default class Toast extends React.Component {
     super(props);
 
     if (props.timeout) {
-      console.log(`this.handleClose`, this.handleClose);
-
       this.timer = timer(this.handleClose, props.timeout);
       this.timer.start();
     }
@@ -44,7 +42,6 @@ export default class Toast extends React.Component {
   }
 
   handleClose = () => {
-    console.log(`this.props.id`, this.props.id);
     this.props.onClose(this.props.id);
   };
 
