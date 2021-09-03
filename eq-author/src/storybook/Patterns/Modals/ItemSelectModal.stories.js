@@ -64,8 +64,5 @@ export default {
       description: "The string for the title text.",
       defaultValue: "Item Select Modal",
     },
-    children: {
-      defaultValue: "Section One",
-    },
   },
 };
