@@ -37,7 +37,7 @@ const ToastContainer = ({ toasts, onDismissToast }) => {
         <InnerContainer>
           <ToastList>
             {toasts.map(({ id, message }) => (
-              <Toast key={id} id={id} timeout={1000} onClose={onDismissToast}>
+              <Toast key={id} id={id} timeout={5000} onClose={onDismissToast}>
                 <StyledDiv>{message}</StyledDiv>
               </Toast>
             ))}
