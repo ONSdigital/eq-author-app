@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import PropTypes from "prop-types";
 import VisuallyHidden from "components/VisuallyHidden";
-import { ReactComponent as IconMoveIndicator } from "components/ItemSelectModal/icon-move-indicator.svg?inline";
+import { ReactComponent as IconMoveIndicator } from "components/ItemSelectModal/icon-move-indicator.svg";
 import { uniqueId } from "lodash";
 import withChangeHandler from "components/Forms/withChangeHandler";
 import IconText from "components/IconText";
