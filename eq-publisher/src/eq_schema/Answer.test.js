@@ -136,6 +136,7 @@ describe("Answer", () => {
     it("should drop validations with unknown entityTypes", () => {
       const answer = new Answer(
         createAnswerJSON({
+          advancedProperties: true,
           validation: {
             minValue: {
               id: "2",
@@ -159,6 +160,7 @@ describe("Answer", () => {
         [NUMBER, PERCENTAGE, CURRENCY].forEach((type) => {
           const answer = new Answer(
             createAnswerJSON({
+              advancedProperties: true,
               type,
               validation: {
                 minValue: {
@@ -187,6 +189,7 @@ describe("Answer", () => {
         [NUMBER, PERCENTAGE, CURRENCY].forEach((type) => {
           const answer = new Answer(
             createAnswerJSON({
+              advancedProperties: true,
               type,
               validation: {
                 minValue: {
@@ -212,6 +215,7 @@ describe("Answer", () => {
       it("should drop validation rule when no custom value and entityType is Custom", () => {
         const answer = new Answer(
           createAnswerJSON({
+            advancedProperties: true,
             validation: {
               minValue: {
                 id: "2",
@@ -233,6 +237,7 @@ describe("Answer", () => {
       it("should add a previous answer min validation when entityType is PreviousAnswer", () => {
         const answer = new Answer(
           createAnswerJSON({
+            advancedProperties: true,
             validation: {
               minValue: {
                 id: "1",
@@ -259,6 +264,7 @@ describe("Answer", () => {
       it("should add a previous answer max validation when entityType is PreviousAnswer", () => {
         const answer = new Answer(
           createAnswerJSON({
+            advancedProperties: true,
             validation: {
               minValue: {
                 id: "2",
@@ -308,6 +314,7 @@ describe("Answer", () => {
       beforeEach(() => {
         authorDateAnswer = {
           type: DATE,
+          advancedProperties: true,
           validation: {
             earliestDate: {
               id: "1",
@@ -336,6 +343,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 id: "1",
@@ -364,6 +372,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 id: "1",
@@ -395,6 +404,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 id: "1",
@@ -427,6 +437,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 id: "1",
@@ -453,6 +464,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 id: "1",
@@ -518,6 +530,7 @@ describe("Answer", () => {
       beforeEach(() => {
         authorDateAnswer = {
           type: DATE,
+          advancedProperties: true,
           validation: {
             earliestDate: {
               enabled: false,
@@ -546,6 +559,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               latestDate: {
                 id: "1",
@@ -577,6 +591,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               earliestDate: {
                 enabled: false,
@@ -605,6 +620,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               latestDate: {
                 id: "1",
@@ -637,6 +653,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               latestDate: {
                 id: "1",
@@ -663,6 +680,7 @@ describe("Answer", () => {
         const answer = new Answer(
           createAnswerJSON({
             type: DATE,
+            advancedProperties: true,
             validation: {
               latestDate: {
                 id: "1",
