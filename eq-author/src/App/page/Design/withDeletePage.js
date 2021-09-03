@@ -45,6 +45,8 @@ export const mapMutateToProps = (props) => ({
     const { ownProps, mutate } = props;
     const { client } = ownProps;
 
+    console.log(ownProps);
+
     const cachedSection = getCachedSection(client, page.section.id);
     const cachedFolderIndex = cachedSection.folders.findIndex((folder) =>
       folder.pages.find(({ id }) => id === page.id)
