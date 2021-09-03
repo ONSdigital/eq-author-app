@@ -32,16 +32,21 @@ const Label = styled.label`
     background-color: ${colors.lighterGrey};
   }
 
-  ${/* sc-sel */ Input}:focus + & {
+  ${Input}:focus + & {
     outline: 3px solid ${colors.tertiary};
     outline-offset: -3px;
   }
 
-  ${/* sc-sel */ Input}:checked + & {
+  ${Input}:checked + & {
     background-color: ${colors.blue};
     color: ${colors.white};
 
-    --icon-color: rgba(255, 255, 255, 1);
+    svg,
+    path,
+    g,
+    polygon {
+      fill: ${colors.white};
+    }
   }
 `;
 
