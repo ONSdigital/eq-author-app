@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import PropTypes from "prop-types";
 import VisuallyHidden from "components/VisuallyHidden";
-import IconMoveIndicator from "components/ItemSelectModal/icon-move-indicator.svg?inline";
+import { ReactComponent as IconMoveIndicator } from "components/ItemSelectModal/icon-move-indicator.svg";
 import { uniqueId } from "lodash";
 import withChangeHandler from "components/Forms/withChangeHandler";
 import IconText from "components/IconText";
@@ -32,16 +32,21 @@ const Label = styled.label`
     background-color: ${colors.lighterGrey};
   }
 
-  ${/* sc-sel */ Input}:focus + & {
+  ${Input}:focus + & {
     outline: 3px solid ${colors.tertiary};
     outline-offset: -3px;
   }
 
-  ${/* sc-sel */ Input}:checked + & {
+  ${Input}:checked + & {
     background-color: ${colors.blue};
     color: ${colors.white};
 
-    --icon-color: rgba(255, 255, 255, 1);
+    svg,
+    path,
+    g,
+    polygon {
+      fill: ${colors.white};
+    }
   }
 `;
 
