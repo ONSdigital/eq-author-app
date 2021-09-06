@@ -32,7 +32,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
   return (
     <>
       <InlineField>
-        <Label htmlFor="required-completed">section summary</Label>
+        <Label htmlFor="required-completed">Section summary</Label>
         <ToggleWrapper>
           <ToggleSwitch
             id="section-summary"
