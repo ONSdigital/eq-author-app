@@ -1,4 +1,4 @@
-import searchByAnswerTitleOrShortCode from "./searchByAnswerTitleOrShortCode";
+import searchByAnswerTitleOrShortCode from "./searchByAnswerTitleShortCode";
 
 describe("Searching by answer title or short code", () => {
   let data;

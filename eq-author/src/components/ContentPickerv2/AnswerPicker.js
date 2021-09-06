@@ -12,6 +12,10 @@ import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
 
+import searchByAnswerTitleOrShortCode from "../../utils/searchFunctions/searchByAnswerTitleShortCode";
+import searchByQuestionTitleOrShortCode from "../../utils/searchFunctions/searchByQuestionTitleShortCode";
+import { getPageById } from "utils/questionnaireUtils";
+
 const ModalTitle = styled.h2`
   font-weight: bold;
   font-size: 1.2em;
@@ -61,39 +65,44 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     }
   }, [searchTerm, data]);
 
-  const filterResultsByPageDetails = (data, searchTerm) =>
-    data.map(({ folders, ...rest }) => ({
-      folders: folders.map(({ pages, ...rest }) => ({
-        pages: pages.filter(({ displayName, alias, title, answers }) => {
-          const string = `${alias ? alias : ""} ${title ? title : displayName}`;
-          const matches = string.toLowerCase().includes(searchTerm);
+  const filterResultsByPageDetails = (data, searchTerm) => {
+    let questionSearchResults = searchByQuestionTitleOrShortCode(
+      data,
+      searchTerm
+    );
 
-          if (matches) {
-            return true;
-          } else {
-            const filteredAnswers = answers.filter(
-              ({ displayName, title, alias }) => {
-                const string = `${alias ? alias : ""} ${
-                  title ? title : displayName
-                }`;
-                const matches = string.toLowerCase().includes(searchTerm);
+    let answerSearchResults = searchByAnswerTitleOrShortCode(data, searchTerm);
 
-                return matches;
-              }
-            );
+    answerSearchResults.map((section) => {
+      const { folders, ...rest } = section;
 
-            if (filteredAnswers.length) {
-              answers = filteredAnswers;
-              return true;
-            }
+      const foldersNew = folders.map((folder) => {
+        const { pages, ...rest } = folder;
 
-            return false;
+        const pagesNew = pages.map((page) => {
+          const { id } = page;
+
+          const pageFromPageResults = getPageById(
+            { sections: questionSearchResults },
+            id
+          );
+
+          if (pageFromPageResults) {
+            return pageFromPageResults;
           }
-        }),
-        ...rest,
-      })),
-      ...rest,
-    }));
+
+          return page;
+        });
+
+        return { pages: pagesNew, ...rest };
+      });
+
+      return { folders: foldersNew, ...rest };
+    });
+
+    console.log(answerSearchResults);
+    return data;
+  };
 
   return (
     <>

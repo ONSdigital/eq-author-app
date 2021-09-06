@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { getPages } from "utils/questionnaireUtils";
 import { stripHtmlToText } from "utils/stripHTML";
-import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleOrShortCode";
+import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleShortCode";
 
 import { colors } from "constants/theme";
 
