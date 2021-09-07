@@ -34,7 +34,7 @@ describe("Section Summary", () => {
     it("should render section summary toggle ", async () => {
       const { getByText } = rtlRender(() => <SectionSummary {...props} />);
 
-      expect(getByText("section summary")).toBeInTheDocument();
+      expect(getByText("Section summary")).toBeInTheDocument();
     });
 
     it("Should enable and disable section summary when toggled", async () => {
