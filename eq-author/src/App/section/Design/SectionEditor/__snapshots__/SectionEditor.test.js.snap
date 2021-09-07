@@ -20,6 +20,7 @@ exports[`SectionEditor should render 1`] = `
   </MoveSectionQuery>
   <SectionSummary
     id="section-1"
+    sectionSummary={false}
   />
   <SectionEditor__Padding>
     <RichTextEditor
