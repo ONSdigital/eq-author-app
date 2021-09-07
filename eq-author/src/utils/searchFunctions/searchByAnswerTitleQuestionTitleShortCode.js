@@ -1,9 +1,16 @@
-import searchByAnswerTitleOrShortCode from "./searchByAnswerTitleShortCode";
+import searchByAnswerTitleOrShortCode from "./searchByAnswerTitle";
 import searchByQuestionTitleOrShortCode from "./searchByQuestionTitleShortCode";
-import { getPageById, removePageById } from "utils/questionnaireUtils";
-import { getFolderById } from "../questionnaireUtils";
+import {
+  getFolderById,
+  getPageById,
+  removePageById,
+} from "utils/questionnaireUtils";
 
 const searchByAnswerAndQuestionTitleShortCode = (data, searchTerm) => {
+  if (!searchTerm || searchTerm === "") {
+    return data;
+  }
+
   let questionSearchResults = searchByQuestionTitleOrShortCode(
     data,
     searchTerm
@@ -17,14 +24,14 @@ const searchByAnswerAndQuestionTitleShortCode = (data, searchTerm) => {
     const { folders, ...rest } = section;
 
     const foldersNew = folders.map((folder) => {
-      const { id, pages, ...rest } = folder;
+      const { id: folderId, pages, ...rest } = folder;
 
       const pagesA = pages.map((page) => {
-        const { id } = page;
+        const { id: pageId } = page;
 
         const pageFromPageResults = getPageById(
           { sections: questionSearchResults },
-          id
+          pageId
         );
 
         if (pageFromPageResults) {
@@ -33,7 +40,7 @@ const searchByAnswerAndQuestionTitleShortCode = (data, searchTerm) => {
             {
               sections: questionSearchResults,
             },
-            id
+            pageId
           ).sections;
 
           return pageFromPageResults;
@@ -42,13 +49,12 @@ const searchByAnswerAndQuestionTitleShortCode = (data, searchTerm) => {
         return page;
       });
 
-      const pagesB = getFolderById(
-        { sections: questionSearchResults },
-        id
-      ).pages;
+      const pagesB =
+        getFolderById({ sections: questionSearchResults }, folderId)?.pages ||
+        [];
 
-      // Merge the pages that weren't found in our first pass over
-      return { id, pages: [...pagesA, ...pagesB], ...rest };
+      // Merge the pages that weren't merged in our first pass over
+      return { id: folderId, pages: [...pagesA, ...pagesB], ...rest };
     });
 
     return { folders: foldersNew, ...rest };

@@ -1,4 +1,4 @@
-import searchByAnswerTitleOrShortCode from "./searchByAnswerTitleShortCode";
+import searchByAnswerTitle from "./searchByAnswerTitle";
 
 describe("Searching by answer title or short code", () => {
   let data;
@@ -24,7 +24,6 @@ describe("Searching by answer title or short code", () => {
                     id: "answer2.1",
                     title: "Lady Gaga",
                     displayName: "Lady Gaga",
-                    alias: "Gaga",
                   },
                 ],
               },
@@ -35,7 +34,6 @@ describe("Searching by answer title or short code", () => {
                     id: "answer3.1",
                     title: "Miley Cyrus",
                     displayName: "Miley Cyrus",
-                    alias: "MC",
                   },
                 ],
               },
@@ -47,13 +45,13 @@ describe("Searching by answer title or short code", () => {
   });
 
   it("Returns all data if no search term is given", () => {
-    const searchResult = searchByAnswerTitleOrShortCode(data, "");
+    const searchResult = searchByAnswerTitle(data, null);
 
     expect(searchResult).toMatchObject(data);
   });
 
   it("Can search by answer title", () => {
-    const searchResult = searchByAnswerTitleOrShortCode(data, "Lady");
+    const searchResult = searchByAnswerTitle(data, "Lady");
 
     expect(searchResult).toMatchObject([
       {
@@ -69,35 +67,6 @@ describe("Searching by answer title or short code", () => {
                     id: "answer2.1",
                     title: "Lady Gaga",
                     displayName: "Lady Gaga",
-                    alias: "Gaga",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ]);
-  });
-
-  it("Can search by answer short code", () => {
-    const searchResult = searchByAnswerTitleOrShortCode(data, "MC");
-
-    expect(searchResult).toMatchObject([
-      {
-        id: "section1",
-        folders: [
-          {
-            id: "folder1",
-            pages: [
-              {
-                id: "page3",
-                answers: [
-                  {
-                    id: "answer3.1",
-                    title: "Miley Cyrus",
-                    displayName: "Miley Cyrus",
-                    alias: "MC",
                   },
                 ],
               },

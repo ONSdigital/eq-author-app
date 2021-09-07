@@ -82,4 +82,10 @@ describe("Search by question title or short code", () => {
       },
     ]);
   });
+
+  it("Returns all the data if no search term is given", () => {
+    const searchResults = searchByQuestionTitleOrShortCode(data, null);
+
+    expect(searchResults).toMatchObject(data);
+  });
 });

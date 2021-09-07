@@ -12,9 +12,7 @@ import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
 
-import searchByAnswerTitleOrShortCode from "../../utils/searchFunctions/searchByAnswerTitleShortCode";
-import searchByQuestionTitleOrShortCode from "../../utils/searchFunctions/searchByQuestionTitleShortCode";
-import { getPageById } from "utils/questionnaireUtils";
+import searchByAnswerTitleQuestionTitleShortCode from "../../utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 
 const ModalTitle = styled.h2`
   font-weight: bold;
@@ -54,9 +52,9 @@ const AnswerPicker = ({ data, ...otherProps }) => {
 
   useEffect(() => {
     if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
-      const results = filterResultsByPageDetails(
+      const results = searchByAnswerTitleQuestionTitleShortCode(
         data,
-        searchTerm.toLocaleLowerCase()
+        searchTerm
       );
 
       setSearchResults(results);
@@ -64,45 +62,6 @@ const AnswerPicker = ({ data, ...otherProps }) => {
       setSearchResults(data);
     }
   }, [searchTerm, data]);
-
-  const filterResultsByPageDetails = (data, searchTerm) => {
-    let questionSearchResults = searchByQuestionTitleOrShortCode(
-      data,
-      searchTerm
-    );
-
-    let answerSearchResults = searchByAnswerTitleOrShortCode(data, searchTerm);
-
-    answerSearchResults.map((section) => {
-      const { folders, ...rest } = section;
-
-      const foldersNew = folders.map((folder) => {
-        const { pages, ...rest } = folder;
-
-        const pagesNew = pages.map((page) => {
-          const { id } = page;
-
-          const pageFromPageResults = getPageById(
-            { sections: questionSearchResults },
-            id
-          );
-
-          if (pageFromPageResults) {
-            return pageFromPageResults;
-          }
-
-          return page;
-        });
-
-        return { pages: pagesNew, ...rest };
-      });
-
-      return { folders: foldersNew, ...rest };
-    });
-
-    console.log(answerSearchResults);
-    return data;
-  };
 
   return (
     <>

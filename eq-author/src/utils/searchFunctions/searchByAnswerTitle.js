@@ -3,16 +3,18 @@ const searchByAnswerTitleOrShortCode = (data, searchTerm) => {
     return data;
   }
 
+  const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
   let filteredData = data.map(({ folders, ...rest }) => ({
     ...rest,
     folders: folders.map(({ pages, ...rest }) => ({
       ...rest,
       pages: pages.map(({ answers, ...rest }) => ({
         ...rest,
-        answers: answers.filter(({ title, displayName, alias }) => {
-          const string = `${title} ${displayName} ${alias}`;
+        answers: answers.filter(({ label, displayName }) => {
+          const string = `${label} ${displayName}`;
 
-          return string.includes(searchTerm);
+          return string.toLowerCase().includes(lowerCaseSearchTerm);
         }),
       })),
     })),
