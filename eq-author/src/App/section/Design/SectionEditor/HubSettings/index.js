@@ -76,7 +76,7 @@ const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
         disabled={!requiredCompleted}
       >
         <InlineField>
-          <Label htmlFor-="show-onHub">
+          <Label htmlFor="show-onHub">
             Show section on hub and summary pages
           </Label>
           <ToggleWrapper>
