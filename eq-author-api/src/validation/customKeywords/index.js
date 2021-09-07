@@ -12,4 +12,5 @@ module.exports = (ajv) => {
   require("./validatePipingInTitle")(ajv);
   require("./idExists")(ajv);
   require("./idPreceedsCurrentEntity")(ajv);
+  require("./requiredWhenSectionSetting")(ajv);
 };
