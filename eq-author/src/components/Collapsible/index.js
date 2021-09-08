@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
 
   ${({ variant }) =>
     variant === "content" &&
