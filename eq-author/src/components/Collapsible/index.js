@@ -11,11 +11,7 @@ import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 
 const Wrapper = styled.div`
-  ${({ variant }) =>
-    variant === "default" &&
-    `
-    margin: 0;
-  `}
+  margin: 0;
 
   ${({ hasError, isOpen }) =>
     hasError &&
@@ -35,22 +31,21 @@ const Wrapper = styled.div`
   ${({ variant }) =>
     variant === "properties" &&
     `
-    margin: 0;
     border: 1px solid ${colors.grey};
   `}
 `;
 
 const Header = styled.div`
-  margin-left: -0.5em;
+  margin: 0 0 1em 0;
 
   ${({ variant }) =>
     variant === "content" &&
     `
-    margin-left: 0;
     height: 100%;
     width: 100%;
     background-color: ${colors.primary};
     cursor: pointer;
+    margin-bottom: 0;
 
     &:hover {
       background-color: ${darken(0.1, colors.secondary)};
@@ -60,10 +55,10 @@ const Header = styled.div`
   ${({ variant }) =>
     variant === "properties" &&
     `
-    margin-left: 0;
     cursor: pointer;
     background-color: ${colors.sidebarBlack}
-  `}
+    margin-bottom: 0;
+  `};
 `;
 
 export const Title = styled.h2`
@@ -85,20 +80,22 @@ export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
   border-left: 3px solid ${colors.lightGrey};
+  padding: 1em;
+
+  p {
+    margin-top: 0;
+  }
 
   ${({ variant }) =>
     (variant === "content" || variant === "properties") &&
     `
     margin-top: 0;
-    margin-left: 0;
-    padding: 1em 0 1em 0.5em;
     border-left: none;
 `}
 
   ${({ variant }) =>
     variant === "properties" &&
     `
-    padding: 1em;
 `}
 `;
 
@@ -139,6 +136,7 @@ export const ToggleCollapsibleButton = styled.button`
     width: 1.5em;
     height: 1.5em;
     margin-top: 0.2em;
+    margin-left: -0.5em;
 
     ${({ variant }) =>
       variant === "content" && `background-color: ${colors.white}`}
