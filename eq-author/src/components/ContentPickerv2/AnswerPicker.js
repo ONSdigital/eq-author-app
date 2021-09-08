@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { colors } from "constants/theme";
 
-import { ErrorMessage } from "./ErrorMessage";
+import NoSearchResults from "components/NoSearchResults";
 import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
 import { FlatSectionMenu } from "./Menu";
@@ -13,6 +13,7 @@ import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
 
 import searchByAnswerTitleQuestionTitleShortCode from "../../utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
+import { getPages } from "utils/questionnaireUtils";
 
 const ModalTitle = styled.h2`
   font-weight: bold;
@@ -63,6 +64,8 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     }
   }, [searchTerm, data]);
 
+  const numOfResults = getPages({ sections: searchResults }).length;
+
   return (
     <>
       <ModalHeader>
@@ -76,17 +79,20 @@ const AnswerPicker = ({ data, ...otherProps }) => {
         </ModalToolbar>
       </ModalHeader>
       <MenuContainer>
-        {option === OPTION_ANSWERS && (
+        {option === OPTION_ANSWERS && numOfResults > 0 && (
           <ScrollPane>
-            {searchResults.length > 0 && (
-              <FlatSectionMenu data={searchResults} {...otherProps} />
-            )}
+            <FlatSectionMenu data={searchResults} {...otherProps} />
           </ScrollPane>
         )}
-        {option === OPTION_SECTIONS && searchResults.length > 0 && (
+        {option === OPTION_SECTIONS && numOfResults > 0 && (
           <SectionMenu data={searchResults} {...otherProps} />
         )}
-        {searchResults.length === 0 && ErrorMessage("answers")}
+        {numOfResults === 0 && (
+          <NoSearchResults
+            searchTerm={searchTerm}
+            alertText="Please check the answer exists."
+          />
+        )}
       </MenuContainer>
     </>
   );
