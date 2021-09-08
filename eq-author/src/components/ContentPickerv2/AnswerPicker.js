@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { colors } from "constants/theme";
 
+import { ErrorMessage } from "./ErrorMessage";
 import NoSearchResults from "components/NoSearchResults";
 import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
@@ -79,20 +80,21 @@ const AnswerPicker = ({ data, ...otherProps }) => {
         </ModalToolbar>
       </ModalHeader>
       <MenuContainer>
-        {option === OPTION_ANSWERS && numOfResults > 0 && (
+        {option === OPTION_ANSWERS && data.length > 0 && numOfResults > 0 && (
           <ScrollPane>
             <FlatSectionMenu data={searchResults} {...otherProps} />
           </ScrollPane>
         )}
-        {option === OPTION_SECTIONS && numOfResults > 0 && (
+        {option === OPTION_SECTIONS && data.length > 0 && numOfResults > 0 && (
           <SectionMenu data={searchResults} {...otherProps} />
         )}
-        {numOfResults === 0 && (
+        {data.length > 0 && numOfResults === 0 && (
           <NoSearchResults
             searchTerm={searchTerm}
             alertText="Please check the answer exists."
           />
         )}
+        {data.length === 0 && ErrorMessage("answers")}
       </MenuContainer>
     </>
   );
