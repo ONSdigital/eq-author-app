@@ -233,6 +233,7 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
+        sectionSummary
         folders {
           id
           alias
