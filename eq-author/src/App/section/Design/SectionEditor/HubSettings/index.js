@@ -38,65 +38,70 @@ const EnableDisableWrapper = styled.div`
 `;
 
 const HubSettings = ({ id, requiredCompleted, showOnHub }) => {
-
   const [updateSection] = useMutation(updateSectionMutation);
   const defaultOpen = () => requiredCompleted;
 
   return (
     <Collapsible
-        title="Hub settings"
-        className="hubSettings"
-        defaultOpen={defaultOpen()}
-        withoutHideThis
-        variant="content"
+      title="Hub settings"
+      className="hubSettings"
+      defaultOpen={defaultOpen()}
+      withoutHideThis
+      variant="content"
+    >
+      <InlineField>
+        <Label htmlFor="required-completed">Pre-hub section</Label>
+        <ToggleWrapper>
+          <ToggleSwitch
+            id="required-completed"
+            name="required-completed"
+            data-test="required-completed"
+            hideLabels={false}
+            onChange={({ value }) =>
+              updateSection({
+                variables: {
+                  input: { id, requiredCompleted: value, showOnHub: true },
+                },
+              })
+            }
+            checked={requiredCompleted}
+          />
+        </ToggleWrapper>
+      </InlineField>
+      <Caption>
+        The respondent must complete pre-hub sections before they see the hub.
+      </Caption>
+      <EnableDisableWrapper
+        data-test="toggle-wrapper"
+        disabled={!requiredCompleted}
       >
         <InlineField>
-          <Label htmlFor="required-completed">Pre-hub section</Label>
+          <Label htmlFor="show-onHub">
+            Show section on hub and summary pages
+          </Label>
           <ToggleWrapper>
             <ToggleSwitch
-              id="required-completed"
-              name="required-completed"
-              data-test="required-completed"
+              id="show-onHub"
+              name="show-onHub"
+              data-test="showOnHub"
               hideLabels={false}
               onChange={({ value }) =>
                 updateSection({
                   variables: {
-                    input: { id, requiredCompleted: value, showOnHub: true },
+                    input: { id, showOnHub: value },
                   },
                 })
               }
-              checked={requiredCompleted}
+              checked={showOnHub}
             />
-            </ToggleWrapper>
-          </InlineField>
-          <Caption>
-          The respondent must complete pre-hub sections before they see the hub.
-        </Caption>
-        <EnableDisableWrapper data-test="toggle-wrapper" disabled={!requiredCompleted}>
-          <InlineField>
-            <Label htmlFor-="show-onHub">Show section on hub and summary pages</Label>
-            <ToggleWrapper>
-              <ToggleSwitch
-                id="show-onHub"
-                name="show-onHub"
-                data-test="showOnHub"
-                hideLabels={false}
-                onChange={({ value }) =>
-                updateSection({
-                    variables: {
-                      input: { id, showOnHub: value },
-                    },
-                  })
-                }
-                checked={showOnHub}
-              />
-            </ToggleWrapper>
-          </InlineField>
-        </EnableDisableWrapper>
-        <Caption>
-        If this is off, respondents cannot go back to this section and change their answers.
-        </Caption>
-      </Collapsible>
+          </ToggleWrapper>
+        </InlineField>
+      </EnableDisableWrapper>
+      <Caption>
+        If this is off, respondents cannot go back to this section and change
+        their answers.
+      </Caption>
+    </Collapsible>
   );
 };
 

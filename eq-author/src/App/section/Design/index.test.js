@@ -33,6 +33,7 @@ const section = {
   position: 0,
   requiredCompleted: false,
   showOnHub: false,
+  sectionSummary: false,
   folders: [
     {
       __typename: "Folder",
