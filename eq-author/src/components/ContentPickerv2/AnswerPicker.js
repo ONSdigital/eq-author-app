@@ -12,7 +12,7 @@ import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
 
-import searchByAnswerTitleQuestionTitleShortCode from "../../utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
+import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 import { getPages } from "utils/questionnaireUtils";
 
 const ModalTitle = styled.h2`
