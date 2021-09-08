@@ -152,6 +152,12 @@ const Menu = ({ data, onSelected, isSelected }) => {
     <MenuItemList>
       {data &&
         data.map((section) => {
+          const numOfPages = getPages({ sections: [section] }).length;
+
+          if (numOfPages === 0) {
+            return <React.Fragment />;
+          }
+
           const sectionSelected = isSelected(section);
 
           return (
