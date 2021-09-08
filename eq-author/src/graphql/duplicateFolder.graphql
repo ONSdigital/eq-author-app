@@ -38,7 +38,10 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
                 }
                 mutuallyExclusiveOption {
                   id
+                  displayName
                   label
+                  description
+                  value
                   qCode
                 }
               }
