@@ -78,7 +78,7 @@ export default {
   },
   argTypes: {
     isOpen: {
-      description: "If the wizard modal is currently visable",
+      description: "If the wizard modal is currently visible",
       table: { type: { summary: "Bool" } },
     },
     confirmText: {

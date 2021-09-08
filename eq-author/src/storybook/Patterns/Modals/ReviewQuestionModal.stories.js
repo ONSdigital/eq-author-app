@@ -36,6 +36,7 @@ Modal.args = {
     title: "Important Questions",
   },
   onSelectQuestions: (_questionnaire, callback) => callback(dummyQuestions),
+  startingSelectedQuestions: dummyQuestions,
 };
 
 export default {
