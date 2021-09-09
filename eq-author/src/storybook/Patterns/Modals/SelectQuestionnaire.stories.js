@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import useModal from "hooks/useModal";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import QuestionnairesView from "components/QuestionnairesView";
@@ -48,18 +49,22 @@ const nullFunction = () => {
   return null;
 };
 
-const Template = (args) => {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
-  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+export const Default = (args) => {
+  const [trigger, Modal] = useModal({
+    ...args,
+    component: QuestionnaireSelectModal,
+  });
 
   return (
-    <QuestionnaireSelectModal isOpen={modalIsOpen} onClose={handleModalClose}>
-      <QuestionnairesView {...args} />
-    </QuestionnaireSelectModal>
+    <>
+      <Modal>
+        <QuestionnairesView {...args} />
+      </Modal>
+      <button onClick={trigger}>Trigger modal</button>
+    </>
   );
 };
 
-export const Default = Template.bind({});
 Default.args = {
   questionnaires: questionnaires,
   enabledHeadings: enabledHeadings,
