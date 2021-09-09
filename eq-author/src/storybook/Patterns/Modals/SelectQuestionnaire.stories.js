@@ -11,6 +11,69 @@ import {
   PRIMARY_STORY,
 } from "@storybook/addon-docs/blocks";
 
+const user = {
+  id: "3",
+  name: "Foo",
+  email: "foo@bar.com",
+  displayName: "Foo",
+};
+
+const buildQuestionnaire = (index) => ({
+  id: `questionnaire${index}`,
+  displayName: `Questionnaire ${index}`,
+  title: `Questionnaire ${index} Title`,
+  shortTitle: "",
+  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  createdBy: user,
+  permission: "Write",
+  publishStatus: "Unpublished",
+  starred: false,
+  locked: false,
+});
+
+let questionArray;
+(questionArray = [...Array(10).keys()]).shift();
+
+const questionnaires = questionArray.map((index) => buildQuestionnaire(index));
+
+const enabledHeadings = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+];
+
+const nullFunction = () => {
+  return null;
+};
+
+const Template = (args) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+
+  return (
+    <QuestionnaireSelectModal isOpen={modalIsOpen} onClose={handleModalClose}>
+      <QuestionnairesView {...args} />
+    </QuestionnaireSelectModal>
+  );
+};
+
+export const Default = Template.bind({});
+Default.args = {
+  questionnaires: questionnaires,
+  enabledHeadings: enabledHeadings,
+  canCreateQuestionnaire: false,
+  onCreateQuestionnaire: nullFunction,
+  onDeleteQuestionnaire: nullFunction,
+  tableHeadings: enabledHeadings,
+  onSortClick: nullFunction,
+  onReverseClick: nullFunction,
+  onQuestionnaireClick: nullFunction,
+  padding: "small",
+  questionnaireModal: true,
+};
+
 export default {
   title: "Patterns/Modals/Select a questionnaire",
   component: QuestionnaireSelectModal,
@@ -93,67 +156,4 @@ export default {
       ),
     },
   },
-};
-
-const user = {
-  id: "3",
-  name: "Foo",
-  email: "foo@bar.com",
-  displayName: "Foo",
-};
-
-const buildQuestionnaire = (index) => ({
-  id: `questionnaire${index}`,
-  displayName: `Questionnaire ${index}`,
-  title: `Questionnaire ${index} Title`,
-  shortTitle: "",
-  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  createdBy: user,
-  permission: "Write",
-  publishStatus: "Unpublished",
-  starred: false,
-  locked: false,
-});
-
-let questionArray;
-(questionArray = [...Array(10).keys()]).shift();
-
-const questionnaires = questionArray.map((index) => buildQuestionnaire(index));
-
-const enabledHeadings = [
-  Headings.TITLE,
-  Headings.OWNER,
-  Headings.CREATED,
-  Headings.MODIFIED,
-];
-
-const nullFunction = () => {
-  return null;
-};
-
-const Template = (args) => {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
-  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
-
-  return (
-    <QuestionnaireSelectModal isOpen={modalIsOpen} onClose={handleModalClose}>
-      <QuestionnairesView {...args} />
-    </QuestionnaireSelectModal>
-  );
-};
-
-export const Default = Template.bind({});
-Default.args = {
-  questionnaires: questionnaires,
-  enabledHeadings: enabledHeadings,
-  canCreateQuestionnaire: false,
-  onCreateQuestionnaire: nullFunction,
-  onDeleteQuestionnaire: nullFunction,
-  tableHeadings: enabledHeadings,
-  onSortClick: nullFunction,
-  onReverseClick: nullFunction,
-  onQuestionnaireClick: nullFunction,
-  padding: "small",
-  questionnaireModal: true,
 };

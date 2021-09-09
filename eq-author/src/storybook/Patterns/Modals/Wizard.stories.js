@@ -31,7 +31,7 @@ export const Default = (args) => {
 };
 
 Default.args = {
-  confirmText: "Onward!",
+  confirmText: "Yes",
   isOpen: true,
   children: (
     <>

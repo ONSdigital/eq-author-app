@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import QuestionPicker from "components/QuestionPicker";
-
 import mockSections from "tests/mocks/mockSections.json";
-
-export default {
-  title: "Patterns/Modals/Select questions",
-  component: QuestionPicker,
-};
 
 // https://stackoverflow.com/questions/56248544/how-to-show-unordered-list-within-window-alert/56248648
 const createUnorderedList = (list, bulletChar) =>
@@ -49,4 +43,9 @@ Default.args = {
     ),
   startingSelectedQuestions: [],
   sections: mockSections,
+};
+
+export default {
+  title: "Patterns/Modals/Select questions",
+  component: QuestionPicker,
 };
