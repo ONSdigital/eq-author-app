@@ -1,11 +1,10 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
 import NavigationItem from "../../components/NavItem";
+import NavItem from "../../components/NavItem";
+import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg?inline";
 
-<Meta
-  title="Components/Navigation Item"
-  component={NavigationItem}
-/>
+<Meta title="Components/Navigation Item" component={NavigationItem} />
 
 # Navigation Item
 
@@ -13,9 +12,13 @@ import NavigationItem from "../../components/NavItem";
 
 <Canvas>
   <Story name="Primary">
-    <div id="example-container" style={{width:"25%"}}>
-      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/">
-          Inctum, laoreet enim a
+    <div id="example-container" style={{ width: "25%" }}>
+      <NavigationItem
+        title="Lorem ipsum dolor sit amet"
+        icon={IconQuestionPage}
+        titleUrl="/"
+      >
+        Inctum, laoreet enim a
       </NavigationItem>
     </div>
   </Story>
@@ -25,9 +28,14 @@ import NavigationItem from "../../components/NavItem";
 
 <Canvas>
   <Story name="Disabled">
-    <div id="example-container" style={{width:"25%"}}>
-      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" disabled>
-          Inctum, laoreet enim a
+    <div id="example-container" style={{ width: "25%" }}>
+      <NavigationItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        icon={IconQuestionPage}
+        disabled
+      >
+        Inctum, laoreet enim a
       </NavigationItem>
     </div>
   </Story>
@@ -35,9 +43,14 @@ import NavigationItem from "../../components/NavItem";
 
 <Canvas>
   <Story name="Bordered">
-    <div id="example-container" style={{width:"25%"}}>
-      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" bordered>
-          Inctum, laoreet enim a
+    <div id="example-container" style={{ width: "25%" }}>
+      <NavigationItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        icon={IconQuestionPage}
+        bordered
+      >
+        Inctum, laoreet enim a
       </NavigationItem>
     </div>
   </Story>
@@ -45,11 +58,15 @@ import NavigationItem from "../../components/NavItem";
 
 <Canvas>
   <Story name="Error">
-    <div id="example-container" style={{width:"25%"}}>
-      <NavigationItem title="Lorem ipsum dolor sit amet" titleUrl="/" errorCount={3}>
-          Inctum, laoreet enim a
-      </NavigationItem>
+    <div id="example-container" style={{ width: "25%" }}>
+      <NavItem
+        title="Lorem ipsum dolor sit amet"
+        titleUrl="/"
+        icon={IconQuestionPage}
+        errorCount={3}
+      >
+        Inctum, laoreet enim a
+      </NavItem>
     </div>
   </Story>
 </Canvas>
-

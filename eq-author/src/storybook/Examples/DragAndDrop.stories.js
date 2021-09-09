@@ -10,6 +10,24 @@ import {
 
 import DragAndDrop from "components/DragAndDrop";
 
+const Template = (args) => <DragAndDrop {...args} />;
+
+export const OneSection = Template.bind({});
+OneSection.args = {
+  sections: [
+    {
+      id: "section-1",
+      title: "Animation movies",
+      pages: [
+        { id: "page-1", title: "Toy Story" },
+        { id: "page-2", title: "Shrek" },
+        { id: "page-3", title: "Finding Nemo" },
+        { id: "page-4", title: "Finding Dory" },
+      ],
+    },
+  ],
+};
+
 export default {
   title: "Examples/Drag and drop",
   component: DragAndDrop,
@@ -64,22 +82,4 @@ export default {
       ),
     },
   },
-};
-
-const Template = (args) => <DragAndDrop {...args} />;
-
-export const OneSection = Template.bind({});
-OneSection.args = {
-  sections: [
-    {
-      id: "section-1",
-      title: "Animation movies",
-      pages: [
-        { id: "page-1", title: "Toy Story" },
-        { id: "page-2", title: "Shrek" },
-        { id: "page-3", title: "Finding Nemo" },
-        { id: "page-4", title: "Finding Dory" },
-      ],
-    },
-  ],
 };
