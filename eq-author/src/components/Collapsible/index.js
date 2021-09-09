@@ -7,29 +7,58 @@ import chevronDown from "assets/icon-chevron-down-blue.svg";
 import { darken } from "polished";
 
 import Button from "components/buttons/Button";
+import Badge from "components/Badge";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const Wrapper = styled.div`
-  margin: ${(props) => (props.variant === "default" ? `0` : `0 2em 1em`)};
-  border: ${(props) =>
-    props.variant === "content" && ` 1px solid ${colors.grey}`};
+  margin: 0;
+
+  ${({ hasError, isOpen }) =>
+    hasError &&
+    !isOpen &&
+    `
+    outline-offset: 2px;
+    outline: 2px solid ${colors.errorPrimary};
+  `}
+
+  ${({ variant }) =>
+    variant === "content" &&
+    `
+    margin: 0 2em 1em;
+    border: 1px solid ${colors.grey};
+  `}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    border: 1px solid ${colors.grey};
+  `}
 `;
 
 const Header = styled.div`
-  margin-left: -0.5em;
+  margin: 0 0 1em;
 
-  ${(props) =>
-    props.variant === "content" &&
+  ${({ variant }) =>
+    variant === "content" &&
     `
-    margin-left: 0;
     height: 100%;
     width: 100%;
     background-color: ${colors.primary};
     cursor: pointer;
+    margin-bottom: 0;
 
     &:hover {
       background-color: ${darken(0.1, colors.secondary)};
     }
-`}
+  `}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
+    cursor: pointer;
+    background-color: ${colors.sidebarBlack}
+    margin-bottom: 0;
+  `};
 `;
 
 export const Title = styled.h2`
@@ -39,21 +68,34 @@ export const Title = styled.h2`
   padding: 0.25em 0 0.5em;
   font-size: inherit;
 
-  ${(props) => props.variant === "content" && `padding: 0;`}
+  ${Badge} {
+    margin-left: 1em;
+  }
+
+  ${({ variant }) => variant === "content" && `padding: 0;`}
+  ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
 
 export const Body = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   margin-top: -1em;
   border-left: 3px solid ${colors.lightGrey};
+  padding: 1em;
 
-  ${(props) =>
-    props.variant === "content" &&
+  p {
+    margin-top: 0;
+  }
+
+  ${({ variant }) =>
+    (variant === "content" || variant === "properties") &&
     `
     margin-top: 0;
-    margin-left: 0;
-    padding: 1em 0 1em 0.5em;
     border-left: none;
+`}
+
+  ${({ variant }) =>
+    variant === "properties" &&
+    `
 `}
 `;
 
@@ -72,8 +114,8 @@ export const ToggleCollapsibleButton = styled.button`
   text-decoration: underline;
   margin-left: 0;
 
-  ${(props) =>
-    props.variant === "content" &&
+  ${({ variant }) =>
+    (variant === "content" || variant === "properties") &&
     `
     color: ${colors.white};
     text-decoration: none;
@@ -83,7 +125,8 @@ export const ToggleCollapsibleButton = styled.button`
   &:focus {
     outline: 2px solid ${colors.orange};
 
-    ${(props) => props.variant === "content" && `outline: none;`}
+    ${({ variant }) =>
+      (variant === "content" || variant === "properties") && `outline: none;`}
   }
 
   &::before {
@@ -93,18 +136,22 @@ export const ToggleCollapsibleButton = styled.button`
     width: 1.5em;
     height: 1.5em;
     margin-top: 0.2em;
+    margin-left: -0.5em;
 
-    ${(props) =>
-      props.variant === "content" && `background-color: ${colors.white}`}
+    ${({ variant }) =>
+      variant === "content" && `background-color: ${colors.white}`}
+
+    ${({ variant }) =>
+      variant === "properties" && `background-color: ${colors.white}`}
   }
 
   &:hover {
-    color: ${(props) => props.variant === "default" && `${colors.darkerBlue}`};
+    color: ${({ variant }) => variant === "default" && `${colors.darkerBlue}`};
   }
 
   &:hover::before {
-    background-color: ${(props) =>
-      props.variant === "default" && `${colors.darkerBlue}`};
+    background-color: ${({ variant }) =>
+      variant === "default" && `${colors.darkerBlue}`};
   }
 `;
 
@@ -130,6 +177,7 @@ const Collapsible = ({
   className,
   children,
   variant = "default",
+  errorCount,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -144,13 +192,19 @@ const Collapsible = ({
   };
 
   return (
-    <Wrapper className={className} data-test="collapsible" variant={variant}>
+    <Wrapper
+      className={className}
+      data-test="collapsible"
+      variant={variant}
+      hasError={errorCount}
+      isOpen={isOpen}
+    >
       <Header
         className="collapsible-header"
         data-test="collapsible-header"
         variant={variant}
         onClick={
-          variant === "content"
+          variant === "content" || variant === "properties"
             ? () => setIsOpen((isOpen) => !isOpen)
             : undefined
         }
@@ -174,6 +228,14 @@ const Collapsible = ({
             variant={variant}
           >
             {renderTitle(showHide, isOpen, title)}
+            {errorCount > 0 && !isOpen && (
+              <Badge variant="nav" medium data-test="NavItem-error">
+                <VisuallyHidden>
+                  <span>Amount of errors:</span>
+                </VisuallyHidden>
+                {errorCount}
+              </Badge>
+            )}
           </ToggleCollapsibleButton>
         </Title>
       </Header>
@@ -228,6 +290,7 @@ Collapsible.propTypes = {
    * Value controlling the styling applied to the collapsible.
    */
   variant: PropTypes.oneOf(["default", "content"]),
+  errorCount: PropTypes.number,
 };
 
 export default Collapsible;

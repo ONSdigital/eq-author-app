@@ -8,6 +8,7 @@ exports.getQuestionnaire = `
     guidance
     properties
     qCode
+    advancedProperties
     ...BasicAnswer
   }
   
@@ -232,6 +233,7 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
+        sectionSummary
         folders {
           id
           alias

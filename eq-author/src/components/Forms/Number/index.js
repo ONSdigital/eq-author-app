@@ -54,6 +54,7 @@ const Number = (props) => {
     min,
     max,
     step,
+    ...otherProps
   } = props;
   const unitId = `unit-${id}`;
   const handleChange = ({ value }) => {
@@ -97,6 +98,7 @@ const Number = (props) => {
         default={props.default}
         name={name}
         step={step}
+        {...otherProps}
       />
       {type === CURRENCY && (
         <UnitSymbol id={unitId} data-test="unit">

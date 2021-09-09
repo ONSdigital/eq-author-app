@@ -16,6 +16,7 @@ export const TotalValidation = ({
   errors,
   type,
   onToggleValidationRule,
+  withoutDisableMessage = false,
 }) => {
   const { enabled } = total;
 
@@ -26,7 +27,9 @@ export const TotalValidation = ({
       }}
       enabled={enabled}
     >
-      {!enabled && <DisabledMessage data-test="disabled-total" name="Total" />}
+      {!enabled && !withoutDisableMessage && (
+        <DisabledMessage data-test="disabled-total" name="Total" />
+      )}
       {enabled && (
         <TotalValidationEditor
           data-test="validation-editor"
@@ -51,6 +54,7 @@ TotalValidation.propTypes = {
       type: PropTypes.string,
     })
   ),
+  withoutDisableMessage: PropTypes.bool,
 };
 
 export default withToggleValidationRule(TotalValidation);

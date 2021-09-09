@@ -9,6 +9,7 @@ const createSection = (input = {}) => ({
   alias: "",
   requiredCompleted: false,
   showOnHub: true,
+  sectionSummary: false,
   ...input,
 });
 

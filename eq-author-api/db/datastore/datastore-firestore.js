@@ -73,6 +73,41 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   return { ...versionQuestionnaire, sections };
 };
 
+const transformedQuestionnaire = (sections, version) => {
+  const newSections = sections.length ? sections : version.sections || [];
+  newSections.forEach((section) => {
+    section.folders?.forEach((folder) => {
+      folder.pages?.forEach((page) => {
+        page.answers?.forEach((answer) => {
+          for (const [, validation] of Object.entries(answer.validation)) {
+            if (validation.custom?.seconds) {
+              validation.custom = validation.custom.toDate();
+            }
+          }
+        });
+      });
+    });
+  });
+
+  version.metadata.forEach((metadata) => {
+    if (metadata.dateValue?.seconds) {
+      metadata.dateValue = metadata.dateValue.toDate();
+    }
+  });
+
+  version.updatedAt = version.updatedAt.seconds
+    ? version.updatedAt.toDate()
+    : new Date(version.updatedAt);
+  version.createdAt = version.createdAt.seconds
+    ? version.createdAt.toDate()
+    : new Date(version.createdAt);
+  version.editors = version.editors || [];
+  return {
+    ...version,
+    sections: newSections || [],
+  };
+};
+
 const getQuestionnaire = async (id) => {
   try {
     const latestVersionSnapshot = (
@@ -101,16 +136,7 @@ const getQuestionnaire = async (id) => {
             .sort(({ position: a }, { position: b }) => a - b);
 
     const version = latestVersionSnapshot.data();
-
-    const transformedQuestionnaire = {
-      ...version,
-      sections: sections.length ? sections : version.sections || [],
-      editors: version.editors || [],
-      createdAt: version.createdAt.toDate(),
-      updatedAt: version.updatedAt.toDate(),
-    };
-
-    return transformedQuestionnaire;
+    return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
       error,

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { radius } from "constants/theme";
 import AutoResizeTextArea from "react-textarea-autosize";
 import withChangeHandler from "components/Forms/withChangeHandler";
 import { invoke } from "lodash";
@@ -16,6 +17,7 @@ const StyleContext = styled.div`
 const TextArea = styled(AutoResizeTextArea)`
   ${sharedStyles};
   font-weight: inherit;
+  border-radius: ${radius};
   resize: none;
   overflow: hidden; /* prevent scrollbars on Windows */
 `;

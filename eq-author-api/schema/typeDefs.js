@@ -152,6 +152,7 @@ type Section {
   displayConditions: [ExpressionGroup2]
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -257,6 +258,7 @@ interface Answer {
   type: AnswerType!
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
 }
 
 type BasicAnswer implements Answer {
@@ -273,6 +275,7 @@ type BasicAnswer implements Answer {
   options: [Option]
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
@@ -292,6 +295,7 @@ type MultipleChoiceAnswer implements Answer {
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -977,6 +981,7 @@ input CreateSectionInput {
   position: Int
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input UpdateSectionInput {
@@ -987,6 +992,7 @@ input UpdateSectionInput {
   introductionContent: String
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input DeleteSectionInput {
@@ -1137,6 +1143,7 @@ input UpdateAnswerInput {
   qCode: String
   secondaryQCode: String
   properties: JSON
+  advancedProperties: Boolean
 }
 
 input UpdateAnswersOfTypeInput {

@@ -8,8 +8,10 @@ import VisuallyHidden from "components/VisuallyHidden";
 import ErrorPanel from "components/Panel/ErrorPanel";
 
 const ErrorStyling = styled(IconText)`
-  margin: 0.5em 1em 0.5em 0.1em;
+  margin: 0.5em 1em 0.5em 0.5em;
   font-weight: normal;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const ValidationError = ({ variant, children, test }) => (

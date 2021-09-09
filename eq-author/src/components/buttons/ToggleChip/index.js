@@ -45,6 +45,7 @@ const Field = styled.div`
   display: inline-block;
   position: relative;
   margin: 0.25em 0.5em 0.25em 0;
+  max-width: 100%;
 `;
 
 export const Label = styled.label`

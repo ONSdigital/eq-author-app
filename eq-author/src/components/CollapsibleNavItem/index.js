@@ -38,12 +38,10 @@ const Link = styled(NavLink)`
   width: 100%;
   text-decoration: none;
 
-  ${({ bordered, borderColor }) =>
-    bordered
-      ? `
-  border-bottom: 1px solid ${borderColor};
-  border-top: 1px solid ${borderColor};
-`
+  ${({ bordered, bordercolor }) =>
+    bordered === "true"
+      ? `border-bottom: 1px solid ${bordercolor};
+        border-top: 1px solid ${bordercolor};`
       : ""}
 
   ${hoverStyling}
@@ -167,8 +165,8 @@ const CollapsibleNavItem = ({
         <Link
           to={titleUrl}
           activeClassName={"activePage"}
-          bordered={bordered}
-          borderColor={
+          bordered={bordered.toString()}
+          bordercolor={
             containsActiveEntity && !isOpen ? colors.orange : colors.grey
           }
           data-test="CollapsibleNavItem-title"
@@ -203,6 +201,10 @@ const CollapsibleNavItem = ({
       </Body>
     </Wrapper>
   );
+};
+
+CollapsibleNavItem.defaultProps = {
+  bordered: false,
 };
 
 CollapsibleNavItem.propTypes = {
