@@ -6,8 +6,6 @@ import Editor from "draft-js-plugins-editor";
 import Raw from "draft-js-raw-content-state";
 import { omit } from "lodash";
 
-import { Field } from "components/Forms";
-
 import RichTextEditor from "components/RichTextEditor";
 import Toolbar, {
   STYLE_BLOCK,
