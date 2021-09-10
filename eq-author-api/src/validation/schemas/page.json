@@ -12,6 +12,9 @@
         },
         {
           "validatePipingAnswerInTitle": true
+        },
+        {
+          "validatePipingMetadataInTitle": true
         }
       ]
     },
