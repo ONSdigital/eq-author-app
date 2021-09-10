@@ -1,14 +1,24 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
-
+import styled from "styled-components";
 import NavigationItem from "../../components/NavItem";
 import NavItem from "../../components/NavItem";
 import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg?inline";
+import CollapsibleNavItem from "../../components/CollapsibleNavItem";
 
 <Meta title="Components/Navigation Item" component={NavigationItem} />
 
 # Navigation Item
 
 ## Example
+
+const ExampleContainer = styled.div`
+
+_,
+_::before,
+\*::after {
+box-sizing: inherit;
+}
+`;
 
 <Canvas>
   <Story name="Primary">
@@ -58,7 +68,7 @@ import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg
 
 <Canvas>
   <Story name="Error">
-    <div id="example-container" style={{ width: "25%" }}>
+    <ExampleContainer style={{ width: "25%" }}>
       <NavItem
         title="Lorem ipsum dolor sit amet"
         titleUrl="/"
@@ -67,6 +77,6 @@ import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg
       >
         Inctum, laoreet enim a
       </NavItem>
-    </div>
+    </ExampleContainer>
   </Story>
 </Canvas>

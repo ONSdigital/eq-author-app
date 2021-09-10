@@ -18,11 +18,12 @@ OneSection.args = {
     {
       id: "section-1",
       title: "Animation movies",
+      titleUrl: "Section TitleURL",
       pages: [
-        { id: "page-1", title: "Toy Story" },
-        { id: "page-2", title: "Shrek" },
-        { id: "page-3", title: "Finding Nemo" },
-        { id: "page-4", title: "Finding Dory" },
+        { id: "page-1", title: "Toy Story", titleUrl: "PageTitleUrl-1" },
+        { id: "page-2", title: "Shrek", titleUrl: "PageTitleUrl-2" },
+        { id: "page-3", title: "Finding Nemo", titleUrl: "PageTitleUrl-3" },
+        { id: "page-4", title: "Finding Dory", titleUrl: "PageTitleUrl-4" },
       ],
     },
   ],
