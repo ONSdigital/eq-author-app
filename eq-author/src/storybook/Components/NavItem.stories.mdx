@@ -4,6 +4,7 @@ import NavigationItem from "../../components/NavItem";
 import NavItem from "../../components/NavItem";
 import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg?inline";
 import CollapsibleNavItem from "../../components/CollapsibleNavItem";
+import ExampleContainer from "./ExampleContainer";
 
 <Meta title="Components/Navigation Item" component={NavigationItem} />
 
@@ -11,18 +12,9 @@ import CollapsibleNavItem from "../../components/CollapsibleNavItem";
 
 ## Example
 
-const ExampleContainer = styled.div`
-
-_,
-_::before,
-\*::after {
-box-sizing: inherit;
-}
-`;
-
 <Canvas>
   <Story name="Primary">
-    <div id="example-container" style={{ width: "25%" }}>
+    <ExampleContainer>
       <NavigationItem
         title="Lorem ipsum dolor sit amet"
         icon={IconQuestionPage}
@@ -30,7 +22,7 @@ box-sizing: inherit;
       >
         Inctum, laoreet enim a
       </NavigationItem>
-    </div>
+    </ExampleContainer>
   </Story>
 </Canvas>
 
@@ -38,7 +30,7 @@ box-sizing: inherit;
 
 <Canvas>
   <Story name="Disabled">
-    <div id="example-container" style={{ width: "25%" }}>
+    <ExampleContainer>
       <NavigationItem
         title="Lorem ipsum dolor sit amet"
         titleUrl="/"
@@ -47,13 +39,13 @@ box-sizing: inherit;
       >
         Inctum, laoreet enim a
       </NavigationItem>
-    </div>
+    </ExampleContainer>
   </Story>
 </Canvas>
 
 <Canvas>
   <Story name="Bordered">
-    <div id="example-container" style={{ width: "25%" }}>
+    <ExampleContainer>
       <NavigationItem
         title="Lorem ipsum dolor sit amet"
         titleUrl="/"
@@ -62,13 +54,13 @@ box-sizing: inherit;
       >
         Inctum, laoreet enim a
       </NavigationItem>
-    </div>
+    </ExampleContainer>
   </Story>
 </Canvas>
 
 <Canvas>
   <Story name="Error">
-    <ExampleContainer style={{ width: "25%" }}>
+    <ExampleContainer style={{ boxSizing: "border-box" }}>
       <NavItem
         title="Lorem ipsum dolor sit amet"
         titleUrl="/"
