@@ -6,8 +6,6 @@ import Editor from "draft-js-plugins-editor";
 import Raw from "draft-js-raw-content-state";
 import { omit } from "lodash";
 
-import { Field } from "components/Forms";
-
 import RichTextEditor from "components/RichTextEditor";
 import Toolbar, {
   STYLE_BLOCK,
@@ -91,48 +89,6 @@ describe("components/RichTextEditor", function () {
   it("should store a reference to the editor DOM node", () => {
     wrapper.instance().setEditorInstance(editorInstance);
     expect(wrapper.instance().editorInstance).toEqual(editorInstance);
-  });
-
-  it("should not prevent mouse down on editor things", () => {
-    const preventDefault = jest.fn();
-    const containsMock = jest.fn();
-    editorInstance = {
-      getEditorRef: () => ({
-        editor: {
-          contains: containsMock.mockReturnValue(true),
-        },
-      }),
-    };
-    wrapper = shallow(<RichTextEditor {...props} />, {
-      disableLifecycleMethods: true,
-    });
-    wrapper.instance().setEditorInstance(editorInstance);
-    wrapper
-      .find(Field)
-      .simulate("mouseDown", { target: "target", preventDefault });
-    expect(containsMock).toHaveBeenCalledWith("target");
-    expect(preventDefault).not.toHaveBeenCalled();
-  });
-
-  it("should prevent mouse down on non-editor things", () => {
-    const preventDefault = jest.fn();
-    const containsMock = jest.fn();
-    editorInstance = {
-      getEditorRef: () => ({
-        editor: {
-          contains: containsMock.mockReturnValue(false),
-        },
-      }),
-    };
-    wrapper = shallow(<RichTextEditor {...props} />, {
-      disableLifecycleMethods: true,
-    });
-    wrapper.instance().setEditorInstance(editorInstance);
-    wrapper
-      .find(Field)
-      .simulate("mouseDown", { target: "target", preventDefault });
-    expect(containsMock).toHaveBeenCalledWith("target");
-    expect(preventDefault).toHaveBeenCalled();
   });
 
   it("should focus upon click", () => {
