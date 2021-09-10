@@ -1,6 +1,7 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Badge from "components/Badge";
 import RouteButton from "components/buttons/Button/RouteButton";
+import ExampleContainer from "./ExampleContainer";
 
 <Meta title="Components/Badge" component={Badge} />
 
@@ -12,7 +13,11 @@ Displays errors in questionnaires to users
 
 <Canvas>
   <Story name="Logic">
-    <Badge variant="logic">10</Badge>
+    <ExampleContainer>
+      <Badge style={{ width: "1.4em" }} variant="logic">
+        9
+      </Badge>
+    </ExampleContainer>
   </Story>
 </Canvas>
 
@@ -20,7 +25,11 @@ Displays errors in questionnaires to users
 
 <Canvas>
   <Story name="Nav Link">
-    <Badge variant="nav">10</Badge>
+    <ExampleContainer>
+      <Badge style={{ width: "1.4em" }} variant="nav">
+        9
+      </Badge>
+    </ExampleContainer>
   </Story>
 </Canvas>
 
