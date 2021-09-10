@@ -11,7 +11,6 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
   >
     <Label
       bold={true}
@@ -341,7 +340,6 @@ exports[`components/RichTextEditor should render 1`] = `
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
   >
     <Label
       bold={true}
@@ -673,7 +671,6 @@ exports[`components/RichTextEditor should render existing content 1`] = `
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
   >
     <Label
       bold={true}
@@ -1111,7 +1108,6 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
   >
     <Label
       bold={true}

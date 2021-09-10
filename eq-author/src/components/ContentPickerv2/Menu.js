@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled, { css } from "styled-components";
 
-import Truncated from "components/Truncated";
-
-import iconChevron from "./icon-chevron-small.svg";
 import { colors } from "constants/theme";
-
 import { UNIT } from "constants/answer-types";
+
+import { getPages } from "utils/questionnaireUtils";
+
+import Truncated from "components/Truncated";
+import iconChevron from "./icon-chevron-small.svg";
 
 export const MenuItemList = styled.ol`
   display: block;
@@ -151,6 +152,12 @@ const Menu = ({ data, onSelected, isSelected }) => {
     <MenuItemList>
       {data &&
         data.map((section) => {
+          const numOfPages = getPages({ sections: [section] }).length;
+
+          if (numOfPages === 0) {
+            return <React.Fragment />;
+          }
+
           const sectionSelected = isSelected(section);
 
           return (
@@ -233,15 +240,23 @@ SubMenu.propTypes = {
 };
 
 const FlatSectionMenu = ({ data, ...otherProps }) =>
-  data.map((section) => (
-    <div key={section.id}>
-      <SectionTitle>{section.displayName}</SectionTitle>
-      <SubMenu
-        data={section.folders.flatMap(({ pages }) => pages)}
-        {...otherProps}
-      />
-    </div>
-  ));
+  data.map((section) => {
+    const numOfPages = getPages({ sections: [section] }).length;
+
+    if (numOfPages === 0) {
+      return <React.Fragment />;
+    }
+
+    return (
+      <div key={section.id}>
+        <SectionTitle>{section.displayName}</SectionTitle>
+        <SubMenu
+          data={section.folders.flatMap(({ pages }) => pages)}
+          {...otherProps}
+        />
+      </div>
+    );
+  });
 
 FlatSectionMenu.propTypes = {
   data: PropTypes.arrayOf(
