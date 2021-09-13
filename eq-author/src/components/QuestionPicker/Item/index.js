@@ -88,7 +88,7 @@ const Heading = styled.h3`
   margin: 0;
 `;
 
-const Title = styled.p`
+const Title = styled.span`
   font-size: 1em;
   margin: 0;
   padding: 0;
@@ -105,7 +105,7 @@ const Title = styled.p`
   }
 `;
 
-const Subtitle = styled.p`
+const Subtitle = styled.span`
   font-size: 0.9em;
   margin: 0;
   color: ${colors.darkGrey};
@@ -134,7 +134,7 @@ const WrappedItem = ({
         variant={variant}
         className={`${variant}`}
         aria-selected={selected}
-        unselectable={unselectable}
+        $unselectable={unselectable}
         tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
         onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}

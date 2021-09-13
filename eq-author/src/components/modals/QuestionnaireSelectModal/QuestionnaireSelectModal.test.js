@@ -4,13 +4,13 @@ import { render } from "tests/utils/rtl";
 import QuestionnaireSelectModal from "./";
 
 describe("Questionnaire Select Modal", () => {
-  let props, isOpen, children;
+  let props, isOpen, onClose, children;
 
   beforeEach(() => {
     isOpen = true;
     children = <div>This is the child component</div>;
-
-    props = { isOpen };
+    onClose = jest.fn();
+    props = { isOpen, onClose };
   });
 
   const renderModal = () =>
