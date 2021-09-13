@@ -9,7 +9,8 @@ module.exports = (ajv) => {
   require("./validateExpression")(ajv);
   require("./validateRoutingDestination")(ajv);
   require("./validateRoutingLogicalAND")(ajv);
-  require("./validatePipingInTitle")(ajv);
+  require("./validatePipingAnswerInTitle")(ajv);
+  require("./validatePipingMetadataInTitle")(ajv);
   require("./idExists")(ajv);
   require("./idPreceedsCurrentEntity")(ajv);
   require("./requiredWhenSectionSetting")(ajv);
