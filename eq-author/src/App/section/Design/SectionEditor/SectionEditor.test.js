@@ -37,6 +37,7 @@ describe("SectionEditor", () => {
     introductionContent: "Intro content",
     requiredCompleted: true,
     showOnHub: true,
+    sectionSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,

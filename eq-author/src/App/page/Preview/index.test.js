@@ -37,8 +37,13 @@ describe("page previews", () => {
       additionalInfoEnabled: true,
       validationErrorInfo: [],
       answers: [],
+      folder: {
+        id: "1",
+        position: "1",
+      },
       section: {
         id: "1",
+        position: "1",
         questionnaire: {
           id: "1",
           metadata: [],
@@ -64,8 +69,13 @@ describe("page previews", () => {
       alias: "Who am I?",
       pageType: "CalculatedSummaryPage",
       totalTitle: "GrandTotal",
+      folder: {
+        id: "1",
+        position: "1",
+      },
       section: {
         id: "1",
+        position: "1",
         questionnaire: {
           id: "1",
           metadata: [],

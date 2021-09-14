@@ -86,7 +86,7 @@ const Page = ({ page }) => {
       title={stripHtmlToText(title) || displayName}
       subtitle={alias}
       onClick={handleClick}
-      selected={itemSelected}
+      selected={Boolean(itemSelected)}
       dataTest="Page"
     />
   );

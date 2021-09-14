@@ -47,6 +47,7 @@ describe("Answer Editor", () => {
       onMoveUp: jest.fn(),
       canMoveUp: true,
       canMoveDown: true,
+      multipleAnswers: false,
     };
 
     mockAnswer = {
@@ -54,6 +55,14 @@ describe("Answer Editor", () => {
       title: "",
       description: "",
       type: TEXTFIELD,
+      guidance: "",
+      label: "",
+      secondaryLabel: "",
+      secondaryLabelDefault: "",
+      properties: {},
+      displayName: "",
+      qCode: "",
+      advancedProperties: false,
     };
 
     mockMultipleChoiceAnswer = {

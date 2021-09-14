@@ -72,6 +72,8 @@ const QuestionnaireSelectModal = ({
                 questionnaires.find(({ id }) => id === questionnaireId)
               )
             }
+            onCreateQuestionnaire={() => {}}
+            onDeleteQuestionnaire={() => {}}
           />
         </MenuContainer>
       </Container>

@@ -83,8 +83,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
     <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "options": Array [
             Object {
               "description": "",
@@ -92,6 +96,10 @@ exports[`Answer Editor should render Checkbox 1`] = `
               "label": "",
             },
           ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Checkbox",
         }
@@ -99,6 +107,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -191,8 +200,16 @@ exports[`Answer Editor should render Currency 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Currency",
         }
@@ -200,6 +217,7 @@ exports[`Answer Editor should render Currency 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -293,8 +311,16 @@ exports[`Answer Editor should render Date 1`] = `
     <DateSingle
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Date",
         }
@@ -302,6 +328,7 @@ exports[`Answer Editor should render Date 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       label="Label"
+      multipleAnswers={false}
       name="label"
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
@@ -397,14 +424,23 @@ exports[`Answer Editor should render DateRange 1`] = `
     <DateRange
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "DateRange",
         }
       }
       canMoveDown={true}
       canMoveUp={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -497,11 +533,18 @@ exports[`Answer Editor should render Duration 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "properties": Object {
             "unit": "YearsMonths",
           },
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Duration",
         }
@@ -509,6 +552,7 @@ exports[`Answer Editor should render Duration 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -602,8 +646,16 @@ exports[`Answer Editor should render Number 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Number",
         }
@@ -611,6 +663,7 @@ exports[`Answer Editor should render Number 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -704,8 +757,16 @@ exports[`Answer Editor should render Percentage 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Percentage",
         }
@@ -713,6 +774,7 @@ exports[`Answer Editor should render Percentage 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -806,8 +868,12 @@ exports[`Answer Editor should render Radio 1`] = `
     <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "options": Array [
             Object {
               "description": "",
@@ -815,6 +881,10 @@ exports[`Answer Editor should render Radio 1`] = `
               "label": "",
             },
           ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Radio",
         }
@@ -823,6 +893,7 @@ exports[`Answer Editor should render Radio 1`] = `
       canMoveUp={true}
       enableValidationMessage={true}
       minOptions={2}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -915,8 +986,16 @@ exports[`Answer Editor should render TextArea 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "TextArea",
         }
@@ -924,6 +1003,7 @@ exports[`Answer Editor should render TextArea 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -1016,8 +1096,16 @@ exports[`Answer Editor should render TextField 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "TextField",
         }
@@ -1025,6 +1113,7 @@ exports[`Answer Editor should render TextField 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -1118,11 +1207,18 @@ exports[`Answer Editor should render Unit 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "properties": Object {
             "unit": "Centimetres",
           },
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Unit",
         }
@@ -1130,6 +1226,7 @@ exports[`Answer Editor should render Unit 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}

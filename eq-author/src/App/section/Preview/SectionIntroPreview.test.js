@@ -15,6 +15,7 @@ describe("SectionIntroPreview", () => {
       introductionContent: "<h2>Content</h2>",
       requiredCompleted: false,
       showOnHub: false,
+      sectionSummary: false,
       questionnaire: {
         id: "1",
         navigation: true,
