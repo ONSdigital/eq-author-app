@@ -12,7 +12,7 @@ const logicPanel = css`
 `;
 
 const confirmationPanel = css`
-  margin-left: 3%;
+  margin-left: -1%;
 `;
 
 const StyledPanel = styled.div`

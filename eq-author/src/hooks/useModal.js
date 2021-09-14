@@ -1,7 +1,13 @@
 import React, { useState, useCallback } from "react";
 
 // Convenience wrapper for invoking modals - automates handling of `isOpen` state
-export default ({ component: Modal, onConfirm, onCancel, ...props }) => {
+export default ({
+  component: Modal,
+  onConfirm,
+  onCancel,
+  onClose,
+  ...props
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = useCallback(
@@ -16,9 +22,11 @@ export default ({ component: Modal, onConfirm, onCancel, ...props }) => {
     (...args) => {
       // eslint-disable-next-line no-unused-expressions
       onCancel?.(...args);
+      // eslint-disable-next-line no-unused-expressions
+      onClose?.(...args);
       setIsOpen(false);
     },
-    [onCancel]
+    [onCancel, onClose]
   );
 
   return [
@@ -30,6 +38,7 @@ export default ({ component: Modal, onConfirm, onCancel, ...props }) => {
           isOpen={isOpen}
           onConfirm={handleConfirm}
           onCancel={handleCancel}
+          onClose={handleCancel}
         />
       ),
       [props, isOpen, handleCancel, handleConfirm]

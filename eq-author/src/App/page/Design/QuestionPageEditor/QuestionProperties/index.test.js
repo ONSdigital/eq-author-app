@@ -16,6 +16,8 @@ describe("QuestionProperties", () => {
         id: "1",
       },
       onUpdateQuestionPage: onUpdateQuestionPage,
+      onChange: jest.fn(),
+      onUpdate: jest.fn(),
     };
 
     wrapper = render(props);

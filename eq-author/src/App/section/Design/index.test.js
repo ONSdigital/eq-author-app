@@ -343,6 +343,7 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         navigation: true,
+        hub: false,
         questionnaireInfo: {
           totalSectionCount: 2,
         },
@@ -367,6 +368,7 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         navigation: true,
+        hub: false,
         questionnaireInfo: {
           totalSectionCount: 2,
         },

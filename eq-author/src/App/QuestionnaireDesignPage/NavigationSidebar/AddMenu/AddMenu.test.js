@@ -14,6 +14,7 @@ const defaultProps = () => ({
   onAddQuestionConfirmation: jest.fn(),
   onAddCalculatedSummaryPage: jest.fn(),
   onAddFolder: jest.fn(),
+  onStartImportingContent: jest.fn(),
   canAddFolder: true,
   isFolder: false,
   folderTitle: "",
@@ -71,11 +72,8 @@ describe("AddMenu", () => {
   });
 
   it("should allow a question confirmation to be added", () => {
-    const {
-      getByTestId,
-      onAddQuestionConfirmation,
-      addConfirmation,
-    } = defaultSetup();
+    const { getByTestId, onAddQuestionConfirmation, addConfirmation } =
+      defaultSetup();
     fireEvent.click(getByTestId(addConfirmation));
     expect(onAddQuestionConfirmation).toHaveBeenCalled();
   });
@@ -88,11 +86,8 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added", () => {
-    const {
-      getByTestId,
-      onAddCalculatedSummaryPage,
-      addCalcSum,
-    } = defaultSetup();
+    const { getByTestId, onAddCalculatedSummaryPage, addCalcSum } =
+      defaultSetup();
     fireEvent.click(getByTestId(addCalcSum));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
@@ -113,13 +108,10 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added inside a folder", () => {
-    const {
-      getByTestId,
-      onAddCalculatedSummaryPage,
-      addCalcSumInside,
-    } = defaultSetup({
-      isFolder: true,
-    });
+    const { getByTestId, onAddCalculatedSummaryPage, addCalcSumInside } =
+      defaultSetup({
+        isFolder: true,
+      });
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
   });

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { ReactComponent as WarningIcon } from "assets/icon-error.svg";
 
-import WarningIcon from "assets/icon-error.svg?inline";
 import IconText from "components/IconText";
 import VisuallyHidden from "components/VisuallyHidden";
 import ErrorPanel from "components/Panel/ErrorPanel";

@@ -16,6 +16,7 @@ describe("DisplayConditionEditor", () => {
 
   beforeEach(() => {
     defaultProps = {
+      sectionId: "1",
       pageId: "1",
       expressionGroup: { id: "expGrpId", operator: "AND", expressions: [] },
       expressionGroupIndex: 0,
