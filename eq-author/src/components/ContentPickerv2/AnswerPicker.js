@@ -13,7 +13,7 @@ import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
 
-import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
+import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleShortCode";
 import { getPages } from "utils/questionnaireUtils";
 
 const ModalTitle = styled.h2`
@@ -54,10 +54,7 @@ const AnswerPicker = ({ data, ...otherProps }) => {
 
   useEffect(() => {
     if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
-      const results = searchByAnswerTitleQuestionTitleShortCode(
-        data,
-        searchTerm
-      );
+      const results = searchByQuestionTitleOrShortCode(data, searchTerm);
 
       setSearchResults(results);
     } else {
