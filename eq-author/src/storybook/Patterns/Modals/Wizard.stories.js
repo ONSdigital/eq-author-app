@@ -31,7 +31,7 @@ export const Default = (args) => {
 };
 
 Default.args = {
-  confirmText: "Onward!",
+  confirmText: "Yes",
   isOpen: true,
   children: (
     <>
@@ -78,7 +78,7 @@ export default {
   },
   argTypes: {
     isOpen: {
-      description: "If the wizard modal is currently visable",
+      description: "If the wizard modal is currently visible",
       table: { type: { summary: "Bool" } },
     },
     confirmText: {

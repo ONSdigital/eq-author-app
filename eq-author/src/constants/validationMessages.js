@@ -24,6 +24,10 @@ export const richTextEditorErrors = {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
   },
+  PIPING_METADATA_DELETED: {
+    errorCode: "PIPING_METADATA_DELETED",
+    message: "The metadata being piped has been deleted",
+  },
   INCLUDE_EXCLUDE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter include/exclude content",
