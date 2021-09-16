@@ -44,6 +44,7 @@ const Title = styled.h3`
 const IconGridButton = ({
   iconSrc,
   title,
+  titleAriaHidden = false,
   disabled,
   order,
   onClick,
@@ -64,7 +65,7 @@ const IconGridButton = ({
       {...otherProps}
     >
       <img src={iconSrc} alt={title} />
-      <Title aria-hidden>{title}</Title>
+      <Title aria-hidden={titleAriaHidden}>{title}</Title>
     </Button>
   );
 };
@@ -72,6 +73,7 @@ const IconGridButton = ({
 IconGridButton.propTypes = {
   iconSrc: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  titleAriaHidden: PropTypes.bool,
   disabled: PropTypes.bool,
   order: PropTypes.number,
   onClick: PropTypes.func,

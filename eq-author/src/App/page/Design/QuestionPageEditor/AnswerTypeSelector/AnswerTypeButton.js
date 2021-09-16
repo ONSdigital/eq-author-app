@@ -54,6 +54,7 @@ export default class AnswerTypeButton extends React.Component {
         iconSrc={icons[this.props.type]}
         onClick={this.handleClick}
         title={this.props.title}
+        titleAriaHidden
         order={this.props.order}
         data-test={`btn-answer-type-${this.props.type.toLowerCase()}`}
       />
