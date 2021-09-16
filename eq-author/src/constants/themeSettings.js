@@ -3,7 +3,7 @@ export const THEME_TITLES = {
   northernireland: "NI theme",
   covid: "COVID theme",
   epe: "EPE theme",
-  epeni: "EPE NI theme",
+  epenorthernireland: "EPE NI theme",
   ukis: "UKIS theme",
-  ukisni: "UKIS NI theme",
+  ukis_ni: "UKIS NI theme", //eslint-disable-line
 };

@@ -488,9 +488,9 @@ enum ThemeShortName {
   northernireland
   covid
   ukis
-  ukisni
+  ukis_ni
   epe
-  epeni
+  epenorthernireland
 }
 
 type Metadata {
