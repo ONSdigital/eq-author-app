@@ -82,7 +82,7 @@ describe("Themes page", () => {
           {
             title: "EPE NI theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "epeni",
+            shortName: "epenorthernireland",
             validationErrorInfo: { errors: [] },
           },
           {

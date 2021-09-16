@@ -3,9 +3,9 @@ const THEME_SHORT_NAMES = [
   "northernireland",
   "covid",
   "epe",
-  "epeni",
+  "epenorthernireland",
   "ukis",
-  "ukisni",
+  "ukis_ni",
 ];
 
 module.exports = { THEME_SHORT_NAMES };
