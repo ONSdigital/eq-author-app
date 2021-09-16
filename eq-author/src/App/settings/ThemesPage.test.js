@@ -94,7 +94,7 @@ describe("Themes page", () => {
           {
             title: "UKIS NI theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "ukisni",
+            shortName: "ukis_ni",
             validationErrorInfo: { errors: [] },
           },
         ],
