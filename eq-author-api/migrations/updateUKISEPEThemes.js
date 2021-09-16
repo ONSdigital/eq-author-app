@@ -1,10 +1,12 @@
 module.exports = (questionnaire) => {
-  questionnaire.themeSettings.themes.map((theme) => {
-    if (theme.shortCode === "epeni") {
-      theme.shortCode = "epenorthernireland";
+  questionnaire.themeSettings.themes.forEach((theme) => {
+    if (theme.shortName === "epeni") {
+      theme.shortName = "epenorthernireland";
+      theme.id = "epenorthernireland";
     }
-    if (theme.shortCode === "ukisni") {
-      theme.shortCode = "ukis_ni";
+    if (theme.shortName === "ukisni") {
+      theme.shortName = "ukis_ni";
+      theme.id = "ukis_ni";
     }
   });
 
