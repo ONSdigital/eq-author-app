@@ -64,7 +64,7 @@ const IconGridButton = ({
       {...otherProps}
     >
       <img src={iconSrc} alt={title} />
-      <Title>{title}</Title>
+      <Title aria-hidden>{title}</Title>
     </Button>
   );
 };
