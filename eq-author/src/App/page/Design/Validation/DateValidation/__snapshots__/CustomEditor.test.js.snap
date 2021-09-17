@@ -1,13 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Custom Editor should render 1`] = `
-<components__DateInput
-  max="9999-12-30"
-  min="1000-01-01"
-  name="customDate"
-  onBlur={[MockFunction]}
-  onChange={[MockFunction]}
-  type="date"
-  value={null}
-/>
+<Fragment>
+  <components__DateInput
+    data-test="custom-date-input"
+    max="9999-12-30"
+    min="1000-01-01"
+    name="customDate"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="date"
+    value={null}
+  />
+</Fragment>
 `;

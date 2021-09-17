@@ -16,6 +16,7 @@ const CustomEditor = ({ validation, onChange, onUpdate }) => (
       onBlur={onUpdate}
       max="9999-12-30"
       min="1000-01-01"
+      data-test="custom-date-input"
     />
     {validation.validationErrorInfo.errors.some(
       (error) => error.errorCode === "ERR_NO_VALUE"

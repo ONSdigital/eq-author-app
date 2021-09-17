@@ -15,6 +15,7 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => (
       selectedContentDisplayName={get(validation.previousAnswer, "displayName")}
       selectedMetadataDisplayName={get(validation.metadata, "displayName")}
       selectedId={get(validation.previousAnswer, "id")}
+      data-test="metadata-date-editor"
     />
     {validation.validationErrorInfo.errors.some(
       (error) => error.errorCode === "ERR_NO_VALUE"

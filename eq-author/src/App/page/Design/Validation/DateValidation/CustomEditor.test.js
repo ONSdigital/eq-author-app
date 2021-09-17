@@ -11,6 +11,9 @@ describe("Custom Editor", () => {
       onUpdate: jest.fn(),
       validation: {
         customDate: null,
+        validationErrorInfo: {
+          errors: [],
+        },
       },
     };
 
@@ -22,7 +25,7 @@ describe("Custom Editor", () => {
   });
 
   it("should trigger update answer validation when the custom value changes", () => {
-    const customDateField = wrapper.first();
+    const customDateField = wrapper.find("[data-test='custom-date-input']");
     customDateField.simulate("change", "event");
     expect(props.onChange).toHaveBeenCalledWith("event");
     customDateField.simulate("blur", "event");

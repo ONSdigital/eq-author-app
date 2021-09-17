@@ -13,6 +13,9 @@ describe("Metadata Editor", () => {
         previousAnswer: {
           displayName: "test",
         },
+        validationErrorInfo: {
+          errors: [],
+        },
       },
       answer: {
         id: "1",
@@ -28,11 +31,15 @@ describe("Metadata Editor", () => {
   });
 
   it("should correctly handle metadata change", () => {
+    const metadataDateField = wrapper.find(
+      "[data-test='metadata-date-editor']"
+    );
+
     const metadata = {
       id: 1,
     };
 
-    wrapper.simulate("submit", {
+    metadataDateField.simulate("submit", {
       name: "metadata",
       value: metadata,
     });
