@@ -58,18 +58,32 @@ class Group {
       })
     );
 
+    let summaryBlock;
+    if (section.sectionSummary) {
+      summaryBlock = {
+        id: `summary${section.id}`,
+        type: "SectionSummary",
+        collapsible: false,
+      };
+      blocks.push(summaryBlock);
+    }
+
     if (!section.introductionTitle || !section.introductionContent) {
       return blocks;
     }
-    return [
-      Block.buildIntroBlock(
-        section.introductionTitle,
-        section.introductionContent,
-        section.id,
-        ctx
-      ),
-      ...blocks,
-    ];
+
+    const intro = Block.buildIntroBlock(
+      section.introductionTitle,
+      section.introductionContent,
+      section.id,
+      ctx
+    );
+
+    if (blocks[0].skip_conditions) {
+      intro.skip_conditions = blocks[0].skip_conditions;
+    }
+
+    return [intro, ...blocks];
   }
 }
 

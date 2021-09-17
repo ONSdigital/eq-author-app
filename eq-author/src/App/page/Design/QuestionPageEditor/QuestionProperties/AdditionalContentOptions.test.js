@@ -17,6 +17,7 @@ describe("AdditionalInfo", () => {
       onUpdate: jest.fn(),
       fetchAnswers: jest.fn(),
       onChangeUpdate: jest.fn(),
+      option: "",
       page: {
         id: "1",
         alias: "foobar",

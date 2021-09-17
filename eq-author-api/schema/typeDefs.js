@@ -152,6 +152,7 @@ type Section {
   displayConditions: [ExpressionGroup2]
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -487,9 +488,9 @@ enum ThemeShortName {
   northernireland
   covid
   ukis
-  ukisni
+  ukis_ni
   epe
-  epeni
+  epenorthernireland
 }
 
 type Metadata {
@@ -980,6 +981,7 @@ input CreateSectionInput {
   position: Int
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input UpdateSectionInput {
@@ -990,6 +992,7 @@ input UpdateSectionInput {
   introductionContent: String
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input DeleteSectionInput {

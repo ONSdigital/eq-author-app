@@ -92,6 +92,7 @@
     },
     "numericAnswer": {
       "if": {
+        "type": "object",
         "properties": {
           "advancedProperties": {
             "const": true
@@ -147,6 +148,7 @@
     },
     "dateAnswer": {
       "if": {
+        "type": "object",
         "properties": {
           "advancedProperties": {
             "const": true
@@ -171,6 +173,7 @@
           }
         },
         "if": {
+          "type": "object",
           "properties": {
             "advancedProperties": {
               "const": true

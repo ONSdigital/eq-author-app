@@ -88,6 +88,7 @@ const Text = styled.p`
   padding: 0.5em 1em;
   margin: 0;
   margin-bottom: 0.3125em;
+  overflow-wrap: break-word;
 `;
 
 const Avatar = styled.p`

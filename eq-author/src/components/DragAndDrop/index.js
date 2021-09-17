@@ -38,28 +38,50 @@ const NavList = styled.ol`
 
 const ListItem = styled.li``;
 
-const Page = ({ id, index, title }) => {
+const Page = ({ id, index, title, titleUrl }) => {
   return (
-    <Draggable draggableId={id} index={index}>
-      {({ innerRef, draggableProps, dragHandleProps }) => (
-        <ListItem {...draggableProps} ref={innerRef}>
-          <NavItem title={title} icon={IconQuestionPage} {...dragHandleProps} />
-        </ListItem>
-      )}
+    <Draggable
+      draggableId={id}
+      index={index}
+      key={id}
+      disableInteractiveElementBlocking="true"
+    >
+      {(provided) => [
+        <ListItem
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          key={id}
+          ref={provided.innerRef}
+        >
+          <NavItem
+            title={title}
+            titleUrl={titleUrl}
+            icon={IconQuestionPage}
+            {...provided.dragHandleProps}
+          />
+        </ListItem>,
+      ]}
     </Draggable>
   );
 };
 
 Page.propTypes = {
   id: PropTypes.string.isRequired,
-  index: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  titleUrl: PropTypes.string.isRequired,
 };
 
-const Section = ({ id, title, pages }) => {
+const Section = ({ id, title, pages, titleUrl, index }) => {
   return (
-    <CollapsibleNavItem title={title} icon={IconSection} defaultOpen bordered>
-      <Droppable droppableId={id}>
+    <CollapsibleNavItem
+      title={title}
+      titleUrl={titleUrl}
+      icon={IconSection}
+      defaultOpen
+      bordered
+    >
+      <Droppable droppableId={id} index={index}>
         {({ innerRef, placeholder, droppableProps }) => (
           <NavList ref={innerRef} {...droppableProps}>
             {pages.map(({ id, ...rest }, index) => (
@@ -77,9 +99,16 @@ Section.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   pages: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  titleUrl: PropTypes.string.isRequired,
+  index: PropTypes.number,
 };
 
 const DragAndDrop = (props) => {
+  const [winReady, setwinReady] = useState(false);
+  useEffect(() => {
+    setwinReady(true);
+  }, []);
+
   const [sections, updateSections] = useState([]);
 
   useEffect(() => {
@@ -118,18 +147,27 @@ const DragAndDrop = (props) => {
   };
 
   return (
-    <Panel>
-      <NavList>
-        <IntroductionListItem>
-          <NavItem key={"introduction"} title="Introduction" icon={PageIcon} />
-        </IntroductionListItem>
-      </NavList>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {sections.map(({ id, ...rest }) => {
-          return <Section key={id} id={id} {...rest} />;
-        })}
-      </DragDropContext>
-    </Panel>
+    <>
+      {winReady && (
+        <Panel>
+          <NavList>
+            <IntroductionListItem>
+              <NavItem
+                key={"introduction"}
+                title="Introduction"
+                titleUrl={"titleUrl"}
+                icon={PageIcon}
+              />
+            </IntroductionListItem>
+          </NavList>
+          <DragDropContext onDragEnd={onDragEnd}>
+            {sections.map(({ id, ...rest }, index) => {
+              return <Section key={id} id={id} index={index} {...rest} />;
+            })}
+          </DragDropContext>
+        </Panel>
+      )}
+    </>
   );
 };
 

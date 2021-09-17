@@ -13,7 +13,7 @@ import {
 const dummyQuestions = [
   { alias: "Q1", title: "How many roads must a man walk down?" },
   { alias: "Q2", title: "What is the airspeed velocity of a swallow?" },
-  { alias: "Q3", title: "What is your favourite colour?" },
+  { alias: "Q3", title: "What is your favorite colour?" },
 ];
 
 const Template = (args) => {
@@ -36,6 +36,7 @@ Modal.args = {
     title: "Important Questions",
   },
   onSelectQuestions: (_questionnaire, callback) => callback(dummyQuestions),
+  startingSelectedQuestions: dummyQuestions,
 };
 
 export default {
@@ -46,7 +47,7 @@ export default {
   },
   argTypes: {
     isOpen: {
-      description: "If the wizard modal is currently visable",
+      description: "If the modal is currently visible",
       table: { type: { summary: "Bool" } },
     },
     questionnaire: {

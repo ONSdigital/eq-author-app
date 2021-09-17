@@ -22,6 +22,8 @@ exports[`QuestionProperties should render 1`] = `
     The description is used to provide added context to the question.
   </QuestionProperties__Caption>
   <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
     option="description"
     page={
       Object {
@@ -45,6 +47,8 @@ exports[`QuestionProperties should render 1`] = `
     Only to be used to define word(s) or acronym(s) within the question.
   </QuestionProperties__Caption>
   <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
     option="definition"
     page={
       Object {
@@ -68,6 +72,8 @@ exports[`QuestionProperties should render 1`] = `
     Only to be used to state what should be included or excluded from the answer.
   </QuestionProperties__Caption>
   <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
     option="guidance"
     page={
       Object {
@@ -91,6 +97,8 @@ exports[`QuestionProperties should render 1`] = `
     Information regarding why we are asking this question.
   </QuestionProperties__Caption>
   <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
     option="additionalInfo"
     page={
       Object {

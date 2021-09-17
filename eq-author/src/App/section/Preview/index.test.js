@@ -31,9 +31,13 @@ describe("PreviewSectionRoute", () => {
             title: "",
             introductionTitle: "intro title",
             introductionContent: "intro content",
+            requiredCompleted: false,
+            showOnHub: false,
+            sectionSummary: false,
             questionnaire: {
               id: "2",
               navigation: true,
+              hub: false,
             },
             validationErrorInfo: {
               id: "4",
@@ -62,9 +66,13 @@ describe("PreviewSectionRoute", () => {
             title: "",
             introductionTitle: "",
             introductionContent: "",
+            requiredCompleted: false,
+            showOnHub: false,
+            sectionSummary: false,
             questionnaire: {
               id: "2",
               navigation: true,
+              hub: false,
             },
             validationErrorInfo: {
               id: "4",

@@ -76,9 +76,9 @@ const createQuestionnaire = async (questionnaire, ctx) => {
 const transformedQuestionnaire = (sections, version) => {
   const newSections = sections.length ? sections : version.sections || [];
   newSections.forEach((section) => {
-    section.folders.forEach((folder) => {
-      folder.pages.forEach((page) => {
-        page.answers.forEach((answer) => {
+    section.folders?.forEach((folder) => {
+      folder.pages?.forEach((page) => {
+        page.answers?.forEach((answer) => {
           for (const [, validation] of Object.entries(answer.validation)) {
             if (validation.custom?.seconds) {
               validation.custom = validation.custom.toDate();
@@ -95,8 +95,12 @@ const transformedQuestionnaire = (sections, version) => {
     }
   });
 
-  version.updatedAt = version.updatedAt.toDate();
-  version.createdAt = version.createdAt.toDate();
+  version.updatedAt = version.updatedAt.seconds
+    ? version.updatedAt.toDate()
+    : new Date(version.updatedAt);
+  version.createdAt = version.createdAt.seconds
+    ? version.createdAt.toDate()
+    : new Date(version.createdAt);
   version.editors = version.editors || [];
   return {
     ...version,
@@ -132,7 +136,6 @@ const getQuestionnaire = async (id) => {
             .sort(({ position: a }, { position: b }) => a - b);
 
     const version = latestVersionSnapshot.data();
-
     return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
