@@ -203,6 +203,7 @@ class Answer {
         ...pick(additionalAnswer, ["label", "type"]),
         id: `answer${additionalAnswer.id}`,
         mandatory: properties.required,
+        q_code: additionalAnswer.qCode,
       };
     }
     return option;

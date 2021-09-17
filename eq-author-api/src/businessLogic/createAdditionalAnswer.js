@@ -5,5 +5,6 @@ module.exports = () =>
   createAnswer({
     description: "",
     label: "",
+    qCode: "",
     type: TEXTFIELD,
   });
