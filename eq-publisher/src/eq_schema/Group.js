@@ -7,7 +7,7 @@ const {
 class Group {
   constructor(title, section, ctx) {
     this.id = `group${section.id}`;
-    this.title = ctx.questionnaireJson.navigation ? title : "";
+    this.title = title ? title : "";
     this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
