@@ -70,7 +70,7 @@ describe("multiple choice answer", () => {
         label: "",
         description: null,
         value: null,
-        qCode: null,
+        qCode: "",
         answer: {
           id: createdAnswer.id,
         },
@@ -105,7 +105,7 @@ describe("multiple choice answer", () => {
         label: "",
         description: null,
         value: null,
-        qCode: null,
+        qCode: "",
         answer: {
           id: createdAnswer.id,
         },
