@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { ERR_NO_VALUE } from "constants/validationMessages";
+import { DATE_REQUIRED } from "constants/validationMessages";
 
 import ValidationError from "components/ValidationError";
 import { DateInput } from "./components.js";
@@ -24,7 +24,7 @@ const CustomEditor = ({ validation, onChange, onUpdate }) => {
         invalid={hasError}
         data-test="custom-date-input"
       />
-      {hasError && <ValidationError>{ERR_NO_VALUE}</ValidationError>}
+      {hasError && <ValidationError>{DATE_REQUIRED}</ValidationError>}
     </>
   );
 };

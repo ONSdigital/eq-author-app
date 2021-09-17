@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
 
-import { ERR_NO_VALUE } from "constants/validationMessages";
+import { METADATA_REQUIRED } from "constants/validationMessages";
 
 import ValidationError from "components/ValidationError";
 import MetadataContentPicker from "../MetadataContentPicker.js";
@@ -26,7 +26,7 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => {
         data-test="metadata-date-editor"
         hasError={hasError}
       />
-      {hasError && <ValidationError>{ERR_NO_VALUE}</ValidationError>}
+      {hasError && <ValidationError>{METADATA_REQUIRED}</ValidationError>}
     </>
   );
 };
