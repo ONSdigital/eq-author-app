@@ -24,7 +24,11 @@ const CustomEditor = ({ validation, onChange, onUpdate }) => {
         invalid={hasError}
         data-test="custom-date-input"
       />
-      {hasError && <ValidationError>{DATE_REQUIRED}</ValidationError>}
+      {hasError && (
+        <ValidationError data-test="date-required-error">
+          {DATE_REQUIRED}
+        </ValidationError>
+      )}
     </>
   );
 };

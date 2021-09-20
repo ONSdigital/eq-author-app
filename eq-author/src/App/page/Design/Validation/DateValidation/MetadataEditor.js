@@ -26,7 +26,11 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => {
         data-test="metadata-date-editor"
         hasError={hasError}
       />
-      {hasError && <ValidationError>{METADATA_REQUIRED}</ValidationError>}
+      {hasError && (
+        <ValidationError data-test="metadata-required-error">
+          {METADATA_REQUIRED}
+        </ValidationError>
+      )}
     </>
   );
 };

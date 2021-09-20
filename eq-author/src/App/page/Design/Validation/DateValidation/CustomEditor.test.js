@@ -31,4 +31,35 @@ describe("Custom Editor", () => {
     customDateField.simulate("blur", "event");
     expect(props.onUpdate).toHaveBeenCalledWith("event");
   });
+
+  it("should not display validation error in the modal when there are no errors", () => {
+    const validationMessage = wrapper.find("[data-test='date-required-error']");
+    expect(validationMessage.exists()).toBeFalsy();
+  });
+
+  it("should display validation error in the modal when there is an error", () => {
+    const props = {
+      validation: {
+        validationErrorInfo: {
+          errors: [{ id: "1", errorCode: "ERR_NO_VALUE" }],
+        },
+      },
+    };
+    wrapper = shallow(<CustomEditor {...props} />);
+    const validationMessage = wrapper.find("[data-test='date-required-error']");
+    expect(validationMessage.exists()).toBeTruthy();
+  });
+
+  it("should only display validation errors with the error code `ERR_NO_VALUE`", () => {
+    const props = {
+      validation: {
+        validationErrorInfo: {
+          errors: [{ id: "1", errorCode: "NOT_ERR_NO_VALUE" }],
+        },
+      },
+    };
+    wrapper = shallow(<CustomEditor {...props} />);
+    const validationMessage = wrapper.find("[data-test='date-required-error']");
+    expect(validationMessage.exists()).toBeFalsy();
+  });
 });
