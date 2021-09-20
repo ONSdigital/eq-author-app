@@ -63,7 +63,7 @@ class Group {
       summaryBlock = {
         id: `summary${section.id}`,
         type: "SectionSummary",
-        collapsible: false,
+        collapsible: section.collapsibleSummary,
       };
       blocks.push(summaryBlock);
     }
