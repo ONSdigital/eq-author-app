@@ -26,12 +26,19 @@ const Caption = styled.p`
   font-size: 0.85em;
 `;
 
+const SummaryLabel = styled.label`
+  margin-top: 0s;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  font-weight: bold;
+`;
+
 const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
   const [updateSection] = useMutation(updateSectionMutation);
 
   return (
     <>
-      <Label>Section summary page</Label>
+      <SummaryLabel>Section summary page</SummaryLabel>
       <Caption>
         This allows respondants to view and change their answers within this
         section before submitting them. You can set the section summary to be
