@@ -64,7 +64,7 @@ describe("Section Summary", () => {
     });
   });
 
-  describe("section summary toggle", () => {
+  describe("Collapsible summary toggle", () => {
     it("should render section summary toggle ", async () => {
       const { getByText } = rtlRender(() => <SectionSummary {...props} />);
 
