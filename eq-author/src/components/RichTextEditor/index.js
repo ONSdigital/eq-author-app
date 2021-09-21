@@ -255,6 +255,15 @@ class RichTextEditor extends React.Component {
     }
 
     const metadataPipes = getMetadataPipes(pipes);
+
+    console.log(`metadataPipes`, metadataPipes);
+    console.log(`this.props`, this.props);
+    console.log(
+      `this.props.metadata
+    `,
+      this.props.metadata
+    );
+
     if (metadataPipes.length === 0) {
       return;
     }

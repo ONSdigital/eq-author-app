@@ -1,0 +1,20 @@
+module.exports = (deletedMetadata, pages) => {
+  if (pages) {
+    pages.forEach((page) => {
+      const { title } = page;
+      // const { alias } = deletedMetadata;
+
+      // should we also check for deletedMetadata.alias ???
+      //Will this require a migration ???
+      if (title.includes(deletedMetadata.id)) {
+        page.title = page.title.replace(
+          deletedMetadata.alias,
+          "Deleted metadata"
+        );
+
+        // run updateQuestionPage here ????
+      }
+    });
+    return pages;
+  }
+};
