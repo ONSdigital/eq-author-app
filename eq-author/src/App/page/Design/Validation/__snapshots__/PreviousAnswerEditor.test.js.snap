@@ -20,7 +20,7 @@ exports[`Custom Editor should render 1`] = `
     />
   </FieldWithInclude>
   <ValidationError>
-    Answer required
+    Answer is required
   </ValidationError>
 </Fragment>
 `;
