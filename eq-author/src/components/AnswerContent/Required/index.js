@@ -16,7 +16,7 @@ const Required = ({ answer, label, updateAnswer }) => {
     });
   };
   return (
-    <InlineField id={answer.id} label={label}>
+    <InlineField aria-label={label} id={answer.id} label={label}>
       <ToggleSwitch
         data-test="answer-properties-required-toggle"
         name="required"

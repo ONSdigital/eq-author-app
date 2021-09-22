@@ -316,6 +316,7 @@ Array [
 }
 
 <div
+    aria-label="Answer required"
     class="c0 c1"
   >
     <label
@@ -1176,6 +1177,7 @@ Array [
 }
 
 <div
+    aria-label="Answer required"
     class="c0 c1"
   >
     <label
