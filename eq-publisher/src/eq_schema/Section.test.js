@@ -78,24 +78,6 @@ describe("Section", () => {
     });
   });
 
-  it("should not output title when navigation is disabled", () => {
-    const section = new Section(
-      createSectionJSON(),
-      createCtx({ questionnaireJson: { navigation: false } })
-    );
-
-    expect(section).toMatchObject({
-      id: "section1",
-      groups: [
-        {
-          id: "group1",
-          title: "",
-          blocks: expect.arrayContaining([expect.any(Block)]),
-        },
-      ],
-    });
-  });
-
   it("should add skip conditions from folder to consistuent questions", () => {
     const section = new Section(
       createSectionJSON(),
