@@ -153,6 +153,7 @@ type Section {
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  collapsibleSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -993,6 +994,7 @@ input UpdateSectionInput {
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  collapsibleSummary: Boolean
 }
 
 input DeleteSectionInput {
