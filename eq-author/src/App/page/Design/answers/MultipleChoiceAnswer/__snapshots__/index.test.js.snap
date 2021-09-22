@@ -338,6 +338,7 @@ Array [
     >
       <input
         aria-checked="false"
+        aria-label="Answer required"
         class="c6 c7"
         data-test="ansID1-input"
         id="ansID1"
@@ -1198,6 +1199,7 @@ Array [
     >
       <input
         aria-checked="false"
+        aria-label="Answer required"
         class="c6 c7"
         data-test="ansID1-input"
         id="ansID1"
