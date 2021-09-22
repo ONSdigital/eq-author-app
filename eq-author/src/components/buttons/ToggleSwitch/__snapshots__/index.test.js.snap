@@ -171,6 +171,7 @@ exports[`ToggleSwitch should render 1`] = `
   >
     <input
       aria-checked="false"
+      aria-label="Test switch"
       class="c1 c2"
       data-test="test-input"
       id="test"
@@ -386,6 +387,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   >
     <input
       aria-checked="false"
+      aria-label="Test switch"
       class="c1 c2"
       data-test="toggle-3-input"
       id="toggle-3"

@@ -316,7 +316,6 @@ Array [
 }
 
 <div
-    aria-label="Answer required"
     class="c0 c1"
   >
     <label
@@ -339,6 +338,7 @@ Array [
     >
       <input
         aria-checked="false"
+        aria-label="Answer required"
         class="c6 c7"
         data-test="ansID1-input"
         id="ansID1"
@@ -1177,7 +1177,6 @@ Array [
 }
 
 <div
-    aria-label="Answer required"
     class="c0 c1"
   >
     <label
@@ -1200,6 +1199,7 @@ Array [
     >
       <input
         aria-checked="false"
+        aria-label="Answer required"
         class="c6 c7"
         data-test="ansID1-input"
         id="ansID1"
