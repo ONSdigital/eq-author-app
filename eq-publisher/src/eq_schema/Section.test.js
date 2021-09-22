@@ -120,11 +120,11 @@ describe("Section", () => {
       expect(introBlock.type).toBe("Interstitial");
       expect(introBlock.description).toBe(description);
     });
-  });
 
-  it("shouldn't add introduction block when there's no title / content", () => {
-    const sectionJSON = createSectionJSON();
-    const section = new Section(sectionJSON, createCtx());
-    expect(section.groups[0].blocks[0].type).not.toBe("Interstitial");
+    it("shouldn't add introduction block when there's no title / content", () => {
+      const sectionJSON = createSectionJSON();
+      const section = new Section(sectionJSON, createCtx());
+      expect(section.groups[0].blocks[0].type).not.toBe("Interstitial");
+    });
   });
 });
