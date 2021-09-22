@@ -114,6 +114,7 @@ class ToggleSwitch extends React.Component {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     hideLabels: PropTypes.bool,
+    label: PropTypes.string,
   };
 
   static defaultProps = {
@@ -144,7 +145,7 @@ class ToggleSwitch extends React.Component {
   };
 
   render() {
-    const { id, checked, onChange, hideLabels } = this.props;
+    const { id, checked, onChange, hideLabels, label } = this.props;
 
     return (
       <>
@@ -156,6 +157,7 @@ class ToggleSwitch extends React.Component {
             id={this.id}
             type="checkbox"
             role="checkbox"
+            aria-label={label}
             aria-checked={checked}
             onChange={onChange}
             checked={checked}
