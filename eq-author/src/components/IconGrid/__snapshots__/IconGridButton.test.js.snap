@@ -23,7 +23,9 @@ exports[`components/IconGrid should render 1`] = `
     alt="Checkbox"
     src="checkbox.svg"
   />
-  <IconGridButton__Title>
+  <IconGridButton__Title
+    aria-hidden={false}
+  >
     Checkbox
   </IconGridButton__Title>
 </IconGridButton__Button>
