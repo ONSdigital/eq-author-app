@@ -21,14 +21,14 @@ const ToggleWrapper = styled.div`
 
 const Caption = styled.p`
   margin-top: 0s;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   margin-left: 2rem;
   font-size: 0.85em;
 `;
 
 const SummaryLabel = styled.label`
   margin-top: 0s;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   margin-left: 2rem;
   font-weight: bold;
 `;
@@ -42,7 +42,7 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
       <Caption>
         This allows respondants to view and change their answers within this
         section before submitting them. You can set the section summary to be
-        collapsinle, so respondents can show and hide the answers.
+        collapsible, so respondents can show and hide the answers.
       </Caption>
 
       <InlineField>
