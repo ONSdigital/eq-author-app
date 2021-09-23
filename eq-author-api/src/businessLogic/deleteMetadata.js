@@ -1,5 +1,4 @@
-module.exports = (deletedMetadata, metaData, pages) => {
-  console.log(`metaData`, metaData);
+module.exports = (deletedMetadata, pages) => {
   if (pages) {
     pages.forEach((page) => {
       const { title, description } = page;

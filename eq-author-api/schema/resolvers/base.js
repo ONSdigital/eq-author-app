@@ -788,7 +788,6 @@ const Resolvers = {
     }),
     deleteMetadata: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
-      const metaData = ctx.questionnaire.metadata;
 
       const deletedMetadata = first(
         remove(ctx.questionnaire.metadata, {
@@ -796,7 +795,7 @@ const Resolvers = {
         })
       );
 
-      deleteMetadata(deletedMetadata, metaData, pages);
+      deleteMetadata(deletedMetadata, pages);
 
       ctx.questionnaire.metadata.forEach((row) => {
         if (row.fallbackKey === deletedMetadata.key) {
