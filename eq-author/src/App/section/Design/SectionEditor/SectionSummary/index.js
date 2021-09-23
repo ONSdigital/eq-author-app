@@ -33,6 +33,11 @@ const SummaryLabel = styled.label`
   font-weight: bold;
 `;
 
+const EnableDisableWrapper = styled.div`
+  opacity: ${(props) => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
+
 const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
   const [updateSection] = useMutation(updateSectionMutation);
 
@@ -64,26 +69,28 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
           />
         </ToggleWrapper>
       </InlineField>
-
-      <InlineField>
-        <Label htmlFor="required-completed">Collapsible summary</Label>
-        <ToggleWrapper>
-          <ToggleSwitch
-            id="collapsible-summary"
-            name="collapsible-summary"
-            data-test="collapsible-summary"
-            hideLabels={false}
-            onChange={({ value }) =>
-              updateSection({
-                variables: {
-                  input: { id, collapsibleSummary: value },
-                },
-              })
-            }
-            checked={collapsibleSummary}
-          />
-        </ToggleWrapper>
-      </InlineField>
+      <EnableDisableWrapper disabled={!sectionSummary}>
+        <InlineField>
+          <Label htmlFor="required-completed">Collapsible summary</Label>
+          <ToggleWrapper>
+            <ToggleSwitch
+              disabled="true"
+              id="collapsible-summary"
+              name="collapsible-summary"
+              data-test="collapsible-summary"
+              hideLabels={false}
+              onChange={({ value }) =>
+                updateSection({
+                  variables: {
+                    input: { id, collapsibleSummary: value },
+                  },
+                })
+              }
+              checked={collapsibleSummary}
+            />
+          </ToggleWrapper>
+        </InlineField>
+      </EnableDisableWrapper>
     </>
   );
 };
