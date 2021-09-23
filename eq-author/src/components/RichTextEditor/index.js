@@ -122,7 +122,6 @@ const getContentsOfPipingType = (type) => (contents) =>
   contents.filter((content) => content.entity.data.pipingType === type);
 
 const getAnswerPipes = getContentsOfPipingType("answers");
-const getMetadataPipes = getContentsOfPipingType("metadata");
 
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
@@ -246,25 +245,6 @@ class RichTextEditor extends React.Component {
     }
 
     this.updateAnswerPipedValues(pipes);
-    this.updateMetadataPipedValues(pipes);
-  }
-
-  updateMetadataPipedValues(pipes) {
-    if (!this.props.metadata) {
-      return;
-    }
-
-    const metadataPipes = getMetadataPipes(pipes);
-
-    if (metadataPipes.length === 0) {
-      return;
-    }
-
-    this.renamePipedValues(
-      () => this.props.metadata,
-      metadataPipes,
-      "Deleted metadata"
-    );
   }
 
   updateAnswerPipedValues(pipes) {
