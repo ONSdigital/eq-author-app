@@ -74,7 +74,6 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
           <Label htmlFor="required-completed">Collapsible summary</Label>
           <ToggleWrapper>
             <ToggleSwitch
-              disabled="true"
               id="collapsible-summary"
               name="collapsible-summary"
               data-test="collapsible-summary"
