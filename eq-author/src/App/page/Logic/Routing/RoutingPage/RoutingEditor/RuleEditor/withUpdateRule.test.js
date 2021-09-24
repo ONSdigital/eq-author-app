@@ -21,6 +21,7 @@ describe("withUpdateRule", () => {
         destination: { sectionId: "5" },
       });
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { id: "1", destination: { sectionId: "5" } } },
       });
     });
