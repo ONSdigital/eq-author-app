@@ -48,11 +48,11 @@ const createMutation =
         questionnaire: ctx.questionnaire,
       });
     }
-    // pubsub.publish("validationUpdated", {
-    //   questionnaire: ctx.questionnaire,
-    //   validationErrorInfo: ctx.validationErrorInfo,
-    //   user: ctx.user,
-    // });
+    pubsub.publish("validationUpdated", {
+      questionnaire: ctx.questionnaire,
+      validationErrorInfo: ctx.validationErrorInfo,
+      user: ctx.user,
+    });
     return result;
   };
 
