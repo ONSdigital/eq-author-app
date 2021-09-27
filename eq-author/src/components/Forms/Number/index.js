@@ -90,7 +90,6 @@ const Number = (props) => {
         type="number"
         onBlur={handleBlur}
         aria-live="assertive"
-        role="alert"
         valueType={type}
         aria-labelledby={unitId}
         min={min}
@@ -98,6 +97,7 @@ const Number = (props) => {
         default={props.default}
         name={name}
         step={step}
+        // aria-label={`Decimal places, number field, current value is`}
         {...otherProps}
       />
       {type === CURRENCY && (

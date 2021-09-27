@@ -18,7 +18,7 @@ const SmallerNumber = styled(Number)`
   }
 `;
 
-const Decimal = ({ answer, value, updateAnswerOfType, page }) => {
+const Decimal = ({ answer, value, updateAnswerOfType, id, page }) => {
   const [decimal, setDecimal] = useState(value);
   useEffect(() => {
     setDecimal(value);
@@ -40,13 +40,14 @@ const Decimal = ({ answer, value, updateAnswerOfType, page }) => {
   return (
     <>
       <SmallerNumber
-        id={answer.id}
+        id={id}
         name={answer.id}
         onChange={({ value: decimals }) => setDecimal(decimals)}
         onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
         invalid={errors.length !== 0}
         max={6} //System limit enforced by eq-runner
+        // aria-label={`Decimal places, number field, current value is ${decimal}`}
       />
       {errors.length !== 0 && (
         <ValidationError>
@@ -58,6 +59,7 @@ const Decimal = ({ answer, value, updateAnswerOfType, page }) => {
 };
 
 Decimal.propTypes = {
+  id: PropTypes.string,
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
   value: PropTypes.number.isRequired,
