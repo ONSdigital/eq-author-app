@@ -6,20 +6,45 @@ module.exports = (questionnaire) => {
   };
   const { metadata } = questionnaire;
   const pages = getPages(ctx);
-  console.log(`pages`, pages);
 
   pages.map((page) => {
-    console.log(`metadata`, metadata);
-
     if (page?.title.includes("metadata")) {
-      console.log(`page.title`, page.title);
+      const splitTitleToArray = page.title.split(/(?<=\/span)/);
+      const regexp = /[\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}/i;
 
-      //   page.title = page.title.replace(
-      //     "[deletedMetadata.alias,]",
-      //     "[Deleted metadata]"
-      //   );
+      splitTitleToArray.map((titlePart) => {
+        const idExists = regexp.exec(titlePart);
 
-      const splitTitleToArray = page.title.split("/span");
+        if (idExists !== null && titlePart.includes("metadata")) {
+          const index = splitTitleToArray.indexOf(titlePart);
+
+          const titleMetadtaId = idExists[0];
+          if (
+            metadata.some((thisMetaData) => thisMetaData.id === titleMetadtaId)
+          ) {
+            console.log(`FOUND`);
+          } else {
+            console.log(`"NOT FOUND"`, titlePart);
+            titlePart = titlePart.replace(/\[.*?\]/, "[Deleted metadata]");
+
+            console.log(`index`, index);
+            splitTitleToArray[index] = titlePart;
+            console.log(`NEW titlePart`, titlePart);
+          }
+        }
+      });
+      console.log(`NEW splitTitleToArray`, splitTitleToArray);
+
+      console.log(`page.title OLD`, page.title);
+
+      page.title = splitTitleToArray.join("");
+      console.log(`page.title NEW`, page.title);
+    }
+
+    if (page?.description.includes("metadata")) {
+      console.log(`page.description`, page.description);
+
+      const splitTitleToArray = page.description.split(/(?<=\/span)/);
       console.log(`splitTitleToArray`, splitTitleToArray);
 
       const regexp =
@@ -35,10 +60,6 @@ module.exports = (questionnaire) => {
 
         if (idExists !== null && titlePart.includes("metadata")) {
           console.log(`result INSIDE`, idExists);
-          // console.log(
-          //   `splitTitleToArray indexOf`,
-          //   splitTitleToArray.indexOf(titlePart)
-          // );
           const index = splitTitleToArray.indexOf(titlePart);
 
           const titleMetadtaId = idExists[0];
@@ -49,7 +70,6 @@ module.exports = (questionnaire) => {
             console.log(`FOUND`);
           } else {
             console.log(`"NOT FOUND"`, titlePart);
-            // var titlePart2 = titlePart.replace(/[.*]/, "[Deleted metadata]");
             titlePart = titlePart.replace(/\[.*?\]/, "[Deleted metadata]");
 
             console.log(`index`, index);
@@ -60,10 +80,10 @@ module.exports = (questionnaire) => {
       });
       console.log(`NEW splitTitleToArray`, splitTitleToArray);
 
-      console.log(`page.title OLD`, page.title);
+      console.log(`page.description OLD`, page.description);
 
-      page.title = splitTitleToArray.join("");
-      console.log(`page.title NEW`, page.title);
+      page.description = splitTitleToArray.join("");
+      console.log(`page.description NEW`, page.description);
     }
 
     // if (description.includes(deletedMetadata.id)) {
