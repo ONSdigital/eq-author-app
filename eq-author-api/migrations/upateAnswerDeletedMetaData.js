@@ -9,7 +9,7 @@ module.exports = (questionnaire) => {
   const regexp = /[\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}/i;
 
   pages.map((page) => {
-    if (page?.title.includes("metadata")) {
+    if (page?.title?.includes("metadata")) {
       const splitTitleToArray = page.title.split(/(?<=\/span)/);
 
       splitTitleToArray.map((titlePart) => {
@@ -30,7 +30,7 @@ module.exports = (questionnaire) => {
       page.title = splitTitleToArray.join("");
     }
 
-    if (page?.description.includes("metadata")) {
+    if (page?.description?.includes("metadata")) {
       const splitdescriptionToArray = page.description.split(/(?<=\/span)/);
 
       splitdescriptionToArray.map((titlePart) => {

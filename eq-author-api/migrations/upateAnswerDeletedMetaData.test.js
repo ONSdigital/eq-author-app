@@ -68,6 +68,17 @@ describe("Migration: set advanced property", () => {
     };
   });
 
+  it("should update page title to include `[Deleted [metadata]` if that piped metadata is first and is missing in questionnaire.metadata AND no description is available", () => {
+    questionnaire.sections[0].folders[0].pages[0] = {
+      title:
+        '<p><span data-piped="metadata" data-id="8f043f68-d384-42b0-8dd0-95bff1a8f7f1" data-type="Text">[Ru Ref]</span></p>',
+    };
+    const result = upateAnswerDeletedMetaData(questionnaire);
+    const expectedTitle =
+      '<p><span data-piped="metadata" data-id="8f043f68-d384-42b0-8dd0-95bff1a8f7f1" data-type="Text">[Deleted metadata]</span></p>';
+    expect(result.sections[0].folders[0].pages[0].title).toEqual(expectedTitle);
+  });
+
   it("should update page title to include `[Deleted metadata]` if that piped metadata is missing in questionnaire.metadata", () => {
     const result = upateAnswerDeletedMetaData(questionnaire);
     const expectedTitle =
