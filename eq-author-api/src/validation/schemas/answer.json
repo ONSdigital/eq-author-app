@@ -165,38 +165,40 @@
       }
     },
     "dateRangeAnswer": {
-      "allOf": [{
-        "type": "object",
-        "properties": {
-          "secondaryLabel": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          }
-        },
-        "if": {
+      "allOf": [
+        {
           "type": "object",
           "properties": {
-            "advancedProperties": {
-              "const": true
+            "secondaryLabel": {
+              "$ref": "definitions.json#/definitions/populatedString"
             }
-          }
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "validation": {
-              "$ref": "validation.json#/definitions/dateRangeValidations"
-            },
+          },
+          "if": {
+            "type": "object",
             "properties": {
-              "type": "object",
+              "advancedProperties": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "validation": {
+                "$ref": "validation.json#/definitions/dateRangeValidations"
+              },
               "properties": {
-                "fallback":{
-                  "$ref": "#/definitions/fallback"
+                "type": "object",
+                "properties": {
+                  "fallback": {
+                    "$ref": "#/definitions/fallback"
+                  }
                 }
               }
             }
           }
         }
-      }]
+      ]
     },
     "properties": {
       "type": "object",
