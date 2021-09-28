@@ -40,7 +40,7 @@ module.exports = (questionnaire) => {
           const index = splitdescriptionToArray.indexOf(titlePart);
           const titleMetadataId = idExists[0];
           if (
-            !metadata.some((thisMetaData) => thisMetaData.id === titleMetadtaId)
+            !metadata.some((thisMetaData) => thisMetaData.id === titleMetadataId)
           ) {
             titlePart = titlePart.replace(/\[.*?\]/, "[Deleted metadata]");
             splitdescriptionToArray[index] = titlePart;
