@@ -20,7 +20,9 @@ module.exports = (questionnaire) => {
 
           const titleMetadataId = idExists[0];
           if (
-            !metadata.some((thisMetaData) => thisMetaData.id === titleMetadataId)
+            !metadata.some(
+              (thisMetaData) => thisMetaData.id === titleMetadataId
+            )
           ) {
             titlePart = titlePart.replace(/\[.*?\]/, "[Deleted metadata]");
             splitTitleToArray[index] = titlePart;
@@ -40,7 +42,9 @@ module.exports = (questionnaire) => {
           const index = splitdescriptionToArray.indexOf(titlePart);
           const titleMetadataId = idExists[0];
           if (
-            !metadata.some((thisMetaData) => thisMetaData.id === titleMetadataId)
+            !metadata.some(
+              (thisMetaData) => thisMetaData.id === titleMetadataId
+            )
           ) {
             titlePart = titlePart.replace(/\[.*?\]/, "[Deleted metadata]");
             splitdescriptionToArray[index] = titlePart;

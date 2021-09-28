@@ -1,4 +1,4 @@
-const upateAnswerDeletedMetaData = require("./upateAnswerDeletedMetaData");
+const upateAnswerDeletedMetaData = require("./updateAnswerDeletedMetaData");
 const { NUMBER } = require("../constants/answerTypes");
 
 describe("Migration: set advanced property", () => {

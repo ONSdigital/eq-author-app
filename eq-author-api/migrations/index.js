@@ -23,7 +23,7 @@ const migrations = [
   require("./addSectionHubSettings"),
   require("./updateExpressionSchema"),
   require("./upateAnswerWithAdvancedProperty"),
-  require("./upateAnswerDeletedMetaData"),
+  require("./updateAnswerDeletedMetaData"),
   require("./updateUKISEPEThemes"),
 ];
 
