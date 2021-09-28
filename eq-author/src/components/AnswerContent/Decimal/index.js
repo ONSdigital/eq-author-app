@@ -47,7 +47,6 @@ const Decimal = ({ answer, value, updateAnswerOfType, id, page }) => {
         value={decimal}
         invalid={errors.length !== 0}
         max={6} //System limit enforced by eq-runner
-        // aria-label={`Decimal places, number field, current value is ${decimal}`}
       />
       {errors.length !== 0 && (
         <ValidationError>

@@ -97,7 +97,6 @@ const Number = (props) => {
         default={props.default}
         name={name}
         step={step}
-        // aria-label={`Decimal places, number field, current value is`}
         {...otherProps}
       />
       {type === CURRENCY && (

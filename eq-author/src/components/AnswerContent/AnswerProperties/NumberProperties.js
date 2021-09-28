@@ -12,9 +12,9 @@ const NumberProperties = ({
 }) => {
   return (
     <>
-      <MultiLineField id="decimals" label="Decimal places">
+      <MultiLineField id={`${answer.id}-decimals`} label="Decimal places">
         <Decimal
-          id="decimals"
+          id={`${answer.id}-decimals`}
           answer={answer}
           page={page}
           data-test="decimals"
