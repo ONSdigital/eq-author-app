@@ -1303,7 +1303,7 @@ const Resolvers = {
       const parentPage = find(pages, (page) =>
         some(page.answers, (answer) => answer.id === id)
       );
-
+      console.log(`parentPage`, JSON.stringify(parentPage, null, 7));
       return parentPage;
     },
     mutuallyExclusiveOption: (answer) =>
