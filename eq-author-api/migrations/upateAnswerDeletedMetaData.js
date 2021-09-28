@@ -18,7 +18,7 @@ module.exports = (questionnaire) => {
         if (idExists !== null && titlePart.includes("metadata")) {
           const index = splitTitleToArray.indexOf(titlePart);
 
-          const titleMetadtaId = idExists[0];
+          const titleMetadataId = idExists[0];
           if (
             !metadata.some((thisMetaData) => thisMetaData.id === titleMetadtaId)
           ) {
