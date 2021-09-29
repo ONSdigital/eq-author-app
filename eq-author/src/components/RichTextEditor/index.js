@@ -24,7 +24,7 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, keyBy, mapValues, get } from "lodash/fp";
+import { flow, keyBy, mapValues } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
@@ -117,9 +117,6 @@ const convertToHTML = toHTML({ ...pipedEntityToHTML, ...linkToHTML });
 const convertFromHTML = fromHTML({ ...htmlToPipedEntity, ...linkFromHTML });
 
 const getBlockStyle = (block) => block.getType();
-
-const getContentsOfPipingType = (type) => (contents) =>
-  contents.filter((content) => content.entity.data.pipingType === type);
 
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
