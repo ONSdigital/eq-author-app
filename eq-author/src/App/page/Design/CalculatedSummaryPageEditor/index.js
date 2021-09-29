@@ -12,12 +12,15 @@ import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
-import AnswerSelector from "./AnswerSelector";
+
 import {
   ANSWER,
   METADATA,
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
+
+//new
+import AnswerSelector from "./AnswerSelector";
 
 import withPropRenamed from "enhancers/withPropRenamed";
 import withChangeUpdate from "enhancers/withChangeUpdate";
@@ -37,7 +40,7 @@ const PageSegment = styled.div`
 
 const SelectorTitle = styled.h2`
   font-size: 1em;
-  color: ${colors.darkGrey};
+  color: ${colors.black};
   margin: 0 0 0.4em;
 `;
 

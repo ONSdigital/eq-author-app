@@ -302,23 +302,23 @@ export const AnswerSelector = ({ onUpdateCalculatedSummaryPage, page }) => {
   );
 };
 
-AnswerSelector.fragments = {
-  AnswerSelector: gql`
-    fragment AnswerSelector on CalculatedSummaryPage {
-      id
-      section {
-        id
-        displayName
-      }
-      summaryAnswers {
-        id
-        displayName
-        type
-        properties
-      }
-    }
-  `,
-};
+// AnswerSelector.fragments = {
+//   AnswerSelector: gql`
+//     fragment AnswerSelector on CalculatedSummaryPage {
+//       id
+//       section {
+//         id
+//         displayName
+//       }
+//       summaryAnswers {
+//         id
+//         displayName
+//         type
+//         properties
+//       }
+//     }
+//   `,
+// };
 
 AnswerSelector.propTypes = {
   onUpdateCalculatedSummaryPage: PropTypes.func.isRequired,
