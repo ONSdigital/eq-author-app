@@ -60,15 +60,18 @@ describe("withDeleteMetadata", () => {
     describe("onDeleteMetadata", () => {
       it("should call mutate", () => {
         return props
-          .onDeleteMetadata(questionnaire.id, metadata.id)
+          .onDeleteMetadata("questionnaire.id", metadata.id)
           .then(() => {
-            expect(mutate).toHaveBeenCalledWith(
-              expect.objectContaining({
-                variables: {
-                  input: { id: metadata.id },
-                },
-              })
-            );
+            expect(mutate).toHaveBeenCalledWith({
+              variables: {
+                input: { id: metadata.id },
+              },
+              update: expect.any(Function),
+              refetchQueries: [
+                "GetQuestionnaireWithMetadata",
+                "GetQuestionnaire",
+              ],
+            });
           });
       });
     });
