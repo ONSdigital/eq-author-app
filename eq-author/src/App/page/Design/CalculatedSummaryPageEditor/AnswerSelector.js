@@ -4,21 +4,21 @@ import styled, { css } from "styled-components";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 
+import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
+import { calculatedSummaryErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
+
 import { MenuItemType } from "components/ContentPickerv2/Menu";
 import AnswerPicker from "components/AnswerPicker";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import ValidationError from "components/ValidationError";
-import { calculatedSummaryErrors } from "constants/validationMessages";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import AnswerPreview from "./AnswerPreview";
+
+import iconInfo from "assets/icon-info.svg";
 
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
-import { useQuestionnaire } from "components/QuestionnaireContext";
-
-import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
-
-import AnswerChip from "./AnswerChip";
-import iconInfo from "./icon-info.svg";
 
 const Box = styled.div`
   border: 1px solid ${colors.borders};
@@ -61,7 +61,7 @@ const SectionTitle = styled.div`
   color: #807d77;
 `;
 
-const AnswerList = styled.ul`
+const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
@@ -69,7 +69,7 @@ const AnswerList = styled.ul`
   flex-flow: row wrap;
 `;
 
-const AnswerListItem = styled.li`
+const ListItem = styled.li`
   margin: 0 0 0.5em;
   width: 100%;
 
@@ -117,17 +117,18 @@ const ErrorContainer = styled.div`
   margin-left: 2em;
 `;
 
-const TypeChip = styled(MenuItemType)`
+const Chip = styled(MenuItemType)`
   color: ${colors.text};
   float: right;
 `;
 
-const ChipText = styled.div`
+const Text = styled.p`
   max-width: 30em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   float: left;
+  margin: 0;
 `;
 
 export const ErrorContext = styled.div`
@@ -177,7 +178,27 @@ const renderEmptyState = (handlePickerOpen, availableSummaryAnswers) => (
 export const filterAvailableAnswers = (entity) =>
   [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type) ? entity : [];
 
-const renderAnswers = (
+const AnswerList = ({ answers, validationErrorCode, handleRemoveAnswers }) => (
+  <ErrorContext isInvalid={validationErrorCode}>
+    <List>
+      {answers.map((data) => (
+        <ListItem key={data.id}>
+          <AnswerPreview onRemove={() => handleRemoveAnswers([data])}>
+            <Text>{data.displayName}</Text>
+            {data.properties.unit && (
+              <Chip key={data.properties.unit}>{data.properties.unit}</Chip>
+            )}
+            <Chip key={data.type}>{data.type}</Chip>
+          </AnswerPreview>
+        </ListItem>
+      ))}
+    </List>
+    {validationErrorCode &&
+      renderValidationError(calculatedSummaryErrors[validationErrorCode])}
+  </ErrorContext>
+);
+
+const renderChosenAnswers = (
   answers,
   answerType,
   section,
@@ -199,25 +220,11 @@ const renderAnswers = (
             Remove all
           </RemoveAllButton>
         </SectionHeader>
-        <ErrorContext isInvalid={validationErrorCode}>
-          <AnswerList>
-            {answers.map((answer) => (
-              <AnswerListItem key={answer.id}>
-                <AnswerChip onRemove={() => handleRemoveAnswers([answer])}>
-                  <ChipText>{answer.displayName}</ChipText>
-                  {answer.properties.unit && (
-                    <TypeChip key={answer.properties.unit}>
-                      {answer.properties.unit}
-                    </TypeChip>
-                  )}
-                  <TypeChip key={answer.type}>{answer.type}</TypeChip>
-                </AnswerChip>
-              </AnswerListItem>
-            ))}
-          </AnswerList>
-          {validationErrorCode &&
-            renderValidationError(calculatedSummaryErrors[validationErrorCode])}
-        </ErrorContext>
+        <AnswerList
+          answers={answers}
+          validationErrorCode={validationErrorCode}
+          handleRemoveAnswers={handleRemoveAnswers}
+        />
       </SectionListItem>
     </SectionList>
     <SelectButton
@@ -271,7 +278,7 @@ export const AnswerSelector = ({ onUpdateCalculatedSummaryPage, page }) => {
     <Box>
       <Answers>
         {summaryAnswers.length
-          ? renderAnswers(
+          ? renderChosenAnswers(
               summaryAnswers,
               summaryAnswers?.[0]?.type,
               page.section,

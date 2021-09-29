@@ -88,6 +88,7 @@ export const calculatedSummaryErrors = {
   ERR_NO_ANSWERS: "Select at least two answers to be calculated",
   ERR_CALCULATED_UNIT_INCONSISTENCY:
     "Select answers that are the same unit type",
+  CALCSUM_MOVED: "The calculated summary must appear after the answers it uses",
 };
 
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";

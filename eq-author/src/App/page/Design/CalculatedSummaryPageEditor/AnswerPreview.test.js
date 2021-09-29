@@ -1,16 +1,20 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import AnswerChip from "./AnswerChip";
+import AnswerPreview from "./AnswerPreview";
 
-describe("AnswerChip", () => {
+describe("Answer preview", () => {
   const onRemove = jest.fn();
   it("should render", () => {
-    const wrapper = shallow(<AnswerChip onRemove={onRemove}>Hello</AnswerChip>);
+    const wrapper = shallow(
+      <AnswerPreview onRemove={onRemove}>Hello</AnswerPreview>
+    );
     expect(wrapper).toMatchSnapshot();
   });
   it("should call onRemove on x click", () => {
-    const wrapper = shallow(<AnswerChip onRemove={onRemove}>Hello</AnswerChip>);
+    const wrapper = shallow(
+      <AnswerPreview onRemove={onRemove}>Hello</AnswerPreview>
+    );
     wrapper.find("[data-test='remove-answer-button']").simulate("click");
     expect(onRemove).toHaveBeenCalled();
   });

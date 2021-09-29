@@ -5,24 +5,25 @@ import { get, flowRight, some } from "lodash";
 import styled from "styled-components";
 import gql from "graphql-tag";
 
-import { colors } from "constants/theme";
-import RichTextEditor from "components/RichTextEditor";
-import withChangeUpdate from "enhancers/withChangeUpdate";
-import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
-import withEntityEditor from "components/withEntityEditor";
-import withValidationError from "enhancers/withValidationError";
 import { richTextEditorErrors } from "constants/validationMessages";
+import { colors } from "constants/theme";
+
+import RichTextEditor from "components/RichTextEditor";
+import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
-
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
-
-import withPropRenamed from "enhancers/withPropRenamed";
 import AnswerSelector from "./AnswerSelector";
 import {
   ANSWER,
   METADATA,
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
+
+import withPropRenamed from "enhancers/withPropRenamed";
+import withChangeUpdate from "enhancers/withChangeUpdate";
+import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
+import withValidationError from "enhancers/withValidationError";
+
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 const titleControls = {
@@ -40,11 +41,8 @@ const SelectorTitle = styled.h2`
   margin: 0 0 0.4em;
 `;
 
-const {
-  CALCSUM_TITLE_NOT_ENTERED,
-  PIPING_TITLE_MOVED,
-  PIPING_TITLE_DELETED,
-} = richTextEditorErrors;
+const { CALCSUM_TITLE_NOT_ENTERED, PIPING_TITLE_MOVED, PIPING_TITLE_DELETED } =
+  richTextEditorErrors;
 
 const ERROR_SITUATIONS = [
   {

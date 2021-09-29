@@ -9,7 +9,7 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import {
   UnwrappedAnswerSelector as AnswerSelector,
   ErrorContext,
-} from "./AnswerSelector";
+} from "../AnswerSelector";
 import AnswerChip from "./AnswerChip";
 
 jest.mock("components/QuestionnaireContext", () => ({
