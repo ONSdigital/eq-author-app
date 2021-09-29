@@ -3,5 +3,6 @@ services:
   redis:
     image: redis:5-alpine
     network_mode: cloudbuild
+    container_name: redis
     ports:
       - 6379:6379
