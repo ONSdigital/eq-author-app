@@ -10,7 +10,8 @@ steps:
       - |
         apt update
         apt install -y jq bc
-        cd eq-author-api
+        yarn --frozen-lockfile
+        cd eq-publisher
         yarn --frozen-lockfile
         yarn lint
         yarn test --coverage
