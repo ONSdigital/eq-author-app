@@ -84,6 +84,12 @@ export const characterErrors = {
     "Enter a decimal that is the same as the associated question page",
 };
 
+export const calculatedSummaryErrors = {
+  ERR_NO_ANSWERS: "Select at least two answers to be calculated",
+  ERR_CALCULATED_UNIT_INCONSISTENCY:
+    "Select answers that are the same unit type",
+};
+
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
