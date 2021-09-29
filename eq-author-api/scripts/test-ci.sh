@@ -6,7 +6,7 @@ AWS_ACCESS_KEY_ID=dummy
 AWS_SECRET_ACCESS_KEY=dummy
 FIREBASE_PROJECT_ID=test-firebase-id
 
-echo "running tests..."
+echo "running tests...."
 
 AWS_REGION=${AWS_REGION} \
 AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
