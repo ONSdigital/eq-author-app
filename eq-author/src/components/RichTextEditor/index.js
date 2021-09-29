@@ -24,7 +24,7 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, uniq, map, keyBy, mapValues, get } from "lodash/fp";
+import { flow, keyBy, mapValues, get } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
@@ -120,8 +120,6 @@ const getBlockStyle = (block) => block.getType();
 
 const getContentsOfPipingType = (type) => (contents) =>
   contents.filter((content) => content.entity.data.pipingType === type);
-
-const getAnswerPipes = getContentsOfPipingType("answers");
 
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
@@ -243,49 +241,6 @@ class RichTextEditor extends React.Component {
     if (!pipes.length) {
       return;
     }
-
-    this.updateAnswerPipedValues(pipes);
-  }
-
-  updateAnswerPipedValues(pipes) {
-    if (!this.props.fetchAnswers) {
-      return;
-    }
-
-    const answerPipes = getAnswerPipes(pipes);
-    if (answerPipes.length === 0) {
-      return;
-    }
-
-    const processAnswerType = (answers) => {
-      return answers.map((answer) => {
-        if (get("entity.data.type", answer) === "DateRange") {
-          return {
-            ...answer,
-            entity: {
-              data: {
-                id: get("entity.data.id", answer).replace(/(to|from)$/, ""),
-              },
-            },
-          };
-        } else {
-          return answer;
-        }
-      });
-    };
-
-    const fetchAnswersForPipes = flow(
-      processAnswerType,
-      map("entity.data.id"),
-      uniq,
-      this.props.fetchAnswers
-    );
-
-    this.renamePipedValues(
-      fetchAnswersForPipes(answerPipes),
-      answerPipes,
-      "Deleted answer"
-    );
   }
 
   renamePipedValues(fetchAuthorEntities, pipes, deletedPlaceholder) {

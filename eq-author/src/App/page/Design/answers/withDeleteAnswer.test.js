@@ -35,13 +35,12 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
 
     it("should call mutate when onDeleteAnswer is invoked", () => {
       return props.onDeleteAnswer(currentPage.id, deletedAnswer.id).then(() => {
-        expect(mutate).toHaveBeenCalledWith(
-          expect.objectContaining({
-            variables: {
-              input: { id: deletedAnswer.id },
-            },
-          })
-        );
+        expect(mutate).toHaveBeenCalledWith({
+          variables: {
+            input: { id: deletedAnswer.id },
+          },
+          refetchQueries: ["GetQuestionnaire"],
+        });
       });
     });
 

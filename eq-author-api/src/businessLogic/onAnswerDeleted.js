@@ -50,8 +50,6 @@ const removeAnswerGroup = (page, deletedAnswer) => {
 };
 
 const removeAnswerFromPiping = (page, deletedAnswer, pages) => {
-  //remove the removedPage here first ??
-
   pages.map((page) => {
     if (page?.title?.includes(deletedAnswer.id)) {
       page.title = page.title.replace(deletedAnswer.label, "Deleted answer");
