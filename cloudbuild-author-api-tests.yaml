@@ -1,4 +1,6 @@
 steps:
+  - name: "docker"
+    args: ['run', '-d', '-p 6379:6379', 'redis:5-alpine']
   - name: "node:14"
     env:
       - BABEL_ENV=test
@@ -14,7 +16,7 @@ steps:
         cd eq-author-api
         yarn --frozen-lockfile
         yarn lint
-        yarn test --coverage
+        yarn test:ci --coverage
         export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
         echo "************************"
         echo "Coverage: $percent%"
