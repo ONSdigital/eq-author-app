@@ -656,10 +656,10 @@ const Resolvers = {
     ),
     deleteAnswer: createMutation((_, { input }, ctx) => {
       const page = getPageByAnswerId(ctx, input.id);
-
+      const pages = getPages(ctx);
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
-      onAnswerDeleted(ctx, page, deletedAnswer);
+      onAnswerDeleted(ctx, page, deletedAnswer, pages);
 
       return page;
     }),
@@ -1303,7 +1303,7 @@ const Resolvers = {
       const parentPage = find(pages, (page) =>
         some(page.answers, (answer) => answer.id === id)
       );
-      console.log(`parentPage`, JSON.stringify(parentPage, null, 7));
+
       return parentPage;
     },
     mutuallyExclusiveOption: (answer) =>
