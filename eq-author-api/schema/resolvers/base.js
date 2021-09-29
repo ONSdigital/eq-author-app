@@ -74,6 +74,7 @@ const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
+const deleteMetadata = require("../../src/businessLogic/deleteMetadata");
 const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
@@ -781,15 +782,20 @@ const Resolvers = {
     updateMetadata: createMutation((_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
+
       merge(original, result);
       return result;
     }),
     deleteMetadata: createMutation((_, { input }, ctx) => {
+      const pages = getPages(ctx);
+
       const deletedMetadata = first(
         remove(ctx.questionnaire.metadata, {
           id: input.id,
         })
       );
+
+      deleteMetadata(deletedMetadata, pages);
 
       ctx.questionnaire.metadata.forEach((row) => {
         if (row.fallbackKey === deletedMetadata.key) {
@@ -823,7 +829,6 @@ const Resolvers = {
         };
 
         const pages = getPages(ctx);
-
         let confirmationPage;
         let pageId;
 
