@@ -6,5 +6,6 @@ exports[`components/AnswerTypeButton should render 1`] = `
   iconSrc="SvgrURL"
   onClick={[Function]}
   title="Text field"
+  titleAriaHidden={true}
 />
 `;

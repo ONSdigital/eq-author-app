@@ -38,18 +38,6 @@ describe("Group", () => {
     });
   });
 
-  it("should output an empty title when the navigation is disabled", () => {
-    let groupJSON = createGroupJSON();
-    const group = new Group(
-      groupJSON.title,
-      groupJSON,
-      createCtx({ questionnaireJson: { navigation: false } })
-    );
-    expect(group).toMatchObject({
-      title: "",
-    });
-  });
-
   describe("skip conditions", () => {
     const createGroupsJSON = () => [
       {

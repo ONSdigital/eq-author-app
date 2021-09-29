@@ -39,7 +39,7 @@ export const mapMutateToProps = ({ mutate }) => ({
     const mutation = mutate({
       variables: { input: metadata },
       update,
-      refetchQueries: ["GetQuestionnaireWithMetadata"],
+      refetchQueries: ["GetQuestionnaireWithMetadata", "GetQuestionnaire"],
     });
 
     return mutation.then(() => mutation);

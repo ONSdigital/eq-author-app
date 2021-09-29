@@ -34,6 +34,7 @@ const section = {
   requiredCompleted: false,
   showOnHub: false,
   sectionSummary: false,
+  collapsibleSummary: false,
   folders: [
     {
       __typename: "Folder",

@@ -2,17 +2,38 @@ import React from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
 
+import { METADATA_REQUIRED } from "constants/validationMessages";
+
+import ValidationError from "components/ValidationError";
 import MetadataContentPicker from "../MetadataContentPicker.js";
 
-const MetadataEditor = ({ onChangeUpdate, answer, validation }) => (
-  <MetadataContentPicker
-    answerId={answer.id}
-    onSubmit={onChangeUpdate}
-    selectedContentDisplayName={get(validation.previousAnswer, "displayName")}
-    selectedMetadataDisplayName={get(validation.metadata, "displayName")}
-    selectedId={get(validation.previousAnswer, "id")}
-  />
-);
+const MetadataEditor = ({ onChangeUpdate, answer, validation }) => {
+  const hasError = validation.validationErrorInfo.errors.some(
+    (error) => error.errorCode === "ERR_NO_VALUE"
+  );
+
+  return (
+    <>
+      <MetadataContentPicker
+        answerId={answer.id}
+        onSubmit={onChangeUpdate}
+        selectedContentDisplayName={get(
+          validation.previousAnswer,
+          "displayName"
+        )}
+        selectedMetadataDisplayName={get(validation.metadata, "displayName")}
+        selectedId={get(validation.previousAnswer, "id")}
+        data-test="metadata-date-editor"
+        hasError={hasError}
+      />
+      {hasError && (
+        <ValidationError data-test="metadata-required-error">
+          {METADATA_REQUIRED}
+        </ValidationError>
+      )}
+    </>
+  );
+};
 
 MetadataEditor.propTypes = {
   validation: PropTypes.shape({

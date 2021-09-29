@@ -234,6 +234,7 @@ exports.getQuestionnaire = `
         introductionTitle
         introductionContent
         sectionSummary
+        collapsibleSummary
         folders {
           id
           alias

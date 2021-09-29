@@ -116,6 +116,9 @@ export const SELECTION_REQUIRED = "Selection required";
 
 export const OPERATOR_REQUIRED = "Choose an operator";
 
+export const METADATA_REQUIRED = "Metadata is required";
+export const DATE_REQUIRED = "Date is required";
+
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
   NO_ROUTABLE_ANSWERS_AVAILABLE:
