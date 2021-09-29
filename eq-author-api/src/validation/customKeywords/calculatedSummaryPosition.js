@@ -38,20 +38,23 @@ module.exports = (ajv) =>
 
       answerIdsToCalc.forEach((id) => {
         const page = getPageByAnswerId({ questionnaire }, id);
-        const folder = getFolderByPageId({ questionnaire }, page.id);
-        const folderPos = section.folders
-          .map((folder) => folder.id)
-          .indexOf(folder.id);
 
-        if (calcSumPos.folder < folderPos) {
-          isValid.errors.push(
-            createValidationError(
-              instancePath,
-              fieldName,
-              CALCSUM_MOVED,
-              questionnaire
-            )
-          );
+        if (page) {
+          const folder = getFolderByPageId({ questionnaire }, page.id);
+          const folderPos = section.folders
+            .map((folder) => folder.id)
+            .indexOf(folder.id);
+
+          if (calcSumPos.folder < folderPos) {
+            isValid.errors.push(
+              createValidationError(
+                instancePath,
+                fieldName,
+                CALCSUM_MOVED,
+                questionnaire
+              )
+            );
+          }
         }
       });
 

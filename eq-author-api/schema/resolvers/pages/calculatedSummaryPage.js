@@ -31,10 +31,22 @@ Resolvers.CalculatedSummaryPage = {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  summaryAnswers: ({ summaryAnswers }, args, ctx) =>
-    summaryAnswers
-      ? summaryAnswers.map((ansId) => getAnswerById(ctx, ansId))
-      : [],
+  summaryAnswers: ({ summaryAnswers }, args, ctx) => {
+    const arr = [];
+
+    if (summaryAnswers) {
+      summaryAnswers.forEach((id) => {
+        const ans = getAnswerById(ctx, id);
+
+        if (ans !== undefined) {
+          arr.push(ans);
+        }
+      });
+    }
+
+    return arr;
+  },
+
   validationErrorInfo: ({ id }, args, ctx) =>
     returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
 };

@@ -137,7 +137,6 @@ export const ErrorContext = styled.div`
   ${(props) =>
     props.isInvalid &&
     css`
-      margin-bottom: 2.5em;
       border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
@@ -179,23 +178,25 @@ export const filterAvailableAnswers = (entity) =>
   [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type) ? entity : [];
 
 const AnswerList = ({ answers, validationErrorCode, handleRemoveAnswers }) => (
-  <ErrorContext isInvalid={validationErrorCode}>
-    <List>
-      {answers.map((data) => (
-        <ListItem key={data.id}>
-          <AnswerPreview onRemove={() => handleRemoveAnswers([data])}>
-            <Text>{data.displayName}</Text>
-            {data.properties.unit && (
-              <Chip key={data.properties.unit}>{data.properties.unit}</Chip>
-            )}
-            <Chip key={data.type}>{data.type}</Chip>
-          </AnswerPreview>
-        </ListItem>
-      ))}
-    </List>
+  <>
+    <ErrorContext isInvalid={validationErrorCode}>
+      <List>
+        {answers.map((data) => (
+          <ListItem key={data.id}>
+            <AnswerPreview onRemove={() => handleRemoveAnswers([data])}>
+              <Text>{data.displayName}</Text>
+              {data.properties.unit && (
+                <Chip key={data.properties.unit}>{data.properties.unit}</Chip>
+              )}
+              <Chip key={data.type}>{data.type}</Chip>
+            </AnswerPreview>
+          </ListItem>
+        ))}
+      </List>
+    </ErrorContext>
     {validationErrorCode &&
       renderValidationError(calculatedSummaryErrors[validationErrorCode])}
-  </ErrorContext>
+  </>
 );
 
 const renderChosenAnswers = (
