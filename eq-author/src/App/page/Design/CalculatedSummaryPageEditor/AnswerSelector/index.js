@@ -57,6 +57,7 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
           <Answers
             page={page}
             onUpdateCalculatedSummaryPage={onUpdateCalculatedSummaryPage}
+            onSelect={handlePickerOpen}
           />
         ) : (
           <Empty

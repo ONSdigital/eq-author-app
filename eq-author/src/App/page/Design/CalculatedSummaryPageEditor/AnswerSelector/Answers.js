@@ -47,7 +47,7 @@ const ErrorWrapper = styled.div`
 
 const Footer = styled.div``;
 
-const Answers = ({ page, onUpdateCalculatedSummaryPage }) => {
+const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
   const sectionTitle = page.section.displayName;
   const answerType = page.summaryAnswers[0].type;
   const selectedAnswers = page.summaryAnswers;
@@ -91,7 +91,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage }) => {
         )}
       </Body>
       <Footer>
-        <SelectButton variant="secondary">
+        <SelectButton variant="secondary" onClick={onSelect}>
           Select another {answerType.toLowerCase() || ""} answer
         </SelectButton>
       </Footer>
