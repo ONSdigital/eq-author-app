@@ -72,7 +72,7 @@ const SelectedAnswer = ({
   type: answerType,
   onRemove,
 }) => {
-  const unitType = properties.unit;
+  const unitType = properties.unit || false;
   return (
     <Wrapper>
       <Title>{displayName}</Title>
