@@ -57,18 +57,17 @@ export const entityToHTML = {
   [ENTITY_TYPE]: PipedValueSerialized,
 };
 
-export const replacePipedValues = (labels, placeholder) => (
-  contentState,
-  { entityKey, blockKey, entity }
-) => {
-  const text = labels.hasOwnProperty(entity.data.id)
-    ? labels[entity.data.id]
-    : placeholder;
+export const replacePipedValues =
+  (labels, placeholder) =>
+  (contentState, { entityKey, blockKey, entity }) => {
+    const text = labels.hasOwnProperty(entity.data.id)
+      ? labels[entity.data.id]
+      : placeholder;
 
-  return text
-    ? replaceEntityText(contentState, entityKey, blockKey, `[${text}]`)
-    : contentState;
-};
+    return text
+      ? replaceEntityText(contentState, entityKey, blockKey, `[${text}]`)
+      : contentState;
+  };
 
 export const insertPipedValue = (entity, contentState, selection) => {
   const newContent = createPipedEntity(
