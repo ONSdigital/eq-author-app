@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
+
 import { colors } from "constants/theme";
+import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
 
 import Answers from "./Answers";
+import Empty from "./Empty";
+import AnswerPicker from "components/AnswerPicker";
+
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 const Container = styled.div`
   border: 1px solid ${colors.grey};
@@ -12,28 +19,63 @@ const Container = styled.div`
   margin-bottom: 2em;
 `;
 
-const renderContent = (
-  hasSummaryAnswers,
-  page,
-  onUpdateCalculatedSummaryPage
-) =>
-  hasSummaryAnswers ? (
-    <Answers
-      page={page}
-      onUpdateCalculatedSummaryPage={onUpdateCalculatedSummaryPage}
-    />
-  ) : (
-    <p>Hi</p>
-  );
+export const filterAvailableAnswers = (entity) =>
+  [CURRENCY, UNIT, PERCENTAGE, NUMBER].includes(entity.type) ? entity : [];
+
 const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
+  const [showPicker, setShowPicker] = useState(false);
+
+  const { questionnaire } = useQuestionnaire();
+
+  const availableSummaryAnswers = useMemo(
+    () =>
+      (
+        questionnaire &&
+        getContentBeforeEntity({
+          questionnaire,
+          id: page.id,
+          preprocessAnswers: filterAvailableAnswers,
+        })
+      )?.filter((section) => section.id === page.section.id) || [],
+    [questionnaire, page.id, page.section.id]
+  );
+
+  const handlePickerOpen = () => setShowPicker(true);
+  const handlePickerClose = () => setShowPicker(false);
+  const handlePickerSubmit = (answers) => {
+    handlePickerClose();
+    onUpdateCalculatedSummaryPage({
+      id: page.id,
+      summaryAnswers: answers,
+    });
+  };
+
   return (
-    <Container>
-      {renderContent(
-        page.summaryAnswers.length > 0,
-        page,
-        onUpdateCalculatedSummaryPage
-      )}
-    </Container>
+    <>
+      <Container>
+        {page.summaryAnswers.length > 0 ? (
+          <Answers
+            page={page}
+            onUpdateCalculatedSummaryPage={onUpdateCalculatedSummaryPage}
+          />
+        ) : (
+          <Empty
+            page={page}
+            availableSummaryAnswers={availableSummaryAnswers}
+            onSelect={handlePickerOpen}
+          />
+        )}
+      </Container>
+      <AnswerPicker
+        isOpen={showPicker}
+        onClose={handlePickerClose}
+        onSubmit={handlePickerSubmit}
+        startingSelectedAnswers={page.summaryAnswers}
+        data={availableSummaryAnswers}
+        title="Select one or more answer"
+        showTypes
+      />
+    </>
   );
 };
 
