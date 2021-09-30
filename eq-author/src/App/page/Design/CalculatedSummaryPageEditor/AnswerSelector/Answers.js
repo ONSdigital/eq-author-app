@@ -43,6 +43,10 @@ const ErrorWrapper = styled.div`
       border: 2px solid ${colors.errorPrimary};
       padding: 1em;
     `}
+
+  div:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const Footer = styled.div``;
