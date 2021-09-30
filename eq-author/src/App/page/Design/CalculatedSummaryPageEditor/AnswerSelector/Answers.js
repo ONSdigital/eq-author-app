@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+
 import { colors } from "constants/theme";
+import { calculatedSummaryErrors } from "constants/validationMessages";
 
 import SelectedAnswer from "./SelectedAnswer";
 import TextButton from "components/buttons/TextButton";
 import Button from "components/buttons/Button";
+import ValidationError from "components/ValidationError";
 
 const Title = styled.h3`
   font-weight: bold;
@@ -33,6 +36,15 @@ const Body = styled.div`
   margin-bottom: 1em;
 `;
 
+const ErrorWrapper = styled.div`
+  ${(props) =>
+    props.hasError &&
+    `
+      border: 2px solid ${colors.errorPrimary};
+      padding: 1em;
+    `}
+`;
+
 const Footer = styled.div``;
 
 const Answers = ({ page, onUpdateCalculatedSummaryPage }) => {
@@ -40,10 +52,16 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage }) => {
   const answerType = page.summaryAnswers[0].type;
   const selectedAnswers = page.summaryAnswers;
 
-  const handleRemoveAll = () =>
+  const {
+    validationErrorInfo: { errors },
+  } = page;
+
+  const handleRemoveAnswers = (answers) =>
     onUpdateCalculatedSummaryPage({
       id: page.id,
-      summaryAnswers: [],
+      summaryAnswers: selectedAnswers.filter(
+        ({ id }) => !answers.find((answer) => answer.id === id)
+      ),
     });
 
   return (
@@ -52,12 +70,25 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage }) => {
         <Title>
           {answerType} answers in {sectionTitle}
         </Title>
-        <RemoveAllBtn>Remove all</RemoveAllBtn>
+        <RemoveAllBtn onClick={() => handleRemoveAnswers(selectedAnswers)}>
+          Remove all
+        </RemoveAllBtn>
       </Header>
       <Body>
-        {selectedAnswers.map((answer) => (
-          <SelectedAnswer key={answer.id} {...answer} />
-        ))}
+        <ErrorWrapper hasError={errors.length > 0}>
+          {selectedAnswers.map((answer) => (
+            <SelectedAnswer
+              key={answer.id}
+              {...answer}
+              onRemove={() => handleRemoveAnswers([answer])}
+            />
+          ))}
+        </ErrorWrapper>
+        {errors.length > 0 && (
+          <ValidationError>
+            {calculatedSummaryErrors[errors[0].errorCode]}
+          </ValidationError>
+        )}
       </Body>
       <Footer>
         <SelectButton variant="secondary">
