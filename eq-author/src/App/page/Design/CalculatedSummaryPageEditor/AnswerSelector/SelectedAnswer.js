@@ -87,7 +87,9 @@ const SelectedAnswer = ({
 
 SelectedAnswer.propTypes = {
   onRemove: PropType.func.isRequired,
-  children: PropType.node.isRequired,
+  displayName: PropType.string.isRequired,
+  type: PropType.string.isRequired,
+  properties: PropType.object.isRequired, // eslint-disable-line
 };
 
 export default SelectedAnswer;

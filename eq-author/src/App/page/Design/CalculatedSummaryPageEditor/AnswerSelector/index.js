@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import PropType from "prop-types";
 
 import { colors } from "constants/theme";
 import { NUMBER, CURRENCY, UNIT, PERCENTAGE } from "constants/answer-types";
@@ -96,6 +97,11 @@ AnswerSelector.fragments = {
       }
     }
   `,
+};
+
+AnswerSelector.propTypes = {
+  page: PropType.object.isRequired, // eslint-disable-line
+  onUpdateCalculatedSummaryPage: PropType.func.isRequired,
 };
 
 export default AnswerSelector;

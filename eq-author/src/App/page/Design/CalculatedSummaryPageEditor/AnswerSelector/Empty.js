@@ -78,7 +78,7 @@ const Empty = ({ page, availableSummaryAnswers, onSelect }) => {
 
 Empty.propTypes = {
   page: PropTypes.object.isRequired, // eslint-disable-line
-  availableSummaryAnswers: PropTypes.array.isRequired,
+  availableSummaryAnswers: PropTypes.array.isRequired, // eslint-disable-line
   onSelect: PropTypes.func.isRequired, // eslint-disable-line
 };
 
