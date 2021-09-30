@@ -70,7 +70,7 @@ const Empty = ({ page, availableSummaryAnswers, onSelect }) => {
         </ErrorBox>
       </Centered>{" "}
       <ValidationError>
-        {calculatedSummaryErrors[errors[0].errorCode]}
+        {calculatedSummaryErrors[errors[0]?.errorCode]}
       </ValidationError>
     </>
   );
