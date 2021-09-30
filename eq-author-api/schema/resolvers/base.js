@@ -532,7 +532,9 @@ const Resolvers = {
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
       const removedSection = first(remove(getSections(ctx), { id: input.id }));
-      onSectionDeleted(ctx, removedSection);
+      const pages = getPages(ctx);
+
+      onSectionDeleted(ctx, removedSection, pages);
 
       if (!ctx.questionnaire.sections.length) {
         ctx.questionnaire.sections.push(createSection());
@@ -574,8 +576,9 @@ const Resolvers = {
     deleteFolder: createMutation((root, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
       const removedFolder = first(remove(section.folders, { id: input.id }));
+      const pages = getPages(ctx);
 
-      onFolderDeleted(ctx, removedFolder);
+      onFolderDeleted(ctx, removedFolder, pages);
 
       if (!section.folders.length) {
         section.folders.push(createFolder());

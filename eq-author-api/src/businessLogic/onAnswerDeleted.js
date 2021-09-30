@@ -49,14 +49,17 @@ const removeAnswerGroup = (page, deletedAnswer) => {
   page.totalValidation = null;
 };
 
-const removeAnswerFromPiping = (page, deletedAnswer, pages) => {
-  pages.map((page) => {
-    if (page?.title?.includes(deletedAnswer.id)) {
-      page.title = page.title.replace(deletedAnswer.label, "Deleted answer");
+const removeAnswerFromPiping = (deletedAnswer, pages) => {
+  const deletedAnswerId = deletedAnswer.id;
+
+  pages.forEach((page) => {
+    const { title, description } = page;
+    if (title?.includes(deletedAnswerId)) {
+      page.title = title.replace(deletedAnswer.label, "Deleted answer");
     }
 
-    if (page.description.includes(deletedAnswer.id)) {
-      page.description = page.description.replace(
+    if (description?.includes(deletedAnswer.id)) {
+      page.description = description.replace(
         deletedAnswer.label,
         "Deleted answer"
       );
@@ -68,5 +71,5 @@ const removeAnswerFromPiping = (page, deletedAnswer, pages) => {
 module.exports = (ctx, page, deletedAnswer, pages) => {
   removeAnswerFromExpressions(ctx, deletedAnswer);
   removeAnswerGroup(page, deletedAnswer);
-  removeAnswerFromPiping(page, deletedAnswer, pages);
+  removeAnswerFromPiping(deletedAnswer, pages);
 };
