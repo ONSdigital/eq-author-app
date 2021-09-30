@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
 import { calculatedSummaryErrors } from "constants/validationMessages";
@@ -101,6 +102,12 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
       </Footer>
     </>
   );
+};
+
+Answers.propTypes = {
+  page: PropTypes.object.isRequired, // eslint-disable-line
+  onUpdateCalculatedSummaryPage: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired, // eslint-disable-line
 };
 
 export default Answers;

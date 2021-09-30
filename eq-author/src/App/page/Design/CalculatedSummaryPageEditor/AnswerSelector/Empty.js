@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
 import { calculatedSummaryErrors } from "constants/validationMessages";
@@ -73,6 +74,12 @@ const Empty = ({ page, availableSummaryAnswers, onSelect }) => {
       </ValidationError>
     </>
   );
+};
+
+Empty.propTypes = {
+  page: PropTypes.object.isRequired, // eslint-disable-line
+  availableSummaryAnswers: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired, // eslint-disable-line
 };
 
 export default Empty;
