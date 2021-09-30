@@ -3,6 +3,7 @@
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
 #import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
@@ -28,19 +29,7 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
             }
             ... on MultipleChoiceAnswer {
               options {
-                id
-                displayName
-                label
-                description
-                value
-                qCode
-                additionalAnswer {
-                  id
-                  description
-                  label
-                  qCode
-                  type
-                }
+                ...Option
               }
               mutuallyExclusiveOption {
                 id
