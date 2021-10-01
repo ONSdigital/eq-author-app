@@ -73,6 +73,7 @@ const {
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
+const onAnswerUpdated = require("../../src/businessLogic/onAnswerUpdated");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const deleteMetadata = require("../../src/businessLogic/deleteMetadata");
 const createOption = require("../../src/businessLogic/createOption");
@@ -633,6 +634,7 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswerLabel = answer.label;
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input?.properties?.format) {
@@ -641,6 +643,9 @@ const Resolvers = {
         answer.validation.latestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
       }
+
+      const pages = getPages(ctx);
+      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
 
       return answer;
     }),

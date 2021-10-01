@@ -245,12 +245,12 @@ describe("components/RichTextEditor", function () {
         },
       ];
 
-      const metadata = [
-        {
-          id: "1",
-          displayName: "metadata 1",
-        },
-      ];
+      // const metadata = [
+      //   {
+      //     id: "1",
+      //     displayName: "metadata 1",
+      //   },
+      // ];
 
       let fetch;
 
@@ -258,76 +258,39 @@ describe("components/RichTextEditor", function () {
         fetch = jest.fn(() => SynchronousPromise.resolve(answers));
       });
 
-      it("should load labels for piped answers when mounted", () => {
-        const html = `<p><span data-piped="answers" data-id="1" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
+      // it("should handle piped values for answers that no longer exist", () => {
+      //   const nonExistentAnswer = {
+      //     id: "4",
+      //     pipingType: "answers",
+      //     type: "number",
+      //   };
+      //   const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
 
-        wrapper = shallow(
-          <RichTextEditor
-            {...props}
-            fetchAnswers={fetch}
-            metadata={metadata}
-            value={html}
-          />
-        );
+      //   wrapper = shallow(
+      //     <RichTextEditor
+      //       {...props}
+      //       fetchAnswers={fetch}
+      //       value={html}
+      //       metadata={metadata}
+      //     />
+      //   );
 
-        const expected = new Raw()
-          .addBlock("[answer 1] [answer 2]")
-          .addEntity(
-            createPipedEntity(createEntity, {
-              id: answers[0].id,
-              pipingType: "answers",
-              type: "number",
-            }),
-            0,
-            10
-          )
-          .addEntity(
-            createPipedEntity(createEntity, {
-              id: answers[1].id,
-              pipingType: "answers",
-              type: "number",
-            }),
-            11,
-            10
-          )
-          .toRawContentState();
+      //   const expected = new Raw()
+      //     .addBlock("[Deleted answer] [answer 2]")
+      //     .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
+      //     .addEntity(
+      //       createPipedEntity(createEntity, {
+      //         id: answers[1].id,
+      //         pipingType: "answers",
+      //         type: "number",
+      //       }),
+      //       17,
+      //       10
+      //     )
+      //     .toRawContentState();
 
-        expect(toRaw(wrapper)).toEqual(expected);
-      });
-
-      it("should handle piped values for answers that no longer exist", () => {
-        const nonExistentAnswer = {
-          id: "4",
-          pipingType: "answers",
-          type: "number",
-        };
-        const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
-
-        wrapper = shallow(
-          <RichTextEditor
-            {...props}
-            fetchAnswers={fetch}
-            value={html}
-            metadata={metadata}
-          />
-        );
-
-        const expected = new Raw()
-          .addBlock("[Deleted answer] [answer 2]")
-          .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
-          .addEntity(
-            createPipedEntity(createEntity, {
-              id: answers[1].id,
-              pipingType: "answers",
-              type: "number",
-            }),
-            17,
-            10
-          )
-          .toRawContentState();
-
-        expect(toRaw(wrapper)).toEqual(expected);
-      });
+      //   expect(toRaw(wrapper)).toEqual(expected);
+      // });
 
       it("should not request no answers when none are found", () => {
         wrapper = shallow(<RichTextEditor {...props} fetchAnswers={fetch} />);
