@@ -6,6 +6,18 @@ import { propTypes } from "./propTypes";
 
 import { radius, colors, focusStyle } from "constants/theme";
 
+const testFunction = (a, b) => {
+  let result;
+  if (a === b) {
+    result = a + b;
+  } else {
+    result = a * b;
+  }
+  return result;
+};
+
+testFunction(1, 2);
+
 export const primaryButton = css`
   --color-text: ${colors.white};
   --color-bg: ${colors.primary};
