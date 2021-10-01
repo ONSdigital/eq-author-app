@@ -7,7 +7,7 @@ const {
 class Group {
   constructor(title, section, ctx) {
     this.id = `group${section.id}`;
-    this.title = ctx.questionnaireJson.navigation ? title : "";
+    this.title = title ? title : "";
     this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
@@ -63,7 +63,7 @@ class Group {
       summaryBlock = {
         id: `summary${section.id}`,
         type: "SectionSummary",
-        collapsible: false,
+        collapsible: section.collapsibleSummary,
       };
       blocks.push(summaryBlock);
     }

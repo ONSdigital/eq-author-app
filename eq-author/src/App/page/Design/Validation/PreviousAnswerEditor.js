@@ -12,7 +12,7 @@ import {
 } from "constants/validationMessages";
 
 export const errorMessages = {
-  ERR_NO_VALUE: "Answer required",
+  ERR_NO_VALUE: "Answer is required",
   ERR_REFERENCE_DELETED,
   ERR_REFERENCE_MOVED,
 };

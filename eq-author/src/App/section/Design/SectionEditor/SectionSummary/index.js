@@ -21,16 +21,30 @@ const ToggleWrapper = styled.div`
 
 const Caption = styled.p`
   margin-top: 0s;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   margin-left: 2rem;
   font-size: 0.85em;
 `;
 
-const SectionSummary = ({ id, sectionSummary }) => {
+const SummaryLabel = styled.label`
+  margin-top: 0s;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem;
+  font-weight: bold;
+`;
+
+const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
   const [updateSection] = useMutation(updateSectionMutation);
 
   return (
     <>
+      <SummaryLabel>Section summary page</SummaryLabel>
+      <Caption>
+        This allows respondants to view and change their answers within this
+        section before submitting them. You can set the section summary to be
+        collapsible, so respondents can show and hide the answers.
+      </Caption>
+
       <InlineField>
         <Label htmlFor="required-completed">Section summary</Label>
         <ToggleWrapper>
@@ -50,10 +64,26 @@ const SectionSummary = ({ id, sectionSummary }) => {
           />
         </ToggleWrapper>
       </InlineField>
-      <Caption>
-        This allows respondents to view and change their answers within this
-        section before submitting them.
-      </Caption>
+
+      <InlineField>
+        <Label htmlFor="required-completed">Collapsible summary</Label>
+        <ToggleWrapper>
+          <ToggleSwitch
+            id="collapsible-summary"
+            name="collapsible-summary"
+            data-test="collapsible-summary"
+            hideLabels={false}
+            onChange={({ value }) =>
+              updateSection({
+                variables: {
+                  input: { id, collapsibleSummary: value },
+                },
+              })
+            }
+            checked={collapsibleSummary}
+          />
+        </ToggleWrapper>
+      </InlineField>
     </>
   );
 };
@@ -61,6 +91,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
 SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
+  collapsibleSummary: PropTypes.bool,
 };
 
 export default SectionSummary;

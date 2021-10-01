@@ -24,6 +24,7 @@ const Required = ({ answer, label, updateAnswer }) => {
         onChange={onUpdateRequired}
         checked={answer.properties.required}
         hideLabels={false}
+        ariaLabel={label}
       />
     </InlineField>
   );
