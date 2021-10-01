@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
-import SavingIcon from "./icon-saving.svg?inline";
+import { ReactComponent as SavingIcon } from "assets/icon-saving.svg";
 import timer from "utils/timer";
 import { connect } from "react-redux";
 import { isSaving, hasError } from "redux/saving/reducer";
