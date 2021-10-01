@@ -10,6 +10,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           expressionGroupId,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });
