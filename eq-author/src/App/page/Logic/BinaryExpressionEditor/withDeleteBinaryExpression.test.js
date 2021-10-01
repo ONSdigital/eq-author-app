@@ -17,6 +17,7 @@ describe("withDeleteBinaryExpression", () => {
     it("should call mutate", () => {
       props.deleteBinaryExpression("id");
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { id: "id" } },
         update: expect.any(Function),
       });
