@@ -123,6 +123,8 @@ export const StatelessOption = ({
                 disabled={!canMoveUp}
                 onClick={onMoveUp}
                 data-test="btn-move-answer-up"
+                tabIndex={!canMoveUp && -1}
+                aria-label={"Move option up"}
               >
                 <IconUp />
               </MoveButton>
@@ -136,6 +138,8 @@ export const StatelessOption = ({
                 disabled={!canMoveDown}
                 onClick={onMoveDown}
                 data-test="btn-move-answer-down"
+                tabIndex={!canMoveDown && -1}
+                aria-label={"Move option down"}
               >
                 <IconDown />
               </MoveButton>
@@ -150,6 +154,7 @@ export const StatelessOption = ({
               onClick={handleDeleteClick}
               data-test="btn-delete-option"
               disabled={!hasDeleteButton}
+              tabIndex={!hasDeleteButton && -1}
             />
           </Tooltip>
         )}
