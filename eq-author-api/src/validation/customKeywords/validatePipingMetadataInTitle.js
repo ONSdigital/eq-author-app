@@ -18,7 +18,7 @@ module.exports = (ajv) =>
     keyword: "validatePipingMetadataInTitle",
     validate: function isValid(
       _schema,
-      title,
+      textString,
       _parentSchema,
       { parentDataProperty: fieldName, instancePath, rootData: questionnaire }
     ) {
@@ -26,8 +26,10 @@ module.exports = (ajv) =>
       const pipedIdList = [];
 
       let matches;
+
       do {
-        matches = pipedAnswerIdRegex.exec(title);
+        matches = pipedAnswerIdRegex.exec(textString);
+
         if (matches && matches.length > 1) {
           const [, answerId] = matches;
           pipedIdList.push(trimDateRangeId(answerId));
