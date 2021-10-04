@@ -38,6 +38,7 @@ const situations = {
   },
   description: {
     [DESCRIPTION_NOT_ENTERED.errorCode]: DESCRIPTION_NOT_ENTERED.message,
+    [PIPING_METADATA_DELETED.errorCode]: PIPING_METADATA_DELETED.message,
   },
   additionalInfoLabel: {
     [ADDITIONAL_INFO_LABEL_NOT_ENTERED.errorCode]:
