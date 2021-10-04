@@ -8,6 +8,7 @@ import {
   Stories,
   PRIMARY_STORY,
 } from "@storybook/addon-docs/blocks";
+import { colors } from "constants/theme";
 
 import { UnconnectedSavingIndicator } from "components/EditorLayout/Header/SavingIndicator";
 
@@ -34,7 +35,7 @@ export default {
 };
 
 const UnconnectedSavingIndicatorTemplate = (args) => (
-  <div style={{ background: "#3B7A9E", padding: "2em" }}>
+  <div style={{ background: colors.primary, padding: "2em" }}>
     <UnconnectedSavingIndicator isSaving={true} />
   </div>
 );
