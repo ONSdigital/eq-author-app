@@ -58,7 +58,6 @@ describe("Section Summary", () => {
           input: {
             id: props.id,
             sectionSummary: true,
-            collapsibleSummary: false,
           },
         },
       });
