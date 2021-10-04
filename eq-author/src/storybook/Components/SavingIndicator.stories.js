@@ -36,7 +36,7 @@ export default {
 
 const UnconnectedSavingIndicatorTemplate = (args) => (
   <div style={{ background: colors.primary, padding: "2em" }}>
-    <UnconnectedSavingIndicator isSaving={true} />
+    <UnconnectedSavingIndicator isSaving {...args} />
   </div>
 );
 
