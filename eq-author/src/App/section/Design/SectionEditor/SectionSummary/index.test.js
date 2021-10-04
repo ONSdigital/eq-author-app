@@ -95,5 +95,30 @@ describe("Section Summary", () => {
         },
       });
     });
+
+    it("Should disable collapsible summary toggle when section summary off", async () => {
+      const { getByTestId } = rtlRender(() => <SectionSummary {...props} />);
+
+      const preToggle = getByTestId("collapsible-summary");
+
+      const toggle = Object.values(preToggle.children).reduce((child) =>
+        child.type === "checkbox" ? child : null
+      );
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(mockUseMutation.mock.calls.length).toBe(3);
+      expect(mockUseMutation).toBeCalledWith({
+        variables: {
+          input: {
+            id: props.id,
+            collapsibleSummary: false,
+          },
+        },
+      });
+    });
   });
 });
