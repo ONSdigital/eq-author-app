@@ -76,7 +76,7 @@ const SelectedAnswer = ({
   return (
     <Wrapper>
       <Title>{displayName}</Title>
-      {unitType && <Chip>{unitType}</Chip>}
+      {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
       <Chip>{answerType}</Chip>
       <CloseButton data-test="remove-answer-button" onClick={onRemove}>
         <IconClose />
