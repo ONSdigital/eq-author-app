@@ -12,7 +12,8 @@ const {
 
 const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
 
-const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuidRejex =
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 const {
   deleteSection,
@@ -316,149 +317,6 @@ describe("calculated Summary", () => {
     });
 
     await deleteSection(ctx, section.id);
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
-  it("should delete answer from list when page moved to after calsum page", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await movePage(ctx, {
-      id: answersPage.id,
-      position: 1,
-      sectionId: section.id,
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
-  it("should delete answer from list when section with answer moved to after calsum page's section", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[1].folders[0].pages[0];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await moveSection(ctx, {
-      id: section.id,
-      position: 1,
-      questionnaireId: questionnaire.id,
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
-  it("should delete answer from list when calsum page moved to before question page", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await movePage(ctx, {
-      id: calSumPage.id,
-      position: 0,
-      sectionId: section.id,
-    });
 
     const result = await queryPage(ctx, calSumPage.id);
 
