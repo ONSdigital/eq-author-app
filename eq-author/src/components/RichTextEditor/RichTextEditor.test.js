@@ -258,40 +258,6 @@ describe("components/RichTextEditor", function () {
         fetch = jest.fn(() => SynchronousPromise.resolve(answers));
       });
 
-      // it("should handle piped values for answers that no longer exist", () => {
-      //   const nonExistentAnswer = {
-      //     id: "4",
-      //     pipingType: "answers",
-      //     type: "number",
-      //   };
-      //   const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
-
-      //   wrapper = shallow(
-      //     <RichTextEditor
-      //       {...props}
-      //       fetchAnswers={fetch}
-      //       value={html}
-      //       metadata={metadata}
-      //     />
-      //   );
-
-      //   const expected = new Raw()
-      //     .addBlock("[Deleted answer] [answer 2]")
-      //     .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
-      //     .addEntity(
-      //       createPipedEntity(createEntity, {
-      //         id: answers[1].id,
-      //         pipingType: "answers",
-      //         type: "number",
-      //       }),
-      //       17,
-      //       10
-      //     )
-      //     .toRawContentState();
-
-      //   expect(toRaw(wrapper)).toEqual(expected);
-      // });
-
       it("should not request no answers when none are found", () => {
         wrapper = shallow(<RichTextEditor {...props} fetchAnswers={fetch} />);
         expect(fetch).not.toHaveBeenCalled();
