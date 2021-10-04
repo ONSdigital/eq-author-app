@@ -23,6 +23,7 @@ describe("withUpdateBinaryExpression", () => {
         "Equals"
       );
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { id: "id", condition: "Equals" } },
       });
     });
