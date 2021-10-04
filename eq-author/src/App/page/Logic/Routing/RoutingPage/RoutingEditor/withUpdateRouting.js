@@ -11,6 +11,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           else: routing.else,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });

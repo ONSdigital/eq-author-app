@@ -17,6 +17,7 @@ describe("withDeleteRule", () => {
     it("should call mutate", () => {
       props.deleteRule("id");
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { id: "id" } },
       });
     });
