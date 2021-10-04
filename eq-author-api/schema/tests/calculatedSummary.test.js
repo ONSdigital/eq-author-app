@@ -7,7 +7,6 @@ const {
 const {
   queryPage,
   deletePage,
-  movePage,
 } = require("../../tests/utils/contextBuilder/page");
 
 const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
@@ -15,10 +14,7 @@ const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
 const uuidRejex =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-const {
-  deleteSection,
-  moveSection,
-} = require("../../tests/utils/contextBuilder/section");
+const { deleteSection } = require("../../tests/utils/contextBuilder/section");
 
 const { querySection } = require("../../tests/utils/contextBuilder/section");
 
