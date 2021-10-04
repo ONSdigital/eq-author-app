@@ -1,5 +1,10 @@
 import React from "react";
-import { render as rtlRender, act, flushPromises, fireEvent } from "tests/utils/rtl";
+import {
+  render as rtlRender,
+  act,
+  flushPromises,
+  fireEvent,
+} from "tests/utils/rtl";
 
 import HubSettings from "../HubSettings";
 
@@ -13,11 +18,13 @@ describe("Section HubSettings", () => {
   let props;
 
   beforeEach(() => {
-      props = {
-        id: "testID1",
-        requiredCompleted: false,
-        showOnHub: false,
-      }
+    props = {
+      id: "testID1",
+      requiredCompleted: false,
+      showOnHub: false,
+      sectionSummary: false,
+      collapsibleSummary: false,
+    };
   });
 
   afterEach(async () => {
@@ -26,12 +33,12 @@ describe("Section HubSettings", () => {
     });
   });
 
-describe("Pre-hub section toggle", () => {
+  describe("Pre-hub section toggle", () => {
     it("should render Pre-hub toggle ", async () => {
       const { getByText } = rtlRender(() => <HubSettings {...props} />);
-    
-        expect(getByText("Pre-hub section")).toBeInTheDocument();
-      });
+
+      expect(getByText("Pre-hub section")).toBeInTheDocument();
+    });
 
     it("Should enable and disable Pre-hub section when toggled", async () => {
       const { getByTestId } = rtlRender(() => <HubSettings {...props} />);
@@ -51,7 +58,9 @@ describe("Pre-hub section toggle", () => {
       expect(mockUseMutation).toBeCalledWith({
         variables: {
           input: {
-            id: props.id, requiredCompleted: true, showOnHub: true
+            id: props.id,
+            requiredCompleted: true,
+            showOnHub: true,
           },
         },
       });
@@ -61,13 +70,15 @@ describe("Pre-hub section toggle", () => {
   describe("Display section in hub", () => {
     it("should render Display section toggle ", async () => {
       const { getByText } = rtlRender(() => <HubSettings {...props} />);
-    
-      expect(getByText("Show section on hub and summary pages")).toBeInTheDocument();
+
+      expect(
+        getByText("Show section on hub and summary pages")
+      ).toBeInTheDocument();
     });
 
     it("should render Display section toggle as disabled IF Pre-Hub toggle is OFF ", async () => {
       const { getByTestId } = rtlRender(() => <HubSettings {...props} />);
-      
+
       expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
     });
 
@@ -89,12 +100,11 @@ describe("Pre-hub section toggle", () => {
       expect(mockUseMutation).toBeCalledWith({
         variables: {
           input: {
-            id: props.id, showOnHub: true
+            id: props.id,
+            showOnHub: true,
           },
         },
       });
     });
-
   });
-
 });
