@@ -69,7 +69,10 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
           />
         </ToggleWrapper>
       </InlineField>
-      <EnableDisableWrapper disabled={!sectionSummary}>
+      <EnableDisableWrapper
+        data-test="collapsible-summary-wrapper"
+        disabled={!sectionSummary}
+      >
         <InlineField>
           <Label htmlFor="required-completed">Collapsible summary</Label>
           <ToggleWrapper>
@@ -98,6 +101,7 @@ SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
   collapsibleSummary: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default SectionSummary;
