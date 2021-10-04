@@ -29,9 +29,21 @@ const Icon = styled(SavingIcon)`
 
 export class UnconnectedSavingIndicator extends React.Component {
   static propTypes = {
+    /**
+     * If true the indicator will be be shown
+     */
     isSaving: PropTypes.bool.isRequired,
+    /**
+     * If true the indicator will not be shown
+     */
     hasError: PropTypes.bool.isRequired,
+    /**
+     * If true the indicator will not be shown
+     */
     isUnauthorized: PropTypes.bool,
+    /**
+     * Default min duration in milliseconds
+     */
     minDisplayTime: PropTypes.number,
   };
 
