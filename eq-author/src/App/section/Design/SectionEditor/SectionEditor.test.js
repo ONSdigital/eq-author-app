@@ -16,7 +16,7 @@ describe("SectionEditor", () => {
     requiredCompleted: true,
     showOnHub: true,
     sectionSummary: false,
-    ollapsibleSummary: false,
+    collapsibleSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,
