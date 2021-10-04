@@ -18,6 +18,13 @@
         }
       ]
     },
+    "description": {
+      "allOf": [
+        {
+          "validatePipingMetadataInTitle": true
+        }
+      ]
+    },
     "confirmation": {
       "$ref": "confirmationPage.json"
     },
