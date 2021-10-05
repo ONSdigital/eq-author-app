@@ -1,17 +1,17 @@
 steps:
   - name: gcr.io/$PROJECT_ID/docker-compose
     args:
-      - '-feq-author-api/docker-compose-ci.yml'
+      - "-feq-author-api/docker-compose-ci.yml"
       - up
-      - '-d'
-  - name: 'node:14'
+      - "-d"
+  - name: "node:14"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
       - PUBLIC_URL=test
       - CI=true
     args:
-      - '-c'
+      - "-c"
       - |
         apt update
         apt install -y jq bc
@@ -21,6 +21,9 @@ steps:
         yarn lint
         yarn test:ci --coverage
         export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
+        echo "************************"
+        echo "Target coverage: $_COVERAGE_LEVEL%"
+        echo "************************"
         echo "************************"
         echo "Coverage: $percent%"
         echo "************************"
