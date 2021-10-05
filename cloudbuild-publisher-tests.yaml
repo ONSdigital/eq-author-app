@@ -17,6 +17,9 @@ steps:
         yarn test --coverage
         export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
         echo "************************"
+        echo "Target coverage: $_COVERAGE_LEVEL%"
+        echo "************************"
+        echo "************************"
         echo "Coverage: $percent%"
         echo "************************"
         export result=$(echo "$percent > $_COVERAGE_LEVEL" | bc)
