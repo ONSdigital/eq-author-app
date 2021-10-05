@@ -61,7 +61,11 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
             onChange={({ value }) =>
               updateSection({
                 variables: {
-                  input: { id, sectionSummary: value },
+                  input: {
+                    id,
+                    sectionSummary: value,
+                    collapsibleSummary: false,
+                  },
                 },
               })
             }

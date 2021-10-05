@@ -22,8 +22,6 @@ describe("Section HubSettings", () => {
       id: "testID1",
       requiredCompleted: false,
       showOnHub: false,
-      sectionSummary: false,
-      collapsibleSummary: false,
     };
   });
 
