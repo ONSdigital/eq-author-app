@@ -240,64 +240,6 @@ class RichTextEditor extends React.Component {
     }
   }
 
-  renamePipedValues(fetchAuthorEntities, pipes, deletedPlaceholder) {
-    const { editorState } = this.state;
-    const contentState = editorState.getCurrentContent();
-
-    const createIdToDisplayNameMap = flow(
-      keyBy("id"),
-      mapValues("displayName")
-    );
-
-    const replacePipesWithLabels = (labels) =>
-      pipes.reduce(
-        replacePipedValues(labels, deletedPlaceholder),
-        contentState
-      );
-
-    const createNewEntryForMultipleValueEntities = (answers) => {
-      const processedEntries = [];
-
-      answers.forEach((answer) => {
-        if (answer.type === "DateRange") {
-          processedEntries.push(
-            {
-              ...answer,
-              id: `${answer.id}from`,
-            },
-            {
-              ...answer,
-              id: `${answer.id}to`,
-              displayName:
-                answer.secondaryLabel || answer.secondaryLabelDefault,
-            }
-          );
-        } else {
-          processedEntries.push(answer);
-        }
-      });
-
-      return processedEntries;
-    };
-
-    const performUpdate = flow(
-      createNewEntryForMultipleValueEntities,
-      createIdToDisplayNameMap,
-      replacePipesWithLabels,
-      (contentState) =>
-        EditorState.push(editorState, contentState, "apply-entity"),
-      this.handleChange
-    );
-
-    // Cant check for instanceof Promise as uses SynchronousPromise in test
-    if (fetchAuthorEntities.then) {
-      fetchAuthorEntities.then(performUpdate);
-      return;
-    }
-
-    performUpdate(fetchAuthorEntities());
-  }
-
   handlePiping = (answer) => {
     const { editorState } = this.state;
 
