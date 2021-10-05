@@ -12,7 +12,6 @@ import PipedValueDecorator, {
   entityToHTML as pipedEntityToHTML,
   htmlToEntity as htmlToPipedEntity,
   findPipedEntities,
-  replacePipedValues,
   insertPipedValue,
 } from "./entities/PipedValue";
 
@@ -24,7 +23,6 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, keyBy, mapValues } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
