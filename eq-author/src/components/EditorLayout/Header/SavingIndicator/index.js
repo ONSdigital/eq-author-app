@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
-import SavingIcon from "./icon-saving.svg?inline";
+import { ReactComponent as SavingIcon } from "assets/icon-saving.svg";
 import timer from "utils/timer";
 import { connect } from "react-redux";
 import { isSaving, hasError } from "redux/saving/reducer";
@@ -29,9 +29,21 @@ const Icon = styled(SavingIcon)`
 
 export class UnconnectedSavingIndicator extends React.Component {
   static propTypes = {
+    /**
+     * If true the indicator will be be shown
+     */
     isSaving: PropTypes.bool.isRequired,
+    /**
+     * If true the indicator will not be shown
+     */
     hasError: PropTypes.bool.isRequired,
+    /**
+     * If true the indicator will not be shown
+     */
     isUnauthorized: PropTypes.bool,
+    /**
+     * Default min duration in milliseconds
+     */
     minDisplayTime: PropTypes.number,
   };
 
