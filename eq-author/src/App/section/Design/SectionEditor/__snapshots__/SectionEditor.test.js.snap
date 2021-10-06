@@ -19,6 +19,7 @@ exports[`SectionEditor should render 1`] = `
     <Component />
   </MoveSectionQuery>
   <SectionSummary
+    collapsibleSummary={false}
     id="section-1"
     sectionSummary={false}
   />
@@ -124,6 +125,7 @@ exports[`SectionEditor should render 2`] = `
     <Component />
   </MoveSectionQuery>
   <SectionSummary
+    collapsibleSummary={false}
     id="section-2"
     sectionSummary={false}
   />

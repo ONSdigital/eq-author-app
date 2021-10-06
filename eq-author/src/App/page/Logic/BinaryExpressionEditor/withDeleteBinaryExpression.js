@@ -11,6 +11,7 @@ export const mapMutateToProps = ({ mutate }) => ({
         },
       },
       update: (_, result) => onCompleted(result?.data?.deleteBinaryExpression2),
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });

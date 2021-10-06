@@ -12,6 +12,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           destination: rule.destination,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });

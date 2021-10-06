@@ -16,6 +16,7 @@ describe("SectionIntroPreview", () => {
       requiredCompleted: false,
       showOnHub: false,
       sectionSummary: false,
+      collapsibleSummary: false,
       questionnaire: {
         id: "1",
         navigation: true,
