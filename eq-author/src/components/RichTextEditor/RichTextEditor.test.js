@@ -245,13 +245,6 @@ describe("components/RichTextEditor", function () {
         },
       ];
 
-      // const metadata = [
-      //   {
-      //     id: "1",
-      //     displayName: "metadata 1",
-      //   },
-      // ];
-
       let fetch;
 
       beforeEach(() => {
