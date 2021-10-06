@@ -16,6 +16,7 @@ describe("SectionEditor", () => {
     requiredCompleted: true,
     showOnHub: true,
     sectionSummary: false,
+    collapsibleSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -38,6 +39,7 @@ describe("SectionEditor", () => {
     requiredCompleted: true,
     showOnHub: true,
     sectionSummary: false,
+    collapsibleSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,
