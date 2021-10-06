@@ -19,9 +19,11 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         place="top"
       >
         <MoveButton
+          aria-label="Move option up"
           color="secondary"
           data-test="btn-move-answer-up"
           disabled={true}
+          tabIndex={-1}
         >
           <Component />
         </MoveButton>
@@ -37,9 +39,11 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
         place="top"
       >
         <MoveButton
+          aria-label="Move option down"
           color="secondary"
           data-test="btn-move-answer-down"
           disabled={true}
+          tabIndex={-1}
         >
           <Component />
         </MoveButton>
@@ -60,6 +64,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
           disabled={true}
           onClick={[Function]}
           size="medium"
+          tabIndex={-1}
           type="button"
         />
       </Tooltip>
