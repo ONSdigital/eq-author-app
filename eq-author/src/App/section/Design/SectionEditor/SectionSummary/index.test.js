@@ -58,6 +58,7 @@ describe("Section Summary", () => {
           input: {
             id: props.id,
             sectionSummary: true,
+            collapsibleSummary: false,
           },
         },
       });
@@ -94,6 +95,13 @@ describe("Section Summary", () => {
           },
         },
       });
+    });
+
+    it("Should disable collapsible summary toggle when section summary off", async () => {
+      const { getByTestId } = rtlRender(() => <SectionSummary {...props} />);
+
+      const preToggle = getByTestId("collapsible-summary-wrapper");
+      expect(preToggle).toHaveAttribute("disabled");
     });
   });
 });

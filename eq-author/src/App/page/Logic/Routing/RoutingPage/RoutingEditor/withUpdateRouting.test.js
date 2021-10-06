@@ -17,6 +17,7 @@ describe("withUpdateRouting", () => {
     it("should call mutate", () => {
       props.updateRouting({ id: "1", foo: "bar", else: { pageId: "3" } });
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { id: "1", else: { pageId: "3" } } },
       });
     });

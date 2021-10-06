@@ -35,6 +35,7 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
     section={
       Object {
         "alias": "",
+        "collapsibleSummary": false,
         "id": "1",
         "introductionContent": "intro content",
         "introductionTitle": "intro title",
