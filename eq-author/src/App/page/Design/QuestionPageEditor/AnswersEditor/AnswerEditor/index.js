@@ -164,6 +164,8 @@ class AnswerEditor extends React.Component {
                 <MoveButton
                   color="white"
                   disabled={!this.props.canMoveUp}
+                  tabIndex={!this.props.canMoveUp && -1}
+                  aria-label={"Move answer up"}
                   onClick={this.props.onMoveUp}
                   data-test="btn-move-answer-up"
                 >
@@ -178,6 +180,8 @@ class AnswerEditor extends React.Component {
                 <MoveButton
                   color="white"
                   disabled={!this.props.canMoveDown}
+                  tabIndex={!this.props.canMoveDown && -1}
+                  aria-label={"Move answer down"}
                   onClick={this.props.onMoveDown}
                   data-test="btn-move-answer-down"
                 >
