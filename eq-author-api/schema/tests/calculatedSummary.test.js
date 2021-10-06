@@ -413,4 +413,128 @@ describe("calculated Summary", () => {
       totalCount: 1,
     });
   });
+
+  describe("Summary answers", () => {
+    it("Returns no answers if there are none", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(0);
+    });
+
+    it("Returns  answers if there are some", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
+
+      await updateCalculatedSummaryPage(ctx, {
+        id: calSumPage.id,
+        title: "Goo",
+        summaryAnswers: [answers[0].id, answers[1].id],
+      });
+
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(2);
+    });
+
+    it("Strips out any answers that don't exist", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
+
+      await updateCalculatedSummaryPage(ctx, {
+        id: calSumPage.id,
+        title: "Goo",
+        summaryAnswers: [answers[0].id, answers[1].id],
+      });
+
+      calSumPage.summaryAnswers.push("5ba9c62e-d726-468b-bc52-53beeb97876a");
+
+      expect(calSumPage.summaryAnswers).toHaveLength(3);
+
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(2);
+    });
+  });
 });
