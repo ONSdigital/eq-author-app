@@ -18,7 +18,7 @@ describe("Answer selector", () => {
       questionnaire: mockQuestionnaire,
     }));
 
-    questionnaireContext.useQuestionnaire = mockUseQuestionnaire;
+    questionnaireContext.useQuestionnaire = mockUseQuestionnaire; // eslint-disable-line import/namespace
   });
 
   describe("Empty state", () => {

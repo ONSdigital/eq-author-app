@@ -87,7 +87,7 @@ export const CalculatedSummaryPageEditor = (props) => {
     section: page.section,
   });
 
-  const ErrorMsg = () => {
+  const getErrorMessage = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(props.page.validationErrorInfo.errors)) {
@@ -121,7 +121,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           testSelector="txt-summary-title"
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
-          errorValidationMsg={ErrorMsg()}
+          errorValidationMsg={getErrorMessage()}
           autoFocus={!page.title}
         />
         <div>
