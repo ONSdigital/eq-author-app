@@ -122,7 +122,6 @@ const getContentsOfPipingType = (type) => (contents) =>
   contents.filter((content) => content.entity.data.pipingType === type);
 
 const getAnswerPipes = getContentsOfPipingType("answers");
-const getMetadataPipes = getContentsOfPipingType("metadata");
 
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
@@ -246,24 +245,6 @@ class RichTextEditor extends React.Component {
     }
 
     this.updateAnswerPipedValues(pipes);
-    this.updateMetadataPipedValues(pipes);
-  }
-
-  updateMetadataPipedValues(pipes) {
-    if (!this.props.metadata) {
-      return;
-    }
-
-    const metadataPipes = getMetadataPipes(pipes);
-    if (metadataPipes.length === 0) {
-      return;
-    }
-
-    this.renamePipedValues(
-      () => this.props.metadata,
-      metadataPipes,
-      "Deleted metadata"
-    );
   }
 
   updateAnswerPipedValues(pipes) {
@@ -408,16 +389,6 @@ class RichTextEditor extends React.Component {
     }
   };
 
-  handleMouseDown = (e) => {
-    // prevent blur when mousedown on non-editor elements
-    if (
-      !this.editorInstance.getEditorRef().editor.contains(e.target) &&
-      e.target.type !== "text"
-    ) {
-      e.preventDefault();
-    }
-  };
-
   handleChange = (editorState) => {
     editorState = this.stripFormatting(editorState);
     return this.setState({ editorState });
@@ -523,7 +494,6 @@ class RichTextEditor extends React.Component {
       <Wrapper hasError={hasError}>
         <Field
           onClick={this.handleClick}
-          onMouseDown={this.handleMouseDown}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           data-test="rte-field"

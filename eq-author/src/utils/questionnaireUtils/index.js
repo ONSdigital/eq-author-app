@@ -42,3 +42,6 @@ export const findFolderIndexByPageAttr = (folders, attr, value) => {
 
   return folders.indexOf(folder);
 };
+
+export const removePageById = (questionnaire, id) =>
+  getPages(questionnaire).filter((page) => page.id !== id);

@@ -37,6 +37,7 @@ const {
   ERR_VALID_REQUIRED,
   ERR_INVALID,
   ERR_DESTINATION_INVALID_WITH_HUB,
+  PIPING_METADATA_DELETED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -124,6 +125,43 @@ describe("schema validation", () => {
               ],
             },
           ],
+        },
+      ],
+      metadata: [
+        {
+          id: "87c64b20-9662-408b-b674-e2403e90dad3",
+          key: "ru_name",
+          alias: "Ru Name",
+          type: "Text",
+          textValue: "ESSENTIAL ENTERPRISE LTD.",
+        },
+        {
+          id: "fa7be01a-b1c6-4983-af90-bd06150d2808",
+          key: "trad_as",
+          alias: "Trad As",
+          type: "Text_Optional",
+          textValue: "ESSENTIAL ENTERPRISE LTD.",
+        },
+        {
+          id: "ffb5ddb5-d746-4d3f-8016-d5c5547c939a",
+          key: "period_id",
+          alias: "Period Id",
+          type: "Text",
+          textValue: "201605",
+        },
+        {
+          id: "fe06fcc3-5fd8-4491-afc0-9f3ad8e1d52a",
+          key: "ref_p_start_date",
+          alias: "Start Date",
+          type: "Date",
+          dateValue: "2016-05-01",
+        },
+        {
+          id: "9f71966e-50c6-4fbf-95bc-4813db9d0bab",
+          key: "ref_p_end_date",
+          alias: "End Date",
+          type: "Date",
+          dateValue: "2016-06-12",
         },
       ],
     };
@@ -1716,6 +1754,17 @@ describe("schema validation", () => {
   });
 
   describe("Piping validation within Question Labels", () => {
+    it("Should validate a deleted piped metadata in a title", () => {
+      const piping = validation(questionnaire);
+      expect(piping).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="metadata" data-id="metadata_1" data-type="Text">[Some metadata]</span></p>>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(PIPING_METADATA_DELETED);
+    });
+
     it("should validate a piping answer moved after this question", () => {
       const piping = validation(questionnaire);
       expect(piping).toHaveLength(0);
@@ -1723,7 +1772,6 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
 
       const errors = validation(questionnaire);
-
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
     });

@@ -10,6 +10,8 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     introductionContent
     requiredCompleted
     showOnHub
+    sectionSummary
+    collapsibleSummary
     validationErrorInfo {
       ...ValidationErrorInfo
     }

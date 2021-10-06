@@ -42,7 +42,6 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
-
     // Add page title / shortcode alias (for display in QCodesTable) to first answer only
     if (answerRows.length) {
       answerRows[0].questionTitle = page.title;
@@ -75,6 +74,7 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     () => getFlattenedAnswerRows(questionnaire) ?? [],
     [questionnaire]
   );
+
   const duplicatedQCodes = useMemo(
     () => getDuplicatedQCodes(answerRows) ?? [],
     [answerRows]

@@ -1,38 +1,33 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+import useModal from "hooks/useModal";
 
 import QuestionPicker from "components/QuestionPicker";
-
 import mockSections from "tests/mocks/mockSections.json";
-
-export default {
-  title: "Patterns/Modals/Select questions",
-  component: QuestionPicker,
-};
-
+import {
+  Title,
+  Primary,
+  ArgsTable,
+  Stories,
+  PRIMARY_STORY,
+} from "@storybook/addon-docs/blocks";
 // https://stackoverflow.com/questions/56248544/how-to-show-unordered-list-within-window-alert/56248648
 const createUnorderedList = (list, bulletChar) =>
   list.reduce((acc, val) => (acc += `${bulletChar} ${val}\n`), ""); //eslint-disable-line
 
-const Template = ({ isOpen, ...rest }) => {
-  const [modalIsOpen, setModalIsOpen] = useState(isOpen);
+export const Default = (args) => {
+  const [trigger, Modal] = useModal({
+    ...args,
+    component: QuestionPicker,
+  });
 
   return (
     <>
-      <button onClick={() => setModalIsOpen(true)}>Open modal</button>
-      <QuestionPicker
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-        {...rest}
-      />
+      <Modal />
+      <button onClick={trigger}>Trigger modal</button>
     </>
   );
 };
-Template.propTypes = {
-  isOpen: PropTypes.bool,
-};
 
-export const Default = Template.bind({});
 Default.args = {
   title: "Select the question(s) to import",
   isOpen: false,
@@ -49,4 +44,26 @@ Default.args = {
     ),
   startingSelectedQuestions: [],
   sections: mockSections,
+};
+
+export default {
+  title: "Patterns/Modals/Select questions",
+  component: QuestionPicker,
+  parameters: {
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <p>
+            A modal containing an ItemSelect component. includes{" "}
+            <code>Back</code>, <code>Confirm</code> and <code>Cancel</code>{" "}
+            buttons.
+          </p>
+          <ArgsTable story={PRIMARY_STORY} />
+          <Primary />
+          <Stories />
+        </>
+      ),
+    },
+  },
 };

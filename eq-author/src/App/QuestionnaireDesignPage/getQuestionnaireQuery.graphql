@@ -158,6 +158,13 @@ fragment Answers on Answer {
       description
       value
       qCode
+      additionalAnswer {
+        id
+        description
+        label
+        qCode
+        type
+      }
     }
     mutuallyExclusiveOption {
       id

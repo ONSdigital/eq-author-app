@@ -13,6 +13,9 @@ describe("Metadata Editor", () => {
         previousAnswer: {
           displayName: "test",
         },
+        validationErrorInfo: {
+          errors: [],
+        },
       },
       answer: {
         id: "1",
@@ -28,11 +31,15 @@ describe("Metadata Editor", () => {
   });
 
   it("should correctly handle metadata change", () => {
+    const metadataDateField = wrapper.find(
+      "[data-test='metadata-date-editor']"
+    );
+
     const metadata = {
       id: 1,
     };
 
-    wrapper.simulate("submit", {
+    metadataDateField.simulate("submit", {
       name: "metadata",
       value: metadata,
     });
@@ -41,5 +48,50 @@ describe("Metadata Editor", () => {
       name: "metadata",
       value: metadata,
     });
+  });
+
+  it("should not display validation error in the modal when there are no errors", () => {
+    const validationMessage = wrapper.find("[data-test='date-required-error']");
+    expect(validationMessage.exists()).toBeFalsy();
+  });
+
+  it("should display validation error in the modal when there is an error", () => {
+    const props = {
+      onChangeUpdate: jest.fn(),
+      validation: {
+        id: "1",
+        validationErrorInfo: {
+          errors: [{ id: "1", errorCode: "ERR_NO_VALUE" }],
+        },
+      },
+      answer: {
+        id: "1",
+      },
+    };
+    wrapper = shallow(<MetadataEditor {...props} />);
+    const validationMessage = wrapper.find(
+      "[data-test='metadata-required-error']"
+    );
+    expect(validationMessage.exists()).toBeTruthy();
+  });
+
+  it("should only display validation errors with the error code `ERR_NO_VALUE`", () => {
+    const props = {
+      onChangeUpdate: jest.fn(),
+      validation: {
+        id: "1",
+        validationErrorInfo: {
+          errors: [{ id: "1", errorCode: "NOT_ERR_NO_VALUE" }],
+        },
+      },
+      answer: {
+        id: "1",
+      },
+    };
+    wrapper = shallow(<MetadataEditor {...props} />);
+    const validationMessage = wrapper.find(
+      "[data-test='metadata-required-error']"
+    );
+    expect(validationMessage.exists()).toBeFalsy();
   });
 });

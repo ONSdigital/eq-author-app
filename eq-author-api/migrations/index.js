@@ -23,6 +23,8 @@ const migrations = [
   require("./addSectionHubSettings"),
   require("./updateExpressionSchema"),
   require("./upateAnswerWithAdvancedProperty"),
+  require("./updateAnswerDeletedMetaData"),
+  require("./updateUKISEPEThemes"),
 ];
 
 const currentVersion = migrations.length;

@@ -23,6 +23,7 @@ describe("withUpdateRightSide", () => {
         { customValue: { number: 5 } }
       );
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: {
           input: { expressionId: "id", customValue: { number: 5 } },
         },
@@ -38,6 +39,7 @@ describe("withUpdateRightSide", () => {
         { selectedOptions: ["1", "2"] }
       );
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: {
           input: { expressionId: "id", selectedOptions: ["1", "2"] },
         },

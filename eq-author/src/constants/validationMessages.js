@@ -24,6 +24,10 @@ export const richTextEditorErrors = {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
   },
+  PIPING_METADATA_DELETED: {
+    errorCode: "PIPING_METADATA_DELETED",
+    message: "The metadata being piped has been deleted",
+  },
   INCLUDE_EXCLUDE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter include/exclude content",
@@ -111,6 +115,9 @@ export const ERR_REFERENCE_MOVED = "Answer must be from a previous question";
 export const SELECTION_REQUIRED = "Selection required";
 
 export const OPERATOR_REQUIRED = "Choose an operator";
+
+export const METADATA_REQUIRED = "Metadata is required";
+export const DATE_REQUIRED = "Date is required";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",

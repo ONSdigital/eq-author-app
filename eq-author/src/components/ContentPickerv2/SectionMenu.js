@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-
-import { find } from "lodash";
-import { Menu, SubMenu } from "./Menu";
 import styled from "styled-components";
+import { find } from "lodash";
+
+import { getPages } from "utils/questionnaireUtils";
+
+import { Menu, SubMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 
 const ColumnContainer = styled.div`
@@ -16,6 +18,20 @@ const Column = styled.div`
   width: 50%;
 `;
 
+const findDefaultSection = (firstSelectedItemId, data) => {
+  if (firstSelectedItemId) {
+    return find(data, {
+      folders: [
+        {
+          pages: [{ answers: [{ id: firstSelectedItemId }] }],
+        },
+      ],
+    });
+  }
+
+  return find(data, (section) => getPages({ sections: [section] }).length);
+};
+
 const SectionMenu = ({
   data,
   onSelected,
@@ -24,18 +40,8 @@ const SectionMenu = ({
   multiselect,
   ...otherProps
 }) => {
-  const defaultSelectedSection = firstSelectedItemId
-    ? find(data, {
-        folders: [
-          {
-            pages: [{ answers: [{ id: firstSelectedItemId }] }],
-          },
-        ],
-      })
-    : data[0];
-
   const [selectedSection, setSelectedSection] = useState(
-    defaultSelectedSection
+    findDefaultSection(firstSelectedItemId, data)
   );
 
   const showNewSection = (section) => {
@@ -46,8 +52,16 @@ const SectionMenu = ({
     setSelectedSection(section);
   };
 
+  useEffect(() => {
+    const section = findDefaultSection(firstSelectedItemId, data);
+
+    if (section) {
+      setSelectedSection(section);
+    }
+  }, [data, firstSelectedItemId]);
+
   if (!selectedSection) {
-    return;
+    return <React.Fragment />;
   }
 
   return (

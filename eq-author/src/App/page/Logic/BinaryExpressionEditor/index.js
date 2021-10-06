@@ -166,7 +166,7 @@ export const UnwrappedBinaryExpressionEditor = ({
             selectedId={expression?.left?.id}
             data-test="routing-answer-picker"
             includeSelf={includeSelf}
-            hasError={answerPickerError}
+            hasError={Boolean(answerPickerError)}
           />
         </Column>
         <Column gutters={false} cols={2.5}>

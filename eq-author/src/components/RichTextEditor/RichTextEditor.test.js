@@ -6,8 +6,6 @@ import Editor from "draft-js-plugins-editor";
 import Raw from "draft-js-raw-content-state";
 import { omit } from "lodash";
 
-import { Field } from "components/Forms";
-
 import RichTextEditor from "components/RichTextEditor";
 import Toolbar, {
   STYLE_BLOCK,
@@ -91,48 +89,6 @@ describe("components/RichTextEditor", function () {
   it("should store a reference to the editor DOM node", () => {
     wrapper.instance().setEditorInstance(editorInstance);
     expect(wrapper.instance().editorInstance).toEqual(editorInstance);
-  });
-
-  it("should not prevent mouse down on editor things", () => {
-    const preventDefault = jest.fn();
-    const containsMock = jest.fn();
-    editorInstance = {
-      getEditorRef: () => ({
-        editor: {
-          contains: containsMock.mockReturnValue(true),
-        },
-      }),
-    };
-    wrapper = shallow(<RichTextEditor {...props} />, {
-      disableLifecycleMethods: true,
-    });
-    wrapper.instance().setEditorInstance(editorInstance);
-    wrapper
-      .find(Field)
-      .simulate("mouseDown", { target: "target", preventDefault });
-    expect(containsMock).toHaveBeenCalledWith("target");
-    expect(preventDefault).not.toHaveBeenCalled();
-  });
-
-  it("should prevent mouse down on non-editor things", () => {
-    const preventDefault = jest.fn();
-    const containsMock = jest.fn();
-    editorInstance = {
-      getEditorRef: () => ({
-        editor: {
-          contains: containsMock.mockReturnValue(false),
-        },
-      }),
-    };
-    wrapper = shallow(<RichTextEditor {...props} />, {
-      disableLifecycleMethods: true,
-    });
-    wrapper.instance().setEditorInstance(editorInstance);
-    wrapper
-      .find(Field)
-      .simulate("mouseDown", { target: "target", preventDefault });
-    expect(containsMock).toHaveBeenCalledWith("target");
-    expect(preventDefault).toHaveBeenCalled();
   });
 
   it("should focus upon click", () => {
@@ -303,7 +259,7 @@ describe("components/RichTextEditor", function () {
       });
 
       it("should load labels for piped answers when mounted", () => {
-        const html = `<p><span data-piped="answers" data-id="1" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span> <span data-piped="metadata" data-id="1" data-type="number">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="1" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -315,7 +271,7 @@ describe("components/RichTextEditor", function () {
         );
 
         const expected = new Raw()
-          .addBlock("[answer 1] [answer 2] [metadata 1]")
+          .addBlock("[answer 1] [answer 2]")
           .addEntity(
             createPipedEntity(createEntity, {
               id: answers[0].id,
@@ -334,15 +290,6 @@ describe("components/RichTextEditor", function () {
             11,
             10
           )
-          .addEntity(
-            createPipedEntity(createEntity, {
-              id: metadata[0].id,
-              pipingType: "metadata",
-              type: "number",
-            }),
-            22,
-            12
-          )
           .toRawContentState();
 
         expect(toRaw(wrapper)).toEqual(expected);
@@ -354,12 +301,7 @@ describe("components/RichTextEditor", function () {
           pipingType: "answers",
           type: "number",
         };
-        const nonExistentMetadata = {
-          id: "2",
-          pipingType: "metadata",
-          type: "number",
-        };
-        const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span> <span data-piped="metadata" data-id="2" data-type="number">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -371,7 +313,7 @@ describe("components/RichTextEditor", function () {
         );
 
         const expected = new Raw()
-          .addBlock("[Deleted answer] [answer 2] [Deleted metadata]")
+          .addBlock("[Deleted answer] [answer 2]")
           .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
           .addEntity(
             createPipedEntity(createEntity, {
@@ -381,11 +323,6 @@ describe("components/RichTextEditor", function () {
             }),
             17,
             10
-          )
-          .addEntity(
-            createPipedEntity(createEntity, nonExistentMetadata),
-            28,
-            18
           )
           .toRawContentState();
 
@@ -498,38 +435,6 @@ describe("components/RichTextEditor", function () {
               createEntity,
               omit(answer, ["displayName", "label", "secondaryLabel"])
             ),
-            0,
-            8
-          )
-          .toRawContentState();
-
-        expect(toRaw(wrapper)).toEqual(expected);
-      });
-
-      it("should ignore answers if no answer pipes given", () => {
-        const metadata = {
-          id: "123",
-          displayName: "FooBar",
-          pipingType: "metadata",
-          type: "number",
-        };
-
-        const fetch = jest.fn(() => Promise.resolve([]));
-        const html = `<p><span data-piped="metadata" data-id="123" data-type="number">[Piped Answer]</span></p>`;
-
-        wrapper = shallow(
-          <RichTextEditor
-            {...props}
-            fetchAnswers={fetch}
-            metadata={[metadata]}
-            value={html}
-          />
-        );
-
-        const expected = new Raw()
-          .addBlock("[FooBar]")
-          .addEntity(
-            createPipedEntity(createEntity, omit(metadata, ["displayName"])),
             0,
             8
           )

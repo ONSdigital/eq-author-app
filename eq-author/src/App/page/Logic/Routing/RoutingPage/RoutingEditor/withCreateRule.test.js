@@ -17,6 +17,7 @@ describe("withCreateRule", () => {
     it("should call mutate", () => {
       props.createRule("id");
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { routingId: "id" } },
       });
     });
