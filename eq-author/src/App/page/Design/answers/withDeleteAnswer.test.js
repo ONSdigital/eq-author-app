@@ -44,7 +44,6 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
       });
     });
 
-    //
 
     it("should show a toast after onDeleteAnswer is invoked", async () => {
       await props.onDeleteAnswer(currentPage.id, deletedAnswer.id);
