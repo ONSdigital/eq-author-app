@@ -12,7 +12,6 @@ import PipedValueDecorator, {
   entityToHTML as pipedEntityToHTML,
   htmlToEntity as htmlToPipedEntity,
   findPipedEntities,
-  replacePipedValues,
   insertPipedValue,
 } from "./entities/PipedValue";
 
@@ -24,7 +23,6 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, uniq, map, keyBy, mapValues, get } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
@@ -117,11 +115,6 @@ const convertToHTML = toHTML({ ...pipedEntityToHTML, ...linkToHTML });
 const convertFromHTML = fromHTML({ ...htmlToPipedEntity, ...linkFromHTML });
 
 const getBlockStyle = (block) => block.getType();
-
-const getContentsOfPipingType = (type) => (contents) =>
-  contents.filter((content) => content.entity.data.pipingType === type);
-
-const getAnswerPipes = getContentsOfPipingType("answers");
 
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
@@ -243,107 +236,6 @@ class RichTextEditor extends React.Component {
     if (!pipes.length) {
       return;
     }
-
-    this.updateAnswerPipedValues(pipes);
-  }
-
-  updateAnswerPipedValues(pipes) {
-    if (!this.props.fetchAnswers) {
-      return;
-    }
-
-    const answerPipes = getAnswerPipes(pipes);
-    if (answerPipes.length === 0) {
-      return;
-    }
-
-    const processAnswerType = (answers) => {
-      return answers.map((answer) => {
-        if (get("entity.data.type", answer) === "DateRange") {
-          return {
-            ...answer,
-            entity: {
-              data: {
-                id: get("entity.data.id", answer).replace(/(to|from)$/, ""),
-              },
-            },
-          };
-        } else {
-          return answer;
-        }
-      });
-    };
-
-    const fetchAnswersForPipes = flow(
-      processAnswerType,
-      map("entity.data.id"),
-      uniq,
-      this.props.fetchAnswers
-    );
-
-    this.renamePipedValues(
-      fetchAnswersForPipes(answerPipes),
-      answerPipes,
-      "Deleted answer"
-    );
-  }
-
-  renamePipedValues(fetchAuthorEntities, pipes, deletedPlaceholder) {
-    const { editorState } = this.state;
-    const contentState = editorState.getCurrentContent();
-
-    const createIdToDisplayNameMap = flow(
-      keyBy("id"),
-      mapValues("displayName")
-    );
-
-    const replacePipesWithLabels = (labels) =>
-      pipes.reduce(
-        replacePipedValues(labels, deletedPlaceholder),
-        contentState
-      );
-
-    const createNewEntryForMultipleValueEntities = (answers) => {
-      const processedEntries = [];
-
-      answers.forEach((answer) => {
-        if (answer.type === "DateRange") {
-          processedEntries.push(
-            {
-              ...answer,
-              id: `${answer.id}from`,
-            },
-            {
-              ...answer,
-              id: `${answer.id}to`,
-              displayName:
-                answer.secondaryLabel || answer.secondaryLabelDefault,
-            }
-          );
-        } else {
-          processedEntries.push(answer);
-        }
-      });
-
-      return processedEntries;
-    };
-
-    const performUpdate = flow(
-      createNewEntryForMultipleValueEntities,
-      createIdToDisplayNameMap,
-      replacePipesWithLabels,
-      (contentState) =>
-        EditorState.push(editorState, contentState, "apply-entity"),
-      this.handleChange
-    );
-
-    // Cant check for instanceof Promise as uses SynchronousPromise in test
-    if (fetchAuthorEntities.then) {
-      fetchAuthorEntities.then(performUpdate);
-      return;
-    }
-
-    performUpdate(fetchAuthorEntities());
   }
 
   handlePiping = (answer) => {

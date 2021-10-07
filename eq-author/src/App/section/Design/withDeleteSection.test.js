@@ -113,13 +113,7 @@ describe("withDeleteSection", () => {
         );
       });
 
-      it("shouldn't refetch questionnaire if other sections remain post-deletion", async () => {
-        await props.onDeleteSection(currentSection.id);
-        expect(mutate).toHaveBeenCalledWith(defaultOptions);
-      });
-
-      it("should refetch questionnaire to fetch replacement section when last section is deleted", async () => {
-        questionnaire.sections.pop();
+      it("should refetch questionnaire after deleting a section", async () => {
         await props.onDeleteSection(currentSection.id);
         expect(mutate).toHaveBeenCalledWith({
           ...defaultOptions,
