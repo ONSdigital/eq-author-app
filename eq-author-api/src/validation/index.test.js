@@ -1954,5 +1954,52 @@ describe("schema validation", () => {
         expect(errors).toHaveLength(0);
       });
     });
+
+    describe("Outside a folder", () => {
+      it("Should validate when the calculated summary appears before the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...mockCalcSum }, { ...pages[0] }, { ...pages[1] }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should not validate when the calc sum appears after the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...pages[0] }, { ...pages[1] }, { ...mockCalcSum }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(0);
+      });
+    });
   });
 });
