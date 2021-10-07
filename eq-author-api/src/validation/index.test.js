@@ -1912,7 +1912,7 @@ describe("schema validation", () => {
 
     describe("Inside a folder", () => {
       it("Should validate when the calculated summary appears before the answers it uses", () => {
-        pages = questionnaire.sections[0].folders[0].pages;
+        const pages = questionnaire.sections[0].folders[0].pages;
 
         mockCalcSum.summaryAnswers = [
           pages[0].answers[0].id,
@@ -1934,7 +1934,7 @@ describe("schema validation", () => {
       });
 
       it("Should not validate when the calc sum appears after the answers it uses", () => {
-        pages = questionnaire.sections[0].folders[0].pages;
+        const pages = questionnaire.sections[0].folders[0].pages;
 
         mockCalcSum.summaryAnswers = [
           pages[0].answers[0].id,
