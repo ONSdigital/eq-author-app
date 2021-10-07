@@ -8,9 +8,9 @@ const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
 const { getExpressions } = require("../../schema/resolvers/utils");
 
-const removeAnswerFromExpressions = (ctx, answer) => {
+const removeAnswerFromExpressions = (ctx, deletedAnswer) => {
   const expressions = filter(
-    (expression) => expression.left.answerId === answer.id,
+    (expression) => expression.left.answerId === deletedAnswer.id,
     getExpressions(ctx)
   );
 
@@ -22,7 +22,7 @@ const removeAnswerFromExpressions = (ctx, answer) => {
   }, expressions);
 };
 
-const removeAnswerGroup = (page, removedAnswer) => {
+const removeAnswerGroup = (page, deletedAnswer) => {
   const answerTypes = uniq(page.answers.map((a) => a.type));
   const firstAnswerType = answerTypes[0];
   if (
@@ -35,12 +35,12 @@ const removeAnswerGroup = (page, removedAnswer) => {
     return;
   }
 
-  if (!totalableAnswerTypes.includes(removedAnswer.type)) {
+  if (!totalableAnswerTypes.includes(deletedAnswer.type)) {
     return;
   }
 
   const numberOfType = page.answers.filter(
-    (answer) => answer.type === removedAnswer.type
+    (answer) => answer.type === deletedAnswer.type
   ).length;
   if (numberOfType !== 1) {
     return;
@@ -49,7 +49,27 @@ const removeAnswerGroup = (page, removedAnswer) => {
   page.totalValidation = null;
 };
 
-module.exports = (ctx, page, answer) => {
-  removeAnswerFromExpressions(ctx, answer);
-  removeAnswerGroup(page, answer);
+const removeAnswerFromPiping = (deletedAnswer, pages) => {
+  const deletedAnswerId = deletedAnswer.id;
+
+  pages.forEach((page) => {
+    const { title, description } = page;
+    if (title?.includes(deletedAnswerId)) {
+      page.title = title.replace(deletedAnswer.label, "Deleted answer");
+    }
+
+    if (description?.includes(deletedAnswer.id)) {
+      page.description = description.replace(
+        deletedAnswer.label,
+        "Deleted answer"
+      );
+    }
+  });
+  return pages;
+};
+
+module.exports = (ctx, page, deletedAnswer, pages) => {
+  removeAnswerFromExpressions(ctx, deletedAnswer);
+  removeAnswerGroup(page, deletedAnswer);
+  removeAnswerFromPiping(deletedAnswer, pages);
 };
