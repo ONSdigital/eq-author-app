@@ -1953,24 +1953,6 @@ describe("schema validation", () => {
 
         expect(errors).toHaveLength(0);
       });
-
-      it("Skips over an answer ID if it cannot find it by its answer ID", () => {
-        const pages = questionnaire.sections[0].folders[0].pages;
-
-        mockCalcSum.summaryAnswers = ["fake_id", pages[1].answers[0].id];
-
-        const rearrangedFolders = [
-          { id: "folder_2", pages: [{ ...pages[0] }] },
-          { id: "folder_2", pages: [{ ...pages[1] }] },
-          { id: "folder_1", pages: [{ ...mockCalcSum }] },
-        ];
-
-        questionnaire.sections[0].folders = rearrangedFolders;
-
-        const errors = validation(questionnaire);
-
-        expect(errors).toHaveLength(0);
-      });
     });
   });
 });
