@@ -1910,7 +1910,7 @@ describe("schema validation", () => {
       };
     });
 
-    describe("Inside a folder", () => {
+    describe("Outside a folder", () => {
       it("Should validate when the calculated summary appears before the answers it uses", () => {
         const pages = questionnaire.sections[0].folders[0].pages;
 
@@ -1955,7 +1955,7 @@ describe("schema validation", () => {
       });
     });
 
-    describe("Outside a folder", () => {
+    describe("Inside a folder", () => {
       it("Should validate when the calculated summary appears before the answers it uses", () => {
         const pages = questionnaire.sections[0].folders[0].pages;
 
