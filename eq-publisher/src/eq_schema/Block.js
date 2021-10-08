@@ -38,7 +38,6 @@ class Block {
         ctx
       );
     }
-    // TODO: Try defining this.skip_conditions first as empty array, and pushing new skip conditions into the empty array
     if (page.isConfirmationPage) {
       if (page.pageSkipConditions) {
         this.skip_conditions = this.skip_conditions || [];
