@@ -55,12 +55,6 @@ exports[`components/Grid Columns should render an asymmetrical two column grid  
   padding-right: 0;
 }
 
-@media (max-height:680px) {
-  .c0 {
-    height: auto;
-  }
-}
-
 <div
     class="c0"
     data-test="grid"

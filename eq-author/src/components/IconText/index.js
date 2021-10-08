@@ -36,6 +36,12 @@ const IconwithTextBelow = styled.div`
   min-width: 0;
   height: 70px;
 
+  @media (max-height: 577px) {
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 0.4em;
+  }
+
   div {
     text-align: center;
     width: 70px;
