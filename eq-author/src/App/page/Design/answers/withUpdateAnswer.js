@@ -20,6 +20,7 @@ export const mapMutateToProps = ({ mutate }) => ({
   onUpdateAnswer: (answer) =>
     mutate({
       variables: { input: filter(input, answer) },
+      refetchQueries: ["GetQuestionnaire"],
     }),
 });
 

@@ -90,7 +90,6 @@ const Number = (props) => {
         type="number"
         onBlur={handleBlur}
         aria-live="assertive"
-        role="alert"
         valueType={type}
         aria-labelledby={unitId}
         min={min}

@@ -8,6 +8,7 @@ exports[`Answer Editor should correctly calculates date format 3`] = `null`;
 
 exports[`Answer Editor should render Checkbox 1`] = `
 <AnswerEditor__Answer
+  aria-label="Checkbox answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -30,10 +31,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -49,10 +52,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -125,6 +130,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
 
 exports[`Answer Editor should render Currency 1`] = `
 <AnswerEditor__Answer
+  aria-label="Currency answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -147,10 +153,12 @@ exports[`Answer Editor should render Currency 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -166,10 +174,12 @@ exports[`Answer Editor should render Currency 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -236,6 +246,7 @@ exports[`Answer Editor should render Currency 1`] = `
 
 exports[`Answer Editor should render Date 1`] = `
 <AnswerEditor__Answer
+  aria-label="Date answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -258,10 +269,12 @@ exports[`Answer Editor should render Date 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -277,10 +290,12 @@ exports[`Answer Editor should render Date 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -349,6 +364,7 @@ exports[`Answer Editor should render Date 1`] = `
 
 exports[`Answer Editor should render DateRange 1`] = `
 <AnswerEditor__Answer
+  aria-label="DateRange answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -371,10 +387,12 @@ exports[`Answer Editor should render DateRange 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -390,10 +408,12 @@ exports[`Answer Editor should render DateRange 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -457,6 +477,7 @@ exports[`Answer Editor should render DateRange 1`] = `
 
 exports[`Answer Editor should render Duration 1`] = `
 <AnswerEditor__Answer
+  aria-label="Duration answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -480,10 +501,12 @@ exports[`Answer Editor should render Duration 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -499,10 +522,12 @@ exports[`Answer Editor should render Duration 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -571,6 +596,7 @@ exports[`Answer Editor should render Duration 1`] = `
 
 exports[`Answer Editor should render Number 1`] = `
 <AnswerEditor__Answer
+  aria-label="Number answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -593,10 +619,12 @@ exports[`Answer Editor should render Number 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -612,10 +640,12 @@ exports[`Answer Editor should render Number 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -682,6 +712,7 @@ exports[`Answer Editor should render Number 1`] = `
 
 exports[`Answer Editor should render Percentage 1`] = `
 <AnswerEditor__Answer
+  aria-label="Percentage answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -704,10 +735,12 @@ exports[`Answer Editor should render Percentage 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -723,10 +756,12 @@ exports[`Answer Editor should render Percentage 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -793,6 +828,7 @@ exports[`Answer Editor should render Percentage 1`] = `
 
 exports[`Answer Editor should render Radio 1`] = `
 <AnswerEditor__Answer
+  aria-label="Radio answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -815,10 +851,12 @@ exports[`Answer Editor should render Radio 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -834,10 +872,12 @@ exports[`Answer Editor should render Radio 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -911,6 +951,7 @@ exports[`Answer Editor should render Radio 1`] = `
 
 exports[`Answer Editor should render TextArea 1`] = `
 <AnswerEditor__Answer
+  aria-label="TextArea answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -933,10 +974,12 @@ exports[`Answer Editor should render TextArea 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -952,10 +995,12 @@ exports[`Answer Editor should render TextArea 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1021,6 +1066,7 @@ exports[`Answer Editor should render TextArea 1`] = `
 
 exports[`Answer Editor should render TextField 1`] = `
 <AnswerEditor__Answer
+  aria-label="TextField answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -1043,10 +1089,12 @@ exports[`Answer Editor should render TextField 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1062,10 +1110,12 @@ exports[`Answer Editor should render TextField 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1131,6 +1181,7 @@ exports[`Answer Editor should render TextField 1`] = `
 
 exports[`Answer Editor should render Unit 1`] = `
 <AnswerEditor__Answer
+  aria-label="Unit answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -1154,10 +1205,12 @@ exports[`Answer Editor should render Unit 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1173,10 +1226,12 @@ exports[`Answer Editor should render Unit 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
