@@ -1922,11 +1922,11 @@ describe("schema validation", () => {
         const rearrangedFolders = [
           { id: "folder_1", pages: [{ ...mockCalcSum }] },
           { id: "folder_2", pages: [{ ...pages[0] }] },
-          { id: "folder_2", pages: [{ ...pages[1] }] },
+          { id: "folder_3", pages: [{ ...pages[1] }] },
         ];
 
         questionnaire.sections[0].folders = rearrangedFolders;
-
+        questionnaire.id = 1;
         const errors = validation(questionnaire);
 
         expect(errors).toHaveLength(1);
@@ -1942,13 +1942,13 @@ describe("schema validation", () => {
         ];
 
         const rearrangedFolders = [
-          { id: "folder_2", pages: [{ ...pages[0] }] },
+          { id: "folder_1", pages: [{ ...pages[0] }] },
           { id: "folder_2", pages: [{ ...pages[1] }] },
-          { id: "folder_1", pages: [{ ...mockCalcSum }] },
+          { id: "folder_3", pages: [{ ...mockCalcSum }] },
         ];
 
         questionnaire.sections[0].folders = rearrangedFolders;
-
+        questionnaire.id = 2;
         const errors = validation(questionnaire);
 
         expect(errors).toHaveLength(0);
@@ -1958,7 +1958,6 @@ describe("schema validation", () => {
     describe("Inside a folder", () => {
       it("Should validate when the calculated summary appears before the answers it uses", () => {
         const pages = questionnaire.sections[0].folders[0].pages;
-
         mockCalcSum.summaryAnswers = [
           pages[0].answers[0].id,
           pages[1].answers[0].id,
@@ -1972,7 +1971,7 @@ describe("schema validation", () => {
         ];
 
         questionnaire.sections[0].folders = rearrangedFolders;
-
+        questionnaire.id = 3;
         const errors = validation(questionnaire);
 
         expect(errors).toHaveLength(1);
@@ -1995,7 +1994,7 @@ describe("schema validation", () => {
         ];
 
         questionnaire.sections[0].folders = rearrangedFolders;
-
+        questionnaire.id = 4;
         const errors = validation(questionnaire);
 
         expect(errors).toHaveLength(0);
