@@ -20,12 +20,11 @@ module.exports = (ajv) =>
     ) {
       isValid.errors = [];
       const orderedIds = getOrderedIdMap({ questionnaire });
-      const { id: calcSumId } = parentData;
+      const calcSumPos = orderedIds.get(parentData.id);
       const answerIdsToCalc = data;
-      const calcSumPos = orderedIds.get(calcSumId);
       answerIdsToCalc.forEach((id) => {
-        const pagePos = orderedIds.get(id);
-        if (calcSumPos < pagePos) {
+        const answerPos = orderedIds.get(id);
+        if (calcSumPos < answerPos) {
           isValid.errors.push(
             createValidationError(
               instancePath,
