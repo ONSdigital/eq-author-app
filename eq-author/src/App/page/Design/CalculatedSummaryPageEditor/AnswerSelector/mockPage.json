@@ -1,0 +1,29 @@
+{
+  "id": "e76d80b3-8d5a-46b3-a9df-6659a976b8a2",
+  "title": "<p>c</p>",
+  "alias": null,
+  "totalTitle": null,
+  "pageType": "CalculatedSummaryPage",
+  "position": 0,
+  "displayName": "c",
+  "folder": {
+    "id": "674f3e1e-b847-4001-8545-7c5f9789ef2a",
+    "position": 2,
+    "__typename": "Folder",
+    "enabled": false
+  },
+  "section": {
+    "id": "b9b7fb43-3065-48d5-a949-fa633ba8e8d6",
+    "position": 0,
+    "__typename": "Section",
+    "displayName": "Untitled section"
+  },
+  "summaryAnswers": [],
+  "__typename": "CalculatedSummaryPage",
+  "validationErrorInfo": {
+    "id": "e76d80b3-8d5a-46b3-a9df-6659a976b8a2",
+    "errors": [],
+    "totalCount": 0,
+    "__typename": "ValidationErrorInfo"
+  }
+}

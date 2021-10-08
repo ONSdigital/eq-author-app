@@ -1,7 +1,6 @@
-const { merge, uniq, get, intersection } = require("lodash");
+const { merge, uniq, get } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
-const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 
 const {
   NUMBER,
@@ -32,20 +31,20 @@ Resolvers.CalculatedSummaryPage = {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  summaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    const previousAnswers = getPreviousAnswersForPage(
-      { sections: [section] },
-      id,
-      true,
-      [NUMBER, CURRENCY, PERCENTAGE, UNIT]
-    ).map(({ id }) => id);
-    const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
-    return validSummaryAnswers
-      ? validSummaryAnswers.map((validSummaryAnswer) =>
-          getAnswerById(ctx, validSummaryAnswer)
-        )
-      : [];
+  summaryAnswers: ({ summaryAnswers }, args, ctx) => {
+    const arr = [];
+
+    if (summaryAnswers) {
+      summaryAnswers.forEach((id) => {
+        const ans = getAnswerById(ctx, id);
+
+        if (ans !== undefined) {
+          arr.push(ans);
+        }
+      });
+    }
+
+    return arr;
   },
 
   validationErrorInfo: ({ id }, args, ctx) =>
