@@ -41,22 +41,28 @@ class Block {
     if (page.isConfirmationPage) {
       if (page.pageSkipConditions) {
         this.skip_conditions = this.skip_conditions || [];
-        this.skip_conditions.push(
-          translateAuthorSkipconditions(page.pageSkipConditions, ctx)[0]
-        );
+        page.pageSkipConditions.forEach((skipCondition, index) => {
+          this.skip_conditions.push(
+            translateAuthorSkipconditions(page.pageSkipConditions, ctx)[index]
+          );
+        });
       }
       if (page.skipConditions) {
         this.skip_conditions = this.skip_conditions || [];
-        this.skip_conditions.push(
-          translateAuthorSkipconditions(page.skipConditions, ctx)[0]
-        );
+        page.skipConditions.forEach((skipCondition, index) => {
+          this.skip_conditions.push(
+            translateAuthorSkipconditions(page.skipConditions, ctx)[index]
+          );
+        });
       }
     } else {
       if (page.skipConditions) {
         this.skip_conditions = this.skip_conditions || [];
-        this.skip_conditions.push(
-          translateAuthorSkipconditions(page.skipConditions, ctx)[0]
-        );
+        page.skipConditions.forEach((skipCondition, index) => {
+          this.skip_conditions.push(
+            translateAuthorSkipconditions(page.skipConditions, ctx)[index]
+          );
+        });
       }
     }
   }
