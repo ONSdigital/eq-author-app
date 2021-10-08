@@ -38,11 +38,27 @@ class Block {
         ctx
       );
     }
-    if (page.skipConditions) {
-      this.skip_conditions = translateAuthorSkipconditions(
-        page.skipConditions,
-        ctx
-      );
+    // TODO: Try defining this.skip_conditions first as empty array, and pushing new skip conditions into the empty array
+    if (page.isConfirmationPage) {
+      if (page.pageSkipConditions) {
+        this.skip_conditions = this.skip_conditions || [];
+        this.skip_conditions.push(
+          translateAuthorSkipconditions(page.pageSkipConditions, ctx)[0]
+        );
+      }
+      if (page.skipConditions) {
+        this.skip_conditions = this.skip_conditions || [];
+        this.skip_conditions.push(
+          translateAuthorSkipconditions(page.skipConditions, ctx)[0]
+        );
+      }
+    } else {
+      if (page.skipConditions) {
+        this.skip_conditions = this.skip_conditions || [];
+        this.skip_conditions.push(
+          translateAuthorSkipconditions(page.skipConditions, ctx)[0]
+        );
+      }
     }
   }
 
