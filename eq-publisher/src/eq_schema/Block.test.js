@@ -237,6 +237,57 @@ describe("Block", () => {
       mockQuestionnaireWithSkip = buildSkipConditions(mockQuestionnaire);
       newCtx = { ...ctx, questionnaireJson: mockQuestionnaireWithSkip };
     });
+
+    it("should add skip condition to array correctly", () => {
+      const block = new Block(
+        mockQuestionnaireWithSkip.sections[0].folders[0].pages[1],
+        null,
+        newCtx
+      );
+
+      expect(block.skip_conditions.length).toEqual(1);
+    });
+
+    it("should not remove confirmation page skip condition when associated page has skip conditions", () => {
+      const block = new Block(
+        mockQuestionnaireWithSkip.sections[1].folders[0].pages[1].confirmation,
+        null,
+        newCtx
+      );
+
+      // console.log(
+      //   `mockQuestionnaireWithSkip.sections[1].folders[0].pages[1].confirmation,
+      // `,
+      //   mockQuestionnaireWithSkip.sections[1].folders[0].pages[1].confirmation
+      // );
+
+      const runnerSkipJson = [
+        {
+          when: [
+            {
+              id: "answer3",
+              condition: "greater than",
+              value: "4",
+            },
+          ],
+        },
+        {
+          when: [
+            {
+              id: "answer3",
+              condition: "greater than",
+              value: "3",
+            },
+          ],
+        },
+      ];
+
+      console.log(`block.skip_conditions[0]`, block.skip_conditions[0]);
+
+      expect(block.skip_conditions.length).toEqual(1);
+      expect(block.skip_conditions).toEqual(runnerSkipJson);
+    });
+
     it("should translate skip conditions correctly", () => {
       const block = new Block(
         mockQuestionnaireWithSkip.sections[0].folders[0].pages[1],
