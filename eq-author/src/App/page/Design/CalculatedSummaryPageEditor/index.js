@@ -5,24 +5,28 @@ import { get, flowRight, some } from "lodash";
 import styled from "styled-components";
 import gql from "graphql-tag";
 
-import { colors } from "constants/theme";
-import RichTextEditor from "components/RichTextEditor";
-import withChangeUpdate from "enhancers/withChangeUpdate";
-import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
-import withEntityEditor from "components/withEntityEditor";
-import withValidationError from "enhancers/withValidationError";
 import { richTextEditorErrors } from "constants/validationMessages";
-import PageHeader from "../PageHeader";
+import { colors } from "constants/theme";
 
+import RichTextEditor from "components/RichTextEditor";
+import withEntityEditor from "components/withEntityEditor";
+import PageHeader from "../PageHeader";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
-import withPropRenamed from "enhancers/withPropRenamed";
-import AnswerSelector from "./AnswerSelector";
 import {
   ANSWER,
   METADATA,
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
+
+//new
+import AnswerSelector from "./AnswerSelector";
+
+import withPropRenamed from "enhancers/withPropRenamed";
+import withChangeUpdate from "enhancers/withChangeUpdate";
+import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
+import withValidationError from "enhancers/withValidationError";
+
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 const titleControls = {
@@ -36,15 +40,12 @@ const PageSegment = styled.div`
 
 const SelectorTitle = styled.h2`
   font-size: 1em;
-  color: ${colors.darkGrey};
+  color: ${colors.black};
   margin: 0 0 0.4em;
 `;
 
-const {
-  CALCSUM_TITLE_NOT_ENTERED,
-  PIPING_TITLE_MOVED,
-  PIPING_TITLE_DELETED,
-} = richTextEditorErrors;
+const { CALCSUM_TITLE_NOT_ENTERED, PIPING_TITLE_MOVED, PIPING_TITLE_DELETED } =
+  richTextEditorErrors;
 
 const ERROR_SITUATIONS = [
   {
@@ -86,7 +87,7 @@ export const CalculatedSummaryPageEditor = (props) => {
     section: page.section,
   });
 
-  const ErrorMsg = () => {
+  const getErrorMessage = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(props.page.validationErrorInfo.errors)) {
@@ -120,7 +121,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           testSelector="txt-summary-title"
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
-          errorValidationMsg={ErrorMsg()}
+          errorValidationMsg={getErrorMessage()}
           autoFocus={!page.title}
         />
         <div>
