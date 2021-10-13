@@ -38,32 +38,11 @@ class Block {
         ctx
       );
     }
-    if (page.isConfirmationPage) {
-      if (page.pageSkipConditions) {
-        this.skip_conditions = this.skip_conditions || [];
-        for (let index = 0; index < page.pageSkipConditions.length; index++) {
-          this.skip_conditions.push(
-            translateAuthorSkipconditions(page.pageSkipConditions, ctx)[index]
-          );
-        }
-      }
-      if (page.skipConditions) {
-        this.skip_conditions = this.skip_conditions || [];
-        for (let index = 0; index < page.skipConditions.length; index++) {
-          this.skip_conditions.push(
-            translateAuthorSkipconditions(page.skipConditions, ctx)[index]
-          );
-        }
-      }
-    } else {
-      if (page.skipConditions) {
-        this.skip_conditions = this.skip_conditions || [];
-        for (let index = 0; index < page.skipConditions.length; index++) {
-          this.skip_conditions.push(
-            translateAuthorSkipconditions(page.skipConditions, ctx)[index]
-          );
-        }
-      }
+    if (page.skipConditions) {
+      this.skip_conditions = translateAuthorSkipconditions(
+        page.skipConditions,
+        ctx
+      );
     }
   }
 

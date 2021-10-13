@@ -107,7 +107,10 @@ const buildAuthorConfirmationQuestion = (
     routing,
     isConfirmationPage: true,
     pageSkipConditions: page.skipConditions,
-    skipConditions: page.confirmation.skipConditions,
+    skipConditions: [
+      ...(page.confirmation.skipConditions || []),
+      ...(page.skipConditions || []),
+    ],
     answers: [confirmationAnswerObject],
   };
 
