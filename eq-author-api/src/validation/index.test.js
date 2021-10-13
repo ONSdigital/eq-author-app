@@ -38,6 +38,7 @@ const {
   ERR_INVALID,
   ERR_DESTINATION_INVALID_WITH_HUB,
   PIPING_METADATA_DELETED,
+  CALCSUM_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -76,6 +77,8 @@ describe("schema validation", () => {
           title: "section_1",
           folders: [
             {
+              id: "folder_1",
+              enabled: "false",
               pages: [
                 {
                   id: "page_1",
@@ -1889,6 +1892,112 @@ describe("schema validation", () => {
 
         expect(errors.length).toBe(1);
         expect(errors[0].errorCode).toBe(ERR_REFERENCE_MOVED);
+      });
+    });
+  });
+
+  describe("Calculated summary validation", () => {
+    let mockCalcSum;
+
+    beforeEach(() => {
+      mockCalcSum = {
+        id: "page_3",
+        title: "A calculated summary",
+        pageType: "CalculatedSummaryPage",
+        summaryAnswers: [],
+        alias: null,
+        totalTitle: null,
+      };
+    });
+
+    describe("Outside a folder", () => {
+      it("Should validate when the calculated summary appears before the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          { id: "folder_1", pages: [{ ...mockCalcSum }] },
+          { id: "folder_2", pages: [{ ...pages[0] }] },
+          { id: "folder_3", pages: [{ ...pages[1] }] },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 1;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should not validate when the calc sum appears after the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          { id: "folder_1", pages: [{ ...pages[0] }] },
+          { id: "folder_2", pages: [{ ...pages[1] }] },
+          { id: "folder_3", pages: [{ ...mockCalcSum }] },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 2;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    describe("Inside a folder", () => {
+      it("Should validate when the calculated summary appears before the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...mockCalcSum }, { ...pages[0] }, { ...pages[1] }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 3;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should not validate when the calc sum appears after the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...pages[0] }, { ...pages[1] }, { ...mockCalcSum }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 4;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(0);
       });
     });
   });
