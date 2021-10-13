@@ -105,8 +105,6 @@ const buildAuthorConfirmationQuestion = (
     pageType: "ConfirmationQuestion",
     routingRuleSet,
     routing,
-    isConfirmationPage: true,
-    pageSkipConditions: page.skipConditions,
     skipConditions: [
       ...(page.confirmation.skipConditions || []),
       ...(page.skipConditions || []),
