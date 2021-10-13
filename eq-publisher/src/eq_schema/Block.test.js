@@ -237,7 +237,6 @@ describe("Block", () => {
       mockQuestionnaireWithSkip = buildSkipConditions(mockQuestionnaire);
       newCtx = { ...ctx, questionnaireJson: mockQuestionnaireWithSkip };
     });
-
     it("should translate skip conditions correctly", () => {
       const block = new Block(
         mockQuestionnaireWithSkip.sections[0].folders[0].pages[1],
