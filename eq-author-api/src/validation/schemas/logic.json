@@ -33,6 +33,9 @@
               },
               {
                 "$ref": "#/definitions/expression-unanswered"
+              },
+              {
+                "$ref": "#/definitions/expression-unSelected"
               }
             ]
           }
@@ -196,6 +199,17 @@
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        }
+      }
+    },
+    "expression-unSelected": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "condition": {
+          "enum": ["OneOf", "AllOf", "NotAnyOf", "AnyOf"]
         },
         "right": {
           "type": "object",
@@ -228,6 +242,9 @@
                 },
                 {
                   "$ref": "#/definitions/expression-unanswered"
+                },
+                {
+                  "$ref": "#/definitions/expression-unSelected"
                 }
               ]
             }
