@@ -48,7 +48,6 @@ module.exports = (ajv) =>
         )
         .reduce((acc, type) => acc.add(type), new Set());
 
-      console.log(`optionTypeSet`, optionTypeSet);
       isValid.errors =
         optionTypeSet.size === 1
           ? []
