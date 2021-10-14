@@ -90,7 +90,7 @@ export const UnwrappedMainNavigation = ({
           <UtilityBtns>
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <RouteButton variant="navigation" small to="/">
+                <RouteButton variant="navigation" small to="/" id="SuperNav-1">
                   <IconText nav icon={homeIcon}>
                     Home
                   </IconText>

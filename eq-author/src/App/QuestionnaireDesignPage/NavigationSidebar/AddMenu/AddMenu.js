@@ -17,6 +17,8 @@ import { FolderAddSubMenu } from "./FolderSubMenu";
 
 import { colors } from "constants/theme";
 
+import hotkeys from "hotkeys-js";
+
 const AddMenuWindow = styled.div`
   color: black;
   background-color: ${colors.orange};
@@ -35,6 +37,13 @@ const PopoutLayer = styled(Layer)`
   top: auto;
   width: 100%;
 `;
+
+hotkeys("f5", function (event) {
+  event.preventDefault();
+
+  document.getElementById("SuperNav-1").focus();
+  // document.getElementById("SuperNav-2").focus();
+});
 
 const AddMenu = ({
   addMenuOpen,

@@ -62,7 +62,7 @@ const StyledIconTextAdd = styled(IconText)`
 export const AddContent = "Add / import content";
 
 export const MenuAddButton = (
-  <AddButton data-test="btn-add-menu">
+  <AddButton data-test="btn-add-menu" id="SuperNav-2">
     <StyledIconTextAdd icon={IconPlus}>{AddContent}</StyledIconTextAdd>
   </AddButton>
 );
