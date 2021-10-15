@@ -28,9 +28,9 @@ export const dateReadToWriteMapper =
     [outputKey]: {
       ...omit("enabled", rest),
       entityType,
-      custom: getCustom(entityType, customDate),
-      previousAnswer: getPreviousAnswer(entityType, previousAnswer),
-      metadata: getMetadata(entityType, metadata),
+      custom: getCustom(customDate),
+      previousAnswer: getPreviousAnswer(previousAnswer),
+      metadata: getMetadata(metadata),
     },
   });
 
@@ -48,6 +48,6 @@ export const numericReadToWriteMapper =
     [outputKey]: {
       ...omit("enabled", rest),
       entityType,
-      previousAnswer: getPreviousAnswer(entityType, previousAnswer),
+      previousAnswer: getPreviousAnswer(previousAnswer),
     },
   });
