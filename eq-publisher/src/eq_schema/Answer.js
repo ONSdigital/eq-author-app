@@ -183,8 +183,8 @@ class Answer {
   }
 
   static buildOption(
-    { label, description, additionalAnswer, type, qCode: q_code },
-    { properties, type }
+    { label, description, additionalAnswer, qCode: q_code },
+    { properties }
   ) {
     const option = {
       label,
@@ -204,7 +204,7 @@ class Answer {
         id: `answer${additionalAnswer.id}`,
         mandatory: properties.required,
       };
-      if (additionalAnswer.qCode && type !== "Checkbox") {
+      if (additionalAnswer.qCode) {
         option.detail_answer.q_code = additionalAnswer.qCode;
       }
     }

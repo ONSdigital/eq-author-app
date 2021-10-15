@@ -202,7 +202,7 @@ export const QCodeTable = () => {
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
-          if (item.additionalAnswer && item.type !== "CheckboxOption") {
+          if (item.additionalAnswer) {
             return (
               <>
                 <Row
