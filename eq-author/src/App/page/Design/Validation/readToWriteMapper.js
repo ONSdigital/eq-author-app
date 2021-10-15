@@ -1,27 +1,21 @@
 import { omit } from "lodash/fp";
 
-import {
-  CUSTOM,
-  PREVIOUS_ANSWER,
-  METADATA,
-} from "constants/validation-entity-types";
-
-const getCustom = (entityType, customDate) => {
-  if (/*entityType !== CUSTOM ||*/ !customDate) {
+const getCustom = (customDate) => {
+  if (!customDate) {
     return null;
   }
   return customDate;
 };
 
-const getPreviousAnswer = (entityType, previousAnswer) => {
-  if (/*entityType !== PREVIOUS_ANSWER ||*/ !previousAnswer) {
+const getPreviousAnswer = (previousAnswer) => {
+  if (!previousAnswer) {
     return null;
   }
   return previousAnswer.id;
 };
 
-const getMetadata = (entityType, metadata) => {
-  if (/*entityType !== METADATA ||*/ !metadata) {
+const getMetadata = (metadata) => {
+  if (!metadata) {
     return null;
   }
   return metadata.id;
