@@ -109,7 +109,7 @@ const buildAuthorConfirmationQuestion = (
   };
 
   if (page.skipConditions || page.confirmation.skipConditions) {
-    confirmationAnswerObject.skipConditions = [
+    confirmationQuestionObject.skipConditions = [
       ...(page.confirmation.skipConditions || []),
       ...(page.skipConditions || []),
     ];
