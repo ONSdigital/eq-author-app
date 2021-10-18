@@ -178,7 +178,6 @@ Resolvers.Mutation = {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
-
     const { expressionId, customValue, selectedOptions } = input;
 
     const expression = getExpressionById(ctx, expressionId);
