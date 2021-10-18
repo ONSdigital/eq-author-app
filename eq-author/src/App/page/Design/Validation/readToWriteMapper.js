@@ -1,24 +1,15 @@
 import { omit } from "lodash/fp";
 
 const getCustom = (customDate) => {
-  if (!customDate) {
-    return null;
-  }
-  return customDate;
+  return customDate && customDate;
 };
 
 const getPreviousAnswer = (previousAnswer) => {
-  if (!previousAnswer) {
-    return null;
-  }
-  return previousAnswer.id;
+  return previousAnswer && previousAnswer.id;
 };
 
 const getMetadata = (metadata) => {
-  if (!metadata) {
-    return null;
-  }
-  return metadata.id;
+  return metadata && metadata.id;
 };
 
 export const dateReadToWriteMapper =
