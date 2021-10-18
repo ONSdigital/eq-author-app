@@ -8,8 +8,8 @@ export const dateReadToWriteMapper =
       ...omit("enabled", rest),
       entityType,
       custom: customDate,
-      previousAnswer: previousAnswer !== null ? previousAnswer.id : null,
-      metadata: metadata !== null ? metadata.id : null,
+      previousAnswer: previousAnswer?.id ?? null,
+      metadata: metadata?.id ?? null,
     },
   });
 
@@ -27,6 +27,6 @@ export const numericReadToWriteMapper =
     [outputKey]: {
       ...omit("enabled", rest),
       entityType,
-      previousAnswer: previousAnswer !== null ? previousAnswer.id : null,
+      previousAnswer: previousAnswer?.id ?? null,
     },
   });
