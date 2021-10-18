@@ -105,12 +105,15 @@ const buildAuthorConfirmationQuestion = (
     pageType: "ConfirmationQuestion",
     routingRuleSet,
     routing,
-    skipConditions: [
-      ...(page.confirmation.skipConditions || []),
-      ...(page.skipConditions || []),
-    ],
     answers: [confirmationAnswerObject],
   };
+
+  if (page.skipConditions || page.confirmation.skipConditions) {
+    confirmationQuestionObject.skipConditions = [
+      ...(page.confirmation.skipConditions || []),
+      ...(page.skipConditions || []),
+    ];
+  }
 
   if (page.confirmation.qCode) {
     confirmationAnswerObject.qCode = page.confirmation.qCode;
