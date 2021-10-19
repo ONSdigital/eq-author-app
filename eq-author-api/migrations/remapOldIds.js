@@ -1,4 +1,3 @@
-const { checkStrictMode } = require("ajv/dist/compile/util");
 const { v4: uuidv4 } = require("uuid");
 
 const uuidRejex =
