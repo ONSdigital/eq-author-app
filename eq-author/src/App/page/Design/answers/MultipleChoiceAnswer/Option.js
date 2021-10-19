@@ -203,7 +203,7 @@ export const StatelessOption = ({
               value={option.label}
               placeholder={labelPlaceholder}
               onChange={onChange}
-              onBlur={onUpdate}
+              onBlur={() => setTimeout(onUpdate, 400)}
               onKeyDown={handleKeyDown}
               data-test="option-label"
               data-autofocus={autoFocus || null}
