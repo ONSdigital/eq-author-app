@@ -171,7 +171,7 @@ describe("readToWriteMapper", () => {
       ).toEqual({
         id: 1,
         latestDateInput: {
-          custom: null,
+          custom: "",
           metadata: null,
           previousAnswer: null,
           offset: {
