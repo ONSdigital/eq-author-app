@@ -150,9 +150,9 @@
                 "type": "object",
                 "properties": {
                   "number": {
-                    "not": {
-                      "type": "null"
-                    }
+                    "type": "number",
+                    "nullable": false,
+                    "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
                   }
                 }
               }
