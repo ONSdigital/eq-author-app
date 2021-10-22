@@ -38,7 +38,7 @@ const NoResults = ({ onCreateQuestionnaire }) => {
 
   return (
     <Wrapper>
-      <Title>No questionnaires found</Title>
+      <Title>No results</Title>
       <Text>{"You don't have access to any questionnaires yet."}</Text>
       <Button
         onClick={handleModalOpen}
