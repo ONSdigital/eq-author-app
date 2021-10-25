@@ -85,9 +85,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       variables: { input: section },
     };
 
-    if (questionnaire.sections.length === 1) {
-      options.refetchQueries = ["GetQuestionnaire"];
-    }
+    options.refetchQueries = ["GetQuestionnaire"];
 
     const mutation = mutate(options);
 

@@ -2,6 +2,7 @@ module.exports = (ajv) => {
   require("./requiredWhenQuestionnaireSetting")(ajv);
   require("./uniquePropertyValueInArrayOfObjects")(ajv);
   require("./calculatedSummaryUnitConsistency")(ajv);
+  require("./calculatedSummaryPosition")(ajv);
   require("./linkedDecimalValidation")(ajv);
   require("./validateLatestAfterEarliest")(ajv);
   require("./validateDuration")(ajv);

@@ -9,6 +9,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     return mutate({
       variables: { input: answer },
+      refetchQueries: ["GetQuestionnaire"],
     }).then(() => ownProps.showToast("Answer deleted"));
   },
 });
