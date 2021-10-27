@@ -127,11 +127,7 @@ export default (
     source.droppableId !== destination.droppableId // Moving into a different folder
   ) {
     const { id: pageId } = pageBeingMoved;
-    const {
-      id: destinationFolderId,
-      validationErrorInfo,
-      pages,
-    } = destinationFolder;
+    const { id: destinationFolderId } = destinationFolder;
 
     // Data
     const section = getSectionByFolderId(questionnaire, destinationFolderId);
@@ -143,11 +139,6 @@ export default (
       movePage: {
         ...pageBeingMoved,
         position: newPosition,
-        folder: {
-          ...destinationFolder,
-          pages: [...pages, pageBeingMoved],
-          validationErrorInfo: { errors: [], ...validationErrorInfo },
-        },
         section: {
           ...section,
           folders: folders.map((folder) => ({
@@ -161,42 +152,36 @@ export default (
       },
     };
 
-    // Fix the optimistic response -- move the pages into the right position
-
-    /* For the folder section of the JSON */
-    const orderedPageIds_Folder = optimisticResponse.movePage.folder.pages.map(
-      (page) => page.id
-    );
-    const oldPosition = orderedPageIds_Folder.indexOf(pageBeingMoved.id);
-
-    arrayMove(
-      optimisticResponse.movePage.folder.pages,
-      oldPosition,
-      newPosition
-    );
-
-    /* For the section section of the JSON */
+    // Fix the optimistic response by simulating what the API will do
     optimisticResponse.movePage.section.folders.forEach((folder) => {
       switch (folder.id) {
         case source.droppableId: {
-          // TODO - remove the page we are moving from this folder
+          const { pages } = folder;
+          const filteredPages = pages.filter(
+            ({ id: pageId }) => pageId !== pageBeingMoved.id
+          );
+
+          folder.pages = filteredPages;
+          break;
         }
 
         case destinationFolderId: {
-          // TODO - move the page we are moving into this folder
+          const orderedPageIdsFolder = folder.pages.map((page) => page.id);
+          const wrongPagePosition = orderedPageIdsFolder.indexOf(
+            pageBeingMoved.id
+          );
+
+          arrayMove(folder.pages, wrongPagePosition, newPosition);
+
+          folder.pages.forEach((page, i) => (page.position = i));
+          break;
         }
 
-        default: {
-        }
+        default:
       }
     });
 
-    // Fix the optimistic response -- replace the positions
-    /* For the folder section of the JSON */
-    optimisticResponse.movePage.folder.pages.forEach(
-      (page, i) => (page.position = i)
-    );
-
+    // Run the mutation to move the page
     movePage({
       variables: {
         input: {
@@ -206,6 +191,7 @@ export default (
           position: newPosition,
         },
       },
+      optimisticResponse,
     });
   }
 
