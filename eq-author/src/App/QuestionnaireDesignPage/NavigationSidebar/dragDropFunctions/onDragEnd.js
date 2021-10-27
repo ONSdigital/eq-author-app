@@ -48,7 +48,11 @@ export default (
   }
 
   //If the user is moving a page into a folder
-  if (pageBeingMoved && destinationFolder) {
+  if (
+    pageBeingMoved && // Moving a page
+    destinationFolder && // Into a folder
+    source.droppableId === destination.droppableId // And we're moving within the same folder
+  ) {
     const { id: pageId, title } = pageBeingMoved;
     const { id: folderId } = destinationFolder;
     const { id: sectionId, folders } = getSectionByFolderId(
@@ -115,6 +119,94 @@ export default (
     });
 
     return 1;
+  }
+
+  if (
+    pageBeingMoved && // Moving a page
+    destinationFolder && // Into a folder
+    source.droppableId !== destination.droppableId // Moving into a different folder
+  ) {
+    const { id: pageId } = pageBeingMoved;
+    const {
+      id: destinationFolderId,
+      validationErrorInfo,
+      pages,
+    } = destinationFolder;
+
+    // Data
+    const section = getSectionByFolderId(questionnaire, destinationFolderId);
+    const { id: sectionId, folders } = section;
+    const { index: newPosition } = destination;
+
+    // Start to template the optimistic response as best we can
+    const optimisticResponse = {
+      movePage: {
+        ...pageBeingMoved,
+        position: newPosition,
+        folder: {
+          ...destinationFolder,
+          pages: [...pages, pageBeingMoved],
+          validationErrorInfo: { errors: [], ...validationErrorInfo },
+        },
+        section: {
+          ...section,
+          folders: folders.map((folder) => ({
+            ...folder,
+            pages:
+              folder.id === destinationFolderId
+                ? [...folder.pages, pageBeingMoved]
+                : [...folder.pages],
+          })),
+        },
+      },
+    };
+
+    // Fix the optimistic response -- move the pages into the right position
+
+    /* For the folder section of the JSON */
+    const orderedPageIds_Folder = optimisticResponse.movePage.folder.pages.map(
+      (page) => page.id
+    );
+    const oldPosition = orderedPageIds_Folder.indexOf(pageBeingMoved.id);
+
+    arrayMove(
+      optimisticResponse.movePage.folder.pages,
+      oldPosition,
+      newPosition
+    );
+
+    /* For the section section of the JSON */
+    optimisticResponse.movePage.section.folders.forEach((folder) => {
+      switch (folder.id) {
+        case source.droppableId: {
+          // TODO - remove the page we are moving from this folder
+        }
+
+        case destinationFolderId: {
+          // TODO - move the page we are moving into this folder
+        }
+
+        default: {
+        }
+      }
+    });
+
+    // Fix the optimistic response -- replace the positions
+    /* For the folder section of the JSON */
+    optimisticResponse.movePage.folder.pages.forEach(
+      (page, i) => (page.position = i)
+    );
+
+    movePage({
+      variables: {
+        input: {
+          id: pageId,
+          sectionId,
+          folderId: destinationFolderId,
+          position: newPosition,
+        },
+      },
+    });
   }
 
   // If the user is moving a page into a section
