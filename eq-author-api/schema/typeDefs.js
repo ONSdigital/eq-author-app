@@ -51,7 +51,6 @@ type Questionnaire {
   title: String
   description: String
   starred: Boolean
-  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
@@ -635,12 +634,11 @@ type Collapsible {
   introduction: QuestionnaireIntroduction!
 }
 
+ADD THREE FIELDS IN HERE
 type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
-  contactDetailsPanelSwitch: Boolean
-  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   secondaryTitle: String!
@@ -934,7 +932,6 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
-  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String!
@@ -951,7 +948,6 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
-  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String
@@ -1331,6 +1327,7 @@ input DeleteQuestionConfirmationInput {
   id: ID!
 }
 
+CHANGE PANEL TO THE THREE FIELDS
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!

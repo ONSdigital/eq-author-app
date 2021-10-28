@@ -105,8 +105,6 @@ export const IntroductionPreview = ({ loading, data }) => {
     questionnaireIntroduction: {
       id,
       title,
-      contactDetailsPanel,
-      contactDetailsPanelSwitch,
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       description,
@@ -122,12 +120,6 @@ export const IntroductionPreview = ({ loading, data }) => {
     <IntroductionLayout renderPanel={() => <CommentsPanel componentId={id} />}>
       <Container>
         <PageTitle missingText="Missing introduction title" title={title} />
-        {contactDetailsPanelSwitch && (
-          <GuidancePanel
-            data-test="contactDetailsPanel"
-            dangerouslySetInnerHTML={{ __html: contactDetailsPanel }}
-          />
-        )}
         {additionalGuidancePanelSwitch && (
           <GuidancePanel
             data-test="additionalGuidancePanel"
@@ -177,8 +169,6 @@ const fragment = gql`
   fragment QuestionnaireIntroduction on QuestionnaireIntroduction {
     id
     title
-    contactDetailsPanel
-    contactDetailsPanelSwitch
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     description

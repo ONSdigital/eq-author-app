@@ -35,8 +35,6 @@ module.exports = class Introduction {
   constructor(
     {
       description,
-      contactDetailsPanel,
-      contactDetailsPanelSwitch,
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       secondaryTitle,
@@ -54,8 +52,6 @@ module.exports = class Introduction {
         type: "Basic",
         id: "primary",
         content: getComplexText(description, ctx)(
-          contactDetailsPanel,
-          contactDetailsPanelSwitch,
           additionalGuidancePanel,
           additionalGuidancePanelSwitch
         ),

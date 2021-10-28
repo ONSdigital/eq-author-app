@@ -11,8 +11,6 @@ module.exports = (metadata) => {
     }">ru_name</span> (<span data-piped="metadata" data-id="${
       find(metadata, { key: "trad_as" }).id
     }">trad_as</span>)</p>`,
-    contactDetailsSwitch: false,
-    contactDetails: "",
     additionalGuidancePanelSwitch: false,
     additionalGuidancePanel: "",
     description:

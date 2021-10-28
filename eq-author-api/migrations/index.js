@@ -14,7 +14,6 @@ const migrations = [
   require("./addTypeToHistoryEvent"),
   require("./updateDefaultTextAreaLength"),
   require("./addFolders"),
-  require("./addContactDetailsPanelSwitch"),
   require("./addGuidancePanelSwitch"),
   require("./addDefaultTheme"),
   require("./addLockedStatus"),
