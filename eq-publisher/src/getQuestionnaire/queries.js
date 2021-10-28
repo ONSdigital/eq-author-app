@@ -197,8 +197,6 @@ exports.getQuestionnaire = `
         id
         title
         description
-        contactDetailsPanel
-        contactDetailsPanelSwitch
         additionalGuidancePanel
         additionalGuidancePanelSwitch
         secondaryTitle
