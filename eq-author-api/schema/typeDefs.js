@@ -638,12 +638,12 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  contactDetailsPhoneNumber: String!
-  contactDetailsEmailAddress: String!
-  contactDetailsEmailSubject: String!
-  contactDetailsIncludeRuRef: Boolean!
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -1333,10 +1333,10 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
-  contactDetailsPhoneNumber: String!
-  contactDetailsEmailAddress: String!
-  contactDetailsEmailSubject: String!
-  contactDetailsIncludeRuRef: Boolean!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
