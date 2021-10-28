@@ -18,6 +18,7 @@ const {
 
 const {
   ERR_ANSWER_NOT_SELECTED,
+  ERR_RIGHTSIDE_NO_VALUE,
 } = require("../../constants/validationErrorCodes");
 
 const {
@@ -483,6 +484,62 @@ describe("routing", () => {
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.number
       ).toEqual(5);
+    });
+
+    it("should validate the right side if a new number value is null or empty", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const firstAnswer =
+        questionnaire.sections[0].folders[0].pages[0].answers[0];
+      const expression =
+        firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expression.id,
+            condition: "NotEqual",
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            customValue: {
+              number: null,
+            },
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      const errors =
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors;
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
     it("should be able to update the selected options array", async () => {
