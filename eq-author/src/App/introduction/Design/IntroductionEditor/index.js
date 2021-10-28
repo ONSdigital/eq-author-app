@@ -77,6 +77,8 @@ export const IntroductionEditor = ({
     collapsibles,
     title,
     description,
+    contactDetailsPanel,
+    contactDetailsPanelSwitch,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
     secondaryTitle,
@@ -107,6 +109,41 @@ export const IntroductionEditor = ({
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
+
+          <InlineField open={contactDetailsPanelSwitch}>
+            <Label>Contact details panel</Label>
+
+            <ToggleSwitch
+              id="toggle-contact-details-panel"
+              name="toggle-contact-details-panel"
+              hideLabels={false}
+              onChange={() =>
+                updateQuestionnaireIntroduction({
+                  id,
+                  ...introduction,
+                  contactDetailsePanelSwitch: !contactDetailsPanelSwitch,
+                })
+              }
+              checked={contactDetailsPanelSwitch}
+            />
+          </InlineField>
+          {contactDetailsPanelSwitch ? (
+            <RichTextEditor
+              id={`details-contactDetailsPanel-${id}`}
+              name="contactDetailsPanel"
+              value={contactDetailsPanel}
+              label=""
+              onUpdate={onChangeUpdate}
+              multiline
+              controls={{
+                heading: true,
+                list: true,
+                bold: true,
+                link: true,
+              }}
+              testSelector="txt-collapsible-contactDetailsPanel"
+            />
+          ) : null}
 
           <InlineField open={additionalGuidancePanelSwitch}>
             <Label>Additional guidance panel</Label>
@@ -230,6 +267,8 @@ const fragment = gql`
     id
     title
     description
+    contactDetailsPanel
+    contactDetailsPanelSwitch
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     secondaryTitle

@@ -51,6 +51,8 @@ type Questionnaire {
   title: String
   description: String
   starred: Boolean
+  contactDetailsPanelSwitch: Boolean
+  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: ThemeShortName
@@ -638,6 +640,8 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  contactDetailsPanelSwitch: Boolean
+  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   secondaryTitle: String!
@@ -931,6 +935,8 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
+  contactDetailsPanelSwitch: Boolean
+  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String!
@@ -947,6 +953,8 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
+  contactDetailsPanelSwitch: Boolean
+  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   theme: String
@@ -1329,6 +1337,8 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  contactDetailsPanelSwitch: Boolean
+  contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!

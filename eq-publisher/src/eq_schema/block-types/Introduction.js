@@ -13,29 +13,30 @@ const getSimpleText = (content, ctx) =>
 const addPanel = (additionalGuidancePanel) =>
   `<div class='panel panel--simple panel--info'><div class='panel__body'>${additionalGuidancePanel}</div></div>`;
 
-const getComplexText = (content, ctx) => (
-  additionalGuidancePanel,
-  additionalGuidancePanelSwitch
-) => {
-  const result = processContent(ctx)(content);
-  if (result) {
-    if (additionalGuidancePanel && additionalGuidancePanelSwitch) {
-      result.content.unshift({
-        description: addPanel(additionalGuidancePanel),
-      });
-      return result.content;
-    } else {
-      return result.content;
+const getComplexText =
+  (content, ctx) =>
+  (additionalGuidancePanel, additionalGuidancePanelSwitch) => {
+    const result = processContent(ctx)(content);
+    if (result) {
+      if (additionalGuidancePanel && additionalGuidancePanelSwitch) {
+        result.content.unshift({
+          description: addPanel(additionalGuidancePanel),
+        });
+        return result.content;
+      } else {
+        return result.content;
+      }
     }
-  }
 
-  return undefined;
-};
+    return undefined;
+  };
 
 module.exports = class Introduction {
   constructor(
     {
       description,
+      contactDetailsPanel,
+      contactDetailsPanelSwitch,
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       secondaryTitle,
@@ -53,6 +54,8 @@ module.exports = class Introduction {
         type: "Basic",
         id: "primary",
         content: getComplexText(description, ctx)(
+          contactDetailsPanel,
+          contactDetailsPanelSwitch,
           additionalGuidancePanel,
           additionalGuidancePanelSwitch
         ),
