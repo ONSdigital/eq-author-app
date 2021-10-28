@@ -638,6 +638,8 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  additionalGuidancePanelSwitch: Boolean
+  additionalGuidancePanel: String
   contactDetailsPhoneNumber: String!
   contactDetailsEmailAddress: String!
   contactDetailsEmailSubject: String!
