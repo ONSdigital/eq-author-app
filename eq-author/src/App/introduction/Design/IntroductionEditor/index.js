@@ -20,7 +20,7 @@ import CollapsiblesEditor from "./CollapsiblesEditor";
 import { InformationPanel } from "components/Panel";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
-import { Field, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Section = styled.section`
@@ -77,6 +77,10 @@ export const IntroductionEditor = ({
     collapsibles,
     title,
     description,
+    contactDetailsPhoneNumber,
+    contactDetailsEmailAddress,
+    contactDetailsEmailSubject,
+    contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
     secondaryTitle,
@@ -86,143 +90,210 @@ export const IntroductionEditor = ({
   } = introduction;
 
   return (
-    <>
-      <Section>
-        <Padding>
-          <SectionTitle style={{ marginBottom: "0" }}>
-            Introduction content
-          </SectionTitle>
-          <SectionDescription>
-            This content is displayed above the “start survey” button. The title
-            is not editable.
-          </SectionDescription>
-          <RichTextEditor
-            id="intro-title"
-            name="title"
-            label="Title"
-            multiline
-            value={title}
-            size="large"
-            disabled
-            onUpdate={noop}
-            testSelector="txt-intro-title"
-          />
-
-          <InlineField open={additionalGuidancePanelSwitch}>
-            <Label>Additional guidance panel</Label>
-
-            <ToggleSwitch
-              id="toggle-additional-guidance-panel"
-              name="toggle-additional-guidance-panel"
-              hideLabels={false}
-              onChange={() =>
-                updateQuestionnaireIntroduction({
-                  id,
-                  ...introduction,
-                  additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
-                })
-              }
-              checked={additionalGuidancePanelSwitch}
-            />
-          </InlineField>
-          {additionalGuidancePanelSwitch ? (
+    console.log(
+      "Contact Details",
+      contactDetailsPhoneNumber,
+      contactDetailsEmailAddress,
+      contactDetailsEmailSubject,
+      contactDetailsIncludeRuRef
+    ),
+    (
+      <>
+        <Section>
+          <Padding>
+            <SectionTitle style={{ marginBottom: "0" }}>
+              Introduction content
+            </SectionTitle>
+            <SectionDescription>
+              This content is displayed above the “start survey” button. The
+              title is not editable.
+            </SectionDescription>
             <RichTextEditor
-              id={`details-additionalGuidancePanel-${id}`}
-              name="additionalGuidancePanel"
-              value={additionalGuidancePanel}
-              label=""
-              onUpdate={onChangeUpdate}
+              id="intro-title"
+              name="title"
+              label="Title"
               multiline
-              controls={{
-                heading: true,
-                list: true,
-                bold: true,
-                link: true,
-              }}
-              testSelector="txt-collapsible-additionalGuidancePanel"
+              value={title}
+              size="large"
+              disabled
+              onUpdate={noop}
+              testSelector="txt-intro-title"
             />
-          ) : null}
+          </Padding>
+        </Section>
+        <Section>
+          <Padding>
+            <SectionTitle style={{ marginBottom: "0" }}>
+              ONS contact detail
+            </SectionTitle>
+            <SectionDescription>
+              For business to report a change to company details or structure.
+            </SectionDescription>
+            <Field>
+              <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
+              <Input
+                id="contactDetailsPhoneNumber"
+                value={contactDetailsPhoneNumber}
+                onChange={onChangeUpdate}
+                data-test="txt-contact-details-phone-number"
+              />
+            </Field>
+            <Field>
+              <Label htmlFor="contactDetailsEmailAddress">Email Address</Label>
+              <Input
+                id="contactDetailsEmailAddress"
+                value={contactDetailsEmailAddress}
+                onChange={onChangeUpdate}
+                data-test="txt-contact-details-email-address"
+              />
+            </Field>
+            <Field>
+              <Label htmlFor="contactDetailsEmailSubject">Email Subject</Label>
+              <Input
+                id="contactDetailsEmailSubject"
+                value={contactDetailsEmailSubject}
+                onChange={onChangeUpdate}
+                data-test="txt-contact-details-email-subject"
+              />
+            </Field>
+            <InlineField open={additionalGuidancePanelSwitch}>
+              <Label>Add RU ref to the subject line</Label>
+              <ToggleSwitch
+                id="toggle-contact-details-include-ruref"
+                name="toggle-contact-details-include-ruref"
+                hideLabels={false}
+                onChange={onChangeUpdate}
+                checked={contactDetailsIncludeRuRef}
+              />
+            </InlineField>
+            <Label>
+              Add the reporting unit reference to the end of the subject line,
+              for example, Change of details eference 621476278652.
+            </Label>
+          </Padding>
+        </Section>
+        <Section>
+          <Padding>
+            <InlineField open={additionalGuidancePanelSwitch}>
+              <Label>Additional guidance panel</Label>
 
-          <RichTextEditor
-            id="intro-description"
-            name="description"
-            label="Description"
-            multiline
-            value={description}
-            controls={descriptionControls}
-            onUpdate={onChangeUpdate}
-            testSelector="txt-intro-description"
-          />
+              <ToggleSwitch
+                id="toggle-additional-guidance-panel"
+                name="toggle-additional-guidance-panel"
+                hideLabels={false}
+                onChange={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    additionalGuidancePanelSwitch:
+                      !additionalGuidancePanelSwitch,
+                  })
+                }
+                checked={additionalGuidancePanelSwitch}
+              />
+            </InlineField>
+            {additionalGuidancePanelSwitch ? (
+              <RichTextEditor
+                id={`details-additionalGuidancePanel-${id}`}
+                name="additionalGuidancePanel"
+                value={additionalGuidancePanel}
+                label=""
+                onUpdate={onChangeUpdate}
+                multiline
+                controls={{
+                  heading: true,
+                  list: true,
+                  bold: true,
+                  link: true,
+                }}
+                testSelector="txt-collapsible-additionalGuidancePanel"
+              />
+            ) : null}
 
-          <SectionTitle>Legal basis</SectionTitle>
-          <InformationPanel>
-            The legal basis can be changed on the Settings page
-          </InformationPanel>
-        </Padding>
-      </Section>
-      <Section>
-        <Padding>
-          <SectionTitle style={{ marginBottom: "0" }}>
-            Secondary content
-          </SectionTitle>
-          <SectionDescription>
-            This content is displayed below the “start survey” button.
-          </SectionDescription>
-          <RichTextEditor
-            id="secondary-title"
-            name="secondaryTitle"
-            label="Title"
-            value={secondaryTitle}
-            controls={titleControls}
-            size="large"
-            onUpdate={onChangeUpdate}
-            testSelector="txt-intro-secondary-title"
-          />
-          <RichTextEditor
-            id="secondary-description"
-            name="secondaryDescription"
-            label="Description"
-            multiline
-            value={secondaryDescription}
-            controls={descriptionControls}
-            onUpdate={onChangeUpdate}
-            testSelector="txt-intro-secondary-description"
-          />
-          <SectionTitle style={{ marginBottom: "0" }}>
-            Collapsibles
-          </SectionTitle>
-          <SectionDescription>
-            Information which is displayed in a collapsible “twistie”.
-          </SectionDescription>
-          <CollapsiblesEditor introductionId={id} collapsibles={collapsibles} />
-        </Padding>
-      </Section>
-      <Section>
-        <Padding>
-          <SectionTitle>Tertiary content</SectionTitle>
-          <RichTextEditor
-            id="tertiary-title"
-            name="tertiaryTitle"
-            label="Title"
-            value={tertiaryTitle}
-            controls={titleControls}
-            size="large"
-            onUpdate={onChangeUpdate}
-            testSelector="txt-intro-tertiary-title"
-          />
-          <RichTextEditor
-            id="tertiary-description"
-            name="tertiaryDescription"
-            label="Description"
-            multiline
-            value={tertiaryDescription}
-            controls={descriptionControls}
-            onUpdate={onChangeUpdate}
-            testSelector="txt-intro-tertiary-description"
-          />
-        </Padding>
-      </Section>
-    </>
+            <RichTextEditor
+              id="intro-description"
+              name="description"
+              label="Description"
+              multiline
+              value={description}
+              controls={descriptionControls}
+              onUpdate={onChangeUpdate}
+              testSelector="txt-intro-description"
+            />
+
+            <SectionTitle>Legal basis</SectionTitle>
+            <InformationPanel>
+              The legal basis can be changed on the Settings page
+            </InformationPanel>
+          </Padding>
+        </Section>
+        <Section>
+          <Padding>
+            <SectionTitle style={{ marginBottom: "0" }}>
+              Secondary content
+            </SectionTitle>
+            <SectionDescription>
+              This content is displayed below the “start survey” button.
+            </SectionDescription>
+            <RichTextEditor
+              id="secondary-title"
+              name="secondaryTitle"
+              label="Title"
+              value={secondaryTitle}
+              controls={titleControls}
+              size="large"
+              onUpdate={onChangeUpdate}
+              testSelector="txt-intro-secondary-title"
+            />
+            <RichTextEditor
+              id="secondary-description"
+              name="secondaryDescription"
+              label="Description"
+              multiline
+              value={secondaryDescription}
+              controls={descriptionControls}
+              onUpdate={onChangeUpdate}
+              testSelector="txt-intro-secondary-description"
+            />
+            <SectionTitle style={{ marginBottom: "0" }}>
+              Collapsibles
+            </SectionTitle>
+            <SectionDescription>
+              Information which is displayed in a collapsible “twistie”.
+            </SectionDescription>
+            <CollapsiblesEditor
+              introductionId={id}
+              collapsibles={collapsibles}
+            />
+          </Padding>
+        </Section>
+        <Section>
+          <Padding>
+            <SectionTitle>Tertiary content</SectionTitle>
+            <RichTextEditor
+              id="tertiary-title"
+              name="tertiaryTitle"
+              label="Title"
+              value={tertiaryTitle}
+              controls={titleControls}
+              size="large"
+              onUpdate={onChangeUpdate}
+              testSelector="txt-intro-tertiary-title"
+            />
+            <RichTextEditor
+              id="tertiary-description"
+              name="tertiaryDescription"
+              label="Description"
+              multiline
+              value={tertiaryDescription}
+              controls={descriptionControls}
+              onUpdate={onChangeUpdate}
+              testSelector="txt-intro-tertiary-description"
+            />
+          </Padding>
+        </Section>
+      </>
+    )
   );
 };
 const fragment = gql`
@@ -230,6 +301,10 @@ const fragment = gql`
     id
     title
     description
+    contactDetailsPhoneNumber
+    contactDetailsEmailAddress
+    contactDetailsEmailSubject
+    contactDetailsIncludeRuRef
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     secondaryTitle
