@@ -51,7 +51,6 @@ type Questionnaire {
   title: String
   description: String
   starred: Boolean
-  contactDetailsPanelSwitch: Boolean
   contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
@@ -935,7 +934,6 @@ input CustomRightSideInput {
 input CreateQuestionnaireInput {
   title: String!
   description: String
-  contactDetailsPanelSwitch: Boolean
   contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
@@ -953,7 +951,6 @@ input UpdateQuestionnaireInput {
   id: ID!
   title: String
   description: String
-  contactDetailsPanelSwitch: Boolean
   contactDetailsPanel: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
