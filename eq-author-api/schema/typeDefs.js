@@ -634,13 +634,14 @@ type Collapsible {
   introduction: QuestionnaireIntroduction!
 }
 
-ADD THREE FIELDS IN HERE
 type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
-  additionalGuidancePanelSwitch: Boolean
-  additionalGuidancePanel: String
+  contactDetailsPhoneNumber: String!
+  contactDetailsEmailAddress: String!
+  contactDetailsEmailSubject: String!
+  contactDetailsIncludeRuRef: Boolean!
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -1327,12 +1328,13 @@ input DeleteQuestionConfirmationInput {
   id: ID!
 }
 
-CHANGE PANEL TO THE THREE FIELDS
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
-  contactDetailsPanelSwitch: Boolean
-  contactDetailsPanel: String
+  contactDetailsPhoneNumber: String!
+  contactDetailsEmailAddress: String!
+  contactDetailsEmailSubject: String!
+  contactDetailsIncludeRuRef: Boolean!
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
