@@ -97,10 +97,7 @@ const Section = ({
           .map(({ id }) => isCurrentPage(id, entityId))
           .find(Boolean)}
       >
-        <Droppable
-          droppableId={sectionId}
-          type={`section-${sectionId}-content`}
-        >
+        <Droppable droppableId={sectionId} type={`section-content`}>
           {({ innerRef, placeholder, droppableProps }, { isDraggingOver }) => (
             <NavList
               ref={innerRef}

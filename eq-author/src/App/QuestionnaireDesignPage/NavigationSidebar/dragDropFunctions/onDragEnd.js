@@ -121,6 +121,8 @@ export default (
     return 1;
   }
 
+  //If the user is moving a page into a different folder
+  // TODO: Fix untitled question not being displayed when last question in folder is moved outside
   if (
     pageBeingMoved && // Moving a page
     destinationFolder && // Into a folder
@@ -195,8 +197,14 @@ export default (
     });
   }
 
+  // ! -----------------------------------------------------
+
   // If the user is moving a page into a section
-  if (pageBeingMoved && destinationSection) {
+  if (
+    pageBeingMoved &&
+    destinationSection &&
+    source.droppableId === destination.droppableId
+  ) {
     const { id: pageId, title: pageTitle } = pageBeingMoved;
     const { id: sectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
@@ -255,6 +263,107 @@ export default (
         input: {
           id: pageId,
           sectionId,
+          position: newPosition,
+        },
+      },
+      optimisticResponse,
+    });
+
+    return 1;
+  }
+
+  // ! -----------------------------------------------------
+
+  // If the user is moving a page into a different section
+  if (
+    pageBeingMoved && // Moving a page
+    destinationSection && // Into a section
+    source.droppableId !== destination.droppableId // Moving into a same section
+  ) {
+    const { id: pageId } = pageBeingMoved;
+    const { id: destinationSectionId, folders } = destinationSection;
+    const { index: newPosition } = destination;
+    const { sections } = questionnaire;
+
+    const optimisticResponse = {
+      movePage: {
+        ...pageBeingMoved,
+        position: newPosition,
+        sections: sections.map((section) => ({
+          ...section,
+          section: {
+            id: section.id,
+            folders: folders.map((folder) => ({
+              id: folder.id,
+              position: folder.position,
+              pages:
+                section.id === destinationSectionId
+                  ? [folder.pages, pageBeingMoved]
+                  : [folder.pages],
+            })),
+          },
+        })),
+        __typename: "QuestionPage",
+      },
+    };
+    console.log(`pageBeingMoved`, pageBeingMoved);
+
+    // Fix optimistic response - Find the index of the page's parent
+    // folder, as we can move the entire folder since it will be
+    // disabled and only contain the page we want to move.
+    const pageFolderIndex = findFolderIndexByPageAttr(
+      optimisticResponse.movePage.sections.folders,
+      "id",
+      pageId
+    );
+
+    // Fix optimistic response - Move the folder into the correct position.
+    arrayMove(
+      optimisticResponse.movePage.section.folders,
+      pageFolderIndex,
+      newPosition
+    );
+
+    // Fix optimistic response - Fix the folders position attribute.
+    optimisticResponse.movePage.section.folders.forEach(
+      (folder, index) => (folder.position = index)
+    );
+
+    // optimisticResponse.movePage.sections.forEach((section) => {
+    //   switch (section.id) {
+    //     case source.droppableId: {
+    //       const { folders } = section;
+    //       const { pages } = folders;
+    //       const filteredPages = pages.filter(
+    //         ({ id: pageId }) => pageId !== pageBeingMoved.id
+    //       );
+
+    //       section.pages = filteredPages;
+    //       break;
+    //     }
+
+    //     case destinationSectionId: {
+    //       const orderedPageIdsFolder = folder.pages.map((page) => page.id);
+    //       const wrongPagePosition = orderedPageIdsFolder.indexOf(
+    //         pageBeingMoved.id
+    //       );
+
+    //       arrayMove(folder.pages, wrongPagePosition, newPosition);
+
+    //       folder.pages.forEach((page, i) => (page.position = i));
+    //       break;
+    //     }
+
+    //     default:
+    //   }
+    // });
+
+    // Run the mutation to move the page
+    movePage({
+      variables: {
+        input: {
+          id: pageId,
+          sectionId: destinationSectionId,
           position: newPosition,
         },
       },
@@ -327,3 +436,30 @@ export default (
 
   return -1;
 };
+
+// Start to template the optimistic response as best we can
+// ! Delete this after
+// const optimisticResponse = {
+//   movePage: {
+//     id: pageId,
+//     title: pageTitle,
+//     position: newPosition,
+//     section: {
+//       id: destinationSectionId,
+//       folders: folders.map(({ pages, ...rest }) => ({
+//         ...rest,
+//         pages: pages.map(({ pageType, id, position }) => ({
+//           id,
+//           position,
+//           __typename:
+//             pageType === "CalculatedSummaryPage"
+//               ? "CalculatedSummaryPage"
+//               : "QuestionPage",
+//         })),
+//         __typename: "Folder",
+//       })),
+//       __typename: "Section",
+//     },
+//     __typename: "QuestionPage",
+//   },
+// };
