@@ -1,6 +1,7 @@
 import {
   getPageById,
   getFolderById,
+  getFolderByPageId,
   getSectionById,
   getSectionByFolderId,
   findFolderIndexByPageAttr,
@@ -31,6 +32,10 @@ export default (
 
   const pageBeingMoved = getPageById(questionnaire, draggableId);
   const folderBeingMoved = getFolderById(questionnaire, draggableId);
+  const disabledFolderBeingMoved = getFolderByPageId(
+    questionnaire,
+    draggableId
+  );
 
   const destinationSection = getSectionById(
     questionnaire,
@@ -60,6 +65,7 @@ export default (
       folderId
     );
     const { index: newPosition } = destination;
+    console.log(`into folder: pageBeingMoved`, pageBeingMoved);
 
     // Template an optimistic response as best we can
     const optimisticResponse = {
@@ -136,6 +142,8 @@ export default (
     const { id: sectionId, folders } = section;
     const { index: newPosition } = destination;
 
+    console.log(`into folder: pageBeingMoved`, pageBeingMoved);
+
     // Start to template the optimistic response as best we can
     const optimisticResponse = {
       movePage: {
@@ -208,6 +216,7 @@ export default (
     const { id: pageId, title: pageTitle } = pageBeingMoved;
     const { id: sectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
+    console.log(`into section: pageBeingMoved`, pageBeingMoved);
 
     // Template an optimistic response as best we can.
     const optimisticResponse = {
@@ -276,73 +285,54 @@ export default (
 
   // If the user is moving a page into a different section
   if (
-    pageBeingMoved && // Moving a page
+    disabledFolderBeingMoved && // Moving a page
     destinationSection && // Into a section
     source.droppableId !== destination.droppableId // Moving into a same section
   ) {
-    const { id: pageId } = pageBeingMoved;
+    console.log(`disabledFolderBeingMoved`, disabledFolderBeingMoved);
+    const { id: folderId } = disabledFolderBeingMoved;
     const { id: destinationSectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
     const { sections } = questionnaire;
 
+    // TODO: We need to find a way of getting the folder ID using the page ID. This may already be done in the utils functions
     const optimisticResponse = {
-      movePage: {
-        ...pageBeingMoved,
+      moveFolder: {
+        // ...disabledFolderBeingMoved,
         position: newPosition,
         sections: sections.map((section) => ({
           ...section,
           section: {
             id: section.id,
-            folders: folders.map((folder) => ({
-              id: folder.id,
-              position: folder.position,
-              pages:
-                section.id === destinationSectionId
-                  ? [folder.pages, pageBeingMoved]
-                  : [folder.pages],
-            })),
+            folders:
+              section.id === destinationSectionId
+                ? [...section.folders, disabledFolderBeingMoved]
+                : [...section.folders],
           },
+          __typename: "Section",
         })),
         __typename: "QuestionPage",
       },
     };
-    console.log(`pageBeingMoved`, pageBeingMoved);
-
-    // Fix optimistic response - Find the index of the page's parent
-    // folder, as we can move the entire folder since it will be
-    // disabled and only contain the page we want to move.
-    const pageFolderIndex = findFolderIndexByPageAttr(
-      optimisticResponse.movePage.sections.folders,
-      "id",
-      pageId
-    );
-
-    // Fix optimistic response - Move the folder into the correct position.
-    arrayMove(
-      optimisticResponse.movePage.section.folders,
-      pageFolderIndex,
-      newPosition
-    );
-
-    // Fix optimistic response - Fix the folders position attribute.
-    optimisticResponse.movePage.section.folders.forEach(
-      (folder, index) => (folder.position = index)
-    );
 
     // optimisticResponse.movePage.sections.forEach((section) => {
     //   switch (section.id) {
     //     case source.droppableId: {
     //       const { folders } = section;
-    //       const { pages } = folders;
-    //       const filteredPages = pages.filter(
-    //         ({ id: pageId }) => pageId !== pageBeingMoved.id
-    //       );
+    //       folders.forEach((folder) => {
+    //         const filteredPages = folder.pages.filter(
+    //           ({ id: pageId }) => pageId !== pageBeingMoved.id
+    //         );
+    //       });
+    //       // const filteredPages = pages.filter(
+    //       //   ({ id: pageId }) => pageId !== pageBeingMoved.id
+    //       // );
 
-    //       section.pages = filteredPages;
+    //       folder.pages = filteredPages;
     //       break;
     //     }
 
-    //     case destinationSectionId: {
+    //     case destinationFolderId: {
     //       const orderedPageIdsFolder = folder.pages.map((page) => page.id);
     //       const wrongPagePosition = orderedPageIdsFolder.indexOf(
     //         pageBeingMoved.id
@@ -359,10 +349,10 @@ export default (
     // });
 
     // Run the mutation to move the page
-    movePage({
+    moveFolder({
       variables: {
         input: {
-          id: pageId,
+          id: folderId,
           sectionId: destinationSectionId,
           position: newPosition,
         },
