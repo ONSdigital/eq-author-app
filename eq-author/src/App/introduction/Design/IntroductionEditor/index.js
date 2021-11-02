@@ -70,8 +70,8 @@ const InlineField = styled(Field)`
 
 const HorizontalSeparator = styled.hr`
   border: 0;
-  border-top: 0.0625em solid ${colors.grey};
-  margin: 1em -2em;
+  border-top: 0.0625em solid #e0e0e0;
+  margin: 1.2em 0em;
 `;
 
 export const IntroductionEditor = ({
@@ -137,7 +137,13 @@ export const IntroductionEditor = ({
                   id="contactDetailsPhoneNumber"
                   value={phoneNumber}
                   onChange={({ value }) => setPhoneNumber(value)}
-                  onBlur={onChangeUpdate}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsPhoneNumber: phoneNumber,
+                    })
+                  }
                   data-test="txt-contact-details-phone-number"
                 />
               </Field>
@@ -149,7 +155,13 @@ export const IntroductionEditor = ({
                   id="contactDetailsEmailAddress"
                   value={email}
                   onChange={({ value }) => setEmail(value)}
-                  onBlur={onChangeUpdate}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailAddress: email,
+                    })
+                  }
                   data-test="txt-contact-details-email-address"
                 />
               </Field>
@@ -161,7 +173,13 @@ export const IntroductionEditor = ({
                   id="contactDetailsEmailSubject"
                   value={emailSubject}
                   onChange={({ value }) => setEmailSubject(value)}
-                  onBlur={onChangeUpdate}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailSubject: emailSubject,
+                    })
+                  }
                   data-test="txt-contact-details-email-subject"
                 />
               </Field>
