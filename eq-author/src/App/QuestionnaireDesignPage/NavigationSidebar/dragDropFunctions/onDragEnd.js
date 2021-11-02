@@ -291,7 +291,7 @@ export default (
     destinationSection && // Into a section
     source.droppableId !== destination.droppableId // Moving into a same section
   ) {
-    console.log(`disabledFolderBeingMoved`, disabledFolderBeingMoved);
+    // console.log(`disabledFolderBeingMoved`, disabledFolderBeingMoved);
     const { id: folderId } = disabledFolderBeingMoved;
     const { id: destinationSectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
@@ -311,51 +311,51 @@ export default (
       },
     };
 
-    console.log(`optimisticResponse`, optimisticResponse);
+    // console.log(`optimisticResponse`, optimisticResponse);
 
     // optimisticResponse.moveFolder.sections.forEach((section) => {
     //   console.log(`section.folders`, section.folders);
     // });
 
-    // optimisticResponse.moveFolder.sections.forEach((section) => {
-    //   switch (section.id) {
-    //     case source.droppableId: {
-    //       const { folders } = section;
-    //       const filteredFolders = folders.filter(
-    //         ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
-    //       );
+    // if (source) {
+    //   const sourceSection = getSectionById(questionnaire, source.droppableId);
+    //   console.log(`sourceSection`, sourceSection);
+    //   const { folders } = sourceSection;
+    //   const filteredFolders = folders.filter(
+    //     ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
+    //   );
 
-    //       section.folders = filteredFolders;
-    //       // console.log(`filteredFolders`, filteredFolders);
-    //       // console.log(`Source: section.folders`, section.folders);
-    //       break;
-    //     }
+    //   sourceSection.folders = filteredFolders;
+    //   // console.log(`filteredFolders`, filteredFolders);
+    //   // console.log(`Source: section.folders`, section.folders);
+    // }
 
-    //     case destinationSectionId: {
-    //       // console.log(`section.folders`, section.folders);
-    //       const orderedFolderIdsSection = section.folders.map(
-    //         (folder) => folder.id
-    //       );
-    //       const wrongFolderPosition = orderedFolderIdsSection.indexOf(
-    //         disabledFolderBeingMoved.id
-    //       );
-    //       console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
-    //       console.log(`wrongFolderPosition`, wrongFolderPosition);
-    //       // console.log(`newPosition`, newPosition);
+    if (destination) {
+      // console.log(`section.folders`, section.folders);
+      const orderedFolderIdsSection =
+        optimisticResponse.moveFolder.section.folders.map(
+          (folder) => folder.id
+        );
+      const wrongFolderPosition = orderedFolderIdsSection.indexOf(
+        disabledFolderBeingMoved.id
+      );
+      console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
+      console.log(`wrongFolderPosition`, wrongFolderPosition);
+      console.log(`newPosition`, newPosition);
 
-    //       arrayMove(section.folders, wrongFolderPosition, newPosition);
+      arrayMove(
+        optimisticResponse.moveFolder.section.folders,
+        wrongFolderPosition,
+        newPosition
+      );
 
-    //       // console.log(`Destination before: section.folders`, section.folders);
+      // console.log(`Destination before: section.folders`, section.folders);
 
-    //       section.folders.forEach((folder, index) => (folder.position = index));
-    //       // console.log(`Destination after: section.folders`, section.folders);
-
-    //       break;
-    //     }
-
-    //     default:
-    //   }
-    // });
+      optimisticResponse.moveFolder.section.folders.forEach(
+        (folder, index) => (folder.position = index)
+      );
+      // console.log(`Destination after: section.folders`, section.folders);
+    }
 
     // Run the mutation to move the page
     moveFolder({
