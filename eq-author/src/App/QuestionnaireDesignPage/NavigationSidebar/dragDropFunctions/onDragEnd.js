@@ -300,66 +300,62 @@ export default (
     // TODO: We need to find a way of getting the folder ID using the page ID. This may already be done in the utils functions
     const optimisticResponse = {
       moveFolder: {
-        // ...disabledFolderBeingMoved,
+        ...disabledFolderBeingMoved,
         position: newPosition,
-        sections: sections.map((section) => ({
-          ...section,
-          section: {
-            id: section.id,
-            folders:
-              section.id === destinationSectionId
-                ? [...section.folders, disabledFolderBeingMoved]
-                : [...section.folders],
-          },
+        section: {
+          ...destinationSection,
+          id: destinationSectionId,
+          folders: [...destinationSection.folders, disabledFolderBeingMoved],
           __typename: "Section",
-        })),
-        __typename: "QuestionPage",
+        },
       },
     };
+
+    console.log(`optimisticResponse`, optimisticResponse);
 
     // optimisticResponse.moveFolder.sections.forEach((section) => {
     //   console.log(`section.folders`, section.folders);
     // });
 
-    optimisticResponse.moveFolder.sections.forEach((section) => {
-      switch (section.id) {
-        case source.droppableId: {
-          const { folders } = section;
-          const filteredFolders = folders.filter(
-            ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
-          );
+    // optimisticResponse.moveFolder.sections.forEach((section) => {
+    //   switch (section.id) {
+    //     case source.droppableId: {
+    //       const { folders } = section;
+    //       const filteredFolders = folders.filter(
+    //         ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
+    //       );
 
-          section.folders = filteredFolders;
-          // console.log(`filteredFolders`, filteredFolders);
-          // console.log(`Source: section.folders`, section.folders);
-          break;
-        }
+    //       section.folders = filteredFolders;
+    //       // console.log(`filteredFolders`, filteredFolders);
+    //       // console.log(`Source: section.folders`, section.folders);
+    //       break;
+    //     }
 
-        case destinationSectionId: {
-          // console.log(`section.folders`, section.folders);
-          const orderedFolderIdsSection = section.folders.map(
-            (folder) => folder.id
-          );
-          const wrongFolderPosition = orderedFolderIdsSection.indexOf(
-            disabledFolderBeingMoved.id
-          );
-          console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
-          console.log(`wrongFolderPosition`, wrongFolderPosition);
-          // console.log(`newPosition`, newPosition);
+    //     case destinationSectionId: {
+    //       // console.log(`section.folders`, section.folders);
+    //       const orderedFolderIdsSection = section.folders.map(
+    //         (folder) => folder.id
+    //       );
+    //       const wrongFolderPosition = orderedFolderIdsSection.indexOf(
+    //         disabledFolderBeingMoved.id
+    //       );
+    //       console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
+    //       console.log(`wrongFolderPosition`, wrongFolderPosition);
+    //       // console.log(`newPosition`, newPosition);
 
-          arrayMove(section.folders, wrongFolderPosition, newPosition);
+    //       arrayMove(section.folders, wrongFolderPosition, newPosition);
 
-          // console.log(`Destination before: section.folders`, section.folders);
+    //       // console.log(`Destination before: section.folders`, section.folders);
 
-          section.folders.forEach((folder, index) => (folder.position = index));
-          // console.log(`Destination after: section.folders`, section.folders);
+    //       section.folders.forEach((folder, index) => (folder.position = index));
+    //       // console.log(`Destination after: section.folders`, section.folders);
 
-          break;
-        }
+    //       break;
+    //     }
 
-        default:
-      }
-    });
+    //     default:
+    //   }
+    // });
 
     // Run the mutation to move the page
     moveFolder({
