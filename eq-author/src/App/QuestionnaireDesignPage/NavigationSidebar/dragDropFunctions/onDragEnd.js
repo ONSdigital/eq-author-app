@@ -180,6 +180,8 @@ export default (
           const wrongPagePosition = orderedPageIdsFolder.indexOf(
             pageBeingMoved.id
           );
+          console.log(`orderedPageIdsFolder`, orderedPageIdsFolder);
+          console.log(`wrongPagePosition`, wrongPagePosition);
 
           arrayMove(folder.pages, wrongPagePosition, newPosition);
 
@@ -315,6 +317,10 @@ export default (
       },
     };
 
+    // optimisticResponse.moveFolder.sections.forEach((section) => {
+    //   console.log(`section.folders`, section.folders);
+    // });
+
     optimisticResponse.moveFolder.sections.forEach((section) => {
       switch (section.id) {
         case source.droppableId: {
@@ -324,20 +330,30 @@ export default (
           );
 
           section.folders = filteredFolders;
+          // console.log(`filteredFolders`, filteredFolders);
+          // console.log(`Source: section.folders`, section.folders);
           break;
         }
 
         case destinationSectionId: {
+          // console.log(`section.folders`, section.folders);
           const orderedFolderIdsSection = section.folders.map(
             (folder) => folder.id
           );
           const wrongFolderPosition = orderedFolderIdsSection.indexOf(
             disabledFolderBeingMoved.id
           );
+          console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
+          console.log(`wrongFolderPosition`, wrongFolderPosition);
+          // console.log(`newPosition`, newPosition);
 
           arrayMove(section.folders, wrongFolderPosition, newPosition);
 
+          // console.log(`Destination before: section.folders`, section.folders);
+
           section.folders.forEach((folder, index) => (folder.position = index));
+          // console.log(`Destination after: section.folders`, section.folders);
+
           break;
         }
 
