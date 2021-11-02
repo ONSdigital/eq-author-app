@@ -315,38 +315,35 @@ export default (
       },
     };
 
-    // optimisticResponse.movePage.sections.forEach((section) => {
-    //   switch (section.id) {
-    //     case source.droppableId: {
-    //       const { folders } = section;
-    //       folders.forEach((folder) => {
-    //         const filteredPages = folder.pages.filter(
-    //           ({ id: pageId }) => pageId !== pageBeingMoved.id
-    //         );
-    //       });
-    //       // const filteredPages = pages.filter(
-    //       //   ({ id: pageId }) => pageId !== pageBeingMoved.id
-    //       // );
+    optimisticResponse.moveFolder.sections.forEach((section) => {
+      switch (section.id) {
+        case source.droppableId: {
+          const { folders } = section;
+          const filteredFolders = folders.filter(
+            ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
+          );
 
-    //       folder.pages = filteredPages;
-    //       break;
-    //     }
+          section.folders = filteredFolders;
+          break;
+        }
 
-    //     case destinationFolderId: {
-    //       const orderedPageIdsFolder = folder.pages.map((page) => page.id);
-    //       const wrongPagePosition = orderedPageIdsFolder.indexOf(
-    //         pageBeingMoved.id
-    //       );
+        case destinationSectionId: {
+          const orderedFolderIdsSection = section.folders.map(
+            (folder) => folder.id
+          );
+          const wrongFolderPosition = orderedFolderIdsSection.indexOf(
+            disabledFolderBeingMoved.id
+          );
 
-    //       arrayMove(folder.pages, wrongPagePosition, newPosition);
+          arrayMove(section.folders, wrongFolderPosition, newPosition);
 
-    //       folder.pages.forEach((page, i) => (page.position = i));
-    //       break;
-    //     }
+          section.folders.forEach((folder, index) => (folder.position = index));
+          break;
+        }
 
-    //     default:
-    //   }
-    // });
+        default:
+      }
+    });
 
     // Run the mutation to move the page
     moveFolder({
