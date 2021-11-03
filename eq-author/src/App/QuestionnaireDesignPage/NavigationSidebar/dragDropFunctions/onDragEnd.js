@@ -39,10 +39,9 @@ export default (
 
   const pageBeingMoved = getPageById(questionnaire, draggableId);
   const folderBeingMoved = getFolderById(questionnaire, draggableId);
-  const disabledFolderBeingMoved = getFolderByPageId(
-    questionnaire,
-    draggableId
-  );
+  const disabledFolderBeingMoved =
+    getFolderByPageId(questionnaire, draggableId)?.enabled === false &&
+    getFolderByPageId(questionnaire, draggableId);
 
   const destinationSection = getSectionById(
     questionnaire,
@@ -292,6 +291,7 @@ export default (
 
   // ! -----------------------------------------------------
 
+  console.log(`disabledFolderBeingMoved`, disabledFolderBeingMoved);
   // If the user is moving a page into a different section (but not across folders)
   if (
     disabledFolderBeingMoved && // Moving a page
@@ -318,55 +318,49 @@ export default (
       },
     };
 
-    if (source) {
-      const sourceSection = getSectionById(questionnaire, source.droppableId);
-      let { folders } = sourceSection;
-      const filteredFolders = folders.filter(
-        ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
-      );
+    // if (source) {
+    const sourceSection = getSectionById(questionnaire, source.droppableId);
+    const filteredFolders = folders.filter(
+      ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
+    );
 
-      sourceSection.folders = filteredFolders;
+    sourceSection.folders = filteredFolders;
 
-      // const toDetails = {
-      //   folderId: disabledFolderBeingMoved.id,
-      //   id: null,
-      //   position: newPosition,
-      //   sectionId: destinationSectionId,
-      // };
+    // const toDetails = {
+    //   folderId: disabledFolderBeingMoved.id,
+    //   id: null,
+    //   position: newPosition,
+    //   sectionId: destinationSectionId,
+    // };
 
-      // const options = { variables: { input: toDetails } };
-      // options.update = (proxy) => {
-      //   proxy.writeData({
-      //     id: `Section${sourceSection.id}`,
-      //     data: sourceSection,
-      //   });
-      // };
+    // const options = { variables: { input: toDetails } };
+    // options.update = (proxy) => {
+    //   proxy.writeData({
+    //     id: `Section${sourceSection.id}`,
+    //     data: sourceSection,
+    //   });
+    // };
 
-      console.log(`folders`, folders);
-      console.log(`sourceSection`, sourceSection);
+    console.log(`sourceSection`, sourceSection);
 
-      // TODO: Delete the moved folder with mutation
-    }
+    // TODO: Delete the moved folder with mutation
+    // }
 
-    if (destination) {
-      const orderedFolderIdsSection =
-        optimisticResponse.moveFolder.section.folders.map(
-          (folder) => folder.id
-        );
-      const wrongFolderPosition = orderedFolderIdsSection.indexOf(
-        disabledFolderBeingMoved.id
-      );
+    // if (destination) {
 
-      arrayMove(
-        optimisticResponse.moveFolder.section.folders,
-        wrongFolderPosition,
-        newPosition
-      );
+    const wrongFolderPosition = disabledFolderBeingMoved.position;
+    console.log(`wrongFolderPosition`, wrongFolderPosition);
 
-      optimisticResponse.moveFolder.section.folders.forEach(
-        (folder, index) => (folder.position = index)
-      );
-    }
+    arrayMove(
+      optimisticResponse.moveFolder.section.folders,
+      wrongFolderPosition,
+      newPosition
+    );
+
+    optimisticResponse.moveFolder.section.folders.forEach(
+      (folder, index) => (folder.position = index)
+    );
+    // }
 
     // Run the mutation to move the page
     moveFolder({
@@ -377,18 +371,8 @@ export default (
           position: newPosition,
         },
       },
-      refetchQueries: ["GetQuestionnaire", "optimisticResponse"],
-      // refetchQueries: [
-      //   {
-      //     query: GET_SECTION,
-      //     variables: {
-      //       input: {
-      //         sectionId: sourceSection.Id,
-      //       },
-      //     },
-      //   },
-      // ],
-      // optimisticResponse,
+      optimisticResponse,
+      refetchQueries: ["GetQuestionnaire"],
     });
 
     return 1;
