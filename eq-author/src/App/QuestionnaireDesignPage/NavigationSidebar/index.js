@@ -82,7 +82,7 @@ const NavigationSidebar = ({ questionnaire }) => {
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const handleDragEnd = ({ destination, source, draggableId }) =>
+  const handleDragEnd = ({ destination, source, draggableId }) => {
     onDragEnd(
       questionnaire,
       destination,
@@ -91,6 +91,9 @@ const NavigationSidebar = ({ questionnaire }) => {
       movePage,
       moveFolder
     );
+    // ! Check incorrect folder count in source section
+    console.log(`questionnaire.sections`, questionnaire.sections);
+  };
 
   return (
     <Container data-test="side-nav">

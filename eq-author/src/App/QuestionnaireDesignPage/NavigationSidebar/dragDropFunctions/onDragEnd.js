@@ -7,6 +7,10 @@ import {
   findFolderIndexByPageAttr,
 } from "utils/questionnaireUtils";
 
+import { useMutation } from "@apollo/react-hooks";
+
+import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
+
 import arrayMove from "utils/arrayMove";
 
 export default (
@@ -285,22 +289,22 @@ export default (
 
   // ! -----------------------------------------------------
 
-  // If the user is moving a page into a different section
+  // If the user is moving a page into a different section (but not across folders)
   if (
     disabledFolderBeingMoved && // Moving a page
     destinationSection && // Into a section
     source.droppableId !== destination.droppableId // Moving into a same section
   ) {
-    // console.log(`disabledFolderBeingMoved`, disabledFolderBeingMoved);
     const { id: folderId } = disabledFolderBeingMoved;
     const { id: destinationSectionId, folders } = destinationSection;
     const { index: newPosition } = destination;
     const { sections } = questionnaire;
 
-    // TODO: We need to find a way of getting the folder ID using the page ID. This may already be done in the utils functions
+    // TODO: We need to find a way of changing the source section to remove the folder/page
     const optimisticResponse = {
       moveFolder: {
         ...disabledFolderBeingMoved,
+        id: folderId,
         position: newPosition,
         section: {
           ...destinationSection,
@@ -311,27 +315,20 @@ export default (
       },
     };
 
-    // console.log(`optimisticResponse`, optimisticResponse);
+    if (source) {
+      const sourceSection = getSectionById(questionnaire, source.droppableId);
+      let { folders } = sourceSection;
+      const filteredFolders = folders.filter(
+        ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
+      );
 
-    // optimisticResponse.moveFolder.sections.forEach((section) => {
-    //   console.log(`section.folders`, section.folders);
-    // });
-
-    // if (source) {
-    //   const sourceSection = getSectionById(questionnaire, source.droppableId);
-    //   console.log(`sourceSection`, sourceSection);
-    //   const { folders } = sourceSection;
-    //   const filteredFolders = folders.filter(
-    //     ({ id: folderId }) => folderId !== disabledFolderBeingMoved.id
-    //   );
-
-    //   sourceSection.folders = filteredFolders;
-    //   // console.log(`filteredFolders`, filteredFolders);
-    //   // console.log(`Source: section.folders`, section.folders);
-    // }
+      sourceSection.folders = filteredFolders;
+      console.log(`folders`, folders);
+      console.log(`sourceSection.folders`, sourceSection.folders);
+      // TODO: Delete the moved folder with mutation
+    }
 
     if (destination) {
-      // console.log(`section.folders`, section.folders);
       const orderedFolderIdsSection =
         optimisticResponse.moveFolder.section.folders.map(
           (folder) => folder.id
@@ -339,9 +336,6 @@ export default (
       const wrongFolderPosition = orderedFolderIdsSection.indexOf(
         disabledFolderBeingMoved.id
       );
-      console.log(`orderedFolderIdsSection`, orderedFolderIdsSection);
-      console.log(`wrongFolderPosition`, wrongFolderPosition);
-      console.log(`newPosition`, newPosition);
 
       arrayMove(
         optimisticResponse.moveFolder.section.folders,
@@ -349,12 +343,9 @@ export default (
         newPosition
       );
 
-      // console.log(`Destination before: section.folders`, section.folders);
-
       optimisticResponse.moveFolder.section.folders.forEach(
         (folder, index) => (folder.position = index)
       );
-      // console.log(`Destination after: section.folders`, section.folders);
     }
 
     // Run the mutation to move the page
