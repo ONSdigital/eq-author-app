@@ -13,6 +13,9 @@ import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
 
 import arrayMove from "utils/arrayMove";
 
+import fragment from "graphql/fragments/movePage.graphql";
+import GET_SECTION from "graphql/getSection.graphql";
+
 export default (
   questionnaire,
   destination,
@@ -323,8 +326,25 @@ export default (
       );
 
       sourceSection.folders = filteredFolders;
+
+      // const toDetails = {
+      //   folderId: disabledFolderBeingMoved.id,
+      //   id: null,
+      //   position: newPosition,
+      //   sectionId: destinationSectionId,
+      // };
+
+      // const options = { variables: { input: toDetails } };
+      // options.update = (proxy) => {
+      //   proxy.writeData({
+      //     id: `Section${sourceSection.id}`,
+      //     data: sourceSection,
+      //   });
+      // };
+
       console.log(`folders`, folders);
-      console.log(`sourceSection.folders`, sourceSection.folders);
+      console.log(`sourceSection`, sourceSection);
+
       // TODO: Delete the moved folder with mutation
     }
 
@@ -357,7 +377,18 @@ export default (
           position: newPosition,
         },
       },
-      optimisticResponse,
+      refetchQueries: ["GetQuestionnaire", "optimisticResponse"],
+      // refetchQueries: [
+      //   {
+      //     query: GET_SECTION,
+      //     variables: {
+      //       input: {
+      //         sectionId: sourceSection.Id,
+      //       },
+      //     },
+      //   },
+      // ],
+      // optimisticResponse,
     });
 
     return 1;

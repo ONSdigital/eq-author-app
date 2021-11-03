@@ -6,6 +6,8 @@ import movePageMutation from "graphql/movePage.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
   onMovePage({ from, to }) {
+    console.log(`to`, to);
+
     const options = { variables: { input: to } };
 
     options.refetchQueries = [
