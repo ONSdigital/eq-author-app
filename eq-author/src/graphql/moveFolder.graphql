@@ -1,21 +1,36 @@
-#import "./fragments/folder.graphql"
+#import "./fragments/questionnaire.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+
 mutation MoveFolderMutation($input: MoveFolderInput!) {
   moveFolder(input: $input) {
-    ...Folder
-    pages {
+    ...Questionnaire
+    sections {
       id
       displayName
       position
-    }
-    section {
-      id
       folders {
-        ...Folder
+        id
+        alias
+        displayName
+        enabled
+        position
         pages {
           id
-          displayName
+          title
           position
+          displayName
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
         }
+        validationErrorInfo {
+          id
+          totalCount
+        }
+      }
+      validationErrorInfo {
+        id
+        totalCount
       }
     }
   }
