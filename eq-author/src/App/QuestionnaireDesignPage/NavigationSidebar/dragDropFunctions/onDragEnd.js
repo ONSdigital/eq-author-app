@@ -79,7 +79,7 @@ export default (
     const newPosition = destination.index;
     const sourceFolder = getFolderByPageId(questionnaire, pageBeingMoved.id);
     sourceFolder.pages.splice(sourceFolder.pages.indexOf(pageBeingMoved), 1);
-    if (!sourceFolder.pages.length) {
+    if (!sourceFolder.enabled && !sourceFolder.pages.length) {
       const sourceSection = getSectionByFolderId(
         questionnaire,
         sourceFolder.id
