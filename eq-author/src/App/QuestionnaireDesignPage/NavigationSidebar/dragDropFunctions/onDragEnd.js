@@ -79,6 +79,16 @@ export default (
     const newPosition = destination.index;
     const sourceFolder = getFolderByPageId(questionnaire, pageBeingMoved.id);
     sourceFolder.pages.splice(sourceFolder.pages.indexOf(pageBeingMoved), 1);
+    if (!sourceFolder.pages.length) {
+      const sourceSection = getSectionByFolderId(
+        questionnaire,
+        sourceFolder.id
+      );
+      sourceSection.folders.splice(
+        sourceSection.folders.indexOf(sourceFolder),
+        1
+      );
+    }
 
     const newFolder = {
       id: 123,
