@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
 
-import { Select } from "components/Forms";
+import { Select, Field, Label } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 import withEntityEditor from "components/withEntityEditor";
 import VisuallyHidden from "components/VisuallyHidden";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withPropRemapped from "enhancers/withPropRemapped";
@@ -38,6 +39,17 @@ const Pills = styled(ValidationPills)`
   margin-top: 2em;
 `;
 
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+  margin-left: 0.7em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
 export const TotalValidationEditor = ({
   total,
   type,
@@ -47,49 +59,62 @@ export const TotalValidationEditor = ({
   errors,
 }) => {
   return (
-    <Grid>
-      <Column cols={4}>
-        <Flex>
-          <ValidationTitle style={{ margin: "0 1em 0 1em" }}>
-            Total
-          </ValidationTitle>
-          <label htmlFor="condition">
-            <VisuallyHidden>Condition</VisuallyHidden>
-            <Select
-              onChange={onChangeUpdate}
-              aria-label="Total"
-              id="condition"
-              data-test="total-condition-select"
-              defaultValue={total.condition}
-            >
-              <option value="Equal">(=) Equal to</option>
-              <option value="GreaterThan">(&gt;) More than</option>
-              <option value="LessThan">(&lt;) Less than</option>
-              <option value="GreaterOrEqual">
-                (&ge;) More than or equal to
-              </option>
-              <option value="LessOrEqual">(&le;) Less than or equal to</option>
-            </Select>
-          </label>
-        </Flex>
-        <Connector />
-      </Column>
-      <Column cols={8}>
-        <Pills
-          entityType={total.entityType}
-          onEntityTypeChange={onChangeUpdate}
-          PreviousAnswer={PreviousAnswerEditor}
-          Custom={CustomEditor}
-          total={total}
-          errors={errors}
-          type={type}
-          onChange={onChange}
-          onUpdate={onUpdate}
-          onChangeUpdate={onChangeUpdate}
-          data-test="total-pill-tabs"
+    <>
+      <Grid>
+        <Column cols={4}>
+          <Flex>
+            <ValidationTitle style={{ margin: "0 1em 0 1em" }}>
+              Total
+            </ValidationTitle>
+            <label htmlFor="condition">
+              <VisuallyHidden>Condition</VisuallyHidden>
+              <Select
+                onChange={onChangeUpdate}
+                aria-label="Total"
+                id="condition"
+                data-test="total-condition-select"
+                defaultValue={total.condition}
+              >
+                <option value="Equal">(=) Equal to</option>
+                <option value="GreaterThan">(&gt;) More than</option>
+                <option value="LessThan">(&lt;) Less than</option>
+                <option value="GreaterOrEqual">
+                  (&ge;) More than or equal to
+                </option>
+                <option value="LessOrEqual">
+                  (&le;) Less than or equal to
+                </option>
+              </Select>
+            </label>
+          </Flex>
+          <Connector />
+        </Column>
+        <Column cols={8}>
+          <Pills
+            entityType={total.entityType}
+            onEntityTypeChange={onChangeUpdate}
+            PreviousAnswer={PreviousAnswerEditor}
+            Custom={CustomEditor}
+            total={total}
+            errors={errors}
+            type={type}
+            onChange={onChange}
+            onUpdate={onUpdate}
+            onChangeUpdate={onChangeUpdate}
+            data-test="total-pill-tabs"
+          />
+        </Column>
+      </Grid>
+      <InlineField>
+        <Label>Do not apply if all values are unanswered</Label>
+        <ToggleSwitch
+          id="total-validation-toggle"
+          name="total-validation-toggle"
+          onChange={() => console.log("Total toggle")}
+          hideLabels={false}
         />
-      </Column>
-    </Grid>
+      </InlineField>
+    </>
   );
 };
 
