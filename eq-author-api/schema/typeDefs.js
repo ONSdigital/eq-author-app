@@ -1284,6 +1284,7 @@ input UpdateTotalValidationInput {
   custom: Int
   previousAnswer: ID
   condition: ValidationCondition!
+  validateUnanswered: Boolean
 }
 
 input CreateMetadataInput {

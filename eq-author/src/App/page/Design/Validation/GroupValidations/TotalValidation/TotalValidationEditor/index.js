@@ -108,9 +108,10 @@ export const TotalValidationEditor = ({
       <InlineField>
         <Label>Do not apply if all values are unanswered</Label>
         <ToggleSwitch
-          id="total-validation-toggle"
           name="total-validation-toggle"
-          onChange={() => console.log(`total`, total)}
+          id="validateUnanswered"
+          onChange={onChangeUpdate}
+          checked={total.validateUnanswered}
           hideLabels={false}
         />
       </InlineField>
