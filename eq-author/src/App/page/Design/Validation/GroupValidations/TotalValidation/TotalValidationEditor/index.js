@@ -110,7 +110,7 @@ export const TotalValidationEditor = ({
         <ToggleSwitch
           id="total-validation-toggle"
           name="total-validation-toggle"
-          onChange={() => console.log("Total toggle")}
+          onChange={() => console.log(`total`, total)}
           hideLabels={false}
         />
       </InlineField>

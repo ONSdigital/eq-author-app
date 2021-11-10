@@ -450,6 +450,7 @@ type TotalValidationRule implements ValidationRule {
   previousAnswer: Answer
   condition: ValidationCondition!
   validationErrorInfo: ValidationErrorInfo
+  validateUnanswered: Boolean
 }
 
 enum ValidationCondition {
