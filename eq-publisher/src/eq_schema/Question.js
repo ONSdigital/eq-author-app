@@ -188,20 +188,11 @@ class Question {
   }
 
   buildUnansweredCalculation(answers) {
-    const EQUALS = "equals";
-    const EQUAL = "Equal";
-
-    const AUTHOR_TO_RUNNER_CONDITIONS = {
-      Equal: [EQUALS],
-    };
-
-    const rightSide = { value: 0 };
-
     return {
       calculation_type: "sum",
       answers_to_calculate: answers.map((a) => `answer${a.id}`),
-      conditions: AUTHOR_TO_RUNNER_CONDITIONS[EQUAL],
-      ...rightSide,
+      conditions: ["equals"],
+      value: 0,
     };
   }
 }
