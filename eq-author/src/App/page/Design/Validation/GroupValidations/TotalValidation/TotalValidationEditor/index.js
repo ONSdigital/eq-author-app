@@ -106,7 +106,7 @@ export const TotalValidationEditor = ({
         </Column>
       </Grid>
       <InlineField>
-        <Label>Do not apply if all values are unanswered</Label>
+        <Label>Apply if all values are unanswered</Label>
         <ToggleSwitch
           name="total-validation-toggle"
           id="validateUnanswered"
