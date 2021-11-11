@@ -90,8 +90,8 @@ class Question {
       this.calculations = question.totalValidation.validateUnanswered
         ? [this.buildCalculation(question.totalValidation, question.answers)]
         : [
-            this.buildCalculation(question.totalValidation, question.answers),
             this.buildUnansweredCalculation(question.answers),
+            this.buildCalculation(question.totalValidation, question.answers),
           ];
     } else {
       this.type = "General";
