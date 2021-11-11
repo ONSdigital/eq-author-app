@@ -28,6 +28,7 @@ export class StatelessMetaEditor extends React.Component {
     const { page, onChangeUpdate, fetchAnswers } = this.props;
     return (
       <div>
+        {console.log(`this.props.page`, this.props.page)}
         <RichTextEditor
           id="question-title"
           name="title"

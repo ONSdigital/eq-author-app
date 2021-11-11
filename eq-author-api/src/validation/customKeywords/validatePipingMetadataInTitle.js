@@ -15,6 +15,7 @@ const metadataIdExists = (questionnaire, id) =>
 module.exports = (ajv) =>
   ajv.addKeyword({
     $data: true,
+    // allErrors: true,
     keyword: "validatePipingMetadataInTitle",
     validate: function isValid(
       _schema,
@@ -22,6 +23,7 @@ module.exports = (ajv) =>
       _parentSchema,
       { parentDataProperty: fieldName, instancePath, rootData: questionnaire }
     ) {
+      console.log(`textString`, textString);
       isValid.errors = [];
       const pipedIdList = [];
 
@@ -42,14 +44,14 @@ module.exports = (ajv) =>
 
       pipedIdList.forEach((id) => {
         if (!metadataIdExists(questionnaire, id)) {
-          isValid.errors.push(
+          isValid.errors = [
             createValidationError(
               instancePath,
               fieldName,
               PIPING_METADATA_DELETED,
               questionnaire
-            )
-          );
+            ),
+          ];
         }
       });
 

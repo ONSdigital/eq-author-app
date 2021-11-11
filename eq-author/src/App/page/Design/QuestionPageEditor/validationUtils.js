@@ -51,6 +51,7 @@ const situations = {
 };
 
 const getErrorByField = (field, validationErrors) => {
+  console.log(`validationErrors ..........`, validationErrors);
   const error = validationErrors.find((error) => error.field === field);
 
   return situations[field]?.[error?.errorCode] ?? null;
