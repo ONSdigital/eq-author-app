@@ -87,9 +87,12 @@ class Question {
     } else if (question.totalValidation && question.totalValidation.enabled) {
       this.type = "Calculated";
       this.answers = this.buildAnswers(question.answers);
-      this.calculations = [
-        this.buildCalculation(question.totalValidation, question.answers),
-      ];
+      this.calculations = question.totalValidation.validateUnanswered
+        ? [this.buildCalculation(question.totalValidation, question.answers)]
+        : [
+            this.buildCalculation(question.totalValidation, question.answers),
+            this.buildUnansweredCalculation(question.answers),
+          ];
     } else {
       this.type = "General";
       this.answers = this.buildAnswers(question.answers);
@@ -180,6 +183,24 @@ class Question {
       calculation_type: "sum",
       answers_to_calculate: answers.map((a) => `answer${a.id}`),
       conditions: AUTHOR_TO_RUNNER_CONDITIONS[totalValidation.condition],
+      ...rightSide,
+    };
+  }
+
+  buildUnansweredCalculation(answers) {
+    const EQUALS = "equals";
+    const EQUAL = "Equal";
+
+    const AUTHOR_TO_RUNNER_CONDITIONS = {
+      Equal: [EQUALS],
+    };
+
+    const rightSide = { value: 0 };
+
+    return {
+      calculation_type: "sum",
+      answers_to_calculate: answers.map((a) => `answer${a.id}`),
+      conditions: AUTHOR_TO_RUNNER_CONDITIONS[EQUAL],
       ...rightSide,
     };
   }

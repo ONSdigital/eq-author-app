@@ -326,6 +326,7 @@ exports.getQuestionnaire = `
                   id
                 }
                 condition
+                validateUnanswered
               }
             }
           }
