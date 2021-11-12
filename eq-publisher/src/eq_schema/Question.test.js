@@ -670,6 +670,7 @@ describe("Question", () => {
         entityType: "Custom",
         condition: "Equal",
         custom: 5,
+        validateUnanswered: true,
       };
     });
 
