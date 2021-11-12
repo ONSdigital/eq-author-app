@@ -92,12 +92,12 @@ exports[`TotalValidationEditor should render 1`] = `
     <Label
       bold={true}
     >
-      Apply if all values are unanswered
+      Allow all answers to be unanswered
     </Label>
     <ToggleSwitch
       checked={false}
       hideLabels={false}
-      id="validateUnanswered"
+      id="allowUnanswered"
       name="total-validation-toggle"
       onChange={[MockFunction]}
     />
