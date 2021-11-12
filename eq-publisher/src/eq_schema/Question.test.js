@@ -685,6 +685,18 @@ describe("Question", () => {
       expect(question.calculations).toHaveLength(1);
     });
 
+    it("should change handle unanswered validaton and custom validation when validateUnanswered is false", () => {
+      validation.validateUnanswered = false;
+
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+
+      expect(question.calculations).toHaveLength(2);
+    });
+
     it("should do nothing when the validation is disabled", () => {
       validation.enabled = false;
       const question = new Question(
