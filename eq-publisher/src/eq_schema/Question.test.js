@@ -670,7 +670,7 @@ describe("Question", () => {
         entityType: "Custom",
         condition: "Equal",
         custom: 5,
-        validateUnanswered: true,
+        allowUnanswered: false,
       };
     });
 
@@ -685,8 +685,8 @@ describe("Question", () => {
       expect(question.calculations).toHaveLength(1);
     });
 
-    it("should change handle unanswered validaton and custom validation when validateUnanswered is false", () => {
-      validation.validateUnanswered = false;
+    it("should change handle unanswered validaton and custom validation when allowUnanswered is false", () => {
+      validation.allowUnanswered = true;
 
       const question = new Question(
         createQuestionJSON({

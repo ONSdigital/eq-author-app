@@ -10,6 +10,6 @@ module.exports = (overrides = {}) => ({
   condition: EQUAL,
   previousAnswer: null,
   custom: null,
-  validateUnanswered: true,
+  allowUnanswered: true,
   ...overrides,
 });

@@ -87,12 +87,12 @@ class Question {
     } else if (question.totalValidation && question.totalValidation.enabled) {
       this.type = "Calculated";
       this.answers = this.buildAnswers(question.answers);
-      this.calculations = question.totalValidation.validateUnanswered
-        ? [this.buildCalculation(question.totalValidation, question.answers)]
-        : [
+      this.calculations = question.totalValidation.allowUnanswered
+        ? [
             this.buildUnansweredCalculation(question.answers),
             this.buildCalculation(question.totalValidation, question.answers),
-          ];
+          ]
+        : [this.buildCalculation(question.totalValidation, question.answers)];
     } else {
       this.type = "General";
       this.answers = this.buildAnswers(question.answers);

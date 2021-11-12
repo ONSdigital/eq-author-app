@@ -8,5 +8,5 @@ fragment TotalValidationRule on TotalValidationRule {
     displayName
   }
   condition
-  validateUnanswered
+  allowUnanswered
 }

@@ -450,7 +450,7 @@ type TotalValidationRule implements ValidationRule {
   previousAnswer: Answer
   condition: ValidationCondition!
   validationErrorInfo: ValidationErrorInfo
-  validateUnanswered: Boolean
+  allowUnanswered: Boolean
 }
 
 enum ValidationCondition {
@@ -1284,7 +1284,7 @@ input UpdateTotalValidationInput {
   custom: Int
   previousAnswer: ID
   condition: ValidationCondition!
-  validateUnanswered: Boolean
+  allowUnanswered: Boolean
 }
 
 input CreateMetadataInput {

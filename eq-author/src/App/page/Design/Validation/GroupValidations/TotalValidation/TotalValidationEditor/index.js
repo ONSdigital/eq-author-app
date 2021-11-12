@@ -106,12 +106,12 @@ export const TotalValidationEditor = ({
         </Column>
       </Grid>
       <InlineField>
-        <Label>Apply if all values are unanswered</Label>
+        <Label>Allow all answers to be unanswered</Label>
         <ToggleSwitch
           name="total-validation-toggle"
-          id="validateUnanswered"
+          id="allowUnanswered"
           onChange={onChangeUpdate}
-          checked={total.validateUnanswered}
+          checked={total.allowUnanswered}
           hideLabels={false}
         />
       </InlineField>
