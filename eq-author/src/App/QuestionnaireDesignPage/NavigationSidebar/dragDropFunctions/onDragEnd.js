@@ -3,10 +3,8 @@ import {
   getFolderById,
   getSectionById,
   getSectionByFolderId,
-  findFolderIndexByPageAttr,
+  getFolderByPageId,
 } from "utils/questionnaireUtils";
-
-import arrayMove from "utils/arrayMove";
 
 export default (
   questionnaire,
@@ -31,12 +29,10 @@ export default (
 
   const pageBeingMoved = getPageById(questionnaire, draggableId);
   const folderBeingMoved = getFolderById(questionnaire, draggableId);
-
   const destinationSection = getSectionById(
     questionnaire,
     destination.droppableId
   );
-
   const destinationFolder = getFolderById(
     questionnaire,
     destination.droppableId
@@ -49,69 +45,30 @@ export default (
 
   //If the user is moving a page into a folder
   if (pageBeingMoved && destinationFolder) {
-    const { id: pageId, title } = pageBeingMoved;
-    const { id: folderId } = destinationFolder;
-    const { id: sectionId, folders } = getSectionByFolderId(
+    const { id: sectionId } = getSectionByFolderId(
       questionnaire,
-      folderId
+      destinationFolder.id
     );
-    const { index: newPosition } = destination;
+    const newPosition = destination.index;
 
-    // Template an optimistic response as best we can
-    const optimisticResponse = {
-      movePage: {
-        position: newPosition,
-        id: pageId,
-        title,
-        section: {
-          id: sectionId,
-          folders: folders.map(({ pages, validationErrorInfo, ...rest }) => ({
-            ...rest,
-            pages: pages.map(({ pageType, id, position }) => ({
-              id,
-              position,
-              __typename:
-                pageType === "CalculatedSummaryPage"
-                  ? "CalculatedSummaryPage"
-                  : "QuestionPage",
-            })),
-            validationErrorInfo: {
-              errors: [],
-              ...validationErrorInfo,
-              __typename: "ValidationErrorInfo",
-            },
-            __typename: "Folder",
-          })),
-          __typename: "Section",
-        },
-        __typename: "QuestionPage",
-      },
-    };
+    const sourceFolder = getFolderByPageId(questionnaire, pageBeingMoved.id);
+    sourceFolder.pages.splice(sourceFolder.pages.indexOf(pageBeingMoved), 1);
+    destinationFolder.pages.splice(newPosition, 0, pageBeingMoved);
 
-    // Fix optimistic response - move the page into the new position
-    optimisticResponse.movePage.section.folders.forEach(
-      ({ enabled, pages }) =>
-        enabled && arrayMove(pages, pageBeingMoved.position, newPosition)
-    );
-
-    // Fix optimistic response - Fix position props in pages
-    optimisticResponse.movePage.section.folders.forEach(
-      ({ enabled, pages }) =>
-        enabled && pages.forEach((page, index) => (page.position = index))
-    );
-
-    // Call the DB to move the page, passing in our optimistic response to avoid
-    // flickering if it takes time to respond
     movePage({
       variables: {
         input: {
-          id: pageId,
+          id: pageBeingMoved.id,
           sectionId,
-          folderId,
+          folderId: destinationFolder.id,
           position: newPosition,
         },
       },
-      optimisticResponse,
+      optimisticResponse: {
+        movePage: {
+          ...questionnaire,
+        },
+      },
     });
 
     return 1;
@@ -119,68 +76,50 @@ export default (
 
   // If the user is moving a page into a section
   if (pageBeingMoved && destinationSection) {
-    const { id: pageId, title: pageTitle } = pageBeingMoved;
-    const { id: sectionId, folders } = destinationSection;
-    const { index: newPosition } = destination;
+    const newPosition = destination.index;
+    const sourceFolder = getFolderByPageId(questionnaire, pageBeingMoved.id);
+    sourceFolder.pages.splice(sourceFolder.pages.indexOf(pageBeingMoved), 1);
+    if (!sourceFolder.enabled && !sourceFolder.pages.length) {
+      const sourceSection = getSectionByFolderId(
+        questionnaire,
+        sourceFolder.id
+      );
+      sourceSection.folders.splice(
+        sourceSection.folders.indexOf(sourceFolder),
+        1
+      );
+    }
 
-    // Template an optimistic response as best we can.
-    const optimisticResponse = {
-      movePage: {
-        id: pageId,
-        title: pageTitle,
-        position: newPosition,
-        section: {
-          id: sectionId,
-          folders: folders.map(({ pages, ...rest }) => ({
-            ...rest,
-            pages: pages.map(({ pageType, id, position }) => ({
-              id,
-              position,
-              __typename:
-                pageType === "CalculatedSummaryPage"
-                  ? "CalculatedSummaryPage"
-                  : "QuestionPage",
-            })),
-            __typename: "Folder",
-          })),
-          __typename: "Section",
-        },
-        __typename: "QuestionPage",
+    const newFolder = {
+      id: 123,
+      pages: [pageBeingMoved],
+      alias: null,
+      displayName: "Untitled folder",
+      enabled: false,
+      position: newPosition,
+      validationErrorInfo: {
+        id: 678,
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
       },
+      __typename: "Folder",
     };
 
-    // Fix optimistic response - Find the index of the page's parent
-    // folder, as we can move the entire folder since it will be
-    // disabled and only contain the page we want to move.
-    const pageFolderIndex = findFolderIndexByPageAttr(
-      optimisticResponse.movePage.section.folders,
-      "id",
-      pageId
-    );
+    destinationSection.folders.splice(newPosition, 0, newFolder);
 
-    // Fix optimistic response - Move the folder into the correct position.
-    arrayMove(
-      optimisticResponse.movePage.section.folders,
-      pageFolderIndex,
-      newPosition
-    );
-
-    // Fix optimistic response - Fix the folders position attribute.
-    optimisticResponse.movePage.section.folders.forEach(
-      (folder, index) => (folder.position = index)
-    );
-
-    // Call the DB to move the page, passing in our optimistic response to
-    // avoid flickering if it takes time to respond.
     movePage({
       variables: {
         input: {
-          id: pageId,
-          sectionId,
+          id: pageBeingMoved.id,
+          sectionId: destinationSection.id,
           position: newPosition,
         },
       },
-      optimisticResponse,
+      optimisticResponse: {
+        movePage: {
+          ...questionnaire,
+        },
+      },
     });
 
     return 1;
@@ -188,60 +127,30 @@ export default (
 
   // If the user is moving a folder into a section
   if (folderBeingMoved && destinationSection) {
-    const { id: folderId, ...rest } = folderBeingMoved;
-    const { id: sectionId, folders } = destinationSection;
-    const { index: newPosition } = destination;
-
-    // Template an optimistic response as best we can.
-    const optimisticResponse = {
-      moveFolder: {
-        ...rest,
-        id: folderId,
-        section: {
-          id: sectionId,
-          folders: folders.map(({ pages, ...rest }) => ({
-            ...rest,
-            pages: pages.map(({ pageType, id, position }) => ({
-              id,
-              position,
-              __typename:
-                pageType === "CalculatedSummaryPage"
-                  ? "CalculatedSummaryPage"
-                  : "QuestionPage",
-            })),
-            __typename: "Folder",
-          })),
-          __typename: "Section",
-        },
-      },
-    };
-
-    // Fix optimistic response - find the old position of the folder.
-    const oldPosition = folderBeingMoved.position;
-
-    // Fix optimistic response - move the folder.
-    arrayMove(
-      optimisticResponse.moveFolder.section.folders,
-      oldPosition,
-      newPosition
+    const newPosition = destination.index;
+    const sourceSection = getSectionByFolderId(
+      questionnaire,
+      folderBeingMoved.id
     );
-
-    // Fix optimistic response - Fix the folders position attribute.
-    optimisticResponse.moveFolder.section.folders.forEach(
-      (folder, index) => (folder.position = index)
+    sourceSection.folders.splice(
+      sourceSection.folders.indexOf(folderBeingMoved),
+      1
     );
+    destinationSection.folders.splice(newPosition, 0, folderBeingMoved);
 
-    // Call the DB to move the page, passing in our optimistic response to
-    // avoid flickering if it takes time to respond.
     moveFolder({
       variables: {
         input: {
-          id: folderId,
-          sectionId,
+          id: folderBeingMoved.id,
+          sectionId: destinationSection.id,
           position: newPosition,
         },
       },
-      optimisticResponse,
+      optimisticResponse: {
+        moveFolder: {
+          ...questionnaire,
+        },
+      },
     });
 
     return 1;

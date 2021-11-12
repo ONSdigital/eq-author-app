@@ -81,6 +81,7 @@ fragment Sections on Section {
   id
   title
   displayName
+  position
   questionnaire {
     id
   }
