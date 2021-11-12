@@ -1,90 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TotalValidationEditor should render 1`] = `
-<Grid
-  align="top"
-  fillHeight={true}
->
-  <Column
-    cols={4}
+<Fragment>
+  <Grid
+    align="top"
+    fillHeight={true}
   >
-    <TotalValidationEditor__Flex>
-      <ValidationTitle
-        style={
+    <Column
+      cols={4}
+    >
+      <TotalValidationEditor__Flex>
+        <ValidationTitle
+          style={
+            Object {
+              "margin": "0 1em 0 1em",
+            }
+          }
+        >
+          Total
+        </ValidationTitle>
+        <label
+          htmlFor="condition"
+        >
+          <VisuallyHidden>
+            Condition
+          </VisuallyHidden>
+          <withChangeHandler(Select__SimpleSelect)
+            aria-label="Total"
+            data-test="total-condition-select"
+            defaultValue="LessThan"
+            id="condition"
+            onChange={[MockFunction]}
+          >
+            <option
+              value="Equal"
+            >
+              (=) Equal to
+            </option>
+            <option
+              value="GreaterThan"
+            >
+              (&gt;) More than
+            </option>
+            <option
+              value="LessThan"
+            >
+              (&lt;) Less than
+            </option>
+            <option
+              value="GreaterOrEqual"
+            >
+              (≥) More than or equal to
+            </option>
+            <option
+              value="LessOrEqual"
+            >
+              (≤) Less than or equal to
+            </option>
+          </withChangeHandler(Select__SimpleSelect)>
+        </label>
+      </TotalValidationEditor__Flex>
+      <TotalValidationEditor__Connector />
+    </Column>
+    <Column
+      cols={8}
+    >
+      <TotalValidationEditor__Pills
+        Custom={[Function]}
+        PreviousAnswer={[Function]}
+        data-test="total-pill-tabs"
+        entityType="Custom"
+        onChange={[MockFunction]}
+        onChangeUpdate={[MockFunction]}
+        onEntityTypeChange={[MockFunction]}
+        onUpdate={[MockFunction]}
+        total={
           Object {
-            "margin": "0 1em 0 1em",
+            "condition": "LessThan",
+            "custom": 5,
+            "enabled": true,
+            "entityType": "Custom",
+            "id": "1",
+            "previousAnswer": null,
           }
         }
-      >
-        Total
-      </ValidationTitle>
-      <label
-        htmlFor="condition"
-      >
-        <VisuallyHidden>
-          Condition
-        </VisuallyHidden>
-        <withChangeHandler(Select__SimpleSelect)
-          aria-label="Total"
-          data-test="total-condition-select"
-          defaultValue="LessThan"
-          id="condition"
-          onChange={[MockFunction]}
-        >
-          <option
-            value="Equal"
-          >
-            (=) Equal to
-          </option>
-          <option
-            value="GreaterThan"
-          >
-            (&gt;) More than
-          </option>
-          <option
-            value="LessThan"
-          >
-            (&lt;) Less than
-          </option>
-          <option
-            value="GreaterOrEqual"
-          >
-            (≥) More than or equal to
-          </option>
-          <option
-            value="LessOrEqual"
-          >
-            (≤) Less than or equal to
-          </option>
-        </withChangeHandler(Select__SimpleSelect)>
-      </label>
-    </TotalValidationEditor__Flex>
-    <TotalValidationEditor__Connector />
-  </Column>
-  <Column
-    cols={8}
-  >
-    <TotalValidationEditor__Pills
-      Custom={[Function]}
-      PreviousAnswer={[Function]}
-      data-test="total-pill-tabs"
-      entityType="Custom"
+        type="Number"
+      />
+    </Column>
+  </Grid>
+  <TotalValidationEditor__InlineField>
+    <Label
+      bold={true}
+    >
+      Apply if all values are unanswered
+    </Label>
+    <ToggleSwitch
+      checked={false}
+      hideLabels={false}
+      id="validateUnanswered"
+      name="total-validation-toggle"
       onChange={[MockFunction]}
-      onChangeUpdate={[MockFunction]}
-      onEntityTypeChange={[MockFunction]}
-      onUpdate={[MockFunction]}
-      total={
-        Object {
-          "condition": "LessThan",
-          "custom": 5,
-          "enabled": true,
-          "entityType": "Custom",
-          "id": "1",
-          "previousAnswer": null,
-        }
-      }
-      type="Number"
     />
-  </Column>
-</Grid>
+  </TotalValidationEditor__InlineField>
+</Fragment>
 `;
