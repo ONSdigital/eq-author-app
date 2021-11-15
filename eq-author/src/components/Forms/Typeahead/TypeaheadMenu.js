@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import styled, { css } from "styled-components";
-import { colors, radius } from "constants/theme";
+import styled from "styled-components";
+import { radius } from "constants/theme";
 
 const Menu = styled.div`
   display: block;
@@ -19,15 +19,6 @@ const MenuList = styled.ul`
   &:empty {
     padding: 0;
   }
-`;
-
-const active = css`
-  background-color: #e4e8eb;
-`;
-
-const selected = css`
-  background-color: ${colors.primary};
-  color: white;
 `;
 
 const MenuItem = styled.li`
@@ -47,8 +38,9 @@ const MenuItemText = styled.div`
   margin: 0.25em 0.1em;
   padding: 0.6em 1em;
   line-height: 1;
-  ${(props) => props.isActive && active};
-  ${(props) => props.isSelected && selected};
+  &:hover {
+    background-color: #e4e8eb;
+  }
 `;
 
 export const filterItemsByInputValue = (items, inputValue) =>
@@ -74,11 +66,6 @@ const TypeaheadMenu = ({
             onClick={getItemProps({ index, item }).onClick} //eslint-disable-line
             onMouseDown={getItemProps({ index, item }).onMouseDown} //eslint-disable-line
             role={getItemProps({ index, item }).role}
-
-            // {...getItemProps({
-            //   index,
-            //   item,
-            // })}
           >
             <MenuItemText
               isActive={highlightedIndex === index}
