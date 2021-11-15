@@ -63,16 +63,22 @@ const TypeaheadMenu = ({
   items,
   ...otherProps
 }) => {
+  const filteredItems = filterItemsByInputValue(items, inputValue);
   return (
     <Menu {...otherProps}>
       <MenuList {...getMenuProps()}>
-        {filterItemsByInputValue(items, inputValue).map((item, index) => (
+        {filteredItems.map((item, index) => (
           <MenuItem
             key={item.value}
-            {...getItemProps({
-              index,
-              item,
-            })}
+            id={getItemProps({ index, item }).id}
+            onClick={getItemProps({ index, item }).onClick} //eslint-disable-line
+            onMouseDown={getItemProps({ index, item }).onMouseDown} //eslint-disable-line
+            role={getItemProps({ index, item }).role}
+
+            // {...getItemProps({
+            //   index,
+            //   item,
+            // })}
           >
             <MenuItemText
               isActive={highlightedIndex === index}
