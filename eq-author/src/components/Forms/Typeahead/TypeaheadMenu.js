@@ -59,22 +59,32 @@ const TypeaheadMenu = ({
   return (
     <Menu {...otherProps}>
       <MenuList {...getMenuProps()}>
-        {filteredItems.map((item, index) => (
-          <MenuItem
-            key={item.value}
-            id={getItemProps({ index, item }).id}
-            onClick={getItemProps({ index, item }).onClick} //eslint-disable-line
-            onMouseDown={getItemProps({ index, item }).onMouseDown} //eslint-disable-line
-            role={getItemProps({ index, item }).role}
-          >
-            <MenuItemText
-              isActive={highlightedIndex === index}
-              isSelected={selectedItem === item}
-            >
-              {item.value}
-            </MenuItemText>
-          </MenuItem>
-        ))}
+        {filteredItems.map(
+          (item, index) => (
+            console.log(getItemProps({ index, item })),
+            (
+              // getItemProps is a value defined in the downshift library
+              // downshift docs - https://github.com/downshift-js/downshift
+              <MenuItem
+                key={item.value}
+                id={getItemProps({ index, item }).id}
+                onClick={getItemProps({ index, item }).onClick} //eslint-disable-line
+                onMouseDown={getItemProps({ index, item }).onMouseDown} //eslint-disable-line
+                role={getItemProps({ index, item }).role}
+                //Prettier ignore to prevent Prettier from writing 'aria-selected' as 'aria - selected'
+                /* prettier-ignore */
+                aria-selected={getItemProps({ index, item }).aria-selected} //eslint-disable-line
+              >
+                <MenuItemText
+                  isActive={highlightedIndex === index}
+                  isSelected={selectedItem === item}
+                >
+                  {item.value}
+                </MenuItemText>
+              </MenuItem>
+            )
+          )
+        )}
       </MenuList>
     </Menu>
   );
