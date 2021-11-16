@@ -82,19 +82,41 @@ describe("Folders", () => {
       });
 
       it("should move a folder", async () => {
+        questionnaire = ctx.questionnaire;
+        const section = questionnaire.sections[0];
+        const folderToMoveId = section.folders[0].id;
+        const secondFolder = section.folders[1].id;
+
+        expect(section.folders[0].id).toEqual(folderToMoveId);
+        expect(section.folders[1].id).toEqual(secondFolder);
         expect(folderOne.position).toEqual(0);
-        const folder = await moveFolder(ctx, { id: folderOne.id, position: 1 });
-        expect(folder.position).toEqual(1);
+
+        const returnedQuestionnaire = await moveFolder(ctx, {
+          id: folderOne.id,
+          position: 1,
+          sectionId: folderOne.sectionsId,
+        });
+
+        expect(returnedQuestionnaire.sections[0].folders[0].id).toEqual(
+          secondFolder
+        );
+        expect(returnedQuestionnaire.sections[0].folders[1].id).toEqual(
+          folderToMoveId
+        );
       });
 
-      it("should move a between sections", async () => {
+      it("should move folder a between sections", async () => {
         expect(folderOne.section.id).toEqual(questionnaire.sections[0].id);
-        const folder = await moveFolder(ctx, {
+
+        const returnedQuestionnaire = await moveFolder(ctx, {
           id: folderOne.id,
           position: 1,
           sectionId: sectionTwo.id,
         });
-        expect(folder.section.id).toEqual(sectionTwo.id);
+
+        expect(returnedQuestionnaire.sections[1].folders[1].id).toEqual(
+          folderOne.id
+        );
       });
     });
   });

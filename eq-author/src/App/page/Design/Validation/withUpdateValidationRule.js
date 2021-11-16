@@ -86,6 +86,7 @@ const INPUT_FRAGMENT = gql`
       custom
       previousAnswer
       condition
+      allowUnanswered
     }
   }
 `;
