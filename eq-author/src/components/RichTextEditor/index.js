@@ -382,6 +382,8 @@ class RichTextEditor extends React.Component {
 
     const hasError = errorValidationMsg && true;
 
+    console.log(`errorValidationMsg`, errorValidationMsg);
+
     return (
       <Wrapper hasError={hasError}>
         <Field
@@ -432,9 +434,14 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
-        {errorValidationMsg && (
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        )}
+        {errorValidationMsg &&
+          (Array.isArray(errorValidationMsg) ? (
+            errorValidationMsg.map((errMsg) => (
+              <ValidationError key={errMsg}>{errMsg}</ValidationError>
+            ))
+          ) : (
+            <ValidationError>{errorValidationMsg}</ValidationError>
+          ))}
       </Wrapper>
     );
   }

@@ -25,8 +25,6 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
     dataPath = dataPath.split("/");
   }
 
-  console.log(`errMessage`, errMessage);
-
   let validationErr = {
     id: uuidv4(),
     keyword: "errorMessage",

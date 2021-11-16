@@ -56,13 +56,10 @@ const getErrorByField = (field, validationErrors) => {
 };
 
 const getMultipleErrorsByField = (field, validationErrors) => {
-  console.log(`validationErrors ..........VVV`, validationErrors);
-
   const errorArray = validationErrors.filter((error) => error.field === field);
   const errMsgArray = errorArray.map(
     (error) => situations[field]?.[error?.errorCode]
   );
-  console.log(`errorArray`, errorArray);
   console.log(`errMsgArray`, errMsgArray);
 
   return errMsgArray;
