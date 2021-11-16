@@ -62,7 +62,7 @@ Resolvers.Mutation = {
     deleteFirstPageSkipConditions(ctx);
     deleteLastPageRouting(ctx);
 
-    return { ...page, sectionId: newSection.id };
+    return ctx.questionnaire;
   }),
 
   deletePage: createMutation((_, { input }, ctx) => {

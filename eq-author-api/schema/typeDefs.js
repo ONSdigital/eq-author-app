@@ -450,6 +450,7 @@ type TotalValidationRule implements ValidationRule {
   previousAnswer: Answer
   condition: ValidationCondition!
   validationErrorInfo: ValidationErrorInfo
+  allowUnanswered: Boolean
 }
 
 enum ValidationCondition {
@@ -796,13 +797,13 @@ type Mutation {
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder
   deleteFolder(input: DeleteFolderInput!): Section
-  moveFolder(input: MoveFolderInput!): Folder
+  moveFolder(input: MoveFolderInput!): Questionnaire
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
   toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
-  movePage(input: MovePageInput!): Page
+  movePage(input: MovePageInput!): Questionnaire
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
@@ -1283,6 +1284,7 @@ input UpdateTotalValidationInput {
   custom: Int
   previousAnswer: ID
   condition: ValidationCondition!
+  allowUnanswered: Boolean
 }
 
 input CreateMetadataInput {

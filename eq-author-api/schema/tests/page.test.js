@@ -184,17 +184,19 @@ describe("page", () => {
         expect(section.folders[0].pages[0].id).toEqual(pageToMoveId);
         expect(section.folders[0].pages[1].id).toEqual(secondPageId);
 
-        const {
-          section: { folders },
-        } = await movePage(ctx, {
+        const returnedQuestionnaire = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           folderId: section.folders[0].id,
           position: 1,
         });
 
-        expect(folders[0].pages[0].id).toEqual(secondPageId);
-        expect(folders[0].pages[1].id).toEqual(pageToMoveId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[0].id
+        ).toEqual(secondPageId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[1].id
+        ).toEqual(pageToMoveId);
       });
 
       it("should be able to move a page earlier in a folder", async () => {
@@ -205,17 +207,19 @@ describe("page", () => {
         expect(section.folders[0].pages[0].id).toEqual(firstPageId);
         expect(section.folders[0].pages[1].id).toEqual(pageToMoveId);
 
-        const {
-          section: { folders },
-        } = await movePage(ctx, {
+        const returnedQuestionnaire = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           folderId: section.folders[0].id,
           position: 0,
         });
 
-        expect(folders[0].pages[0].id).toEqual(pageToMoveId);
-        expect(folders[0].pages[1].id).toEqual(firstPageId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[0].id
+        ).toEqual(pageToMoveId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[1].id
+        ).toEqual(firstPageId);
       });
 
       it("should replenish last disabled folder in section", async () => {
@@ -240,16 +244,18 @@ describe("page", () => {
         expect(section.folders[0].pages[0].id).toEqual(pageToMoveId);
         expect(section.folders[0].pages[1].id).toEqual(secondPageId);
 
-        const {
-          section: { folders },
-        } = await movePage(ctx, {
+        const returnedQuestionnaire = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 1,
         });
 
-        expect(folders[0].pages[0].id).toEqual(secondPageId);
-        expect(folders[1].pages[0].id).toEqual(pageToMoveId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[0].id
+        ).toEqual(secondPageId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[1].pages[0].id
+        ).toEqual(pageToMoveId);
       });
 
       it("should be able to move a page earlier in a section", async () => {
@@ -260,16 +266,18 @@ describe("page", () => {
         expect(section.folders[0].pages[0].id).toEqual(firstPageId);
         expect(section.folders[0].pages[1].id).toEqual(pageToMoveId);
 
-        const {
-          section: { folders },
-        } = await movePage(ctx, {
+        const returnedQuestionnaire = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 0,
         });
 
-        expect(folders[0].pages[0].id).toEqual(pageToMoveId);
-        expect(folders[1].pages[0].id).toEqual(firstPageId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[0].pages[0].id
+        ).toEqual(pageToMoveId);
+        expect(
+          returnedQuestionnaire.sections[0].folders[1].pages[0].id
+        ).toEqual(firstPageId);
       });
     });
 

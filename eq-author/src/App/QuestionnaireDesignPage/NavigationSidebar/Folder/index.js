@@ -75,10 +75,7 @@ const Folder = ({
             childErrorCount={calculatePageErrors(pages)}
             isDragging={isDragging}
           >
-            <Droppable
-              droppableId={folderId}
-              type={`folder-${folderId}-content`}
-            >
+            <Droppable droppableId={folderId} type={`folder-content`}>
               {(
                 { innerRef, placeholder, droppableProps },
                 { isDraggingOver }
