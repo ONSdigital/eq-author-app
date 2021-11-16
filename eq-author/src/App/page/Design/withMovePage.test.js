@@ -57,58 +57,7 @@ describe("withMovePage", () => {
         return props.onMovePage(args).then(() => {
           expect(mutate).toHaveBeenCalledWith({
             ...expected,
-            refetchQueries: expect.any(Object),
           });
-        });
-      });
-
-      it("refetches source section only when source and destination section differ", () => {
-        args.from.sectionId = questionnaire.sections[1].id;
-
-        return props.onMovePage(args).then(() => {
-          expect(mutate).toHaveBeenCalledWith({
-            ...expected,
-            update: expect.any(Function),
-            refetchQueries: expect.any(Object),
-          });
-        });
-      });
-
-      it("should remove old item from cache when source and destination section differ", async () => {
-        const fromSection = questionnaire.sections[1];
-        const proxy = {
-          readFragment: () => fromSection,
-          writeData: jest.fn(),
-        };
-        const mockResponse = {
-          data: {
-            movePage: {
-              id: args.to.id,
-            },
-          },
-        };
-        let update;
-
-        args.from.sectionId = fromSection.id;
-
-        mutate = (options) => {
-          update = options.update;
-        };
-        await mapMutateToProps({ mutate }).onMovePage(args);
-
-        update(proxy, mockResponse);
-
-        const updatedFromSection = {
-          ...fromSection,
-          folders: fromSection.folders.map((folder) => ({
-            ...folder,
-            pages: folder.pages.filter(({ id }) => id !== args.to.id),
-          })),
-        };
-
-        expect(proxy.writeData).toHaveBeenCalledWith({
-          id: `Section${fromSection.id}`,
-          data: updatedFromSection,
         });
       });
 

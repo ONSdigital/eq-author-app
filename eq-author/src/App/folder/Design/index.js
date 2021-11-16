@@ -31,10 +31,9 @@ import onCompleteDuplicate from "./onCompleteDuplicate";
 
 import GET_FOLDER_QUERY from "App/folder/graphql/getFolderQuery.graphql";
 import UPDATE_FOLDER_MUTATION from "App/folder/graphql/updateFolderMutation.graphql";
-import MOVE_FOLDER_MUTATION from "App/folder/graphql/moveFolder.graphql";
+import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
-import GET_SECTION from "graphql/getSection.graphql";
 
 import { colors } from "constants/theme";
 
@@ -189,7 +188,7 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
           data={data.folder}
-          onMove={({ from, to }) => {
+          onMove={({ to }) => {
             moveFolder({
               variables: {
                 input: {
@@ -197,21 +196,7 @@ const FolderDesignPage = ({ history, match }) => {
                   position: to.position,
                   sectionId: to.sectionId,
                 },
-              }, // conditional refetch to check when last folder in section
-              ...(from.sectionId !== to.sectionId
-                ? {
-                    refetchQueries: [
-                      {
-                        query: GET_SECTION,
-                        variables: {
-                          input: {
-                            sectionId: from.sectionId,
-                          },
-                        },
-                      },
-                    ],
-                  }
-                : {}),
+              },
             });
           }}
           onDuplicate={() =>
