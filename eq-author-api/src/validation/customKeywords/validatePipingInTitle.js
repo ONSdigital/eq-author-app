@@ -21,7 +21,7 @@ const metadataIdExists = (questionnaire, id) =>
 module.exports = (ajv) =>
   ajv.addKeyword({
     $data: true,
-    // allErrors: true,
+    allErrors: true,
     keyword: "validatePipingInTitle",
     validate: function isValid(
       _schema,
@@ -35,24 +35,28 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
-      console.log(`title`, title);
+      console.log(`title..........`, title);
       isValid.errors = [];
-      const pipedIdList = [];
+      const pipedIdListMetadata = [];
       const pipedIdListAnswers = [];
 
       let matches, matches2;
 
       do {
         matches = pipedMetadataIdRegex.exec(title);
+        console.log(`matches - - - - - - `, matches);
 
         if (matches && matches.length > 1) {
           const [, answerId] = matches;
-          pipedIdList.push(trimDateRangeId(answerId));
+          pipedIdListMetadata.push(trimDateRangeId(answerId));
         }
       } while (matches);
 
+      console.log(`pipedIdListMetadata   XXXXXXXX`, pipedIdListMetadata);
+
       do {
         matches2 = pipedAnswerIdRegex.exec(title);
+        console.log(`matches2 - - - - - - `, matches2);
 
         if (matches2 && matches2.length > 1) {
           const [, answerId] = matches2;
@@ -60,11 +64,14 @@ module.exports = (ajv) =>
         }
       } while (matches2);
 
-      if (!pipedIdList.length && !pipedIdListAnswers.length) {
+      console.log(`pipedIdListAnswers   XXXXXXXX`, pipedIdListAnswers);
+
+      if (!pipedIdListMetadata.length && !pipedIdListAnswers.length) {
         return true;
       }
 
-      pipedIdList.forEach((id) => {
+      // write metadata deleted errors
+      pipedIdListMetadata.forEach((id) => {
         if (!metadataIdExists(questionnaire, id)) {
           isValid.errors.push(
             createValidationError(
@@ -77,7 +84,8 @@ module.exports = (ajv) =>
         }
       });
 
-      for (const pipedId of pipedIdList) {
+      // write deleted Answer or answer moved, errors
+      for (const pipedId of pipedIdListAnswers) {
         if (!idExists({ questionnaire }, pipedId)) {
           isValid.errors.push(
             createValidationError(

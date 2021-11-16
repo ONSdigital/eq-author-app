@@ -50,6 +50,7 @@ module.exports = (questionnaire) => {
   const formattedErrorMessages = [];
 
   for (const err of validate.errors) {
+    console.log(`err - - - - - - - - - - - `, err);
     if (err.keyword === "errorMessage") {
       const key = `${err.instancePath} ${err.message}`;
 

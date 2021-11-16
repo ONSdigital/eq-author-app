@@ -26,6 +26,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     keyword: "errorMessage",
     field,
     errorCode,
+    message: errorCode,
   };
 
   dataPath.splice(0, 1); // Strip leading ""
