@@ -35,7 +35,6 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
-      console.log(`title..........`, title);
       isValid.errors = [];
       const pipedIdListMetadata = [];
       const pipedIdListAnswers = [];
@@ -44,7 +43,6 @@ module.exports = (ajv) =>
 
       do {
         matches = pipedMetadataIdRegex.exec(title);
-        console.log(`matches - - - - - - `, matches);
 
         if (matches && matches.length > 1) {
           const [, answerId] = matches;
@@ -52,19 +50,14 @@ module.exports = (ajv) =>
         }
       } while (matches);
 
-      console.log(`pipedIdListMetadata   XXXXXXXX`, pipedIdListMetadata);
-
       do {
         matches2 = pipedAnswerIdRegex.exec(title);
-        console.log(`matches2 - - - - - - `, matches2);
 
         if (matches2 && matches2.length > 1) {
           const [, answerId] = matches2;
           pipedIdListAnswers.push(trimDateRangeId(answerId));
         }
       } while (matches2);
-
-      console.log(`pipedIdListAnswers   XXXXXXXX`, pipedIdListAnswers);
 
       if (!pipedIdListMetadata.length && !pipedIdListAnswers.length) {
         return true;
@@ -113,11 +106,6 @@ module.exports = (ajv) =>
       }
 
       if (isValid.errors.length) {
-        console.log(
-          `isValid.errors >>>>xxxxx`,
-          JSON.stringify(isValid.errors, null, 7)
-        );
-
         return false;
       }
 

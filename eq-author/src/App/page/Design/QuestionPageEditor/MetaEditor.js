@@ -10,7 +10,7 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
 
 import pageFragment from "graphql/fragments/page.graphql";
-import { getErrorByField } from "./validationUtils.js";
+import { getMultipleErrorsByField } from "./validationUtils.js";
 
 const titleControls = {
   emphasis: true,
@@ -22,16 +22,12 @@ export class StatelessMetaEditor extends React.Component {
   guidance = React.createRef();
 
   errorMsg = (field) =>
-    getErrorByField(field, this.props.page.validationErrorInfo.errors);
+    getMultipleErrorsByField(field, this.props.page.validationErrorInfo.errors);
 
   render() {
     const { page, onChangeUpdate, fetchAnswers } = this.props;
+    console.log(`this.errorMsg`, this.errorMsg("title"));
 
-    // console.log(`page`, page);
-    console.log(
-      `this.props.page.validationErrorInfo.errors`,
-      this.props.page.validationErrorInfo.errors
-    );
     return (
       <div>
         <RichTextEditor

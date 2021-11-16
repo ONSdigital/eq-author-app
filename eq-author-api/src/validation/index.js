@@ -25,6 +25,8 @@ const formatErrorMessage = (error, questionnaire) => {
 
   const { instancePath, message } = error;
 
+  console.log(`error x x x x x x x x `, error);
+
   const splitPath = instancePath.split("/");
   const field = splitPath.pop();
 
@@ -51,6 +53,7 @@ module.exports = (questionnaire) => {
 
   for (const err of validate.errors) {
     console.log(`err - - - - - - - - - - - `, err);
+
     if (err.keyword === "errorMessage") {
       const key = `${err.instancePath} ${err.message}`;
 

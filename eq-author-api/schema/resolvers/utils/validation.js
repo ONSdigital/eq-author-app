@@ -24,8 +24,6 @@ const getValidationById = (ctx, id) => {
 
 const getValidationErrorInfo = (ctx) => ctx.validationErrorInfo;
 
-console.log(`getValidationErrorInfo`, getValidationErrorInfo);
-
 const returnValidationErrors = (ctx, id, ...conditions) => {
   const errors = conditions.reduce((acc, condition) => {
     acc.push(...getValidationErrorInfo(ctx).filter(condition));

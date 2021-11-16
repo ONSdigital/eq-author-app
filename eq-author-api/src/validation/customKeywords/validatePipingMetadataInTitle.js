@@ -23,7 +23,6 @@ module.exports = (ajv) =>
       _parentSchema,
       { parentDataProperty: fieldName, instancePath, rootData: questionnaire }
     ) {
-      console.log(`textString`, textString);
       isValid.errors = [];
       const pipedIdList = [];
 
@@ -49,7 +48,8 @@ module.exports = (ajv) =>
               instancePath,
               fieldName,
               PIPING_METADATA_DELETED,
-              questionnaire
+              questionnaire,
+              "deleted metadata in title"
             ),
           ];
         }

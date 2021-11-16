@@ -51,10 +51,21 @@ const situations = {
 };
 
 const getErrorByField = (field, validationErrors) => {
-  console.log(`validationErrors ..........`, validationErrors);
   const error = validationErrors.find((error) => error.field === field);
-
   return situations[field]?.[error?.errorCode] ?? null;
 };
 
-export { getErrorByField };
+const getMultipleErrorsByField = (field, validationErrors) => {
+  console.log(`validationErrors ..........VVV`, validationErrors);
+
+  const errorArray = validationErrors.filter((error) => error.field === field);
+  const errMsgArray = errorArray.map(
+    (error) => situations[field]?.[error?.errorCode]
+  );
+  console.log(`errorArray`, errorArray);
+  console.log(`errMsgArray`, errMsgArray);
+
+  return errMsgArray;
+};
+
+export { getErrorByField, getMultipleErrorsByField };

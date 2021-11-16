@@ -29,7 +29,6 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
-      console.log(`title`, title);
       isValid.errors = [];
       const pipedIdList = [];
 
@@ -54,7 +53,8 @@ module.exports = (ajv) =>
             instancePath,
             fieldName,
             errorMessage,
-            questionnaire
+            questionnaire,
+            "deleted answer in title"
           ),
         ];
 
