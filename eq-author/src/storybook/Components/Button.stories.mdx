@@ -1,5 +1,5 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
-
+import Theme from "contexts/themeContext"
 import Button from "../../components/buttons/Button";
 
 <Meta title="Components/Button" component={Button} />
@@ -12,7 +12,9 @@ TODO
 
 <Canvas>
   <Story name="Primary">
-    <Button>Primary</Button>
+    <Theme>
+      <Button>Primary</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -34,7 +36,9 @@ TODO
 
 <Canvas>
   <Story name="Secondary">
-    <Button variant="secondary">Secondary</Button>
+    <Theme>
+      <Button variant="secondary">Secondary</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -42,7 +46,9 @@ TODO
 
 <Canvas>
   <Story name="Tertiary">
-    <Button variant="tertiary">Tertiary</Button>
+    <Theme>
+      <Button variant="tertiary">Tertiary</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -50,7 +56,9 @@ TODO
 
 <Canvas>
   <Story name="Tertiary light">
-    <Button variant="tertiary-light">Tertiary light</Button>
+      <Theme>
+        <Button variant="tertiary-light">Tertiary light</Button>
+      </Theme>
   </Story>
 </Canvas>
 
@@ -58,15 +66,19 @@ TODO
 
 <Canvas>
   <Story name="Positive">
-    <Button variant="positive">Positive</Button>
-  </Story>
+      <Theme>
+        <Button variant="positive">Positive</Button>
+    </Theme>
+    </Story>
 </Canvas>
 
 ### Negative
 
 <Canvas>
   <Story name="Negative">
-    <Button variant="negative">Negative</Button>
+    <Theme>
+      <Button variant="negative">Negative</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -74,7 +86,9 @@ TODO
 
 <Canvas>
   <Story name="Navigation">
-    <Button variant="navigation">Navigation</Button>
+    <Theme>
+      <Button variant="navigation">Navigation</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -82,7 +96,9 @@ TODO
 
 <Canvas>
   <Story name="Navigation modal">
-    <Button variant="navigation-modal">Navigation modal</Button>
+    <Theme>
+      <Button variant="navigation-modal">Navigation modal</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -90,7 +106,9 @@ TODO
 
 <Canvas>
   <Story name="Navigation on">
-    <Button variant="navigation-on">Navigation-on</Button>
+    <Theme>
+      <Button variant="navigation-on">Navigation-on</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -98,7 +116,9 @@ TODO
 
 <Canvas>
   <Story name="Sign out">
-    <Button variant="signout">Sign out</Button>
+    <Theme>
+      <Button variant="signout">Sign out</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -106,7 +126,9 @@ TODO
 
 <Canvas>
   <Story name="Greyed">
-    <Button variant="greyed">Tertiary</Button>
+    <Theme>
+      <Button variant="greyed">Tertiary</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -114,7 +136,9 @@ TODO
 
 <Canvas>
   <Story name="Medium">
-    <Button medium>Medium</Button>
+    <Theme>
+      <Button medium>Medium</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -122,7 +146,9 @@ TODO
 
 <Canvas>
   <Story name="Small">
-    <Button small>Small</Button>
+    <Theme>
+      <Button small>Small</Button>
+    </Theme>
   </Story>
 </Canvas>
 
@@ -130,7 +156,9 @@ TODO
 
 <Canvas>
   <Story name="Disabled">
-    <Button disabled>Disabled</Button>
+    <Theme>
+      <Button disabled>Disabled</Button>
+    </Theme>
   </Story>
 </Canvas>
 

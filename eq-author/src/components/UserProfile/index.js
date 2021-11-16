@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { useMe } from "App/MeContext";
 
 import Tooltip from "components/Forms/Tooltip";
-import { colors } from "constants/theme";
 import Button from "components/buttons/Button";
 
 import IconText from "components/IconText";
@@ -38,11 +37,11 @@ export const LogoutButton = styled(Button)`
   color: white;
   text-align: left;
   &:hover {
-    background: ${colors.white};
-    color: ${colors.text};
+    background: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.text};
   }
   &:focus {
-    box-shadow: 0 0 0 3px ${colors.tertiary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.tertiary};
     outline: none;
   }
 `;

@@ -1,0 +1,283 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext"
+import Button from "components-themed/buttons";
+import { ReactComponent as Icon } from "assets/icon-test.svg"
+
+
+<Meta title="Themed components/Default/Buttons" component={Button} />
+
+# Buttons (Default theme)
+
+## Text
+<Canvas>
+  <Story name="Primary">
+    <Theme themeName={"default"}>
+      <Button>Normal</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary disabled">
+    <Theme themeName={"default"}>
+      <Button disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary small">
+    <Theme themeName={"default"}>
+      <Button small>Small</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary narrow">
+    <Theme themeName={"default"}>
+      <Button narrow>Narrow</Button>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Icons
+<Canvas>
+  <Story name="Primary icon left">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} iconLeft>Left</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary icon right">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} iconRight>Right</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary icon left right">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} iconRight iconLeft>Both</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary icon left small">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} small iconLeft>Small</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary icon left narrow">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} narrow iconLeft>narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Primary icon only">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>}/>
+    </Theme>
+  </Story>
+  <Story name="Primary icon only small">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} small/>
+    </Theme>
+  </Story>
+  <Story name="Primary icon only narrow">
+    <Theme themeName={"default"}>
+      <Button icon={<Icon/>} narrow/>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Secondary
+<Canvas>
+  <Story name="Secondary">
+    <Theme themeName={"default"}>
+      <Button variant="secondary">Normal</Button>
+    </Theme>
+  </Story> 
+  <Story name="Secondary disabled">
+    <Theme themeName={"default"}>
+      <Button variant="secondary" disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Secondary small">
+    <Theme themeName={"default"}>
+      <Button variant="secondary" small>Small</Button>
+    </Theme>
+  </Story>
+  <Story name="Secondary narrow">
+    <Theme themeName={"default"}>
+      <Button variant="secondary" narrow>Narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Secondary icon left">
+    <Theme themeName={"default"}>
+      <Button variant="secondary" icon={<Icon/>} iconLeft>Left icon</Button>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Ghost
+<Canvas style={{background: "#206095"}}>
+  <Story name="Ghost">
+    <Theme themeName={"default"}>
+      <Button variant="ghost">Normal</Button>
+    </Theme>
+  </Story> 
+  <Story name="Ghost disabled">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost small">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" small>Small</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost narrow">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" narrow>Narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost icon left">
+    <Theme themeName={"default"}>
+      <Button variant="ghost"  icon={<Icon/>} iconLeft>Left icon</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost icon noBorder">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>} iconLeft noBorders>No Borders</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost icon only">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>}/>
+    </Theme>
+  </Story>
+  <Story name="Ghost icon only no borders">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>} noBorders/>
+    </Theme>
+  </Story>
+</Canvas>
+
+<Canvas style={{background: "#d0021b"}}>
+  <Story name="Ghost-alt">
+    <Theme themeName={"default"}>
+      <Button variant="ghost">Normal</Button>
+    </Theme>
+  </Story> 
+  <Story name="Ghost-alt disabled">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt small">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" small>Small</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt narrow">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" narrow>Narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt icon left">
+    <Theme themeName={"default"}>
+      <Button variant="ghost"  icon={<Icon/>} iconLeft>Left icon</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt icon noBorder">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>} iconLeft noBorders>No Borders</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt icon only">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>}/>
+    </Theme>
+  </Story>
+  <Story name="Ghost-alt icon only no borders">
+    <Theme themeName={"default"}>
+      <Button variant="ghost" icon={<Icon/>} noBorders/>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Ghost primary
+<Canvas>
+  <Story name="Ghost primary">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary">Normal</Button>
+    </Theme>
+  </Story> 
+  <Story name="Ghost primary disabled">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary small">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" small>small</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary narrow">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" narrow>Narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary icon left">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" icon={<Icon/>} iconLeft>Icon left</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary icon noBorder">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" icon={<Icon/>} iconLeft noBorders>No Borders</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary icon only">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" icon={<Icon/>}/>
+    </Theme>
+  </Story>
+  <Story name="Ghost primary icon only no borders">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-primary" icon={<Icon/>} noBorders/>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Ghost white
+<Canvas style={{background: "#000000"}}>
+  <Story name="Ghost white">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white">Normal</Button>
+    </Theme>
+  </Story> 
+  <Story name="Ghost white disabled">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" disabled>Disabled</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost white small">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" small>small</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost white narrow">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" narrow>Narrow</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost white icon left">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" icon={<Icon/>} iconLeft>Icon left</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost white icon noBorder">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" icon={<Icon/>} iconLeft noBorders>No Borders</Button>
+    </Theme>
+  </Story>
+  <Story name="Ghost white icon only">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" icon={<Icon/>}/>
+    </Theme>
+  </Story>
+  <Story name="Ghost white icon only no borders">
+    <Theme themeName={"default"}>
+      <Button variant="ghost-white" icon={<Icon/>} noBorders/>
+    </Theme>
+  </Story>
+</Canvas>
+
+
