@@ -26,7 +26,6 @@ export class StatelessMetaEditor extends React.Component {
 
   render() {
     const { page, onChangeUpdate, fetchAnswers } = this.props;
-    console.log(`this.errorMsg`, this.errorMsg("title"));
 
     return (
       <div>

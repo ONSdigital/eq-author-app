@@ -382,8 +382,6 @@ class RichTextEditor extends React.Component {
 
     const hasError = errorValidationMsg && true;
 
-    console.log(`errorValidationMsg`, errorValidationMsg);
-
     return (
       <Wrapper hasError={hasError}>
         <Field
