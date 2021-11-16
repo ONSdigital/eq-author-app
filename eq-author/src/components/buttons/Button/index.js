@@ -4,200 +4,200 @@ import { darken } from "polished";
 
 import { propTypes } from "./propTypes";
 
-import { focusStyle } from "constants/theme";
+import { radius, colors, focusStyle } from "constants/theme";
 
 export const primaryButton = css`
-  --color-text: ${({ theme }) => theme.colors.white};
-  --color-bg: ${({ theme }) => theme.colors.primary};
+  --color-text: ${colors.white};
+  --color-bg: ${colors.primary};
 
   position: relative;
   border: none;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.secondary)};
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.secondary)};
     border-color: var(--color-bg);
   }
 `;
 
 export const secondaryButton = css`
-  --color-text: ${({ theme }) => theme.colors.primary};
-  --color-bg: ${({ theme }) => theme.colors.white};
+  --color-text: ${colors.primary};
+  --color-bg: ${colors.white};
   border: 1px solid var(--color-text);
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => theme.colors.secondary};
+    --color-text: ${colors.white};
+    --color-bg: ${colors.secondary};
     border-color: var(--color-bg);
   }
 `;
 
 export const tertiaryButton = css`
-  --color-text: ${({ theme }) => theme.colors.primary};
+  --color-text: ${colors.primary};
   --color-bg: transparent;
   border: 1px solid transparent;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => theme.colors.primary};
+    --color-text: ${colors.white};
+    --color-bg: ${colors.primary};
   }
 `;
 
 export const tertiaryLightButton = css`
   ${tertiaryButton};
 
-  --color-text: ${({ theme }) => theme.colors.white};
+  --color-text: ${colors.white};
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.black};
-    --color-bg: ${({ theme }) => theme.colors.white};
+    --color-text: ${colors.black};
+    --color-bg: ${colors.white};
   }
 `;
 
 export const positiveButton = css`
-  --color-text: ${({ theme }) => theme.colors.white};
-  --color-bg: ${({ theme }) => theme.colors.positive};
+  --color-text: ${colors.white};
+  --color-bg: ${colors.positive};
 
   position: relative;
   border: none;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.positive)};
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.positive)};
     border-color: var(--color-bg);
   }
 `;
 
 export const negativeButton = css`
-  --color-text: ${({ theme }) => theme.colors.white};
-  --color-bg: ${({ theme }) => theme.colors.negative};
+  --color-text: ${colors.white};
+  --color-bg: ${colors.negative};
 
   position: relative;
   border: none;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.negative)};
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.negative)};
     border-color: var(--color-bg);
   }
 `;
 
 export const navigationButton = css`
-  --color-text: ${({ theme }) => theme.colors.grey};
-  --color-bg: ${({ theme }) => theme.colors.black};
+  --color-text: ${colors.grey};
+  --color-bg: ${colors.black};
 
   position: relative;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.lighterGrey};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.textLight)};
+    --color-text: ${colors.lighterGrey};
+    --color-bg: ${darken(0.1, colors.textLight)};
     border-color: var(--color-bg);
-    border-bottom: 1px solid ${({ theme }) => theme.colors.white};
+    border-bottom: 1px solid ${colors.white};
     border-radius: 0;
   }
 
   &:focus {
-    background-color: ${({ theme }) => theme.colors.tertiary};
+    background-color: ${colors.tertiary};
     box-shadow: 0;
     outline: 0;
 
-    --color-text: ${({ theme }) => theme.colors.black};
+    --color-text: ${colors.black};
   }
 `;
 
 export const navigationModalButton = css`
-  --color-text: ${({ theme }) => theme.colors.grey};
-  --color-bg: ${({ theme }) => theme.colors.black};
+  --color-text: ${colors.grey};
+  --color-bg: ${colors.black};
 
   position: relative;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.lighterGrey};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.textLight)};
+    --color-text: ${colors.lighterGrey};
+    --color-bg: ${darken(0.1, colors.textLight)};
     border-color: var(--color-bg);
-    border-bottom: 1px solid ${({ theme }) => theme.colors.white};
+    border-bottom: 1px solid ${colors.white};
     border-radius: 0;
   }
 `;
 export const navigationOnButton = css`
-  --color-text: ${({ theme }) => theme.colors.black};
-  --color-bg: ${({ theme }) => theme.colors.tertiary};
+  --color-text: ${colors.black};
+  --color-bg: ${colors.tertiary};
 
   position: relative;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  border-bottom: 1px solid ${colors.black};
   border-radius: 0;
 `;
 
 export const signoutButton = css`
-  color: ${({ theme }) => theme.colors.black};
+  color: ${colors.black};
 
-  --color-text: ${({ theme }) => theme.colors.black};
-  --color-bg: ${({ theme }) => theme.colors.black};
+  --color-text: ${colors.black};
+  --color-bg: ${colors.black};
 
   position: relative;
   border-radius: 0;
 
   &:hover {
-    background-color: ${({ theme }) => darken(0.1, theme.colors.orange)};
+    background-color: ${darken(0.1, colors.orange)};
 
-    --color-text: ${({ theme }) => darken(0.1, theme.colors.black)};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.orange)};
+    --color-text: ${darken(0.1, colors.black)};
+    --color-bg: ${darken(0.1, colors.orange)};
     border-color: var(--color-bg);
     border-radius: 0;
   }
 
   &:focus {
-    background-color: ${({ theme }) => theme.colors.tertiary};
+    background-color: ${colors.tertiary};
     box-shadow: 0;
     outline: 0;
 
-    --color-text: ${({ theme }) => theme.colors.black};
+    --color-text: ${colors.black};
   }
 `;
 
 export const greyedButton = css`
-  --color-text: ${({ theme }) => theme.colors.white};
-  --color-bg: ${({ theme }) => theme.colors.grey};
+  --color-text: ${colors.white};
+  --color-bg: ${colors.grey};
 
   position: relative;
   border: none;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => darken(0.1, theme.colors.grey)};
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.grey)};
     border-color: var(--color-bg);
   }
 `;
 
 export const navHeaderButton = css`
-  --color-text: ${({ theme }) => theme.colors.white};
-  --color-bg: ${({ theme }) => theme.colors.darkGrey};
+  --color-text: ${colors.white};
+  --color-bg: ${colors.darkGrey};
 
   border: none;
   border-radius: 0;
 
   &:hover {
-    --color-text: ${({ theme }) => theme.colors.white};
-    --color-bg: ${({ theme }) => theme.colors.black};
+    --color-text: ${colors.white};
+    --color-bg: ${colors.black};
     border-radius: 0;
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.darkGrey};
+    background-color: ${colors.darkGrey};
     box-shadow: 0;
     outline: 0;
 
-    --color-text: ${({ theme }) => theme.colors.white};
+    --color-text: ${colors.white};
   }
 `;
 
 export const navAddMenuButton = css`
-  --color-text: ${({ theme }) => theme.colors.black};
-  --color-bg: ${({ theme }) => theme.colors.tertiary};
+  --color-text: ${colors.black};
+  --color-bg: ${colors.tertiary};
 
   border: none;
   border-radius: 0;
@@ -208,26 +208,26 @@ export const navAddMenuButton = css`
   white-space: nowrap;
 
   &:hover {
-    --color-bg: ${({ theme }) => theme.colors.greyedOrange};
+    --color-bg: ${colors.greyedOrange};
     border-radius: 0;
   }
 
   &:focus {
-    background-color: ${({ theme }) => theme.colors.darkGrey};
+    background-color: ${colors.darkGrey};
     box-shadow: 0;
     outline: 0;
 
-    --color-text: ${({ theme }) => theme.colors.white};
+    --color-text: ${colors.white};
   }
 
   &[disabled] {
-    --color-text: ${({ theme }) => theme.colors.disabledGreyOnOrange};
+    --color-text: ${colors.disabledGreyOnOrange};
     opacity: 1;
 
     span {
       svg {
         path {
-          fill: ${({ theme }) => theme.colors.disabledGreyOnOrange};
+          fill: ${colors.disabledGreyOnOrange};
         }
       }
     }
@@ -253,7 +253,7 @@ const Button = styled.button`
   color: var(--color-text);
   background-color: var(--color-bg);
   padding: 0.75em 2em;
-  border-radius: ${({ theme }) => theme.radius};
+  border-radius: ${radius};
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
