@@ -74,4 +74,23 @@ describe("AdditionalInfo", () => {
     const wrapper = createWrapper(props);
     expect(wrapper).toMatchSnapshot();
   });
+
+  it("should be able to display both deleted metadata and deleted answer in piping errors in the description", async () => {
+    props.page.validationErrorInfo.errors = [
+      {
+        errorCode: "PIPING_TITLE_DELETED",
+        field: "description",
+        id: "1",
+        type: "page",
+      },
+      {
+        errorCode: "PIPING_METADATA_DELETED",
+        field: "description",
+        id: "2",
+        type: "page",
+      },
+    ];
+    const wrapper = createWrapper(props);
+    expect(wrapper).toMatchSnapshot();
+  });
 });

@@ -38,6 +38,7 @@ const situations = {
   },
   description: {
     [DESCRIPTION_NOT_ENTERED.errorCode]: DESCRIPTION_NOT_ENTERED.message,
+    [PIPING_TITLE_MOVED.errorCode]: PIPING_TITLE_MOVED.message,
     [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
     [PIPING_METADATA_DELETED.errorCode]: PIPING_METADATA_DELETED.message,
   },
