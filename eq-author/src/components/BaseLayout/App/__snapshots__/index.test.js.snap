@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/AppContainer should render 1`] = `
-<Theme>
+<Theme
+  themeName="default"
+>
   <div>
     Content
   </div>
