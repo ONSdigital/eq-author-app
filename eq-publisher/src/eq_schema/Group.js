@@ -58,16 +58,6 @@ class Group {
       })
     );
 
-    let summaryBlock;
-    if (section.sectionSummary) {
-      summaryBlock = {
-        id: `summary${section.id}`,
-        type: "SectionSummary",
-        collapsible: section.collapsibleSummary,
-      };
-      blocks.push(summaryBlock);
-    }
-
     if (!section.introductionTitle || !section.introductionContent) {
       return blocks;
     }
