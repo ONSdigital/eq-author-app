@@ -1,60 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/AppContainer should render 1`] = `
-<ThemeProvider
-  theme={
-    Object {
-      "colors": Object {
-        "amber": "#fe781f",
-        "badgeSelectedBackground": "#222222",
-        "badgeSelectedText": "#FFFFFF",
-        "black": "#222222",
-        "blue": "#3B7A9E",
-        "borders": "#999999",
-        "bordersLight": "#d6d8da",
-        "calcSumEmptyContent": "#7a7a7a",
-        "darkBlue": "#5F7682",
-        "darkGrey": "#666666",
-        "darkOrange": "#FF600A",
-        "darkerBlue": "#003c57",
-        "disabledGreyOnOrange": "#7A6340",
-        "errorPrimary": "#FF600A",
-        "errorSecondary": "#FFDFCD",
-        "green": "#0f8243",
-        "grey": "#999999",
-        "greyedOrange": "#D9A551",
-        "highlightBlue": "#195673",
-        "highlightGreen": "#dce5b0",
-        "lightBlue": "#61BDE0",
-        "lightGreen": "#EDF4F0",
-        "lightGrey": "#d6d8da",
-        "lightMediumGrey": "#E4E8EB",
-        "lightOrange": "#FFDFCD",
-        "lighterGrey": "#f5f5f5",
-        "mediumBlue": "#397596",
-        "mediumGrey": "#7a7a7a",
-        "negative": "#D0021B",
-        "orange": "#FDBD56",
-        "paleBlue": "#f0f1f9",
-        "positive": "#0f8243",
-        "previewError": "#999999",
-        "primary": "#3B7A9E",
-        "red": "#D0021B",
-        "secondary": "#3B7A9E",
-        "sidebarBlack": "#333333",
-        "tertiary": "#FDBD56",
-        "text": "#222222",
-        "textLight": "#666666",
-        "white": "#FFFFFF",
-      },
-      "radius": "4px",
-    }
-  }
->
+<Theme>
   <div>
     Content
   </div>
    
   <GlobalStyleComponent />
-</ThemeProvider>
+</Theme>
 `;
