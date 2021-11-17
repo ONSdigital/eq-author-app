@@ -164,7 +164,10 @@ class RichTextEditor extends React.Component {
       })
     ),
     disabled: PropTypes.bool,
-    errorValidationMsg: PropTypes.string,
+    errorValidationMsg: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+    ]),
   };
 
   constructor(props) {

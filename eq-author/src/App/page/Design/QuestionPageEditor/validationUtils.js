@@ -38,6 +38,7 @@ const situations = {
   },
   description: {
     [DESCRIPTION_NOT_ENTERED.errorCode]: DESCRIPTION_NOT_ENTERED.message,
+    [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
     [PIPING_METADATA_DELETED.errorCode]: PIPING_METADATA_DELETED.message,
   },
   additionalInfoLabel: {
@@ -61,6 +62,9 @@ const getMultipleErrorsByField = (field, validationErrors) => {
     (error) => situations[field]?.[error?.errorCode]
   );
 
+  if (!errMsgArray.length) {
+    return null;
+  }
   return errMsgArray;
 };
 
