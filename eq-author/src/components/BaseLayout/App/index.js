@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import theme, { colors } from "constants/theme";
+import { createGlobalStyle } from "styled-components";
+import Theme from "contexts/themeContext";
 
 import { lostConnection, gainConnection } from "redux/saving/actions";
 
@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Lato', sans-serif;
     overflow: hidden;
-    color: ${colors.text};
+    color: ${({ theme }) => theme.colors.text};
   }
 
   input,
@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${colors.blue};
+    color: ${({ theme }) => theme.colors.blue};
 
     &:hover {
       text-decoration: none;
@@ -69,9 +69,9 @@ export class UnconnectedApp extends React.Component {
 
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      <Theme>
         {this.props.children} <GlobalStyle />
-      </ThemeProvider>
+      </Theme>
     );
   }
 }
