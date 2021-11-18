@@ -93,4 +93,14 @@ describe("AdditionalInfo", () => {
     const wrapper = createWrapper(props);
     expect(wrapper).toMatchSnapshot();
   });
+  it("should display the correct error message when piping answer in title is moved after This question", async () => {
+    props.page.validationErrorInfo.errors[0] = {
+      errorCode: "PIPING_TITLE_MOVED",
+      field: "description",
+      id: "1",
+      type: "pages",
+    };
+    const wrapper = createWrapper(props);
+    expect(wrapper).toMatchSnapshot();
+  });
 });
