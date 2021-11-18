@@ -28,6 +28,7 @@ export const colors = {
   sidebarBlack: "#333333",
   white: "#FFFFFF",
   greyedOrange: "#D9A551",
+  // ONS colour palette
   nightBlue: "#003c57",
   springGreen: "#a8bd3a",
   oceanBlue: "#206095",
@@ -75,6 +76,7 @@ colors.highlight = colors.neonYellow;
 colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
+colors.input = colors.black;
 
 export const radius = "4px";
 
@@ -156,6 +158,7 @@ export const themes = {
       info: colors.oceanBlue,
       success: colors.leafGreen,
       errors: colors.rubyRed,
+      input: colors.black,
     },
     radius,
     fonts: "OpenSans,Helvetica Neue,arial,sans-serif",

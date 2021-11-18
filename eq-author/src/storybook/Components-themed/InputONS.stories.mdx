@@ -1,0 +1,37 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Input from "components-themed/Input";
+import Theme from "contexts/themeContext";
+
+<Meta title="Themed components/ONS/Inputs" component={Input} />
+
+# Inputs (ONS theme)
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    <Theme themeName={"ons"}>
+      <Input />
+    </Theme>
+  </Story>
+</Canvas>
+
+## Radio
+
+<Canvas>
+  <Story name="Radio">
+    <Theme themeName={"ons"}>
+      <Input type="radio" />
+    </Theme>
+  </Story>
+</Canvas>
+
+## Checkbox
+
+<Canvas>
+  <Story name="Checkbox">
+    <Theme themeName={"ons"}>
+      <Input type="checkbox" />
+    </Theme>
+  </Story>
+</Canvas>

@@ -5,22 +5,7 @@ import { sharedStyles } from "components/Forms/css";
 import iconCheckbox from "assets/icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
-import { colors } from "constants/theme";
-
-const multipleChoiceOption = css`
-  display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
-  padding: 0;
-  margin: 0 1em 0 0;
-  vertical-align: middle;
-  appearance: none;
-  font-size: 1em;
-`;
-
 const checkBox = css`
-  ${multipleChoiceOption};
-
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
     background-size: 0.8em auto;
@@ -28,48 +13,47 @@ const checkBox = css`
 `;
 
 const radioButton = css`
-  ${multipleChoiceOption};
   border-radius: 100%;
-
-  ${({ variant }) =>
-    variant === "radioBox" &&
-    `
-      width: 1.25em;
-      height: 1.25em;
-      position: absolute;
-      border-radius: 100%;
-      background: ${colors.lightGrey}
-      border: 2px solid ${colors.white};
-      box-shadow: 0 0 0 1px ${colors.black};
-      outline: none;
-      &:checked {
-        background: ${colors.black} !important;
-      }
-      :checked:before {
-        background: ${colors.black};
-      }
-      :hover {
-        border-radius: 100%;
-        outline: none;
-        border: 2px solid ${colors.white};
-        box-shadow: 0 0 0 1px ${colors.black};
-      }
-      :focus {
-        border-radius: 100%;
-        outline: none;
-        border: 2px solid ${colors.white};
-        box-shadow: 0 0 0 1px ${colors.black};
-      }
-    `}
-
+  width: 1.25em;
+  height: 1.25em;
+  position: absolute;
+  border-radius: 100%;
+  background: ${({ theme }) => theme.colors.grey15};
+  border: 2px solid ${({ theme }) => theme.colors.white};
+  outline: none;
   &:checked {
-    background: url(${iconCheckbox}) no-repeat center;
-    background-size: 0.8em auto;
+    background: ${({ theme }) => theme.colors.input};
+  }
+  :checked:before {
+    background: ${({ theme }) => theme.colors.input};
+  }
+  :hover {
+    border-radius: 100%;
+    outline: none;
+    border: 2px solid ${({ theme }) => theme.colors.white};
+    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.input};
+  }
+  :focus {
+    border-radius: 100%;
+    outline: none;
+    border: 2px solid ${({ theme }) => theme.colors.white};
+    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.input};
   }
 `;
 
 const StyledInput = styled.input`
-  ${sharedStyles};
+  border-radius: ${({ theme }) => theme.radius};
+  border: 1px solid ${({ theme }) => theme.colors.input};
+  padding: 0;
+  outline: none;
+  padding: 0.39rem 0.5rem;
+  font-size: 1rem;
+  font-family: ${({ theme }) => theme.fonts};
+  line-height: 1rem;
+  color: ${({ theme }) => theme.colors.input};
+  &:focus {
+    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.focus};
+  }
   ${(props) => props.type === "checkbox" && checkBox};
   ${(props) => props.type === "radio" && radioButton};
 `;
