@@ -160,7 +160,7 @@ export const themes = {
       errors: colors.rubyRed,
       input: colors.black,
     },
-    radius,
+    radius: "3px",
     fonts: "OpenSans,Helvetica Neue,arial,sans-serif",
   },
 };

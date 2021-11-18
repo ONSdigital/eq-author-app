@@ -1,5 +1,7 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Input from "components-themed/Input";
+import { Label } from "components/Forms";
+import InlineField from "components/AnswerContent/Format/InlineField";
 import Theme from "contexts/themeContext";
 
 <Meta title="Themed components/ONS/Inputs" component={Input} />
@@ -21,7 +23,7 @@ import Theme from "contexts/themeContext";
 <Canvas>
   <Story name="Radio">
     <Theme themeName={"ons"}>
-      <Input type="radio" />
+      <Input type="radio" id="optionOne" name="option" value="option" />
     </Theme>
   </Story>
 </Canvas>

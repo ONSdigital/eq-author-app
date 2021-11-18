@@ -6,6 +6,7 @@ import iconCheckbox from "assets/icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
 const checkBox = css`
+  appearance: none;
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
     background-size: 0.8em auto;
@@ -13,31 +14,22 @@ const checkBox = css`
 `;
 
 const radioButton = css`
-  border-radius: 100%;
+  appearance: none;
   width: 1.25em;
   height: 1.25em;
   position: absolute;
-  border-radius: 100%;
+  border-radius: 50%;
   background: ${({ theme }) => theme.colors.grey15};
-  border: 2px solid ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.input};
   outline: none;
+  box-shadow: inset 0 0 0 3px ${({ theme }) => theme.colors.white};
   &:checked {
     background: ${({ theme }) => theme.colors.input};
+    box-shadow: inset 0 0 0 3px ${({ theme }) => theme.colors.white};
   }
-  :checked:before {
-    background: ${({ theme }) => theme.colors.input};
-  }
-  :hover {
-    border-radius: 100%;
-    outline: none;
-    border: 2px solid ${({ theme }) => theme.colors.white};
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.input};
-  }
-  :focus {
-    border-radius: 100%;
-    outline: none;
-    border: 2px solid ${({ theme }) => theme.colors.white};
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.input};
+  &:focus {
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus},
+      inset 0 0 0 3px ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -52,7 +44,7 @@ const StyledInput = styled.input`
   line-height: 1rem;
   color: ${({ theme }) => theme.colors.input};
   &:focus {
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.focus};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
   ${(props) => props.type === "checkbox" && checkBox};
   ${(props) => props.type === "radio" && radioButton};
