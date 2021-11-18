@@ -207,9 +207,8 @@ const BaseButton = styled.button`
   margin: 0;
   border: 0px;
   border-radius: ${({ theme }) => theme.radius};
-  font-family: ${({ theme }) => theme.fonts};
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   line-height: 1.35;
   justify-content: center;
@@ -272,6 +271,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  type: "button",
   variant: "primary",
 };
 
