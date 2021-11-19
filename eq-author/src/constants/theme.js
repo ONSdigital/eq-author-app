@@ -131,6 +131,7 @@ export const themes = {
     colors,
     radius,
     fonts: "Lato, sans-serif",
+    fontSize: "16px",
   },
   ons: {
     colors: {
@@ -161,7 +162,8 @@ export const themes = {
       input: colors.black,
     },
     radius: "3px",
-    fonts: "OpenSans,Helvetica Neue,arial,sans-serif",
+    fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
+    fontSize: "18px",
   },
 };
 
