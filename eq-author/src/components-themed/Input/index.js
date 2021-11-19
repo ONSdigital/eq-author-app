@@ -1,15 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import { sharedStyles } from "components/Forms/css";
-import iconCheckbox from "assets/icon-checkbox-black.svg";
+import iconCheckbox from "assets/icon-checkbox-ons.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
 const checkBox = css`
   appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid ${({ theme }) => theme.colors.input};
+  border-radius: 0.2rem;
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
-    background-size: 0.8em auto;
+    top: 14px;
+    left: 11px;
+    background-size: 14px;
   }
 `;
 
@@ -40,7 +45,6 @@ const StyledInput = styled.input`
   outline: none;
   padding: 0.39rem 0.5rem;
   font-size: 1rem;
-  font-family: ${({ theme }) => theme.fonts};
   line-height: 1rem;
   color: ${({ theme }) => theme.colors.input};
   &:focus {
