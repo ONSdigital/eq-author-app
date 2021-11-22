@@ -157,6 +157,7 @@ export const themes = {
       info: colors.oceanBlue,
       success: colors.leafGreen,
       errors: colors.rubyRed,
+      textBannerLink: colors.grey5,
     },
     radius,
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
