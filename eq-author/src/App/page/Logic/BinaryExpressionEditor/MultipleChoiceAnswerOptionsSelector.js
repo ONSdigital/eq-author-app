@@ -17,9 +17,11 @@ import { Select } from "components/Forms";
 
 import TextButton from "components/buttons/TextButton";
 import ToggleChip from "components/buttons/ToggleChip";
+import NumberAnswerSelector from "./NumberAnswerSelector";
 
 const answerConditions = {
   UNANSWERED: "Unanswered",
+  COUNTOF: "CountOf",
   ALLOF: "AllOf",
   ANYOF: "AnyOf",
   ONEOF: "OneOf",
@@ -219,6 +221,9 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
   renderCheckboxOptionSelector(hasError, hasConditionError) {
     const { expression } = this.props;
+
+    console.log(`expression`, expression);
+
     return (
       <>
         <MultipleChoiceAnswerOptions
@@ -235,8 +240,17 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             <option value={answerConditions.ANYOF}>Any of</option>
             <option value={answerConditions.NOTANYOF}>Not any of</option>
             <option value={answerConditions.ALLOF}>All of</option>
+            <option value={answerConditions.COUNTOF}>Count of</option>
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
+          {expression.condition === answerConditions.COUNTOF && (
+            <NumberAnswerSelector
+              expression={expression}
+              // onRightChange={handleUpdateRightSide}
+              // onConditionChange={handleUpdateCondition}
+              // groupErrorMessage={groupErrorMessage}
+            />
+          )}
           {expression.condition !== answerConditions.UNANSWERED && (
             <>
               <TransitionGroup component={SelectedOptions}>

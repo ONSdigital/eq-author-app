@@ -608,6 +608,7 @@ enum LogicCondition {
   OneOf
   AllOf
   AnyOf
+  CountOf
   NotAnyOf
   NotAllOf
   Unanswered
