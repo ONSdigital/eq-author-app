@@ -1,22 +1,77 @@
-#import "./fragments/folder.graphql"
+#import "./fragments/questionnaire.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/answer.graphql"
 
 mutation MovePage($input: MovePageInput!) {
   movePage(input: $input) {
-    position
-    id
-    title
-    folder {
-      ...Folder
-    }
-    section {
+    ...Questionnaire
+    introduction {
       id
+    }
+    metadata {
+      id
+      displayName
+      type
+      key
+      dateValue
+      regionValue
+      languageValue
+      textValue
+    }
+    themeSettings {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    locked
+    publishStatus
+    totalErrorCount
+    sections {
+      id
+      title
+      displayName
+      position
+      questionnaire {
+        id
+      }
       folders {
-        ...Folder
+        id
+        enabled
+        alias
+        displayName
+        position
         pages {
           id
+          title
+          alias
           position
+          displayName
+          pageType
+          ... on QuestionPage {
+            answers {
+              ...Answer
+            }
+            confirmation {
+              id
+            }
+          }
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
+        }
+        validationErrorInfo {
+          id
+          totalCount
         }
       }
+      validationErrorInfo {
+        id
+        totalCount
+      }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
 }

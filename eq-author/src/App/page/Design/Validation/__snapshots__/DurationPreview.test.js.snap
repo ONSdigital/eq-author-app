@@ -1,11 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Duration Error should not render when value 0 1`] = `""`;
+exports[`Duration Error should not render when value is null 1`] = `""`;
+
+exports[`Duration Error should not render when value is undefined 1`] = `""`;
 
 exports[`Duration Error should render 1`] = `
 <Fragment>
   <div>
     5 days
+  </div>
+</Fragment>
+`;
+
+exports[`Duration Error should render when value 0 1`] = `
+<Fragment>
+  <div>
+    0 days
   </div>
 </Fragment>
 `;

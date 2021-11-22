@@ -1,0 +1,65 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Input from "components/Forms/Input";
+import RouteButton from "components/buttons/Button/RouteButton";
+
+<Meta title="Components/Forms/Input" component={Input} />
+
+# Input
+
+Takes an input from the user, to edit questionnaire data
+
+## Text
+
+<Canvas>
+  <Story name="Text">
+    <Input type="text" />
+  </Story>
+</Canvas>
+
+## Number
+
+<Canvas>
+  <Story name="Number">
+    <Input type="number" />
+  </Story>
+</Canvas>
+
+## Date
+
+<Canvas>
+  <Story name="Date">
+    <Input type="date" />
+  </Story>
+</Canvas>
+
+## Search
+
+<Canvas>
+  <Story name="Search">
+    <Input type="search" />
+  </Story>
+</Canvas>
+
+## Checkbox
+
+<Canvas>
+  <Story name="Checkbox">
+    <Input type="checkbox" />
+  </Story>
+</Canvas>
+
+## Radio
+
+<Canvas>
+  <Story name="Radio">
+    <Input type="radio" variant="radioBox" />
+  </Story>
+</Canvas>
+
+## Radio no checkbox
+
+<Canvas>
+  <Story name="Radio no checkbox">
+    <Input type="radioNoCheckbox" />
+  </Story>
+</Canvas>

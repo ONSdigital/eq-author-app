@@ -603,7 +603,7 @@ const Resolvers = {
         } else {
           section.folders.splice(position, 0, folderToMove);
         }
-        return folderToMove;
+        return ctx.questionnaire;
       }
     ),
     duplicateFolder: createMutation((_, { input }, ctx) => {
