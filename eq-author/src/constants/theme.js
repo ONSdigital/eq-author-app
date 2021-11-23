@@ -160,6 +160,7 @@ export const themes = {
       success: colors.leafGreen,
       errors: colors.rubyRed,
       input: colors.black,
+      textBannerLink: colors.grey5,
     },
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
