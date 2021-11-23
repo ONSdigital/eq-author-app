@@ -16,7 +16,6 @@ const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 module.exports = (ajv) =>
   ajv.addKeyword({
     $data: true,
-    // allErrors: true,
     keyword: "validatePipingAnswerInTitle",
     validate: function isValid(
       _schema,
