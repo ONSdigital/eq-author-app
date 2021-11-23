@@ -164,7 +164,10 @@ class RichTextEditor extends React.Component {
       })
     ),
     disabled: PropTypes.bool,
-    errorValidationMsg: PropTypes.string,
+    errorValidationMsg: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+    ]),
   };
 
   constructor(props) {
@@ -432,9 +435,14 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
-        {errorValidationMsg && (
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        )}
+        {errorValidationMsg &&
+          (Array.isArray(errorValidationMsg) ? (
+            errorValidationMsg.map((errMsg) => (
+              <ValidationError key={errMsg}>{errMsg}</ValidationError>
+            ))
+          ) : (
+            <ValidationError>{errorValidationMsg}</ValidationError>
+          ))}
       </Wrapper>
     );
   }
