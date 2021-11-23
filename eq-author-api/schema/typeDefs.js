@@ -618,6 +618,7 @@ type BinaryExpression2 {
   id: ID!
   left: LeftSide2
   condition: LogicCondition
+  secondaryCondition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
   validationErrorInfo: ValidationErrorInfo
@@ -909,6 +910,7 @@ input CreateBinaryExpression2Input {
 input UpdateBinaryExpression2Input {
   id: ID!
   condition: LogicCondition!
+  secondaryCondition: LogicCondition
 }
 
 input UpdateLeftSide2Input {

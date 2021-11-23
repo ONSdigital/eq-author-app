@@ -126,8 +126,9 @@ export const UnwrappedBinaryExpressionEditor = ({
   const handleUpdateRightSide = (updateField) =>
     updateRightSide(expression, updateField);
 
-  const handleUpdateCondition = (condition) =>
-    updateBinaryExpression(expression, condition);
+  const handleUpdateCondition = (condition, secondaryCondition) => {
+    updateBinaryExpression(expression, condition, secondaryCondition);
+  };
 
   const answerPickerError = ANSWER_PICKER_ERROR_SITUATIONS.find(
     ({ condition }) =>

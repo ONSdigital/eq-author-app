@@ -23,7 +23,11 @@ const Resolvers = {};
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 
-const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
+const isLeftSideAnswerTypeCompatible = (
+  leftSideType,
+  rightSideType,
+  secondaryCondition
+) => {
   const AnswerTypesToRightTypes = {
     [answerTypes.CURRENCY]: "Custom",
     [answerTypes.NUMBER]: "Custom",
@@ -32,6 +36,14 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
   };
+
+  console.log(`AnswerTypesToRightTypes`, AnswerTypesToRightTypes);
+  console.log(`leftSideType`, leftSideType);
+  console.log(`rightSideType`, rightSideType);
+
+  if (secondaryCondition) {
+    return true;
+  }
 
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
 };
@@ -122,6 +134,7 @@ Resolvers.Mutation = {
     expression = createExpression({
       left: createLeftSide(leftHandSide),
       condition: null,
+      secondaryCondition: null,
     });
 
     expressionGroup.expressions.push(expression);
@@ -130,7 +143,7 @@ Resolvers.Mutation = {
   }),
 
   updateBinaryExpression2: createMutation(
-    (root, { input: { id, condition } }, ctx) => {
+    (root, { input: { id, condition, secondaryCondition } }, ctx) => {
       const expression = getExpressionById(ctx, id);
 
       const leftSide = expression.left;
@@ -149,6 +162,9 @@ Resolvers.Mutation = {
       }
 
       expression.condition = condition;
+      if (secondaryCondition !== null) {
+        expression.secondaryCondition = secondaryCondition;
+      }
 
       return expression;
     }
@@ -171,6 +187,7 @@ Resolvers.Mutation = {
     expression.left = updatedLeftSide;
     expression.right = null;
     expression.condition = answerTypeToConditions.getDefault(answer.type);
+    expression.secondaryCondition = null;
 
     return expression;
   }),
@@ -179,6 +196,10 @@ Resolvers.Mutation = {
       throw new Error("Too many right side inputs");
     }
     const { expressionId, customValue, selectedOptions } = input;
+
+    console.log(`input`, JSON.stringify(input, null, 7));
+    console.log(`customValue`, customValue);
+    console.log(`selectedOptions`, selectedOptions);
 
     const expression = getExpressionById(ctx, expressionId);
 
@@ -202,8 +223,17 @@ Resolvers.Mutation = {
     }
 
     const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
+    console.log(`type`, type);
+    console.log(`leftSideAnswer`, JSON.stringify(leftSideAnswer, null, 7));
+    console.log(`expression`, JSON.stringify(expression, null, 7));
 
-    if (!isLeftSideAnswerTypeCompatible(leftSideAnswer.type, type)) {
+    if (
+      !isLeftSideAnswerTypeCompatible(
+        leftSideAnswer.type,
+        type,
+        expression.secondaryCondition
+      )
+    ) {
       throw new Error("Left side is incompatible with Right side.");
     }
 
