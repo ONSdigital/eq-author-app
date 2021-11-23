@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MetaEditor should be able to display both deleted metadata and deleted answer in piping errors in the title 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={
+      Array [
+        "The answer being piped has been deleted",
+        "The metadata being piped has been deleted",
+      ]
+    }
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
 exports[`MetaEditor should display the correct error message when piping answer in title is deleted 1`] = `
 <div>
   <RichTextEditor
@@ -11,7 +44,11 @@ exports[`MetaEditor should display the correct error message when piping answer 
       }
     }
     disabled={false}
-    errorValidationMsg="The answer being piped has been deleted"
+    errorValidationMsg={
+      Array [
+        "The answer being piped has been deleted",
+      ]
+    }
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -39,7 +76,11 @@ exports[`MetaEditor should display the correct error message when piping answer 
       }
     }
     disabled={false}
-    errorValidationMsg="The answer being piped is now later in the questionnaire"
+    errorValidationMsg={
+      Array [
+        "The answer being piped is now later in the questionnaire",
+      ]
+    }
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -179,7 +220,11 @@ exports[`MetaEditor should display the correct error message when the title is m
       }
     }
     disabled={false}
-    errorValidationMsg="Enter a question title"
+    errorValidationMsg={
+      Array [
+        "Enter a question title",
+      ]
+    }
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
