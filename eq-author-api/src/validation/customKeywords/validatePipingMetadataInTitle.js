@@ -15,7 +15,6 @@ const metadataIdExists = (questionnaire, id) =>
 module.exports = (ajv) =>
   ajv.addKeyword({
     $data: true,
-    // allErrors: true,
     keyword: "validatePipingMetadataInTitle",
     validate: function isValid(
       _schema,
