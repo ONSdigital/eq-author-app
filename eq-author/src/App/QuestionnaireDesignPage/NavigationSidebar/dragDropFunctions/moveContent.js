@@ -88,7 +88,8 @@ export default (
   }
   if (
     targetElement.__typename === "Section" ||
-    targetElement.__typename === "Folder"
+    (targetElement.__typename === "Folder" &&
+      sourceContainer.__typename !== "Section")
   ) {
     position = 0;
   }
