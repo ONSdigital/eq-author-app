@@ -11,7 +11,6 @@ const errorNoHeader = css`
 const errorWithHeader = css`
   background: ${({ theme }) => theme.colors.errorSecondary};
   border-color: ${({ theme }) => theme.colors.errors};
-  border-left: none;
   position: relative;
 `;
 
@@ -105,16 +104,25 @@ const StyledPanel = styled.div`
   ${(props) => props.variant === "errorNoHeader" && errorNoHeader};
 `;
 
-const Panel = ({ headerLabel, variant, withLeftBorder, icon, children }) => {
+const Panel = ({
+  paragraphLabel,
+  headerLabel,
+  variant,
+  withLeftBorder,
+  icon,
+  children,
+}) => {
   return (
     <StyledPanel variant={variant} withLeftBorder={withLeftBorder}>
       {variant === "errorWithHeader" && (
-        <Header>
-          <HeaderLabel> {headerLabel} </HeaderLabel>
-        </Header>
+        <>
+          <Header>
+            <HeaderLabel> {headerLabel} </HeaderLabel>
+          </Header>
+        </>
       )}
-      {variant === "errorNoHeader" && (
-        <ErrorNoHeaderTitle>{headerLabel}</ErrorNoHeaderTitle>
+      {paragraphLabel && variant === "errorNoHeader" && (
+        <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>
       )}
       {variant === "success" && (
         <SuccessPanelIconContainer>
@@ -123,7 +131,12 @@ const Panel = ({ headerLabel, variant, withLeftBorder, icon, children }) => {
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
-      <Container variant={variant}>{children}</Container>
+      <Container variant={variant}>
+        {paragraphLabel && variant === "errorWithHeader" && (
+          <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>
+        )}
+        {children}
+      </Container>
     </StyledPanel>
   );
 };
