@@ -2,6 +2,7 @@ import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Theme from "contexts/themeContext";
 import Panel from "components-themed/panels";
 import Label from "components/Forms/Label";
+import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
 
 <Meta title="Themed components/ONS/Panels" component={Panel} />
 
@@ -24,7 +25,12 @@ import Label from "components/Forms/Label";
 <Canvas>
   <Story name="Success">
     <Theme themeName={"ons"}>
-      <Panel variant="success" headerLabel="boom" withLeftBorder>
+      <Panel
+        variant="success"
+        headerLabel="boom"
+        icon={iconCheckbox}
+        withLeftBorder
+      >
         Information has been successfully submitted.
       </Panel>
     </Theme>

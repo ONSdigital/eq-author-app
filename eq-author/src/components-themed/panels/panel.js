@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
-import iconCheckbox from "assets/icon-panel-checkbox.svg";
 
 const errorNoHeader = css`
   background: ${({ theme }) => theme.colors.errorSecondary};
@@ -120,7 +119,7 @@ const Panel = ({ headerLabel, variant, withLeftBorder, icon, children }) => {
       {variant === "success" && (
         <SuccessPanelIconContainer>
           <SpanIcon>
-            <StyledImage src={iconCheckbox} />
+            <StyledImage src={icon} />
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
@@ -134,6 +133,8 @@ Panel.propTypes = {
   children: PropType.node,
   paragraphLabel: PropType.string,
   headerLabel: PropType.string,
+  withLeftBorder: PropType.bool,
+  icon: PropType.node,
 };
 
 Panel.defaultProps = {
