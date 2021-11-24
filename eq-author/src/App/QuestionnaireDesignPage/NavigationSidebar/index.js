@@ -7,9 +7,8 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { buildIntroductionPath } from "utils/UrlUtils";
-import onDragEnd from "./dragDropFunctions/onDragEnd";
+import moveContent from "./dragDropFunctions/moveContent";
 
-import { DragDropContext } from "react-beautiful-dnd";
 import NavigationHeader from "./NavigationHeader";
 import NavItem from "components/NavItem";
 import ScrollPane from "components/ScrollPane";
@@ -21,6 +20,7 @@ import PageIcon from "assets/icon-survey-intro.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
+import MOVE_SECTION_MUTATION from "graphql/moveSection.graphql";
 
 const Container = styled.div`
   background: ${colors.sidebarBlack};
@@ -78,19 +78,22 @@ const NavigationSidebar = ({ questionnaire }) => {
 
   const [movePage] = useMutation(MOVE_PAGE_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
+  const [moveSection] = useMutation(MOVE_SECTION_MUTATION);
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const handleDragEnd = ({ destination, source, draggableId }) =>
-    onDragEnd(
+  const handleMoveContent = ({ sourceId, targetId, placement }) => {
+    moveContent(
       questionnaire,
-      destination,
-      source,
-      draggableId,
+      sourceId,
+      targetId,
+      placement,
       movePage,
-      moveFolder
+      moveFolder,
+      moveSection
     );
+  };
 
   return (
     <Container data-test="side-nav">
@@ -120,17 +123,16 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </IntroductionListItem>
               )}
-              <DragDropContext onDragEnd={handleDragEnd}>
-                {questionnaire.sections.map(({ id, ...rest }) => (
-                  <Section
-                    key={`section-${id}`}
-                    id={id}
-                    questionnaireId={questionnaire.id}
-                    open={openSections}
-                    {...rest}
-                  />
-                ))}
-              </DragDropContext>
+              {questionnaire.sections.map(({ id, ...rest }) => (
+                <Section
+                  key={`section-${id}`}
+                  id={id}
+                  questionnaireId={questionnaire.id}
+                  open={openSections}
+                  handleMoveContent={handleMoveContent}
+                  {...rest}
+                />
+              ))}
             </NavList>
           </NavigationScrollPane>
         </>

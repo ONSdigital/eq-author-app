@@ -1,5 +1,5 @@
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import onDragEnd from "./onDragEnd";
+import onDragEnd from "./moveContent";
 
 const buildDestination = (entity, index) => ({
   droppableId: entity.id,

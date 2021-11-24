@@ -20,6 +20,7 @@ const Title = styled(Truncated)`
   margin-right: 0.5em;
   text-align: left;
   text-decoration: none;
+  pointer-events: none;
 `;
 
 const Link = styled(NavLink)`
@@ -53,6 +54,7 @@ const Link = styled(NavLink)`
     path {
       fill: ${colors.white};
     }
+    pointer-events: none;
   }
 `;
 
@@ -63,10 +65,10 @@ const NavItem = ({
   bordered,
   errorCount,
   className,
-  dragHandleProps,
 }) => {
   return (
     <Link
+      draggable="false"
       to={titleUrl}
       className={`${className} NavItem`}
       activeClassName={"activePage"}
@@ -74,7 +76,6 @@ const NavItem = ({
       bordered={bordered}
       tabIndex={0}
       onMouseDown={(e) => e.currentTarget.focus()} // workaround for https://github.com/atlassian/react-beautiful-dnd/issues/1872
-      {...dragHandleProps}
     >
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>

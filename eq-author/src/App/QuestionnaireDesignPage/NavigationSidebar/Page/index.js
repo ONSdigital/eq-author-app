@@ -1,32 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-
 import styled from "styled-components";
-import { focusStyle } from "constants/theme";
 
 import { buildPagePath, buildConfirmationPath } from "utils/UrlUtils";
-
 import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
-
-import { Draggable } from "react-beautiful-dnd";
 import NavItem from "components/NavItem";
+import { dnd, dndCSS } from "../dragDropFunctions/dragAndDrop";
 
 const ListItem = styled.li`
-  ${({ isDragging }) => isDragging && focusStyle}
-  ${({ isDragging }) =>
-    isDragging &&
-    `
-    *, &~* * {
-      &:focus {
-        box-shadow: none;
-        outline: none;
-      }
-    }`}
+  ${dndCSS}
 `;
-
 const QuestionPage = styled(NavItem)``;
 const ConfirmationPage = styled(NavItem)``;
 
@@ -37,7 +23,7 @@ const Page = ({
   pageType,
   confirmation,
   validationErrorInfo,
-  position,
+  handleMoveContent,
 }) => {
   const { tab = "design" } = useParams();
 
@@ -47,37 +33,39 @@ const Page = ({
   };
 
   return (
-    <Draggable key={pageId} draggableId={pageId} index={position}>
-      {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
-        <ListItem ref={innerRef} {...draggableProps} isDragging={isDragging}>
-          <QuestionPage
-            title={displayName}
-            icon={iconMap[pageType]}
-            titleUrl={buildPagePath({
-              questionnaireId,
-              pageId,
-              tab,
-            })}
-            errorCount={validationErrorInfo?.totalCount}
-            hasConfirmation={Boolean(confirmation)}
-            dragHandleProps={dragHandleProps}
-          />
-          {confirmation && (
-            <ConfirmationPage
-              title={confirmation.displayName}
-              icon={IconConfirmationPage}
-              titleUrl={buildConfirmationPath({
-                questionnaireId,
-                confirmationId: confirmation.id,
-                tab,
-              })}
-              errorCount={confirmation?.validationErrorInfo?.totalCount}
-              dragHandleProps={dragHandleProps}
-            />
-          )}
-        </ListItem>
+    <ListItem
+      draggable="true"
+      onDragStart={dnd.handleDragStart}
+      onDragOver={dnd.handleDragOver}
+      onDrop={dnd.handleDrop(handleMoveContent)}
+      onDragEnter={dnd.handleDragEnter}
+      onDragLeave={dnd.handleDragLeave}
+      id={pageId}
+    >
+      <QuestionPage
+        title={displayName}
+        icon={iconMap[pageType]}
+        titleUrl={buildPagePath({
+          questionnaireId,
+          pageId,
+          tab,
+        })}
+        errorCount={validationErrorInfo?.totalCount}
+        hasConfirmation={Boolean(confirmation)}
+      />
+      {confirmation && (
+        <ConfirmationPage
+          title={confirmation.displayName}
+          icon={IconConfirmationPage}
+          titleUrl={buildConfirmationPath({
+            questionnaireId,
+            confirmationId: confirmation.id,
+            tab,
+          })}
+          errorCount={confirmation?.validationErrorInfo?.totalCount}
+        />
       )}
-    </Draggable>
+    </ListItem>
   );
 };
 
@@ -89,6 +77,7 @@ Page.propTypes = {
   confirmation: PropTypes.object, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
+  handleMoveContent: PropTypes.func,
 };
 
 export default Page;

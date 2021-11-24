@@ -3,34 +3,26 @@ import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { colors } from "constants/theme";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
 import IconSection from "assets/icon-section.svg?inline";
 
-import { Droppable } from "react-beautiful-dnd";
 import CollapsibleNavItem from "components/CollapsibleNavItem";
 import Page from "../Page";
 import Folder from "../Folder";
+
+import { dnd, dndCSS } from "../dragDropFunctions/dragAndDrop";
 
 const NavList = styled.ol`
   margin: 0;
   padding: 0;
   list-style: none;
-
-  ${({ isDraggingOver }) =>
-    isDraggingOver &&
-    `
-    background-color: ${colors.black};
-
-    .CollapsibleNavItem .CollapsibleNavItem-body {
-      background-color: ${colors.black};
-    }
-  `}
 `;
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+  ${dndCSS}
+`;
 
 const Section = ({
   id: sectionId,
@@ -39,6 +31,7 @@ const Section = ({
   folders,
   validationErrorInfo,
   open,
+  handleMoveContent,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -62,6 +55,7 @@ const Section = ({
           questionnaireId={questionnaireId}
           pages={pages}
           position={position}
+          handleMoveContent={handleMoveContent}
           {...rest}
         />
       );
@@ -71,15 +65,24 @@ const Section = ({
           key={`page-${pageId}`}
           id={pageId}
           questionnaireId={questionnaireId}
-          {...rest}
           position={position}
+          handleMoveContent={handleMoveContent}
+          {...rest}
         />
       ));
     }
   };
 
   return (
-    <ListItem>
+    <ListItem
+      draggable="true"
+      onDragStart={dnd.handleDragStart}
+      onDragOver={dnd.handleDragOver}
+      onDrop={dnd.handleDrop(handleMoveContent)}
+      onDragEnter={dnd.handleDragEnter}
+      onDragLeave={dnd.handleDragLeave}
+      id={sectionId}
+    >
       <CollapsibleNavItem
         title={displayName}
         icon={IconSection}
@@ -97,18 +100,7 @@ const Section = ({
           .map(({ id }) => isCurrentPage(id, entityId))
           .find(Boolean)}
       >
-        <Droppable droppableId={sectionId} type={`section-content`}>
-          {({ innerRef, placeholder, droppableProps }, { isDraggingOver }) => (
-            <NavList
-              ref={innerRef}
-              isDraggingOver={isDraggingOver}
-              {...droppableProps}
-            >
-              {folders.map((folder) => renderChild(folder))}
-              {placeholder}
-            </NavList>
-          )}
-        </Droppable>
+        <NavList>{folders.map((folder) => renderChild(folder))}</NavList>
       </CollapsibleNavItem>
     </ListItem>
   );
@@ -121,6 +113,7 @@ Section.propTypes = {
   folders: PropTypes.array.isRequired, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   open: PropTypes.bool,
+  handleMoveContent: PropTypes.func,
 };
 
 export default Section;

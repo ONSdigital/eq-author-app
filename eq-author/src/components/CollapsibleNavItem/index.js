@@ -22,6 +22,7 @@ const Title = styled(Truncated)`
   text-align: left;
   text-decoration: none;
   font-weight: bold;
+  pointer-events: none;
 `;
 
 const Link = styled(NavLink)`
@@ -61,6 +62,7 @@ const Link = styled(NavLink)`
       fill: ${colors.white};
     }
     width: 32px;
+    pointer-events: none;
   }
 `;
 
