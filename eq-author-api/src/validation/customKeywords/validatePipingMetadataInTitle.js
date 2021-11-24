@@ -42,14 +42,15 @@ module.exports = (ajv) =>
 
       pipedIdList.forEach((id) => {
         if (!metadataIdExists(questionnaire, id)) {
-          isValid.errors.push(
+          isValid.errors = [
             createValidationError(
               instancePath,
               fieldName,
               PIPING_METADATA_DELETED,
-              questionnaire
-            )
-          );
+              questionnaire,
+              "deleted metadata in title"
+            ),
+          ];
         }
       });
 

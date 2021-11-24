@@ -18,7 +18,10 @@ import AnswerTransition from "../AnswersEditor/AnswerTransition";
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/page.graphql";
 
-import { getErrorByField } from "../validationUtils.js";
+import {
+  getErrorByField,
+  getMultipleErrorsByField,
+} from "../validationUtils.js";
 
 const contentControls = {
   bold: true,
@@ -81,7 +84,10 @@ export const StatelessAdditionalInfo = ({
             fetchAnswers={fetchAnswers}
             metadata={get(page, "section.questionnaire.metadata", [])}
             testSelector="txt-question-description"
-            errorValidationMsg={errorMsg("description", page)}
+            errorValidationMsg={getMultipleErrorsByField(
+              "description",
+              page.validationErrorInfo.errors
+            )}
           />
         </Wrapper>
       </AnswerTransition>

@@ -1,0 +1,18 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext";
+import Footer from "components-themed/Footer";
+import { ReactComponent as Icon } from "assets/icon-test.svg"
+
+
+<Meta title="Themed components/ONS/Footer" component={Footer} />
+
+# Footer (ONS theme)
+
+## Default
+<Canvas>
+    <Story name="Default">
+        <Theme themeName={"ons"}>
+            <Footer></Footer>
+        </Theme>
+    </Story>
+</Canvas>

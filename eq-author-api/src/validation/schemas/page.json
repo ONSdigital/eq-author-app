@@ -21,6 +21,9 @@
     "description": {
       "allOf": [
         {
+          "validatePipingAnswerInTitle": true
+        },
+        {
           "validatePipingMetadataInTitle": true
         }
       ]
