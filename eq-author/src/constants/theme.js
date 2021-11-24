@@ -76,7 +76,6 @@ colors.highlight = colors.neonYellow;
 colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
-colors.input = colors.black;
 
 export const radius = "4px";
 
