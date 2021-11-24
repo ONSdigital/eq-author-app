@@ -39,22 +39,12 @@ const errorWithHeader = css`
     width: 100%;
     }
 
-    .panel-body {
-        padding: 1rem;
-    }
 `;
 
 const infoPanel = css`
     background: ${({ theme }) => theme.colors.paleBlue};
     border-color: ${({ theme }) => theme.colors.info};
     padding: 1rem;
-    .panel-body {
-        padding: 0;
-        background: none;
-    }
-    .panel-body:last-child{
-        margin-bottom: 0;
-    }
 `;
 
 
@@ -63,13 +53,6 @@ const successPanel = css`
     background: ${({ theme }) => theme.colors.lightGreen};
     border-color: ${({ theme }) => theme.colors.success};
     padding: 1rem;
-    .panel-body {
-        padding-left: 2rem;
-        background: none;
-    }
-    .panel-body:last-child{
-        margin-bottom: 0;
-    }
 `;
 
 const SuccessPanelIconContainer = styled.div`
@@ -96,6 +79,30 @@ const StyledImage = styled.img `
 `;
 
 
+
+const Container = styled.div `
+        ${({ variant }) =>
+            variant === "infomation" &&
+        `
+        padding: 0;
+        background: none;
+        margin-bottom: 0;
+        `}
+        ${({ variant }) =>
+            variant === "success" &&
+        `
+        padding-left: 2rem;
+        background: none;
+        margin-bottom: 0;
+        `}
+        ${({ variant }) =>
+            variant === "errorWithHeader" &&
+        `
+        padding: 1rem;
+        `}
+`;
+
+
 const StyledPanel = styled.div`
     display: block;
     border-radius: 0;
@@ -114,9 +121,9 @@ const Panel = ({paragraphLabel, headerLabel, variant, children}) => {
         {variant === "errorWithHeader" && <div className="ons-panel-header"><HeaderLabel> {headerLabel} </HeaderLabel></div>}
         {variant === "errorNoHeader" && <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>}
         {variant === "success" && <SuccessPanelIconContainer><SpanIcon><StyledImage src={iconCheckbox}/></SpanIcon></SuccessPanelIconContainer>}
-            <div className="panel-body">
+            <Container variant={variant}>
                 {children}
-            </div>
+            </Container>
         </StyledPanel>
     );
 };
