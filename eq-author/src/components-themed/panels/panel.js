@@ -3,22 +3,10 @@ import styled, { css } from "styled-components";
 import PropType from "prop-types";
 import iconCheckbox from "assets/icon-panel-checkbox.svg";
 
-const HeaderLabel = styled.h2`
-  font-size: ${({ theme }) => theme.fontSize};
-  padding: 0;
-  line-height: 0;
-`;
-
 const errorNoHeader = css`
   background: ${({ theme }) => theme.colors.errorSecondary};
   border-color: ${({ theme }) => theme.colors.errors};
   padding: 1rem;
-`;
-
-const ErrorNoHeaderTitle = styled.div`
-  color: ${({ theme }) => theme.colors.rubyRed};
-  margin: 0 0 1rem;
-  font-weight: bold;
 `;
 
 const errorWithHeader = css`
@@ -26,17 +14,6 @@ const errorWithHeader = css`
   border-color: ${({ theme }) => theme.colors.errors};
   border-left: none;
   position: relative;
-
-  .ons-panel-header {
-    background: ${({ theme }) => theme.colors.errors};
-    color: ${({ theme }) => theme.colors.textInverse};
-    display: block;
-    border-radius: 0;
-    margin: 0;
-    padding: 0.75rem 1rem;
-    box-sizing: border-box;
-    width: 100%;
-  }
 `;
 
 const infoPanel = css`
@@ -49,6 +26,29 @@ const successPanel = css`
   background: ${({ theme }) => theme.colors.lightGreen};
   border-color: ${({ theme }) => theme.colors.success};
   padding: 1rem;
+`;
+
+const HeaderLabel = styled.h2`
+  font-size: ${({ theme }) => theme.fontSize};
+  padding: 0;
+  line-height: 0;
+`;
+
+const ErrorNoHeaderTitle = styled.div`
+  color: ${({ theme }) => theme.colors.rubyRed};
+  margin: 0 0 1rem;
+  font-weight: bold;
+`;
+
+const Header = styled.div`
+  background: ${({ theme }) => theme.colors.errors};
+  color: ${({ theme }) => theme.colors.textInverse};
+  display: block;
+  border-radius: 0;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
 `;
 
 const SuccessPanelIconContainer = styled.div`
@@ -98,7 +98,7 @@ const StyledPanel = styled.div`
   display: block;
   border-radius: 0;
   position: relative;
-  border-left: 8px solid transparent;
+  border-left: ${(props) => props.withLeftBorder && `8px solid transparent;`};
 
   ${(props) => props.variant === "info" && infoPanel};
   ${(props) => props.variant === "success" && successPanel};
@@ -106,16 +106,16 @@ const StyledPanel = styled.div`
   ${(props) => props.variant === "errorNoHeader" && errorNoHeader};
 `;
 
-const Panel = ({ paragraphLabel, headerLabel, variant, children }) => {
+const Panel = ({ headerLabel, variant, withLeftBorder, icon, children }) => {
   return (
-    <StyledPanel variant={variant}>
+    <StyledPanel variant={variant} withLeftBorder={withLeftBorder}>
       {variant === "errorWithHeader" && (
-        <div className="ons-panel-header">
+        <Header>
           <HeaderLabel> {headerLabel} </HeaderLabel>
-        </div>
+        </Header>
       )}
       {variant === "errorNoHeader" && (
-        <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>
+        <ErrorNoHeaderTitle>{headerLabel}</ErrorNoHeaderTitle>
       )}
       {variant === "success" && (
         <SuccessPanelIconContainer>

@@ -12,7 +12,7 @@ import Label from "components/Forms/Label";
 <Canvas>
   <Story name="Info">
     <Theme themeName={"ons"}>
-      <Panel variant="info">
+      <Panel variant="info" withLeftBorder>
         Include all rooms built or converted for use as bedrooms
       </Panel>
     </Theme>
@@ -24,7 +24,7 @@ import Label from "components/Forms/Label";
 <Canvas>
   <Story name="Success">
     <Theme themeName={"ons"}>
-      <Panel variant="success" headerLabel="boom">
+      <Panel variant="success" headerLabel="boom" withLeftBorder>
         Information has been successfully submitted.
       </Panel>
     </Theme>
@@ -52,7 +52,11 @@ import Label from "components/Forms/Label";
 <Canvas>
   <Story name="Error No Header">
     <Theme themeName={"ons"}>
-      <Panel variant="errorNoHeader" paragraphLabel="Enter a number">
+      <Panel
+        variant="errorNoHeader"
+        headerLabel="Enter a number"
+        withLeftBorder
+      >
         Text
       </Panel>
     </Theme>
