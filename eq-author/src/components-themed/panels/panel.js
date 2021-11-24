@@ -107,7 +107,7 @@ const StyledPanel = styled.div`
     display: block;
     border-radius: 0;
     position: relative;
-    border-left: 9px solid transparent;
+    border-left: 8px solid transparent;
 
     ${(props) => props.variant === "infomation" && infoPanel};
     ${(props) => props.variant === "success" && successPanel};
