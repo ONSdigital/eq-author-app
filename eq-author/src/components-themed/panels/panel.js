@@ -58,6 +58,7 @@ const infoPanel = css`
 `;
 
 
+
 const successPanel = css`
     background: ${({ theme }) => theme.colors.lightGreen};
     border-color: ${({ theme }) => theme.colors.success};
@@ -69,6 +70,12 @@ const successPanel = css`
     .panel-body:last-child{
         margin-bottom: 0;
     }
+`;
+
+const SuccessPanelIconContainer = styled.div`
+        padding-left: 2rem;
+        background: none;
+        margin-bottom: 0;
 `;
 
 const SpanIcon = styled.span`
@@ -93,7 +100,7 @@ const StyledPanel = styled.div`
     display: block;
     border-radius: 0;
     position: relative;
-    border-left: 9px solid transparent;
+    border-left: 8px solid transparent;
 
     ${(props) => props.variant === "infomation" && infoPanel};
     ${(props) => props.variant === "success" && successPanel};
@@ -106,9 +113,8 @@ const Panel = ({paragraphLabel, headerLabel, variant, children}) => {
         <StyledPanel variant={variant}> 
         {variant === "errorWithHeader" && <div className="ons-panel-header"><HeaderLabel> {headerLabel} </HeaderLabel></div>}
         {variant === "errorNoHeader" && <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>}
+        {variant === "success" && <SuccessPanelIconContainer><SpanIcon><StyledImage src={iconCheckbox}/></SpanIcon></SuccessPanelIconContainer>}
             <div className="panel-body">
-                {/* {variant ==="errorNoHeader" && <p className="ons-panel-error"><strong>{paragraphLabel}</strong></p>} */}
-                {variant== "success" && <SpanIcon><StyledImage src={iconCheckbox}/></SpanIcon>}
                 {children}
             </div>
         </StyledPanel>
