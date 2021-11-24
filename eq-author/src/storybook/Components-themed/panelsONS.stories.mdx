@@ -1,0 +1,52 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext";
+import Panel from "components-themed/panels";
+import Label from "components/Forms/Label";
+
+<Meta title="Themed components/ONS/Panels" component={Panel} />
+
+# Panels (ONS theme)
+
+##Infomation
+
+<Canvas>
+  <Story name="Infomation">
+    <Theme themeName={"ons"}>
+      <Panel variant="infomation">Include all rooms built or converted for use as bedrooms</Panel>
+    </Theme>
+  </Story>
+</Canvas>
+
+##Success
+
+<Canvas>
+  <Story name="Success">
+    <Theme themeName={"ons"}>
+      <Panel variant="success" headerLabel="boom">Information has been successfully submitted.</Panel>
+    </Theme>
+  </Story>
+</Canvas>
+
+##Error With Header
+
+<Canvas>
+  <Story name="Error With Header">
+    <Theme themeName={"ons"}>
+      <Panel variant="errorWithHeader" headerLabel="There are 2 problems with your answer" >
+        <Label> 1. One</Label>
+        <Label> 2. Two</Label>
+      </Panel>
+    </Theme>
+  </Story>
+</Canvas>
+
+##Error No Header
+
+<Canvas>
+  <Story name="Error No Title">
+    <Theme themeName={"ons"}>
+      <Panel variant="errorNoHeader" paragraphLabel="Enter a number">
+      </Panel>
+    </Theme>
+  </Story>
+</Canvas>
