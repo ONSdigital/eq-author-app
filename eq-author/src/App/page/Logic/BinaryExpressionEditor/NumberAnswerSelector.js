@@ -88,7 +88,10 @@ class NumberAnswerSelector extends React.Component {
     const { expression, groupErrorMessage } = this.props;
     let message = null;
 
+    console.log(`numberAnswerSelector expression`, expression);
+
     const errors = expression.validationErrorInfo.errors;
+    console.log(`numberAnswerSelector errors`, errors);
 
     if (errors.some(({ field }) => field === "condition")) {
       message = OPERATOR_REQUIRED;

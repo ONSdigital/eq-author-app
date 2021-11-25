@@ -10,7 +10,10 @@ import CheckboxOptionPicker from "./CheckboxOptionPicker";
 import Popover from "./CheckboxSelectorPopup";
 import ValidationError from "components/ValidationError";
 
-import { rightSideErrors } from "constants/validationMessages";
+import {
+  rightSideErrors,
+  OPERATOR_REQUIRED,
+} from "constants/validationMessages";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 import { Select } from "components/Forms";
@@ -18,6 +21,7 @@ import { Select } from "components/Forms";
 import TextButton from "components/buttons/TextButton";
 import ToggleChip from "components/buttons/ToggleChip";
 import SecondaryConditionSelector from "./SecondaryConditionSelector";
+import { enableOn } from "utils/featureFlags";
 
 const answerConditions = {
   UNANSWERED: "Unanswered",
@@ -173,11 +177,25 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         )
     );
 
-    if (error) {
-      message =
-        message ||
-        rightSideErrors[error.errorCode].optionsMessage ||
-        rightSideErrors[error.errorCode].message;
+    console.log(`error`, error);
+
+    if (
+      expression.validationErrorInfo.errors.some(
+        ({ field }) => field === "secondaryCondition"
+      )
+    ) {
+      message = OPERATOR_REQUIRED;
+    } else if (error) {
+      if (expression.condition === "CountOf") {
+        message = rightSideErrors[error.errorCode].message;
+      } else {
+        message =
+          message ||
+          rightSideErrors[error.errorCode].optionsMessage ||
+          rightSideErrors[error.errorCode].message;
+      }
+
+      console.log(`rightSideErrors`, rightSideErrors);
     }
 
     return message ? <ValidationError>{message}</ValidationError> : null;
@@ -222,6 +240,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
   renderCheckboxOptionSelector(hasError, hasConditionError) {
     const { expression } = this.props;
+    console.log(`expression`, expression);
 
     return (
       <>
@@ -239,7 +258,9 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             <option value={answerConditions.ANYOF}>Any of</option>
             <option value={answerConditions.NOTANYOF}>Not any of</option>
             <option value={answerConditions.ALLOF}>All of</option>
-            <option value={answerConditions.COUNTOF}>Count of</option>
+            {enableOn(["hub"]) && (
+              <option value={answerConditions.COUNTOF}>Count of</option>
+            )}
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
           {expression.condition === answerConditions.COUNTOF && (
@@ -303,7 +324,10 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const { expression, groupErrorMessage } = this.props;
     const answerType = get(expression, "left.type");
 
+    console.log(`expression`, expression);
+
     const { errors } = expression.validationErrorInfo;
+    console.log(`errors`, errors);
 
     const hasError = errors.length || groupErrorMessage;
     const hasConditionError =

@@ -104,6 +104,7 @@ const getPageQuery = `
                     }
                   }
                   condition
+                  selectedCondition
                   right {
                     ... on CustomValue2 {
                       number
@@ -168,6 +169,7 @@ const getPageQuery = `
                 }
               }
               condition
+              selectedCondition
               right {
                 ... on CustomValue2 {
                   number

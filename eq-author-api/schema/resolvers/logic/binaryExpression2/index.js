@@ -37,10 +37,6 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.CHECKBOX]: "SelectedOptions",
   };
 
-  console.log(`AnswerTypesToRightTypes`, AnswerTypesToRightTypes);
-  console.log(`leftSideType`, leftSideType);
-  console.log(`rightSideType`, rightSideType);
-
   if (secondaryCondition) {
     return true;
   }
@@ -137,6 +133,8 @@ Resolvers.Mutation = {
       secondaryCondition: null,
     });
 
+    console.log(`expression xxxxxxx`, expression);
+
     expressionGroup.expressions.push(expression);
 
     return expression;
@@ -162,9 +160,13 @@ Resolvers.Mutation = {
       }
 
       expression.condition = condition;
-      if (secondaryCondition !== null) {
+      console.log(`secondaryCondition - - - - - - -`, secondaryCondition);
+
+      if (secondaryCondition !== null || secondaryCondition !== undefined) {
         expression.secondaryCondition = secondaryCondition;
       }
+
+      console.log(`expression - - - - - - - - `, expression);
 
       return expression;
     }
@@ -197,10 +199,6 @@ Resolvers.Mutation = {
     }
     const { expressionId, customValue, selectedOptions } = input;
 
-    console.log(`input`, JSON.stringify(input, null, 7));
-    console.log(`customValue`, customValue);
-    console.log(`selectedOptions`, selectedOptions);
-
     const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
@@ -223,9 +221,6 @@ Resolvers.Mutation = {
     }
 
     const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
-    console.log(`type`, type);
-    console.log(`leftSideAnswer`, JSON.stringify(leftSideAnswer, null, 7));
-    console.log(`expression`, JSON.stringify(expression, null, 7));
 
     if (
       !isLeftSideAnswerTypeCompatible(

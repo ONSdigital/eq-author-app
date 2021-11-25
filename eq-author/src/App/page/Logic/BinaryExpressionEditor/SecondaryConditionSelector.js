@@ -96,7 +96,7 @@ class SecondaryConditionSelector extends React.Component {
 
     const errors = expression.validationErrorInfo.errors;
 
-    if (errors.some(({ field }) => field === "condition")) {
+    if (errors.some(({ field }) => field === "secondaryCondition")) {
       message = OPERATOR_REQUIRED;
     } else if (
       errors.some(
@@ -120,15 +120,9 @@ class SecondaryConditionSelector extends React.Component {
 
   render() {
     const { expression, groupErrorMessage } = this.props;
-    console.log(`SecondaryConditionSelector expression`, expression);
 
     const hasError =
       expression.validationErrorInfo.errors.length > 0 || groupErrorMessage;
-
-    console.log(
-      `expression.validationErrorInfo.errors`,
-      expression.validationErrorInfo.errors
-    );
 
     return (
       <>
@@ -185,7 +179,7 @@ class SecondaryConditionSelector extends React.Component {
           </>
           {/* )} */}
         </SecondaryConditionRoutingSelector>
-        {hasError && this.handleError()}
+        {/* {hasError && this.handleError()} */}
       </>
     );
   }

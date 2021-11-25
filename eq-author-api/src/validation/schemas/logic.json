@@ -163,6 +163,7 @@
         }
       },
       "validateExpression": true,
+      "validateSecondaryCondition": true,
       "required": ["condition"]
     },
     "expression-unanswered": {
@@ -215,6 +216,24 @@
           }
         }
       }
+    },
+    "operator-equals-count": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "enum": ["CountOf"]
+        },
+        "secondaryCondition": {
+          "type": "string",
+          "nullable": false,
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            }
+          ]
+        }
+      },
+      "required": ["secondaryCondition"]
     },
     "skipConditions": {
       "type": "array",

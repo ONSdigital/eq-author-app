@@ -67,6 +67,7 @@ exports.getQuestionnaire = `
           }
         }
         condition
+        selectedCondition
         right {
           ... on CustomValue2 {
             number
