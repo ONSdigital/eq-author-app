@@ -31,6 +31,7 @@ const Section = ({
   folders,
   validationErrorInfo,
   open,
+  position,
   handleMoveContent,
 }) => {
   const { entityId, tab = "design" } = useParams();
@@ -65,10 +66,10 @@ const Section = ({
           key={`page-${pageId}`}
           id={pageId}
           questionnaireId={questionnaireId}
-          position={position}
           handleMoveContent={handleMoveContent}
           dragContext="SectionPage"
           {...rest}
+          position={position}
         />
       ));
     }
@@ -84,6 +85,7 @@ const Section = ({
       onDragLeave={dnd.handleDragLeave}
       id={sectionId}
       data-drag-context="Section"
+      data-drag-position={position}
     >
       <CollapsibleNavItem
         title={displayName}
@@ -116,6 +118,7 @@ Section.propTypes = {
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   open: PropTypes.bool,
   handleMoveContent: PropTypes.func,
+  position: PropTypes.number,
 };
 
 export default Section;

@@ -30,6 +30,7 @@ const Folder = ({
   displayName,
   pages,
   validationErrorInfo,
+  position,
   handleMoveContent,
 }) => {
   const { entityId, tab = "design" } = useParams();
@@ -53,6 +54,7 @@ const Folder = ({
       onDragLeave={dnd.handleDragLeave}
       id={folderId}
       data-drag-context="Folder"
+      data-drag-position={position}
     >
       <FolderNavItem
         title={displayName}

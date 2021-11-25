@@ -18,9 +18,10 @@ export const dndCSS = css`
 export const dnd = {
   handleDragStart: (event) => {
     event.stopPropagation();
-    document.querySelector("body").dataset.dragContext =
-      event.currentTarget.dataset.dragContext;
-    event.dataTransfer.setData("text", event.currentTarget.id);
+    const body = document.querySelector("body");
+    body.dataset.dragId = event.currentTarget.id;
+    body.dataset.dragContext = event.currentTarget.dataset.dragContext;
+    body.dataset.dragPosition = event.currentTarget.dataset.dragPosition;
     event.dataTransfer.setDragImage(event.currentTarget, 10, 10);
     event.dataTransfer.effectAllowed = "move";
   },
@@ -31,7 +32,13 @@ export const dnd = {
   },
   handleDrop: (handleMoveContent) => (event) => {
     event.stopPropagation();
-    const sourceId = event.dataTransfer.getData("text");
+    const body = document.querySelector("body");
+    const sourceId = body.dataset.dragId;
+    const sourceContext = body.dataset.dragContext;
+    const sourcePosition = body.dataset.dragPosition;
+    const targetId = event.currentTarget.id;
+    const targetPosition = event.currentTarget.dataset.dragPosition;
+    const targetContext = event.currentTarget.dataset.dragContext;
     const placement = event.currentTarget.firstChild.classList.contains(
       "dragovertop"
     )
@@ -41,7 +48,11 @@ export const dnd = {
     event.currentTarget.lastChild.classList.remove("dragoverbottom");
     handleMoveContent({
       sourceId,
-      targetId: event.currentTarget.id,
+      sourceContext,
+      sourcePosition,
+      targetId,
+      targetContext,
+      targetPosition,
       placement,
     });
   },

@@ -23,6 +23,7 @@ const Page = ({
   pageType,
   confirmation,
   validationErrorInfo,
+  position,
   handleMoveContent,
   dragContext,
 }) => {
@@ -43,6 +44,7 @@ const Page = ({
       onDragLeave={dnd.handleDragLeave}
       id={pageId}
       data-drag-context={dragContext}
+      data-drag-position={position}
     >
       <QuestionPage
         title={displayName}
