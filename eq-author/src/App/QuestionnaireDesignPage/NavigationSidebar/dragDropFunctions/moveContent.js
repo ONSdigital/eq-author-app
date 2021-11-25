@@ -20,7 +20,6 @@ export default (
   moveFolder,
   moveSection
 ) => {
-  debugger;
   // The user dropped the item outside a destination
   if (!targetId) {
     return -1;
@@ -31,114 +30,126 @@ export default (
     return -1;
   }
 
-  // Get the source elements and containers
-  const sourceElement =
-    getPageById(questionnaire, sourceId) ||
-    getFolderById(questionnaire, sourceId) ||
-    getSectionById(questionnaire, sourceId);
-
-  let sourceContainer =
-    getFolderByPageId(questionnaire, sourceElement.id) ||
-    getSectionByFolderId(questionnaire, sourceElement.id) ||
-    getSectionById(questionnaire, sourceElement.id);
-
-  if (sourceContainer?.__typename === "Folder" && !sourceContainer?.enabled) {
-    sourcePosition = sourceContainer.position;
-    sourceContainer = getSectionByFolderId(questionnaire, sourceContainer.id);
-  }
-
-  const targetElement =
-    getPageById(questionnaire, targetId) ||
-    getFolderById(questionnaire, targetId) ||
-    getSectionById(questionnaire, targetId);
-
-  let targetContainer =
-    getFolderByPageId(questionnaire, targetElement.id) ||
-    getSectionByFolderId(questionnaire, targetElement.id) ||
-    getSectionById(questionnaire, targetElement.id);
-
-  if (targetContainer?.__typename === "Folder" && !targetContainer?.enabled) {
-    targetPosition = targetContainer.position;
-    targetContainer = getSectionByFolderId(questionnaire, targetContainer.id);
-  }
-
-  // reject iffy calls
-  if (
-    sourceElement.__typename === "Folder" &&
-    targetContainer?.__typename === "Folder"
-  ) {
+  // Disallowed moves
+  if (sourceContext === "Folder" && targetContext === "FolderPage") {
     return -1;
   }
-  if (
-    sourceElement.__typename === "Section" &&
-    targetElement.__typename !== "Section"
-  ) {
+  if (sourceContext === "Section" && targetContext !== "Section") {
     return -1;
   }
 
-  // set values
-  let targetSectionId =
-    getSectionByPageId(questionnaire, targetElement.id)?.id ||
-    getSectionByFolderId(questionnaire, targetElement.id)?.id ||
-    getSectionById(questionnaire, targetElement.id)?.id;
-  let targetFolderId;
+  let sourceElement, sourceContainer, sourceContainerId, targetContainerId;
+  let targetContainer, targetSectionId, targetFolderId;
   let position;
+
+  // Get the source elements and containers
+  switch (sourceContext) {
+    case "SectionPage":
+      sourceElement = targetContext.includes("Folder")
+        ? getPageById(questionnaire, sourceId)
+        : getFolderByPageId(questionnaire, sourceId);
+      ({ folders: sourceContainer, id: sourceContainerId } = getSectionByPageId(
+        questionnaire,
+        sourceId
+      ));
+      break;
+    case "FolderPage":
+      sourceElement = getPageById(questionnaire, sourceId);
+      ({ pages: sourceContainer, id: sourceContainerId } = getFolderByPageId(
+        questionnaire,
+        sourceId
+      ));
+      break;
+    case "Folder":
+      sourceElement = getFolderById(questionnaire, sourceId);
+      ({ folders: sourceContainer, id: sourceContainerId } =
+        getSectionByFolderId(questionnaire, sourceId));
+      break;
+    case "Section":
+      sourceElement = getSectionById(questionnaire, sourceId);
+      ({ sections: sourceContainer, id: sourceContainerId } = questionnaire);
+      break;
+    default:
+      return -1;
+  }
+
+  // Get the target containers
+  switch (targetContext) {
+    case "SectionPage":
+      ({ folders: targetContainer, id: targetContainerId } = getSectionByPageId(
+        questionnaire,
+        targetId
+      ));
+      targetSectionId = targetContainerId;
+      break;
+    case "FolderPage":
+      ({ pages: targetContainer, id: targetContainerId } = getFolderByPageId(
+        questionnaire,
+        targetId
+      ));
+      targetFolderId = targetContainerId;
+      break;
+    case "Folder":
+      sourceContext.includes("Page")
+        ? ({ pages: targetContainer, id: targetContainerId } = getFolderById(
+            questionnaire,
+            targetId
+          ))
+        : ({ folders: targetContainer, id: targetContainerId } =
+            getSectionByFolderId(questionnaire, targetId));
+      targetFolderId = targetContainerId;
+      break;
+    case "Section":
+      sourceContext === "Section"
+        ? ({ sections: targetContainer, id: targetContainerId } = questionnaire)
+        : ({ folders: targetContainer, id: targetContainerId } = getSectionById(
+            questionnaire,
+            targetId
+          ));
+      targetSectionId = targetContainerId;
+      break;
+    default:
+      return -1;
+  }
 
   // set position
   position = placement === "above" ? targetPosition : targetPosition + 1;
-  if (sourceContainer.id === targetContainer.id) {
+  if (sourceContainerId === targetContainerId) {
     position = sourcePosition < targetPosition ? position - 1 : position;
   }
+
   if (
-    targetElement.__typename === "Section" ||
-    (targetElement.__typename === "Folder" &&
-      sourceContainer.__typename !== "Section")
+    sourceContext !== "Section" &&
+    (targetContext === "Folder" || targetContext === "Section")
   ) {
     position = 0;
   }
-  if (
-    sourceElement.__typename === "Section" &&
-    targetElement.__typename === "Section"
-  ) {
-    position = placement === "above" ? targetPosition : targetPosition + 1;
-    position = sourcePosition < targetPosition ? position - 1 : position;
+
+  // remove element from source container
+  sourceContainer.splice(sourceContainer.indexOf(sourceElement), 1);
+
+  // add element to target container
+  let newElement = sourceElement;
+  if (sourceContext === "FolderPage" && targetContext.includes("Section")) {
+    newElement = {
+      id: 123,
+      pages: [sourceElement],
+      alias: null,
+      displayName: "Untitled folder",
+      enabled: false,
+      position,
+      validationErrorInfo: {
+        id: 678,
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
+      __typename: "Folder",
+    };
   }
+  targetContainer.splice(position, 0, newElement);
 
   // move a page
-  if (sourceElement.__typename.includes("Page")) {
-    const sourcePageFolder = getFolderByPageId(questionnaire, sourceElement.id);
-    sourcePageFolder.pages.splice(
-      sourcePageFolder.pages.indexOf(sourceElement),
-      1
-    );
-    if (!sourcePageFolder.enabled && !sourcePageFolder.pages.length) {
-      sourceContainer.folders.splice(
-        sourceContainer.folders.indexOf(sourcePageFolder),
-        1
-      );
-    }
-    if (targetContainer.__typename === "Folder") {
-      targetContainer.pages.splice(position, 0, sourceElement);
-      targetFolderId = targetContainer.id;
-    }
-    if (targetContainer.__typename === "Section") {
-      const newFolder = {
-        id: 123,
-        pages: [sourceElement],
-        alias: null,
-        displayName: "Untitled folder",
-        enabled: false,
-        position,
-        validationErrorInfo: {
-          id: 678,
-          totalCount: 0,
-          __typename: "ValidationErrorInfo",
-        },
-        __typename: "Folder",
-      };
-      targetContainer.folders.splice(position, 0, newFolder);
-    }
-
+  if (sourceContext.includes("Page")) {
     movePage({
       variables: {
         input: {
@@ -154,18 +165,11 @@ export default (
         },
       },
     });
-
     return 1;
   }
 
   //move a folder
-  if (sourceElement.__typename === "Folder") {
-    sourceContainer.folders.splice(
-      sourceContainer.folders.indexOf(sourceElement),
-      1
-    );
-    targetContainer.folders.splice(position, 0, sourceElement);
-
+  if (sourceContext === "Folder") {
     moveFolder({
       variables: {
         input: {
@@ -184,13 +188,7 @@ export default (
   }
 
   // move a section
-  if (sourceElement.__typename === "Section") {
-    questionnaire.sections.splice(
-      questionnaire.sections.indexOf(sourceElement),
-      1
-    );
-    questionnaire.sections.splice(position, 0, sourceElement);
-
+  if (sourceContext === "Section") {
     moveSection({
       variables: {
         input: {
@@ -205,7 +203,8 @@ export default (
         },
       },
     });
+    return 1;
   }
 
-  return 1;
+  return -1;
 };
