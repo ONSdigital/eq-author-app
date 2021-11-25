@@ -160,6 +160,7 @@ export const themes = {
       headerTop: colors.darkerBlue,
       headerMain: colors.oceanBlue,
       headerTitle: colors.white,
+      textBannerLink: colors.grey5,
     },
     radius,
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",

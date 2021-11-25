@@ -61,6 +61,25 @@ describe("MetaEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("should be able to display both deleted metadata and deleted answer in piping errors in the title", async () => {
+    props.page.validationErrorInfo.errors = [
+      {
+        errorCode: "PIPING_TITLE_DELETED",
+        field: "title",
+        id: "1",
+        type: "page",
+      },
+      {
+        errorCode: "PIPING_METADATA_DELETED",
+        field: "title",
+        id: "2",
+        type: "page",
+      },
+    ];
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("should display the correct error message when the definition label is missing", async () => {
     props.page.validationErrorInfo.errors[0] = {
       errorCode: "ERR_VALID_REQUIRED",
