@@ -35,9 +35,9 @@ export const dnd = {
     const body = document.querySelector("body");
     const sourceId = body.dataset.dragId;
     const sourceContext = body.dataset.dragContext;
-    const sourcePosition = body.dataset.dragPosition;
+    const sourcePosition = Number(body.dataset.dragPosition);
     const targetId = event.currentTarget.id;
-    const targetPosition = event.currentTarget.dataset.dragPosition;
+    const targetPosition = Number(event.currentTarget.dataset.dragPosition);
     const targetContext = event.currentTarget.dataset.dragContext;
     const placement = event.currentTarget.firstChild.classList.contains(
       "dragovertop"

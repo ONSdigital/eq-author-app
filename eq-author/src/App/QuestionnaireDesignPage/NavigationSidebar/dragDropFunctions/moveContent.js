@@ -10,12 +10,17 @@ import {
 export default (
   questionnaire,
   sourceId,
+  sourceContext,
+  sourcePosition,
   targetId,
+  targetContext,
+  targetPosition,
   placement,
   movePage,
   moveFolder,
   moveSection
 ) => {
+  debugger;
   // The user dropped the item outside a destination
   if (!targetId) {
     return -1;
@@ -31,7 +36,6 @@ export default (
     getPageById(questionnaire, sourceId) ||
     getFolderById(questionnaire, sourceId) ||
     getSectionById(questionnaire, sourceId);
-  let sourcePosition = sourceElement.position;
 
   let sourceContainer =
     getFolderByPageId(questionnaire, sourceElement.id) ||
@@ -47,7 +51,6 @@ export default (
     getPageById(questionnaire, targetId) ||
     getFolderById(questionnaire, targetId) ||
     getSectionById(questionnaire, targetId);
-  let targetPosition = targetElement.position;
 
   let targetContainer =
     getFolderByPageId(questionnaire, targetElement.id) ||

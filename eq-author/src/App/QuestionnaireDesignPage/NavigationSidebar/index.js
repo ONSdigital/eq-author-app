@@ -83,11 +83,23 @@ const NavigationSidebar = ({ questionnaire }) => {
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
 
-  const handleMoveContent = ({ sourceId, targetId, placement }) => {
+  const handleMoveContent = ({
+    sourceId,
+    sourceContext,
+    sourcePosition,
+    targetId,
+    targetContext,
+    targetPosition,
+    placement,
+  }) => {
     moveContent(
       questionnaire,
       sourceId,
+      sourceContext,
+      sourcePosition,
       targetId,
+      targetContext,
+      targetPosition,
       placement,
       movePage,
       moveFolder,
