@@ -72,11 +72,13 @@ const CommentEditor = ({
 }) => {
   const [editorVisible, showEditor] = useState(true);
   const [commentText, updateCommentText] = useState("");
+  const [commentOpen, setCommentOpen] = useState(false);
   const textInput = useRef(null);
 
   useEffect(() => {
     if (canClose) {
       showEditor(!startClosed);
+      setCommentOpen(true);
     }
   }, [canClose, startClosed]);
 
@@ -87,10 +89,10 @@ const CommentEditor = ({
   }, [initialValue]);
 
   useEffect(() => {
-    if (canClose && editorVisible) {
+    if (canClose && editorVisible && commentOpen) {
       textInput.current.focus();
     }
-  }, [editorVisible, canClose]);
+  }, [editorVisible, canClose, commentOpen]);
 
   if (editorVisible) {
     return (

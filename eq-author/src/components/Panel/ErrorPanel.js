@@ -21,7 +21,7 @@ const StyledPanel = styled.div`
   border-radius: 0;
   border-left: 0.5em solid ${colors.errorPrimary};
   margin: 1em 0;
-  display: inline-block;
+  display: table;
   width: auto;
   ${(props) => props.variant === "destination" && destinationPanel};
   ${(props) => props.variant === "logic" && logicPanel};

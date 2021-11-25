@@ -159,6 +159,7 @@ export const themes = {
       success: colors.leafGreen,
       errors: colors.rubyRed,
       colorInfoTint: colors.infoGrey,
+      textBannerLink: colors.grey5,
     },
     radius,
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
