@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext";
+import Header from "components-themed/Header";
+import { ReactComponent as Icon } from "assets/icon-test.svg"
+
+
+<Meta title="Themed components/ONS/Header" component={Header} />
+
+# Header (ONS theme)
+
+## Internal
+<Canvas>
+    <Story name="Internal">
+        <Theme themeName={"ons"}>
+            <Header variant="Internal">Service title</Header>
+        </Theme>
+    </Story>
+</Canvas>
+
+
+
+## Internal with description/tagline
+<Canvas>
+    <Story name="Internal with description/tagline">
+        <Theme themeName={"ons"}>
+            <Header variant="WithDescription" HeaderDescription="This is the description or tagline">Service title</Header>
+        </Theme>
+    </Story>
+</Canvas>
