@@ -2,6 +2,21 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
 
+const getThemeColor = (variant) => {
+  switch (variant) {
+    case "info":
+      return ({ theme }) => theme.colors.info;
+    case "errorNoHeader":
+      return ({ theme }) => theme.colors.errors;
+    case "errorWithHeader":
+      return ({ theme }) => theme.colors.errors;
+    case "success":
+      return ({ theme }) => theme.colors.success;
+    default:
+      return;
+  }
+};
+
 const errorNoHeader = css`
   background: ${({ theme }) => theme.colors.errorSecondary};
   border-color: ${({ theme }) => theme.colors.errors};
@@ -32,8 +47,8 @@ const HeaderLabel = styled.h2`
   line-height: 0;
 `;
 
-const ErrorNoHeaderTitle = styled.div`
-  color: ${({ theme }) => theme.colors.rubyRed};
+const PanelParagraphTitle = styled.div`
+  color: ${({ variant }) => getThemeColor(variant)};
   margin: 0 0 1rem;
   font-weight: bold;
 `;
@@ -121,9 +136,6 @@ const Panel = ({
           </Header>
         </>
       )}
-      {paragraphLabel && variant === "errorNoHeader" && (
-        <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>
-      )}
       {variant === "success" && (
         <SuccessPanelIconContainer>
           <SpanIcon>
@@ -132,8 +144,10 @@ const Panel = ({
         </SuccessPanelIconContainer>
       )}
       <Container variant={variant}>
-        {paragraphLabel && variant === "errorWithHeader" && (
-          <ErrorNoHeaderTitle>{paragraphLabel}</ErrorNoHeaderTitle>
+        {paragraphLabel && (
+          <PanelParagraphTitle variant={variant}>
+            {paragraphLabel}
+          </PanelParagraphTitle>
         )}
         {children}
       </Container>
