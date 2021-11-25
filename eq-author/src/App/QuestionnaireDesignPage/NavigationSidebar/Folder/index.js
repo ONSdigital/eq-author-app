@@ -52,6 +52,7 @@ const Folder = ({
       onDragEnter={dnd.handleDragEnter}
       onDragLeave={dnd.handleDragLeave}
       id={folderId}
+      data-drag-context="Folder"
     >
       <FolderNavItem
         title={displayName}
@@ -73,6 +74,7 @@ const Folder = ({
               id={pageId}
               questionnaireId={questionnaireId}
               handleMoveContent={handleMoveContent}
+              dragContext="FolderPage"
               {...rest}
             />
           ))}

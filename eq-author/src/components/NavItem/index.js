@@ -65,6 +65,7 @@ const NavItem = ({
   bordered,
   errorCount,
   className,
+  ...rest
 }) => {
   return (
     <Link
@@ -75,7 +76,8 @@ const NavItem = ({
       data-test="NavItem"
       bordered={bordered}
       tabIndex={0}
-      onMouseDown={(e) => e.currentTarget.focus()} // workaround for https://github.com/atlassian/react-beautiful-dnd/issues/1872
+      data
+      {...rest}
     >
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>

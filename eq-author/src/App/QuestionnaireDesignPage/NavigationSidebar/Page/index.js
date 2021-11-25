@@ -24,6 +24,7 @@ const Page = ({
   confirmation,
   validationErrorInfo,
   handleMoveContent,
+  dragContext,
 }) => {
   const { tab = "design" } = useParams();
 
@@ -41,6 +42,7 @@ const Page = ({
       onDragEnter={dnd.handleDragEnter}
       onDragLeave={dnd.handleDragLeave}
       id={pageId}
+      data-drag-context={dragContext}
     >
       <QuestionPage
         title={displayName}
@@ -57,6 +59,7 @@ const Page = ({
         <ConfirmationPage
           title={confirmation.displayName}
           icon={IconConfirmationPage}
+          data-drag-context={"ConfirmationPage"}
           titleUrl={buildConfirmationPath({
             questionnaireId,
             confirmationId: confirmation.id,
@@ -78,6 +81,7 @@ Page.propTypes = {
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
   handleMoveContent: PropTypes.func,
+  dragContext: PropTypes.string,
 };
 
 export default Page;

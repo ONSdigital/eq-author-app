@@ -67,6 +67,7 @@ const Section = ({
           questionnaireId={questionnaireId}
           position={position}
           handleMoveContent={handleMoveContent}
+          dragContext="SectionPage"
           {...rest}
         />
       ));
@@ -82,6 +83,7 @@ const Section = ({
       onDragEnter={dnd.handleDragEnter}
       onDragLeave={dnd.handleDragLeave}
       id={sectionId}
+      data-drag-context="Section"
     >
       <CollapsibleNavItem
         title={displayName}
