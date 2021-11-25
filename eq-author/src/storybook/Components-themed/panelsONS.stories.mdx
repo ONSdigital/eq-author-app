@@ -2,37 +2,51 @@ import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 import Theme from "contexts/themeContext";
 import Panel from "components-themed/panels";
 import Label from "components/Forms/Label";
+import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
 
 <Meta title="Themed components/ONS/Panels" component={Panel} />
 
 # Panels (ONS theme)
 
-##Infomation
+## Info
 
 <Canvas>
-  <Story name="Infomation">
+  <Story name="Info">
     <Theme themeName={"ons"}>
-      <Panel variant="infomation">Include all rooms built or converted for use as bedrooms</Panel>
+      <Panel variant="info" withLeftBorder>
+        Include all rooms built or converted for use as bedrooms
+      </Panel>
     </Theme>
   </Story>
 </Canvas>
 
-##Success
+## Success
 
 <Canvas>
   <Story name="Success">
     <Theme themeName={"ons"}>
-      <Panel variant="success" headerLabel="boom">Information has been successfully submitted.</Panel>
+      <Panel
+        variant="success"
+        headerLabel="boom"
+        icon={iconCheckbox}
+        withLeftBorder
+      >
+        Information has been successfully submitted.
+      </Panel>
     </Theme>
   </Story>
 </Canvas>
 
-##Error With Header
+## Error With Header
 
 <Canvas>
   <Story name="Error With Header">
     <Theme themeName={"ons"}>
-      <Panel variant="errorWithHeader" headerLabel="There are 2 problems with your answer" >
+      <Panel
+        variant="errorWithHeader"
+        headerLabel="There are 2 problems with your answer"
+        paragraphLabel="Error with header"
+      >
         <Label> 1. One</Label>
         <Label> 2. Two</Label>
       </Panel>
@@ -40,12 +54,16 @@ import Label from "components/Forms/Label";
   </Story>
 </Canvas>
 
-##Error No Header
+## Error No Header
 
 <Canvas>
   <Story name="Error No Header">
     <Theme themeName={"ons"}>
-      <Panel variant="errorNoHeader" paragraphLabel="Enter a number"> 
+      <Panel
+        variant="errorNoHeader"
+        paragraphLabel="Enter a number"
+        withLeftBorder
+      >
         Text
       </Panel>
     </Theme>
