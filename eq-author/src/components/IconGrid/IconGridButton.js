@@ -23,7 +23,7 @@ const Button = styled.button`
     border-color: ${colors.borders};
   }
 
-  &:focus {
+  &:focus:active {
     border-color: ${colors.blue};
   }
 
