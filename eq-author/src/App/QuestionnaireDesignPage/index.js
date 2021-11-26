@@ -20,6 +20,7 @@ import reviewRoutes from "App/review";
 import qcodeRoutes from "App/qcodes";
 import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
+import pageskipRoutes from "App/pageskip";
 import folderRoutes from "App/folder";
 
 import MainNavigation from "./MainNavigation";
@@ -54,6 +55,9 @@ const MainNav = styled.div`
   border: 0;
   float: left;
   background-color: ${colors.black};
+  :focus {
+    border: 2px solid ${colors.yellow};
+  }
 `;
 
 const LoadingPlaceholder = () => (
@@ -131,6 +135,7 @@ export const QuestionnaireDesignPage = () => {
                         ...qcodeRoutes,
                         ...sharingRoutes,
                         ...settingsRoutes,
+                        ...pageskipRoutes,
                         ...folderRoutes,
                       ]}
                       <Route path="*">

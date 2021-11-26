@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import styled from "styled-components";
 
 import Popout, { Container, Layer } from "components/Popout";
@@ -38,11 +38,33 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
+const IdList = [
+  { id: "mainnavutilitybtns", active: false },
+  { id: "SuperNav-2", active: false },
+  { id: "SuperNav-3", active: false },
+  { id: "SuperNav-4", active: false },
+  { id: "SuperNav-5", active: false },
+];
+
 hotkeys("f5", function (event) {
   event.preventDefault();
 
-  document.getElementById("SuperNav-1").focus();
-  // document.getElementById("SuperNav-2").focus();
+  document.getElementById("mainnavutilitybtns").focus();
+
+  // window.location = "#mainNavFocus";
+  // document.getElementById("SuperNav-1").focus();
+});
+
+hotkeys("f6", function (event) {
+  event.preventDefault();
+
+  document.getElementById("SuperNav-2").focus();
+});
+
+hotkeys("f7", function (event) {
+  event.preventDefault();
+
+  document.getElementById("SuperNav-3").focus();
 });
 
 const AddMenu = ({

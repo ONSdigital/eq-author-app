@@ -26,6 +26,7 @@ import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/histor
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
+import keyboardIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/keyboard-icon.svg?inline";
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
@@ -37,6 +38,7 @@ import {
   buildHistoryPath,
   buildSharingPath,
   buildSettingsPath,
+  buildShortcutsPath,
 } from "utils/UrlUtils";
 
 const StyledMainNavigation = styled.div`
@@ -52,7 +54,12 @@ const Flex = styled.div`
 `;
 
 export const UtilityBtns = styled.div`
-  display: flex;
+  /* display: flex; */
+
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+  }
 `;
 
 export const UnwrappedMainNavigation = ({
@@ -66,6 +73,7 @@ export const UnwrappedMainNavigation = ({
   hasSurveyID,
 }) => {
   const params = useParams();
+
   const { hasQCodeError } = useQCodeContext();
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -87,7 +95,7 @@ export const UnwrappedMainNavigation = ({
     <>
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
-          <UtilityBtns>
+          <UtilityBtns tabIndex="-1" id="mainnavutilitybtns">
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/" id="SuperNav-1">
@@ -185,6 +193,21 @@ export const UnwrappedMainNavigation = ({
                     <Badge data-test="small-badge" variant="main-nav" />
                   )}
                 </RouteButton>
+
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "pageskip" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-shortcuts"
+                  to={buildShortcutsPath(params)}
+                >
+                  <IconText nav icon={keyboardIcon}>
+                    Shortcuts
+                  </IconText>
+                </RouteButton>
+
                 {me && <UserProfile nav />}
               </ButtonGroup>
             )}
