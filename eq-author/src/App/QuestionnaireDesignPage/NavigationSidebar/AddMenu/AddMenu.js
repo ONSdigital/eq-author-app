@@ -46,6 +46,7 @@ const idList = [
   // { id: "SuperNav-5", active: false },
 ];
 
+// Navigate forwards using f6
 hotkeys("f6", function (event) {
   event.preventDefault();
 
@@ -54,6 +55,7 @@ hotkeys("f6", function (event) {
   // idList[idList.length - 1] gets the last element in the array
   const lastElement = idList[idList.length - 1];
 
+  // Finds the currently active element and assigns the currentElement value to the active element
   idList.forEach((element) => {
     if (element.active) {
       currentElement = element;
@@ -61,15 +63,20 @@ hotkeys("f6", function (event) {
     }
   });
 
+  // If no element is currently active, set the first element to be active and focus on it
   if (currentElement === undefined) {
     firstElement.active = true;
     currentElement = firstElement;
     document.getElementById(firstElement.id).focus();
-  } else if (lastElement.active) {
+  }
+  // If the last element is active, return to the first element and focus on it
+  else if (lastElement.active) {
     lastElement.active = false;
     firstElement.active = true;
     document.getElementById(firstElement.id).focus();
-  } else {
+  }
+  // If any other element is active than the last element, move onto the next element
+  else {
     const currentElementIndex = idList.indexOf(currentElement);
     idList.find((element) => element.id === currentElement.id).active = false;
     idList[currentElementIndex + 1].active = true;
@@ -78,6 +85,7 @@ hotkeys("f6", function (event) {
   }
 });
 
+// Navigate backwards using f7
 hotkeys("f7", function (event) {
   event.preventDefault();
 
@@ -86,6 +94,7 @@ hotkeys("f7", function (event) {
   // idList[idList.length - 1] gets the last element in the array
   const lastElement = idList[idList.length - 1];
 
+  // Finds the currently active element and assigns the currentElement value to the active element
   idList.forEach((element) => {
     if (element.active) {
       currentElement = element;
@@ -93,15 +102,20 @@ hotkeys("f7", function (event) {
     }
   });
 
+  // If no element is currently active, set the last element to be active and focus on it
   if (currentElement === undefined) {
     lastElement.active = true;
     currentElement = lastElement;
     document.getElementById(lastElement.id).focus();
-  } else if (firstElement.active) {
+  }
+  // If the first element is active, return to the last element and focus on it
+  else if (firstElement.active) {
     firstElement.active = false;
     lastElement.active = true;
     document.getElementById(lastElement.id).focus();
-  } else {
+  }
+  // If any other element is active than the first element, move back to the previous element
+  else {
     const currentElementIndex = idList.indexOf(currentElement);
     idList.find((element) => element.id === currentElement.id).active = false;
     idList[currentElementIndex - 1].active = true;
@@ -109,27 +123,6 @@ hotkeys("f7", function (event) {
     document.getElementById(idList[currentElementIndex - 1].id).focus();
   }
 });
-
-// hotkeys("f5", function (event) {
-//   event.preventDefault();
-
-//   document.getElementById("mainnavutilitybtns").focus();
-
-//   // window.location = "#mainNavFocus";
-//   // document.getElementById("SuperNav-1").focus();
-// });
-
-// hotkeys("f6", function (event) {
-//   event.preventDefault();
-
-//   document.getElementById("SuperNav-2").focus();
-// });
-
-// hotkeys("f7", function (event) {
-//   event.preventDefault();
-
-//   document.getElementById("SuperNav-3").focus();
-// });
 
 const AddMenu = ({
   addMenuOpen,
