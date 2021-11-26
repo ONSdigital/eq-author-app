@@ -12,10 +12,10 @@ module.exports = (ajv) =>
       currentExpression,
       { rootData: questionnaire, instancePath }
     ) {
-      console.log(
-        `validateSecondaryCondition - currentExpression`,
-        JSON.stringify(currentExpression, null, 7)
-      );
+      // console.log(
+      //   `validateSecondaryCondition - currentExpression`,
+      //   JSON.stringify(currentExpression, null, 7)
+      // );
 
       if (currentExpression.condition === "CountOf") {
         console.log(`HERE >>>>>>>>>>>>`);

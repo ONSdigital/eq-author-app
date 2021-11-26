@@ -41,7 +41,7 @@ const SecondaryConditionRoutingSelector = styled.div`
   align-items: center;
 `;
 
-const StyledNumber = styled(Number)`
+export const StyledNumber = styled(Number)`
   width: 80px;
   ${({ hasError }) =>
     hasError &&
@@ -126,7 +126,7 @@ class SecondaryConditionSelector extends React.Component {
 
     return (
       <>
-        <SecondaryConditionRoutingSelector>
+        <SecondaryConditionRoutingSelector hasError={hasError}>
           <VisuallyHidden>
             <Label htmlFor={`expression-secondaryCondition-${expression.id}`}>
               Operator
@@ -171,8 +171,8 @@ class SecondaryConditionSelector extends React.Component {
                 name={`expression-right-${expression.id}`}
                 onChange={this.handleRightChange}
                 onBlur={this.handleRightBlur}
-                data-test="number-value-input"
-                type={expression.left.type}
+                data-test="secondaryCondition-number-input"
+                type={"Number"}
                 unit={get(expression.left, "properties.unit", null)}
               />
             </Value>

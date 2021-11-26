@@ -177,7 +177,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         )
     );
 
-    console.log(`error`, error);
+    // console.log(`error`, error);
 
     if (
       expression.validationErrorInfo.errors.some(

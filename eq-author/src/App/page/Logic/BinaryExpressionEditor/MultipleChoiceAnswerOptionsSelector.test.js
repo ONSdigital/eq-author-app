@@ -15,6 +15,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
   beforeEach(() => {
     defaultProps = {
       expression: {
+        id: "Expression-id1",
         left: {
           id: "1",
           type: RADIO,
@@ -250,5 +251,25 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     expect(getByTestId("mutually-exclusive-separator")).toBeTruthy();
     expect(getByText("or")).toBeTruthy();
     expect(getByText("hello world")).toBeTruthy();
+  });
+
+  it("should show secondaryCondition selector and number input when when condition=`CountOf`", async () => {
+    defaultProps.expression.left = {
+      ...defaultProps.expression.left,
+      mutuallyExclusiveOption: { id: "123", label: "hello world" },
+      type: CHECKBOX,
+    };
+    defaultProps.expression.condition = "CountOf";
+
+    const { getByText, getByTestId } = render(
+      <MultipleChoiceAnswerOptionsSelector {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByTestId("secondaryCondition-selector")).toBeTruthy();
+    expect(getByTestId("secondaryCondition-number-input")).toBeTruthy();
   });
 });

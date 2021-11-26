@@ -23,7 +23,7 @@ const formatErrorMessage = (error, questionnaire) => {
     return error;
   }
 
-  console.log(`error - - - `, error);
+  // console.log(`error - - - `, error);
 
   const { instancePath, message } = error;
 
@@ -48,7 +48,7 @@ module.exports = (questionnaire) => {
     return [];
   }
 
-  console.log(`validate.errors`, validate.errors);
+  // console.log(`validate.errors`, validate.errors);
 
   const uniqueErrorMessages = {};
   const formattedErrorMessages = [];
@@ -66,7 +66,7 @@ module.exports = (questionnaire) => {
     }
   }
 
-  console.log(`formattedErrorMessages`, formattedErrorMessages);
+  // console.log(`formattedErrorMessages`, formattedErrorMessages);
 
   return formattedErrorMessages;
 };
