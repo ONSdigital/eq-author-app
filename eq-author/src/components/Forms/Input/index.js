@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { sharedStyles } from "components/Forms/css";
-import iconCheckbox from "./icon-checkbox.svg";
+import iconCheckbox from "assets/icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
 import { colors } from "constants/theme";
@@ -98,7 +98,6 @@ UncontrolledInput.propTypes = {
     "text",
     "checkbox",
     "radio",
-    "radioNoCheckbox",
     "number",
     "date",
     "search",
