@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes, { element } from "prop-types";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Popout, { Container, Layer } from "components/Popout";
@@ -50,6 +50,9 @@ hotkeys("f6", function (event) {
   event.preventDefault();
 
   let currentElement;
+  const firstElement = idList[0];
+  // idList[idList.length - 1] gets the last element in the array
+  const lastElement = idList[idList.length - 1];
 
   idList.forEach((element) => {
     if (element.active) {
@@ -59,13 +62,13 @@ hotkeys("f6", function (event) {
   });
 
   if (currentElement === undefined) {
-    idList[0].active = true;
-    currentElement = idList[0];
-    document.getElementById(idList[0].id).focus();
-  } else if (idList[idList.length - 1].active) {
-    idList[idList.length - 1].active = false;
-    idList[0].active = true;
-    document.getElementById(idList[0].id).focus();
+    firstElement.active = true;
+    currentElement = firstElement;
+    document.getElementById(firstElement.id).focus();
+  } else if (lastElement.active) {
+    lastElement.active = false;
+    firstElement.active = true;
+    document.getElementById(firstElement.id).focus();
   } else {
     const currentElementIndex = idList.indexOf(currentElement);
     idList.find((element) => element.id === currentElement.id).active = false;
@@ -79,6 +82,9 @@ hotkeys("f7", function (event) {
   event.preventDefault();
 
   let currentElement;
+  const firstElement = idList[0];
+  // idList[idList.length - 1] gets the last element in the array
+  const lastElement = idList[idList.length - 1];
 
   idList.forEach((element) => {
     if (element.active) {
@@ -88,13 +94,13 @@ hotkeys("f7", function (event) {
   });
 
   if (currentElement === undefined) {
-    idList[idList.length - 1].active = true;
-    currentElement = idList[idList.length - 1];
-    document.getElementById(idList[idList.length - 1].id).focus();
-  } else if (idList[0].active) {
-    idList[0].active = false;
-    idList[idList.length - 1].active = true;
-    document.getElementById(idList[idList.length - 1].id).focus();
+    lastElement.active = true;
+    currentElement = lastElement;
+    document.getElementById(lastElement.id).focus();
+  } else if (firstElement.active) {
+    firstElement.active = false;
+    lastElement.active = true;
+    document.getElementById(lastElement.id).focus();
   } else {
     const currentElementIndex = idList.indexOf(currentElement);
     idList.find((element) => element.id === currentElement.id).active = false;
