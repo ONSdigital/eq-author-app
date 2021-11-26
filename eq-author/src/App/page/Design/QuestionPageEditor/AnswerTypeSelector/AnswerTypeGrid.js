@@ -1,8 +1,6 @@
-/* eslint-disable react/no-find-dom-node */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
 import { radius } from "constants/theme";
 import { IconGrid } from "components/IconGrid";
 import AnswerTypeButton from "./AnswerTypeButton";

@@ -116,7 +116,6 @@ class AnswerTypeSelector extends React.Component {
             container={PopoutContainer}
             layer={PopoutLayer}
             onToggleOpen={this.handleOpenToggle}
-            onEntered={this.handleEntered}
           >
             <AnswerTypeGrid
               onSelect={this.handleSelect}
