@@ -38,34 +38,84 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
-const IdList = [
+const idList = [
   { id: "mainnavutilitybtns", active: false },
   { id: "SuperNav-2", active: false },
   { id: "SuperNav-3", active: false },
-  { id: "SuperNav-4", active: false },
-  { id: "SuperNav-5", active: false },
+  // { id: "SuperNav-4", active: false },
+  // { id: "SuperNav-5", active: false },
 ];
-
-hotkeys("f5", function (event) {
-  event.preventDefault();
-
-  document.getElementById("mainnavutilitybtns").focus();
-
-  // window.location = "#mainNavFocus";
-  // document.getElementById("SuperNav-1").focus();
-});
 
 hotkeys("f6", function (event) {
   event.preventDefault();
 
-  document.getElementById("SuperNav-2").focus();
+  let currentElement;
+
+  idList.forEach((element) => {
+    if (element.active) {
+      currentElement = element;
+      return;
+    }
+  });
+
+  if (currentElement === undefined) {
+    idList[0].active = true;
+    currentElement = idList[0];
+    document.getElementById(idList[0].id).focus();
+  } else {
+    const currentElementIndex = idList.indexOf(currentElement);
+    idList.find((element) => element.id === currentElement.id).active = false;
+    idList[currentElementIndex + 1].active = true;
+    currentElement = idList[currentElementIndex + 1];
+    document.getElementById(idList[currentElementIndex + 1].id).focus();
+  }
 });
 
-hotkeys("f7", function (event) {
-  event.preventDefault();
+// hotkeys("f7", function (event) {
+//   event.preventDefault();
 
-  document.getElementById("SuperNav-3").focus();
-});
+//   let currentElement;
+
+//   idList.forEach((element) => {
+//     if (element.active) {
+//       currentElement = element;
+//       return;
+//     }
+//   });
+
+//   if (currentElement === undefined) {
+//     idList[-1].active = true;
+//     currentElement = idList[-1];
+//     document.getElementById(idList[-1].id).focus();
+//   } else {
+//     const currentElementIndex = idList.indexOf(currentElement);
+//     idList.find((element) => element.id === currentElement.id).active = false;
+//     idList[currentElementIndex - 1].active = true;
+//     currentElement = idList[currentElementIndex - 1];
+//     document.getElementById(idList[currentElementIndex - 1].id).focus();
+//   }
+// });
+
+// hotkeys("f5", function (event) {
+//   event.preventDefault();
+
+//   document.getElementById("mainnavutilitybtns").focus();
+
+//   // window.location = "#mainNavFocus";
+//   // document.getElementById("SuperNav-1").focus();
+// });
+
+// hotkeys("f6", function (event) {
+//   event.preventDefault();
+
+//   document.getElementById("SuperNav-2").focus();
+// });
+
+// hotkeys("f7", function (event) {
+//   event.preventDefault();
+
+//   document.getElementById("SuperNav-3").focus();
+// });
 
 const AddMenu = ({
   addMenuOpen,
