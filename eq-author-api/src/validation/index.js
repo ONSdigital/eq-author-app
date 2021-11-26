@@ -23,8 +23,6 @@ const formatErrorMessage = (error, questionnaire) => {
     return error;
   }
 
-  // console.log(`error - - - `, error);
-
   const { instancePath, message } = error;
   const splitPath = instancePath.split("/");
   const field = splitPath.pop();
@@ -47,8 +45,6 @@ module.exports = (questionnaire) => {
     return [];
   }
 
-  // console.log(`validate.errors`, validate.errors);
-
   const uniqueErrorMessages = {};
   const formattedErrorMessages = [];
 
@@ -64,8 +60,6 @@ module.exports = (questionnaire) => {
       formattedErrorMessages.push(formatErrorMessage(err, questionnaire));
     }
   }
-
-  // console.log(`formattedErrorMessages`, formattedErrorMessages);
 
   return formattedErrorMessages;
 };

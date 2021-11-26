@@ -71,7 +71,7 @@ const ChipBox = ({
       <TruncatedLabel>{children}</TruncatedLabel>
 
       <RemoveButton onClick={() => onRemove(id)} data-test="remove-chip">
-        <VisuallyHidden>Removedfbdfbdfbd</VisuallyHidden>
+        <VisuallyHidden>Remove</VisuallyHidden>
       </RemoveButton>
     </Chip>
   );

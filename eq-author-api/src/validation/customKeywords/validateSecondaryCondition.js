@@ -1,5 +1,5 @@
 const {
-  ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND,
+  OPERATOR_REQUIRED,
 } = require("../../../constants/validationErrorCodes");
 
 const createValidationError = require("../createValidationError");
@@ -12,11 +12,6 @@ module.exports = (ajv) =>
       currentExpression,
       { rootData: questionnaire, instancePath }
     ) {
-      // console.log(
-      //   `validateSecondaryCondition - currentExpression`,
-      //   JSON.stringify(currentExpression, null, 7)
-      // );
-
       if (currentExpression.condition === "CountOf") {
         if (
           currentExpression.secondaryCondition === null ||
@@ -25,7 +20,7 @@ module.exports = (ajv) =>
           isValid.errors = createValidationError(
             instancePath,
             "secondaryCondition",
-            ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND,
+            OPERATOR_REQUIRED,
             questionnaire
           );
           return false;
