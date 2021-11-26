@@ -7,7 +7,7 @@ import SecondaryConditionSelector, {
   StyledNumber,
 } from "./SecondaryConditionSelector";
 
-import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 
 describe("secondaryConditionSelector", () => {
   let defaultProps;

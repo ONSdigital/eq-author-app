@@ -11,7 +11,7 @@ const createBinaryExpressionMutation = `
              }
           }
           condition  
-          selectedCondition
+          secondaryCondition
           }      
 
         }

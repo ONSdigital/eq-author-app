@@ -1,17 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { get, some } from "lodash";
+import { get } from "lodash";
 
 import { colors } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
-
-import {
-  rightSideErrors,
-  OPERATOR_REQUIRED,
-} from "constants/validationMessages";
-import ValidationError from "components/ValidationError";
 
 const conditions = {
   SELECT: null,
@@ -90,34 +84,6 @@ class SecondaryConditionSelector extends React.Component {
     this.props.onConditionChange("CountOf", value);
   };
 
-  handleError = () => {
-    const { expression, groupErrorMessage } = this.props;
-    let message = null;
-
-    const errors = expression.validationErrorInfo.errors;
-
-    if (errors.some(({ field }) => field === "secondaryCondition")) {
-      message = OPERATOR_REQUIRED;
-    } else if (
-      errors.some(
-        ({ errorCode }) =>
-          errorCode === rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode
-      )
-    ) {
-      message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
-    }
-
-    if (
-      some(expression.validationErrorInfo.errors, {
-        errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
-      })
-    ) {
-      message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
-    }
-
-    return <ValidationError>{message || groupErrorMessage}</ValidationError>;
-  };
-
   render() {
     const { expression, groupErrorMessage } = this.props;
 
@@ -153,7 +119,6 @@ class SecondaryConditionSelector extends React.Component {
               (&le;) Less than or equal to
             </option>
           </Selector>
-          {/* {expression.secondaryCondition !== conditions.SELECT && ( */}
           <>
             <Value>
               <VisuallyHidden>
@@ -177,9 +142,7 @@ class SecondaryConditionSelector extends React.Component {
               />
             </Value>
           </>
-          {/* )} */}
         </SecondaryConditionRoutingSelector>
-        {/* {hasError && this.handleError()} */}
       </>
     );
   }

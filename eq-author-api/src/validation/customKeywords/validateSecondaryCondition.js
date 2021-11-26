@@ -18,14 +18,10 @@ module.exports = (ajv) =>
       // );
 
       if (currentExpression.condition === "CountOf") {
-        console.log(`HERE >>>>>>>>>>>>`);
-
         if (
           currentExpression.secondaryCondition === null ||
           currentExpression.secondaryCondition === undefined
         ) {
-          console.log(`HERE 22222222222!!!!!!!!!!!!!`);
-
           isValid.errors = createValidationError(
             instancePath,
             "secondaryCondition",

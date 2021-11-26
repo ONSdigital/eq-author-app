@@ -261,7 +261,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     };
     defaultProps.expression.condition = "CountOf";
 
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <MultipleChoiceAnswerOptionsSelector {...defaultProps} />
     );
 

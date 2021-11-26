@@ -133,8 +133,6 @@ Resolvers.Mutation = {
       secondaryCondition: null,
     });
 
-    console.log(`expression xxxxxxx`, expression);
-
     expressionGroup.expressions.push(expression);
 
     return expression;
@@ -160,13 +158,10 @@ Resolvers.Mutation = {
       }
 
       expression.condition = condition;
-      console.log(`secondaryCondition - - - - - - -`, secondaryCondition);
 
       if (secondaryCondition !== null || secondaryCondition !== undefined) {
         expression.secondaryCondition = secondaryCondition;
       }
-
-      console.log(`expression - - - - - - - - `, expression);
 
       return expression;
     }

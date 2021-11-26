@@ -177,8 +177,6 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         )
     );
 
-    // console.log(`error`, error);
-
     if (
       expression.validationErrorInfo.errors.some(
         ({ field }) => field === "secondaryCondition"
@@ -194,8 +192,6 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
           rightSideErrors[error.errorCode].optionsMessage ||
           rightSideErrors[error.errorCode].message;
       }
-
-      console.log(`rightSideErrors`, rightSideErrors);
     }
 
     return message ? <ValidationError>{message}</ValidationError> : null;
@@ -240,7 +236,6 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
   renderCheckboxOptionSelector(hasError, hasConditionError) {
     const { expression } = this.props;
-    console.log(`expression`, expression);
 
     return (
       <>
@@ -324,10 +319,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const { expression, groupErrorMessage } = this.props;
     const answerType = get(expression, "left.type");
 
-    console.log(`expression`, expression);
-
     const { errors } = expression.validationErrorInfo;
-    console.log(`errors`, errors);
 
     const hasError = errors.length || groupErrorMessage;
     const hasConditionError =
