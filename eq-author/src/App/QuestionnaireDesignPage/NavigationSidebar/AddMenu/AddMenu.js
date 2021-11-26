@@ -62,6 +62,10 @@ hotkeys("f6", function (event) {
     idList[0].active = true;
     currentElement = idList[0];
     document.getElementById(idList[0].id).focus();
+  } else if (idList[idList.length - 1].active) {
+    idList[idList.length - 1].active = false;
+    idList[0].active = true;
+    document.getElementById(idList[0].id).focus();
   } else {
     const currentElementIndex = idList.indexOf(currentElement);
     idList.find((element) => element.id === currentElement.id).active = false;
@@ -71,30 +75,34 @@ hotkeys("f6", function (event) {
   }
 });
 
-// hotkeys("f7", function (event) {
-//   event.preventDefault();
+hotkeys("f7", function (event) {
+  event.preventDefault();
 
-//   let currentElement;
+  let currentElement;
 
-//   idList.forEach((element) => {
-//     if (element.active) {
-//       currentElement = element;
-//       return;
-//     }
-//   });
+  idList.forEach((element) => {
+    if (element.active) {
+      currentElement = element;
+      return;
+    }
+  });
 
-//   if (currentElement === undefined) {
-//     idList[-1].active = true;
-//     currentElement = idList[-1];
-//     document.getElementById(idList[-1].id).focus();
-//   } else {
-//     const currentElementIndex = idList.indexOf(currentElement);
-//     idList.find((element) => element.id === currentElement.id).active = false;
-//     idList[currentElementIndex - 1].active = true;
-//     currentElement = idList[currentElementIndex - 1];
-//     document.getElementById(idList[currentElementIndex - 1].id).focus();
-//   }
-// });
+  if (currentElement === undefined) {
+    idList[idList.length - 1].active = true;
+    currentElement = idList[idList.length - 1];
+    document.getElementById(idList[idList.length - 1].id).focus();
+  } else if (idList[0].active) {
+    idList[0].active = false;
+    idList[idList.length - 1].active = true;
+    document.getElementById(idList[idList.length - 1].id).focus();
+  } else {
+    const currentElementIndex = idList.indexOf(currentElement);
+    idList.find((element) => element.id === currentElement.id).active = false;
+    idList[currentElementIndex - 1].active = true;
+    currentElement = idList[currentElementIndex - 1];
+    document.getElementById(idList[currentElementIndex - 1].id).focus();
+  }
+});
 
 // hotkeys("f5", function (event) {
 //   event.preventDefault();
