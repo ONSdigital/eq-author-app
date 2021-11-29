@@ -19,6 +19,7 @@ describe("withUpdateAnswer", () => {
     props.onUpdateAnswer(answer);
     expect(mutate).toHaveBeenCalledWith({
       variables: { input: answer },
+      refetchQueries: ["GetQuestionnaire"],
     });
   });
 
@@ -29,6 +30,7 @@ describe("withUpdateAnswer", () => {
     props.onUpdateAnswer(answer);
     expect(mutate).toHaveBeenCalledWith({
       variables: { input: { id: "1" } },
+      refetchQueries: ["GetQuestionnaire"],
     });
   });
 });

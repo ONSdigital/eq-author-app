@@ -28,14 +28,39 @@ export const colors = {
   sidebarBlack: "#333333",
   white: "#FFFFFF",
   greyedOrange: "#D9A551",
+  // ONS colour palette
+  nightBlue: "#003c57",
+  springGreen: "#a8bd3a",
+  oceanBlue: "#206095",
+  skyBlue: "#27a0cc",
+  aquaTeal: "#00a3a6",
+  leafGreen: "#0f8243",
+  rubyRed: "#d0021b",
+  jaffaOrange: "#fa6401",
+  sunYellow: "#fbc900",
+  neonYellow: "#f0f762",
+  grey100: "#414042",
+  grey75: "#707071",
+  grey35: "#bcbcbd",
+  grey15: "#e2e2e3",
+  grey5: "#f5f5f6",
+  infoTint: "#e9eff4",
+  infoVibrant: "#1f84d8",
+  successVibrant: "#10ca64",
+  successTint: "#e7f3ec",
+  errorsTint: "#fae6e8",
+  errorsVibrant: "#fd112d",
+  pendingVibrant: "#ff803b",
 };
 
 colors.primary = colors.blue;
 colors.secondary = colors.blue;
 colors.tertiary = colors.orange;
+colors.focus = colors.sunYellow;
 colors.positive = colors.green;
 colors.negative = colors.red;
 colors.text = colors.black;
+colors.textInverse = colors.white;
 colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;
 colors.bordersLight = colors.lightGrey;
@@ -45,6 +70,12 @@ colors.errorSecondary = colors.lightOrange;
 colors.badgeSelectedBackground = colors.black;
 colors.badgeSelectedText = colors.white;
 colors.calcSumEmptyContent = colors.mediumGrey;
+colors.textLink = colors.oceanBlue;
+colors.textLinkHover = colors.nightBlue;
+colors.highlight = colors.neonYellow;
+colors.info = colors.oceanBlue;
+colors.success = colors.leafGreen;
+colors.errors = colors.rubyRed;
 
 export const radius = "4px";
 
@@ -94,7 +125,46 @@ export const getTextHoverStyle = (color) => css`
   }
 `;
 
-export default {
-  colors,
-  radius,
+export const themes = {
+  default: {
+    colors,
+    radius,
+    fonts: "Lato, sans-serif",
+    fontSize: "16px",
+  },
+  ons: {
+    colors: {
+      ...colors,
+      primary: colors.leafGreen,
+      secondary: colors.grey15,
+      tertiary: colors.jaffaOrange,
+      focus: colors.sunYellow,
+      positive: colors.leafGreen,
+      negative: colors.rubyRed,
+      text: colors.black,
+      textInverse: colors.white,
+      textLight: colors.grey75,
+      borders: colors.grey75,
+      bordersLight: colors.grey15,
+      previewError: colors.grey100,
+      errorPrimary: colors.rubyRed,
+      errorSecondary: colors.errorsTint,
+      badgeSelectedBackground: colors.black,
+      badgeSelectedText: colors.blue,
+      calcSumEmptyContent: colors.Grey50,
+      textLink: colors.oceanBlue,
+      textLinkHover: colors.nightBlue,
+      highlight: colors.neonYellow,
+      info: colors.oceanBlue,
+      success: colors.leafGreen,
+      errors: colors.rubyRed,
+      input: colors.black,
+      textBannerLink: colors.grey5,
+    },
+    radius: "3px",
+    fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
+    fontSize: "18px",
+  },
 };
+
+export default { colors, radius };

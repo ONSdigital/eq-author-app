@@ -24,10 +24,25 @@ describe("Duration Error", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should not render when value 0", () => {
+  it("should render when value 0", () => {
     const duration = {
       unit: DAYS,
       value: 0,
+    };
+    expect(render({ duration })).toMatchSnapshot();
+  });
+
+  it("should not render when value is null", () => {
+    const duration = {
+      unit: DAYS,
+      value: null,
+    };
+    expect(render({ duration })).toMatchSnapshot();
+  });
+
+  it("should not render when value is undefined", () => {
+    const duration = {
+      unit: DAYS,
     };
     expect(render({ duration })).toMatchSnapshot();
   });

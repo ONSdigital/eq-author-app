@@ -73,6 +73,7 @@ const {
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
+const onAnswerUpdated = require("../../src/businessLogic/onAnswerUpdated");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const deleteMetadata = require("../../src/businessLogic/deleteMetadata");
 const createOption = require("../../src/businessLogic/createOption");
@@ -532,7 +533,9 @@ const Resolvers = {
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
       const removedSection = first(remove(getSections(ctx), { id: input.id }));
-      onSectionDeleted(ctx, removedSection);
+      const pages = getPages(ctx);
+
+      onSectionDeleted(ctx, removedSection, pages);
 
       if (!ctx.questionnaire.sections.length) {
         ctx.questionnaire.sections.push(createSection());
@@ -574,8 +577,9 @@ const Resolvers = {
     deleteFolder: createMutation((root, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
       const removedFolder = first(remove(section.folders, { id: input.id }));
+      const pages = getPages(ctx);
 
-      onFolderDeleted(ctx, removedFolder);
+      onFolderDeleted(ctx, removedFolder, pages);
 
       if (!section.folders.length) {
         section.folders.push(createFolder());
@@ -599,7 +603,7 @@ const Resolvers = {
         } else {
           section.folders.splice(position, 0, folderToMove);
         }
-        return folderToMove;
+        return ctx.questionnaire;
       }
     ),
     duplicateFolder: createMutation((_, { input }, ctx) => {
@@ -630,6 +634,7 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswerLabel = answer.label;
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input?.properties?.format) {
@@ -638,6 +643,9 @@ const Resolvers = {
         answer.validation.latestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
       }
+
+      const pages = getPages(ctx);
+      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
 
       return answer;
     }),
@@ -657,10 +665,10 @@ const Resolvers = {
     ),
     deleteAnswer: createMutation((_, { input }, ctx) => {
       const page = getPageByAnswerId(ctx, input.id);
-
+      const pages = getPages(ctx);
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
-      onAnswerDeleted(ctx, page, deletedAnswer);
+      onAnswerDeleted(ctx, page, deletedAnswer, pages);
 
       return page;
     }),

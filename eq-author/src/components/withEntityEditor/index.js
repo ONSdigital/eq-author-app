@@ -54,6 +54,11 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
 
       this.dirtyField = name;
 
+      /*
+      name: The name of the attribute being changed in the backend data (this might take the id property)
+      value: The value being passed down to change, associated with the name
+      this.entity: The object being changed
+      */
       const entity = fp.set(name, value, this.entity);
 
       if (!this.unmounted) {

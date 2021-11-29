@@ -15,6 +15,7 @@ steps:
         yarn --frozen-lockfile
         yarn lint
         yarn test --coverage
+        [ $? -eq 0 ]  || exit 1
         export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
         echo "************************"
         echo "Target coverage: $_COVERAGE_LEVEL%"

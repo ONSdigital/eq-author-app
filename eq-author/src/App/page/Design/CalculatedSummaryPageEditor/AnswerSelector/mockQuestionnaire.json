@@ -1,0 +1,267 @@
+{
+  "introduction": {
+    "id": "391880ab-cf2c-433a-ae86-f68edf44e0c3",
+    "__typename": "QuestionnaireIntroduction"
+  },
+  "publishStatus": "Unpublished",
+  "locked": false,
+  "totalErrorCount": 1,
+  "id": "aee92aa2-900e-4573-af31-c6e8915cccf6",
+  "sections": [
+    {
+      "id": "b9b7fb43-3065-48d5-a949-fa633ba8e8d6",
+      "title": "",
+      "displayName": "Untitled section",
+      "questionnaire": {
+        "id": "aee92aa2-900e-4573-af31-c6e8915cccf6",
+        "__typename": "Questionnaire"
+      },
+      "validationErrorInfo": {
+        "id": "b9b7fb43-3065-48d5-a949-fa633ba8e8d6",
+        "totalCount": 0,
+        "__typename": "ValidationErrorInfo"
+      },
+      "folders": [
+        {
+          "id": "f79dafc4-b8a3-45a4-b34d-f24591d443a7",
+          "enabled": false,
+          "alias": "",
+          "displayName": "Untitled folder",
+          "position": 0,
+          "pages": [
+            {
+              "id": "2001b821-7105-4fb2-be69-5da75c20bb50",
+              "alias": null,
+              "title": "<p>a</p>",
+              "position": 0,
+              "displayName": "a",
+              "pageType": "QuestionPage",
+              "validationErrorInfo": {
+                "id": "2001b821-7105-4fb2-be69-5da75c20bb50",
+                "errors": [],
+                "totalCount": 0,
+                "__typename": "ValidationErrorInfo"
+              },
+              "answers": [
+                {
+                  "id": "3a1633da-29d4-426e-9e7e-fd14d4c75700",
+                  "displayName": "a",
+                  "description": "",
+                  "guidance": "",
+                  "qCode": "",
+                  "label": "a",
+                  "secondaryLabel": null,
+                  "secondaryLabelDefault": "Untitled answer",
+                  "type": "Number",
+                  "properties": {
+                    "required": false,
+                    "decimals": 0
+                  },
+                  "secondaryQCode": null,
+                  "__typename": "BasicAnswer",
+                  "questionTitle": "<p>a</p>",
+                  "questionShortCode": null
+                }
+              ],
+              "confirmation": null,
+              "__typename": "QuestionPage"
+            }
+          ],
+          "validationErrorInfo": {
+            "id": "f79dafc4-b8a3-45a4-b34d-f24591d443a7",
+            "totalCount": 0,
+            "__typename": "ValidationErrorInfo"
+          },
+          "__typename": "Folder"
+        },
+        {
+          "id": "c1d7e1c6-2dba-4537-a1f7-fa35993525ff",
+          "enabled": false,
+          "alias": "",
+          "displayName": "Untitled folder",
+          "position": 1,
+          "pages": [
+            {
+              "id": "2004afe8-e1b5-42e3-ac73-193160888955",
+              "alias": "",
+              "title": "<p>b</p>",
+              "position": 0,
+              "displayName": "b",
+              "pageType": "QuestionPage",
+              "validationErrorInfo": {
+                "id": "2004afe8-e1b5-42e3-ac73-193160888955",
+                "errors": [],
+                "totalCount": 0,
+                "__typename": "ValidationErrorInfo"
+              },
+              "answers": [
+                {
+                  "id": "f337bce1-ad17-49ab-8439-5eb632177fcd",
+                  "displayName": "b",
+                  "description": "",
+                  "guidance": "",
+                  "qCode": "",
+                  "label": "b",
+                  "secondaryLabel": null,
+                  "secondaryLabelDefault": "Untitled answer",
+                  "type": "Number",
+                  "properties": {
+                    "required": false,
+                    "decimals": 0
+                  },
+                  "secondaryQCode": null,
+                  "__typename": "BasicAnswer",
+                  "questionTitle": "<p>b</p>",
+                  "questionShortCode": ""
+                }
+              ],
+              "confirmation": null,
+              "__typename": "QuestionPage"
+            }
+          ],
+          "validationErrorInfo": {
+            "id": "c1d7e1c6-2dba-4537-a1f7-fa35993525ff",
+            "totalCount": 0,
+            "__typename": "ValidationErrorInfo"
+          },
+          "__typename": "Folder"
+        },
+        {
+          "id": "674f3e1e-b847-4001-8545-7c5f9789ef2a",
+          "enabled": false,
+          "alias": "",
+          "displayName": "Untitled folder",
+          "position": 2,
+          "pages": [
+            {
+              "id": "e76d80b3-8d5a-46b3-a9df-6659a976b8a2",
+              "alias": null,
+              "title": "<p>c</p>",
+              "position": 0,
+              "displayName": "c",
+              "pageType": "CalculatedSummaryPage",
+              "validationErrorInfo": {
+                "id": "e76d80b3-8d5a-46b3-a9df-6659a976b8a2",
+                "errors": [],
+                "totalCount": 0,
+                "__typename": "ValidationErrorInfo"
+              },
+              "__typename": "CalculatedSummaryPage"
+            }
+          ],
+          "validationErrorInfo": {
+            "id": "674f3e1e-b847-4001-8545-7c5f9789ef2a",
+            "totalCount": 0,
+            "__typename": "ValidationErrorInfo"
+          },
+          "__typename": "Folder"
+        }
+      ],
+      "__typename": "Section"
+    }
+  ],
+  "__typename": "Questionnaire",
+  "title": "Hello world",
+  "description": "",
+  "surveyId": "",
+  "theme": "default",
+  "qcodes": true,
+  "navigation": false,
+  "summary": false,
+  "collapsibleSummary": null,
+  "type": "Business",
+  "shortTitle": null,
+  "displayName": "Hello world",
+  "createdBy": {
+    "id": "ac6ee97c-e6ee-4f5d-9ac6-2cd674da7089",
+    "picture": null,
+    "name": "RuPaul Charles",
+    "email": "MummaRu@DragRace.com",
+    "__typename": "User"
+  },
+  "editors": [],
+  "isPublic": true,
+  "permission": "Write",
+  "hub": false,
+  "metadata": [
+    {
+      "id": "c038d43c-9c7e-4391-8ba6-6fd924de7024",
+      "displayName": "Ru Name",
+      "type": "Text",
+      "key": "ru_name",
+      "dateValue": null,
+      "regionValue": null,
+      "languageValue": null,
+      "textValue": "ESSENTIAL ENTERPRISE LTD.",
+      "__typename": "Metadata"
+    },
+    {
+      "id": "ac7f1e47-5c50-4909-bef5-ccc03362af21",
+      "displayName": "Trad As",
+      "type": "Text_Optional",
+      "key": "trad_as",
+      "dateValue": null,
+      "regionValue": null,
+      "languageValue": null,
+      "textValue": "ESSENTIAL ENTERPRISE LTD.",
+      "__typename": "Metadata"
+    },
+    {
+      "id": "feadd014-6ce4-44bc-9835-4468ad41dbf0",
+      "displayName": "Period Id",
+      "type": "Text",
+      "key": "period_id",
+      "dateValue": null,
+      "regionValue": null,
+      "languageValue": null,
+      "textValue": "201605",
+      "__typename": "Metadata"
+    },
+    {
+      "id": "177abe78-95be-4c0e-acf9-86bd5de72905",
+      "displayName": "Start Date",
+      "type": "Date",
+      "key": "ref_p_start_date",
+      "dateValue": "2016-05-01",
+      "regionValue": null,
+      "languageValue": null,
+      "textValue": null,
+      "__typename": "Metadata"
+    },
+    {
+      "id": "0c6067fe-f867-47db-bf7e-baec5825e6cb",
+      "displayName": "End Date",
+      "type": "Date",
+      "key": "ref_p_end_date",
+      "dateValue": "2016-06-12",
+      "regionValue": null,
+      "languageValue": null,
+      "textValue": null,
+      "__typename": "Metadata"
+    }
+  ],
+  "themeSettings": {
+    "id": "10c386dc-6c2f-41f9-b957-f2aa00a8f821",
+    "validationErrorInfo": {
+      "id": "10c386dc-6c2f-41f9-b957-f2aa00a8f821",
+      "errors": [],
+      "totalCount": 0,
+      "__typename": "ValidationErrorInfo"
+    },
+    "__typename": "ThemeSettings"
+  },
+  "validationErrorInfo": {
+    "id": "aee92aa2-900e-4573-af31-c6e8915cccf6",
+    "errors": [
+      {
+        "id": "493cdf5c-291a-43b1-b67f-9878809ec04f",
+        "type": "root",
+        "field": "surveyId",
+        "errorCode": "ERR_VALID_REQUIRED",
+        "__typename": "ValidationError"
+      }
+    ],
+    "totalCount": 1,
+    "__typename": "ValidationErrorInfo"
+  }
+}

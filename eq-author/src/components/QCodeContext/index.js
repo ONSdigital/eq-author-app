@@ -42,6 +42,7 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
+
     // Add page title / shortcode alias (for display in QCodesTable) to first answer only
     if (answerRows.length) {
       answerRows[0].questionTitle = page.title;
@@ -55,13 +56,24 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 // getDuplicatedQCodes :: [AnswerRow] -> [QCode]
 // Return an array of qCodes which are duplicated in the given list of answer rows
 export const getDuplicatedQCodes = (flattenedAnswers) => {
-  const qCodeUsageMap = flattenedAnswers?.reduce((acc, { qCode }) => {
-    if (qCode) {
-      const currentValue = acc.get(qCode);
-      acc.set(qCode, currentValue ? currentValue + 1 : 1);
-    }
-    return acc;
-  }, new Map());
+  const qCodeUsageMap = flattenedAnswers?.reduce(
+    (acc, { qCode, additionalAnswer }) => {
+      const { qCode: additionalAnswerQCode } = additionalAnswer || {};
+
+      if (qCode) {
+        const currentValue = acc.get(qCode);
+        acc.set(qCode, currentValue ? currentValue + 1 : 1);
+      }
+
+      if (additionalAnswerQCode) {
+        const currentValue = acc.get(additionalAnswerQCode);
+        acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
+      }
+
+      return acc;
+    },
+    new Map()
+  );
 
   return Array.from(qCodeUsageMap).reduce(
     (acc, [qCode, count]) => (count > 1 ? [...acc, qCode] : acc),
