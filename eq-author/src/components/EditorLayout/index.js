@@ -46,6 +46,15 @@ const StyledGrid = styled(Grid)`
   height: auto;
 `;
 
+const StyledColumn = styled(Column)`
+  height: auto;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
+`;
+
 const EditorLayout = ({
   children,
   onAddQuestionPage,
@@ -71,7 +80,12 @@ const EditorLayout = ({
       </Header>
       <ScrollPane scrollToTop>
         <StyledGrid {...otherProps}>
-          <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
+          <StyledColumn
+            cols={singleColumnLayout ? 12 : 9}
+            gutters={false}
+            id="SuperNav-5"
+            tabIndex="-1"
+          >
             <Margin>
               <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
@@ -88,7 +102,7 @@ const EditorLayout = ({
                 </Button>
               </Centered>
             )}
-          </Column>
+          </StyledColumn>
           {singleColumnLayout ? null : (
             <Column cols={3} gutters={false}>
               <PanelWrapper data-test="right-hand-panel">

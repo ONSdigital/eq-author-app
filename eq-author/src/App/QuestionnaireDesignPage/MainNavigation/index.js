@@ -59,6 +59,7 @@ export const UtilityBtns = styled.div`
   &:focus {
     border: 3px solid #fdbd56;
     margin: 0;
+    outline: none;
   }
 `;
 

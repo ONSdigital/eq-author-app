@@ -22,6 +22,11 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const BaseLayout = ({ children, questionnaire }) => (

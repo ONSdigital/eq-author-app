@@ -41,11 +41,17 @@ const PopoutLayer = styled(Layer)`
 const idList = [
   { id: "mainnavutilitybtns", active: false },
   { id: "SuperNav-2", active: false },
-  { id: "SuperNav-3", active: false },
-  // { id: "SuperNav-4", active: false },
-  // { id: "SuperNav-5", active: false },
+  // { id: "SuperNav-3", active: false },
+  { id: "SuperNav-4", active: false },
+  { id: "SuperNav-5", active: false },
 ];
 
+// let firstMenuItem = document.getElementById("SuperNav-2");
+
+// console.log(firstMenuItem);
+// if (firstMenuItem) {
+//   console.log("Menu");
+// }
 // Navigate forwards using f6
 hotkeys("f6", function (event) {
   event.preventDefault();

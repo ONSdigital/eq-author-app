@@ -19,6 +19,12 @@ const StyledHeader = styled.header`
   background: ${colors.primary};
   font-weight: 400;
   position: relative;
+
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Flex = styled.div`
@@ -59,7 +65,7 @@ export const UnconnectedHeader = (props) => {
 
   return (
     <>
-      <StyledHeader>
+      <StyledHeader id="SuperNav-4" tabIndex="-1">
         <Flex>
           <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
         </Flex>
