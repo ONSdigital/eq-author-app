@@ -24,7 +24,6 @@ const formatErrorMessage = (error, questionnaire) => {
   }
 
   const { instancePath, message } = error;
-
   const splitPath = instancePath.split("/");
   const field = splitPath.pop();
 

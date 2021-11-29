@@ -32,8 +32,10 @@ module.exports = (ajv) =>
       const pipedIdList = [];
 
       let matches;
+
       do {
         matches = pipedAnswerIdRegex.exec(title);
+
         if (matches && matches.length > 1) {
           const [, answerId] = matches;
           pipedIdList.push(trimDateRangeId(answerId));
@@ -45,14 +47,16 @@ module.exports = (ajv) =>
       }
 
       const hasError = (errorMessage) => {
-        isValid.errors.push(
+        isValid.errors = [
           createValidationError(
             instancePath,
             fieldName,
             errorMessage,
-            questionnaire
-          )
-        );
+            questionnaire,
+            "deleted answer in title"
+          ),
+        ];
+
         return false;
       };
 
