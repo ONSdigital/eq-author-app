@@ -1,5 +1,5 @@
 const {
-  OPERATOR_REQUIRED,
+  ERR_ANSWER_NOT_SELECTED,
 } = require("../../../constants/validationErrorCodes");
 
 const createValidationError = require("../createValidationError");
@@ -20,7 +20,7 @@ module.exports = (ajv) =>
           isValid.errors = createValidationError(
             instancePath,
             "secondaryCondition",
-            OPERATOR_REQUIRED,
+            ERR_ANSWER_NOT_SELECTED,
             questionnaire
           );
           return false;
