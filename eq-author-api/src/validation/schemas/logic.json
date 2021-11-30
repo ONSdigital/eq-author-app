@@ -163,7 +163,6 @@
         }
       },
       "validateExpression": true,
-      "validateSecondaryCondition": true,
       "required": ["condition"]
     },
     "expression-unanswered": {
