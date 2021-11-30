@@ -44,16 +44,8 @@ export const StyledNumber = styled(Number)`
     outline-color: ${colors.errorPrimary};
     box-shadow: 0 0 0 2px ${colors.errorPrimary};
     border-radius: 4px;
-    margin-bottom: 0.5em;
   `}
 `;
-
-// const Input = styled.input.attrs({
-//   type: "number",
-// })`
-//   padding: 0.4em;
-// `;
-
 class SecondaryConditionSelector extends React.Component {
   static propTypes = {
     expression: PropTypes.shape({
@@ -92,7 +84,7 @@ class SecondaryConditionSelector extends React.Component {
 
     return (
       <>
-        <SecondaryConditionRoutingSelector hasError={hasError}>
+        <SecondaryConditionRoutingSelector>
           <VisuallyHidden>
             <Label htmlFor={`expression-secondaryCondition-${expression.id}`}>
               Operator
@@ -139,6 +131,8 @@ class SecondaryConditionSelector extends React.Component {
                 data-test="secondaryCondition-number-input"
                 type={"Number"}
                 unit={get(expression.left, "properties.unit", null)}
+                hasError={hasError}
+                style={{ padding: "0.3em" }}
               />
             </Value>
           </>
