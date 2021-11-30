@@ -253,19 +253,19 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             <option value={answerConditions.ANYOF}>Any of</option>
             <option value={answerConditions.NOTANYOF}>Not any of</option>
             <option value={answerConditions.ALLOF}>All of</option>
-            {enableOn(["hub"]) && (
+            {enableOn(["enableCountCondition"]) && (
               <option value={answerConditions.COUNTOF}>Count of</option>
             )}
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
-          {expression.condition === answerConditions.COUNTOF && (
-            <SecondaryConditionSelector
-              expression={expression}
-              onRightChange={this.props.onRightChange}
-              onConditionChange={this.props.onConditionChange}
-              // groupErrorMessage={groupErrorMessage}
-            />
-          )}
+          {expression.condition === answerConditions.COUNTOF &&
+            enableOn(["enableCountCondition"]) && (
+              <SecondaryConditionSelector
+                expression={expression}
+                onRightChange={this.props.onRightChange}
+                onConditionChange={this.props.onConditionChange}
+              />
+            )}
           {expression.condition !== answerConditions.UNANSWERED &&
             expression.condition !== answerConditions.COUNTOF && (
               <>
