@@ -6,7 +6,7 @@ import { darken } from "polished";
 const smallButton = css`
   font-size: 0.9rem;
   .button-text {
-    padding: 0.5em 0.8em;
+    padding: 0.5em 0.7em;
   }
 `;
 
