@@ -34,7 +34,7 @@ const HeaderTop = styled.div`
   }
 `;
 
-const TitleDescription = styled.p`
+const HeaderDescription = styled.p`
   color: ${({ theme }) => theme.colors.headerTitle};
   font-size: ${({ theme }) => theme.fontSize};
   line-height: 1.4;
@@ -52,9 +52,8 @@ const HeaderTitle = styled.h1`
   margin: 0;
   ${({ withDescription }) =>
     withDescription &&
-    `
-font-size: 2rem;
-`}
+    `font-size: 2rem;
+  `}
 `;
 
 const HeaderMain = styled.div`
@@ -62,8 +61,6 @@ const HeaderMain = styled.div`
   padding: 0.56rem 0;
   padding-left: 18px;
   height: auto;
-
-  ${({ variant }) => variant === "WithDescription" && WithDescription}
 `;
 
 const Header = ({
@@ -79,7 +76,7 @@ const Header = ({
       <HeaderMain withDescription={withDescription}>
         <HeaderTitle withDescription={withDescription}>{children}</HeaderTitle>
         {withDescription && (
-          <TitleDescription>{headerDescription}</TitleDescription>
+          <HeaderDescription>{headerDescription}</HeaderDescription>
         )}
       </HeaderMain>
     </>
@@ -89,8 +86,8 @@ const Header = ({
 Header.propTypes = {
   variant: PropType.string,
   children: PropType.node,
-  headerDescription: PropType.string,
   withDescription: PropType.bool,
+  headerDescription: PropType.string,
   logo: PropType.node,
 };
 
