@@ -2,26 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import PropType from "prop-types";
 
-const getSvgColour = (variant) => {
-  switch (variant) {
-    case "Internal":
-      return ({ theme }) => theme.colors.internalOnsLogo;
-    case "External":
-      return ({ theme }) => theme.colors.externalOnsLogo;
-  }
-};
-
-const getHeaderTopColour = (variant) => {
-  switch (variant) {
-    case "Internal":
-      return ({ theme }) => theme.colors.internalHeaderTop;
-    case "External":
-      return ({ theme }) => theme.colors.externalHeaderTop;
-  }
-};
-
 const HeaderTop = styled.div`
-  background-color: ${({ variant }) => getHeaderTopColour(variant)};
+  background-color: ${({ theme, variant }) =>
+    variant === "Internal"
+      ? theme.colors.internalHeaderTop
+      : theme.colors.externalHeaderTop};
   padding: 0 1rem;
   height: 46px;
   align-items: center;
@@ -30,7 +15,10 @@ const HeaderTop = styled.div`
     path:nth-of-type(1) {
       fill: ${({ theme }) => theme.colors.onsLogoAccent};
     }
-    fill: ${({ variant }) => getSvgColour(variant)};
+    fill: ${({ theme, variant }) =>
+      variant === "Internal"
+        ? theme.colors.internalOnsLogo
+        : theme.colors.externalOnsLogo};
   }
 `;
 
@@ -41,14 +29,13 @@ const HeaderDescription = styled.p`
   margin: 0 0 1rem;
 `;
 
-const HeaderTitle = styled.h1`
+const HeaderTitle = styled.div`
   font-size: 1.6666666667rem;
   color: ${({ theme }) => theme.colors.headerTitle};
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.4;
   cursor: pointer;
   text-decoration: none;
-  letter-spacing: 0.1rem;
   margin: 0;
   ${({ withDescription }) =>
     withDescription &&
