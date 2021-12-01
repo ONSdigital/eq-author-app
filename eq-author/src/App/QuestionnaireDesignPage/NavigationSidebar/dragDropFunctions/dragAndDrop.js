@@ -46,6 +46,7 @@ export const dnd = {
       : "below";
     event.currentTarget.firstChild.classList.remove("dragovertop");
     event.currentTarget.lastChild.classList.remove("dragoverbottom");
+    event.target.classList.remove("dragoverbottom");
     handleMoveContent({
       sourceId,
       sourceContext,
@@ -71,6 +72,17 @@ export const dnd = {
         (sourceContext === "Section" && targetContext === "Section")
     );
     if (allowDrop) {
+      if (sourceContext.includes("Page") && targetContext === "Folder") {
+        event.target.classList.add("dragoverbottom");
+        return;
+      }
+      if (
+        (sourceContext.includes("Page") || sourceContext === "Folder") &&
+        targetContext === "Section"
+      ) {
+        event.target.classList.add("dragoverbottom");
+        return;
+      }
       event.nativeEvent.offsetY < event.nativeEvent.target.offsetHeight / 2
         ? event.currentTarget.lastChild.classList.add("dragoverbottom")
         : event.currentTarget.firstChild.classList.add("dragovertop");
@@ -82,6 +94,7 @@ export const dnd = {
       event.currentTarget.firstChild.classList.remove("dragovertop");
     }
     event.currentTarget.lastChild.classList.remove("dragoverbottom");
+    event.target.classList.remove("dragoverbottom");
   },
 };
 
