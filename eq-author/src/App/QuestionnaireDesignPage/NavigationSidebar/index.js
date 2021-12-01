@@ -28,6 +28,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const NavigationScrollPane = styled(ScrollPane)`
@@ -93,7 +98,7 @@ const NavigationSidebar = ({ questionnaire }) => {
     );
 
   return (
-    <Container data-test="side-nav">
+    <Container data-test="side-nav" id="SuperNav-3" tabIndex="-1">
       {!questionnaire ? null : (
         <>
           <NavigationHeader data-test="nav-section-header" />

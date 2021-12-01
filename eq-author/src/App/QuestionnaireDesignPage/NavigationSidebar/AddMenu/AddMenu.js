@@ -40,8 +40,8 @@ const PopoutLayer = styled(Layer)`
 
 const idList = [
   { id: "SuperNav-1", active: false },
-  { id: "SuperNav-2", active: false },
-  // { id: "SuperNav-3", active: false },
+  // { id: "SuperNav-2", active: false },
+  { id: "SuperNav-3", active: false },
   { id: "SuperNav-4", active: false },
   { id: "SuperNav-5", active: false },
 ];
