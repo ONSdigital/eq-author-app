@@ -120,7 +120,7 @@ exports[`IntroductionEditor should render 1`] = `
           />
         </IntroductionEditor__InlineField>
         <IntroductionEditor__SectionDescription>
-          Add the reporting unit reference to the end of the subject line, for example, Change of details eference 621476278652.
+          Add the reporting unit reference to the end of the subject line, for example, Change of details reference 621476278652.
         </IntroductionEditor__SectionDescription>
         <IntroductionEditor__HorizontalSeparator />
       </div>

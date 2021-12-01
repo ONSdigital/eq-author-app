@@ -126,7 +126,7 @@ export const IntroductionEditor = ({
             <div>
               <HorizontalSeparator />
               <SectionTitle style={{ marginBottom: "0" }}>
-                ONS contact detail
+                ONS contact details
               </SectionTitle>
               <SectionDescription>
                 For business to report a change to company details or structure.
@@ -204,7 +204,7 @@ export const IntroductionEditor = ({
               </InlineField>
               <SectionDescription>
                 Add the reporting unit reference to the end of the subject line,
-                for example, Change of details eference 621476278652.
+                for example, Change of details reference 621476278652.
               </SectionDescription>
               <HorizontalSeparator />
             </div>
