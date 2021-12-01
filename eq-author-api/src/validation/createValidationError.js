@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 
-module.exports = (dataPath, field, errorCode, questionnaire) => {
+module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
   if (!dataPath || (typeof dataPath !== "string" && !Array.isArray(dataPath))) {
     throw new Error("Parameter 'dataPath' must be one of: String, Array");
   }
@@ -17,6 +17,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     throw new Error("Parameter 'questionnaire' must be supplied");
   }
 
+  if (!errMessage) {
+    errMessage = "";
+  }
+
   if (typeof dataPath === "string") {
     dataPath = dataPath.split("/");
   }
@@ -26,6 +30,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     keyword: "errorMessage",
     field,
     errorCode,
+    message: errMessage,
   };
 
   dataPath.splice(0, 1); // Strip leading ""

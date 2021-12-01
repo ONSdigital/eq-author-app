@@ -38,6 +38,8 @@ const situations = {
   },
   description: {
     [DESCRIPTION_NOT_ENTERED.errorCode]: DESCRIPTION_NOT_ENTERED.message,
+    [PIPING_TITLE_MOVED.errorCode]: PIPING_TITLE_MOVED.message,
+    [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
     [PIPING_METADATA_DELETED.errorCode]: PIPING_METADATA_DELETED.message,
   },
   additionalInfoLabel: {
@@ -52,8 +54,19 @@ const situations = {
 
 const getErrorByField = (field, validationErrors) => {
   const error = validationErrors.find((error) => error.field === field);
-
   return situations[field]?.[error?.errorCode] ?? null;
 };
 
-export { getErrorByField };
+const getMultipleErrorsByField = (field, validationErrors) => {
+  const errorArray = validationErrors.filter((error) => error.field === field);
+  const errMsgArray = errorArray.map(
+    (error) => situations[field]?.[error?.errorCode]
+  );
+
+  if (!errMsgArray.length) {
+    return null;
+  }
+  return errMsgArray;
+};
+
+export { getErrorByField, getMultipleErrorsByField };
