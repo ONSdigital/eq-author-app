@@ -11,6 +11,7 @@ const HeaderTop = styled.div`
   height: 46px;
   align-items: center;
   display: flex;
+  justify-content: space-between;
   svg {
     path:nth-of-type(1) {
       fill: ${({ theme }) => theme.colors.onsLogoAccent};
@@ -19,6 +20,19 @@ const HeaderTop = styled.div`
       variant === "Internal"
         ? theme.colors.internalOnsLogo
         : theme.colors.externalOnsLogo};
+  }
+  ul {
+    li {
+      display: inline-block;
+      margin: 0 0 0 1rem;
+      font-size: 1rem;
+      &:hover {
+        text-decoration: underline solid 3px;
+      }
+      a {
+        color: ${({ theme }) => theme.colors.headerTitle};
+      }
+    }
   }
 `;
 
@@ -37,8 +51,8 @@ const HeaderTitle = styled.div`
   cursor: pointer;
   text-decoration: none;
   margin: 0;
-  ${({ withDescription }) =>
-    withDescription &&
+  ${({ headerDescription }) =>
+    headerDescription &&
     `font-size: 2rem;
   `}
 `;
@@ -46,23 +60,29 @@ const HeaderTitle = styled.div`
 const HeaderMain = styled.div`
   background-color: ${({ theme }) => theme.colors.headerMain};
   padding: 0.56rem 0;
-  padding-left: 18px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   height: auto;
 `;
 
 const Header = ({
   variant,
   children,
-  withDescription,
   headerDescription,
   logo,
+  exampleList,
 }) => {
   return (
     <>
-      <HeaderTop variant={variant}>{logo}</HeaderTop>
-      <HeaderMain withDescription={withDescription}>
-        <HeaderTitle withDescription={withDescription}>{children}</HeaderTitle>
-        {withDescription && (
+      <HeaderTop variant={variant} exampleList={exampleList}>
+        {logo}
+        {exampleList}
+      </HeaderTop>
+      <HeaderMain headerDescription={headerDescription}>
+        <HeaderTitle headerDescription={headerDescription}>
+          {children}
+        </HeaderTitle>
+        {headerDescription && (
           <HeaderDescription>{headerDescription}</HeaderDescription>
         )}
       </HeaderMain>
@@ -73,13 +93,11 @@ const Header = ({
 Header.propTypes = {
   variant: PropType.string,
   children: PropType.node,
-  withDescription: PropType.bool,
   headerDescription: PropType.string,
   logo: PropType.node,
 };
 
 Header.defaultProps = {
-  type: "Header",
   variant: "Internal",
 };
 
