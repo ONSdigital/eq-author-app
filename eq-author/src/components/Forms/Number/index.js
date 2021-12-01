@@ -57,6 +57,10 @@ const Number = (props) => {
     ...otherProps
   } = props;
   const unitId = `unit-${id}`;
+
+  const blockChar = (e) =>
+    ["E", "e", "+", "-"].includes(e.key) && e.preventDefault();
+
   const handleChange = ({ value }) => {
     if (value.length === 0) {
       onChange({ name, value: null });
@@ -97,6 +101,7 @@ const Number = (props) => {
         default={props.default}
         name={name}
         step={step}
+        onKeyDown={blockChar}
         {...otherProps}
       />
       {type === CURRENCY && (
