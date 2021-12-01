@@ -416,6 +416,10 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
 
     const data = commentsSnapshot.data();
 
+    if (!data) {
+      return createComments(questionnaireId);
+    }
+
     const listOfComponents = Object.keys(data.comments);
     listOfComponents.forEach((component) => {
       const componentComments = data.comments[component];
