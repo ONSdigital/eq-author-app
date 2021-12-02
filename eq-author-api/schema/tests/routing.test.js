@@ -14,7 +14,7 @@ const {
   deleteBinaryExpressionMutation,
   updateRightSideMutation,
   updateLeftSideMutation,
-  updateBinaryExpression2,
+  // updateBinaryExpression2,
 } = require("../../tests/utils/contextBuilder/routing");
 
 const {
@@ -411,7 +411,7 @@ describe("routing", () => {
       ).toHaveLength(1);
     });
 
-    it.only("has validation error when secondaryCondition is null ", async () => {
+    it("has validation error when secondaryCondition is null ", async () => {
       config.sections[0].folders[0].pages[0].routing = {
         rules: [
           {
