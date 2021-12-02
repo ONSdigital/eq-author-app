@@ -17,7 +17,7 @@ describe("secondaryConditionSelector", () => {
         id: "1",
         left: {
           id: "2",
-          type: NUMBER,
+          type: "Checkbox",
         },
         right: null,
         validationErrorInfo: {
@@ -31,18 +31,6 @@ describe("secondaryConditionSelector", () => {
     };
   });
   it("should render", () => {
-    const wrapper = shallow(<SecondaryConditionSelector {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render a currency", () => {
-    defaultProps.expression.left.type = CURRENCY;
-    const wrapper = shallow(<SecondaryConditionSelector {...defaultProps} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render a percentage", () => {
-    defaultProps.expression.left.type = PERCENTAGE;
     const wrapper = shallow(<SecondaryConditionSelector {...defaultProps} />);
     expect(wrapper).toMatchSnapshot();
   });
@@ -68,57 +56,4 @@ describe("secondaryConditionSelector", () => {
       customValue: { number: 123 },
     });
   });
-
-  // it("should display validation error when expression group-wide message passed in", async () => {
-  //   const errorMessage = "Test group error message";
-  //   defaultProps.groupErrorMessage = errorMessage;
-
-  //   const { getByText } = render(
-  //     <SecondaryConditionSelector hasError {...defaultProps} />
-  //   );
-
-  //   await act(async () => {
-  //     await flushPromises();
-  //   });
-
-  //   expect(getByText(errorMessage)).toBeTruthy();
-
-  //   expect(getByText(errorMessage)).toHaveStyleRule("width", "100%");
-  // });
-
-  // it("should show error message when right side empty", () => {
-  //   defaultProps.expression.left.type = NUMBER;
-  //   defaultProps.expression.right = null;
-  //   defaultProps.expression.validationErrorInfo.errors[0] = {
-  //     errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
-  //     field: "right",
-  //     id: "expression-routing-1-right",
-  //     type: "routingExpression",
-  //   };
-
-  //   const { getByText } = render(
-  //     <SecondaryConditionSelector hasError {...defaultProps} />
-  //   );
-
-  //   expect(
-  //     getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message)
-  //   ).toHaveStyleRule("width", "100%");
-  //   expect(
-  //     getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message)
-  //   ).toBeTruthy();
-  // });
-
-  // it("should show error message when no operator is selected", () => {
-  //   defaultProps.expression.validationErrorInfo.errors[0] = {
-  //     errorCode: OPERATOR_REQUIRED,
-  //     field: "secondaryCondition",
-  //   };
-
-  //   const { getByText } = render(
-  //     <SecondaryConditionSelector hasError {...defaultProps} />
-  //   );
-
-  //   expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "195px");
-  //   expect(getByText(OPERATOR_REQUIRED)).toBeTruthy();
-  // });
 });

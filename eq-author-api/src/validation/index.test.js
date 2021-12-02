@@ -859,6 +859,39 @@ describe("schema validation", () => {
             );
           });
 
+          it("Date Range - should not show error when latest date is after earlier date", () => {
+            questionnaire.sections[0].folders[0].pages[0].answers = [
+              {
+                id: "a1",
+                type: "DateRange",
+                label: "some answer",
+                qCode: "qCode1",
+                secondaryQCode: "secQCode1",
+                validation: {
+                  minDuration: {
+                    id: "456",
+                    enabled: true,
+                    duration: {
+                      value: 1,
+                      unit: "Days",
+                    },
+                  },
+                  maxDuration: {
+                    id: "654",
+                    enabled: true,
+                    duration: {
+                      value: 1,
+                      unit: "Days",
+                    },
+                  },
+                },
+              },
+            ];
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(0);
+          });
+
           it("Date Range - should not validate if one of the two is disabled", () => {
             ["earliestDate", "latestDate", "none"].forEach(() => {
               questionnaire.sections[0].folders[0].pages[0].answers = [
@@ -1907,6 +1940,16 @@ describe("schema validation", () => {
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(PIPING_METADATA_DELETED);
+    });
+
+    it("Should not return piping metadata error when piped metadata is in a title", () => {
+      const piping = validation(questionnaire);
+      expect(piping).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="metadata" data-id="87c64b20-9662-408b-b674-e2403e90dad3" data-type="Text">[Ru Name]</span></p>>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(0);
     });
 
     it("should validate a piping answer moved after this question", () => {

@@ -14,6 +14,7 @@ const {
   deleteBinaryExpressionMutation,
   updateRightSideMutation,
   updateLeftSideMutation,
+  updateBinaryExpression2,
 } = require("../../tests/utils/contextBuilder/routing");
 
 const {
@@ -404,6 +405,36 @@ describe("routing", () => {
         ctx
       );
       const result = await queryPage(ctx, firstPage.id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors
+      ).toHaveLength(1);
+    });
+
+    it.only("has validation error when secondaryCondition is null ", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [
+          {
+            expressionGroup: {},
+          },
+        ],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const expressionGroup = firstPage.routing.rules[0].expressionGroup;
+      await executeQuery(
+        createBinaryExpressionMutation,
+        {
+          input: {
+            expressionGroupId: expressionGroup.id,
+          },
+        },
+        ctx
+      );
+      const result = await queryPage(ctx, firstPage.id);
+      console.log(`result`, JSON.stringify(result, null, 7));
       expect(
         result.routing.rules[0].expressionGroup.expressions[0]
           .validationErrorInfo.errors

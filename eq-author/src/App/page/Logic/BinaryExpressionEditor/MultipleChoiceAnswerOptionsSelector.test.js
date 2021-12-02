@@ -274,4 +274,31 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     expect(getByTestId("secondaryCondition-selector")).toBeTruthy();
     expect(getByTestId("secondaryCondition-number-input")).toBeTruthy();
   });
+
+  it("should show secondaryCondition selector error when condition=`CountOf` and selector=null", async () => {
+    const errorMessage = "Choose an operator";
+
+    defaultProps.expression.left = {
+      ...defaultProps.expression.left,
+      mutuallyExclusiveOption: { id: "123", label: "hello world" },
+      type: CHECKBOX,
+    };
+    defaultProps.expression.condition = "CountOf";
+    defaultProps.expression.secondaryCondition = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_SEC_CONDITION_NOT_SELECTED",
+      field: "secondaryCondition",
+      id: "123-123-123",
+      type: "routingExpression",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+    expect(getByText(errorMessage)).toBeTruthy();
+  });
 });
