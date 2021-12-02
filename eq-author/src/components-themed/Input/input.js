@@ -25,8 +25,8 @@ const hasError = css`
 
 const radioButton = css`
   appearance: none;
-  width: 1.25em;
-  height: 1.25em;
+  width: 1.2em;
+  height: 1.2em;
   position: absolute;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.grey15};
@@ -46,7 +46,6 @@ const radioButton = css`
 const StyledInput = styled.input`
   border-radius: ${({ theme }) => theme.radius};
   border: 1px solid ${({ theme }) => theme.colors.input};
-  padding: 0;
   outline: none;
   padding: 0.39rem 0.5rem;
   font-size: 1rem;
