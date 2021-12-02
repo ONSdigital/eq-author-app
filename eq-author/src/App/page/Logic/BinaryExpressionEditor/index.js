@@ -143,8 +143,10 @@ export const UnwrappedBinaryExpressionEditor = ({
     ];
 
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
+
   const shouldRenderEditor =
     Editor && !expression.left.reason && !answerPickerError;
+
   const isLastExpression =
     expressionIndex === expressionGroup.expressions.length - 1;
 

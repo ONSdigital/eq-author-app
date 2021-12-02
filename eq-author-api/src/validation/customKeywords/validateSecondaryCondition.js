@@ -1,5 +1,5 @@
 const {
-  ERR_ANSWER_NOT_SELECTED,
+  ERR_SEC_CONDITION_NOT_SELECTED,
 } = require("../../../constants/validationErrorCodes");
 
 const createValidationError = require("../createValidationError");
@@ -12,19 +12,20 @@ module.exports = (ajv) =>
       currentExpression,
       { rootData: questionnaire, instancePath }
     ) {
-      console.log(`currentExpression`, currentExpression);
-
       if (currentExpression.condition === "CountOf") {
         if (
           currentExpression.secondaryCondition === null ||
           currentExpression.secondaryCondition === undefined
         ) {
-          isValid.errors = createValidationError(
-            instancePath,
-            "secondaryCondition",
-            ERR_ANSWER_NOT_SELECTED,
-            questionnaire
-          );
+          isValid.errors = [
+            createValidationError(
+              instancePath,
+              "secondaryCondition",
+              ERR_SEC_CONDITION_NOT_SELECTED,
+              questionnaire
+            ),
+          ];
+
           return false;
         }
 

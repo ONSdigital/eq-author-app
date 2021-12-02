@@ -162,6 +162,7 @@
           }
         }
       },
+      "validateSecondaryCondition": true,
       "validateExpression": true,
       "required": ["condition"]
     },
