@@ -12,8 +12,6 @@ module.exports = (ajv) =>
       currentExpression,
       { rootData: questionnaire, instancePath }
     ) {
-      console.log(`currentExpression`, currentExpression);
-
       if (currentExpression.condition === "CountOf") {
         if (
           currentExpression.secondaryCondition === null ||
