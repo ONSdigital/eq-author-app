@@ -95,7 +95,7 @@ UncontrolledInput.propTypes = {
     PropTypes.number,
   ]),
   forwardRef: PropTypes.func,
-  hasError: PropTypes.node,
+  hasError: PropTypes.bool,
 };
 
 export default withChangeHandler(UncontrolledInput);
