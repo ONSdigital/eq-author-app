@@ -26,6 +26,7 @@ const HeaderTop = styled.div`
       display: inline-block;
       margin: 0 0 0 1rem;
       font-size: 1rem;
+      text-underline-position: under;
       &:hover {
         text-decoration: underline solid 3px;
       }
@@ -70,13 +71,13 @@ const Header = ({
   children,
   headerDescription,
   logo,
-  exampleList,
+  headerTopContent,
 }) => {
   return (
     <>
-      <HeaderTop variant={variant} exampleList={exampleList}>
+      <HeaderTop variant={variant}>
         {logo}
-        {exampleList}
+        {headerTopContent}
       </HeaderTop>
       <HeaderMain headerDescription={headerDescription}>
         <HeaderTitle headerDescription={headerDescription}>
@@ -95,6 +96,7 @@ Header.propTypes = {
   children: PropType.node,
   headerDescription: PropType.string,
   logo: PropType.node,
+  headerTopContent: PropType.node,
 };
 
 Header.defaultProps = {
