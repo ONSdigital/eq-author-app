@@ -45,9 +45,10 @@ export default (
   // Get the source elements and containers
   switch (sourceContext) {
     case "SectionPage":
-      sourceElement = targetContext.includes("Folder")
-        ? getPageById(questionnaire, sourceId)
-        : getFolderByPageId(questionnaire, sourceId);
+      sourceElement =
+        targetContext === "FolderPage"
+          ? getPageById(questionnaire, sourceId)
+          : getFolderByPageId(questionnaire, sourceId);
       ({ folders: sourceContainer, id: sourceContainerId } = getSectionByPageId(
         questionnaire,
         sourceId
@@ -90,13 +91,8 @@ export default (
       targetFolderId = targetContainerId;
       break;
     case "Folder":
-      sourceContext.includes("Page")
-        ? ({ pages: targetContainer, id: targetContainerId } = getFolderById(
-            questionnaire,
-            targetId
-          ))
-        : ({ folders: targetContainer, id: targetContainerId } =
-            getSectionByFolderId(questionnaire, targetId));
+      ({ folders: targetContainer, id: targetContainerId } =
+        getSectionByFolderId(questionnaire, targetId));
       targetFolderId = targetContainerId;
       break;
     case "Section":
@@ -118,10 +114,7 @@ export default (
     position = sourcePosition < targetPosition ? position - 1 : position;
   }
 
-  if (
-    sourceContext !== "Section" &&
-    (targetContext === "Folder" || targetContext === "Section")
-  ) {
+  if (sourceContext !== "Section" && targetContext === "Section") {
     position = 0;
   }
 
@@ -130,7 +123,10 @@ export default (
 
   // add element to target container
   let newElement = sourceElement;
-  if (sourceContext === "FolderPage" && targetContext.includes("Section")) {
+  if (
+    sourceContext === "FolderPage" &&
+    (targetContext.includes("Section") || targetContext === "Folder")
+  ) {
     newElement = {
       id: 123,
       pages: [sourceElement],

@@ -1,17 +1,24 @@
 import { css } from "styled-components";
 
 export const dndCSS = css`
-  .draggable {
-    background-color: grey;
+  a {
+    transition: padding 0.1s;
   }
 
   .dragovertop {
-    border-top: 2px solid yellow;
+    /*     border-top: 2px solid yellow; */
+    /*     background-color: black; */
+    padding-top: 30px;
   }
 
   .dragoverbottom {
-    border-bottom: 2px solid yellow;
-    pointer-event: none;
+    /*     border-bottom: 2px solid yellow; */
+    /*     background-color: black; */
+    padding-bottom: 30px;
+  }
+
+  .droparea {
+    background-color: black;
   }
 `;
 
@@ -39,14 +46,17 @@ export const dnd = {
     const targetId = event.currentTarget.id;
     const targetPosition = Number(event.currentTarget.dataset.dragPosition);
     const targetContext = event.currentTarget.dataset.dragContext;
-    const placement = event.currentTarget.firstChild.classList.contains(
-      "dragovertop"
-    )
-      ? "above"
-      : "below";
-    event.currentTarget.firstChild.classList.remove("dragovertop");
-    event.currentTarget.lastChild.classList.remove("dragoverbottom");
-    event.target.classList.remove("dragoverbottom");
+    const placement =
+      event.currentTarget.firstChild.classList.contains("dragovertop") ||
+      event.currentTarget.classList.contains("dragovertop")
+        ? "above"
+        : "below";
+    document
+      .querySelectorAll(".dragovertop")
+      .forEach((droparea) => droparea.classList.remove("dragovertop"));
+    document
+      .querySelectorAll(".dragoverbottom")
+      .forEach((droparea) => droparea.classList.remove("dragoverbottom"));
     handleMoveContent({
       sourceId,
       sourceContext,
@@ -60,7 +70,13 @@ export const dnd = {
   handleDragEnter: (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const sourceContext = document.querySelector("body").dataset.dragContext;
+    const body = document.querySelector("body");
+    const sourceId = body.dataset.dragId;
+    const targetId = event.currentTarget.id;
+    if (sourceId === targetId) {
+      return;
+    }
+    const sourceContext = body.dataset.dragContext;
     const targetContext = event.currentTarget.dataset?.dragContext;
     const allowDrop = Boolean(
       (sourceContext.includes("Page") && targetContext.includes("Page")) ||
@@ -73,7 +89,15 @@ export const dnd = {
     );
     if (allowDrop) {
       if (sourceContext.includes("Page") && targetContext === "Folder") {
-        event.target.classList.add("dragoverbottom");
+        event.nativeEvent.offsetY < event.nativeEvent.target.offsetHeight / 2
+          ? event.currentTarget.classList.add("dragoverbottom")
+          : event.currentTarget.classList.add("dragovertop");
+        return;
+      }
+      if (targetContext === "Section") {
+        event.nativeEvent.offsetY < event.nativeEvent.target.offsetHeight / 2
+          ? event.currentTarget.classList.add("dragoverbottom")
+          : event.currentTarget.classList.add("dragovertop");
         return;
       }
       if (
@@ -94,7 +118,9 @@ export const dnd = {
       event.currentTarget.firstChild.classList.remove("dragovertop");
     }
     event.currentTarget.lastChild.classList.remove("dragoverbottom");
-    event.target.classList.remove("dragoverbottom");
+    event.currentTarget.classList.remove("dragoverbottom");
+    event.currentTarget.classList.remove("dragoverbottom");
+    event.currentTarget.classList.remove("dragovertop");
   },
 };
 
