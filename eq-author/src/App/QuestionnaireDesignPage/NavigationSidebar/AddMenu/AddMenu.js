@@ -17,7 +17,7 @@ import { FolderAddSubMenu } from "./FolderSubMenu";
 
 import { colors } from "constants/theme";
 
-import hotkeys from "hotkeys-js";
+// import hotkeys from "hotkeys-js";
 
 const AddMenuWindow = styled.div`
   color: black;
@@ -38,93 +38,93 @@ const PopoutLayer = styled(Layer)`
   width: 100%;
 `;
 
-const idList = [
-  { id: "SuperNav-1", active: false },
-  // { id: "SuperNav-2", active: false },
-  { id: "SuperNav-3", active: false },
-  { id: "SuperNav-4", active: false },
-  { id: "SuperNav-5", active: false },
-];
+// const idList = [
+//   { id: "SuperNav-1", active: false },
+//   // { id: "SuperNav-2", active: false },
+//   { id: "SuperNav-3", active: false },
+//   { id: "SuperNav-4", active: false },
+//   { id: "SuperNav-5", active: false },
+// ];
 
-let firstMenuItem = document.getElementById("SuperNav-1");
+// let firstMenuItem = document.getElementById("SuperNav-1");
 
-// Navigate forwards using f6
-hotkeys("f6", function (event) {
-  event.preventDefault();
+// // Navigate forwards using f6
+// hotkeys("f6", function (event) {
+//   event.preventDefault();
 
-  let currentElement;
-  const firstElement = idList[0];
-  // idList[idList.length - 1] gets the last element in the array
-  const lastElement = idList[idList.length - 1];
+//   let currentElement;
+//   const firstElement = idList[0];
+//   // idList[idList.length - 1] gets the last element in the array
+//   const lastElement = idList[idList.length - 1];
 
-  // Finds the currently active element and assigns the currentElement value to the active element
-  idList.forEach((element) => {
-    if (element.active) {
-      currentElement = element;
-      return;
-    }
-  });
+//   // Finds the currently active element and assigns the currentElement value to the active element
+//   idList.forEach((element) => {
+//     if (element.active) {
+//       currentElement = element;
+//       return;
+//     }
+//   });
 
-  // If no element is currently active, set the first element to be active and focus on it
-  if (currentElement === undefined) {
-    firstElement.active = true;
-    currentElement = firstElement;
-    document.getElementById(firstElement.id).focus();
-  }
-  // If the last element is active, return to the first element and focus on it
-  else if (lastElement.active) {
-    lastElement.active = false;
-    firstElement.active = true;
-    document.getElementById(firstElement.id).focus();
-  }
-  // If any other element is active than the last element, move onto the next element
-  else {
-    const currentElementIndex = idList.indexOf(currentElement);
-    idList.find((element) => element.id === currentElement.id).active = false;
-    idList[currentElementIndex + 1].active = true;
-    currentElement = idList[currentElementIndex + 1];
-    document.getElementById(idList[currentElementIndex + 1].id).focus();
-  }
-});
+//   // If no element is currently active, set the first element to be active and focus on it
+//   if (currentElement === undefined) {
+//     firstElement.active = true;
+//     currentElement = firstElement;
+//     document.getElementById(firstElement.id).focus();
+//   }
+//   // If the last element is active, return to the first element and focus on it
+//   else if (lastElement.active) {
+//     lastElement.active = false;
+//     firstElement.active = true;
+//     document.getElementById(firstElement.id).focus();
+//   }
+//   // If any other element is active than the last element, move onto the next element
+//   else {
+//     const currentElementIndex = idList.indexOf(currentElement);
+//     idList.find((element) => element.id === currentElement.id).active = false;
+//     idList[currentElementIndex + 1].active = true;
+//     currentElement = idList[currentElementIndex + 1];
+//     document.getElementById(idList[currentElementIndex + 1].id).focus();
+//   }
+// });
 
-// Navigate backwards using f7
-hotkeys("f7", function (event) {
-  event.preventDefault();
+// // Navigate backwards using f7
+// hotkeys("f7", function (event) {
+//   event.preventDefault();
 
-  let currentElement;
-  const firstElement = idList[0];
-  // idList[idList.length - 1] gets the last element in the array
-  const lastElement = idList[idList.length - 1];
+//   let currentElement;
+//   const firstElement = idList[0];
+//   // idList[idList.length - 1] gets the last element in the array
+//   const lastElement = idList[idList.length - 1];
 
-  // Finds the currently active element and assigns the currentElement value to the active element
-  idList.forEach((element) => {
-    if (element.active) {
-      currentElement = element;
-      return;
-    }
-  });
+//   // Finds the currently active element and assigns the currentElement value to the active element
+//   idList.forEach((element) => {
+//     if (element.active) {
+//       currentElement = element;
+//       return;
+//     }
+//   });
 
-  // If no element is currently active, set the last element to be active and focus on it
-  if (currentElement === undefined) {
-    lastElement.active = true;
-    currentElement = lastElement;
-    document.getElementById(lastElement.id).focus();
-  }
-  // If the first element is active, return to the last element and focus on it
-  else if (firstElement.active) {
-    firstElement.active = false;
-    lastElement.active = true;
-    document.getElementById(lastElement.id).focus();
-  }
-  // If any other element is active than the first element, move back to the previous element
-  else {
-    const currentElementIndex = idList.indexOf(currentElement);
-    idList.find((element) => element.id === currentElement.id).active = false;
-    idList[currentElementIndex - 1].active = true;
-    currentElement = idList[currentElementIndex - 1];
-    document.getElementById(idList[currentElementIndex - 1].id).focus();
-  }
-});
+//   // If no element is currently active, set the last element to be active and focus on it
+//   if (currentElement === undefined) {
+//     lastElement.active = true;
+//     currentElement = lastElement;
+//     document.getElementById(lastElement.id).focus();
+//   }
+//   // If the first element is active, return to the last element and focus on it
+//   else if (firstElement.active) {
+//     firstElement.active = false;
+//     lastElement.active = true;
+//     document.getElementById(lastElement.id).focus();
+//   }
+//   // If any other element is active than the first element, move back to the previous element
+//   else {
+//     const currentElementIndex = idList.indexOf(currentElement);
+//     idList.find((element) => element.id === currentElement.id).active = false;
+//     idList[currentElementIndex - 1].active = true;
+//     currentElement = idList[currentElementIndex - 1];
+//     document.getElementById(idList[currentElementIndex - 1].id).focus();
+//   }
+// });
 
 const AddMenu = ({
   addMenuOpen,

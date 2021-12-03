@@ -96,10 +96,10 @@ export const UnwrappedMainNavigation = ({
     <>
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
-          <UtilityBtns tabIndex="-1" id="SuperNav-1">
+          <UtilityBtns tabIndex="-1" data-test="SuperNav" id="SuperNav-1">
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <RouteButton variant="navigation" small to="/" id="SuperNav-1">
+                <RouteButton variant="navigation" small to="/">
                   <IconText nav icon={homeIcon}>
                     Home
                   </IconText>

@@ -1,6 +1,7 @@
 import React from "react";
-import { render, fireEvent, userEvent } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import AddMenu from "./AddMenu";
+import hotkeys from "hotkeys-js";
 
 const defaultProps = () => ({
   addMenuOpen: true,
@@ -125,11 +126,4 @@ describe("AddMenu", () => {
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
   });
-
-  // it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
-  //   const focusSuperNav = "SuperNav-1";
-  //   const domNode = document.getElementById("root");
-  //   fireEvent.keyDown(domNode, { key: "F6", code: "F6" });
-  //   expect(document.getElementById(focusSuperNav)).toHaveFocus();
-  // });
 });
