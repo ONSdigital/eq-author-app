@@ -26,9 +26,11 @@ exports[`Editor Layout should render 1`] = `
         }
         routing={true}
       >
-        <Column
+        <EditorLayout__StyledColumn
           cols={9}
           gutters={false}
+          id="SuperNav-5"
+          tabIndex="-1"
         >
           <EditorLayout__Margin>
             <MainCanvas
@@ -37,7 +39,7 @@ exports[`Editor Layout should render 1`] = `
               Content
             </MainCanvas>
           </EditorLayout__Margin>
-        </Column>
+        </EditorLayout__StyledColumn>
         <Column
           cols={3}
           gutters={false}
