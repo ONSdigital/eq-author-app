@@ -46,12 +46,8 @@ const idList = [
   { id: "SuperNav-5", active: false },
 ];
 
-// let firstMenuItem = document.getElementById("SuperNav-2");
+let firstMenuItem = document.getElementById("SuperNav-1");
 
-// console.log(firstMenuItem);
-// if (firstMenuItem) {
-//   console.log("Menu");
-// }
 // Navigate forwards using f6
 hotkeys("f6", function (event) {
   event.preventDefault();

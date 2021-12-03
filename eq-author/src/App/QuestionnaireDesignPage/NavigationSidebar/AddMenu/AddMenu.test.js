@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, userEvent } from "tests/utils/rtl";
 import AddMenu from "./AddMenu";
 
 const defaultProps = () => ({
@@ -27,6 +27,7 @@ const defaultSetup = (newProps = {}) => {
   const addConfirmation = "btn-add-question-confirmation";
   const addCalcSum = "btn-add-calculated-summary";
   const addCalcSumInside = "btn-add-calculated-summary-inside";
+
   const props = { ...defaultProps(), ...newProps };
 
   const utils = render(<AddMenu {...props} />);
@@ -72,8 +73,11 @@ describe("AddMenu", () => {
   });
 
   it("should allow a question confirmation to be added", () => {
-    const { getByTestId, onAddQuestionConfirmation, addConfirmation } =
-      defaultSetup();
+    const {
+      getByTestId,
+      onAddQuestionConfirmation,
+      addConfirmation,
+    } = defaultSetup();
     fireEvent.click(getByTestId(addConfirmation));
     expect(onAddQuestionConfirmation).toHaveBeenCalled();
   });
@@ -86,8 +90,11 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added", () => {
-    const { getByTestId, onAddCalculatedSummaryPage, addCalcSum } =
-      defaultSetup();
+    const {
+      getByTestId,
+      onAddCalculatedSummaryPage,
+      addCalcSum,
+    } = defaultSetup();
     fireEvent.click(getByTestId(addCalcSum));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
@@ -108,11 +115,20 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added inside a folder", () => {
-    const { getByTestId, onAddCalculatedSummaryPage, addCalcSumInside } =
-      defaultSetup({
-        isFolder: true,
-      });
+    const {
+      getByTestId,
+      onAddCalculatedSummaryPage,
+      addCalcSumInside,
+    } = defaultSetup({
+      isFolder: true,
+    });
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
+  });
+  it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
+    const focusSuperNav = "SuperNav-1";
+    const domNode = document.getElementById("root");
+    userEvent.keyDown(domNode, { key: "F6", code: "F6" });
+    expect(document.getElementById(focusSuperNav)).toHaveFocus();
   });
 });
