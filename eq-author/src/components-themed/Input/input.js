@@ -18,6 +18,11 @@ const checkBox = css`
   }
 `;
 
+const hasError = css`
+  border: 1px solid ${({ theme }) => theme.colors.red};
+  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.red};
+`;
+
 const radioButton = css`
   appearance: none;
   width: 1.2em;
@@ -51,10 +56,11 @@ const StyledInput = styled.input`
   }
   ${(props) => props.type === "checkbox" && checkBox};
   ${(props) => props.type === "radio" && radioButton};
+  ${(props) => props.hasError && hasError};
 `;
 
 export const UncontrolledInput = (props) => {
-  const { type, defaultValue, id, forwardRef, ...otherProps } = props;
+  const { type, defaultValue, id, forwardRef, hasError, ...otherProps } = props;
   return (
     <StyledInput
       ref={forwardRef}
@@ -62,6 +68,7 @@ export const UncontrolledInput = (props) => {
       defaultValue={defaultValue}
       id={id}
       name={id}
+      hasError={hasError}
       {...otherProps}
     />
   );
@@ -87,6 +94,7 @@ UncontrolledInput.propTypes = {
     PropTypes.number,
   ]),
   forwardRef: PropTypes.func,
+  hasError: PropTypes.bool,
 };
 
 export default withChangeHandler(UncontrolledInput);
