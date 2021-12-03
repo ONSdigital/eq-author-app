@@ -39,6 +39,7 @@ const {
   ERR_DESTINATION_INVALID_WITH_HUB,
   PIPING_METADATA_DELETED,
   CALCSUM_MOVED,
+  ERR_SEC_CONDITION_NOT_SELECTED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1322,7 +1323,30 @@ describe("schema validation", () => {
       expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
-    // it("should not show error on valid secondaryCondition when condition=`CountOf` in routing", () => {
+    it("should validate empty secondaryCondition when condition=`CountOf` in routing", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: null,
+              left: {
+                type: "Answer",
+                answerId: "answer_1",
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(ERR_SEC_CONDITION_NOT_SELECTED);
+    });
+
+    // it.only("should not show error on valid secondaryCondition when condition=`CountOf` in routing", () => {
     //   expect(validation(questionnaire)).toHaveLength(0);
     //   questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
 
@@ -1338,37 +1362,16 @@ describe("schema validation", () => {
     //             type: "Answer",
     //             answerId: "answer_1",
     //           },
-    //           right: { number: 12, __typename: "CustomValue2" },
+    //           right: { number: 12 },
     //         },
     //       ],
     //     };
     //   const routingErrors = validation(questionnaire);
-
-    //   expect(routingErrors).toHaveLength(0);
-    //   // expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
-    // });
-
-    // it("should validate empty secondaryCondition when condition=`CountOf` in routing", () => {
-    //   expect(validation(questionnaire)).toHaveLength(0);
-    //   questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
-
-    //   questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
-    //     {
-    //       id: "group-1",
-    //       expressions: [
-    //         {
-    //           id: "express-1",
-    //           condition: "CountOf",
-    //           secondaryCondition: null,
-    //           left: {
-    //             type: "Answer",
-    //             answerId: "answer_1",
-    //           },
-    //           right: null,
-    //         },
-    //       ],
-    //     };
-    //   const routingErrors = validation(questionnaire);
+    //   console.log(
+    //     `routingErrors`,
+    //     questionnaire.sections[0].folders[0].pages[0].routing.rules[0]
+    //       .expressionGroup
+    //   );
 
     //   expect(routingErrors).toHaveLength(1);
     //   // expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);

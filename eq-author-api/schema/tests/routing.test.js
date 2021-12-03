@@ -14,7 +14,6 @@ const {
   deleteBinaryExpressionMutation,
   updateRightSideMutation,
   updateLeftSideMutation,
-  // updateBinaryExpression2,
 } = require("../../tests/utils/contextBuilder/routing");
 
 const {
@@ -434,7 +433,6 @@ describe("routing", () => {
         ctx
       );
       const result = await queryPage(ctx, firstPage.id);
-      console.log(`result`, JSON.stringify(result, null, 7));
       expect(
         result.routing.rules[0].expressionGroup.expressions[0]
           .validationErrorInfo.errors
