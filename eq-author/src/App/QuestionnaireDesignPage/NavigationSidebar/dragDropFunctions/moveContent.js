@@ -39,7 +39,7 @@ export default (
   }
 
   let sourceElement, sourceContainer, sourceContainerId, targetContainerId;
-  let targetContainer, targetSectionId, targetFolderId;
+  let targetContainer, targetSectionId, targetFolderId, removeEelement;
   let position;
 
   // Get the source elements and containers
@@ -49,25 +49,26 @@ export default (
         targetContext === "FolderPage"
           ? getPageById(questionnaire, sourceId)
           : getFolderByPageId(questionnaire, sourceId);
+      removeEelement = getFolderByPageId(questionnaire, sourceId);
       ({ folders: sourceContainer, id: sourceContainerId } = getSectionByPageId(
         questionnaire,
         sourceId
       ));
       break;
     case "FolderPage":
-      sourceElement = getPageById(questionnaire, sourceId);
+      sourceElement = removeEelement = getPageById(questionnaire, sourceId);
       ({ pages: sourceContainer, id: sourceContainerId } = getFolderByPageId(
         questionnaire,
         sourceId
       ));
       break;
     case "Folder":
-      sourceElement = getFolderById(questionnaire, sourceId);
+      sourceElement = removeEelement = getFolderById(questionnaire, sourceId);
       ({ folders: sourceContainer, id: sourceContainerId } =
         getSectionByFolderId(questionnaire, sourceId));
       break;
     case "Section":
-      sourceElement = getSectionById(questionnaire, sourceId);
+      sourceElement = removeEelement = getSectionById(questionnaire, sourceId);
       ({ sections: sourceContainer, id: sourceContainerId } = questionnaire);
       break;
     default:
@@ -93,7 +94,7 @@ export default (
     case "Folder":
       ({ folders: targetContainer, id: targetContainerId } =
         getSectionByFolderId(questionnaire, targetId));
-      targetFolderId = targetContainerId;
+      targetSectionId = targetContainerId;
       break;
     case "Section":
       sourceContext === "Section"
@@ -119,7 +120,7 @@ export default (
   }
 
   // remove element from source container
-  sourceContainer.splice(sourceContainer.indexOf(sourceElement), 1);
+  sourceContainer.splice(sourceContainer.indexOf(removeEelement), 1);
 
   // add element to target container
   let newElement = sourceElement;

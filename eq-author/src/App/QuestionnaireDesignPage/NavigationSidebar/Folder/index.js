@@ -10,7 +10,14 @@ import IconFolder from "assets/icon-folder.svg?inline";
 
 import CollapsibleNavItem from "components/CollapsibleNavItem";
 import Page from "../Page";
-import { dnd, dndCSS } from "../dragDropFunctions/dragAndDrop";
+import {
+  handleDragStart,
+  handleDragEnd,
+  handleDragOver,
+  handleDrop,
+  handleDragEnter,
+  dndCSS,
+} from "../dragDropFunctions/dragAndDrop";
 
 const NavList = styled.ol`
   margin: 0;
@@ -47,11 +54,11 @@ const Folder = ({
   return (
     <ListItem
       draggable="true"
-      onDragStart={dnd.handleDragStart}
-      onDragOver={dnd.handleDragOver}
-      onDrop={dnd.handleDrop(handleMoveContent)}
-      onDragEnter={dnd.handleDragEnter}
-      onDragLeave={dnd.handleDragLeave}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop(handleMoveContent)}
+      onDragEnter={handleDragEnter}
+      onDragEnd={handleDragEnd}
       id={folderId}
       data-drag-context="Folder"
       data-drag-position={position}

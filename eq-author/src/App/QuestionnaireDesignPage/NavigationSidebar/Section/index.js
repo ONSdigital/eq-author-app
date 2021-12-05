@@ -12,7 +12,14 @@ import CollapsibleNavItem from "components/CollapsibleNavItem";
 import Page from "../Page";
 import Folder from "../Folder";
 
-import { dnd, dndCSS } from "../dragDropFunctions/dragAndDrop";
+import {
+  handleDragStart,
+  handleDragEnd,
+  handleDragOver,
+  handleDrop,
+  handleDragEnter,
+  dndCSS,
+} from "../dragDropFunctions/dragAndDrop";
 
 const NavList = styled.ol`
   margin: 0;
@@ -78,11 +85,11 @@ const Section = ({
   return (
     <ListItem
       draggable="true"
-      onDragStart={dnd.handleDragStart}
-      onDragOver={dnd.handleDragOver}
-      onDrop={dnd.handleDrop(handleMoveContent)}
-      onDragEnter={dnd.handleDragEnter}
-      onDragLeave={dnd.handleDragLeave}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop(handleMoveContent)}
+      onDragEnter={handleDragEnter}
+      onDragEnd={handleDragEnd}
       id={sectionId}
       data-drag-context="Section"
       data-drag-position={position}

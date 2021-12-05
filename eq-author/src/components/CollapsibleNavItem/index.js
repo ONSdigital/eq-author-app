@@ -157,7 +157,10 @@ const CollapsibleNavItem = ({
       data-test="CollapsibleNavItem"
       bordered={bordered}
     >
-      <Header data-test="CollapsibleNavItem-header">
+      <Header
+        data-test="CollapsibleNavItem-header"
+        className="CollapsibleNavItem-header"
+      >
         <ToggleCollapsibleNavItemButton
           isOpen={isOpen}
           onClick={() => toggleCollapsible((isOpen) => !isOpen)}
@@ -165,6 +168,7 @@ const CollapsibleNavItem = ({
           data-test="CollapsibleNavItem-toggle-button"
         />
         <Link
+          draggable="false"
           to={titleUrl}
           activeClassName={"activePage"}
           bordered={bordered.toString()}

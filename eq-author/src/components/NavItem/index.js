@@ -69,7 +69,6 @@ const NavItem = ({
 }) => {
   return (
     <Link
-      draggable="false"
       to={titleUrl}
       className={`${className} NavItem`}
       activeClassName={"activePage"}

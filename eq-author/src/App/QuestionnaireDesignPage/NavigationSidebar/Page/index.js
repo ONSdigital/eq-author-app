@@ -8,7 +8,14 @@ import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import NavItem from "components/NavItem";
-import { dnd, dndCSS } from "../dragDropFunctions/dragAndDrop";
+import {
+  handleDragStart,
+  handleDragEnd,
+  handleDragOver,
+  handleDrop,
+  handleDragEnter,
+  dndCSS,
+} from "../dragDropFunctions/dragAndDrop";
 
 const ListItem = styled.li`
   ${dndCSS}
@@ -37,11 +44,11 @@ const Page = ({
   return (
     <ListItem
       draggable="true"
-      onDragStart={dnd.handleDragStart}
-      onDragOver={dnd.handleDragOver}
-      onDrop={dnd.handleDrop(handleMoveContent)}
-      onDragEnter={dnd.handleDragEnter}
-      onDragLeave={dnd.handleDragLeave}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop(handleMoveContent)}
+      onDragEnter={handleDragEnter}
+      onDragEnd={handleDragEnd}
       id={pageId}
       data-drag-context={dragContext}
       data-drag-position={position}
