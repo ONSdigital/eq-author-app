@@ -3,6 +3,8 @@ import Header from "components/EditorLayout/Header";
 
 import styled from "styled-components";
 
+import { colors } from "constants/theme";
+
 import {
   Layout,
   SharePageTitle,
@@ -15,7 +17,7 @@ const Container = styled.div`
   height: 100%;
 
   &:focus {
-    border: 3px solid #fdbd56;
+    border: 3px solid ${colors.focus};
     margin: 0;
     outline: none;
   }
@@ -25,7 +27,7 @@ const StyledLayout = styled.div`
   width: 100%;
   height: 100%;
   &:focus {
-    border: 3px solid #fdbd56;
+    border: 3px solid ${colors.grey35};
     margin: 0;
     outline: none;
   }
@@ -33,12 +35,12 @@ const StyledLayout = styled.div`
 
 const TableOuter = styled.table`
   width: 100%;
-  border: 1px solid #999;
+  border: 1px solid ${colors.grey35};
   padding: 0;
 `;
 
 const TableRow = styled.tr`
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid ${colors.grey35};
 `;
 
 const TableHeader = styled.td`
@@ -58,9 +60,9 @@ const TableDataB = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
-  border-top: 1px solid #999;
-  border-bottom: 1px solid #999;
-  background-color: #ececec;
+  border-top: 1px ${colors.grey35};
+  border-bottom: 1px ${colors.grey35};
+  background-color: ${colors.grey5};
 `;
 
 const PageSkipPage = () => {

@@ -57,7 +57,7 @@ export const UtilityBtns = styled.div`
   /* display: flex; */
 
   &:focus {
-    border: 3px solid #fdbd56;
+    border: 3px solid ${colors.focus};
     margin: 0;
     outline: none;
   }
