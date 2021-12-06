@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
-import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
+import { ReactComponent as Icon } from "../../assets/icon-panel-checkbox.svg";
 
 const getThemeColor = (variant) => {
   switch (variant) {
@@ -92,14 +92,6 @@ const SpanIcon = styled.span`
   box-sizing: border-box;
 `;
 
-const StyledImage = styled.img`
-  margin-top: -15% !important;
-  height: 1rem;
-  vertical-align: middle;
-  width: 1rem;
-  box-sizing: border-box;
-`;
-
 const Container = styled.div`
   ${({ variant }) =>
     variant === "info" &&
@@ -151,7 +143,7 @@ const Panel = ({
       {variant === "success" && (
         <SuccessPanelIconContainer>
           <SpanIcon>
-            <StyledImage src={iconCheckbox} />
+            <Icon />
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
