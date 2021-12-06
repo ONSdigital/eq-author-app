@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
+import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
 
 const getThemeColor = (variant) => {
   switch (variant) {
@@ -136,7 +137,6 @@ const Panel = ({
   headerLabel,
   variant,
   withLeftBorder,
-  icon,
   children,
 }) => {
   return (
@@ -151,7 +151,7 @@ const Panel = ({
       {variant === "success" && (
         <SuccessPanelIconContainer>
           <SpanIcon>
-            <StyledImage src={icon} />
+            <StyledImage src={iconCheckbox} />
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
@@ -173,7 +173,6 @@ Panel.propTypes = {
   paragraphLabel: PropType.string,
   headerLabel: PropType.string,
   withLeftBorder: PropType.bool,
-  icon: PropType.node,
 };
 
 Panel.defaultProps = {
