@@ -92,11 +92,11 @@ const HistoryPageContent = ({ match }) => {
   if (loading) {
     return <Loading height="100%">Questionnaire history loading…</Loading>;
   }
-
   if (error) {
     return <Error>Oops! Something went wrong</Error>;
   }
   const { history } = data;
+
   return (
     <Container>
       <Header title="History" />
@@ -141,51 +141,52 @@ const HistoryPageContent = ({ match }) => {
           </ActionButtons>
         </StyledGrid>
         <ItemGrid>
-          {history.map(
-            ({
-              id,
-              publishStatus,
-              questionnaireTitle,
-              bodyText,
-              type,
-              user,
-              time,
-            }) => (
-              <HistoryItem
-                key={id}
-                itemId={id}
-                handleUpdateNote={(itemId, bodyText) =>
-                  updateNote({
-                    variables: {
-                      input: {
-                        id: itemId,
-                        questionnaireId,
-                        bodyText,
+          {history.length &&
+            history.map(
+              ({
+                id,
+                publishStatus,
+                questionnaireTitle,
+                bodyText,
+                type,
+                user,
+                time,
+              }) => (
+                <HistoryItem
+                  key={id}
+                  itemId={id}
+                  handleUpdateNote={(itemId, bodyText) =>
+                    updateNote({
+                      variables: {
+                        input: {
+                          id: itemId,
+                          questionnaireId,
+                          bodyText,
+                        },
                       },
-                    },
-                  })
-                }
-                handleDeleteNote={(itemId) =>
-                  deleteNote({
-                    variables: {
-                      input: {
-                        id: itemId,
-                        questionnaireId,
+                    })
+                  }
+                  handleDeleteNote={(itemId) =>
+                    deleteNote({
+                      variables: {
+                        input: {
+                          id: itemId,
+                          questionnaireId,
+                        },
                       },
-                    },
-                  })
-                }
-                questionnaireTitle={questionnaireTitle}
-                publishStatus={publishStatus}
-                currentUser={me}
-                userName={user.displayName}
-                userId={user.id}
-                bodyText={bodyText}
-                type={type}
-                createdAt={time}
-              />
-            )
-          )}
+                    })
+                  }
+                  questionnaireTitle={questionnaireTitle}
+                  publishStatus={publishStatus}
+                  currentUser={me}
+                  userName={user.displayName}
+                  userId={user.id}
+                  bodyText={bodyText}
+                  type={type}
+                  createdAt={time}
+                />
+              )
+            )}
         </ItemGrid>
       </StyledScrollPane>
     </Container>

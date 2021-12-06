@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const { v4: uuidv4 } = require("uuid");
 
 const surveyDetails = (details, bodyText) => {
@@ -24,12 +26,16 @@ const surveyDetails = (details, bodyText) => {
   return detailsAndText;
 };
 
+const formatDate = (date) => moment(date).format("DD/MM/YYYY [at] HH:mm");
+
 const questionnaireCreationEvent = (questionnaire, ctx) => ({
   id: uuidv4(),
   publishStatus: "Questionnaire created",
   questionnaireTitle: `${questionnaire.title} (Version ${questionnaire.surveyVersion})`,
-  userId: ctx.user.id,
+  bodyText: "Imported on: " + formatDate(questionnaire.createdAt),
   type: "system",
+  userId: ctx.user.id,
+  user: ctx.user,
   time: questionnaire.createdAt,
 });
 
