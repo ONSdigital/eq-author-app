@@ -27,6 +27,18 @@ const errorWithHeader = css`
   background: ${({ theme }) => theme.colors.errorSecondary};
   border-color: ${({ theme }) => theme.colors.errors};
   position: relative;
+  padding-bottom: 0;
+  ol {
+    margin: 0 0 1rem;
+    margin-bottom: 0;
+    padding: 0 0 0 1.5rem;
+    li {
+      margin-bottom: 0.5rem;
+    }
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const infoPanel = css`
