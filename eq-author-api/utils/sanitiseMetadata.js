@@ -32,6 +32,8 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
   schema_name: "test",
   language_code: "en",
   form_type: "H",
+  account_service_url: "https://www.ons.gov.uk/",
+  account_service_log_out_url: "https://www.ons.gov.uk/",
 });
 
 module.exports.sanitiseMetadata = (metadata, questionnaireId) => {
