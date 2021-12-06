@@ -4,7 +4,6 @@ import {
   render,
   fireEvent,
   waitForElementToBeRemoved,
-  waitFor,
   screen,
 } from "tests/utils/rtl";
 
@@ -89,16 +88,6 @@ describe("Answer Type Selector", () => {
     expect(screen.getByTestId("btn-answer-type-daterange")).toHaveAttribute(
       "disabled"
     );
-  });
-
-  it("should focus on menu once Popout has entered", async () => {
-    const { getByText } = render(<AnswerTypeSelector {...props} />);
-    fireEvent.click(getByText(/add an answer/i));
-    await waitFor(() => {
-      expect(document.activeElement.getAttribute("data-test")).toMatch(
-        /btn-answer-type/
-      );
-    });
   });
 
   it("should show an error when the answers field has a validation error", () => {
