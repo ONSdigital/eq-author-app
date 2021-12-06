@@ -18,6 +18,7 @@ const Container = styled.div`
 const TableOuter = styled.table`
   width: 100%;
   border: 1px solid #999;
+  padding: 0;
 `;
 
 const TableRow = styled.tr`
@@ -25,6 +26,7 @@ const TableRow = styled.tr`
 `;
 
 const TableHeader = styled.td`
+  width: 50%;
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
@@ -34,15 +36,15 @@ const TableData = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
-  border-bottom: 1px solid #999;
 `;
 
 const TableDataB = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
-  font-style: bold;
+  border-top: 1px solid #999;
   border-bottom: 1px solid #999;
+  background-color: #ececec;
 `;
 
 const PageSkipPage = () => {
@@ -62,14 +64,18 @@ const PageSkipPage = () => {
             <TableHeader>Shortcut</TableHeader>
           </TableRow>
           <TableRow>
-            <TableData>Shift the focus to the next page area</TableData>
-            <TableDataB>F6</TableDataB>
+            <TableDataB>Shift the focus to the next page area</TableDataB>
+            <TableDataB>
+              <strong>F6</strong>
+            </TableDataB>
           </TableRow>
           <TableRow>
             <TableData>
               Shift the focus to the previous visible page area
             </TableData>
-            <TableDataB>F7</TableDataB>
+            <TableData>
+              <strong>F7</strong>
+            </TableData>
           </TableRow>
         </TableOuter>
       </Layout>
