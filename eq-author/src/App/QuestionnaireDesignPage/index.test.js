@@ -162,7 +162,7 @@ describe("QuestionnaireDesignPage", () => {
     });
   });
 
-  describe("SuperNav", () => {
+  describe("Keyboard Nav Tests", () => {
     it("should focus on a nav block when the hotkey F6 button is pressed while focused on the main nav", () => {
       const { getByTestId } = setup();
       const startFocus = getByTestId("keyNav");
