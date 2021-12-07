@@ -163,22 +163,22 @@ describe("QuestionnaireDesignPage", () => {
     });
   });
 
-  describe("SuperNav", () => {
-    it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
-      const { getByTestId } = setup();
-      const focusSuperNav = "SuperNav-1";
-      // const domNode = document.getElementById("SuperNav-3");
+  // describe("SuperNav", () => {
+  //   it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
+  //     const { getByTestId } = setup();
+  //     const focusSuperNav = "SuperNav-1";
+  //     // const domNode = document.getElementById("SuperNav-3");
 
-      fireEvent.keyPress(document.body, {
-        key: "F6",
-        code: "F6",
-        keyCode: 117,
-        charCode: 117,
-      });
+  //     fireEvent.keyPress(document.body, {
+  //       key: "F6",
+  //       code: "F6",
+  //       keyCode: 117,
+  //       charCode: 117,
+  //     });
 
-      // console.log(defaultSetup());
-      expect(document.getElementById(focusSuperNav)).toHaveFocus();
-      // expect(getByTestId("SuperNav")).toHaveFocus();
-    });
-  });
+  //     // console.log(defaultSetup());
+  //     expect(document.getElementById(focusSuperNav)).toHaveFocus();
+  //     // expect(getByTestId("SuperNav")).toHaveFocus();
+  //   });
+  // });
 });
