@@ -98,7 +98,7 @@ const NavigationSidebar = ({ questionnaire }) => {
     );
 
   return (
-    <Container data-test="side-nav" id="SuperNav-3" tabIndex="-1">
+    <Container data-test="side-nav" tabIndex="-1" className="keyNav">
       {!questionnaire ? null : (
         <>
           <NavigationHeader data-test="nav-section-header" />

@@ -83,8 +83,8 @@ const EditorLayout = ({
           <StyledColumn
             cols={singleColumnLayout ? 12 : 9}
             gutters={false}
-            id="SuperNav-5"
             tabIndex="-1"
+            className="keyNav"
           >
             <Margin>
               <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>

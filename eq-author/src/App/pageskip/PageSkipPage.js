@@ -68,10 +68,10 @@ const TableDataB = styled.td`
 const PageSkipPage = () => {
   return (
     <Container>
-      <Header title="Shortcuts" id="SuperNav-4" tabIndex="-1" />
+      <Header title="Shortcuts" tabIndex="-1" className="keyNav" />
 
       <Layout title="Shortcuts">
-        <StyledLayout id="SuperNav-5" tabIndex="-1">
+        <StyledLayout tabIndex="-1" className="keyNav">
           <SharePageTitle>Keyboard shortcuts</SharePageTitle>
           <Description>
             Keyboard shortcuts allow you to quickly navigate through the main
@@ -93,7 +93,7 @@ const PageSkipPage = () => {
                 Shift the focus to the previous visible page area
               </TableData>
               <TableData>
-                <strong>F7</strong>
+                <strong>Shift + F6</strong>
               </TableData>
             </TableRow>
           </TableOuter>

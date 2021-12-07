@@ -60,93 +60,39 @@ const MainNav = styled.div`
     border: 2px solid ${colors.yellow};
   }
 `;
-
-const idList = [
-  { id: "SuperNav-1", active: false },
-  // { id: "SuperNav-2", active: false },
-  { id: "SuperNav-3", active: false },
-  { id: "SuperNav-4", active: false },
-  { id: "SuperNav-5", active: false },
-];
-
-let firstMenuItem = document.getElementById("SuperNav-1");
-
-// Navigate forwards using f6
-hotkeys("f6", function (event) {
+hotkeys("F6", function (event) {
   event.preventDefault();
-
-  let currentElement;
-  const firstElement = idList[0];
-  // idList[idList.length - 1] gets the last element in the array
-  const lastElement = idList[idList.length - 1];
-
-  // Finds the currently active element and assigns the currentElement value to the active element
-  idList.forEach((element) => {
-    if (element.active) {
-      currentElement = element;
-      return;
-    }
-  });
-
-  // If no element is currently active, set the first element to be active and focus on it
-  if (currentElement === undefined) {
-    firstElement.active = true;
-    currentElement = firstElement;
-    document.getElementById(firstElement.id).focus();
+  let currentElement = event.target;
+  if (!currentElement.classList.contains("keyNav")) {
+    currentElement = currentElement.closest(".keyNav");
   }
-  // If the last element is active, return to the first element and focus on it
-  else if (lastElement.active) {
-    lastElement.active = false;
-    firstElement.active = true;
-    document.getElementById(firstElement.id).focus();
+
+  const keyNavs = document.querySelectorAll(".keyNav");
+  if (!keyNavs.length) {
+    return;
   }
-  // If any other element is active than the last element, move onto the next element
-  else {
-    const currentElementIndex = idList.indexOf(currentElement);
-    idList.find((element) => element.id === currentElement.id).active = false;
-    idList[currentElementIndex + 1].active = true;
-    currentElement = idList[currentElementIndex + 1];
-    document.getElementById(idList[currentElementIndex + 1].id).focus();
+  let position = Array.from(keyNavs).indexOf(currentElement);
+  if (position === keyNavs.length - 1) {
+    position = -1;
   }
+  keyNavs[position + 1].focus();
 });
-
-// Navigate backwards using f7
-hotkeys("f7", function (event) {
+hotkeys("shift+f6", function (event) {
   event.preventDefault();
-
-  let currentElement;
-  const firstElement = idList[0];
-  // idList[idList.length - 1] gets the last element in the array
-  const lastElement = idList[idList.length - 1];
-
-  // Finds the currently active element and assigns the currentElement value to the active element
-  idList.forEach((element) => {
-    if (element.active) {
-      currentElement = element;
-      return;
-    }
-  });
-
-  // If no element is currently active, set the last element to be active and focus on it
-  if (currentElement === undefined) {
-    lastElement.active = true;
-    currentElement = lastElement;
-    document.getElementById(lastElement.id).focus();
+  let currentElement = event.target;
+  if (!currentElement.classList.contains("keyNav")) {
+    currentElement = currentElement.closest(".keyNav");
   }
-  // If the first element is active, return to the last element and focus on it
-  else if (firstElement.active) {
-    firstElement.active = false;
-    lastElement.active = true;
-    document.getElementById(lastElement.id).focus();
+
+  const keyNavs = document.querySelectorAll(".keyNav");
+  if (!keyNavs.length) {
+    return;
   }
-  // If any other element is active than the first element, move back to the previous element
-  else {
-    const currentElementIndex = idList.indexOf(currentElement);
-    idList.find((element) => element.id === currentElement.id).active = false;
-    idList[currentElementIndex - 1].active = true;
-    currentElement = idList[currentElementIndex - 1];
-    document.getElementById(idList[currentElementIndex - 1].id).focus();
+  let position = Array.from(keyNavs).indexOf(currentElement);
+  if (position === 0) {
+    position = keyNavs.length;
   }
+  keyNavs[position - 1].focus();
 });
 
 const LoadingPlaceholder = () => (
