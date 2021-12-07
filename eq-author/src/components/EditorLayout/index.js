@@ -40,6 +40,11 @@ const PanelWrapper = styled.div`
   height: 100%;
   border-left: 1px solid ${colors.bordersLight};
   border-bottom: 1px solid ${colors.bordersLight};
+  &:focus {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const StyledGrid = styled(Grid)`
@@ -105,7 +110,11 @@ const EditorLayout = ({
           </StyledColumn>
           {singleColumnLayout ? null : (
             <Column cols={3} gutters={false}>
-              <PanelWrapper data-test="right-hand-panel">
+              <PanelWrapper
+                data-test="right-hand-panel"
+                tabIndex="-1"
+                className="keyNav"
+              >
                 {renderPanel ? renderPanel() : null}
               </PanelWrapper>
             </Column>
