@@ -1,7 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import AddMenu from "./AddMenu";
-import hotkeys from "hotkeys-js";
 
 const defaultProps = () => ({
   addMenuOpen: true,
