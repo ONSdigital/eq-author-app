@@ -15,22 +15,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  &:focus {
-    border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
 `;
 
 const StyledLayout = styled.div`
   width: 100%;
   height: 100%;
-  &:focus {
-    border: 3px solid ${colors.grey35};
-    margin: 0;
-    outline: none;
-  }
 `;
 
 const TableOuter = styled.table`
@@ -65,13 +54,13 @@ const TableDataB = styled.td`
   background-color: ${colors.grey5};
 `;
 
-const PageSkipPage = () => {
+const KeyboardShortcutsPage = () => {
   return (
     <Container>
       <Header title="Shortcuts" tabIndex="-1" className="keyNav" />
 
-      <Layout title="Shortcuts">
-        <StyledLayout tabIndex="-1" className="keyNav">
+      <Layout title="Shortcuts" tabIndex="-1" className="keyNav">
+        <StyledLayout>
           <SharePageTitle>Keyboard shortcuts</SharePageTitle>
           <Description>
             Keyboard shortcuts allow you to quickly navigate through the main
@@ -103,4 +92,4 @@ const PageSkipPage = () => {
   );
 };
 
-export default PageSkipPage;
+export default KeyboardShortcutsPage;

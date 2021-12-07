@@ -197,7 +197,8 @@ export const UnwrappedMainNavigation = ({
 
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn === "pageskip" && "navigation-on") ||
+                    (whatPageAreWeOn === "keyboardShortcuts" &&
+                      "navigation-on") ||
                     "navigation"
                   }
                   small

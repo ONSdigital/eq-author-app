@@ -7,6 +7,11 @@ import iconLink from "./icons/icon-link.svg";
 
 export const Layout = styled.div`
   padding: 1.8em;
+  &:focus {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 export const PageTitle = styled.h2`
