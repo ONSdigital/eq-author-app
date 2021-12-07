@@ -27,9 +27,9 @@ exports[`Editor Layout should render 1`] = `
         routing={true}
       >
         <EditorLayout__StyledColumn
+          className="keyNav"
           cols={9}
           gutters={false}
-          id="SuperNav-5"
           tabIndex="-1"
         >
           <EditorLayout__Margin>
