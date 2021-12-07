@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
 import OfflineBanner from "components/OfflineBanner";
-
+import { colors } from "constants/theme";
 import PermissionsBanner from "./PermissionsBanner";
 import App from "./App";
 
