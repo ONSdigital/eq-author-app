@@ -32,7 +32,7 @@ const questionnaireCreationEvent = (questionnaire, ctx) => ({
   id: uuidv4(),
   publishStatus: "Questionnaire created",
   questionnaireTitle: `${questionnaire.title} (Version ${questionnaire.surveyVersion})`,
-  bodyText: "Imported on: " + formatDate(questionnaire.createdAt),
+  bodyText: "",
   type: "system",
   userId: ctx.user.id,
   user: ctx.user,
@@ -47,6 +47,17 @@ const noteCreationEvent = (ctx, bodyText) => ({
   type: "note",
   userId: ctx.user.id,
   time: new Date(),
+});
+
+const historyCreationForImport = (questionnaire, ctx) => ({
+  id: uuidv4(),
+  publishStatus: "Questionnaire imported",
+  questionnaireTitle: `${questionnaire.title} (Version ${questionnaire.surveyVersion})`,
+  bodyText: "Imported on: " + formatDate(questionnaire.createdAt),
+  type: "system",
+  userId: ctx.user.id,
+  user: ctx.user,
+  time: questionnaire.createdAt,
 });
 
 const publishStatusEvent = (ctx, bodyText) => {
@@ -73,4 +84,5 @@ module.exports = {
   noteCreationEvent,
   publishStatusEvent,
   surveyDetails,
+  historyCreationForImport,
 };

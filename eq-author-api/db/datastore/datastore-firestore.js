@@ -7,6 +7,7 @@ const { removeEmpty } = require("../../utils/removeEmpty");
 const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const {
   questionnaireCreationEvent,
+  historyCreationForImport,
 } = require("../../utils/questionnaireEvents");
 
 let db;
@@ -39,15 +40,19 @@ const saveSections = (parentDoc, sections) =>
     )
   );
 
-const createQuestionnaire = async (questionnaire, ctx) => {
+const createQuestionnaire = async (questionnaire, ctx, imported) => {
   const updatedAt = new Date();
   const id = questionnaire.id ?? uuidv4();
   const { sections } = questionnaire;
 
+  const historyArray = imported
+    ? [historyCreationForImport(questionnaire, ctx)]
+    : [questionnaireCreationEvent(questionnaire, ctx)];
+
   const baseQuestionnaire = removeEmpty({
     id,
     ...justListFields(questionnaire),
-    history: [questionnaireCreationEvent(questionnaire, ctx)],
+    history: historyArray,
     updatedAt,
   });
 
