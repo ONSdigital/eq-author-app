@@ -31,6 +31,11 @@ const Container = styled.div`
 
 const StyledGrid = styled(Grid)`
   overflow: hidden;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Info = styled(IconText)`
@@ -77,7 +82,7 @@ export const UnwrappedMetadataPageContent = ({
         </Info>
       )}
       {hasMetadata ? (
-        <StyledGrid>
+        <StyledGrid tabIndex="-1" className="keyNav">
           <ScrollPane data-test="metadata-modal-content">
             <StyledMainCanvas>
               <MetadataTable

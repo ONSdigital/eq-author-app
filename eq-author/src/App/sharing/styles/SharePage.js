@@ -13,6 +13,11 @@ export const Container = styled.div`
 export const StyledGrid = styled(Grid)`
   overflow: hidden;
   padding-top: 2em;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 export const StyledMainCanvas = styled(MainCanvas)`

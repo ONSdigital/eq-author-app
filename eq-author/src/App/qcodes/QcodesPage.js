@@ -17,6 +17,11 @@ const Container = styled.div`
 const StyledGrid = styled(Grid)`
   overflow: hidden;
   padding-top: 2em;
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const StyledMainCanvas = styled(MainCanvas)`
@@ -27,7 +32,7 @@ const StyledMainCanvas = styled(MainCanvas)`
 const QcodesPage = () => (
   <Container>
     <Header title="QCodes" />
-    <StyledGrid>
+    <StyledGrid tabIndex="-1" className="keyNav">
       <ScrollPane>
         <StyledMainCanvas>
           <QcodesTable />
