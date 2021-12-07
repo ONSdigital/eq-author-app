@@ -53,7 +53,6 @@ const StyledGrid = styled(Grid)`
 
 const StyledColumn = styled(Column)`
   height: auto;
-
   &:focus {
     border: 3px solid ${colors.focus};
     margin: 0;
