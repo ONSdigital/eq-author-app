@@ -1,11 +1,10 @@
 import React from "react";
-import { render, userEvent, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import { useQuery } from "@apollo/react-hooks";
 import { MeContext } from "App/MeContext";
 import { PAGE } from "constants/entities";
 import { useParams } from "react-router-dom";
-import hotkeys from "hotkeys-js";
 
 import QuestionnaireDesignPage from "./";
 import useQuestionnaireQuery from "./useQuestionnaireQuery";
@@ -163,22 +162,19 @@ describe("QuestionnaireDesignPage", () => {
     });
   });
 
-  // describe("SuperNav", () => {
-  //   it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
-  //     const { getByTestId } = setup();
-  //     const focusSuperNav = "SuperNav-1";
-  //     // const domNode = document.getElementById("SuperNav-3");
+  describe("SuperNav", () => {
+    it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
+      const { getByTestId } = setup();
+      const focusSuperNav = getByTestId("SuperNav");
 
-  //     fireEvent.keyPress(document.body, {
-  //       key: "F6",
-  //       code: "F6",
-  //       keyCode: 117,
-  //       charCode: 117,
-  //     });
+      fireEvent.keyDown(focusSuperNav, {
+        key: "F6",
+        code: "F6",
+        keyCode: 117,
+        charCode: 117,
+      });
 
-  //     // console.log(defaultSetup());
-  //     expect(document.getElementById(focusSuperNav)).toHaveFocus();
-  //     // expect(getByTestId("SuperNav")).toHaveFocus();
-  //   });
-  // });
+      expect(focusSuperNav).toHaveFocus();
+    });
+  });
 });
