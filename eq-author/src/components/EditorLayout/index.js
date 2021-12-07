@@ -53,11 +53,6 @@ const StyledGrid = styled(Grid)`
 
 const StyledColumn = styled(Column)`
   height: auto;
-  &:focus {
-    border: 3px solid #fdbd56;
-    margin: 0;
-    outline: none;
-  }
 `;
 
 const EditorLayout = ({
