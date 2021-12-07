@@ -177,5 +177,21 @@ describe("QuestionnaireDesignPage", () => {
 
       expect(expectedFocus).toHaveFocus();
     });
+
+    it("should focus on a the main nav block when the hotkey shift F6 button is pressed while focused on the side nav", () => {
+      const { getByTestId } = setup();
+      const startFocus = getByTestId("side-nav");
+      const expectedFocus = getByTestId("keyNav");
+
+      fireEvent.keyDown(startFocus, {
+        shiftKey: true,
+        key: "F6",
+        code: "F6",
+        keyCode: 117,
+        charCode: 117,
+      });
+
+      expect(expectedFocus).toHaveFocus();
+    });
   });
 });
