@@ -163,18 +163,19 @@ describe("QuestionnaireDesignPage", () => {
   });
 
   describe("SuperNav", () => {
-    it("should focus on a nav block when the hotkey F6 button is pressed and move forward", () => {
+    it("should focus on a nav block when the hotkey F6 button is pressed while focused on the main nav", () => {
       const { getByTestId } = setup();
-      const focusSuperNav = getByTestId("SuperNav");
+      const startFocus = getByTestId("keyNav");
+      const expectedFocus = getByTestId("side-nav");
 
-      fireEvent.keyDown(focusSuperNav, {
+      fireEvent.keyDown(startFocus, {
         key: "F6",
         code: "F6",
         keyCode: 117,
         charCode: 117,
       });
 
-      expect(focusSuperNav).toHaveFocus();
+      expect(expectedFocus).toHaveFocus();
     });
   });
 });

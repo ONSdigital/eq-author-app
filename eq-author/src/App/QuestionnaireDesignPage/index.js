@@ -60,6 +60,11 @@ const MainNav = styled.div`
     border: 2px solid ${colors.yellow};
   }
 `;
+
+hotkeys.filter = function (event) {
+  return true;
+};
+
 hotkeys("F6", function (event) {
   event.preventDefault();
   let currentElement = event.target;
