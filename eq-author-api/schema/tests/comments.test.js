@@ -152,17 +152,24 @@ describe("comments", () => {
   });
 
   describe("locking", () => {
-    it("should prevent adding comments to a locked questionnaire", async () => {
-      expect(
-        createComment(
-          { ...ctx, questionnaire: { ...ctx.questionnaire, locked: true } },
-          {
-            componentId,
-            commentText: "a new comment is created",
-          }
-        )
-      ).rejects.toThrow();
+    it("should create a comment on a locked questionnaire and then query that comment", async () => {
+      await createComment(
+        { ...ctx, questionnaire: { ...ctx.questionnaire, locked: true } },
+        {
+          componentId,
+          commentText: "a new comment is created",
+        }
+      );
 
+      const queryNewComments = await queryComments(ctx, componentId);
+
+      expect(queryNewComments).toMatchObject({
+        comments: [
+          {
+            commentText: "a new comment is created",
+          },
+        ],
+      });
       questionnaire.locked = false;
     });
   });
