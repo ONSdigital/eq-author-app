@@ -61,7 +61,7 @@ const MainNav = styled.div`
   }
 `;
 
-hotkeys.filter = function (event) {
+hotkeys.filter = function () {
   return true;
 };
 
