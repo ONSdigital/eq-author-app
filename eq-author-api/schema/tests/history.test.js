@@ -59,7 +59,7 @@ describe("history", () => {
         },
       },
       {
-        bodyText: null,
+        bodyText: "",
         publishStatus: "Questionnaire created",
         questionnaireTitle: "Questionnaire (Version 1)",
         user: {
@@ -159,7 +159,7 @@ describe("history", () => {
       const history = await queryHistory(ctx);
       expect(history).toMatchObject([
         {
-          bodyText: null,
+          bodyText: "",
           publishStatus: "Questionnaire created",
           questionnaireTitle: "Questionnaire (Version 1)",
           user: {
