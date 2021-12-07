@@ -169,7 +169,6 @@ Panel.propTypes = {
 
 Panel.defaultProps = {
   variant: "info",
-  type: "panel",
 };
 
 export default Panel;
