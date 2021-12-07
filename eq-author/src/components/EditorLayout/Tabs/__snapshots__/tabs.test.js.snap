@@ -4,7 +4,6 @@ exports[`Tabs should enable the Logic tab when prop is passed 1`] = `
 <Tabs__Tab
   activeClassName="active"
   data-test="logic"
-  id="SN32"
   isActive={[Function]}
   key="logic"
   to="/q/1/page/3/logic"
@@ -23,7 +22,6 @@ exports[`Tabs should enable the preview tab when prop is passed 1`] = `
 <Tabs__Tab
   activeClassName="active"
   data-test="preview"
-  id="SN31"
   key="preview"
   to="/q/1/page/3/preview"
 >
@@ -39,7 +37,6 @@ exports[`Tabs should render a confirmation link when provided 1`] = `
     <Tabs__Tab
       activeClassName="active"
       data-test="design"
-      id="SuperNav-3"
       key="design"
       to="/q/1/question-confirmation/4/design"
     >
@@ -47,14 +44,12 @@ exports[`Tabs should render a confirmation link when provided 1`] = `
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
-      id="SN31"
       key="preview"
     >
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="logic"
-      id="SN32"
       key="logic"
     >
       <Badge
@@ -77,7 +72,6 @@ exports[`Tabs should render link to section if params are for a section 1`] = `
     <Tabs__Tab
       activeClassName="active"
       data-test="design"
-      id="SuperNav-3"
       key="design"
       to="/q/1/section/2/design"
     >
@@ -85,14 +79,12 @@ exports[`Tabs should render link to section if params are for a section 1`] = `
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
-      id="SN31"
       key="preview"
     >
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="logic"
-      id="SN32"
       key="logic"
     >
       <Badge
@@ -115,7 +107,6 @@ exports[`Tabs should render with design tab enabled by default 1`] = `
     <Tabs__Tab
       activeClassName="active"
       data-test="design"
-      id="SuperNav-3"
       key="design"
       to="/q/1/page/3/design"
     >
@@ -123,14 +114,12 @@ exports[`Tabs should render with design tab enabled by default 1`] = `
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
-      id="SN31"
       key="preview"
     >
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="logic"
-      id="SN32"
       key="logic"
     >
       <Badge

@@ -48,19 +48,16 @@ const TABS = [
   {
     key: "design",
     children: "Design",
-    id: "SuperNav-3",
     url: (match) => buildDesignPath(match.params),
   },
   {
     key: "preview",
     children: "Preview",
-    id: "SN31",
     url: (match) => buildPreviewPath(match.params),
   },
   {
     key: "logic",
     children: "Logic",
-    id: "SN32",
     url: (match) => buildLogicPath(match.params),
     isActive: (match, location) =>
       location.pathname.includes("routing") ||
@@ -103,7 +100,7 @@ export const UnwrappedTabs = (props) => {
   return (
     <div>
       <TabsContainer data-test="tabs-nav">
-        {TABS.map(({ key, children, url, id, isActive }) => {
+        {TABS.map(({ key, children, url, isActive }) => {
           const errors = tabErrors(key);
           const { Component, otherProps = {} } = props[key]
             ? {
@@ -112,7 +109,7 @@ export const UnwrappedTabs = (props) => {
               }
             : { Component: DisabledTab };
           return (
-            <Component data-test={key} key={key} id={id} {...otherProps}>
+            <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
                 <Badge variant="tabs" small data-test="small-badge" />
               ) : null}

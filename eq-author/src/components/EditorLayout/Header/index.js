@@ -65,7 +65,7 @@ export const UnconnectedHeader = (props) => {
 
   return (
     <>
-      <StyledHeader id="SuperNav-4" tabIndex="-1" className="keyNav">
+      <StyledHeader tabIndex="-1" className="keyNav">
         <Flex>
           <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
         </Flex>
