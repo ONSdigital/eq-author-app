@@ -1,9 +1,6 @@
-/* eslint-disable react/no-find-dom-node */
 import React from "react";
-import { findDOMNode } from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
 import { radius } from "constants/theme";
 import { IconGrid } from "components/IconGrid";
 import AnswerTypeButton from "./AnswerTypeButton";
@@ -73,10 +70,6 @@ class AnswerTypeGrid extends React.Component {
   handleSelect = (type) => {
     this.props.onClose();
     this.props.onSelect(type);
-  };
-
-  focusMenuItem = () => {
-    findDOMNode(this.button).focus();
   };
 
   saveButtonRef = (button) => {
