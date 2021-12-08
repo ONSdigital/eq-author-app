@@ -12,6 +12,11 @@ export const Layout = styled.div`
     margin: 0;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 export const PageTitle = styled.h2`

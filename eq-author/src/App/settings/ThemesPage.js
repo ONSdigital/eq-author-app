@@ -57,6 +57,16 @@ const PageMainCanvas = styled.div`
 const PageContainer = styled.div`
   padding: 0.8em;
   border-left: 1px solid ${colors.lightGrey};
+  &:focus {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Panel = styled.div`
@@ -199,7 +209,7 @@ const ThemesPage = ({ questionnaire }) => {
     <Container>
       <ScrollPane>
         <Header title="Settings" />
-        <PageContainer>
+        <PageContainer tabIndex="-1" className="keyNav">
           <PageMainCanvas>
             <Grid>
               <VerticalTabs

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import { Grid } from "components/Grid";
+import { colors } from "constants/theme";
 import MainCanvas from "components/MainCanvas";
 import QcodesTable from "./QCodesTable";
 
@@ -18,7 +19,12 @@ const StyledGrid = styled(Grid)`
   overflow: hidden;
   padding-top: 2em;
   &:focus {
-    border: 3px solid #fdbd56;
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
+  &:focus:not(:focus-visible) {
+    border: none;
     margin: 0;
     outline: none;
   }

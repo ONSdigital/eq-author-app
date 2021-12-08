@@ -84,6 +84,11 @@ const PageContainer = styled.div`
     margin: 0;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Pill = ({ children, testId }) => {

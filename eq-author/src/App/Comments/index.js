@@ -47,6 +47,11 @@ const Wrapper = styled.section`
     margin: 0;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Replies = styled(Collapsible)`

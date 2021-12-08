@@ -49,8 +49,8 @@ const TableDataB = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
-  border-top: 1px ${colors.grey35};
-  border-bottom: 1px ${colors.grey35};
+  border-top: 1px solid ${colors.grey35};
+  border-bottom: 1px solid ${colors.grey35};
   background-color: ${colors.grey5};
 `;
 

@@ -25,6 +25,11 @@ const StyledHeader = styled.header`
     margin: 0;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Flex = styled.div`

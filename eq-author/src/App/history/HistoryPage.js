@@ -58,6 +58,11 @@ const StyledScrollPane = styled(ScrollPane)`
     margin: 0;
     outline: none;
   }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const ActionButtons = styled(ButtonGroup)`
