@@ -26,6 +26,7 @@ const TableOuter = styled.table`
   width: 100%;
   border: 1px solid ${colors.grey35};
   padding: 0;
+  border-collapse: collapse;
 `;
 
 const TableRow = styled.tr`
