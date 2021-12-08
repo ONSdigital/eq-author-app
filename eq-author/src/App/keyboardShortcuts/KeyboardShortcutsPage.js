@@ -39,13 +39,13 @@ const TableHeader = styled.td`
   font-size: 1.25em;
 `;
 
-const TableData = styled.td`
+const TableDataLightGrey = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
 `;
 
-const TableDataB = styled.td`
+const TableDataDarkGrey = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
@@ -72,18 +72,20 @@ const KeyboardShortcutsPage = () => {
               <TableHeader>Shortcut</TableHeader>
             </TableRow>
             <TableRow>
-              <TableDataB>Shift the focus to the next page area</TableDataB>
-              <TableDataB>
+              <TableDataDarkGrey>
+                Shift the focus to the next page area
+              </TableDataDarkGrey>
+              <TableDataDarkGrey>
                 <strong>F6</strong>
-              </TableDataB>
+              </TableDataDarkGrey>
             </TableRow>
             <TableRow>
-              <TableData>
+              <TableDataLightGrey>
                 Shift the focus to the previous visible page area
-              </TableData>
-              <TableData>
+              </TableDataLightGrey>
+              <TableDataLightGrey>
                 <strong>Shift + F6</strong>
-              </TableData>
+              </TableDataLightGrey>
             </TableRow>
           </TableOuter>
         </StyledLayout>
