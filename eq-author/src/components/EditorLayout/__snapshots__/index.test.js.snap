@@ -45,9 +45,7 @@ exports[`Editor Layout should render 1`] = `
           gutters={false}
         >
           <EditorLayout__PanelWrapper
-            className="keyNav"
             data-test="right-hand-panel"
-            tabIndex="-1"
           />
         </Column>
       </EditorLayout__StyledGrid>

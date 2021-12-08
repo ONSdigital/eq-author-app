@@ -110,11 +110,7 @@ const EditorLayout = ({
           </StyledColumn>
           {singleColumnLayout ? null : (
             <Column cols={3} gutters={false}>
-              <PanelWrapper
-                data-test="right-hand-panel"
-                tabIndex="-1"
-                className="keyNav"
-              >
+              <PanelWrapper data-test="right-hand-panel">
                 {renderPanel ? renderPanel() : null}
               </PanelWrapper>
             </Column>
