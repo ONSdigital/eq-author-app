@@ -38,6 +38,7 @@ const TableHeader = styled.td`
   padding: 1em;
   text-align: left;
   font-size: 1.25em;
+  color: ${colors.grey75};
 `;
 
 const TableDataLightGrey = styled.td`
