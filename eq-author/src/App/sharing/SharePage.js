@@ -3,7 +3,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import styled from "styled-components";
+
 import Panel from "components/Panel";
 import ShareContent from "./SharePageContent";
 
