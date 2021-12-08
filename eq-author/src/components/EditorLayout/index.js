@@ -40,11 +40,6 @@ const PanelWrapper = styled.div`
   height: 100%;
   border-left: 1px solid ${colors.bordersLight};
   border-bottom: 1px solid ${colors.bordersLight};
-  &:focus {
-    border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
 `;
 
 const StyledGrid = styled(Grid)`
