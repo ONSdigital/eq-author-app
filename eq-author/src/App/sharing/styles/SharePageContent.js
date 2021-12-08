@@ -7,13 +7,8 @@ import iconLink from "./icons/icon-link.svg";
 
 export const Layout = styled.div`
   padding: 1.8em;
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

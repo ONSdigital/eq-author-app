@@ -42,13 +42,8 @@ const Wrapper = styled.section`
       border-top: 1px solid rgb(228, 232, 235);
     }
   }
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

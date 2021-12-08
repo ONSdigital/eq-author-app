@@ -20,13 +20,8 @@ const StyledHeader = styled.header`
   font-weight: 400;
   position: relative;
 
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

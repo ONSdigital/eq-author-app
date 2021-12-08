@@ -28,13 +28,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

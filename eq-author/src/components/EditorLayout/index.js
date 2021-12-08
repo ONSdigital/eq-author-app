@@ -48,13 +48,8 @@ const StyledGrid = styled(Grid)`
 
 const StyledColumn = styled(Column)`
   height: auto;
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

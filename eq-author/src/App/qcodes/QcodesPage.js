@@ -18,13 +18,8 @@ const Container = styled.div`
 const StyledGrid = styled(Grid)`
   overflow: hidden;
   padding-top: 2em;
-  &:focus {
+  &:focus-visible {
     border: 3px solid ${colors.focus};
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
     margin: 0;
     outline: none;
   }

@@ -56,12 +56,8 @@ const Flex = styled.div`
 export const UtilityBtns = styled.div`
   /* display: flex; */
 
-  &:focus {
-    margin: 0;
-    outline: none;
-  }
-  &:focus:not(:focus-visible) {
-    border: none;
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
     margin: 0;
     outline: none;
   }
