@@ -49,12 +49,15 @@ const HeaderTitle = styled.div`
   color: ${({ theme }) => theme.colors.headerTitle};
   font-weight: 700;
   line-height: 1.4;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
   cursor: pointer;
   text-decoration: none;
-  margin: 0;
   ${({ headerDescription }) =>
     headerDescription &&
     `font-size: 2rem;
+     margin-bottom: 0rem;
+
   `}
 `;
 
@@ -63,7 +66,6 @@ const HeaderMain = styled.div`
   padding: 0.56rem 0;
   padding-left: 1rem;
   padding-right: 1rem;
-  height: auto;
 `;
 
 const Header = ({
