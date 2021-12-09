@@ -47,12 +47,16 @@ export const Title = styled.h2`
 `;
 
 const Header = styled.div`
-  background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
-  margin-top: -1px;
-  border-top: 3px solid ${colors.primary};
+  background: ${colors.blue};
+  border-bottom: 1px solid ${colors.bordersLight};
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  padding: 0.5em 1em;
+`;
+
+const HeaderLabel = styled(Label)`
+  color: ${colors.white};
 `;
 
 const SmallSelect = styled(Select)`
@@ -151,7 +155,7 @@ export const UnwrappedRuleEditor = ({
   return (
     <Rule data-test="routing-rule" className={className}>
       <Header>
-        <Label inline> Routing logic rules </Label>
+        <HeaderLabel inline> Routing logic rules </HeaderLabel>
         <RemoveRuleButton
           onClick={handleDeleteClick}
           data-test="btn-remove-rule"
