@@ -102,50 +102,12 @@ const HistoryPageContent = ({ match }) => {
   if (loading) {
     return <Loading height="100%">Questionnaire history loading…</Loading>;
   }
-  // if (error) {
-  //   console.log(`HERE INSIDE ERROR!!!!!!!!!`);
-  //   addNote({
-  //     variables: {
-  //       input: {
-  //         id: questionnaireId,
-  //         bodyText: "",
-  //       },
-  //     },
-  //     refetchQueries: ["questionnaireHistoryQuery"],
-  //   });
-  //   // return <Error>Oops! Something went wrong</Error>;
-  // }
-
-  // if (
-  //   data === undefined ||
-  //   data?.history === null ||
-  //   data?.history === undefined
-  // ) {
-  //   console.log(`HERE INSIDE no data.history!!!!!!!!!`);
-  //   addNote({
-  //     variables: {
-  //       input: {
-  //         id: questionnaireId,
-  //         bodyText: "",
-  //       },
-  //     },
-  //     refetchQueries: ["GetQuestionnaire"],
-  //   });
-  // }
-
-  // if (data) {
-  //   const { history } = data;
-  // }
 
   let history = [];
 
   if (data) {
     history = data.history;
   }
-
-  console.log(`data`, data);
-  console.log(`error`, error);
-  console.log(`history`, history);
 
   return (
     <Container>
@@ -191,7 +153,11 @@ const HistoryPageContent = ({ match }) => {
           </ActionButtons>
         </StyledGrid>
         <ItemGrid>
-          {history === null || history === undefined || error || !data ? (
+          {history === null ||
+          history === undefined ||
+          !history.length ||
+          error ||
+          !data ? (
             <Error>Currently no history info...</Error>
           ) : (
             history.map(
