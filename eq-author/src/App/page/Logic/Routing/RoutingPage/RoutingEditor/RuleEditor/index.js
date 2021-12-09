@@ -36,10 +36,6 @@ const Rule = styled.div`
   margin-bottom: 2em;
 `;
 
-const Transition = styled(BounceTransition)`
-  margin-bottom: 2em;
-`;
-
 export const Title = styled.h2`
   letter-spacing: 0.05em;
   font-size: 0.9em;
@@ -191,7 +187,7 @@ export const UnwrappedRuleEditor = ({
             }
 
             const component = (
-              <Transition key={expression.id} exit={false}>
+              <BounceTransition key={expression.id} exit={false}>
                 <BinaryExpressionEditor
                   expression={expression}
                   expressionGroup={expressionGroup}
@@ -205,7 +201,7 @@ export const UnwrappedRuleEditor = ({
                   includeSelf
                   onExpressionDeleted={handleExpressionDeletion}
                 />
-              </Transition>
+              </BounceTransition>
             );
             if (expression.left?.type === RADIO) {
               existingRadioConditions[expression.left?.id] = true;
