@@ -976,7 +976,6 @@ const Resolvers = {
     createComment: async (_, { input }, ctx) => {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1005,7 +1004,6 @@ const Resolvers = {
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1022,7 +1020,6 @@ const Resolvers = {
     updateComment: async (_, { input }, ctx) => {
       const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1045,7 +1042,6 @@ const Resolvers = {
     createReply: async (_, { input }, ctx) => {
       const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1076,7 +1072,6 @@ const Resolvers = {
     updateReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1100,7 +1095,6 @@ const Resolvers = {
     deleteReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id

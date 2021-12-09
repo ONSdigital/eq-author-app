@@ -62,31 +62,23 @@ const remapAllNestedIds = (entity) => {
   // Deep Map (https://github.com/mcmath/deep-map) seems to ignore the "custom"
   // key and not return. To avoid this, you can pass {inPlace: True} as a parameter
   // so that it mutates the object coming in, instead of returning a new object.
-  const remappedIdEntity = deepMap(
-    entity,
-    (value, key) => {
-      if (key === "id") {
-        const newEntityId = uuidv4();
-        transformationMatrix[value] = newEntityId;
+  const remappedIdEntity = deepMap(entity, (value, key) => {
+    if (key === "id") {
+      const newEntityId = uuidv4();
+      transformationMatrix[value] = newEntityId;
 
-        return newEntityId;
-      }
+      return newEntityId;
+    }
 
-      return value;
-    },
-    { inPlace: true }
-  );
+    return value;
+  });
 
-  return deepMap(
-    remappedIdEntity,
-    (value) => {
-      if (Object.keys(transformationMatrix).includes(value)) {
-        return transformationMatrix[value];
-      }
-      return value;
-    },
-    { inPlace: true }
-  );
+  return deepMap(remappedIdEntity, (value) => {
+    if (Object.keys(transformationMatrix).includes(value)) {
+      return transformationMatrix[value];
+    }
+    return value;
+  });
 };
 
 const getPosition = (position, comparator) =>

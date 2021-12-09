@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Grid } from "components/Grid";
+import { colors } from "constants/theme";
 import MainCanvas from "components/MainCanvas";
 
 export const Container = styled.div`
@@ -13,6 +14,11 @@ export const Container = styled.div`
 export const StyledGrid = styled(Grid)`
   overflow: hidden;
   padding-top: 2em;
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 export const StyledMainCanvas = styled(MainCanvas)`
