@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
 import OfflineBanner from "components/OfflineBanner";
-
+import { colors } from "constants/theme";
 import PermissionsBanner from "./PermissionsBanner";
 import App from "./App";
 
@@ -22,6 +22,11 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const BaseLayout = ({ children, questionnaire }) => (
