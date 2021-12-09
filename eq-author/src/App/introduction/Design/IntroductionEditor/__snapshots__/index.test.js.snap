@@ -39,7 +39,7 @@ exports[`IntroductionEditor should render 1`] = `
             }
           }
         >
-          ONS contact detail
+          ONS contact details
         </IntroductionEditor__SectionTitle>
         <IntroductionEditor__SectionDescription>
           For business to report a change to company details or structure.
