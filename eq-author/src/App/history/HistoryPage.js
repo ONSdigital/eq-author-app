@@ -53,6 +53,11 @@ const StyledScrollPane = styled(ScrollPane)`
   div:last-of-type {
     margin-bottom: 0;
   }
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const ActionButtons = styled(ButtonGroup)`
@@ -100,7 +105,7 @@ const HistoryPageContent = ({ match }) => {
   return (
     <Container>
       <Header title="History" />
-      <StyledScrollPane>
+      <StyledScrollPane tabIndex="-1" className="keyNav">
         <StyledGrid>
           <RTEWrapper>
             <RichTextEditor

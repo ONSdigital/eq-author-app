@@ -79,6 +79,16 @@ const PageMainCanvas = styled.div`
 const PageContainer = styled.div`
   padding: 0.8em;
   border-left: 1px solid ${colors.lightGrey};
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Pill = ({ children, testId }) => {
@@ -137,8 +147,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
-  const [questionnaireShortTitle, setQuestionnaireShortTitle] =
-    useState(shortTitle);
+  const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
+    shortTitle
+  );
 
   const params = useParams();
 
@@ -146,7 +157,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     <Container>
       <ScrollPane>
         <Header title="Settings" />
-        <PageContainer>
+        <PageContainer tabIndex="-1" className="keyNav">
           <PageMainCanvas>
             <Grid>
               <VerticalTabs
