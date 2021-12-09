@@ -19,6 +19,12 @@ const StyledHeader = styled.header`
   background: ${colors.primary};
   font-weight: 400;
   position: relative;
+
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Flex = styled.div`
@@ -59,7 +65,7 @@ export const UnconnectedHeader = (props) => {
 
   return (
     <>
-      <StyledHeader>
+      <StyledHeader tabIndex="-1" className="keyNav">
         <Flex>
           <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
         </Flex>
