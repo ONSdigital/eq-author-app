@@ -15,7 +15,9 @@ import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
+import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
+import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -153,6 +155,38 @@ export const UnwrappedRuleEditor = ({
       <Header>
         <HeaderPanel>
           <HeaderLabel inline> Routing logic rule </HeaderLabel>
+          <Tooltip
+            content="Move answer up"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={false}
+              tabIndex={0} //-1 if not enabled
+              aria-label={"Move routing rule up"}
+              onClick={() => console.log("Move up")}
+              data-test="btn-move-routing-rule-up"
+            >
+              <IconUp />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Move answer down"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={false}
+              tabIndex={0} //-1 if not enabled
+              aria-label={"Move routing rule down"}
+              onClick={() => console.log("Move down")}
+              data-test="btn-move-routing-rule-down"
+            >
+              <IconDown />
+            </MoveButton>
+          </Tooltip>
           <DeleteButton
             color="white"
             size="medium"
