@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 import { useQuery } from "@apollo/react-hooks";
 import { MeContext } from "App/MeContext";
@@ -159,6 +159,39 @@ describe("QuestionnaireDesignPage", () => {
     it("should display questionnaire title if no longer loading", () => {
       setup();
       expect(document.title).toEqual("questionnaire - Page 1.1.1");
+    });
+  });
+
+  describe("Keyboard Nav Tests", () => {
+    it("should focus on a nav block when the hotkey F6 button is pressed while focused on the main nav", () => {
+      const { getByTestId } = setup();
+      const startFocus = getByTestId("keyNav");
+      const expectedFocus = getByTestId("side-nav");
+
+      fireEvent.keyDown(startFocus, {
+        key: "F6",
+        code: "F6",
+        keyCode: 117,
+        charCode: 117,
+      });
+
+      expect(expectedFocus).toHaveFocus();
+    });
+
+    it("should focus on a the main nav block when the hotkey shift F6 button is pressed while focused on the side nav", () => {
+      const { getByTestId } = setup();
+      const startFocus = getByTestId("side-nav");
+      const expectedFocus = getByTestId("keyNav");
+
+      fireEvent.keyDown(startFocus, {
+        shiftKey: true,
+        key: "F6",
+        code: "F6",
+        keyCode: 117,
+        charCode: 117,
+      });
+
+      expect(expectedFocus).toHaveFocus();
     });
   });
 });
