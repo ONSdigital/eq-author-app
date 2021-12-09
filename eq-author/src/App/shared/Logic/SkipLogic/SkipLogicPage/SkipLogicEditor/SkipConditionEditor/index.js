@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import Transition from "components/transitions/BounceTransition";
 
-import Button from "components/buttons/Button";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
 
@@ -63,30 +62,11 @@ const HeaderPanel = styled.span`
   padding: 0.5em 1em;
 `;
 
-const OrConditionHeader = styled.div`
-  background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
-  margin-top: -1px;
-  border-top: 3px solid ${colors.primary};
-  display: flex;
-  align-items: center;
-`;
-
 const Middle = styled.div`
   background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
   margin-top: -1px;
-  border-left: 3px solid ${colors.primary};
   display: flex;
   align-items: center;
-`;
-
-const RemoveSkipConditionButton = styled(Button).attrs({
-  variant: "tertiary",
-  small: true,
-})`
-  margin-left: auto;
-  padding: 0.2em;
 `;
 
 const SkipConditionEditor = ({
@@ -132,13 +112,22 @@ const SkipConditionEditor = ({
 
   const middle = (
     <Middle>
-      <Label inline>{LABEL_OR}</Label>
-      <RemoveSkipConditionButton
-        onClick={handleDeleteClick}
-        data-test="btn-remove-skip-condition"
-      >
-        {LABEL_REMOVE_GROUP}
-      </RemoveSkipConditionButton>
+      <HeaderPanel>
+        <HeaderLabel inline>{LABEL_OR}</HeaderLabel>
+        <Tooltip
+          content="Delete OR statement"
+          place="top"
+          offset={{ top: 0, bottom: 10 }}
+        >
+          <DeleteButton
+            color="white"
+            size="medium"
+            onClick={handleDeleteClick}
+            aria-label="Delete or statement"
+            data-test="btn-delete-skip-condition-or"
+          />
+        </Tooltip>
+      </HeaderPanel>
     </Middle>
   );
 
