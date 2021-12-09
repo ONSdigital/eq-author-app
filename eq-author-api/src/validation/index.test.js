@@ -1346,37 +1346,6 @@ describe("schema validation", () => {
       expect(routingErrors[0].errorCode).toBe(ERR_SEC_CONDITION_NOT_SELECTED);
     });
 
-    // it.only("should not show error on valid secondaryCondition when condition=`CountOf` in routing", () => {
-    //   expect(validation(questionnaire)).toHaveLength(0);
-    //   questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
-
-    //   questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
-    //     {
-    //       id: "group-1",
-    //       expressions: [
-    //         {
-    //           id: "express-1",
-    //           condition: "CountOf",
-    //           secondaryCondition: "Equal",
-    //           left: {
-    //             type: "Answer",
-    //             answerId: "answer_1",
-    //           },
-    //           right: { number: 12 },
-    //         },
-    //       ],
-    //     };
-    //   const routingErrors = validation(questionnaire);
-    //   console.log(
-    //     `routingErrors`,
-    //     questionnaire.sections[0].folders[0].pages[0].routing.rules[0]
-    //       .expressionGroup
-    //   );
-
-    //   expect(routingErrors).toHaveLength(1);
-    //   // expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
-    // });
-
     it("should validate empty right expression when condition=`CountOf` in routing", () => {
       expect(validation(questionnaire)).toHaveLength(0);
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
