@@ -156,7 +156,7 @@ export const UnwrappedRuleEditor = ({
         <HeaderPanel>
           <HeaderLabel inline> Routing logic rule </HeaderLabel>
           <Tooltip
-            content="Move answer up"
+            content="Move rule up"
             place="top"
             offset={{ top: 0, bottom: 10 }}
           >
@@ -164,7 +164,7 @@ export const UnwrappedRuleEditor = ({
               color="white"
               disabled={false}
               tabIndex={0} //-1 if not enabled
-              aria-label={"Move routing rule up"}
+              aria-label={"Move rule up"}
               onClick={() => console.log("Move up")}
               data-test="btn-move-routing-rule-up"
             >
@@ -172,7 +172,7 @@ export const UnwrappedRuleEditor = ({
             </MoveButton>
           </Tooltip>
           <Tooltip
-            content="Move answer down"
+            content="Move rule down"
             place="top"
             offset={{ top: 0, bottom: 10 }}
           >
@@ -180,20 +180,26 @@ export const UnwrappedRuleEditor = ({
               color="white"
               disabled={false}
               tabIndex={0} //-1 if not enabled
-              aria-label={"Move routing rule down"}
+              aria-label={"Move rule down"}
               onClick={() => console.log("Move down")}
               data-test="btn-move-routing-rule-down"
             >
               <IconDown />
             </MoveButton>
           </Tooltip>
-          <DeleteButton
-            color="white"
-            size="medium"
-            onClick={handleDeleteClick}
-            aria-label="Delete routing rule"
-            data-test="btn-delete-routing-rule"
-          />
+          <Tooltip
+            content="Delete rule"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <DeleteButton
+              color="white"
+              size="medium"
+              onClick={handleDeleteClick}
+              aria-label="Delete routing rule"
+              data-test="btn-delete-routing-rule"
+            />
+          </Tooltip>
         </HeaderPanel>
       </Header>
       <Expressions>

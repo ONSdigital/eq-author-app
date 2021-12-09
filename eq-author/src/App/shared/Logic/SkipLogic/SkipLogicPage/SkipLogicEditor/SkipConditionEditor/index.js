@@ -3,8 +3,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import Transition from "components/transitions/BounceTransition";
+
 import Button from "components/buttons/Button";
 import DeleteButton from "components/buttons/DeleteButton";
+import Tooltip from "components/Forms/Tooltip";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -111,13 +113,19 @@ const SkipConditionEditor = ({
     <Header>
       <HeaderPanel>
         <HeaderLabel inline>{labelGroupTitle}</HeaderLabel>
-        <DeleteButton
-          color="white"
-          size="medium"
-          onClick={handleDeleteAllClick}
-          aria-label="Delete routing rule"
-          data-test="btn-delete-routing-rule"
-        />
+        <Tooltip
+          content="Delete rule"
+          place="top"
+          offset={{ top: 0, bottom: 10 }}
+        >
+          <DeleteButton
+            color="white"
+            size="medium"
+            onClick={handleDeleteAllClick}
+            aria-label="Delete routing rule"
+            data-test="btn-delete-routing-rule"
+          />
+        </Tooltip>
       </HeaderPanel>
     </Header>
   );
