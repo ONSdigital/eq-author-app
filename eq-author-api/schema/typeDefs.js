@@ -60,6 +60,7 @@ type Questionnaire {
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
+  lists: [List]
   sections: [Section]
   summary: Boolean
   collapsibleSummary: Boolean
@@ -102,6 +103,13 @@ type Theme {
   formType: String
   themeSettings: ThemeSettings!
   validationErrorInfo: ValidationErrorInfo
+}
+
+type List {
+  id: ID!
+  listName: String
+  displayName: String
+  answers: [Answer]
 }
 
 enum LegalBasisCode {
@@ -683,6 +691,8 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
+  lists: [List]
+  list(input: QueryInput!): List
 }
 
 input CommonFilters {
@@ -706,6 +716,7 @@ input QueryInput {
   confirmationId: ID
   answerId: ID
   optionId: ID
+  listId: ID
 }
 
 input CreateSkipConditionInput {
@@ -858,6 +869,13 @@ type Mutation {
   createDisplayCondition(input: DisplayConditionInput!): Section
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
+  createList: List
+  updateList(input: UpdateListInput): List
+}
+
+input UpdateListInput {
+  id: ID!
+  listName: String
 }
 
 input DisplayConditionInput {
@@ -1134,7 +1152,8 @@ input CreateAnswerInput {
   secondaryLabel: String
   qCode: String
   type: AnswerType!
-  questionPageId: ID!
+  questionPageId: ID
+  listId: ID
 }
 
 input UpdateAnswerInput {

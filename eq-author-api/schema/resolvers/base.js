@@ -277,6 +277,9 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
+    lists: (_, { input }, ctx) => ctx.questionnaire.lists,
+    list: (root, { listId }, ctx) =>
+      find(ctx.questionnaire.lists, { id: listId }),
   },
 
   Subscription: {
@@ -617,12 +620,18 @@ const Resolvers = {
       return remappedFolder;
     }),
     createAnswer: createMutation((root, { input }, ctx) => {
-      const page = getPageById(ctx, input.questionPageId);
-      const answer = createAnswer(input, page);
+      let entity;
+      if (input.questionPageId) {
+        entity = getPageById(ctx, input.questionPageId);
+      }
+      if (input.listId) {
+        entity = find(ctx.questionnaire.lists, { id: input.listId });
+      }
+      const answer = createAnswer(input, entity);
 
-      page.answers.push(answer);
+      entity.answers.push(answer);
 
-      onAnswerCreated(page, answer);
+      onAnswerCreated(entity, answer);
 
       return answer;
     }),
@@ -874,6 +883,23 @@ const Resolvers = {
         pageId: pageContainingConfirmation.id,
         ...confirmationPage,
       };
+    }),
+    createList: createMutation(async (root, { input }, ctx) => {
+      const list = {
+        id: uuidv4(),
+        listName: null,
+        answers: [],
+      };
+      if (!ctx.questionnaire.lists) {
+        ctx.questionnaire.lists = [];
+      }
+      ctx.questionnaire.lists.push(list);
+      return list;
+    }),
+    updateList: createMutation(async (root, { input }, ctx) => {
+      const list = find(ctx.questionnaire.lists, { id: input.id });
+      list.listName = input.listName;
+      return list;
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
@@ -1255,6 +1281,11 @@ const Resolvers = {
 
   Routable: {
     __resolveType: ({ pageType }) => pageType,
+  },
+
+  List: {
+    answers: (list) => list.answers,
+    displayName: ({ listName }) => listName || "Untitled list",
   },
 
   Section: {
