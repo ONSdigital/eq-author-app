@@ -47,16 +47,23 @@ export const Title = styled.h2`
 `;
 
 const Header = styled.div`
-  background: ${colors.blue};
+  background: ${colors.primary};
   border-bottom: 1px solid ${colors.bordersLight};
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.5em 1em;
 `;
 
 const HeaderLabel = styled(Label)`
   color: ${colors.white};
+`;
+
+const HeaderPanel = styled.span`
+  display: flex;
+  background: ${colors.darkerBlue};
+  color: ${colors.white};
+  align-items: center;
+  padding: 0.5em 1em;
 `;
 
 const SmallSelect = styled(Select)`
@@ -76,6 +83,7 @@ const RemoveRuleButton = styled(Button).attrs({
 })`
   margin-left: auto;
   padding: 0.2em;
+  color: ${colors.white};
 `;
 
 const RuleEditorProps = {
@@ -155,7 +163,10 @@ export const UnwrappedRuleEditor = ({
   return (
     <Rule data-test="routing-rule" className={className}>
       <Header>
-        <HeaderLabel inline> Routing logic rules </HeaderLabel>
+        <HeaderPanel>
+          <HeaderLabel inline> Routing logic rules </HeaderLabel>
+        </HeaderPanel>
+
         <RemoveRuleButton
           onClick={handleDeleteClick}
           data-test="btn-remove-rule"
