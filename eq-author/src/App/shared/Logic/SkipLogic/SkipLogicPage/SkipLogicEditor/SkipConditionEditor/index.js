@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import Transition from "components/transitions/BounceTransition";
 import Button from "components/buttons/Button";
+import DeleteButton from "components/buttons/DeleteButton";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -40,6 +41,27 @@ export const Title = styled.h2`
 `;
 
 const Header = styled.div`
+  background: ${colors.primary};
+  border-bottom: 1px solid ${colors.bordersLight};
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const HeaderLabel = styled(Label)`
+  color: ${colors.white};
+  margin-right: 1em;
+`;
+
+const HeaderPanel = styled.span`
+  display: flex;
+  background: ${colors.darkerBlue};
+  color: ${colors.white};
+  align-items: center;
+  padding: 0.5em 1em;
+`;
+
+const OrConditionHeader = styled.div`
   background: ${colors.lightMediumGrey};
   padding: 0.5em 1em;
   margin-top: -1px;
@@ -87,13 +109,16 @@ const SkipConditionEditor = ({
 
   const header = (
     <Header>
-      <Label inline>{labelGroupTitle}</Label>
-      <RemoveSkipConditionButton
-        onClick={handleDeleteAllClick}
-        data-test="btn-remove-skip-conditions"
-      >
-        {LABEL_REMOVE_ALL_GROUPS}
-      </RemoveSkipConditionButton>
+      <HeaderPanel>
+        <HeaderLabel inline>{labelGroupTitle}</HeaderLabel>
+        <DeleteButton
+          color="white"
+          size="medium"
+          onClick={handleDeleteAllClick}
+          aria-label="Delete routing rule"
+          data-test="btn-delete-routing-rule"
+        />
+      </HeaderPanel>
     </Header>
   );
 
