@@ -277,7 +277,7 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
-    lists: (_, { input }, ctx) => ctx.questionnaire.lists,
+    lists: (_, args, ctx) => ctx.questionnaire.lists,
     list: (root, { listId }, ctx) =>
       find(ctx.questionnaire.lists, { id: listId }),
   },
@@ -884,7 +884,7 @@ const Resolvers = {
         ...confirmationPage,
       };
     }),
-    createList: createMutation(async (root, { input }, ctx) => {
+    createList: createMutation(async (root, _, ctx) => {
       const list = {
         id: uuidv4(),
         listName: null,
