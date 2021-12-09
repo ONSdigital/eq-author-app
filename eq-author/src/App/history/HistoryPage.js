@@ -65,7 +65,9 @@ const HistoryPageContent = ({ match }) => {
     variables: { input: { questionnaireId } },
     fetchPolicy: "network-only",
   });
+
   const { me } = useMe();
+
   const [addNote] = useMutation(createNoteMutation, {
     update(cache, { data: { createHistoryNote } }) {
       cache.writeQuery({
@@ -75,7 +77,9 @@ const HistoryPageContent = ({ match }) => {
       });
     },
   });
+
   const [updateNote] = useMutation(updateNoteMutation);
+
   const [deleteNote] = useMutation(deleteNoteMutation, {
     update(cache, { data: { deleteHistoryNote } }) {
       cache.writeQuery({
@@ -89,13 +93,54 @@ const HistoryPageContent = ({ match }) => {
   });
 
   const [noteState, setNoteState] = useState({ name: "note", value: "" });
+
   if (loading) {
     return <Loading height="100%">Questionnaire history loading…</Loading>;
   }
-  if (error) {
-    return <Error>Oops! Something went wrong</Error>;
+  // if (error) {
+  //   console.log(`HERE INSIDE ERROR!!!!!!!!!`);
+  //   addNote({
+  //     variables: {
+  //       input: {
+  //         id: questionnaireId,
+  //         bodyText: "",
+  //       },
+  //     },
+  //     refetchQueries: ["questionnaireHistoryQuery"],
+  //   });
+  //   // return <Error>Oops! Something went wrong</Error>;
+  // }
+
+  // if (
+  //   data === undefined ||
+  //   data?.history === null ||
+  //   data?.history === undefined
+  // ) {
+  //   console.log(`HERE INSIDE no data.history!!!!!!!!!`);
+  //   addNote({
+  //     variables: {
+  //       input: {
+  //         id: questionnaireId,
+  //         bodyText: "",
+  //       },
+  //     },
+  //     refetchQueries: ["GetQuestionnaire"],
+  //   });
+  // }
+
+  // if (data) {
+  //   const { history } = data;
+  // }
+
+  let history = [];
+
+  if (data) {
+    history = data.history;
   }
-  const { history } = data;
+
+  console.log(`data`, data);
+  console.log(`error`, error);
+  console.log(`history`, history);
 
   return (
     <Container>
@@ -141,7 +186,9 @@ const HistoryPageContent = ({ match }) => {
           </ActionButtons>
         </StyledGrid>
         <ItemGrid>
-          {history.length &&
+          {history === null || history === undefined || error || !data ? (
+            <Error>Currently no history info...</Error>
+          ) : (
             history.map(
               ({
                 id,
@@ -186,7 +233,8 @@ const HistoryPageContent = ({ match }) => {
                   createdAt={time}
                 />
               )
-            )}
+            )
+          )}
         </ItemGrid>
       </StyledScrollPane>
     </Container>

@@ -55,8 +55,8 @@ const historyCreationForImport = (questionnaire, ctx) => ({
   questionnaireTitle: `${questionnaire.title} (Version ${questionnaire.surveyVersion})`,
   bodyText: "Imported on: " + formatDate(questionnaire.createdAt),
   type: "system",
-  userId: ctx.user.id,
   user: ctx.user,
+  userId: ctx.user.id,
   time: questionnaire.createdAt,
 });
 

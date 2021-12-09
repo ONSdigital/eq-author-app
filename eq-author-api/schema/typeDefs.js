@@ -669,7 +669,7 @@ type Comment {
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
-  history(input: QueryInput!): [History!]!
+  history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
   folder(input: QueryInput!): Folder
   page(input: QueryInput!): Page

@@ -359,7 +359,13 @@ const createHistoryEvent = async (qid, event) => {
       );
     }
     const questionnaire = await getQuestionnaireMetaById(qid);
-    questionnaire.history.unshift(event);
+
+    if (questionnaire?.history?.length) {
+      questionnaire.history.unshift(event);
+    } else {
+      questionnaire.history = [];
+      questionnaire.history.unshift(event);
+    }
 
     const collection = dbo.collection("questionnaires");
     await collection.updateOne(
