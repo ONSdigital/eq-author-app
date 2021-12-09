@@ -15,7 +15,7 @@ import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
-import Button from "components/buttons/Button";
+import DeleteButton from "components/buttons/DeleteButton";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -52,6 +52,7 @@ const Header = styled.div`
 
 const HeaderLabel = styled(Label)`
   color: ${colors.white};
+  margin-right: 1em;
 `;
 
 const HeaderPanel = styled.span`
@@ -71,15 +72,6 @@ const SmallSelect = styled(Select)`
 
 export const GroupOperatorLabel = styled(Label)`
   margin: 0.5em 0 0 0.5em;
-`;
-
-const RemoveRuleButton = styled(Button).attrs({
-  variant: "tertiary",
-  small: true,
-})`
-  margin-left: auto;
-  padding: 0.2em;
-  color: ${colors.white};
 `;
 
 const RuleEditorProps = {
@@ -160,15 +152,15 @@ export const UnwrappedRuleEditor = ({
     <Rule data-test="routing-rule" className={className}>
       <Header>
         <HeaderPanel>
-          <HeaderLabel inline> Routing logic rules </HeaderLabel>
+          <HeaderLabel inline> Routing logic rule </HeaderLabel>
+          <DeleteButton
+            color="white"
+            size="medium"
+            onClick={handleDeleteClick}
+            aria-label="Delete routing rule"
+            data-test="btn-delete-routing-rule"
+          />
         </HeaderPanel>
-
-        <RemoveRuleButton
-          onClick={handleDeleteClick}
-          data-test="btn-remove-rule"
-        >
-          Remove rule
-        </RemoveRuleButton>
       </Header>
       <Expressions>
         <TransitionGroup>
