@@ -1,0 +1,14 @@
+{
+  "$id": "http://example.com/schemas/list.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "listName": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "LISTNAME_MISSING"
+    }
+  }
+}

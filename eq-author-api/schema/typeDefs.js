@@ -110,6 +110,7 @@ type List {
   listName: String
   displayName: String
   answers: [Answer]
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum LegalBasisCode {

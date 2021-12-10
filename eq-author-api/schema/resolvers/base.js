@@ -1286,6 +1286,8 @@ const Resolvers = {
   List: {
     answers: (list) => list.answers,
     displayName: ({ listName }) => listName || "Untitled list",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
 
   Section: {
