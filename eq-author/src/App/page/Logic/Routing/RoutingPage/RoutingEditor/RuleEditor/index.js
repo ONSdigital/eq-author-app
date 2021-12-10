@@ -270,5 +270,3 @@ const withMutations = flow(
 );
 
 export default withMutations(UnwrappedRuleEditor);
-
-// TODO: Here withMoveRule is in this file. In answes, withMoveAnswer is used in AnswersEditor (where Reorder is found)

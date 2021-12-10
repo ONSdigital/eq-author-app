@@ -58,26 +58,27 @@ export class UnwrappedRoutingEditor extends React.Component {
 
     return (
       <>
-        <TransitionGroup component={null}>
-          <Reorder
-            list={routing.rules}
-            onMove={handleMoveRule}
-            Transition={RoutingTransition}
-          >
-            {(props, rule) => (
-              <Transition key={rule.id}>
-                <RuleEditor
-                  routing={props.routing}
-                  rule={rule}
-                  key={rule.id}
-                  ifLabel={
-                    routing.rules.indexOf(rule) > 0 ? LABEL_ELSE_IF : LABEL_IF
-                  }
-                />
-              </Transition>
-            )}
-          </Reorder>
-        </TransitionGroup>
+        {/* <TransitionGroup component={null}> */}
+        <Reorder
+          list={routing.rules}
+          onMove={handleMoveRule}
+          Transition={RoutingTransition}
+        >
+          {(props, rule) => (
+            // <Transition key={rule.id}>
+            <RuleEditor
+              routing={props.routing}
+              rule={rule}
+              key={rule.id}
+              ifLabel={
+                routing.rules.indexOf(rule) > 0 ? LABEL_ELSE_IF : LABEL_IF
+              }
+              {...props}
+            />
+            // </Transition>
+          )}
+        </Reorder>
+        {/* </TransitionGroup> */}
         <AddRuleButton
           variant="secondary"
           small
