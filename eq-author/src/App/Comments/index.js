@@ -82,6 +82,7 @@ const CommentsPanel = ({ componentId }) => {
     variables: {
       componentId,
     },
+    fetchPolicy: "network-only",
   });
 
   useSubscription(COMMENT_SUBSCRIPTION, {
