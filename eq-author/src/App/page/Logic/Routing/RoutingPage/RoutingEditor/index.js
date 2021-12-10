@@ -59,6 +59,7 @@ export class UnwrappedRoutingEditor extends React.Component {
           {routing.rules.map((rule, index) => (
             <Transition key={rule.id}>
               <RuleEditor
+                routing={routing}
                 rule={rule}
                 key={rule.id}
                 ifLabel={index > 0 ? LABEL_ELSE_IF : LABEL_IF}

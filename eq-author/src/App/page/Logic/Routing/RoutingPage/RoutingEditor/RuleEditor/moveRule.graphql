@@ -1,0 +1,11 @@
+mutation moveRoutingRule2($input: MoveRoutingRule2Input!) {
+  moveRoutingRule2(input: $input) {
+    id
+    routing {
+      id
+      rules {
+        id
+      }
+    }
+  }
+}
