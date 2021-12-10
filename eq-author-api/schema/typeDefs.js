@@ -872,6 +872,7 @@ type Mutation {
   deleteDisplayConditions(input: DisplayConditionInput!): Section
   createList: List
   updateList(input: UpdateListInput): List
+  deleteList(input: DeleteListInput): [List]
 }
 
 input UpdateListInput {
