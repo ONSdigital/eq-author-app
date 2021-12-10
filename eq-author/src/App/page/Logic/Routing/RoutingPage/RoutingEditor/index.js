@@ -6,6 +6,7 @@ import { TransitionGroup } from "react-transition-group";
 import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
+import Reorder from "components/Reorder";
 
 import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
@@ -16,6 +17,8 @@ import fragment from "./fragment.graphql";
 import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
+import RoutingTransition from "./RoutingTransition";
+import withMoveRule from "./withMoveRule";
 
 export const LABEL_IF = "IF";
 export const LABEL_ELSE = "Else";
@@ -51,21 +54,29 @@ export class UnwrappedRoutingEditor extends React.Component {
   };
 
   render() {
-    const { routing } = this.props;
+    const { routing, moveRule: handleMoveRule } = this.props;
 
     return (
       <>
         <TransitionGroup component={null}>
-          {routing.rules.map((rule, index) => (
-            <Transition key={rule.id}>
-              <RuleEditor
-                routing={routing}
-                rule={rule}
-                key={rule.id}
-                ifLabel={index > 0 ? LABEL_ELSE_IF : LABEL_IF}
-              />
-            </Transition>
-          ))}
+          <Reorder
+            list={routing.rules}
+            onMove={handleMoveRule}
+            Transition={RoutingTransition}
+          >
+            {(props, rule) => (
+              <Transition key={rule.id}>
+                <RuleEditor
+                  routing={props.routing}
+                  rule={rule}
+                  key={rule.id}
+                  ifLabel={
+                    routing.rules.indexOf(rule) > 0 ? LABEL_ELSE_IF : LABEL_IF
+                  }
+                />
+              </Transition>
+            )}
+          </Reorder>
         </TransitionGroup>
         <AddRuleButton
           variant="secondary"
@@ -88,6 +99,6 @@ export class UnwrappedRoutingEditor extends React.Component {
   }
 }
 
-const withMutations = flow(withUpdateRouting, withCreateRule);
+const withMutations = flow(withMoveRule, withUpdateRouting, withCreateRule);
 
 export default withMutations(UnwrappedRoutingEditor);

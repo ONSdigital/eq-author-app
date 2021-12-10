@@ -13,14 +13,14 @@ import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
-import withMoveRule from "./withMoveRule";
-import RoutingTransition from "./RoutingTransition";
+// import withMoveRule from "../withMoveRule";
+// import RoutingTransition from "../RoutingTransition";
 
 import { Select, Label } from "components/Forms";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-import Reorder from "components/Reorder";
+// import Reorder from "components/Reorder";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -97,6 +97,7 @@ export const UnwrappedRuleEditor = ({
   updateExpressionGroup,
   moveRule: handleMoveRule,
   className,
+  ...props
 }) => {
   const {
     destination,
@@ -156,113 +157,105 @@ export const UnwrappedRuleEditor = ({
   );
 
   return (
-    <Reorder
-      list={routing.rules}
-      onMove={handleMoveRule}
-      Transition={RoutingTransition}
-    >
-      {(props) => (
-        <Rule data-test="routing-rule" className={className}>
-          <Header>
-            <HeaderPanel>
-              <HeaderLabel inline> Routing logic rule </HeaderLabel>
-              <Tooltip
-                content="Move rule up"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={!props.canMoveUp}
-                  tabIndex={!props.canMoveUp && -1}
-                  aria-label={"Move rule up"}
-                  onClick={props.onMoveUp}
-                  data-test="btn-move-routing-rule-up"
-                >
-                  <IconUp />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Move rule down"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={!props.canMoveDown}
-                  tabIndex={!props.canMoveUp && -1}
-                  aria-label={"Move rule down"}
-                  onClick={props.onMoveDown}
-                  data-test="btn-move-routing-rule-down"
-                >
-                  <IconDown />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Delete rule"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <DeleteButton
-                  color="white"
-                  size="medium"
-                  onClick={handleDeleteClick}
-                  aria-label="Delete routing rule"
-                  data-test="btn-delete-routing-rule"
-                />
-              </Tooltip>
-            </HeaderPanel>
-          </Header>
-          <Expressions>
-            <TransitionGroup>
-              {expressions.map((expression, index) => {
-                let groupOperatorComponent = null;
-                if (expressions.length > 1) {
-                  if (index === 0) {
-                    groupOperatorComponent = groupOperatorSelect;
-                  } else if (index < expressions.length - 1) {
-                    groupOperatorComponent = (
-                      <GroupOperatorLabel inline>
-                        {expressionGroup.operator?.toUpperCase()}
-                      </GroupOperatorLabel>
-                    );
-                  }
-                }
-
-                const component = (
-                  <BounceTransition key={expression.id} exit={false}>
-                    <BinaryExpressionEditor
-                      expression={expression}
-                      expressionGroup={expressionGroup}
-                      expressionGroupId={expressionGroup.id}
-                      label={index > 0 ? "IF" : ifLabel}
-                      expressionIndex={index}
-                      canAddCondition={
-                        !existingRadioConditions[expression.left?.id]
-                      }
-                      groupOperatorComponent={groupOperatorComponent}
-                      includeSelf
-                      onExpressionDeleted={handleExpressionDeletion}
-                    />
-                  </BounceTransition>
+    <Rule data-test="routing-rule" className={className}>
+      <Header>
+        <HeaderPanel>
+          <HeaderLabel inline> Routing logic rule </HeaderLabel>
+          <Tooltip
+            content="Move rule up"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={!props.canMoveUp}
+              tabIndex={!props.canMoveUp && -1}
+              aria-label={"Move rule up"}
+              onClick={props.onMoveUp}
+              data-test="btn-move-routing-rule-up"
+            >
+              <IconUp />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Move rule down"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={!props.canMoveDown}
+              tabIndex={!props.canMoveUp && -1}
+              aria-label={"Move rule down"}
+              onClick={props.onMoveDown}
+              data-test="btn-move-routing-rule-down"
+            >
+              <IconDown />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Delete rule"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <DeleteButton
+              color="white"
+              size="medium"
+              onClick={handleDeleteClick}
+              aria-label="Delete routing rule"
+              data-test="btn-delete-routing-rule"
+            />
+          </Tooltip>
+        </HeaderPanel>
+      </Header>
+      <Expressions>
+        <TransitionGroup>
+          {expressions.map((expression, index) => {
+            let groupOperatorComponent = null;
+            if (expressions.length > 1) {
+              if (index === 0) {
+                groupOperatorComponent = groupOperatorSelect;
+              } else if (index < expressions.length - 1) {
+                groupOperatorComponent = (
+                  <GroupOperatorLabel inline>
+                    {expressionGroup.operator?.toUpperCase()}
+                  </GroupOperatorLabel>
                 );
-                if (expression.left?.type === RADIO) {
-                  existingRadioConditions[expression.left?.id] = true;
-                }
-                return component;
-              })}
-            </TransitionGroup>
-          </Expressions>
-          <DestinationSelector
-            id={rule.id}
-            label={LABEL_THEN}
-            onChange={handleDestinationChange}
-            value={destination}
-            data-test="select-then"
-          />
-        </Rule>
-      )}
-    </Reorder>
+              }
+            }
+
+            const component = (
+              <BounceTransition key={expression.id} exit={false}>
+                <BinaryExpressionEditor
+                  expression={expression}
+                  expressionGroup={expressionGroup}
+                  expressionGroupId={expressionGroup.id}
+                  label={index > 0 ? "IF" : ifLabel}
+                  expressionIndex={index}
+                  canAddCondition={
+                    !existingRadioConditions[expression.left?.id]
+                  }
+                  groupOperatorComponent={groupOperatorComponent}
+                  includeSelf
+                  onExpressionDeleted={handleExpressionDeletion}
+                />
+              </BounceTransition>
+            );
+            if (expression.left?.type === RADIO) {
+              existingRadioConditions[expression.left?.id] = true;
+            }
+            return component;
+          })}
+        </TransitionGroup>
+      </Expressions>
+      <DestinationSelector
+        id={rule.id}
+        label={LABEL_THEN}
+        onChange={handleDestinationChange}
+        value={destination}
+        data-test="select-then"
+      />
+    </Rule>
   );
 };
 
@@ -271,7 +264,6 @@ UnwrappedRuleEditor.propTypes = RuleEditorProps;
 UnwrappedRuleEditor.fragments = [fragment, ...BinaryExpressionEditor.fragments];
 
 const withMutations = flow(
-  withMoveRule,
   withDeleteRule,
   withUpdateRule,
   withUpdateExpressionGroup
