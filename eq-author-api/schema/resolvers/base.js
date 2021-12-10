@@ -278,7 +278,7 @@ const Resolvers = {
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     lists: (_, args, ctx) => ctx.questionnaire.lists,
-    list: (root, { listId }, ctx) =>
+    list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.lists, { id: listId }),
   },
 
