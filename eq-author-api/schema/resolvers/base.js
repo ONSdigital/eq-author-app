@@ -68,6 +68,8 @@ const {
   getThemeByShortName,
   getPreviewTheme,
   getFirstEnabledTheme,
+  getListById,
+  getListByAnswerId,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -659,9 +661,15 @@ const Resolvers = {
       return answer;
     }),
     updateAnswersOfType: createMutation(
-      (root, { input: { questionPageId, type, properties } }, ctx) => {
-        const page = getPageById(ctx, questionPageId);
-        const answersOfType = page.answers.filter((a) => a.type === type);
+      (root, { input: { questionPageId, listId, type, properties } }, ctx) => {
+        let entity;
+        if (questionPageId) {
+          entity = getPageById(ctx, questionPageId);
+        }
+        if (listId) {
+          entity = find(ctx.questionnaire.list, { id: listId });
+        }
+        const answersOfType = entity.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
             ...answer.properties,
@@ -897,13 +905,18 @@ const Resolvers = {
       return list;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
-      const list = find(ctx.questionnaire.lists, { id: input.id });
+      const list = getListById(ctx, input.id);
       list.listName = input.listName;
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
       remove(ctx.questionnaire.lists, { id: input.id });
       return ctx.questionnaire.lists;
+    }),
+    deleteListAnswer: createMutation((_, { input }, ctx) => {
+      const list = getListByAnswerId(ctx, input.id);
+      remove(list.answers, { id: input.listId });
+      return list;
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {

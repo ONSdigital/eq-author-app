@@ -873,6 +873,7 @@ type Mutation {
   createList: List
   updateList(input: UpdateListInput): List
   deleteList(input: DeleteListInput): [List]
+  deleteListAnswer(imput: deleteListAnswerInput): List
 }
 
 input UpdateListInput {
@@ -881,6 +882,10 @@ input UpdateListInput {
 }
 
 input DeleteListInput {
+  id: ID!
+}
+
+input deleteListAnswerInput {
   id: ID!
 }
 
@@ -1175,7 +1180,8 @@ input UpdateAnswerInput {
 }
 
 input UpdateAnswersOfTypeInput {
-  questionPageId: ID!
+  questionPageId: ID
+  listId: ID
   type: AnswerType!
   properties: JSON!
 }
