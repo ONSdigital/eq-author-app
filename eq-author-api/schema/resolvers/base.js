@@ -901,6 +901,11 @@ const Resolvers = {
       list.listName = input.listName;
       return list;
     }),
+
+    deleteList: createMutation(async (root, { input }, ctx) => {
+      const list = find(ctx.questionnaire.lists, { id: input.id });
+      return list;
+    }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
         "Northern Ireland": "northernireland",

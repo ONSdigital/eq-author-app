@@ -879,6 +879,10 @@ input UpdateListInput {
   listName: String
 }
 
+input DeleteListInput {
+  id: ID!
+}
+
 input DisplayConditionInput {
   sectionId: ID!
 }
