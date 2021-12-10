@@ -535,7 +535,7 @@ const Resolvers = {
       return section;
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
-      const dSection = first(remove(getSections(ctx), { id: input.id }));
+      const removedSection = first(remove(getSections(ctx), { id: input.id }));
       const pages = getPages(ctx);
 
       onSectionDeleted(ctx, removedSection, pages);
