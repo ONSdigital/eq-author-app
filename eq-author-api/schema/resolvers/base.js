@@ -901,12 +901,10 @@ const Resolvers = {
       list.listName = input.listName;
       return list;
     }),
-
     deleteList: createMutation(async (root, { input }, ctx) => {
       remove(ctx.questionnaire.lists, { id: input.id });
       return ctx.questionnaire.lists;
     }),
-
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
         "Northern Ireland": "northernireland",
