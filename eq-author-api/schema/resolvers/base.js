@@ -904,7 +904,7 @@ const Resolvers = {
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
       const list = find(ctx.questionnaire.lists, { id: input.listId });
-      const answer = createAnswer(input, list);
+      const answer = createAnswer(omit(input, "listId"), list);
       list.answers.push(answer);
 
       onAnswerCreated(list, answer);
@@ -950,7 +950,10 @@ const Resolvers = {
     ),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
-      remove(list.answers, { id: input.id });
+      const deletedAnswer = first(remove(list.answers, { id: input.id }));
+      const pages = getPages(ctx);
+
+      onAnswerDeleted(ctx, list, deletedAnswer, pages);
       return list;
     }),
     moveListAnswer: createMutation((_, { input: { id, position } }, ctx) => {
