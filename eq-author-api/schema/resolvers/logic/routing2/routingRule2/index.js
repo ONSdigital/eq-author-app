@@ -1,4 +1,5 @@
-const { flatMap, find, some, reject, remove, first } = require("lodash/fp");
+const { flatMap, find, some, reject } = require("lodash/fp");
+const { remove, first } = require("lodash");
 const { createMutation } = require("../../../createMutation");
 
 const {
@@ -99,10 +100,12 @@ Resolvers.Mutation = {
         return page;
       }
     }, pages);
-
     const routing = page.routing;
-    const routingBeingMoved = first(remove(routing, { id: input.id }));
-    page.routing.splice(input.position, 0, routingBeingMoved);
+    const routingBeingMoved = first(remove(routing.rules, { id: input.id }));
+
+    routing.rules.splice(input.position, 0, routingBeingMoved);
+
+    return routingBeingMoved;
   }),
 };
 
