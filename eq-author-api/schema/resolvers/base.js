@@ -936,7 +936,7 @@ const Resolvers = {
     }),
     updateListAnswersOfType: createMutation(
       (root, { input: { listId, type, properties } }, ctx) => {
-        const list = find(ctx.questionnaire.list, { id: listId });
+        const list = find(ctx.questionnaire.lists, { id: listId });
         const answersOfType = list.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
@@ -950,7 +950,7 @@ const Resolvers = {
     ),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
-      remove(list.answers, { id: input.listId });
+      remove(list.answers, { id: input.id });
       return list;
     }),
     moveListAnswer: createMutation((_, { input: { id, position } }, ctx) => {
