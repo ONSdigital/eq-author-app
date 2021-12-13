@@ -28,6 +28,8 @@ describe("Import questions review modal", () => {
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveAll={mockOnRemoveAll}
+        onRemoveSingle={mockOnRemoveSingle}
       />
     );
 
@@ -50,6 +52,8 @@ describe("Import questions review modal", () => {
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveAll={mockOnRemoveAll}
+        onRemoveSingle={mockOnRemoveSingle}
       />
     );
 
@@ -66,6 +70,7 @@ describe("Import questions review modal", () => {
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveAll={mockOnRemoveAll}
         onRemoveSingle={mockOnRemoveSingle}
       />
     );
@@ -86,6 +91,7 @@ describe("Import questions review modal", () => {
         onCancel={jest.fn()}
         onBack={jest.fn()}
         onRemoveAll={mockOnRemoveAll}
+        onRemoveSingle={mockOnRemoveSingle}
       />
     );
 
@@ -105,6 +111,8 @@ describe("Import questions review modal", () => {
         onConfirm={mockHandleConfirm}
         onCancel={jest.fn()}
         onBack={jest.fn()}
+        onRemoveAll={mockOnRemoveAll}
+        onRemoveSingle={mockOnRemoveSingle}
       />
     );
 

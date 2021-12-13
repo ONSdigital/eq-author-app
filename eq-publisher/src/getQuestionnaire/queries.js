@@ -8,6 +8,7 @@ exports.getQuestionnaire = `
     guidance
     properties
     qCode
+    advancedProperties
     ...BasicAnswer
   }
   
@@ -232,6 +233,8 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
+        sectionSummary
+        collapsibleSummary
         folders {
           id
           alias
@@ -323,6 +326,7 @@ exports.getQuestionnaire = `
                   id
                 }
                 condition
+                allowUnanswered
               }
             }
           }

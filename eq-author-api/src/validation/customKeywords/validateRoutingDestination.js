@@ -2,6 +2,7 @@ const {
   ERR_DESTINATION_DELETED,
   ERR_DESTINATION_MOVED,
   ERR_DESTINATION_REQUIRED,
+  ERR_DESTINATION_INVALID_WITH_HUB,
 } = require("../../../constants/validationErrorCodes");
 
 const {
@@ -35,6 +36,13 @@ module.exports = function (ajv) {
         return false;
       };
 
+      const { hub } = questionnaire;
+
+      // Destination invalid if hub is turned on
+      if (hub && (logical === "EndOfQuestionnaire" || sectionId)) {
+        return hasError(ERR_DESTINATION_INVALID_WITH_HUB);
+      }
+
       // Destination required if no logical destination & no target id
       if (logical) {
         return true;
@@ -56,6 +64,8 @@ module.exports = function (ajv) {
       if (getAbsolutePositionById({ questionnaire }, targetId) < pagePosition) {
         return hasError(ERR_DESTINATION_MOVED);
       }
+
+      // Hub is enabled but destination points logically elsewhere than the hub.
 
       return true;
     },

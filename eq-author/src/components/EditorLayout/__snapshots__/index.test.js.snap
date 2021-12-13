@@ -26,18 +26,20 @@ exports[`Editor Layout should render 1`] = `
         }
         routing={true}
       >
-        <Column
+        <EditorLayout__StyledColumn
+          className="keyNav"
           cols={9}
           gutters={false}
+          tabIndex="-1"
         >
           <EditorLayout__Margin>
             <MainCanvas
-              maxWidth="65em"
+              maxWidth="70em"
             >
               Content
             </MainCanvas>
           </EditorLayout__Margin>
-        </Column>
+        </EditorLayout__StyledColumn>
         <Column
           cols={3}
           gutters={false}

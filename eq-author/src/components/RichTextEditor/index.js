@@ -12,7 +12,6 @@ import PipedValueDecorator, {
   entityToHTML as pipedEntityToHTML,
   htmlToEntity as htmlToPipedEntity,
   findPipedEntities,
-  replacePipedValues,
   insertPipedValue,
 } from "./entities/PipedValue";
 
@@ -24,7 +23,6 @@ import createLinkPlugin, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, uniq, map, keyBy, mapValues, get } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
@@ -118,12 +116,6 @@ const convertFromHTML = fromHTML({ ...htmlToPipedEntity, ...linkFromHTML });
 
 const getBlockStyle = (block) => block.getType();
 
-const getContentsOfPipingType = (type) => (contents) =>
-  contents.filter((content) => content.entity.data.pipingType === type);
-
-const getAnswerPipes = getContentsOfPipingType("answers");
-const getMetadataPipes = getContentsOfPipingType("metadata");
-
 const filterEmptyTags = (value) =>
   new DOMParser().parseFromString(value, "text/html").body.textContent.trim()
     ? value
@@ -172,7 +164,10 @@ class RichTextEditor extends React.Component {
       })
     ),
     disabled: PropTypes.bool,
-    errorValidationMsg: PropTypes.string,
+    errorValidationMsg: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+    ]),
   };
 
   constructor(props) {
@@ -244,125 +239,6 @@ class RichTextEditor extends React.Component {
     if (!pipes.length) {
       return;
     }
-
-    this.updateAnswerPipedValues(pipes);
-    this.updateMetadataPipedValues(pipes);
-  }
-
-  updateMetadataPipedValues(pipes) {
-    if (!this.props.metadata) {
-      return;
-    }
-
-    const metadataPipes = getMetadataPipes(pipes);
-    if (metadataPipes.length === 0) {
-      return;
-    }
-
-    this.renamePipedValues(
-      () => this.props.metadata,
-      metadataPipes,
-      "Deleted metadata"
-    );
-  }
-
-  updateAnswerPipedValues(pipes) {
-    if (!this.props.fetchAnswers) {
-      return;
-    }
-
-    const answerPipes = getAnswerPipes(pipes);
-    if (answerPipes.length === 0) {
-      return;
-    }
-
-    const processAnswerType = (answers) => {
-      return answers.map((answer) => {
-        if (get("entity.data.type", answer) === "DateRange") {
-          return {
-            ...answer,
-            entity: {
-              data: {
-                id: get("entity.data.id", answer).replace(/(to|from)$/, ""),
-              },
-            },
-          };
-        } else {
-          return answer;
-        }
-      });
-    };
-
-    const fetchAnswersForPipes = flow(
-      processAnswerType,
-      map("entity.data.id"),
-      uniq,
-      this.props.fetchAnswers
-    );
-
-    this.renamePipedValues(
-      fetchAnswersForPipes(answerPipes),
-      answerPipes,
-      "Deleted answer"
-    );
-  }
-
-  renamePipedValues(fetchAuthorEntities, pipes, deletedPlaceholder) {
-    const { editorState } = this.state;
-    const contentState = editorState.getCurrentContent();
-
-    const createIdToDisplayNameMap = flow(
-      keyBy("id"),
-      mapValues("displayName")
-    );
-
-    const replacePipesWithLabels = (labels) =>
-      pipes.reduce(
-        replacePipedValues(labels, deletedPlaceholder),
-        contentState
-      );
-
-    const createNewEntryForMultipleValueEntities = (answers) => {
-      const processedEntries = [];
-
-      answers.forEach((answer) => {
-        if (answer.type === "DateRange") {
-          processedEntries.push(
-            {
-              ...answer,
-              id: `${answer.id}from`,
-            },
-            {
-              ...answer,
-              id: `${answer.id}to`,
-              displayName:
-                answer.secondaryLabel || answer.secondaryLabelDefault,
-            }
-          );
-        } else {
-          processedEntries.push(answer);
-        }
-      });
-
-      return processedEntries;
-    };
-
-    const performUpdate = flow(
-      createNewEntryForMultipleValueEntities,
-      createIdToDisplayNameMap,
-      replacePipesWithLabels,
-      (contentState) =>
-        EditorState.push(editorState, contentState, "apply-entity"),
-      this.handleChange
-    );
-
-    // Cant check for instanceof Promise as uses SynchronousPromise in test
-    if (fetchAuthorEntities.then) {
-      fetchAuthorEntities.then(performUpdate);
-      return;
-    }
-
-    performUpdate(fetchAuthorEntities());
   }
 
   handlePiping = (answer) => {
@@ -405,16 +281,6 @@ class RichTextEditor extends React.Component {
   handleClick = () => {
     if (!this.state.focused) {
       this.focus();
-    }
-  };
-
-  handleMouseDown = (e) => {
-    // prevent blur when mousedown on non-editor elements
-    if (
-      !this.editorInstance.getEditorRef().editor.contains(e.target) &&
-      e.target.type !== "text"
-    ) {
-      e.preventDefault();
     }
   };
 
@@ -523,7 +389,6 @@ class RichTextEditor extends React.Component {
       <Wrapper hasError={hasError}>
         <Field
           onClick={this.handleClick}
-          onMouseDown={this.handleMouseDown}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           data-test="rte-field"
@@ -570,9 +435,14 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
-        {errorValidationMsg && (
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        )}
+        {errorValidationMsg &&
+          (Array.isArray(errorValidationMsg) ? (
+            errorValidationMsg.map((errMsg) => (
+              <ValidationError key={errMsg}>{errMsg}</ValidationError>
+            ))
+          ) : (
+            <ValidationError>{errorValidationMsg}</ValidationError>
+          ))}
       </Wrapper>
     );
   }

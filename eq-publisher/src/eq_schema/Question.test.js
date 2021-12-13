@@ -300,6 +300,7 @@ describe("Question", () => {
           label: "Period from",
           secondaryLabel: "Period to",
           properties: { required: true },
+          advancedProperties: true,
           validation,
         },
       ];
@@ -330,6 +331,7 @@ describe("Question", () => {
           type: DATE_RANGE,
           id: "1",
           properties: { required: true },
+          advancedProperties: true,
           validation,
           childAnswers: [
             { id: "1from", label: "Period from" },
@@ -353,6 +355,7 @@ describe("Question", () => {
           type: "Checkbox",
           id: "1",
           properties: { required: true },
+          advancedProperties: true,
           validation,
           options: [
             {
@@ -389,6 +392,7 @@ describe("Question", () => {
           type: "Checkbox",
           id: "1",
           properties: { required: true },
+          advancedProperties: true,
           validation,
           options: [
             {
@@ -406,57 +410,6 @@ describe("Question", () => {
           type: "Checkbox",
         }),
       ]);
-    });
-
-    it("should create date validation", () => {
-      const answers = [
-        {
-          type: DATE_RANGE,
-          id: "1",
-          properties: { required: true },
-          validation,
-          childAnswers: [
-            { id: "1from", label: "Period from" },
-            { id: "1to", label: "Period to" },
-          ],
-        },
-      ];
-      const question = new Question(createQuestionJSON({ answers }));
-
-      expect(question.answers[0]).toEqual(
-        expect.objectContaining({
-          minimum: {
-            value: "2017-02-17",
-            offset_by: {
-              days: -4,
-            },
-          },
-        })
-      );
-      expect(question.answers[1]).toEqual(
-        expect.objectContaining({
-          maximum: {
-            value: "2018-02-17",
-            offset_by: {
-              years: 10,
-            },
-          },
-        })
-      );
-      expect(question.period_limits).toEqual(
-        expect.objectContaining({
-          minimum: {
-            days: 13,
-          },
-        })
-      );
-      expect(question.period_limits).toEqual(
-        expect.objectContaining({
-          maximum: {
-            months: 2,
-          },
-        })
-      );
     });
   });
 
@@ -717,6 +670,7 @@ describe("Question", () => {
         entityType: "Custom",
         condition: "Equal",
         custom: 5,
+        allowUnanswered: false,
       };
     });
 
@@ -729,6 +683,18 @@ describe("Question", () => {
 
       expect(question.type).toEqual("Calculated");
       expect(question.calculations).toHaveLength(1);
+    });
+
+    it("should change handle unanswered validaton and custom validation when allowUnanswered is false", () => {
+      validation.allowUnanswered = true;
+
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+
+      expect(question.calculations).toHaveLength(2);
     });
 
     it("should do nothing when the validation is disabled", () => {

@@ -14,6 +14,7 @@ describe("QuestionPicker", () => {
       "You cannot import folders but you can import any questions they contain.",
     onSubmit: jest.fn(),
     onClose: jest.fn(),
+    onCancel: jest.fn(),
     startingSelectedQuestions: [],
     sections: mockSections,
   };
@@ -62,10 +63,10 @@ describe("QuestionPicker", () => {
       const firstQuestion = getByText("1a").closest("div");
       fireEvent.click(firstQuestion);
 
-      expect(firstQuestion.getAttribute("aria-selected")).toBeTruthy();
+      expect(firstQuestion.getAttribute("aria-selected")).toBe("true");
 
       fireEvent.click(firstQuestion);
-      expect(firstQuestion.getAttribute("aria-selected")).toBeFalsy();
+      expect(firstQuestion.getAttribute("aria-selected")).toBe("false");
     });
   });
 
@@ -108,6 +109,7 @@ describe("QuestionPicker", () => {
           "You cannot import folders but you can import any questions they contain.",
         onSubmit: jest.fn(),
         onClose: jest.fn(),
+        onCancel: jest.fn(),
         startingSelectedQuestions: [],
         sections: mockSections,
       };

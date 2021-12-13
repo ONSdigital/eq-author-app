@@ -5,8 +5,12 @@ import { StatelessOption } from "./Option";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
-import { props } from "lodash/fp";
-import { render as rtlRender, fireEvent, screen } from "tests/utils/rtl";
+import {
+  render as rtlRender,
+  fireEvent,
+  waitFor,
+  screen,
+} from "tests/utils/rtl";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
@@ -32,15 +36,14 @@ describe("Option", () => {
   };
 
   const render = (method = shallow, otherProps) => {
-    wrapper = method(
-      <StatelessOption
-        {...mockMutations}
-        option={option}
-        hasDeleteButton
-        type={RADIO}
-        {...otherProps}
-      />
-    );
+    const props = {
+      ...mockMutations,
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...otherProps,
+    };
+    wrapper = method(<StatelessOption {...props} />);
 
     return wrapper;
   };
@@ -82,23 +85,22 @@ describe("Option", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should call onChange and onBlur correctly", () => {
-    const { getByTestId } = rtlRender((otherProps) => (
-      <StatelessOption
-        {...mockMutations}
-        option={option}
-        hasDeleteButton
-        type={RADIO}
-        {...otherProps}
-        {...props}
-      />
-    ));
+  it("should call onChange and onBlur correctly", async () => {
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
 
     fireEvent.change(getByTestId("option-label"), {
       target: { value: "2" },
     });
     fireEvent.blur(getByTestId("option-label"));
-    expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1);
+    await waitFor(() =>
+      expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1)
+    );
   });
 
   it("should call onChange on input", async () => {
@@ -110,12 +112,14 @@ describe("Option", () => {
     expect(screen.getByText(/use this text/)).toBeInTheDocument();
   });
 
-  it("should update label on blur", () => {
+  it("should update label on blur", async () => {
     render(rtlRender, { type: CHECKBOX });
     fireEvent.blur(screen.getByTestId("option-label"), {
       target: { value: "2" },
     });
-    expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1);
+    await waitFor(() =>
+      expect(mockMutations.onUpdate).toHaveBeenCalledTimes(1)
+    );
   });
 
   it("should update Other Answer on blur", () => {

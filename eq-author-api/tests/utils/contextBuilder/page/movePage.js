@@ -1,39 +1,131 @@
 const executeQuery = require("../../executeQuery");
 
 const movePageMutation = `
+  fragment Questionnaire on Questionnaire {
+    id
+    title
+    description
+    surveyId
+    theme
+    qcodes
+    navigation
+    hub
+    summary
+    collapsibleSummary
+    type
+    shortTitle
+    displayName
+    createdBy {
+      id
+      picture
+      name
+      email
+    }
+    editors {
+      id
+      picture
+      name
+      email
+    }
+    isPublic
+    permission
+  }
+
+  fragment ValidationErrorInfo on ValidationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+
+  fragment Answer on Answer {
+    id
+    description
+    guidance
+    label
+    secondaryLabel
+    secondaryLabelDefault
+    type
+    properties
+    displayName
+    qCode
+    advancedProperties
+  }
+
   mutation MovePage($input: MovePageInput!) {
     movePage(input: $input) {
-      id
-      title
-      alias
-      displayName
-      pageType
-      section {
+      ...Questionnaire
+      introduction {
         id
-        folders {
-          id
-          pages {
-            id
-          }
+      }
+      metadata {
+        id
+        displayName
+        type
+        key
+        dateValue
+        regionValue
+        languageValue
+        textValue
+      }
+      themeSettings {
+        id
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
-      position
-      ... on QuestionPage {
-        description
-        guidance
-        answers {
+      locked
+      publishStatus
+      totalErrorCount
+      sections {
+        id
+        title
+        displayName
+        position
+        questionnaire {
           id
         }
-        definitionLabel
-        definitionContent
-        additionalInfoLabel
-        additionalInfoContent
-        confirmation {
+        folders {
           id
+          enabled
+          alias
+          displayName
+          position
+          pages {
+            id
+            title
+            alias
+            position
+            displayName
+            pageType
+            ... on QuestionPage {
+              answers {
+                ...Answer
+              }
+              confirmation {
+                id
+              }
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          validationErrorInfo {
+            id
+            totalCount
+          }
         }
-        routing {
+        validationErrorInfo {
           id
+          totalCount
         }
+      }
+      validationErrorInfo {
+        ...ValidationErrorInfo
       }
     }
   }

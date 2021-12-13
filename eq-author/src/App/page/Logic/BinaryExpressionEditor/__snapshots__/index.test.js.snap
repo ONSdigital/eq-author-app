@@ -23,6 +23,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
     >
       <RoutingAnswerContentPicker
         data-test="routing-answer-picker"
+        hasError={false}
         onSubmit={[Function]}
         selectedId="2"
       />

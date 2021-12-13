@@ -23,6 +23,7 @@ const AutocompleteProps = {
   placeholder: PropTypes.string,
   hasError: PropTypes.bool,
   borderless: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 const Autocomplete = ({
@@ -33,6 +34,7 @@ const Autocomplete = ({
   placeholder,
   hasError,
   borderless = false,
+  className,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -265,6 +267,7 @@ const Autocomplete = ({
         onKeyDown={(event) => handleKeyDown(event)}
         onBlur={(e) => handleBlur(e)}
         onClick={() => setIsOpen(true)}
+        className={className}
       >
         <Status
           id={"autocomplete-input-status"}

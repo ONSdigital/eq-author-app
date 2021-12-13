@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Date Error custom should render a preview without a customDate 1`] = `"Invalid Rule"`;
-
 exports[`Date Error custom should render preview dates with offset 1`] = `
 <React.Fragment>
   <div>

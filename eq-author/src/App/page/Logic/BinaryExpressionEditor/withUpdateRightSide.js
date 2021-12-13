@@ -11,6 +11,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           ...updateField,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });

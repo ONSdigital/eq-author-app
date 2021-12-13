@@ -56,19 +56,14 @@ class Question {
     if (dateRange) {
       this.type = DATE_RANGE;
       this.answers = this.buildDateRangeAnswers(dateRange);
-      const {
-        earliestDate,
-        latestDate,
-        minDuration,
-        maxDuration,
-      } = dateRange.validation;
+      const { earliestDate, latestDate, minDuration, maxDuration } =
+        dateRange.validation;
 
-      if (earliestDate.enabled || latestDate.enabled) {
-        this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
-        this.answers[1].maximum = Answer.buildDateValidation(latestDate);
-      }
-
-      if (minDuration.enabled || maxDuration.enabled) {
+      if (dateRange.advancedProperties) {
+        if (earliestDate.enabled || latestDate.enabled) {
+          this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
+          this.answers[1].maximum = Answer.buildDateValidation(latestDate);
+        }
         if (minDuration.enabled) {
           set(
             this,
@@ -92,9 +87,12 @@ class Question {
     } else if (question.totalValidation && question.totalValidation.enabled) {
       this.type = "Calculated";
       this.answers = this.buildAnswers(question.answers);
-      this.calculations = [
-        this.buildCalculation(question.totalValidation, question.answers),
-      ];
+      this.calculations = question.totalValidation.allowUnanswered
+        ? [
+            this.buildUnansweredCalculation(question.answers),
+            this.buildCalculation(question.totalValidation, question.answers),
+          ]
+        : [this.buildCalculation(question.totalValidation, question.answers)];
     } else {
       this.type = "General";
       this.answers = this.buildAnswers(question.answers);
@@ -186,6 +184,15 @@ class Question {
       answers_to_calculate: answers.map((a) => `answer${a.id}`),
       conditions: AUTHOR_TO_RUNNER_CONDITIONS[totalValidation.condition],
       ...rightSide,
+    };
+  }
+
+  buildUnansweredCalculation(answers) {
+    return {
+      calculation_type: "sum",
+      answers_to_calculate: answers.map((a) => `answer${a.id}`),
+      conditions: ["equals"],
+      value: 0,
     };
   }
 }

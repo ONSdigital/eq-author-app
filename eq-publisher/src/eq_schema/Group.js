@@ -7,7 +7,7 @@ const {
 class Group {
   constructor(title, section, ctx) {
     this.id = `group${section.id}`;
-    this.title = ctx.questionnaireJson.navigation ? title : "";
+    this.title = title ? title : "";
     this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
@@ -61,15 +61,19 @@ class Group {
     if (!section.introductionTitle || !section.introductionContent) {
       return blocks;
     }
-    return [
-      Block.buildIntroBlock(
-        section.introductionTitle,
-        section.introductionContent,
-        section.id,
-        ctx
-      ),
-      ...blocks,
-    ];
+
+    const intro = Block.buildIntroBlock(
+      section.introductionTitle,
+      section.introductionContent,
+      section.id,
+      ctx
+    );
+
+    if (blocks[0].skip_conditions) {
+      intro.skip_conditions = blocks[0].skip_conditions;
+    }
+
+    return [intro, ...blocks];
   }
 }
 

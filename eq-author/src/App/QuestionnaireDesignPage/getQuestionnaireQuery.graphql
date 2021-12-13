@@ -81,6 +81,7 @@ fragment Sections on Section {
   id
   title
   displayName
+  position
   questionnaire {
     id
   }
@@ -158,6 +159,13 @@ fragment Answers on Answer {
       description
       value
       qCode
+      additionalAnswer {
+        id
+        description
+        label
+        qCode
+        type
+      }
     }
     mutuallyExclusiveOption {
       id

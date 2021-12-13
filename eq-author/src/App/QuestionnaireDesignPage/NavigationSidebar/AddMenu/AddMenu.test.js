@@ -14,6 +14,7 @@ const defaultProps = () => ({
   onAddQuestionConfirmation: jest.fn(),
   onAddCalculatedSummaryPage: jest.fn(),
   onAddFolder: jest.fn(),
+  onStartImportingContent: jest.fn(),
   canAddFolder: true,
   isFolder: false,
   folderTitle: "",
@@ -26,6 +27,7 @@ const defaultSetup = (newProps = {}) => {
   const addConfirmation = "btn-add-question-confirmation";
   const addCalcSum = "btn-add-calculated-summary";
   const addCalcSumInside = "btn-add-calculated-summary-inside";
+
   const props = { ...defaultProps(), ...newProps };
 
   const utils = render(<AddMenu {...props} />);

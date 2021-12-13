@@ -6,6 +6,8 @@ fragment Section on Section {
   introductionContent
   requiredCompleted
   showOnHub
+  sectionSummary
+  collapsibleSummary
   questionnaire {
     id
     navigation

@@ -23,7 +23,8 @@ const Button = styled.button`
     border-color: ${colors.borders};
   }
 
-  &:focus {
+  &:focus:active,
+  &:focus-visible {
     border-color: ${colors.blue};
   }
 
@@ -44,6 +45,7 @@ const Title = styled.h3`
 const IconGridButton = ({
   iconSrc,
   title,
+  titleAriaHidden = false,
   disabled,
   order,
   onClick,
@@ -64,7 +66,7 @@ const IconGridButton = ({
       {...otherProps}
     >
       <img src={iconSrc} alt={title} />
-      <Title>{title}</Title>
+      <Title aria-hidden={titleAriaHidden}>{title}</Title>
     </Button>
   );
 };
@@ -72,6 +74,7 @@ const IconGridButton = ({
 IconGridButton.propTypes = {
   iconSrc: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  titleAriaHidden: PropTypes.bool,
   disabled: PropTypes.bool,
   order: PropTypes.number,
   onClick: PropTypes.func,

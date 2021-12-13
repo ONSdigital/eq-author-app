@@ -2,6 +2,7 @@
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
 #import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
 
 mutation duplicateFolder($input: DuplicateFolderInput!) {
   duplicateFolder(input: $input) {
@@ -29,16 +30,14 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
               }
               ... on MultipleChoiceAnswer {
                 options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
                   id
                   displayName
                   label
                   description
                   value
-                  qCode
-                }
-                mutuallyExclusiveOption {
-                  id
-                  label
                   qCode
                 }
               }

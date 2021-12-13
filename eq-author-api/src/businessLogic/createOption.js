@@ -11,6 +11,7 @@ module.exports = (input = {}) => {
   return {
     id: uuidv4(),
     label: "",
+    qCode: "",
     ...omit(["answerId", "hasAdditionalAnswer"], input),
     additionalAnswer,
   };

@@ -1,97 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Answer Editor should correctly calculates date format 1`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={false}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 1`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 2`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={false}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 2`] = `null`;
 
-exports[`Answer Editor should correctly calculates date format 3`] = `
-<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
-  answer={
-    Object {
-      "description": "",
-      "id": "1",
-      "properties": Object {
-        "format": "dd/mm/yyyy",
-      },
-      "title": "",
-      "type": "Date",
-    }
-  }
-  canMoveDown={true}
-  canMoveUp={true}
-  onAddExclusive={[MockFunction]}
-  onAddOption={[MockFunction]}
-  onChange={[MockFunction]}
-  onDeleteAnswer={[MockFunction]}
-  onDeleteOption={[MockFunction]}
-  onMoveDown={[MockFunction]}
-  onMoveUp={[MockFunction]}
-  onUpdate={[MockFunction]}
-  onUpdateOption={[MockFunction]}
-  showDay={true}
-  showMonth={true}
-  showYear={true}
-/>
-`;
+exports[`Answer Editor should correctly calculates date format 3`] = `null`;
 
 exports[`Answer Editor should render Checkbox 1`] = `
 <AnswerEditor__Answer
+  aria-label="Checkbox answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -114,10 +31,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -133,10 +52,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -164,11 +85,15 @@ exports[`Answer Editor should render Checkbox 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "options": Array [
             Object {
               "description": "",
@@ -176,12 +101,18 @@ exports[`Answer Editor should render Checkbox 1`] = `
               "label": "",
             },
           ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Checkbox",
         }
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -199,6 +130,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
 
 exports[`Answer Editor should render Currency 1`] = `
 <AnswerEditor__Answer
+  aria-label="Currency answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -221,10 +153,12 @@ exports[`Answer Editor should render Currency 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -240,10 +174,12 @@ exports[`Answer Editor should render Currency 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -274,8 +210,16 @@ exports[`Answer Editor should render Currency 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Currency",
         }
@@ -283,6 +227,7 @@ exports[`Answer Editor should render Currency 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -301,6 +246,7 @@ exports[`Answer Editor should render Currency 1`] = `
 
 exports[`Answer Editor should render Date 1`] = `
 <AnswerEditor__Answer
+  aria-label="Date answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -323,10 +269,12 @@ exports[`Answer Editor should render Date 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -342,10 +290,12 @@ exports[`Answer Editor should render Date 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -373,17 +323,28 @@ exports[`Answer Editor should render Date 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
+    <DateSingle
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Date",
         }
       }
       canMoveDown={true}
       canMoveUp={true}
+      label="Label"
+      multipleAnswers={false}
+      name="label"
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -403,6 +364,7 @@ exports[`Answer Editor should render Date 1`] = `
 
 exports[`Answer Editor should render DateRange 1`] = `
 <AnswerEditor__Answer
+  aria-label="DateRange answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -425,10 +387,12 @@ exports[`Answer Editor should render DateRange 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -444,10 +408,12 @@ exports[`Answer Editor should render DateRange 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -478,14 +444,23 @@ exports[`Answer Editor should render DateRange 1`] = `
     <DateRange
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "DateRange",
         }
       }
       canMoveDown={true}
       canMoveUp={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -502,6 +477,7 @@ exports[`Answer Editor should render DateRange 1`] = `
 
 exports[`Answer Editor should render Duration 1`] = `
 <AnswerEditor__Answer
+  aria-label="Duration answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -525,10 +501,12 @@ exports[`Answer Editor should render Duration 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -544,10 +522,12 @@ exports[`Answer Editor should render Duration 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -578,11 +558,18 @@ exports[`Answer Editor should render Duration 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "properties": Object {
             "unit": "YearsMonths",
           },
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Duration",
         }
@@ -590,6 +577,7 @@ exports[`Answer Editor should render Duration 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -608,6 +596,7 @@ exports[`Answer Editor should render Duration 1`] = `
 
 exports[`Answer Editor should render Number 1`] = `
 <AnswerEditor__Answer
+  aria-label="Number answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -630,10 +619,12 @@ exports[`Answer Editor should render Number 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -649,10 +640,12 @@ exports[`Answer Editor should render Number 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -683,8 +676,16 @@ exports[`Answer Editor should render Number 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Number",
         }
@@ -692,6 +693,7 @@ exports[`Answer Editor should render Number 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -710,6 +712,7 @@ exports[`Answer Editor should render Number 1`] = `
 
 exports[`Answer Editor should render Percentage 1`] = `
 <AnswerEditor__Answer
+  aria-label="Percentage answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -732,10 +735,12 @@ exports[`Answer Editor should render Percentage 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -751,10 +756,12 @@ exports[`Answer Editor should render Percentage 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -785,8 +792,16 @@ exports[`Answer Editor should render Percentage 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Percentage",
         }
@@ -794,6 +809,7 @@ exports[`Answer Editor should render Percentage 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -812,6 +828,7 @@ exports[`Answer Editor should render Percentage 1`] = `
 
 exports[`Answer Editor should render Radio 1`] = `
 <AnswerEditor__Answer
+  aria-label="Radio answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -834,10 +851,12 @@ exports[`Answer Editor should render Radio 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -853,10 +872,12 @@ exports[`Answer Editor should render Radio 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -884,11 +905,15 @@ exports[`Answer Editor should render Radio 1`] = `
     </AnswerEditor__AnswerTypePanel>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Apollo(UnwrappedMultipleChoiceAnswer)
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "options": Array [
             Object {
               "description": "",
@@ -896,13 +921,19 @@ exports[`Answer Editor should render Radio 1`] = `
               "label": "",
             },
           ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Radio",
         }
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       minOptions={2}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -920,6 +951,7 @@ exports[`Answer Editor should render Radio 1`] = `
 
 exports[`Answer Editor should render TextArea 1`] = `
 <AnswerEditor__Answer
+  aria-label="TextArea answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -942,10 +974,12 @@ exports[`Answer Editor should render TextArea 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -961,10 +995,12 @@ exports[`Answer Editor should render TextArea 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -995,8 +1031,16 @@ exports[`Answer Editor should render TextArea 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "TextArea",
         }
@@ -1004,6 +1048,7 @@ exports[`Answer Editor should render TextArea 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -1021,6 +1066,7 @@ exports[`Answer Editor should render TextArea 1`] = `
 
 exports[`Answer Editor should render TextField 1`] = `
 <AnswerEditor__Answer
+  aria-label="TextField answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -1043,10 +1089,12 @@ exports[`Answer Editor should render TextField 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1062,10 +1110,12 @@ exports[`Answer Editor should render TextField 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1096,8 +1146,16 @@ exports[`Answer Editor should render TextField 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "TextField",
         }
@@ -1105,6 +1163,7 @@ exports[`Answer Editor should render TextField 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -1122,6 +1181,7 @@ exports[`Answer Editor should render TextField 1`] = `
 
 exports[`Answer Editor should render Unit 1`] = `
 <AnswerEditor__Answer
+  aria-label="Unit answer"
   data-test="answer-editor"
 >
   <AnswerEditor__AnswerHeader>
@@ -1145,10 +1205,12 @@ exports[`Answer Editor should render Unit 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer up"
             color="white"
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1164,10 +1226,12 @@ exports[`Answer Editor should render Unit 1`] = `
           place="top"
         >
           <MoveButton
+            aria-label="Move answer down"
             color="white"
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
+            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1198,11 +1262,18 @@ exports[`Answer Editor should render Unit 1`] = `
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
+          "advancedProperties": false,
           "description": "",
+          "displayName": "",
+          "guidance": "",
           "id": "1",
+          "label": "",
           "properties": Object {
             "unit": "Centimetres",
           },
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
           "title": "",
           "type": "Unit",
         }
@@ -1210,6 +1281,7 @@ exports[`Answer Editor should render Unit 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      multipleAnswers={false}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}

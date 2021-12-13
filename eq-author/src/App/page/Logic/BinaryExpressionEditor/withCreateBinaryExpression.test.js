@@ -17,6 +17,7 @@ describe("withCreateBinaryExpression", () => {
     it("should call mutate", () => {
       props.createBinaryExpression("id");
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { expressionGroupId: "id" } },
       });
     });

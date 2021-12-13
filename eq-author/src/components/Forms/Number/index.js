@@ -54,8 +54,13 @@ const Number = (props) => {
     min,
     max,
     step,
+    ...otherProps
   } = props;
   const unitId = `unit-${id}`;
+
+  const blockChar = (e) =>
+    ["E", "e", "+", "-"].includes(e.key) && e.preventDefault();
+
   const handleChange = ({ value }) => {
     if (value.length === 0) {
       onChange({ name, value: null });
@@ -89,7 +94,6 @@ const Number = (props) => {
         type="number"
         onBlur={handleBlur}
         aria-live="assertive"
-        role="alert"
         valueType={type}
         aria-labelledby={unitId}
         min={min}
@@ -97,6 +101,8 @@ const Number = (props) => {
         default={props.default}
         name={name}
         step={step}
+        onKeyDown={blockChar}
+        {...otherProps}
       />
       {type === CURRENCY && (
         <UnitSymbol id={unitId} data-test="unit">

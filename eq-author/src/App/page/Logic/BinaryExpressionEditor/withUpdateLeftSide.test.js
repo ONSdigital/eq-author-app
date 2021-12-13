@@ -23,6 +23,7 @@ describe("withUpdateLeftSide", () => {
         "answerId"
       );
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
         variables: { input: { expressionId: "id", answerId: "answerId" } },
       });
     });

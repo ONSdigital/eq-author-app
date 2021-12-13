@@ -17,6 +17,9 @@
         },
         {
           "requiredWhenQuestionnaireSetting": "collapsibleSummary"
+        },
+        {
+          "requiredWhenSectionSetting": "sectionSummary"
         }
       ],
       "errorMessage": "ERR_REQUIRED_WHEN_SETTING"

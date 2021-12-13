@@ -3,6 +3,7 @@
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
 #import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
@@ -28,16 +29,14 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
             }
             ... on MultipleChoiceAnswer {
               options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
                 id
                 displayName
                 label
                 description
                 value
-                qCode
-              }
-              mutuallyExclusiveOption {
-                id
-                label
                 qCode
               }
             }
@@ -52,7 +51,7 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
           }
         }
         ... on CalculatedSummaryPage {
-            id
+          id
         }
         validationErrorInfo {
           ...ValidationErrorInfo

@@ -23,7 +23,7 @@ const DatePreview = ({
     (isMetadata && !metadata);
 
   if (isInvalidRule) {
-    return "Invalid Rule";
+    return;
   }
 
   const rule = {
@@ -38,6 +38,11 @@ const DatePreview = ({
   if (value === 0) {
     return rule[entityType];
   }
+
+  if (!value) {
+    return;
+  }
+
   return (
     <React.Fragment>
       <div>

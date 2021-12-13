@@ -109,6 +109,7 @@ const Row = memo((props) => {
     option,
     secondary,
   } = props;
+
   const [qCode, setQcode] = useState(initialQcode);
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
   const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
@@ -200,13 +201,32 @@ export const QCodeTable = () => {
         </TableRow>
       </TableHead>
       <StyledTableBody>
-        {answerRows?.map((item, index) => (
-          <Row
-            key={`${item.id}-${index}`}
-            {...item}
-            errorMessage={getErrorMessage(item.qCode)}
-          />
-        ))}
+        {answerRows?.map((item, index) => {
+          if (item.additionalAnswer && item.type !== "CheckboxOption") {
+            return (
+              <>
+                <Row
+                  key={`${item.id}-${index}`}
+                  {...item}
+                  errorMessage={getErrorMessage(item.qCode)}
+                />
+                <Row
+                  key={`${item.additionalAnswer.id}-${index}`}
+                  {...item.additionalAnswer}
+                  errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
+                />
+              </>
+            );
+          } else {
+            return (
+              <Row
+                key={`${item.id}-${index}`}
+                {...item}
+                errorMessage={getErrorMessage(item.qCode)}
+              />
+            );
+          }
+        })}
       </StyledTableBody>
     </Table>
   );

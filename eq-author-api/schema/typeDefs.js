@@ -152,6 +152,8 @@ type Section {
   displayConditions: [ExpressionGroup2]
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
+  collapsibleSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -257,6 +259,7 @@ interface Answer {
   type: AnswerType!
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
 }
 
 type BasicAnswer implements Answer {
@@ -273,6 +276,7 @@ type BasicAnswer implements Answer {
   options: [Option]
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
@@ -292,6 +296,7 @@ type MultipleChoiceAnswer implements Answer {
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
+  advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -445,6 +450,7 @@ type TotalValidationRule implements ValidationRule {
   previousAnswer: Answer
   condition: ValidationCondition!
   validationErrorInfo: ValidationErrorInfo
+  allowUnanswered: Boolean
 }
 
 enum ValidationCondition {
@@ -484,9 +490,9 @@ enum ThemeShortName {
   northernireland
   covid
   ukis
-  ukisni
+  ukis_ni
   epe
-  epeni
+  epenorthernireland
 }
 
 type Metadata {
@@ -791,13 +797,13 @@ type Mutation {
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder
   deleteFolder(input: DeleteFolderInput!): Section
-  moveFolder(input: MoveFolderInput!): Folder
+  moveFolder(input: MoveFolderInput!): Questionnaire
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
   toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
-  movePage(input: MovePageInput!): Page
+  movePage(input: MovePageInput!): Questionnaire
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
@@ -977,6 +983,7 @@ input CreateSectionInput {
   position: Int
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
 }
 
 input UpdateSectionInput {
@@ -987,6 +994,8 @@ input UpdateSectionInput {
   introductionContent: String
   requiredCompleted: Boolean
   showOnHub: Boolean
+  sectionSummary: Boolean
+  collapsibleSummary: Boolean
 }
 
 input DeleteSectionInput {
@@ -1137,6 +1146,7 @@ input UpdateAnswerInput {
   qCode: String
   secondaryQCode: String
   properties: JSON
+  advancedProperties: Boolean
 }
 
 input UpdateAnswersOfTypeInput {
@@ -1274,6 +1284,7 @@ input UpdateTotalValidationInput {
   custom: Int
   previousAnswer: ID
   condition: ValidationCondition!
+  allowUnanswered: Boolean
 }
 
 input CreateMetadataInput {

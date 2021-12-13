@@ -50,7 +50,7 @@ class Answer {
       this.max_length = parseInt(answer.properties.maxLength);
     }
 
-    if (!isNil(answer.validation)) {
+    if (answer.advancedProperties && !isNil(answer.validation)) {
       if ([NUMBER, CURRENCY, PERCENTAGE, UNIT].includes(answer.type)) {
         const { minValue, maxValue } = answer.validation;
         this.buildNumberValidation(minValue, "min_value");
@@ -184,7 +184,7 @@ class Answer {
 
   static buildOption(
     { label, description, additionalAnswer, qCode: q_code },
-    { properties }
+    { properties, type }
   ) {
     const option = {
       label,
@@ -204,6 +204,9 @@ class Answer {
         id: `answer${additionalAnswer.id}`,
         mandatory: properties.required,
       };
+      if (additionalAnswer.qCode && type !== "Checkbox") {
+        option.detail_answer.q_code = additionalAnswer.qCode;
+      }
     }
     return option;
   }

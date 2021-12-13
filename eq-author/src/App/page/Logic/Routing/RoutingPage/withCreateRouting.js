@@ -6,6 +6,7 @@ export const mapMutateToProps = ({ mutate }) => ({
   createRouting(pageId) {
     return mutate({
       variables: { input: { pageId } },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });

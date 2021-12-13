@@ -15,6 +15,8 @@ describe("SectionEditor", () => {
     introductionContent: "Intro content",
     requiredCompleted: true,
     showOnHub: true,
+    sectionSummary: false,
+    collapsibleSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -36,6 +38,8 @@ describe("SectionEditor", () => {
     introductionContent: "Intro content",
     requiredCompleted: true,
     showOnHub: true,
+    sectionSummary: false,
+    collapsibleSummary: false,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -160,6 +164,35 @@ describe("SectionEditor", () => {
         navigation: false,
         hub: false,
         collapsibleSummary: true,
+      },
+    };
+    const getValidationError = jest.fn().mockReturnValue("Validation error");
+
+    const wrapper = render({ section, getValidationError });
+
+    expect(
+      wrapper
+        .find("[testSelector='txt-section-title']")
+        .prop("errorValidationMsg")
+    ).toBe("Validation error");
+
+    expect(getValidationError).toHaveBeenCalledWith({
+      field: "title",
+      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
+    });
+  });
+
+  it("should validate the section title when sectionSummary is enabled", () => {
+    const section = {
+      ...section1,
+      requiredCompleted: false,
+      showOnHub: false,
+      sectionSummary: true,
+      questionnaire: {
+        id: "2",
+        navigation: false,
+        hub: false,
+        collapsibleSummary: false,
       },
     };
     const getValidationError = jest.fn().mockReturnValue("Validation error");

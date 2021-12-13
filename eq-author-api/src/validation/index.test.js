@@ -36,6 +36,9 @@ const {
   ERR_REFERENCE_MOVED,
   ERR_VALID_REQUIRED,
   ERR_INVALID,
+  ERR_DESTINATION_INVALID_WITH_HUB,
+  PIPING_METADATA_DELETED,
+  CALCSUM_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -74,6 +77,8 @@ describe("schema validation", () => {
           title: "section_1",
           folders: [
             {
+              id: "folder_1",
+              enabled: "false",
               pages: [
                 {
                   id: "page_1",
@@ -123,6 +128,43 @@ describe("schema validation", () => {
               ],
             },
           ],
+        },
+      ],
+      metadata: [
+        {
+          id: "87c64b20-9662-408b-b674-e2403e90dad3",
+          key: "ru_name",
+          alias: "Ru Name",
+          type: "Text",
+          textValue: "ESSENTIAL ENTERPRISE LTD.",
+        },
+        {
+          id: "fa7be01a-b1c6-4983-af90-bd06150d2808",
+          key: "trad_as",
+          alias: "Trad As",
+          type: "Text_Optional",
+          textValue: "ESSENTIAL ENTERPRISE LTD.",
+        },
+        {
+          id: "ffb5ddb5-d746-4d3f-8016-d5c5547c939a",
+          key: "period_id",
+          alias: "Period Id",
+          type: "Text",
+          textValue: "201605",
+        },
+        {
+          id: "fe06fcc3-5fd8-4491-afc0-9f3ad8e1d52a",
+          key: "ref_p_start_date",
+          alias: "Start Date",
+          type: "Date",
+          dateValue: "2016-05-01",
+        },
+        {
+          id: "9f71966e-50c6-4fbf-95bc-4813db9d0bab",
+          key: "ref_p_end_date",
+          alias: "End Date",
+          type: "Date",
+          dateValue: "2016-06-12",
         },
       ],
     };
@@ -1215,6 +1257,37 @@ describe("schema validation", () => {
       expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
+    it("should validate empty array in right of expression", () => {
+      const expressionId = "express-1";
+
+      const skipConditions = validation(questionnaire);
+
+      expect(skipConditions).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: expressionId,
+              condition: "Equal",
+              left: {
+                type: "Answer",
+                answerId: "answer_1",
+              },
+              right: { options: [] },
+            },
+          ],
+        },
+      ];
+
+      const skipConditionErrors = validation(questionnaire);
+
+      expect(skipConditionErrors).toHaveLength(1);
+      expect(skipConditionErrors[0].id).toMatch(uuidRejex);
+      expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
     it("should validate exclusive or checkbox with and condition", () => {
       const expressionId = "express-1";
 
@@ -1374,6 +1447,52 @@ describe("schema validation", () => {
       const destinationMissingErrors = validation(questionnaire).filter(
         ({ errorCode }) => errorCode === ERR_DESTINATION_REQUIRED
       );
+      expect(destinationMissingErrors).toHaveLength(1);
+    });
+
+    it("Should return an error when the hub is enabled and the destination is EndOfQuestionnaire", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = {
+        ...defaultRouting,
+        rules: [
+          {
+            ...defaultRouting.rules[0],
+            destination: {
+              id: "destination_1",
+              logical: "EndOfQuestionnaire",
+            },
+          },
+        ],
+      };
+
+      questionnaire.hub = true;
+
+      const destinationMissingErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_INVALID_WITH_HUB
+      );
+
+      expect(destinationMissingErrors).toHaveLength(1);
+    });
+
+    it("Should return an error when the hub is enabled and the destination is a later section", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = {
+        ...defaultRouting,
+        rules: [
+          {
+            ...defaultRouting.rules[0],
+            destination: {
+              id: "destination_1",
+              sectionId: "section_1",
+            },
+          },
+        ],
+      };
+
+      questionnaire.hub = true;
+
+      const destinationMissingErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_INVALID_WITH_HUB
+      );
+
       expect(destinationMissingErrors).toHaveLength(1);
     });
 
@@ -1669,6 +1788,17 @@ describe("schema validation", () => {
   });
 
   describe("Piping validation within Question Labels", () => {
+    it("Should validate a deleted piped metadata in a title", () => {
+      const piping = validation(questionnaire);
+      expect(piping).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="metadata" data-id="metadata_1" data-type="Text">[Some metadata]</span></p>>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(PIPING_METADATA_DELETED);
+    });
+
     it("should validate a piping answer moved after this question", () => {
       const piping = validation(questionnaire);
       expect(piping).toHaveLength(0);
@@ -1676,7 +1806,6 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
 
       const errors = validation(questionnaire);
-
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
     });
@@ -1794,6 +1923,112 @@ describe("schema validation", () => {
 
         expect(errors.length).toBe(1);
         expect(errors[0].errorCode).toBe(ERR_REFERENCE_MOVED);
+      });
+    });
+  });
+
+  describe("Calculated summary validation", () => {
+    let mockCalcSum;
+
+    beforeEach(() => {
+      mockCalcSum = {
+        id: "page_3",
+        title: "A calculated summary",
+        pageType: "CalculatedSummaryPage",
+        summaryAnswers: [],
+        alias: null,
+        totalTitle: null,
+      };
+    });
+
+    describe("Outside a folder", () => {
+      it("Should validate when the calculated summary appears before the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          { id: "folder_1", pages: [{ ...mockCalcSum }] },
+          { id: "folder_2", pages: [{ ...pages[0] }] },
+          { id: "folder_3", pages: [{ ...pages[1] }] },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 1;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should not validate when the calc sum appears after the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          { id: "folder_1", pages: [{ ...pages[0] }] },
+          { id: "folder_2", pages: [{ ...pages[1] }] },
+          { id: "folder_3", pages: [{ ...mockCalcSum }] },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 2;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(0);
+      });
+    });
+
+    describe("Inside a folder", () => {
+      it("Should validate when the calculated summary appears before the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...mockCalcSum }, { ...pages[0] }, { ...pages[1] }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 3;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should not validate when the calc sum appears after the answers it uses", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        const rearrangedFolders = [
+          {
+            id: "folder_1",
+            pages: [{ ...pages[0] }, { ...pages[1] }, { ...mockCalcSum }],
+          },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 4;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(0);
       });
     });
   });

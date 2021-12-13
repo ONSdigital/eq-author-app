@@ -17,7 +17,7 @@ exports[`components/Forms/TextArea should render correctly 1`] = `
 
 .c0:hover {
   border-color: #3B7A9E;
-  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
 }
 
 .c0:focus,

@@ -9,7 +9,7 @@ const MainCanvas = styled.main`
 `;
 
 MainCanvas.defaultProps = {
-  maxWidth: "65em",
+  maxWidth: "70em",
 };
 
 export default MainCanvas;

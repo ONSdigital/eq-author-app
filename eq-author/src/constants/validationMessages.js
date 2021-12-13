@@ -24,6 +24,10 @@ export const richTextEditorErrors = {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
   },
+  PIPING_METADATA_DELETED: {
+    errorCode: "PIPING_METADATA_DELETED",
+    message: "The metadata being piped has been deleted",
+  },
   INCLUDE_EXCLUDE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter include/exclude content",
@@ -61,12 +65,30 @@ export const sectionErrors = {
   SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
 };
 
+export const textAreaErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_large",
+    message: "Enter a character limit less than or equal to 2000",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 10",
+  },
+};
+
 export const characterErrors = {
   CHAR_LIMIT_2000_EXCEEDED:
     "Enter a character limit less than or equal to 2000",
   CHAR_MUST_EXCEED_9: "Enter a character limit greater than or equal to 10",
   DECIMAL_MUST_BE_SAME:
     "Enter a decimal that is the same as the associated question page",
+};
+
+export const calculatedSummaryErrors = {
+  ERR_NO_ANSWERS: "Select at least two answers to be calculated",
+  ERR_CALCULATED_UNIT_INCONSISTENCY:
+    "Select answers that are the same unit type",
+  CALCSUM_MOVED: "The calculated summary must appear after the answers it uses",
 };
 
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
@@ -100,6 +122,9 @@ export const ERR_REFERENCE_MOVED = "Answer must be from a previous question";
 export const SELECTION_REQUIRED = "Selection required";
 
 export const OPERATOR_REQUIRED = "Choose an operator";
+
+export const METADATA_REQUIRED = "Metadata is required";
+export const DATE_REQUIRED = "Date is required";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
@@ -167,6 +192,10 @@ export const destinationErrors = {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
   },
+  ERR_DESTINATION_INVALID_WITH_HUB: {
+    errorCode: "ERR_DESTINATION_INVALID_WITH_HUB",
+    message: "Destination not applicable with hub navigation.",
+  },
 };
 
 export const SURVEY_ID_ERRORS = {
@@ -195,4 +224,18 @@ export const buildLabelError = (mainString, insString, pos, pos2) => {
   const newLabelError =
     mainString.slice(0, pos) + insString + mainString.slice(pos2);
   return newLabelError;
+};
+
+export const decimalErrors = {
+  ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY: {
+    errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+    message: "Enter a decimal that is the same as the associated question page",
+  },
+};
+
+export const unitPropertyErrors = {
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Selection required",
+  },
 };

@@ -9,7 +9,7 @@ const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
 
 const isPipeableType = (answer) => {
-  const notPipeableDataTypes = ["TextArea", "Radio", "CheckBox"];
+  const notPipeableDataTypes = ["TextArea", "CheckBox"];
   return !includes(notPipeableDataTypes, answer.type);
 };
 
@@ -91,7 +91,7 @@ const convertElementToPipe = ($elem, ctx) => {
   } else if (dataType === DATE_RANGE) {
     let fallback = pipeConfig.getFallback(entity);
     let key = null;
-    if (fallback) {
+    if (entity.advancedProperties && fallback) {
       if (output.includes("from")) {
         key = fallback.from || null;
       } else if (output.includes("to")) {

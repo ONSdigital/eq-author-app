@@ -135,7 +135,7 @@ const ImportQuestionReviewModal = ({
         <ContentHeading> No questions selected. </ContentHeading>
       )}
       <Button onClick={onSelectQuestions}>
-        Select {startingSelectedQuestions.length >= 1 && "more"} questions
+        Select {startingSelectedQuestions?.length >= 1 && "more"} questions
       </Button>
     </Content>
   </Wizard>

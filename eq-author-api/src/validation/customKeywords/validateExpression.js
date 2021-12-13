@@ -29,6 +29,15 @@ module.exports = (ajv) =>
         return true;
       }
 
+      if (
+        currentExpression.right?.optionIds === undefined ||
+        currentExpression.right?.optionIds === [] ||
+        currentExpression.right === null
+      ) {
+        isValid.errors = [];
+        return true;
+      }
+
       const { operator } = getExpressionGroupByExpressionId(
         { questionnaire },
         currentExpression.id
@@ -49,7 +58,7 @@ module.exports = (ajv) =>
         .reduce((acc, type) => acc.add(type), new Set());
 
       isValid.errors =
-        optionTypeSet.size === 1
+        optionTypeSet.size <= 1
           ? []
           : [
               createValidationError(

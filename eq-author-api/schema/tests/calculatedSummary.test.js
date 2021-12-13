@@ -7,17 +7,14 @@ const {
 const {
   queryPage,
   deletePage,
-  movePage,
 } = require("../../tests/utils/contextBuilder/page");
 
 const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
 
-const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuidRejex =
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-const {
-  deleteSection,
-  moveSection,
-} = require("../../tests/utils/contextBuilder/section");
+const { deleteSection } = require("../../tests/utils/contextBuilder/section");
 
 const { querySection } = require("../../tests/utils/contextBuilder/section");
 
@@ -322,149 +319,6 @@ describe("calculated Summary", () => {
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
-  it("should delete answer from list when page moved to after calsum page", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await movePage(ctx, {
-      id: answersPage.id,
-      position: 1,
-      sectionId: section.id,
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
-  it("should delete answer from list when section with answer moved to after calsum page's section", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[1].folders[0].pages[0];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await moveSection(ctx, {
-      id: section.id,
-      position: 1,
-      questionnaireId: questionnaire.id,
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
-  it("should delete answer from list when calsum page moved to before question page", async () => {
-    const ctx = await buildContext({
-      sections: [
-        {
-          folders: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: NUMBER,
-                    },
-                  ],
-                },
-                {
-                  pageType: "calculatedSummary",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    const { questionnaire } = ctx;
-
-    const answersPage = questionnaire.sections[0].folders[0].pages[0];
-    const calSumPage = questionnaire.sections[0].folders[0].pages[1];
-    const section = questionnaire.sections[0];
-
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
-    await movePage(ctx, {
-      id: calSumPage.id,
-      position: 0,
-      sectionId: section.id,
-    });
-
-    const result = await queryPage(ctx, calSumPage.id);
-
-    expect(result.summaryAnswers).toHaveLength(0);
-  });
-
   it("should provide validation info", async () => {
     const ctx = await buildContext({
       sections: [
@@ -557,6 +411,130 @@ describe("calculated Summary", () => {
         },
       ],
       totalCount: 1,
+    });
+  });
+
+  describe("Summary answers", () => {
+    it("Returns no answers if there are none", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(0);
+    });
+
+    it("Returns  answers if there are some", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
+
+      await updateCalculatedSummaryPage(ctx, {
+        id: calSumPage.id,
+        title: "Goo",
+        summaryAnswers: [answers[0].id, answers[1].id],
+      });
+
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(2);
+    });
+
+    it("Strips out any answers that don't exist", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: NUMBER,
+                      },
+                    ],
+                  },
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const { questionnaire } = ctx;
+      const calSumPage = questionnaire.sections[0].folders[0].pages[1];
+      const answers = questionnaire.sections[0].folders[0].pages[0].answers;
+
+      await updateCalculatedSummaryPage(ctx, {
+        id: calSumPage.id,
+        title: "Goo",
+        summaryAnswers: [answers[0].id, answers[1].id],
+      });
+
+      calSumPage.summaryAnswers.push("5ba9c62e-d726-468b-bc52-53beeb97876a");
+
+      expect(calSumPage.summaryAnswers).toHaveLength(3);
+
+      const { summaryAnswers } = await queryPage(ctx, calSumPage.id);
+
+      expect(summaryAnswers).toHaveLength(2);
     });
   });
 });

@@ -8,6 +8,7 @@
     "start:dev": "ENABLE_OPENTRACING=true nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
+    "test:ci": "./scripts/test-ci.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin",
     "create-migration": "node scripts/createMigration.js"
@@ -57,6 +58,7 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": false,
+    "coverageReporters": ["json", "json-summary", "text", "text-summary", "lcov", "clover"],
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",

@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionProperties should render 1`] = `
+<Collapsible
+  className="additionalContentCollapsible"
+  title="Additional content"
+  variant="content"
+  withoutHideThis={true}
+>
+  <Property
+    data-test="descriptionEnabled"
+    id="descriptionEnabled"
+    onChange={[Function]}
+  >
+    <Label
+      bold={true}
+    >
+      Question description
+    </Label>
+  </Property>
+  <QuestionProperties__Caption>
+    The description is used to provide added context to the question.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    option="description"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
+  <Property
+    data-test="definitionEnabled"
+    id="definitionEnabled"
+    onChange={[Function]}
+  >
+    <Label
+      bold={true}
+    >
+      Question definition
+    </Label>
+  </Property>
+  <QuestionProperties__Caption>
+    Only to be used to define word(s) or acronym(s) within the question.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    option="definition"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
+  <Property
+    data-test="guidanceEnabled"
+    id="guidanceEnabled"
+    onChange={[Function]}
+  >
+    <Label
+      bold={true}
+    >
+      Include/exclude
+    </Label>
+  </Property>
+  <QuestionProperties__Caption>
+    Only to be used to state what should be included or excluded from the answer.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    option="guidance"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+  <QuestionProperties__HorizontalSeparator />
+  <Property
+    data-test="additionalInfoEnabled"
+    id="additionalInfoEnabled"
+    onChange={[Function]}
+  >
+    <Label
+      bold={true}
+    >
+      Additional information
+    </Label>
+  </Property>
+  <QuestionProperties__Caption>
+    Information regarding why we are asking this question.
+  </QuestionProperties__Caption>
+  <withChangeUpdate(StatelessAdditionalInfo)
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    option="additionalInfo"
+    page={
+      Object {
+        "id": "1",
+      }
+    }
+  />
+</Collapsible>
+`;

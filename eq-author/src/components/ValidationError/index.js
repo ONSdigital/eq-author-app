@@ -1,15 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { ReactComponent as WarningIcon } from "assets/icon-error.svg";
 
-import WarningIcon from "assets/icon-error.svg?inline";
 import IconText from "components/IconText";
 import VisuallyHidden from "components/VisuallyHidden";
 import ErrorPanel from "components/Panel/ErrorPanel";
 
 const ErrorStyling = styled(IconText)`
-  margin: 0.5em 1em 0.5em 0.1em;
+  margin: 0.5em 1em 0.5em 0.5em;
   font-weight: normal;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const ValidationError = ({ variant, children, test }) => (

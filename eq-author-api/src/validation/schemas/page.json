@@ -11,7 +11,20 @@
           "$ref": "definitions.json#/definitions/populatedString"
         },
         {
-          "validatePipingInTitle": true
+          "validatePipingAnswerInTitle": true
+        },
+        {
+          "validatePipingMetadataInTitle": true
+        }
+      ]
+    },
+    "description": {
+      "allOf": [
+        {
+          "validatePipingAnswerInTitle": true
+        },
+        {
+          "validatePipingMetadataInTitle": true
         }
       ]
     },
@@ -180,6 +193,9 @@
                 "$ref": "answer.json"
               },
               "calculatedSummaryUnitConsistency": {
+                "$data": "/sections"
+              },
+              "calculatedSummaryPosition": {
                 "$data": "/sections"
               },
               "minItems": 2,

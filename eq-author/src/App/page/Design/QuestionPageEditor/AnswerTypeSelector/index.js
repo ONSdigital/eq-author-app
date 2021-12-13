@@ -37,12 +37,11 @@ const PopoutLayer = styled(Layer)`
 
 const ErrorContext = styled.div`
   position: relative;
-  margin-bottom: 1em;
 
   ${(props) =>
     props.isInvalid &&
     css`
-      border: 2px solid ${colors.errorPrimary};
+      border: 1px solid ${colors.errorPrimary};
       padding: 1em;
     `}
 `;
@@ -66,10 +65,6 @@ class AnswerTypeSelector extends React.Component {
 
   handleSelect = (type) => {
     this.props.onSelect(type);
-  };
-
-  handleEntered = () => {
-    this.grid.focusMenuItem();
   };
 
   saveGridRef = (grid) => {
@@ -112,24 +107,25 @@ class AnswerTypeSelector extends React.Component {
     );
 
     return (
-      <ErrorContext isInvalid={isInvalid}>
-        <Popout
-          open={this.state.open}
-          transition={PopupTransition}
-          trigger={trigger}
-          container={PopoutContainer}
-          layer={PopoutLayer}
-          onToggleOpen={this.handleOpenToggle}
-          onEntered={this.handleEntered}
-        >
-          <AnswerTypeGrid
-            onSelect={this.handleSelect}
-            ref={this.saveGridRef}
-            doNotShowDR={hasOtherAnswerType}
-          />
-        </Popout>
+      <>
+        <ErrorContext isInvalid={isInvalid}>
+          <Popout
+            open={this.state.open}
+            transition={PopupTransition}
+            trigger={trigger}
+            container={PopoutContainer}
+            layer={PopoutLayer}
+            onToggleOpen={this.handleOpenToggle}
+          >
+            <AnswerTypeGrid
+              onSelect={this.handleSelect}
+              ref={this.saveGridRef}
+              doNotShowDR={hasOtherAnswerType}
+            />
+          </Popout>
+        </ErrorContext>
         {isInvalid && <ValidationError>{errorValidationMsg}</ValidationError>}
-      </ErrorContext>
+      </>
     );
   }
 }

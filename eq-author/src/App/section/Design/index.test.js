@@ -33,6 +33,8 @@ const section = {
   position: 0,
   requiredCompleted: false,
   showOnHub: false,
+  sectionSummary: false,
+  collapsibleSummary: false,
   folders: [
     {
       __typename: "Folder",
@@ -342,6 +344,7 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         navigation: true,
+        hub: false,
         questionnaireInfo: {
           totalSectionCount: 2,
         },
@@ -366,6 +369,7 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         navigation: true,
+        hub: false,
         questionnaireInfo: {
           totalSectionCount: 2,
         },

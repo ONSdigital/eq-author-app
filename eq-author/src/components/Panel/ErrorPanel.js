@@ -12,7 +12,7 @@ const logicPanel = css`
 `;
 
 const confirmationPanel = css`
-  margin-left: 3%;
+  margin-left: -1%;
 `;
 
 const StyledPanel = styled.div`
@@ -21,7 +21,7 @@ const StyledPanel = styled.div`
   border-radius: 0;
   border-left: 0.5em solid ${colors.errorPrimary};
   margin: 1em 0;
-  display: inline-block;
+  display: table;
   width: auto;
   ${(props) => props.variant === "destination" && destinationPanel};
   ${(props) => props.variant === "logic" && logicPanel};
@@ -33,7 +33,7 @@ const ErrorPanel = ({ variant, children }) => (
 );
 
 ErrorPanel.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.object, //eslint-disable-line
   variant: PropTypes.string,
 };
 

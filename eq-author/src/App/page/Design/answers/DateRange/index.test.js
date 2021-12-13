@@ -1,17 +1,21 @@
 import React from "react";
 import { shallow } from "enzyme";
 import DateRange from "./";
-import createMockStore from "tests/utils/createMockStore";
 import { DATE_LABEL_REQUIRED } from "constants/validationMessages";
 import { render as rtlRender } from "tests/utils/rtl";
 
+const mockUseMutation = jest.fn();
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
+}));
+
 describe("DateRange", () => {
-  let handleChange, handleUpdate, store, props;
+  let handleChange, handleUpdate, props;
 
   beforeEach(() => {
     handleChange = jest.fn();
     handleUpdate = jest.fn();
-    store = createMockStore();
 
     props = {
       answer: {
@@ -21,13 +25,16 @@ describe("DateRange", () => {
         description: "test",
         guidance: "",
         secondaryLabel: "",
+        secondaryLabelDefault: "",
         properties: { required: false },
         displayName: "Untitled answer",
+        advancedProperties: true,
         qCode: "yuky",
         validationErrorInfo: {
           errors: [],
         },
       },
+      metadata: [],
     };
   });
 
@@ -37,7 +44,7 @@ describe("DateRange", () => {
         onChange={handleChange}
         onUpdate={handleUpdate}
         answer={props.answer}
-        store={store}
+        metadata={props.metadata}
       />
     );
     expect(wrapper).toMatchSnapshot();
