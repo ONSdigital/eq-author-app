@@ -77,7 +77,7 @@ const SmallSelect = styled(Select)`
 `;
 
 export const GroupOperatorLabel = styled(Label)`
-  margin: 0.5em 0 0 0.5em;
+  margin: 0.5em 0 2em 0.5em;
 `;
 
 const RuleEditorProps = {
