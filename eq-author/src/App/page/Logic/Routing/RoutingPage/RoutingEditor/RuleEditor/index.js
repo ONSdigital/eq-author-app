@@ -185,7 +185,7 @@ export const UnwrappedRuleEditor = ({
             <MoveButton
               color="white"
               disabled={!props.canMoveDown}
-              tabIndex={!props.canMoveUp && -1}
+              tabIndex={!props.canMoveDown && -1}
               aria-label={"Move rule down"}
               onClick={props.onMoveDown}
               data-test="btn-move-routing-rule-down"
