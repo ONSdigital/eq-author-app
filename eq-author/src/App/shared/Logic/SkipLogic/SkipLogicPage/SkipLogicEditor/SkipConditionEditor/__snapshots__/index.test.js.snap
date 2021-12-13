@@ -5,20 +5,32 @@ exports[`SkipConditionEditor should render 1`] = `
   data-test="skip-condition"
 >
   <SkipConditionEditor__Header>
-    <Label
-      bold={true}
-      inline={true}
-    >
-      Skip this question
-    </Label>
-    <SkipConditionEditor__RemoveSkipConditionButton
-      data-test="btn-remove-skip-conditions"
-      onClick={[MockFunction]}
-      type="button"
-      variant="primary"
-    >
-      Remove logic rule
-    </SkipConditionEditor__RemoveSkipConditionButton>
+    <SkipConditionEditor__HeaderPanel>
+      <SkipConditionEditor__HeaderLabel
+        inline={true}
+      >
+        Skip this question
+      </SkipConditionEditor__HeaderLabel>
+      <Tooltip
+        content="Delete rule"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete routing rule"
+          color="white"
+          data-test="btn-delete-routing-rule"
+          onClick={[MockFunction]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </SkipConditionEditor__HeaderPanel>
   </SkipConditionEditor__Header>
   <SkipConditionEditor__Expressions>
     <TransitionGroup
