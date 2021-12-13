@@ -876,7 +876,7 @@ type Mutation {
   createListAnswer(input: CreateListAnswerInput!): Answer
   updateListAnswer(input: UpdateListAnswerInput!): Answer
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
-  deleteListAnswer(imput: deleteListAnswerInput): List
+  deleteListAnswer(imput: DeleteListAnswerInput): List
   moveListAnswer(input: MoveListAnswerInput!): Answer!
 }
 
@@ -900,7 +900,7 @@ input CreateListAnswerInput {
   listId: ID
 }
 
-input UpdatelistAnswerInput {
+input UpdateListAnswerInput {
   id: ID!
   description: String
   guidance: String
