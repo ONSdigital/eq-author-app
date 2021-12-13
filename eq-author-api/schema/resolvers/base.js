@@ -657,7 +657,6 @@ const Resolvers = {
     updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
         const page = getPageById(ctx, questionPageId);
-
         const answersOfType = page.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
