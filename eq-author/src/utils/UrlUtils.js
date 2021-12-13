@@ -12,6 +12,7 @@ import {
   QCODES,
   SHARING,
   SETTINGS,
+  KEYBOARDSHORTCUTS,
   FOLDER,
 } from "../constants/entities";
 
@@ -126,6 +127,13 @@ export const buildQcodesPath = ({ questionnaireId }) => {
     entityName: QCODES,
   });
 };
+export const buildShortcutsPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: KEYBOARDSHORTCUTS,
+  });
+};
+
 export const buildSharingPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,

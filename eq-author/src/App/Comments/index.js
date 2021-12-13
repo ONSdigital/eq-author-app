@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useSubscription } from "react-apollo";
 import { useMe } from "App/MeContext";
+import { colors } from "constants/theme";
 
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
@@ -41,6 +42,11 @@ const Wrapper = styled.section`
       border-top: 1px solid rgb(228, 232, 235);
     }
   }
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Replies = styled(Collapsible)`
@@ -76,6 +82,7 @@ const CommentsPanel = ({ componentId }) => {
     variables: {
       componentId,
     },
+    fetchPolicy: "network-only",
   });
 
   useSubscription(COMMENT_SUBSCRIPTION, {
@@ -192,7 +199,7 @@ const CommentsPanel = ({ componentId }) => {
   );
 
   return (
-    <Wrapper data-test="comments-panel">
+    <Wrapper data-test="comments-panel" tabIndex="-1" className="keyNav">
       <h1>Comments</h1>
       <CommentEditor
         key={`add-comment-${componentId}`}

@@ -51,6 +51,7 @@ export const colors = {
   errorsTint: "#fae6e8",
   errorsVibrant: "#fd112d",
   pendingVibrant: "#ff803b",
+  infoGrey: "#e9eff4",
 };
 
 colors.primary = colors.blue;
@@ -164,6 +165,7 @@ export const themes = {
       externalOnsLogo: colors.darkerBlue,
       headerMain: colors.oceanBlue,
       headerTitle: colors.white,
+      colorInfoTint: colors.infoGrey,
       input: colors.black,
       textBannerLink: colors.grey5,
       onsLogoAccent: colors.springGreen,
