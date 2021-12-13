@@ -31,7 +31,7 @@ const moveRoutingRule = async (ctx, rule) => {
     },
     ctx
   );
-  return result.data.deleteRoutingRule2;
+  return result.data.moveRoutingRule2;
 };
 
 module.exports = {
