@@ -168,9 +168,15 @@ Resolvers.Mutation = {
     };
     delete updatedLeftSide.nullReason;
 
+    const getRightSide = {
+      ...expression.right,
+    };
+
     expression.left = updatedLeftSide;
-    expression.right = null;
-    expression.condition = answerTypeToConditions.getDefault(answer.type);
+    expression.right = getRightSide;
+    expression.condition = expression.condition
+      ? expression.condition
+      : answerTypeToConditions.getDefault(answer.type);
 
     return expression;
   }),

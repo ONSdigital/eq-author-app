@@ -232,6 +232,20 @@ describe("BinaryExpressionEditor", () => {
     );
   });
 
+  it("leftside should not be null when updating answer selector", () => {
+    defaultProps.expression.left.type = NUMBER;
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(NumberAnswerSelector);
+    expect(defaultProps.updateLeftSide).not.toBeNull();
+  });
+
+  it("rightside should not be null when updating answer selector", () => {
+    defaultProps.expression.left.type = NUMBER;
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(NumberAnswerSelector);
+    expect(defaultProps.updateRightSide).not.toBeNull();
+  });
+
   it("should not show the delete or add expression buttons when showing defaultRouting", async () => {
     render(<BinaryExpressionEditor {...defaultProps} />);
 
