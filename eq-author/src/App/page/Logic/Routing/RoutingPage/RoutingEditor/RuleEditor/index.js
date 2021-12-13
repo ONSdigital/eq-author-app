@@ -13,14 +13,11 @@ import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
-// import withMoveRule from "../withMoveRule";
-// import RoutingTransition from "../RoutingTransition";
 
 import { Select, Label } from "components/Forms";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-// import Reorder from "components/Reorder";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
