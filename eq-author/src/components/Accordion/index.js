@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
+
+console.log("Test")
+
 const Header = styled.div`
   background: #f8f8f8;
   padding: 0 0.25em;
