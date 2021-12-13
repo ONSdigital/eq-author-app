@@ -82,6 +82,7 @@ const RuleEditorProps = {
   deleteRule: PropTypes.func.isRequired,
   updateRule: PropTypes.func.isRequired,
   updateExpressionGroup: PropTypes.func.isRequired,
+  // onMove and canMove props are passed from the Reorder component in RoutingEditor
   onMoveUp: PropTypes.func.isRequired,
   canMoveUp: PropTypes.bool.isRequired,
   onMoveDown: PropTypes.func.isRequired,
