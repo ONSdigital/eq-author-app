@@ -38,6 +38,10 @@ const Rule = styled.div`
   margin-bottom: 2em;
 `;
 
+const GroupOperatorWrapper = styled.div`
+  margin-bottom: 2em;
+`;
+
 export const Title = styled.h2`
   letter-spacing: 0.05em;
   font-size: 0.9em;
@@ -135,7 +139,7 @@ export const UnwrappedRuleEditor = ({
     ];
 
   const groupOperatorSelect = (
-    <>
+    <GroupOperatorWrapper>
       <SmallSelect
         name="match"
         id="match"
@@ -153,7 +157,7 @@ export const UnwrappedRuleEditor = ({
       {groupOperatorError && (
         <ValidationError>{groupOperatorError}</ValidationError>
       )}
-    </>
+    </GroupOperatorWrapper>
   );
 
   return (
