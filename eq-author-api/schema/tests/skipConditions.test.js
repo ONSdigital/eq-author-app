@@ -16,10 +16,6 @@ const {
 } = require("../../tests/utils/contextBuilder/page");
 
 const {
-  updateLeftSide,
-} = require("../../tests/utils/contextBuilder/routing/updateLeftSide");
-
-const {
   querySection,
   deleteSection,
   moveSection,
@@ -83,21 +79,6 @@ describe("skip conditions", () => {
       await deleteSkipCondition(ctx, page.skipConditions[0].id);
       const result = await queryPage(ctx, page.id);
       expect(result.skipConditions).toBeNull();
-    });
-
-    it("expression shouldn't be set to null when updating answer selector", async () => {
-      const ctx = await buildContext(config);
-      const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].folders[0].pages[0];
-      await createSkipCondition(ctx, page);
-
-      expect(page.skipConditions.length).toBe(1);
-      await updateLeftSide(
-        page.skipConditions[0].expressions,
-        page.skipConditions[0].expressions.left.answerId
-      );
-      const result = await queryPage(ctx, page.id);
-      expect(result.skipConditions).not.toBeNull();
     });
 
     it("should delete all existing expression groups on a page", async () => {
