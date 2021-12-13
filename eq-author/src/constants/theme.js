@@ -51,6 +51,7 @@ export const colors = {
   errorsTint: "#fae6e8",
   errorsVibrant: "#fd112d",
   pendingVibrant: "#ff803b",
+  infoGrey: "#e9eff4",
 };
 
 colors.primary = colors.blue;
@@ -158,6 +159,7 @@ export const themes = {
       info: colors.oceanBlue,
       success: colors.leafGreen,
       errors: colors.rubyRed,
+      colorInfoTint: colors.infoGrey,
       input: colors.black,
       textBannerLink: colors.grey5,
     },
