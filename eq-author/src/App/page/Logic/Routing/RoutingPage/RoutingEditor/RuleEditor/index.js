@@ -171,7 +171,7 @@ export const UnwrappedRuleEditor = ({
             <MoveButton
               color="white"
               disabled={!props.canMoveUp}
-              tabIndex={!props.canMoveUp && -1}
+              tabIndex={!props.canMoveUp ? -1 : undefined}
               aria-label={"Move rule up"}
               onClick={props.onMoveUp}
               data-test="btn-move-routing-rule-up"
@@ -187,7 +187,7 @@ export const UnwrappedRuleEditor = ({
             <MoveButton
               color="white"
               disabled={!props.canMoveDown}
-              tabIndex={!props.canMoveDown && -1}
+              tabIndex={!props.canMoveDown ? -1 : undefined}
               aria-label={"Move rule down"}
               onClick={props.onMoveDown}
               data-test="btn-move-routing-rule-down"
