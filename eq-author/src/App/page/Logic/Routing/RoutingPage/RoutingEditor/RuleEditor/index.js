@@ -85,17 +85,19 @@ const RuleEditorProps = {
   deleteRule: PropTypes.func.isRequired,
   updateRule: PropTypes.func.isRequired,
   updateExpressionGroup: PropTypes.func.isRequired,
+  onMoveUp: PropTypes.func.isRequired,
+  canMoveUp: PropTypes.bool.isRequired,
+  onMoveDown: PropTypes.func.isRequired,
+  canMoveDown: PropTypes.bool.isRequired,
   className: PropTypes.string,
 };
 
 export const UnwrappedRuleEditor = ({
-  routing,
   rule,
   ifLabel = "If",
   deleteRule,
   updateRule,
   updateExpressionGroup,
-  moveRule: handleMoveRule,
   className,
   ...props
 }) => {

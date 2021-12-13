@@ -2,13 +2,11 @@ import React from "react";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { TransitionGroup } from "react-transition-group";
 import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 import Reorder from "components/Reorder";
 
-import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import transformNestedFragments from "utils/transformNestedFragments";
@@ -40,6 +38,7 @@ export class UnwrappedRoutingEditor extends React.Component {
       .isRequired,
     updateRouting: PropTypes.func.isRequired,
     createRule: PropTypes.func.isRequired,
+    moveRule: PropTypes.func.isRequired,
   };
 
   handleAddClick = () => {
@@ -58,14 +57,12 @@ export class UnwrappedRoutingEditor extends React.Component {
 
     return (
       <>
-        {/* <TransitionGroup component={null}> */}
         <Reorder
           list={routing.rules}
           onMove={handleMoveRule}
           Transition={RoutingTransition}
         >
           {(props, rule) => (
-            // <Transition key={rule.id}>
             <RuleEditor
               routing={props.routing}
               rule={rule}
@@ -75,10 +72,8 @@ export class UnwrappedRoutingEditor extends React.Component {
               }
               {...props}
             />
-            // </Transition>
           )}
         </Reorder>
-        {/* </TransitionGroup> */}
         <AddRuleButton
           variant="secondary"
           small
