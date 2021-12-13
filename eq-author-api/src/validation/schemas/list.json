@@ -9,6 +9,16 @@
       "type": "string",
       "pattern": "\\w+",
       "errorMessage": "LISTNAME_MISSING"
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "$ref": "answer.json"
+      },
+      "minItems": 1,
+      "errorMessage": {
+        "minItems": "ERR_NO_ANSWERS"
+      }
     }
   }
 }

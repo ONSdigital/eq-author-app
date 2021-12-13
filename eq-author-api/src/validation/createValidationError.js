@@ -123,7 +123,7 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
         break;
 
       case "answers":
-        ({ answers } = page);
+        ({ answers } = page || list);
         answer = answers[nextVal];
         validationErr.answerId = answer.id;
         validationErr.type = "answer";
