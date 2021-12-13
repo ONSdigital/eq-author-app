@@ -622,18 +622,12 @@ const Resolvers = {
       return remappedFolder;
     }),
     createAnswer: createMutation((root, { input }, ctx) => {
-      let entity;
-      if (input.questionPageId) {
-        entity = getPageById(ctx, input.questionPageId);
-      }
-      if (input.listId) {
-        entity = find(ctx.questionnaire.lists, { id: input.listId });
-      }
-      const answer = createAnswer(input, entity);
+      const page = getPageById(ctx, input.questionPageId);
+      const answer = createAnswer(input, page);
 
-      entity.answers.push(answer);
+      page.answers.push(answer);
 
-      onAnswerCreated(entity, answer);
+      onAnswerCreated(page, answer);
 
       return answer;
     }),
@@ -661,15 +655,10 @@ const Resolvers = {
       return answer;
     }),
     updateAnswersOfType: createMutation(
-      (root, { input: { questionPageId, listId, type, properties } }, ctx) => {
-        let entity;
-        if (questionPageId) {
-          entity = getPageById(ctx, questionPageId);
-        }
-        if (listId) {
-          entity = find(ctx.questionnaire.list, { id: listId });
-        }
-        const answersOfType = entity.answers.filter((a) => a.type === type);
+      (root, { input: { questionPageId, type, properties } }, ctx) => {
+        const page = getPageById(ctx, questionPageId);
+
+        const answersOfType = page.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
             ...answer.properties,
@@ -913,10 +902,63 @@ const Resolvers = {
       remove(ctx.questionnaire.lists, { id: input.id });
       return ctx.questionnaire.lists;
     }),
+    createListAnswer: createMutation((root, { input }, ctx) => {
+      const list = find(ctx.questionnaire.lists, { id: input.listId });
+      const answer = createAnswer(input, list);
+      list.answers.push(answer);
+
+      onAnswerCreated(list, answer);
+
+      return answer;
+    }),
+    updateListAnswer: createMutation((root, { input }, ctx) => {
+      const answers = getAnswers(ctx);
+      const additionalAnswers = flatMap(answers, (answer) =>
+        answer.options
+          ? flatMap(answer.options, (option) => option.additionalAnswer)
+          : null
+      );
+      const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswerLabel = answer.label;
+      merge(answer, input);
+
+      if (answer.type === DATE && !input.label && input?.properties?.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
+
+      const pages = getPages(ctx);
+      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
+
+      return answer;
+    }),
+    updateListAnswersOfType: createMutation(
+      (root, { input: { listId, type, properties } }, ctx) => {
+        const list = find(ctx.questionnaire.list, { id: listId });
+        const answersOfType = list.answers.filter((a) => a.type === type);
+        answersOfType.forEach((answer) => {
+          answer.properties = {
+            ...answer.properties,
+            ...properties,
+          };
+        });
+
+        return answersOfType;
+      }
+    ),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
       remove(list.answers, { id: input.listId });
       return list;
+    }),
+    moveListAnswer: createMutation((_, { input: { id, position } }, ctx) => {
+      const list = getListByAnswerId(ctx, id);
+      const answerMoving = first(remove(list.answers, { id }));
+      list.answers.splice(position, 0, answerMoving);
+
+      return answerMoving;
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {

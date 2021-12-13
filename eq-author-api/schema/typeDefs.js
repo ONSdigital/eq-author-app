@@ -873,7 +873,11 @@ type Mutation {
   createList: List
   updateList(input: UpdateListInput): List
   deleteList(input: DeleteListInput): [List]
+  createListAnswer(input: CreateListAnswerInput!): Answer
+  updateListAnswer(input: UpdateListAnswerInput!): Answer
+  updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
   deleteListAnswer(imput: deleteListAnswerInput): List
+  moveListAnswer(input: MoveListAnswerInput!): Answer!
 }
 
 input UpdateListInput {
@@ -885,8 +889,43 @@ input DeleteListInput {
   id: ID!
 }
 
-input deleteListAnswerInput {
+input CreateListAnswerInput {
+  description: String
+  guidance: String
+  label: String
+  secondaryLabel: String
+  qCode: String
+  type: AnswerType!
+  questionPageId: ID
+  listId: ID
+}
+
+input UpdatelistAnswerInput {
   id: ID!
+  description: String
+  guidance: String
+  label: String
+  secondaryLabel: String
+  qCode: String
+  secondaryQCode: String
+  properties: JSON
+  advancedProperties: Boolean
+}
+
+input UpdateListAnswersOfTypeInput {
+  questionPageId: ID
+  listId: ID
+  type: AnswerType!
+  properties: JSON!
+}
+
+input DeleteListAnswerInput {
+  id: ID!
+}
+
+input MoveListAnswerInput {
+  id: ID!
+  position: Int!
 }
 
 input DisplayConditionInput {
