@@ -85,16 +85,12 @@ class SecondaryConditionSelector extends React.Component {
     return (
       <>
         <SecondaryConditionRoutingSelector>
-          <VisuallyHidden>
-            <Label htmlFor={`expression-secondaryCondition-${expression.id}`}>
-              Operator
-            </Label>
-          </VisuallyHidden>
           <Selector
             id={`expression-secondaryCondition-${expression.id}`}
             onChange={this.handleSecondaryConditionChange}
             name="secondaryCondition-select"
             value={expression.secondaryCondition}
+            aria-label="Operator"
             data-test="secondaryCondition-selector"
           >
             {!expression.secondaryCondition && (
