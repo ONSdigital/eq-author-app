@@ -24,13 +24,13 @@ const narrowButton = css`
 const iconLeft = css`
   svg:first-of-type {
     margin-right: ${({ narrow }) => (narrow ? "0.3rem" : "0.5rem")};
-    margin-left: 0rem;
+    margin-left: 0;
   }
 `;
 
 const iconRight = css`
   svg:last-of-type {
-    margin-right: 0rem;
+    margin-right: 0;
     margin-left: ${({ narrow }) => (narrow ? "0.3rem" : "0.5rem")};
   }
 `;
@@ -205,7 +205,7 @@ const BaseButton = styled.button`
   flex: 0 0 auto;
   padding: 0;
   margin: 0;
-  border: 0px;
+  border: 0;
   border-radius: ${({ theme }) => theme.radius};
   font-size: 1rem;
   font-weight: 700;

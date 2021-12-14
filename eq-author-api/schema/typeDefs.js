@@ -639,6 +639,10 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   secondaryTitle: String!
@@ -1337,6 +1341,10 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!

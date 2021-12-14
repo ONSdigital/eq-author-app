@@ -25,6 +25,7 @@ const migrations = [
   require("./upateAnswerWithAdvancedProperty"),
   require("./updateAnswerDeletedMetaData"),
   require("./updateUKISEPEThemes"),
+  require("./updateContactDetails"),
 ];
 
 const currentVersion = migrations.length;
