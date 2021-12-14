@@ -174,9 +174,7 @@ Resolvers.Mutation = {
 
     expression.left = updatedLeftSide;
     expression.right = getRightSide;
-    expression.condition = expression.condition
-      ? expression.condition
-      : answerTypeToConditions.getDefault(answer.type);
+    expression.condition = expression.condition ?? answerTypeToConditions.getDefault(answer.type);
 
     return expression;
   }),
