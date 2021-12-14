@@ -52,6 +52,10 @@ describe("page", () => {
 
       const createdPage = await createQuestionPage(ctx, {
         title: "Title",
+        contactDetailsPhoneNumber: "0300 1234 931",
+        contactDetailsEmailAddress: "surveys@ons.gov.uk",
+        contactDetailsEmailSubject: "Change of details",
+        contactDetailsIncludeRuRef: true,
         description: "Description",
         folderId: folder.id,
         descriptionEnabled: true,

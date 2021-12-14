@@ -9,6 +9,13 @@ exports[`Introduction Preview should render 1`] = `
       missingText="Missing introduction title"
       title="foo"
     />
+    If the company details or structure have changed contact us on
+     
+    <Preview__BlueUnderlined />
+     
+    or email
+     
+    <Preview__BlueUnderlined />
     <Preview__Description
       dangerouslySetInnerHTML={
         Object {
