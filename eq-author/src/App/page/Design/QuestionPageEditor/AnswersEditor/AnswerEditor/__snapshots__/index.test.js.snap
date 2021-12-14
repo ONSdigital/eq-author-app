@@ -36,7 +36,6 @@ exports[`Answer Editor should render Checkbox 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -57,7 +56,6 @@ exports[`Answer Editor should render Checkbox 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -158,7 +156,6 @@ exports[`Answer Editor should render Currency 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -179,7 +176,6 @@ exports[`Answer Editor should render Currency 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -274,7 +270,6 @@ exports[`Answer Editor should render Date 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -295,7 +290,6 @@ exports[`Answer Editor should render Date 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -392,7 +386,6 @@ exports[`Answer Editor should render DateRange 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -413,7 +406,6 @@ exports[`Answer Editor should render DateRange 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -506,7 +498,6 @@ exports[`Answer Editor should render Duration 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -527,7 +518,6 @@ exports[`Answer Editor should render Duration 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -624,7 +614,6 @@ exports[`Answer Editor should render Number 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -645,7 +634,6 @@ exports[`Answer Editor should render Number 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -740,7 +728,6 @@ exports[`Answer Editor should render Percentage 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -761,7 +748,6 @@ exports[`Answer Editor should render Percentage 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -856,7 +842,6 @@ exports[`Answer Editor should render Radio 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -877,7 +862,6 @@ exports[`Answer Editor should render Radio 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -979,7 +963,6 @@ exports[`Answer Editor should render TextArea 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1000,7 +983,6 @@ exports[`Answer Editor should render TextArea 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1094,7 +1076,6 @@ exports[`Answer Editor should render TextField 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1115,7 +1096,6 @@ exports[`Answer Editor should render TextField 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1210,7 +1190,6 @@ exports[`Answer Editor should render Unit 1`] = `
             data-test="btn-move-answer-up"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
@@ -1231,7 +1210,6 @@ exports[`Answer Editor should render Unit 1`] = `
             data-test="btn-move-answer-down"
             disabled={false}
             onClick={[MockFunction]}
-            tabIndex={false}
           >
             <Component />
           </MoveButton>
