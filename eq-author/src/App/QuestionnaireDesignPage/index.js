@@ -21,6 +21,7 @@ import qcodeRoutes from "App/qcodes";
 import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
 import keyboardShortcutsRoutes from "App/keyboardShortcuts";
+import collectionListsRoutes from "App/collectionLists";
 import folderRoutes from "App/folder";
 
 import MainNavigation from "./MainNavigation";
@@ -176,6 +177,7 @@ export const QuestionnaireDesignPage = () => {
                         ...sharingRoutes,
                         ...settingsRoutes,
                         ...keyboardShortcutsRoutes,
+                        ...collectionListsRoutes,
                         ...folderRoutes,
                       ]}
                       <Route path="*">

@@ -36,6 +36,7 @@ import {
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
+  buildCollectionListsPath,
   buildSharingPath,
   buildSettingsPath,
   buildShortcutsPath,
@@ -161,7 +162,21 @@ export const UnwrappedMainNavigation = ({
                     History
                   </IconText>
                 </RouteButton>
-
+                
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "lists" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-history"
+                  to={buildCollectionListsPath(params)}
+                >
+                  <IconText nav icon={historyIcon}>
+                    Collection Lists
+                  </IconText>
+                </RouteButton>
+                
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "metadata" && "navigation-on") ||
