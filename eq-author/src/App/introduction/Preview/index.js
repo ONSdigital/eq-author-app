@@ -96,6 +96,18 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
+const BlueUnderlined = styled.text`
+  color: ${colors.blue};
+  text-decoration: underline;
+`;
+
+const MissingText = styled.text`
+  font-weight: bold;
+  background-color: ${colors.errorSecondary};
+  text-align: center;
+  padding: 0.02em 0.1em;
+`;
+
 export const IntroductionPreview = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -105,6 +117,8 @@ export const IntroductionPreview = ({ loading, data }) => {
     questionnaireIntroduction: {
       id,
       title,
+      contactDetailsPhoneNumber,
+      contactDetailsEmailAddress,
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       description,
@@ -120,6 +134,18 @@ export const IntroductionPreview = ({ loading, data }) => {
     <IntroductionLayout renderPanel={() => <CommentsPanel componentId={id} />}>
       <Container>
         <PageTitle missingText="Missing introduction title" title={title} />
+        If the company details or structure have changed contact us on{" "}
+        {contactDetailsPhoneNumber !== "" ? (
+          <BlueUnderlined>{contactDetailsPhoneNumber}</BlueUnderlined>
+        ) : (
+          <MissingText>Phone number missing</MissingText>
+        )}{" "}
+        or email{" "}
+        {contactDetailsEmailAddress !== "" ? (
+          <BlueUnderlined>{contactDetailsEmailAddress}</BlueUnderlined>
+        ) : (
+          <MissingText>Email address missing</MissingText>
+        )}
         {additionalGuidancePanelSwitch && (
           <GuidancePanel
             data-test="additionalGuidancePanel"
@@ -169,6 +195,8 @@ const fragment = gql`
   fragment QuestionnaireIntroduction on QuestionnaireIntroduction {
     id
     title
+    contactDetailsPhoneNumber
+    contactDetailsEmailAddress
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     description
