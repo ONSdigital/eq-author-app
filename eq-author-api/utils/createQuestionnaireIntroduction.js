@@ -11,6 +11,10 @@ module.exports = (metadata) => {
     }">ru_name</span> (<span data-piped="metadata" data-id="${
       find(metadata, { key: "trad_as" }).id
     }">trad_as</span>)</p>`,
+    contactDetailsPhoneNumber: "0300 1234 931",
+    contactDetailsEmailAddress: "surveys@ons.gov.uk",
+    contactDetailsEmailSubject: "Change of details",
+    contactDetailsIncludeRuRef: true,
     additionalGuidancePanelSwitch: false,
     additionalGuidancePanel: "",
     description:
