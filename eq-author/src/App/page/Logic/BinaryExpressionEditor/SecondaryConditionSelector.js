@@ -5,6 +5,7 @@ import { get } from "lodash";
 
 import { colors } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const conditions = {
   SELECT: null,

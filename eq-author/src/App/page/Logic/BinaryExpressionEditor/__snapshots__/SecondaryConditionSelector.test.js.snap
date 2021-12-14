@@ -3,15 +3,8 @@
 exports[`secondaryConditionSelector should render 1`] = `
 <Fragment>
   <SecondaryConditionSelector__SecondaryConditionRoutingSelector>
-    <VisuallyHidden>
-      <Label
-        bold={true}
-        htmlFor="expression-secondaryCondition-1"
-      >
-        Operator
-      </Label>
-    </VisuallyHidden>
     <SecondaryConditionSelector__Selector
+      aria-label="Operator"
       data-test="secondaryCondition-selector"
       id="expression-secondaryCondition-1"
       name="secondaryCondition-select"
