@@ -1,33 +1,27 @@
-const { filter } = require("graphql-anywhere");
-const gql = require("graphql-tag");
 const executeQuery = require("../../executeQuery");
 
-const moveRoutingRuleQuery = `
+const moveRoutingRuleMutation = `
       mutation moveRoutingRule2($input: MoveRoutingRule2Input!) {
         moveRoutingRule2(input: $input) {          
           id
           routing {
             id
+            rules {
+              id
+            }
           }
         }
       }`;
 
-const moveRoutingRule = async (ctx, rule) => {
+const moveRoutingRule = async (ctx, rule, position) => {
   const input = {
     id: rule.id,
+    position,
   };
   const result = await executeQuery(
-    moveRoutingRuleQuery,
+    moveRoutingRuleMutation,
     {
-      input: filter(
-        gql`
-          {
-            id
-            position
-          }
-        `,
-        input
-      ),
+      input,
     },
     ctx
   );
@@ -35,6 +29,6 @@ const moveRoutingRule = async (ctx, rule) => {
 };
 
 module.exports = {
-  moveRoutingRuleQuery,
+  moveRoutingRuleMutation,
   moveRoutingRule,
 };
