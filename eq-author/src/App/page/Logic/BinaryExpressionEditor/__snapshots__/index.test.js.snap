@@ -120,6 +120,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
                 "type": "Radio",
               },
               "right": null,
+              "secondaryCondition": null,
               "validationErrorInfo": Object {
                 "errors": Array [],
                 "id": "6dd",
