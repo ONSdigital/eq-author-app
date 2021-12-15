@@ -41,6 +41,7 @@ describe("RuleEditor", () => {
         type: NUMBER,
       },
       condition: null,
+      secondaryCondition: null,
       right: {},
       expressionGroup: expressionGroup,
       validationErrorInfo: {
