@@ -135,7 +135,7 @@ type DeletedQuestionnaire {
 type Folder implements Skippable {
   id: ID!
   alias: String
-  enabled: Boolean!
+  title: String
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
@@ -1014,15 +1014,15 @@ input DuplicateSectionInput {
 input CreateFolderInput {
   sectionId: ID!
   alias: String
+  title: String
   position: Int
-  enabled: Boolean
   isCalcSum: Boolean
 }
 
 input UpdateFolderInput {
   folderId: ID!
   alias: String
-  enabled: Boolean
+  title: String
 }
 
 input DeleteFolderInput {

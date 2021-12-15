@@ -11,7 +11,6 @@ import IconSection from "assets/icon-section.svg?inline";
 
 import { Droppable } from "react-beautiful-dnd";
 import CollapsibleNavItem from "components/CollapsibleNavItem";
-import Page from "../Page";
 import Folder from "../Folder";
 
 const NavList = styled.ol`
@@ -53,31 +52,6 @@ const Section = ({
 
   const allPagesInSection = folders.flatMap(({ pages }) => pages);
 
-  const renderChild = ({ id: folderId, enabled, pages, position, ...rest }) => {
-    if (enabled) {
-      return (
-        <Folder
-          key={`folder-${folderId}`}
-          id={folderId}
-          questionnaireId={questionnaireId}
-          pages={pages}
-          position={position}
-          {...rest}
-        />
-      );
-    } else {
-      return pages.map(({ id: pageId, ...rest }) => (
-        <Page
-          key={`page-${pageId}`}
-          id={pageId}
-          questionnaireId={questionnaireId}
-          {...rest}
-          position={position}
-        />
-      ));
-    }
-  };
-
   return (
     <ListItem>
       <CollapsibleNavItem
@@ -104,7 +78,16 @@ const Section = ({
               isDraggingOver={isDraggingOver}
               {...droppableProps}
             >
-              {folders.map((folder) => renderChild(folder))}
+              {folders.map(({ id: folderId, pages, position, ...rest }) => (
+                <Folder
+                  key={`folder-${folderId}`}
+                  id={folderId}
+                  questionnaireId={questionnaireId}
+                  pages={pages}
+                  position={position}
+                  {...rest}
+                />
+              ))}
               {placeholder}
             </NavList>
           )}
