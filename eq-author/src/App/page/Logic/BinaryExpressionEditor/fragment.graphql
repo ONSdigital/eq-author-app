@@ -37,6 +37,7 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
     }
   }
   condition
+  secondaryCondition
   right {
     ... on SelectedOptions2 {
       options {

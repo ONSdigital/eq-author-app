@@ -8,4 +8,5 @@ export const HISTORY = "history";
 export const PUBLISH = "publish";
 export const QCODES = "qcodes";
 export const SHARING = "sharing";
+export const KEYBOARDSHORTCUTS = "keyboardShortcuts";
 export const SETTINGS = "settings";
