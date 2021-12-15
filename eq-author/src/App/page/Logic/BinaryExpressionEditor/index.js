@@ -128,8 +128,9 @@ export const UnwrappedBinaryExpressionEditor = ({
   const handleUpdateRightSide = (updateField) =>
     updateRightSide(expression, updateField);
 
-  const handleUpdateCondition = (condition) =>
-    updateBinaryExpression(expression, condition);
+  const handleUpdateCondition = (condition, secondaryCondition) => {
+    updateBinaryExpression(expression, condition, secondaryCondition);
+  };
 
   const answerPickerError = ANSWER_PICKER_ERROR_SITUATIONS.find(
     ({ condition }) =>
@@ -144,8 +145,10 @@ export const UnwrappedBinaryExpressionEditor = ({
     ];
 
   const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
+
   const shouldRenderEditor =
     Editor && !expression.left.reason && !answerPickerError;
+
   const isLastExpression =
     expressionIndex === expressionGroup.expressions.length - 1;
 
