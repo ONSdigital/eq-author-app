@@ -30,6 +30,100 @@ exports[`IntroductionEditor should render 1`] = `
         testSelector="txt-intro-title"
         value="title"
       />
+      <div>
+        <IntroductionEditor__HorizontalSeparator />
+        <IntroductionEditor__SectionTitle
+          style={
+            Object {
+              "marginBottom": "0",
+            }
+          }
+        >
+          ONS contact details
+        </IntroductionEditor__SectionTitle>
+        <IntroductionEditor__SectionDescription>
+          For business to report a change to company details or structure.
+        </IntroductionEditor__SectionDescription>
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="contactDetailsPhoneNumber"
+          >
+            Phone Number
+          </Label>
+          <withChangeHandler(UncontrolledInput)
+            data-test="txt-contact-details-phone-number"
+            id="contactDetailsPhoneNumber"
+            onBlur={[Function]}
+            onChange={[Function]}
+            value="0300 1234 931"
+          />
+        </Field>
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="contactDetailsEmailAddress"
+          >
+            Email Address
+          </Label>
+          <withChangeHandler(UncontrolledInput)
+            data-test="txt-contact-details-email-address"
+            id="contactDetailsEmailAddress"
+            onBlur={[Function]}
+            onChange={[Function]}
+            value="surveys@ons.gov.uk"
+          />
+        </Field>
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="contactDetailsEmailSubject"
+          >
+            Email Subject
+          </Label>
+          <withChangeHandler(UncontrolledInput)
+            data-test="txt-contact-details-email-subject"
+            id="contactDetailsEmailSubject"
+            onBlur={[Function]}
+            onChange={[Function]}
+            value="Change of details"
+          />
+        </Field>
+        <IntroductionEditor__InlineField
+          open={false}
+          style={
+            Object {
+              "marginBottom": "0",
+            }
+          }
+        >
+          <Label
+            bold={true}
+          >
+            Add RU ref to the subject line
+          </Label>
+          <ToggleSwitch
+            checked={false}
+            hideLabels={false}
+            id="toggle-contact-details-include-ruref"
+            name="toggle-contact-details-include-ruref"
+            onChange={[Function]}
+          />
+        </IntroductionEditor__InlineField>
+        <IntroductionEditor__SectionDescription>
+          Add the reporting unit reference to the end of the subject line, for example, Change of details reference 621476278652.
+        </IntroductionEditor__SectionDescription>
+        <IntroductionEditor__HorizontalSeparator />
+      </div>
       <IntroductionEditor__InlineField
         open={false}
       >
