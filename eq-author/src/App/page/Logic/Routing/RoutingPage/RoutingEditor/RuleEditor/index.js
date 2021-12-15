@@ -15,7 +15,9 @@ import withUpdateRule from "./withUpdateRule";
 import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
-import Button from "components/buttons/Button";
+import Tooltip from "components/Forms/Tooltip";
+import DeleteButton from "components/buttons/DeleteButton";
+import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -36,7 +38,7 @@ const Rule = styled.div`
   margin-bottom: 2em;
 `;
 
-const Transition = styled(BounceTransition)`
+const GroupOperatorWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
@@ -47,12 +49,24 @@ export const Title = styled.h2`
 `;
 
 const Header = styled.div`
-  background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
-  margin-top: -1px;
-  border-top: 3px solid ${colors.primary};
+  background: ${colors.primary};
+  border-bottom: 1px solid ${colors.bordersLight};
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+`;
+
+const HeaderLabel = styled(Label)`
+  color: ${colors.white};
+  margin-right: 1em;
+`;
+
+const HeaderPanel = styled.span`
+  display: flex;
+  background: ${colors.darkerBlue};
+  color: ${colors.white};
+  align-items: center;
+  padding: 0.5em 1em;
 `;
 
 const SmallSelect = styled(Select)`
@@ -63,15 +77,7 @@ const SmallSelect = styled(Select)`
 `;
 
 export const GroupOperatorLabel = styled(Label)`
-  margin: 0.5em 0 0 0.5em;
-`;
-
-const RemoveRuleButton = styled(Button).attrs({
-  variant: "tertiary",
-  small: true,
-})`
-  margin-left: auto;
-  padding: 0.2em;
+  margin: 0.5em 0 2em 0.5em;
 `;
 
 const RuleEditorProps = {
@@ -80,6 +86,11 @@ const RuleEditorProps = {
   deleteRule: PropTypes.func.isRequired,
   updateRule: PropTypes.func.isRequired,
   updateExpressionGroup: PropTypes.func.isRequired,
+  // onMove and canMove props are passed from the Reorder component in RoutingEditor
+  onMoveUp: PropTypes.func.isRequired,
+  canMoveUp: PropTypes.bool.isRequired,
+  onMoveDown: PropTypes.func.isRequired,
+  canMoveDown: PropTypes.bool.isRequired,
   className: PropTypes.string,
 };
 
@@ -90,6 +101,7 @@ export const UnwrappedRuleEditor = ({
   updateRule,
   updateExpressionGroup,
   className,
+  ...props
 }) => {
   const {
     destination,
@@ -127,7 +139,7 @@ export const UnwrappedRuleEditor = ({
     ];
 
   const groupOperatorSelect = (
-    <>
+    <GroupOperatorWrapper>
       <SmallSelect
         name="match"
         id="match"
@@ -145,19 +157,60 @@ export const UnwrappedRuleEditor = ({
       {groupOperatorError && (
         <ValidationError>{groupOperatorError}</ValidationError>
       )}
-    </>
+    </GroupOperatorWrapper>
   );
 
   return (
     <Rule data-test="routing-rule" className={className}>
       <Header>
-        <Label inline> Routing logic rules </Label>
-        <RemoveRuleButton
-          onClick={handleDeleteClick}
-          data-test="btn-remove-rule"
-        >
-          Remove rule
-        </RemoveRuleButton>
+        <HeaderPanel>
+          <HeaderLabel inline> Routing logic rule </HeaderLabel>
+          <Tooltip
+            content="Move rule up"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={!props.canMoveUp}
+              tabIndex={!props.canMoveUp ? -1 : undefined}
+              aria-label={"Move rule up"}
+              onClick={props.onMoveUp}
+              data-test="btn-move-routing-rule-up"
+            >
+              <IconUp />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Move rule down"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <MoveButton
+              color="white"
+              disabled={!props.canMoveDown}
+              tabIndex={!props.canMoveDown ? -1 : undefined}
+              aria-label={"Move rule down"}
+              onClick={props.onMoveDown}
+              data-test="btn-move-routing-rule-down"
+            >
+              <IconDown />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Delete rule"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
+          >
+            <DeleteButton
+              color="white"
+              size="medium"
+              onClick={handleDeleteClick}
+              aria-label="Delete routing rule"
+              data-test="btn-delete-routing-rule"
+            />
+          </Tooltip>
+        </HeaderPanel>
       </Header>
       <Expressions>
         <TransitionGroup>
@@ -176,7 +229,7 @@ export const UnwrappedRuleEditor = ({
             }
 
             const component = (
-              <Transition key={expression.id} exit={false}>
+              <BounceTransition key={expression.id} exit={false}>
                 <BinaryExpressionEditor
                   expression={expression}
                   expressionGroup={expressionGroup}
@@ -190,7 +243,7 @@ export const UnwrappedRuleEditor = ({
                   includeSelf
                   onExpressionDeleted={handleExpressionDeletion}
                 />
-              </Transition>
+              </BounceTransition>
             );
             if (expression.left?.type === RADIO) {
               existingRadioConditions[expression.left?.id] = true;
