@@ -2,12 +2,11 @@ import React from "react";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { TransitionGroup } from "react-transition-group";
 import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
+import Reorder from "components/Reorder";
 
-import Transition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import transformNestedFragments from "utils/transformNestedFragments";
@@ -16,6 +15,8 @@ import fragment from "./fragment.graphql";
 import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
+import RoutingTransition from "./RoutingTransition";
+import withMoveRule from "./withMoveRule";
 
 export const LABEL_IF = "IF";
 export const LABEL_ELSE = "Else";
@@ -37,6 +38,7 @@ export class UnwrappedRoutingEditor extends React.Component {
       .isRequired,
     updateRouting: PropTypes.func.isRequired,
     createRule: PropTypes.func.isRequired,
+    moveRule: PropTypes.func.isRequired,
   };
 
   handleAddClick = () => {
@@ -51,21 +53,27 @@ export class UnwrappedRoutingEditor extends React.Component {
   };
 
   render() {
-    const { routing } = this.props;
+    const { routing, moveRule: handleMoveRule } = this.props;
 
     return (
       <>
-        <TransitionGroup component={null}>
-          {routing.rules.map((rule, index) => (
-            <Transition key={rule.id}>
-              <RuleEditor
-                rule={rule}
-                key={rule.id}
-                ifLabel={index > 0 ? LABEL_ELSE_IF : LABEL_IF}
-              />
-            </Transition>
-          ))}
-        </TransitionGroup>
+        <Reorder
+          list={routing.rules}
+          onMove={handleMoveRule}
+          Transition={RoutingTransition}
+        >
+          {(props, rule) => (
+            <RuleEditor
+              routing={props.routing}
+              rule={rule}
+              key={rule.id}
+              ifLabel={
+                routing.rules.indexOf(rule) > 0 ? LABEL_ELSE_IF : LABEL_IF
+              }
+              {...props}
+            />
+          )}
+        </Reorder>
         <AddRuleButton
           variant="secondary"
           small
@@ -87,6 +95,6 @@ export class UnwrappedRoutingEditor extends React.Component {
   }
 }
 
-const withMutations = flow(withUpdateRouting, withCreateRule);
+const withMutations = flow(withMoveRule, withUpdateRouting, withCreateRule);
 
 export default withMutations(UnwrappedRoutingEditor);

@@ -17,6 +17,8 @@ const {
   updateRoutingRuleMutation,
 } = require("./updateRoutingRule");
 
+const { moveRoutingRule, moveRoutingRuleMutation } = require("./moveRule");
+
 const {
   createBinaryExpression,
   createBinaryExpressionMutation,
@@ -53,6 +55,8 @@ module.exports = {
   createRoutingRuleMutation,
   updateRoutingRule,
   updateRoutingRuleMutation,
+  moveRoutingRule,
+  moveRoutingRuleMutation,
   deleteRoutingRuleMutation,
   deleteRoutingRule,
   createBinaryExpression,
