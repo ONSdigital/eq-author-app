@@ -608,6 +608,7 @@ enum LogicCondition {
   OneOf
   AllOf
   AnyOf
+  CountOf
   NotAnyOf
   NotAllOf
   Unanswered
@@ -617,6 +618,7 @@ type BinaryExpression2 {
   id: ID!
   left: LeftSide2
   condition: LogicCondition
+  secondaryCondition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
   validationErrorInfo: ValidationErrorInfo
@@ -673,7 +675,7 @@ type Comment {
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
-  history(input: QueryInput!): [History!]!
+  history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
   folder(input: QueryInput!): Folder
   page(input: QueryInput!): Page
@@ -912,6 +914,7 @@ input CreateBinaryExpression2Input {
 input UpdateBinaryExpression2Input {
   id: ID!
   condition: LogicCondition!
+  secondaryCondition: LogicCondition
 }
 
 input UpdateLeftSide2Input {

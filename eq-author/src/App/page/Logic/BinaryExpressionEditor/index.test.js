@@ -29,6 +29,7 @@ describe("BinaryExpressionEditor", () => {
         type: RADIO,
       },
       condition: "Equal",
+      secondaryCondition: null,
       right: null,
       validationErrorInfo: {
         id: "6dd",
@@ -211,10 +212,13 @@ describe("BinaryExpressionEditor", () => {
   it("should update the binary expression when the condition is changed", () => {
     defaultProps.expression.left.type = CURRENCY;
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
-    wrapper.find(NumberAnswerSelector).simulate("conditionChange", "NotEqual");
+    wrapper
+      .find(NumberAnswerSelector)
+      .simulate("conditionChange", "NotEqual", null);
     expect(defaultProps.updateBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression,
-      "NotEqual"
+      "NotEqual",
+      null
     );
   });
 

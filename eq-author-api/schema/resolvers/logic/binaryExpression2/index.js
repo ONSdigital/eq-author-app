@@ -23,7 +23,11 @@ const Resolvers = {};
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 
-const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
+const isLeftSideAnswerTypeCompatible = (
+  leftSideType,
+  rightSideType,
+  secondaryCondition
+) => {
   const AnswerTypesToRightTypes = {
     [answerTypes.CURRENCY]: "Custom",
     [answerTypes.NUMBER]: "Custom",
@@ -32,6 +36,10 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
   };
+
+  if (secondaryCondition) {
+    return true;
+  }
 
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
 };
@@ -122,6 +130,7 @@ Resolvers.Mutation = {
     expression = createExpression({
       left: createLeftSide(leftHandSide),
       condition: null,
+      secondaryCondition: null,
     });
 
     expressionGroup.expressions.push(expression);
@@ -130,7 +139,7 @@ Resolvers.Mutation = {
   }),
 
   updateBinaryExpression2: createMutation(
-    (root, { input: { id, condition } }, ctx) => {
+    (root, { input: { id, condition, secondaryCondition } }, ctx) => {
       const expression = getExpressionById(ctx, id);
 
       const leftSide = expression.left;
@@ -149,6 +158,10 @@ Resolvers.Mutation = {
       }
 
       expression.condition = condition;
+
+      if (secondaryCondition !== null || secondaryCondition !== undefined) {
+        expression.secondaryCondition = secondaryCondition;
+      }
 
       return expression;
     }
@@ -207,7 +220,13 @@ Resolvers.Mutation = {
 
     const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
 
-    if (!isLeftSideAnswerTypeCompatible(leftSideAnswer.type, type)) {
+    if (
+      !isLeftSideAnswerTypeCompatible(
+        leftSideAnswer.type,
+        type,
+        expression.secondaryCondition
+      )
+    ) {
       throw new Error("Left side is incompatible with Right side.");
     }
 
