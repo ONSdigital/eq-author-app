@@ -90,7 +90,6 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
         addFolder({
           sectionId: section.id,
           position: folder.position + 1,
-          enabled: true,
         }),
     },
     [page, folder, section]

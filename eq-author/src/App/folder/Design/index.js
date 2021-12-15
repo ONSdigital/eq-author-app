@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
   useCreatePageWithFolder,
@@ -36,6 +36,8 @@ import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
 
 import { colors } from "constants/theme";
+import { Field, Label } from "components/Forms";
+import WrappingInput from "components/Forms/WrappingInput";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
@@ -53,6 +55,11 @@ const StyledPanel = styled(Panel)`
     margin-left: 2em;
     margin-right: 2em;
   }
+`;
+
+const StyledField = styled(Field)`
+  margin-left: 2em;
+  margin-right: 2em;
 `;
 
 const ButtonGroup = styled.div`
@@ -78,9 +85,15 @@ const FolderDesignPage = ({ history, match }) => {
     fetchPolicy: "cache-and-network",
   });
 
+  const [title, setTitle] = useState(data?.folder.title);
+
+  useEffect(() => {
+    setTitle(data?.folder.title);
+  }, [data?.folder.title]);
+
   let folderPosition, pages;
 
-  const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+  const [updateFolder] = useMutation(UPDATE_FOLDER_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
     onCompleted: ({ duplicateFolder }) =>
@@ -126,7 +139,6 @@ const FolderDesignPage = ({ history, match }) => {
         addFolder({
           sectionId: folder.section.id,
           position: folder.position + 1,
-          enabled: true,
         }),
     },
     [folder]
@@ -183,7 +195,7 @@ const FolderDesignPage = ({ history, match }) => {
           shortCode={alias}
           pageType={FOLDER}
           shortCodeOnUpdate={(alias) =>
-            saveShortCode({
+            updateFolder({
               variables: { input: { folderId: id, alias } },
             })
           }
@@ -210,6 +222,23 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
         />
+        <StyledField>
+          <Label htmlFor={`folder-folder-${id}`}>Title</Label>
+          <WrappingInput
+            id={`folder-input-${id}`}
+            name="title"
+            onChange={(e) => setTitle(e.value)}
+            onBlur={(e) =>
+              updateFolder({
+                variables: { input: { folderId: id, title: e.target.value } },
+              })
+            }
+            value={title}
+            placeholder={``}
+            data-test="txt-folder-input"
+            bold
+          />
+        </StyledField>
         <h2>Folders</h2>
         <p>
           Folders are used to apply an action or event to multiple questions at
