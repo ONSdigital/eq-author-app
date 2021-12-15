@@ -14,7 +14,7 @@
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
-    "ajv": "^8.6.2",
+    "ajv": "^8.8.2",
     "ajv-errors": "^3.0.0",
     "ajv-keywords": "^5.0.0",
     "apollo-opentracing": "latest",
@@ -36,7 +36,7 @@
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
     "helmet": "latest",
-    "ioredis": "^4.27.6",
+    "ioredis": "^4.28.2",
     "jaeger-client": "latest",
     "js-yaml": "latest",
     "json-web-key": "latest",
@@ -45,7 +45,7 @@
     "jsrsasign": "^10.3.0",
     "lodash": "4.17.21",
     "moment": "latest",
-    "mongodb": "^3.6.6",
+    "mongodb": "^3.7.3",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
     "pino-noir": "latest",
