@@ -23,6 +23,7 @@ const answerConditions = {
     conditions.ANY_OF,
     conditions.NOT_ANY_OF,
     conditions.UNANSWERED,
+    conditions.COUNT_OF,
   ],
 };
 
