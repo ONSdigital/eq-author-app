@@ -3,7 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 import Transition from "components/transitions/BounceTransition";
-import Button from "components/buttons/Button";
+
+import DeleteButton from "components/buttons/DeleteButton";
+import Tooltip from "components/Forms/Tooltip";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -40,29 +42,31 @@ export const Title = styled.h2`
 `;
 
 const Header = styled.div`
-  background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
-  margin-top: -1px;
-  border-top: 3px solid ${colors.primary};
+  background: ${colors.primary};
+  border-bottom: 1px solid ${colors.bordersLight};
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+`;
+
+const HeaderLabel = styled(Label)`
+  color: ${colors.white};
+  margin-right: 1em;
+`;
+
+const HeaderPanel = styled.span`
+  display: flex;
+  background: ${colors.darkerBlue};
+  color: ${colors.white};
+  align-items: center;
+  padding: 0.5em 1em;
 `;
 
 const Middle = styled.div`
   background: ${colors.lightMediumGrey};
-  padding: 0.5em 1em;
   margin-top: -1px;
-  border-left: 3px solid ${colors.primary};
   display: flex;
   align-items: center;
-`;
-
-const RemoveSkipConditionButton = styled(Button).attrs({
-  variant: "tertiary",
-  small: true,
-})`
-  margin-left: auto;
-  padding: 0.2em;
 `;
 
 const SkipConditionEditor = ({
@@ -87,25 +91,43 @@ const SkipConditionEditor = ({
 
   const header = (
     <Header>
-      <Label inline>{labelGroupTitle}</Label>
-      <RemoveSkipConditionButton
-        onClick={handleDeleteAllClick}
-        data-test="btn-remove-skip-conditions"
-      >
-        {LABEL_REMOVE_ALL_GROUPS}
-      </RemoveSkipConditionButton>
+      <HeaderPanel>
+        <HeaderLabel inline>{labelGroupTitle}</HeaderLabel>
+        <Tooltip
+          content="Delete rule"
+          place="top"
+          offset={{ top: 0, bottom: 10 }}
+        >
+          <DeleteButton
+            color="white"
+            size="medium"
+            onClick={handleDeleteAllClick}
+            aria-label="Delete routing rule"
+            data-test="btn-delete-routing-rule"
+          />
+        </Tooltip>
+      </HeaderPanel>
     </Header>
   );
 
   const middle = (
     <Middle>
-      <Label inline>{LABEL_OR}</Label>
-      <RemoveSkipConditionButton
-        onClick={handleDeleteClick}
-        data-test="btn-remove-skip-condition"
-      >
-        {LABEL_REMOVE_GROUP}
-      </RemoveSkipConditionButton>
+      <HeaderPanel>
+        <HeaderLabel inline>{LABEL_OR}</HeaderLabel>
+        <Tooltip
+          content="Delete OR statement"
+          place="top"
+          offset={{ top: 0, bottom: 10 }}
+        >
+          <DeleteButton
+            color="white"
+            size="medium"
+            onClick={handleDeleteClick}
+            aria-label="Delete or statement"
+            data-test="btn-delete-skip-condition-or"
+          />
+        </Tooltip>
+      </HeaderPanel>
     </Middle>
   );
 

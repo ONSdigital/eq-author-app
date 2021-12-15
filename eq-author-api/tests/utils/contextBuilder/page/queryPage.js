@@ -72,6 +72,7 @@ const getPageQuery = `
         routing {
           id
           rules {
+            id
             expressionGroup {
               operator
               validationErrorInfo {
