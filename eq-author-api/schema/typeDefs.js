@@ -608,6 +608,7 @@ enum LogicCondition {
   OneOf
   AllOf
   AnyOf
+  CountOf
   NotAnyOf
   NotAllOf
   Unanswered
@@ -617,6 +618,7 @@ type BinaryExpression2 {
   id: ID!
   left: LeftSide2
   condition: LogicCondition
+  secondaryCondition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
   validationErrorInfo: ValidationErrorInfo
@@ -639,6 +641,10 @@ type QuestionnaireIntroduction {
   id: ID!
   title: String!
   description: String!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   secondaryTitle: String!
@@ -908,6 +914,7 @@ input CreateBinaryExpression2Input {
 input UpdateBinaryExpression2Input {
   id: ID!
   condition: LogicCondition!
+  secondaryCondition: LogicCondition
 }
 
 input UpdateLeftSide2Input {
@@ -1331,6 +1338,10 @@ input DeleteQuestionConfirmationInput {
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
   title: String!
+  contactDetailsPhoneNumber: String
+  contactDetailsEmailAddress: String
+  contactDetailsEmailSubject: String
+  contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
