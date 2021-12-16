@@ -6,6 +6,7 @@ const {
   createRoutingMutation,
   updateRoutingMutation,
   createRoutingRuleMutation,
+  moveRoutingRuleMutation,
   updateRoutingRuleMutation,
   deleteRoutingRuleMutation,
   updateExpressionGroupMutation,
@@ -209,6 +210,31 @@ describe("routing", () => {
       const result = await queryPage(ctx, firstPage.id);
       expect(result.routing).toBeNull();
     });
+
+    it("should move a routing rule", async () => {
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const page = questionnaire.sections[0].folders[0].pages[0];
+      const firstRule = page.routing.rules[0];
+      await executeQuery(
+        createRoutingRuleMutation,
+        {
+          input: { routingId: page.routing.id },
+        },
+        ctx
+      );
+      await executeQuery(
+        moveRoutingRuleMutation,
+        {
+          input: { id: page.routing.rules[0].id, position: 1 },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, page.id);
+      const resultIds = result.routing.rules.map((rule) => rule.id);
+      expect(resultIds.indexOf(firstRule.id)).toEqual(1);
+    });
   });
 
   describe("expression group", () => {
@@ -388,6 +414,35 @@ describe("routing", () => {
     it("has validation errors", async () => {
       config.sections[0].folders[0].pages[0].routing = {
         rules: [{ expressionGroup: {} }],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const expressionGroup = firstPage.routing.rules[0].expressionGroup;
+      await executeQuery(
+        createBinaryExpressionMutation,
+        {
+          input: {
+            expressionGroupId: expressionGroup.id,
+          },
+        },
+        ctx
+      );
+      const result = await queryPage(ctx, firstPage.id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors
+      ).toHaveLength(1);
+    });
+
+    it("has validation error when secondaryCondition is null ", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [
+          {
+            expressionGroup: {},
+          },
+        ],
       };
 
       const ctx = await buildContext(config);

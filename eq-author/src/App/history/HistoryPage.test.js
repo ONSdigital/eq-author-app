@@ -250,7 +250,7 @@ describe("History page", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(getByText("Oops! Something went wrong")).toBeTruthy();
+    expect(getByText("Currently no history info...")).toBeTruthy();
   });
 
   describe("user notes", () => {
@@ -348,11 +348,10 @@ describe("History page", () => {
         ];
       });
       it("should be able to update your own note", async () => {
-        const {
-          getByTestId,
-          getAllByTestId,
-          getByText,
-        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+        const { getByTestId, getAllByTestId, getByText } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          { mocks }
+        );
 
         await act(async () => {
           await flushPromises();
@@ -456,10 +455,10 @@ describe("History page", () => {
       });
 
       it("should be able to delete your own note", async () => {
-        const {
-          getByTestId,
-          queryByText,
-        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+        const { getByTestId, queryByText } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          { mocks }
+        );
 
         await act(async () => {
           await flushPromises();
@@ -613,11 +612,10 @@ describe("History page", () => {
     });
 
     it("should be able to cancel your own note", async () => {
-      const {
-        getByTestId,
-        getAllByTestId,
-        getByText,
-      } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+      const { getByTestId, getAllByTestId, getByText } = renderWithContext(
+        <HistoryPageContent {...props} />,
+        { mocks }
+      );
 
       await act(async () => {
         await flushPromises();

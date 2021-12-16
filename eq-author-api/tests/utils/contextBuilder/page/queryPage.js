@@ -72,6 +72,7 @@ const getPageQuery = `
         routing {
           id
           rules {
+            id
             expressionGroup {
               operator
               validationErrorInfo {
@@ -104,6 +105,7 @@ const getPageQuery = `
                     }
                   }
                   condition
+                  secondaryCondition
                   right {
                     ... on CustomValue2 {
                       number
@@ -168,6 +170,7 @@ const getPageQuery = `
                 }
               }
               condition
+              secondaryCondition
               right {
                 ... on CustomValue2 {
                   number

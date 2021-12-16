@@ -62,6 +62,7 @@ describe("Checkbox routing", () => {
       options,
     },
     condition: "AnyOf",
+    secondaryCondition: null,
     right: {
       options: [
         {
@@ -158,7 +159,8 @@ describe("Checkbox routing", () => {
 
     expect(mockHandlers.updateBinaryExpression).toHaveBeenCalledWith(
       expression,
-      "AnyOf"
+      "AnyOf",
+      undefined
     );
   });
 

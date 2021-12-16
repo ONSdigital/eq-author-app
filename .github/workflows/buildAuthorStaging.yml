@@ -89,7 +89,7 @@ jobs:
         working-directory: eq-publisher
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
 
     env:
       TAG: "1.${{ github.run_number }}.0-staging"

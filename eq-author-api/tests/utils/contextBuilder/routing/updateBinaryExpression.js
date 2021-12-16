@@ -10,7 +10,8 @@ const updateBinaryExpressionMutation = `
               id 
              }
           }
-          condition  
+          condition 
+          secondaryCondition 
           }      
 
         }
