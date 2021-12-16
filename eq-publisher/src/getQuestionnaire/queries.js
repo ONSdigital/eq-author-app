@@ -238,7 +238,6 @@ exports.getQuestionnaire = `
         folders {
           id
           alias
-          enabled
           skipConditions {
             ...ExpressionGroup
           }
