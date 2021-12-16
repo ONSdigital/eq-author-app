@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import RichTextEditor from "components/RichTextEditor";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import { Label, Field } from "components/Forms";
 
 import { noop } from "lodash/fp";
 
@@ -30,7 +32,17 @@ const SectionTitle = styled.h2`
 
 const SectionDescription = styled.p`
   margin: 0.1em 0 1em;
-  color: ${colors.textLight};
+  color: ${({ theme }) => theme.colors.textLight};
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 // TODO: Piping answer
@@ -67,6 +79,49 @@ const SubmissionEditor = () => {
             onUpdate={noop}
             testSelector="txt-submission-further-content"
           />
+        </Padding>
+      </Section>
+      <Section>
+        <Padding>
+          <SectionTitle style={{ marginBottom: "0" }}>
+            Submission content
+          </SectionTitle>
+          <SectionDescription>
+            The content that informs users how to view or print their answers,
+            get a confirmation email or how they can give feedback are displayed
+            on the submission page by default. You can choose not to display
+            these elemenets
+          </SectionDescription>
+          <InlineField>
+            <Label>View/print answers</Label>
+            <ToggleSwitch
+              name="view-print-answers"
+              id="viewPrintAnswers"
+              // onChange={}
+              // checked={submission.viewPrintAnswers}
+              hideLabels={false}
+            />
+          </InlineField>
+          <InlineField>
+            <Label>Email confirmation</Label>
+            <ToggleSwitch
+              name="email-confirmation"
+              id="emailConfirmation"
+              // onChange={}
+              // checked={submission.emailConfirmation}
+              hideLabels={false}
+            />
+          </InlineField>
+          <InlineField>
+            <Label>Feedback</Label>
+            <ToggleSwitch
+              name="feedback"
+              id="feedback"
+              // onChange={}
+              // checked={submission.feedback}
+              hideLabels={false}
+            />
+          </InlineField>
         </Padding>
       </Section>
     </>
