@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`secondaryConditionSelector should render 1`] = `
+<Fragment>
+  <SecondaryConditionSelector__SecondaryConditionRoutingSelector>
+    <SecondaryConditionSelector__Selector
+      aria-label="Operator"
+      data-test="secondaryCondition-selector"
+      id="expression-secondaryCondition-1"
+      name="secondaryCondition-select"
+      onChange={[Function]}
+    >
+      <option
+        value={null}
+      >
+        Select an operator
+      </option>
+      <option
+        value="Equal"
+      >
+        (=) Equal to
+      </option>
+      <option
+        value="NotEqual"
+      >
+        (≠) Not equal to
+      </option>
+      <option
+        value="GreaterThan"
+      >
+        (&gt;) More than
+      </option>
+      <option
+        value="LessThan"
+      >
+        (&lt;) Less than
+      </option>
+      <option
+        value="GreaterOrEqual"
+      >
+        (≥) More than or equal to
+      </option>
+      <option
+        value="LessOrEqual"
+      >
+        (≤) Less than or equal to
+      </option>
+    </SecondaryConditionSelector__Selector>
+    <SecondaryConditionSelector__Value>
+      <VisuallyHidden>
+        <Label
+          bold={true}
+          htmlFor="expression-right-1"
+        >
+          Value
+        </Label>
+      </VisuallyHidden>
+      <SecondaryConditionSelector__StyledNumber
+        data-test="secondaryCondition-number-input"
+        default={null}
+        id="expression-right-1"
+        max={999999999}
+        min={-99999999}
+        name="expression-right-1"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Value"
+        style={
+          Object {
+            "padding": "0.3em",
+          }
+        }
+        type="Number"
+        unit={null}
+        value={null}
+      />
+    </SecondaryConditionSelector__Value>
+  </SecondaryConditionSelector__SecondaryConditionRoutingSelector>
+</Fragment>
+`;
