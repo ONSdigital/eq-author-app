@@ -9,6 +9,7 @@ exports[`Total Validation should render 1`] = `
     data-test="validation-editor"
     total={
       Object {
+        "allowUnanswered": true,
         "condition": "Equal",
         "custom": 5,
         "enabled": true,
