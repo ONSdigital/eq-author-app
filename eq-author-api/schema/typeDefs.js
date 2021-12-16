@@ -608,6 +608,7 @@ enum LogicCondition {
   OneOf
   AllOf
   AnyOf
+  CountOf
   NotAnyOf
   NotAllOf
   Unanswered
@@ -617,6 +618,7 @@ type BinaryExpression2 {
   id: ID!
   left: LeftSide2
   condition: LogicCondition
+  secondaryCondition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
   validationErrorInfo: ValidationErrorInfo
@@ -673,7 +675,7 @@ type Comment {
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
-  history(input: QueryInput!): [History!]!
+  history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
   folder(input: QueryInput!): Folder
   page(input: QueryInput!): Page
@@ -843,6 +845,7 @@ type Mutation {
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2!
   deleteRoutingRule2(input: DeleteRoutingRule2Input!): Routable!
+  moveRoutingRule2(input: MoveRoutingRule2Input!): RoutingRule2!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
@@ -900,6 +903,11 @@ input DeleteRoutingRule2Input {
   id: ID!
 }
 
+input MoveRoutingRule2Input {
+  id: ID!
+  position: Int!
+}
+
 input UpdateExpressionGroup2Input {
   id: ID!
   operator: RoutingOperator2
@@ -912,6 +920,7 @@ input CreateBinaryExpression2Input {
 input UpdateBinaryExpression2Input {
   id: ID!
   condition: LogicCondition!
+  secondaryCondition: LogicCondition
 }
 
 input UpdateLeftSide2Input {
