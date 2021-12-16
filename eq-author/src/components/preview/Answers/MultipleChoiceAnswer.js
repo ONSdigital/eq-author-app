@@ -144,7 +144,9 @@ Option.propTypes = {
 const MultipleChoiceAnswer = ({ answer }) => {
   return (
     <Field>
-      <Legend>{answer.label}</Legend>
+      <Legend>
+        {answer.options[0].mutuallyExclusive ? "Or" : answer.label}
+      </Legend>
       {answer.type === CHECKBOX && !answer.label && (
         <SelectAll>Select all that apply:</SelectAll>
       )}
