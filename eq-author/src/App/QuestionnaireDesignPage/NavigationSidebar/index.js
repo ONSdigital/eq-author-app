@@ -141,18 +141,18 @@ const NavigationSidebar = ({ questionnaire }) => {
               <MenuListItem>
                 <NavItem
                   key={"submission"}
-                  title="Submission"
+                  title="Submission page"
                   titleUrl={buildSubmissionPath({
                     questionnaireId: questionnaire.id,
-                    // submissionId: questionnaire.submission.id,
                     submissionId: "123",
+                    // submissionId: "123",
                     tab,
                   })}
                   // disabled={isCurrentPage(
-                  //   questionnaire.submission.id,
+                  //   questionnaire.introduction.id,
                   //   entityId
                   // )}
-                  icon={SubmissionIcon}
+                  icon={PageIcon}
                 />
               </MenuListItem>
             </NavList>

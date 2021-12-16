@@ -6,7 +6,7 @@ import EditorLayout from "components/EditorLayout";
 // import Panel from "components/Panel";
 
 const SubmissionLayout = ({ renderPanel }) => (
-  <EditorLayout preview title="Submission" renderPanel={renderPanel} />
+  <EditorLayout preview title="Submission page" renderPanel={renderPanel} />
 );
 
 SubmissionLayout.propTypes = {

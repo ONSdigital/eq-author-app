@@ -101,7 +101,7 @@ export const buildSubmissionPath = ({ submissionId, tab, ...rest }) => {
 
   return generatePath(Routes.QUESTIONNAIRE)({
     ...rest,
-    tab: sanitiseTab(["design", "preview", "logic"])(tab),
+    tab: sanitiseTab(["design", "preview"])(tab),
     entityId: submissionId,
     entityName: SUBMISSION,
   });
@@ -173,6 +173,9 @@ const buildTabSwitcher = (tab) => (params) => {
   }
   if (params.folderId) {
     builder = buildFolderPath;
+  }
+  if (params.submissionId) {
+    builder = buildSubmissionPath;
   }
   if (!builder) {
     throw new Error(
