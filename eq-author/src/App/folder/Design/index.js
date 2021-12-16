@@ -36,12 +36,17 @@ import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
 
 import { colors } from "constants/theme";
-import { Field, Label } from "components/Forms";
+import { Field } from "components/Forms";
+import DescribedText from "components/DescribedText";
 import WrappingInput from "components/Forms/WrappingInput";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
   margin-right: 2em;
+`;
+
+const StyledDescribedText = styled(DescribedText)`
+  font-weight: 700;
 `;
 
 const StyledPanel = styled(Panel)`
@@ -223,7 +228,12 @@ const FolderDesignPage = ({ history, match }) => {
           }
         />
         <StyledField>
-          <Label htmlFor={`folder-folder-${id}`}>Title</Label>
+          <StyledDescribedText
+            htmlFor={`folder-folder-${id}`}
+            description={`This will be shown on section and answer summaries.`}
+          >
+            Title
+          </StyledDescribedText>
           <WrappingInput
             id={`folder-input-${id}`}
             name="title"
