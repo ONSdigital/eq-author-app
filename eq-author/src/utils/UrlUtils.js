@@ -14,6 +14,7 @@ import {
   SETTINGS,
   KEYBOARDSHORTCUTS,
   FOLDER,
+  SUBMISSION,
 } from "../constants/entities";
 
 export const Routes = {
@@ -91,6 +92,18 @@ export const buildIntroductionPath = ({ introductionId, tab, ...rest }) => {
     tab: sanitiseTab(["design", "preview"])(tab),
     entityId: introductionId,
     entityName: INTRODUCTION,
+  });
+};
+export const buildSubmissionPath = ({ submissionId, tab, ...rest }) => {
+  if (!submissionId) {
+    throw new Error("Submission id must be provided");
+  }
+
+  return generatePath(Routes.QUESTIONNAIRE)({
+    ...rest,
+    tab: sanitiseTab(["design", "preview", "logic"])(tab),
+    entityId: submissionId,
+    entityName: SUBMISSION,
   });
 };
 export const buildMetadataPath = ({ questionnaireId }) => {
