@@ -30,8 +30,7 @@ export const SubmissionDesign = () => {
 
   return (
     <SubmissionLayout>
-      <p>Hello world</p>
-      {/* <SubmissionEditor submission={submission} /> */}
+      <SubmissionEditor />
     </SubmissionLayout>
   );
 };
