@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 
 import RichTextEditor from "components/RichTextEditor";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Field } from "components/Forms";
 
 import { noop } from "lodash/fp";
+
+import updateSubmissionMutation from "../../graphql/updateSubmission.graphql";
 
 const Padding = styled.div`
   padding: 2em;
@@ -54,6 +57,8 @@ const SubmissionEditor = ({ submission }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
 
+  const [updateSubmission] = useMutation(updateSubmissionMutation);
+
   return (
     <>
       <Section>
@@ -93,7 +98,13 @@ const SubmissionEditor = ({ submission }) => {
             <ToggleSwitch
               name="view-print-answers"
               id="viewPrintAnswers"
-              // onChange={}
+              onChange={({ value }) =>
+                updateSubmission({
+                  variables: {
+                    input: { viewPrintAnswers: value },
+                  },
+                })
+              }
               checked={viewPrintAnswers}
               hideLabels={false}
             />
@@ -103,7 +114,13 @@ const SubmissionEditor = ({ submission }) => {
             <ToggleSwitch
               name="email-confirmation"
               id="emailConfirmation"
-              // onChange={}
+              onChange={({ value }) =>
+                updateSubmission({
+                  variables: {
+                    input: { emailConfirmation: value },
+                  },
+                })
+              }
               checked={emailConfirmation}
               hideLabels={false}
             />
@@ -113,7 +130,13 @@ const SubmissionEditor = ({ submission }) => {
             <ToggleSwitch
               name="feedback"
               id="feedback"
-              // onChange={}
+              onChange={({ value }) =>
+                updateSubmission({
+                  variables: {
+                    input: { feedback: value },
+                  },
+                })
+              }
               checked={feedback}
               hideLabels={false}
             />

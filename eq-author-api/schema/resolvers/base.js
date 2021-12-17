@@ -426,6 +426,19 @@ const Resolvers = {
       ctx.questionnaire.surveyId = surveyId;
       return ctx.questionnaire;
     }),
+    updateSubmission: createMutation((root, { input }, ctx) => {
+      if (input.viewPrintAnswers !== undefined) {
+        ctx.questionnaire.submission.viewPrintAnswers = input.viewPrintAnswers;
+      }
+      if (input.emailConfirmation !== undefined) {
+        ctx.questionnaire.submission.emailConfirmation =
+          input.emailConfirmation;
+      }
+      if (input.feedback !== undefined) {
+        ctx.questionnaire.submission.feedback = input.feedback;
+      }
+      return ctx.questionnaire.submission;
+    }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {
         ctx.questionnaire.themeSettings.previewTheme = previewTheme;
