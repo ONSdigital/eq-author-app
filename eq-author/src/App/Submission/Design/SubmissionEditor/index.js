@@ -57,7 +57,11 @@ const contentControls = {
 
 const title = "Test";
 
-const SubmissionEditor = () => {
+const SubmissionEditor = (submission) => {
+  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
+    submission;
+  console.log(`submission.submission`, submission.submission);
+  console.log(`submission`, submission);
   return (
     <>
       <Section>
@@ -73,7 +77,7 @@ const SubmissionEditor = () => {
             id="submission-further-content"
             name="submissionFurtherContent"
             label="Further content"
-            value={title}
+            value={furtherContent}
             controls={contentControls}
             size="large"
             onUpdate={noop}
@@ -98,7 +102,7 @@ const SubmissionEditor = () => {
               name="view-print-answers"
               id="viewPrintAnswers"
               // onChange={}
-              // checked={submission.viewPrintAnswers}
+              checked={viewPrintAnswers}
               hideLabels={false}
             />
           </InlineField>
@@ -108,7 +112,7 @@ const SubmissionEditor = () => {
               name="email-confirmation"
               id="emailConfirmation"
               // onChange={}
-              // checked={submission.emailConfirmation}
+              checked={emailConfirmation}
               hideLabels={false}
             />
           </InlineField>
@@ -118,7 +122,7 @@ const SubmissionEditor = () => {
               name="feedback"
               id="feedback"
               // onChange={}
-              // checked={submission.feedback}
+              checked={feedback}
               hideLabels={false}
             />
           </InlineField>

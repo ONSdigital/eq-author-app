@@ -106,7 +106,7 @@ const {
 const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
-const createQuestionnaireSubmission = require("../../utils/createQuestionnaireSubmission");
+const createSubmission = require("../../utils/createSubmission");
 
 const {
   enforceHasWritePermission,
@@ -160,7 +160,7 @@ const createNewQuestionnaire = (input) => {
       metadata,
       introduction: createQuestionnaireIntroduction(metadata),
       // TODO: Add an else if statement to handle this with the feature flag
-      submission: createQuestionnaireSubmission(),
+      submission: createSubmission(),
     };
   }
 
@@ -280,6 +280,7 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
+    submission: (root, _, ctx) => ctx.questionnaire.submission,
   },
 
   Subscription: {

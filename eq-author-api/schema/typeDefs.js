@@ -79,7 +79,7 @@ type Questionnaire {
   themeSettings: ThemeSettings!
   locked: Boolean
   validationErrorInfo: ValidationErrorInfo
-  submission: QuestionnaireSubmission
+  submission: Submission
 }
 
 type ThemeSettings {
@@ -673,7 +673,7 @@ type Comment {
   editedTime: DateTime
 }
 
-type QuestionnaireSubmission {
+type Submission {
   id: ID!
   furtherContent: String
   viewPrintAnswers: Boolean
@@ -698,6 +698,7 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
+  submission: Submission
 }
 
 input CommonFilters {
@@ -874,7 +875,7 @@ type Mutation {
   createDisplayCondition(input: DisplayConditionInput!): Section
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
-  updateQuestionnaireSubmission(input: UpdateQuestionnaireSubmissionInput): QuestionnaireSubmission!
+  updateSubmission(input: UpdateSubmissionInput): Submission!
 }
 
 input DisplayConditionInput {
@@ -1388,8 +1389,7 @@ input DeleteCollapsibleInput {
   id: ID!
 }
 
-input UpdateQuestionnaireSubmissionInput {
-  id: ID!
+input UpdateSubmissionInput {
   furtherContent: String
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean

@@ -4,33 +4,40 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { get, isEmpty } from "lodash/fp";
 import { propType } from "graphql-anywhere";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
 
 import transformNestedFragments from "utils/transformNestedFragments";
 
+import GET_SUBMISSION_QUERY from "../graphql/getSubmissionQuery.graphql";
+
 import SubmissionLayout from "../SubmissionLayout";
 
 import SubmissionEditor from "./SubmissionEditor";
 
 export const SubmissionDesign = () => {
-  //   if (loading) {
-  //     return (
-  //       <SubmissionLayout>
-  //         <Loading height="38rem">Page loading…</Loading>
-  //       </SubmissionLayout>
-  //     );
-  //   }
+  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
+  console.log(`data`, data);
 
-  //   const submission = get("questionnaireSubmission", data);
+  if (loading) {
+    return (
+      <SubmissionLayout>
+        <Loading height="38rem">Page loading…</Loading>
+      </SubmissionLayout>
+    );
+  }
+
+  const submission = data?.submission;
+  console.log(`submission`, submission);
   //   if (error || isEmpty(submission)) {
   //     return <Error>Something went wrong</Error>;
   //   }
 
   return (
     <SubmissionLayout>
-      <SubmissionEditor />
+      <SubmissionEditor submission={submission} />
     </SubmissionLayout>
   );
 };
