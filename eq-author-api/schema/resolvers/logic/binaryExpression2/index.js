@@ -181,8 +181,12 @@ Resolvers.Mutation = {
     };
     delete updatedLeftSide.nullReason;
 
+    const getRightSide = {
+      ...expression.right,
+    };
+
     expression.left = updatedLeftSide;
-    expression.right = null;
+    expression.right = getRightSide;
     expression.condition = answerTypeToConditions.getDefault(answer.type);
 
     return expression;
@@ -249,7 +253,6 @@ Resolvers.Mutation = {
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     const expressionGroup = getExpressionGroupByExpressionId(ctx, input.id);
-
     // Delete the expression group (e.g. skip condition or display condition) with a given ID
     expressionGroup.expressions = reject(
       { id: input.id },
