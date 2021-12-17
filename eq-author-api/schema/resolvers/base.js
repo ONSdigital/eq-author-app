@@ -106,6 +106,7 @@ const {
 const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
+const createQuestionnaireSubmission = require("../../utils/createQuestionnaireSubmission");
 
 const {
   enforceHasWritePermission,
@@ -158,6 +159,8 @@ const createNewQuestionnaire = (input) => {
     changes = {
       metadata,
       introduction: createQuestionnaireIntroduction(metadata),
+      // TODO: Add an else if statement to handle this with the feature flag
+      submission: createQuestionnaireSubmission(),
     };
   }
 
