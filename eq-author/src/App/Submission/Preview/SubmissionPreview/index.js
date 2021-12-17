@@ -13,11 +13,11 @@ const TitleWrapper = styled.div`
   margin-top: -0.35em;
 `;
 
-const SubmissionEditor = ({ submission }) => {
+const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
 
-  const pageTitle = "Thank you for completing the survey";
+  const pageTitle = `Thank you for completing the ${questionnaireTitle}`;
 
   return (
     <Padding>

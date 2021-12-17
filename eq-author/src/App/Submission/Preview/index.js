@@ -5,16 +5,22 @@ import { isEmpty } from "lodash/fp";
 
 import SubmissionLayout from "../SubmissionLayout";
 import SubmissionPreview from "./SubmissionPreview";
-import GET_SUBMISSION_QUERY from "../graphql/getSubmissionQuery.graphql";
+import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
 
 // TODO: Use match and a getquestionnairequery to get the questionnaire title
 const Preview = ({ match }) => {
-  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
+  const { questionnaireId } = match.params;
+  const { loading, error, data } = useQuery(GET_QUESTIONNAIRE_QUERY, {
+    variables: {
+      input: { questionnaireId },
+    },
+  });
 
-  const submission = data?.submission;
+  const submission = data?.questionnaire.submission;
+  const questionnaireTitle = data?.questionnaire.title;
 
   if (loading) {
     return (
@@ -30,7 +36,10 @@ const Preview = ({ match }) => {
 
   return (
     <SubmissionLayout>
-      <SubmissionPreview submission={submission} />
+      <SubmissionPreview
+        submission={submission}
+        questionnaireTitle={questionnaireTitle}
+      />
     </SubmissionLayout>
   );
 };
