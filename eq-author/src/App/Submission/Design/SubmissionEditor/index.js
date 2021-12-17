@@ -7,8 +7,6 @@ import RichTextEditor from "components/RichTextEditor";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Field } from "components/Forms";
 
-import { noop } from "lodash/fp";
-
 import updateSubmissionMutation from "../../graphql/updateSubmission.graphql";
 
 const Padding = styled.div`

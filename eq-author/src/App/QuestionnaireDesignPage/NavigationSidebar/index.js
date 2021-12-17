@@ -19,7 +19,7 @@ import Section from "./Section";
 
 import PageIcon from "assets/icon-survey-intro.svg?inline";
 // TODO: Change this icon
-import SubmissionIcon from "assets/icon-checkbox.svg?inline";
+import SubmissionIcon from "assets/icon-submission-page.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
@@ -156,7 +156,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                     questionnaire.submission.id,
                     entityId
                   )}
-                  icon={PageIcon}
+                  icon={SubmissionIcon}
                 />
               </MenuListItem>
             </NavList>
