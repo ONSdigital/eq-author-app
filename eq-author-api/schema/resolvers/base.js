@@ -427,19 +427,11 @@ const Resolvers = {
       return ctx.questionnaire;
     }),
     updateSubmission: createMutation((root, { input }, ctx) => {
-      if (input.furtherContent !== undefined) {
-        ctx.questionnaire.submission.furtherContent = input.furtherContent;
-      }
-      if (input.viewPrintAnswers !== undefined) {
-        ctx.questionnaire.submission.viewPrintAnswers = input.viewPrintAnswers;
-      }
-      if (input.emailConfirmation !== undefined) {
-        ctx.questionnaire.submission.emailConfirmation =
-          input.emailConfirmation;
-      }
-      if (input.feedback !== undefined) {
-        ctx.questionnaire.submission.feedback = input.feedback;
-      }
+      ctx.questionnaire.submission.furtherContent = input.furtherContent;
+      ctx.questionnaire.submission.viewPrintAnswers = input.viewPrintAnswers;
+      ctx.questionnaire.submission.emailConfirmation = input.emailConfirmation;
+      ctx.questionnaire.submission.feedback = input.feedback;
+
       return ctx.questionnaire.submission;
     }),
     updatePreviewTheme: createMutation(
