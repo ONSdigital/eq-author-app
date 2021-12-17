@@ -877,10 +877,10 @@ type Mutation {
   createDisplayCondition(input: DisplayConditionInput!): Section
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
-  createList: List
+  createList: Questionnaire!
   updateList(input: UpdateListInput): List
-  deleteList(input: DeleteListInput): [List]
-  createListAnswer(input: CreateListAnswerInput!): Answer
+  deleteList(input: DeleteListInput): Questionnaire!
+  createListAnswer(input: CreateListAnswerInput!): List
   updateListAnswer(input: UpdateListAnswerInput!): Answer
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
   deleteListAnswer(input: DeleteListAnswerInput): List

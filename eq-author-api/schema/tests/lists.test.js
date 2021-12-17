@@ -31,8 +31,8 @@ describe("Lists", () => {
   });
 
   it("Can create an empty list", async () => {
-    const list = await createList(ctx);
-    expect(list.listName).toBeNull();
+    const { lists } = await createList(ctx);
+    expect(lists[0].listName).toBeNull();
     expect(ctx.questionnaire.lists.length).toEqual(1);
   });
 
@@ -45,16 +45,17 @@ describe("Lists", () => {
 
   it("Can delete a list", async () => {
     let input = { id: ctx.questionnaire.lists[0].id };
+    expect(ctx.questionnaire.lists.length).toEqual(1);
     await deleteList(ctx, input);
     expect(ctx.questionnaire.lists.length).toEqual(0);
   });
 
   it("Can add an answer to a list", async () => {
-    const list = await createList(ctx);
-    expect(list.listName).toBeNull();
+    const { lists } = await createList(ctx);
+    expect(lists[0].listName).toBeNull();
     expect(ctx.questionnaire.lists.length).toEqual(1);
     expect(ctx.questionnaire.lists[0].answers.length).toBe(0);
-    await createListAnswer(ctx, { listId: list.id, type: "Number" });
+    await createListAnswer(ctx, { listId: lists[0].id, type: "Number" });
     expect(ctx.questionnaire.lists[0].answers.length).toBe(1);
   });
 

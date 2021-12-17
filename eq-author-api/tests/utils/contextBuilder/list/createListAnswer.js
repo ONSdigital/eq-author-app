@@ -5,9 +5,12 @@ const gql = require("graphql-tag");
 const createListMutation = `
   mutation CreateListAnswer($input: CreateListAnswerInput!) {
     createListAnswer(input: $input) {
-      id
-      displayName
-      type
+      id 
+      answers {
+        id
+        displayName
+        type
+      }
     }
   }
 `;

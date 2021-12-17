@@ -6,8 +6,11 @@ const deleteListMutation = `
   mutation DeleteList($input: DeleteListInput) {
     deleteList(input: $input) {
       id
-      listName
-      displayName
+      lists {
+        id
+        listName
+        displayName 
+      }
     }
   }
 `;

@@ -887,7 +887,7 @@ const Resolvers = {
         ctx.questionnaire.lists = [];
       }
       ctx.questionnaire.lists.push(list);
-      return list;
+      return ctx.questionnaire;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
       const list = getListById(ctx, input.id);
@@ -896,7 +896,7 @@ const Resolvers = {
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
       remove(ctx.questionnaire.lists, { id: input.id });
-      return ctx.questionnaire.lists;
+      return ctx.questionnaire;
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
       const list = find(ctx.questionnaire.lists, { id: input.listId });
@@ -905,7 +905,7 @@ const Resolvers = {
 
       onAnswerCreated(list, answer);
 
-      return answer;
+      return list;
     }),
     updateListAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);

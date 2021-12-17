@@ -4,11 +4,14 @@ const createListMutation = `
   mutation CreateList {
     createList {
       id
-      displayName
-      listName
-      validationErrorInfo {
+      lists {
         id
-        totalCount
+        displayName
+        listName
+        validationErrorInfo {
+          id
+          totalCount
+        }
       }
     }
   }
