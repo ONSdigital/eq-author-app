@@ -1,0 +1,9 @@
+query GetSubmissionQuery {
+  submission {
+    id
+    furtherContent
+    viewPrintAnswers
+    emailConfirmation
+    feedback
+  }
+}
