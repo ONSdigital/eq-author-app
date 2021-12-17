@@ -8,6 +8,8 @@ const {
   updateList,
   deleteList,
   createListAnswer,
+  updateListAnswer,
+  deleteListAnswer,
 } = require("../../tests/utils/contextBuilder/list");
 
 describe("Lists", () => {
@@ -54,5 +56,21 @@ describe("Lists", () => {
     expect(ctx.questionnaire.lists[0].answers.length).toBe(0);
     await createListAnswer(ctx, { listId: list.id, type: "Number" });
     expect(ctx.questionnaire.lists[0].answers.length).toBe(1);
+  });
+
+  it("Can update an answer in a list", async () => {
+    let input = {
+      id: ctx.questionnaire.lists[0].answers[0].id,
+      label: "Answer1",
+    };
+    await updateListAnswer(ctx, input);
+    expect(ctx.questionnaire.lists[0].answers[0].label).toBe("Answer1");
+  });
+
+  it("Can delete an answer in a list", async () => {
+    let input = { id: ctx.questionnaire.lists[0].answers[0].id };
+    expect(ctx.questionnaire.lists[0].answers.length).toBe(1);
+    await deleteListAnswer(ctx, input);
+    expect(ctx.questionnaire.lists[0].answers.length).toBe(0);
   });
 });
