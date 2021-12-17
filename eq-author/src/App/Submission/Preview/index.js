@@ -1,23 +1,36 @@
 import React from "react";
-import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+
+import { isEmpty } from "lodash/fp";
+
 import SubmissionLayout from "../SubmissionLayout";
+import SubmissionPreview from "./SubmissionPreview";
+import GET_SUBMISSION_QUERY from "../graphql/getSubmissionQuery.graphql";
 
-import { colors } from "constants/theme";
-import PageTitle from "components/preview/elements/PageTitle";
-import Panel from "components-themed/panels";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
-const Padding = styled.div`
-  padding: 2em;
-`;
+// TODO: Use match and a getquestionnairequery to get the questionnaire title
+const Preview = ({ match }) => {
+  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
 
-const Preview = () => {
+  const submission = data?.submission;
+
+  if (loading) {
+    return (
+      <SubmissionLayout>
+        <Loading height="38rem">Page loading…</Loading>
+      </SubmissionLayout>
+    );
+  }
+
+  if (error || isEmpty(submission)) {
+    return <Error>Something went wrong</Error>;
+  }
+
   return (
     <SubmissionLayout>
-      <Padding>
-        <Panel variant="success" withLeftBorder>
-          <PageTitle>Thank you for completing the survey</PageTitle>
-        </Panel>
-      </Padding>
+      <SubmissionPreview submission={submission} />
     </SubmissionLayout>
   );
 };

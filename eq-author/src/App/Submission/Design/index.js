@@ -13,6 +13,8 @@ import SubmissionEditor from "./SubmissionEditor";
 export const SubmissionDesign = () => {
   const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
 
+  const submission = data?.submission;
+
   if (loading) {
     return (
       <SubmissionLayout>
@@ -20,8 +22,6 @@ export const SubmissionDesign = () => {
       </SubmissionLayout>
     );
   }
-
-  const submission = data?.submission;
 
   if (error || isEmpty(submission)) {
     return <Error>Something went wrong</Error>;
