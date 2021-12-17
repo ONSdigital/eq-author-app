@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
+import { enableOn } from "utils/featureFlags";
 
 import withPropRenamed from "enhancers/withPropRenamed";
 import withChangeUpdate from "enhancers/withChangeUpdate";
@@ -20,7 +21,7 @@ import CollapsiblesEditor from "./CollapsiblesEditor";
 import { InformationPanel } from "components/Panel";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
-import { Field, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Section = styled.section`
@@ -67,6 +68,12 @@ const InlineField = styled(Field)`
   }
 `;
 
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid #e0e0e0;
+  margin: 1.2em 0em;
+`;
+
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -77,6 +84,10 @@ export const IntroductionEditor = ({
     collapsibles,
     title,
     description,
+    contactDetailsPhoneNumber,
+    contactDetailsEmailAddress,
+    contactDetailsEmailSubject,
+    contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
     secondaryTitle,
@@ -84,6 +95,10 @@ export const IntroductionEditor = ({
     tertiaryTitle,
     tertiaryDescription,
   } = introduction;
+
+  const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
+  const [email, setEmail] = useState(contactDetailsEmailAddress);
+  const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
 
   return (
     <>
@@ -107,7 +122,93 @@ export const IntroductionEditor = ({
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
-
+          {enableOn(["contactDetails"]) && (
+            <div>
+              <HorizontalSeparator />
+              <SectionTitle style={{ marginBottom: "0" }}>
+                ONS contact details
+              </SectionTitle>
+              <SectionDescription>
+                For business to report a change to company details or structure.
+              </SectionDescription>
+              <Field>
+                <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
+                <Input
+                  id="contactDetailsPhoneNumber"
+                  value={phoneNumber}
+                  onChange={({ value }) => setPhoneNumber(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsPhoneNumber: phoneNumber,
+                    })
+                  }
+                  data-test="txt-contact-details-phone-number"
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="contactDetailsEmailAddress">
+                  Email Address
+                </Label>
+                <Input
+                  id="contactDetailsEmailAddress"
+                  value={email}
+                  onChange={({ value }) => setEmail(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailAddress: email,
+                    })
+                  }
+                  data-test="txt-contact-details-email-address"
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="contactDetailsEmailSubject">
+                  Email Subject
+                </Label>
+                <Input
+                  id="contactDetailsEmailSubject"
+                  value={emailSubject}
+                  onChange={({ value }) => setEmailSubject(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailSubject: emailSubject,
+                    })
+                  }
+                  data-test="txt-contact-details-email-subject"
+                />
+              </Field>
+              <InlineField
+                open={contactDetailsIncludeRuRef}
+                style={{ marginBottom: "0" }}
+              >
+                <Label>Add RU ref to the subject line</Label>
+                <ToggleSwitch
+                  id="toggle-contact-details-include-ruref"
+                  name="toggle-contact-details-include-ruref"
+                  hideLabels={false}
+                  onChange={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
+                    })
+                  }
+                  checked={contactDetailsIncludeRuRef}
+                />
+              </InlineField>
+              <SectionDescription>
+                Add the reporting unit reference to the end of the subject line,
+                for example, Change of details reference 621476278652.
+              </SectionDescription>
+              <HorizontalSeparator />
+            </div>
+          )}
           <InlineField open={additionalGuidancePanelSwitch}>
             <Label>Additional guidance panel</Label>
 
@@ -230,6 +331,10 @@ const fragment = gql`
     id
     title
     description
+    contactDetailsPhoneNumber
+    contactDetailsEmailAddress
+    contactDetailsEmailSubject
+    contactDetailsIncludeRuRef
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     secondaryTitle

@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:12-alpine
 MAINTAINER eq.team@ons.gov.uk
 
 ARG APPLICATION_VERSION

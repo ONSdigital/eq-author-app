@@ -6,6 +6,7 @@ const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const { logger } = require("../../utils/logger");
 const {
   questionnaireCreationEvent,
+  historyCreationForImport,
 } = require("../../utils/questionnaireEvents");
 
 let dbo, connection;
@@ -56,7 +57,7 @@ const BASE_FIELDS = [
 
 const justListFields = pick(BASE_FIELDS);
 
-const createQuestionnaire = async (questionnaire, ctx) => {
+const createQuestionnaire = async (questionnaire, ctx, imported) => {
   const updatedAt = new Date();
   const createdAt = updatedAt;
 
@@ -71,9 +72,13 @@ const createQuestionnaire = async (questionnaire, ctx) => {
 
   delete questionnaire._id;
 
+  const historyArray = imported
+    ? [historyCreationForImport(questionnaire, ctx)]
+    : [questionnaireCreationEvent(questionnaire, ctx)];
+
   const baseQuestionnaire = removeEmpty({
     ...justListFields(questionnaire),
-    history: [questionnaireCreationEvent(questionnaire, ctx)],
+    history: historyArray,
     updatedAt,
   });
 
@@ -354,7 +359,13 @@ const createHistoryEvent = async (qid, event) => {
       );
     }
     const questionnaire = await getQuestionnaireMetaById(qid);
-    questionnaire.history.unshift(event);
+
+    if (questionnaire?.history?.length) {
+      questionnaire.history.unshift(event);
+    } else {
+      questionnaire.history = [];
+      questionnaire.history.unshift(event);
+    }
 
     const collection = dbo.collection("questionnaires");
     await collection.updateOne(

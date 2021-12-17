@@ -9,12 +9,15 @@ import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import ToggleChip from "components/buttons/ToggleChip";
+import { enableOn } from "utils/featureFlags";
 
 describe("MultipleChoiceAnswerOptionsSelector", () => {
   let defaultProps;
+
   beforeEach(() => {
     defaultProps = {
       expression: {
+        id: "Expression-id1",
         left: {
           id: "1",
           type: RADIO,
@@ -250,5 +253,52 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     expect(getByTestId("mutually-exclusive-separator")).toBeTruthy();
     expect(getByText("or")).toBeTruthy();
     expect(getByText("hello world")).toBeTruthy();
+  });
+
+  it("should show secondaryCondition selector and number input when when condition=`CountOf`", async () => {
+    defaultProps.expression.left = {
+      ...defaultProps.expression.left,
+      mutuallyExclusiveOption: { id: "123", label: "hello world" },
+      type: CHECKBOX,
+    };
+    defaultProps.expression.condition = "CountOf";
+
+    const { getByTestId } = render(
+      <MultipleChoiceAnswerOptionsSelector {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+    expect(enableOn(["enableCountCondition"])).toBe(true);
+    expect(getByTestId("secondaryCondition-selector")).toBeTruthy();
+    expect(getByTestId("secondaryCondition-number-input")).toBeTruthy();
+  });
+
+  it("should show secondaryCondition selector error when condition=`CountOf` and selector=null", async () => {
+    const errorMessage = "Choose an operator";
+
+    defaultProps.expression.left = {
+      ...defaultProps.expression.left,
+      mutuallyExclusiveOption: { id: "123", label: "hello world" },
+      type: CHECKBOX,
+    };
+    defaultProps.expression.condition = "CountOf";
+    defaultProps.expression.secondaryCondition = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_SEC_CONDITION_NOT_SELECTED",
+      field: "secondaryCondition",
+      id: "123-123-123",
+      type: "routingExpression",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+    expect(getByText(errorMessage)).toBeTruthy();
   });
 });
