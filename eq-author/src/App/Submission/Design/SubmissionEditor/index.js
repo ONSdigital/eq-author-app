@@ -1,17 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
 
 import RichTextEditor from "components/RichTextEditor";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Field } from "components/Forms";
 
 import { noop } from "lodash/fp";
-
-// import EditorLayout from "components/EditorLayout";
-
-// import Panel from "components/Panel";
 
 const Padding = styled.div`
   padding: 2em;
@@ -57,11 +52,10 @@ const contentControls = {
 
 const title = "Test";
 
-const SubmissionEditor = (submission) => {
+const SubmissionEditor = ({ submission }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
-  console.log(`submission.submission`, submission.submission);
-  console.log(`submission`, submission);
+
   return (
     <>
       <Section>
@@ -94,7 +88,7 @@ const SubmissionEditor = (submission) => {
             The content that informs users how to view or print their answers,
             get a confirmation email or how they can give feedback are displayed
             on the submission page by default. You can choose not to display
-            these elemenets
+            these elements
           </SectionDescription>
           <InlineField>
             <Label>View/print answers</Label>
@@ -133,7 +127,13 @@ const SubmissionEditor = (submission) => {
 };
 
 SubmissionEditor.propTypes = {
-  // children: PropTypes.node.isRequired,
+  submission: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    furtherContent: PropTypes.string,
+    viewPrintAnswers: PropTypes.bool,
+    emailConfirmation: PropTypes.bool,
+    feedback: PropTypes.bool,
+  }),
   renderPanel: PropTypes.func,
 };
 
