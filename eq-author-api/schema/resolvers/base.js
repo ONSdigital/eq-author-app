@@ -427,6 +427,9 @@ const Resolvers = {
       return ctx.questionnaire;
     }),
     updateSubmission: createMutation((root, { input }, ctx) => {
+      if (input.furtherContent !== undefined) {
+        ctx.questionnaire.submission.furtherContent = input.furtherContent;
+      }
       if (input.viewPrintAnswers !== undefined) {
         ctx.questionnaire.submission.viewPrintAnswers = input.viewPrintAnswers;
       }

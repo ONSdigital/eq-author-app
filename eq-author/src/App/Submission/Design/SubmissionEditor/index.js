@@ -77,7 +77,13 @@ const SubmissionEditor = ({ submission }) => {
             value={furtherContent}
             controls={contentControls}
             size="large"
-            onUpdate={noop}
+            onUpdate={({ value }) =>
+              updateSubmission({
+                variables: {
+                  input: { furtherContent: value },
+                },
+              })
+            }
             testSelector="txt-submission-further-content"
           />
         </Padding>
