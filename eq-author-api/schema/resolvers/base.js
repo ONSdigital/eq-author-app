@@ -44,6 +44,7 @@ const {
   createFolder,
   createSection,
   createTheme,
+  createList,
 } = require("../../src/businessLogic");
 
 const {
@@ -881,11 +882,7 @@ const Resolvers = {
       };
     }),
     createList: createMutation(async (root, _, ctx) => {
-      const list = {
-        id: uuidv4(),
-        listName: null,
-        answers: [],
-      };
+      const list = createList();
       if (!ctx.questionnaire.lists) {
         ctx.questionnaire.lists = [];
       }

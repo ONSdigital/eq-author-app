@@ -11,6 +11,7 @@ const createFolder = require("./createFolder");
 const createSection = require("./createSection");
 const createTheme = require("./createTheme");
 const updateDestination = require("./updateDestination");
+const createList = require("./createList");
 
 module.exports = {
   createRouting,
@@ -26,4 +27,5 @@ module.exports = {
   createSection,
   createTheme,
   updateDestination,
+  createList,
 };
