@@ -50,8 +50,6 @@ const contentControls = {
   link: true,
 };
 
-const title = "Test";
-
 const SubmissionEditor = ({ submission }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
