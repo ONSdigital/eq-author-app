@@ -79,6 +79,11 @@ const MenuListItem = styled(ListItem)`
   }
 `;
 
+const BorderedNavItem = styled(NavItem)`
+  border-bottom: 1px solid ${colors.borders};
+  border-top: 1px solid ${colors.borders};
+`;
+
 const NavigationSidebar = ({ questionnaire }) => {
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
@@ -139,7 +144,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                 ))}
               </DragDropContext>
               <MenuListItem>
-                <NavItem
+                <BorderedNavItem
                   key={"submission"}
                   title="Submission page"
                   titleUrl={buildSubmissionPath({
