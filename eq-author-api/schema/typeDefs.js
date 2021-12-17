@@ -675,7 +675,7 @@ type Comment {
 
 type QuestionnaireSubmission {
   id: ID!
-  furthercontent: String
+  furtherContent: String
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean
   feedback: Boolean
@@ -1390,7 +1390,7 @@ input DeleteCollapsibleInput {
 
 input UpdateQuestionnaireSubmissionInput {
   id: ID!
-  furthercontent: String
+  furtherContent: String
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean
   feedback: Boolean

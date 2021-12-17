@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 
+// TODO: Add the default link to furtherContent
 module.exports = () => {
   return {
     id: uuidv4(),

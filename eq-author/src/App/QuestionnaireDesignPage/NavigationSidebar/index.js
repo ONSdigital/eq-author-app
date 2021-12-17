@@ -144,14 +144,13 @@ const NavigationSidebar = ({ questionnaire }) => {
                   title="Submission page"
                   titleUrl={buildSubmissionPath({
                     questionnaireId: questionnaire.id,
-                    submissionId: "123",
-                    // submissionId: "123",
+                    submissionId: questionnaire.submission.id,
                     tab,
                   })}
-                  // disabled={isCurrentPage(
-                  //   questionnaire.introduction.id,
-                  //   entityId
-                  // )}
+                  disabled={isCurrentPage(
+                    questionnaire.submission.id,
+                    entityId
+                  )}
                   icon={PageIcon}
                 />
               </MenuListItem>
