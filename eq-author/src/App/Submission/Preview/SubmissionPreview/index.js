@@ -107,17 +107,21 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
         <Label bold={false}>Further content</Label>
       </Section>
       <SectionSeparator />
-      <Section>
-        <SectionTitle>Get a copy of your answers</SectionTitle>
-        <Label bold={false}>{saveOrPrint}</Label>
-      </Section>
-      <Section>
-        <InlineField>
-          <WarningPanel icon={WarningIcon} left bold withMargin>
-            {answersAvailableToView}
-          </WarningPanel>
-        </InlineField>
-      </Section>
+      {viewPrintAnswers && (
+        <>
+          <Section>
+            <SectionTitle>Get a copy of your answers</SectionTitle>
+            <Label bold={false}>{saveOrPrint}</Label>
+          </Section>
+          <Section>
+            <InlineField>
+              <WarningPanel icon={WarningIcon} left bold withMargin>
+                {answersAvailableToView}
+              </WarningPanel>
+            </InlineField>
+          </Section>
+        </>
+      )}
     </Wrapper>
   );
 };
