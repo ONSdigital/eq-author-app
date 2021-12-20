@@ -12,7 +12,6 @@ import CommentsPanel from "App/Comments";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
-// TODO: Use match and a getquestionnairequery to get the questionnaire title
 const Preview = ({ match }) => {
   const { questionnaireId } = match.params;
   const { loading, error, data } = useQuery(GET_QUESTIONNAIRE_QUERY, {
