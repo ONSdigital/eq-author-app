@@ -60,6 +60,7 @@ const IconwithTextBelow = styled.div`
 
 const TextContainer = styled.div`
   font-weight: ${(props) => props.bold && `bold`};
+  margin-left: ${(props) => props.withMargin && `0.5em`};
 `;
 
 const IconText = ({
@@ -68,6 +69,7 @@ const IconText = ({
   hideText,
   children,
   bold = false,
+  withMargin = false,
   ...otherProps
 }) => (
   <>
@@ -84,7 +86,7 @@ const IconText = ({
     {!nav && (
       <IconWithText hideText={hideText} {...otherProps}>
         <Icon />
-        <TextContainer bold={bold}>
+        <TextContainer bold={bold} withMargin={withMargin}>
           {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
         </TextContainer>
       </IconWithText>
@@ -104,6 +106,7 @@ IconText.propTypes = {
   hideText: PropTypes.bool,
   nav: PropTypes.bool,
   bold: PropTypes.bool,
+  withMargin: PropTypes.bool,
 };
 
 IconText.defaultProps = {

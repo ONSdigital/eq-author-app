@@ -114,7 +114,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
       </Section>
       <Section>
         <InlineField>
-          <WarningPanel icon={WarningIcon} left bold>
+          <WarningPanel icon={WarningIcon} left bold withMargin>
             {answersAvailableToView}
           </WarningPanel>
         </InlineField>
