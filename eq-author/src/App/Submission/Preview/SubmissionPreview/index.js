@@ -7,6 +7,7 @@ import IconText from "components/IconText";
 import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
+import Feedback from "components-themed/Feedback";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
@@ -122,6 +123,11 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </Section>
         </>
       )}
+      <Section>
+        <Feedback>
+          <div>Lorem ipsum</div>
+        </Feedback>
+      </Section>
     </Wrapper>
   );
 };
