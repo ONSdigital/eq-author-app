@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
+import CustomPropTypes from "custom-prop-types";
 
 import { isEmpty } from "lodash/fp";
 
@@ -42,6 +43,10 @@ const Preview = ({ match }) => {
       />
     </SubmissionLayout>
   );
+};
+
+Preview.propTypes = {
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default Preview;
