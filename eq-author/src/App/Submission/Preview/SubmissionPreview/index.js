@@ -76,8 +76,7 @@ const InlineFieldHeadingContainer = styled.div`
 const InlineFieldContentContainer = styled.div``;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
-  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
-    submission;
+  const { furtherContent, viewPrintAnswers, feedback } = submission;
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
@@ -115,9 +114,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </InlineField>
         </PanelSection>
       </Panel>
-      <Section>
-        <Label bold={false}>Further content</Label>
-      </Section>
+      <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
       <SectionSeparator />
       {viewPrintAnswers && (
         <>
