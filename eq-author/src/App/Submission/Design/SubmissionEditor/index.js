@@ -82,6 +82,7 @@ const SubmissionEditor = ({ submission }) => {
             })
           }
           testSelector="txt-submission-further-content"
+          multiline
         />
       </Section>
       <Section>
