@@ -42,7 +42,6 @@ const WarningPanel = styled(IconText)`
     height: 2em;
     width: 2em;
   }
-  /* height: 1em; */
 `;
 
 const PanelSection = styled.div`
