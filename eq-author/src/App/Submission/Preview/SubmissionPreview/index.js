@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
+import IconText from "components/IconText";
 import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
+
+import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -24,8 +27,22 @@ const SectionSeparator = styled.hr`
   margin-top: 1em;
 `;
 
+const SectionTitle = styled.h2`
+  font-size: 1.1em;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
 const TitleWrapper = styled.div`
   margin-top: -0.35em;
+`;
+
+const WarningPanel = styled(IconText)`
+  svg {
+    height: 2em;
+    width: 2em;
+  }
+  /* height: 1em; */
 `;
 
 const PanelSection = styled.div`
@@ -54,6 +71,8 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
     submission;
 
   const pageTitle = `Thank you for completing the ${questionnaireTitle}`;
+  const saveOrPrint = `You can save or print your answers for your records`;
+  const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
 
   return (
     <Wrapper>
@@ -85,9 +104,21 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </InlineField>
         </PanelSection>
       </Panel>
-      <Section>Further content</Section>
+      <Section>
+        <Label bold={false}>Further content</Label>
+      </Section>
       <SectionSeparator />
-      <Section>Test</Section>
+      <Section>
+        <SectionTitle>Get a copy of your answers</SectionTitle>
+        <Label bold={false}>{saveOrPrint}</Label>
+      </Section>
+      <Section>
+        <InlineField>
+          <WarningPanel icon={WarningIcon} left bold>
+            {answersAvailableToView}
+          </WarningPanel>
+        </InlineField>
+      </Section>
     </Wrapper>
   );
 };

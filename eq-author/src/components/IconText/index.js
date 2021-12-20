@@ -58,22 +58,35 @@ const IconwithTextBelow = styled.div`
   }
 `;
 
-const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
+const TextContainer = styled.div`
+  font-weight: ${(props) => props.bold && `bold`};
+`;
+
+const IconText = ({
+  icon: Icon,
+  nav,
+  hideText,
+  children,
+  bold = false,
+  ...otherProps
+}) => (
   <>
     {nav && (
       <IconOuter>
         <IconwithTextBelow hideText={hideText} {...otherProps}>
           <Icon />
-          <div>
+          <TextContainer bold={bold}>
             {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-          </div>
+          </TextContainer>
         </IconwithTextBelow>
       </IconOuter>
     )}
     {!nav && (
       <IconWithText hideText={hideText} {...otherProps}>
         <Icon />
-        {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
+        <TextContainer bold={bold}>
+          {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
+        </TextContainer>
       </IconWithText>
     )}
   </>
@@ -90,6 +103,7 @@ IconText.propTypes = {
   children: PropTypes.node.isRequired,
   hideText: PropTypes.bool,
   nav: PropTypes.bool,
+  bold: PropTypes.bool,
 };
 
 IconText.defaultProps = {
