@@ -61,6 +61,9 @@ const InlineField = styled(Field)`
 `;
 
 const FeedbackLabel = styled(Label)`
+  &:first-of-type {
+    margin-top: -0.5em;
+  }
   &:not(:last-of-type) {
     margin-bottom: 1.5em;
   }
@@ -78,7 +81,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
-  const saveOrPrint = `You can save or print your answers for your records`;
+  const saveOrPrint = `You can save or print your answers for your records.`;
   const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
   const giveFeedback = `Give Feedback`;
 
