@@ -60,6 +60,12 @@ const InlineField = styled(Field)`
   }
 `;
 
+const FeedbackLabel = styled(Label)`
+  &:not(:last-of-type) {
+    margin-bottom: 1.5em;
+  }
+`;
+
 const InlineFieldHeadingContainer = styled.div`
   width: 26%;
 `;
@@ -70,16 +76,18 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
 
-  const pageTitle = `Thank you for completing the ${questionnaireTitle}`;
+  const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
+  const feedbackTitle = `What do you think about this service?`;
   const saveOrPrint = `You can save or print your answers for your records`;
   const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
+  const giveFeedback = `Give Feedback`;
 
   return (
     <Wrapper>
       <Panel variant="success" withLeftBorder>
         <PanelSection>
           <TitleWrapper>
-            <PageTitle title={pageTitle} missingText="Missing title text" />
+            <PageTitle title={panelTitle} missingText="Missing title text" />
           </TitleWrapper>
         </PanelSection>
         <PanelSection>
@@ -126,7 +134,9 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
       {feedback && (
         <Section>
           <Feedback>
-            <div>Lorem ipsum</div>
+            <PageTitle title={feedbackTitle} missingText="Missing title text" />
+            <FeedbackLabel bold={false}>{saveOrPrint}</FeedbackLabel>
+            <FeedbackLabel bold={false}>{giveFeedback}</FeedbackLabel>
           </Feedback>
         </Section>
       )}
