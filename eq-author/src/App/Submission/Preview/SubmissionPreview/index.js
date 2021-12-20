@@ -1,17 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { colors } from "constants/theme.js";
 
 import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 
-const Padding = styled.div`
+const Wrapper = styled.div`
   padding: 2em;
+  font-size: 18px;
 `;
 
-const Content = styled.div`
-  font-size: 18px;
+const Section = styled.div`
+  &:not(:first-child) {
+    margin-top: 1em;
+  }
+`;
+
+const SectionSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
   margin-top: 1em;
 `;
 
@@ -47,7 +56,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const pageTitle = `Thank you for completing the ${questionnaireTitle}`;
 
   return (
-    <Padding>
+    <Wrapper>
       <Panel variant="success" withLeftBorder>
         <PanelSection>
           <TitleWrapper>
@@ -76,8 +85,10 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </InlineField>
         </PanelSection>
       </Panel>
-      <Content>Further content</Content>
-    </Padding>
+      <Section>Further content</Section>
+      <SectionSeparator />
+      <Section>Test</Section>
+    </Wrapper>
   );
 };
 
