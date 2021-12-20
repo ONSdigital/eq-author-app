@@ -28,12 +28,6 @@ const SectionSeparator = styled.hr`
   margin-top: 1em;
 `;
 
-const SectionTitle = styled.h2`
-  font-size: 1.1em;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
 const TitleWrapper = styled.div`
   margin-top: -0.35em;
 `;
@@ -83,13 +77,15 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const saveOrPrint = `You can save or print your answers for your records.`;
   const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
   const giveFeedback = `Give Feedback`;
+  const getCopyOfAnswers = `Get a copy of your answers`;
+  const missingTitleText = `"Missing title text" `;
 
   return (
     <Wrapper>
       <Panel variant="success" withLeftBorder>
         <PanelSection>
           <TitleWrapper>
-            <PageTitle title={panelTitle} missingText="Missing title text" />
+            <PageTitle title={panelTitle} missingText={missingTitleText} />
           </TitleWrapper>
         </PanelSection>
         <PanelSection>
@@ -119,7 +115,10 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
       {viewPrintAnswers && (
         <>
           <Section>
-            <SectionTitle>Get a copy of your answers</SectionTitle>
+            <PageTitle
+              title={getCopyOfAnswers}
+              missingText={missingTitleText}
+            />
             <Label bold={false}>{saveOrPrint}</Label>
           </Section>
           <Section>
@@ -134,7 +133,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
       {feedback && (
         <Section>
           <Feedback>
-            <PageTitle title={feedbackTitle} missingText="Missing title text" />
+            <PageTitle title={feedbackTitle} missingText={missingTitleText} />
             <FeedbackLabel bold={false}>{saveOrPrint}</FeedbackLabel>
             <FeedbackLabel bold={false}>{giveFeedback}</FeedbackLabel>
           </Feedback>
