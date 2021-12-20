@@ -123,11 +123,13 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </Section>
         </>
       )}
-      <Section>
-        <Feedback>
-          <div>Lorem ipsum</div>
-        </Feedback>
-      </Section>
+      {feedback && (
+        <Section>
+          <Feedback>
+            <div>Lorem ipsum</div>
+          </Feedback>
+        </Section>
+      )}
     </Wrapper>
   );
 };
