@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 const Section = styled.section`
   &:not(:last-of-type) {
-    border-bottom: 1px solid ${colors.horizontalRuleGrey};
+    border-bottom: 1px solid ${colors.lightMediumGrey};
     margin-bottom: 1em;
   }
 `;

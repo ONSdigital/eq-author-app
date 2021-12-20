@@ -16,7 +16,6 @@ export const colors = {
   mediumGrey: "#7a7a7a",
   lighterGrey: "#f5f5f5",
   disabledGreyOnOrange: "#7A6340",
-  horizontalRuleGrey: "#E0E0E0",
   red: "#D0021B",
   lightOrange: "#FFDFCD",
   orange: "#FDBD56",
