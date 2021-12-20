@@ -8,6 +8,7 @@ import SubmissionLayout from "../SubmissionLayout";
 import SubmissionPreview from "./SubmissionPreview";
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
+import CommentsPanel from "App/Comments";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
@@ -36,7 +37,9 @@ const Preview = ({ match }) => {
   }
 
   return (
-    <SubmissionLayout>
+    <SubmissionLayout
+      renderPanel={() => <CommentsPanel componentId={submission.id} />}
+    >
       <SubmissionPreview
         submission={submission}
         questionnaireTitle={questionnaireTitle}
