@@ -61,20 +61,29 @@ const FeedbackLabel = styled(Label)`
   &:not(:last-of-type) {
     margin-bottom: 1.5em;
   }
+  &:hover {
+    cursor: auto;
+  }
 `;
 
 const InlineFieldHeadingContainer = styled.div`
   width: 26%;
+  font-weight: bold;
 `;
 
 const InlineFieldContentContainer = styled.div``;
+
+const BlueUnderlined = styled.text`
+  color: ${colors.blue};
+  text-decoration: underline;
+  font-weight: ${(props) => props.bold && `bold`};
+`;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, feedback } = submission;
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
-  const saveOrPrint = `You can save or print your answers for your records.`;
   const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
   const giveFeedback = `Give Feedback`;
   const getCopyOfAnswers = `Get a copy of your answers`;
@@ -94,18 +103,18 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
         <PanelSection>
           <InlineField>
             <InlineFieldHeadingContainer>
-              <Label>Submitted on:</Label>
+              Submitted on:
             </InlineFieldHeadingContainer>
             <InlineFieldContentContainer>
-              <Label bold={false}>Submission date</Label>
+              Submission date
             </InlineFieldContentContainer>
           </InlineField>
           <InlineField>
             <InlineFieldHeadingContainer>
-              <Label>Submission reference:</Label>
+              Submission reference:
             </InlineFieldHeadingContainer>
             <InlineFieldContentContainer>
-              <Label bold={false}>Submission reference number</Label>
+              Submission reference number
             </InlineFieldContentContainer>
           </InlineField>
         </PanelSection>
@@ -119,7 +128,9 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               title={getCopyOfAnswers}
               missingText={missingTitleText}
             />
-            <Label bold={false}>{saveOrPrint}</Label>
+            You can&nbsp;
+            <BlueUnderlined>save or print your answers</BlueUnderlined>
+            &nbsp;for your records.
           </Section>
           <Section>
             <InlineField>
@@ -134,8 +145,14 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
         <Section>
           <Feedback>
             <PageTitle title={feedbackTitle} missingText={missingTitleText} />
-            <FeedbackLabel bold={false}>{saveOrPrint}</FeedbackLabel>
-            <FeedbackLabel bold={false}>{giveFeedback}</FeedbackLabel>
+            <FeedbackLabel bold={false}>
+              You can&nbsp;
+              <BlueUnderlined>save or print your answers</BlueUnderlined>
+              &nbsp;for your records.
+            </FeedbackLabel>
+            <FeedbackLabel bold={false}>
+              <BlueUnderlined bold>{giveFeedback}</BlueUnderlined>
+            </FeedbackLabel>
           </Feedback>
         </Section>
       )}
