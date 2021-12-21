@@ -6,6 +6,7 @@ const answerGetters = require("./answerGetters");
 const helpers = require("./helpers");
 const theme = require("./theme");
 const validation = require("./validation");
+const listGetters = require("./listGetters");
 
 module.exports = {
   ...logicGetters,
@@ -16,4 +17,5 @@ module.exports = {
   ...helpers,
   ...theme,
   ...validation,
+  ...listGetters,
 };

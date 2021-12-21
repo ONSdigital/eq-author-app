@@ -60,6 +60,7 @@ type Questionnaire {
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
+  lists: [List]
   sections: [Section]
   summary: Boolean
   collapsibleSummary: Boolean
@@ -101,6 +102,14 @@ type Theme {
   eqId: ID
   formType: String
   themeSettings: ThemeSettings!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type List {
+  id: ID!
+  listName: String
+  displayName: String
+  answers: [Answer]
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -689,6 +698,8 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
+  lists: [List]
+  list(input: QueryInput!): List
 }
 
 input CommonFilters {
@@ -712,6 +723,7 @@ input QueryInput {
   confirmationId: ID
   answerId: ID
   optionId: ID
+  listId: ID
 }
 
 input CreateSkipConditionInput {
@@ -865,6 +877,60 @@ type Mutation {
   createDisplayCondition(input: DisplayConditionInput!): Section
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
+  createList: Questionnaire!
+  updateList(input: UpdateListInput): List
+  deleteList(input: DeleteListInput): Questionnaire!
+  createListAnswer(input: CreateListAnswerInput!): List
+  updateListAnswer(input: UpdateListAnswerInput!): Answer
+  updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
+  deleteListAnswer(input: DeleteListAnswerInput): List
+  moveListAnswer(input: MoveListAnswerInput!): Answer!
+}
+
+input UpdateListInput {
+  id: ID!
+  listName: String
+}
+
+input DeleteListInput {
+  id: ID!
+}
+
+input CreateListAnswerInput {
+  description: String
+  guidance: String
+  label: String
+  secondaryLabel: String
+  qCode: String
+  type: AnswerType!
+  listId: ID!
+}
+
+input UpdateListAnswerInput {
+  id: ID!
+  description: String
+  guidance: String
+  label: String
+  secondaryLabel: String
+  qCode: String
+  secondaryQCode: String
+  properties: JSON
+  advancedProperties: Boolean
+}
+
+input UpdateListAnswersOfTypeInput {
+  listId: ID!
+  type: AnswerType!
+  properties: JSON!
+}
+
+input DeleteListAnswerInput {
+  id: ID!
+}
+
+input MoveListAnswerInput {
+  id: ID!
+  position: Int!
 }
 
 input DisplayConditionInput {
@@ -1147,7 +1213,8 @@ input CreateAnswerInput {
   secondaryLabel: String
   qCode: String
   type: AnswerType!
-  questionPageId: ID!
+  questionPageId: ID
+  listId: ID
 }
 
 input UpdateAnswerInput {
@@ -1163,7 +1230,8 @@ input UpdateAnswerInput {
 }
 
 input UpdateAnswersOfTypeInput {
-  questionPageId: ID!
+  questionPageId: ID
+  listId: ID
   type: AnswerType!
   properties: JSON!
 }
