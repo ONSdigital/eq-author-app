@@ -43,7 +43,6 @@ const InlineField = styled(Field)`
   }
 `;
 
-// TODO: Piping answer
 const contentControls = {
   heading: true,
   bold: true,

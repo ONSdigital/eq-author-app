@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import { isEmpty } from "lodash/fp";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -10,8 +11,15 @@ import GET_SUBMISSION_QUERY from "../graphql/getSubmissionQuery.graphql";
 import SubmissionLayout from "../SubmissionLayout";
 import SubmissionEditor from "./SubmissionEditor";
 
-export const SubmissionDesign = () => {
-  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
+export const SubmissionDesign = ({ match }) => {
+  const { questionnaireId } = match.params;
+  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY, {
+    variables: {
+      input: {
+        questionnaireId,
+      },
+    },
+  });
 
   const submission = data?.submission;
 
@@ -46,6 +54,7 @@ SubmissionDesign.propTypes = {
       feedback: PropTypes.bool,
     }),
   }),
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default SubmissionDesign;
