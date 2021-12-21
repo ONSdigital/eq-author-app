@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { buildIntroductionPath, buildSubmissionPath } from "utils/UrlUtils";
+import { enableOn } from "utils/featureFlags";
 import onDragEnd from "./dragDropFunctions/onDragEnd";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -142,22 +143,24 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 ))}
               </DragDropContext>
-              <MenuListItem>
-                <BorderedNavItem
-                  key={"submission"}
-                  title="Submission page"
-                  titleUrl={buildSubmissionPath({
-                    questionnaireId: questionnaire.id,
-                    submissionId: questionnaire.submission.id,
-                    tab,
-                  })}
-                  disabled={isCurrentPage(
-                    questionnaire.submission.id,
-                    entityId
-                  )}
-                  icon={SubmissionIcon}
-                />
-              </MenuListItem>
+              {enableOn(["submissionPage"]) && (
+                <MenuListItem>
+                  <BorderedNavItem
+                    key={"submission"}
+                    title="Submission page"
+                    titleUrl={buildSubmissionPath({
+                      questionnaireId: questionnaire.id,
+                      submissionId: questionnaire.submission.id,
+                      tab,
+                    })}
+                    disabled={isCurrentPage(
+                      questionnaire.submission.id,
+                      entityId
+                    )}
+                    icon={SubmissionIcon}
+                  />
+                </MenuListItem>
+              )}
             </NavList>
           </NavigationScrollPane>
         </>
