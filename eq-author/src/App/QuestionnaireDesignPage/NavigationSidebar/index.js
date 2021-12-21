@@ -143,7 +143,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 ))}
               </DragDropContext>
-              {enableOn(["submissionPage"]) && (
+              {enableOn(["submissionPage"]) && questionnaire.submission && (
                 <MenuListItem>
                   <BorderedNavItem
                     key={"submission"}
