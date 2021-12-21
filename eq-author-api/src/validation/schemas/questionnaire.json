@@ -10,6 +10,12 @@
     },
     "themeSettings": {
       "$ref": "themeSettings.json"
+    },
+    "lists": {
+      "type": "array",
+      "items": {
+        "$ref": "list.json"
+      }
     }
   },
   "anyOf": [
