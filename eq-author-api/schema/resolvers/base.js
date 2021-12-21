@@ -154,6 +154,7 @@ const createNewQuestionnaire = (input) => {
       themes: [defaultTheme],
     },
     locked: false,
+    submission: createSubmission(),
   };
 
   let changes = {};
@@ -162,8 +163,6 @@ const createNewQuestionnaire = (input) => {
     changes = {
       metadata,
       introduction: createQuestionnaireIntroduction(metadata),
-      // TODO: Add an else if statement to handle this with the feature flag
-      submission: createSubmission(),
     };
   }
 
