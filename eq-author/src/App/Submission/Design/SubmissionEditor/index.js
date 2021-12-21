@@ -48,7 +48,6 @@ const contentControls = {
   heading: true,
   bold: true,
   emphasis: true,
-  piping: true,
   list: true,
   link: true,
 };
