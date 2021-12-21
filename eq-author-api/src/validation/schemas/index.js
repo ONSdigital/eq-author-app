@@ -10,4 +10,5 @@ module.exports = [
   require("./validation.json"),
   require("./logic.json"),
   require("./themeSettings.json"),
+  require("./list.json"),
 ];

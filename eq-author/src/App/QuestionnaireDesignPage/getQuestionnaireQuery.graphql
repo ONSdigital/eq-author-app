@@ -10,6 +10,10 @@ query GetQuestionnaire($input: QueryInput!) {
     totalErrorCount
     ...NavigationSidebar
     hub
+    lists {
+      id
+      displayName
+    }
     metadata {
       id
       displayName
