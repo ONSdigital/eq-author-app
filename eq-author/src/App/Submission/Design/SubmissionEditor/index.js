@@ -71,7 +71,6 @@ const SubmissionEditor = ({ submission }) => {
           label="Further content"
           value={furtherContent}
           controls={contentControls}
-          size="large"
           onUpdate={({ value }) =>
             updateSubmission({
               variables: {
