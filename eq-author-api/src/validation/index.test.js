@@ -1409,6 +1409,7 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_1",
         qCode: "qcode1",
+        label: "answer_1",
         secondaryQCode: "secQCode1",
         options: [
           {
@@ -1469,6 +1470,7 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_12",
         qCode: "qcode1",
+        label: "answer_12",
         secondaryQCode: "secQCode1",
         options: [
           {

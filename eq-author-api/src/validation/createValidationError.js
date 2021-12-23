@@ -57,6 +57,7 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
     expression,
     validation,
     theme,
+    list,
     propertyJSON;
 
   if (!dataPath.length && field) {
@@ -77,6 +78,12 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
         theme = questionnaire.themeSettings.themes[nextVal ? nextVal : field];
         validationErr.type = "theme";
         validationErr.themeId = theme?.id;
+        break;
+
+      case "lists":
+        list = questionnaire.lists[nextVal];
+        validationErr.type = "list";
+        validationErr.listId = list?.id;
         break;
 
       case "sections":
@@ -116,7 +123,7 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
         break;
 
       case "answers":
-        ({ answers } = page);
+        ({ answers } = page || list);
         answer = answers[nextVal];
         validationErr.answerId = answer.id;
         validationErr.type = "answer";
