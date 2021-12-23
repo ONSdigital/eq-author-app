@@ -4,6 +4,9 @@ import Header from "components/EditorLayout/Header";
 import styled from "styled-components";
 import Collapsible from "components/Collapsible";
 import { colors } from "constants/theme";
+import Button from "components/buttons/Button";
+import IconText from "components/IconText";
+import AddIcon from "./icon-add.svg?inline";
 
 const Text = styled.p``;
 
@@ -47,7 +50,13 @@ const StyledGrid = styled.div`
   margin: 0.5em 1em;
 `;
 
+const AddListCollectionButton = styled(Button)`
+  width: 25%;
+  padding: 0.5em;
+`;
+
 const CollectionListsPage = () => {
+  const myval = true;
   return (
     <Container>
       <Header title="Collection Lists" tabIndex="-1" className="keyNav" />
@@ -76,7 +85,16 @@ const CollectionListsPage = () => {
           and nationality of each of the persons on the Collection Lists.
           </Text>
         </Twistie>
+        <AddListCollectionButton
+          variant="secondary"
+          data-test="btn-add-answer"
+        >
+          <IconText icon={AddIcon}>
+            Add {myval ? "a" : "another"} list collection
+          </IconText>
+      </AddListCollectionButton>
       </StyledGrid>
+
     </Container>
   );
 };
