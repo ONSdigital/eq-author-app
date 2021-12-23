@@ -66,9 +66,10 @@ export const OptionItem = styled.div`
   background: #fff;
   border: 1px solid ${colors.grey};
   border-radius: 0.2em;
-  width: 100%;
+  width: fit-content;
   min-width: 20em;
-  display: inline-block;
+  max-width: 100%;
+  display: block;
   overflow: hidden;
   position: relative;
   margin-bottom: 0.25em;
