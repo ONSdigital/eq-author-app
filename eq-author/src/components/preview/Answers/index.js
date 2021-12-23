@@ -49,6 +49,11 @@ export const Answer = ({ answer }) => {
   return (
     <AnswerWrapper>
       <Component answer={answer} />
+      {answer.options &&
+        answer.options.length &&
+        answer.options[0].mutuallyExclusive && (
+          <MultipleChoiceAnswer answer={answer} />
+        )}
     </AnswerWrapper>
   );
 };
