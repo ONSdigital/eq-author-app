@@ -704,6 +704,10 @@ describe("questionnaire", () => {
       );
 
       const updatedQuestionnaire = await queryQuestionnaire(ctx);
+      expect(updatedQuestionnaire.submission.furtherContent).toEqual(
+        "<p>Test</p>"
+      );
+      expect(updatedQuestionnaire.submission.viewPrintAnswers).toBeFalsy();
       expect(updatedQuestionnaire.submission.emailConfirmation).toBeFalsy();
       expect(updatedQuestionnaire.submission.feedback).toBeFalsy();
     });
