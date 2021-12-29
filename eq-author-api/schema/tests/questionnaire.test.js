@@ -152,6 +152,31 @@ describe("questionnaire", () => {
         },
       });
     });
+
+    it("should create a questionnaire submission page for social surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, config);
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
+
+    it("should create a questionnaire submission page for business surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: BUSINESS,
+      });
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
   });
 
   describe("mutate", () => {
@@ -386,9 +411,8 @@ describe("questionnaire", () => {
           ctx
         );
 
-        const {
-          themeSettings: themeSettingsWithTwoThemes,
-        } = await queryQuestionnaire(ctx);
+        const { themeSettings: themeSettingsWithTwoThemes } =
+          await queryQuestionnaire(ctx);
 
         expect(
           themeSettingsWithTwoThemes.themes.find(
@@ -406,9 +430,8 @@ describe("questionnaire", () => {
           ctx
         );
 
-        const {
-          themeSettings: themeSettingsWithOneTheme,
-        } = await queryQuestionnaire(ctx);
+        const { themeSettings: themeSettingsWithOneTheme } =
+          await queryQuestionnaire(ctx);
 
         expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
         expect(
