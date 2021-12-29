@@ -37,6 +37,7 @@ const {
   updateTheme,
   toggleQuestionnaireStarred,
   setQuestionnaireLocked,
+  updateSubmission,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -150,31 +151,6 @@ describe("questionnaire", () => {
             }),
           ]),
         },
-      });
-    });
-
-    it("should create a questionnaire submission page for social surveys", async () => {
-      const questionnaire = await createQuestionnaire(ctx, config);
-      expect(questionnaire.submission).toMatchObject({
-        id: expect.any(String),
-        furtherContent: expect.any(String),
-        viewPrintAnswers: expect.any(Boolean),
-        emailConfirmation: expect.any(Boolean),
-        feedback: expect.any(Boolean),
-      });
-    });
-
-    it("should create a questionnaire submission page for business surveys", async () => {
-      const questionnaire = await createQuestionnaire(ctx, {
-        ...config,
-        type: BUSINESS,
-      });
-      expect(questionnaire.submission).toMatchObject({
-        id: expect.any(String),
-        furtherContent: expect.any(String),
-        viewPrintAnswers: expect.any(Boolean),
-        emailConfirmation: expect.any(Boolean),
-        feedback: expect.any(Boolean),
       });
     });
   });
@@ -670,6 +646,66 @@ describe("questionnaire", () => {
 
         expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
       });
+    });
+  });
+
+  describe("submission", () => {
+    let config;
+    beforeEach(async () => {
+      ctx = await buildContext();
+      config = {
+        title: "Questionnaire",
+        description: "Description",
+        surveyId: "1",
+        theme: "default",
+        navigation: false,
+        summary: false,
+        type: SOCIAL,
+        shortTitle: "short title",
+      };
+    });
+
+    it("should create a questionnaire submission page for social surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, config);
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
+
+    it("should create a questionnaire submission page for business surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: BUSINESS,
+      });
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
+
+    it("should update existing submission page", async () => {
+      await createQuestionnaire(ctx, config);
+
+      await updateSubmission(
+        {
+          furtherContent: "<p>Test</p>",
+          viewPrintAnswers: false,
+          emailConfirmation: false,
+          feedback: false,
+        },
+        ctx
+      );
+
+      const updatedQuestionnaire = await queryQuestionnaire(ctx);
+      expect(updatedQuestionnaire.submission.emailConfirmation).toBeFalsy();
+      expect(updatedQuestionnaire.submission.feedback).toBeFalsy();
     });
   });
 
