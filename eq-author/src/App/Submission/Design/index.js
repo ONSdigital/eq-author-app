@@ -21,6 +21,8 @@ export const SubmissionDesign = ({ match }) => {
     },
   });
 
+  console.log(`data`, data);
+
   const submission = data?.submission;
 
   if (loading) {
@@ -36,7 +38,7 @@ export const SubmissionDesign = ({ match }) => {
   }
 
   return (
-    <SubmissionLayout>
+    <SubmissionLayout data-test="submission-page">
       <SubmissionEditor submission={submission} />
     </SubmissionLayout>
   );
