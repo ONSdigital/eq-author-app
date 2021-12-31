@@ -90,7 +90,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const missingTitleText = `"Missing title text" `;
 
   return (
-    <Wrapper data-test="submission-preview">
+    <Wrapper>
       <Panel variant="success" withLeftBorder>
         <PanelSection>
           <TitleWrapper>

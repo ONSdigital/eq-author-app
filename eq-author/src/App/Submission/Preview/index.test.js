@@ -58,8 +58,10 @@ const renderSubmissionPreviewPage = () => {
 
 describe("Submission preview page", () => {
   it("should render", () => {
-    const { getByTestId } = renderSubmissionPreviewPage();
-    expect(getByTestId("submission-preview")).toBeVisible();
+    const { getByText } = renderSubmissionPreviewPage();
+    expect(
+      getByText(`Thank you for completing the ${questionnaire.title}`)
+    ).toBeVisible();
   });
 
   it("should display error page if there is an error", () => {
