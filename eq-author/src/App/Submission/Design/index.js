@@ -21,8 +21,6 @@ export const SubmissionDesign = ({ match }) => {
     },
   });
 
-  console.log(`data`, data);
-
   const submission = data?.submission;
 
   if (loading) {

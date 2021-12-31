@@ -2,10 +2,12 @@ import React from "react";
 import { render } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
 
-import SubmissionDesign from ".";
+import SubmissionPreview from ".";
+import { MeContext } from "App/MeContext";
 
 const questionnaire = {
   id: "questionnaire-1",
+  title: "Test questionnaire",
   submission: {
     id: "submission-1",
     furtherContent: "<p>Test</p>",
@@ -14,8 +16,6 @@ const questionnaire = {
     feedback: true,
   },
 };
-
-const { submission } = questionnaire;
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -26,7 +26,7 @@ jest.mock("@apollo/react-hooks", () => ({
 useQuery.mockImplementation(() => ({
   loading: false,
   error: false,
-  data: { submission },
+  data: { questionnaire, comments: [] },
 }));
 
 const match = {
@@ -36,53 +36,58 @@ const match = {
 };
 
 const history = { push: jest.fn() };
+const me = {
+  id: "me",
+  name: "test",
+};
 
-const renderSubmissionDesignPage = () => {
+const renderSubmissionPreviewPage = () => {
   return render(
-    <SubmissionDesign match={match} history={history} loading={false} />,
+    <MeContext.Provider value={{ me }}>
+      <SubmissionPreview match={match} history={history} loading={false} />
+    </MeContext.Provider>,
     {
-      route: `/q/${questionnaire.id}/submission/${submission.id}/design`,
-      urlParamMatcher:
-        "/q/:questionnaireId/submission/:submissionId/design/:modifier?",
+      route: `/q/${questionnaire.id}/submission/${questionnaire.submission.id}/preview`,
+      urlParamMatcher: "/q/:questionnaireId/submission/:submissionId/preview",
     }
   );
 };
 
-describe("Submission design page", () => {
+describe("Submission preview page", () => {
   it("should render", () => {
-    const { getByText } = renderSubmissionDesignPage();
-    expect(getByText("Further content")).toBeVisible();
+    const { getByTestId } = renderSubmissionPreviewPage();
+    expect(getByTestId("submission-preview")).toBeVisible();
   });
 
   it("should display error page if there is an error", () => {
     useQuery.mockImplementationOnce(() => ({
       loading: false,
       error: true,
-      data: { submission },
+      data: { questionnaire, comments: [] },
     }));
-    const { getByTestId } = renderSubmissionDesignPage();
+    const { getByTestId } = renderSubmissionPreviewPage();
 
     expect(getByTestId("error")).toBeVisible();
   });
 
-  it("should display error page if there is no submission page returned", () => {
+  it("should display error page if there is no data returned", () => {
     useQuery.mockImplementationOnce(() => ({
       loading: false,
       error: false,
       data: undefined,
     }));
-    const { getByTestId } = renderSubmissionDesignPage();
+    const { getByTestId } = renderSubmissionPreviewPage();
 
     expect(getByTestId("error")).toBeVisible();
   });
 
-  it("should display the loading page when loading", () => {
+  it("should display loading page when loading", () => {
     useQuery.mockImplementationOnce(() => ({
       loading: true,
       error: false,
-      data: { submission },
+      data: { questionnaire, comments: [] },
     }));
-    const { getByTestId } = renderSubmissionDesignPage();
+    const { getByTestId } = renderSubmissionPreviewPage();
 
     expect(getByTestId("loading")).toBeVisible();
   });
