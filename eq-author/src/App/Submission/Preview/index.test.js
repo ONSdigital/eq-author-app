@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
+import Theme from "contexts/themeContext";
 
 import SubmissionPreview from ".";
 import { MeContext } from "App/MeContext";
@@ -44,7 +45,9 @@ const me = {
 const renderSubmissionPreviewPage = () => {
   return render(
     <MeContext.Provider value={{ me }}>
-      <SubmissionPreview match={match} history={history} loading={false} />
+      <Theme>
+        <SubmissionPreview match={match} history={history} loading={false} />
+      </Theme>
     </MeContext.Provider>,
     {
       route: `/q/${questionnaire.id}/submission/${questionnaire.submission.id}/preview`,

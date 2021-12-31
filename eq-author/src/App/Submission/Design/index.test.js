@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
+import Theme from "contexts/themeContext";
 
 import SubmissionDesign from ".";
 
@@ -39,7 +40,9 @@ const history = { push: jest.fn() };
 
 const renderSubmissionDesignPage = () => {
   return render(
-    <SubmissionDesign match={match} history={history} loading={false} />,
+    <Theme>
+      <SubmissionDesign match={match} history={history} loading={false} />
+    </Theme>,
     {
       route: `/q/${questionnaire.id}/submission/${submission.id}/design`,
       urlParamMatcher:
