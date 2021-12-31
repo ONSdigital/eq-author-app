@@ -30,10 +30,41 @@ const renderSubmissionEditor = () => {
   );
 };
 
+//eslint-disable-next-line react/prop-types
+jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
+  const handleInputChange = (event) =>
+    onUpdate({
+      value: event.target.value,
+    });
+  return (
+    <input
+      data-test="further-content-text-editor"
+      onChange={handleInputChange}
+    />
+  );
+});
+
 describe("Submission Editor", () => {
   it("should render", () => {
     const { getByTestId } = renderSubmissionEditor();
     expect(getByTestId("submission-editor")).toBeVisible();
+  });
+
+  it("should update furtherContent when content is edited in rich text editor", () => {
+    const updateSubmission = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [updateSubmission]));
+
+    const { getByTestId } = renderSubmissionEditor();
+
+    const furtherContentTextEditor = getByTestId("further-content-text-editor");
+
+    fireEvent.change(furtherContentTextEditor, {
+      target: { value: "Further content" },
+    });
+
+    expect(updateSubmission).toHaveBeenCalledWith({
+      variables: { input: { furtherContent: "Further content" } },
+    });
   });
 
   it("should update viewPrintAnswers when toggle switch is clicked", () => {
