@@ -61,6 +61,7 @@ const IconwithTextBelow = styled.div`
 const TextContainer = styled.div`
   font-weight: ${(props) => props.bold && `bold`};
   margin-left: ${(props) => props.withMargin && `0.5em`};
+  width: 100%;
 `;
 
 const IconText = ({

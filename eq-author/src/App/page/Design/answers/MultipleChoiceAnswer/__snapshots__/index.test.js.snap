@@ -376,7 +376,7 @@ Array [
   position: relative;
 }
 
-.c20 {
+.c21 {
   position: absolute;
   overflow: hidden;
   -webkit-clip: rect(0 0 0 0);
@@ -417,6 +417,10 @@ Array [
 
 .c19 svg path {
   fill: var(--color-text);
+}
+
+.c20 {
+  width: 100%;
 }
 
 .c11 {
@@ -706,7 +710,7 @@ Array [
   display: inline-block;
 }
 
-.c21 {
+.c22 {
   position: absolute;
   right: 0;
   top: 100%;
@@ -844,15 +848,19 @@ Array [
               class="c19"
             >
               <svg />
-              <span
+              <div
                 class="c20"
               >
-                Show additional options
-              </span>
+                <span
+                  class="c21"
+                >
+                  Show additional options
+                </span>
+              </div>
             </span>
           </button>
           <div
-            class="c21"
+            class="c22"
           />
         </div>
       </div>
@@ -1237,7 +1245,7 @@ Array [
   position: relative;
 }
 
-.c20 {
+.c21 {
   position: absolute;
   overflow: hidden;
   -webkit-clip: rect(0 0 0 0);
@@ -1278,6 +1286,10 @@ Array [
 
 .c19 svg path {
   fill: var(--color-text);
+}
+
+.c20 {
+  width: 100%;
 }
 
 .c11 {
@@ -1567,7 +1579,7 @@ Array [
   display: inline-block;
 }
 
-.c21 {
+.c22 {
   position: absolute;
   right: 0;
   top: 100%;
@@ -1705,15 +1717,19 @@ Array [
               class="c19"
             >
               <svg />
-              <span
+              <div
                 class="c20"
               >
-                Show additional options
-              </span>
+                <span
+                  class="c21"
+                >
+                  Show additional options
+                </span>
+              </div>
             </span>
           </button>
           <div
-            class="c21"
+            class="c22"
           />
         </div>
       </div>

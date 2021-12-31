@@ -58,7 +58,7 @@ const SubmissionEditor = ({ submission }) => {
   const [updateSubmission] = useMutation(updateSubmissionMutation);
 
   return (
-    <Wrapper>
+    <Wrapper data-test="submission-editor">
       <Section>
         <SectionTitle style={{ marginBottom: "0" }}>Page content</SectionTitle>
         <SectionDescription>
