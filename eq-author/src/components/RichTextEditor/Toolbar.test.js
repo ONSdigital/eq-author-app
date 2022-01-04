@@ -1,6 +1,7 @@
 import React from "react";
 import Toolbar from "components/RichTextEditor/Toolbar";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
+import LinkButton from "./LinkPlugin/ToolbarButton";
 import PipingMenu from "components/RichTextEditor/PipingMenu";
 import { shallow } from "enzyme";
 
@@ -122,8 +123,31 @@ describe("components/RichTextEditor/Toolbar", () => {
         />
       );
 
-      wrapper.find(ToolbarButton).forEach((node) => {
+      wrapper.find(LinkButton).forEach((node) => {
         expect(node.props().disabled).toBe(true);
+      });
+    });
+
+    it("should enable link button when linkCount is less than or equal to linkLimit", () => {
+      const controls = {
+        link: true,
+      };
+
+      const linkCount = 1;
+      const linkLimit = 2;
+
+      wrapper = shallow(
+        <Toolbar
+          {...props}
+          controls={controls}
+          linkCount={linkCount}
+          linkLimit={linkLimit}
+          visible
+        />
+      );
+
+      wrapper.find(LinkButton).forEach((node) => {
+        expect(node.props().disabled).toBe(false);
       });
     });
   });
