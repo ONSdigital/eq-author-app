@@ -102,10 +102,33 @@ describe("components/RichTextEditor/Toolbar", () => {
         onLinkChosen: jest.fn(),
       };
       wrapper = shallow(<Toolbar {...props} visible />);
-      buttons = wrapper.find(ToolbarButton);
     });
 
-    it("should disable link button when linkCount is greater than or equal to linkLimit", () => {
+    it("should enable link button", () => {
+      const controls = {
+        link: true,
+      };
+
+      wrapper = shallow(<Toolbar {...props} controls={controls} visible />);
+
+      wrapper.find(LinkButton).forEach((node) => {
+        expect(node.props().disabled).toBe(false);
+      });
+    });
+
+    it("should disable link button when link is false", () => {
+      const controls = {
+        link: false,
+      };
+
+      wrapper = shallow(<Toolbar {...props} controls={controls} visible />);
+
+      wrapper.find(LinkButton).forEach((node) => {
+        expect(node.props().disabled).toBe(true);
+      });
+    });
+
+    it("should disable link button when linkCount is greater than linkLimit", () => {
       const controls = {
         link: true,
       };
@@ -128,7 +151,30 @@ describe("components/RichTextEditor/Toolbar", () => {
       });
     });
 
-    it("should enable link button when linkCount is less than or equal to linkLimit", () => {
+    it("should disable link button when linkCount is equal to linkLimit", () => {
+      const controls = {
+        link: true,
+      };
+
+      const linkCount = 1;
+      const linkLimit = 1;
+
+      wrapper = shallow(
+        <Toolbar
+          {...props}
+          controls={controls}
+          linkCount={linkCount}
+          linkLimit={linkLimit}
+          visible
+        />
+      );
+
+      wrapper.find(LinkButton).forEach((node) => {
+        expect(node.props().disabled).toBe(true);
+      });
+    });
+
+    it("should enable link button when linkCount is less than linkLimit", () => {
       const controls = {
         link: true,
       };
