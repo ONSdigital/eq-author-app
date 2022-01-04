@@ -89,6 +89,7 @@ const SubmissionEditor = ({ submission }) => {
           testSelector="txt-submission-further-content"
           multiline
           linkCount={countLinks(submission)}
+          linkLimit={2}
         />
       </Section>
       <Section>
