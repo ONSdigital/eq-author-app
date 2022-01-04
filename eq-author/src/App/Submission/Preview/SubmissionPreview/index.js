@@ -39,6 +39,11 @@ const WarningPanel = styled(IconText)`
   }
 `;
 
+const WarningPanelText = styled.div`
+  font-weight: bold;
+  margin-left: 0.5em;
+`;
+
 const PanelSection = styled.div`
   font-size: 18px;
   margin-bottom: 1em;
@@ -135,7 +140,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           <Section>
             <InlineField>
               <WarningPanel icon={WarningIcon} left bold withMargin>
-                {answersAvailableToView}
+                <WarningPanelText>{answersAvailableToView}</WarningPanelText>
               </WarningPanel>
             </InlineField>
           </Section>
