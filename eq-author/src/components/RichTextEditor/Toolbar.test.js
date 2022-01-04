@@ -88,4 +88,43 @@ describe("components/RichTextEditor/Toolbar", () => {
       expect(props.onToggle).not.toHaveBeenLastCalledWith(shape);
     });
   });
+
+  describe("Link button", () => {
+    beforeEach(() => {
+      props = {
+        onToggle: jest.fn(),
+        onFocus: jest.fn(),
+        onBlur: jest.fn(),
+        onPiping: jest.fn(),
+        isActiveControl: jest.fn(),
+        selectionIsCollapsed: true,
+        onLinkChosen: jest.fn(),
+      };
+      wrapper = shallow(<Toolbar {...props} visible />);
+      buttons = wrapper.find(ToolbarButton);
+    });
+
+    it("should disable link button when linkCount is greater than or equal to linkLimit", () => {
+      const controls = {
+        link: true,
+      };
+
+      const linkCount = 2;
+      const linkLimit = 1;
+
+      wrapper = shallow(
+        <Toolbar
+          {...props}
+          controls={controls}
+          linkCount={linkCount}
+          linkLimit={linkLimit}
+          visible
+        />
+      );
+
+      wrapper.find(ToolbarButton).forEach((node) => {
+        expect(node.props().disabled).toBe(true);
+      });
+    });
+  });
 });
