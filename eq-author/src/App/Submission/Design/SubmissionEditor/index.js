@@ -51,6 +51,14 @@ const contentControls = {
   link: true,
 };
 
+const countLinks = (submission) => {
+  const { furtherContent } = submission;
+  // https://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string
+  const linkCount = (furtherContent.match(/<a href/g) || []).length;
+
+  return linkCount;
+};
+
 const SubmissionEditor = ({ submission }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
@@ -80,6 +88,7 @@ const SubmissionEditor = ({ submission }) => {
           }
           testSelector="txt-submission-further-content"
           multiline
+          linkCount={countLinks(submission)}
         />
       </Section>
       <Section>
