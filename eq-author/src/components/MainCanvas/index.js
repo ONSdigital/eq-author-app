@@ -6,6 +6,9 @@ const MainCanvas = styled.main`
   padding: 0 1.2em;
   position: relative;
   width: 100%;
+  div:first-child {
+    padding-top: 1em;
+  }
 `;
 
 MainCanvas.defaultProps = {
