@@ -35,6 +35,9 @@ const Container = styled.div`
     border-radius: 4px;
     white-space: pre;
   }
+  div:first-child {
+    padding-top: 1em;
+  }
 `;
 
 const Description = styled.div`
