@@ -10,10 +10,6 @@ exports[`ExpansionTransition should render 1`] = `
   width: 100%;
 }
 
-.c0 div:first-child {
-  padding-top: 1em;
-}
-
 <main
     class="c0"
   >
