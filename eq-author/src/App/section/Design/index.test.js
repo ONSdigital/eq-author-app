@@ -18,6 +18,13 @@ import { publishStatusSubscription } from "components/EditorLayout/Header";
 import { WRITE } from "constants/questionnaire-permissions";
 
 import SectionRoute, { UnwrappedSectionRoute, SECTION_QUERY } from "./";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
 
 const questionnaireId = "1";
 const sectionId = "2";

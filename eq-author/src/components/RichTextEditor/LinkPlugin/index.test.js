@@ -4,6 +4,13 @@ import RichTextEditor from "../";
 import { EditorState, ContentState } from "draft-js";
 import LinkToolbarButton from "./ToolbarButton";
 import { linkToHTML, linkFromHTML, ENTITY_TYPE as LINK_TYPE } from ".";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
 
 describe("Link plugin for RichTextEditor", () => {
   describe("user interactions", () => {
