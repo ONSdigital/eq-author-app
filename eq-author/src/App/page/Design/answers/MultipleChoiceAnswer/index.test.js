@@ -1,8 +1,15 @@
 import React from "react";
+
 import { UnwrappedMultipleChoiceAnswer } from "./";
 import { render } from "enzyme";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import createMockStore from "tests/utils/createMockStore";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("useLayoutEffect does nothing on the server", "error");
 
 const mockUseMutation = jest.fn();
 

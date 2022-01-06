@@ -5,6 +5,16 @@ import { render as rtlRender } from "tests/utils/rtl";
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
 import { sectionErrors } from "constants/validationMessages";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+
+suppressConsoleMessage(
+  "Failed prop type: Invalid prop `children` supplied to `Provider`, expected a ReactNode.",
+  "error"
+);
 
 describe("SectionEditor", () => {
   const section1 = {

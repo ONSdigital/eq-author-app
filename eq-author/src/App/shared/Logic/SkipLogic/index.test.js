@@ -3,6 +3,13 @@ import { MockedProvider } from "@apollo/react-testing";
 import { render, screen, waitFor } from "tests/utils/rtl";
 import SkipLogicRoute from ".";
 import SKIPLOGIC_QUERY from "./fragment.graphql";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("You are using the simple", "error");
+suppressConsoleMessage("heuristic fragment matching going on", "error");
 
 jest.mock("./SkipLogicPage", () => () => <h1> Mock skip logic page </h1>);
 jest.mock("App/shared/Logic", () => ({ children }) => <> {children} </>); // eslint-disable-line react/prop-types

@@ -16,7 +16,7 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 
 import PropTypes from "prop-types";
 
-import { ReactComponent as iconAlert } from "assets/icon-alert.svg";
+import iconAlert from "assets/icon-alert.svg";
 
 const DeleteConfirmModalDialog = styled(Modal)`
   .Modal {
