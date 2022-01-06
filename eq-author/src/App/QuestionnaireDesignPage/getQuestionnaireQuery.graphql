@@ -30,6 +30,13 @@ query GetQuestionnaire($input: QueryInput!) {
         ...ValidationErrorInfo
       }
     }
+    submission {
+      id
+      furtherContent
+      viewPrintAnswers
+      emailConfirmation
+      feedback
+    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

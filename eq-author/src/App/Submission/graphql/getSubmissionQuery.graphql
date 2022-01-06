@@ -1,0 +1,9 @@
+query GetSubmissionQuery($input: QueryInput!) {
+  submission(input: $input) {
+    id
+    furtherContent
+    viewPrintAnswers
+    emailConfirmation
+    feedback
+  }
+}
