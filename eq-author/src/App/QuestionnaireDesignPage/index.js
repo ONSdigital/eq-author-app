@@ -23,6 +23,7 @@ import settingsRoutes from "App/settings";
 import keyboardShortcutsRoutes from "App/keyboardShortcuts";
 import collectionListsRoutes from "App/collectionLists";
 import folderRoutes from "App/folder";
+import submissionRoutes from "App/Submission";
 
 import MainNavigation from "./MainNavigation";
 import NavigationSidebar from "./NavigationSidebar";
@@ -179,6 +180,7 @@ export const QuestionnaireDesignPage = () => {
                         ...keyboardShortcutsRoutes,
                         ...collectionListsRoutes,
                         ...folderRoutes,
+                        ...submissionRoutes,
                       ]}
                       <Route path="*">
                         {loading ? (

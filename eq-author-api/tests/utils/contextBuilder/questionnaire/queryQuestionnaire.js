@@ -44,6 +44,13 @@ const getQuestionnaireQuery = `
           formType
         }
       }
+      submission {
+        id
+        furtherContent
+        viewPrintAnswers
+        emailConfirmation
+        feedback
+      }
       locked
       validationErrorInfo {
         id
