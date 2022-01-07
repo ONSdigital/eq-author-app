@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext";
+import Feedback from "components-themed/Feedback";
+
+<Meta title="Themed components/ONS/Feedback" component={Feedback} />
+
+# Feedback (ONS theme)
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    <Theme themeName={"ons"}>
+      <Feedback>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet
+        velit non ligula vulputate efficitur non sit amet ex. Aenean iaculis
+        odio a lobortis tristique. Suspendisse est ipsum, finibus et bibendum a,
+        hendrerit et neque. Aliquam varius porta eros, in suscipit libero tempor
+        eget. Aenean eget lectus posuere, ullamcorper ex sed, scelerisque lacus.
+      </Feedback>
+    </Theme>
+  </Story>
+</Canvas>

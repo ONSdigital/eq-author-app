@@ -66,9 +66,10 @@ export const OptionItem = styled.div`
   background: #fff;
   border: 1px solid ${colors.grey};
   border-radius: 0.2em;
-  width: 100%;
+  width: fit-content;
   min-width: 20em;
-  display: inline-block;
+  max-width: 100%;
+  display: block;
   overflow: hidden;
   position: relative;
   margin-bottom: 0.25em;
@@ -144,7 +145,9 @@ Option.propTypes = {
 const MultipleChoiceAnswer = ({ answer }) => {
   return (
     <Field>
-      <Legend>{answer.label}</Legend>
+      <Legend>
+        {answer.options[0].mutuallyExclusive ? "Or" : answer.label}
+      </Legend>
       {answer.type === CHECKBOX && !answer.label && (
         <SelectAll>Select all that apply:</SelectAll>
       )}
