@@ -40,6 +40,12 @@ describe("withUpdateValidationRule", () => {
           enabled: true,
           metadata: null,
           previousAnswer: null,
+          validationErrorInfo: {
+            id: "id",
+            errors: [],
+            totalCount: 0,
+            __typename: "validationErrorInfo",
+          },
         },
       },
     });
