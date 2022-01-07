@@ -3,6 +3,7 @@ import { MockedProvider } from "@apollo/react-testing";
 import { render, screen, waitFor } from "tests/utils/rtl";
 import SkipLogicRoute from ".";
 import SKIPLOGIC_QUERY from "./fragment.graphql";
+
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
 /*

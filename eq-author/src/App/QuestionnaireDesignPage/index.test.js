@@ -14,6 +14,13 @@ import {
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
 
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
 jest.mock("components/BaseLayout/PermissionsBanner", () => ({
   __esModule: true,
   default: () => <></>,

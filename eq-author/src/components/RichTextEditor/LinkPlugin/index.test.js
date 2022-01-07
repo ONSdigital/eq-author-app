@@ -4,6 +4,7 @@ import RichTextEditor from "../";
 import { EditorState, ContentState } from "draft-js";
 import LinkToolbarButton from "./ToolbarButton";
 import { linkToHTML, linkFromHTML, ENTITY_TYPE as LINK_TYPE } from ".";
+
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
 /*

@@ -1,4 +1,9 @@
 import { mapMutateToProps } from "./withMoveSection";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
 
 describe("withMoveSection", () => {
   let ownProps, history, match, props, mutate, args, result;

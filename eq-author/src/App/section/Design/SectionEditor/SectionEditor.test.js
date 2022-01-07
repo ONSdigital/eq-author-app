@@ -15,6 +15,16 @@ suppressConsoleMessage(
   "Failed prop type: Invalid prop `children` supplied to `Provider`, expected a ReactNode.",
   "error"
 );
+suppressConsoleMessage(
+  "An update to %s inside a test was not wrapped in act",
+  "error"
+);
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
+
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
 
 describe("SectionEditor", () => {
   const section1 = {
