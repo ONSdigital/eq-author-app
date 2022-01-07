@@ -707,7 +707,7 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
-  submission(input: QueryInput!): Submission
+  submission: Submission
   lists: [List]
   list(input: QueryInput!): List
 }
