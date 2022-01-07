@@ -11,15 +11,8 @@ import GET_SUBMISSION_QUERY from "../graphql/getSubmissionQuery.graphql";
 import SubmissionLayout from "../SubmissionLayout";
 import SubmissionEditor from "./SubmissionEditor";
 
-export const SubmissionDesign = ({ match }) => {
-  const { questionnaireId } = match.params;
-  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY, {
-    variables: {
-      input: {
-        questionnaireId,
-      },
-    },
-  });
+export const SubmissionDesign = () => {
+  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
 
   const submission = data?.submission;
 
