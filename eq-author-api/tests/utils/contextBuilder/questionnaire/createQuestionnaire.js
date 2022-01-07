@@ -54,6 +54,13 @@ const createQuestionnaireMutation = `
           formType
         }
       }
+      submission {
+        id
+        furtherContent
+        viewPrintAnswers
+        emailConfirmation
+        feedback
+      }
     }
   }
 `;

@@ -109,6 +109,7 @@ const {
 const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
+const createSubmission = require("../../utils/createSubmission");
 
 const {
   enforceHasWritePermission,
@@ -153,6 +154,7 @@ const createNewQuestionnaire = (input) => {
       themes: [defaultTheme],
     },
     locked: false,
+    submission: createSubmission(),
   };
 
   let changes = {};
@@ -280,6 +282,7 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
+    submission: (root, _, ctx) => ctx.questionnaire.submission,
     lists: (_, args, ctx) => ctx.questionnaire.lists,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.lists, { id: listId }),
@@ -427,6 +430,14 @@ const Resolvers = {
     updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
       ctx.questionnaire.surveyId = surveyId;
       return ctx.questionnaire;
+    }),
+    updateSubmission: createMutation((root, { input }, ctx) => {
+      ctx.questionnaire.submission = {
+        ...ctx.questionnaire.submission,
+        ...input,
+      };
+
+      return ctx.questionnaire.submission;
     }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {

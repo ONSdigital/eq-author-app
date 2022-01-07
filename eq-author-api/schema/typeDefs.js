@@ -80,6 +80,7 @@ type Questionnaire {
   themeSettings: ThemeSettings!
   locked: Boolean
   validationErrorInfo: ValidationErrorInfo
+  submission: Submission
 }
 
 type ThemeSettings {
@@ -681,6 +682,14 @@ type Comment {
   editedTime: DateTime
 }
 
+type Submission {
+  id: ID!
+  furtherContent: String
+  viewPrintAnswers: Boolean
+  emailConfirmation: Boolean
+  feedback: Boolean
+}
+
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -698,6 +707,7 @@ type Query {
   users: [User!]!
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
+  submission: Submission
   lists: [List]
   list(input: QueryInput!): List
 }
@@ -877,6 +887,7 @@ type Mutation {
   createDisplayCondition(input: DisplayConditionInput!): Section
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
+  updateSubmission(input: UpdateSubmissionInput): Submission!
   createList: Questionnaire!
   updateList(input: UpdateListInput): List
   deleteList(input: DeleteListInput): Questionnaire!
@@ -1444,6 +1455,13 @@ input MoveCollapsibleInput {
 
 input DeleteCollapsibleInput {
   id: ID!
+}
+
+input UpdateSubmissionInput {
+  furtherContent: String
+  viewPrintAnswers: Boolean
+  emailConfirmation: Boolean
+  feedback: Boolean
 }
 
 type commentSub {

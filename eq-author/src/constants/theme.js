@@ -77,6 +77,7 @@ colors.highlight = colors.neonYellow;
 colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
+colors.branded = colors.oceanBlue;
 
 export const radius = "4px";
 
@@ -169,6 +170,7 @@ export const themes = {
       input: colors.black,
       textBannerLink: colors.grey5,
       onsLogoAccent: colors.springGreen,
+      branded: colors.oceanBlue,
     },
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
