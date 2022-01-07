@@ -1,5 +1,5 @@
-query GetSubmissionQuery($input: QueryInput!) {
-  submission(input: $input) {
+query GetSubmissionQuery {
+  submission {
     id
     furtherContent
     viewPrintAnswers
