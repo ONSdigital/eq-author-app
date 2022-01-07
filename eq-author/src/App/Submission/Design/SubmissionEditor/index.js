@@ -102,7 +102,7 @@ const SubmissionEditor = ({ submission }) => {
           elements
         </SectionDescription>
         <InlineField>
-          <Label>View/print answers</Label>
+          <Label htmlFor="viewPrintAnswers">View/print answers</Label>
           <ToggleSwitch
             name="view-print-answers"
             id="viewPrintAnswers"
@@ -115,10 +115,11 @@ const SubmissionEditor = ({ submission }) => {
             }
             checked={viewPrintAnswers}
             hideLabels={false}
+            value="viewPrintAnswers"
           />
         </InlineField>
         <InlineField>
-          <Label>Email confirmation</Label>
+          <Label htmlFor="emailConfirmation">Email confirmation</Label>
           <ToggleSwitch
             name="email-confirmation"
             id="emailConfirmation"
@@ -131,10 +132,11 @@ const SubmissionEditor = ({ submission }) => {
             }
             checked={emailConfirmation}
             hideLabels={false}
+            value="emailConfirmation"
           />
         </InlineField>
         <InlineField>
-          <Label>Feedback</Label>
+          <Label htmlFor="feedback">Feedback</Label>
           <ToggleSwitch
             name="feedback"
             id="feedback"
@@ -147,6 +149,7 @@ const SubmissionEditor = ({ submission }) => {
             }
             checked={feedback}
             hideLabels={false}
+            value="feedback"
           />
         </InlineField>
       </Section>
