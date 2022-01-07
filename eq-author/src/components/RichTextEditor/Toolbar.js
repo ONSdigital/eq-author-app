@@ -97,6 +97,8 @@ class ToolBar extends React.Component {
     editorState: PropTypes.shape({
       getSelection: PropTypes.fn,
     }),
+    linkCount: PropTypes.number,
+    linkLimit: PropTypes.number,
   };
 
   renderButton = (button) => {
@@ -128,9 +130,21 @@ class ToolBar extends React.Component {
       testId,
       allowableTypes,
       defaultTab,
+      linkCount,
+      linkLimit,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
+
+    const isLinkDisabled = () => {
+      if (!link) {
+        return true;
+      } else if (linkCount >= linkLimit) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
     return (
       <ToolbarPanel visible={visible} data-test={testId}>
@@ -153,7 +167,7 @@ class ToolBar extends React.Component {
           <Separator />
           <LinkButton
             canFocus={visible}
-            disabled={!link}
+            disabled={isLinkDisabled()}
             onLinkChosen={onLinkChosen}
             editorState={editorState}
           />

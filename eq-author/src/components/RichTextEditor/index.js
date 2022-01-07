@@ -168,6 +168,8 @@ class RichTextEditor extends React.Component {
       PropTypes.array,
       PropTypes.string,
     ]),
+    linkCount: PropTypes.number,
+    linkLimit: PropTypes.number,
   };
 
   constructor(props) {
@@ -380,6 +382,8 @@ class RichTextEditor extends React.Component {
       disabled,
       errorValidationMsg,
       maxHeight,
+      linkCount,
+      linkLimit,
       ...otherProps
     } = this.props;
 
@@ -413,6 +417,8 @@ class RichTextEditor extends React.Component {
               selectionIsCollapsed={selection.isCollapsed()}
               visible={focused}
               testId={`${testSelector}-toolbar`}
+              linkCount={linkCount}
+              linkLimit={linkLimit}
               {...otherProps}
             />
 

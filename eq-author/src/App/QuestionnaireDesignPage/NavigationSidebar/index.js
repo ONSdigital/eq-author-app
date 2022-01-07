@@ -6,7 +6,8 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
-import { buildIntroductionPath } from "utils/UrlUtils";
+import { buildIntroductionPath, buildSubmissionPath } from "utils/UrlUtils";
+import { enableOn } from "utils/featureFlags";
 import onDragEnd from "./dragDropFunctions/onDragEnd";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -18,6 +19,7 @@ import Button from "components/buttons/Button";
 import Section from "./Section";
 
 import PageIcon from "assets/icon-survey-intro.svg?inline";
+import SubmissionIcon from "assets/icon-submission-page.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
@@ -67,7 +69,7 @@ const NavList = styled.ol`
 
 const ListItem = styled.li``;
 
-const IntroductionListItem = styled(ListItem)`
+const MenuListItem = styled(ListItem)`
   padding-left: 2em;
   margin-bottom: 0.5em;
   margin-top: 2px;
@@ -75,6 +77,11 @@ const IntroductionListItem = styled(ListItem)`
   span {
     font-weight: bold;
   }
+`;
+
+const BorderedNavItem = styled(NavItem)`
+  border-bottom: 1px solid ${colors.borders};
+  border-top: 1px solid ${colors.borders};
 `;
 
 const NavigationSidebar = ({ questionnaire }) => {
@@ -108,7 +115,7 @@ const NavigationSidebar = ({ questionnaire }) => {
           <NavigationScrollPane>
             <NavList>
               {questionnaire.introduction && (
-                <IntroductionListItem>
+                <MenuListItem>
                   <NavItem
                     key={"introduction"}
                     title="Introduction"
@@ -123,7 +130,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                     )}
                     icon={PageIcon}
                   />
-                </IntroductionListItem>
+                </MenuListItem>
               )}
               <DragDropContext onDragEnd={handleDragEnd}>
                 {questionnaire.sections.map(({ id, ...rest }) => (
@@ -136,6 +143,24 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 ))}
               </DragDropContext>
+              {enableOn(["submissionPage"]) && questionnaire.submission && (
+                <MenuListItem>
+                  <BorderedNavItem
+                    key={"submission"}
+                    title="Submission page"
+                    titleUrl={buildSubmissionPath({
+                      questionnaireId: questionnaire.id,
+                      submissionId: questionnaire.submission.id,
+                      tab,
+                    })}
+                    disabled={isCurrentPage(
+                      questionnaire.submission.id,
+                      entityId
+                    )}
+                    icon={SubmissionIcon}
+                  />
+                </MenuListItem>
+              )}
             </NavList>
           </NavigationScrollPane>
         </>
