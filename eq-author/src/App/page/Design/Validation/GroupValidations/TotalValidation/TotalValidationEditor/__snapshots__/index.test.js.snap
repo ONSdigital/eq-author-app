@@ -76,6 +76,7 @@ exports[`TotalValidationEditor should render 1`] = `
         onUpdate={[MockFunction]}
         total={
           Object {
+            "allowUnanswered": true,
             "condition": "LessThan",
             "custom": 5,
             "enabled": true,
@@ -95,7 +96,7 @@ exports[`TotalValidationEditor should render 1`] = `
       Allow all answers to be unanswered
     </Label>
     <ToggleSwitch
-      checked={false}
+      checked={true}
       hideLabels={false}
       id="allowUnanswered"
       name="total-validation-toggle"

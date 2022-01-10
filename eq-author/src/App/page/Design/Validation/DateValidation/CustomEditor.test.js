@@ -39,6 +39,8 @@ describe("Custom Editor", () => {
 
   it("should display validation error in the modal when there is an error", () => {
     const props = {
+      onChange: jest.fn(),
+      onUpdate: jest.fn(),
       validation: {
         validationErrorInfo: {
           errors: [{ id: "1", errorCode: "ERR_NO_VALUE" }],
@@ -52,6 +54,8 @@ describe("Custom Editor", () => {
 
   it("should only display validation errors with the error code `ERR_NO_VALUE`", () => {
     const props = {
+      onChange: jest.fn(),
+      onUpdate: jest.fn(),
       validation: {
         validationErrorInfo: {
           errors: [{ id: "1", errorCode: "NOT_ERR_NO_VALUE" }],

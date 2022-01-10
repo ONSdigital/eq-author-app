@@ -22,6 +22,8 @@ describe("Introduction Preview", () => {
           collapsibles: [],
           tertiaryTitle: "tertiaryTitle",
           tertiaryDescription: "tertiaryDescription",
+          contactDetailsPhoneNumber: "0300 1234 931",
+          contactDetailsEmailAddress: "surveys@ons.gov.uk",
         },
       },
     };

@@ -18,6 +18,7 @@ describe("Total Validation", () => {
         custom: 5,
         previousAnswer: null,
         condition: "Equal",
+        allowUnanswered: true,
       },
     };
   });
