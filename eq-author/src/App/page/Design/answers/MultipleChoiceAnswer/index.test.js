@@ -10,8 +10,9 @@ import suppressConsoleMessage from "tests/utils/supressConsol";
  * @description Suppresses specific messages from being logged in the Console.
  */
 suppressConsoleMessage("useLayoutEffect does nothing on the server", "error");
+
+// eslint-disable-next-line no-console
 console.log(
-  // eslint-disable-line
   `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
 );
 

@@ -26,6 +26,11 @@ import suppressConsoleMessage from "tests/utils/supressConsol";
 suppressConsoleMessage("componentWillMount has been renamed", "warn");
 suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
 
+// eslint-disable-next-line no-console
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
+
 const questionnaireId = "1";
 const sectionId = "2";
 

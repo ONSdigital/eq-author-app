@@ -25,8 +25,8 @@ import PropTypes from "prop-types";
  */
 const suppressConsoleMessage = (message, method) => {
   const nativeConsoleMethod = console[method]; // eslint-disable-line
+  // eslint-disable-next-line no-console
   console[method] = (nativeMessage) => {
-    // eslint-disable-line
     /* fire events that update state */
     if (!RegExp(message, "gi").test(nativeMessage)) {
       nativeConsoleMethod(nativeMessage);
