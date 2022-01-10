@@ -15,7 +15,7 @@ import IntroductionLayout from "../IntroductionLayout";
 import iconChevron from "./icon-chevron.svg";
 
 const Container = styled.div`
-  padding: 0 2em 2em;
+  padding: 2em;
   word-break: break-word;
   font-size: 1.1em;
   p {

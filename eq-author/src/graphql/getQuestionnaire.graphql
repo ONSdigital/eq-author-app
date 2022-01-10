@@ -3,6 +3,13 @@
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     ...Questionnaire
+    submission {
+      id
+      furtherContent
+      viewPrintAnswers
+      emailConfirmation
+      feedback
+    }
     sections {
       id
       displayName

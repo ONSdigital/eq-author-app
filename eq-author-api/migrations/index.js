@@ -26,6 +26,7 @@ const migrations = [
   require("./updateAnswerDeletedMetaData"),
   require("./updateUKISEPEThemes"),
   require("./updateContactDetails"),
+  require("./addSubmissionPage"),
   require("./migrateFolder"),
 ];
 

@@ -25,11 +25,18 @@ module.exports = (ajv) =>
     ) {
       isValid.errors = [];
 
-      const { sections, folders, pages, answers } = getPath(instancePath);
-
-      const currentAnswerValidation =
-        schema[sections].folders[folders].pages[pages].answers[answers]
-          .validation;
+      const { sections, folders, pages, answers, lists } =
+        getPath(instancePath);
+      let currentAnswerValidation;
+      if (folders) {
+        currentAnswerValidation =
+          schema[sections].folders[folders].pages[pages].answers[answers]
+            .validation;
+      }
+      if (lists) {
+        currentAnswerValidation =
+          questionnaire.lists[lists].answers[answers].validation;
+      }
 
       const minValidation = currentAnswerValidation.minValue;
       const maxValidation = currentAnswerValidation.maxValue;

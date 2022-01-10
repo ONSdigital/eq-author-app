@@ -1,0 +1,9 @@
+mutation UpdateSubmission($input: UpdateSubmissionInput!) {
+  updateSubmission(input: $input) {
+    id
+    furtherContent
+    viewPrintAnswers
+    emailConfirmation
+    feedback
+  }
+}

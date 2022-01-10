@@ -44,6 +44,7 @@ const {
   createFolder,
   createSection,
   createTheme,
+  createList,
 } = require("../../src/businessLogic");
 
 const {
@@ -68,6 +69,8 @@ const {
   getThemeByShortName,
   getPreviewTheme,
   getFirstEnabledTheme,
+  getListById,
+  getListByAnswerId,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -106,6 +109,7 @@ const {
 const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
+const createSubmission = require("../../utils/createSubmission");
 
 const {
   enforceHasWritePermission,
@@ -150,6 +154,7 @@ const createNewQuestionnaire = (input) => {
       themes: [defaultTheme],
     },
     locked: false,
+    submission: createSubmission(),
   };
 
   let changes = {};
@@ -277,6 +282,10 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
+    submission: (root, _, ctx) => ctx.questionnaire.submission,
+    lists: (_, args, ctx) => ctx.questionnaire.lists,
+    list: (root, { input: { listId } }, ctx) =>
+      find(ctx.questionnaire.lists, { id: listId }),
   },
 
   Subscription: {
@@ -421,6 +430,14 @@ const Resolvers = {
     updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
       ctx.questionnaire.surveyId = surveyId;
       return ctx.questionnaire;
+    }),
+    updateSubmission: createMutation((root, { input }, ctx) => {
+      ctx.questionnaire.submission = {
+        ...ctx.questionnaire.submission,
+        ...input,
+      };
+
+      return ctx.questionnaire.submission;
     }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {
@@ -875,6 +892,84 @@ const Resolvers = {
         ...confirmationPage,
       };
     }),
+    createList: createMutation(async (root, _, ctx) => {
+      const list = createList();
+      if (!ctx.questionnaire.lists) {
+        ctx.questionnaire.lists = [];
+      }
+      ctx.questionnaire.lists.push(list);
+      return ctx.questionnaire;
+    }),
+    updateList: createMutation(async (root, { input }, ctx) => {
+      const list = getListById(ctx, input.id);
+      list.listName = input.listName;
+      return list;
+    }),
+    deleteList: createMutation(async (root, { input }, ctx) => {
+      remove(ctx.questionnaire.lists, { id: input.id });
+      return ctx.questionnaire;
+    }),
+    createListAnswer: createMutation((root, { input }, ctx) => {
+      const list = find(ctx.questionnaire.lists, { id: input.listId });
+      const answer = createAnswer(omit(input, "listId"), list);
+      list.answers.push(answer);
+
+      onAnswerCreated(list, answer);
+
+      return list;
+    }),
+    updateListAnswer: createMutation((root, { input }, ctx) => {
+      const answers = getAnswers(ctx);
+      const additionalAnswers = flatMap(answers, (answer) =>
+        answer.options
+          ? flatMap(answer.options, (option) => option.additionalAnswer)
+          : null
+      );
+      const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswerLabel = answer.label;
+      merge(answer, input);
+
+      if (answer.type === DATE && !input.label && input?.properties?.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
+
+      const pages = getPages(ctx);
+      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
+
+      return answer;
+    }),
+    updateListAnswersOfType: createMutation(
+      (root, { input: { listId, type, properties } }, ctx) => {
+        const list = find(ctx.questionnaire.lists, { id: listId });
+        const answersOfType = list.answers.filter((a) => a.type === type);
+        answersOfType.forEach((answer) => {
+          answer.properties = {
+            ...answer.properties,
+            ...properties,
+          };
+        });
+
+        return answersOfType;
+      }
+    ),
+    deleteListAnswer: createMutation((_, { input }, ctx) => {
+      const list = getListByAnswerId(ctx, input.id);
+      const deletedAnswer = first(remove(list.answers, { id: input.id }));
+      const pages = getPages(ctx);
+
+      onAnswerDeleted(ctx, list, deletedAnswer, pages);
+      return list;
+    }),
+    moveListAnswer: createMutation((_, { input: { id, position } }, ctx) => {
+      const list = getListByAnswerId(ctx, id);
+      const answerMoving = first(remove(list.answers, { id }));
+      list.answers.splice(position, 0, answerMoving);
+
+      return answerMoving;
+    }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
         "Northern Ireland": "northernireland",
@@ -1255,6 +1350,13 @@ const Resolvers = {
 
   Routable: {
     __resolveType: ({ pageType }) => pageType,
+  },
+
+  List: {
+    answers: (list) => list.answers,
+    displayName: ({ listName }) => listName || "Untitled list",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
 
   Section: {

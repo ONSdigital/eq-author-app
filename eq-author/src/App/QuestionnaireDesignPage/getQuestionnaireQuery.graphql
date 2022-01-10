@@ -10,6 +10,10 @@ query GetQuestionnaire($input: QueryInput!) {
     totalErrorCount
     ...NavigationSidebar
     hub
+    lists {
+      id
+      displayName
+    }
     metadata {
       id
       displayName
@@ -25,6 +29,13 @@ query GetQuestionnaire($input: QueryInput!) {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
+    }
+    submission {
+      id
+      furtherContent
+      viewPrintAnswers
+      emailConfirmation
+      feedback
     }
     validationErrorInfo {
       ...ValidationErrorInfo
