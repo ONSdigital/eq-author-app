@@ -8,6 +8,8 @@ import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
+import Input from "components-themed/Input";
+import Button from "components-themed/buttons";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
@@ -59,6 +61,10 @@ const InlineField = styled(Field)`
   }
 `;
 
+const ContentHeading = styled.span`
+  font-weight: bold;
+`;
+
 const FeedbackLabel = styled(Label)`
   &:first-of-type {
     margin-top: -0.5em;
@@ -85,14 +91,16 @@ const BlueUnderlined = styled.span`
 `;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
-  const { furtherContent, viewPrintAnswers, feedback } = submission;
+  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
+    submission;
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
   const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
   const giveFeedback = `Give Feedback`;
   const getCopyOfAnswers = `Get a copy of your answers`;
-  const missingTitleText = `"Missing title text" `;
+  const missingTitleText = `Missing title text`;
+  const commentsImprovements = `Your comments will help us make improvements`;
 
   return (
     <Wrapper>
@@ -146,15 +154,38 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </Section>
         </>
       )}
+      {emailConfirmation && (
+        <>
+          <Section>
+            <SectionSeparator />
+            <PageTitle
+              title="Get confirmation email"
+              missingText={missingTitleText}
+            />
+            If you would like to be sent confirmation that you have completed
+            your survey, enter your email address
+          </Section>
+          <Section>
+            <ContentHeading>Email address</ContentHeading>
+          </Section>
+          <Section>
+            This will not be stored and will only be used once to send your
+            confirmation
+          </Section>
+          <Section>
+            <Input id="email-confirmation" type="text" />
+          </Section>
+          <Section>
+            <Button variant="confirm">Send confirmation</Button>
+          </Section>
+          <SectionSeparator />
+        </>
+      )}
       {feedback && (
         <Section>
           <Feedback>
             <PageTitle title={feedbackTitle} missingText={missingTitleText} />
-            <FeedbackLabel bold={false}>
-              You can&nbsp;
-              <BlueUnderlined>save or print your answers</BlueUnderlined>
-              &nbsp;for your records.
-            </FeedbackLabel>
+            <FeedbackLabel bold={false}>{commentsImprovements}</FeedbackLabel>
             <FeedbackLabel bold={false}>
               <BlueUnderlined bold>{giveFeedback}</BlueUnderlined>
             </FeedbackLabel>
