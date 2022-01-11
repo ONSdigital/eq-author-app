@@ -73,9 +73,13 @@ describe("RuleEditor", () => {
         },
         validationErrorInfo: validationErrorInfo,
       },
+      canMoveUp: true,
+      canMoveDown: true,
       deleteRule: jest.fn(),
       updateRule: jest.fn(),
       updateExpressionGroup: jest.fn(),
+      onMoveUp: jest.fn(),
+      onMoveDown: jest.fn(),
     };
   });
 

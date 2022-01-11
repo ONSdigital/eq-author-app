@@ -5,6 +5,19 @@ import { EditorState, ContentState } from "draft-js";
 import LinkToolbarButton from "./ToolbarButton";
 import { linkToHTML, linkFromHTML, ENTITY_TYPE as LINK_TYPE } from ".";
 
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
+
+// eslint-disable-next-line no-console
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
+
 describe("Link plugin for RichTextEditor", () => {
   describe("user interactions", () => {
     let toolbarButton;

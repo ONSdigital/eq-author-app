@@ -11,6 +11,7 @@ exports[`components/RoutingRuleSet should render children 1`] = `
         },
       ]
     }
+    onMove={[MockFunction]}
   >
     <Component />
   </Reorder>
