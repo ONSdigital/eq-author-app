@@ -14,6 +14,7 @@ describe("TotalValidationEditor", () => {
         custom: 5,
         previousAnswer: null,
         condition: "LessThan",
+        allowUnanswered: true,
       },
       type: "Number",
       onChange: jest.fn(),

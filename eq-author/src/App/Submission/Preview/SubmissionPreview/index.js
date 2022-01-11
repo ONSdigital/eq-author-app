@@ -78,7 +78,7 @@ const InlineFieldHeadingContainer = styled.div`
 
 const InlineFieldContentContainer = styled.div``;
 
-const BlueUnderlined = styled.text`
+const BlueUnderlined = styled.span`
   color: ${colors.blue};
   text-decoration: underline;
   font-weight: ${(props) => props.bold && `bold`};

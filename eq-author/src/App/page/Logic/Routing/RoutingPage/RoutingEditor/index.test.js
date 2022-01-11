@@ -27,6 +27,11 @@ describe("components/RoutingRuleSet", () => {
       },
       createRule: jest.fn(),
       updateRouting: jest.fn(),
+      moveRule: jest.fn(),
+      onMoveUp: jest.fn(),
+      onMoveDown: jest.fn(),
+      canMoveUp: true,
+      canMoveDown: true,
     };
   });
 
