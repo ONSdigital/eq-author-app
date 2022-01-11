@@ -173,7 +173,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
             confirmation
           </Section>
           <Section>
-            <Input id="email-confirmation" type="text" />
+            <Input id="email-confirmation" type="text" canInput={false} />
           </Section>
           <Section>
             <Button variant="confirm">Send confirmation</Button>

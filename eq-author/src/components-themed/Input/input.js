@@ -51,6 +51,7 @@ const StyledInput = styled.input`
   font-size: 1rem;
   line-height: 1rem;
   color: ${({ theme }) => theme.colors.input};
+  pointer-events: ${(props) => !props.canInput && `none`};
   &:focus {
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
@@ -60,7 +61,15 @@ const StyledInput = styled.input`
 `;
 
 export const UncontrolledInput = (props) => {
-  const { type, defaultValue, id, forwardRef, hasError, ...otherProps } = props;
+  const {
+    type,
+    defaultValue,
+    id,
+    forwardRef,
+    hasError,
+    canInput,
+    ...otherProps
+  } = props;
   return (
     <StyledInput
       ref={forwardRef}
@@ -69,6 +78,7 @@ export const UncontrolledInput = (props) => {
       id={id}
       name={id}
       hasError={hasError}
+      canInput={canInput}
       {...otherProps}
     />
   );
@@ -76,6 +86,7 @@ export const UncontrolledInput = (props) => {
 
 UncontrolledInput.defaultProps = {
   type: "text",
+  canInput: true,
 };
 
 UncontrolledInput.propTypes = {
@@ -95,6 +106,7 @@ UncontrolledInput.propTypes = {
   ]),
   forwardRef: PropTypes.func,
   hasError: PropTypes.bool,
+  canInput: PropTypes.bool,
 };
 
 export default withChangeHandler(UncontrolledInput);
