@@ -819,7 +819,7 @@ type Mutation {
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
-  moveSection(input: MoveSectionInput!): Section
+  moveSection(input: MoveSectionInput!): Questionnaire
   duplicateSection(input: DuplicateSectionInput!): Section
 
   createFolder(input: CreateFolderInput!): Folder
@@ -1293,7 +1293,6 @@ input DeleteOptionInput {
 
 input MoveSectionInput {
   id: ID!
-  questionnaireId: ID!
   position: Int!
 }
 

@@ -96,7 +96,6 @@ describe("section", () => {
 
       await moveSection(ctx, {
         id: sectionToMoveId,
-        questionnaireId: questionnaire.id,
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
@@ -112,7 +111,6 @@ describe("section", () => {
 
       await moveSection(ctx, {
         id: sectionToMoveId,
-        questionnaireId: questionnaire.id,
         position: 0,
       });
       const { sections } = await queryQuestionnaire(ctx);

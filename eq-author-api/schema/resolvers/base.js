@@ -566,7 +566,7 @@ const Resolvers = {
       getSections(ctx).splice(input.position, 0, removedSection);
       deleteFirstPageSkipConditions(ctx);
       deleteLastPageRouting(ctx);
-      return removedSection;
+      return ctx.questionnaire;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);

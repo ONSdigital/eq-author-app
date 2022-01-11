@@ -9,7 +9,7 @@ import { buildSectionPath } from "utils/UrlUtils";
 
 import IconSection from "assets/icon-section.svg?inline";
 
-import { Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import CollapsibleNavItem from "components/CollapsibleNavItem";
 import Folder from "../Folder";
 
@@ -38,6 +38,7 @@ const Section = ({
   folders,
   validationErrorInfo,
   open,
+  position,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -49,51 +50,58 @@ const Section = ({
       (acc, { validationErrorInfo }) => (acc += validationErrorInfo.totalCount),
       0
     );
-
   const allPagesInSection = folders.flatMap(({ pages }) => pages);
 
   return (
-    <ListItem>
-      <CollapsibleNavItem
-        title={displayName}
-        icon={IconSection}
-        bordered
-        open={open}
-        disabled={isCurrentPage(sectionId, entityId)}
-        titleUrl={buildSectionPath({
-          questionnaireId,
-          sectionId,
-          tab,
-        })}
-        selfErrorCount={validationErrorInfo.totalCount}
-        childErrorCount={calculatePageErrors(allPagesInSection)}
-        containsActiveEntity={allPagesInSection
-          .map(({ id }) => isCurrentPage(id, entityId))
-          .find(Boolean)}
-      >
-        <Droppable droppableId={sectionId} type={`section-content`}>
-          {({ innerRef, placeholder, droppableProps }, { isDraggingOver }) => (
-            <NavList
-              ref={innerRef}
-              isDraggingOver={isDraggingOver}
-              {...droppableProps}
-            >
-              {folders.map(({ id: folderId, pages, position, ...rest }) => (
-                <Folder
-                  key={`folder-${folderId}`}
-                  id={folderId}
-                  questionnaireId={questionnaireId}
-                  pages={pages}
-                  position={position}
-                  {...rest}
-                />
-              ))}
-              {placeholder}
-            </NavList>
-          )}
-        </Droppable>
-      </CollapsibleNavItem>
-    </ListItem>
+    <Draggable key={sectionId} draggableId={sectionId} index={position}>
+      {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
+        <ListItem ref={innerRef} {...draggableProps} {...dragHandleProps}>
+          <CollapsibleNavItem
+            title={displayName}
+            icon={IconSection}
+            bordered
+            open={open}
+            isDragging={isDragging}
+            disabled={isCurrentPage(sectionId, entityId)}
+            titleUrl={buildSectionPath({
+              questionnaireId,
+              sectionId,
+              tab,
+            })}
+            selfErrorCount={validationErrorInfo.totalCount}
+            childErrorCount={calculatePageErrors(allPagesInSection)}
+            containsActiveEntity={allPagesInSection
+              .map(({ id }) => isCurrentPage(id, entityId))
+              .find(Boolean)}
+          >
+            <Droppable droppableId={sectionId} type={`section-content`}>
+              {(
+                { innerRef, placeholder, droppableProps },
+                { isDraggingOver }
+              ) => (
+                <NavList
+                  ref={innerRef}
+                  isDraggingOver={isDraggingOver}
+                  {...droppableProps}
+                >
+                  {folders.map(({ id: folderId, pages, position, ...rest }) => (
+                    <Folder
+                      key={`folder-${folderId}`}
+                      id={folderId}
+                      questionnaireId={questionnaireId}
+                      pages={pages}
+                      position={position}
+                      {...rest}
+                    />
+                  ))}
+                  {placeholder}
+                </NavList>
+              )}
+            </Droppable>
+          </CollapsibleNavItem>
+        </ListItem>
+      )}
+    </Draggable>
   );
 };
 
@@ -104,6 +112,7 @@ Section.propTypes = {
   folders: PropTypes.array.isRequired, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   open: PropTypes.bool,
+  position: PropTypes.number,
 };
 
 export default Section;
