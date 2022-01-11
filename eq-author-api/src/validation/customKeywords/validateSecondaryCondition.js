@@ -45,15 +45,10 @@ module.exports = (ajv) =>
         const leftAnswerOptions = leftAnswer.options;
         const customNumber = currentExpression.right?.customValue?.number;
 
-        console.log(`leftAnswerOptions`, leftAnswerOptions);
-        console.log(
-          `currentExpression.right?.customValue`,
-          currentExpression.right?.customValue
-        );
-
         if (
-          customNumber !== undefined &&
-          customNumber > leftAnswerOptions.length
+          customNumber > leftAnswerOptions.length ||
+          (currentExpression.secondaryCondition === "GreaterThan" &&
+            customNumber === leftAnswerOptions.length)
         ) {
           isValid.errors = [
             createValidationError(
@@ -63,9 +58,9 @@ module.exports = (ajv) =>
               questionnaire
             ),
           ];
-
           return false;
         }
+
         return true;
       }
 
