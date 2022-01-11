@@ -45,20 +45,22 @@ module.exports = (ajv) =>
         const leftAnswerOptions = leftAnswer.options;
         const customNumber = currentExpression.right?.customValue?.number;
 
-        if (
-          customNumber > leftAnswerOptions.length ||
-          (currentExpression.secondaryCondition === "GreaterThan" &&
-            customNumber === leftAnswerOptions.length)
-        ) {
-          isValid.errors = [
-            createValidationError(
-              instancePath,
-              "countMismatch",
-              ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
-              questionnaire
-            ),
-          ];
-          return false;
+        if (leftAnswerOptions?.length !== undefined) {
+          if (
+            customNumber > leftAnswerOptions?.length ||
+            (currentExpression.secondaryCondition === "GreaterThan" &&
+              customNumber === leftAnswerOptions.length)
+          ) {
+            isValid.errors = [
+              createValidationError(
+                instancePath,
+                "countMismatch",
+                ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
+                questionnaire
+              ),
+            ];
+            return false;
+          }
         }
 
         return true;
