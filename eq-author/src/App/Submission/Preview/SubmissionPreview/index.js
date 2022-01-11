@@ -180,7 +180,6 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               Send confirmation
             </Button>
           </Section>
-          <SectionSeparator />
         </>
       )}
       {feedback && (
