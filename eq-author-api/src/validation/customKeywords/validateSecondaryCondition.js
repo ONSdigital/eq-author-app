@@ -1,7 +1,7 @@
 const { flatMap, compact } = require("lodash");
 const {
   ERR_SEC_CONDITION_NOT_SELECTED,
-  ERR_COUNT_OF_GREATER_THAN_OPTIONS,
+  ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
 } = require("../../../constants/validationErrorCodes");
 
 const createValidationError = require("../createValidationError");
@@ -43,6 +43,7 @@ module.exports = (ajv) =>
           ({ id }) => id === currentExpression.left.answerId
         );
         const leftAnswerOptions = leftAnswer.options;
+        const customNumber = currentExpression.right?.customValue?.number;
 
         console.log(`leftAnswerOptions`, leftAnswerOptions);
         console.log(
@@ -51,13 +52,14 @@ module.exports = (ajv) =>
         );
 
         if (
-          currentExpression.right?.customValue.number > leftAnswerOptions.length
+          customNumber !== undefined &&
+          customNumber > leftAnswerOptions.length
         ) {
           isValid.errors = [
             createValidationError(
               instancePath,
-              "secondaryCondition",
-              ERR_COUNT_OF_GREATER_THAN_OPTIONS,
+              "countMismatch",
+              ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
               questionnaire
             ),
           ];
