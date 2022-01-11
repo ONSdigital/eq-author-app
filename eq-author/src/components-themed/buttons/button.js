@@ -203,6 +203,7 @@ const confirmButton = css`
   color: ${({ theme }) => theme.colors.textInverse};
   background-color: ${({ theme }) => theme.colors.positive};
   box-shadow: 0 3px ${({ theme }) => darken(0.15, theme.colors.positive)};
+  pointer-events: ${(props) => !props.canClick && `none`};
 
   svg {
     fill: ${({ theme }) => theme.colors.textInverse};
@@ -310,11 +311,13 @@ Button.propTypes = {
   iconRight: PropType.bool,
   iconLeft: PropType.bool,
   noBorders: PropType.bool,
+  canClick: PropType.bool,
 };
 
 Button.defaultProps = {
   type: "button",
   variant: "primary",
+  canClick: true,
 };
 
 export default Button;
