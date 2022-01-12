@@ -71,6 +71,8 @@ export const StatelessBasicAnswer = ({
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
 
+  const { id } = answer;
+
   return (
     <div>
       <Field>
@@ -134,9 +136,15 @@ export const StatelessBasicAnswer = ({
                 id="default-answer"
                 name="default-answer"
                 hideLabels={false}
-                onChange={() => console.log("Hello")}
+                onChange={({ value }) =>
+                  updateAnswer({
+                    variables: {
+                      input: { id, defaultAnswer: value },
+                    },
+                  })
+                }
                 data-test="default-answer"
-                checked
+                checked={answer.defaultAnswer}
               />
             </InlineField>
             <Caption>

@@ -270,6 +270,7 @@ interface Answer {
   page: QuestionPage
   properties: JSON
   advancedProperties: Boolean
+  defaultAnswer: Boolean
 }
 
 type BasicAnswer implements Answer {
@@ -290,6 +291,7 @@ type BasicAnswer implements Answer {
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
+  defaultAnswer: Boolean
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -308,6 +310,7 @@ type MultipleChoiceAnswer implements Answer {
   properties: JSON
   advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
+  defaultAnswer: Boolean
 }
 
 type Option {
@@ -1238,6 +1241,7 @@ input UpdateAnswerInput {
   secondaryQCode: String
   properties: JSON
   advancedProperties: Boolean
+  defaultAnswer: Boolean
 }
 
 input UpdateAnswersOfTypeInput {
