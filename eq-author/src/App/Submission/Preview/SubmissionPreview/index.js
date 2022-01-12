@@ -178,7 +178,11 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               confirmation
             </SectionContent>
             <SectionContent marginTop={0.5}>
-              <Input id="email-confirmation" preview />
+              <Input
+                id="email-confirmation"
+                aria-label="Inactive preview email input"
+                preview
+              />
             </SectionContent>
           </Section>
           <Section>
