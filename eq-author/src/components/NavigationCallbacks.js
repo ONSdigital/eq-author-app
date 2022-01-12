@@ -66,26 +66,15 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
   useSetNavigationCallbacks(
     {
       onAddQuestionPage: () =>
-        page?.folder?.enabled
-          ? addQuestionPage({
-              folderId: folder.id,
-              position: page.position + 1,
-            })
-          : addFolderWithPage({
-              sectionId: section.id,
-              position: folder.position + 1,
-            }),
+        addQuestionPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
       onAddCalculatedSummaryPage: () =>
-        page?.folder?.enabled
-          ? addCalculatedSummaryPage({
-              folderId: folder.id,
-              position: page.position + 1,
-            })
-          : addFolderWithPage({
-              sectionId: section.id,
-              position: folder.position + 1,
-              isCalcSum: true,
-            }),
+        addCalculatedSummaryPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
       onAddFolder: () =>
         addFolder({
           sectionId: section.id,
