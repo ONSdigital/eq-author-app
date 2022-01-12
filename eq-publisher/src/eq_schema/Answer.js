@@ -66,7 +66,7 @@ class Answer {
       this.decimal_places = answer.properties.decimals;
     }
 
-    if (answer.advancedProperties && has(answer, "properties.defaultAnswer")) {
+    if (answer.advancedProperties && answer.properties.defaultAnswer) {
       this.default = 0;
     }
 
