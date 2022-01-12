@@ -67,6 +67,16 @@ const NavList = styled.ol`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  ${({ isDraggingOver }) =>
+    isDraggingOver &&
+    `
+    background-color: ${colors.black};
+
+    .CollapsibleNavItem .CollapsibleNavItem-body {
+      background-color: ${colors.black};
+    }
+  `}
 `;
 
 const ListItem = styled.li``;
