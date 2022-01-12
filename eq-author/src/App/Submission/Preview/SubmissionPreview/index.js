@@ -63,6 +63,12 @@ const InlineField = styled(Field)`
 
 const ContentHeading = styled.span`
   font-weight: bold;
+  margin-bottom: 0.1em;
+`;
+
+const SectionContent = styled.div`
+  font-size: 14px;
+  margin-top: ${(props) => `${props.marginTop}em`};
 `;
 
 const FeedbackLabel = styled(Label)`
@@ -167,13 +173,13 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </Section>
           <Section>
             <ContentHeading>Email address</ContentHeading>
-          </Section>
-          <Section>
-            This will not be stored and will only be used once to send your
-            confirmation
-          </Section>
-          <Section>
-            <Input id="email-confirmation" canInput={false} />
+            <SectionContent marginTop={0.3}>
+              This will not be stored and will only be used once to send your
+              confirmation
+            </SectionContent>
+            <SectionContent marginTop={0.5}>
+              <Input id="email-confirmation" canInput={false} />
+            </SectionContent>
           </Section>
           <Section>
             <Button variant="confirm" canClick={false}>
