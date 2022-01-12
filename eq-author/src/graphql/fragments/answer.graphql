@@ -10,5 +10,4 @@ fragment Answer on Answer {
   displayName
   qCode
   advancedProperties
-  defaultAnswer
 }

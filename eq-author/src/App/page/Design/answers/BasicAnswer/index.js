@@ -139,12 +139,12 @@ export const StatelessBasicAnswer = ({
                 onChange={({ value }) =>
                   updateAnswer({
                     variables: {
-                      input: { id, defaultAnswer: value },
+                      input: { id, properties: { defaultAnswer: value } },
                     },
                   })
                 }
                 data-test="default-answer"
-                checked={answer.defaultAnswer}
+                checked={answer.properties.defaultAnswer}
               />
             </InlineField>
             <Caption>
