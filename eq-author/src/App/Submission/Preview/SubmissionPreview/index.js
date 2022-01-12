@@ -178,11 +178,11 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               confirmation
             </SectionContent>
             <SectionContent marginTop={0.5}>
-              <Input id="email-confirmation" canInput={false} />
+              <Input id="email-confirmation" preview />
             </SectionContent>
           </Section>
           <Section>
-            <Button variant="confirm" canClick={false}>
+            <Button variant="confirm" preview>
               Send confirmation
             </Button>
           </Section>

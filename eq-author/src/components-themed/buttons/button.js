@@ -203,7 +203,7 @@ const confirmButton = css`
   color: ${({ theme }) => theme.colors.textInverse};
   background-color: ${({ theme }) => theme.colors.positive};
   box-shadow: 0 3px ${({ theme }) => darken(0.15, theme.colors.positive)};
-  pointer-events: ${(props) => !props.canClick && `none`};
+  pointer-events: ${(props) => props.preview && `none`};
 
   svg {
     fill: ${({ theme }) => theme.colors.textInverse};
@@ -248,7 +248,7 @@ const BaseButton = styled.button`
   padding: 0;
   margin: 0;
   border: 0;
-  border-radius: ${({ theme }) => theme.radius};
+  border-radius: ${({ preview, theme }) => !preview && theme.radius};
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -311,13 +311,13 @@ Button.propTypes = {
   iconRight: PropType.bool,
   iconLeft: PropType.bool,
   noBorders: PropType.bool,
-  canClick: PropType.bool,
+  preview: PropType.bool,
 };
 
 Button.defaultProps = {
   type: "button",
   variant: "primary",
-  canClick: true,
+  preview: false,
 };
 
 export default Button;
