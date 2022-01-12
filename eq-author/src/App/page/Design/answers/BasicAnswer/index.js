@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
+import styled from "styled-components";
 
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -34,8 +35,16 @@ import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
+import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
+
+const Caption = styled.div`
+  margin-bottom: 0.2em;
+  font-size: 0.85em;
+`;
+
+const CollapsibleContent = styled.p``;
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -130,6 +139,21 @@ export const StatelessBasicAnswer = ({
                 checked
               />
             </InlineField>
+            <Caption>
+              If unanswered a default value of zero will be recorded.
+            </Caption>
+            <Collapsible
+              title="Why would I need a default value?"
+              defaultOpen={false}
+              className="default-value"
+            >
+              <CollapsibleContent>
+                If this answer is not provided by the respondent and is used in
+                validation settings in a future question it will cause an error.
+                Turning on the default answer will prevent this situation from
+                arising.
+              </CollapsibleContent>
+            </Collapsible>
           </>
         )}
         <MutuallyExclusive
