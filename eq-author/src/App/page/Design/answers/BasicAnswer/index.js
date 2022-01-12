@@ -24,12 +24,16 @@ import LatestDateValidationRule from "graphql/fragments/latest-date-validation-r
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
+
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD } from "constants/answer-types";
+
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import InlineField from "components/AnswerContent/Format/InlineField";
 
 import gql from "graphql-tag";
 
@@ -110,7 +114,23 @@ export const StatelessBasicAnswer = ({
       />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
-          <AnswerValidation answer={answer} />
+          <>
+            <AnswerValidation answer={answer} />
+            <InlineField
+              id="default-answer"
+              htmlFor="default-answer"
+              label="Default answer"
+            >
+              <ToggleSwitch
+                id="default-answer"
+                name="default-answer"
+                hideLabels={false}
+                onChange={() => console.log("Hello")}
+                data-test="default-answer"
+                checked
+              />
+            </InlineField>
+          </>
         )}
         <MutuallyExclusive
           answer={answer}
