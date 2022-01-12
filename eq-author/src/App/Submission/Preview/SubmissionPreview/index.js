@@ -181,12 +181,13 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               <Input
                 id="email-confirmation"
                 aria-label="Inactive preview email input"
+                tabIndex="-1"
                 preview
               />
             </SectionContent>
           </Section>
           <Section>
-            <Button variant="confirm" preview>
+            <Button variant="confirm" tabIndex="-1" preview>
               Send confirmation
             </Button>
           </Section>
