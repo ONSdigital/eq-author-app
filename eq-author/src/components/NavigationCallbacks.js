@@ -5,10 +5,7 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import {
-  useCreateFolder,
-  useCreatePageWithFolder,
-} from "hooks/useCreateFolder";
+import { useCreateFolder } from "hooks/useCreateFolder";
 
 export const defaultCallbacks = {
   onAddQuestionPage: () => {
@@ -57,8 +54,6 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
 
 export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
   const addQuestionPage = useCreateQuestionPage();
-
-  const addFolderWithPage = useCreatePageWithFolder();
 
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
