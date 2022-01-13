@@ -117,6 +117,7 @@ type List {
 enum LegalBasisCode {
   NOTICE_1
   NOTICE_2
+  NOTICE_3
   NOTICE_NI
   VOLUNTARY
 }
@@ -657,6 +658,7 @@ type QuestionnaireIntroduction {
   contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
+  legalBasis: String
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -1430,6 +1432,7 @@ input UpdateQuestionnaireIntroductionInput {
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
+  legalBasis: String
   secondaryTitle: String!
   secondaryDescription: String!
   tertiaryTitle: String!

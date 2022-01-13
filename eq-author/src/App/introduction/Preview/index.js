@@ -11,6 +11,10 @@ import { colors } from "constants/theme";
 import PageTitle from "components/preview/elements/PageTitle";
 import CommentsPanel from "App/Comments";
 import IntroductionLayout from "../IntroductionLayout";
+import {
+  LEGAL_BASIS_OPTIONS,
+  LegalOption,
+} from "App/settings/LegalBasisSelect";
 
 import iconChevron from "./icon-chevron.svg";
 
@@ -109,6 +113,7 @@ const MissingText = styled.text`
 `;
 
 export const IntroductionPreview = ({ loading, data }) => {
+  console.log("data :>> ", data);
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }
@@ -122,6 +127,7 @@ export const IntroductionPreview = ({ loading, data }) => {
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       description,
+      legalBasis,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -144,7 +150,7 @@ export const IntroductionPreview = ({ loading, data }) => {
         {contactDetailsEmailAddress !== "" ? (
           <BlueUnderlined>{contactDetailsEmailAddress}</BlueUnderlined>
         ) : (
-          <MissingText>Email address missing</MissingText>
+          <MissingText>Email address missing </MissingText>
         )}
         {additionalGuidancePanelSwitch && (
           <GuidancePanel
@@ -156,6 +162,11 @@ export const IntroductionPreview = ({ loading, data }) => {
           data-test="description"
           dangerouslySetInnerHTML={{ __html: description }}
         />
+        <PageTitle title="Your response is legally required" />
+        <Description dangerouslySetInnerHTML={{ __html: legalBasis }} />
+        {/* <Description
+            dangerouslySetInnerHTML= {{ __html: LEGAL_BASIS_OPTIONS[0]['description']}}
+          />        */}
         <Button>Start survey</Button>
         <PageTitle
           missingText="Missing secondary title"
@@ -200,6 +211,7 @@ const fragment = gql`
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     description
+    legalBasis
     secondaryTitle
     secondaryDescription
     collapsibles {

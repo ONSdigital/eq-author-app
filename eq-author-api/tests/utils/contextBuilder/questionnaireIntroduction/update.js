@@ -6,6 +6,7 @@ const updateQuestionnaireIntroductionMutation = `
       id
       title
       description
+      legalBasis
       secondaryTitle
       secondaryDescription
       additionalGuidancePanel

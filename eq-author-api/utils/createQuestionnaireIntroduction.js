@@ -19,7 +19,7 @@ module.exports = (metadata) => {
     additionalGuidancePanel: "",
     description:
       "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures aren’t available.</li><li>We will treat your data securely and confidentially.</li></ul>",
-    legalBasis: NOTICE_1,
+    // legalBasis: NOTICE_1,
     secondaryTitle: "<p>Information you need</p>",
     secondaryDescription:
       "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",

@@ -200,6 +200,7 @@ exports.getQuestionnaire = `
         description
         additionalGuidancePanel
         additionalGuidancePanelSwitch
+        legalBasis
         secondaryTitle
         secondaryDescription
         collapsibles {
