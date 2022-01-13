@@ -66,6 +66,10 @@ class Answer {
       this.decimal_places = answer.properties.decimals;
     }
 
+    if (answer.advancedProperties && answer.properties.defaultAnswer) {
+      this.default = 0;
+    }
+
     if (!isNil(answer.parentAnswerId)) {
       this.parent_answer_id = `answer${answer.parentAnswerId}`;
     }
