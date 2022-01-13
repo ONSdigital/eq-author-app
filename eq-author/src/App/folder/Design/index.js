@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
   useCreatePageWithFolder,
@@ -36,17 +36,10 @@ import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
 
 import { colors } from "constants/theme";
-import { Field } from "components/Forms";
-import DescribedText from "components/DescribedText";
-import WrappingInput from "components/Forms/WrappingInput";
 
 const Guidance = styled(Collapsible)`
   margin-left: 2em;
   margin-right: 2em;
-`;
-
-const StyledDescribedText = styled(DescribedText)`
-  font-weight: 700;
 `;
 
 const StyledPanel = styled(Panel)`
@@ -60,11 +53,6 @@ const StyledPanel = styled(Panel)`
     margin-left: 2em;
     margin-right: 2em;
   }
-`;
-
-const StyledField = styled(Field)`
-  margin-left: 2em;
-  margin-right: 2em;
 `;
 
 const ButtonGroup = styled.div`
@@ -89,12 +77,6 @@ const FolderDesignPage = ({ history, match }) => {
     variables: { input: { folderId } },
     fetchPolicy: "cache-and-network",
   });
-
-  const [title, setTitle] = useState(data?.folder.title);
-
-  useEffect(() => {
-    setTitle(data?.folder.title);
-  }, [data?.folder.title]);
 
   let folderPosition, pages;
 
@@ -227,28 +209,6 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
         />
-        <StyledField>
-          <StyledDescribedText
-            htmlFor={`folder-folder-${id}`}
-            description={`This will be shown on section and answer summaries.`}
-          >
-            Title
-          </StyledDescribedText>
-          <WrappingInput
-            id={`folder-input-${id}`}
-            name="title"
-            onChange={(e) => setTitle(e.value)}
-            onBlur={(e) =>
-              updateFolder({
-                variables: { input: { folderId: id, title: e.target.value } },
-              })
-            }
-            value={title}
-            placeholder={``}
-            data-test="txt-folder-input"
-            bold
-          />
-        </StyledField>
         <h2>Folders</h2>
         <p>
           Folders are used to apply an action or event to multiple questions at
