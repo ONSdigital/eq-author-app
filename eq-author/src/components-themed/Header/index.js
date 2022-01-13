@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import PropType from "prop-types";
+import { Grid, Column } from "components/Grid";
 
 const HeaderTop = styled.div`
   background-color: ${({ theme, variant }) =>
     variant === "Internal"
       ? theme.colors.internalHeaderTop
       : theme.colors.externalHeaderTop};
-  padding: 0 1rem;
   height: 46px;
   align-items: center;
   display: flex;
@@ -64,7 +64,6 @@ const HeaderTitle = styled.div`
 const HeaderMain = styled.div`
   background-color: ${({ theme }) => theme.colors.headerMain};
   padding: 0.56rem 0;
-  padding-left: 1rem;
   padding-right: 1rem;
 `;
 
@@ -74,20 +73,29 @@ const Header = ({
   headerDescription,
   logo,
   headerTopContent,
+  centerCols,
 }) => {
   return (
     <>
       <HeaderTop variant={variant}>
-        {logo}
-        {headerTopContent}
+        <Grid align="center" horizontalAlign="center">
+          <Column cols={centerCols}>
+            {logo}
+            {headerTopContent}
+          </Column>
+        </Grid>
       </HeaderTop>
       <HeaderMain headerDescription={headerDescription}>
-        <HeaderTitle headerDescription={headerDescription}>
-          {children}
-        </HeaderTitle>
-        {headerDescription && (
-          <HeaderDescription>{headerDescription}</HeaderDescription>
-        )}
+        <Grid horizontalAlign="center">
+          <Column cols={centerCols}>
+            <HeaderTitle headerDescription={headerDescription}>
+              {children}
+            </HeaderTitle>
+            {headerDescription && (
+              <HeaderDescription>{headerDescription}</HeaderDescription>
+            )}
+          </Column>
+        </Grid>
       </HeaderMain>
     </>
   );
@@ -99,10 +107,12 @@ Header.propTypes = {
   headerDescription: PropType.string,
   logo: PropType.node,
   headerTopContent: PropType.node,
+  centerCols: PropType.number,
 };
 
 Header.defaultProps = {
   variant: "Internal",
+  centerCols: 12,
 };
 
 export default Header;
