@@ -19,6 +19,8 @@ import withFetchAnswers from "./withFetchAnswers";
 
 import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
 
+import RedirectRoute from "components/RedirectRoute";
+
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
@@ -80,6 +82,12 @@ export const UnwrappedPageRoute = (props) => {
 
     if (loading) {
       return <Loading height="38rem">Page loading…</Loading>;
+    }
+
+    if (isEmpty(page)) {
+      return (
+        <RedirectRoute to={"/q/:questionnaireId/introduction/:pageId/design"} />
+      );
     }
 
     return <Error>Something went wrong</Error>;
