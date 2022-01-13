@@ -25,8 +25,8 @@ exports[`RuleEditor should render 1`] = `
           aria-label="Move rule up"
           color="white"
           data-test="btn-move-routing-rule-up"
-          disabled={true}
-          tabIndex={-1}
+          disabled={false}
+          onClick={[MockFunction]}
         >
           <Component />
         </MoveButton>
@@ -45,8 +45,8 @@ exports[`RuleEditor should render 1`] = `
           aria-label="Move rule down"
           color="white"
           data-test="btn-move-routing-rule-down"
-          disabled={true}
-          tabIndex={-1}
+          disabled={false}
+          onClick={[MockFunction]}
         >
           <Component />
         </MoveButton>

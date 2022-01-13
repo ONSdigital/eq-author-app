@@ -8,6 +8,21 @@ import {
 
 import SectionSummary from "../SectionSummary";
 
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage(
+  "Failed prop type: Invalid prop `children` supplied to `Provider`",
+  "error"
+);
+
+// eslint-disable-next-line no-console
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
+
 const mockUseMutation = jest.fn();
 
 jest.mock("@apollo/react-hooks", () => ({

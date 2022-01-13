@@ -742,6 +742,53 @@ describe("Answer", () => {
     });
   });
 
+  describe("default", () => {
+    it("should set default 0 when defaultAnswer is enabled", () => {
+      [NUMBER, PERCENTAGE, CURRENCY, UNIT].forEach((type) => {
+        const answer = new Answer(
+          createAnswerJSON({
+            advancedProperties: true,
+            type,
+            properties: {
+              defaultAnswer: true,
+            },
+          })
+        );
+        expect(answer.default).toBe(0);
+      });
+    });
+
+    it("should not set default 0 when defaultAnswer is disabled", () => {
+      [NUMBER, PERCENTAGE, CURRENCY, UNIT].forEach((type) => {
+        const answer = new Answer(
+          createAnswerJSON({
+            advancedProperties: true,
+            type,
+            properties: {
+              defaultAnswer: false,
+            },
+          })
+        );
+        expect(answer.default).toBe(undefined);
+      });
+    });
+
+    it("should not set default 0 when advancedProperties is disabled", () => {
+      [NUMBER, PERCENTAGE, CURRENCY, UNIT].forEach((type) => {
+        const answer = new Answer(
+          createAnswerJSON({
+            advancedProperties: false,
+            type,
+            properties: {
+              defaultAnswer: true,
+            },
+          })
+        );
+        expect(answer.default).toBe(undefined);
+      });
+    });
+  });
+
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
       const answer = new Answer(createAnswerJSON());
