@@ -18,7 +18,6 @@ const conditions = {
 };
 
 export const Selector = styled(Select)`
-  width: 195px;
   padding: 0.3em 2em 0.3em 0.5em;
 `;
 
