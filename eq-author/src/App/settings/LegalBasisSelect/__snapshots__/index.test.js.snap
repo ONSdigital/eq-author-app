@@ -27,6 +27,17 @@ exports[`LegalBasisField should render 1`] = `
     value="NOTICE_2"
   >
     <Radio__RadioDescription>
+      Sections 2 and 3 of the Statistics of Trade Act 1947.
+    </Radio__RadioDescription>
+  </LegalOption>
+  <LegalOption
+    key="NOTICE_3"
+    name="default"
+    onChange={[Function]}
+    selected={false}
+    value="NOTICE_3"
+  >
+    <Radio__RadioDescription>
       Sections 3 and 4 of the Statistics of Trade Act 1947.
     </Radio__RadioDescription>
   </LegalOption>

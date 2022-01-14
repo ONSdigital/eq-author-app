@@ -80,6 +80,11 @@ const section = {
     id: questionnaireId,
     navigation: true,
     hub: false,
+    themeSettings: {
+      id: "1",
+      previewTheme: "default",
+      themes: [{}],
+    },
     questionnaireInfo: {
       __typename: "QuestionnaireInfo",
       totalSectionCount: 1,
@@ -122,6 +127,11 @@ const moveSectionMock = {
         shortTitle: "Short tile",
         permission: WRITE,
         isPublic: true,
+        themeSettings: {
+          id: "1",
+          previewTheme: "default",
+          themes: [{}],
+        },
         createdBy: {
           id: "1",
           name: "Some user",
@@ -365,6 +375,11 @@ describe("SectionRoute", () => {
         id: "1",
         navigation: true,
         hub: false,
+        themeSettings: {
+          id: "1",
+          previewTheme: "default",
+          themes: [{}],
+        },
         questionnaireInfo: {
           totalSectionCount: 2,
         },
@@ -390,6 +405,11 @@ describe("SectionRoute", () => {
         id: "1",
         navigation: true,
         hub: false,
+        themeSettings: {
+          id: "1",
+          previewTheme: "default",
+          themes: [{}],
+        },
         questionnaireInfo: {
           totalSectionCount: 2,
         },
