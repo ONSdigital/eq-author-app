@@ -12,10 +12,7 @@ import { colors } from "constants/theme";
 import PageTitle from "components/preview/elements/PageTitle";
 import CommentsPanel from "App/Comments";
 import IntroductionLayout from "../IntroductionLayout";
-import {
-  LEGAL_BASIS_OPTIONS,
-  LegalOption,
-} from "App/settings/LegalBasisSelect";
+import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
@@ -129,8 +126,12 @@ export const IntroductionPreview = ({ loading, data, match }) => {
   const previewTheme = themeSettings?.previewTheme;
 
   const legalBasisCode = themes?.find(
-    (theme) => (theme.id = previewTheme)
+    (theme) => theme.id === previewTheme
   ).legalBasisCode;
+
+  const legalBasis = LEGAL_BASIS_OPTIONS.find(
+    (legalBasisOption) => legalBasisOption.value === legalBasisCode
+  );
 
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -179,8 +180,14 @@ export const IntroductionPreview = ({ loading, data, match }) => {
           data-test="description"
           dangerouslySetInnerHTML={{ __html: description }}
         />
-        <PageTitle title="Your response is legally required" />
-        <Description dangerouslySetInnerHTML={{ __html: legalBasisCode }} />
+        {legalBasisCode !== "VOLUNTARY" && (
+          <>
+            <PageTitle title="Your response is legally required" />
+            <Description
+              dangerouslySetInnerHTML={{ __html: legalBasis?.description }}
+            />
+          </>
+        )}
         {/* <Description
             dangerouslySetInnerHTML= {{ __html: LEGAL_BASIS_OPTIONS[0]['description']}}
           />        */}
@@ -246,6 +253,11 @@ IntroductionPreview.propTypes = {
     questionnaireIntroduction: propType(fragment),
   }),
   loading: PropTypes.bool.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      questionnaireId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export const QUESTIONNAIRE_QUERY = gql`
