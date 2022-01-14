@@ -76,6 +76,7 @@ describe("section", () => {
         alias: "Alias-updated",
         introductionTitle: "Questionnaire-updated-title",
         introductionContent: "Alias-updated-content",
+        summaryTitle: "summary title",
       };
       const updatedSection = await updateSection(ctx, update);
       expect(updatedSection).toEqual(expect.objectContaining(update));

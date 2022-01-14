@@ -21,7 +21,7 @@ describe("addSummaryTitle", () => {
       sections: [
         {
           id: "section1",
-          summaryTitle: null,
+          summaryTitle: "",
         },
         {
           id: "section2",
