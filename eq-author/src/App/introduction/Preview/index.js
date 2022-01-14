@@ -121,9 +121,8 @@ export const IntroductionPreview = ({ loading, data, match }) => {
   });
 
   const questionnaire = questionnaireData?.questionnaire;
-  const themeSettings = questionnaire?.themeSettings;
-  const themes = themeSettings?.themes;
-  const previewTheme = themeSettings?.previewTheme;
+  const themes = questionnaire?.themeSettings?.themes;
+  const previewTheme = questionnaire?.themeSettings?.previewTheme;
 
   const legalBasisCode = themes?.find(
     (theme) => theme.id === previewTheme
