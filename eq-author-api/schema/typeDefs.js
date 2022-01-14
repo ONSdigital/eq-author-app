@@ -1240,6 +1240,7 @@ input UpdateAnswerInput {
   secondaryQCode: String
   properties: JSON
   advancedProperties: Boolean
+  defaultAnswer: Boolean
 }
 
 input UpdateAnswersOfTypeInput {
