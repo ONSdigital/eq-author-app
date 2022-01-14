@@ -1,6 +1,7 @@
 /*  eslint-disable react/no-danger */
 import React from "react";
 import { Query } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import { propType } from "graphql-anywhere";
@@ -15,6 +16,8 @@ import {
   LEGAL_BASIS_OPTIONS,
   LegalOption,
 } from "App/settings/LegalBasisSelect";
+
+import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
 import iconChevron from "./icon-chevron.svg";
 
@@ -114,6 +117,9 @@ const MissingText = styled.text`
 
 export const IntroductionPreview = ({ loading, data }) => {
   console.log("data :>> ", data);
+
+  // console.log(`questionnaire`, questionnaire);
+
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }
@@ -240,14 +246,24 @@ export const QUESTIONNAIRE_QUERY = gql`
   ${fragment}
 `;
 
-const IntroductionPreviewWithData = (props) => (
-  <Query
-    query={QUESTIONNAIRE_QUERY}
-    variables={{ id: props.match.params.introductionId }}
-  >
-    {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
-  </Query>
-);
+const IntroductionPreviewWithData = (props) => {
+  const { questionnaireId } = props.match.params;
+  const questionnaire = useQuery(GET_QUESTIONNAIRE_QUERY, {
+    variables: {
+      input: { questionnaireId },
+    },
+  });
+  console.log(`questionnaire`, questionnaire);
+
+  return (
+    <Query
+      query={QUESTIONNAIRE_QUERY}
+      variables={{ id: props.match.params.introductionId }}
+    >
+      {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
+    </Query>
+  );
+};
 IntroductionPreviewWithData.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
