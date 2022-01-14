@@ -87,7 +87,7 @@ const SectionSummary = ({
               variables: { input: { id, summaryTitle: e.target.value } },
             })
           }
-          value={title}
+          value={title || ""}
           placeholder={``}
           data-test="txt-folder-input"
           bold

@@ -7,6 +7,7 @@ describe("Section", () => {
       {
         id: "1",
         title: "Section 1",
+        summaryTitle: "Section 1",
         folders: [
           {
             id: "f1",
