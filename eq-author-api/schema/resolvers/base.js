@@ -610,7 +610,6 @@ const Resolvers = {
         const folderToMove = first(remove(section.folders, { id }));
 
         if (!section.folders.length) {
-          onFolderDeleted(ctx, folderToMove);
           section.folders.push(createFolder());
         }
 
