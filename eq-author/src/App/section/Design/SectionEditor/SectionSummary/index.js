@@ -71,7 +71,28 @@ const SectionSummary = ({
         section before submitting them. You can set the section summary to be
         collapsible, so respondents can show and hide the answers.
       </Caption>
-
+      <StyledField>
+        <StyledDescribedText
+          htmlFor={`summary-title-${id}`}
+          description={`This will be shown on section and answer summaries.`}
+        >
+          Summary title
+        </StyledDescribedText>
+        <WrappingInput
+          id={`summary-title-${id}`}
+          name="summaryTitle"
+          onChange={(e) => setSummaryTitle(e.value)}
+          onBlur={(e) =>
+            updateSection({
+              variables: { input: { id, summaryTitle: e.target.value } },
+            })
+          }
+          value={title}
+          placeholder={``}
+          data-test="txt-folder-input"
+          bold
+        />
+      </StyledField>
       <InlineField>
         <Label htmlFor="required-completed">Section summary</Label>
         <ToggleWrapper>
@@ -99,29 +120,6 @@ const SectionSummary = ({
         data-test="collapsible-summary-wrapper"
         disabled={!sectionSummary}
       >
-        <StyledField>
-          <StyledDescribedText
-            htmlFor={`summary-title-${id}`}
-            description={`This will be shown on section and answer summaries.`}
-          >
-            Summary title
-          </StyledDescribedText>
-          <WrappingInput
-            id={`summary-title-${id}`}
-            name="summaryTitle"
-            onChange={(e) => setSummaryTitle(e.value)}
-            onBlur={(e) =>
-              updateSection({
-                variables: { input: { id, summaryTitle: e.target.value } },
-              })
-            }
-            value={title}
-            placeholder={``}
-            data-test="txt-folder-input"
-            bold
-          />
-        </StyledField>
-
         <InlineField>
           <Label htmlFor="required-completed">Collapsible summary</Label>
           <ToggleWrapper>
