@@ -188,9 +188,6 @@ export const IntroductionPreview = ({ loading, data, match }) => {
             />
           </>
         )}
-        {/* <Description
-            dangerouslySetInnerHTML= {{ __html: LEGAL_BASIS_OPTIONS[0]['description']}}
-          />        */}
         <Button>Start survey</Button>
         <PageTitle
           missingText="Missing secondary title"
