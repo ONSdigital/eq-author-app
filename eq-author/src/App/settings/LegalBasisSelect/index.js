@@ -6,7 +6,6 @@ import { RadioLabel, RadioField, RadioDescription } from "components/Radio";
 import styled from "styled-components";
 
 import useUpdateTheme from "hooks/useUpdateTheme";
-import withUpdateQuestionnaireIntroduction from "../../introduction/Design/IntroductionEditor/withUpdateQuestionnaireIntroduction";
 
 const StyledLabel = styled(Label)`
   margin: 0.8em 0 0;
@@ -65,7 +64,6 @@ const LegalBasisSelect = ({
   questionnaireId,
 }) => {
   const updateTheme = useUpdateTheme();
-  // const updateIntroduction = withUpdateQuestionnaireIntroduction();
 
   const handleChange = ({ value: legalBasisCode }) => {
     updateTheme({
@@ -74,11 +72,6 @@ const LegalBasisSelect = ({
       legalBasisCode,
     });
   };
-  // updateIntroduction({
-  //   questionnaireId,
-  //   legalBasis: legalBasisCode
-
-  // });
 
   return (
     <RadioField>
