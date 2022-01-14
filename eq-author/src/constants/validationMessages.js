@@ -126,6 +126,9 @@ export const OPERATOR_REQUIRED = "Choose an operator";
 export const METADATA_REQUIRED = "Metadata is required";
 export const DATE_REQUIRED = "Date is required";
 
+export const ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS =
+  "Count is greater than the number of checkboxes in the answer";
+
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
   NO_ROUTABLE_ANSWERS_AVAILABLE:
