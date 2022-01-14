@@ -25,6 +25,25 @@ const Link = styled.a`
   display: block;
 `;
 
+const CheckBoxField = styled(Field)`
+  display: block;
+  margin: 0;
+  display: inline-flex;
+  width: 100%;
+  margin-left: 0;
+`;
+
+const CheckboxInput = styled(Input).attrs({ type: "checkbox" })`
+  flex: 0 0 auto;
+  margin-top: 0.05em;
+`;
+
+const OptionLabel = styled.p`
+  margin: 0 0 1.5rem 0.5rem;
+  align-items: flex-start;
+  font-size: 1.125rem;
+`;
+
 const SignInForm = () => {
   const form = useRef();
   const checkBtn = useRef();
@@ -115,9 +134,25 @@ const SignInForm = () => {
             data-test="txt-password"
           />
         </Field>
-        <Link href="#0"> Forgot your password?</Link>
+        <Field>
+          <Link href="#0">Forgot your password?</Link>
+        </Field>
 
-        <Button disabled={loading}>Sign in</Button>
+        <CheckBoxField>
+          <CheckboxInput
+            id="signIn-checkbox"
+            name="singinCheckbox"
+            // checked={selected}
+            // onChange={onChange}
+          />
+          <OptionLabel htmlFor="signIn-checkbox">
+            {"Keep me signed in"}
+          </OptionLabel>
+        </CheckBoxField>
+        <Field>
+          <Button disabled={loading}>Sign in</Button>
+        </Field>
+        <Link href="#0">Create an Author account </Link>
       </Form>
     </>
   );
