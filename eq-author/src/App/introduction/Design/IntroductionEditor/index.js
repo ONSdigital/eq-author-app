@@ -90,7 +90,6 @@ export const IntroductionEditor = ({
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
-    legalBasis,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,

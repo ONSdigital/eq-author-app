@@ -658,7 +658,6 @@ type QuestionnaireIntroduction {
   contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  legalBasis: String
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -1432,7 +1431,6 @@ input UpdateQuestionnaireIntroductionInput {
   additionalGuidancePanelSwitch: Boolean!
   additionalGuidancePanel: String
   description: String!
-  legalBasis: String
   secondaryTitle: String!
   secondaryDescription: String!
   tertiaryTitle: String!

@@ -235,7 +235,6 @@ const fragment = gql`
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     description
-    legalBasis
     secondaryTitle
     secondaryDescription
     collapsibles {
