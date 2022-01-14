@@ -12,6 +12,16 @@ fragment Questionnaire on Questionnaire {
   type
   shortTitle
   displayName
+  themeSettings {
+    id
+    previewTheme
+    themes {
+      id
+      enabled
+      shortName
+      legalBasisCode
+    }
+  }
   createdBy {
     id
     picture
