@@ -54,6 +54,7 @@ const SectionSummary = ({
   sectionSummary,
   collapsibleSummary,
   summaryTitle,
+  errorValidationMsg,
 }) => {
   const [updateSection] = useMutation(updateSectionMutation);
 
@@ -91,6 +92,7 @@ const SectionSummary = ({
           placeholder={``}
           data-test="txt-folder-input"
           bold
+          errorValidationMsg={errorValidationMsg}
         />
       </StyledField>
       <InlineField>
@@ -150,6 +152,7 @@ SectionSummary.propTypes = {
   collapsibleSummary: PropTypes.bool,
   summaryTitle: PropTypes.string,
   disabled: PropTypes.bool,
+  errorValidationMsg: PropTypes.string,
 };
 
 export default SectionSummary;
