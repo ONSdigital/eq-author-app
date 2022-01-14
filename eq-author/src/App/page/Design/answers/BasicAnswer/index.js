@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
+import styled from "styled-components";
 
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -24,14 +25,26 @@ import LatestDateValidationRule from "graphql/fragments/latest-date-validation-r
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
+
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD } from "constants/answer-types";
+
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import InlineField from "components/AnswerContent/Format/InlineField";
+import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
+
+const Caption = styled.div`
+  margin-bottom: 0.2em;
+  font-size: 0.85em;
+`;
+
+const CollapsibleContent = styled.p``;
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -57,6 +70,8 @@ export const StatelessBasicAnswer = ({
   const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const [deleteOption] = useMutation(DELETE_OPTION);
+
+  const { id } = answer;
 
   return (
     <div>
@@ -110,7 +125,44 @@ export const StatelessBasicAnswer = ({
       />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
-          <AnswerValidation answer={answer} />
+          <>
+            <AnswerValidation answer={answer} />
+            <InlineField
+              id="default-answer"
+              htmlFor="default-answer"
+              label="Default answer"
+            >
+              <ToggleSwitch
+                id="default-answer"
+                name="default-answer"
+                hideLabels={false}
+                onChange={({ value }) =>
+                  updateAnswer({
+                    variables: {
+                      input: { id, properties: { defaultAnswer: value } },
+                    },
+                  })
+                }
+                data-test="default-answer"
+                checked={answer.properties.defaultAnswer}
+              />
+            </InlineField>
+            <Caption>
+              If unanswered a default value of zero will be recorded.
+            </Caption>
+            <Collapsible
+              title="Why would I need a default value?"
+              defaultOpen={false}
+              className="default-value"
+            >
+              <CollapsibleContent>
+                If this answer is not provided by the respondent and is used in
+                validation settings in a future question it will cause an error.
+                Turning on the default answer will prevent this situation from
+                arising.
+              </CollapsibleContent>
+            </Collapsible>
+          </>
         )}
         <MutuallyExclusive
           answer={answer}
