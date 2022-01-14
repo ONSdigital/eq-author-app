@@ -124,8 +124,13 @@ export const IntroductionPreview = ({ loading, data, match }) => {
   });
 
   const questionnaire = questionnaireData?.questionnaire;
+  const themeSettings = questionnaire?.themeSettings;
+  const themes = themeSettings?.themes;
+  const previewTheme = themeSettings?.previewTheme;
 
-  console.log(`questionnaire`, questionnaire);
+  const legalBasisCode = themes?.find(
+    (theme) => (theme.id = previewTheme)
+  ).legalBasisCode;
 
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -140,7 +145,6 @@ export const IntroductionPreview = ({ loading, data, match }) => {
       additionalGuidancePanel,
       additionalGuidancePanelSwitch,
       description,
-      legalBasis,
       secondaryTitle,
       secondaryDescription,
       collapsibles,
@@ -176,7 +180,7 @@ export const IntroductionPreview = ({ loading, data, match }) => {
           dangerouslySetInnerHTML={{ __html: description }}
         />
         <PageTitle title="Your response is legally required" />
-        <Description dangerouslySetInnerHTML={{ __html: legalBasis }} />
+        <Description dangerouslySetInnerHTML={{ __html: legalBasisCode }} />
         {/* <Description
             dangerouslySetInnerHTML= {{ __html: LEGAL_BASIS_OPTIONS[0]['description']}}
           />        */}
