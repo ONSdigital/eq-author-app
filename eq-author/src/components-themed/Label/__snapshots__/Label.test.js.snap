@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Forms/Input should render correctly 1`] = `
+<StyledComponent
+  forwardedComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "Radio__RadioLabel-wqy1bw-1",
+        "isStatic": false,
+        "rules": Array [
+          "padding:1em;border-radius:0.25em;&:not(:last-of-type){margin-bottom:0.8em;}border:1px solid ",
+          "#d6d8da",
+          ";flex:1 1 33.3333333%;cursor:pointer;display:flex;flex-direction:column;color:",
+          "#666666",
+          ";position:relative;background:",
+          [Function],
+          ";&:hover{box-shadow:0 0 0 1px ",
+          "#3B7A9E",
+          ";}&:focus-within{border-color:",
+          "#3B7A9E",
+          ";outline-color:",
+          "#3B7A9E",
+          ";box-shadow:0 0 0 3px ",
+          "#FDBD56",
+          ";}",
+        ],
+      },
+      "displayName": "Radio__RadioLabel",
+      "foldedComponentIds": Array [],
+      "render": [Function],
+      "styledComponentId": "Radio__RadioLabel-wqy1bw-1",
+      "target": "label",
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  forwardedRef={null}
+>
+  Name
+</StyledComponent>
+`;
+
+exports[`components/Forms/Label should render correctly 1`] = `
+<Label__StyledLabel
+  bold={true}
+>
+  Name
+</Label__StyledLabel>
+`;

@@ -9,9 +9,11 @@ import Loading from "components/Loading";
 import Panel from "components/Panel";
 import Layout from "components/Layout";
 import Button from "components/buttons/Button";
+import { Grid, Column } from "components/Grid";
 
 import { withMe } from "App/MeContext";
 
+import SignInFormOld from "./SignInFormOld";
 import SignInForm from "./SignInForm";
 
 const Text = styled.p`
@@ -25,14 +27,12 @@ const SignInPanel = styled(Panel)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 25em;
   button {
     text-transform: initial;
   }
 `;
 
 const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
-  // const SignInPage = () => {
   const uiConfig = {
     signInFlow: "popup",
     signInOptions: providers,
@@ -50,24 +50,30 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
     <>
       {me && <Redirect to="/" />}
 
-      <Layout title="Email verification">
-        {sentEmailVerification && (
-          <SignInPanel>
-            <Text>
-              Awaiting email verification, please check your inbox and follow
-              instructions.
-            </Text>
-            <Button variant="tertiary" onClick={handleSignOut}>
-              Sign in
-            </Button>
-          </SignInPanel>
-        )}
-
-        {isSigningIn && <Loading height="38rem">Logging you in...</Loading>}
-
+      <Layout title="Author">
         <SignInPanel>
+          {sentEmailVerification && (
+            <>
+              <Text>
+                Awaiting email verification, please check your inbox and follow
+                instructions.
+              </Text>
+              <Button variant="tertiary" onClick={handleSignOut}>
+                Sign in
+              </Button>
+            </>
+          )}
+
+          {isSigningIn && <Loading height="38rem">Logging you in...</Loading>}
+
+          <Grid>
+            <Column cols={9}>
+              <SignInForm />
+            </Column>
+          </Grid>
+
           <Text>You must be signed in to access this service zzzzz.</Text>
-          <SignInForm uiConfig={uiConfig} />
+          <SignInFormOld uiConfig={uiConfig} />
         </SignInPanel>
       </Layout>
     </>
