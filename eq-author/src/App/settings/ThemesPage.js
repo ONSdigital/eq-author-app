@@ -162,44 +162,41 @@ const ThemesPage = ({ questionnaire }) => {
         legalBasisCode,
         validationErrorInfo,
       }) => (
-        console.log("legalBasisCode :>> ", legalBasisCode),
-        (
-          <CollapsibleToggled
-            key={`${shortName}-toggle`}
-            title={THEME_TITLES[shortName]}
-            isOpen={enabled}
-            onChange={() => toggleTheme({ shortName, enabled })}
-            data-test={`${shortName}-toggle`}
-            headerContent={
-              enabled && (
-                <PreviewTheme
-                  questionnaireId={questionnaireId}
-                  thisTheme={shortName}
-                  previewTheme={previewTheme}
-                />
-              )
-            }
-          >
-            <Flex>
-              <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
-              <FormType
-                formType={formType}
-                questionnaireId={id}
-                shortName={shortName}
-                errors={findErrorsByCodePrefix(
-                  validationErrorInfo,
-                  "ERR_FORM_TYPE"
-                )}
+        <CollapsibleToggled
+          key={`${shortName}-toggle`}
+          title={THEME_TITLES[shortName]}
+          isOpen={enabled}
+          onChange={() => toggleTheme({ shortName, enabled })}
+          data-test={`${shortName}-toggle`}
+          headerContent={
+            enabled && (
+              <PreviewTheme
+                questionnaireId={questionnaireId}
+                thisTheme={shortName}
+                previewTheme={previewTheme}
               />
-              <FlexBreak />
-              <LegalBasis
-                legalBasis={legalBasisCode}
-                questionnaireId={id}
-                shortName={shortName}
-              />
-            </Flex>
-          </CollapsibleToggled>
-        )
+            )
+          }
+        >
+          <Flex>
+            <EqId eqId={eqId} questionnaireId={id} shortName={shortName} />
+            <FormType
+              formType={formType}
+              questionnaireId={id}
+              shortName={shortName}
+              errors={findErrorsByCodePrefix(
+                validationErrorInfo,
+                "ERR_FORM_TYPE"
+              )}
+            />
+            <FlexBreak />
+            <LegalBasis
+              legalBasis={legalBasisCode}
+              questionnaireId={id}
+              shortName={shortName}
+            />
+          </Flex>
+        </CollapsibleToggled>
       )
     );
 
