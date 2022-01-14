@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import PropType from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import { Grid, Column } from "components/Grid";
+import UserProfile from "components/UserProfile";
+import { withMe } from "App/MeContext";
 
 const HeaderTop = styled.div`
   background-color: ${({ theme, variant }) =>
@@ -67,6 +70,18 @@ const HeaderMain = styled.div`
   padding-right: 1rem;
 `;
 
+const StyledUserProfile = styled(UserProfile)`
+  width: auto;
+  margin-right: 0.5em;
+`;
+
+const UserProfileWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 const Header = ({
   variant,
   children,
@@ -74,6 +89,7 @@ const Header = ({
   logo,
   headerTopContent,
   centerCols,
+  me,
 }) => {
   return (
     <>
@@ -87,13 +103,24 @@ const Header = ({
       </HeaderTop>
       <HeaderMain headerDescription={headerDescription}>
         <Grid horizontalAlign="center">
-          <Column cols={centerCols}>
-            <HeaderTitle headerDescription={headerDescription}>
-              {children}
-            </HeaderTitle>
-            {headerDescription && (
-              <HeaderDescription>{headerDescription}</HeaderDescription>
-            )}
+          <Column cols={9}>
+            <Grid align="center">
+              <Column cols={9}>
+                <HeaderTitle headerDescription={headerDescription}>
+                  {children}
+                </HeaderTitle>
+                {headerDescription && (
+                  <HeaderDescription>{headerDescription}</HeaderDescription>
+                )}
+              </Column>
+              <Column cols={3}>
+                {me && (
+                  <UserProfileWrapper>
+                    <StyledUserProfile currentUser={me} />
+                  </UserProfileWrapper>
+                )}
+              </Column>
+            </Grid>
           </Column>
         </Grid>
       </HeaderMain>
@@ -108,6 +135,7 @@ Header.propTypes = {
   logo: PropType.node,
   headerTopContent: PropType.node,
   centerCols: PropType.number,
+  me: CustomPropTypes.user,
 };
 
 Header.defaultProps = {
@@ -115,4 +143,4 @@ Header.defaultProps = {
   centerCols: 12,
 };
 
-export default Header;
+export default withMe(Header);

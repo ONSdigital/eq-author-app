@@ -30,28 +30,25 @@ const SignInPanel = styled(Panel)`
     text-transform: initial;
   }
 `;
-
-const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
-  // const SignInPage = () => {
-  const uiConfig = {
-    signInFlow: "popup",
-    signInOptions: providers,
-    credentialHelper,
-    callbacks: {
-      signInSuccessWithAuthResult: () => false,
-    },
-  };
-
-  const handleSignOut = () => {
-    signOut();
-  };
-
-  return (
-    <>
-      {me && <Redirect to="/" />}
-
-      <Layout title="Email verification">
-        {sentEmailVerification && (
+export class SignInPage extends React.Component {
+  render() {
+    const uiConfig = {
+      signInFlow: "popup",
+      signInOptions: providers,
+      credentialHelper,
+      callbacks: {
+        signInSuccessWithAuthResult: () => false,
+      },
+    };
+    const handleSignOut = () => {
+      this.props.signOut();
+    };
+    if (this.props.me) {
+      return <Redirect to="/" />;
+    }
+    if (this.props.sentEmailVerification) {
+      return (
+        <Layout title="Email verification">
           <SignInPanel>
             <Text>
               Awaiting email verification, please check your inbox and follow
@@ -61,18 +58,26 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
               Sign in
             </Button>
           </SignInPanel>
-        )}
-
-        {isSigningIn && <Loading height="38rem">Logging you in...</Loading>}
-
+        </Layout>
+      );
+    }
+    if (this.props.isSigningIn) {
+      return (
+        <Layout title="Logging in...">
+          <Loading height="38rem">Logging you in...</Loading>
+        </Layout>
+      );
+    }
+    return (
+      <Layout title="Author">
         <SignInPanel>
-          <Text>You must be signed in to access this service zzzzz.</Text>
+          <Text>You must be signed in to access this service.</Text>
           <SignInForm uiConfig={uiConfig} />
         </SignInPanel>
       </Layout>
-    </>
-  );
-};
+    );
+  }
+}
 
 SignInPage.propTypes = {
   me: CustomPropTypes.me,
