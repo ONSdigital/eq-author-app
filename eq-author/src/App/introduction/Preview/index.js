@@ -115,10 +115,17 @@ const MissingText = styled.text`
   padding: 0.02em 0.1em;
 `;
 
-export const IntroductionPreview = ({ loading, data }) => {
-  console.log("data :>> ", data);
+export const IntroductionPreview = ({ loading, data, match }) => {
+  const { questionnaireId } = match.params;
+  const { data: questionnaireData } = useQuery(GET_QUESTIONNAIRE_QUERY, {
+    variables: {
+      input: { questionnaireId },
+    },
+  });
 
-  // console.log(`questionnaire`, questionnaire);
+  const questionnaire = questionnaireData?.questionnaire;
+
+  console.log(`questionnaire`, questionnaire);
 
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -246,24 +253,14 @@ export const QUESTIONNAIRE_QUERY = gql`
   ${fragment}
 `;
 
-const IntroductionPreviewWithData = (props) => {
-  const { questionnaireId } = props.match.params;
-  const questionnaire = useQuery(GET_QUESTIONNAIRE_QUERY, {
-    variables: {
-      input: { questionnaireId },
-    },
-  });
-  console.log(`questionnaire`, questionnaire);
-
-  return (
-    <Query
-      query={QUESTIONNAIRE_QUERY}
-      variables={{ id: props.match.params.introductionId }}
-    >
-      {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
-    </Query>
-  );
-};
+const IntroductionPreviewWithData = (props) => (
+  <Query
+    query={QUESTIONNAIRE_QUERY}
+    variables={{ id: props.match.params.introductionId }}
+  >
+    {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
+  </Query>
+);
 IntroductionPreviewWithData.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
