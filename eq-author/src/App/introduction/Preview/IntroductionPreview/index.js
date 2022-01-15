@@ -3,8 +3,8 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 
-import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
 import Loading from "components/Loading";
@@ -13,8 +13,6 @@ import CommentsPanel from "App/Comments";
 import IntroductionLayout from "../../IntroductionLayout";
 import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
 import iconChevron from "../icon-chevron.svg";
-
-import fragment from "..";
 
 import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
 
@@ -224,14 +222,10 @@ const IntroductionPreview = ({ loading, data, match }) => {
 
 IntroductionPreview.propTypes = {
   data: PropTypes.shape({
-    questionnaireIntroduction: propType(fragment),
+    questionnaireIntroduction: CustomPropTypes.introduction,
   }),
   loading: PropTypes.bool.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      questionnaireId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default IntroductionPreview;
