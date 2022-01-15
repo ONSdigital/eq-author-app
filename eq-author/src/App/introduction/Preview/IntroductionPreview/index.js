@@ -16,7 +16,7 @@ import iconChevron from "../icon-chevron.svg";
 
 import fragment from "..";
 
-import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
+import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
 
 const Container = styled.div`
   padding: 2em;
@@ -114,7 +114,7 @@ const MissingText = styled.text`
 
 const IntroductionPreview = ({ loading, data, match }) => {
   const { questionnaireId } = match.params;
-  const { data: questionnaireData } = useQuery(GET_QUESTIONNAIRE_QUERY, {
+  const { data: questionnaireData } = useQuery(GET_THEME_SETTINGS_QUERY, {
     variables: {
       input: { questionnaireId },
     },
