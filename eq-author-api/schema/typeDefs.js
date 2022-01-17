@@ -117,6 +117,7 @@ type List {
 enum LegalBasisCode {
   NOTICE_1
   NOTICE_2
+  NOTICE_3
   NOTICE_NI
   VOLUNTARY
 }
