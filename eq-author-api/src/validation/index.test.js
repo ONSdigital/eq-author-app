@@ -40,6 +40,7 @@ const {
   PIPING_METADATA_DELETED,
   CALCSUM_MOVED,
   ERR_SEC_CONDITION_NOT_SELECTED,
+  ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1323,6 +1324,104 @@ describe("schema validation", () => {
       expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
+    it("should validate that the count number does not exceed the number of options in Skip", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+        ],
+      };
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
+    it("If secondary condition = `GreaterThan` then count number must be LESS than number of options in Skip", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+          {
+            id: "optionID-2",
+            label: "checkbox 2",
+          },
+        ],
+      };
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "GreaterThan",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
     it("should validate empty secondaryCondition when condition=`CountOf` in routing", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
 
@@ -1370,6 +1469,108 @@ describe("schema validation", () => {
 
       expect(routingErrors).toHaveLength(1);
       expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
+    it("should validate that the count number does not exceed the number of options in the answer being routed", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+        ],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
+    it("If secondary condition = `GreaterThan` then count number must be LESS than number of options in the answer being routed", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+          {
+            id: "optionID-2",
+            label: "checkbox 2",
+          },
+        ],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "GreaterThan",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+                options: [
+                  {
+                    id: "optionID-1",
+                    label: "checkbox 1",
+                  },
+                  {
+                    id: "optionID-2",
+                    label: "checkbox 2",
+                  },
+                ],
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
     });
 
     it("should validate empty array in right of expression", () => {
