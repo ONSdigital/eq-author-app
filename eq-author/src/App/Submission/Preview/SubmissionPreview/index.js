@@ -8,10 +8,10 @@ import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
-import Input from "components-themed/Input";
-import Button from "components-themed/buttons";
+import DummyButton from "../../../page/Design/answers/dummy/Button/index.js";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
+import DummyInput from "../../../page/Design/answers/dummy/Input";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -96,15 +96,6 @@ const BlueUnderlined = styled.span`
   font-weight: ${(props) => props.bold && `bold`};
 `;
 
-const PreviewInput = styled(Input)`
-  pointer-events: none;
-  border-radius: 0;
-`;
-
-const PreviewButton = styled(Button)`
-  border-radius: 0;
-`;
-
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
@@ -187,7 +178,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               confirmation
             </SectionContent>
             <SectionContent marginTop={0.5}>
-              <PreviewInput
+              <DummyInput
                 id="email-confirmation"
                 aria-label="Inactive preview email input"
                 tabIndex="-1"
@@ -195,9 +186,9 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
             </SectionContent>
           </Section>
           <Section>
-            <PreviewButton variant="confirm" tabIndex="-1">
+            <DummyButton variant="confirm" tabIndex="-1">
               Send confirmation
-            </PreviewButton>
+            </DummyButton>
           </Section>
         </>
       )}
