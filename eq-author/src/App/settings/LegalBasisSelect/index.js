@@ -17,8 +17,12 @@ export const LEGAL_BASIS_OPTIONS = [
     value: "NOTICE_1",
   },
   {
-    description: "Sections 3 and 4 of the Statistics of Trade Act 1947.",
+    description: "Sections 2 and 3 of the Statistics of Trade Act 1947.",
     value: "NOTICE_2",
+  },
+  {
+    description: "Sections 3 and 4 of the Statistics of Trade Act 1947.",
+    value: "NOTICE_3",
   },
   {
     description:
@@ -61,12 +65,13 @@ const LegalBasisSelect = ({
 }) => {
   const updateTheme = useUpdateTheme();
 
-  const handleChange = ({ value: legalBasisCode }) =>
+  const handleChange = ({ value: legalBasisCode }) => {
     updateTheme({
       shortName,
       questionnaireId,
       legalBasisCode,
     });
+  };
 
   return (
     <RadioField>
