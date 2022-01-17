@@ -51,6 +51,7 @@ const StyledInput = styled.input`
   font-size: 1rem;
   line-height: 1rem;
   color: ${({ theme }) => theme.colors.input};
+  min-width: 375px;
   &:focus {
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }

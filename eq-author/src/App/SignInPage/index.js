@@ -6,7 +6,6 @@ import CustomPropTypes from "custom-prop-types";
 import { providers, credentialHelper } from "components/Auth";
 import Loading from "components/Loading";
 
-import Panel from "components/Panel";
 import Layout from "components/Layout";
 import Button from "components/buttons/Button";
 import { Grid, Column } from "components/Grid";
@@ -15,21 +14,17 @@ import { withMe } from "App/MeContext";
 
 import SignInFormOld from "./SignInFormOld";
 import SignInForm from "./SignInForm";
+import RecoverPassword from "./RecoverPassword";
+import CreateAccount from "./CreateAccount";
 
 const Text = styled.p`
   margin-top: 0;
 `;
 
-const SignInPanel = styled(Panel)`
+const MainPanel = styled.div`
   margin: 3em auto 0;
-  padding: 2em 3em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  button {
-    text-transform: initial;
-  }
 `;
 
 const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
@@ -51,7 +46,7 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
       {me && <Redirect to="/" />}
 
       <Layout title="Author">
-        <SignInPanel>
+        <MainPanel>
           {sentEmailVerification && (
             <>
               <Text>
@@ -69,12 +64,14 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
           <Grid>
             <Column cols={9}>
               <SignInForm />
+              <RecoverPassword />
+              <CreateAccount />
             </Column>
           </Grid>
 
           <Text>You must be signed in to access this service zzzzz.</Text>
           <SignInFormOld uiConfig={uiConfig} />
-        </SignInPanel>
+        </MainPanel>
       </Layout>
     </>
   );

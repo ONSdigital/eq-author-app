@@ -1,48 +1,25 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
+import PropTypes from "prop-types";
+
 import { colors } from "constants/theme";
 import auth, { providers, credentialHelper } from "components/Auth";
 import { FirebaseAuth } from "react-firebaseui";
-import { darken } from "polished";
 
+import {
+  PageTitle,
+  Description,
+  Link,
+  PasswordLink,
+  CheckBoxField,
+  CheckboxInput,
+  OptionLabel,
+} from "components-themed/Toolkit";
 import Input from "components-themed/Input";
-import { Form, Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
+import Panel from "components-themed/panels";
 
-const H1Main = styled.h1`
-  margin: 0 0 0.5rem;
-`;
-
-const TextMain = styled.p`
-  margin: 0 0 1rem;
-  font-size: 1.125rem;
-`;
-
-const Link = styled.a`
-  margin: 0 0 1rem;
-  font-size: 1.125rem;
-  display: block;
-`;
-
-const CheckBoxField = styled(Field)`
-  display: block;
-  margin: 0;
-  display: inline-flex;
-  width: 100%;
-  margin-left: 0;
-`;
-
-const CheckboxInput = styled(Input).attrs({ type: "checkbox" })`
-  flex: 0 0 auto;
-  margin-top: 0.05em;
-`;
-
-const OptionLabel = styled.p`
-  margin: 0 0 1.5rem 0.5rem;
-  align-items: flex-start;
-  font-size: 1.125rem;
-`;
+import { Form, Field } from "components/Forms";
 
 const SignInForm = () => {
   const form = useRef();
@@ -96,21 +73,25 @@ const SignInForm = () => {
   //   }
   // };
 
-  const required = (value) => {
-    if (!value) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This field is required!
-        </div>
-      );
-    }
-  };
+  // const required = (value) => {
+  //   if (!value) {
+  //     return (
+  //       <div className="alert alert-danger" role="alert">
+  //         This field is required!
+  //       </div>
+  //     );
+  //   }
+  // };
 
   return (
     <>
-      <H1Main>Sign in</H1Main>
-      <TextMain>You must be signed in to access Author</TextMain>
       <Form ref={form}>
+        <PageTitle>Sign in</PageTitle>
+        <Description>You must be signed in to access Author</Description>
+
+        <Panel variant="success" headerLabel="boom" withLeftBorder>
+          {"You've successfully updated the password for your Author account."}
+        </Panel>
         <Field>
           <Label htmlFor="email">Email address</Label>
           <Input
@@ -135,7 +116,7 @@ const SignInForm = () => {
           />
         </Field>
         <Field>
-          <Link href="#0">Forgot your password?</Link>
+          <PasswordLink href="#0">Forgot your password?</PasswordLink>
         </Field>
 
         <CheckBoxField>
@@ -168,6 +149,12 @@ SignInForm.defaultProps = {
       signInSuccessWithAuthResult: () => false, // Avoid redirects after sign-in.
     },
   },
+};
+
+SignInForm.propTypes = {
+  email: PropTypes.string,
+  password: PropTypes.string,
+  staySignedIn: PropTypes.bool,
 };
 
 export default SignInForm;

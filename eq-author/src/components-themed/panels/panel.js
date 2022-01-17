@@ -116,6 +116,7 @@ const StyledPanel = styled.div`
   display: block;
   border-radius: 0;
   position: relative;
+  margin-bottom: 2rem;
   border-left: ${(props) => props.withLeftBorder && `8px solid transparent;`};
 
   ${(props) => props.variant === "info" && infoPanel};
