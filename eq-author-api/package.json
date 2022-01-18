@@ -46,7 +46,7 @@
     "lodash": "4.17.21",
     "moment": "latest",
     "mongodb": "^3.7.3",
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.7",
     "node-jose": "latest",
     "pino-noir": "latest",
     "pino-pretty": "^5.1.0",
