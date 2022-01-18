@@ -44,14 +44,13 @@ const radioButton = css`
 `;
 
 const StyledInput = styled.input`
-  border-radius: ${({ preview, theme }) => !preview && theme.radius};
+  border-radius: ${({ theme }) => theme.radius};
   border: 1px solid ${({ theme }) => theme.colors.input};
   outline: none;
   padding: 0.39rem 0.5rem;
   font-size: 1rem;
   line-height: 1rem;
   color: ${({ theme }) => theme.colors.input};
-  pointer-events: ${(props) => props.preview && `none`};
   &:focus {
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
   }
@@ -61,15 +60,7 @@ const StyledInput = styled.input`
 `;
 
 export const UncontrolledInput = (props) => {
-  const {
-    type,
-    defaultValue,
-    id,
-    forwardRef,
-    hasError,
-    preview,
-    ...otherProps
-  } = props;
+  const { type, defaultValue, id, forwardRef, hasError, ...otherProps } = props;
   return (
     <StyledInput
       ref={forwardRef}
@@ -78,7 +69,6 @@ export const UncontrolledInput = (props) => {
       id={id}
       name={id}
       hasError={hasError}
-      preview={preview}
       {...otherProps}
     />
   );
@@ -86,7 +76,6 @@ export const UncontrolledInput = (props) => {
 
 UncontrolledInput.defaultProps = {
   type: "text",
-  preview: false,
 };
 
 UncontrolledInput.propTypes = {
@@ -106,7 +95,6 @@ UncontrolledInput.propTypes = {
   ]),
   forwardRef: PropTypes.func,
   hasError: PropTypes.bool,
-  preview: PropTypes.bool,
 };
 
 export default withChangeHandler(UncontrolledInput);
