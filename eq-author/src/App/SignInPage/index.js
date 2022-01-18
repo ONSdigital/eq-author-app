@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import propTypes from "prop-types";
@@ -37,6 +37,11 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
     },
   };
 
+  const [createAnAccount, setCreateAnAccount] = useState(false);
+  const [recoveryEmail, setRecoveryEmail] = useState("");
+
+  console.log(`recoveryEmail:`, recoveryEmail);
+
   const handleSignOut = () => {
     signOut();
   };
@@ -64,8 +69,13 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
           <Grid>
             <Column cols={9}>
               <SignInForm />
-              <RecoverPassword />
-              <CreateAccount />
+              <RecoverPassword
+                recoveryEmail={recoveryEmail}
+                setRecoveryEmail={setRecoveryEmail}
+                recoverPassword
+                recoveryEmailSent={false}
+              />
+              {createAnAccount && <CreateAccount />}
             </Column>
           </Grid>
 

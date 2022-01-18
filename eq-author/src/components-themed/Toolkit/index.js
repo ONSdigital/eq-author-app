@@ -10,6 +10,13 @@ export const PageTitle = styled.h1`
   margin: 0 0 0.25em;
 `;
 
+export const PageSubTitle = styled.h2`
+  font-size: 1.5em;
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0 0 0.25em;
+`;
+
 export const Description = styled.p`
   margin: 0 0 1rem;
   font-size: 1.125rem;
@@ -17,10 +24,20 @@ export const Description = styled.p`
   color: ${colors.text};
 `;
 
+export const InlineDescription = styled(Description)`
+  display: inline-block;
+  margin-right: 0.5rem;
+`;
+
 export const Link = styled.a`
   margin: 0 0 1rem;
   font-size: 1.125rem;
   display: block;
+`;
+
+export const InlineLink = styled(Link)`
+  display: inline-block;
+  margin-right: 0.5rem;
 `;
 
 export const PasswordLink = styled(Link)`

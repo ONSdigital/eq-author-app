@@ -14,6 +14,7 @@ import {
   CheckboxInput,
   OptionLabel,
 } from "components-themed/Toolkit";
+import PasswordInput from "components-themed/Input/PasswordInput";
 import Input from "components-themed/Input";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
@@ -26,7 +27,8 @@ const SignInForm = () => {
   const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  const [checkbox, setCheckbox] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Handling the email change
@@ -95,7 +97,7 @@ const SignInForm = () => {
         <Field>
           <Label htmlFor="email">Email address</Label>
           <Input
-            // type="text"
+            type="text"
             id="email"
             value={email}
             onChange={({ value }) => setEmail(value)}
@@ -105,7 +107,8 @@ const SignInForm = () => {
           />
         </Field>
         <Field>
-          <Label htmlFor="password">Password</Label>
+          <PasswordInput />
+          {/* <Label htmlFor="password">Password</Label>
           <Input
             // type="password"
             id="password"
@@ -113,7 +116,7 @@ const SignInForm = () => {
             onChange={({ value }) => setPassword(value)}
             // onBlur={() => ()}
             data-test="txt-password"
-          />
+          /> */}
         </Field>
         <Field>
           <PasswordLink href="#0">Forgot your password?</PasswordLink>
@@ -121,10 +124,11 @@ const SignInForm = () => {
 
         <CheckBoxField>
           <CheckboxInput
+            type="checkbox"
             id="signIn-checkbox"
-            name="singinCheckbox"
-            // checked={selected}
-            // onChange={onChange}
+            name="signInCheckbox"
+            checked={checkbox}
+            onChange={({ checked }) => setCheckbox(checked)}
           />
           <OptionLabel htmlFor="signIn-checkbox">
             {"Keep me signed in"}

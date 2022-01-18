@@ -6,16 +6,12 @@ import Input from "components-themed/Input";
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
-import { PageTitle, Description, Link } from "components-themed/Toolkit";
-
-const InlineDescription = styled(Description)`
-  display: inline-block;
-  padding-right: 0.5rem;
-`;
-
-const InlineLink = styled(Link)`
-  display: inline-block;
-`;
+import {
+  PageTitle,
+  Description,
+  InlineDescription,
+  InlineLink,
+} from "components-themed/Toolkit";
 
 const CreateAccount = () => {
   const [createEmail, setCreateEmail] = useState("");
@@ -79,7 +75,7 @@ const CreateAccount = () => {
         <Button>Create account</Button>
       </Field>
       <InlineDescription>
-        If you already have an account, you can{" "}
+        If you already have an account, you can
       </InlineDescription>
       <InlineLink href="#0">sign in</InlineLink>
     </>
