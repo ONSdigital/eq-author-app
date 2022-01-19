@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
@@ -9,10 +9,10 @@ import {
   PageTitle,
   Description,
   Link,
-  PasswordLink,
   CheckBoxField,
   CheckboxInput,
   OptionLabel,
+  ButtonLink,
 } from "components-themed/Toolkit";
 import PasswordInput from "components-themed/Input/PasswordInput";
 import Input from "components-themed/Input";
@@ -22,15 +22,19 @@ import Panel from "components-themed/panels";
 
 import { Form, Field } from "components/Forms";
 
-const SignInForm = () => {
-  const form = useRef();
-  const checkBtn = useRef();
+const SignInForm = ({ recoverPassword, setRecoverPassword }) => {
+  // const form = useRef();
+  // const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  function handleRecoverPassword(e) {
+    e.preventDefault();
+    setRecoverPassword(true);
+  }
   // Handling the email change
   // const handleEmail = (e) => {
   //   setEmail(e.target.value);
@@ -87,7 +91,7 @@ const SignInForm = () => {
 
   return (
     <>
-      <Form ref={form}>
+      <Form>
         <PageTitle>Sign in</PageTitle>
         <Description>You must be signed in to access Author</Description>
 
@@ -119,7 +123,9 @@ const SignInForm = () => {
           /> */}
         </Field>
         <Field>
-          <PasswordLink href="#0">Forgot your password?</PasswordLink>
+          <ButtonLink name="recoverPassword" onClick={handleRecoverPassword}>
+            Forgot your password?
+          </ButtonLink>
         </Field>
 
         <CheckBoxField>
@@ -159,6 +165,7 @@ SignInForm.propTypes = {
   email: PropTypes.string,
   password: PropTypes.string,
   staySignedIn: PropTypes.bool,
+  setRecoverPassword: PropTypes.func,
 };
 
 export default SignInForm;

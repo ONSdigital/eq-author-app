@@ -9,7 +9,7 @@ import {
   PageTitle,
   PageSubTitle,
   Description,
-  Link,
+  ButtonLink,
   InlineDescription,
   InlineLink,
 } from "components-themed/Toolkit";
@@ -18,8 +18,14 @@ const RecoverPassword = ({
   recoveryEmail,
   setRecoveryEmail,
   recoverPassword,
+  setRecoverPassword,
   recoveryEmailSent,
 }) => {
+  function handleReturnToSignInPage(e) {
+    e.preventDefault();
+    setRecoverPassword(false);
+  }
+
   return (
     <>
       {recoverPassword && (
@@ -45,7 +51,9 @@ const RecoverPassword = ({
           <Field>
             <Button>Send</Button>
           </Field>
-          <Link href="#0">Return to the sign in page </Link>
+          <ButtonLink onClick={handleReturnToSignInPage}>
+            Return to the sign in page
+          </ButtonLink>
         </>
       )}
 
@@ -69,8 +77,9 @@ const RecoverPassword = ({
 RecoverPassword.propTypes = {
   recoveryEmail: PropTypes.string,
   setRecoveryEmail: PropTypes.func,
-  recoverPassword: PropTypes.bool.isRequired,
-  recoveryEmailSent: PropTypes.bool.isRequired,
+  recoverPassword: PropTypes.bool,
+  setRecoverPassword: PropTypes.func,
+  recoveryEmailSent: PropTypes.bool,
 };
 
 export default RecoverPassword;

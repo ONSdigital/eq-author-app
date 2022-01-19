@@ -35,6 +35,19 @@ export const Link = styled.a`
   display: block;
 `;
 
+export const ButtonLink = styled.button`
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  display: block;
+  /* font-family: arial, sans-serif; */
+  color: ${colors.blue};
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
 export const InlineLink = styled(Link)`
   display: inline-block;
   margin-right: 0.5rem;

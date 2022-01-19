@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import propTypes from "prop-types";
@@ -37,14 +37,27 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
     },
   };
 
-  const [createAnAccount, setCreateAnAccount] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false);
+
+  const [recoverPassword, setRecoverPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
 
-  console.log(`recoveryEmail:`, recoveryEmail);
+  const setRecoverPasswordFunction = (boolVal) => {
+    setRecoverPassword(boolVal);
+  };
+
+  console.log(`recoverPassword:`, recoverPassword);
 
   const handleSignOut = () => {
     signOut();
   };
+
+  // useEffect(() => {}, [recoverPassword]);
+
+  // const handleEmail = (e) => {
+  //   setEmail(e.target.value);
+  //   setSubmitted(false);
+  // };
 
   return (
     <>
@@ -68,19 +81,25 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
 
           <Grid>
             <Column cols={9}>
-              <SignInForm />
+              {!recoverPassword && (
+                <SignInForm
+                  recoverPassword={recoverPassword}
+                  setRecoverPassword={setRecoverPasswordFunction}
+                />
+              )}
               <RecoverPassword
                 recoveryEmail={recoveryEmail}
                 setRecoveryEmail={setRecoveryEmail}
-                recoverPassword
+                recoverPassword={recoverPassword}
+                setRecoverPassword={setRecoverPasswordFunction}
                 recoveryEmailSent={false}
               />
-              {createAnAccount && <CreateAccount />}
+              {createAccount && <CreateAccount />}
             </Column>
           </Grid>
 
-          <Text>You must be signed in to access this service zzzzz.</Text>
-          <SignInFormOld uiConfig={uiConfig} />
+          {/* <Text>You must be signed in to access this service zzzzz.</Text> */}
+          {/* <SignInFormOld uiConfig={uiConfig} /> */}
         </MainPanel>
       </Layout>
     </>
