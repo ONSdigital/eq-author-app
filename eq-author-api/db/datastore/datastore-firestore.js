@@ -167,7 +167,9 @@ const getQuestionnaireMetaById = async (id) => {
       ...questionnaireSnapshot.data(),
       history: questionnaireSnapshot.data().history.map((historyItem) => ({
         ...historyItem,
-        time: historyItem.time.toDate(),
+        time: historyItem.time.seconds
+          ? historyItem.time.toDate()
+          : new Date(historyItem.time),
       })),
       updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
       createdAt: questionnaireSnapshot.data().createdAt.toDate(),
