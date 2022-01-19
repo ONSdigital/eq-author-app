@@ -67,7 +67,6 @@ const AddListCollectionButton = styled(Button)`
 `;
 
 const CollectionListsPage = ({ myval, onAddList, match }) => {
-  debugger;
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
@@ -125,23 +124,23 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
         </AddListCollectionButton>
 
         <Margin>
-          <MainCanvas>
-            {lists === null ||
-            lists === undefined ||
-            !lists.length ||
-            error ||
-            !data ? (
-              <Error>Currently no lists</Error>
-            ) : (
-              lists.map(({ id, displayName }) => (
-                <CollectionListItem
-                  key={id}
-                  itemId={id}
-                  displayName={displayName}
-                />
-              ))
-            )}
-          </MainCanvas>
+          {/* <MainCanvas> */}
+          {lists === null ||
+          lists === undefined ||
+          !lists.length ||
+          error ||
+          !data ? (
+            <Error>Currently no lists</Error>
+          ) : (
+            lists.map(({ id, displayName }) => (
+              <CollectionListItem
+                key={id}
+                itemId={id}
+                displayName={displayName}
+              />
+            ))
+          )}
+          {/* </MainCanvas> */}
         </Margin>
       </StyledGrid>
     </Container>
