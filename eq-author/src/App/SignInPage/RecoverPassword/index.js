@@ -18,17 +18,32 @@ const RecoverPassword = ({
   recoveryEmail,
   setRecoveryEmail,
   recoverPassword,
-  setRecoverPassword,
-  recoveryEmailSent,
+  forgotPassword,
+  // recoveryEmailSent,
 }) => {
+  const [recoveryEmailSent, setRecoveryEmailSent] = useState(false);
+
   function handleReturnToSignInPage(e) {
     e.preventDefault();
-    setRecoverPassword(false);
+    forgotPassword(false);
+  }
+
+  function handleEmail(e) {
+    e.preventDefault();
+    // handle sending email for PW recovery here!
+    setRecoveryEmailSent(true);
+    forgotPassword(true);
+  }
+
+  function handleRecoverPassword(e) {
+    e.preventDefault();
+    forgotPassword(true);
+    setRecoveryEmailSent(false);
   }
 
   return (
     <>
-      {recoverPassword && (
+      {recoverPassword && !recoveryEmailSent && (
         <>
           <PageTitle>Recover Password</PageTitle>
           <Description>
@@ -49,7 +64,7 @@ const RecoverPassword = ({
           </Field>
 
           <Field>
-            <Button>Send</Button>
+            <Button onClick={handleEmail}>Send</Button>
           </Field>
           <ButtonLink onClick={handleReturnToSignInPage}>
             Return to the sign in page
@@ -66,7 +81,9 @@ const RecoverPassword = ({
           </Description>
           <PageSubTitle>If you did not get the email</PageSubTitle>
           <InlineDescription>We can</InlineDescription>
-          <InlineLink href="#0">send the password reset email again</InlineLink>
+          <ButtonLink onClick={handleRecoverPassword}>
+            send the password reset email again
+          </ButtonLink>
           <InlineDescription>if you did not get it.</InlineDescription>
         </>
       )}
@@ -78,7 +95,7 @@ RecoverPassword.propTypes = {
   recoveryEmail: PropTypes.string,
   setRecoveryEmail: PropTypes.func,
   recoverPassword: PropTypes.bool,
-  setRecoverPassword: PropTypes.func,
+  forgotPassword: PropTypes.func,
   recoveryEmailSent: PropTypes.bool,
 };
 

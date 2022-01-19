@@ -10,14 +10,21 @@ import {
   PageTitle,
   Description,
   InlineDescription,
-  InlineLink,
+  ButtonLink,
 } from "components-themed/Toolkit";
 
-const CreateAccount = () => {
+const CreateAccount = ({ setCreateAccountFunction, forgotPassword }) => {
+  //use multiple state array here?
   const [createEmail, setCreateEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+
+  function handleReturnToSignInPage(e) {
+    e.preventDefault();
+    setCreateAccountFunction(false);
+    forgotPassword(false);
+  }
 
   return (
     <>
@@ -77,11 +84,15 @@ const CreateAccount = () => {
       <InlineDescription>
         If you already have an account, you can
       </InlineDescription>
-      <InlineLink href="#0">sign in</InlineLink>
+      <ButtonLink onClick={handleReturnToSignInPage}>sign in</ButtonLink>
     </>
   );
 };
 
-CreateAccount.propTypes = { recoveryEmail: PropTypes.string };
+CreateAccount.propTypes = {
+  recoveryEmail: PropTypes.string,
+  setCreateAccountFunction: PropTypes.func,
+  forgotPassword: PropTypes.func,
+};
 
 export default CreateAccount;

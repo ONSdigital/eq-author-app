@@ -22,7 +22,11 @@ import Panel from "components-themed/panels";
 
 import { Form, Field } from "components/Forms";
 
-const SignInForm = ({ recoverPassword, setRecoverPassword }) => {
+const SignInForm = ({
+  recoverPassword,
+  forgotPassword,
+  setCreateAccountFunction,
+}) => {
   // const form = useRef();
   // const checkBtn = useRef();
 
@@ -33,8 +37,16 @@ const SignInForm = ({ recoverPassword, setRecoverPassword }) => {
 
   function handleRecoverPassword(e) {
     e.preventDefault();
-    setRecoverPassword(true);
+    forgotPassword(true);
   }
+
+  function handleCreateAccount(e) {
+    e.preventDefault();
+    setCreateAccountFunction(true);
+    forgotPassword(false);
+  }
+
+  console.log(`setRecoverPassword`, forgotPassword);
   // Handling the email change
   // const handleEmail = (e) => {
   //   setEmail(e.target.value);
@@ -123,7 +135,7 @@ const SignInForm = ({ recoverPassword, setRecoverPassword }) => {
           /> */}
         </Field>
         <Field>
-          <ButtonLink name="recoverPassword" onClick={handleRecoverPassword}>
+          <ButtonLink onClick={handleRecoverPassword}>
             Forgot your password?
           </ButtonLink>
         </Field>
@@ -143,7 +155,9 @@ const SignInForm = ({ recoverPassword, setRecoverPassword }) => {
         <Field>
           <Button disabled={loading}>Sign in</Button>
         </Field>
-        <Link href="#0">Create an Author account </Link>
+        <ButtonLink onClick={handleCreateAccount}>
+          Create an Author account
+        </ButtonLink>
       </Form>
     </>
   );
@@ -166,6 +180,7 @@ SignInForm.propTypes = {
   password: PropTypes.string,
   staySignedIn: PropTypes.bool,
   setRecoverPassword: PropTypes.func,
+  setCreateAccountFunction: PropTypes.func,
 };
 
 export default SignInForm;

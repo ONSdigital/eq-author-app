@@ -38,21 +38,22 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
   };
 
   const [createAccount, setCreateAccount] = useState(false);
-
   const [recoverPassword, setRecoverPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
 
-  const setRecoverPasswordFunction = (boolVal) => {
+  const forgotPassword = (boolVal) => {
     setRecoverPassword(boolVal);
+  };
+  const setCreateAccountFunction = (boolVal) => {
+    setCreateAccount(boolVal);
   };
 
   console.log(`recoverPassword:`, recoverPassword);
+  console.log(`createAccount`, createAccount);
 
   const handleSignOut = () => {
     signOut();
   };
-
-  // useEffect(() => {}, [recoverPassword]);
 
   // const handleEmail = (e) => {
   //   setEmail(e.target.value);
@@ -81,20 +82,26 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
 
           <Grid>
             <Column cols={9}>
-              {!recoverPassword && (
+              {!recoverPassword && !createAccount && (
                 <SignInForm
                   recoverPassword={recoverPassword}
-                  setRecoverPassword={setRecoverPasswordFunction}
+                  forgotPassword={forgotPassword}
+                  setCreateAccountFunction={setCreateAccountFunction}
                 />
               )}
               <RecoverPassword
                 recoveryEmail={recoveryEmail}
                 setRecoveryEmail={setRecoveryEmail}
                 recoverPassword={recoverPassword}
-                setRecoverPassword={setRecoverPasswordFunction}
-                recoveryEmailSent={false}
+                forgotPassword={forgotPassword}
+                // recoveryEmailSent={false}
               />
-              {createAccount && <CreateAccount />}
+              {createAccount && (
+                <CreateAccount
+                  setCreateAccountFunction={setCreateAccountFunction}
+                  forgotPassword={forgotPassword}
+                />
+              )}
             </Column>
           </Grid>
 

@@ -18,7 +18,7 @@ export const PageSubTitle = styled.h2`
 `;
 
 export const Description = styled.p`
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
   font-size: 1.125rem;
   font-weight: 400;
   color: ${colors.text};
@@ -39,13 +39,14 @@ export const ButtonLink = styled.button`
   background: none !important;
   border: none;
   padding: 0 !important;
-  margin: 0 0 1rem;
+  margin: 0 0.5rem 1rem 0;
   font-size: 1.125rem;
   display: block;
   /* font-family: arial, sans-serif; */
   color: ${colors.blue};
   text-decoration: underline;
   cursor: pointer;
+  display: inline-block;
 `;
 
 export const InlineLink = styled(Link)`
