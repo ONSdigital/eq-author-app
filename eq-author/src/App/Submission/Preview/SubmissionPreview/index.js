@@ -96,6 +96,16 @@ const BlueUnderlined = styled.span`
   font-weight: ${(props) => props.bold && `bold`};
 `;
 
+const PreviewInput = styled(Input)`
+  pointer-events: none;
+  border-radius: 0;
+`;
+
+const PreviewButton = styled(Button)`
+  border-radius: 0;
+  pointer-events: none;
+`;
+
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
@@ -178,18 +188,17 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               confirmation
             </SectionContent>
             <SectionContent marginTop={0.5}>
-              <Input
+              <PreviewInput
                 id="email-confirmation"
                 aria-label="Inactive preview email input"
                 tabIndex="-1"
-                preview
               />
             </SectionContent>
           </Section>
           <Section>
-            <Button variant="confirm" tabIndex="-1" preview>
+            <PreviewButton variant="confirm" tabIndex="-1">
               Send confirmation
-            </Button>
+            </PreviewButton>
           </Section>
         </>
       )}

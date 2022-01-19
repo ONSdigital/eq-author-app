@@ -248,7 +248,7 @@ const BaseButton = styled.button`
   padding: 0;
   margin: 0;
   border: 0;
-  border-radius: ${({ preview, theme }) => !preview && theme.radius};
+  border-radius: ${({ theme }) => theme.radius};
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
