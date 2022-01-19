@@ -1,0 +1,7 @@
+query Lists {
+  lists {
+    id
+    listName
+    displayName
+  }
+}

@@ -1,14 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Header from "components/EditorLayout/Header";
-
+import Error from "components/Error";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import Collapsible from "components/Collapsible";
 import { colors } from "constants/theme";
+import Loading from "components/Loading";
 import Button from "components/buttons/Button";
+import CollectionListItem from "./collectionListItem";
 import IconText from "components/IconText";
 import AddIcon from "./icon-add.svg?inline";
 import MainCanvas from "components/MainCanvas";
+
+import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
 
 const Text = styled.p``;
 
@@ -61,12 +66,20 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const CollectionListsPage = ({
-  children,
-  myval,
-  onAddList,
-  mainCanvasMaxWidth,
-}) => {
+const CollectionListsPage = ({ myval, onAddList, match }) => {
+  debugger;
+  const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
+    fetchPolicy: "network-only",
+  });
+
+  if (loading) {
+    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+  }
+  let lists = [];
+
+  if (data) {
+    lists = data.lists;
+  }
   return (
     <Container>
       <Header title="Collection Lists" tabIndex="-1" className="keyNav" />
@@ -112,7 +125,23 @@ const CollectionListsPage = ({
         </AddListCollectionButton>
 
         <Margin>
-          <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
+          <MainCanvas>
+            {lists === null ||
+            lists === undefined ||
+            !lists.length ||
+            error ||
+            !data ? (
+              <Error>Currently no lists</Error>
+            ) : (
+              lists.map(({ id, displayName }) => (
+                <CollectionListItem
+                  key={id}
+                  itemId={id}
+                  displayName={displayName}
+                />
+              ))
+            )}
+          </MainCanvas>
         </Margin>
       </StyledGrid>
     </Container>
@@ -120,9 +149,7 @@ const CollectionListsPage = ({
 };
 
 CollectionListsPage.propTypes = {
-  children: PropTypes.node.isRequired,
   onAddList: PropTypes.func,
   myval: PropTypes.bool,
-  mainCanvasMaxWidth: PropTypes.string,
 };
 export default CollectionListsPage;
