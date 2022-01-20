@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
 import { colors } from "constants/theme";
-import auth, { providers, credentialHelper } from "components/Auth";
+import auth, {
+  logInWithEmailAndPassword,
+  providers,
+  credentialHelper,
+} from "components/Auth";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { FirebaseAuth } from "react-firebaseui";
 
 import {
   PageTitle,
   Description,
-  Link,
   CheckBoxField,
   CheckboxInput,
   OptionLabel,
@@ -29,11 +33,29 @@ const SignInForm = ({
 }) => {
   // const form = useRef();
   // const checkBtn = useRef();
+  let errorMessage = null;
+  const logInWithEmailAndPassword = async (email, password) => {
+    console.log(`auth`, auth);
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      errorMessage = err.message;
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
+  // const [loading, setLoading] = useState(false);
+  // const [user, loading, error] = useAuthState(auth);
+  // const [signInWithEmailAndPassword, user, loading, error] =
+  //   useSignInWithEmailAndPassword(auth);
 
   const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  // console.log(`user`, user);
+  console.log(`errorMessage`, errorMessage);
 
   function handleRecoverPassword(e) {
     e.preventDefault();
@@ -46,7 +68,6 @@ const SignInForm = ({
     forgotPassword(false);
   }
 
-  console.log(`setRecoverPassword`, forgotPassword);
   // Handling the email change
   // const handleEmail = (e) => {
   //   setEmail(e.target.value);
@@ -107,9 +128,9 @@ const SignInForm = ({
         <PageTitle>Sign in</PageTitle>
         <Description>You must be signed in to access Author</Description>
 
-        <Panel variant="success" headerLabel="boom" withLeftBorder>
+        {/* <Panel variant="success" headerLabel="boom" withLeftBorder>
           {"You've successfully updated the password for your Author account."}
-        </Panel>
+        </Panel> */}
         <Field>
           <Label htmlFor="email">Email address</Label>
           <Input
@@ -123,8 +144,8 @@ const SignInForm = ({
           />
         </Field>
         <Field>
-          <PasswordInput />
-          {/* <Label htmlFor="password">Password</Label>
+          {/* <PasswordInput /> */}
+          <Label htmlFor="password">Password</Label>
           <Input
             // type="password"
             id="password"
@@ -132,7 +153,7 @@ const SignInForm = ({
             onChange={({ value }) => setPassword(value)}
             // onBlur={() => ()}
             data-test="txt-password"
-          /> */}
+          />
         </Field>
         <Field>
           <ButtonLink onClick={handleRecoverPassword}>
@@ -153,7 +174,12 @@ const SignInForm = ({
           </OptionLabel>
         </CheckBoxField>
         <Field>
-          <Button disabled={loading}>Sign in</Button>
+          <Button
+            // disabled={loading}
+            onClick={() => logInWithEmailAndPassword(email, password)}
+          >
+            Sign in
+          </Button>
         </Field>
         <ButtonLink onClick={handleCreateAccount}>
           Create an Author account
@@ -165,14 +191,14 @@ const SignInForm = ({
 
 SignInForm.defaultProps = {
   firebaseAuth: auth,
-  uiConfig: {
-    signInFlow: "popup",
-    signInOptions: providers,
-    credentialHelper,
-    callbacks: {
-      signInSuccessWithAuthResult: () => false, // Avoid redirects after sign-in.
-    },
-  },
+  // uiConfig: {
+  //   signInFlow: "popup",
+  //   signInOptions: providers,
+  //   credentialHelper,
+  //   callbacks: {
+  //     signInSuccessWithAuthResult: () => false, // Avoid redirects after sign-in.
+  //   },
+  // },
 };
 
 SignInForm.propTypes = {

@@ -14,6 +14,44 @@ firebase.initializeApp({
 });
 
 const auth = firebase.auth();
+console.log(`auth`, auth);
+
+export const logInWithEmailAndPassword = async (email, password) => {
+  console.log(`auth`, auth);
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (err) {
+    const errorMessage = err.message;
+    console.error(err);
+    alert(err.message);
+  }
+};
+
+// export const registerWithEmailAndPassword = async (name, email, password) => {
+//   try {
+//     const res = await auth.createUserWithEmailAndPassword(email, password);
+//     const user = res.user;
+//     await addDoc(collection(db, "users"), {
+//       uid: user.uid,
+//       name,
+//       authProvider: "local",
+//       email,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     alert(err.message);
+//   }
+// };
+
+export const sendPasswordReset = async (email) => {
+  try {
+    await auth.sendPasswordResetEmail(email);
+    alert("Password reset link sent!");
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
 export default auth;
 export const providers = [

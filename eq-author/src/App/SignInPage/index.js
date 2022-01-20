@@ -5,7 +5,6 @@ import propTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { providers, credentialHelper } from "components/Auth";
 import Loading from "components/Loading";
-
 import Layout from "components/Layout";
 import Button from "components/buttons/Button";
 import { Grid, Column } from "components/Grid";
@@ -27,7 +26,13 @@ const MainPanel = styled.div`
   flex-direction: column;
 `;
 
-const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
+const SignInPage = ({
+  me,
+  signIn,
+  signOut,
+  isSigningIn,
+  sentEmailVerification,
+}) => {
   const uiConfig = {
     signInFlow: "popup",
     signInOptions: providers,
@@ -36,6 +41,9 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
       signInSuccessWithAuthResult: () => false,
     },
   };
+
+  // console.log(`me`, me);
+  // console.log(`signIn`, signIn);
 
   const [createAccount, setCreateAccount] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
@@ -47,9 +55,6 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
   const setCreateAccountFunction = (boolVal) => {
     setCreateAccount(boolVal);
   };
-
-  console.log(`recoverPassword:`, recoverPassword);
-  console.log(`createAccount`, createAccount);
 
   const handleSignOut = () => {
     signOut();
@@ -106,7 +111,7 @@ const SignInPage = ({ me, sentEmailVerification, isSigningIn, signOut }) => {
           </Grid>
 
           {/* <Text>You must be signed in to access this service zzzzz.</Text> */}
-          {/* <SignInFormOld uiConfig={uiConfig} /> */}
+          <SignInFormOld uiConfig={uiConfig} />
         </MainPanel>
       </Layout>
     </>
