@@ -1,10 +1,9 @@
 import React from "react";
-import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 
 import PropTypes from "prop-types";
 import Input from "components-themed/Input";
-import { Field, Label } from "components/Forms";
+import { Label } from "components/Forms";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";

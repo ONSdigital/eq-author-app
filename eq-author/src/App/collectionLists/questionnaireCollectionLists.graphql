@@ -3,5 +3,18 @@ query Lists {
     id
     listName
     displayName
+    answers {
+      id
+    }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
   }
 }

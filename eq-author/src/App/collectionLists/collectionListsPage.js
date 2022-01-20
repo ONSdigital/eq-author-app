@@ -67,31 +67,16 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const CollectionListsPage = ({ myval, onAddList, match }) => {
+const CollectionListsPage = ({ myval }) => {
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
 
   const [addList] = useMutation(createCollectionListMutation, {
-    update(cache, { data: { createCollectionList } }) {
-      cache.writeQuery({
-        data: { lists: createCollectionList },
-      });
-    },
+    refetchQueries: ["Lists"],
   });
 
-  // const [DeleteList] = useMutation(deleteCollectionListMutation, {
-  //   update(cache, { data: { deleteCollectionList } }) {
-  //     console.log("mutation");
-  //     cache.writeQuery({
-  //       query: questionnaireCollectionListsQuery,
-  //       variables: {
-  //         input: id,
-  //       },
-  //       data: { lists: deleteCollectionList },
-  //     });
-  //   },
-  // });
+  const [DeleteList] = useMutation(deleteCollectionListMutation, {});
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
