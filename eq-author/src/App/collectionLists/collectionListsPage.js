@@ -11,9 +11,9 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import IconText from "components/IconText";
 import AddIcon from "./icon-add.svg?inline";
-import MainCanvas from "components/MainCanvas";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
+import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
 
 const Text = styled.p``;
 
@@ -71,6 +71,19 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
     fetchPolicy: "network-only",
   });
 
+  const [DeleteList] = useMutation(deleteCollectionListMutation, {
+    update(cache, { data: { deleteCollectionListMutation } }) {
+      console.log("mutation");
+      cache.writeQuery({
+        query: questionnaireCollectionListsQuery,
+        variables: {
+          input: { id },
+        },
+        data: { lists: deleteCollectionListMutation },
+      });
+    },
+  });
+
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
   }
@@ -124,7 +137,6 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
         </AddListCollectionButton>
 
         <Margin>
-          {/* <MainCanvas> */}
           {lists === null ||
           lists === undefined ||
           !lists.length ||
@@ -132,15 +144,23 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName }) => (
+            lists.map(({ id, displayName, deleteList }) => (
               <CollectionListItem
                 key={id}
                 itemId={id}
                 displayName={displayName}
+                handleDeleteList={(id) =>
+                  deleteList({
+                    variables: {
+                      input: {
+                        id: id,
+                      },
+                    },
+                  })
+                }
               />
             ))
           )}
-          {/* </MainCanvas> */}
         </Margin>
       </StyledGrid>
     </Container>

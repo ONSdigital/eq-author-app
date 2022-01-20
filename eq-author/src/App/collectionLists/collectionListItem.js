@@ -1,4 +1,5 @@
 import React from "react";
+import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 
 import PropTypes from "prop-types";
@@ -14,18 +15,6 @@ const StyledGrid = styled.div`
   flex-direction: column;
   flex-basis: 100%;
 `;
-
-// const StyledItem = styled.div`
-//   /* display: flex;
-//   flex-direction: column;
-//   padding: 0 2em 0 0;
-//   border: 1px solid ${colors.lightGrey};
-//   background-color: ${colors.lighterGrey};
-//   width: 100%;
-//   margin: 0;
-//   justify-content: space-between;
-// `;
-// */
 
 const ListInput = styled(Input)`
   border-radius: 0;
@@ -84,7 +73,7 @@ const Buttons = styled.div`
   }
 `;
 
-const CollectionListItem = ({ id, displayName }) => {
+const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
   return (
     <StyledGrid>
       <ListItem>
@@ -132,7 +121,7 @@ const CollectionListItem = ({ id, displayName }) => {
                 <DeleteButton
                   color="white"
                   size="medium"
-                  // onClick={this.handleDeleteAnswer}
+                  onClick={() => handleDeleteList(id)}
                   aria-label="Delete answer"
                   data-test="btn-delete-answer"
                 />
