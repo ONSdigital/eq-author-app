@@ -13,6 +13,7 @@ import IconText from "components/IconText";
 import AddIcon from "./icon-add.svg?inline";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
+import createCollectionListMutation from "./createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
 
 const Text = styled.p``;
@@ -71,18 +72,20 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
     fetchPolicy: "network-only",
   });
 
-  const [DeleteList] = useMutation(deleteCollectionListMutation, {
-    update(cache, { data: { deleteCollectionListMutation } }) {
-      console.log("mutation");
-      cache.writeQuery({
-        query: questionnaireCollectionListsQuery,
-        variables: {
-          input: { id },
-        },
-        data: { lists: deleteCollectionListMutation },
-      });
-    },
-  });
+  const [addList] = useMutation(createCollectionListMutation, {});
+
+  // const [DeleteList] = useMutation(deleteCollectionListMutation, {
+  //   update(cache, { data: { deleteCollectionListMutation } }) {
+  //     console.log("mutation");
+  //     cache.writeQuery({
+  //       query: questionnaireCollectionListsQuery,
+  //       variables: {
+  //         input: id,
+  //       },
+  //       data: { lists: deleteCollectionListMutation },
+  //     });
+  //   },
+  // });
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
@@ -129,7 +132,7 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
         <AddListCollectionButton
           variant="secondary"
           data-test="btn-add-answer"
-          onClick={onAddList}
+          onClick={addList}
         >
           <IconText icon={AddIcon}>
             Add {myval ? "a" : "another"} list collection
