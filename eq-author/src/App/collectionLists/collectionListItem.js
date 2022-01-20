@@ -144,6 +144,7 @@ const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
 };
 
 CollectionListItem.propTypes = {
+  handleDeleteList: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   listName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,

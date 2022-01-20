@@ -76,7 +76,7 @@ const CollectionListsPage = ({ myval }) => {
     refetchQueries: ["Lists"],
   });
 
-  const [DeleteList] = useMutation(deleteCollectionListMutation, {});
+  const [deleteList] = useMutation(deleteCollectionListMutation, {});
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
@@ -138,7 +138,7 @@ const CollectionListsPage = ({ myval }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName, deleteList }) => (
+            lists.map(({ id, displayName  }) => (
               <CollectionListItem
                 key={id}
                 itemId={id}
@@ -163,6 +163,5 @@ const CollectionListsPage = ({ myval }) => {
 
 CollectionListsPage.propTypes = {
   onAddList: PropTypes.func,
-  myval: PropTypes.bool,
 };
 export default CollectionListsPage;
