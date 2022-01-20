@@ -126,7 +126,7 @@ const CollectionListsPage = ({ myval }) => {
           onClick={addList}
         >
           <IconText icon={AddIcon}>
-            Add {myval ? "a" : "another"} list collection
+            Add {myval ? "a" : "another"} collection list
           </IconText>
         </AddListCollectionButton>
 
