@@ -138,7 +138,7 @@ const CollectionListsPage = ({ myval }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName  }) => (
+            lists.map(({ id, displayName, deleteList }) => (
               <CollectionListItem
                 key={id}
                 itemId={id}
@@ -162,6 +162,7 @@ const CollectionListsPage = ({ myval }) => {
 };
 
 CollectionListsPage.propTypes = {
+  myval: PropTypes.string,
   onAddList: PropTypes.func,
 };
 export default CollectionListsPage;
