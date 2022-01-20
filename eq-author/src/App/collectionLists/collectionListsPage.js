@@ -72,17 +72,23 @@ const CollectionListsPage = ({ myval, onAddList, match }) => {
     fetchPolicy: "network-only",
   });
 
-  const [addList] = useMutation(createCollectionListMutation, {});
+  const [addList] = useMutation(createCollectionListMutation, {
+    update(cache, { data: { createCollectionList } }) {
+      cache.writeQuery({
+        data: { lists: createCollectionList },
+      });
+    },
+  });
 
   // const [DeleteList] = useMutation(deleteCollectionListMutation, {
-  //   update(cache, { data: { deleteCollectionListMutation } }) {
+  //   update(cache, { data: { deleteCollectionList } }) {
   //     console.log("mutation");
   //     cache.writeQuery({
   //       query: questionnaireCollectionListsQuery,
   //       variables: {
   //         input: id,
   //       },
-  //       data: { lists: deleteCollectionListMutation },
+  //       data: { lists: deleteCollectionList },
   //     });
   //   },
   // });
