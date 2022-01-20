@@ -5,7 +5,10 @@ import { flowRight, isEmpty } from "lodash";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 
-import { PageContextProvider } from "components/QuestionnaireContext";
+import {
+  PageContextProvider,
+  useQuestionnaire,
+} from "components/QuestionnaireContext";
 import { useNavigationCallbacks } from "components/NavigationCallbacks";
 
 import Loading from "components/Loading";
@@ -54,6 +57,8 @@ export const UnwrappedPageRoute = (props) => {
     fetchPolicy: "cache-and-network",
   });
 
+  const { questionnaire } = useQuestionnaire();
+
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
       return (
@@ -64,6 +69,7 @@ export const UnwrappedPageRoute = (props) => {
         />
       );
     }
+
     if (page.pageType === CalculatedSummaryPage) {
       return (
         <CalculatedSummaryPageEditor
@@ -84,13 +90,22 @@ export const UnwrappedPageRoute = (props) => {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    if (isEmpty(page)) {
+    return <Error>Something went wrong</Error>;
+  };
+
+  const redirectPage = () => {
+    //need this questionnaire != null otherwise TypeError when recompile and run author.
+    if (isEmpty(page) && questionnaire !== null) {
       return (
-        <RedirectRoute to={"/q/:questionnaireId/introduction/:pageId/design"} />
+        <RedirectRoute
+          to={
+            "/q/:questionnaireId/page/" +
+            questionnaire.sections[0].folders[0].pages[0].id +
+            "/design"
+          }
+        />
       );
     }
-
-    return <Error>Something went wrong</Error>;
   };
 
   return (
@@ -101,7 +116,9 @@ export const UnwrappedPageRoute = (props) => {
         validationErrorInfo={page?.validationErrorInfo}
         {...(availableTabMatrix[page?.pageType] || {})}
       >
-        <Panel>{renderContent()}</Panel>
+        <Panel>
+          {renderContent()} {redirectPage()}
+        </Panel>
       </EditorLayout>
     </PageContextProvider>
   );

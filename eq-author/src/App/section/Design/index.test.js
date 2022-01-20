@@ -435,6 +435,23 @@ describe("SectionRoute", () => {
       });
     });
 
+    it.only("should redirect to section when directed to a section that is null or deleted", async () => {
+      const wrapper = render({
+        loading: false,
+        error: false,
+        match,
+        section: null,
+        questionnaire: section.questionnaire,
+        ...mockHandlers,
+      });
+      console.log(wrapper.html());
+      const editorLayout = wrapper.find(
+        `EditorLayout${byTestAttr("section-route")}`
+      );
+
+      expect(editorLayout).toBeInTheDocument();
+    });
+
     it("should enable the preview tab when the introduction is enabled", async () => {
       const wrapper = render({
         loading: false,

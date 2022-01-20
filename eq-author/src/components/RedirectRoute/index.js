@@ -15,7 +15,7 @@ const RedirectRoute = ({ to, from }) => {
 
 RedirectRoute.propTypes = {
   to: PropTypes.string.isRequired,
-  from: PropTypes.string.isRequired,
+  from: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.object, // eslint-disable-line
   }),
