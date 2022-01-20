@@ -47,7 +47,11 @@ export const PAGE_QUERY = gql`
 
 export const UnwrappedPageRoute = (props) => {
   const { onAddQuestionPage } = useNavigationCallbacks();
-  const { loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+  const {
+    error,
+    loading,
+    data: { page = {} } = {},
+  } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -90,7 +94,9 @@ export const UnwrappedPageRoute = (props) => {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    return <Error>Something went wrong</Error>;
+    if (error) {
+      return <Error>Something went wrong</Error>;
+    }
   };
 
   const redirectPage = () => {
@@ -100,7 +106,7 @@ export const UnwrappedPageRoute = (props) => {
         <RedirectRoute
           to={
             "/q/:questionnaireId/page/" +
-            questionnaire.sections[0].folders[0].pages[0].id +
+            questionnaire?.sections[0]?.folders[0]?.pages[0]?.id +
             "/design"
           }
         />
