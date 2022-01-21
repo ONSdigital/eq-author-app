@@ -49,6 +49,9 @@ const SignInPage = ({
   const [recoverPassword, setRecoverPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorCode, setErrorCode] = useState("");
+
   const forgotPassword = (boolVal) => {
     setRecoverPassword(boolVal);
   };
@@ -92,6 +95,10 @@ const SignInPage = ({
                   recoverPassword={recoverPassword}
                   forgotPassword={forgotPassword}
                   setCreateAccountFunction={setCreateAccountFunction}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                  errorCode={errorCode}
+                  setErrorCode={setErrorCode}
                 />
               )}
               <RecoverPassword

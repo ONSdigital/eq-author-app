@@ -23,6 +23,7 @@ export const logInWithEmailAndPassword = async (email, password) => {
   } catch (err) {
     const errorMessage = err.message;
     console.error(err);
+    console.log("errorMessagexxx", errorMessage);
     alert(err.message);
   }
 };

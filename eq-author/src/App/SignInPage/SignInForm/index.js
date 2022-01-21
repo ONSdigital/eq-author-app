@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import auth, {
-  logInWithEmailAndPassword,
+  // logInWithEmailAndPassword,
   providers,
   credentialHelper,
 } from "components/Auth";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { FirebaseAuth } from "react-firebaseui";
+
+// import { FirebaseAuth } from "react-firebaseui";
 
 import {
   PageTitle,
@@ -30,20 +31,33 @@ const SignInForm = ({
   recoverPassword,
   forgotPassword,
   setCreateAccountFunction,
+  errorMessage,
+  setErrorMessage,
+  errorCode,
+  setErrorCode,
 }) => {
   // const form = useRef();
   // const checkBtn = useRef();
-  let errorMessage = null;
+
   const logInWithEmailAndPassword = async (email, password) => {
-    console.log(`auth`, auth);
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      errorMessage = err.message;
-      console.error(err);
-      alert(err.message);
+    if (email === "") {
+      setErrorMessage("Enter email");
+    } else if (password === "") {
+      setErrorMessage("Enter password");
+    } else {
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+      } catch (err) {
+        console.log("err", err);
+        setErrorCode(err.code);
+        setErrorMessage(err.message);
+        // console.error(err);
+        console.log("errorMessagexxx", errorMessage);
+      }
     }
   };
+
+  // console.log(`errorMessage`, errorMessage);
 
   // const [loading, setLoading] = useState(false);
   // const [user, loading, error] = useAuthState(auth);
@@ -55,7 +69,6 @@ const SignInForm = ({
   const [checkbox, setCheckbox] = useState(false);
 
   // console.log(`user`, user);
-  console.log(`errorMessage`, errorMessage);
 
   function handleRecoverPassword(e) {
     e.preventDefault();
@@ -125,23 +138,54 @@ const SignInForm = ({
   return (
     <>
       <Form>
+        {errorMessage && (
+          <Panel
+            variant="errorWithHeader"
+            headerLabel="This page has an error"
+            paragraphLabel={errorMessage}
+          />
+        )}
         <PageTitle>Sign in</PageTitle>
         <Description>You must be signed in to access Author</Description>
 
         {/* <Panel variant="success" headerLabel="boom" withLeftBorder>
           {"You've successfully updated the password for your Author account."}
         </Panel> */}
+
         <Field>
-          <Label htmlFor="email">Email address</Label>
-          <Input
-            type="text"
-            id="email"
-            value={email}
-            onChange={({ value }) => setEmail(value)}
-            // onBlur={() => ()}
-            data-test="txt-email"
-            // validations={[required]}
-          />
+          {errorMessage ? (
+            <>
+              <Panel
+                variant="errorNoHeader"
+                paragraphLabel={errorMessage}
+                withLeftBorder
+              >
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                  type="text"
+                  id="email"
+                  value={email}
+                  onChange={({ value }) => setEmail(value)}
+                  // onBlur={() => ()}
+                  data-test="txt-email"
+                  // validations={[required]}
+                />
+              </Panel>
+            </>
+          ) : (
+            <>
+              <Label htmlFor="email">Email address</Label>
+              <Input
+                type="text"
+                id="email"
+                value={email}
+                onChange={({ value }) => setEmail(value)}
+                // onBlur={() => ()}
+                data-test="txt-email"
+                // validations={[required]}
+              />
+            </>
+          )}
         </Field>
         <Field>
           {/* <PasswordInput /> */}
@@ -207,6 +251,10 @@ SignInForm.propTypes = {
   staySignedIn: PropTypes.bool,
   setRecoverPassword: PropTypes.func,
   setCreateAccountFunction: PropTypes.func,
+  errorMessage: PropTypes.bool,
+  setErrorMessage: PropTypes.func,
+  errorCode: PropTypes.bool,
+  setErrorCode: PropTypes.func,
 };
 
 export default SignInForm;
