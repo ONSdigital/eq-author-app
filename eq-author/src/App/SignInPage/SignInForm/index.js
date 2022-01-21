@@ -251,9 +251,9 @@ SignInForm.propTypes = {
   staySignedIn: PropTypes.bool,
   setRecoverPassword: PropTypes.func,
   setCreateAccountFunction: PropTypes.func,
-  errorMessage: PropTypes.bool,
+  errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
-  errorCode: PropTypes.bool,
+  errorCode: PropTypes.string,
   setErrorCode: PropTypes.func,
 };
 
