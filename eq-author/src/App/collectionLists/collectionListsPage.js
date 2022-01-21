@@ -15,6 +15,7 @@ import AddIcon from "./icon-add.svg?inline";
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
 import createCollectionListMutation from "./createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
+import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
 
 const Text = styled.p``;
 
@@ -80,6 +81,12 @@ const CollectionListsPage = ({ myval }) => {
     refetchQueries: ["Lists"],
   });
 
+  const [updateList] = useMutation(updateCollectionListMutation, {
+    refetchQueries: ["Lists"],
+  });
+
+  const [noChange] = "";
+
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
   }
@@ -143,7 +150,7 @@ const CollectionListsPage = ({ myval }) => {
             lists.map(({ id, displayName }) => (
               <CollectionListItem
                 key={id}
-                itemId={id}
+                id={id}
                 displayName={displayName}
                 handleDeleteList={() =>
                   deleteList({
@@ -154,6 +161,17 @@ const CollectionListsPage = ({ myval }) => {
                     },
                   })
                 }
+                handleUpdateList={(id, listName) =>
+                  updateList({
+                    variables: {
+                      input: {
+                        id: id,
+                        listName: listName,
+                      },
+                    },
+                  })
+                }
+                handleChange={(id) => noChange}
               />
             ))
           )}
