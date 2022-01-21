@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
-import auth, {
-  // logInWithEmailAndPassword,
-  providers,
-  credentialHelper,
-} from "components/Auth";
+import auth, { providers, credentialHelper } from "components/Auth";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
@@ -28,7 +24,6 @@ import Panel from "components-themed/panels";
 import { Form, Field } from "components/Forms";
 
 const SignInForm = ({
-  recoverPassword,
   forgotPassword,
   setCreateAccountFunction,
   errorMessage,
@@ -51,13 +46,10 @@ const SignInForm = ({
         console.log("err", err);
         setErrorCode(err.code);
         setErrorMessage(err.message);
-        // console.error(err);
-        console.log("errorMessagexxx", errorMessage);
+        console.log("errorMessage in sign in page", errorMessage);
       }
     }
   };
-
-  // console.log(`errorMessage`, errorMessage);
 
   // const [loading, setLoading] = useState(false);
   // const [user, loading, error] = useAuthState(auth);
@@ -153,7 +145,7 @@ const SignInForm = ({
         </Panel> */}
 
         <Field>
-          {errorMessage ? (
+          {errorMessage.toLowerCase().includes("email") ? (
             <>
               <Panel
                 variant="errorNoHeader"
@@ -188,16 +180,39 @@ const SignInForm = ({
           )}
         </Field>
         <Field>
-          {/* <PasswordInput /> */}
-          <Label htmlFor="password">Password</Label>
-          <Input
-            // type="password"
-            id="password"
-            value={password}
-            onChange={({ value }) => setPassword(value)}
-            // onBlur={() => ()}
-            data-test="txt-password"
-          />
+          {errorMessage.toLowerCase().includes("password") ? (
+            <>
+              <Panel
+                variant="errorNoHeader"
+                paragraphLabel={errorMessage}
+                withLeftBorder
+              >
+                {/* <PasswordInput /> */}
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  // type="password"
+                  id="password"
+                  value={password}
+                  onChange={({ value }) => setPassword(value)}
+                  // onBlur={() => ()}
+                  data-test="txt-password"
+                />
+              </Panel>
+            </>
+          ) : (
+            <>
+              {/* <PasswordInput /> */}
+              <Label htmlFor="password">Password</Label>
+              <Input
+                // type="password"
+                id="password"
+                value={password}
+                onChange={({ value }) => setPassword(value)}
+                // onBlur={() => ()}
+                data-test="txt-password"
+              />
+            </>
+          )}
         </Field>
         <Field>
           <ButtonLink onClick={handleRecoverPassword}>
@@ -246,10 +261,7 @@ SignInForm.defaultProps = {
 };
 
 SignInForm.propTypes = {
-  email: PropTypes.string,
-  password: PropTypes.string,
-  staySignedIn: PropTypes.bool,
-  setRecoverPassword: PropTypes.func,
+  forgotPassword: PropTypes.bool,
   setCreateAccountFunction: PropTypes.func,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,

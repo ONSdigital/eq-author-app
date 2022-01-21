@@ -62,7 +62,7 @@ const HeaderLabel = styled.h2`
 
 const PanelParagraphTitle = styled.div`
   color: ${({ variant }) => getThemeColor(variant)};
-  margin: 0 0 1rem;
+  margin: 0 0 0.5rem;
   font-weight: bold;
 `;
 
@@ -116,7 +116,7 @@ const StyledPanel = styled.div`
   display: block;
   border-radius: 0;
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   border-left: ${(props) => props.withLeftBorder && `8px solid transparent;`};
 
   ${(props) => props.variant === "info" && infoPanel};

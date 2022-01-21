@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import auth from "components/Auth";
 
 import Input from "components-themed/Input";
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
+import Panel from "components-themed/panels";
+
 import {
   PageTitle,
   PageSubTitle,
   Description,
   ButtonLink,
   InlineDescription,
-  InlineLink,
 } from "components-themed/Toolkit";
 
 const RecoverPassword = ({
@@ -19,6 +21,8 @@ const RecoverPassword = ({
   setRecoveryEmail,
   recoverPassword,
   forgotPassword,
+  errorMessage,
+  setErrorMessage,
   // recoveryEmailSent,
 }) => {
   const [recoveryEmailSent, setRecoveryEmailSent] = useState(false);
@@ -27,15 +31,31 @@ const RecoverPassword = ({
     e.preventDefault();
     forgotPassword(false);
   }
+  console.log("recoveryEmail", recoveryEmail);
 
-  function handleEmail(e) {
-    e.preventDefault();
-    // handle sending email for PW recovery here!
-    setRecoveryEmailSent(true);
-    forgotPassword(true);
-  }
+  const handleEmailRecoveryPassword = async (recoveryEmail) => {
+    console.log("recoveryEmail:::::", recoveryEmail);
+    if (recoveryEmail === "" || recoverPassword === null) {
+      setErrorMessage("Enter email");
+    } else {
+      try {
+        await auth.sendPasswordResetEmail(recoveryEmail).then(function () {
+          alert("Password reset link sent!");
+        });
+      } catch (err) {
+        console.log("err:", err);
+        console.error(err);
+        setErrorMessage(err.message);
+      }
+      if (!errorMessage) {
+        setRecoveryEmailSent(true);
+        forgotPassword(true);
+      }
+    }
+    console.log("errorMessage in recover PW page:", errorMessage);
+  };
 
-  function handleRecoverPassword(e) {
+  function handleReturnToRecoverPassword(e) {
     e.preventDefault();
     forgotPassword(true);
     setRecoveryEmailSent(false);
@@ -45,26 +65,58 @@ const RecoverPassword = ({
     <>
       {recoverPassword && !recoveryEmailSent && (
         <>
+          {errorMessage && (
+            <Panel
+              variant="errorWithHeader"
+              headerLabel="This page has an error"
+              paragraphLabel={errorMessage}
+            />
+          )}
           <PageTitle>Recover Password</PageTitle>
           <Description>
             {`Enter the email address you used to create your Author Account.
         We'll email you a link so you can reset your password.`}
           </Description>
           <Field>
-            <Label htmlFor="email">Enter your email address</Label>
-            <Input
-              type="text"
-              id="recoveryEmail"
-              value={recoveryEmail}
-              onChange={({ value }) => setRecoveryEmail(value)}
-              // onBlur={() => ()}
-              data-test="txt-recovery-email"
-              // validations={[required]}
-            />
+            {errorMessage.toLowerCase().includes("email") ? (
+              <>
+                <Panel
+                  variant="errorNoHeader"
+                  paragraphLabel={errorMessage}
+                  withLeftBorder
+                >
+                  <Label htmlFor="email">Enter your email address</Label>
+                  <Input
+                    type="text"
+                    id="recoveryEmail"
+                    value={recoveryEmail}
+                    onChange={({ value }) => setRecoveryEmail(value)}
+                    // onBlur={() => ()}
+                    data-test="txt-recovery-email"
+                    // validations={[required]}
+                  />
+                </Panel>
+              </>
+            ) : (
+              <>
+                <Label htmlFor="email">Enter your email address</Label>
+                <Input
+                  type="text"
+                  id="recoveryEmail"
+                  value={recoveryEmail}
+                  onChange={({ value }) => setRecoveryEmail(value)}
+                  // onBlur={() => ()}
+                  data-test="txt-recovery-email"
+                  // validations={[required]}
+                />
+              </>
+            )}
           </Field>
 
           <Field>
-            <Button onClick={handleEmail}>Send</Button>
+            <Button onClick={() => handleEmailRecoveryPassword(recoveryEmail)}>
+              Send
+            </Button>
           </Field>
           <ButtonLink onClick={handleReturnToSignInPage}>
             Return to the sign in page
@@ -76,12 +128,13 @@ const RecoverPassword = ({
         <>
           <PageTitle>Recover Password - check your email</PageTitle>
           <Description>
-            {/* might not have the me context here as not yet signed in?? */}
-            {`We've sent a link for resetting your password to me.email.  The link will expire in X hours.`}
+            {`We've sent a link for resetting your password to` +
+              recoveryEmail +
+              `  The link will expire in X hours.`}
           </Description>
           <PageSubTitle>If you did not get the email</PageSubTitle>
           <InlineDescription>We can</InlineDescription>
-          <ButtonLink onClick={handleRecoverPassword}>
+          <ButtonLink onClick={handleReturnToRecoverPassword}>
             send the password reset email again
           </ButtonLink>
           <InlineDescription>if you did not get it.</InlineDescription>
@@ -97,6 +150,8 @@ RecoverPassword.propTypes = {
   recoverPassword: PropTypes.bool,
   forgotPassword: PropTypes.func,
   recoveryEmailSent: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  setErrorMessage: PropTypes.func,
 };
 
 export default RecoverPassword;

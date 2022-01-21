@@ -107,6 +107,8 @@ const SignInPage = ({
                 recoverPassword={recoverPassword}
                 forgotPassword={forgotPassword}
                 // recoveryEmailSent={false}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
               />
               {createAccount && (
                 <CreateAccount
