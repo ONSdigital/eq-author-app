@@ -14,7 +14,6 @@ firebase.initializeApp({
 });
 
 const auth = firebase.auth();
-console.log(`auth`, auth);
 
 // export const registerWithEmailAndPassword = async (name, email, password) => {
 //   try {

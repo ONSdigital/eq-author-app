@@ -29,6 +29,12 @@ export const InlineDescription = styled(Description)`
   margin-right: 0.5rem;
 `;
 
+export const InlineDescriptionBold = styled(Description)`
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-weight: bold;
+`;
+
 export const Link = styled.a`
   margin: 0 0 1rem;
   font-size: 1.125rem;

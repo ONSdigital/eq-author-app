@@ -86,6 +86,7 @@ const ContextProvider = ({ history, client, children }) => {
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
+      console.log("firebaseUser:::", firebaseUser);
     });
   }, []);
 

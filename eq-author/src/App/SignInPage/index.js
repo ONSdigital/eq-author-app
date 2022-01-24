@@ -52,7 +52,7 @@ const SignInPage = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [errorCode, setErrorCode] = useState("");
 
-  const forgotPassword = (boolVal) => {
+  const setForgotPassword = (boolVal) => {
     setRecoverPassword(boolVal);
   };
   const setCreateAccountFunction = (boolVal) => {
@@ -93,7 +93,7 @@ const SignInPage = ({
               {!recoverPassword && !createAccount && (
                 <SignInForm
                   recoverPassword={recoverPassword}
-                  forgotPassword={forgotPassword}
+                  setForgotPassword={setForgotPassword}
                   setCreateAccountFunction={setCreateAccountFunction}
                   errorMessage={errorMessage}
                   setErrorMessage={setErrorMessage}
@@ -105,7 +105,7 @@ const SignInPage = ({
                 recoveryEmail={recoveryEmail}
                 setRecoveryEmail={setRecoveryEmail}
                 recoverPassword={recoverPassword}
-                forgotPassword={forgotPassword}
+                setForgotPassword={setForgotPassword}
                 // recoveryEmailSent={false}
                 errorMessage={errorMessage}
                 setErrorMessage={setErrorMessage}
@@ -113,7 +113,7 @@ const SignInPage = ({
               {createAccount && (
                 <CreateAccount
                   setCreateAccountFunction={setCreateAccountFunction}
-                  forgotPassword={forgotPassword}
+                  setForgotPassword={setForgotPassword}
                 />
               )}
             </Column>

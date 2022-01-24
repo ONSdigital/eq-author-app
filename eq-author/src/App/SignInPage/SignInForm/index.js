@@ -24,7 +24,7 @@ import Panel from "components-themed/panels";
 import { Form, Field } from "components/Forms";
 
 const SignInForm = ({
-  forgotPassword,
+  setForgotPassword,
   setCreateAccountFunction,
   errorMessage,
   setErrorMessage,
@@ -48,6 +48,7 @@ const SignInForm = ({
         setErrorMessage(err.message);
         console.log("errorMessage in sign in page", errorMessage);
       }
+      setForgotPassword(false);
     }
   };
 
@@ -60,17 +61,15 @@ const SignInForm = ({
   const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
 
-  // console.log(`user`, user);
-
   function handleRecoverPassword(e) {
     e.preventDefault();
-    forgotPassword(true);
+    setForgotPassword(true);
   }
 
   function handleCreateAccount(e) {
     e.preventDefault();
     setCreateAccountFunction(true);
-    forgotPassword(false);
+    setForgotPassword(false);
   }
 
   // Handling the email change
@@ -190,12 +189,12 @@ const SignInForm = ({
                 {/* <PasswordInput /> */}
                 <Label htmlFor="password">Password</Label>
                 <Input
-                  // type="password"
+                  type="password"
                   id="password"
                   value={password}
                   onChange={({ value }) => setPassword(value)}
-                  // onBlur={() => ()}
                   data-test="txt-password"
+                  autocomplete="current-password"
                 />
               </Panel>
             </>
@@ -204,12 +203,12 @@ const SignInForm = ({
               {/* <PasswordInput /> */}
               <Label htmlFor="password">Password</Label>
               <Input
-                // type="password"
+                type="password"
                 id="password"
                 value={password}
                 onChange={({ value }) => setPassword(value)}
-                // onBlur={() => ()}
                 data-test="txt-password"
+                autocomplete="current-password"
               />
             </>
           )}
@@ -261,7 +260,7 @@ SignInForm.defaultProps = {
 };
 
 SignInForm.propTypes = {
-  forgotPassword: PropTypes.bool,
+  setForgotPassword: PropTypes.func,
   setCreateAccountFunction: PropTypes.func,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
