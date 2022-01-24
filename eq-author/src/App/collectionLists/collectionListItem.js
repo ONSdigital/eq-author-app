@@ -72,7 +72,13 @@ const Buttons = styled.div`
   }
 `;
 
-const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
+const CollectionListItem = ({
+  id,
+  displayName,
+  handleDeleteList,
+  handleUpdateList,
+  handleChange,
+}) => {
   return (
     <StyledGrid>
       <ListItem>
@@ -87,10 +93,8 @@ const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
               >
                 <MoveButton
                   color="white"
-                  // disabled={!this.props.canMoveUp}
-                  // tabIndex={!this.props.canMoveUp ? -1 : undefined}
+                  disabled
                   aria-label={"Move answer up"}
-                  // onClick={this.props.onMoveUp}
                   data-test="btn-move-answer-up"
                 >
                   <IconUp />
@@ -103,10 +107,8 @@ const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
               >
                 <MoveButton
                   color="white"
-                  // disabled={!this.props.canMoveDown}
-                  // tabIndex={!this.props.canMoveDown ? -1 : undefined}
+                  disabled
                   aria-label={"Move answer down"}
-                  // onClick={this.props.onMoveDown}
                   data-test="btn-move-answer-down"
                 >
                   <IconDown />
@@ -136,6 +138,8 @@ const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
             aria-label="List name input"
             tabIndex="-1"
             value={displayName}
+            onChange={handleChange()}
+            onBlur={() => handleUpdateList(id, displayName)}
           />
         </ListItemContents>
       </ListItem>
@@ -145,6 +149,8 @@ const CollectionListItem = ({ id, displayName, handleDeleteList }) => {
 
 CollectionListItem.propTypes = {
   handleDeleteList: PropTypes.func.isRequired,
+  handleUpdateList: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   listName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,

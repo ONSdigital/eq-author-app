@@ -15,6 +15,7 @@ import AddIcon from "./icon-add.svg?inline";
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
 import createCollectionListMutation from "./createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
+import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
 
 const Text = styled.p``;
 
@@ -76,7 +77,15 @@ const CollectionListsPage = ({ myval }) => {
     refetchQueries: ["Lists"],
   });
 
-  const [deleteList] = useMutation(deleteCollectionListMutation, {});
+  const [deleteList] = useMutation(deleteCollectionListMutation, {
+    refetchQueries: ["Lists"],
+  });
+
+  const [updateList] = useMutation(updateCollectionListMutation, {
+    refetchQueries: ["Lists"],
+  });
+
+  const [noChange] = "";
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
@@ -126,7 +135,7 @@ const CollectionListsPage = ({ myval }) => {
           onClick={addList}
         >
           <IconText icon={AddIcon}>
-            Add {!lists.length ? "a" : "another"} collection list
+            Add {!lists ? "a" : "another"} collection list
           </IconText>
         </AddListCollectionButton>
 
@@ -138,12 +147,12 @@ const CollectionListsPage = ({ myval }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName, deleteList }) => (
+            lists.map(({ id, displayName }) => (
               <CollectionListItem
                 key={id}
-                itemId={id}
+                id={id}
                 displayName={displayName}
-                handleDeleteList={(id) =>
+                handleDeleteList={() =>
                   deleteList({
                     variables: {
                       input: {
@@ -152,6 +161,17 @@ const CollectionListsPage = ({ myval }) => {
                     },
                   })
                 }
+                handleUpdateList={(id, listName) =>
+                  updateList({
+                    variables: {
+                      input: {
+                        id: id,
+                        listName: listName,
+                      },
+                    },
+                  })
+                }
+                handleChange={(id) => noChange}
               />
             ))
           )}
