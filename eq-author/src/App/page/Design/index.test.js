@@ -92,6 +92,7 @@ describe("PageRoute", () => {
       useQuery.mockImplementationOnce(() => ({
         loading: false,
         data: undefined,
+        error: true,
       }));
       const { getByTestId } = defaultSetup();
       expect(getByTestId("error")).toBeVisible();
