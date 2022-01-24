@@ -104,6 +104,7 @@ export const UnwrappedPageRoute = (props) => {
     if (isEmpty(page) && questionnaire !== null) {
       return (
         <RedirectRoute
+          from={"/q/:questionnaireId/page/:pageId/design"}
           to={
             "/q/:questionnaireId/page/" +
             questionnaire?.sections[0]?.folders[0]?.pages[0]?.id +

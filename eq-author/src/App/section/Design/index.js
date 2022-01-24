@@ -104,6 +104,7 @@ export const UnwrappedSectionRoute = (props) => {
     if (section === null && questionnaire !== null) {
       return (
         <RedirectRoute
+          from={"/q/:questionnaireId/section/:sectionId/design"}
           to={`/q/:questionnaireId/section/${questionnaire.sections[0].id}/design`}
         />
       );
