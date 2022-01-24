@@ -3,7 +3,20 @@ import { shallow } from "enzyme";
 
 import Loading from "components/Loading";
 
-import { IntroductionPreview, Collapsibles } from "./";
+import { useQuery } from "@apollo/react-hooks";
+
+import IntroductionPreview, { Collapsibles } from "./IntroductionPreview";
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useQuery: jest.fn(),
+}));
+
+useQuery.mockImplementation(() => ({
+  loading: false,
+  error: false,
+  data: {},
+}));
 
 describe("Introduction Preview", () => {
   let props;
@@ -24,6 +37,11 @@ describe("Introduction Preview", () => {
           tertiaryDescription: "tertiaryDescription",
           contactDetailsPhoneNumber: "0300 1234 931",
           contactDetailsEmailAddress: "surveys@ons.gov.uk",
+        },
+      },
+      match: {
+        params: {
+          questionnaireId: "1",
         },
       },
     };
