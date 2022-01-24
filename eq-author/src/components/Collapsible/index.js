@@ -10,6 +10,8 @@ import Button from "components/buttons/Button";
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 
+// ADD VARIANT OF LIST TO THIS BUT CHECK WHAT THE DIFFERENCE IN THE VARIANTS DO AND WHAT IS NEEDED FOR LIST
+
 const Wrapper = styled.div`
   margin: 0;
 
@@ -53,6 +55,20 @@ const Header = styled.div`
   `}
 
   ${({ variant }) =>
+    variant === "list" &&
+    `
+    height: 100%;
+    width: 100%;
+    background-color: ${colors.primary};
+    cursor: pointer;
+    margin-bottom: 0;
+
+    &:hover {
+      background-color: ${darken(0.1, colors.secondary)};
+    }
+  `}
+
+  ${({ variant }) =>
     variant === "properties" &&
     `
     cursor: pointer;
@@ -73,6 +89,7 @@ export const Title = styled.h2`
   }
 
   ${({ variant }) => variant === "content" && `padding: 0;`}
+  ${({ variant }) => variant === "list" && `padding: 0;`}
   ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
 
@@ -87,7 +104,7 @@ export const Body = styled.div`
   }
 
   ${({ variant }) =>
-    (variant === "content" || variant === "properties") &&
+    (variant === "content" || variant === "list" || variant === "properties") &&
     `
     margin-top: 0;
     border-left: none;
@@ -115,7 +132,7 @@ export const ToggleCollapsibleButton = styled.button`
   margin-left: 0;
 
   ${({ variant }) =>
-    (variant === "content" || variant === "properties") &&
+    (variant === "content" || variant === "list" || variant === "properties") &&
     `
     color: ${colors.white};
     text-decoration: none;
@@ -126,7 +143,7 @@ export const ToggleCollapsibleButton = styled.button`
     outline: 2px solid ${colors.orange};
 
     ${({ variant }) =>
-      (variant === "content" || variant === "properties") && `outline: none;`}
+      (variant === "content" || variant === "list" || variant === "properties") && `outline: none;`}
   }
 
   &::before {
@@ -140,6 +157,9 @@ export const ToggleCollapsibleButton = styled.button`
 
     ${({ variant }) =>
       variant === "content" && `background-color: ${colors.white}`}
+
+    ${({ variant }) =>
+      variant === "list" && `background-color: ${colors.white}`}
 
     ${({ variant }) =>
       variant === "properties" && `background-color: ${colors.white}`}
@@ -204,7 +224,7 @@ const Collapsible = ({
         data-test="collapsible-header"
         variant={variant}
         onClick={
-          variant === "content" || variant === "properties"
+          variant === "content" || variant === "list" || variant === "properties"
             ? () => setIsOpen((isOpen) => !isOpen)
             : undefined
         }
