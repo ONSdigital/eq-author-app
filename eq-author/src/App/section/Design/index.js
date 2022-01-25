@@ -101,11 +101,11 @@ export const UnwrappedSectionRoute = (props) => {
   };
 
   const redirectPage = () => {
-    if (section === null && questionnaire !== null) {
+    if (section === null) {
       return (
         <RedirectRoute
           from={"/q/:questionnaireId/section/:sectionId/design"}
-          to={`/q/:questionnaireId/section/${questionnaire.sections[0].id}/design`}
+          to={`/q/:questionnaireId/section/${questionnaire?.sections[0]?.id}/design`}
         />
       );
     }
