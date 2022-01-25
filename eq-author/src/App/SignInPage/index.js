@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withMe } from "App/MeContext";
 
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import propTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { providers, credentialHelper } from "components/Auth";
-import Loading from "components/Loading";
 import Layout from "components/Layout";
 import { Grid, Column } from "components/Grid";
 
-import SignInFormOld from "./SignInFormOld";
 import SignInForm from "./SignInForm";
 import RecoverPassword from "./RecoverPassword";
 import CreateAccount from "./CreateAccount";
@@ -28,6 +25,8 @@ const SignInPage = ({
   signOut,
   isSigningIn,
   sentEmailVerification,
+  // todo - do we need this???
+  // sentPasswordResetEmail
 }) => {
   // const uiConfig = {
   //   signInFlow: "popup",
@@ -38,10 +37,10 @@ const SignInPage = ({
   //   },
   // };
 
-  console.log(`me`, me);
-  console.log(`signIn`, signIn);
-  console.log("isSigningIn", isSigningIn);
-  console.log("sentEmailVerification", sentEmailVerification);
+  // console.log(`me`, me);
+  // console.log(`signIn`, signIn);
+  // console.log("isSigningIn", isSigningIn);
+  // console.log("sentEmailVerification", sentEmailVerification);
 
   const [createAccount, setCreateAccount] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
