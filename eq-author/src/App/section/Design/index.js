@@ -146,8 +146,7 @@ export const UnwrappedSectionRoute = (props) => {
               variant="tertiary"
               small
               disabled={
-                questionnaire !== null &&
-                questionnaire.questionnaireInfo.totalSectionCount === 1
+                questionnaire?.questionnaireInfo?.totalSectionCount === 1
               }
             >
               <IconText icon={IconMove}>Move</IconText>
