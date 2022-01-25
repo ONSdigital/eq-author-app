@@ -30,7 +30,7 @@ const RecoverPassword = ({
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
-    // todo - clear all errors
+    // todo - clear all errors ?
     setForgotPassword(false);
   }
 
@@ -43,15 +43,8 @@ const RecoverPassword = ({
           setRecoveryEmailSent(true);
         });
       } catch (err) {
-        // console.log("err:", err);
-        // console.error(err);
         setErrorMessage(err.message);
       }
-      // this is not always catching the error in time !!!
-      // if (!errorMessage) {
-      //   setRecoveryEmailSent(true);
-      //   // setForgotPassword(true);
-      // }
     }
   };
 

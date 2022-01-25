@@ -46,6 +46,18 @@ const CreateAccount = ({
           password
         );
         const user = response.user;
+        user
+          .updateProfile({
+            displayName: fullName,
+          })
+          .then(
+            function () {
+              console.log("sucess in update username");
+            },
+            function (error) {
+              console.log("error in update username", error);
+            }
+          );
         console.log("response:", response);
         console.log("user:", user);
         setCreateAccountFunction(false);

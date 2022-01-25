@@ -29,14 +29,14 @@ const SignInPage = ({
   isSigningIn,
   sentEmailVerification,
 }) => {
-  const uiConfig = {
-    signInFlow: "popup",
-    signInOptions: providers,
-    credentialHelper,
-    callbacks: {
-      signInSuccessWithAuthResult: () => false,
-    },
-  };
+  // const uiConfig = {
+  //   signInFlow: "popup",
+  //   signInOptions: providers,
+  //   credentialHelper,
+  //   callbacks: {
+  //     signInSuccessWithAuthResult: () => false,
+  //   },
+  // };
 
   console.log(`me`, me);
   console.log(`signIn`, signIn);
@@ -79,14 +79,16 @@ const SignInPage = ({
                 />
               )}
 
-              <RecoverPassword
-                recoveryEmail={recoveryEmail}
-                setRecoveryEmail={setRecoveryEmail}
-                recoverPassword={recoverPassword}
-                setForgotPassword={setForgotPassword}
-                errorMessage={errorMessage}
-                setErrorMessage={setErrorMessage}
-              />
+              {recoverPassword && (
+                <RecoverPassword
+                  recoveryEmail={recoveryEmail}
+                  setRecoveryEmail={setRecoveryEmail}
+                  recoverPassword={recoverPassword}
+                  setForgotPassword={setForgotPassword}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                />
+              )}
 
               {createAccount && (
                 <CreateAccount
@@ -111,9 +113,10 @@ const SignInPage = ({
 
 SignInPage.propTypes = {
   me: CustomPropTypes.me,
+  signIn: propTypes.func,
+  signOut: propTypes.func,
   isSigningIn: propTypes.bool,
   sentEmailVerification: propTypes.bool,
-  signOut: propTypes.func,
 };
 
 export default withMe(SignInPage);
