@@ -18,6 +18,7 @@ const checkForUpdates = (user, existingUser) => {
 };
 
 module.exports = async (req, res, next) => {
+  console.log("req - upsertUser:", req);
   const { user } = req;
   if (!user.isVerified) {
     if (

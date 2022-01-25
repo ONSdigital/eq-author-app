@@ -83,6 +83,8 @@ const ContextProvider = ({ history, client, children }) => {
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
   useEffect(() => {
+    // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0
+    // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);

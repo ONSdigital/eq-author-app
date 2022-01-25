@@ -145,6 +145,11 @@ const RecoverPassword = ({
               send the password reset email again
             </ButtonLink>
             <InlineDescription>if you did not get it.</InlineDescription>
+            {/* <Field>
+              <Button onClick={() => handleReturnToSignInPage()}>
+                Return to sign in page
+              </Button>
+            </Field> */}
           </>
         )}
       </Form>

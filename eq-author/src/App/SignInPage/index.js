@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { withMe } from "App/MeContext";
+
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import propTypes from "prop-types";
@@ -6,19 +8,13 @@ import CustomPropTypes from "custom-prop-types";
 import { providers, credentialHelper } from "components/Auth";
 import Loading from "components/Loading";
 import Layout from "components/Layout";
-import Button from "components/buttons/Button";
 import { Grid, Column } from "components/Grid";
-
-import { withMe } from "App/MeContext";
 
 import SignInFormOld from "./SignInFormOld";
 import SignInForm from "./SignInForm";
 import RecoverPassword from "./RecoverPassword";
 import CreateAccount from "./CreateAccount";
-
-const Text = styled.p`
-  margin-top: 0;
-`;
+import EmailVerification from "./EmailVerification";
 
 const MainPanel = styled.div`
   margin: 3em auto 0;
@@ -42,8 +38,10 @@ const SignInPage = ({
     },
   };
 
-  // console.log(`me`, me);
-  // console.log(`signIn`, signIn);
+  console.log(`me`, me);
+  console.log(`signIn`, signIn);
+  console.log("isSigningIn", isSigningIn);
+  console.log("sentEmailVerification", sentEmailVerification);
 
   const [createAccount, setCreateAccount] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
@@ -57,13 +55,8 @@ const SignInPage = ({
     setCreateAccount(boolVal);
   };
 
-  const handleSignOut = () => {
-    signOut();
-  };
-
-  // const handleEmail = (e) => {
-  //   setEmail(e.target.value);
-  //   setSubmitted(false);
+  // const handleSignOut = () => {
+  //   signOut();
   // };
 
   return (
@@ -72,23 +65,11 @@ const SignInPage = ({
 
       <Layout title="Author">
         <MainPanel>
-          {sentEmailVerification && (
-            <>
-              <Text>
-                Awaiting email verification, please check your inbox and follow
-                instructions.
-              </Text>
-              <Button variant="tertiary" onClick={handleSignOut}>
-                Sign in
-              </Button>
-            </>
-          )}
-
-          {isSigningIn && <Loading height="38rem">Logging you in...</Loading>}
+          {/* {isSigningIn && <Loading height="38rem">Logging you in...</Loading>} */}
 
           <Grid>
             <Column cols={9}>
-              {!recoverPassword && !createAccount && (
+              {!recoverPassword && !createAccount && !sentEmailVerification && (
                 <SignInForm
                   recoverPassword={recoverPassword}
                   setForgotPassword={setForgotPassword}
@@ -97,6 +78,7 @@ const SignInPage = ({
                   setErrorMessage={setErrorMessage}
                 />
               )}
+
               <RecoverPassword
                 recoveryEmail={recoveryEmail}
                 setRecoveryEmail={setRecoveryEmail}
@@ -105,6 +87,7 @@ const SignInPage = ({
                 errorMessage={errorMessage}
                 setErrorMessage={setErrorMessage}
               />
+
               {createAccount && (
                 <CreateAccount
                   setCreateAccountFunction={setCreateAccountFunction}
@@ -113,11 +96,13 @@ const SignInPage = ({
                   setErrorMessage={setErrorMessage}
                 />
               )}
+
+              {sentEmailVerification && <EmailVerification signOut={signOut} />}
             </Column>
           </Grid>
 
-          {/* <Text>You must be signed in to access this service zzzzz.</Text> */}
-          <SignInFormOld uiConfig={uiConfig} />
+          {/* <Text>You must be signed in to access this service zzzzz.</Text>
+          <SignInFormOld uiConfig={uiConfig} /> */}
         </MainPanel>
       </Layout>
     </>
