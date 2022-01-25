@@ -28,8 +28,6 @@ const SignInForm = ({
   setCreateAccountFunction,
   errorMessage,
   setErrorMessage,
-  errorCode,
-  setErrorCode,
 }) => {
   // const form = useRef();
   // const checkBtn = useRef();
@@ -44,7 +42,6 @@ const SignInForm = ({
         await auth.signInWithEmailAndPassword(email, password);
       } catch (err) {
         console.log("err", err);
-        setErrorCode(err.code);
         setErrorMessage(err.message);
         console.log("errorMessage in sign in page", errorMessage);
       }
@@ -157,9 +154,8 @@ const SignInForm = ({
                   id="email"
                   value={email}
                   onChange={({ value }) => setEmail(value)}
-                  // onBlur={() => ()}
                   data-test="txt-email"
-                  // validations={[required]}
+                  autocomplete="username"
                 />
               </Panel>
             </>
@@ -173,7 +169,7 @@ const SignInForm = ({
                 onChange={({ value }) => setEmail(value)}
                 // onBlur={() => ()}
                 data-test="txt-email"
-                // validations={[required]}
+                autocomplete="username"
               />
             </>
           )}
@@ -264,8 +260,6 @@ SignInForm.propTypes = {
   setCreateAccountFunction: PropTypes.func,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
-  errorCode: PropTypes.string,
-  setErrorCode: PropTypes.func,
 };
 
 export default SignInForm;
