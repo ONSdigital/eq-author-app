@@ -189,8 +189,7 @@ export const UnwrappedSectionRoute = (props) => {
 
   const hasIntroductionContent = () => {
     return (
-      section != null &&
-      Boolean(section.introductionTitle || section.introductionContent)
+      Boolean(section?.introductionTitle || section?.introductionContent)
     );
   };
 
