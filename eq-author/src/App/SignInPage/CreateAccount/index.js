@@ -58,8 +58,9 @@ const CreateAccount = ({
               console.log("error in update username", error);
             }
           );
-        console.log("response:", response);
+
         console.log("user:", user);
+
         setCreateAccountFunction(false);
       } catch (err) {
         console.log("err", err);
@@ -84,7 +85,7 @@ const CreateAccount = ({
           <PageTitle>Create an account</PageTitle>
           <Description>{`You must have an account to access Author`}</Description>
           <Field>
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="create-email">Email address</Label>
             <Input
               type="text"
               id="create-email"
@@ -95,7 +96,7 @@ const CreateAccount = ({
             />
           </Field>
           <Field>
-            <Label htmlFor="email">First and last name</Label>
+            <Label htmlFor="create-fullName">First and last name</Label>
             <Input
               type="text"
               id="create-fullName"
@@ -105,7 +106,7 @@ const CreateAccount = ({
             />
           </Field>
           <Field>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="create-password">Password</Label>
             <Input
               type="password"
               id="create-password"

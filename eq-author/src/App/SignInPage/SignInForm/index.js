@@ -12,13 +12,12 @@ import {
   Description,
   CheckBoxField,
   CheckboxInput,
-  OptionLabel,
   ButtonLink,
 } from "components-themed/Toolkit";
 import PasswordInput from "components-themed/Input/PasswordInput";
 import Input from "components-themed/Input";
 import Button from "components-themed/buttons";
-import Label from "components-themed/Label";
+import Label, { OptionLabel } from "components-themed/Label";
 import Panel from "components-themed/panels";
 
 import { Form, Field } from "components/Forms";

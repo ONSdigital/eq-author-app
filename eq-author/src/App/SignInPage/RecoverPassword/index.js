@@ -81,7 +81,9 @@ const RecoverPassword = ({
                     paragraphLabel={errorMessage}
                     withLeftBorder
                   >
-                    <Label htmlFor="email">Enter your email address</Label>
+                    <Label htmlFor="recoveryEmail">
+                      Enter your email address
+                    </Label>
                     <Input
                       type="text"
                       id="recoveryEmail"
@@ -93,7 +95,9 @@ const RecoverPassword = ({
                 </>
               ) : (
                 <>
-                  <Label htmlFor="email">Enter your email address</Label>
+                  <Label htmlFor="recoveryEmail">
+                    Enter your email address
+                  </Label>
                   <Input
                     type="text"
                     id="recoveryEmail"

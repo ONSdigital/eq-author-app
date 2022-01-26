@@ -77,9 +77,3 @@ export const CheckboxInput = styled(Input).attrs({ type: "checkbox" })`
   margin-top: 0.05em;
   min-width: 22px;
 `;
-
-export const OptionLabel = styled.p`
-  margin: 0 0 1.5rem 0.5rem;
-  align-items: flex-start;
-  font-size: 1.125rem;
-`;

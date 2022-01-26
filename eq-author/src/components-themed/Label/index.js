@@ -30,3 +30,9 @@ Label.defaultProps = {
 };
 
 export default Label;
+
+export const OptionLabel = styled.label`
+  margin: 0 0 1.5rem 0.5rem;
+  align-items: flex-start;
+  font-size: 1.125rem;
+`;
