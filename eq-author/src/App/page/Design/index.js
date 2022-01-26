@@ -103,7 +103,6 @@ export const UnwrappedPageRoute = (props) => {
   };
 
   const redirectPage = () => {
-    //need this questionnaire != null otherwise TypeError when recompile and run author.
     if (page === null) {
       return (
         <RedirectRoute
