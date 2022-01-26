@@ -38,6 +38,8 @@ import sectionFragment from "graphql/fragments/section.graphql";
 import { enableOn } from "utils/featureFlags";
 import AliasEditor from "components/AliasEditor";
 import Panel from "components/Panel";
+import RedirectRoute from "../../../components/RedirectRoute";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -98,6 +100,19 @@ export const UnwrappedSectionRoute = (props) => {
     onDeleteSection(sectionId);
   };
 
+  const redirectPage = () => {
+    if (section === null) {
+      return (
+        <RedirectRoute
+          from={"/q/:questionnaireId/section/:sectionId/design"}
+          to={`/q/:questionnaireId/section/${questionnaire?.sections[0]?.id}/design`}
+        />
+      );
+    }
+  };
+
+  const { questionnaire } = useQuestionnaire();
+
   const renderContent = () => {
     if (loading) {
       return <Loading height="24.25rem">Section loading…</Loading>;
@@ -108,8 +123,10 @@ export const UnwrappedSectionRoute = (props) => {
     if (isEmpty(section)) {
       return <Error>Oops! Section could not be found</Error>;
     }
-
-    const { id, alias, questionnaire, position } = section;
+    const id = section?.id;
+    const alias = section?.alias;
+    const questionnaire = section?.questionnaire;
+    const position = section?.position;
 
     return (
       <>
@@ -128,7 +145,9 @@ export const UnwrappedSectionRoute = (props) => {
               data-test="btn-move"
               variant="tertiary"
               small
-              disabled={questionnaire.questionnaireInfo.totalSectionCount === 1}
+              disabled={
+                questionnaire?.questionnaireInfo?.totalSectionCount === 1
+              }
             >
               <IconText icon={IconMove}>Move</IconText>
             </Button>
@@ -167,20 +186,24 @@ export const UnwrappedSectionRoute = (props) => {
     );
   };
 
-  const hasIntroductionContent = Boolean(
-    section.introductionTitle || section.introductionContent
-  );
+  const hasIntroductionContent = () => {
+    return (
+      Boolean(section?.introductionTitle || section?.introductionContent)
+    );
+  };
 
   return (
     <EditorLayout
       onAddQuestionPage={() => addFolderWithPage({ sectionId, position: 0 })}
       data-test="section-route"
-      preview={hasIntroductionContent}
-      title={section.displayName || ""}
-      validationErrorInfo={section.validationErrorInfo}
+      preview={hasIntroductionContent()}
+      title={section?.displayName || ""}
+      validationErrorInfo={section?.validationErrorInfo}
       logic={enableOn(["hub"])}
     >
-      <Panel>{renderContent()}</Panel>
+      <Panel>
+        {renderContent()} {redirectPage()}
+      </Panel>
     </EditorLayout>
   );
 };
@@ -225,6 +248,7 @@ export const SECTION_QUERY = gql`
 const SectionRoute = (props) => (
   <Query
     query={SECTION_QUERY}
+    fetchPolicy="cache-and-network"
     variables={{
       input: {
         questionnaireId: props.match.params.questionnaireId,
