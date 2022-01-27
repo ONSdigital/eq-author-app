@@ -24,6 +24,8 @@ import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntrod
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
 const Section = styled.section`
   &:not(:last-of-type) {
     border-bottom: 1px solid #e0e0e0;
@@ -94,11 +96,14 @@ export const IntroductionEditor = ({
     secondaryDescription,
     tertiaryTitle,
     tertiaryDescription,
+    validationErrorInfo,
   } = introduction;
 
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
+
+  console.log("introduction", introduction);
 
   return (
     <>
@@ -344,7 +349,11 @@ const fragment = gql`
     }
     tertiaryTitle
     tertiaryDescription
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
+  ${ValidationErrorInfoFragment}
 `;
 
 IntroductionEditor.fragments = [fragment, ...CollapsiblesEditor.fragments];

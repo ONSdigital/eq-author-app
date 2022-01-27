@@ -46,6 +46,19 @@ export const richTextEditorErrors = {
   },
 };
 
+export const contactDetailsErrors = {
+  PHONE_NOT_ENTERED: {
+    field: "phoneLabel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Phone number required",
+  },
+  EMAIL_NOT_ENTERED: {
+    field: "emailLabel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Email address required",
+  },
+};
+
 export const questionDefinitionErrors = {
   DEFINITION_LABEL_NOT_ENTERED: {
     field: "definitionLabel",

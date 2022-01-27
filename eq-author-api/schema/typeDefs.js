@@ -663,6 +663,7 @@ type QuestionnaireIntroduction {
   collapsibles: [Collapsible!]!
   tertiaryTitle: String!
   tertiaryDescription: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Reply {

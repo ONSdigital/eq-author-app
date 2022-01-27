@@ -4,6 +4,9 @@ query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     introduction {
       id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
     publishStatus
     locked
@@ -205,5 +208,9 @@ fragment Introduction on Questionnaire {
   id
   introduction {
     id
+    validationErrorInfo {
+      id
+      totalCount
+    }
   }
 }
