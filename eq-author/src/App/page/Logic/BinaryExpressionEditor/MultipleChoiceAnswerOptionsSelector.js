@@ -175,7 +175,8 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         error.errorCode.includes("ERR_RIGHTSIDE") ||
         error.errorCode.includes(
           "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
-        )
+        ) ||
+        error.errorCode.includes("ERR_LOGICAL_AND")
     );
 
     if (

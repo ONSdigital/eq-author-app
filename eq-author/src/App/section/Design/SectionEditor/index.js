@@ -121,11 +121,11 @@ export class SectionEditor extends React.Component {
 
     const navHasChanged =
       this.previousNav !== hasNavigation(this.props.section);
-    const hasTitle = this.props.section.title;
+    const hasTitle = this.props.section?.title;
 
     const autoFocusTitle = !navHasChanged && !hasTitle;
 
-    const hasHub = section.questionnaire.hub;
+    const hasHub = section?.questionnaire?.hub;
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
@@ -133,7 +133,7 @@ export class SectionEditor extends React.Component {
           isOpen={showDeleteConfirmDialog}
           onClose={onCloseDeleteConfirmDialog}
           onDelete={onDeleteSectionConfirm}
-          title={section.displayName}
+          title={section?.displayName}
           alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
           icon={iconSection}
           data-test="dialog-delete-confirm"
@@ -144,9 +144,9 @@ export class SectionEditor extends React.Component {
 
         {hasHub && (
           <HubSettings
-            id={section.id}
-            requiredCompleted={section.requiredCompleted}
-            showOnHub={section.showOnHub}
+            id={section?.id}
+            requiredCompleted={section?.requiredCompleted}
+            showOnHub={section?.showOnHub}
           />
         )}
 
@@ -166,16 +166,19 @@ export class SectionEditor extends React.Component {
                 </DescribedText>
               ))
             }
-            value={section.title}
+            value={section?.title}
             onUpdate={handleUpdate}
             controls={titleControls}
             size="large"
             testSelector="txt-section-title"
             autoFocus={autoFocusTitle}
-            errorValidationMsg={this.props.getValidationError({
-              field: "title",
-              message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
-            })}
+            errorValidationMsg={
+              section &&
+              this.props.getValidationError({
+                field: "title",
+                message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
+              })
+            }
           />
           <HorizontalRule />
           <SectionSummary
@@ -202,13 +205,16 @@ export class SectionEditor extends React.Component {
               onUpdate={handleUpdate}
               size="large"
               testSelector="txt-introduction-title"
-              value={section.introductionTitle}
+              value={section?.introductionTitle}
               controls={{ piping: true }}
-              errorValidationMsg={this.props.getValidationError({
-                field: "introductionTitle",
-                label: "Introduction Title",
-                requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
-              })}
+              errorValidationMsg={
+                section &&
+                this.props.getValidationError({
+                  field: "introductionTitle",
+                  label: "Introduction Title",
+                  requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
+                })
+              }
             />
             <RichTextEditor
               id="introduction-content"
@@ -217,7 +223,7 @@ export class SectionEditor extends React.Component {
               onUpdate={handleUpdate}
               name="introductionContent"
               testSelector="txt-introduction-content"
-              value={section.introductionContent}
+              value={section?.introductionContent}
               controls={{
                 heading: true,
                 bold: true,
@@ -226,11 +232,14 @@ export class SectionEditor extends React.Component {
                 emphasis: true,
                 link: true,
               }}
-              errorValidationMsg={this.props.getValidationError({
-                field: "introductionContent",
-                label: "Introduction Content",
-                requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
-              })}
+              errorValidationMsg={
+                section &&
+                this.props.getValidationError({
+                  field: "introductionContent",
+                  label: "Introduction Content",
+                  requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
+                })
+              }
             />
           </IntroCanvas>
         </Padding>

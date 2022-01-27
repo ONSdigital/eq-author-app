@@ -5,7 +5,10 @@ import { flowRight, isEmpty } from "lodash";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 
-import { PageContextProvider } from "components/QuestionnaireContext";
+import {
+  PageContextProvider,
+  useQuestionnaire,
+} from "components/QuestionnaireContext";
 import { useNavigationCallbacks } from "components/NavigationCallbacks";
 
 import Loading from "components/Loading";
@@ -18,6 +21,8 @@ import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 import withFetchAnswers from "./withFetchAnswers";
 
 import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+
+import RedirectRoute from "components/RedirectRoute";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
@@ -41,7 +46,11 @@ export const PAGE_QUERY = gql`
 
 export const UnwrappedPageRoute = (props) => {
   const { onAddQuestionPage } = useNavigationCallbacks();
-  const { loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+  const {
+    error,
+    loading,
+    data: { page = {} } = {},
+  } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -50,6 +59,8 @@ export const UnwrappedPageRoute = (props) => {
     },
     fetchPolicy: "cache-and-network",
   });
+
+  const { questionnaire } = useQuestionnaire();
 
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
@@ -61,6 +72,7 @@ export const UnwrappedPageRoute = (props) => {
         />
       );
     }
+
     if (page.pageType === CalculatedSummaryPage) {
       return (
         <CalculatedSummaryPageEditor
@@ -81,7 +93,27 @@ export const UnwrappedPageRoute = (props) => {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    return <Error>Something went wrong</Error>;
+    if (error) {
+      return <Error>Something went wrong</Error>;
+    }
+    if (isEmpty(page)) {
+      return <Error>Oops! Page could not be found</Error>;
+    }
+  };
+
+  const redirectPage = () => {
+    if (page === null) {
+      return (
+        <RedirectRoute
+          from={"/q/:questionnaireId/page/:pageId/design"}
+          to={
+            "/q/:questionnaireId/page/" +
+            questionnaire?.sections[0]?.folders[0]?.pages[0]?.id +
+            "/design"
+          }
+        />
+      );
+    }
   };
 
   return (
@@ -92,7 +124,9 @@ export const UnwrappedPageRoute = (props) => {
         validationErrorInfo={page?.validationErrorInfo}
         {...(availableTabMatrix[page?.pageType] || {})}
       >
-        <Panel>{renderContent()}</Panel>
+        <Panel>
+          {renderContent()} {redirectPage()}
+        </Panel>
       </EditorLayout>
     </PageContextProvider>
   );
