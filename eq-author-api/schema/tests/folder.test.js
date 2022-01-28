@@ -15,7 +15,7 @@ const {
 
 const { createSection } = require("../../tests/utils/contextBuilder/section");
 
-const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
+const folderProperties = ["id", "alias", "pages", "skipConditions"];
 
 describe("Folders", () => {
   let ctx = {};
@@ -77,7 +77,6 @@ describe("Folders", () => {
         });
         folderOne = await createFolder(ctx, {
           sectionId: questionnaire.sections[0].id,
-          enabled: true,
         });
       });
 

@@ -5,10 +5,7 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import {
-  useCreateFolder,
-  useCreatePageWithFolder,
-} from "hooks/useCreateFolder";
+import { useCreateFolder } from "hooks/useCreateFolder";
 
 export const defaultCallbacks = {
   onAddQuestionPage: () => {
@@ -58,39 +55,25 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
 export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
   const addQuestionPage = useCreateQuestionPage();
 
-  const addFolderWithPage = useCreatePageWithFolder();
-
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
 
   useSetNavigationCallbacks(
     {
       onAddQuestionPage: () =>
-        page?.folder?.enabled
-          ? addQuestionPage({
-              folderId: folder.id,
-              position: page.position + 1,
-            })
-          : addFolderWithPage({
-              sectionId: section.id,
-              position: folder.position + 1,
-            }),
+        addQuestionPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
       onAddCalculatedSummaryPage: () =>
-        page?.folder?.enabled
-          ? addCalculatedSummaryPage({
-              folderId: folder.id,
-              position: page.position + 1,
-            })
-          : addFolderWithPage({
-              sectionId: section.id,
-              position: folder.position + 1,
-              isCalcSum: true,
-            }),
+        addCalculatedSummaryPage({
+          folderId: folder.id,
+          position: page.position + 1,
+        }),
       onAddFolder: () =>
         addFolder({
           sectionId: section.id,
           position: folder.position + 1,
-          enabled: true,
         }),
     },
     [page, folder, section]

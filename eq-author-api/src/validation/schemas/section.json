@@ -24,6 +24,18 @@
       ],
       "errorMessage": "ERR_REQUIRED_WHEN_SETTING"
     },
+    "summaryTitle": {
+      "type": "string",
+      "allOf": [
+        {
+          "requiredWhenQuestionnaireSetting": "collapsibleSummary"
+        },
+        {
+          "requiredWhenSectionSetting": "sectionSummary"
+        }
+      ],
+      "errorMessage": "ERR_REQUIRED_WHEN_SETTING"
+    },
     "folders": {
       "type": "array",
       "items": {

@@ -10,7 +10,6 @@ mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
     sections {
       folders {
         id
-        enabled
         alias
         id
         pages {

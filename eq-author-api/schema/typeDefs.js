@@ -146,7 +146,7 @@ type DeletedQuestionnaire {
 type Folder implements Skippable {
   id: ID!
   alias: String
-  enabled: Boolean!
+  title: String
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
@@ -165,6 +165,7 @@ type Section {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
+  summaryTitle: String
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -820,7 +821,7 @@ type Mutation {
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
-  moveSection(input: MoveSectionInput!): Section
+  moveSection(input: MoveSectionInput!): Questionnaire
   duplicateSection(input: DuplicateSectionInput!): Section
 
   createFolder(input: CreateFolderInput!): Folder
@@ -1087,6 +1088,7 @@ input UpdateSectionInput {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
+  summaryTitle: String
 }
 
 input DeleteSectionInput {
@@ -1101,15 +1103,15 @@ input DuplicateSectionInput {
 input CreateFolderInput {
   sectionId: ID!
   alias: String
+  title: String
   position: Int
-  enabled: Boolean
   isCalcSum: Boolean
 }
 
 input UpdateFolderInput {
   folderId: ID!
   alias: String
-  enabled: Boolean
+  title: String
 }
 
 input DeleteFolderInput {
@@ -1295,7 +1297,6 @@ input DeleteOptionInput {
 
 input MoveSectionInput {
   id: ID!
-  questionnaireId: ID!
   position: Int!
 }
 

@@ -53,14 +53,6 @@ describe("withMoveSection", () => {
           variables: {
             input: {
               ...args.to,
-              questionnaireId: match.params.questionnaireId,
-            },
-          },
-          optimisticResponse: {
-            moveSection: {
-              ...args.to,
-              questionnaireId: match.params.questionnaireId,
-              __typename: "Section",
             },
           },
         };

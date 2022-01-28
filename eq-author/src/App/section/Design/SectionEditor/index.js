@@ -35,6 +35,12 @@ const Padding = styled.div`
   padding: 0 2em 2em;
 `;
 
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.2em 0em;
+`;
+
 const SectionCanvas = styled.div`
   padding: 0;
 `;
@@ -144,12 +150,6 @@ export class SectionEditor extends React.Component {
           />
         )}
 
-        <SectionSummary
-          id={section?.id}
-          sectionSummary={section?.sectionSummary}
-          collapsibleSummary={section?.collapsibleSummary}
-        />
-
         <Padding>
           <RichTextEditor
             id="section-title"
@@ -180,6 +180,18 @@ export class SectionEditor extends React.Component {
               })
             }
           />
+          <HorizontalRule />
+          <SectionSummary
+            id={section.id}
+            sectionSummary={section.sectionSummary}
+            collapsibleSummary={section.collapsibleSummary}
+            summaryTitle={section.summaryTitle}
+            errorValidationMsg={this.props.getValidationError({
+              field: "summaryTitle",
+              message: sectionErrors.SUMMARY_TITLE_NOT_ENTERED,
+            })}
+          />
+          <HorizontalRule />
           <Label>
             <DescribedText description="If you do not want an introduction page, leave these blank">
               Section introduction page

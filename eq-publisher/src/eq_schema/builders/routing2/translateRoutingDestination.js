@@ -14,7 +14,6 @@ const getNextGroupSection = (pageId, ctx) => {
         id: page.id,
         sectionId: section.id,
         folderId: folder.id,
-        folderEnabled: folder.enabled,
       }))
     )
   );
@@ -46,7 +45,6 @@ const getNextPageDestination = (pageId, ctx) => {
         id: page.id,
         sectionId: section.id,
         folderId: folder.id,
-        folderEnabled: folder.enabled,
       }))
     )
   );
