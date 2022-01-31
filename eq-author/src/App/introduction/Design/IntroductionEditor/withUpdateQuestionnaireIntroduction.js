@@ -2,6 +2,8 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { filter } from "graphql-anywhere";
 
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
 const mutation = gql`
   mutation UpdateQuestionnaireIntroduction(
     $input: UpdateQuestionnaireIntroductionInput!
@@ -20,8 +22,12 @@ const mutation = gql`
       secondaryDescription
       tertiaryTitle
       tertiaryDescription
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
   }
+  ${ValidationErrorInfoFragment}
 `;
 const inputFilter = gql`
   {
