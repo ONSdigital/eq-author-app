@@ -1295,6 +1295,7 @@ const Resolvers = {
   },
 
   Questionnaire: {
+    introduction: (questionnaire) => questionnaire.introduction,
     sections: (questionnaire) => questionnaire.sections,
     createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
     questionnaireInfo: (questionnaire) => questionnaire,
@@ -1357,6 +1358,11 @@ const Resolvers = {
     displayName: ({ listName }) => listName || "Untitled list",
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
+  },
+
+  QuestionnaireIntroduction: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
   },
 
   Section: {

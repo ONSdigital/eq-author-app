@@ -15,6 +15,10 @@ require("ajv-errors")(ajv);
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
 const formatErrorMessage = (error, questionnaire) => {
+  // console.log("------------");
+  // console.log("error", error);
+  // console.log("------------");
+
   if (error.sectionId) {
     delete error.dataPath;
     delete error.schemaPath;
@@ -65,6 +69,5 @@ module.exports = (questionnaire) => {
       formattedErrorMessages.push(formatErrorMessage(err, questionnaire));
     }
   }
-
   return formattedErrorMessages;
 };
