@@ -47,16 +47,8 @@ export const richTextEditorErrors = {
 };
 
 export const contactDetailsErrors = {
-  PHONE_NOT_ENTERED: {
-    field: "phoneLabel",
-    errorCode: "ERR_VALID_REQUIRED",
-    message: "Phone number required",
-  },
-  EMAIL_NOT_ENTERED: {
-    field: "emailLabel",
-    errorCode: "ERR_VALID_REQUIRED",
-    message: "Email address required",
-  },
+  PHONE_NOT_ENTERED: "Enter a phone number",
+  EMAIL_NOT_ENTERED: "Enter an email address",
 };
 
 export const questionDefinitionErrors = {

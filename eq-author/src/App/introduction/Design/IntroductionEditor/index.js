@@ -11,6 +11,7 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
+import ValidationError from "components/ValidationError";
 
 import { colors } from "constants/theme";
 
@@ -25,6 +26,8 @@ import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
+import { contactDetailsErrors } from "constants/validationMessages";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -103,7 +106,14 @@ export const IntroductionEditor = ({
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
 
-  console.log("introduction", introduction);
+  const { errors } = validationErrorInfo;
+
+  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+
+  const hasErrors = (requiredField) => {
+    const result = errors.some(({ field }) => field === requiredField);
+    return result;
+  };
 
   return (
     <>
@@ -151,6 +161,9 @@ export const IntroductionEditor = ({
                   }
                   data-test="txt-contact-details-phone-number"
                 />
+                {hasErrors("contactDetailsPhoneNumber") && (
+                  <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
+                )}
               </Field>
               <Field>
                 <Label htmlFor="contactDetailsEmailAddress">
@@ -169,6 +182,9 @@ export const IntroductionEditor = ({
                   }
                   data-test="txt-contact-details-email-address"
                 />
+                {hasErrors("contactDetailsEmailAddress") && (
+                  <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
+                )}
               </Field>
               <Field>
                 <Label htmlFor="contactDetailsEmailSubject">
