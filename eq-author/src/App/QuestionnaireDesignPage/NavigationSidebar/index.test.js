@@ -114,7 +114,7 @@ describe("Navigation sidebar", () => {
     expect(getByText(sectionOneID)).toBeVisible();
     expect(getByText(folderTwoID)).toBeVisible();
     expect(getByText(pageOneID)).toBeVisible();
-    expect(queryByText(folderOneID)).toBeNull();
+    expect(queryByText(folderOneID)).toBeVisible();
   });
 
   it("should default to Close all sections", () => {

@@ -1,4 +1,4 @@
-const { omit, remove, cloneDeep } = require("lodash");
+const { omit, cloneDeep } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -32,7 +32,6 @@ Resolvers.Mutation = {
     const { id: pageId, sectionId, folderId, position } = input;
 
     const page = getPageById(ctx, pageId);
-    const oldSection = getSectionByPageId(ctx, pageId);
     const oldFolder = getFolderByPageId(ctx, pageId);
     const newSection = getSectionById(ctx, sectionId);
 
@@ -40,14 +39,7 @@ Resolvers.Mutation = {
     oldPages.splice(oldPages.indexOf(page), 1);
 
     if (!oldPages.length) {
-      if (oldSection.folders.length > 1 && !oldFolder.enabled) {
-        const removedFolder = remove(oldSection.folders, {
-          id: oldFolder.id,
-        });
-        onFolderDeleted(ctx, removedFolder);
-      } else {
-        oldPages.push(createQuestionPage());
-      }
+      oldPages.push(createQuestionPage());
     }
 
     if (folderId) {

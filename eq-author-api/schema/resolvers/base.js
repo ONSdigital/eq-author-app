@@ -566,7 +566,7 @@ const Resolvers = {
       getSections(ctx).splice(input.position, 0, removedSection);
       deleteFirstPageSkipConditions(ctx);
       deleteLastPageRouting(ctx);
-      return removedSection;
+      return ctx.questionnaire;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);
@@ -610,7 +610,6 @@ const Resolvers = {
         const folderToMove = first(remove(section.folders, { id }));
 
         if (!section.folders.length) {
-          onFolderDeleted(ctx, folderToMove);
           section.folders.push(createFolder());
         }
 
@@ -1388,7 +1387,7 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
-    displayName: ({ alias }) => alias || "Untitled folder",
+    displayName: ({ alias, title }) => alias || title || "Untitled folder",
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,

@@ -22,7 +22,6 @@ query GetSettings($input: QueryInput!) {
         id
         alias
         displayName
-        enabled
         position
         pages {
           id

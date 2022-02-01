@@ -91,7 +91,6 @@ const movePageMutation = `
         }
         folders {
           id
-          enabled
           alias
           displayName
           position

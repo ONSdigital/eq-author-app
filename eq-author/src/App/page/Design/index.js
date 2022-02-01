@@ -37,7 +37,6 @@ export const PAGE_QUERY = gql`
       folder {
         id
         position
-        enabled
       }
     }
   }
@@ -97,10 +96,13 @@ export const UnwrappedPageRoute = (props) => {
     if (error) {
       return <Error>Something went wrong</Error>;
     }
+    if (isEmpty(page)) {
+      return <Error>Oops! Page could not be found</Error>;
+    }
   };
 
   const redirectPage = () => {
-    if (isEmpty(page)) {
+    if (page === null) {
       return (
         <RedirectRoute
           from={"/q/:questionnaireId/page/:pageId/design"}

@@ -725,7 +725,6 @@ describe("routing", () => {
 
       await moveSection(ctx, {
         id: firstSectionId,
-        questionnaireId: questionnaire.id,
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);

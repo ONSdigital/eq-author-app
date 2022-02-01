@@ -7,7 +7,6 @@ const createFolderMutation = `
     createFolder(input: $input) {
         id
         alias
-        enabled
         pages {
             id
         }
@@ -33,7 +32,6 @@ const createFolder = async (ctx, input) => {
           {
             sectionId
             alias
-            enabled
             position
           }
         `,
