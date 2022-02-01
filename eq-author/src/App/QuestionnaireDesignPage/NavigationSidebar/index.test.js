@@ -37,6 +37,10 @@ const introductionSetup = () => {
   const id = "introduction";
   const introduction = {
     id,
+    validationErrorInfo: {
+      errors: [],
+      totalCount: 0,
+    },
   };
   useParams.mockImplementationOnce(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
