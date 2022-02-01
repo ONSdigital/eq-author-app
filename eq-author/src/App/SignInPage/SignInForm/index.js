@@ -25,9 +25,9 @@ const SignInForm = ({
   passwordResetSuccess,
   setPasswordResetSuccess,
 }) => {
-  useEffect(() => {
-    setPasswordResetSuccess(false);
-  }, [setPasswordResetSuccess]);
+  // useEffect(() => {
+  //   setPasswordResetSuccess(false);
+  // }, [setPasswordResetSuccess]);
 
   const logInWithEmailAndPassword = async (email, password) => {
     if (email === "") {

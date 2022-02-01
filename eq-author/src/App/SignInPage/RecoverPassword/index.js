@@ -35,6 +35,7 @@ const RecoverPassword = ({
   }
 
   const handleEmailRecoveryPassword = async (recoveryEmail) => {
+    console.log("recoveryEmail:", recoveryEmail);
     if (recoveryEmail === "" || recoverPassword === null) {
       setErrorMessage("Enter email");
     } else {

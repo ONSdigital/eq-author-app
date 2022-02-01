@@ -55,16 +55,17 @@ const ResetPassword = ({
           .confirmPasswordReset(actionCode, newPassword)
           .then(function () {
             console.log("inside confirm PW reset");
-            setForgotPassword(false);
+
             setErrorMessage("");
             setExpired(false);
-            PasswordResetSuccessFunc(true);
-            resetThePassword(false);
-
             // clear location variables
             history.replace({
               search: "",
             });
+            setForgotPassword(false);
+            resetThePassword(false);
+            PasswordResetSuccessFunc(true);
+
             signOut();
           });
       } catch (error) {

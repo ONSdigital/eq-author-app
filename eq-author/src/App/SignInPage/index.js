@@ -35,15 +35,16 @@ const SignInPage = ({
   // const parameters = localStorage.getItem("locationSearch");
 
   const [createAccount, setCreateAccount] = useState(false);
-  const [recoverPassword, setRecoverPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [recoverPassword, setRecoverPassword] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
   const [mode, setMode] = useState("");
   const [actionCode, setActionCode] = useState("");
+
   const setForgotPassword = (boolVal) => {
     setRecoverPassword(boolVal);
   };
@@ -56,8 +57,8 @@ const SignInPage = ({
   const PasswordResetSuccessFunc = (boolVal) => {
     setPasswordResetSuccess(boolVal);
   };
-
-  console.log("location.search:::", location.search);
+  console.log("recoverPassword:", recoverPassword);
+  console.log("resetPassword:", resetPassword);
 
   useEffect(() => {
     if (location?.search) {
@@ -172,7 +173,7 @@ SignInPage.propTypes = {
   signOut: PropTypes.func,
   isSigningIn: PropTypes.bool,
   sentEmailVerification: PropTypes.bool,
-  location: PropTypes.shape,
+  location: PropTypes.shape({ search: PropTypes.string }),
 };
 
 export default withMe(SignInPage);
