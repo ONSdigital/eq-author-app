@@ -129,6 +129,9 @@ const NavigationSidebar = ({ questionnaire }) => {
                       entityId
                     )}
                     icon={PageIcon}
+                    errorCount={
+                      questionnaire.introduction.validationErrorInfo.totalCount
+                    }
                   />
                 </MenuListItem>
               )}
