@@ -79,6 +79,24 @@ const HorizontalSeparator = styled.hr`
   margin: 1.2em 0em;
 `;
 
+const StyledInput = styled(Input)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
+`;
+
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -148,7 +166,7 @@ export const IntroductionEditor = ({
               </SectionDescription>
               <Field>
                 <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
-                <Input
+                <StyledInput
                   id="contactDetailsPhoneNumber"
                   value={phoneNumber}
                   onChange={({ value }) => setPhoneNumber(value)}
@@ -160,6 +178,7 @@ export const IntroductionEditor = ({
                     })
                   }
                   data-test="txt-contact-details-phone-number"
+                  hasError={hasErrors("contactDetailsPhoneNumber")}
                 />
                 {hasErrors("contactDetailsPhoneNumber") && (
                   <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
@@ -169,7 +188,7 @@ export const IntroductionEditor = ({
                 <Label htmlFor="contactDetailsEmailAddress">
                   Email Address
                 </Label>
-                <Input
+                <StyledInput
                   id="contactDetailsEmailAddress"
                   value={email}
                   onChange={({ value }) => setEmail(value)}
@@ -181,6 +200,7 @@ export const IntroductionEditor = ({
                     })
                   }
                   data-test="txt-contact-details-email-address"
+                  hasError={hasErrors("contactDetailsEmailAddress")}
                 />
                 {hasErrors("contactDetailsEmailAddress") && (
                   <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
