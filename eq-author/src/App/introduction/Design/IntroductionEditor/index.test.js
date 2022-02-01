@@ -3,6 +3,8 @@ import { shallow } from "enzyme";
 
 import { IntroductionEditor } from "./";
 
+import { contactDetailsErrors } from "constants/validationMessages";
+
 describe("IntroductionEditor", () => {
   let props;
   beforeEach(() => {
@@ -24,12 +26,15 @@ describe("IntroductionEditor", () => {
         tertiaryDescription: "tertiary description",
         validationErrorInfo: {
           errors: [],
+          totalCount: 0,
         },
       },
       onChangeUpdate: jest.fn(),
       updateQuestionnaireIntroduction: jest.fn(),
     };
   });
+
+  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
 
   it("should render", () => {
     expect(shallow(<IntroductionEditor {...props} />)).toMatchSnapshot();
@@ -63,5 +68,41 @@ describe("IntroductionEditor", () => {
       .find("#toggle-contact-details-include-ruref")
       .simulate("change", { target: { checked: false } });
     expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+  });
+
+  it("should display validation error message when phone number is not entered", () => {
+    props.introduction.validationErrorInfo = {
+      errors: [
+        {
+          id: "1",
+          errorCode: "ERR_VALID_REQUIRED",
+          field: "contactDetailsPhoneNumber",
+          type: "introduction",
+        },
+      ],
+      totalCount: 1,
+    };
+
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+
+    expect(wrapper.find({ children: PHONE_NOT_ENTERED })).toHaveLength(1);
+  });
+
+  it("should display validation error message when email address is not entered", () => {
+    props.introduction.validationErrorInfo = {
+      errors: [
+        {
+          id: "1",
+          errorCode: "ERR_VALID_REQUIRED",
+          field: "contactDetailsEmailAddress",
+          type: "introduction",
+        },
+      ],
+      totalCount: 1,
+    };
+
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+
+    expect(wrapper.find({ children: EMAIL_NOT_ENTERED })).toHaveLength(1);
   });
 });
