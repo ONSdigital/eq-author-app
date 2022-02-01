@@ -106,29 +106,27 @@ describe("IntroductionEditor", () => {
     expect(wrapper.find({ children: EMAIL_NOT_ENTERED })).toHaveLength(1);
   });
 
-  describe("Update introduction contact details", () => {
-    it("should update phone number", () => {
-      const wrapper = shallow(<IntroductionEditor {...props} />);
+  it("should update contact details", () => {
+    const wrapper = shallow(<IntroductionEditor {...props} />);
 
-      const phoneInput = wrapper.find(
-        "[data-test='txt-contact-details-phone-number']"
-      );
-      const emailAddressInput = wrapper.find(
-        "[data-test='txt-contact-details-email-address']"
-      );
-      const emailSubjectInput = wrapper.find(
-        "[data-test='txt-contact-details-email-subject']"
-      );
+    const phoneInput = wrapper.find(
+      "[data-test='txt-contact-details-phone-number']"
+    );
+    const emailAddressInput = wrapper.find(
+      "[data-test='txt-contact-details-email-address']"
+    );
+    const emailSubjectInput = wrapper.find(
+      "[data-test='txt-contact-details-email-subject']"
+    );
 
-      phoneInput.simulate("blur", { target: { value: "0" } });
-      emailAddressInput.simulate("blur", {
-        target: { value: "test@test.com" },
-      });
-      emailSubjectInput.simulate("blur", {
-        target: { value: "Test" },
-      });
-
-      expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(3);
+    phoneInput.simulate("blur", { target: { value: "0" } });
+    emailAddressInput.simulate("blur", {
+      target: { value: "test@test.com" },
     });
+    emailSubjectInput.simulate("blur", {
+      target: { value: "Test" },
+    });
+
+    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(3);
   });
 });
