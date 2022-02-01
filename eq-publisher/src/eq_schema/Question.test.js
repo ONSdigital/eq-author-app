@@ -783,7 +783,7 @@ describe("Question", () => {
     it("should set the answer_id to the previous answer when entityType is PreviousAnswer", () => {
       validation.entityType = "PreviousAnswer";
       validation.custom = 10;
-      validation.previousAnswer = { id: 20 };
+      validation.previousAnswer = 20;
       const question = new Question(
         createQuestionJSON({
           totalValidation: validation,
