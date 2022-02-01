@@ -90,6 +90,7 @@ const RecoverPassword = ({
                       value={recoveryEmail}
                       onChange={({ value }) => setRecoveryEmail(value)}
                       data-test="txt-recovery-email"
+                      autocomplete="username"
                     />
                   </Panel>
                 </>
@@ -104,6 +105,7 @@ const RecoverPassword = ({
                     value={recoveryEmail}
                     onChange={({ value }) => setRecoveryEmail(value)}
                     data-test="txt-recovery-email"
+                    autocomplete="username"
                   />
                 </>
               )}
@@ -133,7 +135,7 @@ const RecoverPassword = ({
             </InlineDescription>
             <InlineDescriptionBold>{recoveryEmail}</InlineDescriptionBold>
             <InlineDescription>
-              {"The link will expire in X hours."}
+              {"The link will expire in 2 hours."}
             </InlineDescription>
 
             <PageSubTitle>If you did not get the email</PageSubTitle>
@@ -142,11 +144,6 @@ const RecoverPassword = ({
               send the password reset email again
             </ButtonLink>
             <InlineDescription>if you did not get it.</InlineDescription>
-            {/* <Field>
-              <Button onClick={() => handleReturnToSignInPage()}>
-                Return to sign in page
-              </Button>
-            </Field> */}
           </>
         )}
       </Form>

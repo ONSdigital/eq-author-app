@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import PropType from "prop-types";
 import { Query, withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import gql from "graphql-tag";
 import { get, flowRight } from "lodash";
 import auth from "components/Auth";
@@ -47,14 +47,15 @@ const signIn = (setSignInSuccess, history, user) => {
     });
 };
 
-const signOut = (history, client) => {
+const signOut = (history, client, searchParams) => {
   if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(false);
   }
   client.clearStore();
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  history.push("/sign-in");
+  history.push({ pathname: "/sign-in", search: searchParams });
+
   auth.signOut();
 };
 
@@ -82,20 +83,25 @@ const ContextProvider = ({ history, client, children }) => {
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
     // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0
     // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
-      console.log("firebaseUser:::", firebaseUser);
+      console.log("firebaseUser: one time hit?", firebaseUser);
     });
   }, []);
 
   useEffect(() => {
+    console.log("firebaseUser:: ,Multi hit?", firebaseUser);
+
     const actionCodeSettings = {
       //This is the redirect URL for AFTER you have clicked the email link and verified the email address
       url: verifyRedirectUrl,
+      // url: "http://localhost:3001/",
       // This must be true.
       handleCodeInApp: true,
     };
@@ -112,12 +118,31 @@ const ContextProvider = ({ history, client, children }) => {
       }
       setSignInSuccess(false);
       history.push("/sign-in");
-    } else {
-      signOut(history, client);
+      // history.push({ pathname: "/sign-in", search: location.search });
+    }
+    // else if (location.search) {
+    //   console.log("location.search - NO redirect >>>", location.search);
+    //   // localStorage.setItem("locationSearch", location.search);
+    //   setSignInSuccess(false);
+    //   signOut(history, client, location.search);
+    // }
+    else {
+      console.log("Signout and redirect");
+      signOut(history, client, location.search);
       setSignInSuccess(false);
       setSentEmailVerification(false);
     }
-  }, [firebaseUser, awaitingFirebase, sentEmailVerification, history, client]);
+  }, [
+    firebaseUser,
+    awaitingFirebase,
+    sentEmailVerification,
+    history,
+    client,
+    location,
+  ]);
+
+  //
+
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {(innerProps) => {
@@ -137,6 +162,7 @@ const ContextProvider = ({ history, client, children }) => {
               awaitingUserQuery: innerProps.loading,
               isSigningIn,
               sentEmailVerification,
+              location,
             }}
           >
             {children}
@@ -158,7 +184,14 @@ export const MeProvider = flowRight(withApollo, withRouter)(ContextProvider);
 export const withMe = (Component) => {
   const InnerComponent = (props) => (
     <MeContext.Consumer>
-      {({ me, signIn, signOut, isSigningIn, sentEmailVerification }) => (
+      {({
+        me,
+        signIn,
+        signOut,
+        isSigningIn,
+        sentEmailVerification,
+        location,
+      }) => (
         <Component
           {...props}
           me={me}
@@ -166,6 +199,7 @@ export const withMe = (Component) => {
           signOut={signOut}
           isSigningIn={isSigningIn}
           sentEmailVerification={sentEmailVerification}
+          location={location}
         />
       )}
     </MeContext.Consumer>

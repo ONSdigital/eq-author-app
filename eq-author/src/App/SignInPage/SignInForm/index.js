@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { colors } from "constants/theme";
-import auth, { providers, credentialHelper } from "components/Auth";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-
-// import { FirebaseAuth } from "react-firebaseui";
+import auth from "components/Auth";
 
 import {
   PageTitle,
@@ -27,9 +22,12 @@ const SignInForm = ({
   setCreateAccountFunction,
   errorMessage,
   setErrorMessage,
+  passwordResetSuccess,
+  setPasswordResetSuccess,
 }) => {
-  // const form = useRef();
-  // const checkBtn = useRef();
+  useEffect(() => {
+    setPasswordResetSuccess(false);
+  }, [setPasswordResetSuccess]);
 
   const logInWithEmailAndPassword = async (email, password) => {
     if (email === "") {
@@ -39,10 +37,8 @@ const SignInForm = ({
     } else {
       try {
         await auth.signInWithEmailAndPassword(email, password);
-      } catch (err) {
-        console.log("err", err);
-        setErrorMessage(err.message);
-        console.log("errorMessage in sign in page", errorMessage);
+      } catch (error) {
+        setErrorMessage(error.message);
       }
       setForgotPassword(false);
     }
@@ -60,6 +56,7 @@ const SignInForm = ({
   function handleRecoverPassword(e) {
     e.preventDefault();
     setForgotPassword(true);
+    setErrorMessage("");
   }
 
   function handleCreateAccount(e) {
@@ -67,60 +64,6 @@ const SignInForm = ({
     setCreateAccountFunction(true);
     setForgotPassword(false);
   }
-
-  // Handling the email change
-  // const handleEmail = (e) => {
-  //   setEmail(e.target.value);
-  //   setSubmitted(false);
-  // };
-
-  // // Handling the password change
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   setSubmitted(false);
-  // };
-
-  // Handling the form submission
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (name === '' || email === '' || password === '') {
-  //     setError(true);
-  //   } else {
-  //     setSubmitted(true);
-  //     setError(false);
-  //   }
-  // };
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-
-  //   setLoading(true);
-
-  //   form.current.validateAll();
-
-  //   if (checkBtn.current.context._errors.length === 0) {
-  //     dispatch(login(username, password))
-  //       .then(() => {
-  //         props.history.push("/profile");
-  //         window.location.reload();
-  //       })
-  //       .catch(() => {
-  //         setLoading(false);
-  //       });
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const required = (value) => {
-  //   if (!value) {
-  //     return (
-  //       <div className="alert alert-danger" role="alert">
-  //         This field is required!
-  //       </div>
-  //     );
-  //   }
-  // };
 
   return (
     <>
@@ -134,10 +77,13 @@ const SignInForm = ({
         )}
         <PageTitle>Sign in</PageTitle>
         <Description>You must be signed in to access Author</Description>
-
-        {/* <Panel variant="success" headerLabel="boom" withLeftBorder>
-          {"You've successfully updated the password for your Author account."}
-        </Panel> */}
+        {passwordResetSuccess && (
+          <Panel variant="success" headerLabel="boom" withLeftBorder>
+            {
+              "You've successfully updated the password for your Author account."
+            }
+          </Panel>
+        )}
 
         <Field>
           {errorMessage.toLowerCase().includes("email") ? (
@@ -166,7 +112,6 @@ const SignInForm = ({
                 id="email"
                 value={email}
                 onChange={({ value }) => setEmail(value)}
-                // onBlur={() => ()}
                 data-test="txt-email"
                 autocomplete="username"
               />
@@ -244,14 +189,6 @@ const SignInForm = ({
 
 SignInForm.defaultProps = {
   firebaseAuth: auth,
-  // uiConfig: {
-  //   signInFlow: "popup",
-  //   signInOptions: providers,
-  //   credentialHelper,
-  //   callbacks: {
-  //     signInSuccessWithAuthResult: () => false, // Avoid redirects after sign-in.
-  //   },
-  // },
 };
 
 SignInForm.propTypes = {
@@ -259,6 +196,8 @@ SignInForm.propTypes = {
   setCreateAccountFunction: PropTypes.func,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
+  passwordResetSuccess: PropTypes.bool,
+  setPasswordResetSuccess: PropTypes.func,
 };
 
 export default SignInForm;

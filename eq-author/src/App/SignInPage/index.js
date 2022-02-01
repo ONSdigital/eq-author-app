@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+
+import { Redirect } from "react-router-dom";
 import { withMe } from "App/MeContext";
 
+import Loading from "components/Loading";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
-import propTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import Layout from "components/Layout";
 import { Grid, Column } from "components/Grid";
 
 import SignInForm from "./SignInForm";
 import RecoverPassword from "./RecoverPassword";
+import ResetPassword from "./ResetPassword";
 import CreateAccount from "./CreateAccount";
 import EmailVerification from "./EmailVerification";
 
@@ -25,38 +28,70 @@ const SignInPage = ({
   signOut,
   isSigningIn,
   sentEmailVerification,
+  location,
   // todo - do we need this???
   // sentPasswordResetEmail
 }) => {
-  // const uiConfig = {
-  //   signInFlow: "popup",
-  //   signInOptions: providers,
-  //   credentialHelper,
-  //   callbacks: {
-  //     signInSuccessWithAuthResult: () => false,
-  //   },
-  // };
-
-  // console.log(`me`, me);
-  // console.log(`signIn`, signIn);
-  // console.log("isSigningIn", isSigningIn);
-  // console.log("sentEmailVerification", sentEmailVerification);
+  // const parameters = localStorage.getItem("locationSearch");
 
   const [createAccount, setCreateAccount] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [resetPassword, setResetPassword] = useState(false);
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+
+  const [mode, setMode] = useState("");
+  const [actionCode, setActionCode] = useState("");
   const setForgotPassword = (boolVal) => {
     setRecoverPassword(boolVal);
   };
   const setCreateAccountFunction = (boolVal) => {
     setCreateAccount(boolVal);
   };
+  const resetThePassword = (boolVal) => {
+    setResetPassword(boolVal);
+  };
+  const PasswordResetSuccessFunc = (boolVal) => {
+    setPasswordResetSuccess(boolVal);
+  };
 
-  // const handleSignOut = () => {
-  //   signOut();
-  // };
+  console.log("location.search:::", location.search);
+
+  useEffect(() => {
+    if (location?.search) {
+      const urlParams = new URLSearchParams(location.search);
+      const getParameterByName = (param) => urlParams.get(param);
+      // Get the action to complete.
+      // var mode = getParameterByName("mode");
+      setMode(getParameterByName("mode"));
+      // Get the one-time code from the query parameter.
+      // var actionCode = getParameterByName("oobCode");
+      setActionCode(getParameterByName("oobCode"));
+      // (Optional) Get the continue URL from the query parameter if available.
+      // var continueUrl = getParameterByName("continueUrl");
+
+      // if (mode === "resetPassword") {
+      //   resetThePassword(true);
+      // }
+
+      switch (mode) {
+        case "resetPassword":
+          resetThePassword(true);
+          break;
+        case "recoverEmail":
+          console.log("here at recoverEmail");
+          break;
+        // case "verifyEmail":
+        //   handleVerifyEmail(auth, actionCode, continueUrl, lang);
+        //   break;
+        default:
+        // Error: invalid mode.
+      }
+      // console.log("oobCode:", getParameterByName("oobCode"));
+    }
+  });
 
   return (
     <>
@@ -68,15 +103,20 @@ const SignInPage = ({
 
           <Grid>
             <Column cols={9}>
-              {!recoverPassword && !createAccount && !sentEmailVerification && (
-                <SignInForm
-                  recoverPassword={recoverPassword}
-                  setForgotPassword={setForgotPassword}
-                  setCreateAccountFunction={setCreateAccountFunction}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                />
-              )}
+              {!recoverPassword &&
+                !createAccount &&
+                !sentEmailVerification &&
+                !resetPassword && (
+                  <SignInForm
+                    recoverPassword={recoverPassword}
+                    setForgotPassword={setForgotPassword}
+                    setCreateAccountFunction={setCreateAccountFunction}
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    passwordResetSuccess={passwordResetSuccess}
+                    setPasswordResetSuccess={setPasswordResetSuccess}
+                  />
+                )}
 
               {recoverPassword && (
                 <RecoverPassword
@@ -86,6 +126,22 @@ const SignInPage = ({
                   setForgotPassword={setForgotPassword}
                   errorMessage={errorMessage}
                   setErrorMessage={setErrorMessage}
+                />
+              )}
+
+              {resetPassword && (
+                <ResetPassword
+                  recoveryEmail={recoveryEmail}
+                  setRecoveryEmail={setRecoveryEmail}
+                  recoverPassword={recoverPassword}
+                  setForgotPassword={setForgotPassword}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                  actionCode={actionCode}
+                  // continueUrl={continueUrl}
+                  resetThePassword={resetThePassword}
+                  signOut={signOut}
+                  PasswordResetSuccessFunc={PasswordResetSuccessFunc}
                 />
               )}
 
@@ -112,10 +168,11 @@ const SignInPage = ({
 
 SignInPage.propTypes = {
   me: CustomPropTypes.me,
-  signIn: propTypes.func,
-  signOut: propTypes.func,
-  isSigningIn: propTypes.bool,
-  sentEmailVerification: propTypes.bool,
+  signIn: PropTypes.func,
+  signOut: PropTypes.func,
+  isSigningIn: PropTypes.bool,
+  sentEmailVerification: PropTypes.bool,
+  location: PropTypes.shape,
 };
 
 export default withMe(SignInPage);

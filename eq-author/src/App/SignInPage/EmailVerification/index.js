@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import propTypes from "prop-types";
 
 import { Form, Field } from "components/Forms";
 import Button from "components-themed/buttons";
-import {
-  PageTitle,
-  Description,
-  InlineDescription,
-  ButtonLink,
-} from "components-themed/Toolkit";
+import { PageTitle, Description } from "components-themed/Toolkit";
 
-const EmailVerification = ({ signOut, email }) => {
+const EmailVerification = ({ signOut }) => {
   function handleReturnToSignInPage(e) {
     e.preventDefault();
     signOut();
