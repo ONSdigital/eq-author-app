@@ -177,7 +177,7 @@ class Question {
     const rightSide =
       totalValidation.entityType === "Custom"
         ? { value: totalValidation.custom }
-        : { answer_id: `answer${totalValidation.previousAnswer.id}` };
+        : { answer_id: `answer${totalValidation.previousAnswer}` };
 
     return {
       calculation_type: "sum",
