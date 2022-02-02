@@ -336,6 +336,8 @@ const CollectionListItem = ({
             <IconText icon={AddIcon}>Add an answer</IconText>
           </AddAnswerButton>
         </ListItemContents>
+
+        </Collapsible>        
       </ListItem>
     </StyledGrid>
   );
