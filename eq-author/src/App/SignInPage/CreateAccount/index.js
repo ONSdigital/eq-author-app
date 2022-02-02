@@ -76,22 +76,21 @@ const CreateAccount = ({
 
   // conditionally wrap the input with error component
   const ConditionalErrorWrapper = ({ condition, children }) => {
-    console.log("condition!!!", condition);
+    console.log("condition:", condition);
+    console.log("children", children);
 
     return (
       <>
         {condition ? (
-          <>
-            <Panel
-              variant="errorNoHeader"
-              paragraphLabel={errorMessage}
-              withLeftBorder
-            >
-              {children}
-            </Panel>
-          </>
+          <Panel
+            variant="errorNoHeader"
+            paragraphLabel={errorMessage}
+            withLeftBorder
+          >
+            {children}
+          </Panel>
         ) : (
-          children
+          <>{children}</>
         )}
       </>
     );
@@ -108,13 +107,30 @@ const CreateAccount = ({
               paragraphLabel={errorMessage}
             />
           )}
-
           <PageTitle>Create an account</PageTitle>
           <Description>{`You must have an account to access Author`}</Description>
 
-          <ConditionalErrorWrapper
-            condition={errorMessage?.toLowerCase().includes("email")}
-          >
+          {errorMessage?.toLowerCase().includes("email") ? (
+            <>
+              <Panel
+                variant="errorNoHeader"
+                paragraphLabel={errorMessage}
+                withLeftBorder
+              >
+                <Field>
+                  <Label htmlFor="create-email">Email address</Label>
+                  <Input
+                    type="text"
+                    id="create-email"
+                    value={createEmail}
+                    onChange={({ value }) => setCreateEmail(value)}
+                    data-test="txt-create-email"
+                    // autocomplete="off"
+                  />
+                </Field>
+              </Panel>
+            </>
+          ) : (
             <>
               <Field>
                 <Label htmlFor="create-email">Email address</Label>
@@ -128,24 +144,22 @@ const CreateAccount = ({
                 />
               </Field>
             </>
-          </ConditionalErrorWrapper>
+          )}
 
           <ConditionalErrorWrapper
             condition={errorMessage?.toLowerCase().includes("name")}
           >
-            <>
-              <Field>
-                <Label htmlFor="create-fullName">First and last name</Label>
-                <Input
-                  type="text"
-                  id="create-fullName"
-                  value={fullName}
-                  onChange={({ value }) => setFullName(value)}
-                  data-test="txt-create-fullName"
-                  // autocomplete="off"
-                />
-              </Field>
-            </>
+            <Field>
+              <Label htmlFor="create-fullName">First and last name</Label>
+              <Input
+                type="text"
+                id="create-fullName"
+                value={fullName}
+                onChange={({ value }) => setFullName(value)}
+                data-test="txt-create-fullName"
+                // autocomplete="off"
+              />
+            </Field>
           </ConditionalErrorWrapper>
 
           <ConditionalErrorWrapper
@@ -166,7 +180,6 @@ const CreateAccount = ({
               </Field>
             </>
           </ConditionalErrorWrapper>
-
           <Field>
             <Button
               onClick={() =>
