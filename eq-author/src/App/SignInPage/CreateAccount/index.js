@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
@@ -25,6 +25,11 @@ const CreateAccount = ({
   const [createEmail, setCreateEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
+  const [date, setDate] = useState("");
+
+  useEffect(() => {
+    setDate("temp");
+  });
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
@@ -62,27 +67,35 @@ const CreateAccount = ({
         console.log("user:", user);
 
         setCreateAccountFunction(false);
-      } catch (err) {
-        console.log("err", err);
-        setErrorMessage(err.message);
+      } catch (error) {
+        setErrorMessage(error.message);
         console.log("errorMessage in create acc page", errorMessage);
       }
     }
   };
 
   // conditionally wrap the input with error component
-  const ConditionalErrorWrapper = ({ condition, errorWrapper, children }) =>
-    condition ? (
-      <Panel
-        variant="errorNoHeader"
-        paragraphLabel={errorMessage}
-        withLeftBorder
-      >
-        {children}
-      </Panel>
-    ) : (
-      children
+  const ConditionalErrorWrapper = ({ condition, children }) => {
+    console.log("condition!!!", condition);
+
+    return (
+      <>
+        {condition ? (
+          <>
+            <Panel
+              variant="errorNoHeader"
+              paragraphLabel={errorMessage}
+              withLeftBorder
+            >
+              {children}
+            </Panel>
+          </>
+        ) : (
+          children
+        )}
+      </>
     );
+  };
 
   return (
     <>
@@ -111,7 +124,7 @@ const CreateAccount = ({
                   value={createEmail}
                   onChange={({ value }) => setCreateEmail(value)}
                   data-test="txt-create-email"
-                  // autocomplete="email"
+                  // autocomplete="off"
                 />
               </Field>
             </>
@@ -129,7 +142,7 @@ const CreateAccount = ({
                   value={fullName}
                   onChange={({ value }) => setFullName(value)}
                   data-test="txt-create-fullName"
-                  autocomplete="off"
+                  // autocomplete="off"
                 />
               </Field>
             </>
@@ -148,7 +161,7 @@ const CreateAccount = ({
                   value={password}
                   onChange={({ value }) => setPassword(value)}
                   data-test="txt-create-password"
-                  autocomplete="current-password"
+                  // autocomplete="off"
                 />
               </Field>
             </>

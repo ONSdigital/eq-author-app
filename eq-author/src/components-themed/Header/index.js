@@ -44,7 +44,7 @@ const HeaderDescription = styled.p`
   color: ${({ theme }) => theme.colors.headerTitle};
   font-size: ${({ theme }) => theme.fontSize};
   line-height: 1.4;
-  margin: 0 0 1rem;
+  margin: 0 0 0.5rem;
 `;
 
 const HeaderTitle = styled.div`
@@ -52,7 +52,7 @@ const HeaderTitle = styled.div`
   color: ${({ theme }) => theme.colors.headerTitle};
   font-weight: 700;
   line-height: 1.4;
-  margin-top: 0.8rem;
+  margin-top: 0;
   margin-bottom: 1rem;
   cursor: pointer;
   text-decoration: none;

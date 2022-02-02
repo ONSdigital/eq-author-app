@@ -30,6 +30,7 @@ const SignInForm = ({
   // }, [setPasswordResetSuccess]);
 
   const logInWithEmailAndPassword = async (email, password) => {
+    setPasswordResetSuccess(false);
     if (email === "") {
       setErrorMessage("Enter email");
     } else if (password === "") {

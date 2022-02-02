@@ -45,7 +45,7 @@ export const ButtonLink = styled.button`
   background: none !important;
   border: none;
   padding: 0 !important;
-  margin: 0 0.5rem 1rem 0;
+  margin: 0 0.5rem 0.5rem 0;
   font-size: 1.125rem;
   display: block;
   /* font-family: arial, sans-serif; */

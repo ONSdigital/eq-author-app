@@ -17,7 +17,7 @@ import CreateAccount from "./CreateAccount";
 import EmailVerification from "./EmailVerification";
 
 const MainPanel = styled.div`
-  margin: 3em auto 0;
+  margin: 2em auto 0;
   display: flex;
   flex-direction: column;
 `;
@@ -54,28 +54,17 @@ const SignInPage = ({
   const resetThePassword = (boolVal) => {
     setResetPassword(boolVal);
   };
-  const PasswordResetSuccessFunc = (boolVal) => {
-    setPasswordResetSuccess(boolVal);
-  };
-  console.log("recoverPassword:", recoverPassword);
-  console.log("resetPassword:", resetPassword);
 
   useEffect(() => {
+    // do we have a link from email in the url?
     if (location?.search) {
       const urlParams = new URLSearchParams(location.search);
       const getParameterByName = (param) => urlParams.get(param);
       // Get the action to complete.
-      // var mode = getParameterByName("mode");
       setMode(getParameterByName("mode"));
       // Get the one-time code from the query parameter.
-      // var actionCode = getParameterByName("oobCode");
       setActionCode(getParameterByName("oobCode"));
       // (Optional) Get the continue URL from the query parameter if available.
-      // var continueUrl = getParameterByName("continueUrl");
-
-      // if (mode === "resetPassword") {
-      //   resetThePassword(true);
-      // }
 
       switch (mode) {
         case "resetPassword":
@@ -84,15 +73,15 @@ const SignInPage = ({
         case "recoverEmail":
           console.log("here at recoverEmail");
           break;
-        // case "verifyEmail":
-        //   handleVerifyEmail(auth, actionCode, continueUrl, lang);
-        //   break;
+        case "verifyEmail":
+          console.log("here at recoverEmail");
+          // handleVerifyEmail(auth, actionCode, continueUrl, lang);
+          break;
         default:
-        // Error: invalid mode.
+          setErrorMessage("Invalid mode code returned from link");
       }
-      // console.log("oobCode:", getParameterByName("oobCode"));
     }
-  });
+  }, [location.search, mode]);
 
   return (
     <>
@@ -100,14 +89,17 @@ const SignInPage = ({
 
       <Layout title="Author">
         <MainPanel>
-          {/* {isSigningIn && <Loading height="38rem">Logging you in...</Loading>} */}
-
           <Grid>
             <Column cols={9}>
+              {isSigningIn && (
+                <Loading height="38rem">Logging you in...</Loading>
+              )}
+
               {!recoverPassword &&
                 !createAccount &&
                 !sentEmailVerification &&
-                !resetPassword && (
+                !resetPassword &&
+                !isSigningIn && (
                   <SignInForm
                     recoverPassword={recoverPassword}
                     setForgotPassword={setForgotPassword}
@@ -142,7 +134,7 @@ const SignInPage = ({
                   // continueUrl={continueUrl}
                   resetThePassword={resetThePassword}
                   signOut={signOut}
-                  PasswordResetSuccessFunc={PasswordResetSuccessFunc}
+                  setPasswordResetSuccess={setPasswordResetSuccess}
                 />
               )}
 

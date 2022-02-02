@@ -23,7 +23,7 @@ const ResetPassword = ({
   actionCode,
   resetThePassword,
   signOut,
-  PasswordResetSuccessFunc,
+  setPasswordResetSuccess,
   // continueUrl,
 }) => {
   const history = useHistory();
@@ -64,7 +64,7 @@ const ResetPassword = ({
             });
             setForgotPassword(false);
             resetThePassword(false);
-            PasswordResetSuccessFunc(true);
+            setPasswordResetSuccess(true);
 
             signOut();
           });
@@ -181,7 +181,7 @@ ResetPassword.propTypes = {
   continueUrl: PropTypes.string,
   resetThePassword: PropTypes.func,
   signOut: PropTypes.func,
-  PasswordResetSuccessFunc: PropTypes.func,
+  setPasswordResetSuccess: PropTypes.func,
 };
 
 export default ResetPassword;
