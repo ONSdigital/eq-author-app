@@ -16,6 +16,8 @@ import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.gr
 import createCollectionListMutation from "./createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
 import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
+import createCollectionListAnswerMutation from "./createCollectionListAnswerMutation.graphql";
+import deleteCollectionListAnswerMutation from "./deleteCollectionListAnswerMutation.graphql";
 
 const Text = styled.p``;
 
@@ -85,6 +87,14 @@ const CollectionListsPage = ({ myval }) => {
     refetchQueries: ["Lists"],
   });
 
+  const [createAnswer] = useMutation(createCollectionListAnswerMutation, {
+    refetchQueries: ["Lists"],
+  });
+
+  const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation, {
+    refetchQueries: ["Lists"],
+  });
+
   const [noChange] = "";
 
   if (loading) {
@@ -131,7 +141,7 @@ const CollectionListsPage = ({ myval }) => {
         </Twistie>
         <AddListCollectionButton
           variant="secondary"
-          data-test="btn-add-answer"
+          data-test="btn-add-list"
           onClick={addList}
         >
           <IconText icon={AddIcon}>
@@ -147,11 +157,12 @@ const CollectionListsPage = ({ myval }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName }) => (
+            lists.map(({ id, displayName, answers }) => (
               <CollectionListItem
                 key={id}
                 id={id}
                 displayName={displayName}
+                answers={answers}
                 handleDeleteList={() =>
                   deleteList({
                     variables: {
@@ -172,6 +183,25 @@ const CollectionListsPage = ({ myval }) => {
                   })
                 }
                 handleChange={(id) => noChange}
+                handleCreateAnswer={(id, type) =>
+                  createAnswer({
+                    variables: {
+                      input: {
+                        id: id,
+                        type: type,
+                      },
+                    },
+                  })
+                }
+                handleDeleteAnswer={() =>
+                  deleteAnswer({
+                    variables: {
+                      input: {
+                        id: id,
+                      },
+                    },
+                  })
+                }
               />
             ))
           )}

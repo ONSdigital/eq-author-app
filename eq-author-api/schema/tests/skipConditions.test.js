@@ -196,7 +196,6 @@ describe("skip conditions", () => {
 
       await moveSection(ctx, {
         id: section1.id,
-        questionnaireId: questionnaire.id,
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
@@ -205,7 +204,7 @@ describe("skip conditions", () => {
       result = await queryPage(ctx, page2.id);
       expect(result.skipConditions).toBeNull();
     });
-    it("should remove skip conditions on first page when a sectyion is deleted", async () => {
+    it("should remove skip conditions on first page when a section is deleted", async () => {
       const section1 = questionnaire.sections[0];
       const section2 = questionnaire.sections[1];
       const page2 = section2.folders[0].pages[0];

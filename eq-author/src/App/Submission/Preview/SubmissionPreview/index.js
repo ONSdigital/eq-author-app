@@ -149,10 +149,10 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
         </PanelSection>
       </Panel>
       <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
-      <SectionSeparator />
       {viewPrintAnswers && (
         <>
           <Section>
+            <SectionSeparator />
             <PageTitle
               title={getCopyOfAnswers}
               missingText={missingTitleText}
