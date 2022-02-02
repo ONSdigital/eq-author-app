@@ -77,22 +77,21 @@ const CreateAccount = ({
 
   // conditionally wrap the input with error component
   const ConditionalErrorWrapper = ({ condition, children }) => {
-    console.log("condition!!!", condition);
+    console.log("condition:", condition);
+    console.log("children", children);
 
     return (
       <>
         {condition ? (
-          <>
-            <Panel
-              variant="errorNoHeader"
-              paragraphLabel={errorMessage}
-              withLeftBorder
-            >
-              {children}
-            </Panel>
-          </>
+          <Panel
+            variant="errorNoHeader"
+            paragraphLabel={errorMessage}
+            withLeftBorder
+          >
+            {children}
+          </Panel>
         ) : (
-          children
+          <>{children}</>
         )}
       </>
     );
@@ -109,7 +108,6 @@ const CreateAccount = ({
               paragraphLabel={errorMessage}
             />
           )}
-
           <PageTitle>Create an account</PageTitle>
           <Description>{`You must have an account to access Author`}</Description>
 
