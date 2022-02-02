@@ -5,6 +5,16 @@ query Lists {
     displayName
     answers {
       id
+      type
+      label
+      displayName
+      advancedProperties
+      properties
+      secondaryLabel
+      secondaryLabelDefault
+      qCode
+      guidance
+      description
     }
     validationErrorInfo {
       id

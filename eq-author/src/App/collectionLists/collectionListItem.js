@@ -179,6 +179,7 @@ const CollectionListItem = ({
   handleChange,
   handleCreateAnswer,
   handleDeleteAnswer,
+  type,
 }) => {
   // console.log(answers[0].__typename);
   return (
@@ -246,13 +247,11 @@ const CollectionListItem = ({
           {answers === null || answers === undefined || !answers.length ? (
             <Error>Currently no answers</Error>
           ) : (
-            answers.map(({ id, __typename, displayName }) => (
+            answers.map(({ id, __typename, displayName, type }) => (
               <AnswerItem key={id}>
                 <AnswerHeader>
                   <AnswerNamePanel>
-                    <AnswerName data-test="answer-type">
-                      {__typename}
-                    </AnswerName>
+                    <AnswerName data-test="answer-type">{type}</AnswerName>
                     <Buttons>
                       <Tooltip
                         content="Move answer up"
@@ -319,7 +318,7 @@ const CollectionListItem = ({
           <AddAnswerButton
             variant="secondary"
             data-test="btn-add-list-answer"
-            onClick={() => handleCreateAnswer(id)}
+            onClick={() => handleCreateAnswer(id, (type = "Number"))}
           >
             <IconText icon={AddIcon}>Add an answer</IconText>
           </AddAnswerButton>
@@ -336,6 +335,7 @@ CollectionListItem.propTypes = {
   handleCreateAnswer: PropTypes.func.isRequired,
   handleDeleteAnswer: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   listName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   answers: PropTypes.string.isRequired,

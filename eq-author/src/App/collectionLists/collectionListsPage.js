@@ -183,11 +183,12 @@ const CollectionListsPage = ({ myval }) => {
                   })
                 }
                 handleChange={(id) => noChange}
-                handleCreateAnswer={() =>
+                handleCreateAnswer={(id, type) =>
                   createAnswer({
                     variables: {
                       input: {
                         id: id,
+                        type: type,
                       },
                     },
                   })
