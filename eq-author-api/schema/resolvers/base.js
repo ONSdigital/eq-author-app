@@ -1294,7 +1294,6 @@ const Resolvers = {
   },
 
   Questionnaire: {
-    introduction: (questionnaire) => questionnaire.introduction,
     sections: (questionnaire) => questionnaire.sections,
     createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
     questionnaireInfo: (questionnaire) => questionnaire,

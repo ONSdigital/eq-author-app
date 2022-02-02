@@ -65,5 +65,6 @@ module.exports = (questionnaire) => {
       formattedErrorMessages.push(formatErrorMessage(err, questionnaire));
     }
   }
+
   return formattedErrorMessages;
 };
