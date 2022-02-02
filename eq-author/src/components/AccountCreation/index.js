@@ -17,26 +17,20 @@ const AccountCreation = ({
   dataTest,
 }) => {
   return condition ? (
-    <>
-      <Panel
-        variant="errorNoHeader"
-        paragraphLabel={errorMessage}
-        withLeftBorder
-      >
-        <Field>
-          <Label htmlFor={htmlFor}>{title}</Label>
-          <Input
-            type="text"
-            name={name}
-            id={id}
-            value={value}
-            onChange={handleChange}
-            data-test={dataTest}
-            // autocomplete="off"
-          />
-        </Field>
-      </Panel>
-    </>
+    <Panel variant="errorNoHeader" paragraphLabel={errorMessage} withLeftBorder>
+      <Field>
+        <Label htmlFor={htmlFor}>{title}</Label>
+        <Input
+          type="text"
+          name={name}
+          id={id}
+          value={value}
+          onChange={handleChange}
+          data-test={dataTest}
+          // autocomplete="off"
+        />
+      </Field>
+    </Panel>
   ) : (
     <Field>
       <Label htmlFor={htmlFor}>{title}</Label>
