@@ -27,6 +27,7 @@ const migrations = [
   require("./updateUKISEPEThemes"),
   require("./updateContactDetails"),
   require("./addSubmissionPage"),
+  require("./migrateFolder"),
 ];
 
 const currentVersion = migrations.length;

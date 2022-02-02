@@ -38,6 +38,7 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    summaryTitle: "",
     questionnaire: {
       id: "2",
       navigation: true,
@@ -61,6 +62,7 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    summaryTitle: "",
     questionnaire: {
       id: "2",
       navigation: true,

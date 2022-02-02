@@ -7,7 +7,7 @@ const {
 class Group {
   constructor(title, section, ctx) {
     this.id = `group${section.id}`;
-    this.title = title ? title : "";
+    this.title = section.summaryTitle ? section.summaryTitle : "";
     this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {

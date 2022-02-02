@@ -4,6 +4,7 @@ query GetFolderQuery($input: QueryInput!) {
   folder(input: $input) {
     id
     alias
+    title
     displayName
     position
     pages {

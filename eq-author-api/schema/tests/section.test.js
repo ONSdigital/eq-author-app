@@ -76,6 +76,7 @@ describe("section", () => {
         alias: "Alias-updated",
         introductionTitle: "Questionnaire-updated-title",
         introductionContent: "Alias-updated-content",
+        summaryTitle: "summary title",
       };
       const updatedSection = await updateSection(ctx, update);
       expect(updatedSection).toEqual(expect.objectContaining(update));
@@ -96,7 +97,6 @@ describe("section", () => {
 
       await moveSection(ctx, {
         id: sectionToMoveId,
-        questionnaireId: questionnaire.id,
         position: 1,
       });
       const { sections } = await queryQuestionnaire(ctx);
@@ -112,7 +112,6 @@ describe("section", () => {
 
       await moveSection(ctx, {
         id: sectionToMoveId,
-        questionnaireId: questionnaire.id,
         position: 0,
       });
       const { sections } = await queryQuestionnaire(ctx);

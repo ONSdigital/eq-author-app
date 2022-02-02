@@ -10,7 +10,8 @@ import { buildIntroductionPath, buildSubmissionPath } from "utils/UrlUtils";
 import { enableOn } from "utils/featureFlags";
 import onDragEnd from "./dragDropFunctions/onDragEnd";
 
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import NavigationHeader from "./NavigationHeader";
 import NavItem from "components/NavItem";
 import ScrollPane from "components/ScrollPane";
@@ -23,6 +24,7 @@ import SubmissionIcon from "assets/icon-submission-page.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
 import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
+import MOVE_SECTION_MUTATION from "graphql/moveSection.graphql";
 
 const Container = styled.div`
   background: ${colors.sidebarBlack};
@@ -65,6 +67,16 @@ const NavList = styled.ol`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  ${({ isDraggingOver }) =>
+    isDraggingOver &&
+    `
+    background-color: ${colors.black};
+
+    .CollapsibleNavItem .CollapsibleNavItem-body {
+      background-color: ${colors.black};
+    }
+  `}
 `;
 
 const ListItem = styled.li``;
@@ -90,6 +102,7 @@ const NavigationSidebar = ({ questionnaire }) => {
 
   const [movePage] = useMutation(MOVE_PAGE_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
+  const [moveSection] = useMutation(MOVE_SECTION_MUTATION);
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
@@ -101,7 +114,8 @@ const NavigationSidebar = ({ questionnaire }) => {
       source,
       draggableId,
       movePage,
-      moveFolder
+      moveFolder,
+      moveSection
     );
 
   return (
@@ -132,17 +146,33 @@ const NavigationSidebar = ({ questionnaire }) => {
                   />
                 </MenuListItem>
               )}
-              <DragDropContext onDragEnd={handleDragEnd}>
-                {questionnaire.sections.map(({ id, ...rest }) => (
-                  <Section
-                    key={`section-${id}`}
-                    id={id}
-                    questionnaireId={questionnaire.id}
-                    open={openSections}
-                    {...rest}
-                  />
-                ))}
-              </DragDropContext>
+            </NavList>
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId={`root`} type={`sections`}>
+                {(
+                  { innerRef, placeholder, droppableProps },
+                  { isDraggingOver }
+                ) => (
+                  <NavList
+                    ref={innerRef}
+                    isDraggingOver={isDraggingOver}
+                    {...droppableProps}
+                  >
+                    {questionnaire.sections.map(({ id, ...rest }) => (
+                      <Section
+                        key={`section-${id}`}
+                        id={id}
+                        questionnaireId={questionnaire.id}
+                        open={openSections}
+                        {...rest}
+                      />
+                    ))}
+                    {placeholder}
+                  </NavList>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <NavList>
               {enableOn(["submissionPage"]) && questionnaire.submission && (
                 <MenuListItem>
                   <BorderedNavItem
