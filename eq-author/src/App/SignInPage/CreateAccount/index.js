@@ -14,6 +14,7 @@ import {
   InlineDescription,
   ButtonLink,
 } from "components-themed/Toolkit";
+import AccountCreation from "../../../components/AccountCreation";
 
 const CreateAccount = ({
   setCreateAccountFunction,
@@ -112,9 +113,36 @@ const CreateAccount = ({
           <PageTitle>Create an account</PageTitle>
           <Description>{`You must have an account to access Author`}</Description>
 
-          <ConditionalErrorWrapper
+          <AccountCreation
+            id="create-email"
+            title="Email address"
+            handleChange={({ value }) => setCreateEmail(value)}
+            value={createEmail}
             condition={errorMessage?.toLowerCase().includes("email")}
-          >
+            dataTest="txt-create-email"
+          />
+
+          {/* {errorMessage?.toLowerCase().includes("email") ? (
+            <>
+              <Panel
+                variant="errorNoHeader"
+                paragraphLabel={errorMessage}
+                withLeftBorder
+              >
+                <Field>
+                  <Label htmlFor="create-email">Email address</Label>
+                  <Input
+                    type="text"
+                    id="create-email"
+                    value={createEmail}
+                    onChange={({ value }) => setCreateEmail(value)}
+                    data-test="txt-create-email"
+                    // autocomplete="off"
+                  />
+                </Field>
+              </Panel>
+            </>
+          ) : (
             <>
               <Field>
                 <Label htmlFor="create-email">Email address</Label>
@@ -128,27 +156,43 @@ const CreateAccount = ({
                 />
               </Field>
             </>
-          </ConditionalErrorWrapper>
+          )} */}
 
-          <ConditionalErrorWrapper
+          <AccountCreation
+            id="create-fullName"
+            title="First and last name"
+            handleChange={({ value }) => setFullName(value)}
+            value={fullName}
+            condition={errorMessage?.toLowerCase().includes("name")}
+            dataTest="txt-create-fullName"
+          />
+
+          {/*  <ConditionalErrorWrapper
             condition={errorMessage?.toLowerCase().includes("name")}
           >
-            <>
-              <Field>
-                <Label htmlFor="create-fullName">First and last name</Label>
-                <Input
-                  type="text"
-                  id="create-fullName"
-                  value={fullName}
-                  onChange={({ value }) => setFullName(value)}
-                  data-test="txt-create-fullName"
-                  // autocomplete="off"
-                />
-              </Field>
-            </>
-          </ConditionalErrorWrapper>
+            <Field>
+              <Label htmlFor="create-fullName">First and last name</Label>
+              <Input
+                type="text"
+                id="create-fullName"
+                value={fullName}
+                onChange={({ value }) => setFullName(value)}
+                data-test="txt-create-fullName"
+                // autocomplete="off"
+              />
+            </Field>
+          </ConditionalErrorWrapper> */}
 
-          <ConditionalErrorWrapper
+          <AccountCreation
+            id="create-password"
+            name="password"
+            title="Password"
+            handleChange={({ value }) => setPassword(value)}
+            value={password}
+            condition={errorMessage?.toLowerCase().includes("password")}
+            dataTest="txt-create-password"
+          />
+          {/* <ConditionalErrorWrapper
             condition={errorMessage?.toLowerCase().includes("password")}
           >
             <>
@@ -165,7 +209,7 @@ const CreateAccount = ({
                 />
               </Field>
             </>
-          </ConditionalErrorWrapper>
+          </ConditionalErrorWrapper> */}
 
           <Field>
             <Button
