@@ -1,0 +1,9 @@
+mutation DeleteListAnswer($input: DeleteListAnswerInput) {
+  deleteListAnswer(input: $input) {
+    id
+    answers {
+      id
+      displayName
+    }
+  }
+}
