@@ -29,7 +29,7 @@ export const InlineDescription = styled(Description)`
   margin-right: 0.5rem;
 `;
 
-export const InlineDescriptionBold = styled(Description)`
+export const InlineDescriptionBold = styled.span`
   display: inline-block;
   margin-right: 0.5rem;
   font-weight: bold;

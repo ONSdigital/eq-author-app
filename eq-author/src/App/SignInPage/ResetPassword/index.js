@@ -31,6 +31,7 @@ const ResetPassword = ({
   const [userEmail, setUserEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [expired, setExpired] = useState(false);
+  console.log("errorMessage", errorMessage);
 
   useEffect(() => {
     auth
@@ -41,8 +42,8 @@ const ResetPassword = ({
       .catch((error) => {
         console.log("verifyCode error:", error);
         setErrorMessage(error.message);
-        setExpired(true);
         // Invalid or expired action code. Ask user to try to reset the password again.
+        setExpired(true);
       });
   }, [actionCode, userEmail, setErrorMessage]);
 
@@ -102,7 +103,7 @@ const ResetPassword = ({
             <InlineDescription>{"This is for the email:"}</InlineDescription>
             <InlineDescriptionBold>{userEmail}</InlineDescriptionBold>
             <InlineDescription>
-              {` - Your password must be at least 8 characters.`}
+              {" - Your password must be at least 8 characters."}
             </InlineDescription>
             <Field>
               {errorMessage.toLowerCase().includes("password") ? (

@@ -21,16 +21,12 @@ const CreateAccount = ({
   setForgotPassword,
   errorMessage,
   setErrorMessage,
+  setVerificationEmail,
 }) => {
   //use multiple state array here?
   const [createEmail, setCreateEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-  const [date, setDate] = useState("");
-
-  useEffect(() => {
-    setDate("temp");
-  });
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
@@ -58,43 +54,18 @@ const CreateAccount = ({
           })
           .then(
             function () {
-              console.log("sucess in update username");
+              setVerificationEmail(createEmail);
+              setErrorMessage("");
             },
             function (error) {
-              console.log("error in update username", error);
+              setErrorMessage(error.message);
             }
           );
-
-        console.log("user:", user);
-
         setCreateAccountFunction(false);
       } catch (error) {
         setErrorMessage(error.message);
-        console.log("errorMessage in create acc page", errorMessage);
       }
     }
-  };
-
-  // conditionally wrap the input with error component
-  const ConditionalErrorWrapper = ({ condition, children }) => {
-    console.log("condition:", condition);
-    console.log("children", children);
-
-    return (
-      <>
-        {condition ? (
-          <Panel
-            variant="errorNoHeader"
-            paragraphLabel={errorMessage}
-            withLeftBorder
-          >
-            {children}
-          </Panel>
-        ) : (
-          <>{children}</>
-        )}
-      </>
-    );
   };
 
   return (
@@ -120,42 +91,6 @@ const CreateAccount = ({
             dataTest="txt-create-email"
           />
 
-          {/* {errorMessage?.toLowerCase().includes("email") ? (
-            <>
-              <Panel
-                variant="errorNoHeader"
-                paragraphLabel={errorMessage}
-                withLeftBorder
-              >
-                <Field>
-                  <Label htmlFor="create-email">Email address</Label>
-                  <Input
-                    type="text"
-                    id="create-email"
-                    value={createEmail}
-                    onChange={({ value }) => setCreateEmail(value)}
-                    data-test="txt-create-email"
-                    // autocomplete="off"
-                  />
-                </Field>
-              </Panel>
-            </>
-          ) : (
-            <>
-              <Field>
-                <Label htmlFor="create-email">Email address</Label>
-                <Input
-                  type="text"
-                  id="create-email"
-                  value={createEmail}
-                  onChange={({ value }) => setCreateEmail(value)}
-                  data-test="txt-create-email"
-                  // autocomplete="off"
-                />
-              </Field>
-            </>
-          )} */}
-
           <AccountCreation
             id="create-fullName"
             title="First and last name"
@@ -164,22 +99,6 @@ const CreateAccount = ({
             condition={errorMessage?.toLowerCase().includes("name")}
             dataTest="txt-create-fullName"
           />
-
-          {/*  <ConditionalErrorWrapper
-            condition={errorMessage?.toLowerCase().includes("name")}
-          >
-            <Field>
-              <Label htmlFor="create-fullName">First and last name</Label>
-              <Input
-                type="text"
-                id="create-fullName"
-                value={fullName}
-                onChange={({ value }) => setFullName(value)}
-                data-test="txt-create-fullName"
-                // autocomplete="off"
-              />
-            </Field>
-          </ConditionalErrorWrapper> */}
 
           <AccountCreation
             id="create-password"
@@ -190,24 +109,6 @@ const CreateAccount = ({
             condition={errorMessage?.toLowerCase().includes("password")}
             dataTest="txt-create-password"
           />
-          {/* <ConditionalErrorWrapper
-            condition={errorMessage?.toLowerCase().includes("password")}
-          >
-            <>
-              <Field>
-                <Label htmlFor="create-password">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  id="create-password"
-                  value={password}
-                  onChange={({ value }) => setPassword(value)}
-                  data-test="txt-create-password"
-                  // autocomplete="off"
-                />
-              </Field>
-            </>
-          </ConditionalErrorWrapper> */}
 
           <Field>
             <Button
@@ -233,6 +134,7 @@ CreateAccount.propTypes = {
   setForgotPassword: PropTypes.func,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
+  setVerificationEmail: PropTypes.func,
 };
 
 export default CreateAccount;

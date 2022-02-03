@@ -3,9 +3,13 @@ import propTypes from "prop-types";
 
 import { Form, Field } from "components/Forms";
 import Button from "components-themed/buttons";
-import { PageTitle, Description } from "components-themed/Toolkit";
+import {
+  PageTitle,
+  InlineDescription,
+  InlineDescriptionBold,
+} from "components-themed/Toolkit";
 
-const EmailVerification = ({ signOut }) => {
+const EmailVerification = ({ signOut, verificationEmail }) => {
   function handleReturnToSignInPage(e) {
     e.preventDefault();
     signOut();
@@ -15,7 +19,13 @@ const EmailVerification = ({ signOut }) => {
     <>
       <Form>
         <PageTitle>Email verification</PageTitle>
-        <Description>{`You need to confirm your email address to sign in. Click on the confirmation link we've emailed to (EMAIL ADDY HERE)`}</Description>
+        <InlineDescription>
+          {
+            "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to:"
+          }
+        </InlineDescription>
+        <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
+        <InlineDescription>{` - `}</InlineDescription>
         <Field>
           <Button onClick={(e) => handleReturnToSignInPage(e)}>
             Return to sign in page
@@ -28,7 +38,7 @@ const EmailVerification = ({ signOut }) => {
 
 EmailVerification.propTypes = {
   signOut: propTypes.func,
-  email: propTypes.string,
+  verificationEmail: propTypes.string,
 };
 
 export default EmailVerification;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
@@ -25,10 +25,6 @@ const SignInForm = ({
   passwordResetSuccess,
   setPasswordResetSuccess,
 }) => {
-  // useEffect(() => {
-  //   setPasswordResetSuccess(false);
-  // }, [setPasswordResetSuccess]);
-
   const logInWithEmailAndPassword = async (email, password) => {
     setPasswordResetSuccess(false);
     if (email === "") {

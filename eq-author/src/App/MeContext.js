@@ -30,6 +30,7 @@ const signIn = (setSignInSuccess, history, user) => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
+      console.log("inside Signin in MeContext");
       history.push(
         get(
           history,
@@ -82,8 +83,7 @@ const ContextProvider = ({ history, client, children }) => {
   const loggedInEverywhere = firebaseUser && signInSuccess;
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
-
-  const location = useLocation();
+  let location = useLocation();
 
   useEffect(() => {
     // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0
@@ -97,11 +97,12 @@ const ContextProvider = ({ history, client, children }) => {
 
   useEffect(() => {
     console.log("firebaseUser:: ,Multi hit?", firebaseUser);
-
+    if (!location) {
+      location = window.location;
+    }
     const actionCodeSettings = {
       //This is the redirect URL for AFTER you have clicked the email link and verified the email address
       url: verifyRedirectUrl,
-      // url: "http://localhost:3001/",
       // This must be true.
       handleCodeInApp: true,
     };
@@ -116,18 +117,11 @@ const ContextProvider = ({ history, client, children }) => {
         firebaseUser.sendEmailVerification(actionCodeSettings);
         setSentEmailVerification(true);
       }
+      console.log("!firebaseUser.emailVerified");
       setSignInSuccess(false);
       history.push("/sign-in");
-      // history.push({ pathname: "/sign-in", search: location.search });
-    }
-    // else if (location.search) {
-    //   console.log("location.search - NO redirect >>>", location.search);
-    //   // localStorage.setItem("locationSearch", location.search);
-    //   setSignInSuccess(false);
-    //   signOut(history, client, location.search);
-    // }
-    else {
-      console.log("Signout and redirect");
+    } else {
+      console.log("location.search :::::::::::::::::::", location.search);
       signOut(history, client, location.search);
       setSignInSuccess(false);
       setSentEmailVerification(false);

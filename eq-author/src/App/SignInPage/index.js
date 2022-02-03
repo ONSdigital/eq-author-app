@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import { Redirect } from "react-router-dom";
 import { withMe } from "App/MeContext";
+import auth from "components/Auth";
 
 import Loading from "components/Loading";
 import styled from "styled-components";
@@ -33,10 +34,11 @@ const SignInPage = ({
   // sentPasswordResetEmail
 }) => {
   // const parameters = localStorage.getItem("locationSearch");
-
+  console.log("me::::", me);
   const [createAccount, setCreateAccount] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [verificationEmail, setVerificationEmail] = useState("");
 
   const [recoverPassword, setRecoverPassword] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
@@ -65,23 +67,40 @@ const SignInPage = ({
       // Get the one-time code from the query parameter.
       setActionCode(getParameterByName("oobCode"));
       // (Optional) Get the continue URL from the query parameter if available.
-
+      console.log("mode >>>>>>>>>>>>>>>>>>>>", mode);
       switch (mode) {
         case "resetPassword":
           resetThePassword(true);
+          setErrorMessage("");
           break;
         case "recoverEmail":
           console.log("here at recoverEmail");
+          setErrorMessage("");
           break;
         case "verifyEmail":
-          console.log("here at recoverEmail");
-          // handleVerifyEmail(auth, actionCode, continueUrl, lang);
+          console.log("here at verifyEmail >>>>>>>>>>>>>>>>>>>>>>>>>>");
+          setErrorMessage("");
+          auth
+            .applyActionCode(actionCode)
+            .then((response) => {
+              console.log("response", response);
+              // Email address has been verified.
+              // TODO: Display a confirmation message to the user.
+              // You could also provide the user with a link back to the app.
+              // TODO: If a continue URL is available, display a button which on
+              // click redirects the user back to the app via continueUrl with
+              // additional state determined from that URL's parameters.
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+              // Code is invalid or expired. Ask the user to verify their email again.
+            });
           break;
         default:
           setErrorMessage("Invalid mode code returned from link");
       }
     }
-  }, [location.search, mode]);
+  }, [location.search, mode, actionCode]);
 
   return (
     <>
@@ -90,8 +109,8 @@ const SignInPage = ({
       <Layout title="Author">
         <MainPanel>
           <Grid>
-            <Column cols={9}>
-              {isSigningIn && (
+            <Column cols={8}>
+              {isSigningIn && !sentEmailVerification && (
                 <Loading height="38rem">Logging you in...</Loading>
               )}
 
@@ -131,7 +150,6 @@ const SignInPage = ({
                   errorMessage={errorMessage}
                   setErrorMessage={setErrorMessage}
                   actionCode={actionCode}
-                  // continueUrl={continueUrl}
                   resetThePassword={resetThePassword}
                   signOut={signOut}
                   setPasswordResetSuccess={setPasswordResetSuccess}
@@ -144,15 +162,18 @@ const SignInPage = ({
                   setForgotPassword={setForgotPassword}
                   errorMessage={errorMessage}
                   setErrorMessage={setErrorMessage}
+                  setVerificationEmail={setVerificationEmail}
                 />
               )}
 
-              {sentEmailVerification && <EmailVerification signOut={signOut} />}
+              {sentEmailVerification && (
+                <EmailVerification
+                  verificationEmail={verificationEmail}
+                  signOut={signOut}
+                />
+              )}
             </Column>
           </Grid>
-
-          {/* <Text>You must be signed in to access this service zzzzz.</Text>
-          <SignInFormOld uiConfig={uiConfig} /> */}
         </MainPanel>
       </Layout>
     </>
