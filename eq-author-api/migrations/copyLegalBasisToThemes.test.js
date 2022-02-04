@@ -19,6 +19,11 @@ describe("Migration: copy legal basis to themes", () => {
             shortName: "northernireland",
             enabled: false,
           },
+          {
+            title: "UKIS theme",
+            shortName: "ukis",
+            enabled: false,
+          },
         ],
       },
     };

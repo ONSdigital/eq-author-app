@@ -322,6 +322,29 @@ describe("questionnaire", () => {
         expect(updatedQuestionnaire.surveyId).toBe(newSurveyId);
       });
 
+      it("should be able to enable a new theme", async () => {
+        expect(questionnaire.themeSettings.themes).toHaveLength(1);
+        await enableTheme(
+          {
+            questionnaireId: questionnaire.id,
+            shortName: "northernireland",
+          },
+          ctx
+        );
+
+        expect(questionnaire.themeSettings.themes).toHaveLength(2);
+
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+
+        expect(
+          updatedQuestionnaire.themeSettings.themes.find(
+            ({ shortName }) => shortName === "northernireland"
+          )
+        ).toMatchObject({
+          enabled: true,
+        });
+      });
+
       it("should be able to enable an existing theme", async () => {
         await enableTheme(
           {

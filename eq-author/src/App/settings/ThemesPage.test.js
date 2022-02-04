@@ -146,6 +146,34 @@ describe("Themes page", () => {
     });
   });
 
+  it("Should render themes", () => {
+    const toggleTheme = jest.fn();
+    useMutation.mockImplementation(() => [toggleTheme]);
+    renderThemesPage(mockQuestionnaire);
+
+    expect(screen.getByText(`UKIS theme`)).toBeVisible();
+  });
+
+  it("Should toggle theme enabled", () => {
+    const toggleTheme = jest.fn();
+    useMutation.mockImplementation(() => [toggleTheme]);
+    renderThemesPage(mockQuestionnaire);
+
+    const toggleSwitch = screen.getByTestId(`NI theme-input`);
+
+    fireEvent.click(toggleSwitch);
+    expect(toggleTheme).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            questionnaireId: expect.any(String),
+            shortName: "northernireland",
+          },
+        },
+      })
+    );
+  });
+
   it("Should display EQ ID", () => {
     renderThemesPage(mockQuestionnaire);
 
