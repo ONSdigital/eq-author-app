@@ -19,17 +19,12 @@ describe("Migration: copy legal basis to themes", () => {
             shortName: "northernireland",
             enabled: false,
           },
-          {
-            title: "COVID theme",
-            shortName: "covid",
-            enabled: true,
-          },
         ],
       },
     };
 
-    const migratedThemes = copyLegalBasisToThemes(questionnaire).themeSettings
-      .themes;
+    const migratedThemes =
+      copyLegalBasisToThemes(questionnaire).themeSettings.themes;
 
     for (const theme of migratedThemes) {
       expect(theme.legalBasisCode).toBe(questionnaire.introduction.legalBasis);

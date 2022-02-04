@@ -322,29 +322,6 @@ describe("questionnaire", () => {
         expect(updatedQuestionnaire.surveyId).toBe(newSurveyId);
       });
 
-      it("should be able to enable a new theme", async () => {
-        expect(questionnaire.themeSettings.themes).toHaveLength(1);
-        await enableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "covid",
-          },
-          ctx
-        );
-
-        expect(questionnaire.themeSettings.themes).toHaveLength(2);
-
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-
-        expect(
-          updatedQuestionnaire.themeSettings.themes.find(
-            ({ shortName }) => shortName === "covid"
-          )
-        ).toMatchObject({
-          enabled: true,
-        });
-      });
-
       it("should be able to enable an existing theme", async () => {
         await enableTheme(
           {
@@ -382,7 +359,7 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "covid",
+            shortName: "northernireland",
           },
           ctx
         );
@@ -392,7 +369,7 @@ describe("questionnaire", () => {
 
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
 
@@ -412,10 +389,10 @@ describe("questionnaire", () => {
         expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
-        expect(themeSettingsWithOneTheme.previewTheme).toBe("covid");
+        expect(themeSettingsWithOneTheme.previewTheme).toBe("northernireland");
       });
 
       it("should not be able to disable a non-existent theme", () => {

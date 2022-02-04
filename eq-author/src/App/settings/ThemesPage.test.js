@@ -68,24 +68,6 @@ describe("Themes page", () => {
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "COVID theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "covid",
-            validationErrorInfo: { errors: [] },
-          },
-          {
-            title: "EPE theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "epe",
-            validationErrorInfo: { errors: [] },
-          },
-          {
-            title: "EPE NI theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "epenorthernireland",
-            validationErrorInfo: { errors: [] },
-          },
-          {
             title: "UKIS theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukis",
@@ -162,34 +144,6 @@ describe("Themes page", () => {
         input: { id: expect.any(String), surveyId: "" },
       },
     });
-  });
-
-  it("Should render themes", () => {
-    const toggleTheme = jest.fn();
-    useMutation.mockImplementation(() => [toggleTheme]);
-    renderThemesPage(mockQuestionnaire);
-
-    expect(screen.getByText(`EPE theme`)).toBeVisible();
-  });
-
-  it("Should toggle theme enabled", () => {
-    const toggleTheme = jest.fn();
-    useMutation.mockImplementation(() => [toggleTheme]);
-    renderThemesPage(mockQuestionnaire);
-
-    const toggleSwitch = screen.getByTestId(`COVID theme-input`);
-
-    fireEvent.click(toggleSwitch);
-    expect(toggleTheme).toHaveBeenCalledWith(
-      expect.objectContaining({
-        variables: {
-          input: {
-            questionnaireId: expect.any(String),
-            shortName: "covid",
-          },
-        },
-      })
-    );
   });
 
   it("Should display EQ ID", () => {
