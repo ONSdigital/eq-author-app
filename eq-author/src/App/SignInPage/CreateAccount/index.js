@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
-import Input from "components-themed/Input";
 import { Form, Field } from "components/Forms";
 import Button from "components-themed/buttons";
-import Label from "components-themed/Label";
 import Panel from "components-themed/panels";
 
 import {
@@ -23,7 +21,6 @@ const CreateAccount = ({
   setErrorMessage,
   setVerificationEmail,
 }) => {
-  //use multiple state array here?
   const [createEmail, setCreateEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");

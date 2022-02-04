@@ -24,19 +24,16 @@ const RecoverPassword = ({
   setForgotPassword,
   errorMessage,
   setErrorMessage,
-  // recoveryEmailSent,
 }) => {
   const [recoveryEmailSent, setRecoveryEmailSent] = useState(false);
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
-    // todo - clear all errors ?
     setForgotPassword(false);
   }
 
   const handleEmailRecoveryPassword = async (recoveryEmail) => {
-    console.log("recoveryEmail:", recoveryEmail);
-    if (recoveryEmail === "" || recoverPassword === null) {
+    if (recoveryEmail === "" || recoveryEmail === null) {
       setErrorMessage("Enter email");
     } else {
       try {
@@ -51,7 +48,6 @@ const RecoverPassword = ({
 
   function handleReturnToRecoverPassword(e) {
     e.preventDefault();
-    // todo - clear all errors
     setForgotPassword(true);
     setRecoveryEmailSent(false);
   }
@@ -74,8 +70,8 @@ const RecoverPassword = ({
         We'll email you a link so you can reset your password.`}
             </Description>
             <Field>
-              {errorMessage.toLowerCase().includes("email") ||
-              errorMessage.toLowerCase().includes("user") ? (
+              {errorMessage?.toLowerCase().includes("email") ||
+              errorMessage?.toLowerCase().includes("user") ? (
                 <>
                   <Panel
                     variant="errorNoHeader"
@@ -132,7 +128,7 @@ const RecoverPassword = ({
             </Panel>
             <PageTitle>Recover Password - check your email</PageTitle>
             <InlineDescription>
-              {"We've sent a link for resetting your password to"}
+              {"We've sent a link for resetting your password to:"}
             </InlineDescription>
             <InlineDescriptionBold>{recoveryEmail}</InlineDescriptionBold>
             <InlineDescription>

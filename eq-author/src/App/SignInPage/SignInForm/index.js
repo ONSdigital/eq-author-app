@@ -83,7 +83,7 @@ const SignInForm = ({
         )}
 
         <Field>
-          {errorMessage.toLowerCase().includes("email") ? (
+          {errorMessage?.toLowerCase().includes("email") ? (
             <>
               <Panel
                 variant="errorNoHeader"
@@ -116,7 +116,7 @@ const SignInForm = ({
           )}
         </Field>
         <Field>
-          {errorMessage.toLowerCase().includes("password") ? (
+          {errorMessage?.toLowerCase().includes("password") ? (
             <>
               <Panel
                 variant="errorNoHeader"

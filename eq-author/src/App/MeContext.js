@@ -13,7 +13,8 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
-const verifyRedirectUrl = window.location.origin;
+const locationOrigin = window.location.origin;
+const verifyRedirectUrl = locationOrigin + "/#/sign-in";
 
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
@@ -30,7 +31,6 @@ const signIn = (setSignInSuccess, history, user) => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
-      console.log("inside Signin in MeContext");
       history.push(
         get(
           history,
@@ -92,21 +92,14 @@ const ContextProvider = ({ history, client, children }) => {
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
-      console.log("firebaseUser: one time hit?", firebaseUser);
     });
   }, []);
 
   useEffect(() => {
-    console.log("firebaseUser:: ,Multi hit?", firebaseUser);
-    // if (!location) {
-    //   location = window.location;
-    // }
-    console.log("location :>> ", location);
-
     const actionCodeSettings = {
       //This is the redirect URL for AFTER you have clicked the email link and verified the email address
-      // url: verifyRedirectUrl,
-      url: "http://localhost:3000/#/sign-in",
+      url: verifyRedirectUrl,
+      // url: "http://localhost:3000/#/sign-in",
       // This must be true.
       handleCodeInApp: true,
     };
@@ -118,15 +111,13 @@ const ContextProvider = ({ history, client, children }) => {
       setSentEmailVerification(false);
     } else if (firebaseUser && !firebaseUser.emailVerified) {
       if (!sentEmailVerification) {
-        console.log("firebaseUser.emailVerified", firebaseUser.emailVerified);
-
+        //without actionCodeSettings sent as params here - it will use the custom action URL template settings in firebase consol
         firebaseUser.sendEmailVerification();
         setSentEmailVerification(true);
       }
       setSignInSuccess(false);
       history.push("/sign-in");
     } else {
-      console.log("location.search :::::::::::::::::::", location.search);
       signOut(history, client, location.search);
       setSignInSuccess(false);
       setSentEmailVerification(false);

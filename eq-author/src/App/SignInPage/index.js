@@ -16,6 +16,7 @@ import RecoverPassword from "./RecoverPassword";
 import ResetPassword from "./ResetPassword";
 import CreateAccount from "./CreateAccount";
 import EmailVerification from "./EmailVerification";
+import ApiError from "./ApiError";
 
 const MainPanel = styled.div`
   margin: 2em auto 0;
@@ -25,22 +26,21 @@ const MainPanel = styled.div`
 
 const SignInPage = ({
   me,
-  signIn,
   signOut,
   isSigningIn,
   sentEmailVerification,
   location,
-  // todo - do we need this???
-  // sentPasswordResetEmail
 }) => {
+  //use multiple state array here?
   const [createAccount, setCreateAccount] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [verificationEmail, setVerificationEmail] = useState("");
-
+  const [emailNowVerified, setEmailNowVerified] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
   const [mode, setMode] = useState("");
   const [actionCode, setActionCode] = useState("");
@@ -56,7 +56,6 @@ const SignInPage = ({
   };
 
   useEffect(() => {
-    // do we have a link from email in the url?
     if (location?.search) {
       const urlParams = new URLSearchParams(location.search);
       const getParameterByName = (param) => urlParams.get(param);
@@ -65,33 +64,31 @@ const SignInPage = ({
       // Get the one-time code from the query parameter.
       setActionCode(getParameterByName("oobCode"));
       // (Optional) Get the continue URL from the query parameter if available.
-      console.log("mode >>>>>>>>>>>>>>>>>>>>", mode);
       switch (mode) {
         case "resetPassword":
           resetThePassword(true);
           setErrorMessage("");
           break;
-        case "recoverEmail":
-          console.log("here at recoverEmail");
-          setErrorMessage("");
-          break;
+        // possible future use
+        // case "recoverEmail":
+        //   setErrorMessage("");
+        //   break;
         case "verifyEmail":
-          console.log("here at verifyEmail >>>>>>>>>>>>>>>>>>>>>>>>>>");
-          setErrorMessage("");
           auth
             .applyActionCode(actionCode)
             .then((response) => {
-              console.log("response", response);
               // Email address has been verified.
-              // TODO: Display a confirmation message to the user.
-              // You could also provide the user with a link back to the app.
+              setErrorMessage("");
+              setEmailNowVerified(true);
               // TODO: If a continue URL is available, display a button which on
               // click redirects the user back to the app via continueUrl with
               // additional state determined from that URL's parameters.
             })
             .catch((error) => {
-              setErrorMessage(error.message);
               // Code is invalid or expired. Ask the user to verify their email again.
+              setErrorMessage(error.message);
+              setEmailNowVerified(false);
+              setApiError(true);
             });
           break;
         default:
@@ -106,17 +103,18 @@ const SignInPage = ({
 
       <Layout title="Author">
         <MainPanel>
+          {/* setSentEmailVerification(false) when isSigning is set */}
+          {isSigningIn && !sentEmailVerification && (
+            <Loading height="38rem">Logging you in...</Loading>
+          )}
           <Grid>
             <Column cols={8}>
-              {/* setsentEmailVerification(false) when isSigning is set */}
-              {isSigningIn && !sentEmailVerification && (
-                <Loading height="38rem">Logging you in...</Loading>
-              )}
               {!recoverPassword &&
                 !createAccount &&
                 !sentEmailVerification &&
                 !resetPassword &&
-                !isSigningIn && (
+                !isSigningIn &&
+                !apiError && (
                   <SignInForm
                     recoverPassword={recoverPassword}
                     setForgotPassword={setForgotPassword}
@@ -139,16 +137,13 @@ const SignInPage = ({
               )}
               {resetPassword && (
                 <ResetPassword
-                  recoveryEmail={recoveryEmail}
-                  setRecoveryEmail={setRecoveryEmail}
-                  recoverPassword={recoverPassword}
                   setForgotPassword={setForgotPassword}
                   errorMessage={errorMessage}
                   setErrorMessage={setErrorMessage}
                   actionCode={actionCode}
                   resetThePassword={resetThePassword}
-                  signOut={signOut}
                   setPasswordResetSuccess={setPasswordResetSuccess}
+                  signOut={signOut}
                 />
               )}
               {createAccount && (
@@ -163,7 +158,18 @@ const SignInPage = ({
               {sentEmailVerification && (
                 <EmailVerification
                   verificationEmail={verificationEmail}
+                  emailNowVerified={emailNowVerified}
+                  setErrorMessage={setErrorMessage}
                   signOut={signOut}
+                />
+              )}
+              {apiError && (
+                <ApiError
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                  setApiError={setApiError}
+                  signOut={signOut}
+                  verificationEmail={verificationEmail}
                 />
               )}
             </Column>
@@ -176,7 +182,6 @@ const SignInPage = ({
 
 SignInPage.propTypes = {
   me: CustomPropTypes.me,
-  signIn: PropTypes.func,
   signOut: PropTypes.func,
   isSigningIn: PropTypes.bool,
   sentEmailVerification: PropTypes.bool,

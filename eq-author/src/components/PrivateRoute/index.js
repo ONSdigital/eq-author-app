@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { Route, Redirect } from "react-router-dom";
