@@ -33,8 +33,6 @@ const SignInPage = ({
   // todo - do we need this???
   // sentPasswordResetEmail
 }) => {
-  // const parameters = localStorage.getItem("locationSearch");
-  console.log("me::::", me);
   const [createAccount, setCreateAccount] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -110,10 +108,10 @@ const SignInPage = ({
         <MainPanel>
           <Grid>
             <Column cols={8}>
+              {/* setsentEmailVerification(false) when isSigning is set */}
               {isSigningIn && !sentEmailVerification && (
                 <Loading height="38rem">Logging you in...</Loading>
               )}
-
               {!recoverPassword &&
                 !createAccount &&
                 !sentEmailVerification &&
@@ -129,7 +127,6 @@ const SignInPage = ({
                     setPasswordResetSuccess={setPasswordResetSuccess}
                   />
                 )}
-
               {recoverPassword && (
                 <RecoverPassword
                   recoveryEmail={recoveryEmail}
@@ -140,7 +137,6 @@ const SignInPage = ({
                   setErrorMessage={setErrorMessage}
                 />
               )}
-
               {resetPassword && (
                 <ResetPassword
                   recoveryEmail={recoveryEmail}
@@ -155,7 +151,6 @@ const SignInPage = ({
                   setPasswordResetSuccess={setPasswordResetSuccess}
                 />
               )}
-
               {createAccount && (
                 <CreateAccount
                   setCreateAccountFunction={setCreateAccountFunction}
@@ -165,7 +160,6 @@ const SignInPage = ({
                   setVerificationEmail={setVerificationEmail}
                 />
               )}
-
               {sentEmailVerification && (
                 <EmailVerification
                   verificationEmail={verificationEmail}

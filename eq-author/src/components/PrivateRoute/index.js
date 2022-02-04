@@ -23,11 +23,11 @@ const PrivateRoute = React.memo(
     // timeout for loading issue
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000);
-    }, []);
+    // useEffect(() => {
+    //   setTimeout(() => {
+    //     setLoading(false);
+    //   }, 3000);
+    // }, []);
 
     if (isSigningIn && loading) {
       render = () => (

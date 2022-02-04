@@ -83,6 +83,7 @@ const ContextProvider = ({ history, client, children }) => {
   const loggedInEverywhere = firebaseUser && signInSuccess;
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
+
   let location = useLocation();
 
   useEffect(() => {
@@ -97,12 +98,15 @@ const ContextProvider = ({ history, client, children }) => {
 
   useEffect(() => {
     console.log("firebaseUser:: ,Multi hit?", firebaseUser);
-    if (!location) {
-      location = window.location;
-    }
+    // if (!location) {
+    //   location = window.location;
+    // }
+    console.log("location :>> ", location);
+
     const actionCodeSettings = {
       //This is the redirect URL for AFTER you have clicked the email link and verified the email address
-      url: verifyRedirectUrl,
+      // url: verifyRedirectUrl,
+      url: "http://localhost:3000/#/sign-in",
       // This must be true.
       handleCodeInApp: true,
     };
@@ -114,10 +118,11 @@ const ContextProvider = ({ history, client, children }) => {
       setSentEmailVerification(false);
     } else if (firebaseUser && !firebaseUser.emailVerified) {
       if (!sentEmailVerification) {
-        firebaseUser.sendEmailVerification(actionCodeSettings);
+        console.log("firebaseUser.emailVerified", firebaseUser.emailVerified);
+
+        firebaseUser.sendEmailVerification();
         setSentEmailVerification(true);
       }
-      console.log("!firebaseUser.emailVerified");
       setSignInSuccess(false);
       history.push("/sign-in");
     } else {
