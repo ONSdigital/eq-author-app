@@ -22,7 +22,7 @@ describe("Migration: copy legal basis to themes", () => {
           {
             title: "UKIS theme",
             shortName: "ukis",
-            enabled: false,
+            enabled: true,
           },
         ],
       },
