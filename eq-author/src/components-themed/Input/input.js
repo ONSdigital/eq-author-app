@@ -88,6 +88,7 @@ UncontrolledInput.propTypes = {
     "number",
     "date",
     "search",
+    "password",
   ]).isRequired,
   defaultValue: PropTypes.oneOfType([
     PropTypes.string,

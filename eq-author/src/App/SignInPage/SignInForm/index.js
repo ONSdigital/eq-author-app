@@ -24,9 +24,12 @@ const SignInForm = ({
   setErrorMessage,
   passwordResetSuccess,
   setPasswordResetSuccess,
+  emailNowVerified,
+  setEmailNowVerified,
 }) => {
   const logInWithEmailAndPassword = async (email, password) => {
     setPasswordResetSuccess(false);
+    setEmailNowVerified(false);
     if (email === "") {
       setErrorMessage("Enter email");
     } else if (password === "") {
@@ -60,49 +63,39 @@ const SignInForm = ({
     e.preventDefault();
     setCreateAccountFunction(true);
     setForgotPassword(false);
+    setErrorMessage("");
   }
 
   return (
     <>
-      <Form>
-        {errorMessage && (
-          <Panel
-            variant="errorWithHeader"
-            headerLabel="This page has an error"
-            paragraphLabel={errorMessage}
-          />
-        )}
-        <PageTitle>Sign in</PageTitle>
-        <Description>You must be signed in to access Author</Description>
-        {passwordResetSuccess && (
-          <Panel variant="success" headerLabel="boom" withLeftBorder>
-            {
-              "You've successfully updated the password for your Author account."
-            }
-          </Panel>
-        )}
+      {errorMessage && (
+        <Panel
+          variant="errorWithHeader"
+          headerLabel="This page has an error"
+          paragraphLabel={errorMessage}
+        />
+      )}
+      <PageTitle>Sign in</PageTitle>
+      <Description>You must be signed in to access Author</Description>
+      {passwordResetSuccess && (
+        <Panel variant="success" headerLabel="boom" withLeftBorder>
+          {"You've successfully updated the password for your Author account."}
+        </Panel>
+      )}
+      {emailNowVerified && (
+        <Panel variant="success" headerLabel="boom" withLeftBorder>
+          {"You've successfully verified your Author account."}
+        </Panel>
+      )}
 
-        <Field>
-          {errorMessage?.toLowerCase().includes("email") ? (
-            <>
-              <Panel
-                variant="errorNoHeader"
-                paragraphLabel={errorMessage}
-                withLeftBorder
-              >
-                <Label htmlFor="email">Email address</Label>
-                <Input
-                  type="text"
-                  id="email"
-                  value={email}
-                  onChange={({ value }) => setEmail(value)}
-                  data-test="txt-email"
-                  autocomplete="username"
-                />
-              </Panel>
-            </>
-          ) : (
-            <>
+      <Field>
+        {errorMessage?.toLowerCase().includes("email") ? (
+          <>
+            <Panel
+              variant="errorNoHeader"
+              paragraphLabel={errorMessage}
+              withLeftBorder
+            >
               <Label htmlFor="email">Email address</Label>
               <Input
                 type="text"
@@ -112,31 +105,30 @@ const SignInForm = ({
                 data-test="txt-email"
                 autocomplete="username"
               />
-            </>
-          )}
-        </Field>
-        <Field>
-          {errorMessage?.toLowerCase().includes("password") ? (
-            <>
-              <Panel
-                variant="errorNoHeader"
-                paragraphLabel={errorMessage}
-                withLeftBorder
-              >
-                {/* <PasswordInput /> */}
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={({ value }) => setPassword(value)}
-                  data-test="txt-password"
-                  autocomplete="current-password"
-                />
-              </Panel>
-            </>
-          ) : (
-            <>
+            </Panel>
+          </>
+        ) : (
+          <>
+            <Label htmlFor="email">Email address</Label>
+            <Input
+              type="text"
+              id="email"
+              value={email}
+              onChange={({ value }) => setEmail(value)}
+              data-test="txt-email"
+              autocomplete="username"
+            />
+          </>
+        )}
+      </Field>
+      <Field>
+        {errorMessage?.toLowerCase().includes("password") ? (
+          <>
+            <Panel
+              variant="errorNoHeader"
+              paragraphLabel={errorMessage}
+              withLeftBorder
+            >
               {/* <PasswordInput /> */}
               <Label htmlFor="password">Password</Label>
               <Input
@@ -147,39 +139,52 @@ const SignInForm = ({
                 data-test="txt-password"
                 autocomplete="current-password"
               />
-            </>
-          )}
-        </Field>
-        <Field>
-          <ButtonLink onClick={handleRecoverPassword}>
-            Forgot your password?
-          </ButtonLink>
-        </Field>
-
-        <CheckBoxField>
-          <CheckboxInput
-            type="checkbox"
-            id="signIn-checkbox"
-            name="signInCheckbox"
-            checked={checkbox}
-            onChange={({ checked }) => setCheckbox(checked)}
-          />
-          <OptionLabel htmlFor="signIn-checkbox">
-            {"Keep me signed in"}
-          </OptionLabel>
-        </CheckBoxField>
-        <Field>
-          <Button
-            // disabled={loading}
-            onClick={() => logInWithEmailAndPassword(email, password)}
-          >
-            Sign in
-          </Button>
-        </Field>
-        <ButtonLink onClick={handleCreateAccount}>
-          Create an Author account
+            </Panel>
+          </>
+        ) : (
+          <>
+            {/* <PasswordInput /> */}
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              value={password}
+              onChange={({ value }) => setPassword(value)}
+              data-test="txt-password"
+              autocomplete="current-password"
+            />
+          </>
+        )}
+      </Field>
+      <Field>
+        <ButtonLink onClick={handleRecoverPassword}>
+          Forgot your password?
         </ButtonLink>
-      </Form>
+      </Field>
+
+      <CheckBoxField>
+        <CheckboxInput
+          type="checkbox"
+          id="signIn-checkbox"
+          name="signInCheckbox"
+          checked={checkbox}
+          onChange={({ checked }) => setCheckbox(checked)}
+        />
+        <OptionLabel htmlFor="signIn-checkbox">
+          {"Keep me signed in"}
+        </OptionLabel>
+      </CheckBoxField>
+      <Field>
+        <Button
+          // disabled={loading}
+          onClick={() => logInWithEmailAndPassword(email, password)}
+        >
+          Sign in
+        </Button>
+      </Field>
+      <ButtonLink onClick={handleCreateAccount}>
+        Create an Author account
+      </ButtonLink>
     </>
   );
 };
@@ -195,6 +200,8 @@ SignInForm.propTypes = {
   setErrorMessage: PropTypes.func,
   passwordResetSuccess: PropTypes.bool,
   setPasswordResetSuccess: PropTypes.func,
+  emailNowVerified: PropTypes.bool,
+  setEmailNowVerified: PropTypes.func,
 };
 
 export default SignInForm;

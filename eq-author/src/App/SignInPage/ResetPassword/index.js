@@ -4,7 +4,7 @@ import auth from "components/Auth";
 import { useHistory } from "react-router-dom";
 
 import Input from "components-themed/Input";
-import { Form, Field } from "components/Forms";
+import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
 import Panel from "components-themed/panels";
@@ -83,43 +83,29 @@ const ResetPassword = ({
 
   return (
     <>
-      <Form>
-        {actionCode && userEmail && !expired && (
-          <>
-            {errorMessage && (
-              <Panel
-                variant="errorWithHeader"
-                headerLabel="This page has an error"
-                paragraphLabel={errorMessage}
-              />
-            )}
-            <PageTitle>Reset your Password</PageTitle>
-            <InlineDescription>{"This is for the email:"}</InlineDescription>
-            <InlineDescriptionBold>{userEmail}</InlineDescriptionBold>
-            <InlineDescription>
-              {" - Your password must be at least 8 characters."}
-            </InlineDescription>
-            <Field>
-              {errorMessage?.toLowerCase().includes("password") ? (
-                <>
-                  <Panel
-                    variant="errorNoHeader"
-                    paragraphLabel={errorMessage}
-                    withLeftBorder
-                  >
-                    <Label htmlFor="new-password">Enter a new password</Label>
-                    <Input
-                      type="password"
-                      id="new-password"
-                      value={newPassword}
-                      onChange={({ value }) => setNewPassword(value)}
-                      data-test="txt-new-password"
-                      autocomplete="new-password"
-                    />
-                  </Panel>
-                </>
-              ) : (
-                <>
+      {actionCode && userEmail && !expired && (
+        <>
+          {errorMessage && (
+            <Panel
+              variant="errorWithHeader"
+              headerLabel="This page has an error"
+              paragraphLabel={errorMessage}
+            />
+          )}
+          <PageTitle>Reset your Password</PageTitle>
+          <InlineDescription>{"This is for the email:"}</InlineDescription>
+          <InlineDescriptionBold>{userEmail}</InlineDescriptionBold>
+          <InlineDescription>
+            {" - Your password must be at least 8 characters."}
+          </InlineDescription>
+          <Field>
+            {errorMessage?.toLowerCase().includes("password") ? (
+              <>
+                <Panel
+                  variant="errorNoHeader"
+                  paragraphLabel={errorMessage}
+                  withLeftBorder
+                >
                   <Label htmlFor="new-password">Enter a new password</Label>
                   <Input
                     type="password"
@@ -129,38 +115,50 @@ const ResetPassword = ({
                     data-test="txt-new-password"
                     autocomplete="new-password"
                   />
-                </>
-              )}
-            </Field>
-            <Field>
-              <Button onClick={() => handleResetPassword(newPassword)}>
-                Save
-              </Button>
-            </Field>
-          </>
-        )}
-
-        {expired && (
-          <>
-            {errorMessage && (
-              <Panel
-                variant="errorWithHeader"
-                headerLabel="This page has an error"
-                paragraphLabel={errorMessage}
-              />
+                </Panel>
+              </>
+            ) : (
+              <>
+                <Label htmlFor="new-password">Enter a new password</Label>
+                <Input
+                  type="password"
+                  id="new-password"
+                  value={newPassword}
+                  onChange={({ value }) => setNewPassword(value)}
+                  data-test="txt-new-password"
+                  autocomplete="new-password"
+                />
+              </>
             )}
-            <PageTitle>Link expired or invalid</PageTitle>
-            <Description>
-              {`You will need to complete the "reset password" process again.`}
-            </Description>
-            <Field>
-              <Button onClick={(e) => handleReturnToSignInPage(e)}>
-                Return to sign in page
-              </Button>
-            </Field>
-          </>
-        )}
-      </Form>
+          </Field>
+          <Field>
+            <Button onClick={() => handleResetPassword(newPassword)}>
+              Save
+            </Button>
+          </Field>
+        </>
+      )}
+
+      {expired && (
+        <>
+          {errorMessage && (
+            <Panel
+              variant="errorWithHeader"
+              headerLabel="This page has an error"
+              paragraphLabel={errorMessage}
+            />
+          )}
+          <PageTitle>Link expired or invalid</PageTitle>
+          <Description>
+            {`You will need to complete the "reset password" process again.`}
+          </Description>
+          <Field>
+            <Button onClick={(e) => handleReturnToSignInPage(e)}>
+              Return to sign in page
+            </Button>
+          </Field>
+        </>
+      )}
     </>
   );
 };

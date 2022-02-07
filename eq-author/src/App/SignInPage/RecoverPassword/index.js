@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import auth from "components/Auth";
 
 import Input from "components-themed/Input";
-import { Form, Field } from "components/Forms";
+import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Label from "components-themed/Label";
 import Panel from "components-themed/panels";
@@ -30,6 +30,7 @@ const RecoverPassword = ({
   function handleReturnToSignInPage(e) {
     e.preventDefault();
     setForgotPassword(false);
+    setErrorMessage("");
   }
 
   const handleEmailRecoveryPassword = async (recoveryEmail) => {
@@ -54,45 +55,29 @@ const RecoverPassword = ({
 
   return (
     <>
-      <Form>
-        {recoverPassword && !recoveryEmailSent && (
-          <>
-            {errorMessage && (
-              <Panel
-                variant="errorWithHeader"
-                headerLabel="This page has an error"
-                paragraphLabel={errorMessage}
-              />
-            )}
-            <PageTitle>Recover Password</PageTitle>
-            <Description>
-              {`Enter the email address you used to create your Author Account.
+      {recoverPassword && !recoveryEmailSent && (
+        <>
+          {errorMessage && (
+            <Panel
+              variant="errorWithHeader"
+              headerLabel="This page has an error"
+              paragraphLabel={errorMessage}
+            />
+          )}
+          <PageTitle>Recover Password</PageTitle>
+          <Description>
+            {`Enter the email address you used to create your Author Account.
         We'll email you a link so you can reset your password.`}
-            </Description>
-            <Field>
-              {errorMessage?.toLowerCase().includes("email") ||
-              errorMessage?.toLowerCase().includes("user") ? (
-                <>
-                  <Panel
-                    variant="errorNoHeader"
-                    paragraphLabel={errorMessage}
-                    withLeftBorder
-                  >
-                    <Label htmlFor="recoveryEmail">
-                      Enter your email address
-                    </Label>
-                    <Input
-                      type="text"
-                      id="recoveryEmail"
-                      value={recoveryEmail}
-                      onChange={({ value }) => setRecoveryEmail(value)}
-                      data-test="txt-recovery-email"
-                      autocomplete="username"
-                    />
-                  </Panel>
-                </>
-              ) : (
-                <>
+          </Description>
+          <Field>
+            {errorMessage?.toLowerCase().includes("email") ||
+            errorMessage?.toLowerCase().includes("user") ? (
+              <>
+                <Panel
+                  variant="errorNoHeader"
+                  paragraphLabel={errorMessage}
+                  withLeftBorder
+                >
                   <Label htmlFor="recoveryEmail">
                     Enter your email address
                   </Label>
@@ -104,46 +89,56 @@ const RecoverPassword = ({
                     data-test="txt-recovery-email"
                     autocomplete="username"
                   />
-                </>
-              )}
-            </Field>
+                </Panel>
+              </>
+            ) : (
+              <>
+                <Label htmlFor="recoveryEmail">Enter your email address</Label>
+                <Input
+                  type="text"
+                  id="recoveryEmail"
+                  value={recoveryEmail}
+                  onChange={({ value }) => setRecoveryEmail(value)}
+                  data-test="txt-recovery-email"
+                  autocomplete="username"
+                />
+              </>
+            )}
+          </Field>
 
-            <Field>
-              <Button
-                onClick={() => handleEmailRecoveryPassword(recoveryEmail)}
-              >
-                Send
-              </Button>
-            </Field>
-            <ButtonLink onClick={handleReturnToSignInPage}>
-              Return to the sign in page
-            </ButtonLink>
-          </>
-        )}
+          <Field>
+            <Button onClick={() => handleEmailRecoveryPassword(recoveryEmail)}>
+              Send
+            </Button>
+          </Field>
+          <ButtonLink onClick={handleReturnToSignInPage}>
+            Return to the sign in page
+          </ButtonLink>
+        </>
+      )}
 
-        {recoveryEmailSent && (
-          <>
-            <Panel variant="success" headerLabel="boom" withLeftBorder>
-              {"Password reset sent."}
-            </Panel>
-            <PageTitle>Recover Password - check your email</PageTitle>
-            <InlineDescription>
-              {"We've sent a link for resetting your password to:"}
-            </InlineDescription>
-            <InlineDescriptionBold>{recoveryEmail}</InlineDescriptionBold>
-            <InlineDescription>
-              {"The link will expire in 2 hours."}
-            </InlineDescription>
+      {recoveryEmailSent && (
+        <>
+          <Panel variant="success" headerLabel="boom" withLeftBorder>
+            {"Password reset sent."}
+          </Panel>
+          <PageTitle>Recover Password - check your email</PageTitle>
+          <InlineDescription>
+            {"We've sent a link for resetting your password to:"}
+          </InlineDescription>
+          <InlineDescriptionBold>{recoveryEmail}</InlineDescriptionBold>
+          <InlineDescription>
+            {"The link will expire in 2 hours."}
+          </InlineDescription>
 
-            <PageSubTitle>If you did not get the email</PageSubTitle>
-            <InlineDescription>We can</InlineDescription>
-            <ButtonLink onClick={handleReturnToRecoverPassword}>
-              send the password reset email again
-            </ButtonLink>
-            <InlineDescription>if you did not get it.</InlineDescription>
-          </>
-        )}
-      </Form>
+          <PageSubTitle>If you did not get the email</PageSubTitle>
+          <InlineDescription>We can</InlineDescription>
+          <ButtonLink onClick={handleReturnToRecoverPassword}>
+            send the password reset email again
+          </ButtonLink>
+          <InlineDescription>if you did not get it.</InlineDescription>
+        </>
+      )}
     </>
   );
 };

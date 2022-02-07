@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import { Form, Field } from "components/Forms";
+import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import {
   PageTitle,
@@ -32,38 +32,32 @@ const EmailVerification = ({
     <>
       {emailNowVerified ? (
         <>
-          <Form>
-            <PageTitle>Email verification</PageTitle>
-            <InlineDescription>
-              {
-                "Your email has been successfully verified. You can now sign in."
-              }
-            </InlineDescription>
-            <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
-            <InlineDescription>{""}</InlineDescription>
-            <Field>
-              <Button onClick={(e) => handleReturnToSignInPage(e)}>
-                Return to sign in page
-              </Button>
-            </Field>
-          </Form>
+          <PageTitle>Email verification</PageTitle>
+          <InlineDescription>
+            {"Your email has been successfully verified. You can now sign in."}
+          </InlineDescription>
+          <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
+          <InlineDescription>{""}</InlineDescription>
+          <Field>
+            <Button onClick={(e) => handleReturnToSignInPage(e)}>
+              Return to sign in page
+            </Button>
+          </Field>
         </>
       ) : (
         <>
-          <Form>
-            <PageTitle>Email verification</PageTitle>
-            <InlineDescription>
-              {
-                "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to:"
-              }
-            </InlineDescription>
-            <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
-            <Field>
-              <Button onClick={(e) => handleReturnToSignInPage(e)}>
-                Return to sign in page
-              </Button>
-            </Field>
-          </Form>
+          <PageTitle>Email verification</PageTitle>
+          <InlineDescription>
+            {
+              "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to:"
+            }
+          </InlineDescription>
+          <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
+          <Field>
+            <Button onClick={(e) => handleReturnToSignInPage(e)}>
+              Return to sign in page
+            </Button>
+          </Field>
         </>
       )}
     </>

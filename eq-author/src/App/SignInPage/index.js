@@ -123,6 +123,8 @@ const SignInPage = ({
                     setErrorMessage={setErrorMessage}
                     passwordResetSuccess={passwordResetSuccess}
                     setPasswordResetSuccess={setPasswordResetSuccess}
+                    emailNowVerified={emailNowVerified}
+                    setEmailNowVerified={setEmailNowVerified}
                   />
                 )}
               {recoverPassword && (

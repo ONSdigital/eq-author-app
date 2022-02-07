@@ -12,7 +12,7 @@ import {
   InlineDescription,
   ButtonLink,
 } from "components-themed/Toolkit";
-import AccountCreation from "../../../components/AccountCreation";
+import InputWithConditionalError from "../../../components/InputWithConditionalError";
 
 const CreateAccount = ({
   setCreateAccountFunction,
@@ -29,6 +29,7 @@ const CreateAccount = ({
     e.preventDefault();
     setCreateAccountFunction(false);
     setForgotPassword(false);
+    setErrorMessage("");
   }
 
   const handleCreateAccount = async (createEmail, fullName, password) => {
@@ -67,61 +68,63 @@ const CreateAccount = ({
 
   return (
     <>
-      <Form>
-        <>
-          {errorMessage && (
-            <Panel
-              variant="errorWithHeader"
-              headerLabel="This page has an error"
-              paragraphLabel={errorMessage}
-            />
-          )}
-          <PageTitle>Create an account</PageTitle>
-          <Description>{`You must have an account to access Author`}</Description>
-
-          <AccountCreation
-            id="create-email"
-            title="Email address"
-            handleChange={({ value }) => setCreateEmail(value)}
-            value={createEmail}
-            condition={errorMessage?.toLowerCase().includes("email")}
-            dataTest="txt-create-email"
+      <>
+        {errorMessage && (
+          <Panel
+            variant="errorWithHeader"
+            headerLabel="This page has an error"
+            paragraphLabel={errorMessage}
           />
+        )}
+        <PageTitle>Create an account</PageTitle>
+        <Description>{`You must have an account to access Author`}</Description>
 
-          <AccountCreation
-            id="create-fullName"
-            title="First and last name"
-            handleChange={({ value }) => setFullName(value)}
-            value={fullName}
-            condition={errorMessage?.toLowerCase().includes("name")}
-            dataTest="txt-create-fullName"
-          />
+        <InputWithConditionalError
+          type="text"
+          id="create-email"
+          title="Email address"
+          handleChange={({ value }) => setCreateEmail(value)}
+          value={createEmail}
+          condition={errorMessage?.toLowerCase().includes("email")}
+          dataTest="txt-create-email"
+          // autocomplete="off"
+        />
 
-          <AccountCreation
-            id="create-password"
-            name="password"
-            title="Password"
-            handleChange={({ value }) => setPassword(value)}
-            value={password}
-            condition={errorMessage?.toLowerCase().includes("password")}
-            dataTest="txt-create-password"
-          />
+        <InputWithConditionalError
+          type="text"
+          id="create-fullName"
+          title="First and last name"
+          handleChange={({ value }) => setFullName(value)}
+          value={fullName}
+          condition={errorMessage?.toLowerCase().includes("name")}
+          dataTest="txt-create-fullName"
+          // autocomplete="off"
+        />
 
-          <Field>
-            <Button
-              onClick={() =>
-                handleCreateAccount(createEmail, fullName, password)
-              }
-            >
-              Create account
-            </Button>
-          </Field>
-          <InlineDescription>
-            If you already have an account, you can
-          </InlineDescription>
-          <ButtonLink onClick={handleReturnToSignInPage}>sign in</ButtonLink>
-        </>
-      </Form>
+        <InputWithConditionalError
+          type="password"
+          id="create-password"
+          name="password"
+          title="Password"
+          handleChange={({ value }) => setPassword(value)}
+          value={password}
+          condition={errorMessage?.toLowerCase().includes("password")}
+          dataTest="txt-create-password"
+          // autocomplete="new-password"
+        />
+
+        <Field>
+          <Button
+            onClick={() => handleCreateAccount(createEmail, fullName, password)}
+          >
+            Create account
+          </Button>
+        </Field>
+        <InlineDescription>
+          If you already have an account, you can
+        </InlineDescription>
+        <ButtonLink onClick={handleReturnToSignInPage}>sign in</ButtonLink>
+      </>
     </>
   );
 };
