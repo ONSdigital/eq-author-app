@@ -15,7 +15,7 @@ import Button from "components-themed/buttons";
 import Label, { OptionLabel } from "components-themed/Label";
 import Panel from "components-themed/panels";
 
-import { Form, Field } from "components/Forms";
+import { Field } from "components/Forms";
 
 const SignInForm = ({
   setForgotPassword,
