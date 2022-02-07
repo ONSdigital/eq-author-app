@@ -163,14 +163,15 @@ const CollectionListsPage = ({ myval }) => {
                 id={id}
                 displayName={displayName}
                 answers={answers}
-                handleDeleteList={() =>
+                handleDeleteList={(e) =>
+                  {e.stopPropagation();
                   deleteList({
                     variables: {
                       input: {
                         id: id,
                       },
                     },
-                  })
+                  })}
                 }
                 handleUpdateList={(id, listName) =>
                   updateList({

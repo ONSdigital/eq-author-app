@@ -240,7 +240,6 @@ const Collapsible = ({
   children,
   variant = "default",
   errorCount,
-  id,
   handleDeleteList,
   displayName,
 }) => {
@@ -343,7 +342,7 @@ const Collapsible = ({
               <DeleteButton
                 color="white"
                 size="medium"
-                onClick={() => handleDeleteList(id)}
+                onClick={handleDeleteList}
                 aria-label="Delete list"
                 data-test="btn-delete-list"
               />
@@ -406,11 +405,10 @@ Collapsible.propTypes = {
   /**
    * Value controlling the styling applied to the collapsible.
    */
-  variant: PropTypes.oneOf(["default", "content"]),
+  variant: PropTypes.oneOf(["default", "content", "properties", "list"]),
   errorCount: PropTypes.number,
-  handleDeleteList: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
+  handleDeleteList: PropTypes.func,
+  displayName: PropTypes.string,
 };
 
 export default Collapsible;

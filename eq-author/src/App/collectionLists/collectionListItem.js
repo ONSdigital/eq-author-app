@@ -244,6 +244,7 @@ const CollectionListItem = ({
           withoutHideThis
           variant="list"
           displayName={displayName}
+          handleDeleteList={handleDeleteList}
         >
 
 
