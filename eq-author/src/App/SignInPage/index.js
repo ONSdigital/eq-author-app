@@ -54,9 +54,6 @@ const SignInPage = ({
   const resetThePassword = (boolVal) => {
     setResetPassword(boolVal);
   };
-  console.log("isSigningIn :>> ", isSigningIn);
-  console.log("sentEmailVerification :>> ", sentEmailVerification);
-  console.log("location :>> ", location);
 
   useEffect(() => {
     if (location?.search) {

@@ -13,7 +13,7 @@ const DefaultFooter = styled.div`
 
 const Footer = ({ centerCols }) => {
   return (
-    <DefaultFooter>
+    <DefaultFooter data-test="footer">
       <Grid horizontalAlign="center">
         <Column cols={centerCols}>
           <img src={logo} alt="Office for National Statistics logo" />
