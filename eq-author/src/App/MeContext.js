@@ -13,8 +13,8 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
-const locationOrigin = window.location.origin;
-const verifyRedirectUrl = locationOrigin + "/#/sign-in";
+// const locationOrigin = window.location.origin;
+// const verifyRedirectUrl = locationOrigin + "/#/sign-in";
 
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
@@ -96,13 +96,12 @@ const ContextProvider = ({ history, client, children }) => {
   }, []);
 
   useEffect(() => {
-    const actionCodeSettings = {
-      //This is the redirect URL for AFTER you have clicked the email link and verified the email address
-      url: verifyRedirectUrl,
-      // url: "http://localhost:3000/#/sign-in",
-      // This must be true.
-      handleCodeInApp: true,
-    };
+    // const actionCodeSettings = {
+    //   //This is the redirect URL for AFTER you have clicked the email link and verified the email address
+    //   url: verifyRedirectUrl,
+    //   // This must be true.
+    //   handleCodeInApp: true,
+    // };
     if (awaitingFirebase) {
       return;
     }

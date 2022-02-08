@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { Route, Redirect } from "react-router-dom";
@@ -20,7 +20,16 @@ const PrivateRoute = React.memo(
   ({ component: Component, isSigningIn, me, ...rest }) => {
     let render;
 
-    if (isSigningIn) {
+    // timeout for loading issue
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }, []);
+
+    if (isSigningIn && loading) {
       render = () => (
         <Layout title="Logging in...">
           <Loading height="38rem">Logging you in...</Loading>
