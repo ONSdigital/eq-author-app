@@ -103,7 +103,6 @@ const SignInForm = ({
                 value={email}
                 onChange={({ value }) => setEmail(value)}
                 data-test="txt-email"
-                autocomplete="username"
               />
             </Panel>
           </>
@@ -116,7 +115,6 @@ const SignInForm = ({
               value={email}
               onChange={({ value }) => setEmail(value)}
               data-test="txt-email"
-              autocomplete="username"
             />
           </>
         )}
@@ -137,7 +135,6 @@ const SignInForm = ({
                 value={password}
                 onChange={({ value }) => setPassword(value)}
                 data-test="txt-password"
-                autocomplete="current-password"
               />
             </Panel>
           </>
@@ -151,7 +148,6 @@ const SignInForm = ({
               value={password}
               onChange={({ value }) => setPassword(value)}
               data-test="txt-password"
-              autocomplete="current-password"
             />
           </>
         )}
