@@ -36,7 +36,7 @@ Grid.propTypes = {
 Grid.defaultProps = {
   align: "top",
   fillHeight: true,
-  horizontalAlign: "flex-start",
+  horizontalAlign: "start",
 };
 
 export default Grid;

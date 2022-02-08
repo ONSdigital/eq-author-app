@@ -1,42 +1,53 @@
 import React from "react";
-import SignInPage from "App/SignInPage";
 import { MeContext } from "App/MeContext";
-import { shallow } from "enzyme";
-import { render } from "tests/utils/rtl";
+import SignInPage from "App/SignInPage";
+import { render, fireEvent, screen } from "tests/utils/rtl";
 
 describe("SignInPage", () => {
-  let signIn, signOut, isSigningIn;
+  let props, signIn, signOut, isSigningIn, sentEmailVerification, location;
 
   beforeEach(() => {
-    signIn = jest.fn();
-    signOut = jest.fn();
-    isSigningIn = false;
+    // signIn = jest.fn();
+    // signOut = jest.fn();
+    // isSigningIn = false;
+    // sentEmailVerification = false;
+    // location = { pathname: "/sign-in", search: "", hash: "" };
+
+    props = {
+      me: undefined,
+      signIn: jest.fn(),
+      signOut: jest.fn(),
+      isSigningIn: false,
+      sentEmailVerification: false,
+      location: { pathname: "/sign-in", search: "", hash: "" },
+    };
   });
+
+  const renderSignIn = (props) =>
+    render(
+      <MeContext.Provider value={{ ...props }}>
+        <SignInPage />
+      </MeContext.Provider>,
+      { route: "/sign-in" }
+    );
 
   describe("signInPage", () => {
     it("should render", () => {
-      const wrapper = shallow(
-        <MeContext.Provider value={{ signOut, signIn, isSigningIn }}>
-          <SignInPage />
-        </MeContext.Provider>
-      );
-      expect(
-        wrapper
-          .dive()
-          .dive()
-          .dive()
-          .contains("You must be signed in to access this service.")
-      ).toBeTruthy();
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(getByText("You must be signed in to access Author")).toBeTruthy();
     });
 
-    it("should load a loding page if currently signing in", () => {
-      const { getByText } = render(
-        <MeContext.Provider value={{ signOut, signIn, isSigningIn: true }}>
-          <SignInPage />
-        </MeContext.Provider>,
-        { route: "/sign-in" }
-      );
-      expect(getByText("Logging in...")).toBeTruthy();
+    it("should load a loading page if currently signing in", () => {
+      props = {
+        ...props,
+        isSigningIn: true,
+      };
+
+      const { getByTestId } = renderSignIn({ ...props });
+
+      expect(getByTestId("loading")).toBeVisible();
+      // expect(getByText("Logging you in...")).toBeTruthy();
     });
 
     it("should redirect to frontpage if user is already signed in", () => {
@@ -45,12 +56,12 @@ describe("SignInPage", () => {
         email: "squanchy@mail.com",
       };
 
-      const { history } = render(
-        <MeContext.Provider value={{ signOut, signIn, me, isSigningIn }}>
-          <SignInPage />
-        </MeContext.Provider>,
-        { route: "/sign-in" }
-      );
+      props = {
+        ...props,
+        me: me,
+      };
+
+      const { history } = renderSignIn({ ...props });
       expect(history.location.pathname).toBe("/");
     });
   });
