@@ -113,7 +113,6 @@ const ResetPassword = ({
                     value={newPassword}
                     onChange={({ value }) => setNewPassword(value)}
                     data-test="txt-new-password"
-                    autocomplete="new-password"
                   />
                 </Panel>
               </>
@@ -126,7 +125,6 @@ const ResetPassword = ({
                   value={newPassword}
                   onChange={({ value }) => setNewPassword(value)}
                   data-test="txt-new-password"
-                  autocomplete="new-password"
                 />
               </>
             )}

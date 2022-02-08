@@ -87,7 +87,6 @@ const RecoverPassword = ({
                     value={recoveryEmail}
                     onChange={({ value }) => setRecoveryEmail(value)}
                     data-test="txt-recovery-email"
-                    autocomplete="username"
                   />
                 </Panel>
               </>
@@ -100,7 +99,6 @@ const RecoverPassword = ({
                   value={recoveryEmail}
                   onChange={({ value }) => setRecoveryEmail(value)}
                   data-test="txt-recovery-email"
-                  autocomplete="username"
                 />
               </>
             )}

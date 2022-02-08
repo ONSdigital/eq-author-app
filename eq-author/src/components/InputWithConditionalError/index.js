@@ -17,7 +17,6 @@ const InputWithConditionalError = ({
   errorMessage,
   htmlFor,
   dataTest,
-  autocomplete,
 }) => {
   return condition ? (
     <Panel variant="errorNoHeader" paragraphLabel={errorMessage} withLeftBorder>
@@ -30,7 +29,6 @@ const InputWithConditionalError = ({
           value={value}
           onChange={handleChange}
           data-test={dataTest}
-          autocomplete={autocomplete}
         />
       </Field>
     </Panel>
@@ -43,7 +41,6 @@ const InputWithConditionalError = ({
         value={value}
         onChange={handleChange}
         data-test={dataTest}
-        autocomplete={autocomplete}
       />
     </Field>
   );
@@ -60,7 +57,6 @@ InputWithConditionalError.propTypes = {
   errorMessage: PropTypes.string,
   htmlFor: PropTypes.string,
   dataTest: PropTypes.string,
-  autocomplete: PropTypes.string,
 };
 
 export default InputWithConditionalError;

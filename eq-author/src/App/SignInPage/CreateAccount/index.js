@@ -87,7 +87,6 @@ const CreateAccount = ({
           value={createEmail}
           condition={errorMessage?.toLowerCase().includes("email")}
           dataTest="txt-create-email"
-          // autocomplete="off"
         />
 
         <InputWithConditionalError
@@ -98,7 +97,6 @@ const CreateAccount = ({
           value={fullName}
           condition={errorMessage?.toLowerCase().includes("name")}
           dataTest="txt-create-fullName"
-          // autocomplete="off"
         />
 
         <InputWithConditionalError
@@ -110,7 +108,6 @@ const CreateAccount = ({
           value={password}
           condition={errorMessage?.toLowerCase().includes("password")}
           dataTest="txt-create-password"
-          // autocomplete="new-password"
         />
 
         <Field>
