@@ -51,6 +51,7 @@ const RecoverPassword = ({
     e.preventDefault();
     setForgotPassword(true);
     setRecoveryEmailSent(false);
+    setErrorMessage("");
   }
 
   return (

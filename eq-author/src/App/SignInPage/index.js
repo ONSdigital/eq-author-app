@@ -54,6 +54,9 @@ const SignInPage = ({
   const resetThePassword = (boolVal) => {
     setResetPassword(boolVal);
   };
+  console.log("isSigningIn :>> ", isSigningIn);
+  console.log("sentEmailVerification :>> ", sentEmailVerification);
+  console.log("location :>> ", location);
 
   useEffect(() => {
     if (location?.search) {
@@ -80,9 +83,6 @@ const SignInPage = ({
               // Email address has been verified.
               setErrorMessage("");
               setEmailNowVerified(true);
-              // TODO: If a continue URL is available, display a button which on
-              // click redirects the user back to the app via continueUrl with
-              // additional state determined from that URL's parameters.
             })
             .catch((error) => {
               // Code is invalid or expired. Ask the user to verify their email again.

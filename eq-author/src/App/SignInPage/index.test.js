@@ -4,15 +4,9 @@ import SignInPage from "App/SignInPage";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 
 describe("SignInPage", () => {
-  let props, signIn, signOut, isSigningIn, sentEmailVerification, location;
+  let props;
 
   beforeEach(() => {
-    // signIn = jest.fn();
-    // signOut = jest.fn();
-    // isSigningIn = false;
-    // sentEmailVerification = false;
-    // location = { pathname: "/sign-in", search: "", hash: "" };
-
     props = {
       me: undefined,
       signIn: jest.fn(),
