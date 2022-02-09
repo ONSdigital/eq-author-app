@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import { Form, Field } from "components/Forms";
+import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 
@@ -34,25 +34,23 @@ const ApiError = ({
 
   return (
     <>
-      <Form>
-        {errorMessage && (
-          <Panel
-            variant="errorWithHeader"
-            headerLabel="This page has an error"
-            paragraphLabel={errorMessage}
-          />
-        )}
-        <PageTitle>Expired link</PageTitle>
-        <InlineDescription>
-          {"Your link has expired!!! please try again..."}
-        </InlineDescription>
-        <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
-        <Field>
-          <Button onClick={(e) => handleReturnToSignInPage(e)}>
-            Return to sign in page
-          </Button>
-        </Field>
-      </Form>
+      {errorMessage && (
+        <Panel
+          variant="errorWithHeader"
+          headerLabel="This page has an error"
+          paragraphLabel={errorMessage}
+        />
+      )}
+      <PageTitle>Expired link</PageTitle>
+      <InlineDescription>
+        {"Your link has expired!!! please try again..."}
+      </InlineDescription>
+      <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
+      <Field>
+        <Button onClick={(e) => handleReturnToSignInPage(e)}>
+          Return to sign in page
+        </Button>
+      </Field>
     </>
   );
 };
