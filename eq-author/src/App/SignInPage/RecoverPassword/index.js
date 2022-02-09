@@ -34,15 +34,19 @@ const RecoverPassword = ({
   }
 
   const handleEmailRecoveryPassword = async (recoveryEmail) => {
+    console.log("object here 1!!!:>> ", recoveryEmail);
     if (recoveryEmail === "" || recoveryEmail === null) {
-      setErrorMessage("Enter email");
+      setErrorMessage("Email should not be empty");
     } else {
       try {
         await auth.sendPasswordResetEmail(recoveryEmail).then(function () {
+          console.log("object here 2!!!:>> ");
+
           setRecoveryEmailSent(true);
         });
-      } catch (err) {
-        setErrorMessage(err.message);
+      } catch (error) {
+        console.log("err :>> ", error);
+        setErrorMessage(error.message);
       }
     }
   };

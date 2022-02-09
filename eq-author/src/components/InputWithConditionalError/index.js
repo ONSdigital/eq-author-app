@@ -15,13 +15,12 @@ const InputWithConditionalError = ({
   condition,
   handleChange,
   errorMessage,
-  htmlFor,
   dataTest,
 }) => {
   return condition ? (
     <Panel variant="errorNoHeader" paragraphLabel={errorMessage} withLeftBorder>
       <Field>
-        <Label htmlFor={htmlFor}>{title}</Label>
+        <Label htmlFor={id}>{title}</Label>
         <Input
           type={type}
           name={name}
@@ -34,7 +33,7 @@ const InputWithConditionalError = ({
     </Panel>
   ) : (
     <Field>
-      <Label htmlFor={htmlFor}>{title}</Label>
+      <Label htmlFor={id}>{title}</Label>
       <Input
         type={type}
         id={id}
@@ -55,7 +54,6 @@ InputWithConditionalError.propTypes = {
   condition: PropTypes.bool.isRequired,
   handleChange: PropTypes.func,
   errorMessage: PropTypes.string,
-  htmlFor: PropTypes.string,
   dataTest: PropTypes.string,
 };
 

@@ -153,7 +153,10 @@ const SignInForm = ({
         )}
       </Field>
       <Field>
-        <ButtonLink onClick={handleRecoverPassword}>
+        <ButtonLink
+          onClick={handleRecoverPassword}
+          name="recover-password-button"
+        >
           Forgot your password?
         </ButtonLink>
       </Field>
