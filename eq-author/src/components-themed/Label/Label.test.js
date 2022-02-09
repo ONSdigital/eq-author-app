@@ -5,7 +5,7 @@ import { RadioLabel } from "components/Radio";
 
 let wrapper;
 
-describe("components/Forms/Label", () => {
+describe("components-themed/Label", () => {
   beforeEach(() => {
     wrapper = shallow(<Label>Name</Label>);
   });
@@ -25,7 +25,7 @@ describe("components/Forms/Label", () => {
   });
 });
 
-describe("components/Forms/Input", () => {
+describe("components-themed/radio Input", () => {
   let labelElement;
 
   beforeEach(() => {
