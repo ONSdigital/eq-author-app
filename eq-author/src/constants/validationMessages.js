@@ -46,6 +46,11 @@ export const richTextEditorErrors = {
   },
 };
 
+export const contactDetailsErrors = {
+  PHONE_NOT_ENTERED: "Enter a phone number",
+  EMAIL_NOT_ENTERED: "Enter an email address",
+};
+
 export const questionDefinitionErrors = {
   DEFINITION_LABEL_NOT_ENTERED: {
     field: "definitionLabel",
@@ -61,6 +66,7 @@ export const questionDefinitionErrors = {
 
 export const sectionErrors = {
   SECTION_TITLE_NOT_ENTERED: "Enter a section title",
+  SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
   SECTION_INTRO_TITLE_NOT_ENTERED: "Enter a section introduction title",
   SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
 };
@@ -125,6 +131,9 @@ export const OPERATOR_REQUIRED = "Choose an operator";
 
 export const METADATA_REQUIRED = "Metadata is required";
 export const DATE_REQUIRED = "Date is required";
+
+export const ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS =
+  "Count is greater than the number of checkboxes in the answer";
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",

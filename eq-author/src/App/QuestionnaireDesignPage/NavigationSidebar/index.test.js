@@ -37,6 +37,10 @@ const introductionSetup = () => {
   const id = "introduction";
   const introduction = {
     id,
+    validationErrorInfo: {
+      errors: [],
+      totalCount: 0,
+    },
   };
   useParams.mockImplementationOnce(() => ({ entityId: id }));
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
@@ -110,7 +114,7 @@ describe("Navigation sidebar", () => {
     expect(getByText(sectionOneID)).toBeVisible();
     expect(getByText(folderTwoID)).toBeVisible();
     expect(getByText(pageOneID)).toBeVisible();
-    expect(queryByText(folderOneID)).toBeNull();
+    expect(queryByText(folderOneID)).toBeVisible();
   });
 
   it("should default to Close all sections", () => {

@@ -4,6 +4,9 @@ query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     introduction {
       id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
     publishStatus
     locked
@@ -106,7 +109,6 @@ fragment PageNav on Section {
   id
   folders {
     id
-    enabled
     alias
     displayName
     position
@@ -205,5 +207,9 @@ fragment Introduction on Questionnaire {
   id
   introduction {
     id
+    validationErrorInfo {
+      id
+      totalCount
+    }
   }
 }

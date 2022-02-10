@@ -5,6 +5,7 @@ const {
   NUMBER,
   PERCENTAGE,
   UNIT,
+  CHECKBOX,
 } = require("../../../constants/answerTypes");
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
@@ -37,11 +38,11 @@ module.exports = (ajv) => {
           return addError(answerId);
         }
 
-        // Bail out if answer isn't numerical - remaining code validates number-type answers
+        // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         const answer = getAnswerById({ questionnaire }, answerId);
         if (
           !answer ||
-          ![CURRENCY, NUMBER, UNIT, PERCENTAGE].includes(answer.type)
+          ![CURRENCY, NUMBER, UNIT, PERCENTAGE, CHECKBOX].includes(answer.type)
         ) {
           return;
         }
@@ -68,25 +69,48 @@ module.exports = (ajv) => {
             continue;
           }
 
-          switch (expression.condition) {
-            case "Equal":
-              equalitySet.add(rightHandSide);
-              break;
-            case "NotEqual":
-              nonequalitySet.add(rightHandSide);
-              break;
-            case "LessOrEqual":
-              rightHandSide += precision;
-            // Fall through - less than or equal to n equiv. to less than n + precision
-            case "LessThan":
-              upperLimit = Math.min(upperLimit, rightHandSide);
-              break;
-            case "GreaterOrEqual":
-              rightHandSide -= precision;
-            // Fall through - greater than or equal to n equiv. to greater than n - precision
-            case "GreaterThan":
-              lowerLimit = Math.max(lowerLimit, rightHandSide);
-              break;
+          if (answer.type === CHECKBOX) {
+            switch (expression.secondaryCondition) {
+              case "Equal":
+                equalitySet.add(rightHandSide);
+                break;
+              case "NotEqual":
+                nonequalitySet.add(rightHandSide);
+                break;
+              case "LessOrEqual":
+                rightHandSide += precision;
+              // Fall through - less than or equal to n equiv. to less than n + precision
+              case "LessThan":
+                upperLimit = Math.min(upperLimit, rightHandSide);
+                break;
+              case "GreaterOrEqual":
+                rightHandSide -= precision;
+              // Fall through - greater than or equal to n equiv. to greater than n - precision
+              case "GreaterThan":
+                lowerLimit = Math.max(lowerLimit, rightHandSide);
+                break;
+            }
+          } else {
+            switch (expression.condition) {
+              case "Equal":
+                equalitySet.add(rightHandSide);
+                break;
+              case "NotEqual":
+                nonequalitySet.add(rightHandSide);
+                break;
+              case "LessOrEqual":
+                rightHandSide += precision;
+              // Fall through - less than or equal to n equiv. to less than n + precision
+              case "LessThan":
+                upperLimit = Math.min(upperLimit, rightHandSide);
+                break;
+              case "GreaterOrEqual":
+                rightHandSide -= precision;
+              // Fall through - greater than or equal to n equiv. to greater than n - precision
+              case "GreaterThan":
+                lowerLimit = Math.max(lowerLimit, rightHandSide);
+                break;
+            }
           }
         }
 

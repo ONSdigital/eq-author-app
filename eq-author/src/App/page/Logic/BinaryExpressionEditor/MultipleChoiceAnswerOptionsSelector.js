@@ -13,6 +13,7 @@ import ValidationError from "components/ValidationError";
 import {
   rightSideErrors,
   OPERATOR_REQUIRED,
+  ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
 } from "constants/validationMessages";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
@@ -174,7 +175,8 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         error.errorCode.includes("ERR_RIGHTSIDE") ||
         error.errorCode.includes(
           "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
-        )
+        ) ||
+        error.errorCode.includes("ERR_LOGICAL_AND")
     );
 
     if (
@@ -183,6 +185,14 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       )
     ) {
       message = OPERATOR_REQUIRED;
+    }
+    if (
+      expression.validationErrorInfo.errors.some(
+        ({ errorCode }) =>
+          errorCode === "ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS"
+      )
+    ) {
+      message = ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS;
     } else if (error) {
       if (expression.condition === "CountOf") {
         message = rightSideErrors[error.errorCode].message;

@@ -70,7 +70,10 @@ describe("QuestionnaireDesignPage", () => {
     const questionnaire = {
       ...buildQuestionnaire(),
       totalErrorCount: 0,
-      introduction: { id: "1" },
+      introduction: {
+        id: "1",
+        validationErrorInfo: { errors: [], totalCount: 0 },
+      },
       ...questionnaireChanges,
     };
 

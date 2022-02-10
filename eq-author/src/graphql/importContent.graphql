@@ -23,7 +23,6 @@ fragment PageNav on Section {
   id
   folders {
     id
-    enabled
     alias
     displayName
     position

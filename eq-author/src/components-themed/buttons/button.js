@@ -199,6 +199,48 @@ const ghostButtonWhite = css`
   }
 `;
 
+const confirmButton = css`
+  color: ${({ theme }) => theme.colors.textInverse};
+  background-color: ${({ theme }) => theme.colors.positive};
+  box-shadow: 0 3px ${({ theme }) => darken(0.15, theme.colors.positive)};
+  pointer-events: ${(props) => props.preview && `none`};
+
+  svg {
+    fill: ${({ theme }) => theme.colors.textInverse};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.textInverse};
+    background-color: ${({ theme }) => darken(0.1, theme.colors.positive)};
+  }
+
+  &:focus {
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.focus};
+    svg {
+      fill: ${({ theme }) => theme.colors.text};
+    }
+  }
+
+  &:active:focus {
+    color: ${({ theme }) => theme.colors.textInverse};
+    background-color: ${({ theme }) => darken(0.1, theme.colors.positive)};
+    box-shadow: 0 0 transparent;
+    top: 3px;
+    svg {
+      fill: ${({ theme }) => theme.colors.textInverse};
+    }
+  }
+
+  &:focus:hover:not(:active) {
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => darken(0.05, theme.colors.focus)};
+    svg {
+      fill: ${({ theme }) => theme.colors.text};
+    }
+  }
+`;
+
 const BaseButton = styled.button`
   display: inline-flex;
   background-color: transparent;
@@ -242,6 +284,7 @@ const BaseButton = styled.button`
   ${(props) => props.variant === "ghost" && ghostButton};
   ${(props) => props.variant === "ghost-primary" && ghostButtonPrimary};
   ${(props) => props.variant === "ghost-white" && ghostButtonWhite};
+  ${(props) => props.variant === "confirm" && confirmButton};
   ${(props) => props.small && smallButton};
   ${(props) => props.narrow && narrowButton};
   ${(props) => props.iconLeft && iconLeft};
@@ -268,11 +311,13 @@ Button.propTypes = {
   iconRight: PropType.bool,
   iconLeft: PropType.bool,
   noBorders: PropType.bool,
+  preview: PropType.bool,
 };
 
 Button.defaultProps = {
   type: "button",
   variant: "primary",
+  preview: false,
 };
 
 export default Button;
