@@ -27,6 +27,7 @@ const CollapsibleToggled = ({
   title,
   isOpen = false,
   headerContent,
+  ariaLabel,
   children,
   onChange,
 }) => {
@@ -40,6 +41,7 @@ const CollapsibleToggled = ({
           hideLabels={false}
           onChange={onChange}
           checked={isOpen}
+          ariaLabel={ariaLabel}
         />
         {headerContent}
       </Header>
@@ -59,6 +61,10 @@ CollapsibleToggled.propTypes = {
    * If true, the collapsible will be open.
    */
   isOpen: PropTypes.bool,
+  /**
+   * Aria label to be read by a screen reader
+   */
+  ariaLabel: PropTypes.string,
   /**
    * Content to append to the end of the header, if necessary.
    */
