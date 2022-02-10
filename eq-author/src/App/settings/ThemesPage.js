@@ -176,6 +176,7 @@ const ThemesPage = ({ questionnaire }) => {
           isOpen={enabled}
           onChange={() => toggleTheme({ shortName, enabled })}
           data-test={`${shortName}-toggle`}
+          ariaLabel={THEME_TITLES[shortName]}
           headerContent={
             enabled && (
               <PreviewTheme
