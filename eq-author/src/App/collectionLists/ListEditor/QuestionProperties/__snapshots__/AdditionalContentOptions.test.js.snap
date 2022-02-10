@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdditionalInfo should be able to display both deleted metadata and deleted answer in piping errors in the description 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should display the correct error message when piping answer in title is moved after This question 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should display the correct error message when the additional info content is missing 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should display the correct error message when the additional info label is empty 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`AdditionalInfo should render 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;

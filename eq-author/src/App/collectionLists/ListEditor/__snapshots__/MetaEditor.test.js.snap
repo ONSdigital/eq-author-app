@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetaEditor should be able to display both deleted metadata and deleted answer in piping errors in the title 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={
+      Array [
+        "The answer being piped has been deleted",
+        "The metadata being piped has been deleted",
+      ]
+    }
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when piping answer in title is deleted 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={
+      Array [
+        "The answer being piped has been deleted",
+      ]
+    }
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when piping answer in title is moved after This question 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={
+      Array [
+        "The answer being piped is now later in the questionnaire",
+      ]
+    }
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the definition content is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the definition label is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the description is enabled and empty 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the includes/excludes content is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the title is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={
+      Array [
+        "Enter a question title",
+      ]
+    }
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;
+
+exports[`MetaEditor should render 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+</div>
+`;

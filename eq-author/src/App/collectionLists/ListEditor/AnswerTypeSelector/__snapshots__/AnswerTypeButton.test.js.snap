@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AnswerTypeButton should render 1`] = `
+<IconGridButton
+  data-test="btn-answer-type-textfield"
+  iconSrc="SvgrURL"
+  onClick={[Function]}
+  title="Text field"
+  titleAriaHidden={true}
+/>
+`;

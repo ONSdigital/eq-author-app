@@ -1,0 +1,28 @@
+mutation CreateListAnswer($input: CreateListAnswerInput!) {
+  createListAnswer(input: $input) {
+    id
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
+    answers {
+      id
+      type
+      label
+      displayName
+      advancedProperties
+      properties
+      secondaryLabel
+      secondaryLabelDefault
+      qCode
+      guidance
+      description
+    }
+  }
+}

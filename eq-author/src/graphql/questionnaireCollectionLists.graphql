@@ -1,0 +1,30 @@
+query Lists {
+  lists {
+    id
+    listName
+    displayName
+    answers {
+      id
+      type
+      label
+      displayName
+      advancedProperties
+      properties
+      secondaryLabel
+      secondaryLabelDefault
+      qCode
+      guidance
+      description
+    }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
+  }
+}

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpModal should render 1`] = `
+<HelpModal__StyledModal
+  isOpen={false}
+  onClose={[MockFunction]}
+>
+  <HelpModal__Content>
+    <HelpModal__Title>
+      The anatomy of a question
+    </HelpModal__Title>
+    <HelpModal__StyledAnatomy />
+  </HelpModal__Content>
+</HelpModal__StyledModal>
+`;
