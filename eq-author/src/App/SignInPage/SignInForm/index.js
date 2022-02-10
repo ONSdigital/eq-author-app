@@ -135,15 +135,21 @@ const SignInForm = ({
           </>
         ) : (
           <>
-            {/* <PasswordInput /> */}
-            <Label htmlFor="password">Password</Label>
+            <PasswordInput
+              id="password"
+              value={password}
+              onChange={({ value }) => setPassword(value)}
+              data-test="txt-password"
+            />
+
+            {/* <Label htmlFor="password">Password</Label>
             <Input
               type="password"
               id="password"
               value={password}
               onChange={({ value }) => setPassword(value)}
               data-test="txt-password"
-            />
+            /> */}
           </>
         )}
       </Field>
@@ -170,7 +176,6 @@ const SignInForm = ({
       </CheckBoxField>
       <Field>
         <Button
-          // disabled={loading}
           onClick={() => logInWithEmailAndPassword(email, password)}
           name="sign-in"
           type="button"
