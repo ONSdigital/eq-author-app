@@ -2,6 +2,7 @@ import React from "react";
 import { render, act, flushPromises, fireEvent } from "tests/utils/rtl";
 
 import ADD_REMOVE_EDITOR from "../graphql/AddRemoveEditor.graphql";
+import { READ } from "constants/questionnaire-permissions";
 
 import { EditorSearch } from "./EditorSearch";
 
@@ -37,6 +38,7 @@ describe("Editor search", () => {
             input: {
               id: props.questionnaireId,
               editors: ["4", "6"],
+              permission: READ,
             },
           },
         },
@@ -62,6 +64,7 @@ describe("Editor search", () => {
                     __typename: "User",
                   },
                 ],
+                permission: READ,
                 __typename: "Questionnaire",
               },
             },
@@ -152,12 +155,9 @@ describe("Editor search", () => {
 
     rerender(<EditorSearch {...props} />);
 
-    const [
-      userUpdated,
-      nameUpdated,
-      ownerUpdated,
-      emailUpdated,
-    ] = testIds.map((id) => queryAllByTestId(id));
+    const [userUpdated, nameUpdated, ownerUpdated, emailUpdated] = testIds.map(
+      (id) => queryAllByTestId(id)
+    );
 
     expect(userUpdated.length).toEqual(3);
     expect(nameUpdated.length).toEqual(3);
