@@ -3,14 +3,13 @@ import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
 import { render, screen, act } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
-import auth from "components/Auth";
 import waitForExpect from "wait-for-expect";
 
-const testUser = process.env.REACT_APP_TEST_ACCOUNT;
-const testPass = process.env.REACT_APP_TEST_PASSWORD;
+// const testUser = process.env.REACT_APP_TEST_ACCOUNT;
+// const testPass = process.env.REACT_APP_TEST_PASSWORD;
 
 describe("SignInPage", () => {
-  let props, mutationWasCalled;
+  let props;
 
   beforeEach(() => {
     props = {
@@ -21,8 +20,6 @@ describe("SignInPage", () => {
       sentEmailVerification: false,
       location: { pathname: "/sign-in", search: "", hash: "" },
     };
-
-    mutationWasCalled = false;
   });
 
   const renderSignIn = (props) =>
@@ -167,7 +164,7 @@ describe("SignInPage", () => {
   });
 
   describe("reset Password page", () => {
-    it.only("should render password reset component", async () => {
+    it("should render password reset component", async () => {
       props = {
         ...props,
         location: {
@@ -177,12 +174,12 @@ describe("SignInPage", () => {
           hash: "",
         },
       };
-      const { getByText } = renderSignIn({ ...props });
-      screen.debug();
+      act(() => {
+        renderSignIn({ ...props });
+      });
+
       await waitForExpect(() =>
-        act(() => {
-          expect(screen.getByText("This page has an error")).toBeTruthy();
-        })
+        expect(screen.getByText("This page has an error")).toBeTruthy()
       );
     });
   });
