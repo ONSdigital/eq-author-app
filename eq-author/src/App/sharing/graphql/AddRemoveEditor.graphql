@@ -7,5 +7,6 @@ mutation AddRemoveEditor($input: UpdateQuestionnaireInput!) {
       email
       picture
     }
+    permission
   }
 }
