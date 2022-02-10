@@ -70,6 +70,10 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
     const nextVal = dataPath[index + 1];
 
     switch (val) {
+      case "introduction":
+        validationErr.type = "introduction";
+        break;
+
       case "themeSettings":
         validationErr.type = "themeSettings";
         break;
