@@ -44,11 +44,6 @@ const SignInForm = ({
     }
   };
 
-  // const [loading, setLoading] = useState(false);
-  // const [user, loading, error] = useAuthState(auth);
-  // const [signInWithEmailAndPassword, user, loading, error] =
-  //   useSignInWithEmailAndPassword(auth);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
@@ -179,6 +174,7 @@ const SignInForm = ({
           onClick={() => logInWithEmailAndPassword(email, password)}
           name="sign-in"
           type="button"
+          data-test="signIn-button"
         >
           Sign in
         </Button>

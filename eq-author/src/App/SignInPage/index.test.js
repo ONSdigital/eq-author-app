@@ -1,7 +1,7 @@
 import React from "react";
 import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
-import { render, screen, fireEvent } from "tests/utils/rtl";
+import { render, screen, act } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import auth from "components/Auth";
 import waitForExpect from "wait-for-expect";
@@ -88,18 +88,31 @@ describe("SignInPage", () => {
       expect(getByText("Invalid mode code returned from link")).toBeTruthy();
     });
 
-    // it.only("should display error when email is empty", () => {
-    //   const { getByRole, getAllByText } = renderSignIn({
-    //     ...props,
-    //   });
-    //   const btn = getByRole("button", { name: /sign-in/i });
-    //   userEvent.click(btn);
-    //   expect(getAllByText("Enter email")).toBeTruthy();
-    // });
+    it("should display error when email is empty", () => {
+      const { getByTestId, getAllByText } = renderSignIn({
+        ...props,
+      });
+      const btn = getByTestId("signIn-button");
+      userEvent.click(btn);
+      expect(getAllByText("Enter email")).toBeTruthy();
+    });
+
+    it("should display error when password is empty", () => {
+      const { getByTestId, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+
+      const btn = getByTestId("signIn-button");
+      userEvent.click(btn);
+      expect(getAllByText("Enter password")).toBeTruthy();
+    });
   });
 
-  describe("recovery password page", () => {
-    it("should display recover password component", () => {
+  describe("recover password page", () => {
+    it("should display reset password component", () => {
       const { getByTestId, getByText } = renderSignIn({ ...props });
 
       const button = getByText("Forgot your password?");
@@ -108,7 +121,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-recovery-email")).toBeVisible();
     });
 
-    it("should display error when recover password is empty", () => {
+    it("should display error when recover password Email is empty", () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
@@ -120,17 +133,6 @@ describe("SignInPage", () => {
 
       userEvent.click(screen.getByText("Send"));
       expect(getAllByText("Email should not be empty")).toBeTruthy();
-    });
-
-    it("should return to sign in form from recover password form", () => {
-      const { getByText, getByTestId } = renderSignIn({
-        ...props,
-      });
-      userEvent.click(screen.getByText("Forgot your password?"));
-      expect(getByTestId("txt-recovery-email")).toBeVisible();
-
-      userEvent.click(screen.getByText("Return to the sign in page"));
-      expect(getByText("You must be signed in to access Author")).toBeTruthy();
     });
 
     // it.only("should send a password reset request to firebase", async () => {
@@ -151,6 +153,38 @@ describe("SignInPage", () => {
     //     getByText("We've sent a link for resetting your password to:")
     //   ).toBeTruthy();
     // });
+
+    it("should return to sign in form from recover password component", () => {
+      const { getByText, getByTestId } = renderSignIn({
+        ...props,
+      });
+      userEvent.click(screen.getByText("Forgot your password?"));
+      expect(getByTestId("txt-recovery-email")).toBeVisible();
+
+      userEvent.click(screen.getByText("Return to the sign in page"));
+      expect(getByText("You must be signed in to access Author")).toBeTruthy();
+    });
+  });
+
+  describe("reset Password page", () => {
+    it.only("should render password reset component", async () => {
+      props = {
+        ...props,
+        location: {
+          pathname: "/sign-in",
+          search:
+            "mode=resetPassword&oobCode=EpfWvpD2DTKoIHIp5pPfx5OXGml5baxIcVY7U8DBMe4AAAF",
+          hash: "",
+        },
+      };
+      const { getByText } = renderSignIn({ ...props });
+      screen.debug();
+      await waitForExpect(() =>
+        act(() => {
+          expect(screen.getByText("This page has an error")).toBeTruthy();
+        })
+      );
+    });
   });
 
   describe("create account page", () => {
