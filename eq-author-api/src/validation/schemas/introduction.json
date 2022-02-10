@@ -1,0 +1,12 @@
+{
+  "$id": "http://example.com/schemas/introduction.json",
+  "type": "object",
+  "properties": {
+    "contactDetailsPhoneNumber": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "contactDetailsEmailAddress": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    }
+  }
+}
