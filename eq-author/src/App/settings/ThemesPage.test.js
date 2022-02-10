@@ -68,24 +68,6 @@ describe("Themes page", () => {
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "COVID theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "covid",
-            validationErrorInfo: { errors: [] },
-          },
-          {
-            title: "EPE theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "epe",
-            validationErrorInfo: { errors: [] },
-          },
-          {
-            title: "EPE NI theme",
-            legalBasisCode: "NOTICE_1",
-            shortName: "epenorthernireland",
-            validationErrorInfo: { errors: [] },
-          },
-          {
             title: "UKIS theme",
             legalBasisCode: "NOTICE_1",
             shortName: "ukis",
@@ -169,7 +151,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [toggleTheme]);
     renderThemesPage(mockQuestionnaire);
 
-    expect(screen.getByText(`EPE theme`)).toBeVisible();
+    expect(screen.getByText(`UKIS theme`)).toBeVisible();
   });
 
   it("Should toggle theme enabled", () => {
@@ -177,7 +159,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [toggleTheme]);
     renderThemesPage(mockQuestionnaire);
 
-    const toggleSwitch = screen.getByTestId(`COVID theme-input`);
+    const toggleSwitch = screen.getByTestId(`NI theme-input`);
 
     fireEvent.click(toggleSwitch);
     expect(toggleTheme).toHaveBeenCalledWith(
@@ -185,7 +167,7 @@ describe("Themes page", () => {
         variables: {
           input: {
             questionnaireId: expect.any(String),
-            shortName: "covid",
+            shortName: "northernireland",
           },
         },
       })

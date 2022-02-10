@@ -32,6 +32,7 @@ import {
   THEME_ERROR_MESSAGES,
   SURVEY_ID_ERRORS,
 } from "constants/validationMessages";
+import { enableOn } from "utils/featureFlags";
 
 import ValidationError from "components/ValidationError";
 
@@ -109,6 +110,7 @@ const Text = styled.p``;
 const ThemesPage = ({ questionnaire }) => {
   const { type, surveyId, id, themeSettings } = questionnaire;
   const { themes: questionnaireThemes, previewTheme } = themeSettings;
+  const removedThemes = ["covid", "epe", "epenorthernireland"];
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [enableTheme] = useMutation(enableThemeMutation);
@@ -151,6 +153,12 @@ const ThemesPage = ({ questionnaire }) => {
       ({ errorCode, ...rest }) =>
         errorCode.includes(prefix) && { errorCode, ...rest }
     );
+
+  const removeDisabledThemes = () => {
+    return enableOn(["removedThemes"])
+      ? questionnaireThemes.filter((theme) => !removedThemes.includes(theme.id))
+      : questionnaireThemes;
+  };
 
   const renderThemes = (themes, previewTheme, questionnaireId) =>
     themes.map(
@@ -248,7 +256,7 @@ const ThemesPage = ({ questionnaire }) => {
                     </Field>
                     <HorizontalSeparator />
                     {renderErrors(groupErrorMessages)}
-                    {renderThemes(questionnaireThemes, previewTheme, id)}
+                    {renderThemes(removeDisabledThemes(), previewTheme, id)}
                   </Panel>
                 </SettingsContainer>
               </Column>
