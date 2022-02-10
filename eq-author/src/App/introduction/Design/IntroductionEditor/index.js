@@ -228,7 +228,9 @@ export const IntroductionEditor = ({
                 open={contactDetailsIncludeRuRef}
                 style={{ marginBottom: "0" }}
               >
-                <Label>Add RU ref to the subject line</Label>
+                <Label htmlFor="toggle-contact-details-include-ruref">
+                  Add RU ref to the subject line
+                </Label>
                 <ToggleSwitch
                   id="toggle-contact-details-include-ruref"
                   name="toggle-contact-details-include-ruref"
@@ -251,7 +253,9 @@ export const IntroductionEditor = ({
             </div>
           )}
           <InlineField open={additionalGuidancePanelSwitch}>
-            <Label>Additional guidance panel</Label>
+            <Label htmlFor="toggle-additional-guidance-panel">
+              Additional guidance panel
+            </Label>
 
             <ToggleSwitch
               id="toggle-additional-guidance-panel"

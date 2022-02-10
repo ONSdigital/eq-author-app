@@ -96,7 +96,7 @@ const SectionSummary = ({
         />
       </StyledField>
       <InlineField>
-        <Label htmlFor="required-completed">Section summary</Label>
+        <Label htmlFor="section-summary">Section summary</Label>
         <ToggleWrapper>
           <ToggleSwitch
             id="section-summary"
@@ -123,7 +123,7 @@ const SectionSummary = ({
         disabled={!sectionSummary}
       >
         <InlineField>
-          <Label htmlFor="required-completed">Collapsible summary</Label>
+          <Label htmlFor="collapsible-summary">Collapsible summary</Label>
           <ToggleWrapper>
             <ToggleSwitch
               id="collapsible-summary"
