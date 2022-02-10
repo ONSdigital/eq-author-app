@@ -11,4 +11,5 @@ module.exports = [
   require("./logic.json"),
   require("./themeSettings.json"),
   require("./list.json"),
+  require("./introduction.json"),
 ];
