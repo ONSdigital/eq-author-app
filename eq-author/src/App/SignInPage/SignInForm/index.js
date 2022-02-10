@@ -177,6 +177,8 @@ const SignInForm = ({
         <Button
           // disabled={loading}
           onClick={() => logInWithEmailAndPassword(email, password)}
+          name="sign-in"
+          type="button"
         >
           Sign in
         </Button>

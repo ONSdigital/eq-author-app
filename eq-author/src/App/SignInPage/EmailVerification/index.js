@@ -55,7 +55,7 @@ const EmailVerification = ({
           <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
           <Field>
             <Button onClick={(e) => handleReturnToSignInPage(e)}>
-              Return to sign in page
+              Return to the sign in page
             </Button>
           </Field>
         </>

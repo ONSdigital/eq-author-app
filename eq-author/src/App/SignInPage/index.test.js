@@ -66,17 +66,36 @@ describe("SignInPage", () => {
       expect(history.location.pathname).toBe("/");
     });
 
-    describe("signInPage location params", () => {
-      it("should setErrorMessage if location.search is not correct", () => {
-        props = {
-          ...props,
-          location: { pathname: "/sign-in", search: "gobledeegoo", hash: "" },
-        };
-        const { getByText } = renderSignIn({ ...props });
+    // it.only("should show success if Password is updated", () => {
+    //   props = {
+    //     ...props,
+    //     emailNowVerified: true,
+    //   };
+    //   const { getByText } = renderSignIn({ ...props });
 
-        expect(getByText("Invalid mode code returned from link")).toBeTruthy();
-      });
+    //   expect(
+    //     getByText("You've successfully verified your Author account.")
+    //   ).toBeTruthy();
+    // });
+
+    it("should setErrorMessage if location.search is not correct", () => {
+      props = {
+        ...props,
+        location: { pathname: "/sign-in", search: "gobledeegoo", hash: "" },
+      };
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(getByText("Invalid mode code returned from link")).toBeTruthy();
     });
+
+    // it.only("should display error when email is empty", () => {
+    //   const { getByRole, getAllByText } = renderSignIn({
+    //     ...props,
+    //   });
+    //   const btn = getByRole("button", { name: /sign-in/i });
+    //   userEvent.click(btn);
+    //   expect(getAllByText("Enter email")).toBeTruthy();
+    // });
   });
 
   describe("recovery password page", () => {
@@ -125,8 +144,8 @@ describe("SignInPage", () => {
 
     //   userEvent.type(input, "nemazine@hotmail.com");
 
-    //   fireEvent.click(screen.getByText("Send"));
-    //   await waitForExpect(() => expect(mutationWasCalled).toEqual(false));
+    //   await waitForExpect(() => fireEvent.click(screen.getByText("Send")));
+    //   // await waitForExpect(() => expect(mutationWasCalled).toEqual(false));
     //   screen.debug();
     //   expect(
     //     getByText("We've sent a link for resetting your password to:")
@@ -247,5 +266,21 @@ describe("SignInPage", () => {
     //     getByText("We've sent a link for resetting your password to:")
     //   ).toBeTruthy();
     // });
+  });
+
+  describe("email validation page", () => {
+    it("should display email validation component", () => {
+      props = {
+        ...props,
+        sentEmailVerification: true,
+      };
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(
+        getByText(
+          "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to:"
+        )
+      ).toBeTruthy();
+    });
   });
 });

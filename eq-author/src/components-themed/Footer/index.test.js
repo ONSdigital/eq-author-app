@@ -7,15 +7,15 @@ describe("Footer in Components-themed", () => {
   const renderFooter = () =>
     render(
       <Theme themeName={"ons"}>
-        <Footer centerCols={9} />
+        <Footer centerCols={6} />
       </Theme>
     );
 
-  describe("Footer", () => {
-    it("should render", () => {
-      const { getByTestId } = renderFooter();
-
-      expect(getByTestId("footer")).toBeTruthy();
+  it("should render", () => {
+    renderFooter();
+    expect(screen.queryByTestId("footer")).toBeTruthy();
+    expect(screen.queryByTestId("footer")).toHaveStyle({
+      "padding-left": "0",
     });
   });
 });

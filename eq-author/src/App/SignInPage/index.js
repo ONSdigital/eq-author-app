@@ -100,7 +100,6 @@ const SignInPage = ({
 
       <Layout title="Author">
         <MainPanel>
-          {/* setSentEmailVerification(false) when isSigning is set */}
           {isSigningIn && !sentEmailVerification && (
             <Loading height="38rem">Logging you in...</Loading>
           )}
