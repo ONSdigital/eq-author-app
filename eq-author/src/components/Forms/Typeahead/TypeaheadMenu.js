@@ -70,6 +70,7 @@ const TypeaheadMenu = ({
               index,
               item,
             })}
+            // Overwrites onMouseMove to perform no operation - the default onMouseMove function breaks search
             onMouseMove={noop}
           >
             <MenuItemText
