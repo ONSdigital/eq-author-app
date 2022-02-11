@@ -12,8 +12,8 @@ import tableHeadings from "./TableHeadings";
 
 const Thead = styled.thead`
   background-color: ${colors.grey6};
-  /* border: 50px solid ${colors.black} !important;
-   */
+  border: 1px solid ${colors.black} !important;
+  border-collapse: collapse;
 
   ${({ sticky }) =>
     sticky &&
@@ -33,19 +33,21 @@ const Thead = styled.thead`
 const TH = styled.th`
   color: ${colors.grey70};
   width: ${(props) => props.colWidth};
-  border-bottom: 1px solid ${colors.black};
-  border-top: 1px solid ${colors.black};
+  /* border-bottom: 1px solid ${colors.black}; */
+  /* border-top: 1px solid ${colors.black}; */
   font-weight: 900;
   font-size: 0.5em;
   border-style: round;
+  padding-bottom: 0.5em;
 
   :first-child {
-    border-left: 1px solid ${colors.black};
-    border-radius-left: 1em;
+    /* border-left: 1px solid ${colors.black}; */
+    border-top-left-radius: 1em;
+    padding-left: 0.5em;
   }
   :last-child {
-    border-right: 1px solid ${colors.black};
-    border-style: round;
+    /* border-right: 1px solid ${colors.black}; */
+    border-top-right-radius: 1em;
   }
 
   &:first-child > * {
