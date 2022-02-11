@@ -6,6 +6,7 @@ import { Query, useMutation } from "react-apollo";
 
 import ALL_USERS from "../graphql/AllUsers.graphql";
 import ADD_REMOVE_EDITOR from "../graphql/AddRemoveEditor.graphql";
+import { READ } from "constants/questionnaire-permissions";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -87,7 +88,11 @@ export const EditorSearch = ({
     const updatedEditors = editors.filter((user) => user.id !== event.id);
     mutateEditors({
       variables: {
-        input: { id, editors: updatedEditors.map((editor) => editor.id) },
+        input: {
+          id,
+          editors: updatedEditors.map((editor) => editor.id),
+          permission: READ,
+        },
       },
     });
   };

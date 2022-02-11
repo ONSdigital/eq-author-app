@@ -1053,6 +1053,7 @@ input UpdateQuestionnaireInput {
   shortTitle: String
   editors: [ID!] 
   isPublic: Boolean
+  permission: String
 }
 
 

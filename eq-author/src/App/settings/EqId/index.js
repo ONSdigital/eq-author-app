@@ -8,7 +8,7 @@ const StyledInput = styled(Input)`
   width: 11em;
 `;
 
-const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
+const EqIdInput = ({ id, eqId = "", questionnaireId, shortName }) => {
   const [value, setValue] = useState(eqId);
   const updateTheme = useUpdateTheme();
 
@@ -21,6 +21,7 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
 
   return (
     <StyledInput
+      id={id}
       value={value}
       onChange={({ value }) => setValue(value)}
       onBlur={handleBlur}
@@ -30,6 +31,7 @@ const EqIdInput = ({ eqId = "", questionnaireId, shortName }) => {
 };
 
 EqIdInput.propTypes = {
+  id: PropTypes.string,
   eqId: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
@@ -41,9 +43,10 @@ const EqId = ({ eqId, questionnaireId, shortName }) => {
   return (
     <Container>
       <Field>
-        <Label>eQ ID</Label>
+        <Label htmlFor="eqId">eQ ID</Label>
       </Field>
       <EqIdInput
+        id="eqId"
         eqId={eqId}
         questionnaireId={questionnaireId}
         shortName={shortName}

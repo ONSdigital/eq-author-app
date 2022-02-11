@@ -327,7 +327,7 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "covid",
+            shortName: "northernireland",
           },
           ctx
         );
@@ -338,7 +338,7 @@ describe("questionnaire", () => {
 
         expect(
           updatedQuestionnaire.themeSettings.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           )
         ).toMatchObject({
           enabled: true,
@@ -382,7 +382,7 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "covid",
+            shortName: "northernireland",
           },
           ctx
         );
@@ -392,7 +392,7 @@ describe("questionnaire", () => {
 
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
 
@@ -412,10 +412,10 @@ describe("questionnaire", () => {
         expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
-        expect(themeSettingsWithOneTheme.previewTheme).toBe("covid");
+        expect(themeSettingsWithOneTheme.previewTheme).toBe("northernireland");
       });
 
       it("should not be able to disable a non-existent theme", () => {
