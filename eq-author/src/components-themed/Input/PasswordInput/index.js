@@ -8,7 +8,6 @@ import { ButtonLink } from "components-themed/Toolkit";
 const PasswordContainer = styled.div`
   display: flex;
   flex-direction: row;
-  /* width: 11.9rem; */
   border-radius: ${({ theme }) => theme.radius};
 `;
 
@@ -28,7 +27,7 @@ const ShowHidePassword = styled.span`
 
 const PasswordButtonLink = styled(ButtonLink)`
   display: block;
-  margin: 0.2rem 1.25rem 0 1.25rem;
+  margin: 0.2rem 1.25rem 0;
 `;
 
 const PasswordInput = ({ id, dataTest, ...otherProps }) => {

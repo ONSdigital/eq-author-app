@@ -124,8 +124,7 @@ const SignInForm = ({
             >
               {/* <PasswordInput /> */}
               <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
+              <PasswordInput
                 id="password"
                 value={password}
                 onChange={({ value }) => setPassword(value)}
@@ -141,15 +140,6 @@ const SignInForm = ({
               onChange={({ value }) => setPassword(value)}
               data-test="txt-password"
             />
-
-            {/* <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              value={password}
-              onChange={({ value }) => setPassword(value)}
-              data-test="txt-password"
-            /> */}
           </>
         )}
       </Field>

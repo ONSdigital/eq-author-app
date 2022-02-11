@@ -47,8 +47,6 @@ export const ButtonLink = styled.button`
   padding: 0 !important;
   margin: 0 0.5rem 0.5rem 0;
   font-size: 1.125rem;
-  display: block;
-  /* font-family: arial, sans-serif; */
   color: ${colors.blue};
   text-decoration: underline;
   cursor: pointer;
@@ -65,7 +63,6 @@ export const PasswordLink = styled(Link)`
 `;
 
 export const CheckBoxField = styled(Field)`
-  display: block;
   margin: 0;
   display: inline-flex;
   width: 100%;

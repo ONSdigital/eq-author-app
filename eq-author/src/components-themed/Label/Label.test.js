@@ -2,6 +2,7 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import Label from "./";
 import { RadioLabel } from "components/Radio";
+import { render as rtlRender, screen } from "tests/utils/rtl";
 
 let wrapper;
 
@@ -22,6 +23,17 @@ describe("components-themed/Label", () => {
     );
     expect(wrapper.props().foo).toEqual("bar");
     expect(wrapper.props().bar).toEqual("foo");
+  });
+
+  it("test inLine props", () => {
+    rtlRender(
+      <Label foo="bar" bar="foo" inLine>
+        Foo
+      </Label>
+    );
+    expect(screen.getByText("Foo")).toHaveStyleRule("display: inline-block;");
+    expect(screen.getByText("Foo")).toHaveStyleRule("margin-bottom: 0;");
+    expect(screen.getByText("Foo")).toHaveStyleRule("font-weight: bold;");
   });
 });
 
