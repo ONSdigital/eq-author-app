@@ -6,7 +6,6 @@ import PasswordInput from ".";
 import Theme from "contexts/themeContext";
 
 const handleChange = jest.fn();
-const handlePasswordToggle = jest.fn();
 
 describe("components-themed/Input/PasswordInput", () => {
   describe("custom password Input", () => {

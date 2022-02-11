@@ -82,8 +82,6 @@ const SignInPage = ({
               setEmailNowVerified(true);
             })
             .catch((error) => {
-              console.log("error.message", error.message);
-              // Code is invalid or expired. Ask the user to verify their email again.
               setErrorMessage(error.message);
               setEmailNowVerified(false);
               setApiError(true);

@@ -135,7 +135,7 @@ describe("SignInPage", () => {
     });
 
     it("should return a firebase error if password reset account does not exist", async () => {
-      const { getByText, getByTestId } = renderSignIn({
+      const { getByTestId } = renderSignIn({
         ...props,
       });
       userEvent.click(screen.getByText("Forgot your password?"));
@@ -186,7 +186,7 @@ describe("SignInPage", () => {
   });
 
   describe("verify email", () => {
-    it.only("should render Error if verify email link expired or faulty", async () => {
+    it("should render Error if verify email link expired or faulty", async () => {
       props = {
         ...props,
         location: {
