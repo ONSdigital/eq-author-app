@@ -29,7 +29,7 @@ const SignInPage = ({
   signOut,
   isSigningIn,
   sentEmailVerification,
-  location,
+  searchParams,
 }) => {
   //use multiple state array here?
   const [createAccount, setCreateAccount] = useState(false);
@@ -56,8 +56,8 @@ const SignInPage = ({
   };
 
   useEffect(() => {
-    if (location?.search) {
-      const urlParams = new URLSearchParams(location.search);
+    if (searchParams) {
+      const urlParams = new URLSearchParams(searchParams);
       const getParameterByName = (param) => urlParams.get(param);
       // Get the action to complete.
       setMode(getParameterByName("mode"));
@@ -91,7 +91,7 @@ const SignInPage = ({
           setErrorMessage("Invalid mode code returned from link");
       }
     }
-  }, [location.search, mode, actionCode]);
+  }, [searchParams, mode, actionCode]);
 
   return (
     <>
@@ -152,7 +152,7 @@ const SignInPage = ({
                   setVerificationEmail={setVerificationEmail}
                 />
               )}
-              {sentEmailVerification && (
+              {sentEmailVerification && !errorMessage && (
                 <EmailVerification
                   verificationEmail={verificationEmail}
                   emailNowVerified={emailNowVerified}
@@ -182,7 +182,7 @@ SignInPage.propTypes = {
   signOut: PropTypes.func,
   isSigningIn: PropTypes.bool,
   sentEmailVerification: PropTypes.bool,
-  location: PropTypes.shape({ search: PropTypes.string }),
+  searchParams: PropTypes.string,
 };
 
 export default withMe(SignInPage);

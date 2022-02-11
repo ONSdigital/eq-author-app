@@ -84,8 +84,12 @@ const ContextProvider = ({ history, client, children }) => {
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
-  // let location = useLocation();
-  const location = window.location;
+  const SearchParams = () => {
+    const location = useLocation();
+    return location.search;
+  };
+  const searchParams = SearchParams();
+
   useEffect(() => {
     // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0
     // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged
@@ -96,10 +100,10 @@ const ContextProvider = ({ history, client, children }) => {
   }, []);
 
   useEffect(() => {
+    // This need some attention if we want automatic cross environment urls to work instead of hard coding in the firebase templates
     // const actionCodeSettings = {
     //   //This is the redirect URL for AFTER you have clicked the email link and verified the email address
     //   url: verifyRedirectUrl,
-    //   // This must be true.
     //   handleCodeInApp: true,
     // };
     if (awaitingFirebase) {
@@ -117,7 +121,7 @@ const ContextProvider = ({ history, client, children }) => {
       setSignInSuccess(false);
       history.push("/sign-in");
     } else {
-      signOut(history, client, location.search);
+      signOut(history, client, searchParams);
       setSignInSuccess(false);
       setSentEmailVerification(false);
     }
@@ -127,7 +131,7 @@ const ContextProvider = ({ history, client, children }) => {
     sentEmailVerification,
     history,
     client,
-    location,
+    searchParams,
   ]);
 
   //
@@ -151,7 +155,7 @@ const ContextProvider = ({ history, client, children }) => {
               awaitingUserQuery: innerProps.loading,
               isSigningIn,
               sentEmailVerification,
-              location,
+              searchParams,
             }}
           >
             {children}
@@ -179,7 +183,7 @@ export const withMe = (Component) => {
         signOut,
         isSigningIn,
         sentEmailVerification,
-        location,
+        searchParams,
       }) => (
         <Component
           {...props}
@@ -188,7 +192,7 @@ export const withMe = (Component) => {
           signOut={signOut}
           isSigningIn={isSigningIn}
           sentEmailVerification={sentEmailVerification}
-          location={location}
+          searchParams={searchParams}
         />
       )}
     </MeContext.Consumer>

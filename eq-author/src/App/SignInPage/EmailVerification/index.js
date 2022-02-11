@@ -40,7 +40,7 @@ const EmailVerification = ({
           <InlineDescription>{""}</InlineDescription>
           <Field>
             <Button onClick={(e) => handleReturnToSignInPage(e)}>
-              Return to sign in page
+              Return to the sign in page
             </Button>
           </Field>
         </>
