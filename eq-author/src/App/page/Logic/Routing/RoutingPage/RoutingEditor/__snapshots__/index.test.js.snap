@@ -2,25 +2,19 @@
 
 exports[`components/RoutingRuleSet should render children 1`] = `
 <Fragment>
-  <TransitionGroup
-    childFactory={[Function]}
-    component={null}
+  <Reorder
+    Transition={[Function]}
+    list={
+      Array [
+        Object {
+          "id": "2",
+        },
+      ]
+    }
+    onMove={[MockFunction]}
   >
-    <Transition
-      key="2"
-      timeout={200}
-    >
-      <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
-        ifLabel="IF"
-        key="2"
-        rule={
-          Object {
-            "id": "2",
-          }
-        }
-      />
-    </Transition>
-  </TransitionGroup>
+    <Component />
+  </Reorder>
   <RoutingEditor__AddRuleButton
     data-test="btn-add-rule"
     onClick={[Function]}

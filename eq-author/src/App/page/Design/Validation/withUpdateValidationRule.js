@@ -115,6 +115,12 @@ export const mapMutateToProps = ({ mutate }) => ({
         metadata: entity?.metadata ?? null,
         [customAttribute]: rest[validationRule]?.custom ?? null,
         previousAnswer: entity?.previousAnswer ?? null,
+        validationErrorInfo: {
+          id: "id",
+          errors: [],
+          totalCount: 0,
+          __typename: "validationErrorInfo",
+        },
       },
     };
 

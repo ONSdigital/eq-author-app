@@ -11,6 +11,7 @@ import Loading from "components/Loading";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 import { Grid } from "components/Grid";
+import { colors } from "constants/theme";
 import MainCanvas from "components/MainCanvas";
 import InfoIcon from "./icon-info.svg?inline";
 import IconText from "components/IconText";
@@ -31,6 +32,11 @@ const Container = styled.div`
 
 const StyledGrid = styled(Grid)`
   overflow: hidden;
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Info = styled(IconText)`
@@ -77,7 +83,7 @@ export const UnwrappedMetadataPageContent = ({
         </Info>
       )}
       {hasMetadata ? (
-        <StyledGrid>
+        <StyledGrid tabIndex="-1" className="keyNav">
           <ScrollPane data-test="metadata-modal-content">
             <StyledMainCanvas>
               <MetadataTable

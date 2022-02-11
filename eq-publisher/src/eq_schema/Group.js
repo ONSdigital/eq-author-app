@@ -7,7 +7,7 @@ const {
 class Group {
   constructor(title, section, ctx) {
     this.id = `group${section.id}`;
-    this.title = title ? title : "";
+    this.title = section.summaryTitle ? section.summaryTitle : "";
     this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
@@ -57,16 +57,6 @@ class Group {
         return block;
       })
     );
-
-    let summaryBlock;
-    if (section.sectionSummary) {
-      summaryBlock = {
-        id: `summary${section.id}`,
-        type: "SectionSummary",
-        collapsible: section.collapsibleSummary,
-      };
-      blocks.push(summaryBlock);
-    }
 
     if (!section.introductionTitle || !section.introductionContent) {
       return blocks;

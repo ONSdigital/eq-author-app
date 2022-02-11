@@ -16,6 +16,5 @@ module.exports = (questionnaire) => {
   if (questionnaire.themeSettings.previewTheme === "ukisni") {
     questionnaire.themeSettings.previewTheme = "ukis_ni";
   }
-
   return questionnaire;
 };

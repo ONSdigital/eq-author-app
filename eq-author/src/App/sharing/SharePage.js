@@ -20,7 +20,7 @@ const SharePage = (props) => {
   return (
     <Container>
       <Header title="Sharing" />
-      <StyledGrid>
+      <StyledGrid tabIndex="-1" className="keyNav">
         <ScrollPane data-test="sharing-page-content">
           <StyledMainCanvas>
             <Panel>

@@ -38,6 +38,9 @@ describe("questionnaire", () => {
         collapsibles: expect.any(Array),
         tertiaryTitle: expect.any(String),
         tertiaryDescription: expect.any(String),
+        contactDetailsPhoneNumber: expect.any(String),
+        contactDetailsEmailAddress: expect.any(String),
+        validationErrorInfo: expect.any(Object),
       });
     });
   });
@@ -53,6 +56,8 @@ describe("questionnaire", () => {
         secondaryDescription: "new secondaryDescription",
         tertiaryTitle: "new tertiaryTitle",
         tertiaryDescription: "new tertiaryDescription",
+        contactDetailsPhoneNumber: "new contactDetailsPhoneNumber",
+        contactDetailsEmailAddress: "new contactDetailsEmailAddress",
       };
 
       const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
@@ -65,8 +70,36 @@ describe("questionnaire", () => {
         collapsibles: expect.any(Array),
         additionalGuidancePanel: "new guidance panel",
         additionalGuidancePanelSwitch: true,
+        validationErrorInfo: expect.any(Object),
         ...changes,
       });
+    });
+  });
+
+  describe("author validation", () => {
+    it("should validate the introduction page and return the errors", async () => {
+      const changes = {
+        title: "new title",
+        additionalGuidancePanelSwitch: true,
+        description: "new description",
+        secondaryTitle: "new secondaryTitle",
+        secondaryDescription: "new secondaryDescription",
+        tertiaryTitle: "new tertiaryTitle",
+        tertiaryDescription: "new tertiaryDescription",
+        contactDetailsPhoneNumber: "",
+        contactDetailsEmailAddress: "",
+      };
+
+      const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
+        id: questionnaire.introduction.id,
+        ...changes,
+      });
+
+      expect(updatedIntroduction.validationErrorInfo).toMatchObject({
+        totalCount: 2,
+        errors: expect.any(Array),
+      });
+      expect(updatedIntroduction.validationErrorInfo.errors).toHaveLength(2);
     });
   });
 });

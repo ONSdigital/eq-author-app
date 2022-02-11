@@ -12,7 +12,9 @@ import {
   QCODES,
   SHARING,
   SETTINGS,
+  KEYBOARDSHORTCUTS,
   FOLDER,
+  SUBMISSION,
 } from "../constants/entities";
 
 export const Routes = {
@@ -92,6 +94,18 @@ export const buildIntroductionPath = ({ introductionId, tab, ...rest }) => {
     entityName: INTRODUCTION,
   });
 };
+export const buildSubmissionPath = ({ submissionId, tab, ...rest }) => {
+  if (!submissionId) {
+    throw new Error("Submission id must be provided");
+  }
+
+  return generatePath(Routes.QUESTIONNAIRE)({
+    ...rest,
+    tab: sanitiseTab(["design", "preview"])(tab),
+    entityId: submissionId,
+    entityName: SUBMISSION,
+  });
+};
 export const buildMetadataPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
@@ -126,6 +140,13 @@ export const buildQcodesPath = ({ questionnaireId }) => {
     entityName: QCODES,
   });
 };
+export const buildShortcutsPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: KEYBOARDSHORTCUTS,
+  });
+};
+
 export const buildSharingPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
@@ -152,6 +173,9 @@ const buildTabSwitcher = (tab) => (params) => {
   }
   if (params.folderId) {
     builder = buildFolderPath;
+  }
+  if (params.submissionId) {
+    builder = buildSubmissionPath;
   }
   if (!builder) {
     throw new Error(

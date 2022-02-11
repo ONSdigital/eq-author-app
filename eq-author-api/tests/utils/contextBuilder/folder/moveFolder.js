@@ -91,7 +91,6 @@ mutation MoveFolderMutation($input: MoveFolderInput!) {
       }
       folders {
         id
-        enabled
         alias
         displayName
         position

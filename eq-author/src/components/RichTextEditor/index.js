@@ -164,7 +164,12 @@ class RichTextEditor extends React.Component {
       })
     ),
     disabled: PropTypes.bool,
-    errorValidationMsg: PropTypes.string,
+    errorValidationMsg: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+    ]),
+    linkCount: PropTypes.number,
+    linkLimit: PropTypes.number,
   };
 
   constructor(props) {
@@ -377,6 +382,8 @@ class RichTextEditor extends React.Component {
       disabled,
       errorValidationMsg,
       maxHeight,
+      linkCount,
+      linkLimit,
       ...otherProps
     } = this.props;
 
@@ -410,6 +417,8 @@ class RichTextEditor extends React.Component {
               selectionIsCollapsed={selection.isCollapsed()}
               visible={focused}
               testId={`${testSelector}-toolbar`}
+              linkCount={linkCount}
+              linkLimit={linkLimit}
               {...otherProps}
             />
 
@@ -432,9 +441,14 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
-        {errorValidationMsg && (
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        )}
+        {errorValidationMsg &&
+          (Array.isArray(errorValidationMsg) ? (
+            errorValidationMsg.map((errMsg) => (
+              <ValidationError key={errMsg}>{errMsg}</ValidationError>
+            ))
+          ) : (
+            <ValidationError>{errorValidationMsg}</ValidationError>
+          ))}
       </Wrapper>
     );
   }

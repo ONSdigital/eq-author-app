@@ -67,10 +67,6 @@ class AnswerTypeSelector extends React.Component {
     this.props.onSelect(type);
   };
 
-  handleEntered = () => {
-    this.grid.focusMenuItem();
-  };
-
   saveGridRef = (grid) => {
     this.grid = grid;
   };
@@ -120,7 +116,6 @@ class AnswerTypeSelector extends React.Component {
             container={PopoutContainer}
             layer={PopoutLayer}
             onToggleOpen={this.handleOpenToggle}
-            onEntered={this.handleEntered}
           >
             <AnswerTypeGrid
               onSelect={this.handleSelect}

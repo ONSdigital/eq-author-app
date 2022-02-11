@@ -16,6 +16,7 @@ describe("Group", () => {
         title: "Section 1",
         introductionTitle: "",
         introductionContent: "",
+        summaryTitle: "Section 1",
         pages: [
           {
             id: "2",
@@ -43,6 +44,7 @@ describe("Group", () => {
       {
         id: 1,
         title: "Group 1",
+        summaryTitle: "Group 1",
         pages: [],
         introductionTitle: "",
         introductionContent: "",
@@ -50,6 +52,7 @@ describe("Group", () => {
       {
         id: 2,
         title: "Group 2",
+        summaryTitle: "Group 2",
         pages: [],
         introductionTitle: "",
         introductionContent: "",
@@ -57,6 +60,7 @@ describe("Group", () => {
       {
         id: 3,
         title: "Group 3",
+        summaryTitle: "Group 3",
         pages: [],
         introductionTitle: "",
         introductionContent: "",
@@ -243,14 +247,12 @@ describe("Group", () => {
         type: "ConfirmationQuestion",
         questions: [
           {
-            id:
-              "questionconfirmation-page-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+            id: "questionconfirmation-page-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
             title: "Are you sure?",
             type: "General",
             answers: [
               {
-                id:
-                  "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+                id: "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                 mandatory: true,
                 type: "Radio",
                 options: [
@@ -275,8 +277,7 @@ describe("Group", () => {
               block: "blockuu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
               when: [
                 {
-                  id:
-                    "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+                  id: "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                   condition: "contains any",
                   values: ["Wait I can get more?"],
                 },
@@ -353,8 +354,7 @@ describe("Group", () => {
             block: "blockuu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
             when: [
               {
-                id:
-                  "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
+                id: "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                 condition: "contains any",
                 values: ["Wait I can get more?"],
               },

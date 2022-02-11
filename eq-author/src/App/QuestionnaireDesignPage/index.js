@@ -20,7 +20,9 @@ import reviewRoutes from "App/review";
 import qcodeRoutes from "App/qcodes";
 import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
+import keyboardShortcutsRoutes from "App/keyboardShortcuts";
 import folderRoutes from "App/folder";
+import submissionRoutes from "App/Submission";
 
 import MainNavigation from "./MainNavigation";
 import NavigationSidebar from "./NavigationSidebar";
@@ -38,6 +40,7 @@ import useValidationsSubscription from "hooks/useValidationsSubscription";
 import useQuestionnaireQuery from "./useQuestionnaireQuery";
 
 import { colors } from "constants/theme";
+import hotkeys from "hotkeys-js";
 
 import { CallbackContextProvider } from "components/NavigationCallbacks";
 import {
@@ -54,7 +57,49 @@ const MainNav = styled.div`
   border: 0;
   float: left;
   background-color: ${colors.black};
+  :focus {
+    border: 2px solid ${colors.yellow};
+  }
 `;
+
+hotkeys.filter = function () {
+  return true;
+};
+
+hotkeys("F6", function (event) {
+  event.preventDefault();
+  let currentElement = event.target;
+  if (!currentElement.classList.contains("keyNav")) {
+    currentElement = currentElement.closest(".keyNav");
+  }
+
+  const keyNavs = document.querySelectorAll(".keyNav");
+  if (!keyNavs.length) {
+    return;
+  }
+  let position = Array.from(keyNavs).indexOf(currentElement);
+  if (position === keyNavs.length - 1) {
+    position = -1;
+  }
+  keyNavs[position + 1].focus();
+});
+hotkeys("shift+f6", function (event) {
+  event.preventDefault();
+  let currentElement = event.target;
+  if (!currentElement.classList.contains("keyNav")) {
+    currentElement = currentElement.closest(".keyNav");
+  }
+
+  const keyNavs = document.querySelectorAll(".keyNav");
+  if (!keyNavs.length) {
+    return;
+  }
+  let position = Array.from(keyNavs).indexOf(currentElement);
+  if (position === 0) {
+    position = keyNavs.length;
+  }
+  keyNavs[position - 1].focus();
+});
 
 const LoadingPlaceholder = () => (
   <Grid>
@@ -131,7 +176,9 @@ export const QuestionnaireDesignPage = () => {
                         ...qcodeRoutes,
                         ...sharingRoutes,
                         ...settingsRoutes,
+                        ...keyboardShortcutsRoutes,
                         ...folderRoutes,
+                        ...submissionRoutes,
                       ]}
                       <Route path="*">
                         {loading ? (

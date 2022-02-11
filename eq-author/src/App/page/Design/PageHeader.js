@@ -71,7 +71,7 @@ export class PageHeader extends React.Component {
   };
 
   isMoveDisabled = (questionnaire) =>
-    questionnaire.sections[0].folders[0].pages.length <= 1 &&
+    questionnaire.sections[0].folders[0]?.pages.length <= 1 &&
     questionnaire.sections[0].folders.length <= 1 &&
     questionnaire.sections.length === 1;
 

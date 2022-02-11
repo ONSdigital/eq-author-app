@@ -39,6 +39,8 @@ const {
   ERR_DESTINATION_INVALID_WITH_HUB,
   PIPING_METADATA_DELETED,
   CALCSUM_MOVED,
+  ERR_SEC_CONDITION_NOT_SELECTED,
+  ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -184,7 +186,7 @@ describe("schema validation", () => {
           {
             id: "theme-1",
             enabled: false,
-            shortName: "covid",
+            shortName: "northernireland",
             legalBasisCode: "NOTICE_1",
             eqId: "dave",
             formType: "777",
@@ -859,6 +861,39 @@ describe("schema validation", () => {
             );
           });
 
+          it("Date Range - should not show error when latest date is after earlier date", () => {
+            questionnaire.sections[0].folders[0].pages[0].answers = [
+              {
+                id: "a1",
+                type: "DateRange",
+                label: "some answer",
+                qCode: "qCode1",
+                secondaryQCode: "secQCode1",
+                validation: {
+                  minDuration: {
+                    id: "456",
+                    enabled: true,
+                    duration: {
+                      value: 1,
+                      unit: "Days",
+                    },
+                  },
+                  maxDuration: {
+                    id: "654",
+                    enabled: true,
+                    duration: {
+                      value: 1,
+                      unit: "Days",
+                    },
+                  },
+                },
+              },
+            ];
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(0);
+          });
+
           it("Date Range - should not validate if one of the two is disabled", () => {
             ["earliestDate", "latestDate", "none"].forEach(() => {
               questionnaire.sections[0].folders[0].pages[0].answers = [
@@ -1257,6 +1292,287 @@ describe("schema validation", () => {
       expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
+    it("should validate empty right expression when condition=`CountOf` in skip", () => {
+      const expressionId = "express-1";
+
+      const skipConditions = validation(questionnaire);
+
+      expect(skipConditions).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: expressionId,
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Answer",
+                answerId: "answer_1",
+              },
+              right: null,
+            },
+          ],
+        },
+      ];
+
+      const skipConditionErrors = validation(questionnaire);
+
+      expect(skipConditionErrors).toHaveLength(1);
+      expect(skipConditionErrors[0].id).toMatch(uuidRejex);
+      expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
+    it("should validate that the count number does not exceed the number of options in Skip", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+        ],
+      };
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
+    it("If secondary condition = `GreaterThan` then count number must be LESS than number of options in Skip", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+          {
+            id: "optionID-2",
+            label: "checkbox 2",
+          },
+        ],
+      };
+
+      questionnaire.sections[0].folders[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "GreaterThan",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
+    it("should validate empty secondaryCondition when condition=`CountOf` in routing", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: null,
+              left: {
+                type: "Answer",
+                answerId: "answer_1",
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(ERR_SEC_CONDITION_NOT_SELECTED);
+    });
+
+    it("should validate empty right expression when condition=`CountOf` in routing", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Answer",
+                answerId: "answer_1",
+              },
+              right: null,
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
+    it("should validate that the count number does not exceed the number of options in the answer being routed", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+        ],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
+    it("If secondary condition = `GreaterThan` then count number must be LESS than number of options in the answer being routed", () => {
+      expect(validation(questionnaire)).toHaveLength(0);
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        options: [
+          {
+            id: "optionID-1",
+            label: "checkbox 1",
+          },
+          {
+            id: "optionID-2",
+            label: "checkbox 2",
+          },
+        ],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "GreaterThan",
+              left: {
+                type: "Checkbox",
+                answerId: "answer_1",
+                options: [
+                  {
+                    id: "optionID-1",
+                    label: "checkbox 1",
+                  },
+                  {
+                    id: "optionID-2",
+                    label: "checkbox 2",
+                  },
+                ],
+              },
+              right: {
+                type: "Custom",
+                customValue: {
+                  number: 2,
+                },
+              },
+            },
+          ],
+        };
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
+      );
+    });
+
     it("should validate empty array in right of expression", () => {
       const expressionId = "express-1";
 
@@ -1294,6 +1610,7 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_1",
         qCode: "qcode1",
+        label: "answer_1",
         secondaryQCode: "secQCode1",
         options: [
           {
@@ -1354,6 +1671,7 @@ describe("schema validation", () => {
       questionnaire.sections[0].folders[0].pages[0].answers[0] = {
         id: "answer_12",
         qCode: "qcode1",
+        label: "answer_12",
         secondaryQCode: "secQCode1",
         options: [
           {
@@ -1797,6 +2115,16 @@ describe("schema validation", () => {
       const errors = validation(questionnaire);
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(PIPING_METADATA_DELETED);
+    });
+
+    it("Should not return piping metadata error when piped metadata is in a title", () => {
+      const piping = validation(questionnaire);
+      expect(piping).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="metadata" data-id="87c64b20-9662-408b-b674-e2403e90dad3" data-type="Text">[Ru Name]</span></p>>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(0);
     });
 
     it("should validate a piping answer moved after this question", () => {

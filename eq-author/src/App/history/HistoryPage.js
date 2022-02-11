@@ -53,6 +53,11 @@ const StyledScrollPane = styled(ScrollPane)`
   div:last-of-type {
     margin-bottom: 0;
   }
+  &:focus-visible {
+    border: 3px solid ${colors.focus};
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const ActionButtons = styled(ButtonGroup)`
@@ -65,7 +70,9 @@ const HistoryPageContent = ({ match }) => {
     variables: { input: { questionnaireId } },
     fetchPolicy: "network-only",
   });
+
   const { me } = useMe();
+
   const [addNote] = useMutation(createNoteMutation, {
     update(cache, { data: { createHistoryNote } }) {
       cache.writeQuery({
@@ -75,7 +82,9 @@ const HistoryPageContent = ({ match }) => {
       });
     },
   });
+
   const [updateNote] = useMutation(updateNoteMutation);
+
   const [deleteNote] = useMutation(deleteNoteMutation, {
     update(cache, { data: { deleteHistoryNote } }) {
       cache.writeQuery({
@@ -89,18 +98,21 @@ const HistoryPageContent = ({ match }) => {
   });
 
   const [noteState, setNoteState] = useState({ name: "note", value: "" });
+
   if (loading) {
     return <Loading height="100%">Questionnaire history loading…</Loading>;
   }
 
-  if (error) {
-    return <Error>Oops! Something went wrong</Error>;
+  let history = [];
+
+  if (data) {
+    history = data.history;
   }
-  const { history } = data;
+
   return (
     <Container>
       <Header title="History" />
-      <StyledScrollPane>
+      <StyledScrollPane tabIndex="-1" className="keyNav">
         <StyledGrid>
           <RTEWrapper>
             <RichTextEditor
@@ -141,49 +153,57 @@ const HistoryPageContent = ({ match }) => {
           </ActionButtons>
         </StyledGrid>
         <ItemGrid>
-          {history.map(
-            ({
-              id,
-              publishStatus,
-              questionnaireTitle,
-              bodyText,
-              type,
-              user,
-              time,
-            }) => (
-              <HistoryItem
-                key={id}
-                itemId={id}
-                handleUpdateNote={(itemId, bodyText) =>
-                  updateNote({
-                    variables: {
-                      input: {
-                        id: itemId,
-                        questionnaireId,
-                        bodyText,
+          {history === null ||
+          history === undefined ||
+          !history.length ||
+          error ||
+          !data ? (
+            <Error>Currently no history info...</Error>
+          ) : (
+            history.map(
+              ({
+                id,
+                publishStatus,
+                questionnaireTitle,
+                bodyText,
+                type,
+                user,
+                time,
+              }) => (
+                <HistoryItem
+                  key={id}
+                  itemId={id}
+                  handleUpdateNote={(itemId, bodyText) =>
+                    updateNote({
+                      variables: {
+                        input: {
+                          id: itemId,
+                          questionnaireId,
+                          bodyText,
+                        },
                       },
-                    },
-                  })
-                }
-                handleDeleteNote={(itemId) =>
-                  deleteNote({
-                    variables: {
-                      input: {
-                        id: itemId,
-                        questionnaireId,
+                    })
+                  }
+                  handleDeleteNote={(itemId) =>
+                    deleteNote({
+                      variables: {
+                        input: {
+                          id: itemId,
+                          questionnaireId,
+                        },
                       },
-                    },
-                  })
-                }
-                questionnaireTitle={questionnaireTitle}
-                publishStatus={publishStatus}
-                currentUser={me}
-                userName={user.displayName}
-                userId={user.id}
-                bodyText={bodyText}
-                type={type}
-                createdAt={time}
-              />
+                    })
+                  }
+                  questionnaireTitle={questionnaireTitle}
+                  publishStatus={publishStatus}
+                  currentUser={me}
+                  userName={user.displayName}
+                  userId={user.id}
+                  bodyText={bodyText}
+                  type={type}
+                  createdAt={time}
+                />
+              )
             )
           )}
         </ItemGrid>

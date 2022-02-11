@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
+import { enableOn } from "utils/featureFlags";
 
 import withPropRenamed from "enhancers/withPropRenamed";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
+import ValidationError from "components/ValidationError";
 
 import { colors } from "constants/theme";
 
@@ -20,8 +22,12 @@ import CollapsiblesEditor from "./CollapsiblesEditor";
 import { InformationPanel } from "components/Panel";
 
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
-import { Field, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
+import { contactDetailsErrors } from "constants/validationMessages";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -67,6 +73,30 @@ const InlineField = styled(Field)`
   }
 `;
 
+const HorizontalSeparator = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid #e0e0e0;
+  margin: 1.2em 0em;
+`;
+
+const StyledInput = styled(Input)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
+`;
+
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -77,13 +107,31 @@ export const IntroductionEditor = ({
     collapsibles,
     title,
     description,
+    contactDetailsPhoneNumber,
+    contactDetailsEmailAddress,
+    contactDetailsEmailSubject,
+    contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
     tertiaryDescription,
+    validationErrorInfo,
   } = introduction;
+
+  const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
+  const [email, setEmail] = useState(contactDetailsEmailAddress);
+  const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
+
+  const { errors } = validationErrorInfo;
+
+  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+
+  const hasErrors = (requiredField) => {
+    const result = errors.some(({ field }) => field === requiredField);
+    return result;
+  };
 
   return (
     <>
@@ -107,9 +155,107 @@ export const IntroductionEditor = ({
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
-
+          {enableOn(["contactDetails"]) && (
+            <div>
+              <HorizontalSeparator />
+              <SectionTitle style={{ marginBottom: "0" }}>
+                ONS contact details
+              </SectionTitle>
+              <SectionDescription>
+                For business to report a change to company details or structure.
+              </SectionDescription>
+              <Field>
+                <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
+                <StyledInput
+                  id="contactDetailsPhoneNumber"
+                  value={phoneNumber}
+                  onChange={({ value }) => setPhoneNumber(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsPhoneNumber: phoneNumber,
+                    })
+                  }
+                  data-test="txt-contact-details-phone-number"
+                  hasError={hasErrors("contactDetailsPhoneNumber")}
+                />
+                {hasErrors("contactDetailsPhoneNumber") && (
+                  <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
+                )}
+              </Field>
+              <Field>
+                <Label htmlFor="contactDetailsEmailAddress">
+                  Email Address
+                </Label>
+                <StyledInput
+                  id="contactDetailsEmailAddress"
+                  value={email}
+                  onChange={({ value }) => setEmail(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailAddress: email,
+                    })
+                  }
+                  data-test="txt-contact-details-email-address"
+                  hasError={hasErrors("contactDetailsEmailAddress")}
+                />
+                {hasErrors("contactDetailsEmailAddress") && (
+                  <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
+                )}
+              </Field>
+              <Field>
+                <Label htmlFor="contactDetailsEmailSubject">
+                  Email Subject
+                </Label>
+                <Input
+                  id="contactDetailsEmailSubject"
+                  value={emailSubject}
+                  onChange={({ value }) => setEmailSubject(value)}
+                  onBlur={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsEmailSubject: emailSubject,
+                    })
+                  }
+                  data-test="txt-contact-details-email-subject"
+                />
+              </Field>
+              <InlineField
+                open={contactDetailsIncludeRuRef}
+                style={{ marginBottom: "0" }}
+              >
+                <Label htmlFor="toggle-contact-details-include-ruref">
+                  Add RU ref to the subject line
+                </Label>
+                <ToggleSwitch
+                  id="toggle-contact-details-include-ruref"
+                  name="toggle-contact-details-include-ruref"
+                  hideLabels={false}
+                  onChange={() =>
+                    updateQuestionnaireIntroduction({
+                      id,
+                      ...introduction,
+                      contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
+                    })
+                  }
+                  checked={contactDetailsIncludeRuRef}
+                />
+              </InlineField>
+              <SectionDescription>
+                Add the reporting unit reference to the end of the subject line,
+                for example, Change of details reference 621476278652.
+              </SectionDescription>
+              <HorizontalSeparator />
+            </div>
+          )}
           <InlineField open={additionalGuidancePanelSwitch}>
-            <Label>Additional guidance panel</Label>
+            <Label htmlFor="toggle-additional-guidance-panel">
+              Additional guidance panel
+            </Label>
 
             <ToggleSwitch
               id="toggle-additional-guidance-panel"
@@ -230,6 +376,10 @@ const fragment = gql`
     id
     title
     description
+    contactDetailsPhoneNumber
+    contactDetailsEmailAddress
+    contactDetailsEmailSubject
+    contactDetailsIncludeRuRef
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     secondaryTitle
@@ -239,7 +389,11 @@ const fragment = gql`
     }
     tertiaryTitle
     tertiaryDescription
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
+  ${ValidationErrorInfoFragment}
 `;
 
 IntroductionEditor.fragments = [fragment, ...CollapsiblesEditor.fragments];

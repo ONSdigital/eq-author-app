@@ -12,7 +12,8 @@ export default (
   source,
   draggableId,
   movePage,
-  moveFolder
+  moveFolder,
+  moveSection
 ) => {
   // The user dropped the item outside a destination
   if (!destination) {
@@ -154,6 +155,28 @@ export default (
     });
 
     return 1;
+  }
+
+  if (
+    destination.droppableId === "root" &&
+    source.droppableId === "root" &&
+    destination.index !== source.index
+  ) {
+    const sectionToMove = questionnaire.sections.splice(source.index, 1);
+    questionnaire.sections.splice(destination.index, 0, sectionToMove[0]);
+    moveSection({
+      variables: {
+        input: {
+          id: draggableId,
+          position: destination.index,
+        },
+      },
+      optimisticResponse: {
+        moveSection: {
+          ...questionnaire,
+        },
+      },
+    });
   }
 
   return -1;

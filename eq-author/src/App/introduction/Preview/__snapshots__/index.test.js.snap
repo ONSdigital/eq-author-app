@@ -4,12 +4,23 @@ exports[`Introduction Preview should render 1`] = `
 <IntroductionLayout
   renderPanel={[Function]}
 >
-  <Preview__Container>
+  <IntroductionPreview__Container>
     <PageTitle
       missingText="Missing introduction title"
       title="foo"
     />
-    <Preview__Description
+    If the company details or structure have changed contact us on
+     
+    <IntroductionPreview__BlueUnderlined>
+      0300 1234 931
+    </IntroductionPreview__BlueUnderlined>
+     
+    or email
+     
+    <IntroductionPreview__BlueUnderlined>
+      surveys@ons.gov.uk
+    </IntroductionPreview__BlueUnderlined>
+    <IntroductionPreview__Description
       dangerouslySetInnerHTML={
         Object {
           "__html": "<p>bar</p>",
@@ -17,14 +28,24 @@ exports[`Introduction Preview should render 1`] = `
       }
       data-test="description"
     />
-    <Preview__Button>
+    <PageTitle
+      title="Your response is legally required"
+    />
+    <IntroductionPreview__Description
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": undefined,
+        }
+      }
+    />
+    <IntroductionPreview__Button>
       Start survey
-    </Preview__Button>
+    </IntroductionPreview__Button>
     <PageTitle
       missingText="Missing secondary title"
       title="secondaryTitle"
     />
-    <Preview__Description
+    <IntroductionPreview__Description
       dangerouslySetInnerHTML={
         Object {
           "__html": "<p>secondaryDescription</p>",
@@ -35,13 +56,13 @@ exports[`Introduction Preview should render 1`] = `
       missingText="Missing tertiary title"
       title="tertiaryTitle"
     />
-    <Preview__Description
+    <IntroductionPreview__Description
       dangerouslySetInnerHTML={
         Object {
           "__html": "tertiaryDescription",
         }
       }
     />
-  </Preview__Container>
+  </IntroductionPreview__Container>
 </IntroductionLayout>
 `;

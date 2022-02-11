@@ -37,7 +37,6 @@ mutation MovePage($input: MovePageInput!) {
       }
       folders {
         id
-        enabled
         alias
         displayName
         position

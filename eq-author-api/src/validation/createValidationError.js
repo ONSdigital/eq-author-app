@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 
-module.exports = (dataPath, field, errorCode, questionnaire) => {
+module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
   if (!dataPath || (typeof dataPath !== "string" && !Array.isArray(dataPath))) {
     throw new Error("Parameter 'dataPath' must be one of: String, Array");
   }
@@ -17,6 +17,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     throw new Error("Parameter 'questionnaire' must be supplied");
   }
 
+  if (!errMessage) {
+    errMessage = "";
+  }
+
   if (typeof dataPath === "string") {
     dataPath = dataPath.split("/");
   }
@@ -26,6 +30,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     keyword: "errorMessage",
     field,
     errorCode,
+    message: errMessage,
   };
 
   dataPath.splice(0, 1); // Strip leading ""
@@ -52,6 +57,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     expression,
     validation,
     theme,
+    list,
     propertyJSON;
 
   if (!dataPath.length && field) {
@@ -64,6 +70,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     const nextVal = dataPath[index + 1];
 
     switch (val) {
+      case "introduction":
+        validationErr.type = "introduction";
+        break;
+
       case "themeSettings":
         validationErr.type = "themeSettings";
         break;
@@ -72,6 +82,12 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         theme = questionnaire.themeSettings.themes[nextVal ? nextVal : field];
         validationErr.type = "theme";
         validationErr.themeId = theme?.id;
+        break;
+
+      case "lists":
+        list = questionnaire.lists[nextVal];
+        validationErr.type = "list";
+        validationErr.listId = list?.id;
         break;
 
       case "sections":
@@ -111,7 +127,7 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         break;
 
       case "answers":
-        ({ answers } = page);
+        ({ answers } = page || list);
         answer = answers[nextVal];
         validationErr.answerId = answer.id;
         validationErr.type = "answer";

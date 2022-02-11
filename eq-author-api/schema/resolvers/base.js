@@ -44,6 +44,7 @@ const {
   createFolder,
   createSection,
   createTheme,
+  createList,
 } = require("../../src/businessLogic");
 
 const {
@@ -68,6 +69,8 @@ const {
   getThemeByShortName,
   getPreviewTheme,
   getFirstEnabledTheme,
+  getListById,
+  getListByAnswerId,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -106,6 +109,7 @@ const {
 const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
+const createSubmission = require("../../utils/createSubmission");
 
 const {
   enforceHasWritePermission,
@@ -150,6 +154,7 @@ const createNewQuestionnaire = (input) => {
       themes: [defaultTheme],
     },
     locked: false,
+    submission: createSubmission(),
   };
 
   let changes = {};
@@ -277,6 +282,10 @@ const Resolvers = {
       return [];
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
+    submission: (root, _, ctx) => ctx.questionnaire.submission,
+    lists: (_, args, ctx) => ctx.questionnaire.lists,
+    list: (root, { input: { listId } }, ctx) =>
+      find(ctx.questionnaire.lists, { id: listId }),
   },
 
   Subscription: {
@@ -422,6 +431,14 @@ const Resolvers = {
       ctx.questionnaire.surveyId = surveyId;
       return ctx.questionnaire;
     }),
+    updateSubmission: createMutation((root, { input }, ctx) => {
+      ctx.questionnaire.submission = {
+        ...ctx.questionnaire.submission,
+        ...input,
+      };
+
+      return ctx.questionnaire.submission;
+    }),
     updatePreviewTheme: createMutation(
       (root, { input: { previewTheme } }, ctx) => {
         ctx.questionnaire.themeSettings.previewTheme = previewTheme;
@@ -549,7 +566,7 @@ const Resolvers = {
       getSections(ctx).splice(input.position, 0, removedSection);
       deleteFirstPageSkipConditions(ctx);
       deleteLastPageRouting(ctx);
-      return removedSection;
+      return ctx.questionnaire;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);
@@ -593,7 +610,6 @@ const Resolvers = {
         const folderToMove = first(remove(section.folders, { id }));
 
         if (!section.folders.length) {
-          onFolderDeleted(ctx, folderToMove);
           section.folders.push(createFolder());
         }
 
@@ -875,6 +891,84 @@ const Resolvers = {
         ...confirmationPage,
       };
     }),
+    createList: createMutation(async (root, _, ctx) => {
+      const list = createList();
+      if (!ctx.questionnaire.lists) {
+        ctx.questionnaire.lists = [];
+      }
+      ctx.questionnaire.lists.push(list);
+      return ctx.questionnaire;
+    }),
+    updateList: createMutation(async (root, { input }, ctx) => {
+      const list = getListById(ctx, input.id);
+      list.listName = input.listName;
+      return list;
+    }),
+    deleteList: createMutation(async (root, { input }, ctx) => {
+      remove(ctx.questionnaire.lists, { id: input.id });
+      return ctx.questionnaire;
+    }),
+    createListAnswer: createMutation((root, { input }, ctx) => {
+      const list = find(ctx.questionnaire.lists, { id: input.listId });
+      const answer = createAnswer(omit(input, "listId"), list);
+      list.answers.push(answer);
+
+      onAnswerCreated(list, answer);
+
+      return list;
+    }),
+    updateListAnswer: createMutation((root, { input }, ctx) => {
+      const answers = getAnswers(ctx);
+      const additionalAnswers = flatMap(answers, (answer) =>
+        answer.options
+          ? flatMap(answer.options, (option) => option.additionalAnswer)
+          : null
+      );
+      const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswerLabel = answer.label;
+      merge(answer, input);
+
+      if (answer.type === DATE && !input.label && input?.properties?.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
+
+      const pages = getPages(ctx);
+      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
+
+      return answer;
+    }),
+    updateListAnswersOfType: createMutation(
+      (root, { input: { listId, type, properties } }, ctx) => {
+        const list = find(ctx.questionnaire.lists, { id: listId });
+        const answersOfType = list.answers.filter((a) => a.type === type);
+        answersOfType.forEach((answer) => {
+          answer.properties = {
+            ...answer.properties,
+            ...properties,
+          };
+        });
+
+        return answersOfType;
+      }
+    ),
+    deleteListAnswer: createMutation((_, { input }, ctx) => {
+      const list = getListByAnswerId(ctx, input.id);
+      const deletedAnswer = first(remove(list.answers, { id: input.id }));
+      const pages = getPages(ctx);
+
+      onAnswerDeleted(ctx, list, deletedAnswer, pages);
+      return list;
+    }),
+    moveListAnswer: createMutation((_, { input: { id, position } }, ctx) => {
+      const list = getListByAnswerId(ctx, id);
+      const answerMoving = first(remove(list.answers, { id }));
+      list.answers.splice(position, 0, answerMoving);
+
+      return answerMoving;
+    }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
         "Northern Ireland": "northernireland",
@@ -976,7 +1070,6 @@ const Resolvers = {
     createComment: async (_, { input }, ctx) => {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1005,7 +1098,6 @@ const Resolvers = {
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1022,7 +1114,6 @@ const Resolvers = {
     updateComment: async (_, { input }, ctx) => {
       const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1045,7 +1136,6 @@ const Resolvers = {
     createReply: async (_, { input }, ctx) => {
       const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1076,7 +1166,6 @@ const Resolvers = {
     updateReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1100,7 +1189,6 @@ const Resolvers = {
     deleteReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
-      enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -1263,6 +1351,18 @@ const Resolvers = {
     __resolveType: ({ pageType }) => pageType,
   },
 
+  List: {
+    answers: (list) => list.answers,
+    displayName: ({ listName }) => listName || "Untitled list",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(ctx, id, ({ listId }) => id === listId),
+  },
+
+  QuestionnaireIntroduction: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
+  },
+
   Section: {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
@@ -1286,7 +1386,7 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
-    displayName: ({ alias }) => alias || "Untitled folder",
+    displayName: ({ alias, title }) => alias || title || "Untitled folder",
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,

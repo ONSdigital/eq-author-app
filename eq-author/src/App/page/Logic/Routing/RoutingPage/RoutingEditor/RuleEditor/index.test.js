@@ -41,6 +41,7 @@ describe("RuleEditor", () => {
         type: NUMBER,
       },
       condition: null,
+      secondaryCondition: null,
       right: {},
       expressionGroup: expressionGroup,
       validationErrorInfo: {
@@ -72,9 +73,13 @@ describe("RuleEditor", () => {
         },
         validationErrorInfo: validationErrorInfo,
       },
+      canMoveUp: true,
+      canMoveDown: true,
       deleteRule: jest.fn(),
       updateRule: jest.fn(),
       updateExpressionGroup: jest.fn(),
+      onMoveUp: jest.fn(),
+      onMoveDown: jest.fn(),
     };
   });
 
@@ -95,7 +100,7 @@ describe("RuleEditor", () => {
 
   it("should allow deleting rule", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
-    wrapper.find(byTestAttr("btn-remove-rule")).simulate("click");
+    wrapper.find(byTestAttr("btn-delete-routing-rule")).simulate("click");
     expect(defaultProps.deleteRule).toHaveBeenCalledWith(defaultProps.rule.id);
   });
 

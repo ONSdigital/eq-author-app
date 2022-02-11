@@ -24,8 +24,12 @@ const formatErrorMessage = (error, questionnaire) => {
   }
 
   const { instancePath, message } = error;
-
   const splitPath = instancePath.split("/");
+
+  if (!isNaN(splitPath[splitPath.length - 1])) {
+    splitPath.push(error.params.errors[0].params.missingProperty);
+  }
+
   const field = splitPath.pop();
 
   const newErrorMessage = createValidationError(

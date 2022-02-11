@@ -5,20 +5,72 @@ exports[`RuleEditor should render 1`] = `
   data-test="routing-rule"
 >
   <RuleEditor__Header>
-    <Label
-      bold={true}
-      inline={true}
-    >
-       Routing logic rules 
-    </Label>
-    <RuleEditor__RemoveRuleButton
-      data-test="btn-remove-rule"
-      onClick={[Function]}
-      type="button"
-      variant="primary"
-    >
-      Remove rule
-    </RuleEditor__RemoveRuleButton>
+    <RuleEditor__HeaderPanel>
+      <RuleEditor__HeaderLabel
+        inline={true}
+      >
+         Routing logic rule 
+      </RuleEditor__HeaderLabel>
+      <Tooltip
+        content="Move rule up"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          aria-label="Move rule up"
+          color="white"
+          data-test="btn-move-routing-rule-up"
+          disabled={false}
+          onClick={[MockFunction]}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Move rule down"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          aria-label="Move rule down"
+          color="white"
+          data-test="btn-move-routing-rule-down"
+          disabled={false}
+          onClick={[MockFunction]}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Delete rule"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete routing rule"
+          color="white"
+          data-test="btn-delete-routing-rule"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </RuleEditor__HeaderPanel>
   </RuleEditor__Header>
   <RuleEditor__Expressions>
     <TransitionGroup

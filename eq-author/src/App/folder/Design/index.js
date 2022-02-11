@@ -80,7 +80,7 @@ const FolderDesignPage = ({ history, match }) => {
 
   let folderPosition, pages;
 
-  const [saveShortCode] = useMutation(UPDATE_FOLDER_MUTATION);
+  const [updateFolder] = useMutation(UPDATE_FOLDER_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
   const [duplicateFolder] = useMutation(DUPLICATE_FOLDER_MUTATION, {
     onCompleted: ({ duplicateFolder }) =>
@@ -126,7 +126,6 @@ const FolderDesignPage = ({ history, match }) => {
         addFolder({
           sectionId: folder.section.id,
           position: folder.position + 1,
-          enabled: true,
         }),
     },
     [folder]
@@ -183,7 +182,7 @@ const FolderDesignPage = ({ history, match }) => {
           shortCode={alias}
           pageType={FOLDER}
           shortCodeOnUpdate={(alias) =>
-            saveShortCode({
+            updateFolder({
               variables: { input: { folderId: id, alias } },
             })
           }

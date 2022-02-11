@@ -1,55 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import theme, { colors } from "constants/theme";
+import Theme from "contexts/themeContext";
 
 import { lostConnection, gainConnection } from "redux/saving/actions";
-
-const GlobalStyle = createGlobalStyle`
-  html {
-    box-sizing: border-box;
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit;
-  }
-
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-    font-size: 1em;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  body {
-    font-family: 'Lato', sans-serif;
-    overflow: hidden;
-    color: ${colors.text};
-  }
-
-  input,
-  select,
-  textarea,
-  button {
-    font-family: inherit;
-    -webkit-font-smoothing: inherit;
-  }
-
-  a {
-    color: ${colors.blue};
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-`;
-
 export class UnconnectedApp extends React.Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
@@ -68,11 +22,7 @@ export class UnconnectedApp extends React.Component {
   };
 
   render() {
-    return (
-      <ThemeProvider theme={theme}>
-        {this.props.children} <GlobalStyle />
-      </ThemeProvider>
-    );
+    return <Theme>{this.props.children}</Theme>;
   }
 }
 

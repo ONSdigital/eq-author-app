@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { includes, get, find } from "lodash";
-import { PropTypes } from "prop-types";
+import { PropTypes, string } from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 
 import CheckboxChip from "./CheckboxChip";
@@ -10,16 +10,23 @@ import CheckboxOptionPicker from "./CheckboxOptionPicker";
 import Popover from "./CheckboxSelectorPopup";
 import ValidationError from "components/ValidationError";
 
-import { rightSideErrors } from "constants/validationMessages";
+import {
+  rightSideErrors,
+  OPERATOR_REQUIRED,
+  ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
+} from "constants/validationMessages";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 import { Select } from "components/Forms";
 
 import TextButton from "components/buttons/TextButton";
 import ToggleChip from "components/buttons/ToggleChip";
+import SecondaryConditionSelector from "./SecondaryConditionSelector";
+import { enableOn } from "utils/featureFlags";
 
 const answerConditions = {
   UNANSWERED: "Unanswered",
+  COUNTOF: "CountOf",
   ALLOF: "AllOf",
   ANYOF: "AnyOf",
   ONEOF: "OneOf",
@@ -104,6 +111,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
   static propTypes = {
     expression: PropTypes.shape({
+      condition: string,
       left: PropTypes.shape({
         options: PropTypes.arrayOf(
           PropTypes.shape({
@@ -167,14 +175,33 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         error.errorCode.includes("ERR_RIGHTSIDE") ||
         error.errorCode.includes(
           "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
-        )
+        ) ||
+        error.errorCode.includes("ERR_LOGICAL_AND")
     );
 
-    if (error) {
-      message =
-        message ||
-        rightSideErrors[error.errorCode].optionsMessage ||
-        rightSideErrors[error.errorCode].message;
+    if (
+      expression.validationErrorInfo.errors.some(
+        ({ field }) => field === "secondaryCondition"
+      )
+    ) {
+      message = OPERATOR_REQUIRED;
+    }
+    if (
+      expression.validationErrorInfo.errors.some(
+        ({ errorCode }) =>
+          errorCode === "ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS"
+      )
+    ) {
+      message = ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS;
+    } else if (error) {
+      if (expression.condition === "CountOf") {
+        message = rightSideErrors[error.errorCode].message;
+      } else {
+        message =
+          message ||
+          rightSideErrors[error.errorCode].optionsMessage ||
+          rightSideErrors[error.errorCode].message;
+      }
     }
 
     return message ? <ValidationError>{message}</ValidationError> : null;
@@ -219,6 +246,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
   renderCheckboxOptionSelector(hasError, hasConditionError) {
     const { expression } = this.props;
+
     return (
       <>
         <MultipleChoiceAnswerOptions
@@ -235,41 +263,53 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             <option value={answerConditions.ANYOF}>Any of</option>
             <option value={answerConditions.NOTANYOF}>Not any of</option>
             <option value={answerConditions.ALLOF}>All of</option>
+            {enableOn(["enableCountCondition"]) && (
+              <option value={answerConditions.COUNTOF}>Count of</option>
+            )}
             <option value={answerConditions.UNANSWERED}>Unanswered</option>
           </ConditionSelect>
-          {expression.condition !== answerConditions.UNANSWERED && (
-            <>
-              <TransitionGroup component={SelectedOptions}>
-                {get(expression, "right.options", []).map((option) => {
-                  const isMutuallyExclusive =
-                    expression.left.mutuallyExclusiveOption &&
-                    option.id === expression.left.mutuallyExclusiveOption.id;
+          {expression.condition === answerConditions.COUNTOF &&
+            enableOn(["enableCountCondition"]) && (
+              <SecondaryConditionSelector
+                expression={expression}
+                onRightChange={this.props.onRightChange}
+                onConditionChange={this.props.onConditionChange}
+              />
+            )}
+          {expression.condition !== answerConditions.UNANSWERED &&
+            expression.condition !== answerConditions.COUNTOF && (
+              <>
+                <TransitionGroup component={SelectedOptions}>
+                  {get(expression, "right.options", []).map((option) => {
+                    const isMutuallyExclusive =
+                      expression.left.mutuallyExclusiveOption &&
+                      option.id === expression.left.mutuallyExclusiveOption.id;
 
-                  return (
-                    <CheckboxChipTransition key={option.id}>
-                      <CheckboxChip
-                        key={option.id}
-                        id={option.id}
-                        onRemove={this.handleCheckboxUnselect}
-                        isMutuallyExclusive={isMutuallyExclusive}
-                      >
-                        {option.label || <strong>Unlabelled option</strong>}
-                      </CheckboxChip>
-                    </CheckboxChipTransition>
-                  );
-                })}
-              </TransitionGroup>
-              <ChooseButton
-                onClick={() => {
-                  this.setState({
-                    showPopup: true,
-                  });
-                }}
-              >
-                Choose
-              </ChooseButton>
-            </>
-          )}
+                    return (
+                      <CheckboxChipTransition key={option.id}>
+                        <CheckboxChip
+                          key={option.id}
+                          id={option.id}
+                          onRemove={this.handleCheckboxUnselect}
+                          isMutuallyExclusive={isMutuallyExclusive}
+                        >
+                          {option.label || <strong>Unlabelled option</strong>}
+                        </CheckboxChip>
+                      </CheckboxChipTransition>
+                    );
+                  })}
+                </TransitionGroup>
+                <ChooseButton
+                  onClick={() => {
+                    this.setState({
+                      showPopup: true,
+                    });
+                  }}
+                >
+                  Choose
+                </ChooseButton>
+              </>
+            )}
           {this.state.showPopup && (
             <Popover isOpen onClose={this.handlePickerClose}>
               <CheckboxOptionPicker

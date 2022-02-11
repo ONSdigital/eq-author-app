@@ -18,6 +18,17 @@ import * as Headings from "constants/table-headings";
 
 import { useLockUnlockQuestionnaire } from "hooks/useSetQuestionnaireLocked";
 
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+suppressConsoleMessage("ReactComponent is not a styled component", "warn");
+
+// eslint-disable-next-line no-console
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
 jest.mock("hooks/useSetQuestionnaireLocked", () => ({
   useLockUnlockQuestionnaire: jest.fn(() => [jest.fn(), jest.fn()]),
 }));

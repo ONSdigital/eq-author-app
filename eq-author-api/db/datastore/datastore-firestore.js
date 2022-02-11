@@ -7,6 +7,7 @@ const { removeEmpty } = require("../../utils/removeEmpty");
 const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const {
   questionnaireCreationEvent,
+  historyCreationForImport,
 } = require("../../utils/questionnaireEvents");
 
 let db;
@@ -39,15 +40,19 @@ const saveSections = (parentDoc, sections) =>
     )
   );
 
-const createQuestionnaire = async (questionnaire, ctx) => {
+const createQuestionnaire = async (questionnaire, ctx, imported) => {
   const updatedAt = new Date();
   const id = questionnaire.id ?? uuidv4();
   const { sections } = questionnaire;
 
+  const historyArray = imported
+    ? [historyCreationForImport(questionnaire, ctx)]
+    : [questionnaireCreationEvent(questionnaire, ctx)];
+
   const baseQuestionnaire = removeEmpty({
     id,
     ...justListFields(questionnaire),
-    history: [questionnaireCreationEvent(questionnaire, ctx)],
+    history: historyArray,
     updatedAt,
   });
 
@@ -162,7 +167,9 @@ const getQuestionnaireMetaById = async (id) => {
       ...questionnaireSnapshot.data(),
       history: questionnaireSnapshot.data().history.map((historyItem) => ({
         ...historyItem,
-        time: historyItem.time.toDate(),
+        time: historyItem.time.seconds
+          ? historyItem.time.toDate()
+          : new Date(historyItem.time),
       })),
       updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
       createdAt: questionnaireSnapshot.data().createdAt.toDate(),
@@ -349,7 +356,13 @@ const createHistoryEvent = async (qid, event) => {
       );
     }
     const questionnaire = await getQuestionnaireMetaById(qid);
-    questionnaire.history.unshift(event);
+
+    if (questionnaire?.history?.length) {
+      questionnaire.history.unshift(event);
+    } else {
+      questionnaire.history = [];
+      questionnaire.history.unshift(event);
+    }
 
     await db
       .collection("questionnaires")
@@ -415,6 +428,10 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
       .get();
 
     const data = commentsSnapshot.data();
+
+    if (!data) {
+      return createComments(questionnaireId);
+    }
 
     const listOfComponents = Object.keys(data.comments);
     listOfComponents.forEach((component) => {

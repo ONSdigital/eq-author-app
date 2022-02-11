@@ -5,6 +5,27 @@ import { render as rtlRender } from "tests/utils/rtl";
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
 import { sectionErrors } from "constants/validationMessages";
+import suppressConsoleMessage from "tests/utils/supressConsol";
+
+/*
+ * @description Suppresses specific messages from being logged in the Console.
+ */
+
+suppressConsoleMessage(
+  "Failed prop type: Invalid prop `children` supplied to `Provider`, expected a ReactNode.",
+  "error"
+);
+suppressConsoleMessage(
+  "An update to %s inside a test was not wrapped in act",
+  "error"
+);
+suppressConsoleMessage("componentWillMount has been renamed", "warn");
+suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
+
+// eslint-disable-next-line no-console
+console.log(
+  `Warn: there are manually suppressed warnings or errors in this test file due to dependencies needing updates - See EAR-1095`
+);
 
 describe("SectionEditor", () => {
   const section1 = {
@@ -17,6 +38,7 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    summaryTitle: "",
     questionnaire: {
       id: "2",
       navigation: true,
@@ -40,6 +62,7 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    summaryTitle: "",
     questionnaire: {
       id: "2",
       navigation: true,

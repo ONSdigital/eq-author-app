@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
@@ -7,11 +7,22 @@ import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
+import DescribedText from "components/DescribedText";
+import WrappingInput from "components/Forms/WrappingInput";
+
+const StyledDescribedText = styled(DescribedText)`
+  font-weight: 700;
+`;
+const StyledField = styled(Field)`
+  margin-left: 0;
+  margin-right: 2em;
+`;
+
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
   margin-bottom: 0.4rem;
-  margin-left: 2rem;
+  margin-left: 0;
 `;
 
 const ToggleWrapper = styled.div`
@@ -22,14 +33,14 @@ const ToggleWrapper = styled.div`
 const Caption = styled.p`
   margin-top: 0s;
   margin-bottom: 1.5rem;
-  margin-left: 2rem;
+  margin-left: 0;
   font-size: 0.85em;
 `;
 
 const SummaryLabel = styled.label`
   margin-top: 0s;
   margin-bottom: 1.5rem;
-  margin-left: 2rem;
+  margin-left: 0;
   font-weight: bold;
 `;
 
@@ -38,8 +49,20 @@ const EnableDisableWrapper = styled.div`
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
 
-const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
+const SectionSummary = ({
+  id,
+  sectionSummary,
+  collapsibleSummary,
+  summaryTitle,
+  errorValidationMsg,
+}) => {
   const [updateSection] = useMutation(updateSectionMutation);
+
+  const [title, setSummaryTitle] = useState(summaryTitle);
+
+  useEffect(() => {
+    setSummaryTitle(summaryTitle);
+  }, [summaryTitle]);
 
   return (
     <>
@@ -49,9 +72,31 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
         section before submitting them. You can set the section summary to be
         collapsible, so respondents can show and hide the answers.
       </Caption>
-
+      <StyledField>
+        <StyledDescribedText
+          htmlFor={`summary-title-${id}`}
+          description={`This will be shown on section and answer summaries.`}
+        >
+          Summary title
+        </StyledDescribedText>
+        <WrappingInput
+          id={`summary-title-${id}`}
+          name="summaryTitle"
+          onChange={(e) => setSummaryTitle(e.value)}
+          onBlur={(e) =>
+            updateSection({
+              variables: { input: { id, summaryTitle: e.target.value } },
+            })
+          }
+          value={title || ""}
+          placeholder={``}
+          data-test="txt-folder-input"
+          bold
+          errorValidationMsg={errorValidationMsg}
+        />
+      </StyledField>
       <InlineField>
-        <Label htmlFor="required-completed">Section summary</Label>
+        <Label htmlFor="section-summary">Section summary</Label>
         <ToggleWrapper>
           <ToggleSwitch
             id="section-summary"
@@ -78,7 +123,7 @@ const SectionSummary = ({ id, sectionSummary, collapsibleSummary }) => {
         disabled={!sectionSummary}
       >
         <InlineField>
-          <Label htmlFor="required-completed">Collapsible summary</Label>
+          <Label htmlFor="collapsible-summary">Collapsible summary</Label>
           <ToggleWrapper>
             <ToggleSwitch
               id="collapsible-summary"
@@ -105,7 +150,9 @@ SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
   collapsibleSummary: PropTypes.bool,
+  summaryTitle: PropTypes.string,
   disabled: PropTypes.bool,
+  errorValidationMsg: PropTypes.string,
 };
 
 export default SectionSummary;

@@ -37,6 +37,7 @@ const {
   updateTheme,
   toggleQuestionnaireStarred,
   setQuestionnaireLocked,
+  updateSubmission,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -326,7 +327,7 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "covid",
+            shortName: "northernireland",
           },
           ctx
         );
@@ -337,7 +338,7 @@ describe("questionnaire", () => {
 
         expect(
           updatedQuestionnaire.themeSettings.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           )
         ).toMatchObject({
           enabled: true,
@@ -381,18 +382,17 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "covid",
+            shortName: "northernireland",
           },
           ctx
         );
 
-        const {
-          themeSettings: themeSettingsWithTwoThemes,
-        } = await queryQuestionnaire(ctx);
+        const { themeSettings: themeSettingsWithTwoThemes } =
+          await queryQuestionnaire(ctx);
 
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
 
@@ -406,17 +406,16 @@ describe("questionnaire", () => {
           ctx
         );
 
-        const {
-          themeSettings: themeSettingsWithOneTheme,
-        } = await queryQuestionnaire(ctx);
+        const { themeSettings: themeSettingsWithOneTheme } =
+          await queryQuestionnaire(ctx);
 
         expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
         expect(
           themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "covid"
+            ({ shortName }) => shortName === "northernireland"
           ).enabled
         ).toBe(true);
-        expect(themeSettingsWithOneTheme.previewTheme).toBe("covid");
+        expect(themeSettingsWithOneTheme.previewTheme).toBe("northernireland");
       });
 
       it("should not be able to disable a non-existent theme", () => {
@@ -647,6 +646,70 @@ describe("questionnaire", () => {
 
         expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
       });
+    });
+  });
+
+  describe("submission", () => {
+    let config;
+    beforeEach(async () => {
+      ctx = await buildContext();
+      config = {
+        title: "Questionnaire",
+        description: "Description",
+        surveyId: "1",
+        theme: "default",
+        navigation: false,
+        summary: false,
+        type: SOCIAL,
+        shortTitle: "short title",
+      };
+    });
+
+    it("should create a questionnaire submission page for social surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, config);
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
+
+    it("should create a questionnaire submission page for business surveys", async () => {
+      const questionnaire = await createQuestionnaire(ctx, {
+        ...config,
+        type: BUSINESS,
+      });
+      expect(questionnaire.submission).toMatchObject({
+        id: expect.any(String),
+        furtherContent: expect.any(String),
+        viewPrintAnswers: expect.any(Boolean),
+        emailConfirmation: expect.any(Boolean),
+        feedback: expect.any(Boolean),
+      });
+    });
+
+    it("should update existing submission page", async () => {
+      await createQuestionnaire(ctx, config);
+
+      await updateSubmission(
+        {
+          furtherContent: "<p>Test</p>",
+          viewPrintAnswers: false,
+          emailConfirmation: false,
+          feedback: false,
+        },
+        ctx
+      );
+
+      const updatedQuestionnaire = await queryQuestionnaire(ctx);
+      expect(updatedQuestionnaire.submission.furtherContent).toEqual(
+        "<p>Test</p>"
+      );
+      expect(updatedQuestionnaire.submission.viewPrintAnswers).toBeFalsy();
+      expect(updatedQuestionnaire.submission.emailConfirmation).toBeFalsy();
+      expect(updatedQuestionnaire.submission.feedback).toBeFalsy();
     });
   });
 

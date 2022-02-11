@@ -79,6 +79,16 @@ const PageMainCanvas = styled.div`
 const PageContainer = styled.div`
   padding: 0.8em;
   border-left: 1px solid ${colors.lightGrey};
+  &:focus {
+    border: 3px solid #fdbd56;
+    margin: 0;
+    outline: none;
+  }
+  &:focus:not(:focus-visible) {
+    border: none;
+    margin: 0;
+    outline: none;
+  }
 `;
 
 const Pill = ({ children, testId }) => {
@@ -146,7 +156,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     <Container>
       <ScrollPane>
         <Header title="Settings" />
-        <PageContainer>
+        <PageContainer tabIndex="-1" className="keyNav">
           <PageMainCanvas>
             <Grid>
               <VerticalTabs
@@ -162,9 +172,12 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                 <SettingsContainer>
                   <StyledPanel>
                     <Field>
-                      <Label>Questionnaire title</Label>
+                      <Label htmlFor="questionnaireTitle">
+                        Questionnaire title
+                      </Label>
                       <Caption>Changes the questionnaire&apos;s title.</Caption>
                       <StyledInput
+                        id="questionnaireTitle"
                         value={questionnaireTitle}
                         onChange={({ value }) => setQuestionnaireTitle(value)}
                         onBlur={(e) => handleTitleChange({ ...e.target })}
@@ -172,7 +185,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <Field>
-                      <Label>Short title (optional)</Label>
+                      <Label htmlFor="shortTitle">Short title (optional)</Label>
                       <Caption>
                         {shortTitle ? "Changes" : "Adds"} the
                         questionnaire&apos;s short title. This is only used
@@ -180,6 +193,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         questionnaire title.
                       </Caption>
                       <StyledInput
+                        id="shortTitle"
                         value={questionnaireShortTitle}
                         onChange={({ value }) =>
                           setQuestionnaireShortTitle(value)
@@ -195,7 +209,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     </Field>
                     <HorizontalSeparator />
                     <InlineField>
-                      <Label>QCodes</Label>
+                      <Label htmlFor="toggle-qcodes">QCodes</Label>
                       <ToggleSwitch
                         id="toggle-qcodes"
                         name="toggle-qcodes"
@@ -218,7 +232,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     {enableOn(["hub"]) && (
                       <>
                         <InlineField>
-                          <Label>Hub navigation</Label>
+                          <Label htmlFor="toggle-hub-navigation">
+                            Hub navigation
+                          </Label>
                           <ToggleSwitch
                             id="toggle-hub-navigation"
                             name="toggle-hub-navigation"
@@ -274,7 +290,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
                     <EnableDisableWrapper disabled={hub}>
                       <InlineField>
-                        <Label>Answers summary</Label>
+                        <Label htmlFor="toggle-answer-summary">
+                          Answers summary
+                        </Label>
                         <ToggleSwitch
                           id="toggle-answer-summary"
                           name="toggle-answer-summary"
@@ -298,7 +316,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
 
                     <EnableDisableWrapper disabled={!summary || hub}>
                       <InlineField>
-                        <Label>Collapsible sections</Label>
+                        <Label htmlFor="toggle-collapsible-summary">
+                          Collapsible sections
+                        </Label>
                         <ToggleSwitch
                           id="toggle-collapsible-summary"
                           name="toggle-collapsible-summary"
