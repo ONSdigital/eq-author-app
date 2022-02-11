@@ -63,16 +63,18 @@ describe("SignInPage", () => {
       expect(history.location.pathname).toBe("/");
     });
 
-    // it.only("should show success if Password is updated", () => {
+    // it.only("should show success if Password is updated", async () => {
     //   props = {
     //     ...props,
     //     emailNowVerified: true,
     //   };
-    //   const { getByText } = renderSignIn({ ...props });
+    //   await renderSignIn({ ...props });
 
     //   expect(
-    //     getByText("You've successfully verified your Author account.")
-    //   ).toBeTruthy();
+    //     await screen.findByText(
+    //       /You've successfully verified your Author account./
+    //     )
+    //   ).toBeInTheDocument();
     // });
 
     it("should setErrorMessage if location.search is not correct", () => {
@@ -132,24 +134,23 @@ describe("SignInPage", () => {
       expect(getAllByText("Email should not be empty")).toBeTruthy();
     });
 
-    // it.only("should send a password reset request to firebase", async () => {
-    //   const { getByText, getByTestId } = renderSignIn({
-    //     ...props,
-    //   });
-    //   userEvent.click(screen.getByText("Forgot your password?"));
-    //   expect(getByTestId("txt-recovery-email")).toBeVisible();
+    it("should return a firebase error if password reset account does not exist", async () => {
+      const { getByText, getByTestId } = renderSignIn({
+        ...props,
+      });
+      userEvent.click(screen.getByText("Forgot your password?"));
+      expect(getByTestId("txt-recovery-email")).toBeVisible();
 
-    //   const input = screen.getByLabelText("Enter your email address");
+      const input = screen.getByLabelText("Enter your email address");
 
-    //   userEvent.type(input, "nemazine@hotmail.com");
+      userEvent.type(input, "noneExisting@email.com");
 
-    //   await waitForExpect(() => fireEvent.click(screen.getByText("Send")));
-    //   // await waitForExpect(() => expect(mutationWasCalled).toEqual(false));
-    //   screen.debug();
-    //   expect(
-    //     getByText("We've sent a link for resetting your password to:")
-    //   ).toBeTruthy();
-    // });
+      await waitForExpect(() => userEvent.click(screen.getByText("Send")));
+
+      expect(
+        await screen.findByText(/This page has an error/)
+      ).toBeInTheDocument();
+    });
 
     it("should return to sign in form from recover password component", () => {
       const { getByText, getByTestId } = renderSignIn({
@@ -164,7 +165,7 @@ describe("SignInPage", () => {
   });
 
   describe("reset Password page", () => {
-    it("should render password reset component", async () => {
+    it("should render Error if Password reset link is faulty", async () => {
       props = {
         ...props,
         location: {
@@ -178,9 +179,32 @@ describe("SignInPage", () => {
         renderSignIn({ ...props });
       });
 
-      await waitForExpect(() =>
-        expect(screen.getByText("This page has an error")).toBeTruthy()
-      );
+      expect(
+        await screen.findByText(/This page has an error/)
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("verify email", () => {
+    it.only("should render Error if verify email link expired or faulty", async () => {
+      props = {
+        ...props,
+        location: {
+          pathname: "/sign-in",
+          search:
+            "mode=verifyEmail&oobCode=4WGfmkASqXN4bC-K1qFOBmRXp9UzMUFZFHakQ1AdzqcAAAF",
+          hash: "",
+        },
+      };
+      act(() => {
+        renderSignIn({ ...props });
+      });
+
+      screen.debug();
+
+      expect(
+        await screen.findByText(/This page has an error/)
+      ).toBeInTheDocument();
     });
   });
 
