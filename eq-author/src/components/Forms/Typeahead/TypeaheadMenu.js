@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { radius } from "constants/theme";
 
+import { noop } from "lodash";
+
 const Menu = styled.div`
   display: block;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
@@ -64,13 +66,11 @@ const TypeaheadMenu = ({
           // downshift docs - https://github.com/downshift-js/downshift
           <MenuItem
             key={item.value}
-            id={getItemProps({ index, item }).id}
-            onClick={getItemProps({ index, item }).onClick} //eslint-disable-line
-            onMouseDown={getItemProps({ index, item }).onMouseDown} //eslint-disable-line
-            role={getItemProps({ index, item }).role}
-            //Prettier ignore to prevent Prettier from writing 'aria-selected' as 'aria - selected'
-            /* prettier-ignore */
-            aria-selected={getItemProps({ index, item }).aria-selected} //eslint-disable-line
+            {...getItemProps({
+              index,
+              item,
+            })}
+            onMouseMove={noop}
           >
             <MenuItemText
               isActive={highlightedIndex === index}
