@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import auth from "components/Auth";
 import { useHistory } from "react-router-dom";
 
-import Input from "components-themed/Input";
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
-import Label from "components-themed/Label";
 import Panel from "components-themed/panels";
+import PasswordInput from "components-themed/Input/PasswordInput";
 
 import {
   PageTitle,
@@ -106,9 +105,7 @@ const ResetPassword = ({
                   paragraphLabel={errorMessage}
                   withLeftBorder
                 >
-                  <Label htmlFor="new-password">Enter a new password</Label>
-                  <Input
-                    type="password"
+                  <PasswordInput
                     id="new-password"
                     value={newPassword}
                     onChange={({ value }) => setNewPassword(value)}
@@ -118,9 +115,7 @@ const ResetPassword = ({
               </>
             ) : (
               <>
-                <Label htmlFor="new-password">Enter a new password</Label>
-                <Input
-                  type="password"
+                <PasswordInput
                   id="new-password"
                   value={newPassword}
                   onChange={({ value }) => setNewPassword(value)}

@@ -5,6 +5,7 @@ import auth from "components/Auth";
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
+import PasswordInput from "components-themed/Input/PasswordInput";
 
 import {
   PageTitle,
@@ -78,7 +79,6 @@ const CreateAccount = ({
         )}
         <PageTitle>Create an account</PageTitle>
         <Description>{`You must have an account to access Author`}</Description>
-
         <InputWithConditionalError
           type="text"
           id="create-email"
@@ -88,7 +88,6 @@ const CreateAccount = ({
           condition={errorMessage?.toLowerCase().includes("email")}
           dataTest="txt-create-email"
         />
-
         <InputWithConditionalError
           type="text"
           id="create-fullName"
@@ -98,17 +97,33 @@ const CreateAccount = ({
           condition={errorMessage?.toLowerCase().includes("name")}
           dataTest="txt-create-fullName"
         />
-
-        <InputWithConditionalError
-          type="password"
-          id="create-password"
-          name="password"
-          title="Password"
-          handleChange={({ value }) => setPassword(value)}
-          value={password}
-          condition={errorMessage?.toLowerCase().includes("password")}
-          dataTest="txt-create-password"
-        />
+        <Field>
+          {errorMessage?.toLowerCase().includes("password") ? (
+            <>
+              <Panel
+                variant="errorNoHeader"
+                paragraphLabel={errorMessage}
+                withLeftBorder
+              >
+                <PasswordInput
+                  id="create-password"
+                  value={password}
+                  onChange={({ value }) => setPassword(value)}
+                  data-test="txt-create-password"
+                />
+              </Panel>
+            </>
+          ) : (
+            <>
+              <PasswordInput
+                id="password"
+                value={password}
+                onChange={({ value }) => setPassword(value)}
+                data-test="txt-create-password"
+              />
+            </>
+          )}
+        </Field>
 
         <Field>
           <Button

@@ -122,8 +122,6 @@ const SignInForm = ({
               paragraphLabel={errorMessage}
               withLeftBorder
             >
-              {/* <PasswordInput /> */}
-              <Label htmlFor="password">Password</Label>
               <PasswordInput
                 id="password"
                 value={password}
