@@ -37,7 +37,7 @@ const ShortCodeEditor = ({ shortCode: shortCodeFromDb, onUpdate }) => {
       <ShortCodeTitle htmlFor="alias">Short code</ShortCodeTitle>
       <Wrapper>
         <InputBox
-          id="shortCode"
+          id="alias"
           type="text"
           data-test="shortCode"
           autoComplete="off"

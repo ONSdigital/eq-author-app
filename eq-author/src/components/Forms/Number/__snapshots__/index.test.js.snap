@@ -32,7 +32,7 @@ exports[`Number min/max render with a unit type for unit 1`] = `
 exports[`Number should render correctly 1`] = `
 <Number__StyledDiv>
   <Number__NumberInput
-    aria-labelledby="unit-number"
+    aria-labelledby="number"
     aria-live="assertive"
     data-test="number-input"
     default={null}
