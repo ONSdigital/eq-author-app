@@ -31,9 +31,7 @@ const PasswordButtonLink = styled(ButtonLink)`
   margin: 0.2rem 1.25rem 0 1.25rem;
 `;
 
-const PasswordInput = ({ id, defaultValue, dataTest, ...otherProps }) => {
-  // const { id, defaultValue, dataTest, ...otherProps } = props;
-
+const PasswordInput = ({ id, dataTest, ...otherProps }) => {
   const [hidden, setHidden] = useState(true);
 
   function handlePasswordToggle(e) {
@@ -48,13 +46,12 @@ const PasswordInput = ({ id, defaultValue, dataTest, ...otherProps }) => {
         <Password
           type={hidden ? "password" : "text"}
           id={id}
-          defaultValue={defaultValue}
           data-test={dataTest}
           {...otherProps}
         />
         <ShowHidePassword>
           <PasswordButtonLink onClick={handlePasswordToggle}>
-            {hidden ? "Show" : "hide"}
+            {hidden ? "Show" : "Hide"}
           </PasswordButtonLink>
         </ShowHidePassword>
       </PasswordContainer>
@@ -64,11 +61,6 @@ const PasswordInput = ({ id, defaultValue, dataTest, ...otherProps }) => {
 
 PasswordInput.propTypes = {
   id: PropTypes.string,
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.number,
-  ]),
   dataTest: PropTypes.string,
 };
 
