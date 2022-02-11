@@ -76,7 +76,7 @@ const SignInPage = ({
         case "verifyEmail":
           auth
             .applyActionCode(actionCode)
-            .then((response) => {
+            .then(() => {
               // Email address has been verified.
               setErrorMessage("");
               setEmailNowVerified(true);

@@ -18,7 +18,7 @@ describe("SignInPage", () => {
       signOut: jest.fn(),
       isSigningIn: false,
       sentEmailVerification: false,
-      location: { pathname: "/sign-in", search: "", hash: "" },
+      searchParams: "",
     };
   });
 
@@ -80,7 +80,7 @@ describe("SignInPage", () => {
     it("should setErrorMessage if location.search is not correct", () => {
       props = {
         ...props,
-        location: { pathname: "/sign-in", search: "gobledeegoo", hash: "" },
+        searchParams: "gobledeegoo",
       };
       const { getByText } = renderSignIn({ ...props });
 
@@ -168,12 +168,8 @@ describe("SignInPage", () => {
     it("should render Error if Password reset link is faulty", async () => {
       props = {
         ...props,
-        location: {
-          pathname: "/sign-in",
-          search:
-            "mode=resetPassword&oobCode=EpfWvpD2DTKoIHIp5pPfx5OXGml5baxIcVY7U8DBMe4AAAF",
-          hash: "",
-        },
+        searchParams:
+          "mode=resetPassword&oobCode=EpfWvpD2DTKoIHIp5pPfx5OXGml5baxIcVY7U8DBMe4AAAF",
       };
       act(() => {
         renderSignIn({ ...props });
@@ -189,18 +185,12 @@ describe("SignInPage", () => {
     it("should render Error if verify email link expired or faulty", async () => {
       props = {
         ...props,
-        location: {
-          pathname: "/sign-in",
-          search:
-            "mode=verifyEmail&oobCode=4WGfmkASqXN4bC-K1qFOBmRXp9UzMUFZFHakQ1AdzqcAAAF",
-          hash: "",
-        },
+        searchParams:
+          "mode=verifyEmail&oobCode=4WGfmkASqXN4bC-K1qFOBmRXp9UzMUFZFHakQ1AdzqcAAAF",
       };
       act(() => {
         renderSignIn({ ...props });
       });
-
-      screen.debug();
 
       expect(
         await screen.findByText(/This page has an error/)
