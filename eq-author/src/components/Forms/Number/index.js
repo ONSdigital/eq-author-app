@@ -94,7 +94,7 @@ const Number = (props) => {
         onBlur={handleBlur}
         aria-live="assertive"
         valueType={type}
-        aria-labelledby={unitId}
+        aria-labelledby={id}
         min={min}
         max={max}
         default={props.default}

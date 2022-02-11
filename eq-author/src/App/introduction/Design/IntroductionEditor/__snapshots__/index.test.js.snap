@@ -110,6 +110,7 @@ exports[`IntroductionEditor should render 1`] = `
         >
           <Label
             bold={true}
+            htmlFor="toggle-contact-details-include-ruref"
           >
             Add RU ref to the subject line
           </Label>
@@ -131,6 +132,7 @@ exports[`IntroductionEditor should render 1`] = `
       >
         <Label
           bold={true}
+          htmlFor="toggle-additional-guidance-panel"
         >
           Additional guidance panel
         </Label>
