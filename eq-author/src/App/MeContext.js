@@ -134,8 +134,6 @@ const ContextProvider = ({ history, client, children }) => {
     searchParams,
   ]);
 
-  //
-
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {(innerProps) => {

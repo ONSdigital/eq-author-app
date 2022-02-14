@@ -20,16 +20,6 @@ const PrivateRoute = React.memo(
   ({ component: Component, isSigningIn, me, ...rest }) => {
     let render;
 
-    // timeout for loading issue
-    // const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //   setTimeout(() => {
-    //     setLoading(false);
-    //   }, 3000);
-    // }, []);
-
-    // if (isSigningIn && loading) {
     if (isSigningIn) {
       render = () => (
         <Layout title="Logging in...">

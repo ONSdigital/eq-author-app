@@ -4,8 +4,6 @@ import Header from "components-themed/Header/index.js";
 import { ReactComponent as Logo } from "assets/ons-logo.svg";
 import Theme from "contexts/themeContext";
 import { MeContext } from "App/MeContext";
-// import userEvent from "@testing-library/user-event";
-// import waitForExpect from "wait-for-expect";
 
 let props;
 
@@ -61,16 +59,5 @@ describe("Header in Components-themed", () => {
       const image = getByAltText("Avatar");
       expect(image).toHaveAttribute("src", "SvgrURL");
     });
-
-    // it("should signout on clicking logout user avatar", async () => {
-    //   const mockedHandler = jest.fn();
-    //   renderHeader({ ...props });
-    //   screen.debug();
-
-    //   await waitForExpect(() =>
-    //     userEvent.click(screen.getByText("I am Groot"))
-    //   );
-    //   expect(await mockedHandler).toHaveBeenCalled();
-    // });
   });
 });
