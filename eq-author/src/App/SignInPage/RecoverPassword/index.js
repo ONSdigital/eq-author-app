@@ -123,17 +123,17 @@ const RecoverPassword = ({
           </Panel>
           <PageTitle>Recover Password - check your email</PageTitle>
           <InlineDescription>
-            {"We've sent a link for resetting your password to:"}
+            We&rsquo;ve sent a link for resetting your password to:&nbsp;
           </InlineDescription>
           <InlineDescriptionBold>{recoveryEmail}</InlineDescriptionBold>
           <InlineDescription>
-            {"The link will expire in 2 hours."}
+            The link will expire in 2 hours.
           </InlineDescription>
 
           <PageSubTitle>If you did not get the email</PageSubTitle>
-          <InlineDescription>We can</InlineDescription>
+          <InlineDescription>We can&nbsp;</InlineDescription>
           <ButtonLink onClick={handleReturnToRecoverPassword}>
-            send the password reset email again
+            send the password reset email again&nbsp;
           </ButtonLink>
           <InlineDescription>if you did not get it.</InlineDescription>
         </>

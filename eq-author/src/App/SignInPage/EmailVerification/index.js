@@ -34,10 +34,10 @@ const EmailVerification = ({
         <>
           <PageTitle>Email verification</PageTitle>
           <InlineDescription>
-            {"Your email has been successfully verified. You can now sign in."}
+            Your email has been successfully verified. You can now sign
+            in.&nbsp;
+            <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
           </InlineDescription>
-          <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
-          <InlineDescription>{""}</InlineDescription>
           <Field>
             <Button onClick={(e) => handleReturnToSignInPage(e)}>
               Return to the sign in page
@@ -48,9 +48,8 @@ const EmailVerification = ({
         <>
           <PageTitle>Email verification</PageTitle>
           <InlineDescription>
-            {
-              "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to: "
-            }
+            You need to confirm your email address to sign in. Click on the
+            confirmation link we&rsquo;ve emailed to:&nbsp;
             <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
           </InlineDescription>
           <Field>

@@ -133,7 +133,7 @@ const CreateAccount = ({
           </Button>
         </Field>
         <InlineDescription>
-          If you already have an account, you can
+          If you already have an account, you can&nbsp;
         </InlineDescription>
         <ButtonLink onClick={handleReturnToSignInPage}>sign in</ButtonLink>
       </>

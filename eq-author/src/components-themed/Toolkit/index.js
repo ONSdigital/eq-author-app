@@ -26,7 +26,6 @@ export const Description = styled.p`
 
 export const InlineDescription = styled(Description)`
   display: inline-block;
-  margin-right: 0.5rem;
 `;
 
 export const InlineDescriptionBold = styled.span`
@@ -45,7 +44,7 @@ export const ButtonLink = styled.button`
   background: none !important;
   border: none;
   padding: 0 !important;
-  margin: 0 0.5rem 0.5rem 0;
+  margin: 0 0 0.5rem;
   font-size: 1.125rem;
   color: ${colors.blue};
   text-decoration: underline;

@@ -43,7 +43,7 @@ const ApiError = ({
       )}
       <PageTitle>Expired link</PageTitle>
       <InlineDescription>
-        {"Your link has expired. Please try again..."}
+        Your link has expired. Please try again...&nbsp;
       </InlineDescription>
       <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
       <Field>

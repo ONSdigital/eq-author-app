@@ -92,10 +92,10 @@ const ResetPassword = ({
             />
           )}
           <PageTitle>Reset your Password</PageTitle>
-          <InlineDescription>{"This is for the email:"}</InlineDescription>
+          <InlineDescription>This is for the email:&nbsp;</InlineDescription>
           <InlineDescriptionBold>{userEmail}</InlineDescriptionBold>
           <InlineDescription>
-            {" - Your password must be at least 8 characters."}
+            &nbsp;- Your password must be at least 8 characters.
           </InlineDescription>
           <Field>
             {errorMessage?.toLowerCase().includes("password") ? (
