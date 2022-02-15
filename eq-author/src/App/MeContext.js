@@ -84,11 +84,11 @@ const ContextProvider = ({ history, client, children }) => {
   const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
   const [sentEmailVerification, setSentEmailVerification] = useState(false);
 
-  const SearchParams = () => {
+  const GetSearchParams = () => {
     const location = useLocation();
     return location.search;
   };
-  const searchParams = SearchParams();
+  const searchParams = GetSearchParams();
 
   useEffect(() => {
     // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0

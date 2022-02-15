@@ -31,7 +31,6 @@ const SignInPage = ({
   sentEmailVerification,
   searchParams,
 }) => {
-  //use multiple state array here?
   const [createAccount, setCreateAccount] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -63,7 +62,6 @@ const SignInPage = ({
       setMode(getParameterByName("mode"));
       // Get the one-time code from the query parameter.
       setActionCode(getParameterByName("oobCode"));
-      // (Optional) Get the continue URL from the query parameter if available.
       switch (mode) {
         case "resetPassword":
           resetThePassword(true);

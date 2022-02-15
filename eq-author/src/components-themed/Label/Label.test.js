@@ -27,13 +27,13 @@ describe("components-themed/Label", () => {
 
   it("test inLine props", () => {
     rtlRender(
-      <Label foo="bar" bar="foo" inLine>
+      <Label foo="bar" bar="foo" inline>
         Foo
       </Label>
     );
-    expect(screen.getByText("Foo")).toHaveStyleRule("display: inline-block;");
-    expect(screen.getByText("Foo")).toHaveStyleRule("margin-bottom: 0;");
-    expect(screen.getByText("Foo")).toHaveStyleRule("font-weight: bold;");
+    expect(screen.getByText("Foo")).toHaveStyleRule("display", "inline-block");
+    expect(screen.getByText("Foo")).toHaveStyleRule("margin-bottom", "0");
+    expect(screen.getByText("Foo")).toHaveStyleRule("font-weight", "bold");
   });
 });
 
