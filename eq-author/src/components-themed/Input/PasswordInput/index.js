@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Input from "components-themed/Input";
 import Label from "components-themed/Label";
 import { ButtonLink } from "components-themed/Toolkit";
+
 const PasswordContainer = styled.div`
   display: flex;
   flex-direction: row;
