@@ -5,9 +5,6 @@ import { render, screen, act } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import waitForExpect from "wait-for-expect";
 
-// const testUser = process.env.REACT_APP_TEST_ACCOUNT;
-// const testPass = process.env.REACT_APP_TEST_PASSWORD;
-
 describe("SignInPage", () => {
   let props;
 
@@ -62,20 +59,6 @@ describe("SignInPage", () => {
       const { history } = renderSignIn({ ...props });
       expect(history.location.pathname).toBe("/");
     });
-
-    // it.only("should show success if Password is updated", async () => {
-    //   props = {
-    //     ...props,
-    //     emailNowVerified: true,
-    //   };
-    //   await renderSignIn({ ...props });
-
-    //   expect(
-    //     await screen.findByText(
-    //       /You've successfully verified your Author account./
-    //     )
-    //   ).toBeInTheDocument();
-    // });
 
     it("should setErrorMessage if location.search is not correct", () => {
       props = {
@@ -258,30 +241,6 @@ describe("SignInPage", () => {
       expect(getAllByText("Enter password")).toBeTruthy();
     });
 
-    // it.only("should display error when password is less than 6 chars", async () => {
-    //   const { getByTestId, getByText, getAllByText } = renderSignIn({
-    //     ...props,
-    //   });
-
-    //   const button = getByText("Create an Author account");
-    //   userEvent.click(button);
-
-    //   expect(getByTestId("txt-create-email")).toBeVisible();
-
-    //   const input = screen.getByLabelText("Email address");
-    //   userEvent.type(input, "testEmail@test.com");
-    //   const input2 = screen.getByLabelText("First and last name");
-    //   userEvent.type(input2, "My name is the best");
-    //   const input3 = screen.getByLabelText("Password");
-    //   userEvent.type(input3, "12345");
-
-    //   userEvent.click(screen.getByText("Create account"));
-    //   screen.debug();
-    //   expect(
-    //     getAllByText("Password should be at least 6 characters")
-    //   ).toBeTruthy();
-    // });
-
     it("should return to sign in form from recover password form", () => {
       const { getByText, getByTestId } = renderSignIn({
         ...props,
@@ -292,25 +251,6 @@ describe("SignInPage", () => {
       userEvent.click(screen.getByText("sign in"));
       expect(getByText("You must be signed in to access Author")).toBeTruthy();
     });
-
-    // it.only("should send a password reset request to firebase", async () => {
-    //   const { getByText, getByTestId } = renderSignIn({
-    //     ...props,
-    //   });
-    //   userEvent.click(screen.getByText("Create an Author account"));
-    //   expect(getByTestId("txt-recovery-email")).toBeVisible();
-
-    //   const input = screen.getByLabelText("Enter your email address");
-
-    //   userEvent.type(input, "nemazine@hotmail.com");
-
-    //   fireEvent.click(screen.getByText("Send"));
-    //   await waitForExpect(() => expect(mutationWasCalled).toEqual(false));
-    //   screen.debug();
-    //   expect(
-    //     getByText("We've sent a link for resetting your password to:")
-    //   ).toBeTruthy();
-    // });
   });
 
   describe("email validation page", () => {
@@ -323,7 +263,7 @@ describe("SignInPage", () => {
 
       expect(
         getByText(
-          "You need to confirm your email address to sign in. Click on the confirmation link we've emailed to:"
+          /You need to confirm your email address to sign in. Click on the confirmation link/
         )
       ).toBeTruthy();
     });
