@@ -11,6 +11,7 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
+import ValidationError from "components/ValidationError";
 
 import { colors } from "constants/theme";
 
@@ -23,6 +24,10 @@ import { InformationPanel } from "components/Panel";
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
+import { contactDetailsErrors } from "constants/validationMessages";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -74,6 +79,24 @@ const HorizontalSeparator = styled.hr`
   margin: 1.2em 0em;
 `;
 
+const StyledInput = styled(Input)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
+`;
+
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -94,11 +117,21 @@ export const IntroductionEditor = ({
     secondaryDescription,
     tertiaryTitle,
     tertiaryDescription,
+    validationErrorInfo,
   } = introduction;
 
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
+
+  const { errors } = validationErrorInfo;
+
+  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+
+  const hasErrors = (requiredField) => {
+    const result = errors.some(({ field }) => field === requiredField);
+    return result;
+  };
 
   return (
     <>
@@ -133,7 +166,7 @@ export const IntroductionEditor = ({
               </SectionDescription>
               <Field>
                 <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
-                <Input
+                <StyledInput
                   id="contactDetailsPhoneNumber"
                   value={phoneNumber}
                   onChange={({ value }) => setPhoneNumber(value)}
@@ -145,13 +178,17 @@ export const IntroductionEditor = ({
                     })
                   }
                   data-test="txt-contact-details-phone-number"
+                  hasError={hasErrors("contactDetailsPhoneNumber")}
                 />
+                {hasErrors("contactDetailsPhoneNumber") && (
+                  <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
+                )}
               </Field>
               <Field>
                 <Label htmlFor="contactDetailsEmailAddress">
                   Email Address
                 </Label>
-                <Input
+                <StyledInput
                   id="contactDetailsEmailAddress"
                   value={email}
                   onChange={({ value }) => setEmail(value)}
@@ -163,7 +200,11 @@ export const IntroductionEditor = ({
                     })
                   }
                   data-test="txt-contact-details-email-address"
+                  hasError={hasErrors("contactDetailsEmailAddress")}
                 />
+                {hasErrors("contactDetailsEmailAddress") && (
+                  <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
+                )}
               </Field>
               <Field>
                 <Label htmlFor="contactDetailsEmailSubject">
@@ -187,7 +228,9 @@ export const IntroductionEditor = ({
                 open={contactDetailsIncludeRuRef}
                 style={{ marginBottom: "0" }}
               >
-                <Label>Add RU ref to the subject line</Label>
+                <Label htmlFor="toggle-contact-details-include-ruref">
+                  Add RU ref to the subject line
+                </Label>
                 <ToggleSwitch
                   id="toggle-contact-details-include-ruref"
                   name="toggle-contact-details-include-ruref"
@@ -210,7 +253,9 @@ export const IntroductionEditor = ({
             </div>
           )}
           <InlineField open={additionalGuidancePanelSwitch}>
-            <Label>Additional guidance panel</Label>
+            <Label htmlFor="toggle-additional-guidance-panel">
+              Additional guidance panel
+            </Label>
 
             <ToggleSwitch
               id="toggle-additional-guidance-panel"
@@ -344,7 +389,11 @@ const fragment = gql`
     }
     tertiaryTitle
     tertiaryDescription
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
+  ${ValidationErrorInfoFragment}
 `;
 
 IntroductionEditor.fragments = [fragment, ...CollapsiblesEditor.fragments];

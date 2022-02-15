@@ -46,6 +46,11 @@ export const richTextEditorErrors = {
   },
 };
 
+export const contactDetailsErrors = {
+  PHONE_NOT_ENTERED: "Enter a phone number",
+  EMAIL_NOT_ENTERED: "Enter an email address",
+};
+
 export const questionDefinitionErrors = {
   DEFINITION_LABEL_NOT_ENTERED: {
     field: "definitionLabel",

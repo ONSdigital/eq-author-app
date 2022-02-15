@@ -54,8 +54,9 @@ exports[`IntroductionEditor should render 1`] = `
           >
             Phone Number
           </Label>
-          <withChangeHandler(UncontrolledInput)
+          <IntroductionEditor__StyledInput
             data-test="txt-contact-details-phone-number"
+            hasError={false}
             id="contactDetailsPhoneNumber"
             onBlur={[Function]}
             onChange={[Function]}
@@ -72,8 +73,9 @@ exports[`IntroductionEditor should render 1`] = `
           >
             Email Address
           </Label>
-          <withChangeHandler(UncontrolledInput)
+          <IntroductionEditor__StyledInput
             data-test="txt-contact-details-email-address"
+            hasError={false}
             id="contactDetailsEmailAddress"
             onBlur={[Function]}
             onChange={[Function]}
@@ -108,6 +110,7 @@ exports[`IntroductionEditor should render 1`] = `
         >
           <Label
             bold={true}
+            htmlFor="toggle-contact-details-include-ruref"
           >
             Add RU ref to the subject line
           </Label>
@@ -129,6 +132,7 @@ exports[`IntroductionEditor should render 1`] = `
       >
         <Label
           bold={true}
+          htmlFor="toggle-additional-guidance-panel"
         >
           Additional guidance panel
         </Label>

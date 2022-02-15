@@ -17,7 +17,7 @@ const renderThemeErrors = (errors) =>
     </ValidationError>
   ));
 
-const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
+const FormTypeInput = ({ id, formType = "", questionnaireId, shortName }) => {
   const [value, setValue] = useState(formType);
   const updateTheme = useUpdateTheme();
 
@@ -31,6 +31,7 @@ const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
 
   return (
     <StyledInput
+      id={id}
       value={value}
       onChange={({ value }) => setValue(value)}
       onBlur={handleBlur}
@@ -40,6 +41,7 @@ const FormTypeInput = ({ formType = "", questionnaireId, shortName }) => {
 };
 
 FormTypeInput.propTypes = {
+  id: PropTypes.string,
   formType: PropTypes.string,
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string.isRequired,
@@ -53,9 +55,10 @@ const FormType = ({ formType, questionnaireId, shortName, errors }) => {
   return (
     <Container>
       <Field>
-        <Label>Form type</Label>
+        <Label htmlFor="formType">Form type</Label>
       </Field>
       <FormTypeInput
+        id="formType"
         formType={formType}
         questionnaireId={questionnaireId}
         shortName={shortName}

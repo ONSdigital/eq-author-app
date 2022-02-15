@@ -58,8 +58,7 @@ const Number = (props) => {
   } = props;
   const unitId = `unit-${id}`;
 
-  const blockChar = (e) =>
-    ["E", "e", "+", "-"].includes(e.key) && e.preventDefault();
+  const blockChar = (e) => ["E", "e"].includes(e.key) && e.preventDefault();
 
   const handleChange = ({ value }) => {
     if (value.length === 0) {
@@ -95,7 +94,7 @@ const Number = (props) => {
         onBlur={handleBlur}
         aria-live="assertive"
         valueType={type}
-        aria-labelledby={unitId}
+        aria-labelledby={id}
         min={min}
         max={max}
         default={props.default}

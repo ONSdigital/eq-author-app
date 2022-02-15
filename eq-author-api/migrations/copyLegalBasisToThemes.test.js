@@ -20,16 +20,16 @@ describe("Migration: copy legal basis to themes", () => {
             enabled: false,
           },
           {
-            title: "COVID theme",
-            shortName: "covid",
+            title: "UKIS theme",
+            shortName: "ukis",
             enabled: true,
           },
         ],
       },
     };
 
-    const migratedThemes = copyLegalBasisToThemes(questionnaire).themeSettings
-      .themes;
+    const migratedThemes =
+      copyLegalBasisToThemes(questionnaire).themeSettings.themes;
 
     for (const theme of migratedThemes) {
       expect(theme.legalBasisCode).toBe(questionnaire.introduction.legalBasis);
