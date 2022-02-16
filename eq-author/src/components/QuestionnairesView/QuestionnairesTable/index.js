@@ -45,6 +45,8 @@ const QuestionnairesTable = ({
   const ConditionalScroll = ({ questionnaireModal, wrapper, children }) =>
     questionnaireModal ? wrapper(children) : children;
 
+  // to change boder colour change it in panel see comp themed
+
   return (
     <ConditionalScroll
       questionnaireModal={questionnaireModal}
