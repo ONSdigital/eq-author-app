@@ -66,6 +66,25 @@ describe("components-themed/Input", () => {
       expect(wrapper.find("input").getElement().props.type).toEqual("checkbox");
     });
 
+    it("should pass `defaultChecked` prop to component", () => {
+      wrapper = mount(
+        <Theme themeName={"ons"}>
+          <Input type="checkbox" defaultChecked />
+        </Theme>
+      );
+      expect(wrapper.find("input").getElement().props.defaultChecked).toEqual(
+        true
+      );
+      wrapper = mount(
+        <Theme themeName={"ons"}>
+          <Input type="checkbox" defaultChecked={false} />
+        </Theme>
+      );
+      expect(wrapper.find("input").getElement().props.defaultChecked).toEqual(
+        false
+      );
+    });
+
     it("should call onChange with appropriate args", () => {
       wrapper.simulate("change", {
         target: { type: "checkbox", checked: true },
@@ -103,11 +122,19 @@ describe("components-themed/Input", () => {
     });
 
     it("should pass 'defaultChecked' prop to component", () => {
-      wrapper = mount(<Input type="radio" defaultChecked />);
+      wrapper = mount(
+        <Theme themeName={"ons"}>
+          <Input type="radio" defaultChecked />
+        </Theme>
+      );
       inputElement = wrapper.find("input").getElement();
       expect(inputElement.props.defaultChecked).toEqual(true);
 
-      wrapper = mount(<Input type="radio" defaultChecked={false} />);
+      wrapper = mount(
+        <Theme themeName={"ons"}>
+          <Input type="radio" defaultChecked={false} />
+        </Theme>
+      );
       inputElement = wrapper.find("input").getElement();
       expect(inputElement.props.defaultChecked).toEqual(false);
     });
