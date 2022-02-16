@@ -41,7 +41,7 @@ const SignInPage = ({
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
   const [apiError, setApiError] = useState(false);
 
-  // const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState("");
   const [actionCode, setActionCode] = useState("");
 
   const setForgotPassword = (boolVal) => {
@@ -54,75 +54,41 @@ const SignInPage = ({
     setResetPassword(boolVal);
   };
 
-  const verifyEmailAddress = async (actionCode) => {
-    await auth
-      .applyActionCode(actionCode)
-      .then(() => {
-        setErrorMessage("");
-        setApiError(false);
-        setEmailNowVerified(true);
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-        setEmailNowVerified(false);
-        setApiError(true);
-      });
-  };
-
   useEffect(() => {
     if (searchParams) {
-      // getModeFromSearchParams(searchParams);
-
       const urlParams = new URLSearchParams(searchParams);
       const getParameterByName = (param) => urlParams.get(param);
       // Get the action to complete.
-      //   setMode(getParameterByName("mode"));
-      const mode = getParameterByName("mode");
+      setMode(getParameterByName("mode"));
       // Get the one-time code from the query parameter.
       setActionCode(getParameterByName("oobCode"));
 
-      console.log("mode:", mode);
-      console.log("apiError :>> ", apiError);
+      console.log("mode", mode);
 
       if (mode === "resetPassword" && mode !== null) {
         resetThePassword(true);
         setErrorMessage("");
         return;
       } else if (mode === "verifyEmail" && mode !== null) {
-        verifyEmailAddress(actionCode);
+        auth
+          .applyActionCode(actionCode)
+          .then(() => {
+            // Email address has been verified.
+            setErrorMessage("");
+            setEmailNowVerified(true);
+          })
+          .catch((error) => {
+            setErrorMessage(error.message);
+            setEmailNowVerified(false);
+            setApiError(true);
+          });
         return;
       } else if (mode !== null && mode !== "") {
         setErrorMessage("Invalid mode code returned from link");
         return;
       }
-
-      // if (mode) {
-      //   switch (mode) {
-      //     case "resetPassword":
-      //       resetThePassword(true);
-      //       setErrorMessage("");
-      //       break;
-      //     case "verifyEmail":
-      //       auth
-      //         .applyActionCode(actionCode)
-      //         .then(() => {
-      //           // Email address has been verified.
-      //           setErrorMessage("");
-      //           setApiError(false);
-      //           setEmailNowVerified(true);
-      //         })
-      //         .catch((error) => {
-      //           setErrorMessage(error.message);
-      //           setEmailNowVerified(false);
-      //           setApiError(true);
-      //         });
-      //       break;
-      //     default:
-      //       setErrorMessage("Invalid mode code returned from link");
-      //   }
-      // }
     }
-  }, [searchParams, apiError]);
+  }, [searchParams, mode, actionCode]);
 
   return (
     <>
