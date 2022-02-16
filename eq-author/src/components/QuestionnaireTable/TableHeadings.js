@@ -42,6 +42,12 @@ const tableHeadings = [
     sortable: true,
   },
   {
+    heading: Headings.ACCESS,
+    colWidth: "8%",
+    sortColumn: "access",
+    sortable: true,
+  },
+  {
     heading: Headings.ACTIONS,
     colWidth: "9%",
   },

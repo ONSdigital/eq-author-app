@@ -12,8 +12,6 @@ import tableHeadings from "./TableHeadings";
 
 const Thead = styled.thead`
   background-color: ${colors.grey6};
-  border: 1px solid ${colors.black} !important;
-  border-collapse: collapse;
 
   ${({ sticky }) =>
     sticky &&
@@ -31,23 +29,23 @@ const Thead = styled.thead`
 `;
 
 const TH = styled.th`
-  color: ${colors.grey70};
+  color: ${colors.grey80};
   width: ${(props) => props.colWidth};
   /* border-bottom: 1px solid ${colors.black}; */
   /* border-top: 1px solid ${colors.black}; */
-  font-weight: 900;
-  font-size: 0.5em;
-  border-style: round;
-  padding-bottom: 0.5em;
+  font-weight: 700;
+  font-size: 0.9em;
+  /* display: flex; */
+  /* align-items: center; */
 
   :first-child {
     /* border-left: 1px solid ${colors.black}; */
-    border-top-left-radius: 1em;
+    border-top-left-radius: ${radius};
     padding-left: 0.5em;
   }
   :last-child {
     /* border-right: 1px solid ${colors.black}; */
-    border-top-right-radius: 1em;
+    border-top-right-radius: ${radius};
   }
 
   &:first-child > * {
@@ -67,7 +65,7 @@ const SortButton = styled(Button)`
   padding: 0.5em;
   background-color: transparent;
   color: inherit;
-  font-weight: normal;
+  font-weight: 700;
   width: 100%;
   text-align: left;
   border-radius: 0;
@@ -77,7 +75,7 @@ const SortButton = styled(Button)`
     display: inline-block;
     width: 16px;
     height: 16px;
-    opacity: ${(props) => (props.active ? "0.8" : "0.2")};
+    opacity: ${(props) => (props.active ? "0.8" : "0.5")};
     transform: rotate(
       ${(props) => (props.order === SORT_ORDER.ASCENDING ? "180deg" : "0deg")}
     );

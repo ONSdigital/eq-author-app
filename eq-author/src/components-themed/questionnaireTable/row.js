@@ -10,18 +10,24 @@ import CustomPropTypes from "custom-prop-types";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
-import Button from "components-themed/buttons/button";
+import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
+import { WRITE } from "constants/questionnaire-permissions";
 import * as Headings from "constants/table-headings";
 
 import FormattedDate from "./FormattedDate.js";
 import questionConfirmationIcon from "assets/icon-questionnaire.svg";
+import { ReactComponent as IconDelete } from "assets/icon-delete.svg?inline";
+import { ReactComponent as IconCopy } from "assets/icon-copy.svg?inline";
 import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
 import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
 import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
 import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
+
+import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
 export const QuestionnaireLink = styled.span`
   text-decoration: none;
@@ -30,6 +36,7 @@ export const QuestionnaireLink = styled.span`
   display: flex;
   flex-direction: column;
   margin-left: -0.5em;
+  text-decoration: underline;
   &:focus {
     outline: none;
   }
@@ -50,6 +57,8 @@ export const IconTextButton = styled(Button).attrs({
 })`
   padding: 0.5em 0.65em;
   margin-left: 0.35em;
+  dipslay: flex;
+  align-items: center;
   svg {
     display: block;
     margin: auto;
@@ -61,8 +70,8 @@ export const IconTextButton = styled(Button).attrs({
 `;
 
 export const ShortTitle = styled.span`
-  color: ${colors.textLight};
-  text-decoration-color: ${colors.textLight};
+  color: ${colors.grey80};
+  text-decoration-color: ${colors.grey80};
   font-size: 0.8em;
   font-weight: bold;
   letter-spacing: 0;
@@ -74,11 +83,12 @@ const ButtonGroup = styled.div`
 
 export const TR = styled.tr`
   scroll-margin-top: 3em;
-  border-top: 1px solid #e2e2e2;
-  border-bottom: 1px solid #e2e2e2;
-  background-color: rgba(0, 0, 0, 0);
+  border-top: 1px solid black;
+  background-color: ${colors.grey6};
+  /* align-items: center;
+  justify-content: space-evenly; */
   :nth-of-type(2n-1) {
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: rgba(0, 0, 0, 0);
   }
   opacity: 1;
   height: 3.2em;
@@ -88,6 +98,42 @@ export const TR = styled.tr`
     background-color: ${rgba(colors.primary, 0.1)};
     cursor: pointer;
   }
+
+  ${({ linkHasFocus, questionnaireModal }) =>
+    linkHasFocus &&
+    !questionnaireModal &&
+    `
+      box-shadow: 0 0 0 3px ${colors.tertiary};
+      border-color: ${colors.tertiary};
+      z-index: 1;
+    `}
+
+  ${({ linkHasFocus, questionnaireModal }) =>
+    linkHasFocus &&
+    questionnaireModal &&
+    `
+      border-color: ${colors.primary};
+      z-index: 1;
+      background-color: ${colors.primary};
+      color: white;
+      :nth-of-type(2n-1) {
+        background-color: ${colors.primary};
+        color: white;
+      }
+      &:hover {
+        background-color: ${colors.primary};
+      }
+    `}
+
+    ${({ selected }) =>
+    selected &&
+    `background-color: ${colors.primary} !important;
+    
+      * {
+        color: white;
+        cursor: default;
+      }
+    `}
 `;
 
 const TD = styled.td`
@@ -108,30 +154,26 @@ export const DuplicateQuestionnaireButton = styled(DuplicateButton).attrs({
   margin-right: 0.5em;
 `;
 
-const Permissions = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 0.5em;
-  display: flex;
-`;
-
-const Permission = styled.li`
-  background: ${colors.darkGrey};
-  font-weight: bold;
-  line-height: 1.2;
-  padding: 0.2em 0.7em;
-  border-radius: 1em;
-  color: white;
-  letter-spacing: 0.05em;
-  font-size: 0.7em;
-  text-transform: initial;
-  :not(:last-of-type) {
-    margin-right: 0.5em;
-  }
-`;
+const propTypes = {
+  questionnaire: CustomPropTypes.questionnaire.isRequired,
+  history: CustomPropTypes.history.isRequired,
+  onDeleteQuestionnaire: PropTypes.func,
+  onDuplicateQuestionnaire: PropTypes.func,
+  onLockQuestionnaire: PropTypes.func,
+  exit: PropTypes.bool,
+  enter: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  isLastOnPage: PropTypes.bool,
+  tableHeadings: PropTypes.array, // eslint-disable-line
+  onClick: PropTypes.func.isRequired,
+  questionnaireModal: PropTypes.bool,
+  selected: PropTypes.bool,
+};
 
 export const Row = ({
+  questionnaire,
   questionnaire: {
+    id,
     shortTitle,
     createdBy,
     title,
@@ -139,26 +181,40 @@ export const Row = ({
     displayName,
     updatedAt,
     starred,
+    permission,
     locked,
   },
   selected,
+  onDeleteQuestionnaire,
+  onDuplicateQuestionnaire,
+  onLockQuestionnaire,
+  autoFocus,
   tableHeadings,
+  onClick,
+  questionnaireModal,
 }) => {
+  const toggleQuestionnaireStarred = useToggleQuestionnaireStarred();
+  const handleStar = (e) => {
+    e.stopPropagation();
+    toggleQuestionnaireStarred(id);
+  };
+  const hasWritePermission = permission === WRITE;
+
   const renderEnabled = (heading) => {
     switch (heading) {
       case Headings.TITLE:
         return (
           <TD key={heading}>
+            {shortTitle && (
+              <ShortTitle>
+                <Truncated>{shortTitle}</Truncated>
+              </ShortTitle>
+            )}
             <QuestionnaireLink
               data-test="anchor-questionnaire-title"
               title={displayName}
               tabIndex="0"
             >
-              {shortTitle && (
-                <ShortTitle>
-                  <Truncated>{shortTitle}</Truncated>
-                </ShortTitle>
-              )}
               <Truncated>{title}</Truncated>
             </QuestionnaireLink>
           </TD>
@@ -177,43 +233,62 @@ export const Row = ({
             <FormattedDate date={updatedAt} />
           </TD>
         );
-      case Headings.PERMISSIONS:
-        return (
-          <TD key={heading}>
-            <Permissions>
-              <Permission>View</Permission>
-              <Permission disabled={false}>Edit</Permission>
-            </Permissions>
-          </TD>
-        );
       case Headings.LOCKED:
         return (
           <TD key={heading}>
-            <IconTextButton
-              title="Lock"
-              data-test="lockButton"
-              disabled={false}
-            >
-              {locked ? <LockedIcon /> : <UnlockedIcon />}
-            </IconTextButton>
+            <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
+              <IconTextButton
+                title="Lock"
+                data-test="lockButton"
+                disabled={false}
+              >
+                {locked ? <LockedIcon /> : <UnlockedIcon />}
+              </IconTextButton>
+            </Tooltip>
           </TD>
         );
       case Headings.STARRED:
         return (
           <TD key={heading}>
             <Tooltip content={starred ? "Starred" : "Not starred"} place="top">
-              <IconTextButton title="Star" data-test="starButton">
+              <IconTextButton
+                title="Star"
+                onClick={handleStar}
+                data-test="starButton"
+              >
                 {starred ? <StarredIcon /> : <UnstarredIcon />}
               </IconTextButton>
             </Tooltip>
           </TD>
         );
+      case Headings.ACCESS:
+        return (
+          <TD key={heading}>{hasWritePermission ? "Editor" : "View Only"}</TD>
+        );
+
       case Headings.ACTIONS:
         return (
           <TD key={heading}>
-            <ButtonGroup>
-              {/* might need another div - see other row file */}
-            </ButtonGroup>
+            <div data-test="action-btn-group">
+              <ButtonGroup>
+                <Tooltip content={"Duplicate"} place="top">
+                  <IconTextButton
+                    title="Duplicate"
+                    data-test="btn-duplicate-questionnaire"
+                  >
+                    <IconCopy />
+                  </IconTextButton>
+                </Tooltip>
+                <Tooltip content={"Delete"} place="top">
+                  <IconTextButton
+                    title="Delete"
+                    data-test="btn-duplicate-questionnaire"
+                  >
+                    <IconDelete />
+                  </IconTextButton>
+                </Tooltip>
+              </ButtonGroup>
+            </div>
           </TD>
         );
       default:
