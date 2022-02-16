@@ -41,9 +41,9 @@ const ApiError = ({
           paragraphLabel={errorMessage}
         />
       )}
-      <PageTitle>Expired link</PageTitle>
+      <PageTitle>Invalid link</PageTitle>
       <InlineDescription>
-        Your link has expired. Please try again...&nbsp;
+        Your link has expired or may have already been used.&nbsp;
       </InlineDescription>
       <InlineDescriptionBold>{verificationEmail}</InlineDescriptionBold>
       <Field>
@@ -58,7 +58,7 @@ const ApiError = ({
 ApiError.propTypes = {
   verificationEmail: propTypes.string,
   emailNowVerified: propTypes.bool,
-  errorMessage: propTypes.bool,
+  errorMessage: propTypes.string,
   setErrorMessage: propTypes.func,
   setApiError: propTypes.func,
   signOut: propTypes.func,
