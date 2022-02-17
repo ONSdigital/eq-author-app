@@ -63,8 +63,6 @@ const SignInPage = ({
       // Get the one-time code from the query parameter.
       setActionCode(getParameterByName("oobCode"));
 
-      console.log("mode", mode);
-
       if (mode === "resetPassword" && mode !== null) {
         resetThePassword(true);
         setErrorMessage("");

@@ -63,7 +63,7 @@ describe("SignInPage", () => {
     it("should setErrorMessage if location.search is not correct", () => {
       props = {
         ...props,
-        searchParams: "gobledeegoo",
+        searchParams: "mode=gobledeegoo",
       };
       const { getByText } = renderSignIn({ ...props });
 
