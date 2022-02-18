@@ -262,17 +262,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             id="toggle-hub-introduction"
                             name="toggle-hub-introduction"
                             hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaire({
-                                variables: {
-                                  input: {
-                                    id,
-                                    hubIntroduction: value,
-                                  },
-                                },
-                              })
-                            }
-                            checked={hubIntroduction}
+                            onChange={console.log("test")}
+                            checked={false}
                           />
                         </InlineField>
                       </>
