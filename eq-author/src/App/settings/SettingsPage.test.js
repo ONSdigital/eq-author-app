@@ -591,5 +591,38 @@ describe("Settings page", () => {
 
       expect(queryWasCalled).toBeTruthy();
     });
+
+    it("Should enable hub introduction toggle switch when hub navigation is enable", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+      mockQuestionnaire.hub = true;
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionWrapper = getByTestId(
+        "toggle-hub-introduction-wrapper"
+      );
+
+      expect(hubIntroductionWrapper).toHaveStyleRule("pointer-events", "auto");
+    });
+
+    it("Should disable hub introduction toggle switch when hub navigation is disabled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionWrapper = getByTestId(
+        "toggle-hub-introduction-wrapper"
+      );
+
+      expect(hubIntroductionWrapper).toHaveStyleRule("pointer-events", "none");
+    });
   });
 });

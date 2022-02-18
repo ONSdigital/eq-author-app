@@ -262,7 +262,10 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           survey from a single central &quot;hub&quot; screen.
                         </InformationPanel>
                         {type === BUSINESS && (
-                          <>
+                          <EnableDisableWrapper
+                            data-test="toggle-hub-introduction-wrapper"
+                            disabled={!hub}
+                          >
                             <InlineField disabled={!hub}>
                               <Label htmlFor="toggle-hub-introduction">
                                 Show introduction page on hub
@@ -284,7 +287,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                                 checked={hubIntroduction}
                               />
                             </InlineField>
-                          </>
+                          </EnableDisableWrapper>
                         )}
                       </>
                     )}
