@@ -163,6 +163,8 @@ const CollectionListsPage = ({ myval }) => {
                 id={id}
                 displayName={displayName}
                 answers={answers}
+                handleDeleteList={deleteList}
+                handleUpdateList={updateList}
               />
             ))
           )}

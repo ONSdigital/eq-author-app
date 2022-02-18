@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 
 import PropTypes from "prop-types";
@@ -191,64 +191,26 @@ const CollectionListItem = ({
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
   // console.log(answers[0].__typename);
+
+  const [listName, setListName] = useState(displayName);
+  useEffect(() => {
+    setListName(displayName);
+  }, [displayName]);
+
   return (
     <StyledGrid>
       <ListItem>
-        {/* <ListHeader>
-            <ListNamePanel>
-              <ListName data-test="answer-type">{displayName}</ListName>
-              <Buttons>
-                <Tooltip
-                  content="Move answer up"
-                  place="top"
-                  offset={{ top: 0, bottom: 10 }}
-                >
-                  <MoveButton
-                    color="white"
-                    disabled
-                    aria-label={"Move answer up"}
-                    data-test="btn-move-answer-up"
-                  >
-                    <IconUp />
-                  </MoveButton>
-                </Tooltip>
-                <Tooltip
-                  content="Move answer down"
-                  place="top"
-                  offset={{ top: 0, bottom: 10 }}
-                >
-                  <MoveButton
-                    color="white"
-                    disabled
-                    aria-label={"Move answer down"}
-                    data-test="btn-move-answer-down"
-                  >
-                    <IconDown />
-                  </MoveButton>
-                </Tooltip>
-                <Tooltip
-                  content="Delete answer"
-                  place="top"
-                  offset={{ top: 0, bottom: 10 }}
-                >
-                  <DeleteButton
-                    color="white"
-                    size="medium"
-                    onClick={() => handleDeleteList(id)}
-                    aria-label="Delete answer"
-                    data-test="btn-delete-answer"
-                  />
-                </Tooltip>
-              </Buttons>
-            </ListNamePanel>
-          </ListHeader> */}
-
         <Collapsible
           className="listCollapsible"
           withoutHideThis
           variant="list"
           displayName={displayName}
-          handleDeleteList={handleDeleteList}
+          handleDeleteList={(event) => {
+            event.stopPropagation();
+            handleDeleteList({
+              variables: { input: { id: id } },
+            });
+          }}
         >
           <ListItemContents>
             <Label for="listName">List name</Label>
@@ -256,9 +218,13 @@ const CollectionListItem = ({
               id="listName"
               aria-label="List name input"
               tabIndex="-1"
-              value={displayName}
-              // onChange={handleChange()}
-              // onBlur={() => handleUpdateList(id, displayName)}
+              value={listName}
+              onChange={(event) => setListName(event.value)}
+              onBlur={() =>
+                handleUpdateList({
+                  variables: { input: { id: id, listName: listName } },
+                })
+              }
             />
             {/* {answers === null || answers === undefined || !answers.length ? (
               <Error>Currently no answers</Error>
