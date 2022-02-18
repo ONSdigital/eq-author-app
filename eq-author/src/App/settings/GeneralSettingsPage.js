@@ -248,6 +248,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                                       id,
                                       hub: value,
                                       navigation: false,
+                                      hubIntroduction: false,
                                     },
                                   },
                                 })
