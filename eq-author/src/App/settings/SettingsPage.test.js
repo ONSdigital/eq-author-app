@@ -5,6 +5,8 @@ import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
+import config from "config";
+
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
@@ -32,6 +34,7 @@ describe("Settings page", () => {
       qcodes: true,
       navigation: true,
       hub: false,
+      hubIntroduction: false,
       summary: true,
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
@@ -171,8 +174,9 @@ describe("Settings page", () => {
           variables: {
             input: {
               id: mockQuestionnaire.id,
+              hub: true,
               navigation: false,
-              hub: false,
+              hubIntroduction: false,
             },
           },
         },
@@ -182,8 +186,34 @@ describe("Settings page", () => {
             data: {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
+                hub: true,
                 navigation: false,
+                hubIntroduction: false,
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              hub: false,
+              navigation: false,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
                 hub: false,
+                navigation: false,
                 __typename: "Questionnaire",
               },
             },
@@ -471,6 +501,33 @@ describe("Settings page", () => {
       const sectionNavigationToggle = getByTestId("toggle-collapsible-summary");
 
       const toggle = Object.values(sectionNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+  });
+
+  describe("Hub navigation toggle", () => {
+    it("Should enable/disable hub navigation when toggled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubNavigationToggle = getByTestId("toggle-hub-navigation");
+
+      const toggle = Object.values(hubNavigationToggle.children).reduce(
         (child) => (child.type === "checkbox" ? child : null)
       );
 

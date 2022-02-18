@@ -117,6 +117,7 @@ const moveSectionMock = {
         qcodes: true,
         navigation: true,
         hub: false,
+        hubIntroduction: false,
         summary: "",
         collapsibleSummary: false,
         displayName: "Display name",

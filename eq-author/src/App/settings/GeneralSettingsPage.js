@@ -234,35 +234,33 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     {enableOn(["hub"]) && (
                       <>
-                        <>
-                          <InlineField>
-                            <Label htmlFor="toggle-hub-navigation">
-                              Hub navigation
-                            </Label>
-                            <ToggleSwitch
-                              id="toggle-hub-navigation"
-                              name="toggle-hub-navigation"
-                              hideLabels={false}
-                              onChange={({ value }) =>
-                                updateQuestionnaire({
-                                  variables: {
-                                    input: {
-                                      id,
-                                      hub: value,
-                                      navigation: false,
-                                      hubIntroduction: false,
-                                    },
+                        <InlineField>
+                          <Label htmlFor="toggle-hub-navigation">
+                            Hub navigation
+                          </Label>
+                          <ToggleSwitch
+                            id="toggle-hub-navigation"
+                            name="toggle-hub-navigation"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: {
+                                    id,
+                                    hub: value,
+                                    navigation: false,
+                                    hubIntroduction: false,
                                   },
-                                })
-                              }
-                              checked={hub}
-                            />
-                          </InlineField>
-                          <InformationPanel>
-                            Let respondents access different sections of the
-                            survey from a single central &quot;hub&quot; screen.
-                          </InformationPanel>
-                        </>
+                                },
+                              })
+                            }
+                            checked={hub}
+                          />
+                        </InlineField>
+                        <InformationPanel>
+                          Let respondents access different sections of the
+                          survey from a single central &quot;hub&quot; screen.
+                        </InformationPanel>
                         {type === BUSINESS && (
                           <>
                             <InlineField disabled={!hub}>
