@@ -11,7 +11,6 @@ import { getThemeSettingsErrorCount } from "./utils";
 import { enableOn, disableOn } from "utils/featureFlags";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
-import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
@@ -128,12 +127,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     hub,
     summary,
     collapsibleSummary,
-    introduction,
   } = questionnaire;
-
-  const { showOnHub } = introduction;
-
-  console.log("introduction", introduction);
 
   const handleTitleChange = ({ value }) => {
     value = value.trim();
@@ -152,9 +146,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   };
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [updateQuestionnaireIntroduction] = useMutation(
-    updateQuestionnaireIntroductionMutation
-  );
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] =
     useState(shortTitle);
@@ -270,14 +261,8 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             id="toggle-hub-introduction"
                             name="toggle-hub-introduction"
                             hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaireIntroduction({
-                                variables: {
-                                  input: { id, showOnHub: value },
-                                },
-                              })
-                            }
-                            checked={showOnHub}
+                            onChange={() => console.log("true")}
+                            checked={false}
                           />
                         </InlineField>
                       </>

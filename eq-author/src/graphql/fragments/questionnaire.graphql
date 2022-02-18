@@ -12,10 +12,6 @@ fragment Questionnaire on Questionnaire {
   type
   shortTitle
   displayName
-  introduction {
-    id
-    showOnHub
-  }
   createdBy {
     id
     picture

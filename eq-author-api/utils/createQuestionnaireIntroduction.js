@@ -15,7 +15,6 @@ module.exports = (metadata) => {
     contactDetailsEmailAddress: "surveys@ons.gov.uk",
     contactDetailsEmailSubject: "Change of details",
     contactDetailsIncludeRuRef: true,
-    showOnHub: false,
     additionalGuidancePanelSwitch: false,
     additionalGuidancePanel: "",
     description:
