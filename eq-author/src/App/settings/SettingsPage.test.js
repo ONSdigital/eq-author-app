@@ -1,5 +1,5 @@
 import React from "react";
-import { render, act, flushPromises, fireEvent } from "tests/utils/rtl";
+import { render, act, flushPromises, fireEvent, screen } from "tests/utils/rtl";
 import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
@@ -566,6 +566,35 @@ describe("Settings page", () => {
   });
 
   describe("Hub introduction toggle", () => {
+    it("Should display hub introduction toggle switch on business questionnaire type", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
+
+      expect(hubIntroductionToggle).toBeInTheDocument();
+    });
+
+    it("Should not display hub introduction toggle switch on social questionnaire type", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+      mockQuestionnaire.type = "Social";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
+
+      expect(hubIntroductionToggle).not.toBeInTheDocument();
+    });
+
     it("Should enable/disable hub introduction when toggled", async () => {
       config.REACT_APP_FEATURE_FLAGS = "hub";
       mockQuestionnaire.hub = true;
