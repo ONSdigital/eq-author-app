@@ -232,49 +232,59 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     {enableOn(["hub"]) && (
                       <>
-                        <InlineField>
-                          <Label htmlFor="toggle-hub-navigation">
-                            Hub navigation
-                          </Label>
-                          <ToggleSwitch
-                            id="toggle-hub-navigation"
-                            name="toggle-hub-navigation"
-                            hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaire({
-                                variables: {
-                                  input: { id, hub: value, navigation: false },
-                                },
-                              })
-                            }
-                            checked={hub}
-                          />
-                        </InlineField>
-                        <InformationPanel>
-                          Let respondents access different sections of the
-                          survey from a single central &quot;hub&quot; screen.
-                        </InformationPanel>
-                        <InlineField disabled={!hub}>
-                          <Label htmlFor="toggle-hub-introduction">
-                            Show introduction page on hub
-                          </Label>
-                          <ToggleSwitch
-                            id="toggle-hub-introduction"
-                            name="toggle-hub-introduction"
-                            hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaire({
-                                variables: {
-                                  input: {
-                                    id,
-                                    hubIntroduction: value,
+                        <>
+                          <InlineField>
+                            <Label htmlFor="toggle-hub-navigation">
+                              Hub navigation
+                            </Label>
+                            <ToggleSwitch
+                              id="toggle-hub-navigation"
+                              name="toggle-hub-navigation"
+                              hideLabels={false}
+                              onChange={({ value }) =>
+                                updateQuestionnaire({
+                                  variables: {
+                                    input: {
+                                      id,
+                                      hub: value,
+                                      navigation: false,
+                                    },
                                   },
-                                },
-                              })
-                            }
-                            checked={hubIntroduction}
-                          />
-                        </InlineField>
+                                })
+                              }
+                              checked={hub}
+                            />
+                          </InlineField>
+                          <InformationPanel>
+                            Let respondents access different sections of the
+                            survey from a single central &quot;hub&quot; screen.
+                          </InformationPanel>
+                        </>
+                        {type === "Business" && (
+                          <>
+                            <InlineField disabled={!hub}>
+                              <Label htmlFor="toggle-hub-introduction">
+                                Show introduction page on hub
+                              </Label>
+                              <ToggleSwitch
+                                id="toggle-hub-introduction"
+                                name="toggle-hub-introduction"
+                                hideLabels={false}
+                                onChange={({ value }) =>
+                                  updateQuestionnaire({
+                                    variables: {
+                                      input: {
+                                        id,
+                                        hubIntroduction: value,
+                                      },
+                                    },
+                                  })
+                                }
+                                checked={hubIntroduction}
+                              />
+                            </InlineField>
+                          </>
+                        )}
                       </>
                     )}
                     {disableOn(["hub"]) && (
