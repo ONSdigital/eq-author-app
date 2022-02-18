@@ -1,5 +1,5 @@
 import React from "react";
-import { render, act, flushPromises, fireEvent, screen } from "tests/utils/rtl";
+import { render, act, flushPromises, fireEvent } from "tests/utils/rtl";
 import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
