@@ -22,7 +22,6 @@ export const AnswersEditor = ({
   onAddExclusive,
   onDeleteAnswer,
   moveAnswer,
-  // page,
   list,
   metadata,
 }) => {
@@ -43,7 +42,6 @@ export const AnswersEditor = ({
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={onDeleteAnswer}
             multipleAnswers={multipleAnswers}
-            // page={page}
             list={list}
             metadata={metadata}
           />
@@ -63,7 +61,6 @@ AnswersEditor.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onDeleteAnswer: PropTypes.func.isRequired,
   moveAnswer: PropTypes.func.isRequired,
-  // page: PropTypes.object, //eslint-disable-line
   list: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
 };

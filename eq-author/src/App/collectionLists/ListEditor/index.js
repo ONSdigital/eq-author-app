@@ -21,7 +21,7 @@ import withUpdateOption from "../answers/withUpdateOption";
 import withDeleteOption from "../answers/withDeleteOption";
 import withCreateExclusive from "../answers/withCreateExclusive";
 
-import AnswersEditor from "./AnswersEditor";
+import AnswersEditor from "../AnswersEditor";
 import AnswerTypeSelector from "./AnswerTypeSelector";
 
 import MetaEditor from "./MetaEditor";

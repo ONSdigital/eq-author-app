@@ -163,46 +163,6 @@ const CollectionListsPage = ({ myval }) => {
                 id={id}
                 displayName={displayName}
                 answers={answers}
-                handleDeleteList={(e) =>
-                  {e.stopPropagation();
-                  deleteList({
-                    variables: {
-                      input: {
-                        id: id,
-                      },
-                    },
-                  })}
-                }
-                handleUpdateList={(id, listName) =>
-                  updateList({
-                    variables: {
-                      input: {
-                        id: id,
-                        listName: listName,
-                      },
-                    },
-                  })
-                }
-                handleChange={(id) => noChange}
-                handleCreateAnswer={(id, type) =>
-                  createAnswer({
-                    variables: {
-                      input: {
-                        id: id,
-                        type: type,
-                      },
-                    },
-                  })
-                }
-                handleDeleteAnswer={() =>
-                  deleteAnswer({
-                    variables: {
-                      input: {
-                        id: id,
-                      },
-                    },
-                  })
-                }
               />
             ))
           )}

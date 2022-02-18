@@ -224,8 +224,7 @@ AnswerEditor.propTypes = {
   onMoveUp: PropTypes.func.isRequired,
   onMoveDown: PropTypes.func.isRequired,
   renderPanel: PropTypes.func,
-  // page: PropTypes.object, //eslint-disable-line
-  list: PropTypes.object, //eslint-disable-line
+  page: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
 };
 

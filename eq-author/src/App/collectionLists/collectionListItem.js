@@ -16,6 +16,9 @@ import Button from "components/buttons/Button";
 import AddIcon from "./icon-add.svg?inline";
 import IconText from "components/IconText";
 
+import Reorder from "components/Reorder";
+import AnswersEditor from "./AnswersEditor";
+
 import { colors } from "constants/theme";
 import Collapsible from "components/Collapsible";
 
@@ -39,12 +42,12 @@ const ListInput = styled(Input)`
 `;
 
 const ListItem = styled.div`
-  ${'' /* border: 1px solid ${colors.bordersLight}; */}
+  ${"" /* border: 1px solid ${colors.bordersLight}; */}
   position: relative;
   background: ${colors.white};
   &:focus-within {
     border-color: ${colors.blue};
-    ${'' /* box-shadow: 0 0 0 1px ${colors.blue}; */}
+    ${"" /* box-shadow: 0 0 0 1px ${colors.blue}; */}
   }
   margin: 0 0 1em;
 `;
@@ -128,16 +131,16 @@ const AnswerName = styled.span`
   padding-right: 2em;
 `;
 
-// const Buttons = styled.div`
-//   display: flex;
-//   z-index: 2;
-//   button {
-//     margin-right: 0.2em;
-//   }
-//   button:last-of-type {
-//     margin-right: 0;
-//   }
-// `;
+const Buttons = styled.div`
+  display: flex;
+  z-index: 2;
+  button {
+    margin-right: 0.2em;
+  }
+  button:last-of-type {
+    margin-right: 0;
+  }
+`;
 
 const PopoutContainer = styled(Container)`
   width: 100%;
@@ -185,12 +188,13 @@ const CollectionListItem = ({
   handleDeleteAnswer,
   type,
 }) => {
+  let multipleAnswers = false;
+  multipleAnswers = answers?.length > 1;
   // console.log(answers[0].__typename);
   return (
     <StyledGrid>
       <ListItem>
-        
-          {/* <ListHeader>
+        {/* <ListHeader>
             <ListNamePanel>
               <ListName data-test="answer-type">{displayName}</ListName>
               <Buttons>
@@ -246,99 +250,133 @@ const CollectionListItem = ({
           displayName={displayName}
           handleDeleteList={handleDeleteList}
         >
+          <ListItemContents>
+            <Label for="listName">List name</Label>
+            <ListInput
+              id="listName"
+              aria-label="List name input"
+              tabIndex="-1"
+              value={displayName}
+              // onChange={handleChange()}
+              // onBlur={() => handleUpdateList(id, displayName)}
+            />
+            {/* {answers === null || answers === undefined || !answers.length ? (
+              <Error>Currently no answers</Error>
+            ) : (
+              answers.map(
+                ({
+                  answers,
+                  answer,
+                  moveAnswer,
+                  onUpdate,
+                  onAddOption,
+                  onUpdateOption,
+                  onDeleteOption,
+                  onAddExclusive,
+                  onDeleteAnswer,
+                  listId,
+                  AnswerTransition,
+                  metadata,
+                }) => (
+                  <Reorder
+                    key={answers}
+                    list={answers}
+                    onMove={moveAnswer}
+                    Transition={AnswerTransition}
+                  >
+                    {(props, answer) => (
+                      <AnswersEditor
+                        {...props}
+                        answer={answer}
+                        onUpdate={onUpdate}
+                        onAddOption={onAddOption}
+                        onAddExclusive={onAddExclusive}
+                        onUpdateOption={onUpdateOption}
+                        onDeleteOption={onDeleteOption}
+                        onDeleteAnswer={onDeleteAnswer}
+                        multipleAnswers={multipleAnswers}
+                        list={listId}
+                        metadata={metadata}
+                      />
+                    )}
+                  </Reorder>
+                  // <AnswerItem key={id}>
+                  //   <AnswerHeader>
+                  //     <AnswerNamePanel>
+                  //       <AnswerName data-test="answer-type">{type}</AnswerName>
+                  //       <Buttons>
+                  //         <Tooltip
+                  //           content="Move answer up"
+                  //           place="top"
+                  //           offset={{ top: 0, bottom: 10 }}
+                  //         >
+                  //           <MoveButton
+                  //             color="white"
+                  //             disabled
+                  //             aria-label={"Move answer up"}
+                  //             data-test="btn-move-answer-up"
+                  //           >
+                  //             <IconUp />
+                  //           </MoveButton>
+                  //         </Tooltip>
+                  //         <Tooltip
+                  //           content="Move answer down"
+                  //           place="top"
+                  //           offset={{ top: 0, bottom: 10 }}
+                  //         >
+                  //           <MoveButton
+                  //             color="white"
+                  //             disabled
+                  //             aria-label={"Move answer down"}
+                  //             data-test="btn-move-answer-down"
+                  //           >
+                  //             <IconDown />
+                  //           </MoveButton>
+                  //         </Tooltip>
+                  //         <Tooltip
+                  //           content="Delete answer"
+                  //           place="top"
+                  //           offset={{ top: 0, bottom: 10 }}
+                  //         >
+                  //           <DeleteButton
+                  //             color="white"
+                  //             size="medium"
+                  //             // onClick={() => handleDeleteAnswer(id)}
+                  //             aria-label="Delete answer"
+                  //             data-test="btn-delete-answer"
+                  //           />
+                  //         </Tooltip>
+                  //       </Buttons>
+                  //     </AnswerNamePanel>
+                  //   </AnswerHeader>
 
+                  //   <AnswerItemContents>
+                  //     <Label for="answerName">Label</Label>
+                  //     <AnswerInput
+                  //       id="answerName"
+                  //       aria-label="Answer Label input"
+                  //       tabIndex="-1"
+                  //       value={displayName}
+                  //       // onChange={handleChange()}
+                  //       // onBlur={() => handleUpdateList(id, displayName)}
+                  //     />
+                  //   </AnswerItemContents>
+                  // </AnswerItem>
 
-        <ListItemContents>
-          <Label for="listName">List name</Label>
-          <ListInput
-            id="listName"
-            aria-label="List name input"
-            tabIndex="-1"
-            value={displayName}
-            onChange={handleChange()}
-            onBlur={() => handleUpdateList(id, displayName)}
-          />
-          {answers === null || answers === undefined || !answers.length ? (
-            <Error>Currently no answers</Error>
-          ) : (
-            answers.map(({ id, __typename, displayName, type }) => (
-              <AnswerItem key={id}>
-                <AnswerHeader>
-                  <AnswerNamePanel>
-                    <AnswerName data-test="answer-type">{type}</AnswerName>
-                    <Buttons>
-                      <Tooltip
-                        content="Move answer up"
-                        place="top"
-                        offset={{ top: 0, bottom: 10 }}
-                      >
-                        <MoveButton
-                          color="white"
-                          disabled
-                          aria-label={"Move answer up"}
-                          data-test="btn-move-answer-up"
-                        >
-                          <IconUp />
-                        </MoveButton>
-                      </Tooltip>
-                      <Tooltip
-                        content="Move answer down"
-                        place="top"
-                        offset={{ top: 0, bottom: 10 }}
-                      >
-                        <MoveButton
-                          color="white"
-                          disabled
-                          aria-label={"Move answer down"}
-                          data-test="btn-move-answer-down"
-                        >
-                          <IconDown />
-                        </MoveButton>
-                      </Tooltip>
-                      <Tooltip
-                        content="Delete answer"
-                        place="top"
-                        offset={{ top: 0, bottom: 10 }}
-                      >
-                        <DeleteButton
-                          color="white"
-                          size="medium"
-                          onClick={() => handleDeleteAnswer(id)}
-                          aria-label="Delete answer"
-                          data-test="btn-delete-answer"
-                        />
-                      </Tooltip>
-                    </Buttons>
-                  </AnswerNamePanel>
-                </AnswerHeader>
+                  // end answers
+                )
+              )
+            )} */}
 
-                <AnswerItemContents>
-                  <Label for="answerName">Label</Label>
-                  <AnswerInput
-                    id="answerName"
-                    aria-label="Answer Label input"
-                    tabIndex="-1"
-                    value={displayName}
-                    // onChange={handleChange()}
-                    // onBlur={() => handleUpdateList(id, displayName)}
-                  />
-                </AnswerItemContents>
-              </AnswerItem>
-
-              // end answers
-            ))
-          )}
-
-          <AddAnswerButton
-            variant="secondary"
-            data-test="btn-add-list-answer"
-            onClick={() => handleCreateAnswer(id, (type = "Number"))}
-          >
-            <IconText icon={AddIcon}>Add an answer</IconText>
-          </AddAnswerButton>
-        </ListItemContents>
-
-        </Collapsible>        
+            {/* <AddAnswerButton
+              variant="secondary"
+              data-test="btn-add-list-answer"
+              onClick={() => handleCreateAnswer(id, (type = "Number"))}
+            >
+              <IconText icon={AddIcon}>Add an answer</IconText>
+            </AddAnswerButton> */}
+          </ListItemContents>
+        </Collapsible>
       </ListItem>
     </StyledGrid>
   );
