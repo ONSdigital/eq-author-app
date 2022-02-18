@@ -125,6 +125,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     qcodes,
     navigation,
     hub,
+    hubIntroduction,
     summary,
     collapsibleSummary,
   } = questionnaire;
@@ -261,8 +262,17 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             id="toggle-hub-introduction"
                             name="toggle-hub-introduction"
                             hideLabels={false}
-                            onChange={() => console.log("true")}
-                            checked={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: {
+                                    id,
+                                    hubIntroduction: value,
+                                  },
+                                },
+                              })
+                            }
+                            checked={hubIntroduction}
                           />
                         </InlineField>
                       </>

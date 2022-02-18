@@ -57,6 +57,7 @@ type Questionnaire {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
+  hubIntroduction: Boolean
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -659,7 +660,6 @@ type QuestionnaireIntroduction {
   contactDetailsIncludeRuRef: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  showOnHub: Boolean
   secondaryTitle: String!
   secondaryDescription: String!
   collapsibles: [Collapsible!]!
@@ -1048,6 +1048,7 @@ input UpdateQuestionnaireInput {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
+  hubIntroduction: Boolean
   surveyId: String
   summary: Boolean
   collapsibleSummary: Boolean
