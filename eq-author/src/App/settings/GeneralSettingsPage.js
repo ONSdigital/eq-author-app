@@ -253,6 +253,18 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           Let respondents access different sections of the
                           survey from a single central &quot;hub&quot; screen.
                         </InformationPanel>
+                        <InlineField>
+                          <Label htmlFor="toggle-hub-introduction">
+                            Show introduction page on hub
+                          </Label>
+                          <ToggleSwitch
+                            id="toggle-hub-introduction"
+                            name="toggle-hub-introduction"
+                            hideLabels={false}
+                            onChange={() => console.log("test")}
+                            checked={false}
+                          />
+                        </InlineField>
                       </>
                     )}
                     {disableOn(["hub"]) && (
