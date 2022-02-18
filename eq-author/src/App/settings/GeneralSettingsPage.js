@@ -21,6 +21,8 @@ import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { InformationPanel } from "components/Panel";
 
+import { BUSINESS } from "constants/questionnaire-types";
+
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -261,7 +263,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             survey from a single central &quot;hub&quot; screen.
                           </InformationPanel>
                         </>
-                        {type === "Business" && (
+                        {type === BUSINESS && (
                           <>
                             <InlineField disabled={!hub}>
                               <Label htmlFor="toggle-hub-introduction">
