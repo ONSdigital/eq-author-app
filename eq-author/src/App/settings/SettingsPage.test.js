@@ -201,6 +201,29 @@ describe("Settings page", () => {
           variables: {
             input: {
               id: mockQuestionnaire.id,
+              hubIntroduction: true,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                hubIntroduction: true,
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
               hub: false,
               navigation: false,
             },
@@ -528,6 +551,34 @@ describe("Settings page", () => {
       const hubNavigationToggle = getByTestId("toggle-hub-navigation");
 
       const toggle = Object.values(hubNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+  });
+
+  describe("Hub introduction toggle", () => {
+    it("Should enable/disable hub introduction when toggled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+      mockQuestionnaire.hub = true;
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = getByTestId("toggle-hub-introduction");
+
+      const toggle = Object.values(hubIntroductionToggle.children).reduce(
         (child) => (child.type === "checkbox" ? child : null)
       );
 
