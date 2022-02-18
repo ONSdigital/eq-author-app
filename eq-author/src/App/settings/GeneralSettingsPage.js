@@ -125,6 +125,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     qcodes,
     navigation,
     hub,
+    hubIntroduction,
     summary,
     collapsibleSummary,
   } = questionnaire;
@@ -253,7 +254,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           Let respondents access different sections of the
                           survey from a single central &quot;hub&quot; screen.
                         </InformationPanel>
-                        <InlineField>
+                        <InlineField disabled={!hub}>
                           <Label htmlFor="toggle-hub-introduction">
                             Show introduction page on hub
                           </Label>
@@ -261,8 +262,17 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             id="toggle-hub-introduction"
                             name="toggle-hub-introduction"
                             hideLabels={false}
-                            onChange={() => console.log("test")}
-                            checked={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaire({
+                                variables: {
+                                  input: {
+                                    id,
+                                    hubIntroduction: value,
+                                  },
+                                },
+                              })
+                            }
+                            checked={hubIntroduction}
                           />
                         </InlineField>
                       </>

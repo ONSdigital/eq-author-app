@@ -57,6 +57,7 @@ type Questionnaire {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
+  hubIntroduction: Boolean
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -1047,6 +1048,7 @@ input UpdateQuestionnaireInput {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
+  hubIntroduction: Boolean
   surveyId: String
   summary: Boolean
   collapsibleSummary: Boolean
