@@ -6,12 +6,17 @@ import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
 import { enableOn } from "utils/featureFlags";
 
+import { buildSettingsPath } from "utils/UrlUtils";
+import { useParams, Link } from "react-router-dom";
+
 import withPropRenamed from "enhancers/withPropRenamed";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
 import ValidationError from "components/ValidationError";
+
+import Panel from "components-themed/panels";
 
 import { colors } from "constants/theme";
 
@@ -97,6 +102,8 @@ const StyledInput = styled(Input)`
   `}
 `;
 
+// const Link = styled.a``;
+
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -133,6 +140,8 @@ export const IntroductionEditor = ({
     return result;
   };
 
+  const params = useParams();
+
   return (
     <>
       <Section>
@@ -155,6 +164,13 @@ export const IntroductionEditor = ({
             onUpdate={noop}
             testSelector="txt-intro-title"
           />
+          <Panel variant="warning">
+            You can have this page display on the Hub via the Settings
+            page&nbsp;
+            <Link exact to={`${buildSettingsPath(params)}`}>
+              Settings page
+            </Link>
+          </Panel>
           {enableOn(["contactDetails"]) && (
             <div>
               <HorizontalSeparator />

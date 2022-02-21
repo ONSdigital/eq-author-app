@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
 import { ReactComponent as Icon } from "../../assets/icon-panel-checkbox.svg";
+import { ReactComponent as WarningIcon } from "../../assets/icon-warning-circle-large.svg";
 
 const getThemeColor = (variant) => {
   switch (variant) {
@@ -54,6 +55,18 @@ const successPanel = css`
   padding: 1rem;
 `;
 
+const warningPanel = css`
+  /* padding-left: 1rem; */
+`;
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-weight: ${({ bold }) => bold && "bold"};
+  font-size: ${({ fontSize }) => fontSize};
+`;
+
 const HeaderLabel = styled.h2`
   font-size: ${({ theme }) => theme.fontSize};
   padding: 0;
@@ -79,6 +92,12 @@ const Header = styled.div`
 
 const SuccessPanelIconContainer = styled.div`
   padding-left: 2rem;
+  background: none;
+  margin-bottom: 0;
+`;
+
+const WarningPanelIconContainer = styled.div`
+  /* padding-left: 1rem; */
   background: none;
   margin-bottom: 0;
 `;
@@ -122,6 +141,7 @@ const StyledPanel = styled.div`
   ${(props) => props.variant === "success" && successPanel};
   ${(props) => props.variant === "errorWithHeader" && errorWithHeader};
   ${(props) => props.variant === "errorNoHeader" && errorNoHeader};
+  ${(props) => props.variant === "warning" && warningPanel};
 `;
 
 const Panel = ({
@@ -147,13 +167,21 @@ const Panel = ({
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
+      {variant === "warning" && (
+        <WarningPanelIconContainer>
+          <Flex bold fontSize="18px">
+            <WarningIcon />
+            {children}
+          </Flex>
+        </WarningPanelIconContainer>
+      )}
       <Container variant={variant}>
         {paragraphLabel && (
           <PanelParagraphTitle variant={variant}>
             {paragraphLabel}
           </PanelParagraphTitle>
         )}
-        {children}
+        {variant !== "warning" && children}
       </Container>
     </StyledPanel>
   );
