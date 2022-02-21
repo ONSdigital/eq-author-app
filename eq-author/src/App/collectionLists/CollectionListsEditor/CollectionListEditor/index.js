@@ -9,6 +9,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import {
   TEXTFIELD,
+  TEXTAREA,
 } from "constants/answer-types";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";

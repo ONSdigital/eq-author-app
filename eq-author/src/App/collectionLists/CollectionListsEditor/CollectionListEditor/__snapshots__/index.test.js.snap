@@ -1,25 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Answer Editor should correctly calculates date format 1`] = `null`;
-
-exports[`Answer Editor should correctly calculates date format 2`] = `null`;
-
-exports[`Answer Editor should correctly calculates date format 3`] = `null`;
-
 exports[`Answer Editor should render Checkbox 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Checkbox answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Checkbox
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -79,67 +72,26 @@ exports[`Answer Editor should render Checkbox 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "options": Array [
-            Object {
-              "description": "",
-              "id": "1",
-              "label": "",
-            },
-          ],
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Checkbox",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      type="Checkbox"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Currency 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Currency answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Currency
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -199,61 +151,26 @@ exports[`Answer Editor should render Currency 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Currency",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDescription={true}
-      type="Currency"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Date 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Date answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Date
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -313,63 +230,26 @@ exports[`Answer Editor should render Date 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <DateSingle
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Date",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      label="Label"
-      multipleAnswers={false}
-      name="label"
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDay={false}
-      showMonth={false}
-      showYear={false}
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render DateRange 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="DateRange answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        DateRange
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -429,59 +309,26 @@ exports[`Answer Editor should render DateRange 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <DateRange
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "DateRange",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Duration 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Duration answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Duration
-         (Years/Months)
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -541,63 +388,26 @@ exports[`Answer Editor should render Duration 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {
-            "unit": "YearsMonths",
-          },
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Duration",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDescription={true}
-      type="Duration"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Number 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Number answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Number
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -657,61 +467,26 @@ exports[`Answer Editor should render Number 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Number",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDescription={true}
-      type="Number"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Percentage 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Percentage answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Percentage
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -771,61 +546,26 @@ exports[`Answer Editor should render Percentage 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Percentage",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDescription={true}
-      type="Percentage"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Radio 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Radio answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Radio
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -885,68 +625,26 @@ exports[`Answer Editor should render Radio 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "options": Array [
-            Object {
-              "description": "",
-              "id": "1",
-              "label": "",
-            },
-          ],
-          "properties": Object {},
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Radio",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      minOptions={2}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      type="Radio"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render TextArea 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="TextArea answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        TextArea
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -1006,10 +704,10 @@ exports[`Answer Editor should render TextArea 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
@@ -1030,36 +728,30 @@ exports[`Answer Editor should render TextArea 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
       onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
+      onDeleteCollectionList={[MockFunction]}
       onMoveDown={[MockFunction]}
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
       type="TextArea"
     />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+  </CollectionListEditor__Padding>
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render TextField 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="TextField answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        TextField
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -1119,10 +811,10 @@ exports[`Answer Editor should render TextField 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding>
     <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
@@ -1143,37 +835,30 @@ exports[`Answer Editor should render TextField 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
       onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
+      onDeleteCollectionList={[MockFunction]}
       onMoveDown={[MockFunction]}
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
       type="TextField"
     />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+  </CollectionListEditor__Padding>
+</CollectionListEditor__Answer>
 `;
 
 exports[`Answer Editor should render Unit 1`] = `
-<AnswerEditor__Answer
+<CollectionListEditor__Answer
   aria-label="Unit answer"
   data-test="answer-editor"
 >
-  <AnswerEditor__AnswerHeader>
-    <AnswerEditor__AnswerTypePanel>
-      <AnswerEditor__AnswerType
-        data-test="answer-type"
+  <CollectionListEditor__AnswerHeader>
+    <CollectionListEditor__AnswerTypePanel>
+      <CollectionListEditor__AnswerType
+        data-test="list-name"
       >
-        Centimetres
-         (cm)
-         answer
-      </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+        LIST NAME
+      </CollectionListEditor__AnswerType>
+      <CollectionListEditor__Buttons>
         <Tooltip
           content="Move answer up"
           offset={
@@ -1233,45 +918,9 @@ exports[`Answer Editor should render Unit 1`] = `
             type="button"
           />
         </Tooltip>
-      </AnswerEditor__Buttons>
-    </AnswerEditor__AnswerTypePanel>
-  </AnswerEditor__AnswerHeader>
-  <AnswerEditor__Padding>
-    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
-      answer={
-        Object {
-          "advancedProperties": false,
-          "description": "",
-          "displayName": "",
-          "guidance": "",
-          "id": "1",
-          "label": "",
-          "properties": Object {
-            "unit": "Centimetres",
-          },
-          "qCode": "",
-          "secondaryLabel": "",
-          "secondaryLabelDefault": "",
-          "title": "",
-          "type": "Unit",
-        }
-      }
-      canMoveDown={true}
-      canMoveUp={true}
-      enableValidationMessage={true}
-      multipleAnswers={false}
-      onAddExclusive={[MockFunction]}
-      onAddOption={[MockFunction]}
-      onChange={[MockFunction]}
-      onDeleteAnswer={[MockFunction]}
-      onDeleteOption={[MockFunction]}
-      onMoveDown={[MockFunction]}
-      onMoveUp={[MockFunction]}
-      onUpdate={[MockFunction]}
-      onUpdateOption={[MockFunction]}
-      showDescription={true}
-      type="Unit"
-    />
-  </AnswerEditor__Padding>
-</AnswerEditor__Answer>
+      </CollectionListEditor__Buttons>
+    </CollectionListEditor__AnswerTypePanel>
+  </CollectionListEditor__AnswerHeader>
+  <CollectionListEditor__Padding />
+</CollectionListEditor__Answer>
 `;
