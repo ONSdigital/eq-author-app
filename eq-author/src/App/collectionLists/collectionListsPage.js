@@ -11,6 +11,9 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import IconText from "components/IconText";
 import AddIcon from "./icon-add.svg?inline";
+import { filter } from "graphql-anywhere";
+import gql from "graphql-tag";
+import { flowRight } from "lodash";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
 import createCollectionListMutation from "./createCollectionListMutation.graphql";
@@ -18,6 +21,8 @@ import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql
 import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
 import createCollectionListAnswerMutation from "./createCollectionListAnswerMutation.graphql";
 import deleteCollectionListAnswerMutation from "./deleteCollectionListAnswerMutation.graphql";
+import updateListAnswerMutation from "./updateListAnswerMutation.graphql";
+import withUpdateListAnswer from "./withUpdateListAnswer";
 
 const Text = styled.p``;
 
@@ -70,7 +75,19 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const CollectionListsPage = () => {
+const updateListAnswerGGL = gql`
+  {
+    id
+    description
+    guidance
+    label
+    secondaryLabel
+    qCode
+    properties
+  }
+`;
+
+const CollectionListsPage = ({ onUpdateListAnswer }) => {
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
@@ -113,10 +130,11 @@ const CollectionListsPage = () => {
       variables: { input: { listId: id, type: "Number" } },
     });
 
-  const handleDeleteAnswer = (answerId) =>
+  const handleDeleteAnswer = (answerId) => {
     deleteAnswer({
       variables: { input: { id: answerId } },
     });
+  };
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
@@ -188,6 +206,7 @@ const CollectionListsPage = () => {
                 handleUpdateList={handleUpdateList(id)}
                 handleCreateAnswer={handleCreateAnswer(id)}
                 handleDeleteAnswer={handleDeleteAnswer}
+                handleUpdateAnswer={onUpdateListAnswer}
               />
             ))
           )}
@@ -200,5 +219,6 @@ const CollectionListsPage = () => {
 CollectionListsPage.propTypes = {
   myval: PropTypes.string,
   onAddList: PropTypes.func,
+  onUpdateListAnswer: PropTypes.func,
 };
-export default CollectionListsPage;
+export default flowRight(withUpdateListAnswer)(CollectionListsPage);

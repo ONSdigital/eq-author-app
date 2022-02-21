@@ -10,7 +10,7 @@ import IconText from "components/IconText";
 
 import { colors } from "constants/theme";
 import Collapsible from "components/Collapsible";
-import AnswersEditor from "./AnswersEditor";
+import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
 
 const StyledGrid = styled.div`
   display: flex;
@@ -56,6 +56,7 @@ const CollectionListItem = ({
   handleUpdateList,
   handleCreateAnswer,
   handleDeleteAnswer,
+  handleUpdateAnswer,
 }) => {
   const [listName, setListName] = useState(displayName);
   useEffect(() => {
@@ -73,9 +74,9 @@ const CollectionListItem = ({
           handleDeleteList={handleDeleteList}
         >
           <ListItemContents>
-            <Label for="listName">List name</Label>
+            <Label for={`list-${id}`}>List name</Label>
             <ListInput
-              id="listName"
+              id={`list-${id}`}
               aria-label="List name input"
               tabIndex="-1"
               value={listName}
@@ -85,6 +86,7 @@ const CollectionListItem = ({
             <AnswersEditor
               answers={answers}
               onDeleteAnswer={(answerId) => handleDeleteAnswer(answerId)}
+              onUpdate={handleUpdateAnswer}
             />
             <AddAnswerButton
               variant="secondary"
@@ -105,6 +107,7 @@ CollectionListItem.propTypes = {
   handleUpdateList: PropTypes.func.isRequired,
   handleCreateAnswer: PropTypes.func.isRequired,
   handleDeleteAnswer: PropTypes.func.isRequired,
+  handleUpdateAnswer: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   listName: PropTypes.string.isRequired,

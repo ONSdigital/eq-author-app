@@ -1,0 +1,32 @@
+#import "graphql/fragments/answer.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
+
+mutation UpdateListAnswer($input: UpdateListAnswerInput!) {
+  updateListAnswer(input: $input) {
+    ...Answer
+    ... on BasicAnswer {
+      secondaryQCode
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    ... on MultipleChoiceAnswer {
+      options {
+        id
+        label
+        qCode
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      mutuallyExclusiveOption {
+        id
+        label
+        qCode
+      }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+  }
+}
