@@ -57,13 +57,18 @@ const CollectionListItem = ({
   handleCreateAnswer,
   handleDeleteAnswer,
   handleUpdateAnswer,
+  handleAddOption,
+  handleAddExclusive,
+  handleUpdateOption,
+  handleDeleteOption,
   list,
 }) => {
   const [listName, setListName] = useState(displayName);
   useEffect(() => {
     setListName(displayName);
   }, [displayName]);
-
+  let multipleAnswers = false;
+  multipleAnswers = answers?.length > 1;
   return (
     <StyledGrid>
       <ListItem>
@@ -88,6 +93,12 @@ const CollectionListItem = ({
               answers={answers}
               onDeleteAnswer={(answerId) => handleDeleteAnswer(answerId)}
               onUpdate={handleUpdateAnswer}
+              onAddOption={handleAddOption}
+              onAddExclusive={handleAddExclusive}
+              onUpdateOption={handleUpdateOption}
+              onDeleteOption={handleDeleteOption}
+              multipleAnswers={multipleAnswers}
+              // metadata={metadata}
               page={list}
             />
             <AddAnswerButton
@@ -110,6 +121,10 @@ CollectionListItem.propTypes = {
   handleCreateAnswer: PropTypes.func.isRequired,
   handleDeleteAnswer: PropTypes.func.isRequired,
   handleUpdateAnswer: PropTypes.func.isRequired,
+  handleAddOption: PropTypes.func.isRequired,
+  handleAddExclusive: PropTypes.func.isRequired,
+  handleUpdateOption: PropTypes.func.isRequired,
+  handleDeleteOption: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   listName: PropTypes.string.isRequired,

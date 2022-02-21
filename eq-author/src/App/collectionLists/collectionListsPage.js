@@ -20,6 +20,10 @@ import updateCollectionListMutation from "./updateCollectionListMutation.graphql
 import createCollectionListAnswerMutation from "./createCollectionListAnswerMutation.graphql";
 import deleteCollectionListAnswerMutation from "./deleteCollectionListAnswerMutation.graphql";
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
+import withCreateExclusive from "App/page/Design/answers/withCreateExclusive";
+import withCreateOption from "App/page/Design/answers/withCreateOption";
+import withUpdateOption from "App/page/Design/answers/withUpdateOption";
+import withDeleteOption from "App/page/Design/answers/withDeleteOption";
 
 const Text = styled.p``;
 
@@ -72,7 +76,13 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const CollectionListsPage = ({ onUpdateAnswer }) => {
+const CollectionListsPage = ({
+  onUpdateAnswer,
+  onAddOption,
+  onAddExclusive,
+  onUpdateOption,
+  onDeleteOption,
+}) => {
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
@@ -193,6 +203,10 @@ const CollectionListsPage = ({ onUpdateAnswer }) => {
                 handleCreateAnswer={handleCreateAnswer(list.id)}
                 handleDeleteAnswer={handleDeleteAnswer}
                 handleUpdateAnswer={onUpdateAnswer}
+                handleAddOption={onAddOption}
+                handleAddExclusive={onAddExclusive}
+                handleUpdateOption={onUpdateOption}
+                handleDeleteOption={onDeleteOption}
               />
             ))
           )}
@@ -206,5 +220,15 @@ CollectionListsPage.propTypes = {
   myval: PropTypes.string,
   onAddList: PropTypes.func,
   onUpdateAnswer: PropTypes.func,
+  onAddOption: PropTypes.func,
+  onAddExclusive: PropTypes.func,
+  onUpdateOption: PropTypes.func,
+  onDeleteOption: PropTypes.func,
 };
-export default flowRight(withUpdateAnswer)(CollectionListsPage);
+export default flowRight(
+  withUpdateAnswer,
+  withCreateExclusive,
+  withCreateOption,
+  withUpdateOption,
+  withDeleteOption
+)(CollectionListsPage);
