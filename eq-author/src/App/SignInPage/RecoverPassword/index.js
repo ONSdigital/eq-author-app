@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
@@ -26,6 +26,7 @@ const RecoverPassword = ({
   setErrorMessage,
 }) => {
   const [recoveryEmailSent, setRecoveryEmailSent] = useState(false);
+  let errorRefPwRecover = useRef();
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
@@ -54,6 +55,12 @@ const RecoverPassword = ({
     setErrorMessage("");
   }
 
+  function handleLinkToAnchor() {
+    if (errorRefPwRecover.current) {
+      errorRefPwRecover.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       {recoverPassword && !recoveryEmailSent && (
@@ -63,6 +70,8 @@ const RecoverPassword = ({
               variant="errorWithHeader"
               headerLabel="This page has an error"
               paragraphLabel={errorMessage}
+              withList
+              handleLinkToAnchor={handleLinkToAnchor}
             />
           )}
           <PageTitle>Recover Password</PageTitle>
@@ -78,6 +87,7 @@ const RecoverPassword = ({
                   variant="errorNoHeader"
                   paragraphLabel={errorMessage}
                   withLeftBorder
+                  innerRef={errorRefPwRecover}
                 >
                   <Label htmlFor="recoveryEmail">
                     Enter your email address

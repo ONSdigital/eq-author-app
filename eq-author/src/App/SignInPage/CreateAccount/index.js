@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
@@ -25,6 +25,7 @@ const CreateAccount = ({
   const [createEmail, setCreateEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
+  let errorRefCreateAcc = useRef();
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
@@ -67,6 +68,12 @@ const CreateAccount = ({
     }
   };
 
+  function handleLinkToAnchor() {
+    if (errorRefCreateAcc.current) {
+      errorRefCreateAcc.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       <>
@@ -75,6 +82,8 @@ const CreateAccount = ({
             variant="errorWithHeader"
             headerLabel="This page has an error"
             paragraphLabel={errorMessage}
+            withList
+            handleLinkToAnchor={handleLinkToAnchor}
           />
         )}
         <PageTitle>Create an account</PageTitle>
@@ -87,6 +96,7 @@ const CreateAccount = ({
           value={createEmail}
           condition={errorMessage?.toLowerCase().includes("email")}
           dataTest="txt-create-email"
+          innerRef={errorRefCreateAcc}
         />
         <InputWithConditionalError
           type="text"
@@ -96,6 +106,7 @@ const CreateAccount = ({
           value={fullName}
           condition={errorMessage?.toLowerCase().includes("name")}
           dataTest="txt-create-fullName"
+          innerRef={errorRefCreateAcc}
         />
         <Field>
           {errorMessage?.toLowerCase().includes("password") ? (
@@ -104,6 +115,7 @@ const CreateAccount = ({
                 variant="errorNoHeader"
                 paragraphLabel={errorMessage}
                 withLeftBorder
+                innerRef={errorRefCreateAcc}
               >
                 <PasswordInput
                   id="create-password"

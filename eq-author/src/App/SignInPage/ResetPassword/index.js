@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 import { useHistory } from "react-router-dom";
@@ -29,7 +29,7 @@ const ResetPassword = ({
   const [userEmail, setUserEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [expired, setExpired] = useState(false);
-
+  let errorRefPwReset = useRef();
   useEffect(() => {
     auth
       .verifyPasswordResetCode(actionCode)
@@ -80,6 +80,12 @@ const ResetPassword = ({
     signOut();
   }
 
+  function handleLinkToAnchor() {
+    if (errorRefPwReset.current) {
+      errorRefPwReset.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       {actionCode && userEmail && !expired && (
@@ -89,6 +95,8 @@ const ResetPassword = ({
               variant="errorWithHeader"
               headerLabel="This page has an error"
               paragraphLabel={errorMessage}
+              withList
+              handleLinkToAnchor={handleLinkToAnchor}
             />
           )}
           <PageTitle>Reset your Password</PageTitle>
@@ -104,6 +112,7 @@ const ResetPassword = ({
                   variant="errorNoHeader"
                   paragraphLabel={errorMessage}
                   withLeftBorder
+                  innerRef={errorRefPwReset}
                 >
                   <PasswordInput
                     id="new-password"

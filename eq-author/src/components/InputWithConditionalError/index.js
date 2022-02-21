@@ -16,9 +16,16 @@ const InputWithConditionalError = ({
   handleChange,
   errorMessage,
   dataTest,
+  innerRef,
 }) => {
+  console.log("innerRef;", innerRef);
   return condition ? (
-    <Panel variant="errorNoHeader" paragraphLabel={errorMessage} withLeftBorder>
+    <Panel
+      variant="errorNoHeader"
+      paragraphLabel={errorMessage}
+      withLeftBorder
+      innerRef={innerRef}
+    >
       <Field>
         <Label htmlFor={id}>{title}</Label>
         <Input
@@ -55,6 +62,8 @@ InputWithConditionalError.propTypes = {
   handleChange: PropTypes.func,
   errorMessage: PropTypes.string,
   dataTest: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  innerRef: PropTypes.object,
 };
 
 export default InputWithConditionalError;

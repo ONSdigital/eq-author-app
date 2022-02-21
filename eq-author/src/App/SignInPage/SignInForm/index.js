@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
 
@@ -48,6 +48,8 @@ const SignInForm = ({
   const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
 
+  let errorRef = useRef();
+
   function handleRecoverPassword(e) {
     e.preventDefault();
     setForgotPassword(true);
@@ -61,6 +63,12 @@ const SignInForm = ({
     setErrorMessage("");
   }
 
+  function handleLinkToAnchor() {
+    if (errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       {errorMessage && (
@@ -68,6 +76,8 @@ const SignInForm = ({
           variant="errorWithHeader"
           headerLabel="This page has an error"
           paragraphLabel={errorMessage}
+          withList
+          handleLinkToAnchor={handleLinkToAnchor}
         />
       )}
       <PageTitle>Sign in</PageTitle>
@@ -90,6 +100,7 @@ const SignInForm = ({
               variant="errorNoHeader"
               paragraphLabel={errorMessage}
               withLeftBorder
+              innerRef={errorRef}
             >
               <Label htmlFor="email">Email address</Label>
               <Input
@@ -121,6 +132,7 @@ const SignInForm = ({
               variant="errorNoHeader"
               paragraphLabel={errorMessage}
               withLeftBorder
+              innerRef={errorRef}
             >
               <PasswordInput
                 id="password"
