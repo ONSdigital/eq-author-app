@@ -667,7 +667,10 @@ const Resolvers = {
     }),
     updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
-        const page = getPageById(ctx, questionPageId);
+        let page = getPageById(ctx, questionPageId);
+        if (!page) {
+          page = find(ctx.questionnaire.lists, { id: questionPageId });
+        }
         const answersOfType = page.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
@@ -940,20 +943,6 @@ const Resolvers = {
 
       return answer;
     }),
-    updateListAnswersOfType: createMutation(
-      (root, { input: { listId, type, properties } }, ctx) => {
-        const list = find(ctx.questionnaire.lists, { id: listId });
-        const answersOfType = list.answers.filter((a) => a.type === type);
-        answersOfType.forEach((answer) => {
-          answer.properties = {
-            ...answer.properties,
-            ...properties,
-          };
-        });
-
-        return answersOfType;
-      }
-    ),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
       const deletedAnswer = first(remove(list.answers, { id: input.id }));

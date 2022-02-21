@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import PropTypes from "prop-types";
 import Input from "components-themed/Input";
@@ -57,6 +57,7 @@ const CollectionListItem = ({
   handleCreateAnswer,
   handleDeleteAnswer,
   handleUpdateAnswer,
+  list,
 }) => {
   const [listName, setListName] = useState(displayName);
   useEffect(() => {
@@ -87,6 +88,7 @@ const CollectionListItem = ({
               answers={answers}
               onDeleteAnswer={(answerId) => handleDeleteAnswer(answerId)}
               onUpdate={handleUpdateAnswer}
+              page={list}
             />
             <AddAnswerButton
               variant="secondary"
@@ -113,6 +115,7 @@ CollectionListItem.propTypes = {
   listName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   answers: PropTypes.string.isRequired,
+  list: PropTypes.object.isRequired, //eslint-disable-line
 };
 
 export default CollectionListItem;

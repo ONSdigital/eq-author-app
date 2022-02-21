@@ -11,8 +11,6 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import IconText from "components/IconText";
 import AddIcon from "./icon-add.svg?inline";
-import { filter } from "graphql-anywhere";
-import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
@@ -21,8 +19,7 @@ import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql
 import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
 import createCollectionListAnswerMutation from "./createCollectionListAnswerMutation.graphql";
 import deleteCollectionListAnswerMutation from "./deleteCollectionListAnswerMutation.graphql";
-import updateListAnswerMutation from "./updateListAnswerMutation.graphql";
-import withUpdateListAnswer from "./withUpdateListAnswer";
+import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
 
 const Text = styled.p``;
 
@@ -75,19 +72,7 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const updateListAnswerGGL = gql`
-  {
-    id
-    description
-    guidance
-    label
-    secondaryLabel
-    qCode
-    properties
-  }
-`;
-
-const CollectionListsPage = ({ onUpdateListAnswer }) => {
+const CollectionListsPage = ({ onUpdateAnswer }) => {
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
@@ -196,17 +181,18 @@ const CollectionListsPage = ({ onUpdateListAnswer }) => {
           !data ? (
             <Error>Currently no lists</Error>
           ) : (
-            lists.map(({ id, displayName, answers }) => (
+            lists.map((list) => (
               <CollectionListItem
-                key={id}
-                id={id}
-                displayName={displayName}
-                answers={answers}
-                handleDeleteList={handleDeleteList(id)}
-                handleUpdateList={handleUpdateList(id)}
-                handleCreateAnswer={handleCreateAnswer(id)}
+                key={list.id}
+                id={list.id}
+                displayName={list.displayName}
+                answers={list.answers}
+                list={list}
+                handleDeleteList={handleDeleteList(list.id)}
+                handleUpdateList={handleUpdateList(list.id)}
+                handleCreateAnswer={handleCreateAnswer(list.id)}
                 handleDeleteAnswer={handleDeleteAnswer}
-                handleUpdateAnswer={onUpdateListAnswer}
+                handleUpdateAnswer={onUpdateAnswer}
               />
             ))
           )}
@@ -219,6 +205,6 @@ const CollectionListsPage = ({ onUpdateListAnswer }) => {
 CollectionListsPage.propTypes = {
   myval: PropTypes.string,
   onAddList: PropTypes.func,
-  onUpdateListAnswer: PropTypes.func,
+  onUpdateAnswer: PropTypes.func,
 };
-export default flowRight(withUpdateListAnswer)(CollectionListsPage);
+export default flowRight(withUpdateAnswer)(CollectionListsPage);
