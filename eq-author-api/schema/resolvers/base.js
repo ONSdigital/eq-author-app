@@ -920,29 +920,6 @@ const Resolvers = {
 
       return list;
     }),
-    updateListAnswer: createMutation((root, { input }, ctx) => {
-      const answers = getAnswers(ctx);
-      const additionalAnswers = flatMap(answers, (answer) =>
-        answer.options
-          ? flatMap(answer.options, (option) => option.additionalAnswer)
-          : null
-      );
-      const answer = find(concat(answers, additionalAnswers), { id: input.id });
-      const oldAnswerLabel = answer.label;
-      merge(answer, input);
-
-      if (answer.type === DATE && !input.label && input?.properties?.format) {
-        answer.validation.earliestDate.offset.unit =
-          DURATION_LOOKUP[input.properties.format];
-        answer.validation.latestDate.offset.unit =
-          DURATION_LOOKUP[input.properties.format];
-      }
-
-      const pages = getPages(ctx);
-      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
-
-      return answer;
-    }),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
       const deletedAnswer = first(remove(list.answers, { id: input.id }));
