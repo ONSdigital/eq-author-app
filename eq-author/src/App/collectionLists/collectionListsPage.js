@@ -70,7 +70,7 @@ const AddListCollectionButton = styled(Button)`
   padding: 0.5em;
 `;
 
-const CollectionListsPage = ({ myval }) => {
+const CollectionListsPage = () => {
   const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
     fetchPolicy: "network-only",
   });
@@ -78,24 +78,45 @@ const CollectionListsPage = ({ myval }) => {
   const [addList] = useMutation(createCollectionListMutation, {
     refetchQueries: ["Lists"],
   });
-
   const [deleteList] = useMutation(deleteCollectionListMutation, {
     refetchQueries: ["Lists"],
   });
-
   const [updateList] = useMutation(updateCollectionListMutation, {
     refetchQueries: ["Lists"],
   });
-
   const [createAnswer] = useMutation(createCollectionListAnswerMutation, {
     refetchQueries: ["Lists"],
   });
-
   const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation, {
     refetchQueries: ["Lists"],
   });
 
-  const [noChange] = "";
+  const handleAddList = () => {
+    addList();
+  };
+
+  const handleDeleteList = (id) => (event) => {
+    event.stopPropagation();
+    deleteList({
+      variables: { input: { id: id } },
+    });
+  };
+
+  const handleUpdateList = (id) => (listName) => {
+    updateList({
+      variables: { input: { id: id, listName: listName } },
+    });
+  };
+
+  const handleCreateAnswer = (id) => () =>
+    createAnswer({
+      variables: { input: { listId: id, type: "Number" } },
+    });
+
+  const handleDeleteAnswer = (answerId) =>
+    deleteAnswer({
+      variables: { input: { id: answerId } },
+    });
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
@@ -142,7 +163,7 @@ const CollectionListsPage = ({ myval }) => {
         <AddListCollectionButton
           variant="secondary"
           data-test="btn-add-list"
-          onClick={addList}
+          onClick={handleAddList}
         >
           <IconText icon={AddIcon}>
             Add {!lists ? "a" : "another"} collection list
@@ -163,8 +184,10 @@ const CollectionListsPage = ({ myval }) => {
                 id={id}
                 displayName={displayName}
                 answers={answers}
-                handleDeleteList={deleteList}
-                handleUpdateList={updateList}
+                handleDeleteList={handleDeleteList(id)}
+                handleUpdateList={handleUpdateList(id)}
+                handleCreateAnswer={handleCreateAnswer(id)}
+                handleDeleteAnswer={handleDeleteAnswer}
               />
             ))
           )}

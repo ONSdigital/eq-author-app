@@ -15,6 +15,51 @@ query Lists {
       qCode
       guidance
       description
+      ... on BasicAnswer {
+        secondaryQCode
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
+      }
+      ... on MultipleChoiceAnswer {
+        options {
+          id
+          label
+          qCode
+          validationErrorInfo {
+            id
+            errors {
+              id
+              type
+              field
+              errorCode
+            }
+            totalCount
+          }
+        }
+        mutuallyExclusiveOption {
+          id
+          label
+          qCode
+        }
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
+      }
     }
     validationErrorInfo {
       id
