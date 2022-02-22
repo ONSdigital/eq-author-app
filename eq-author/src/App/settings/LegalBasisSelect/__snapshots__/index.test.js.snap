@@ -53,6 +53,17 @@ exports[`LegalBasisField should render 1`] = `
     </Radio__RadioDescription>
   </LegalOption>
   <LegalOption
+    key="NOTICE_FUELS"
+    name="default"
+    onChange={[Function]}
+    selected={false}
+    value="NOTICE_FUELS"
+  >
+    <Radio__RadioDescription>
+      Petroleum Act 1998 and Section 1 of the Statistics of Trade Act 1947.
+    </Radio__RadioDescription>
+  </LegalOption>
+  <LegalOption
     key="VOLUNTARY"
     name="default"
     onChange={[Function]}
