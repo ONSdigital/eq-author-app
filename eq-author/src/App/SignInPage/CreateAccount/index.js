@@ -34,7 +34,7 @@ const CreateAccount = ({
     setErrorMessage("");
   }
 
-  const handleCreateAccount = async (createEmail, fullName, password) => {
+  const handleCreateAccount = (createEmail, fullName, password) => {
     if (createEmail === "") {
       setErrorMessage("Enter email");
     } else if (fullName === "") {
@@ -42,29 +42,50 @@ const CreateAccount = ({
     } else if (password === "") {
       setErrorMessage("Enter password");
     } else {
-      try {
-        const response = await auth.createUserWithEmailAndPassword(
-          createEmail,
-          password
-        );
-        const user = response.user;
-        user
-          .updateProfile({
-            displayName: fullName,
-          })
-          .then(
-            function () {
-              setVerificationEmail(createEmail);
-              setErrorMessage("");
-            },
-            function (error) {
-              setErrorMessage(error.message);
-            }
-          );
-        setCreateAccountFunction(false);
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+      auth
+        .createUserWithEmailAndPassword(createEmail, password)
+        .then((response) => {
+          response.user
+            .updateProfile({
+              displayName: fullName,
+            })
+            .then(
+              function () {
+                setVerificationEmail(createEmail);
+                setErrorMessage("");
+              },
+              function (error) {
+                setErrorMessage(error.message);
+              }
+            );
+          setCreateAccountFunction(false);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+      // try {
+      //   const response = auth.createUserWithEmailAndPassword(
+      //     createEmail,
+      //     password
+      //   );
+      //   const user = response.user;
+      //   user
+      //     .updateProfile({
+      //       displayName: fullName,
+      //     })
+      //     .then(
+      //       function () {
+      //         setVerificationEmail(createEmail);
+      //         setErrorMessage("");
+      //       },
+      //       function (error) {
+      //         setErrorMessage(error.message);
+      //       }
+      //     );
+      //   setCreateAccountFunction(false);
+      // } catch (error) {
+      //   setErrorMessage(error.message);
+      // }
     }
   };
 

@@ -34,17 +34,18 @@ const RecoverPassword = ({
     setErrorMessage("");
   }
 
-  const handleEmailRecoveryPassword = async (recoveryEmail) => {
+  const handleEmailRecoveryPassword = (recoveryEmail) => {
     if (recoveryEmail === "" || recoveryEmail === null) {
       setErrorMessage("Email should not be empty");
     } else {
-      try {
-        await auth.sendPasswordResetEmail(recoveryEmail).then(function () {
+      auth
+        .sendPasswordResetEmail(recoveryEmail)
+        .then(() => {
           setRecoveryEmailSent(true);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
         });
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
     }
   };
 

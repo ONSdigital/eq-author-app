@@ -27,21 +27,22 @@ const SignInForm = ({
   emailNowVerified,
   setEmailNowVerified,
 }) => {
-  const logInWithEmailAndPassword = async (email, password) => {
+  const logInWithEmailAndPassword = (email, password) => {
     setPasswordResetSuccess(false);
     setEmailNowVerified(false);
     if (email === "") {
       setErrorMessage("Enter email");
+      return;
     } else if (password === "") {
       setErrorMessage("Enter password");
-    } else {
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-      setForgotPassword(false);
+      return;
     }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => setForgotPassword(false))
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
   };
 
   const [email, setEmail] = useState("");

@@ -43,29 +43,28 @@ const ResetPassword = ({
       });
   }, [actionCode, userEmail, setErrorMessage]);
 
-  const handleResetPassword = async (newPassword) => {
+  const handleResetPassword = (newPassword) => {
     if (newPassword === "" || newPassword === null) {
       setErrorMessage("Password cannot be empty");
     } else {
-      try {
-        await auth
-          .confirmPasswordReset(actionCode, newPassword)
-          .then(function () {
-            setErrorMessage("");
-            setExpired(false);
-            // clear location variables
-            history.replace({
-              search: "",
-            });
-            setForgotPassword(false);
-            resetThePassword(false);
-            setPasswordResetSuccess(true);
-            signOut();
+      auth
+        .confirmPasswordReset(actionCode, newPassword)
+        .then(() => {
+          setErrorMessage("");
+          setExpired(false);
+          // clear location variables
+          history.replace({
+            search: "",
           });
-      } catch (error) {
-        setErrorMessage(error.message);
-        setExpired(true);
-      }
+          setForgotPassword(false);
+          resetThePassword(false);
+          setPasswordResetSuccess(true);
+          signOut();
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+          setExpired(true);
+        });
     }
   };
 
