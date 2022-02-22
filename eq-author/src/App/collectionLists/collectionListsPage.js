@@ -121,9 +121,9 @@ const CollectionListsPage = ({
     });
   };
 
-  const handleCreateAnswer = (id) => () =>
+  const handleCreateAnswer = (id) => (type) =>
     createAnswer({
-      variables: { input: { listId: id, type: "Number" } },
+      variables: { input: { listId: id, type: type } },
     });
 
   const handleDeleteAnswer = (answerId) => {

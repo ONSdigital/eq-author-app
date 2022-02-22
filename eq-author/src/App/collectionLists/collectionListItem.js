@@ -4,19 +4,18 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Input from "components-themed/Input";
 import { Label } from "components/Forms";
-import Button from "components/buttons/Button";
-import AddIcon from "./icon-add.svg?inline";
-import IconText from "components/IconText";
 
 import { colors } from "constants/theme";
 import Collapsible from "components/Collapsible";
 import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
+import AnswerTypeSelector from "components/AnswerTypeSelector";
 
 const StyledGrid = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
 `;
+
 // Lists
 const ListInput = styled(Input)`
   border-radius: 0;
@@ -41,11 +40,6 @@ const ListItemContents = styled.div`
   padding: 1em;
   display: flex;
   flex-direction: column;
-`;
-
-const AddAnswerButton = styled(Button)`
-  width: 33%;
-  padding: 0.5em;
 `;
 
 const CollectionListItem = ({
@@ -101,13 +95,12 @@ const CollectionListItem = ({
               // metadata={metadata}
               page={list}
             />
-            <AddAnswerButton
-              variant="secondary"
-              data-test="btn-add-list-answer"
-              onClick={handleCreateAnswer}
-            >
-              <IconText icon={AddIcon}>Add an answer</IconText>
-            </AddAnswerButton>
+            <AnswerTypeSelector
+              answerCount={answers.length}
+              onSelect={(answerType) => handleCreateAnswer(answerType)}
+              data-test="add-answer"
+              page={list}
+            />
           </ListItemContents>
         </Collapsible>
       </ListItem>
