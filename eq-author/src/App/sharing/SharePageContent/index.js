@@ -16,7 +16,6 @@ import { InformationPanel } from "components/Panel";
 import { withShowToast } from "components/Toasts";
 import { Field, Label } from "components/Forms";
 
-
 import EditorSearch from "./EditorSearch";
 
 import {
@@ -101,15 +100,15 @@ export const Sharing = ({ data, showToast }) => {
         Get shareable link
       </ShareLinkButton>
       <Section>
-      <InlineField>
-        <Label>Public access</Label>
-        <ToggleSwitch
-          id="public"
-          name="public"
-          hideLabels={false}
-          onChange={togglePublic}
-          checked={isPublic}
-        />
+        <InlineField>
+          <Label htmlFor="public">Public access</Label>
+          <ToggleSwitch
+            id="public"
+            name="public"
+            hideLabels={false}
+            onChange={togglePublic}
+            checked={isPublic}
+          />
         </InlineField>
         <InformationPanel>
           Let anyone with an Author account view your questionnaire. If public

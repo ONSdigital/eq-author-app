@@ -119,6 +119,7 @@ enum LegalBasisCode {
   NOTICE_2
   NOTICE_3
   NOTICE_NI
+  NOTICE_FUELS
   VOLUNTARY
 }
 
@@ -664,6 +665,7 @@ type QuestionnaireIntroduction {
   collapsibles: [Collapsible!]!
   tertiaryTitle: String!
   tertiaryDescription: String!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Reply {
@@ -1052,6 +1054,7 @@ input UpdateQuestionnaireInput {
   shortTitle: String
   editors: [ID!] 
   isPublic: Boolean
+  permission: String
 }
 
 

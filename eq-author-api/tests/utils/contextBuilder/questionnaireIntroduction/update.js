@@ -10,11 +10,19 @@ const updateQuestionnaireIntroductionMutation = `
       secondaryDescription
       additionalGuidancePanel
       additionalGuidancePanelSwitch
+      contactDetailsPhoneNumber
+      contactDetailsEmailAddress
       collapsibles {
         id
       }
       tertiaryTitle
       tertiaryDescription
+      validationErrorInfo {
+        totalCount
+        errors {
+          id
+        }
+      }
     }
   }
 `;

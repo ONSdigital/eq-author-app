@@ -1324,6 +1324,11 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
 
+  QuestionnaireIntroduction: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
+  },
+
   Section: {
     folders: (section) => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,

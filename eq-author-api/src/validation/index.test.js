@@ -186,7 +186,7 @@ describe("schema validation", () => {
           {
             id: "theme-1",
             enabled: false,
-            shortName: "covid",
+            shortName: "northernireland",
             legalBasisCode: "NOTICE_1",
             eqId: "dave",
             formType: "777",

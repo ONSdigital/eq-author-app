@@ -11,6 +11,9 @@
     "themeSettings": {
       "$ref": "themeSettings.json"
     },
+    "introduction": {
+      "$ref": "introduction.json"
+    },
     "lists": {
       "type": "array",
       "items": {
