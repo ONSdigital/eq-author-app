@@ -44,7 +44,7 @@ const ListItem = styled.div`
 `;
 
 const ListItemContents = styled.div`
-  padding: 1em;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
 `;
