@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { find } from "lodash";
 
 import PropTypes from "prop-types";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -9,6 +10,7 @@ import { colors } from "constants/theme";
 import Collapsible from "components/CollapsibleMoveable";
 import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
 import AnswerTypeSelector from "components/AnswerTypeSelector";
+import { listErrors } from "../../constants/validationMessages";
 
 const StyledGrid = styled.div`
   display: flex;
@@ -69,6 +71,9 @@ const CollectionListItem = ({
   }, [listName]);
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
+  const listnameError = find(list.validationErrorInfo.errors, {
+    errorCode: "LISTNAME_MISSING",
+  });
   return (
     <StyledGrid>
       <ListItem>
@@ -88,6 +93,11 @@ const CollectionListItem = ({
               value={tempListName}
               onChange={(event) => setListName(event.value)}
               onBlur={() => handleUpdateList(tempListName)}
+              errorValidationMsg={
+                listnameError?.errorCode
+                  ? listErrors[listnameError.errorCode]
+                  : null
+              }
             />
             <AnswerEditorWrapper>
               <AnswersEditor
