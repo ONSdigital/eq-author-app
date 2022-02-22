@@ -18,7 +18,6 @@ const InputWithConditionalError = ({
   dataTest,
   innerRef,
 }) => {
-  console.log("innerRef;", innerRef);
   return condition ? (
     <Panel
       variant="errorNoHeader"

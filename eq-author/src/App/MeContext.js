@@ -13,9 +13,6 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
-// const locationOrigin = window.location.origin;
-// const verifyRedirectUrl = locationOrigin + "/#/sign-in";
-
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
   localStorage.setItem("refreshToken", user.refreshToken);
@@ -100,12 +97,6 @@ const ContextProvider = ({ history, client, children }) => {
   }, []);
 
   useEffect(() => {
-    // This need some attention if we want automatic cross environment urls to work instead of hard coding in the firebase templates
-    // const actionCodeSettings = {
-    //   //This is the redirect URL for AFTER you have clicked the email link and verified the email address
-    //   url: verifyRedirectUrl,
-    //   handleCodeInApp: true,
-    // };
     if (awaitingFirebase) {
       return;
     }

@@ -64,7 +64,7 @@ const HeaderLabel = styled.h2`
 const PanelParagraphTitle = styled.div`
   color: ${({ variant }) => getThemeColor(variant)};
   margin: 0 0 0.5rem;
-  font-weight: bold;
+  font-weight: ${({ withList }) => !withList && "bold"};
   li {
     color: ${({ theme }) => theme.colors.black};
   }
@@ -157,7 +157,7 @@ const Panel = ({
       )}
       <Container variant={variant}>
         {paragraphLabel && (
-          <PanelParagraphTitle variant={variant} withList>
+          <PanelParagraphTitle variant={variant} withList={withList}>
             {withList ? (
               <ol>
                 <li>
