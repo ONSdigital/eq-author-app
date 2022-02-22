@@ -93,9 +93,7 @@ const CollectionListsPage = ({
   const [deleteList] = useMutation(deleteCollectionListMutation, {
     refetchQueries: ["Lists"],
   });
-  const [updateList] = useMutation(updateCollectionListMutation, {
-    refetchQueries: ["Lists"],
-  });
+  const [updateList] = useMutation(updateCollectionListMutation);
   const [createAnswer] = useMutation(createCollectionListAnswerMutation, {
     refetchQueries: ["Lists"],
   });

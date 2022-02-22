@@ -77,9 +77,9 @@ const CollectionListItem = ({
         <Collapsible
           className="listCollapsible"
           withoutHideThis
-          variant="list"
-          displayName={displayName}
-          handleDeleteList={handleDeleteList}
+          title={displayName}
+          handleDelete={handleDeleteList}
+          defaultOpen
         >
           <ListItemContents>
             <Label for={`list-${id}`}>List name</Label>
