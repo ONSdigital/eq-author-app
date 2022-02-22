@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import PropTypes from "prop-types";
-import Input from "components-themed/Input";
+import WrappingInput from "components/Forms/WrappingInput";
 import { Label } from "components/Forms";
 
 import { colors } from "constants/theme";
@@ -27,9 +27,8 @@ const AnswerEditorWrapper = styled.div`
 `;
 
 // Lists
-const ListInput = styled(Input)`
-  border-radius: 0;
-  width: 30%;
+const ListInput = styled(WrappingInput)`
+  width: 20rem;
   font-weight: bold;
 `;
 
