@@ -6,7 +6,7 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { Label } from "components/Forms";
 
 import { colors } from "constants/theme";
-import Collapsible from "components/Collapsible";
+import Collapsible from "components/CollapsibleMoveable";
 import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
 import AnswerTypeSelector from "components/AnswerTypeSelector";
 
