@@ -53,6 +53,7 @@ const ListItemContents = styled.div`
 const CollectionListItem = ({
   id,
   displayName,
+  listName,
   answers,
   handleDeleteList,
   handleUpdateList,
@@ -65,10 +66,10 @@ const CollectionListItem = ({
   handleDeleteOption,
   list,
 }) => {
-  const [listName, setListName] = useState(displayName);
+  const [tempListName, setListName] = useState(listName);
   useEffect(() => {
-    setListName(displayName);
-  }, [displayName]);
+    setListName(listName);
+  }, [listName]);
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
   return (
@@ -87,9 +88,9 @@ const CollectionListItem = ({
               id={`list-${id}`}
               aria-label="List name input"
               tabIndex="-1"
-              value={listName}
+              value={tempListName}
               onChange={(event) => setListName(event.value)}
-              onBlur={() => handleUpdateList(listName)}
+              onBlur={() => handleUpdateList(tempListName)}
             />
             <AnswerEditorWrapper>
               <AnswersEditor

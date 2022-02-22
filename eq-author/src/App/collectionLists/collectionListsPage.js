@@ -192,6 +192,7 @@ const CollectionListsPage = ({
                 key={list.id}
                 id={list.id}
                 displayName={list.displayName}
+                listName={list.listName}
                 answers={list.answers}
                 list={list}
                 handleDeleteList={handleDeleteList(list.id)}
