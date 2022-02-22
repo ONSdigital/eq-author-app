@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import styled, { css } from "styled-components";
-import { colors, radius } from "constants/theme";
+import styled from "styled-components";
+import { radius } from "constants/theme";
+
+import { noop } from "lodash";
 
 const Menu = styled.div`
   display: block;
@@ -19,15 +21,6 @@ const MenuList = styled.ul`
   &:empty {
     padding: 0;
   }
-`;
-
-const active = css`
-  background-color: #e4e8eb;
-`;
-
-const selected = css`
-  background-color: ${colors.primary};
-  color: white;
 `;
 
 const MenuItem = styled.li`
@@ -47,8 +40,9 @@ const MenuItemText = styled.div`
   margin: 0.25em 0.1em;
   padding: 0.6em 1em;
   line-height: 1;
-  ${(props) => props.isActive && active};
-  ${(props) => props.isSelected && selected};
+  &:hover {
+    background-color: #e4e8eb;
+  }
 `;
 
 export const filterItemsByInputValue = (items, inputValue) =>
@@ -63,16 +57,21 @@ const TypeaheadMenu = ({
   items,
   ...otherProps
 }) => {
+  const filteredItems = filterItemsByInputValue(items, inputValue);
   return (
     <Menu {...otherProps}>
       <MenuList {...getMenuProps()}>
-        {filterItemsByInputValue(items, inputValue).map((item, index) => (
+        {filteredItems.map((item, index) => (
+          // getItemProps is a value defined in the downshift library
+          // downshift docs - https://github.com/downshift-js/downshift
           <MenuItem
             key={item.value}
             {...getItemProps({
               index,
               item,
             })}
+            // Overwrites onMouseMove to perform no operation - the default onMouseMove function breaks search
+            onMouseMove={noop}
           >
             <MenuItemText
               isActive={highlightedIndex === index}

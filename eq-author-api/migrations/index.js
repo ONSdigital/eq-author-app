@@ -28,6 +28,7 @@ const migrations = [
   require("./updateContactDetails"),
   require("./addSubmissionPage"),
   require("./migrateFolder"),
+  require("./addSummaryTitle"),
 ];
 
 const currentVersion = migrations.length;
