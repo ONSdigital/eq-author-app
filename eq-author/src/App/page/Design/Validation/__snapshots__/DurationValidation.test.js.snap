@@ -5,6 +5,7 @@ exports[`Duration Validation should render 1`] = `
   <Grid
     align="top"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <AlignedColumn
       cols={3}
@@ -48,6 +49,7 @@ exports[`Duration Validation should render 1`] = `
   <Grid
     align="top"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <Column
       cols={3}

@@ -8,6 +8,7 @@ exports[`components/RoutingRuleDestinationSelector should render 1`] = `
     <Grid
       align="center"
       fillHeight={true}
+      horizontalAlign="start"
     >
       <Column
         cols={5}

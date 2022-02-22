@@ -10,6 +10,7 @@ import { withMe } from "App/MeContext";
 
 const createRedirect = ({ location }) => ({
   pathname: "/sign-in",
+  search: location.search,
   state: {
     returnURL: location.pathname,
   },
@@ -18,6 +19,7 @@ const createRedirect = ({ location }) => ({
 const PrivateRoute = React.memo(
   ({ component: Component, isSigningIn, me, ...rest }) => {
     let render;
+
     if (isSigningIn) {
       render = () => (
         <Layout title="Logging in...">

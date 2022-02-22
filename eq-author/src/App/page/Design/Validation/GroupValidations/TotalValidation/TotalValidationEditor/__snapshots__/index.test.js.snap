@@ -5,6 +5,7 @@ exports[`TotalValidationEditor should render 1`] = `
   <Grid
     align="top"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <Column
       cols={4}

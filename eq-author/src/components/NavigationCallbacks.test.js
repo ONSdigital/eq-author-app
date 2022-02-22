@@ -11,10 +11,7 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import {
-  useCreateFolder,
-  useCreatePageWithFolder,
-} from "hooks/useCreateFolder";
+import { useCreateFolder } from "hooks/useCreateFolder";
 
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
