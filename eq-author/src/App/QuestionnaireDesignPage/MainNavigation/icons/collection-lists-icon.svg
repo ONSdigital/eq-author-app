@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 23 20" width="23px" fill="#000000">
-<path d="M0 0h24v24H0z" fill="none"/>
-<path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" enable-background="new 0 0 1000 1000" xml:space="preserve" width="22" height="22"><metadata>
+    Svg Vector Icons : http://www.onlinewebfonts.com/icon
+  </metadata><g><path d="M18.539 5.584v-2.125h-10.78v2.125H18.539zM14.238 14.238v-2.176H7.762v2.176H14.238zM18.539 9.937v-2.176h-10.78v2.176H18.539zM19.655 0.22c0.574 0 1.071 0.211 1.494 0.634C21.569 1.276 21.78 1.773 21.78 2.347v12.956c0 0.574 -0.211 1.08 -0.634 1.518c-0.422 0.438 -0.92 0.658 -1.494 0.658H6.699c-0.574 0 -1.08 -0.22 -1.518 -0.658c-0.438 -0.438 -0.658 -0.944 -0.658 -1.518V2.347c0 -0.574 0.22 -1.071 0.658 -1.494s0.944 -0.634 1.518 -0.634H19.655zM2.345 4.521v15.132h15.132V21.78H2.345c-0.574 0 -1.071 -0.211 -1.494 -0.634S0.22 20.227 0.22 19.655V4.521H2.345z"/></g></svg>
