@@ -161,13 +161,16 @@ export const IntroductionEditor = ({
             disabled
             onUpdate={noop}
             testSelector="txt-intro-title"
+            withoutMargin={enableOn(["hub"])}
           />
-          <Panel variant="warning">
-            You can have this page display on the Hub via the&nbsp;
-            <Link exact to={`${buildSettingsPath(params)}`}>
-              Settings page
-            </Link>
-          </Panel>
+          {enableOn(["hub"]) && (
+            <Panel variant="warning">
+              You can have this page display on the Hub via the&nbsp;
+              <Link exact to={`${buildSettingsPath(params)}`}>
+                Settings page
+              </Link>
+            </Panel>
+          )}
           {enableOn(["contactDetails"]) && (
             <div>
               <HorizontalSeparator />

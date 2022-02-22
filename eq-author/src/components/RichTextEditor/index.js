@@ -67,7 +67,8 @@ const sizes = {
 const Wrapper = styled.div`
   position: relative;
   line-height: 1.5;
-  margin-bottom: ${(props) => (props.hasError ? "0" : "2")}em;
+  margin-bottom: ${(props) =>
+    props.hasError || props.withoutMargin ? "0" : "2"}em;
 `;
 
 Wrapper.defaultProps = {
@@ -170,6 +171,7 @@ class RichTextEditor extends React.Component {
     ]),
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
+    withoutMargin: PropTypes.bool,
   };
 
   constructor(props) {
@@ -384,13 +386,14 @@ class RichTextEditor extends React.Component {
       maxHeight,
       linkCount,
       linkLimit,
+      withoutMargin,
       ...otherProps
     } = this.props;
 
     const hasError = errorValidationMsg && true;
 
     return (
-      <Wrapper hasError={hasError}>
+      <Wrapper hasError={hasError} withoutMargin={withoutMargin}>
         <Field
           onClick={this.handleClick}
           onBlur={this.handleBlur}
