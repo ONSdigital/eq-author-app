@@ -21,24 +21,51 @@ const TableWrapper = styled.table`
   border-top-left-radius: 1em;
 `;
 
-const QuestionnaireTable = ({ questionnaires, enabledHeadings }) => {
+const QuestionnaireTable = ({
+  questionnaires,
+  enabledHeadings,
+  onSortClick,
+  onReverseClick,
+  handleLock,
+  sortOrder,
+  currentSortColumn,
+}) => {
   return (
     <Border>
       <TableWrapper>
         <TableHead
-          //   onSortClick={onSortClick}
-          //   onReverseClick={onReverseClick}
-          //   sortOrder={sortOrder}
-          //   currentSortColumn={currentSortColumn}
+          onSortClick={onSortClick}
+          onReverseClick={onReverseClick}
+          sortOrder={sortOrder}
+          currentSortColumn={currentSortColumn}
           enabledHeadings={enabledHeadings}
-          //   sticky={variant === "selectModal"}
+          // sticky={variant === "selectModal"}
         />
         <TableBody
           questionnaires={questionnaires}
           enabledHeadings={enabledHeadings}
+          handleLock={handleLock}
         />
       </TableWrapper>
     </Border>
   );
 };
+
+TableBody.propTypes = {
+  questionnaires: PropTypes.array, // eslint-disable-line
+  autoFocusId: PropTypes.string,
+  onDeleteQuestionnaire: PropTypes.func,
+  onDuplicateQuestionnaire: PropTypes.func,
+  handleLock: PropTypes.func,
+  clickable: PropTypes.bool,
+  enabledHeadings: PropTypes.array, // eslint-disable-line
+  onRowClick: PropTypes.func,
+  questionnaireModal: PropTypes.bool,
+  selectedQuestionnaire: PropTypes.object, // eslint-disable-line
+};
+
+QuestionnaireTable.defaultProps = {
+  clickable: true,
+};
+
 export default QuestionnaireTable;
