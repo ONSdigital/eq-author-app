@@ -16,6 +16,10 @@ const StyledGrid = styled.div`
   flex-basis: 100%;
 `;
 
+const AnswerTypeSelectorWrapper = styled.div`
+  width: 20rem;
+`;
+
 // Lists
 const ListInput = styled(Input)`
   border-radius: 0;
@@ -95,12 +99,14 @@ const CollectionListItem = ({
               // metadata={metadata}
               page={list}
             />
-            <AnswerTypeSelector
-              answerCount={answers.length}
-              onSelect={(answerType) => handleCreateAnswer(answerType)}
-              data-test="add-answer"
-              page={list}
-            />
+            <AnswerTypeSelectorWrapper>
+              <AnswerTypeSelector
+                answerCount={answers.length}
+                onSelect={(answerType) => handleCreateAnswer(answerType)}
+                data-test="add-answer"
+                page={list}
+              />
+            </AnswerTypeSelectorWrapper>
           </ListItemContents>
         </Collapsible>
       </ListItem>

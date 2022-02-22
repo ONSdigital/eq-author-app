@@ -9,7 +9,6 @@ import { colors } from "constants/theme";
 import Loading from "components/Loading";
 import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
-import IconText from "components/IconText";
 import { flowRight } from "lodash";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
