@@ -51,10 +51,6 @@ const ListItemContents = styled.div`
 `;
 
 const CollectionListItem = ({
-  id,
-  displayName,
-  listName,
-  answers,
   handleDeleteList,
   handleUpdateList,
   handleCreateAnswer,
@@ -66,6 +62,7 @@ const CollectionListItem = ({
   handleDeleteOption,
   list,
 }) => {
+  const { id, displayName, listName, answers } = list;
   const [tempListName, setListName] = useState(listName);
   useEffect(() => {
     setListName(listName);
@@ -131,11 +128,6 @@ CollectionListItem.propTypes = {
   handleAddExclusive: PropTypes.func.isRequired,
   handleUpdateOption: PropTypes.func.isRequired,
   handleDeleteOption: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  listName: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  answers: PropTypes.string.isRequired,
   list: PropTypes.object.isRequired, //eslint-disable-line
 };
 
