@@ -10,7 +10,6 @@ import Loading from "components/Loading";
 import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import IconText from "components/IconText";
-import AddIcon from "./icon-add.svg?inline";
 import { flowRight } from "lodash";
 
 import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
@@ -179,9 +178,7 @@ const CollectionListsPage = ({
           data-test="btn-add-list"
           onClick={handleAddList}
         >
-          <IconText icon={AddIcon}>
-            Add {!lists ? "a" : "another"} collection list
-          </IconText>
+          Create {!lists ? "a" : "another"} collection list
         </AddListCollectionButton>
 
         <Margin>
