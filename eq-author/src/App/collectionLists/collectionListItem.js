@@ -17,6 +17,7 @@ const StyledGrid = styled.div`
 `;
 
 const AnswerTypeSelectorWrapper = styled.div`
+  margin-top: 1rem;
   width: 20rem;
 `;
 
