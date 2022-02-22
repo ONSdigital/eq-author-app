@@ -163,10 +163,11 @@ export const UnwrappedMainNavigation = ({
                     History
                   </IconText>
                 </RouteButton>
-                
+
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn === "lists" && "navigation-on") ||
+                    (whatPageAreWeOn === "collectionLists" &&
+                      "navigation-on") ||
                     "navigation"
                   }
                   small
@@ -177,7 +178,7 @@ export const UnwrappedMainNavigation = ({
                     Collection Lists
                   </IconText>
                 </RouteButton>
-                
+
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "metadata" && "navigation-on") ||
