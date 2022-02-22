@@ -71,6 +71,7 @@ const StyledGrid = styled.div`
 `;
 
 const AddListCollectionButton = styled(Button)`
+  margin-top: 1rem;
   width: 18rem;
   padding: 1rem;
 `;
