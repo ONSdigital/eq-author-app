@@ -30,6 +30,11 @@ export const LEGAL_BASIS_OPTIONS = [
     value: "NOTICE_NI",
   },
   {
+    description:
+      "Petroleum Act 1998 and Section 1 of the Statistics of Trade Act 1947.",
+    value: "NOTICE_FUELS",
+  },
+  {
     description: "Voluntary",
     value: "VOLUNTARY",
   },
