@@ -2,7 +2,6 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
 import { ReactComponent as Icon } from "../../assets/icon-panel-checkbox.svg";
-import { ReactComponent as WarningIcon } from "../../assets/icon-warning-circle-large.svg";
 
 const getThemeColor = (variant) => {
   switch (variant) {
@@ -55,10 +54,6 @@ const successPanel = css`
   padding: 1rem;
 `;
 
-const warningPanel = css`
-  /* padding-left: 1rem; */
-`;
-
 const Flex = styled.div`
   display: flex;
   justify-content: start;
@@ -96,12 +91,6 @@ const SuccessPanelIconContainer = styled.div`
   margin-bottom: 0;
 `;
 
-const WarningPanelIconContainer = styled.div`
-  /* padding-left: 1rem; */
-  background: none;
-  margin-bottom: 0;
-`;
-
 const SpanIcon = styled.span`
   height: 25px;
   width: 36px;
@@ -109,6 +98,20 @@ const SpanIcon = styled.span`
   padding-left: 1rem;
   position: absolute;
   box-sizing: border-box;
+`;
+
+const WarningIcon = styled.div`
+  height: 2rem;
+  width: 2rem;
+  line-height: 2rem;
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 50%;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-right: 1rem;
 `;
 
 const Container = styled.div`
@@ -141,7 +144,6 @@ const StyledPanel = styled.div`
   ${(props) => props.variant === "success" && successPanel};
   ${(props) => props.variant === "errorWithHeader" && errorWithHeader};
   ${(props) => props.variant === "errorNoHeader" && errorNoHeader};
-  ${(props) => props.variant === "warning" && warningPanel};
 `;
 
 const Panel = ({
@@ -168,12 +170,10 @@ const Panel = ({
         </SuccessPanelIconContainer>
       )}
       {variant === "warning" && (
-        <WarningPanelIconContainer>
-          <Flex bold fontSize="18px">
-            <WarningIcon />
-            {children}
-          </Flex>
-        </WarningPanelIconContainer>
+        <Flex bold fontSize="18px">
+          <WarningIcon>!</WarningIcon>
+          {children}
+        </Flex>
       )}
       <Container variant={variant}>
         {paragraphLabel && (

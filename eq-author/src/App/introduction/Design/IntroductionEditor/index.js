@@ -102,8 +102,6 @@ const StyledInput = styled(Input)`
   `}
 `;
 
-// const Link = styled.a``;
-
 export const IntroductionEditor = ({
   introduction,
   onChangeUpdate,
@@ -165,8 +163,7 @@ export const IntroductionEditor = ({
             testSelector="txt-intro-title"
           />
           <Panel variant="warning">
-            You can have this page display on the Hub via the Settings
-            page&nbsp;
+            You can have this page display on the Hub via the&nbsp;
             <Link exact to={`${buildSettingsPath(params)}`}>
               Settings page
             </Link>
