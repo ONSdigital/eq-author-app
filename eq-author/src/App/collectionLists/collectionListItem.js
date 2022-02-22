@@ -20,13 +20,17 @@ const AnswerTypeSelectorWrapper = styled.div`
   width: 20rem;
 `;
 
+const AnswerEditorWrapper = styled.div`
+  .answer {
+    margin-left: 0;
+  }
+`;
+
 // Lists
 const ListInput = styled(Input)`
   border-radius: 0;
   width: 30%;
   font-weight: bold;
-
-  margin-bottom: 2em;
 `;
 
 const ListItem = styled.div`
@@ -87,18 +91,20 @@ const CollectionListItem = ({
               onChange={(event) => setListName(event.value)}
               onBlur={() => handleUpdateList(listName)}
             />
-            <AnswersEditor
-              answers={answers}
-              onDeleteAnswer={(answerId) => handleDeleteAnswer(answerId)}
-              onUpdate={handleUpdateAnswer}
-              onAddOption={handleAddOption}
-              onAddExclusive={handleAddExclusive}
-              onUpdateOption={handleUpdateOption}
-              onDeleteOption={handleDeleteOption}
-              multipleAnswers={multipleAnswers}
-              // metadata={metadata}
-              page={list}
-            />
+            <AnswerEditorWrapper>
+              <AnswersEditor
+                answers={answers}
+                onDeleteAnswer={(answerId) => handleDeleteAnswer(answerId)}
+                onUpdate={handleUpdateAnswer}
+                onAddOption={handleAddOption}
+                onAddExclusive={handleAddExclusive}
+                onUpdateOption={handleUpdateOption}
+                onDeleteOption={handleDeleteOption}
+                multipleAnswers={multipleAnswers}
+                // metadata={metadata}
+                page={list}
+              />
+            </AnswerEditorWrapper>
             <AnswerTypeSelectorWrapper>
               <AnswerTypeSelector
                 answerCount={answers.length}
