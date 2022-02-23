@@ -1,7 +1,122 @@
+#import "graphql/fragments/min-value-validation-rule.graphql"
+#import "graphql//fragments/max-value-validation-rule.graphql"
+#import "graphql//fragments/earliest-date-validation-rule.graphql"
+#import "graphql//fragments/latest-date-validation-rule.graphql"
+#import "graphql//fragments/min-duration-validation-rule.graphql"
+#import "graphql//fragments/max-duration-validation-rule.graphql"
+
 mutation UpdateList($input: UpdateListInput) {
   updateList(input: $input) {
     id
     listName
     displayName
+    answers {
+      id
+      type
+      label
+      displayName
+      advancedProperties
+      properties
+      secondaryLabel
+      secondaryLabelDefault
+      qCode
+      guidance
+      description
+      ... on BasicAnswer {
+        secondaryQCode
+        validation {
+          ... on NumberValidation {
+            minValue {
+              enabled
+              ...MinValueValidationRule
+            }
+            maxValue {
+              enabled
+              ...MaxValueValidationRule
+            }
+          }
+          ... on DateValidation {
+            earliestDate {
+              enabled
+              ...EarliestDateValidationRule
+            }
+            latestDate {
+              enabled
+              ...LatestDateValidationRule
+            }
+          }
+          ... on DateRangeValidation {
+            earliestDate {
+              enabled
+              ...EarliestDateValidationRule
+            }
+            latestDate {
+              enabled
+              ...LatestDateValidationRule
+            }
+            minDuration {
+              enabled
+              ...MinDurationValidationRule
+            }
+            maxDuration {
+              enabled
+              ...MaxDurationValidationRule
+            }
+          }
+        }
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
+      }
+      ... on MultipleChoiceAnswer {
+        options {
+          id
+          label
+          qCode
+          validationErrorInfo {
+            id
+            errors {
+              id
+              type
+              field
+              errorCode
+            }
+            totalCount
+          }
+        }
+        mutuallyExclusiveOption {
+          id
+          label
+          qCode
+        }
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
+      }
+    }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
   }
 }
