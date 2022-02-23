@@ -16,6 +16,7 @@ import DeleteButton from "components/buttons/DeleteButton";
 const Wrapper = styled.div`
   margin: 0;
   border: 1px solid ${colors.bordersLight};
+  ${({ hasError }) => hasError && `border-color: ${colors.errorPrimary};`}
 `;
 
 const Header = styled.div`
@@ -83,9 +84,8 @@ const Collapsible = ({
   handleMoveDown,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-
   return (
-    <Wrapper className={className} data-test="collapsible">
+    <Wrapper className={className} hasError={hasError} data-test="collapsible">
       <Header className="collapsible-header" data-test="collapsible-header">
         <ToggleWrapper onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
           <Title>{title}</Title>

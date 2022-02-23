@@ -82,6 +82,7 @@ const CollectionListItem = ({
           withoutHideThis
           title={displayName}
           handleDelete={handleDeleteList}
+          hasError={Boolean(list.validationErrorInfo.errors.length)}
           defaultOpen
         >
           <ListItemContents>
