@@ -32,32 +32,6 @@ const Container = styled.div`
   overflow: scroll;
 `;
 
-const Twistie = styled(Collapsible)`
-  .collapsible-title,
-  .collapsible-title > * {
-    font-weight: normal;
-    padding: 0;
-  }
-
-  .collapsible-header {
-    margin-bottom: 0.5em;
-  }
-
-  .collapsible-body {
-    margin-top: 0;
-    margin-left: 3px;
-    border-left: 3px solid ${colors.lightGrey};
-  }
-
-  ul {
-    padding: 0;
-
-    li {
-      display: block;
-    }
-  }
-`;
-
 const Margin = styled.div`
   margin-top: 1.2em;
 `;
@@ -150,7 +124,7 @@ const CollectionListsPage = ({
           that together make up a single entry on the list for example, first
           name, middle name, and last name.
         </Text>
-        <Twistie title="What is the List Collector questionnaire design pattern?">
+        <Collapsible title="What is the List Collector questionnaire design pattern?">
           <Text>
             The List Collector design pattern provides an efficient EQ solution
             to the problem of data collection on a variable number of subjects.
@@ -170,9 +144,9 @@ const CollectionListsPage = ({
           <Text>
             Respondents can then be asked questions for each item on the list.
           </Text>
-        </Twistie>
+        </Collapsible>
 
-        <Twistie title="How to create the List Collector questionnaire design pattern in Author?">
+        <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
           <Text>
             To create the list collector pattern in Author we do this in the
             following steps:
@@ -211,7 +185,7 @@ const CollectionListsPage = ({
             question at a time.
             <br />
           </Text>
-        </Twistie>
+        </Collapsible>
         <AddListCollectionButton
           variant="secondary"
           data-test="btn-add-list"

@@ -33,7 +33,8 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  margin: 0 0 1em;
+  margin: 0 0 0em;
+  ${({ isOpen }) => isOpen && `margin: 0 0 1em;`}
   ${({ variant }) =>
     variant === "content" &&
     `
@@ -181,6 +182,7 @@ const Collapsible = ({
       <Header
         className="collapsible-header"
         data-test="collapsible-header"
+        isOpen={isOpen}
         variant={variant}
         onClick={
           variant === "content" || variant === "properties"
