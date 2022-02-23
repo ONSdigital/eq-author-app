@@ -78,6 +78,7 @@ const CollectionListItem = ({
     <StyledGrid>
       <ListItem>
         <Collapsible
+          id={list.id}
           className="listCollapsible"
           withoutHideThis
           title={displayName}

@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 import chevron from "assets/icon-chevron.svg";
 
-import { darken } from "polished";
-
 import Button from "components/buttons/Button";
-import Badge from "components/Badge";
-import VisuallyHidden from "components/VisuallyHidden";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -83,7 +79,14 @@ const Collapsible = ({
   handleMoveUp,
   handleMoveDown,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  let startOpenState =
+    localStorage.getItem(id) === null
+      ? defaultOpen
+      : localStorage.getItem(id) === "true";
+  const [isOpen, setIsOpen] = useState(startOpenState);
+  useEffect(() => {
+    localStorage.setItem(id, isOpen);
+  }, [id, isOpen]);
   return (
     <Wrapper className={className} hasError={hasError} data-test="collapsible">
       <Header className="collapsible-header" data-test="collapsible-header">
