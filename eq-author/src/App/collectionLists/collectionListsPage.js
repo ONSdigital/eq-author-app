@@ -101,8 +101,7 @@ const CollectionListsPage = ({
     addList();
   };
 
-  const handleDeleteList = (id) => (event) => {
-    event.stopPropagation();
+  const handleDeleteList = (id) => () => {
     deleteList({
       variables: { input: { id: id } },
     });

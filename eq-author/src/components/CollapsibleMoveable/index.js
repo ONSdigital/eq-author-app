@@ -77,7 +77,7 @@ const Collapsible = ({
   defaultOpen,
   className,
   children,
-  errorCount,
+  hasError,
   handleDelete,
   handleMoveUp,
   handleMoveDown,
@@ -89,22 +89,42 @@ const Collapsible = ({
       <Header className="collapsible-header" data-test="collapsible-header">
         <ToggleWrapper onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
           <Title>{title}</Title>
-          <MoveButton
-            color="white"
-            disabled
-            aria-label={"Move item up"}
-            data-test="btn-move-up"
+          <Tooltip
+            content="Move item up"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
           >
-            <IconUp />
-          </MoveButton>
-          <MoveButton
-            color="white"
-            disabled
-            aria-label={"Move item down"}
-            data-test="btn-move-down"
+            <MoveButton
+              color="white"
+              disabled={handleMoveUp ? "" : true}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleMoveUp(event);
+              }}
+              aria-label={"Move item up"}
+              data-test="btn-move-up"
+            >
+              <IconUp />
+            </MoveButton>
+          </Tooltip>
+          <Tooltip
+            content="Move item down"
+            place="top"
+            offset={{ top: 0, bottom: 10 }}
           >
-            <IconDown />
-          </MoveButton>
+            <MoveButton
+              color="white"
+              disabled={handleMoveDown ? "" : true}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleMoveDown(event);
+              }}
+              aria-label={"Move item down"}
+              data-test="btn-move-down"
+            >
+              <IconDown />
+            </MoveButton>
+          </Tooltip>
           <Tooltip
             content="Delete item"
             place="top"
@@ -113,7 +133,11 @@ const Collapsible = ({
             <DeleteButton
               color="white"
               size="medium"
-              onClick={handleDelete}
+              disabled={handleDelete ? "" : true}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleDelete(event);
+              }}
               aria-label="Delete item"
               data-test="btn-delete-item"
             />
@@ -144,6 +168,7 @@ const Collapsible = ({
 Collapsible.defaultProps = {
   defaultOpen: false,
   withoutHideThis: false,
+  hasError: false,
 };
 
 Collapsible.propTypes = {
@@ -153,7 +178,7 @@ Collapsible.propTypes = {
   defaultOpen: PropTypes.bool,
   withoutHideThis: PropTypes.bool,
   className: PropTypes.string,
-  errorCount: PropTypes.number,
+  hasError: PropTypes.bool,
   handleDelete: PropTypes.func,
   handleMoveUp: PropTypes.func,
   handleMoveDown: PropTypes.func,
