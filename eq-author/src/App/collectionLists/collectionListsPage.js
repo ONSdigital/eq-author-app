@@ -218,7 +218,7 @@ const CollectionListsPage = ({
           data-test="btn-add-list"
           onClick={handleAddList}
         >
-          Create {!lists ? "a" : "another"} collection list
+          Create {!lists.length ? "a" : "another"} collection list
         </AddListCollectionButton>
 
         <Margin>
