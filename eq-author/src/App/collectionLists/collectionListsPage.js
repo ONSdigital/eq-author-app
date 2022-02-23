@@ -142,29 +142,75 @@ const CollectionListsPage = ({
           questionnaire design pattern.
         </Text>
         <Text>
-          The Collection Lists is used to store respondent answers to a specific
+          A Collection List is used to store respondent answers to a specific
           question for example, the names of all the persons residing in a
-          household. The structure of the Collection Lists is defined with the
-          answer types that together make up a single entry on the list for
-          example, first name, middle name, and last name.
+          household.
+        </Text>
+        <Text>
+          The structure of the Collection List is defined with answer type(s)
+          that together make up a single entry on the list for example, first
+          name, middle name, and last name.
         </Text>
         <Twistie title="What is the List Collector questionnaire design pattern?">
           <Text>
-            Collection Lists are the first essential element of the List
-            Collector questionnaire design pattern. This design pattern provides
-            and efficient EQ solution to the problem of data collection on a
-            variables number of subjects. For example, collecting the name, age
-            and nationality of each person residing in the household.
+            The List Collector design pattern provides an efficient EQ solution
+            to the problem of data collection on a variable number of subjects.
+            For example, collecting data on each person residing in a household.
           </Text>
           <Text>
-            The second essential element of the design pattern is the List
-            Collector which captures a list of all persons in the household from
-            the respondnet.
+            The first part of the pattern is to collect the list. Step one is
+            when a respondent is asked if they have something to add, e.g
+            another person in the household. If they have then they will then be
+            taken to a looping question where they enter the answers which will
+            be collected for the list. The respondent will again be asked if
+            they have any more to add and a summary of the list will be shown,
+            if they have more to add the question is repeated and answers
+            collected and again added to the list. This loop continues until the
+            respondent has nothing more to add. The list is then ready for use.
           </Text>
           <Text>
-            The third essential element of the design pattern is the Repeating
-            Question which then collects, in turn, the age and nationality of
-            each of the persons on the Collection Lists.
+            Respondents can then be asked questions for each item on the list.
+          </Text>
+        </Twistie>
+
+        <Twistie title="How to create the List Collector questionnaire design pattern in Author?">
+          <Text>
+            To create the list collector pattern in Author we do this in the
+            following steps:
+            <br />
+            1. Go to the Collection Lists page on the left hand menu and Create
+            a collection list and give it a relevant name.
+            <br />
+            2. Add the answers you need to collect that will make up each item
+            on the list, for example adding two text field answer types to
+            collect the respondents first name and last name.
+            <br />
+            3. In the questionnaire add a List collector page via the add/import
+            menu.
+            <br />
+            4. The List collector page is made up of two questions which repeat
+            until there is nothing else to add to the list, for example does
+            anyone else live in the household, if there is then what is their
+            name. The first question is on the List collector page which has a
+            radio option. Enter the question and answer labels.
+            <br />
+            5. In the answers list area you must select a list from the dropdown
+            menu, this menu will show any lists that have been created in the
+            Collection lists page. Select the relevant list.
+            <br />
+            6. Once the list is selected a list summary area appears along with
+            another question field. The List summary will display answers for
+            each label shown, you can remove these labels but must keep at least
+            one.
+            <br />
+            7. Enter a question in the Add to list question field, this is the
+            second question that gets repeated, for example who do you need to
+            add?
+            <br />
+            8. When you view this page using the Preview tab, both of these
+            repeating questions will be shown, the respondent will see one
+            question at a time.
+            <br />
           </Text>
         </Twistie>
         <AddListCollectionButton
