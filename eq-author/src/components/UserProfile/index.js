@@ -72,6 +72,7 @@ const UserProfile = ({ nav }) => {
             src={me.picture || guestAvatar}
             alt="Avatar"
             role="presentation"
+            name="userAvatar"
           />
           <UserName data-test="username">{me.displayName}</UserName>
         </LogoutButton>

@@ -17,6 +17,7 @@ exports[`Editor Layout should render 1`] = `
       <EditorLayout__StyledGrid
         align="top"
         fillHeight={true}
+        horizontalAlign="start"
         page={
           Object {
             "answers": Array [],

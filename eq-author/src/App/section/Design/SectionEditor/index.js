@@ -38,7 +38,7 @@ const Padding = styled.div`
 const HorizontalRule = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
-  margin: 1.2em 0em;
+  margin: 1.2em 0;
 `;
 
 const SectionCanvas = styled.div`

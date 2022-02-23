@@ -131,7 +131,7 @@ export const themes = {
   default: {
     colors,
     radius,
-    fonts: "Lato, sans-serif",
+    fonts: "Open Sans, Helvetica Neue, arial, sans-serif",
     fontSize: "16px",
   },
   ons: {

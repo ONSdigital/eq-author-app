@@ -1,13 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, act, flushPromises } from "tests/utils/rtl";
 
 import SecondaryConditionSelector, {
   Selector,
   StyledNumber,
 } from "./SecondaryConditionSelector";
-
-import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 
 describe("secondaryConditionSelector", () => {
   let defaultProps;
