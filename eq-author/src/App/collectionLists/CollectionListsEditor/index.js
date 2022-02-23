@@ -5,8 +5,8 @@ import styled from "styled-components";
 
 import Reorder from "components/Reorder";
 
-import withMoveAnswer from "./withMoveCollectionList";
-import AnswerTransition from "./CollectionListTransition";
+import withMoveAnswer from "./withMoveAnswer";
+import AnswerTransition from "./AnswerTransition";
 import AnswerEditor from "./CollectionListEditor";
 
 const Margin = styled.div`

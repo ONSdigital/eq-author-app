@@ -1,7 +1,7 @@
 import { mapMutateToProps } from "./withMoveAnswer";
 
 describe("withMoveAnswer", () => {
-  it("should return moveAnswer that calls mutate filtering the answer to id and position", () => {
+  it("should return moveCollectionList that calls mutate filtering the answer to id and position", () => {
     const mutate = jest.fn();
     const { moveAnswer } = mapMutateToProps({ mutate });
     moveAnswer({
