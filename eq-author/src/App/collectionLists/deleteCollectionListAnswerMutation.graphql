@@ -1,9 +1,22 @@
+#import "./listAnswer.graphql"
+
 mutation DeleteListAnswer($input: DeleteListAnswerInput) {
   deleteListAnswer(input: $input) {
     id
+    listName
+    displayName
     answers {
+      ...ListAnswer
+    }
+    validationErrorInfo {
       id
-      displayName
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
     }
   }
 }

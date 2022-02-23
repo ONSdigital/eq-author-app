@@ -94,12 +94,8 @@ const CollectionListsPage = ({
     refetchQueries: ["Lists"],
   });
   const [updateList] = useMutation(updateCollectionListMutation);
-  const [createAnswer] = useMutation(createCollectionListAnswerMutation, {
-    refetchQueries: ["Lists"],
-  });
-  const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation, {
-    refetchQueries: ["Lists"],
-  });
+  const [createAnswer] = useMutation(createCollectionListAnswerMutation);
+  const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation);
 
   const handleAddList = () => {
     addList();

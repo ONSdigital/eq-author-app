@@ -1,12 +1,13 @@
+#import "./listAnswer.graphql"
+
 mutation CreateList {
   createList {
-    id
     lists {
       id
       listName
       displayName
       answers {
-        id
+        ...ListAnswer
       }
       validationErrorInfo {
         id

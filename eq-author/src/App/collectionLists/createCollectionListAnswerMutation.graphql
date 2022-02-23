@@ -1,6 +1,13 @@
+#import "./listAnswer.graphql"
+
 mutation CreateListAnswer($input: CreateListAnswerInput!) {
   createListAnswer(input: $input) {
     id
+    listName
+    displayName
+    answers {
+      ...ListAnswer
+    }
     validationErrorInfo {
       id
       errors {
@@ -10,19 +17,6 @@ mutation CreateListAnswer($input: CreateListAnswerInput!) {
         errorCode
       }
       totalCount
-    }
-    answers {
-      id
-      type
-      label
-      displayName
-      advancedProperties
-      properties
-      secondaryLabel
-      secondaryLabelDefault
-      qCode
-      guidance
-      description
     }
   }
 }
