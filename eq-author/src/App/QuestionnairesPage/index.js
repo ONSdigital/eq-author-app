@@ -38,9 +38,9 @@ const enabledHeadings = [
   Headings.OWNER,
   Headings.CREATED,
   Headings.MODIFIED,
-  Headings.PERMISSIONS,
   Headings.LOCKED,
   Headings.STARRED,
+  Headings.ACCESS,
   Headings.ACTIONS,
 ];
 

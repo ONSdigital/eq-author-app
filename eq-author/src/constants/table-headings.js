@@ -5,4 +5,5 @@ export const MODIFIED = "Modified";
 export const PERMISSIONS = "Permissions";
 export const LOCKED = "Locked";
 export const STARRED = "Starred";
+export const ACCESS = "Access";
 export const ACTIONS = "Actions";
