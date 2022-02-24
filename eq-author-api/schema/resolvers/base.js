@@ -692,9 +692,12 @@ const Resolvers = {
       return page;
     }),
     moveAnswer: createMutation((_, { input: { id, position } }, ctx) => {
-      const page = getPageByAnswerId(ctx, id);
-      const answerMoving = first(remove(page.answers, { id }));
-      page.answers.splice(position, 0, answerMoving);
+      let object = getPageByAnswerId(ctx, id);
+      if (!object) {
+        object = getListByAnswerId(ctx, id);
+      }
+      const answerMoving = first(remove(object.answers, { id }));
+      object.answers.splice(position, 0, answerMoving);
 
       return answerMoving;
     }),
