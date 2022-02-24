@@ -33,6 +33,7 @@ import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import ScrollPane from "components/ScrollPane";
 import Loading from "components/Loading";
+import { some } from "lodash";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
@@ -153,6 +154,10 @@ export const QuestionnaireDesignPage = () => {
                           questionnaire?.themeSettings?.validationErrorInfo
                             ?.totalCount +
                             questionnaire?.validationErrorInfo?.totalCount
+                        )}
+                        listsError={some(
+                          questionnaire?.lists,
+                          (list) => list.validationErrorInfo.errors.length > 0
                         )}
                         formTypeErrorCount={formTypeErrorCount}
                         hasSurveyID={questionnaire?.surveyId !== ""}

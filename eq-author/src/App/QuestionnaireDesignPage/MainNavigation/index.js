@@ -70,6 +70,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
+  listsError,
   formTypeErrorCount,
   title,
   children,
@@ -177,6 +178,9 @@ export const UnwrappedMainNavigation = ({
                   <IconText nav icon={collectionListsIcon}>
                     Collection Lists
                   </IconText>
+                  {listsError && (
+                    <Badge data-test="lists-error-badge" variant="main-nav" />
+                  )}
                 </RouteButton>
 
                 <RouteButton
@@ -260,6 +264,7 @@ UnwrappedMainNavigation.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   settingsError: PropTypes.bool,
+  listsError: PropTypes.bool,
   formTypeErrorCount: PropTypes.number,
   hasSurveyID: PropTypes.bool,
 };
