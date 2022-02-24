@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Header from "components/EditorLayout/Header";
 import Error from "components/Error";
@@ -57,8 +58,9 @@ const CollectionListsPage = ({
   onUpdateOption,
   onDeleteOption,
 }) => {
+  const { questionnaireId } = useParams();
   const { loading, error, data } = useQuery(getQuestionnaire, {
-    variables: { input: {} },
+    variables: { input: { questionnaireId: questionnaireId } },
     fetchPolicy: "cache-and-network",
   });
 

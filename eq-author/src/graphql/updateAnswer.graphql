@@ -1,6 +1,7 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/page.graphql"
+#import "./lists/list.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
@@ -40,10 +41,7 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
       }
     }
     list {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
+      ...List
     }
   }
 }
