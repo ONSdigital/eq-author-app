@@ -2,6 +2,7 @@
 
 mutation CreateList {
   createList {
+    id
     lists {
       ...List
     }

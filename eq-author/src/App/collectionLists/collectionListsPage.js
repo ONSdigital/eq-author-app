@@ -11,6 +11,7 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import { flowRight } from "lodash";
 
+import getQuestionnaire from "App/QuestionnaireDesignPage/getQuestionnaireQuery.graphql";
 import questionnaireCollectionListsQuery from "graphql/lists/questionnaireCollectionLists.graphql";
 import createCollectionListMutation from "graphql/lists/createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "graphql/lists/deleteCollectionListMutation.graphql";
@@ -57,16 +58,13 @@ const CollectionListsPage = ({
   onUpdateOption,
   onDeleteOption,
 }) => {
-  const { loading, error, data } = useQuery(questionnaireCollectionListsQuery, {
-    fetchPolicy: "network-only",
+  const { loading, error, data } = useQuery(getQuestionnaire, {
+    variables: { input: {} },
+    fetchPolicy: "cache-and-network",
   });
 
-  const [addList] = useMutation(createCollectionListMutation, {
-    refetchQueries: ["Lists"],
-  });
-  const [deleteList] = useMutation(deleteCollectionListMutation, {
-    refetchQueries: ["Lists"],
-  });
+  const [addList] = useMutation(createCollectionListMutation);
+  const [deleteList] = useMutation(deleteCollectionListMutation);
   const [updateList] = useMutation(updateCollectionListMutation);
   const [createAnswer] = useMutation(createCollectionListAnswerMutation);
   const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation);
@@ -104,7 +102,7 @@ const CollectionListsPage = ({
   let lists = [];
 
   if (data) {
-    lists = data.lists;
+    lists = data.questionnaire.lists;
   }
   return (
     <Container>

@@ -1,4 +1,5 @@
 #import "./fragments/questionnaire.graphql"
+#import "./lists/list.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -9,6 +10,9 @@ query GetQuestionnaire($input: QueryInput!) {
       viewPrintAnswers
       emailConfirmation
       feedback
+    }
+    lists{
+      ...List
     }
     sections {
       id
