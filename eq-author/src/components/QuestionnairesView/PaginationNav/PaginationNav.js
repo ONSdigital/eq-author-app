@@ -87,7 +87,7 @@ const Pagination = ({
   const lastPage = pageCount;
 
   const range = (from, to) => {
-    console.log("from, to :>> ", from, to);
+    console.log("from, to >> ", from, to);
     const pagesArray = [];
     for (let i = from; i <= to; i++) {
       pagesArray.push(i);
