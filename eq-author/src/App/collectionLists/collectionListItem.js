@@ -87,7 +87,7 @@ const CollectionListItem = ({
           defaultOpen
         >
           <ListItemContents>
-            <Label for={`list-${id}`}>List name</Label>
+            <Label htmlFor={`list-${id}`}>List name</Label>
             <ListInput
               id={`list-${id}`}
               aria-label="List name input"
