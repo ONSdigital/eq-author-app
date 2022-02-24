@@ -12,7 +12,6 @@ import CollectionListItem from "./collectionListItem";
 import { flowRight } from "lodash";
 
 import getQuestionnaire from "App/QuestionnaireDesignPage/getQuestionnaireQuery.graphql";
-import questionnaireCollectionListsQuery from "graphql/lists/questionnaireCollectionLists.graphql";
 import createCollectionListMutation from "graphql/lists/createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "graphql/lists/deleteCollectionListMutation.graphql";
 import updateCollectionListMutation from "graphql/lists/updateCollectionListMutation.graphql";
