@@ -1,0 +1,7 @@
+#import "./list.graphql"
+
+mutation CreateListAnswer($input: CreateListAnswerInput!) {
+  createListAnswer(input: $input) {
+    ...List
+  }
+}

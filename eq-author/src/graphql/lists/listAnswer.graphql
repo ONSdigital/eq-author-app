@@ -1,10 +1,10 @@
-#import "graphql/fragments/min-value-validation-rule.graphql"
-#import "graphql/fragments/max-value-validation-rule.graphql"
-#import "graphql/fragments/earliest-date-validation-rule.graphql"
-#import "graphql/fragments/latest-date-validation-rule.graphql"
-#import "graphql/fragments/min-duration-validation-rule.graphql"
-#import "graphql/fragments/max-duration-validation-rule.graphql"
-#import "graphql/fragments/validationErrorInfo.graphql"
+#import "../fragments/min-value-validation-rule.graphql"
+#import "../fragments/max-value-validation-rule.graphql"
+#import "../fragments/earliest-date-validation-rule.graphql"
+#import "../fragments/latest-date-validation-rule.graphql"
+#import "../fragments/min-duration-validation-rule.graphql"
+#import "../fragments/max-duration-validation-rule.graphql"
+#import "../fragments/validationErrorInfo.graphql"
 
 fragment ListAnswer on Answer {
   id

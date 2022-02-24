@@ -1,0 +1,7 @@
+#import "./list.graphql"
+
+query Lists {
+  lists {
+    ...List
+  }
+}

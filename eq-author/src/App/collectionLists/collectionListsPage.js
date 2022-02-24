@@ -11,12 +11,12 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import { flowRight } from "lodash";
 
-import questionnaireCollectionListsQuery from "./questionnaireCollectionLists.graphql";
-import createCollectionListMutation from "./createCollectionListMutation.graphql";
-import deleteCollectionListMutation from "./deleteCollectionListMutation.graphql";
-import updateCollectionListMutation from "./updateCollectionListMutation.graphql";
-import createCollectionListAnswerMutation from "./createCollectionListAnswerMutation.graphql";
-import deleteCollectionListAnswerMutation from "./deleteCollectionListAnswerMutation.graphql";
+import questionnaireCollectionListsQuery from "graphql/lists/questionnaireCollectionLists.graphql";
+import createCollectionListMutation from "graphql/lists/createCollectionListMutation.graphql";
+import deleteCollectionListMutation from "graphql/lists/deleteCollectionListMutation.graphql";
+import updateCollectionListMutation from "graphql/lists/updateCollectionListMutation.graphql";
+import createCollectionListAnswerMutation from "graphql/lists/createCollectionListAnswerMutation.graphql";
+import deleteCollectionListAnswerMutation from "graphql/lists/deleteCollectionListAnswerMutation.graphql";
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
 import withCreateExclusive from "App/page/Design/answers/withCreateExclusive";
 import withCreateOption from "App/page/Design/answers/withCreateOption";

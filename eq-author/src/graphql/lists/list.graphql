@@ -1,0 +1,14 @@
+#import "../fragments/validationErrorInfo.graphql"
+#import "./listAnswer.graphql"
+
+fragment List on List {
+  id
+  listName
+  displayName
+  answers {
+    ...ListAnswer
+  }
+  validationErrorInfo {
+    ...ValidationErrorInfo
+  }
+}
