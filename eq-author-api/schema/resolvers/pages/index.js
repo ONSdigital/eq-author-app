@@ -91,9 +91,9 @@ Resolvers.Mutation = {
     const duplicatedPage = createQuestionPage(cloneDeep(newpage));
     const remappedPage = remapAllNestedIds(duplicatedPage);
     const { previous } = getMovePosition(section, input.id, input.position);
-    const previousFolder = section.folders[previous.folderIndex];
+    const folder = section.folders[previous.folderIndex];
 
-    previousFolder.pages.splice(input.position, 0, remappedPage);
+    folder.pages.splice(input.position, 0, remappedPage);
 
     return remappedPage;
   }),
