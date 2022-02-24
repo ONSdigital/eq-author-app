@@ -90,7 +90,11 @@ const Collapsible = ({
   return (
     <Wrapper className={className} hasError={hasError} data-test="collapsible">
       <Header className="collapsible-header" data-test="collapsible-header">
-        <ToggleWrapper onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+        <ToggleWrapper
+          onClick={() => setIsOpen(!isOpen)}
+          isOpen={isOpen}
+          data-test="collapsible-toggle-button"
+        >
           <Title>{title}</Title>
           <Tooltip
             content="Move item up"
