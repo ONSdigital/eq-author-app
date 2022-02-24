@@ -122,7 +122,12 @@ const Pagination = ({
     <Theme themeName={"ons"}>
       <container>
         <paginationItem>
-          <PrevButton variant="ghost-white" data-test="prev-page-btn" noBorders>
+          <PrevButton
+            variant="ghost-white"
+            data-test="prev-page-btn"
+            noBorders
+            onClick={() => onPageChange(currentPageIndex - 1)}
+          >
             Previous
           </PrevButton>
         </paginationItem>
@@ -131,10 +136,24 @@ const Pagination = ({
 
         {/* {renderPagesList} */}
 
-        {pageNumbers.map()}
+        {pageNumbers.map((item) => {
+          if (item === "...") {
+            return <paginationItem>...</paginationItem>;
+          }
+          return (
+            <paginationItem key={item} onClick={() => onPageChange(item)}>
+              {item}
+            </paginationItem>
+          );
+        })}
 
         <paginationItem>
-          <NextButton variant="ghost-white" data-test="next-page-btn" noBorders>
+          <NextButton
+            variant="ghost-white"
+            data-test="next-page-btn"
+            noBorders
+            onClick={() => onPageChange(currentPageIndex + 1)}
+          >
             Next
           </NextButton>
         </paginationItem>
