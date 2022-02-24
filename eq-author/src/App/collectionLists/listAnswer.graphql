@@ -4,6 +4,7 @@
 #import "graphql/fragments/latest-date-validation-rule.graphql"
 #import "graphql/fragments/min-duration-validation-rule.graphql"
 #import "graphql/fragments/max-duration-validation-rule.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
 
 fragment ListAnswer on Answer {
   id
@@ -19,6 +20,15 @@ fragment ListAnswer on Answer {
   advancedProperties
   ... on BasicAnswer {
     secondaryQCode
+    options {
+      id
+      mutuallyExclusive
+      label
+      description
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
     validation {
       ... on NumberValidation {
           minValue {
@@ -60,30 +70,17 @@ fragment ListAnswer on Answer {
       }
     }
     validationErrorInfo {
-    id
-    errors {
-        id
-        type
-        field
-        errorCode
-    }
-    totalCount
+      ...ValidationErrorInfo
     }
   }
   ... on MultipleChoiceAnswer {
     options {
       id
+      mutuallyExclusive
       label
-      qCode
+      description
       validationErrorInfo {
-          id
-          errors {
-          id
-          type
-          field
-          errorCode
-          }
-          totalCount
+        ...ValidationErrorInfo
       }
     }
     mutuallyExclusiveOption {
@@ -92,14 +89,7 @@ fragment ListAnswer on Answer {
       qCode
     }
     validationErrorInfo {
-      id
-      errors {
-          id
-          type
-          field
-          errorCode
-      }
-      totalCount
+      ...ValidationErrorInfo
     }
   }
 }
