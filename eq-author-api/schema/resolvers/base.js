@@ -148,6 +148,10 @@ const createNewQuestionnaire = (input) => {
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
+    collectionLists: {
+      id: uuidv4(),
+      lists: [],
+    },
     themeSettings: {
       id: uuidv4(),
       previewTheme: defaultTheme.shortName,

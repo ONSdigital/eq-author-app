@@ -1,7 +1,7 @@
 const { find, some } = require("lodash");
 
 const getLists = (ctx) => {
-  return ctx.questionnaire.collectionLists.lists;
+  return ctx.questionnaire?.collectionLists?.lists;
 };
 
 const getListById = (ctx, id) => find(getLists(ctx), { id });

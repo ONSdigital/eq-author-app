@@ -4,7 +4,7 @@ const { getPages } = require("./pageGetters");
 const getAnswers = (ctx) => {
   const pageAnswers = flatMap(getPages(ctx), (page) => page.answers);
   const listAnswers = flatMap(
-    ctx.questionnaire.collectionLists.lists,
+    ctx.questionnaire?.collectionLists?.lists,
     (list) => list.answers
   );
   return compact(concat(listAnswers, pageAnswers));
