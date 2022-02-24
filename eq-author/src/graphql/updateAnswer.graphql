@@ -39,5 +39,11 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
         ...ValidationErrorInfo
       }
     }
+    list {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

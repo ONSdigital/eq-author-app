@@ -1385,6 +1385,7 @@ const Resolvers = {
 
       return parentPage;
     },
+    list: ({ id }, args, ctx) => getListByAnswerId(ctx, id),
     mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),
     validation: (answer) =>
@@ -1424,6 +1425,7 @@ const Resolvers = {
     page: (answer, args, ctx) => {
       return getPageByAnswerId(ctx, answer.id);
     },
+    list: ({ id }, args, ctx) => getListByAnswerId(ctx, id),
     options: (answer) => answer.options.filter((o) => !o.mutuallyExclusive),
     mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),

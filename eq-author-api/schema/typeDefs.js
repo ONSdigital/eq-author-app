@@ -271,6 +271,7 @@ interface Answer {
   secondaryLabelDefault: String
   type: AnswerType!
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
 }
@@ -288,6 +289,7 @@ type BasicAnswer implements Answer {
   type: AnswerType!
   options: [Option]
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
   validation: ValidationType
@@ -308,6 +310,7 @@ type MultipleChoiceAnswer implements Answer {
   options: [Option]
   mutuallyExclusiveOption: Option
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
