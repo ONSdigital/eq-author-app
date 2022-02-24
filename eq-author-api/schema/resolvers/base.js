@@ -283,9 +283,9 @@ const Resolvers = {
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     submission: (root, _, ctx) => ctx.questionnaire.submission,
-    lists: (_, args, ctx) => ctx.questionnaire.lists,
+    collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
-      find(ctx.questionnaire.lists, { id: listId }),
+      find(ctx.questionnaire.collectionLists.lists, { id: listId }),
   },
 
   Subscription: {
@@ -899,11 +899,14 @@ const Resolvers = {
     }),
     createList: createMutation(async (root, _, ctx) => {
       const list = createList();
-      if (!ctx.questionnaire.lists) {
-        ctx.questionnaire.lists = [];
+      if (!ctx.questionnaire.collectionLists) {
+        ctx.questionnaire.collectionLists = {
+          id: uuidv4(),
+          lists: [],
+        };
       }
-      ctx.questionnaire.lists.push(list);
-      return ctx.questionnaire;
+      ctx.questionnaire.collectionLists.lists.push(list);
+      return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
       const list = getListById(ctx, input.id);
@@ -911,11 +914,13 @@ const Resolvers = {
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
-      remove(ctx.questionnaire.lists, { id: input.id });
-      return ctx.questionnaire;
+      remove(ctx.questionnaire.collectionLists.lists, { id: input.id });
+      return ctx.questionnaire.collectionLists;
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
-      const list = find(ctx.questionnaire.lists, { id: input.listId });
+      const list = find(ctx.questionnaire.collectionLists.lists, {
+        id: input.listId,
+      });
       const answer = createAnswer(omit(input, "listId"), list);
       list.answers.push(answer);
 
@@ -1267,6 +1272,7 @@ const Resolvers = {
     createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
     questionnaireInfo: (questionnaire) => questionnaire,
     metadata: (questionnaire) => questionnaire.metadata,
+    collectionLists: (questionnaire) => questionnaire.collectionLists,
     displayName: (questionnaire) =>
       questionnaire.shortTitle || questionnaire.title,
     editors: (questionnaire) =>

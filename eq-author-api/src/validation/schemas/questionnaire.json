@@ -12,12 +12,17 @@
       "$ref": "themeSettings.json"
     },
     "introduction": {
-      "$ref": "introduction.json"
+       "$ref": "introduction.json"
     },
-    "lists": {
-      "type": "array",
-      "items": {
-        "$ref": "list.json"
+    "collectionLists" : {
+      "type": "object",
+      "properties": {
+        "lists": {
+          "type": "array",
+          "items": {
+            "$ref": "list.json"
+          }
+        }
       }
     }
   },

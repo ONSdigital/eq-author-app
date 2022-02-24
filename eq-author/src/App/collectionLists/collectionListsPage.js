@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Header from "components/EditorLayout/Header";
 import Error from "components/Error";
@@ -12,7 +11,7 @@ import Button from "components/buttons/Button";
 import CollectionListItem from "./collectionListItem";
 import { flowRight } from "lodash";
 
-import getQuestionnaire from "App/QuestionnaireDesignPage/getQuestionnaireQuery.graphql";
+import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import createCollectionListMutation from "graphql/lists/createCollectionListMutation.graphql";
 import deleteCollectionListMutation from "graphql/lists/deleteCollectionListMutation.graphql";
 import updateCollectionListMutation from "graphql/lists/updateCollectionListMutation.graphql";
@@ -58,9 +57,7 @@ const CollectionListsPage = ({
   onUpdateOption,
   onDeleteOption,
 }) => {
-  const { questionnaireId } = useParams();
-  const { loading, error, data } = useQuery(getQuestionnaire, {
-    variables: { input: { questionnaireId: questionnaireId } },
+  const { loading, error, data } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -103,7 +100,7 @@ const CollectionListsPage = ({
   let lists = [];
 
   if (data) {
-    lists = data.questionnaire.lists;
+    lists = data.collectionLists?.lists || [];
   }
   return (
     <Container>

@@ -14,8 +14,11 @@ query GetQuestionnaire($input: QueryInput!) {
     totalErrorCount
     ...NavigationSidebar
     hub
-    lists {
-      ...List
+    collectionLists {
+      id
+      lists{
+        ...List
+      }
     }
     metadata {
       id

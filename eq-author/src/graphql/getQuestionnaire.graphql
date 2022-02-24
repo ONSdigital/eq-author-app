@@ -11,8 +11,11 @@ query GetQuestionnaire($input: QueryInput!) {
       emailConfirmation
       feedback
     }
-    lists{
-      ...List
+    collectionLists {
+      id
+      lists{
+        ...List
+      }
     }
     sections {
       id

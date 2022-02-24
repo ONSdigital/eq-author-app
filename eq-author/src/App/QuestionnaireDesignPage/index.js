@@ -156,7 +156,7 @@ export const QuestionnaireDesignPage = () => {
                             questionnaire?.validationErrorInfo?.totalCount
                         )}
                         listsError={some(
-                          questionnaire?.lists,
+                          questionnaire?.collectionLists?.lists,
                           (list) => list.validationErrorInfo.errors.length > 0
                         )}
                         formTypeErrorCount={formTypeErrorCount}

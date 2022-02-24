@@ -35,7 +35,8 @@ module.exports = (ajv) =>
       }
       if (lists) {
         currentAnswerValidation =
-          questionnaire.lists[lists].answers[answers].validation;
+          questionnaire.collectionLists.lists[lists].answers[answers]
+            .validation;
       }
 
       const minValidation = currentAnswerValidation.minValue;
