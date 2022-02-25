@@ -227,8 +227,6 @@ const CollectionListsPage = ({
 };
 
 CollectionListsPage.propTypes = {
-  myval: PropTypes.string,
-  onAddList: PropTypes.func,
   onUpdateAnswer: PropTypes.func,
   onAddOption: PropTypes.func,
   onAddExclusive: PropTypes.func,
