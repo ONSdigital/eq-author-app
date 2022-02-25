@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, screen } from "tests/utils/rtl";
+import { render } from "tests/utils/rtl";
 
 import CollapsibleMoveable from ".";
 
