@@ -673,7 +673,9 @@ const Resolvers = {
       (root, { input: { questionPageId, type, properties } }, ctx) => {
         let page = getPageById(ctx, questionPageId);
         if (!page) {
-          page = find(ctx.questionnaire.lists, { id: questionPageId });
+          page = find(ctx.questionnaire.collectionLists.lists, {
+            id: questionPageId,
+          });
         }
         const answersOfType = page.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
