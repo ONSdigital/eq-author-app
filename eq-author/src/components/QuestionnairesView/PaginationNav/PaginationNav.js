@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Theme from "contexts/themeContext";
 import Button from "/Users/omarmoulana/Desktop/repos/eq-author-app/eq-author/src/components-themed/buttons/button.js";
 import colors from "constants/theme";
+import { contains } from "lodash/fp";
 
 //Create component here
 
@@ -92,17 +93,10 @@ const Pagination = ({
     for (let i = from; i <= to; i++) {
       pagesArray.push(i);
     }
-    console.log("pagesArray.toString() :>> ", pagesArray.toString());
     return pagesArray;
   };
 
   const pageNumbers = () => {
-    const totalNumbers = siblingCount + 5;
-
-    // if (totalNumbers >= pageCount) {
-    //   return range(1, pageCount);
-    // }
-
     const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
     console.log("firstLeftPage :>> ", firstLeftPage);
     const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
@@ -115,23 +109,22 @@ const Pagination = ({
     const totalItems = 3 + 2 * siblingCount;
 
     switch (true) {
-      // case totalNumbers >= pageCount: {
-      //   let normalRange = range(1, pageCount);
-      //   return [normalRange];
-      // }
+      case totalItems >= pageCount: {
+        return range(1, pageCount);
+      }
       case hasLeftSide && !hasRightSide: {
         //1 ... 5, 6, 7, 8, 9, 10
         // 3,  7
-        console.log("totalCount, totalNumbers :>> ", pageCount, totalNumbers);
-        // let rightRange = range(pageCount - totalNumbers + 1, pageCount);
-        let rightRange = range(firstLeftPage, lastRightPage);
+        // console.log("totalCount, totalNumbers :>> ", pageCount, totalNumbers);
+        let rightRange = range(pageCount - totalItems + 1, pageCount);
+        // let rightRange = range(firstLeftPage, lastRightPage);
         console.log("rightRange.toString() :>> ", rightRange.toString());
         return [firstPage, "...", ...rightRange];
       }
       case !hasLeftSide && hasRightSide: {
         //1, 2, 3, 4, 5, 6 ... 10
         let leftRange = range(1, totalItems);
-        return [leftRange, "...", lastPage];
+        return [...leftRange, "...", lastPage];
       }
       case hasLeftSide && hasRightSide:
       default: {
@@ -141,6 +134,8 @@ const Pagination = ({
       }
     }
   };
+  const pages = pageNumbers();
+
   return (
     <Theme themeName={"ons"}>
       <Container>
@@ -155,20 +150,21 @@ const Pagination = ({
             Previous
           </PrevButton>
         </PaginationItem>
-        {pageNumbers().map((key) => {
-          if (key === "...") {
-            return <PaginationItem key={key}>{"\u2026"}</PaginationItem>;
-          } else {
-            return (
-              <PaginationItem
-                key={key}
-                selected={key === currentPageIndex}
-                onClick={() => onPageChange(key)}
-              >
-                <PaginationButton>{key}</PaginationButton>
-              </PaginationItem>
-            );
-          }
+
+        {pages.map((key, index) => {
+          // if (key === "...") {
+          //   return <PaginationItem key={key}>{"\u2026"}</PaginationItem>;
+          // } else {
+          return (
+            <PaginationItem
+              key={index}
+              selected={index === currentPageIndex}
+              onClick={() => onPageChange(index)}
+              value={index}
+            >
+              {key}
+            </PaginationItem>
+          );
         })}
         <PaginationItem>
           <NextButton
