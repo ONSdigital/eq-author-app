@@ -95,9 +95,20 @@ const Header = ({
     <>
       <HeaderTop variant={variant}>
         <Grid align="center" horizontalAlign="center">
-          <Column cols={centerCols}>
-            {logo}
-            {headerTopContent}
+          <Column cols={9}>
+            <Grid align="center">
+              <Column cols={9}>
+                {logo}
+                {headerTopContent}
+              </Column>
+              <Column cols={3}>
+                {me && (
+                  <UserProfileWrapper>
+                    <StyledUserProfile currentUser={me} />
+                  </UserProfileWrapper>
+                )}
+              </Column>
+            </Grid>
           </Column>
         </Grid>
       </HeaderTop>
@@ -111,13 +122,6 @@ const Header = ({
                 </HeaderTitle>
                 {headerDescription && (
                   <HeaderDescription>{headerDescription}</HeaderDescription>
-                )}
-              </Column>
-              <Column cols={3}>
-                {me && (
-                  <UserProfileWrapper>
-                    <StyledUserProfile currentUser={me} />
-                  </UserProfileWrapper>
                 )}
               </Column>
             </Grid>

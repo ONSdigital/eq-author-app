@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import IconCopy from "assets/icon-copy.svg?inline";
 import IconText from "components/IconText";
@@ -11,6 +12,13 @@ const ToolTip = ({ children }) => (
     {children}
   </Tooltip>
 );
+const IconTextColoured = styled(IconText)`
+  svg {
+    path {
+      fill: #003e56;
+    }
+  }
+`;
 
 const DuplicateButton = ({
   onClick,
@@ -37,9 +45,9 @@ const DuplicateButton = ({
       {...props}
       disabled={buttonClicked || disabled}
     >
-      <IconText icon={IconCopy} hideText={hideText}>
+      <IconTextColoured icon={IconCopy} hideText={hideText}>
         {children || "Duplicate"}
-      </IconText>
+      </IconTextColoured>
     </Button>
   );
 

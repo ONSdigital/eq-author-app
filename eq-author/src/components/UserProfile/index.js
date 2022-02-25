@@ -28,21 +28,17 @@ const UserName = styled.span`
 `;
 
 export const LogoutButton = styled(Button)`
-  padding: 0 1em 0 1px;
-  border-radius: 2em;
-  display: flex;
-  align-items: center;
   font-size: 1em;
-  border: none;
-  background: none;
+  font-weight: 400;
   color: white;
   text-align: left;
+  text-decoration: underline;
   &:hover {
-    background: ${colors.white};
-    color: ${colors.text};
+    background: none;
+    /* color: ${colors.text}; */
   }
   &:focus {
-    box-shadow: 0 0 0 3px ${colors.tertiary};
+    box-shadow: none;
     outline: none;
   }
 `;
@@ -67,14 +63,8 @@ const UserProfile = ({ nav }) => {
           </IconText>
         </NavLogoutButton>
       ) : (
-        <LogoutButton onClick={signOut} variant="tertiary-light" small>
-          <UserAvatar
-            src={me.picture || guestAvatar}
-            alt="Avatar"
-            role="presentation"
-            name="userAvatar"
-          />
-          <UserName data-test="username">{me.displayName}</UserName>
+        <LogoutButton onClick={signOut} variant="tertiary-light" medium>
+          Sign Out
         </LogoutButton>
       )}
     </Tooltip>

@@ -86,7 +86,7 @@ const QuestionnairesPage = ({
   };
 
   return (
-    <Layout title="Questionnaires">
+    <Layout title="Author">
       <QuestionnairesView
         questionnaires={data.questionnaires}
         onDeleteQuestionnaire={onDeleteQuestionnaire}

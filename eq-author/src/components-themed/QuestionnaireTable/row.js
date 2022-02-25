@@ -8,7 +8,7 @@ import { rgba } from "polished";
 
 import CustomPropTypes from "custom-prop-types";
 
-// import IconButtonDelete from "components/buttons/IconButtonDelete";
+import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
@@ -80,35 +80,35 @@ const DeleteTooltip = ({ children }) => (
   </Tooltip>
 );
 
-const DeleteButton = styled(Button).attrs({
-  variant: "tertiary",
-  small: true,
-})`
-  .lid {
-    transform-origin: 50% 50%;
-    transition: all 200ms ease-out;
-  }
+// const DeleteButton = styled(Button).attrs({
+//   variant: "tertiary",
+//   small: true,
+// })`
+//   .lid {
+//     transform-origin: 50% 50%;
+//     transition: all 200ms ease-out;
+//   }
 
-  &:focus,
-  &:hover {
-    .lid {
-      transform: translateY(-1px) rotate(6deg);
-    }
-  }
-`;
+//   &:focus,
+//   &:hover {
+//     .lid {
+//       transform: translateY(-1px) rotate(6deg);
+//     }
+//   }
+// `;
 
-const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
-  const Wrapper = hideText ? DeleteTooltip : React.Fragment;
-  return (
-    <Wrapper>
-      <DeleteButton title="Delete" {...otherProps}>
-        <IconText icon={IconDelete} hideText={hideText}>
-          {iconText}
-        </IconText>
-      </DeleteButton>
-    </Wrapper>
-  );
-};
+// const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
+//   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
+//   return (
+//     <Wrapper>
+//       <DeleteButton title="Delete" {...otherProps}>
+//         <IconText icon={IconDelete} hideText={hideText}>
+//           {iconText}
+//         </IconText>
+//       </DeleteButton>
+//     </Wrapper>
+//   );
+// };
 
 export const ShortTitle = styled.span`
   color: ${colors.grey80};
@@ -135,6 +135,7 @@ export const TR = styled.tr`
 
   &:hover {
     background-color: ${rgba(colors.primary, 0.1)};
+    border: 1px solid #f2c723;
     cursor: pointer;
   }
 
@@ -391,16 +392,16 @@ export const Row = ({
             <div onFocus={handleButtonFocus} data-test="action-btn-group">
               <ButtonGroup>
                 {/* <IconDisabledDelete /> */}
-                {/* <DuplicateQuestionnaireButton
+                <DuplicateQuestionnaireButton
                   data-test="btn-duplicate-questionnaire"
                   onClick={handleDuplicateQuestionnaire}
                   hideText
-                /> */}
+                />
                 <IconButtonDelete
                   hideText
                   data-test="btn-delete-questionnaire"
                   onClick={handleDeleteQuestionnaire}
-                  disabled={!canDelete}
+                  disabledIcon={!canDelete}
                 />
                 {/* <Tooltip content={"Duplicate"} place="top">
                   <IconTextButton

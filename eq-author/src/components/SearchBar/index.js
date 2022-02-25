@@ -11,6 +11,7 @@ import iconSearch from "./icon-search.svg";
 const Search = styled.div`
   position: relative;
   margin-left: ${(props) => (props.paddingType === "small" ? "1em" : "0")};
+  margin-right: 1em;
   &::before {
     content: url(${iconSearch});
     display: inline-block;

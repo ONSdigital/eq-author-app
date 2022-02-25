@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import IconDelete from "assets/icon-delete.svg?inline";
+import IconDisabledDelete from "assets/icon-disabled-delete.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import Tooltip from "components/Forms/Tooltip";
@@ -24,20 +25,39 @@ const DeleteButton = styled(Button).attrs({
   }
 `;
 
+const IconTextColoured = styled(IconText)`
+  svg {
+    path {
+      fill: ${({ disabled }) => (disabled ? "#707070" : "#003e56")};
+    }
+  }
+`;
+
 const DeleteTooltip = ({ children }) => (
   <Tooltip content="Delete" place="top" offset={{ top: 0, bottom: 10 }}>
     {children}
   </Tooltip>
 );
 
-const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
+const IconButtonDelete = ({
+  hideText,
+  iconText = "Delete",
+  disabledIcon,
+  ...otherProps
+}) => {
+  console.log("...otherProps :>> ", otherProps);
   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
+  const icon = disabledIcon ? IconDisabledDelete : IconDelete;
   return (
     <Wrapper>
       <DeleteButton title="Delete" {...otherProps}>
-        <IconText icon={IconDelete} hideText={hideText}>
+        <IconTextColoured
+          icon={icon}
+          disabled={disabledIcon}
+          hideText={hideText}
+        >
           {iconText}
-        </IconText>
+        </IconTextColoured>
       </DeleteButton>
     </Wrapper>
   );
@@ -54,6 +74,7 @@ IconButtonDelete.propTypes = {
 IconButtonDelete.defaultProps = {
   hideText: false,
   iconText: "Delete",
+  disabledIcon: false,
 };
 
 export default IconButtonDelete;
