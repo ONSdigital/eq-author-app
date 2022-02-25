@@ -12,11 +12,11 @@ import CollectionListItem from "./collectionListItem";
 import { flowRight } from "lodash";
 
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
-import createCollectionListMutation from "graphql/lists/createCollectionListMutation.graphql";
-import deleteCollectionListMutation from "graphql/lists/deleteCollectionListMutation.graphql";
-import updateCollectionListMutation from "graphql/lists/updateCollectionListMutation.graphql";
-import createCollectionListAnswerMutation from "graphql/lists/createCollectionListAnswerMutation.graphql";
-import deleteCollectionListAnswerMutation from "graphql/lists/deleteCollectionListAnswerMutation.graphql";
+import CREATE_COLLECTION_LIST from "graphql/lists/createCollectionListMutation.graphql";
+import DELETE_COLLECTION_LIST from "graphql/lists/deleteCollectionListMutation.graphql";
+import UPDATE_COLLECTION_LIST from "graphql/lists/updateCollectionListMutation.graphql";
+import CREATE_COLLECTION_LIST_ANSWER from "graphql/lists/createCollectionListAnswerMutation.graphql";
+import DELETE_COLLECTION_LIST_ANSWER from "graphql/lists/deleteCollectionListAnswerMutation.graphql";
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
 import withCreateExclusive from "App/page/Design/answers/withCreateExclusive";
 import withCreateOption from "App/page/Design/answers/withCreateOption";
@@ -65,11 +65,11 @@ const CollectionListsPage = ({
     fetchPolicy: "cache-and-network",
   });
 
-  const [addList] = useMutation(createCollectionListMutation);
-  const [deleteList] = useMutation(deleteCollectionListMutation);
-  const [updateList] = useMutation(updateCollectionListMutation);
-  const [createAnswer] = useMutation(createCollectionListAnswerMutation);
-  const [deleteAnswer] = useMutation(deleteCollectionListAnswerMutation);
+  const [addList] = useMutation(CREATE_COLLECTION_LIST);
+  const [deleteList] = useMutation(DELETE_COLLECTION_LIST);
+  const [updateList] = useMutation(UPDATE_COLLECTION_LIST);
+  const [createAnswer] = useMutation(CREATE_COLLECTION_LIST_ANSWER);
+  const [deleteAnswer] = useMutation(DELETE_COLLECTION_LIST_ANSWER);
 
   const handleAddList = () => {
     addList();
