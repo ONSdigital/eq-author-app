@@ -50,6 +50,10 @@ const AddListCollectionButton = styled(Button)`
   padding: 1rem;
 `;
 
+const Bullet = styled.span`
+  font-weight: bold;
+`;
+
 const CollectionListsPage = ({
   onUpdateAnswer,
   onAddOption,
@@ -144,41 +148,43 @@ const CollectionListsPage = ({
 
         <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
           <Text>
-            To create the list collector pattern in Author we do this in the
-            following steps:
+            <p>
+              To create the list collector pattern in Author we do this in the
+              following steps:
+            </p>
+            <Bullet>1.</Bullet> Go to the Collection Lists page on the left hand
+            menu and Create a collection list and give it a relevant name.
             <br />
-            1. Go to the Collection Lists page on the left hand menu and Create
-            a collection list and give it a relevant name.
+            <Bullet>2.</Bullet> Add the answers you need to collect that will
+            make up each item on the list, for example adding two text field
+            answer types to collect the respondents first name and last name.
             <br />
-            2. Add the answers you need to collect that will make up each item
-            on the list, for example adding two text field answer types to
-            collect the respondents first name and last name.
+            <Bullet>3.</Bullet> In the questionnaire add a List collector page
+            via the add/import menu.
             <br />
-            3. In the questionnaire add a List collector page via the add/import
-            menu.
+            <Bullet>4.</Bullet> The List collector page is made up of two
+            questions which repeat until there is nothing else to add to the
+            list, for example does anyone else live in the household, if there
+            is then what is their name. The first question is on the List
+            collector page which has a radio option. Enter the question and
+            answer labels.
             <br />
-            4. The List collector page is made up of two questions which repeat
-            until there is nothing else to add to the list, for example does
-            anyone else live in the household, if there is then what is their
-            name. The first question is on the List collector page which has a
-            radio option. Enter the question and answer labels.
+            <Bullet>5.</Bullet> In the answers list area you must select a list
+            from the dropdown menu, this menu will show any lists that have been
+            created in the Collection lists page. Select the relevant list.
             <br />
-            5. In the answers list area you must select a list from the dropdown
-            menu, this menu will show any lists that have been created in the
-            Collection lists page. Select the relevant list.
+            <Bullet>6.</Bullet> Once the list is selected a list summary area
+            appears along with another question field. The List summary will
+            display answers for each label shown, you can remove these labels
+            but must keep at least one.
             <br />
-            6. Once the list is selected a list summary area appears along with
-            another question field. The List summary will display answers for
-            each label shown, you can remove these labels but must keep at least
-            one.
+            <Bullet>7.</Bullet> Enter a question in the Add to list question
+            field, this is the second question that gets repeated, for example
+            who do you need to add?
             <br />
-            7. Enter a question in the Add to list question field, this is the
-            second question that gets repeated, for example who do you need to
-            add?
-            <br />
-            8. When you view this page using the Preview tab, both of these
-            repeating questions will be shown, the respondent will see one
-            question at a time.
+            <Bullet>8.</Bullet> When you view this page using the Preview tab,
+            both of these repeating questions will be shown, the respondent will
+            see one question at a time.
             <br />
           </Text>
         </Collapsible>
