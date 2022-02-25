@@ -76,7 +76,7 @@ const InlineField = styled(Field)`
 const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid #e0e0e0;
-  margin: 1.2em 0em;
+  margin: 1.2em 0;
 `;
 
 const StyledInput = styled(Input)`

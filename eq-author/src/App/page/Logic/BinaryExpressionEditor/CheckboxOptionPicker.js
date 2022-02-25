@@ -78,13 +78,15 @@ Option.propTypes = {
   label: propTypes.string,
 };
 
-const handler = (checkedOptions, setCheckedOptions) => ({ name, value }) => {
-  if (value) {
-    setCheckedOptions([...checkedOptions, name]);
-  } else {
-    setCheckedOptions(checkedOptions.filter((id) => id !== name));
-  }
-};
+const handler =
+  (checkedOptions, setCheckedOptions) =>
+  ({ name, value }) => {
+    if (value) {
+      setCheckedOptions([...checkedOptions, name]);
+    } else {
+      setCheckedOptions(checkedOptions.filter((id) => id !== name));
+    }
+  };
 
 const isSelected = (checkedOptions, option) =>
   includes(checkedOptions, option.id);

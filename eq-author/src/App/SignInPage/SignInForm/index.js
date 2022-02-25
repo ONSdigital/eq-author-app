@@ -1,53 +1,210 @@
-import styled from "styled-components";
-import { colors } from "constants/theme";
-import auth, { providers, credentialHelper } from "components/Auth";
-import { FirebaseAuth } from "react-firebaseui";
-import { darken } from "polished";
+import React, { useState, useRef } from "react";
+import PropTypes from "prop-types";
+import auth from "components/Auth";
 
-const darkBlue = darken(0.1, colors.blue);
+import {
+  PageTitle,
+  Description,
+  CheckBoxField,
+  CheckboxInput,
+  ButtonLink,
+} from "components-themed/Toolkit";
+import PasswordInput from "components-themed/Input/PasswordInput";
+import Input from "components-themed/Input";
+import Button from "components-themed/buttons";
+import Label, { OptionLabel } from "components-themed/Label";
+import Panel from "components-themed/panels";
 
-const SignInForm = styled(FirebaseAuth)`
-  .firebaseui-card-actions,
-  .firebaseui-card-header,
-  .firebaseui-card-content {
-    padding-left: 0;
-    padding-right: 0;
+import { Field } from "components/Forms";
+
+const SignInForm = ({
+  setForgotPassword,
+  setCreateAccountFunction,
+  errorMessage,
+  setErrorMessage,
+  passwordResetSuccess,
+  setPasswordResetSuccess,
+  emailNowVerified,
+  setEmailNowVerified,
+}) => {
+  const logInWithEmailAndPassword = (email, password) => {
+    setPasswordResetSuccess(false);
+    setEmailNowVerified(false);
+    if (email === "") {
+      setErrorMessage("Enter email");
+      return;
+    } else if (password === "") {
+      setErrorMessage("Enter password");
+      return;
+    }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => setForgotPassword(false))
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkbox, setCheckbox] = useState(false);
+
+  let errorRef = useRef();
+
+  function handleRecoverPassword(e) {
+    e.preventDefault();
+    setForgotPassword(true);
+    setErrorMessage("");
   }
 
-  .firebaseui-card-actions {
-    padding-bottom: 0;
+  function handleCreateAccount(e) {
+    e.preventDefault();
+    setCreateAccountFunction(true);
+    setForgotPassword(false);
+    setErrorMessage("");
   }
 
-  .firebaseui-form-actions .firebaseui-id-submit {
-    background-color: ${colors.blue};
-
-    &:focus,
-    &:hover {
-      background-color: ${darkBlue};
+  function handleLinkToAnchor() {
+    if (errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }
 
-  .firebaseui-textfield.mdl-textfield .firebaseui-label::after {
-    background-color: ${colors.blue};
-  }
+  return (
+    <>
+      {errorMessage && (
+        <Panel
+          variant="errorWithHeader"
+          headerLabel="This page has an error"
+          paragraphLabel={errorMessage}
+          withList
+          handleLinkToAnchor={handleLinkToAnchor}
+        />
+      )}
+      <PageTitle>Sign in</PageTitle>
+      <Description>You must be signed in to access Author</Description>
+      {passwordResetSuccess && (
+        <Panel variant="success" headerLabel="boom" withLeftBorder>
+          {"You've successfully updated the password for your Author account."}
+        </Panel>
+      )}
+      {emailNowVerified && (
+        <Panel variant="success" headerLabel="boom" withLeftBorder>
+          {"You've successfully verified your Author account."}
+        </Panel>
+      )}
 
-  .firebaseui-container {
-    box-shadow: none;
-  }
+      <Field>
+        {errorMessage?.toLowerCase().includes("email") ? (
+          <>
+            <Panel
+              variant="errorNoHeader"
+              paragraphLabel={errorMessage}
+              withLeftBorder
+              innerRef={errorRef}
+            >
+              <Label htmlFor="email">Email address</Label>
+              <Input
+                type="text"
+                id="email"
+                value={email}
+                onChange={({ value }) => setEmail(value)}
+                data-test="txt-email"
+              />
+            </Panel>
+          </>
+        ) : (
+          <>
+            <Label htmlFor="email">Email address</Label>
+            <Input
+              type="text"
+              id="email"
+              value={email}
+              onChange={({ value }) => setEmail(value)}
+              data-test="txt-email"
+            />
+          </>
+        )}
+      </Field>
+      <Field>
+        {errorMessage?.toLowerCase().includes("password") ? (
+          <>
+            <Panel
+              variant="errorNoHeader"
+              paragraphLabel={errorMessage}
+              withLeftBorder
+              innerRef={errorRef}
+            >
+              <PasswordInput
+                id="password"
+                value={password}
+                onChange={({ value }) => setPassword(value)}
+                data-test="txt-password"
+              />
+            </Panel>
+          </>
+        ) : (
+          <>
+            <PasswordInput
+              id="password"
+              value={password}
+              onChange={({ value }) => setPassword(value)}
+              data-test="txt-password"
+            />
+          </>
+        )}
+      </Field>
+      <Field>
+        <ButtonLink
+          onClick={handleRecoverPassword}
+          name="recover-password-button"
+        >
+          Forgot your password?
+        </ButtonLink>
+      </Field>
 
-  min-width: 100%;
-`;
+      <CheckBoxField>
+        <CheckboxInput
+          type="checkbox"
+          id="signIn-checkbox"
+          name="signInCheckbox"
+          checked={checkbox}
+          onChange={({ checked }) => setCheckbox(checked)}
+        />
+        <OptionLabel htmlFor="signIn-checkbox">
+          {"Keep me signed in"}
+        </OptionLabel>
+      </CheckBoxField>
+      <Field>
+        <Button
+          onClick={() => logInWithEmailAndPassword(email, password)}
+          name="sign-in"
+          type="button"
+          data-test="signIn-button"
+        >
+          Sign in
+        </Button>
+      </Field>
+      <ButtonLink onClick={handleCreateAccount}>
+        Create an Author account
+      </ButtonLink>
+    </>
+  );
+};
 
 SignInForm.defaultProps = {
   firebaseAuth: auth,
-  uiConfig: {
-    signInFlow: "popup",
-    signInOptions: providers,
-    credentialHelper,
-    callbacks: {
-      signInSuccessWithAuthResult: () => false, // Avoid redirects after sign-in.
-    },
-  },
+};
+
+SignInForm.propTypes = {
+  setForgotPassword: PropTypes.func,
+  setCreateAccountFunction: PropTypes.func,
+  errorMessage: PropTypes.string,
+  setErrorMessage: PropTypes.func,
+  passwordResetSuccess: PropTypes.bool,
+  setPasswordResetSuccess: PropTypes.func,
+  emailNowVerified: PropTypes.bool,
+  setEmailNowVerified: PropTypes.func,
 };
 
 export default SignInForm;

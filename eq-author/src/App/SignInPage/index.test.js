@@ -1,42 +1,48 @@
 import React from "react";
-import SignInPage from "App/SignInPage";
 import { MeContext } from "App/MeContext";
-import { shallow } from "enzyme";
-import { render } from "tests/utils/rtl";
+import SignInPage from "App/SignInPage";
+import { render, screen, act } from "tests/utils/rtl";
+import userEvent from "@testing-library/user-event";
+import waitForExpect from "wait-for-expect";
 
 describe("SignInPage", () => {
-  let signIn, signOut, isSigningIn;
+  let props;
 
   beforeEach(() => {
-    signIn = jest.fn();
-    signOut = jest.fn();
-    isSigningIn = false;
+    props = {
+      me: undefined,
+      signIn: jest.fn(),
+      signOut: jest.fn(),
+      isSigningIn: false,
+      sentEmailVerification: false,
+      searchParams: "",
+    };
   });
+
+  const renderSignIn = (props) =>
+    render(
+      <MeContext.Provider value={{ ...props }}>
+        <SignInPage />
+      </MeContext.Provider>,
+      { route: "/sign-in" }
+    );
 
   describe("signInPage", () => {
     it("should render", () => {
-      const wrapper = shallow(
-        <MeContext.Provider value={{ signOut, signIn, isSigningIn }}>
-          <SignInPage />
-        </MeContext.Provider>
-      );
-      expect(
-        wrapper
-          .dive()
-          .dive()
-          .dive()
-          .contains("You must be signed in to access this service.")
-      ).toBeTruthy();
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(getByText("You must be signed in to access Author")).toBeTruthy();
     });
 
-    it("should load a loding page if currently signing in", () => {
-      const { getByText } = render(
-        <MeContext.Provider value={{ signOut, signIn, isSigningIn: true }}>
-          <SignInPage />
-        </MeContext.Provider>,
-        { route: "/sign-in" }
-      );
-      expect(getByText("Logging in...")).toBeTruthy();
+    it("should load a loading page if currently signing in", () => {
+      props = {
+        ...props,
+        isSigningIn: true,
+      };
+
+      const { getByTestId } = renderSignIn({ ...props });
+
+      expect(getByTestId("loading")).toBeVisible();
     });
 
     it("should redirect to frontpage if user is already signed in", () => {
@@ -45,13 +51,203 @@ describe("SignInPage", () => {
         email: "squanchy@mail.com",
       };
 
-      const { history } = render(
-        <MeContext.Provider value={{ signOut, signIn, me, isSigningIn }}>
-          <SignInPage />
-        </MeContext.Provider>,
-        { route: "/sign-in" }
-      );
+      props = {
+        ...props,
+        me: me,
+      };
+
+      const { history } = renderSignIn({ ...props });
       expect(history.location.pathname).toBe("/");
+    });
+
+    it("should setErrorMessage if location.search is not correct", () => {
+      props = {
+        ...props,
+        searchParams: "mode=gobledeegoo",
+      };
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(getByText("Invalid mode code returned from link")).toBeTruthy();
+    });
+
+    it("should display error when email is empty", () => {
+      const { getByTestId, getAllByText } = renderSignIn({
+        ...props,
+      });
+      const btn = getByTestId("signIn-button");
+      userEvent.click(btn);
+      expect(getAllByText("Enter email")).toBeTruthy();
+    });
+
+    it("should display error when password is empty", () => {
+      const { getByTestId, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+
+      const btn = getByTestId("signIn-button");
+      userEvent.click(btn);
+      expect(getAllByText("Enter password")).toBeTruthy();
+    });
+  });
+
+  describe("recover password page", () => {
+    it("should display reset password component", () => {
+      const { getByTestId, getByText } = renderSignIn({ ...props });
+
+      const button = getByText("Forgot your password?");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-recovery-email")).toBeVisible();
+    });
+
+    it("should display error when recover password Email is empty", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Forgot your password?");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-recovery-email")).toBeVisible();
+
+      userEvent.click(screen.getByText("Send"));
+      expect(getAllByText("Email should not be empty")).toBeTruthy();
+    });
+
+    it("should return to sign in form from recover password component", () => {
+      const { getByText, getByTestId } = renderSignIn({
+        ...props,
+      });
+      userEvent.click(screen.getByText("Forgot your password?"));
+      expect(getByTestId("txt-recovery-email")).toBeVisible();
+
+      userEvent.click(screen.getByText("Return to the sign in page"));
+      expect(getByText("You must be signed in to access Author")).toBeTruthy();
+    });
+  });
+
+  describe("reset Password page", () => {
+    it("should render Error if Password reset link is faulty", async () => {
+      props = {
+        ...props,
+        searchParams:
+          "mode=resetPassword&oobCode=EpfWvpD2DTKoIHIp5pPfx5OXGml5baxIcVY7U8DBMe4AAAF",
+      };
+      act(() => {
+        renderSignIn({ ...props });
+      });
+
+      expect(
+        await screen.findByText(/This page has an error/)
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("verify email", () => {
+    it("should render Error if verify email link expired or faulty", async () => {
+      props = {
+        ...props,
+        searchParams:
+          "mode=verifyEmail&oobCode=4WGfmkASqXN4bC-K1qFOBmRXp9UzMUFZFHakQ1AdzqcAAAF",
+      };
+      act(() => {
+        renderSignIn({ ...props });
+      });
+
+      expect(
+        await screen.findByText(/This page has an error/)
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("create account page", () => {
+    it("should display create account component", () => {
+      const { getByTestId, getByText } = renderSignIn({ ...props });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-fullName")).toBeVisible();
+    });
+
+    it("should display error when email is empty", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      userEvent.click(screen.getByText("Create account"));
+      expect(getAllByText("Enter email")).toBeTruthy();
+    });
+
+    it("should display error when name is empty", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+
+      userEvent.click(screen.getByText("Create account"));
+      expect(getAllByText("Enter full name")).toBeTruthy();
+    });
+
+    it("should display error when password is empty", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+      const input2 = screen.getByLabelText("First and last name");
+      userEvent.type(input2, "My name is the best");
+
+      userEvent.click(screen.getByText("Create account"));
+      expect(getAllByText("Enter password")).toBeTruthy();
+    });
+
+    it("should return to sign in form from recover password form", () => {
+      const { getByText, getByTestId } = renderSignIn({
+        ...props,
+      });
+      userEvent.click(screen.getByText("Create an Author account"));
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      userEvent.click(screen.getByText("sign in"));
+      expect(getByText("You must be signed in to access Author")).toBeTruthy();
+    });
+  });
+
+  describe("email validation page", () => {
+    it("should display email validation component", () => {
+      props = {
+        ...props,
+        sentEmailVerification: true,
+      };
+      const { getByText } = renderSignIn({ ...props });
+
+      expect(
+        getByText(
+          /You need to confirm your email address to sign in. Click on the confirmation link/
+        )
+      ).toBeTruthy();
     });
   });
 });
