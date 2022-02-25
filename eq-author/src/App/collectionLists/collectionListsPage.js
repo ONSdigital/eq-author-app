@@ -148,10 +148,10 @@ const CollectionListsPage = ({
 
         <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
           <Text>
-            <p>
-              To create the list collector pattern in Author we do this in the
-              following steps:
-            </p>
+            To create the list collector pattern in Author we do this in the
+            following steps:
+          </Text>
+          <Text>
             <Bullet>1.</Bullet> Go to the Collection Lists page on the left hand
             menu and Create a collection list and give it a relevant name.
             <br />
