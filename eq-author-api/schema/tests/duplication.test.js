@@ -22,8 +22,6 @@ const {
   duplicatePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { getFolderByPageId } = require("../resolvers/utils");
-
 const { getQuestionnaire } = require("../../db/datastore");
 
 describe("Duplication", () => {
@@ -98,13 +96,7 @@ describe("Duplication", () => {
       expect(pageCopy.title).toEqual(`Copy of ${page.title}`);
     });
 
-    it("should be created in new folder if parent folder disabled", () => {
-      expect(pageCopy.position).toEqual(0);
-    });
-
     it("should be created in same folder if parent folder enabled", async () => {
-      const folder = getFolderByPageId(ctx, page.id);
-      folder.enabled = true;
       let { id } = await duplicatePage(ctx, page);
       pageCopy = await queryPage(ctx, id);
 
