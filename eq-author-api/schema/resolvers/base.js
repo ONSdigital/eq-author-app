@@ -83,6 +83,7 @@ const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
+const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -355,9 +356,12 @@ const Resolvers = {
 
       return ctx.questionnaire;
     },
-    updateQuestionnaire: createMutation((_, { input }, ctx) =>
-      Object.assign(ctx.questionnaire, input)
-    ),
+    updateQuestionnaire: createMutation((_, { input }, ctx) => {
+      Object.assign(ctx.questionnaire, input);
+      onQuestionnaireUpdated(ctx.questionnaire);
+
+      return ctx.questionnaire;
+    }),
     toggleQuestionnaireStarred: async (root, { input }, ctx) => {
       const { questionnaireId } = input;
       const questionnaire = await getQuestionnaire(questionnaireId);
