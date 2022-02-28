@@ -33,7 +33,7 @@ const SearchInput = styled(Input).attrs({
   line-height: 1;
   padding-left: 2.5em;
   border-radius: 4px;
-  border-color: ${colors.bordersLight};
+  border-color: ${colors.black};
 
   &:hover {
     outline: none;
