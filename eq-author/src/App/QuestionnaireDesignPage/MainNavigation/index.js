@@ -16,6 +16,8 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
 
+import { enableOn } from "utils/featureFlags";
+
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
@@ -164,25 +166,25 @@ export const UnwrappedMainNavigation = ({
                     History
                   </IconText>
                 </RouteButton>
-
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "collectionLists" &&
-                      "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-collection-lists"
-                  to={buildCollectionListsPath(params)}
-                >
-                  <IconText nav icon={collectionListsIcon}>
-                    Collection Lists
-                  </IconText>
-                  {listsError && (
-                    <Badge data-test="lists-error-badge" variant="main-nav" />
-                  )}
-                </RouteButton>
-
+                {enableOn(["lists"]) && (
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "collectionLists" &&
+                        "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-collection-lists"
+                    to={buildCollectionListsPath(params)}
+                  >
+                    <IconText nav icon={collectionListsIcon}>
+                      Collection Lists
+                    </IconText>
+                    {listsError && (
+                      <Badge data-test="lists-error-badge" variant="main-nav" />
+                    )}
+                  </RouteButton>
+                )}
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "metadata" && "navigation-on") ||
