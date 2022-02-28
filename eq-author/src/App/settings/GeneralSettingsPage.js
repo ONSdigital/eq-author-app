@@ -11,6 +11,7 @@ import { getThemeSettingsErrorCount } from "./utils";
 import { enableOn, disableOn } from "utils/featureFlags";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
@@ -127,10 +128,12 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     qcodes,
     navigation,
     hub,
-    hubIntroduction,
     summary,
     collapsibleSummary,
+    introduction,
   } = questionnaire;
+
+  const { showOnHub } = introduction;
 
   const handleTitleChange = ({ value }) => {
     value = value.trim();
@@ -149,6 +152,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   };
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
+  const [updateQuestionnaireIntroduction] = useMutation(
+    updateQuestionnaireIntroductionMutation
+  );
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] =
     useState(shortTitle);
@@ -274,16 +280,13 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                                 name="toggle-hub-introduction"
                                 hideLabels={false}
                                 onChange={({ value }) =>
-                                  updateQuestionnaire({
+                                  updateQuestionnaireIntroduction({
                                     variables: {
-                                      input: {
-                                        id,
-                                        hubIntroduction: value,
-                                      },
+                                      input: { id, showOnHub: value },
                                     },
                                   })
                                 }
-                                checked={hubIntroduction}
+                                checked={showOnHub}
                               />
                             </InlineField>
                           </EnableDisableWrapper>

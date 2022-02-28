@@ -4,6 +4,7 @@ import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
 
 import config from "config";
 
@@ -34,13 +35,16 @@ describe("Settings page", () => {
       qcodes: true,
       navigation: true,
       hub: false,
-      hubIntroduction: false,
       summary: true,
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
       surveyId: "123",
       theme: "default",
       displayName: "Roar",
+      introduction: {
+        id: "spyro-1",
+        showOnHub: false,
+      },
       createdBy: {
         ...user,
       },
@@ -170,13 +174,11 @@ describe("Settings page", () => {
       },
       {
         request: {
-          query: updateQuestionnaireMutation,
+          query: updateQuestionnaireIntroductionMutation,
           variables: {
             input: {
-              id: mockQuestionnaire.id,
-              hub: true,
-              navigation: false,
-              hubIntroduction: false,
+              id: mockQuestionnaire.introduction.id,
+              showOnHub: false,
             },
           },
         },
@@ -188,7 +190,10 @@ describe("Settings page", () => {
                 ...mockQuestionnaire,
                 hub: true,
                 navigation: false,
-                hubIntroduction: false,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: false,
+                },
                 __typename: "Questionnaire",
               },
             },
@@ -201,7 +206,7 @@ describe("Settings page", () => {
           variables: {
             input: {
               id: mockQuestionnaire.id,
-              hubIntroduction: true,
+              showOnHub: true,
             },
           },
         },
@@ -211,7 +216,10 @@ describe("Settings page", () => {
             data: {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
-                hubIntroduction: true,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: true,
+                },
                 __typename: "Questionnaire",
               },
             },
@@ -685,7 +693,7 @@ describe("Settings page", () => {
       expect(queryWasCalled).toBeTruthy();
     });
 
-    it("Should enable hub introduction toggle switch when hub navigation is enable", async () => {
+    it("Should enable hub introduction toggle switch when hub navigation is enabled", async () => {
       mockQuestionnaire.hub = true;
 
       const { getByTestId } = renderSettingsPage(
