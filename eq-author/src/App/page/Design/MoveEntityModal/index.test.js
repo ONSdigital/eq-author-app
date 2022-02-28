@@ -124,15 +124,6 @@ describe("MoveEntityModal: entity === 'Folder'", () => {
   it("should show correct title", () => {
     expect(screen.getByText("Move folder")).toBeInTheDocument();
   });
-
-  it("should only list folders and disabled folder pages", () => {
-    fireEvent.click(screen.getByTestId("folder-modal-trigger"));
-    const options = screen.getAllByTestId("options");
-    expect(options).toHaveLength(3);
-    expect(options[0].textContent).toEqual("Page 1.1.1");
-    expect(options[1].textContent).toEqual("Folder 2");
-    expect(options[2].textContent).toEqual("Folder 3");
-  });
 });
 
 describe("MovePageModal: buildPageList", () => {
@@ -197,10 +188,5 @@ describe("MovePageModal: buildPageList", () => {
         }),
       ])
     );
-  });
-
-  it("should have null parentId for disabled folders", () => {
-    const [target] = output.filter(({ id }) => id.includes("folder-2"));
-    expect(target.parentId).toBeNull();
   });
 });

@@ -9,18 +9,16 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 export const buildPageList = (folders) => {
   const optionList = [];
   folders.forEach((folder) => {
-    const { id, enabled, pages } = folder;
-    if (enabled) {
-      optionList.push({
-        ...folder,
-        parentEnabled: false,
-      });
-    }
+    const { id, pages } = folder;
+    optionList.push({
+      ...folder,
+      parentEnabled: false,
+    });
     pages.forEach((page) => {
       optionList.push({
         ...page,
-        parentId: enabled ? id : null,
-        parentEnabled: enabled,
+        parentId: id,
+        parentEnabled: true,
       });
     });
   });
@@ -74,8 +72,7 @@ const MoveEntityModal = ({
     () =>
       entity === "Page"
         ? (folders) => buildPageList(folders)
-        : (folders) =>
-            folders.map((item) => (!item.enabled ? item.pages[0] : item)),
+        : (folders) => folders.map((item) => item),
     [entity]
   );
 
