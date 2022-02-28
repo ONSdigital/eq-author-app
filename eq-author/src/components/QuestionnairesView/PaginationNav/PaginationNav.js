@@ -4,32 +4,50 @@ import styled from "styled-components";
 import Theme from "contexts/themeContext";
 import Button from "/Users/omarmoulana/Desktop/repos/eq-author-app/eq-author/src/components-themed/buttons/button.js";
 import colors from "constants/theme";
-import { contains } from "lodash/fp";
 
 //Create component here
 
 const Container = styled.ul`
   display: flex;
   list-style-type: none;
+  padding-top: 1em;
   color: #000;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
+  padding: 0;
+  left: 0;
+  text-align: left;
+  margin: 1 0 0 0;
+  left: 0;
+`;
+
+const Results = styled.div`
+  color: ${colors.textLight};
+  padding-top: 0.6em;
+  padding-left: 0.6em;
+  font-size: 0.8em;
+  position: absolute;
+
+  ${({ padding }) =>
+    padding === "small" &&
+    `
+    margin-left: 1em;
+  `}
 `;
 
 const PaginationItem = styled.li`
-  padding: 0 12px;
-  height: 32px;
-  text-align: center;
-  margin: auto 4px;
+  /* padding: 0 12px; */
+  /* height: 1em; */
+  left: 0;
+  margin: 0;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
-  box-sizing: border-box;
-  align-items: center;
-  letter-spacing: 0.01071em;
-  border-radius: 16px;
-  line-height: 1.43;
-  font-size: 13px;
-  min-width: 32px;
+  /* box-sizing: border-box; */
+  align-items: left;
+  /* border-radius: 16px; */
+  /* line-height: 1.43; */
+  /* font-size: 13px; */
+  /* min-width: 32px; */
   color: #000;
   &:hover {
     background: ${colors.darkerBlue};
@@ -37,38 +55,37 @@ const PaginationItem = styled.li`
   /* text-decoration: underline; */
   &:active {
     color: blue;
+    background: ${colors.darkerBlue};
   }
 `;
 
-const PaginationButton = styled(Button).attrs({ variant: "ghost-white" })`
+const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
   font-size: 0.7em;
-  /* padding: 0.6em 1.4em; */
-  /* margin: 0; */
   color: #000;
-
-  /* &::before {
-    content: "";
-    width: 1em;
-    height: 1em;
-    display: block;
-  } */
-
-  /* &[disabled] {
-    opacity: 1;
-    &::before {
-      opacity: 0.5;
-    }
-  } */
-
+  border: none;
+  padding: 0;
+  /* text-decoration: underline; */
   &:hover {
-    background: ${colors.darkerBlue};
+    background-color: ${colors.darkerBlue};
   }
+  &:active {
+    color: blue;
+    background-color: ${colors.darkerBlue};
+  }
+
+  /* &:focus:active,
+  &:focus-visible {
+    border-color: ${colors.blue};
+  } */
 `;
 
 const PrevButton = styled(PaginationButton)`
   color: ${colors.oceanBlue};
   text-decoration: underline;
   font-weight: normal;
+  left: 0;
+  padding: 0;
+  margin: 0;
 `;
 
 const NextButton = styled(PaginationButton)`
@@ -138,6 +155,9 @@ const Pagination = ({
 
   return (
     <Theme themeName={"ons"}>
+      <Results>
+        Page {currentPageIndex} of {pageCount}
+      </Results>
       <Container>
         <PaginationItem>
           <PrevButton
@@ -150,20 +170,16 @@ const Pagination = ({
             Previous
           </PrevButton>
         </PaginationItem>
-
         {pages.map((key, index) => {
-          // if (key === "...") {
-          //   return <PaginationItem key={key}>{"\u2026"}</PaginationItem>;
-          // } else {
           return (
-            <PaginationItem
+            <PaginationButton
               key={index}
-              selected={index === currentPageIndex}
-              onClick={() => onPageChange(index)}
-              value={index}
+              selected={key === currentPageIndex}
+              onClick={() => onPageChange(key)}
+              value={key}
             >
               {key}
-            </PaginationItem>
+            </PaginationButton>
           );
         })}
         <PaginationItem>
