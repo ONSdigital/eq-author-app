@@ -19,6 +19,7 @@ const Container = styled.ul`
   text-align: left;
   margin: 1 0 0 0;
   left: 0;
+  font-size: 1.5em;
 `;
 
 const Results = styled.div`
@@ -61,8 +62,10 @@ const PaginationItem = styled.li`
 
 const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
   font-size: 0.7em;
+  font-weight: normal;
   color: #000;
   border: none;
+  text-decoration: underline;
   padding: 0;
   /* text-decoration: underline; */
   &:hover {
@@ -97,7 +100,7 @@ const NextButton = styled(PaginationButton)`
 const Pagination = ({
   currentPageIndex,
   onPageChange,
-  siblingCount = 1,
+  siblingCount = 2,
   pageCount,
 }) => {
   //last page is not total count
@@ -155,9 +158,6 @@ const Pagination = ({
 
   return (
     <Theme themeName={"ons"}>
-      <Results>
-        Page {currentPageIndex} of {pageCount}
-      </Results>
       <Container>
         <PaginationItem>
           <PrevButton

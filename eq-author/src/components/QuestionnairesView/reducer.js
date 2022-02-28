@@ -4,7 +4,7 @@ import { WRITE } from "constants/questionnaire-permissions";
 
 import { SORT_ORDER } from "constants/sort-order";
 
-const PAGE_SIZE = 16;
+const PAGE_SIZE = 12;
 
 const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   const possibleNextIndex =
