@@ -119,6 +119,7 @@ enum LegalBasisCode {
   NOTICE_2
   NOTICE_3
   NOTICE_NI
+  NOTICE_FUELS
   VOLUNTARY
 }
 

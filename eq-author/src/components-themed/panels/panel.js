@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PropType from "prop-types";
 import { ReactComponent as Icon } from "../../assets/icon-panel-checkbox.svg";
+import { ButtonLink } from "components-themed/Toolkit";
 
 const getThemeColor = (variant) => {
   switch (variant) {
@@ -70,8 +71,11 @@ const HeaderLabel = styled.h2`
 
 const PanelParagraphTitle = styled.div`
   color: ${({ variant }) => getThemeColor(variant)};
-  margin: 0 0 1rem;
-  font-weight: bold;
+  margin: 0 0 0.5rem;
+  font-weight: ${({ withList }) => !withList && "bold"};
+  li {
+    color: ${({ theme }) => theme.colors.black};
+  }
 `;
 
 const Header = styled.div`
@@ -138,6 +142,7 @@ const StyledPanel = styled.div`
   display: block;
   border-radius: 0;
   position: relative;
+  margin-bottom: 1rem;
   border-left: ${(props) => props.withLeftBorder && `8px solid transparent;`};
 
   ${(props) => props.variant === "info" && infoPanel};
@@ -152,6 +157,9 @@ const Panel = ({
   variant,
   withLeftBorder,
   children,
+  withList,
+  handleLinkToAnchor,
+  innerRef,
 }) => {
   return (
     <StyledPanel variant={variant} withLeftBorder={withLeftBorder}>
@@ -177,8 +185,23 @@ const Panel = ({
       )}
       <Container variant={variant}>
         {paragraphLabel && (
-          <PanelParagraphTitle variant={variant}>
-            {paragraphLabel}
+          <PanelParagraphTitle variant={variant} withList={withList}>
+            {withList ? (
+              <ol>
+                <li>
+                  <ButtonLink
+                    onClick={() => handleLinkToAnchor(innerRef)}
+                    name="panel-head-error"
+                  >
+                    {paragraphLabel}
+                  </ButtonLink>
+                </li>
+              </ol>
+            ) : (
+              <div ref={innerRef} id={paragraphLabel}>
+                {paragraphLabel}
+              </div>
+            )}
           </PanelParagraphTitle>
         )}
         {variant !== "warning" && children}
@@ -193,10 +216,15 @@ Panel.propTypes = {
   paragraphLabel: PropType.string,
   headerLabel: PropType.string,
   withLeftBorder: PropType.bool,
+  withList: PropType.bool,
+  handleLinkToAnchor: PropType.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  innerRef: PropType.object,
 };
 
 Panel.defaultProps = {
   variant: "info",
+  withList: false,
 };
 
 export default Panel;

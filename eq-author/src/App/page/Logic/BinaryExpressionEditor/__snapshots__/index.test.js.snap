@@ -5,6 +5,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
   <Grid
     align="center"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <Column
       cols={1.5}
@@ -82,6 +83,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
   <Grid
     align="top"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <Column
       cols={1.5}
@@ -140,6 +142,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
   <Grid
     align="top"
     fillHeight={true}
+    horizontalAlign="start"
   >
     <Column
       cols={1.5}

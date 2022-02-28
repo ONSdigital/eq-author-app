@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components-themed/Input Text should render correctly 1`] = `
+.c0 {
+  border-radius: 3px;
+  border: 1px solid #222222;
+  outline: none;
+  padding: 0.39rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: #222222;
+  min-width: 375px;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #fbc900;
+}
+
+<Theme
+  themeName="ons"
+>
+  <ThemeProvider
+    theme={
+      Object {
+        "colors": Object {
+          "amber": "#fe781f",
+          "aquaTeal": "#00a3a6",
+          "badgeSelectedBackground": "#222222",
+          "badgeSelectedText": "#3B7A9E",
+          "black": "#222222",
+          "blue": "#3B7A9E",
+          "borders": "#707071",
+          "bordersLight": "#e2e2e3",
+          "branded": "#206095",
+          "calcSumEmptyContent": undefined,
+          "colorInfoTint": "#e9eff4",
+          "darkBlue": "#5F7682",
+          "darkGrey": "#666666",
+          "darkOrange": "#FF600A",
+          "darkerBlue": "#003c57",
+          "disabledGreyOnOrange": "#7A6340",
+          "errorPrimary": "#d0021b",
+          "errorSecondary": "#fae6e8",
+          "errors": "#d0021b",
+          "errorsTint": "#fae6e8",
+          "errorsVibrant": "#fd112d",
+          "externalHeaderTop": "#FFFFFF",
+          "externalOnsLogo": "#003c57",
+          "focus": "#fbc900",
+          "green": "#0f8243",
+          "grey": "#999999",
+          "grey100": "#414042",
+          "grey15": "#e2e2e3",
+          "grey35": "#bcbcbd",
+          "grey5": "#f5f5f6",
+          "grey75": "#707071",
+          "greyedOrange": "#D9A551",
+          "headerMain": "#206095",
+          "headerTitle": "#FFFFFF",
+          "highlight": "#f0f762",
+          "highlightBlue": "#195673",
+          "highlightGreen": "#dce5b0",
+          "info": "#206095",
+          "infoGrey": "#e9eff4",
+          "infoTint": "#e9eff4",
+          "infoVibrant": "#1f84d8",
+          "input": "#222222",
+          "internalHeaderTop": "#003c57",
+          "internalOnsLogo": "#FFFFFF",
+          "jaffaOrange": "#fa6401",
+          "leafGreen": "#0f8243",
+          "lightBlue": "#61BDE0",
+          "lightGreen": "#EDF4F0",
+          "lightGrey": "#d6d8da",
+          "lightMediumGrey": "#E4E8EB",
+          "lightOrange": "#FFDFCD",
+          "lighterGrey": "#f5f5f5",
+          "mediumBlue": "#397596",
+          "mediumGrey": "#7a7a7a",
+          "negative": "#d0021b",
+          "neonYellow": "#f0f762",
+          "nightBlue": "#003c57",
+          "oceanBlue": "#206095",
+          "onsLogoAccent": "#a8bd3a",
+          "orange": "#FDBD56",
+          "paleBlue": "#f0f1f9",
+          "pendingVibrant": "#ff803b",
+          "positive": "#0f8243",
+          "previewError": "#414042",
+          "primary": "#0f8243",
+          "red": "#D0021B",
+          "rubyRed": "#d0021b",
+          "secondary": "#e2e2e3",
+          "sidebarBlack": "#333333",
+          "skyBlue": "#27a0cc",
+          "springGreen": "#a8bd3a",
+          "success": "#0f8243",
+          "successTint": "#e7f3ec",
+          "successVibrant": "#10ca64",
+          "sunYellow": "#fbc900",
+          "tertiary": "#fa6401",
+          "text": "#222222",
+          "textBannerLink": "#f5f5f6",
+          "textInverse": "#FFFFFF",
+          "textLight": "#707071",
+          "textLink": "#206095",
+          "textLinkHover": "#003c57",
+          "white": "#FFFFFF",
+        },
+        "fontSize": "18px",
+        "fonts": "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
+        "radius": "3px",
+      }
+    }
+  >
+    <withChangeHandler(UncontrolledInput)
+      defaultValue="I am some text"
+      id="text"
+      onChange={[MockFunction]}
+    >
+      <UncontrolledInput
+        defaultValue="I am some text"
+        id="text"
+        onChange={[Function]}
+        type="text"
+      >
+        <input__StyledInput
+          defaultValue="I am some text"
+          id="text"
+          name="text"
+          onChange={[Function]}
+          type="text"
+        >
+          <StyledComponent
+            defaultValue="I am some text"
+            forwardedComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "input__StyledInput-sc-1g93zlf-0",
+                  "isStatic": false,
+                  "lastClassName": "c0",
+                  "rules": Array [
+                    "border-radius:",
+                    [Function],
+                    ";border:1px solid ",
+                    [Function],
+                    ";outline:none;padding:0.39rem 0.5rem;font-size:1rem;line-height:1rem;color:",
+                    [Function],
+                    ";min-width:375px;&:focus{box-shadow:0 0 0 3px ",
+                    [Function],
+                    ";}",
+                    [Function],
+                    ";",
+                    [Function],
+                    ";",
+                    [Function],
+                    ";",
+                  ],
+                },
+                "displayName": "input__StyledInput",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "input__StyledInput-sc-1g93zlf-0",
+                "target": "input",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              }
+            }
+            forwardedRef={null}
+            id="text"
+            name="text"
+            onChange={[Function]}
+            type="text"
+          >
+            <input
+              className="c0"
+              defaultValue="I am some text"
+              id="text"
+              name="text"
+              onChange={[Function]}
+              type="text"
+            />
+          </StyledComponent>
+        </input__StyledInput>
+      </UncontrolledInput>
+    </withChangeHandler(UncontrolledInput)>
+    <GlobalStyleComponent />
+  </ThemeProvider>
+</Theme>
+`;

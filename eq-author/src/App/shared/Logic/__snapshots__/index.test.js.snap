@@ -28,6 +28,7 @@ exports[`Logic Page should render 1`] = `
     <Grid
       align="top"
       fillHeight={true}
+      horizontalAlign="start"
     >
       <Column
         cols={2.5}
