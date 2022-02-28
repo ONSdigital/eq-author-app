@@ -117,13 +117,17 @@ const moveSectionMock = {
         qcodes: true,
         navigation: true,
         hub: false,
-        hubIntroduction: false,
         summary: "",
         collapsibleSummary: false,
         displayName: "Display name",
         shortTitle: "Short tile",
         permission: WRITE,
         isPublic: true,
+        introduction: {
+          id: "1",
+          showOnHub: false,
+          __typename: "Introduction",
+        },
         createdBy: {
           id: "1",
           name: "Some user",
