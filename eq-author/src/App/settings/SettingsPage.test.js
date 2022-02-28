@@ -202,6 +202,34 @@ describe("Settings page", () => {
       },
       {
         request: {
+          query: updateQuestionnaireIntroductionMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              showOnHub: true,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaireIntroductionMutation: {
+                ...mockQuestionnaire,
+                hub: true,
+                navigation: false,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: true,
+                },
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
           query: updateQuestionnaireMutation,
           variables: {
             input: {
@@ -244,6 +272,31 @@ describe("Settings page", () => {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
                 hub: false,
+                navigation: false,
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              hub: true,
+              navigation: false,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                hub: true,
                 navigation: false,
                 __typename: "Questionnaire",
               },
