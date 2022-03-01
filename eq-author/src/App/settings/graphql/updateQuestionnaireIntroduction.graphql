@@ -1,0 +1,8 @@
+mutation UpdateQuestionnaireIntroduction(
+  $input: UpdateQuestionnaireIntroductionInput!
+) {
+  updateQuestionnaireIntroduction(input: $input) {
+    id
+    showOnHub
+  }
+}

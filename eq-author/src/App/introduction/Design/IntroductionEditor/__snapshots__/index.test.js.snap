@@ -29,6 +29,7 @@ exports[`IntroductionEditor should render 1`] = `
         size="large"
         testSelector="txt-intro-title"
         value="title"
+        withoutMargin={false}
       />
       <div>
         <IntroductionEditor__HorizontalSeparator />
