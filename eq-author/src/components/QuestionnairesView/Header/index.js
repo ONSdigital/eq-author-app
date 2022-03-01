@@ -18,6 +18,13 @@ const Title = styled.h1`
   text-color: ${colors.black};
 `;
 
+const CreateQuestionnaireButton = styled(Button)`
+  height: fit-content;
+  .button-text {
+    padding: 0.6em 0.7em;
+  }
+`;
+
 const Wrapper = styled.div`
   margin: 1em 0 1.5em;
   display: flex;
@@ -51,9 +58,12 @@ const Header = ({
 
         {canCreateQuestionnaire && (
           <Theme themeName={"ons"}>
-            <Button onClick={handleModalOpen} data-test="create-questionnaire">
+            <CreateQuestionnaireButton
+              onClick={handleModalOpen}
+              data-test="create-questionnaire"
+            >
               Create questionnaire
-            </Button>
+            </CreateQuestionnaireButton>
           </Theme>
         )}
       </Wrapper>

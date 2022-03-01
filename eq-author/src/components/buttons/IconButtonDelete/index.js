@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { colors } from "constants/theme";
 
 import IconDelete from "assets/icon-delete.svg?inline";
 import IconDisabledDelete from "assets/icon-disabled-delete.svg?inline";
@@ -28,7 +29,7 @@ const DeleteButton = styled(Button).attrs({
 const IconTextColoured = styled(IconText)`
   svg {
     path {
-      fill: ${({ disabled }) => (disabled ? "#707070" : "#003e56")};
+      fill: ${({ disabled }) => (disabled ? colors.grey75 : colors.nightBlue)};
     }
   }
 `;
@@ -45,7 +46,6 @@ const IconButtonDelete = ({
   disabledIcon,
   ...otherProps
 }) => {
-  console.log("...otherProps :>> ", otherProps);
   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
   const icon = disabledIcon ? IconDisabledDelete : IconDelete;
   return (
