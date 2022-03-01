@@ -2,72 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Theme from "contexts/themeContext";
-import Button from "/Users/omarmoulana/Desktop/repos/eq-author-app/eq-author/src/components-themed/buttons/button.js";
+import Button from "components-themed/buttons/button.js";
 import colors from "constants/theme";
 
-//Create component here
-
-const Container = styled.ul`
+const Container = styled.div`
   display: flex;
-  list-style-type: none;
-  padding-top: 1em;
+  padding-top: 0.5em;
   color: #000;
   align-items: left;
   justify-content: left;
-  padding: 0;
-  left: 0;
   text-align: left;
-  margin: 1 0 0 0;
-  left: 0;
+  margin-top: 0.4em;
   font-size: 1.5em;
-`;
-
-const Results = styled.div`
-  color: ${colors.textLight};
-  padding-top: 0.6em;
-  padding-left: 0.6em;
-  font-size: 0.8em;
-  position: absolute;
-
-  ${({ padding }) =>
-    padding === "small" &&
-    `
-    margin-left: 1em;
-  `}
-`;
-
-const PaginationItem = styled.li`
-  /* padding: 0 12px; */
-  /* height: 1em; */
-  left: 0;
-  margin: 0;
-  color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  /* box-sizing: border-box; */
-  align-items: left;
-  /* border-radius: 16px; */
-  /* line-height: 1.43; */
-  /* font-size: 13px; */
-  /* min-width: 32px; */
-  color: #000;
-  &:hover {
-    background: ${colors.darkerBlue};
-  }
-  /* text-decoration: underline; */
-  &:active {
-    color: blue;
-    background: ${colors.darkerBlue};
-  }
+  padding: 0em 0em 0em 0em;
 `;
 
 const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
-  font-size: 0.7em;
+  font-size: 0.6em;
   font-weight: normal;
   color: #000;
   border: none;
   text-decoration: underline;
-  padding: 0;
-  /* text-decoration: underline; */
   &:hover {
     background-color: ${colors.darkerBlue};
   }
@@ -75,10 +30,8 @@ const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
     color: blue;
     background-color: ${colors.darkerBlue};
   }
-
-  /* &:focus:active,
-  &:focus-visible {
-    border-color: ${colors.blue};
+  /* span {
+    padding: 0em 2em 0em 0em !important;
   } */
 `;
 
@@ -86,9 +39,9 @@ const PrevButton = styled(PaginationButton)`
   color: ${colors.oceanBlue};
   text-decoration: underline;
   font-weight: normal;
-  left: 0;
-  padding: 0;
-  margin: 0;
+  span {
+    padding: 0em 0em 0em 0em;
+  }
 `;
 
 const NextButton = styled(PaginationButton)`
@@ -108,7 +61,6 @@ const Pagination = ({
   const lastPage = pageCount;
 
   const range = (from, to) => {
-    console.log("from, to >> ", from, to);
     const pagesArray = [];
     for (let i = from; i <= to; i++) {
       pagesArray.push(i);
@@ -118,9 +70,7 @@ const Pagination = ({
 
   const pageNumbers = () => {
     const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
-    console.log("firstLeftPage :>> ", firstLeftPage);
     const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
-    console.log("lastRightPage :>> ", lastRightPage);
 
     const hasLeftSide = firstLeftPage > 2;
     const hasRightSide = pageCount - lastRightPage > 1;
@@ -138,7 +88,6 @@ const Pagination = ({
         // console.log("totalCount, totalNumbers :>> ", pageCount, totalNumbers);
         let rightRange = range(pageCount - totalItems + 1, pageCount);
         // let rightRange = range(firstLeftPage, lastRightPage);
-        console.log("rightRange.toString() :>> ", rightRange.toString());
         return [firstPage, "...", ...rightRange];
       }
       case !hasLeftSide && hasRightSide: {
@@ -159,17 +108,15 @@ const Pagination = ({
   return (
     <Theme themeName={"ons"}>
       <Container>
-        <PaginationItem>
-          <PrevButton
-            variant="ghost-white"
-            data-test="prev-page-btn"
-            noBorders
-            disabled={currentPageIndex === 1}
-            onClick={() => onPageChange(currentPageIndex - 1)}
-          >
-            Previous
-          </PrevButton>
-        </PaginationItem>
+        <PrevButton
+          variant="ghost-white"
+          data-test="prev-page-btn"
+          noBorders
+          disabled={currentPageIndex === 1}
+          onClick={() => onPageChange(currentPageIndex - 1)}
+        >
+          Previous
+        </PrevButton>
         {pages.map((key, index) => {
           return (
             <PaginationButton
@@ -182,17 +129,15 @@ const Pagination = ({
             </PaginationButton>
           );
         })}
-        <PaginationItem>
-          <NextButton
-            variant="ghost-white"
-            data-test="next-page-btn"
-            noBorders
-            disabled={currentPageIndex === lastPage}
-            onClick={() => onPageChange(currentPageIndex + 1)}
-          >
-            Next
-          </NextButton>
-        </PaginationItem>
+        <NextButton
+          variant="ghost-white"
+          data-test="next-page-btn"
+          noBorders
+          disabled={currentPageIndex === lastPage}
+          onClick={() => onPageChange(currentPageIndex + 1)}
+        >
+          Next
+        </NextButton>
       </Container>
     </Theme>
   );

@@ -6,6 +6,7 @@ import Pagination from "./PaginationNav";
 
 const wrapper = styled.div`
   display: flex;
+  padding-top: 0.3em !important;
   list-style-type: none;
   color: #000;
   align-items: center;
