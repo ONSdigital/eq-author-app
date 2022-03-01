@@ -1,5 +1,5 @@
 const checkIntroductionShowOnHub = (questionnaire) => {
-  if (!questionnaire.hub) {
+  if (questionnaire.introduction && !questionnaire.hub) {
     questionnaire.introduction.showOnHub = false;
   }
 };
