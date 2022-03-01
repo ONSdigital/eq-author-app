@@ -157,7 +157,8 @@ const CollectionListsPage = ({
             <br />
             <Bullet>2.</Bullet> Add the answers you need to collect that will
             make up each item on the list, for example adding two text field
-            answer types to collect the respondents first name and last name.
+            answer types to collect the respondent&apos;s first name and last
+            name.
             <br />
             <Bullet>3.</Bullet> In the questionnaire add a List collector page
             via the add/import menu.
