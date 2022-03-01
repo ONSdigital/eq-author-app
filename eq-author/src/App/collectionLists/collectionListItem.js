@@ -36,12 +36,10 @@ const ListInput = styled(WrappingInput)`
 `;
 
 const ListItem = styled.div`
-  ${"" /* border: 1px solid ${colors.bordersLight}; */}
   position: relative;
   background: ${colors.white};
   &:focus-within {
     border-color: ${colors.blue};
-    ${"" /* box-shadow: 0 0 0 1px ${colors.blue}; */}
   }
   margin: 0 0 1em;
 `;
