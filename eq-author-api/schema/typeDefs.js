@@ -658,6 +658,7 @@ type QuestionnaireIntroduction {
   contactDetailsEmailAddress: String
   contactDetailsEmailSubject: String
   contactDetailsIncludeRuRef: Boolean
+  showOnHub: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   secondaryTitle: String!
@@ -1428,18 +1429,19 @@ input DeleteQuestionConfirmationInput {
 
 input UpdateQuestionnaireIntroductionInput {
   id: ID!
-  title: String!
+  title: String
   contactDetailsPhoneNumber: String
   contactDetailsEmailAddress: String
   contactDetailsEmailSubject: String
   contactDetailsIncludeRuRef: Boolean
-  additionalGuidancePanelSwitch: Boolean!
+  showOnHub: Boolean
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  description: String!
-  secondaryTitle: String!
-  secondaryDescription: String!
-  tertiaryTitle: String!
-  tertiaryDescription: String!
+  description: String
+  secondaryTitle: String
+  secondaryDescription: String
+  tertiaryTitle: String
+  tertiaryDescription: String
 }
 
 input CreateCollapsibleInput {

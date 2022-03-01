@@ -4,6 +4,14 @@ import { shallow } from "enzyme";
 import { IntroductionEditor } from "./";
 
 import { contactDetailsErrors } from "constants/validationMessages";
+import { useParams } from "react-router-dom";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useLocation: jest.fn(),
+  useMatch: jest.fn(),
+  useParams: jest.fn(),
+}));
 
 describe("IntroductionEditor", () => {
   let props;
@@ -32,6 +40,11 @@ describe("IntroductionEditor", () => {
       onChangeUpdate: jest.fn(),
       updateQuestionnaireIntroduction: jest.fn(),
     };
+
+    useParams.mockImplementation(() => ({
+      questionnaireId: "questionnaire-1",
+      introductionId: "1",
+    }));
   });
 
   const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;

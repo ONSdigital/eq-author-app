@@ -123,6 +123,11 @@ const moveSectionMock = {
         shortTitle: "Short tile",
         permission: WRITE,
         isPublic: true,
+        introduction: {
+          id: "1",
+          showOnHub: false,
+          __typename: "Introduction",
+        },
         createdBy: {
           id: "1",
           name: "Some user",

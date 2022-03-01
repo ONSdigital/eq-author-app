@@ -25,11 +25,7 @@ import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
 <Canvas>
   <Story name="Success">
     <Theme themeName={"ons"}>
-      <Panel
-        variant="success"
-        headerLabel="boom"
-        withLeftBorder
-      >
+      <Panel variant="success" headerLabel="boom" withLeftBorder>
         Information has been successfully submitted.
       </Panel>
     </Theme>
@@ -46,9 +42,13 @@ import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
         headerLabel="There are 2 problems with your answer"
         paragraphLabel="Error with header"
       >
-      <ol>
-        <li><a href="test">Enter a number</a></li>
-        <li><a href="test">Enter a number less than or equal to 100</a></li>
+        <ol>
+          <li>
+            <a href="test">Enter a number</a>
+          </li>
+          <li>
+            <a href="test">Enter a number less than or equal to 100</a>
+          </li>
         </ol>
       </Panel>
     </Theme>
@@ -66,6 +66,18 @@ import iconCheckbox from "../../assets/icon-panel-checkbox.svg";
         withLeftBorder
       >
         Text
+      </Panel>
+    </Theme>
+  </Story>
+</Canvas>
+
+## Warning
+
+<Canvas>
+  <Story name="Warning">
+    <Theme themeName={"ons"}>
+      <Panel variant="warning">
+        All of the information about this person will be deleted
       </Panel>
     </Theme>
   </Story>

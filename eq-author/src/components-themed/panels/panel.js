@@ -55,6 +55,14 @@ const successPanel = css`
   padding: 1rem;
 `;
 
+const Flex = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-weight: ${({ bold }) => bold && "bold"};
+  font-size: ${({ fontSize }) => fontSize};
+`;
+
 const HeaderLabel = styled.h2`
   font-size: ${({ theme }) => theme.fontSize};
   padding: 0;
@@ -94,6 +102,20 @@ const SpanIcon = styled.span`
   padding-left: 1rem;
   position: absolute;
   box-sizing: border-box;
+`;
+
+const WarningIcon = styled.div`
+  height: 2rem;
+  width: 2rem;
+  line-height: 2rem;
+  background-color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 50%;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-right: 1rem;
 `;
 
 const Container = styled.div`
@@ -155,6 +177,12 @@ const Panel = ({
           </SpanIcon>
         </SuccessPanelIconContainer>
       )}
+      {variant === "warning" && (
+        <Flex bold fontSize="18px">
+          <WarningIcon>!</WarningIcon>
+          {children}
+        </Flex>
+      )}
       <Container variant={variant}>
         {paragraphLabel && (
           <PanelParagraphTitle variant={variant} withList={withList}>
@@ -176,7 +204,7 @@ const Panel = ({
             )}
           </PanelParagraphTitle>
         )}
-        {children}
+        {variant !== "warning" && children}
       </Container>
     </StyledPanel>
   );
