@@ -153,7 +153,7 @@ const CollectionListsPage = ({
           </Text>
           <Text>
             <Bullet>1.</Bullet> Go to the Collection Lists page on the left hand
-            menu and Create a collection list and give it a relevant name.
+            menu and create a collection list and give it a relevant name.
             <br />
             <Bullet>2.</Bullet> Add the answers you need to collect that will
             make up each item on the list, for example adding two text field
