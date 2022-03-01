@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  margin: 0 0 0em;
+  margin: 0;
   ${({ isOpen }) => isOpen && `margin: 0 0 1em;`}
   ${({ variant }) =>
     variant === "content" &&
