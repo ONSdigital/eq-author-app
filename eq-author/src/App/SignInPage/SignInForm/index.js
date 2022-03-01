@@ -185,9 +185,11 @@ const SignInForm = ({
           Sign in
         </Button>
       </Field>
-      <ButtonLink onClick={handleCreateAccount}>
-        Create an Author account
-      </ButtonLink>
+      <Field>
+        <ButtonLink onClick={handleCreateAccount}>
+          Create an Author account
+        </ButtonLink>
+      </Field>
     </>
   );
 };
