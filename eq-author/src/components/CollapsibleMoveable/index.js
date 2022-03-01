@@ -110,6 +110,7 @@ const Collapsible = ({
               }}
               aria-label={"Move item up"}
               data-test="btn-move-up"
+              tabIndex="-1"
             >
               <IconUp />
             </MoveButton>
@@ -128,6 +129,7 @@ const Collapsible = ({
               }}
               aria-label={"Move item down"}
               data-test="btn-move-down"
+              tabIndex="-1"
             >
               <IconDown />
             </MoveButton>
