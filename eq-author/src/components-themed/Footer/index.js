@@ -9,6 +9,7 @@ const DefaultFooter = styled.div`
   background-color: ${({ theme }) => theme.colors.textBannerLink};
   padding: ${({ centerCols }) =>
     centerCols === 9 ? "1.5rem 0 3rem 1rem" : "1.5rem 0 3rem 0"};
+  height: 95px;
 `;
 
 const Footer = ({ centerCols }) => {

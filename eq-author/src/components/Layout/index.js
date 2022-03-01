@@ -1,6 +1,7 @@
 import React from "react";
 import { Titled } from "react-titled";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import ScrollPane from "components/ScrollPane";
 import BaseLayout from "components/BaseLayout";
@@ -10,6 +11,13 @@ import Header from "components-themed/Header/index.js";
 import { ReactComponent as Logo } from "assets/ons-logo.svg";
 import Footer from "components-themed/Footer";
 import { Grid, Column } from "components/Grid";
+
+const GridAuto = styled(Grid)`
+  height: auto;
+  min-height: 100%;
+  margin-bottom: -95px;
+  padding-bottom: 95px;
+`;
 
 const Layout = ({ title, children }) => (
   <Titled title={() => title}>
@@ -24,11 +32,11 @@ const Layout = ({ title, children }) => (
           {title}
         </Header>
         <ScrollPane>
-          <Grid horizontalAlign="center">
+          <GridAuto horizontalAlign="center">
             <Column cols={9}>{children}</Column>
-          </Grid>
+          </GridAuto>
+          <Footer centerCols={9} />
         </ScrollPane>
-        <Footer centerCols={9} />
       </Theme>
     </BaseLayout>
   </Titled>
