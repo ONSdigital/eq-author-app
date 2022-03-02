@@ -80,36 +80,6 @@ const DeleteTooltip = ({ children }) => (
   </Tooltip>
 );
 
-// const DeleteButton = styled(Button).attrs({
-//   variant: "tertiary",
-//   small: true,
-// })`
-//   .lid {
-//     transform-origin: 50% 50%;
-//     transition: all 200ms ease-out;
-//   }
-
-//   &:focus,
-//   &:hover {
-//     .lid {
-//       transform: translateY(-1px) rotate(6deg);
-//     }
-//   }
-// `;
-
-// const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
-//   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
-//   return (
-//     <Wrapper>
-//       <DeleteButton title="Delete" {...otherProps}>
-//         <IconText icon={IconDelete} hideText={hideText}>
-//           {iconText}
-//         </IconText>
-//       </DeleteButton>
-//     </Wrapper>
-//   );
-// };
-
 export const ShortTitle = styled.span`
   color: ${colors.grey80};
   text-decoration-color: ${colors.grey80};

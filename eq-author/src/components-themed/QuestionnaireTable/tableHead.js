@@ -31,7 +31,6 @@ const Thead = styled.thead`
 const TH = styled.th`
   color: ${colors.grey80};
   width: ${(props) => props.colWidth};
-
   font-weight: 700;
   font-size: 0.9em;
 
@@ -41,6 +40,7 @@ const TH = styled.th`
   }
   :last-child {
     border-top-right-radius: ${radius};
+    padding-left: 1.3em;
   }
 
   &:first-child > * {
@@ -56,7 +56,6 @@ TH.propTypes = {
 const SortButton = styled(Button)`
   display: block;
   cursor: pointer;
-  opacity: 0.8;
   padding: 0.5em;
   background-color: transparent;
   color: inherit;
@@ -132,7 +131,8 @@ SortableTH.propTypes = {
 };
 
 const UnsortableTH = styled(TH)`
-  padding: 1em;
+  padding: 0.5em;
+  margin-top: 0.2em;
 `;
 
 const renderHeading = (props, { heading, sortColumn, colWidth, sortable }) =>

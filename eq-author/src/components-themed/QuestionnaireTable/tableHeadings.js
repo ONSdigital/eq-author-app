@@ -39,7 +39,7 @@ const tableHeadings = [
   },
   {
     heading: Headings.ACCESS,
-    colWidth: "8%",
+    colWidth: "10%",
     sortColumn: "starred",
     sortable: true,
   },
