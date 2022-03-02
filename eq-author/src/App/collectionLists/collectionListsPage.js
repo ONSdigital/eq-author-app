@@ -72,10 +72,6 @@ const AddListCollectionButton = styled(Button)`
   padding: 1rem;
 `;
 
-const Bullet = styled.span`
-  font-weight: bold;
-`;
-
 const CollectionListsPage = ({
   onUpdateAnswer,
   onAddOption,
