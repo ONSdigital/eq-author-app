@@ -131,8 +131,7 @@ SortableTH.propTypes = {
 };
 
 const UnsortableTH = styled(TH)`
-  padding: 0.5em;
-  margin-top: 0.2em;
+  padding: 0.4em;
 `;
 
 const renderHeading = (props, { heading, sortColumn, colWidth, sortable }) =>

@@ -12,13 +12,6 @@ const ToolTip = ({ children }) => (
     {children}
   </Tooltip>
 );
-const IconTextColoured = styled(IconText)`
-  svg {
-    path {
-      fill: #003e56;
-    }
-  }
-`;
 
 const DuplicateButton = ({
   onClick,
@@ -45,9 +38,9 @@ const DuplicateButton = ({
       {...props}
       disabled={buttonClicked || disabled}
     >
-      <IconTextColoured icon={IconCopy} hideText={hideText}>
+      <IconText icon={IconCopy} hideText={hideText}>
         {children || "Duplicate"}
-      </IconTextColoured>
+      </IconText>
     </Button>
   );
 

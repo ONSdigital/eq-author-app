@@ -8,6 +8,7 @@ import IconDisabledDelete from "assets/icon-disabled-delete.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import Tooltip from "components/Forms/Tooltip";
+import { colors } from "constants/theme";
 
 const DeleteButton = styled(Button).attrs({
   variant: "tertiary",
@@ -22,14 +23,6 @@ const DeleteButton = styled(Button).attrs({
   &:hover {
     .lid {
       transform: translateY(-1px) rotate(6deg);
-    }
-  }
-`;
-
-const IconTextColoured = styled(IconText)`
-  svg {
-    path {
-      fill: ${({ disabled }) => (disabled ? colors.grey75 : colors.nightBlue)};
     }
   }
 `;
@@ -51,13 +44,9 @@ const IconButtonDelete = ({
   return (
     <Wrapper>
       <DeleteButton title="Delete" {...otherProps}>
-        <IconTextColoured
-          icon={icon}
-          disabled={disabledIcon}
-          hideText={hideText}
-        >
+        <IconText icon={icon} disabled={disabledIcon} hideText={hideText}>
           {iconText}
-        </IconTextColoured>
+        </IconText>
       </DeleteButton>
     </Wrapper>
   );
