@@ -8,7 +8,7 @@ import PaginationNav from "./PaginationNav";
 
 const Wrapper = styled.div`
   display: flex;
-  padding-top: 1em;
+  padding: 1em 0;
   align-items: center;
 `;
 
