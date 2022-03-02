@@ -29,16 +29,22 @@ const ToggleWrapper = styled.div`
   align-items: center;
   margin: 0;
   background-color: ${colors.darkerBlue};
+`;
 
-  &::before {
-    content: "";
-    background: url(${chevron});
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    transform-origin: 50% 50%;
-    transition: transform 200ms ease-out;
-    transform: rotate(${({ isOpen }) => (isOpen ? "0deg" : "-90deg")});
+const ToggleArrow = styled.div`
+  content: "";
+  background: url(${chevron});
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  transform-origin: 50% 50%;
+  transition: transform 200ms ease-out;
+  transform: rotate(${({ isOpen }) => (isOpen ? "0deg" : "-90deg")});
+
+  &:hover {
+    filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(90%)
+      contrast(90%);
+    cursor: pointer;
   }
 `;
 
@@ -90,11 +96,12 @@ const Collapsible = ({
   return (
     <Wrapper className={className} hasError={hasError} data-test="collapsible">
       <Header className="collapsible-header" data-test="collapsible-header">
-        <ToggleWrapper
-          onClick={() => setIsOpen(!isOpen)}
-          isOpen={isOpen}
-          data-test="collapsible-toggle-button"
-        >
+        <ToggleWrapper>
+          <ToggleArrow
+            onClick={() => setIsOpen(!isOpen)}
+            isOpen={isOpen}
+            data-test="collapsible-toggle-button"
+          />
           <Title>{title}</Title>
           <Tooltip
             content="Move item up"
