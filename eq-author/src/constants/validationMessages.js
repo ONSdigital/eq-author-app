@@ -72,7 +72,7 @@ export const sectionErrors = {
 };
 
 export const listErrors = {
-  LISTNAME_MISSING: "Enter a listname",
+  LISTNAME_MISSING: "List name required",
 };
 
 export const textAreaErrors = {
