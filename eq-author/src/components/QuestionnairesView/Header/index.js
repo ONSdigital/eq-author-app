@@ -20,6 +20,7 @@ const Title = styled.h1`
 
 const CreateQuestionnaireButton = styled(Button)`
   height: fit-content;
+  margin-left: 1.5em;
   .button-text {
     padding: 0.6em 0.7em;
   }

@@ -85,6 +85,9 @@ const DeleteButton = styled(IconButtonDelete)`
         disabledIcon ? colors.grey75 : colors.nightBlue};
     }
   }
+  .lid {
+    fill: ${colors.nightBlue};
+  }
 `;
 
 export const ShortTitle = styled.span`

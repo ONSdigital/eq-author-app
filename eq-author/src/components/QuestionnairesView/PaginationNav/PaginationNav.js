@@ -27,7 +27,6 @@ const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
   border: none;
   text-decoration: underline;
   background-color: ${({ selected }) => selected && colors.nightBlue};
-
   &:focus {
     background-color: unset !important;
     color: ${colors.oceanBlue};
@@ -90,7 +89,6 @@ const Pagination = ({
   const pageNumbers = () => {
     const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
     const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
-
     const hasLeftSide = firstLeftPage > 2;
     const hasRightSide = pageCount - lastRightPage > 1;
 
@@ -104,7 +102,6 @@ const Pagination = ({
       case hasLeftSide && !hasRightSide: {
         //1 ... 5, 6, 7, 8, 9, 10
         // 3,  7
-        // console.log("totalCount, totalNumbers :>> ", pageCount, totalNumbers);
         let rightRange = range(pageCount - totalItems + 1, pageCount);
         // let rightRange = range(firstLeftPage, lastRightPage);
         return [firstPage, "...", ...rightRange];
@@ -135,6 +132,7 @@ const Pagination = ({
         >
           Previous
         </PrevButton>
+
         {pageNumbers().map((key, index) => {
           if (key === "...") {
             return <DotsItems>...</DotsItems>;
@@ -150,6 +148,7 @@ const Pagination = ({
             );
           }
         })}
+
         <NextButton
           variant="ghost-white"
           data-test="next-page-btn"
