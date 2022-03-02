@@ -17,19 +17,29 @@ const DotsItems = styled.li`
   display: flex;
   padding: 0.7em 1em 0.8em;
   font-weight: normal;
-  font-size: 0.6em;
+  font-size: 0.7em;
 `;
 
 const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
-  font-size: 0.6em;
+  font-size: 0.7em;
   font-weight: normal;
   color: ${colors.oceanBlue};
   border: none;
   text-decoration: underline;
-  &:hover,
-  &:active {
-    background-color: ${colors.darkerBlue};
-    color: white;
+  background-color: ${({ selected }) => selected && colors.nightBlue};
+
+  &:focus {
+    background-color: unset !important;
+    color: ${colors.oceanBlue};
+  }
+  &:hover {
+    color: ${colors.oceanBlue};
+  }
+  &:active:focus {
+    color: ${colors.oceanBlue};
+  }
+  &:focus:hover:not(:active) {
+    color: ${colors.oceanBlue};
   }
 `;
 
@@ -78,7 +88,6 @@ const Pagination = ({
   };
 
   const pageNumbers = () => {
-    console.log("lastPage :>> ", lastPage);
     const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
     const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
 
@@ -113,7 +122,6 @@ const Pagination = ({
       }
     }
   };
-  const pages = pageNumbers();
 
   return (
     <Theme themeName={"ons"}>
@@ -127,16 +135,15 @@ const Pagination = ({
         >
           Previous
         </PrevButton>
-        {pages.map((key, index) => {
+        {pageNumbers().map((key, index) => {
           if (key === "...") {
             return <DotsItems>...</DotsItems>;
           } else {
             return (
               <PaginationButton
                 key={index}
-                selected={index === currentPageIndex}
+                selected={key === currentPageIndex}
                 onClick={() => onPageChange(key)}
-                value={key}
               >
                 {key}
               </PaginationButton>

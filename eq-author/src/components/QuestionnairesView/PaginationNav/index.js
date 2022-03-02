@@ -22,11 +22,11 @@ const PaginationNavTable = ({
 }) => (
   <>
     <Result>
-      Page {currentPageIndex + 1} of {pageCount}
+      Page {currentPageIndex} of {pageCount - 1}
     </Result>
     <Pagination
       currentPageIndex={currentPageIndex}
-      pageCount={pageCount}
+      pageCount={pageCount - 1}
       onPageChange={onPageChange}
       totalCount={totalCount}
     />

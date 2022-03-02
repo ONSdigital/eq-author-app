@@ -13,7 +13,6 @@ import DuplicateButton from "components/buttons/DuplicateButton";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
 import Button from "components/buttons/Button";
-import IconText from "components/IconText";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
@@ -21,9 +20,6 @@ import * as Headings from "constants/table-headings";
 
 import FormattedDate from "./FormattedDate.js";
 import questionConfirmationIcon from "assets/icon-questionnaire.svg";
-import { ReactComponent as IconDelete } from "assets/icon-delete.svg";
-import { ReactComponent as IconDisabledDelete } from "assets/icon-disabled-delete.svg";
-import { ReactComponent as IconCopy } from "assets/icon-copy.svg";
 import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
 import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
 import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
@@ -90,35 +86,6 @@ const DeleteButton = styled(IconButtonDelete)`
     }
   }
 `;
-// const DeleteButton = styled(Button).attrs({
-//   variant: "tertiary",
-//   small: true,
-// })`
-//   .lid {
-//     transform-origin: 50% 50%;
-//     transition: all 200ms ease-out;
-//   }
-
-//   &:focus,
-//   &:hover {
-//     .lid {
-//       transform: translateY(-1px) rotate(6deg);
-//     }
-//   }
-// `;
-
-// const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
-//   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
-//   return (
-//     <Wrapper>
-//       <DeleteButton title="Delete" {...otherProps}>
-//         <IconText icon={IconDelete} hideText={hideText}>
-//           {iconText}
-//         </IconText>
-//       </DeleteButton>
-//     </Wrapper>
-//   );
-// };
 
 export const ShortTitle = styled.span`
   color: ${colors.grey80};
