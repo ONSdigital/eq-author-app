@@ -3,44 +3,48 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons/button.js";
-import colors from "constants/theme";
+import { colors } from "constants/theme";
 
 const Container = styled.div`
   display: flex;
-  padding-top: 0.5em;
-  color: #000;
-  align-items: left;
+  padding-top: 0.2em;
   justify-content: left;
   text-align: left;
-  margin-top: 0.4em;
   font-size: 1.5em;
-  padding: 0em 0em 0em 0em;
+`;
+
+const DotsItems = styled.li`
+  display: flex;
+  padding: 0.7em 1em 0.8em;
+  font-weight: normal;
+  font-size: 0.6em;
 `;
 
 const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
   font-size: 0.6em;
   font-weight: normal;
-  color: #000;
+  color: ${colors.oceanBlue};
   border: none;
   text-decoration: underline;
-  &:hover {
-    background-color: ${colors.darkerBlue};
-  }
+  &:hover,
   &:active {
-    color: blue;
     background-color: ${colors.darkerBlue};
+    color: white;
   }
-  /* span {
-    padding: 0em 2em 0em 0em !important;
-  } */
 `;
 
 const PrevButton = styled(PaginationButton)`
   color: ${colors.oceanBlue};
   text-decoration: underline;
   font-weight: normal;
+  &:hover,
+  &:active {
+    background-color: ${colors.darkerBlue};
+    color: white;
+  }
   span {
-    padding: 0em 0em 0em 0em;
+    padding: 0.7em 1em 0.8em 0em !important;
+    color: ${colors.oceanBlue};
   }
 `;
 
@@ -48,6 +52,11 @@ const NextButton = styled(PaginationButton)`
   color: ${colors.oceanBlue};
   text-decoration: underline;
   font-weight: normal;
+  &:hover,
+  &:active {
+    background-color: ${colors.darkerBlue};
+    color: white;
+  }
 `;
 
 const Pagination = ({
@@ -69,6 +78,7 @@ const Pagination = ({
   };
 
   const pageNumbers = () => {
+    console.log("lastPage :>> ", lastPage);
     const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
     const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
 
@@ -118,16 +128,20 @@ const Pagination = ({
           Previous
         </PrevButton>
         {pages.map((key, index) => {
-          return (
-            <PaginationButton
-              key={index}
-              selected={key === currentPageIndex}
-              onClick={() => onPageChange(key)}
-              value={key}
-            >
-              {key}
-            </PaginationButton>
-          );
+          if (key === "...") {
+            return <DotsItems>...</DotsItems>;
+          } else {
+            return (
+              <PaginationButton
+                key={index}
+                selected={index === currentPageIndex}
+                onClick={() => onPageChange(key)}
+                value={key}
+              >
+                {key}
+              </PaginationButton>
+            );
+          }
         })}
         <NextButton
           variant="ghost-white"
