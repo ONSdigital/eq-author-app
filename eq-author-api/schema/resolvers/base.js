@@ -1339,6 +1339,9 @@ const Resolvers = {
   List: {
     answers: (list) => list.answers,
     displayName: ({ listName }) => listName || "Untitled list",
+    metadata: (_, args, ctx) => {
+      return ctx.questionnaire.metadata;
+    },
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },

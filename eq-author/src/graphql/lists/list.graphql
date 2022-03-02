@@ -11,4 +11,10 @@ fragment List on List {
   validationErrorInfo {
     ...ValidationErrorInfo
   }
+  metadata {
+    id
+    displayName
+    key
+    type
+  }
 }

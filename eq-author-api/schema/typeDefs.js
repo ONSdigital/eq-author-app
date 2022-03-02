@@ -117,6 +117,7 @@ type List {
   displayName: String
   answers: [Answer]
   validationErrorInfo: ValidationErrorInfo
+  metadata: [Metadata]
 }
 
 enum LegalBasisCode {

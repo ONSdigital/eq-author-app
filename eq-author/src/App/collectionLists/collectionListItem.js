@@ -62,7 +62,7 @@ const CollectionListItem = ({
   handleDeleteOption,
   list,
 }) => {
-  const { id, displayName, listName, answers } = list;
+  const { id, displayName, listName, answers, metadata } = list;
   const [tempListName, setListName] = useState(listName);
   useEffect(() => {
     setListName(listName);
@@ -109,7 +109,7 @@ const CollectionListItem = ({
                 onUpdateOption={handleUpdateOption}
                 onDeleteOption={handleDeleteOption}
                 multipleAnswers={multipleAnswers}
-                // metadata={metadata}
+                metadata={metadata}
                 page={list}
               />
             </AnswerEditorWrapper>

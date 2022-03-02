@@ -74,6 +74,7 @@ describe("List Collector page", () => {
                   listName: null,
                   displayName: "Untitled list",
                   answers: [],
+                  metadata: [],
                   validationErrorInfo: {
                     errors: [
                       {
