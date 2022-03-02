@@ -23,6 +23,28 @@ import withCreateOption from "App/page/Design/answers/withCreateOption";
 import withUpdateOption from "App/page/Design/answers/withUpdateOption";
 import withDeleteOption from "App/page/Design/answers/withDeleteOption";
 
+const List = styled.ol`
+  margin: 0 0 1.5em;
+  padding: 0;
+  counter-reset: item;
+`;
+
+const ListItem = styled.li`
+  margin: 0;
+  padding: 0 0 0.25em 2em;
+  text-indent: -1.5em;
+  list-style-type: none;
+  counter-increment: item;
+  &:before {
+    display: inline-block;
+    width: 1.5em;
+    padding-right: 0.5em;
+    font-weight: bold;
+    text-align: right;
+    content: counter(item) ".";
+  }
+`;
+
 const Text = styled.p``;
 
 const Container = styled.div`
@@ -151,43 +173,49 @@ const CollectionListsPage = ({
             To create the list collector pattern in Author we do this in the
             following steps:
           </Text>
-          <Text>
-            <Bullet>1.</Bullet> Go to the Collection Lists page on the left hand
-            menu and create a collection list and give it a relevant name.
-            <br />
-            <Bullet>2.</Bullet> Add the answers you need to collect that will
-            make up each item on the list, for example adding two text field
-            answer types to collect the respondent&apos;s first name and last
-            name.
-            <br />
-            <Bullet>3.</Bullet> In the questionnaire add a List collector page
-            via the add/import menu.
-            <br />
-            <Bullet>4.</Bullet> The List collector page is made up of two
-            questions which repeat until there is nothing else to add to the
-            list, for example does anyone else live in the household, if there
-            is then what is their name. The first question is on the List
-            collector page which has a radio option. Enter the question and
-            answer labels.
-            <br />
-            <Bullet>5.</Bullet> In the answers list area you must select a list
-            from the dropdown menu, this menu will show any lists that have been
-            created in the Collection lists page. Select the relevant list.
-            <br />
-            <Bullet>6.</Bullet> Once the list is selected a list summary area
-            appears along with another question field. The List summary will
-            display answers for each label shown, you can remove these labels
-            but must keep at least one.
-            <br />
-            <Bullet>7.</Bullet> Enter a question in the Add to list question
-            field, this is the second question that gets repeated, for example
-            who do you need to add?
-            <br />
-            <Bullet>8.</Bullet> When you view this page using the Preview tab,
-            both of these repeating questions will be shown, the respondent will
-            see one question at a time.
-            <br />
-          </Text>
+          <List>
+            <ListItem>
+              Go to the Collection Lists page on the left hand menu and create a
+              collection list and give it a relevant name.
+            </ListItem>
+            <ListItem>
+              Add the answers you need to collect that will make up each item on
+              the list, for example adding two text field answer types to
+              collect the respondent&apos;s first name and last name.
+            </ListItem>
+            <ListItem>
+              In the questionnaire add a List collector page via the add/import
+              menu.
+            </ListItem>
+            <ListItem>
+              The List collector page is made up of two questions which repeat
+              until there is nothing else to add to the list, for example does
+              anyone else live in the household, if there is then what is their
+              name. The first question is on the List collector page which has a
+              radio option. Enter the question and answer labels.
+            </ListItem>
+            <ListItem>
+              In the answers list area you must select a list from the dropdown
+              menu, this menu will show any lists that have been created in the
+              Collection lists page. Select the relevant list.
+            </ListItem>
+            <ListItem>
+              Once the list is selected a list summary area appears along with
+              another question field. The List summary will display answers for
+              each label shown, you can remove these labels but must keep at
+              least one.
+            </ListItem>
+            <ListItem>
+              Enter a question in the Add to list question field, this is the
+              second question that gets repeated, for example who do you need to
+              add?
+            </ListItem>
+            <ListItem>
+              When you view this page using the Preview tab, both of these
+              repeating questions will be shown, the respondent will see one
+              question at a time.
+            </ListItem>
+          </List>
         </Collapsible>
         <AddListCollectionButton
           variant="secondary"
