@@ -109,7 +109,7 @@ const CollectionListItem = ({
                 onUpdateOption={handleUpdateOption}
                 onDeleteOption={handleDeleteOption}
                 multipleAnswers={multipleAnswers}
-                metadata={metadata}
+                // metadata={metadata}
                 page={list}
               />
             </AnswerEditorWrapper>
