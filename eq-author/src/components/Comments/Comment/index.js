@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { useMe } from "App/MeContext";
 
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
@@ -14,6 +15,7 @@ import REPLY_DELETE from "./graphql/deleteReply.graphql";
 import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
 import CommentEditor from "components/Comments/CommentEditor";
+import CommentHighlight from "components/Comments/CommentHighlight";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
@@ -134,15 +136,19 @@ const Comment = ({
   datePosted,
   dateModified,
   commentText,
+  readBy,
   isReply = false,
   canEdit = false,
   canDelete = false,
 }) => {
+  const { me } = useMe();
   const [updateComment] = useMutation(COMMENT_UPDATE);
   const [deleteComment] = useMutation(COMMENT_DELETE);
 
   const [updateReply] = useMutation(REPLY_UPDATE);
   const [deleteReply] = useMutation(REPLY_DELETE);
+
+  // console.log("readBy", readBy);
 
   const [editing, setEditing] = useState(false);
 
@@ -171,12 +177,13 @@ const Comment = ({
               componentId: subjectId,
               commentId: id,
               commentText,
+              readBy: me.id,
             },
           },
         });
       }
     },
-    [id, subjectId, rootId, isReply, updateComment, updateReply]
+    [id, subjectId, rootId, isReply, me, updateComment, updateReply]
   );
 
   const onDeleteComment = useCallback(() => {
@@ -203,65 +210,67 @@ const Comment = ({
   }, [id, subjectId, rootId, isReply, deleteReply, deleteComment]);
 
   return (
-    <Wrapper data-test="Comment">
-      <Header data-test="Comment__Header">
-        <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
-        <ColumnWrapper>
-          <Author data-test="Comment__Author">{authorName}</Author>
-          <Date data-test="Comment__DatePosted">
-            {moment(datePosted).calendar()}
-          </Date>
-        </ColumnWrapper>
-        <RightButtonGroup>
-          {canEdit && (
-            <IconButton
-              data-test="Comment__EditCommentBtn"
-              icon={iconEdit}
-              onClick={() => {
-                setEditing(true);
-              }}
-            >
-              Edit comment
-            </IconButton>
-          )}
+    <CommentHighlight>
+      <Wrapper data-test="Comment">
+        <Header data-test="Comment__Header">
+          <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
+          <ColumnWrapper>
+            <Author data-test="Comment__Author">{authorName}</Author>
+            <Date data-test="Comment__DatePosted">
+              {moment(datePosted).calendar()}
+            </Date>
+          </ColumnWrapper>
+          <RightButtonGroup>
+            {canEdit && (
+              <IconButton
+                data-test="Comment__EditCommentBtn"
+                icon={iconEdit}
+                onClick={() => {
+                  setEditing(true);
+                }}
+              >
+                Edit comment
+              </IconButton>
+            )}
 
-          {canDelete && (
-            <IconButton
-              data-test="Comment__DeleteCommentBtn"
-              icon={iconClose}
-              onClick={() => onDeleteComment()}
-            >
-              Delete comment
-            </IconButton>
+            {canDelete && (
+              <IconButton
+                data-test="Comment__DeleteCommentBtn"
+                icon={iconClose}
+                onClick={() => onDeleteComment()}
+              >
+                Delete comment
+              </IconButton>
+            )}
+          </RightButtonGroup>
+        </Header>
+        <Body data-test="Comment__Body">
+          {editing ? (
+            <CommentEditor
+              data-test="Comment__CommentEditor"
+              canClose
+              confirmText={"Save"}
+              initialValue={commentText}
+              variant={"growable"}
+              onConfirm={(commentText) => {
+                onUpdateComment(commentText);
+                setEditing(false);
+              }}
+              onCancel={() => {
+                setEditing(false);
+              }}
+            />
+          ) : (
+            <Text data-test="Comment__CommentText">{commentText}</Text>
           )}
-        </RightButtonGroup>
-      </Header>
-      <Body data-test="Comment__Body">
-        {editing ? (
-          <CommentEditor
-            data-test="Comment__CommentEditor"
-            canClose
-            confirmText={"Save"}
-            initialValue={commentText}
-            variant={"growable"}
-            onConfirm={(commentText) => {
-              onUpdateComment(commentText);
-              setEditing(false);
-            }}
-            onCancel={() => {
-              setEditing(false);
-            }}
-          />
-        ) : (
-          <Text data-test="Comment__CommentText">{commentText}</Text>
-        )}
-        {dateModified && (
-          <Date data-test="Comment__DateModified">{`Edited: ${moment(
-            dateModified
-          ).calendar()}`}</Date>
-        )}
-      </Body>
-    </Wrapper>
+          {dateModified && (
+            <Date data-test="Comment__DateModified">{`Edited: ${moment(
+              dateModified
+            ).calendar()}`}</Date>
+          )}
+        </Body>
+      </Wrapper>
+    </CommentHighlight>
   );
 };
 

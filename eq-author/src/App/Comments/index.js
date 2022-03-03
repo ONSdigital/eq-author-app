@@ -106,6 +106,8 @@ const CommentsPanel = ({ componentId }) => {
 
   const { comments } = data;
 
+  console.log("comments", comments);
+
   const formatName = (name) =>
     name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
 
@@ -118,6 +120,7 @@ const CommentsPanel = ({ componentId }) => {
     id,
     user,
     commentText,
+    readBy,
     createdTime,
     editedTime,
   }) => ({
@@ -125,6 +128,7 @@ const CommentsPanel = ({ componentId }) => {
     authorName: formatName(user.displayName) || user.name || "",
     canEdit: user.id === me.id,
     canDelete: user.id === me.id,
+    readBy,
     datePosted: createdTime,
     dateModified: editedTime,
     commentText,
@@ -211,6 +215,7 @@ const CommentsPanel = ({ componentId }) => {
               input: {
                 componentId,
                 commentText,
+                readBy: me.id,
               },
             },
           })

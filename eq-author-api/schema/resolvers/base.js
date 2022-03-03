@@ -1084,6 +1084,7 @@ const Resolvers = {
         userId: ctx.user.id,
         createdTime: new Date(),
         replies: [],
+        readBy: [],
       };
 
       const componentComments = questionnaireComments.comments[componentId];

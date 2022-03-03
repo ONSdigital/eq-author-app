@@ -27,6 +27,9 @@ mutation createComment($input: CreateCommentInput!) {
         displayName
       }
     }
+    readBy: {
+      id
+    }
   }
 }`;
 

@@ -24,5 +24,8 @@ query Comments($componentId: ID!) {
         displayName
       }
     }
+    readBy {
+      id
+    }
   }
 }
