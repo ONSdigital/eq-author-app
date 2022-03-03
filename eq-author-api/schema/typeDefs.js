@@ -60,7 +60,7 @@ type Questionnaire {
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
-  lists: [List]
+  collectionLists: CollectionLists
   sections: [Section]
   summary: Boolean
   collapsibleSummary: Boolean
@@ -95,6 +95,11 @@ enum HistoryEventTypes {
   note
 }
 
+type CollectionLists {
+  id: ID!
+  lists: [List]
+}
+
 type Theme {
   id: ID!
   enabled: Boolean!
@@ -112,6 +117,7 @@ type List {
   displayName: String
   answers: [Answer]
   validationErrorInfo: ValidationErrorInfo
+  metadata: [Metadata]
 }
 
 enum LegalBasisCode {
@@ -271,6 +277,7 @@ interface Answer {
   secondaryLabelDefault: String
   type: AnswerType!
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
 }
@@ -288,6 +295,7 @@ type BasicAnswer implements Answer {
   type: AnswerType!
   options: [Option]
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
   validation: ValidationType
@@ -308,6 +316,7 @@ type MultipleChoiceAnswer implements Answer {
   options: [Option]
   mutuallyExclusiveOption: Option
   page: QuestionPage
+  list: List
   properties: JSON
   advancedProperties: Boolean
   validationErrorInfo: ValidationErrorInfo
@@ -714,7 +723,7 @@ type Query {
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
   submission: Submission
-  lists: [List]
+  collectionLists: CollectionLists
   list(input: QueryInput!): List
 }
 
@@ -894,9 +903,9 @@ type Mutation {
   deleteDisplayCondition(input: DeleteDisplayConditionInput!): Section
   deleteDisplayConditions(input: DisplayConditionInput!): Section
   updateSubmission(input: UpdateSubmissionInput): Submission!
-  createList: Questionnaire!
+  createList: CollectionLists!
   updateList(input: UpdateListInput): List
-  deleteList(input: DeleteListInput): Questionnaire!
+  deleteList(input: DeleteListInput): CollectionLists!
   createListAnswer(input: CreateListAnswerInput!): List
   updateListAnswer(input: UpdateListAnswerInput!): Answer
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!

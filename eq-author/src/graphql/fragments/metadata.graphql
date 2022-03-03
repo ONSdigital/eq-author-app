@@ -1,5 +1,6 @@
 fragment Metadata on Metadata {
   id
+  displayName
   key
   fallbackKey
   alias

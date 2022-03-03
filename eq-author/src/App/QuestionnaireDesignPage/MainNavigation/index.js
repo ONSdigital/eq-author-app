@@ -16,6 +16,8 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
 
+import { enableOn } from "utils/featureFlags";
+
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
@@ -23,6 +25,7 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
+import collectionListsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/collection-lists-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
@@ -36,6 +39,7 @@ import {
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
+  buildCollectionListsPath,
   buildSharingPath,
   buildSettingsPath,
   buildShortcutsPath,
@@ -76,6 +80,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
+  listsError,
   formTypeErrorCount,
   title,
   children,
@@ -170,7 +175,25 @@ export const UnwrappedMainNavigation = ({
                     History
                   </IconText>
                 </RouteButton>
-
+                {enableOn(["lists"]) && (
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "collectionLists" &&
+                        "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-collection-lists"
+                    to={buildCollectionListsPath(params)}
+                  >
+                    <IconText nav icon={collectionListsIcon}>
+                      Collection Lists
+                    </IconText>
+                    {listsError && (
+                      <Badge data-test="lists-error-badge" variant="main-nav" />
+                    )}
+                  </RouteButton>
+                )}
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "metadata" && "navigation-on") ||
@@ -252,6 +275,7 @@ UnwrappedMainNavigation.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   settingsError: PropTypes.bool,
+  listsError: PropTypes.bool,
   formTypeErrorCount: PropTypes.number,
   hasSurveyID: PropTypes.bool,
 };

@@ -29,6 +29,7 @@ const migrations = [
   require("./addSubmissionPage"),
   require("./migrateFolder"),
   require("./addSummaryTitle"),
+  require("./addCollectionLists"),
 ];
 
 const currentVersion = migrations.length;
