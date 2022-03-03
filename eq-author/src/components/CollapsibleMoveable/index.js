@@ -117,7 +117,7 @@ const Collapsible = ({
               }}
               aria-label={"Move item up"}
               data-test="btn-move-up"
-              tabIndex="-1"
+              tabIndex={handleMoveUp ? "0" : "-1"}
             >
               <IconUp />
             </MoveButton>
@@ -136,7 +136,7 @@ const Collapsible = ({
               }}
               aria-label={"Move item down"}
               data-test="btn-move-down"
-              tabIndex="-1"
+              tabIndex={handleMoveDown ? "0" : "-1"}
             >
               <IconDown />
             </MoveButton>
@@ -156,6 +156,7 @@ const Collapsible = ({
               }}
               aria-label="Delete item"
               data-test="btn-delete-item"
+              tabIndex={handleDelete ? "0" : "-1"}
             />
           </Tooltip>
         </ToggleWrapper>
