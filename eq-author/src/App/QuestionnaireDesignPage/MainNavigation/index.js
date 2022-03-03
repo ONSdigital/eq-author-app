@@ -110,9 +110,9 @@ export const UnwrappedMainNavigation = ({
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
+            <Platform>AWS</Platform>
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <Platform>AWS</Platform>
                 <RouteButton variant="navigation" small to="/">
                   <IconText nav icon={homeIcon}>
                     Home
