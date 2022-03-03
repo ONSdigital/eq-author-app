@@ -1,0 +1,7 @@
+#import "./list.graphql"
+
+mutation UpdateList($input: UpdateListInput) {
+  updateList(input: $input) {
+    ...List
+  }
+}

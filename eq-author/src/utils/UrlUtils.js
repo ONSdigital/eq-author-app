@@ -8,6 +8,7 @@ import {
   INTRODUCTION,
   METADATA,
   HISTORY,
+  COLLECTIONLISTS,
   PUBLISH,
   QCODES,
   SHARING,
@@ -117,6 +118,13 @@ export const buildHistoryPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
     entityName: HISTORY,
+  });
+};
+
+export const buildCollectionListsPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: COLLECTIONLISTS,
   });
 };
 

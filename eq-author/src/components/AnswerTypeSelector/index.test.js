@@ -7,7 +7,7 @@ import {
   screen,
 } from "tests/utils/rtl";
 
-import AnswerTypeSelector from "./";
+import AnswerTypeSelector from ".";
 
 describe("Answer Type Selector", () => {
   let props;

@@ -149,6 +149,7 @@ class AnswerEditor extends React.Component {
       <Answer
         aria-label={`${this.props.answer.type} answer`}
         data-test="answer-editor"
+        className="answer"
       >
         <AnswerHeader>
           <AnswerTypePanel>

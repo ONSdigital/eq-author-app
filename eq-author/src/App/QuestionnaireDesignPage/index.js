@@ -21,6 +21,7 @@ import qcodeRoutes from "App/qcodes";
 import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
 import keyboardShortcutsRoutes from "App/keyboardShortcuts";
+import collectionListsRoutes from "App/collectionLists";
 import folderRoutes from "App/folder";
 import submissionRoutes from "App/Submission";
 
@@ -32,6 +33,7 @@ import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import ScrollPane from "components/ScrollPane";
 import Loading from "components/Loading";
+import { some } from "lodash";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
@@ -153,6 +155,10 @@ export const QuestionnaireDesignPage = () => {
                             ?.totalCount +
                             questionnaire?.validationErrorInfo?.totalCount
                         )}
+                        listsError={some(
+                          questionnaire?.collectionLists?.lists,
+                          (list) => list.validationErrorInfo.errors.length > 0
+                        )}
                         formTypeErrorCount={formTypeErrorCount}
                         hasSurveyID={questionnaire?.surveyId !== ""}
                       />
@@ -177,6 +183,7 @@ export const QuestionnaireDesignPage = () => {
                         ...sharingRoutes,
                         ...settingsRoutes,
                         ...keyboardShortcutsRoutes,
+                        ...collectionListsRoutes,
                         ...folderRoutes,
                         ...submissionRoutes,
                       ]}

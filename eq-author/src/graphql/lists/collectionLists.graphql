@@ -1,0 +1,10 @@
+#import "./list.graphql"
+
+query CollectionLists {
+  collectionLists {
+    id
+    lists {
+      ...List
+    }
+  }
+}
