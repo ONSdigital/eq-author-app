@@ -56,12 +56,6 @@ const ToggleArrow = styled.div`
   transform-origin: 50% 50%;
   transition: transform 200ms ease-out;
   transform: rotate(${({ isOpen }) => (isOpen ? "0deg" : "-90deg")});
-
-  &:hover {
-    filter: invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(90%)
-      contrast(90%);
-    cursor: pointer;
-  }
 `;
 
 const Title = styled.h2`
