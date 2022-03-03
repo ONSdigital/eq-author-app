@@ -11,6 +11,7 @@ import Collapsible from "components/CollapsibleMoveable";
 import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
 import AnswerTypeSelector from "components/AnswerTypeSelector";
 import { listErrors } from "../../constants/validationMessages";
+import focusOnEntity from "utils/focusOnEntity";
 
 const StyledGrid = styled.div`
   display: flex;
@@ -117,7 +118,13 @@ const CollectionListItem = ({
             <AnswerTypeSelectorWrapper>
               <AnswerTypeSelector
                 answerCount={answers.length}
-                onSelect={(answerType) => handleCreateAnswer(answerType)}
+                onSelect={(answerType) =>
+                  handleCreateAnswer(answerType).then((result) => {
+                    const answers = result.data.createListAnswer.answers;
+                    const answer = answers[answers.length - 1];
+                    focusOnEntity(answer);
+                  })
+                }
                 data-test="add-answer"
                 page={list}
               />
