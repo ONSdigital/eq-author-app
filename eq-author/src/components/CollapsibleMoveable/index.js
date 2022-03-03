@@ -16,6 +16,8 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
+  display: flex;
+  flex-direction: row;
   margin: 0;
   background-color: ${colors.primary};
 `;
@@ -29,8 +31,22 @@ const ToggleWrapper = styled.div`
   align-items: center;
   margin: 0;
   background-color: ${colors.darkerBlue};
+  &:hover {
+    background: ${colors.highlightBlue};
+    cursor: pointer;
+  }
 `;
 
+const HeaderContent = styled.div`
+  padding-left: 0.5rem;
+  height: 2rem;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  background-color: ${colors.darkerBlue};
+`;
 const ToggleArrow = styled.div`
   content: "";
   background: url(${chevron});
@@ -96,13 +112,11 @@ const Collapsible = ({
   return (
     <Wrapper className={className} hasError={hasError} data-test="collapsible">
       <Header className="collapsible-header" data-test="collapsible-header">
-        <ToggleWrapper>
-          <ToggleArrow
-            onClick={() => setIsOpen(!isOpen)}
-            isOpen={isOpen}
-            data-test="collapsible-toggle-button"
-          />
+        <ToggleWrapper onClick={() => setIsOpen(!isOpen)}>
+          <ToggleArrow isOpen={isOpen} data-test="collapsible-toggle-button" />
           <Title>{title}</Title>
+        </ToggleWrapper>
+        <HeaderContent>
           <Tooltip
             content="Move item up"
             place="top"
@@ -159,7 +173,7 @@ const Collapsible = ({
               tabIndex={handleDelete ? "0" : "-1"}
             />
           </Tooltip>
-        </ToggleWrapper>
+        </HeaderContent>
       </Header>
       <Body
         className="collapsible-body"
