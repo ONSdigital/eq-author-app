@@ -91,6 +91,7 @@ const CollectionListItem = ({
               aria-label="List name input"
               tabIndex="-1"
               value={tempListName}
+              autoFocus
               onChange={(event) => setListName(event.value)}
               onBlur={() => handleUpdateList(tempListName)}
               errorValidationMsg={
