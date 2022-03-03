@@ -41,14 +41,6 @@ import {
   buildShortcutsPath,
 } from "utils/UrlUtils";
 
-const Platform = styled.div`
-  color: ${colors.white};
-  background: ${colors.mediumBlue};
-  position: relative;
-  text-align: center;
-  padding: 1em;
-`;
-
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
   background: ${colors.black};
@@ -105,7 +97,6 @@ export const UnwrappedMainNavigation = ({
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
-            <Platform>AWS</Platform>
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
