@@ -215,7 +215,6 @@ const CommentsPanel = ({ componentId }) => {
               input: {
                 componentId,
                 commentText,
-                readBy: me.id,
               },
             },
           })

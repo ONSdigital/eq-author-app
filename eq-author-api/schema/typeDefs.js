@@ -685,7 +685,7 @@ type Comment {
   user: User!
   replies: [Reply]!
   editedTime: DateTime
-  readBy: [User]
+  readBy: [ID]
 }
 
 type Submission {
@@ -1146,7 +1146,6 @@ input DuplicatePageInput {
 input CreateCommentInput {
   componentId: ID!
   commentText: String!
-  readBy: ID!
 }
 
 input DeleteCommentInput {
@@ -1158,7 +1157,7 @@ input UpdateCommentInput {
   componentId: ID!
   commentId: ID!
   commentText: String!
-  readBy: ID!
+  readBy: ID
 }
 
 input CreateReplyInput {

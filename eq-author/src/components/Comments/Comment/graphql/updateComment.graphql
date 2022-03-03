@@ -3,8 +3,6 @@ mutation updateComment($input: UpdateCommentInput!) {
     id
     commentText
     editedTime
-    readBy {
-      id
-    }
+    readBy
   }
 }

@@ -170,6 +170,7 @@ const Comment = ({
               commentId: rootId,
               replyId: id,
               commentText,
+              readBy: me.id,
             },
           },
         });
