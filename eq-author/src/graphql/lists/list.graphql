@@ -1,4 +1,5 @@
 #import "../fragments/validationErrorInfo.graphql"
+#import "../fragments/metadata.graphql"
 #import "./listAnswer.graphql"
 
 fragment List on List {
@@ -12,9 +13,6 @@ fragment List on List {
     ...ValidationErrorInfo
   }
   metadata {
-    id
-    displayName
-    key
-    type
+    ...Metadata
   }
 }
