@@ -12,5 +12,6 @@ mutation DeleteReply($input: DeleteReplyInput!) {
       displayName
     }
     parentCommentId
+    readBy
   }
 }

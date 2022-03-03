@@ -151,7 +151,6 @@ const Comment = ({
   console.log("readBy", readBy);
 
   const userReadComment = readBy?.some((id) => id === me.id);
-  console.log("userReadComment", userReadComment);
 
   const [editing, setEditing] = useState(false);
 

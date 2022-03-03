@@ -676,6 +676,7 @@ type Reply {
   createdTime: DateTime!
   user: User!
   editedTime:  DateTime
+  readBy: [ID]
 }
 
 type Comment {

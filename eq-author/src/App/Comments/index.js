@@ -121,18 +121,16 @@ const CommentsPanel = ({ componentId }) => {
     readBy,
     createdTime,
     editedTime,
-  }) =>
-    // readBy?.push(me.id),
-    ({
-      id,
-      authorName: formatName(user.displayName) || user.name || "",
-      canEdit: user.id === me.id,
-      canDelete: user.id === me.id,
-      readBy,
-      datePosted: createdTime,
-      dateModified: editedTime,
-      commentText,
-    });
+  }) => ({
+    id,
+    authorName: formatName(user.displayName) || user.name || "",
+    canEdit: user.id === me.id,
+    canDelete: user.id === me.id,
+    readBy,
+    datePosted: createdTime,
+    dateModified: editedTime,
+    commentText,
+  });
 
   const formattedComments = sortByDate(
     comments.map(({ replies, ...rest }) => ({

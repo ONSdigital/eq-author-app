@@ -1152,6 +1152,7 @@ const Resolvers = {
         commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
+        readBy: [ctx.user.id],
       };
       let parentComment = questionnaireComments.comments[componentId].find(
         ({ id }) => id === commentId
