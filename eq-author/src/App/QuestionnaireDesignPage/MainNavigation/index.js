@@ -16,7 +16,7 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
 
-import { enableOn } from "utils/featureFlags";
+import { enableOn, disableOn } from "utils/featureFlags";
 
 import UserProfile from "components/UserProfile";
 
@@ -45,12 +45,22 @@ import {
   buildShortcutsPath,
 } from "utils/UrlUtils";
 
-const Platform = styled.div`
+const PlatformGCP = styled.h3`
   color: ${colors.white};
-  background: ${colors.mediumBlue};
+  background: ${colors.oceanBlue};
   position: relative;
   text-align: center;
-  padding: 1em;
+  padding: 0.5em;
+  margin-top: 0;
+`;
+
+const PlatformAWS = styled.h3`
+  color: ${colors.white};
+  background: ${colors.blue};
+  position: relative;
+  text-align: center;
+  padding: 0.5em;
+  margin-top: 0;
 `;
 
 const StyledMainNavigation = styled.div`
@@ -110,7 +120,16 @@ export const UnwrappedMainNavigation = ({
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
-            <Platform>AWS</Platform>
+            {enableOn(["gcp"]) && (
+              <PlatformGCP title="Platform CGP" data-test="platform-badge">
+                GCP
+              </PlatformGCP>
+            )}
+            {disableOn(["gcp"]) && (
+              <PlatformAWS title="Platform AWS" data-test="platform-badge">
+                AWS
+              </PlatformAWS>
+            )}
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
