@@ -1100,6 +1100,31 @@ const Resolvers = {
 
       return newComment;
     },
+    updateCommentsAsRead: async (_, { input }, ctx) => {
+      const { pageId, userId } = input;
+      const questionnaire = ctx.questionnaire;
+
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const pageComments = questionnaireComments.comments[pageId];
+
+      pageComments.forEach((comment) => {
+        if (!comment.readBy.includes(userId)) {
+          comment.readBy.push(userId);
+        }
+        comment.replies.forEach((reply) => {
+          if (!reply.readBy.includes(userId)) {
+            reply.readBy.push(userId);
+          }
+        });
+      });
+
+      await saveComments(questionnaireComments);
+
+      return pageComments;
+    },
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;

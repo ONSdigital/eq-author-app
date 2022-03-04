@@ -903,6 +903,7 @@ type Mutation {
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
   deleteListAnswer(input: DeleteListAnswerInput): List
   moveListAnswer(input: MoveListAnswerInput!): Answer!
+  updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]!
 }
 
 input UpdateListInput {
@@ -1157,7 +1158,7 @@ input DeleteCommentInput {
 input UpdateCommentInput {
   componentId: ID!
   commentId: ID!
-  commentText: String!
+  commentText: String
   readBy: ID
 }
 
@@ -1395,6 +1396,11 @@ input CreateMetadataInput {
 
 input DeleteMetadataInput {
   id: ID!
+}
+
+input UpdateCommentsAsReadInput {
+  pageId: ID!
+  userId: ID!
 }
 
 input UpdateMetadataInput {
