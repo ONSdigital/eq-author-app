@@ -6,6 +6,7 @@ const THEME_SHORT_NAMES = [
   "epenorthernireland",
   "ukis",
   "ukis_ni",
+  "orr",
 ];
 
 module.exports = { THEME_SHORT_NAMES };

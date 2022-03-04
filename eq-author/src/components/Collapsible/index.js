@@ -12,7 +12,6 @@ import VisuallyHidden from "components/VisuallyHidden";
 
 const Wrapper = styled.div`
   margin: 0;
-
   ${({ hasError, isOpen }) =>
     hasError &&
     !isOpen &&
@@ -20,14 +19,12 @@ const Wrapper = styled.div`
     outline-offset: 2px;
     outline: 2px solid ${colors.errorPrimary};
   `}
-
   ${({ variant }) =>
     variant === "content" &&
     `
     margin: 0 2em 1em;
     border: 1px solid ${colors.grey};
   `}
-
   ${({ variant }) =>
     variant === "properties" &&
     `
@@ -36,8 +33,8 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  margin: 0 0 1em;
-
+  margin: 0;
+  ${({ isOpen }) => isOpen && `margin: 0 0 1em;`}
   ${({ variant }) =>
     variant === "content" &&
     `
@@ -46,12 +43,10 @@ const Header = styled.div`
     background-color: ${colors.primary};
     cursor: pointer;
     margin-bottom: 0;
-
     &:hover {
       background-color: ${darken(0.1, colors.secondary)};
     }
   `}
-
   ${({ variant }) =>
     variant === "properties" &&
     `
@@ -67,11 +62,9 @@ export const Title = styled.h2`
   margin: 0;
   padding: 0.25em 0 0.5em;
   font-size: inherit;
-
   ${Badge} {
     margin-left: 1em;
   }
-
   ${({ variant }) => variant === "content" && `padding: 0;`}
   ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
@@ -81,18 +74,15 @@ export const Body = styled.div`
   margin-top: -1em;
   border-left: 3px solid ${colors.lightGrey};
   padding: 1em;
-
   p {
     margin-top: 0;
   }
-
   ${({ variant }) =>
     (variant === "content" || variant === "properties") &&
     `
     margin-top: 0;
     border-left: none;
 `}
-
   ${({ variant }) =>
     variant === "properties" &&
     `
@@ -113,7 +103,6 @@ export const ToggleCollapsibleButton = styled.button`
   color: ${colors.blue};
   text-decoration: underline;
   margin-left: 0;
-
   ${({ variant }) =>
     (variant === "content" || variant === "properties") &&
     `
@@ -121,14 +110,11 @@ export const ToggleCollapsibleButton = styled.button`
     text-decoration: none;
     margin-left: 0.5em;
 `}
-
   &:focus {
     outline: 2px solid ${colors.orange};
-
     ${({ variant }) =>
       (variant === "content" || variant === "properties") && `outline: none;`}
   }
-
   &::before {
     content: "";
     background-color: ${colors.blue};
@@ -137,18 +123,14 @@ export const ToggleCollapsibleButton = styled.button`
     height: 1.5em;
     margin-top: 0.2em;
     margin-left: -0.5em;
-
     ${({ variant }) =>
       variant === "content" && `background-color: ${colors.white}`}
-
     ${({ variant }) =>
       variant === "properties" && `background-color: ${colors.white}`}
   }
-
   &:hover {
     color: ${({ variant }) => variant === "default" && `${colors.darkerBlue}`};
   }
-
   &:hover::before {
     background-color: ${({ variant }) =>
       variant === "default" && `${colors.darkerBlue}`};
@@ -159,11 +141,9 @@ const HideThisButton = styled(Button)`
   color: black;
   background-color: ${colors.lightGrey};
   font-weight: normal;
-
   &:hover {
     background-color: ${colors.grey};
   }
-
   &:focus {
     ${focusStyle}
   }
@@ -202,6 +182,7 @@ const Collapsible = ({
       <Header
         className="collapsible-header"
         data-test="collapsible-header"
+        isOpen={isOpen}
         variant={variant}
         onClick={
           variant === "content" || variant === "properties"

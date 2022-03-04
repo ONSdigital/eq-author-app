@@ -1,0 +1,18 @@
+#import "../fragments/validationErrorInfo.graphql"
+#import "../fragments/metadata.graphql"
+#import "./listAnswer.graphql"
+
+fragment List on List {
+  id
+  listName
+  displayName
+  answers {
+    ...ListAnswer
+  }
+  validationErrorInfo {
+    ...ValidationErrorInfo
+  }
+  metadata {
+    ...Metadata
+  }
+}

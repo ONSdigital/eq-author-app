@@ -23,7 +23,7 @@ import withDeleteOption from "../answers/withDeleteOption";
 import withCreateExclusive from "../answers/withCreateExclusive";
 
 import AnswersEditor from "./AnswersEditor";
-import AnswerTypeSelector from "./AnswerTypeSelector";
+import AnswerTypeSelector from "components/AnswerTypeSelector";
 import withUpdateQuestionPage from "./withUpdateQuestionPage";
 
 import MetaEditor from "./MetaEditor";
