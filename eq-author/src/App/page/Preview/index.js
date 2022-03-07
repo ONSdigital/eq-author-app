@@ -1,10 +1,11 @@
 /* eslint-disable react/no-danger */
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { withApollo, Query } from "react-apollo";
+import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
-import { useMutation } from "@apollo/react-hooks";
+import { useMe } from "App/MeContext";
 
 import Loading from "components/Loading";
 import EditorLayout from "components/EditorLayout";
@@ -16,37 +17,16 @@ import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import Panel from "components/Panel";
 
-import { useMe } from "App/MeContext";
-
-import UPDATE_COMMENTS_AS_READ from "graphql/updateCommentsAsRead.graphql";
-
-import { useHistory } from "react-router-dom";
+import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 export const UnwrappedPreviewPageRoute = (props) => {
   const history = useHistory();
   const { me } = useMe();
 
-  const [updateCommentsAsRead] = useMutation(UPDATE_COMMENTS_AS_READ);
-
   const { loading, data } = props;
   const pageId = data?.page?.id;
 
-  // https://stackoverflow.com/questions/66404382/how-to-detect-route-changes-using-react-router-in-react
-  useEffect(() => {
-    const unlisten = history.listen(() => {
-      updateCommentsAsRead({
-        variables: {
-          input: {
-            pageId,
-            userId: me.id,
-          },
-        },
-      });
-    });
-    return function cleanup() {
-      unlisten();
-    };
-  });
+  handleSetCommentsAsRead(pageId, me.id, history);
 
   if (loading) {
     return (
