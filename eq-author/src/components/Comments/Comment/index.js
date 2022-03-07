@@ -148,8 +148,6 @@ const Comment = ({
   const [updateReply] = useMutation(REPLY_UPDATE);
   const [deleteReply] = useMutation(REPLY_DELETE);
 
-  // console.log("readBy", readBy);
-
   const userReadComment = readBy?.some((id) => id === me.id);
 
   const [editing, setEditing] = useState(false);

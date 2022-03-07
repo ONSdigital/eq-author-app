@@ -2,6 +2,8 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
+import { useMe } from "App/MeContext";
+import { useHistory } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -15,6 +17,8 @@ import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
 import iconChevron from "../icon-chevron.svg";
 
 import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
+
+import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const Container = styled.div`
   padding: 2em;
@@ -112,6 +116,8 @@ const MissingText = styled.text`
 
 const IntroductionPreview = ({ loading, data, match }) => {
   const { questionnaireId } = match.params;
+  const { me } = useMe();
+  const history = useHistory();
   const { data: questionnaireData } = useQuery(GET_THEME_SETTINGS_QUERY, {
     variables: {
       input: { questionnaireId },
@@ -129,6 +135,8 @@ const IntroductionPreview = ({ loading, data, match }) => {
   const legalBasis = LEGAL_BASIS_OPTIONS.find(
     (legalBasisOption) => legalBasisOption.value === legalBasisCode
   );
+
+  handleSetCommentsAsRead(data?.questionnaireIntroduction?.id, me.id, history);
 
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
