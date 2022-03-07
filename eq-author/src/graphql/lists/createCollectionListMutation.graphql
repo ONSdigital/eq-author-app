@@ -1,0 +1,10 @@
+#import "./list.graphql"
+
+mutation CreateList {
+  createList {
+    id
+    lists {
+      ...List
+    }
+  }
+}

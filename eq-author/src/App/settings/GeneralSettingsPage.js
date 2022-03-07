@@ -133,7 +133,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     introduction,
   } = questionnaire;
 
-  const { showOnHub } = introduction;
+  const showOnHub = introduction?.showOnHub;
 
   const handleTitleChange = ({ value }) => {
     value = value.trim();

@@ -1,0 +1,95 @@
+#import "../fragments/min-value-validation-rule.graphql"
+#import "../fragments/max-value-validation-rule.graphql"
+#import "../fragments/earliest-date-validation-rule.graphql"
+#import "../fragments/latest-date-validation-rule.graphql"
+#import "../fragments/min-duration-validation-rule.graphql"
+#import "../fragments/max-duration-validation-rule.graphql"
+#import "../fragments/validationErrorInfo.graphql"
+
+fragment ListAnswer on Answer {
+  id
+  description
+  guidance
+  label
+  secondaryLabel
+  secondaryLabelDefault
+  type
+  properties
+  displayName
+  qCode
+  advancedProperties
+  ... on BasicAnswer {
+    secondaryQCode
+    options {
+      id
+      mutuallyExclusive
+      label
+      description
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    validation {
+      ... on NumberValidation {
+          minValue {
+          enabled
+          ...MinValueValidationRule
+          }
+          maxValue {
+          enabled
+          ...MaxValueValidationRule
+          }
+      }
+      ... on DateValidation {
+          earliestDate {
+          enabled
+          ...EarliestDateValidationRule
+          }
+          latestDate {
+          enabled
+          ...LatestDateValidationRule
+          }
+      }
+      ... on DateRangeValidation {
+        earliestDate {
+        enabled
+        ...EarliestDateValidationRule
+        }
+        latestDate {
+        enabled
+        ...LatestDateValidationRule
+        }
+        minDuration {
+        enabled
+        ...MinDurationValidationRule
+        }
+        maxDuration {
+        enabled
+        ...MaxDurationValidationRule
+        }
+      }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+  ... on MultipleChoiceAnswer {
+    options {
+      id
+      mutuallyExclusive
+      label
+      description
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    mutuallyExclusiveOption {
+      id
+      label
+      qCode
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

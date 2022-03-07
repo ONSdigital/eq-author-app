@@ -1,4 +1,5 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
+#import "graphql/lists/list.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -13,9 +14,11 @@ query GetQuestionnaire($input: QueryInput!) {
     totalErrorCount
     ...NavigationSidebar
     hub
-    lists {
+    collectionLists {
       id
-      displayName
+      lists{
+        ...List
+      }
     }
     metadata {
       id
