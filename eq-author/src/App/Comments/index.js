@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useSubscription } from "react-apollo";
 import { useMe } from "App/MeContext";
+import { useHistory } from "react-router-dom";
 import { colors } from "constants/theme";
 
 import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
@@ -19,6 +20,8 @@ import Loading from "components/Loading";
 import Comment from "components/Comments/Comment";
 import CommentEditor from "components/Comments/CommentEditor";
 import Collapsible from "components/Collapsible";
+
+import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const Wrapper = styled.section`
   h1 {
@@ -75,8 +78,13 @@ const Replies = styled(Collapsible)`
 `;
 
 const CommentsPanel = ({ componentId }) => {
+  const { me } = useMe();
+  const history = useHistory();
+
   const [createComment] = useMutation(COMMENT_ADD);
   const [createReply] = useMutation(REPLY_ADD);
+
+  handleSetCommentsAsRead(componentId, me.id, history);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -93,8 +101,6 @@ const CommentsPanel = ({ componentId }) => {
       refetch();
     },
   });
-
-  const { me } = useMe();
 
   if (loading) {
     return <Loading height="100%">Comments loading…</Loading>;

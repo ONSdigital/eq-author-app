@@ -3,7 +3,6 @@ import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { useMe } from "App/MeContext";
-import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
@@ -20,8 +19,6 @@ import CommentHighlight from "components/Comments/CommentHighlight";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
-
-import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const IconButton = ({
   icon,
@@ -145,7 +142,6 @@ const Comment = ({
   canDelete = false,
 }) => {
   const { me } = useMe();
-  const history = useHistory();
   const [updateComment] = useMutation(COMMENT_UPDATE);
   const [deleteComment] = useMutation(COMMENT_DELETE);
 
@@ -155,8 +151,6 @@ const Comment = ({
   const userReadComment = readBy?.some((id) => id === me.id);
 
   const [editing, setEditing] = useState(false);
-
-  handleSetCommentsAsRead(subjectId, me.id, history);
 
   const authorInitials = authorName
     .match(/\b(\w)/g)
