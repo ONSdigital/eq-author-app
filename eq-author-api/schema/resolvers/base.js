@@ -1137,6 +1137,7 @@ const Resolvers = {
       const commentToEdit = pageComments.find(({ id }) => id === commentId);
       commentToEdit.commentText = commentText;
       commentToEdit.editedTime = new Date();
+      commentToEdit.readBy = [ctx.user.id];
       await saveComments(questionnaireComments);
 
       publishCommentUpdates(componentId);
@@ -1192,6 +1193,7 @@ const Resolvers = {
       const replyToEdit = replies.find(({ id }) => id === replyId);
       replyToEdit.commentText = commentText;
       replyToEdit.editedTime = new Date();
+      replyToEdit.readBy = [ctx.user.id];
       await saveComments(questionnaireComments);
 
       publishCommentUpdates(componentId);
