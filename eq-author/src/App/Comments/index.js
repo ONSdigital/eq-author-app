@@ -84,7 +84,7 @@ const CommentsPanel = ({ componentId }) => {
   const [createComment] = useMutation(COMMENT_ADD);
   const [createReply] = useMutation(REPLY_ADD);
 
-  handleSetCommentsAsRead(componentId, me.id, history);
+  handleSetCommentsAsRead(componentId, me.id);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
