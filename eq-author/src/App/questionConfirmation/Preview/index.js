@@ -5,8 +5,6 @@ import { compact, isArray } from "lodash";
 import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
-import { useMe } from "App/MeContext";
-import { useHistory } from "react-router-dom";
 
 import Loading from "components/Loading";
 
@@ -23,7 +21,6 @@ import Panel from "components/Panel";
 import CommentsPanel from "App/Comments";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
-import HandleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const Container = styled.div`
   padding: 2em;
@@ -62,11 +59,6 @@ const Replay = styled.div`
 `;
 
 export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
-  const pageId = data?.questionConfirmation?.id;
-  const { me } = useMe();
-  const history = useHistory();
-
-  HandleSetCommentsAsRead(pageId, me.id, history);
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }

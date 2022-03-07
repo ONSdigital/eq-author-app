@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
-import { useMe } from "App/MeContext";
-import { useHistory } from "react-router-dom";
 
 import IconText from "components/IconText";
 import PageTitle from "components/preview/elements/PageTitle";
@@ -14,7 +12,6 @@ import Input from "components-themed/Input";
 import Button from "components-themed/buttons";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
-import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -110,13 +107,8 @@ const PreviewButton = styled(Button)`
 `;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
-  const { id, furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
+  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
-
-  const { me } = useMe();
-  const history = useHistory();
-
-  handleSetCommentsAsRead(id, me.id, history);
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;

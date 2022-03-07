@@ -2,10 +2,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { withApollo, Query } from "react-apollo";
-import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
-import { useMe } from "App/MeContext";
 
 import Loading from "components/Loading";
 import EditorLayout from "components/EditorLayout";
@@ -17,16 +15,8 @@ import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import Panel from "components/Panel";
 
-import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
-
 export const UnwrappedPreviewPageRoute = (props) => {
-  const history = useHistory();
-  const { me } = useMe();
-
   const { loading, data } = props;
-  const pageId = data?.page?.id;
-
-  handleSetCommentsAsRead(pageId, me.id, history);
 
   if (loading) {
     return (

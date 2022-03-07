@@ -1,8 +1,6 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { propType } from "graphql-anywhere";
-import { useHistory } from "react-router-dom";
-import { useMe } from "App/MeContext";
 
 import styled from "styled-components";
 import Error from "components/preview/Error";
@@ -16,8 +14,6 @@ import CommentsPanel from "App/Comments";
 
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
-
-import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 const Container = styled.div`
   padding: 2em;
@@ -86,10 +82,6 @@ const SummaryTotalLabel = styled.div`
 `;
 
 const CalculatedSummaryPagePreview = ({ page }) => {
-  const { me } = useMe();
-  const history = useHistory();
-  handleSetCommentsAsRead(page.id, me.id, history);
-
   return (
     <EditorLayout
       title={page.displayName}
