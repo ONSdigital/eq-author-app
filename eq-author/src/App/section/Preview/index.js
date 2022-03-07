@@ -2,9 +2,10 @@ import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { withApollo, Query } from "react-apollo";
 import { isEmpty, get } from "lodash";
+import { useMe } from "App/MeContext";
 
 import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
@@ -13,11 +14,16 @@ import CommentsPanel from "App/Comments";
 import { enableOn } from "utils/featureFlags";
 
 import { buildSectionPath } from "utils/UrlUtils";
+import handleSetCommentsAsRead from "utils/handleSetCommentsAsRead";
 
 import SectionIntroPreview from "./SectionIntroPreview";
 
 export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
   const section = get(data, "section", {});
+  const { me } = useMe();
+  const history = useHistory();
+
+  handleSetCommentsAsRead(section.id, me.id, history);
 
   if (!isEmpty(section)) {
     const hasIntroductionContent =
