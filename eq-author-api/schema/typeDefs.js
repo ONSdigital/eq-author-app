@@ -1169,7 +1169,6 @@ input UpdateCommentInput {
   componentId: ID!
   commentId: ID!
   commentText: String
-  readBy: ID
 }
 
 input CreateReplyInput {

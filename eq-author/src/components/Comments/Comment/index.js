@@ -167,7 +167,6 @@ const Comment = ({
               commentId: rootId,
               replyId: id,
               commentText,
-              readBy: me.id,
             },
           },
         });
@@ -178,13 +177,12 @@ const Comment = ({
               componentId: subjectId,
               commentId: id,
               commentText,
-              readBy: me.id,
             },
           },
         });
       }
     },
-    [id, subjectId, rootId, isReply, me, updateComment, updateReply]
+    [id, subjectId, rootId, isReply, updateComment, updateReply]
   );
 
   const onDeleteComment = useCallback(() => {
