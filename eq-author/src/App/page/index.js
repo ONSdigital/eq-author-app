@@ -16,7 +16,6 @@ export default [
   <Route
     key="page-preview"
     path="/q/:questionnaireId/page/:pageId/preview"
-    // onLeave={handleSetCommentsAsRead}
     component={Preview}
   />,
   <Route key="page-logic" path="/q/:questionnaireId/page/:pageId/logic">

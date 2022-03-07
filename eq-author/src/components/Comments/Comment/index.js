@@ -148,7 +148,7 @@ const Comment = ({
   const [updateReply] = useMutation(REPLY_UPDATE);
   const [deleteReply] = useMutation(REPLY_DELETE);
 
-  console.log("readBy", readBy);
+  // console.log("readBy", readBy);
 
   const userReadComment = readBy?.some((id) => id === me.id);
 
@@ -380,6 +380,10 @@ Comment.propTypes = {
    * The content of the comment.
    */
   commentText: PropTypes.string.isRequired,
+  /**
+   * The IDs of the users who have read the comment.
+   */
+  readBy: PropTypes.array, //eslint-disable-line
   /**
    * Denotes whether the comment is at the root of the chain, or is replying to another comment.
    */
