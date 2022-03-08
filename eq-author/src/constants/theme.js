@@ -110,6 +110,10 @@ export const activeNavItemStyle = css`
     color: ${colors.badgeSelectedText};
   }
 
+  #comment-notification {
+    background-color: ${colors.neonYellow};
+  }
+
   > svg {
     path {
       fill: ${colors.black};
