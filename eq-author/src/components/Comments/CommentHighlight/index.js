@@ -3,22 +3,24 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
-// ! Test styling - to be changed
 const CommentHighlight = ({ children }) => {
-  const StyledPanel = styled.div`
-    /* background-color: ${colors.green}; */
-    border: 0;
-    border-radius: 0;
+  const Highlight = styled.div`
+    /* 
+    Uses rbga to handle opacity - using CSS' opacity property also applies opacity to child elements
+    Same colour as neonYellow (#F0F762)
+    */
+    background-color: rgba(240, 247, 98, 0.1);
+    border: 2px solid ${({ theme }) => theme.colors.neonYellow};
+    outline: 1px solid ${colors.commentHighlight};
     padding: 1em;
     margin: 1em 0;
-    border-left: 10px solid ${colors.blue};
 
     p {
       margin: 0;
     }
   `;
 
-  return <StyledPanel>{children}</StyledPanel>;
+  return <Highlight>{children}</Highlight>;
 };
 
 CommentHighlight.propTypes = {

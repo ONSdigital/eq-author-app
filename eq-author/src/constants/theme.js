@@ -24,6 +24,7 @@ export const colors = {
   lightGreen: "#EDF4F0",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
+  darkGreen: "#424344",
   black: "#222222",
   sidebarBlack: "#333333",
   white: "#FFFFFF",
@@ -78,6 +79,7 @@ colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
+colors.commentHighlight = colors.darkGreen;
 
 export const radius = "4px";
 
