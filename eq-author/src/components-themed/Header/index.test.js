@@ -38,7 +38,7 @@ describe("Header in Components-themed", () => {
   describe("Header", () => {
     it("should render a Heading title from children", () => {
       const { getByText } = renderHeader({ ...props });
-      expect(getByText("Header title")).toBeTruthy();
+      expect(getByText("Header title (AWS)")).toBeTruthy();
     });
 
     it("should render a description for the Heading", () => {
