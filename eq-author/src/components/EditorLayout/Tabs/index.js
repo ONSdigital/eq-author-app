@@ -11,6 +11,7 @@ import {
 } from "utils/UrlUtils";
 
 import Badge from "components/Badge";
+import CommentNotification from "components/Comments/CommentNotification";
 
 export const activeClassName = "active";
 
@@ -111,7 +112,10 @@ export const UnwrappedTabs = (props) => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {errors && errors.length ? (
-                <Badge variant="tabs" small data-test="small-badge" />
+                <>
+                  <CommentNotification />
+                  <Badge variant="tabs" small data-test="small-badge" />
+                </>
               ) : null}
               {children}
             </Component>
