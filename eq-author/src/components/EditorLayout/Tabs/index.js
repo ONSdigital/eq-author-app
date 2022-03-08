@@ -114,7 +114,9 @@ export const UnwrappedTabs = (props) => {
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
-              {key === "preview" && unreadComment && <CommentNotification />}
+              {key === "preview" && unreadComment && (
+                <CommentNotification variant="tabs" />
+              )}
               {errors && errors.length ? (
                 <>
                   <Badge variant="tabs" small data-test="small-badge" />

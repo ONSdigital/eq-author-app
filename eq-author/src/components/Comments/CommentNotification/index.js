@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const CommentNotificationNavItem = styled.div`
+const CommentNotificationNavItem = css`
   border-top: 3px solid ${({ theme }) => theme.colors.neonYellow};
   border-bottom: 3px solid ${({ theme }) => theme.colors.neonYellow};
   border-right: 3px solid ${({ theme }) => theme.colors.neonYellow};
@@ -23,7 +23,7 @@ const CommentNotificationNavItem = styled.div`
   }
 `;
 
-const CommentNotification = styled.div`
+const CommentNotificationTabs = css`
   padding: 0.4rem;
   position: relative;
   background-color: ${({ theme }) => theme.colors.neonYellow};
@@ -43,12 +43,9 @@ const CommentNotification = styled.div`
   }
 `;
 
-// const CommentNotification = () => {
-//   return <CommentNotificationContainer />;
-// };
-
-// CommentNotification.propTypes = {
-//   children: PropType.node,
-// };
+const CommentNotification = styled.div`
+  ${(props) => props.variant === "tabs" && CommentNotificationTabs};
+  ${(props) => props.variant === "nav" && CommentNotificationNavItem};
+`;
 
 export default CommentNotification;
