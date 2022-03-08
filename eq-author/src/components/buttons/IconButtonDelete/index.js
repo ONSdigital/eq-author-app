@@ -42,7 +42,7 @@ const IconButtonDelete = ({
   return (
     <Wrapper>
       <DeleteButton title="Delete" {...otherProps}>
-        <IconText icon={icon} disabled={disabledIcon} hideText={hideText}>
+        <IconText icon={icon} hideText={hideText}>
           {iconText}
         </IconText>
       </DeleteButton>

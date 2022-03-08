@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons/button.js";
+import VisuallyHidden from "components/VisuallyHidden";
 import { colors } from "constants/theme";
+import { keysIn } from "lodash";
 
 const Container = styled.div`
   display: flex;
@@ -73,6 +75,7 @@ const Pagination = ({
   onPageChange,
   siblingCount = 2,
   pageCount,
+  totalCount,
 }) => {
   //last page is not total count
   const firstPage = 1;
@@ -87,8 +90,11 @@ const Pagination = ({
   };
 
   const pageNumbers = () => {
-    const firstLeftPage = Math.max(currentPageIndex - siblingCount, 1); //left most number of middle range or start
-    const lastRightPage = Math.min(pageCount, currentPageIndex + siblingCount); //right most number of middle range or end
+    const firstLeftPage = Math.max(currentPageIndex + 1 - siblingCount, 1); //left most number of middle range or start
+    const lastRightPage = Math.min(
+      pageCount - 1,
+      currentPageIndex + 1 + siblingCount
+    ); //right most number of middle range or end
     const hasLeftSide = firstLeftPage > 2;
     const hasRightSide = pageCount - lastRightPage > 1;
 
@@ -97,28 +103,44 @@ const Pagination = ({
 
     switch (true) {
       case totalItems >= pageCount: {
+        console.log("case1 :>> ");
+
         return range(1, pageCount);
       }
       case hasLeftSide && !hasRightSide: {
         //1 ... 5, 6, 7, 8, 9, 10
         // 3,  7
         let rightRange = range(pageCount - totalItems + 1, pageCount);
+        console.log("case2 :>> ");
+
         // let rightRange = range(firstLeftPage, lastRightPage);
         return [firstPage, "...", ...rightRange];
       }
       case !hasLeftSide && hasRightSide: {
         //1, 2, 3, 4, 5, 6 ... 10
         let leftRange = range(1, totalItems);
+        console.log("case3 :>> ");
+
         return [...leftRange, "...", lastPage];
       }
       case hasLeftSide && hasRightSide:
       default: {
         //1 ... 15, 16, 17, 18, 19 ... 35
         let middleRange = range(firstLeftPage, lastRightPage);
+        console.log("case4 :>> ", [
+          firstPage,
+          "...",
+          ...middleRange,
+          "...",
+          lastPage,
+        ]);
+
         return [firstPage, "...", ...middleRange, "...", lastPage];
       }
     }
   };
+  console.log("pageNumbers :>> ", pageNumbers());
+  console.log("index :>> ", currentPageIndex);
 
   return (
     <Theme themeName={"ons"}>
@@ -127,21 +149,25 @@ const Pagination = ({
           variant="ghost-white"
           data-test="prev-page-btn"
           noBorders
-          disabled={currentPageIndex === 1}
+          disabled={currentPageIndex === 0}
           onClick={() => onPageChange(currentPageIndex - 1)}
         >
           Previous
+          <VisuallyHidden>Go to previous page</VisuallyHidden>
         </PrevButton>
 
         {pageNumbers().map((key, index) => {
+          // console.log('key :>> ', key);
+          // console.log('index :>>   ', index);
           if (key === "...") {
-            return <DotsItems>...</DotsItems>;
+            return <DotsItems data-test={`dots-${index}`}>...</DotsItems>;
           } else {
             return (
               <PaginationButton
                 key={index}
-                selected={key === currentPageIndex}
-                onClick={() => onPageChange(key)}
+                selected={key === currentPageIndex + 1}
+                onClick={() => onPageChange(key - 1)}
+                data-test={`pagination-${key}`}
               >
                 {key}
               </PaginationButton>
@@ -153,10 +179,11 @@ const Pagination = ({
           variant="ghost-white"
           data-test="next-page-btn"
           noBorders
-          disabled={currentPageIndex === lastPage}
+          disabled={currentPageIndex === lastPage - 1}
           onClick={() => onPageChange(currentPageIndex + 1)}
         >
           Next
+          <VisuallyHidden>Go to next page</VisuallyHidden>
         </NextButton>
       </Container>
     </Theme>

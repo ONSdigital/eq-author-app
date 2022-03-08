@@ -21,12 +21,12 @@ const PaginationNavTable = ({
   totalCount,
 }) => (
   <>
-    <Result>
-      Page {currentPageIndex} of {pageCount - 1}
+    <Result data-test="pages">
+      {`Page ${currentPageIndex + 1} of ${pageCount}`}
     </Result>
     <Pagination
       currentPageIndex={currentPageIndex}
-      pageCount={pageCount - 1}
+      pageCount={pageCount}
       onPageChange={onPageChange}
       totalCount={totalCount}
     />

@@ -40,7 +40,7 @@ const tableHeadings = [
   {
     heading: Headings.ACCESS,
     colWidth: "10%",
-    sortColumn: "starred",
+    sortColumn: "permission",
     sortable: true,
   },
   {

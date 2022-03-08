@@ -38,6 +38,10 @@ const QuestionnaireTable = ({
   questionnaireModal,
   variant, //what is variant is it needed
 }) => {
+  console.log("object :>> ", currentSortColumn);
+  console.log("sortOrder :>> ", sortOrder);
+  console.log("enabledHeadings :>> ", enabledHeadings);
+
   return (
     <Border>
       <TableWrapper variant={variant}>

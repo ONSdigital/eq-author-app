@@ -70,7 +70,7 @@ export const IconTextButton = styled(Button).attrs({
   }
 `;
 
-const DuplicateIconButton = styled(DuplicateButton)`
+export const DuplicateIconButton = styled(DuplicateButton)`
   svg {
     path {
       fill: ${colors.nightBlue};
@@ -78,7 +78,7 @@ const DuplicateIconButton = styled(DuplicateButton)`
   }
 `;
 
-const DeleteButton = styled(IconButtonDelete)`
+export const DeleteButton = styled(IconButtonDelete)`
   svg {
     path {
       fill: ${({ disabledIcon }) =>
@@ -115,7 +115,7 @@ export const TR = styled.tr`
 
   &:hover {
     background-color: ${rgba(colors.primary, 0.1)};
-    border: 1px solid #f2c723;
+    border: 1px solid ${colors.tertiary};
     cursor: pointer;
   }
 
@@ -363,7 +363,9 @@ export const Row = ({
         );
       case Headings.ACCESS:
         return (
-          <TD key={heading}>{hasWritePermission ? "Editor" : "View Only"}</TD>
+          <TD key={heading} data-test="access">
+            {hasWritePermission ? "Editor" : "View Only"}
+          </TD>
         );
 
       case Headings.ACTIONS:
@@ -371,7 +373,6 @@ export const Row = ({
           <TD key={heading}>
             <div onFocus={handleButtonFocus} data-test="action-btn-group">
               <ButtonGroup>
-                {/* <IconDisabledDelete /> */}
                 <DuplicateIconButton
                   data-test="btn-duplicate-questionnaire"
                   onClick={handleDuplicateQuestionnaire}
@@ -381,30 +382,9 @@ export const Row = ({
                   hideText
                   data-test="btn-delete-questionnaire"
                   onClick={handleDeleteQuestionnaire}
+                  disabled={!canDelete}
                   disabledIcon={!canDelete}
                 />
-                {/* <Tooltip content={"Duplicate"} place="top">
-                  <IconTextButton
-                    title="Duplicate"
-                    onClick={handleDuplicateQuestionnaire}
-                    hideText
-                    data-test="btn-duplicate-questionnaire"
-                  >
-                    <IconCopy />
-                  </IconTextButton>
-                </Tooltip>
-                <Tooltip content={"Delete"} place="top">
-                  <IconTextButton
-                    title="Delete"
-                    hideText
-                    data-test="btn-delete-questionnaire"
-                    onClick={handleDeleteQuestionnaire}
-                    disabled={!canDelete}
-                  > 
-                  {console.log('canDelete :>> ', canDelete)}
-                    {canDelete ? <IconDelete />  : <IconDisabledDelete /> }
-                  </IconTextButton>
-                </Tooltip>  */}
               </ButtonGroup>
             </div>
           </TD>
