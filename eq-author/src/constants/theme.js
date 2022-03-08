@@ -105,7 +105,7 @@ export const activeNavItemStyle = css`
   span {
     color: ${colors.black};
   }
-  #badge {
+  div {
     background-color: ${colors.badgeSelectedBackground};
     color: ${colors.badgeSelectedText};
   }

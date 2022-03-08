@@ -98,6 +98,9 @@ export const UnwrappedTabs = (props) => {
     [validationErrorInfo]
   );
 
+  // TODO: Change test value
+  const unreadComment = true;
+
   return (
     <div>
       <TabsContainer data-test="tabs-nav">
@@ -111,9 +114,9 @@ export const UnwrappedTabs = (props) => {
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
+              {key === "preview" && unreadComment && <CommentNotification />}
               {errors && errors.length ? (
                 <>
-                  <CommentNotification />
                   <Badge variant="tabs" small data-test="small-badge" />
                 </>
               ) : null}
