@@ -8,6 +8,7 @@ const CommentNotification = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.neonYellow};
   padding: 1rem;
   position: relative;
+  background-color: ${({ theme }) => theme.colors.neonYellow};
   &::before {
     border-bottom: 15px solid transparent;
     border-left: 15px solid ${({ theme }) => theme.colors.neonYellow};
