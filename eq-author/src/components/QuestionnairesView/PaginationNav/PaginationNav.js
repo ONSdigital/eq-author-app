@@ -25,22 +25,24 @@ const DotsItems = styled.li`
 const PaginationButton = styled(Button).attrs({ variant: "ghost" })`
   font-size: 0.7em;
   font-weight: normal;
-  color: ${colors.oceanBlue};
+  color: ${({ selected }) => (selected ? colors.white : colors.oceanBlue)};
   border: none;
   text-decoration: underline;
   background-color: ${({ selected }) => selected && colors.nightBlue};
   &:focus {
-    background-color: unset !important;
-    color: ${colors.oceanBlue};
+    background-color: ${({ selected }) =>
+      selected ? colors.nightBlue : colors.white} !important;
+    color: ${({ selected }) => (selected ? colors.white : colors.oceanBlue)};
   }
   &:hover {
-    color: ${colors.oceanBlue};
+    font-color: ${({ selected }) =>
+      selected ? colors.white : colors.oceanBlue};
   }
   &:active:focus {
     color: ${colors.oceanBlue};
   }
   &:focus:hover:not(:active) {
-    color: ${colors.oceanBlue};
+    color: ${({ selected }) => (selected ? colors.white : colors.oceanBlue)};
   }
 `;
 
@@ -103,15 +105,12 @@ const Pagination = ({
 
     switch (true) {
       case totalItems >= pageCount: {
-        console.log("case1 :>> ");
-
         return range(1, pageCount);
       }
       case hasLeftSide && !hasRightSide: {
         //1 ... 5, 6, 7, 8, 9, 10
         // 3,  7
         let rightRange = range(pageCount - totalItems + 1, pageCount);
-        console.log("case2 :>> ");
 
         // let rightRange = range(firstLeftPage, lastRightPage);
         return [firstPage, "...", ...rightRange];
@@ -119,7 +118,6 @@ const Pagination = ({
       case !hasLeftSide && hasRightSide: {
         //1, 2, 3, 4, 5, 6 ... 10
         let leftRange = range(1, totalItems);
-        console.log("case3 :>> ");
 
         return [...leftRange, "...", lastPage];
       }
@@ -127,20 +125,11 @@ const Pagination = ({
       default: {
         //1 ... 15, 16, 17, 18, 19 ... 35
         let middleRange = range(firstLeftPage, lastRightPage);
-        console.log("case4 :>> ", [
-          firstPage,
-          "...",
-          ...middleRange,
-          "...",
-          lastPage,
-        ]);
 
         return [firstPage, "...", ...middleRange, "...", lastPage];
       }
     }
   };
-  console.log("pageNumbers :>> ", pageNumbers());
-  console.log("index :>> ", currentPageIndex);
 
   return (
     <Theme themeName={"ons"}>
@@ -157,8 +146,9 @@ const Pagination = ({
         </PrevButton>
 
         {pageNumbers().map((key, index) => {
-          // console.log('key :>> ', key);
-          // console.log('index :>>   ', index);
+          console.log("key :>> ", key);
+          console.log("currentPageIndex :>> ", currentPageIndex + 1);
+
           if (key === "...") {
             return <DotsItems data-test={`dots-${index}`}>...</DotsItems>;
           } else {

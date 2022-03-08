@@ -82,7 +82,11 @@ export const DeleteButton = styled(IconButtonDelete)`
   svg {
     path {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey75 : colors.nightBlue};
+        disabledIcon ? colors.grey150 : colors.nightBlue};
+    }
+    polygon {
+      fill: ${({ disabledIcon }) =>
+        disabledIcon ? colors.grey150 : colors.nightBlue};
     }
   }
   .lid {

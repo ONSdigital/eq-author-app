@@ -40,6 +40,7 @@ export const colors = {
   jaffaOrange: "#fa6401",
   sunYellow: "#fbc900",
   neonYellow: "#f0f762",
+  grey150: "#282b2b",
   grey100: "#414042",
   grey80: "#737373",
   grey75: "#707071",
