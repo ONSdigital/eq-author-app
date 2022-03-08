@@ -6,7 +6,6 @@ import { colors } from "constants/theme";
 
 const CommentNotification = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.neonYellow};
-  margin-bottom: 2rem;
   padding: 1rem;
   position: relative;
   &::before {
@@ -21,7 +20,7 @@ const CommentNotification = styled.div`
     position: absolute;
     width: 0;
   }
-  &::after {
+  /* &::after {
     border-bottom: 12px solid transparent;
     border-left: 12px solid #fff;
     border-right: 12px solid transparent;
@@ -32,7 +31,7 @@ const CommentNotification = styled.div`
     left: 20px;
     position: absolute;
     width: 0;
-  }
+  } */
 `;
 
 // const Feedback = () => {
