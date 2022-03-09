@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
+// TODO: Comment highlight styling changes
 const CommentHighlight = ({ children }) => {
   const Highlight = styled.div`
     /* 
@@ -13,11 +14,7 @@ const CommentHighlight = ({ children }) => {
     border: 2px solid ${({ theme }) => theme.colors.neonYellow};
     outline: 1px solid ${colors.commentHighlight};
     padding: 1em;
-    margin: 1em 0;
-
-    p {
-      margin: 0;
-    }
+    margin-bottom: 1em;
   `;
 
   return <Highlight>{children}</Highlight>;
