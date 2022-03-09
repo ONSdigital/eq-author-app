@@ -10,7 +10,7 @@ const CommentHighlight = ({ children }) => {
     Uses rbga to handle opacity - using CSS' opacity property also applies opacity to child elements
     Same colour as neonYellow (#F0F762)
     */
-    background-color: rgba(240, 247, 98, 0.1);
+    background-color: rgba(240, 247, 98, 0.025);
     border: 2px solid ${({ theme }) => theme.colors.neonYellow};
     outline: 1px solid ${colors.commentHighlight};
     padding: 1em;
