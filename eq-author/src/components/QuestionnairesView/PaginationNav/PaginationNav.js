@@ -146,8 +146,8 @@ const Pagination = ({
         </PrevButton>
 
         {pageNumbers().map((key, index) => {
-          console.log("key :>> ", key);
-          console.log("currentPageIndex :>> ", currentPageIndex + 1);
+          // console.log("key :>> ", key);
+          // console.log("currentPageIndex :>> ", currentPageIndex + 1);
 
           if (key === "...") {
             return <DotsItems data-test={`dots-${index}`}>...</DotsItems>;

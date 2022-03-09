@@ -528,25 +528,15 @@ describe("QuestionnairesView", () => {
     });
 
     it("should not be able to delete a read only questionnaire", () => {
-      const questionnaires = [
-        buildQuestionnaire(1, {
-          permission: READ,
-        }),
-        buildQuestionnaire(2, {
-          permission: READ,
-        }),
-        buildQuestionnaire(3, {
-          permission: READ,
-        }),
-      ];
+      props.questionnaires[0].permission = READ;
 
-      const { getByTitle, queryByTestId, getByText } = render(
-        <QuestionnairesView {...props} questionnaires={questionnaires} />
+      const { getAllByTitle, queryByTestId, getByText } = render(
+        <QuestionnairesView {...props} />
       );
 
       expect(getByText("Questionnaire 1 Title")).toBeTruthy();
 
-      const deleteButton = getByTitle("Delete");
+      const deleteButton = getAllByTitle("Delete")[0];
       fireEvent.click(deleteButton);
       const confirmButton = queryByTestId("btn-delete-modal");
 
