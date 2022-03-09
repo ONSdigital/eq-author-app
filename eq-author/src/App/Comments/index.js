@@ -79,7 +79,6 @@ const Replies = styled(Collapsible)`
 
 const CommentsPanel = ({ componentId }) => {
   const { me } = useMe();
-  const history = useHistory();
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [createReply] = useMutation(REPLY_ADD);

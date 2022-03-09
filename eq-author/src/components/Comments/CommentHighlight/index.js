@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 
-// TODO: Comment highlight styling changes
 const CommentHighlight = ({ children }) => {
   const Highlight = styled.div`
     /* 
