@@ -8,8 +8,6 @@ import Button from "components-themed/buttons/button";
 import SearchBar from "components/SearchBar";
 import { colors } from "constants/theme";
 
-import AccessFilter from "./AccessFilter";
-
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
 const DEBOUNCE_TIMEOUT = 200;
@@ -37,8 +35,6 @@ const Wrapper = styled.div`
 const Header = ({
   onCreateQuestionnaire,
   onSearchChange,
-  onToggleFilter,
-  isFiltered,
   canCreateQuestionnaire = true,
   padding,
 }) => {
@@ -55,7 +51,6 @@ const Header = ({
       <Title>Questionnaires</Title>
       <Wrapper>
         <SearchBar onChange={onSearchChangeDebounced} paddingType={padding} />
-        {/* <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} paddingType={padding} /> */}
 
         {canCreateQuestionnaire && (
           <Theme themeName={"ons"}>

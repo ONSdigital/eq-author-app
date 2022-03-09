@@ -47,7 +47,7 @@ const QuestionnairesView = ({
       currentSortColumn: "createdAt",
       currentSortOrder: SORT_ORDER.DESCENDING,
       searchTerm: "",
-      isFiltered: true,
+      isFiltered: false,
     },
     buildInitialState(questionnairesRef.current)
   );
