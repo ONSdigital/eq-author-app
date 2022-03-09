@@ -117,6 +117,23 @@ export const activeNavItemStyle = css`
       fill: ${colors.black};
     }
   }
+
+  #comment-notification {
+    border-top: 3px solid ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-bottom: 3px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-right: 3px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-left: 5px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+
+    &::before {
+      border-left: 7px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
+      border-top: 7px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
+    }
+  }
 `;
 
 export const hoverStyle = css`
