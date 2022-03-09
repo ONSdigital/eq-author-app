@@ -45,6 +45,15 @@ import {
   buildShortcutsPath,
 } from "utils/UrlUtils";
 
+const Platform = styled.h3`
+  color: ${colors.white};
+  background: ${enableOn(["gcp"]) ? colors.oceanBlue : colors.blue};
+  position: relative;
+  text-align: center;
+  padding: 0.5em;
+  margin-top: 0;
+`;
+
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
   background: ${colors.black};
@@ -102,6 +111,13 @@ export const UnwrappedMainNavigation = ({
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
+            <Platform
+              title={enableOn(["gcp"]) ? "Platform GCP" : "Platform AWS"}
+              data-test="platform-badge"
+            >
+              {enableOn(["gcp"]) ? "GCP" : "AWS"}
+            </Platform>
+
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
