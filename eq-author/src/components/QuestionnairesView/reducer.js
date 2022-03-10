@@ -43,17 +43,9 @@ const filterQuestionnairesBySearch = (state) => (questionnaires) => {
   );
 };
 
-const filterQuestionnairesByOwnership = (state) => (questionnaires) => {
-  if (!state.isFiltered) {
-    return questionnaires;
-  }
-  return questionnaires.filter((q) => q.permission === WRITE);
-};
-
 const buildState = (state) => {
   const questionnaires = flowRight([
     filterQuestionnairesBySearch(state),
-    filterQuestionnairesByOwnership(state),
     sortQuestionnaires(state),
   ])(state.apiQuestionnaires);
 
@@ -78,7 +70,6 @@ export const ACTIONS = {
   SORT_COLUMN: "SORT_COLUMN",
   REVERSE_SORT: "REVERSE_SORT",
   SEARCH: "SEARCH",
-  TOGGLE_FILTER: "TOGGLE_FILTER",
 };
 
 const reducer = (state, action) => {

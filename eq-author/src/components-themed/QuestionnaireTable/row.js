@@ -4,7 +4,6 @@ import Tooltip from "components/Forms/Tooltip";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { rgba } from "polished";
 
 import CustomPropTypes from "custom-prop-types";
 

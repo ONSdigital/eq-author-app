@@ -745,7 +745,6 @@ describe("QuestionnairesView", () => {
         buildQuestionnaire(2, {
           createdAt: "2019-05-09T12:36:50.984Z",
           locked: true,
-          permission: READ,
         }),
         buildQuestionnaire(1, {
           createdAt: "2019-05-11T12:36:50.984Z",
@@ -754,7 +753,10 @@ describe("QuestionnairesView", () => {
           createdAt: "2019-05-08T12:36:50.984Z",
           starred: true,
         }),
-        buildQuestionnaire(5, { createdAt: "2019-05-12T12:36:50.984Z" }),
+        buildQuestionnaire(5, {
+          createdAt: "2019-05-12T12:36:50.984Z",
+          permission: READ,
+        }),
       ];
     });
 
@@ -838,12 +840,12 @@ describe("QuestionnairesView", () => {
 
       fireEvent.click(getByTestId("access-sort-button"));
       expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-        `Questionnaire 2 Title`
+        `Questionnaire 5 Title`
       );
 
       fireEvent.click(getByTestId("access-sort-button"));
       expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-        `Questionnaire 4 Title`
+        `Questionnaire 3 Title`
       );
     });
 

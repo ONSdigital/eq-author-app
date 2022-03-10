@@ -72,16 +72,11 @@ const NextButton = styled(PaginationButton)`
   }
 `;
 
-const Pagination = ({
-  currentPageIndex,
-  onPageChange,
-  siblingCount = 2,
-  pageCount,
-  totalCount,
-}) => {
+const Pagination = ({ currentPageIndex, onPageChange, pageCount }) => {
   //last page is not total count
   const firstPage = 1;
   const lastPage = pageCount;
+  const siblingCount = 2;
 
   const range = (from, to) => {
     const pagesArray = [];
@@ -146,11 +141,12 @@ const Pagination = ({
         </PrevButton>
 
         {pageNumbers().map((key, index) => {
-          // console.log("key :>> ", key);
-          // console.log("currentPageIndex :>> ", currentPageIndex + 1);
-
           if (key === "...") {
-            return <DotsItems data-test={`dots-${index}`}>...</DotsItems>;
+            return (
+              <DotsItems key={index} data-test={`dots-${index}`}>
+                ...
+              </DotsItems>
+            );
           } else {
             return (
               <PaginationButton
@@ -184,7 +180,6 @@ Pagination.propTypes = {
   pageCount: PropTypes.number.isRequired,
   currentPageIndex: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-  siblingCount: PropTypes.number.isRequired,
 };
 
 export default Pagination;

@@ -14,12 +14,7 @@ const Result = styled.div`
   margin-top: 0.5em;
 `;
 
-const PaginationNavTable = ({
-  pageCount,
-  currentPageIndex,
-  onPageChange,
-  totalCount,
-}) => (
+const PaginationNavTable = ({ pageCount, currentPageIndex, onPageChange }) => (
   <>
     <Result data-test="pages">
       {`Page ${currentPageIndex + 1} of ${pageCount}`}
@@ -28,17 +23,13 @@ const PaginationNavTable = ({
       currentPageIndex={currentPageIndex}
       pageCount={pageCount}
       onPageChange={onPageChange}
-      totalCount={totalCount}
     />
   </>
 );
 PaginationNavTable.propTypes = {
-  countOnPage: PropTypes.number.isRequired,
-  totalCount: PropTypes.number.isRequired,
   pageCount: PropTypes.number.isRequired,
   currentPageIndex: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-  padding: PropTypes.string,
 };
 
 export default PaginationNavTable;

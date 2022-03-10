@@ -76,8 +76,6 @@ const Header = ({
 Header.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
-  onToggleFilter: PropTypes.func.isRequired,
-  isFiltered: PropTypes.bool.isRequired,
   canCreateQuestionnaire: PropTypes.bool,
   padding: PropTypes.string,
 };
