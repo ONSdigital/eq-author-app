@@ -31,7 +31,6 @@ export const QuestionnaireLink = styled.span`
   text-weight: 700;
   display: flex;
   flex-direction: column;
-  margin-left: 0.2em;
   text-decoration: underline;
   width: fit-content;
   &:focus {
