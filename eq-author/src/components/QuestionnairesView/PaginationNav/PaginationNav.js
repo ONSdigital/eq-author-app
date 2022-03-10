@@ -5,7 +5,6 @@ import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons/button.js";
 import VisuallyHidden from "components/VisuallyHidden";
 import { colors } from "constants/theme";
-import { keysIn } from "lodash";
 
 const Container = styled.div`
   display: flex;
@@ -104,10 +103,8 @@ const Pagination = ({ currentPageIndex, onPageChange, pageCount }) => {
       }
       case hasLeftSide && !hasRightSide: {
         //1 ... 5, 6, 7, 8, 9, 10
-        // 3,  7
         let rightRange = range(pageCount - totalItems + 1, pageCount);
 
-        // let rightRange = range(firstLeftPage, lastRightPage);
         return [firstPage, "...", ...rightRange];
       }
       case !hasLeftSide && hasRightSide: {

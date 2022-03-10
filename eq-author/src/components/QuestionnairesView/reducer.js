@@ -1,7 +1,5 @@
 import { get, chunk, clamp, sortBy, reverse, flowRight } from "lodash";
 
-import { WRITE } from "constants/questionnaire-permissions";
-
 import { SORT_ORDER } from "constants/sort-order";
 
 const PAGE_SIZE = 12;
