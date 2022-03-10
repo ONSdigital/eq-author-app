@@ -71,6 +71,10 @@ export const sectionErrors = {
   SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
 };
 
+export const listErrors = {
+  LISTNAME_MISSING: "List name required",
+};
+
 export const textAreaErrors = {
   ERR_MAX_LENGTH_TOO_LARGE: {
     errorCode: "ERR_MAX_LENGTH_TOO_large",

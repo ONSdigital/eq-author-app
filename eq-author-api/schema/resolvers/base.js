@@ -83,6 +83,7 @@ const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
+const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -148,6 +149,10 @@ const createNewQuestionnaire = (input) => {
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
+    collectionLists: {
+      id: uuidv4(),
+      lists: [],
+    },
     themeSettings: {
       id: uuidv4(),
       previewTheme: defaultTheme.shortName,
@@ -283,9 +288,9 @@ const Resolvers = {
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     submission: (root, _, ctx) => ctx.questionnaire.submission,
-    lists: (_, args, ctx) => ctx.questionnaire.lists,
+    collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
-      find(ctx.questionnaire.lists, { id: listId }),
+      find(ctx.questionnaire.collectionLists.lists, { id: listId }),
   },
 
   Subscription: {
@@ -355,9 +360,12 @@ const Resolvers = {
 
       return ctx.questionnaire;
     },
-    updateQuestionnaire: createMutation((_, { input }, ctx) =>
-      Object.assign(ctx.questionnaire, input)
-    ),
+    updateQuestionnaire: createMutation((_, { input }, ctx) => {
+      Object.assign(ctx.questionnaire, input);
+      onQuestionnaireUpdated(ctx.questionnaire);
+
+      return ctx.questionnaire;
+    }),
     toggleQuestionnaireStarred: async (root, { input }, ctx) => {
       const { questionnaireId } = input;
       const questionnaire = await getQuestionnaire(questionnaireId);
@@ -667,7 +675,12 @@ const Resolvers = {
     }),
     updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
-        const page = getPageById(ctx, questionPageId);
+        let page = getPageById(ctx, questionPageId);
+        if (!page) {
+          page = find(ctx.questionnaire.collectionLists.lists, {
+            id: questionPageId,
+          });
+        }
         const answersOfType = page.answers.filter((a) => a.type === type);
         answersOfType.forEach((answer) => {
           answer.properties = {
@@ -689,9 +702,12 @@ const Resolvers = {
       return page;
     }),
     moveAnswer: createMutation((_, { input: { id, position } }, ctx) => {
-      const page = getPageByAnswerId(ctx, id);
-      const answerMoving = first(remove(page.answers, { id }));
-      page.answers.splice(position, 0, answerMoving);
+      let object = getPageByAnswerId(ctx, id);
+      if (!object) {
+        object = getListByAnswerId(ctx, id);
+      }
+      const answerMoving = first(remove(object.answers, { id }));
+      object.answers.splice(position, 0, answerMoving);
 
       return answerMoving;
     }),
@@ -893,11 +909,14 @@ const Resolvers = {
     }),
     createList: createMutation(async (root, _, ctx) => {
       const list = createList();
-      if (!ctx.questionnaire.lists) {
-        ctx.questionnaire.lists = [];
+      if (!ctx.questionnaire.collectionLists) {
+        ctx.questionnaire.collectionLists = {
+          id: uuidv4(),
+          lists: [],
+        };
       }
-      ctx.questionnaire.lists.push(list);
-      return ctx.questionnaire;
+      ctx.questionnaire.collectionLists.lists.push(list);
+      return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
       const list = getListById(ctx, input.id);
@@ -905,11 +924,13 @@ const Resolvers = {
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
-      remove(ctx.questionnaire.lists, { id: input.id });
-      return ctx.questionnaire;
+      remove(ctx.questionnaire.collectionLists.lists, { id: input.id });
+      return ctx.questionnaire.collectionLists;
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
-      const list = find(ctx.questionnaire.lists, { id: input.listId });
+      const list = find(ctx.questionnaire.collectionLists.lists, {
+        id: input.listId,
+      });
       const answer = createAnswer(omit(input, "listId"), list);
       list.answers.push(answer);
 
@@ -917,43 +938,6 @@ const Resolvers = {
 
       return list;
     }),
-    updateListAnswer: createMutation((root, { input }, ctx) => {
-      const answers = getAnswers(ctx);
-      const additionalAnswers = flatMap(answers, (answer) =>
-        answer.options
-          ? flatMap(answer.options, (option) => option.additionalAnswer)
-          : null
-      );
-      const answer = find(concat(answers, additionalAnswers), { id: input.id });
-      const oldAnswerLabel = answer.label;
-      merge(answer, input);
-
-      if (answer.type === DATE && !input.label && input?.properties?.format) {
-        answer.validation.earliestDate.offset.unit =
-          DURATION_LOOKUP[input.properties.format];
-        answer.validation.latestDate.offset.unit =
-          DURATION_LOOKUP[input.properties.format];
-      }
-
-      const pages = getPages(ctx);
-      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
-
-      return answer;
-    }),
-    updateListAnswersOfType: createMutation(
-      (root, { input: { listId, type, properties } }, ctx) => {
-        const list = find(ctx.questionnaire.lists, { id: listId });
-        const answersOfType = list.answers.filter((a) => a.type === type);
-        answersOfType.forEach((answer) => {
-          answer.properties = {
-            ...answer.properties,
-            ...properties,
-          };
-        });
-
-        return answersOfType;
-      }
-    ),
     deleteListAnswer: createMutation((_, { input }, ctx) => {
       const list = getListByAnswerId(ctx, input.id);
       const deletedAnswer = first(remove(list.answers, { id: input.id }));
@@ -1298,6 +1282,7 @@ const Resolvers = {
     createdBy: (questionnaire) => getUserById(questionnaire.createdBy),
     questionnaireInfo: (questionnaire) => questionnaire,
     metadata: (questionnaire) => questionnaire.metadata,
+    collectionLists: (questionnaire) => questionnaire.collectionLists,
     displayName: (questionnaire) =>
       questionnaire.shortTitle || questionnaire.title,
     editors: (questionnaire) =>
@@ -1354,6 +1339,9 @@ const Resolvers = {
   List: {
     answers: (list) => list.answers,
     displayName: ({ listName }) => listName || "Untitled list",
+    metadata: (_, args, ctx) => {
+      return ctx.questionnaire.metadata;
+    },
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
@@ -1419,6 +1407,7 @@ const Resolvers = {
 
       return parentPage;
     },
+    list: ({ id }, args, ctx) => getListByAnswerId(ctx, id),
     mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),
     validation: (answer) =>
@@ -1458,6 +1447,7 @@ const Resolvers = {
     page: (answer, args, ctx) => {
       return getPageByAnswerId(ctx, answer.id);
     },
+    list: ({ id }, args, ctx) => getListByAnswerId(ctx, id),
     options: (answer) => answer.options.filter((o) => !o.mutuallyExclusive),
     mutuallyExclusiveOption: (answer) =>
       find(answer.options, { mutuallyExclusive: true }),

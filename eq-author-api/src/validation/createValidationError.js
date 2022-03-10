@@ -85,7 +85,7 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
         break;
 
       case "lists":
-        list = questionnaire.lists[nextVal];
+        list = questionnaire.collectionLists.lists[nextVal];
         validationErr.type = "list";
         validationErr.listId = list?.id;
         break;

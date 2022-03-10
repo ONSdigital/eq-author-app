@@ -34,7 +34,7 @@ describe("Layout", () => {
 
   it("should show the title", () => {
     const { getByText } = renderLayoutWithContext(props);
-    expect(getByText("My title")).toBeTruthy();
+    expect(getByText("My title (AWS)")).toBeTruthy();
     expect(document.title).toEqual("My title");
   });
 

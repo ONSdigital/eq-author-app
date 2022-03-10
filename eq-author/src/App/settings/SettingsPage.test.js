@@ -4,6 +4,9 @@ import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
+import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
+
+import config from "config";
 
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
@@ -38,6 +41,10 @@ describe("Settings page", () => {
       surveyId: "123",
       theme: "default",
       displayName: "Roar",
+      introduction: {
+        id: "spyro-1",
+        showOnHub: false,
+      },
       createdBy: {
         ...user,
       },
@@ -167,12 +174,11 @@ describe("Settings page", () => {
       },
       {
         request: {
-          query: updateQuestionnaireMutation,
+          query: updateQuestionnaireIntroductionMutation,
           variables: {
             input: {
-              id: mockQuestionnaire.id,
-              navigation: false,
-              hub: false,
+              id: mockQuestionnaire.introduction.id,
+              showOnHub: false,
             },
           },
         },
@@ -182,8 +188,116 @@ describe("Settings page", () => {
             data: {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
+                hub: true,
                 navigation: false,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: false,
+                },
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireIntroductionMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              showOnHub: true,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaireIntroductionMutation: {
+                ...mockQuestionnaire,
+                hub: true,
+                navigation: false,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: true,
+                },
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              showOnHub: true,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                introduction: {
+                  id: mockQuestionnaire.introduction.id,
+                  showOnHub: true,
+                },
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              hub: false,
+              navigation: false,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
                 hub: false,
+                navigation: false,
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              hub: true,
+              navigation: false,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                hub: true,
+                navigation: false,
                 __typename: "Questionnaire",
               },
             },
@@ -411,7 +525,41 @@ describe("Settings page", () => {
   });
 
   describe("Section navigation toggle", () => {
+    it("Should display section navigation when hub feature flag is not enabled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const sectionNavigationToggle = queryByTestId(
+        "toggle-section-navigation"
+      );
+
+      expect(sectionNavigationToggle).toBeInTheDocument();
+    });
+
+    it("Should not display collapsible summaries when hub feature flag is enabled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const sectionNavigationToggle = queryByTestId(
+        "toggle-section-navigation"
+      );
+
+      expect(sectionNavigationToggle).not.toBeInTheDocument();
+    });
+
     it("Should enable/disable the section navigation when toggled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "";
+
       const { getByTestId } = renderSettingsPage(
         mockQuestionnaire,
         user,
@@ -443,9 +591,9 @@ describe("Settings page", () => {
         mocks
       );
 
-      const sectionNavigationToggle = getByTestId("toggle-answer-summary");
+      const answerSummaryToggle = getByTestId("toggle-answer-summary");
 
-      const toggle = Object.values(sectionNavigationToggle.children).reduce(
+      const toggle = Object.values(answerSummaryToggle.children).reduce(
         (child) => (child.type === "checkbox" ? child : null)
       );
 
@@ -468,9 +616,11 @@ describe("Settings page", () => {
         mocks
       );
 
-      const sectionNavigationToggle = getByTestId("toggle-collapsible-summary");
+      const collapsibleSummaryToggle = getByTestId(
+        "toggle-collapsible-summary"
+      );
 
-      const toggle = Object.values(sectionNavigationToggle.children).reduce(
+      const toggle = Object.values(collapsibleSummaryToggle.children).reduce(
         (child) => (child.type === "checkbox" ? child : null)
       );
 
@@ -482,6 +632,148 @@ describe("Settings page", () => {
       });
 
       expect(queryWasCalled).toBeTruthy();
+    });
+  });
+
+  describe("Hub navigation toggle", () => {
+    it("Should not display hub introduction toggle switch when hub feature flag is not enabled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubNavigationToggle = queryByTestId("toggle-hub-navigation");
+
+      expect(hubNavigationToggle).not.toBeInTheDocument();
+    });
+
+    it("Should enable/disable hub navigation when toggled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubNavigationToggle = getByTestId("toggle-hub-navigation");
+
+      const toggle = Object.values(hubNavigationToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+  });
+
+  describe("Hub introduction toggle", () => {
+    beforeEach(() => {
+      config.REACT_APP_FEATURE_FLAGS = "hub";
+    });
+
+    it("Should not display hub introduction toggle switch when hub feature flag is not enabled", async () => {
+      config.REACT_APP_FEATURE_FLAGS = "";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
+
+      expect(hubIntroductionToggle).not.toBeInTheDocument();
+    });
+
+    it("Should display hub introduction toggle switch on business questionnaire type", async () => {
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
+
+      expect(hubIntroductionToggle).toBeInTheDocument();
+    });
+
+    it("Should not display hub introduction toggle switch on social questionnaire type", async () => {
+      mockQuestionnaire.type = "Social";
+
+      const { queryByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
+
+      expect(hubIntroductionToggle).not.toBeInTheDocument();
+    });
+
+    it("Should enable/disable hub introduction when toggled", async () => {
+      mockQuestionnaire.hub = true;
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionToggle = getByTestId("toggle-hub-introduction");
+
+      const toggle = Object.values(hubIntroductionToggle.children).reduce(
+        (child) => (child.type === "checkbox" ? child : null)
+      );
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    it("Should enable hub introduction toggle switch when hub navigation is enabled", async () => {
+      mockQuestionnaire.hub = true;
+
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionWrapper = getByTestId(
+        "toggle-hub-introduction-wrapper"
+      );
+
+      expect(hubIntroductionWrapper).toHaveStyleRule("pointer-events", "auto");
+    });
+
+    it("Should disable hub introduction toggle switch when hub navigation is disabled", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const hubIntroductionWrapper = getByTestId(
+        "toggle-hub-introduction-wrapper"
+      );
+
+      expect(hubIntroductionWrapper).toHaveStyleRule("pointer-events", "none");
     });
   });
 });

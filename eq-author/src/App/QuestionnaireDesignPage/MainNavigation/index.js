@@ -16,6 +16,8 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
 
+import { enableOn } from "utils/featureFlags";
+
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
@@ -23,6 +25,7 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
+import collectionListsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/collection-lists-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
@@ -36,10 +39,21 @@ import {
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
+  buildCollectionListsPath,
   buildSharingPath,
   buildSettingsPath,
   buildShortcutsPath,
 } from "utils/UrlUtils";
+
+const Platform = styled.h3`
+  color: ${colors.white};
+  background: ${enableOn(["gcp"]) ? colors.oceanBlue : colors.blue};
+  position: relative;
+  text-align: center;
+  padding: 0.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+`;
 
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
@@ -68,6 +82,7 @@ export const UnwrappedMainNavigation = ({
   totalErrorCount,
   qcodesEnabled,
   settingsError,
+  listsError,
   formTypeErrorCount,
   title,
   children,
@@ -97,6 +112,13 @@ export const UnwrappedMainNavigation = ({
       <StyledMainNavigation data-test="main-navigation">
         <Flex>
           <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
+            <Platform
+              title={enableOn(["gcp"]) ? "Platform GCP" : "Platform AWS"}
+              data-test="platform-badge"
+            >
+              {enableOn(["gcp"]) ? "GCP" : "AWS"}
+            </Platform>
+
             {hasQuestionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
@@ -161,7 +183,25 @@ export const UnwrappedMainNavigation = ({
                     History
                   </IconText>
                 </RouteButton>
-
+                {enableOn(["lists"]) && (
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "collectionLists" &&
+                        "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-collection-lists"
+                    to={buildCollectionListsPath(params)}
+                  >
+                    <IconText nav icon={collectionListsIcon}>
+                      Collection Lists
+                    </IconText>
+                    {listsError && (
+                      <Badge data-test="lists-error-badge" variant="main-nav" />
+                    )}
+                  </RouteButton>
+                )}
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "metadata" && "navigation-on") ||
@@ -243,6 +283,7 @@ UnwrappedMainNavigation.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   settingsError: PropTypes.bool,
+  listsError: PropTypes.bool,
   formTypeErrorCount: PropTypes.number,
   hasSurveyID: PropTypes.bool,
 };

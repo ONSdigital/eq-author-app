@@ -121,9 +121,11 @@ const RecoverPassword = ({
               Send
             </Button>
           </Field>
-          <ButtonLink onClick={handleReturnToSignInPage}>
-            Return to the sign in page
-          </ButtonLink>
+          <Field>
+            <ButtonLink onClick={handleReturnToSignInPage}>
+              Return to the sign in page
+            </ButtonLink>
+          </Field>
         </>
       )}
 

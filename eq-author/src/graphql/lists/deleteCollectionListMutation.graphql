@@ -1,0 +1,10 @@
+#import "./list.graphql"
+
+mutation DeleteList($input: DeleteListInput) {
+  deleteList(input: $input) {
+    id
+    lists {
+      ...List
+    }
+  }
+}

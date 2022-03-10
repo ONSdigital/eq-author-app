@@ -81,6 +81,11 @@ const section = {
     id: questionnaireId,
     navigation: true,
     hub: false,
+    collectionLists: {
+      __typename: "collectionLists",
+      id: "abc",
+      lists: [],
+    },
     questionnaireInfo: {
       __typename: "QuestionnaireInfo",
       totalSectionCount: 1,
@@ -113,6 +118,11 @@ const moveSectionMock = {
         surveyId: "1",
         theme: "foo",
         themes: [],
+        collectionLists: {
+          __typename: "collectionLists",
+          id: "abc",
+          lists: [],
+        },
         type: "Social",
         qcodes: true,
         navigation: true,
@@ -123,6 +133,11 @@ const moveSectionMock = {
         shortTitle: "Short tile",
         permission: WRITE,
         isPublic: true,
+        introduction: {
+          id: "1",
+          showOnHub: false,
+          __typename: "Introduction",
+        },
         createdBy: {
           id: "1",
           name: "Some user",
