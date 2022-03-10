@@ -306,7 +306,6 @@ export const Row = ({
           <TD key={heading}>
             <QuestionnaireLink
               data-test="anchor-questionnaire-title"
-              title={displayName}
               tabIndex="0"
               linkHasFocus={linkHasFocus}
               questionnaireModal={questionnaireModal}
