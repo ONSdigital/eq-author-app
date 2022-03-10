@@ -30,11 +30,11 @@ import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 export const QuestionnaireLink = styled.span`
   color: ${colors.blueLink};
   text-weight: 700;
-  padding: 0 0.5em;
   display: flex;
   flex-direction: column;
-  margin-left: -0.5em;
+  margin-left: 0.2em;
   text-decoration: underline;
+  width: fit-content;
   &:focus {
     outline: none;
   }
@@ -68,6 +68,10 @@ export const IconTextButton = styled(Button).attrs({
     transition: 0.1s;
     fill: ${colors.white};
   }
+`;
+
+const LockedIconTextButton = styled(IconTextButton)`
+  padding: 0.375em 0.55em;
 `;
 
 export const DuplicateIconButton = styled(DuplicateButton)`
@@ -118,7 +122,6 @@ export const TR = styled.tr`
   position: relative;
 
   &:hover {
-    background-color: ${rgba(colors.primary, 0.1)};
     border: 1px solid ${colors.tertiary};
     cursor: pointer;
   }
@@ -317,6 +320,7 @@ export const Row = ({
               tabIndex="0"
               linkHasFocus={linkHasFocus}
               questionnaireModal={questionnaireModal}
+              onClick={handleClick}
             >
               <Truncated>{title}</Truncated>
             </QuestionnaireLink>
@@ -340,14 +344,14 @@ export const Row = ({
         return (
           <TD key={heading}>
             <Tooltip content={locked ? "Locked" : "Not locked"} place="top">
-              <IconTextButton
+              <LockedIconTextButton
                 title="Lock"
                 data-test="lockButton"
                 onClick={handleLock}
                 disabled={!hasWritePermission}
               >
                 {locked ? <LockedIcon /> : <UnlockedIcon />}
-              </IconTextButton>
+              </LockedIconTextButton>
             </Tooltip>
           </TD>
         );
@@ -406,7 +410,6 @@ export const Row = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         linkHasFocus={linkHasFocus}
-        onClick={handleClick}
         questionnaireModal={questionnaireModal}
         data-test="table-row"
       >

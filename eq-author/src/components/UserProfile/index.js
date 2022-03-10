@@ -12,21 +12,6 @@ import IconText from "components/IconText";
 import guestAvatar from "./icon-guest-avatar.svg";
 import signOutIcon from "./signout-icon.svg?inline";
 
-const UserAvatar = styled.img`
-  border-radius: 50%;
-  margin-right: 0.5em;
-  width: 2em;
-  height: 2em;
-  fill: var(--color-text);
-  text-align: center;
-`;
-
-const UserName = styled.span`
-  line-height: 1.3;
-  white-space: pre;
-  font-weight: 400;
-`;
-
 export const LogoutButton = styled(Button)`
   font-size: 1em;
   font-weight: 400;
@@ -63,7 +48,12 @@ const UserProfile = ({ nav }) => {
           </IconText>
         </NavLogoutButton>
       ) : (
-        <LogoutButton onClick={signOut} variant="tertiary-light" medium>
+        <LogoutButton
+          data-test="signOut-btn"
+          onClick={signOut}
+          variant="tertiary-light"
+          medium
+        >
           Sign Out
         </LogoutButton>
       )}

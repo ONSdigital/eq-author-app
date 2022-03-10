@@ -667,18 +667,13 @@ describe("QuestionnairesView", () => {
 
       expect(getByText("Page 2 of 2")).toBeTruthy();
     });
-  });
-
-  describe("Pagination part 2 ", () => {
-    beforeEach(() => {
-      props.questionnaires = new Array(121)
-        .fill("")
-        .map((_, index) => buildQuestionnaire(index));
-    });
 
     it("it should render the correct page numbers when there are more than 7 pages", () => {
+      const questionnaires = new Array(121)
+        .fill("")
+        .map((_, index) => buildQuestionnaire(index));
       const { queryByTestId, getByText } = render(
-        <QuestionnairesView {...props} />
+        <QuestionnairesView {...props} questionnaires={questionnaires} />
       );
       expect(getByText("Page 1 of 11")).toBeTruthy();
 
@@ -692,8 +687,11 @@ describe("QuestionnairesView", () => {
       expect(queryByTestId("pagination-11")).toBeTruthy();
     });
     it("it should render the correct middle range when there are more than 7 pages clicking a specifc page number", () => {
+      const questionnaires = new Array(121)
+        .fill("")
+        .map((_, index) => buildQuestionnaire(index));
       const { queryByTestId, getByText } = render(
-        <QuestionnairesView {...props} />
+        <QuestionnairesView {...props} questionnaires={questionnaires} />
       );
 
       const pageNum = queryByTestId("pagination-5");
@@ -713,8 +711,11 @@ describe("QuestionnairesView", () => {
     });
 
     it("it should render the correct page numbers at the end when there are more than 7 pages when clicking on the last page number", () => {
+      const questionnaires = new Array(121)
+        .fill("")
+        .map((_, index) => buildQuestionnaire(index));
       const { queryByTestId, getByText } = render(
-        <QuestionnairesView {...props} />
+        <QuestionnairesView {...props} questionnaires={questionnaires} />
       );
 
       const pageNum = queryByTestId("pagination-11");
@@ -744,10 +745,10 @@ describe("QuestionnairesView", () => {
         buildQuestionnaire(2, {
           createdAt: "2019-05-09T12:36:50.984Z",
           locked: true,
+          permission: READ,
         }),
         buildQuestionnaire(1, {
           createdAt: "2019-05-11T12:36:50.984Z",
-          permission: READ,
         }),
         buildQuestionnaire(3, {
           createdAt: "2019-05-08T12:36:50.984Z",
@@ -836,9 +837,8 @@ describe("QuestionnairesView", () => {
       );
 
       fireEvent.click(getByTestId("access-sort-button"));
-
       expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
-        `Questionnaire 1 Title`
+        `Questionnaire 2 Title`
       );
 
       fireEvent.click(getByTestId("access-sort-button"));
@@ -999,81 +999,5 @@ describe("QuestionnairesView", () => {
 
       expect(getByText("Page 1 of 2")).toBeTruthy();
     });
-  });
-  // describe("Filtering", () => {
-  //   it("starts with read only filtered out and correctly toggles between all and editable lists", () => {
-  //     const questionnaires = [
-  //       buildQuestionnaire(1, {
-  //         permission: WRITE,
-  //       }),
-  //       buildQuestionnaire(2, {
-  //         permission: READ,
-  //       }),
-  //       buildQuestionnaire(3, {
-  //         permission: READ,
-  //       }),
-  //     ];
-
-  //     const { getByLabelText, queryByText } = render(
-  //       <QuestionnairesView {...props} questionnaires={questionnaires} />
-  //     );
-
-  //     const showAllButton = getByLabelText("All");
-  //     const showOnlyEditable = getByLabelText("Editor");
-
-  //     expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
-  //     expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
-  //     expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
-
-  //     fireEvent.click(showAllButton);
-
-  //     expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
-  //     expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
-  //     expect(queryByText("Questionnaire 3 Title")).toBeTruthy();
-
-  //     fireEvent.click(showOnlyEditable);
-
-  //     expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
-  //     expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
-  //     expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
-  //   });
-
-  it("should render correct error when no owned questionnaires", () => {
-    props.questionnaires = [
-      buildQuestionnaire(1, {
-        permission: READ,
-      }),
-    ];
-
-    const { queryByText } = render(
-      <QuestionnairesView {...props} questionnaires={props.questionnaires} />
-    );
-
-    expect(
-      queryByText("You do not have editor access to any questionnaires")
-    ).toBeTruthy();
-  });
-
-  it("should render correct error when no owned questionnaires match a search term", () => {
-    props.questionnaires = [
-      buildQuestionnaire(1, {
-        permission: WRITE,
-      }),
-    ];
-
-    const { queryByText, getByLabelText } = render(
-      <QuestionnairesView {...props} questionnaires={props.questionnaires} />
-    );
-
-    const search = getByLabelText("Search");
-    fireEvent.change(search, {
-      target: { value: "not in any questionnaire" },
-    });
-
-    expect(
-      queryByText(
-        "You do not have editor access to any questionnaires matching this criteria"
-      )
-    ).toBeTruthy();
   });
 });

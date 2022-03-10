@@ -102,11 +102,14 @@ describe("Row", () => {
     expect(stopPropagation).toHaveBeenCalled();
   });
 
-  it("should call onClick when row is clicked", () => {
+  it("should call onClick when questionnaire link is clicked", () => {
     const wrapper = shallow(<Row {...props} />);
 
-    const tableRow = wrapper.find(TR);
-    tableRow.simulate("click");
+    const questionnaire = wrapper.find(
+      "[data-test='anchor-questionnaire-title']"
+    );
+    questionnaire.simulate("click");
+
     expect(props.onClick).toHaveBeenCalledWith(props.questionnaire.id);
   });
 
