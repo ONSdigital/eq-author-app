@@ -1500,6 +1500,7 @@ type Subscription {
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
   lockStatusUpdated(id: ID): Questionnaire!
+  allCommentsUpdated(id: ID!): [Comment]!
 }
 
 input PublishQuestionnaireInput {

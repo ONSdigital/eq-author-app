@@ -359,6 +359,24 @@ const Resolvers = {
         }
       ),
     },
+    allCommentsUpdated: {
+      resolve: async (root, args) => {
+        const { id } = args;
+
+        const { comments } = await getCommentsForQuestionnaire(id);
+
+        const questionnaireComments = [];
+
+        Object.keys(comments).forEach((key) => {
+          comments[key].forEach((comment) => {
+            questionnaireComments.push(comment);
+          });
+        });
+
+        return questionnaireComments;
+      },
+      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+    },
   },
 
   Mutation: {
