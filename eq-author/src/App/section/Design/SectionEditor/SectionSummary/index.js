@@ -73,12 +73,13 @@ const SectionSummary = ({
         collapsible, so respondents can show and hide the answers.
       </Caption>
       <StyledField>
-        <StyledDescribedText
-          htmlFor={`summary-title-${id}`}
-          description={`This will be shown on section and answer summaries.`}
-        >
-          Summary title
-        </StyledDescribedText>
+        <Label htmlFor={`summary-title-${id}`}>
+          <StyledDescribedText
+            description={`This will be shown on section and answer summaries.`}
+          >
+            Summary title
+          </StyledDescribedText>
+        </Label>
         <WrappingInput
           id={`summary-title-${id}`}
           name="summaryTitle"
