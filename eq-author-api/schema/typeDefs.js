@@ -723,6 +723,7 @@ type Query {
   me: User!
   users: [User!]!
   comments(id: ID!): [Comment!]!
+  allComments: [Comment]
   skippable(input: QueryInput!): Skippable
   submission: Submission
   collectionLists: CollectionLists

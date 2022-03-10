@@ -286,6 +286,20 @@ const Resolvers = {
       }
       return [];
     },
+    allComments: async (root, args, ctx) => {
+      const questionnaireId = ctx.questionnaire.id;
+      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
+
+      const questionnaireComments = [];
+
+      Object.keys(comments).forEach((key) => {
+        comments[key].forEach((comment) => {
+          questionnaireComments.push(comment);
+        });
+      });
+
+      return questionnaireComments;
+    },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,

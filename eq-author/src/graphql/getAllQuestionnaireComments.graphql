@@ -1,0 +1,6 @@
+query GetAllQuestionnaireComments {
+  allComments {
+    id
+    readBy
+  }
+}
