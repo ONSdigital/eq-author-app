@@ -11,6 +11,7 @@ const createQuestionPage = (input = {}) => ({
   anotherNegative: "No",
   addItemTitle: "",
   routing: null,
+  alias: "",
   ...omit(input, "folderId"),
 });
 

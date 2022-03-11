@@ -230,7 +230,7 @@ type QuestionPage implements Page & Skippable & Routable {
   validationErrorInfo: ValidationErrorInfo
 }
 
-type listCollectorPage implements Page & Skippable & Routable {
+type ListCollectorPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
   displayName: String!
@@ -247,6 +247,7 @@ type listCollectorPage implements Page & Skippable & Routable {
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
+  alias: String
 }
 
 type CalculatedSummaryPage implements Page & Skippable & Routable {
@@ -932,6 +933,7 @@ type Mutation {
   deleteListAnswer(input: DeleteListAnswerInput): List
   moveListAnswer(input: MoveListAnswerInput!): Answer!
   createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
+  updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
 }
 
 input CreateListCollectorPageInput {
@@ -942,7 +944,16 @@ input CreateListCollectorPageInput {
   anotherPositive: Boolean
   anotherNegative: String
   addItemTitle: String
-  routing: String
+}
+
+input UpdateListCollectorPageInput {
+  id: ID!
+  title: String
+  listId: ID
+  anotherTitle: String
+  anotherPositive: Boolean
+  anotherNegative: String
+  addItemTitle: String
 }
 
 input UpdateListInput {
