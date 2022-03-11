@@ -23,6 +23,7 @@ Resolvers.ListCollectorPage = {
     return folder.pages.findIndex((page) => page.id === id);
   },
   displayName: (page) => getName(page, "ListCollectorPage"),
+  answers: () => [],
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")

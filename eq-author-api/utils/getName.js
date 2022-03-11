@@ -10,6 +10,7 @@ const defaultNames = {
   CompositeAnswer: "Untitled answer",
   Metadata: "Untitled metadata",
   QuestionConfirmation: "Untitled confirmation question",
+  ListCollectorPage: "Untitled list collector",
 };
 
 const getName = (entity, typeName) => {
