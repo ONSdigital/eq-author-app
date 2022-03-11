@@ -15,7 +15,7 @@ const { createMutation } = require("../createMutation");
 
 const Resolvers = {};
 
-Resolvers.listCollectorPage = {
+Resolvers.ListCollectorPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
