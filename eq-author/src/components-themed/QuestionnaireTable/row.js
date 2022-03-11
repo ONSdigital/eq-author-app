@@ -38,6 +38,7 @@ export const QuestionnaireLink = styled.span`
   }
   &:hover {
     color: ${colors.darkerBlue};
+    cursor: pointer;
   }
   ${(props) =>
     props.linkHasFocus &&
@@ -137,7 +138,6 @@ export const TR = styled.tr`
 
   &:hover {
     border: 1px solid ${colors.tertiary};
-    cursor: pointer;
   }
 
   ${({ linkHasFocus, questionnaireModal }) =>
