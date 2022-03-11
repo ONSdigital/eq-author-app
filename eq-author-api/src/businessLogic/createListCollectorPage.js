@@ -1,14 +1,16 @@
 const { v4: uuidv4 } = require("uuid");
-const { omit } = require("lodash");
 
-const createListCollectorPage = (input = {}) => ({
+const createQuestionPage = (input = {}) => ({
   id: uuidv4(),
-  pageType: "QuestionPage",
+  pageType: "ListCollectorPage",
   title: "",
-  answers: [],
+  listId: "",
+  anotherTitle: "",
+  anotherPositive: "Yes",
+  anotherNegative: "No",
+  addItemTitle: "",
   routing: null,
-  alias: null,
-  ...omit(input, "folderId"),
+  ...input,
 });
 
-module.exports = createListCollectorPage;
+module.exports = createQuestionPage;
