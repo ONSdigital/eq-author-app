@@ -228,6 +228,7 @@ type QuestionPage implements Page & Skippable & Routable {
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 type CalculatedSummaryPage implements Page & Skippable & Routable {

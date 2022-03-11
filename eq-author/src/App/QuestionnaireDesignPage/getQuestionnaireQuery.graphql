@@ -1,5 +1,6 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 #import "graphql/lists/list.graphql"
+#import "graphql/fragments/comment.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -16,7 +17,7 @@ query GetQuestionnaire($input: QueryInput!) {
     hub
     collectionLists {
       id
-      lists{
+      lists {
         ...List
       }
     }
@@ -149,6 +150,9 @@ fragment Pages on Page {
     }
     confirmation {
       id
+    }
+    comments {
+      ...Comment
     }
   }
 }
