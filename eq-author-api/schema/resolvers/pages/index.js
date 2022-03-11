@@ -103,4 +103,5 @@ module.exports = [
   Resolvers,
   require("./questionPage").Resolvers,
   require("./calculatedSummaryPage").Resolvers,
+  require("./listCollectorPage").Resolvers,
 ];

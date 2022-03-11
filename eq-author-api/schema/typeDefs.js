@@ -230,6 +230,25 @@ type QuestionPage implements Page & Skippable & Routable {
   validationErrorInfo: ValidationErrorInfo
 }
 
+type listCollectorPage implements Page & Skippable & Routable {
+  id: ID!
+  title: String!
+  displayName: String!
+  pageType: PageType!
+  listId: listId!
+  section: Section!
+  folder: Folder!
+  position: Int!
+  anotherTitle: anotherTitle
+  anotherPositive: anotherPositive
+  anotherNegative:  anotherNegative
+  addItemTitle: addItemTitle
+  routing: Routing2
+  skipConditions: [ExpressionGroup2]
+  totalValidation: TotalValidationRule
+  validationErrorInfo: ValidationErrorInfo
+}
+
 type CalculatedSummaryPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
