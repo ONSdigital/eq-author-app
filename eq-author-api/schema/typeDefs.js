@@ -506,6 +506,7 @@ enum PageType {
   QuestionPage
   InterstitialPage
   CalculatedSummaryPage
+  ListCollectorPage
 }
 
 enum AnswerType {
