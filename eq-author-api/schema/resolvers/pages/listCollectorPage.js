@@ -9,20 +9,20 @@ const {
   getFolderByPageId,
 } = require("../utils");
 
-const { createListCollectionPage } = require("../../../src/businessLogic");
+const { createListCollectorPage } = require("../../../src/businessLogic");
 
 const { createMutation } = require("../createMutation");
 
 const Resolvers = {};
 
-Resolvers.listCollectionPage = {
+Resolvers.listCollectorPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  displayName: (page) => getName(page, "ListCollectionPage"),
+  displayName: (page) => getName(page, "ListCollectorPage"),
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
@@ -37,9 +37,9 @@ Resolvers.listCollectionPage = {
 };
 
 Resolvers.Mutation = {
-  createListCollectionPage: createMutation(
+  createListCollectorPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
-      const page = createListCollectionPage(pageInput);
+      const page = createListCollectorPage(pageInput);
       const { folderId } = pageInput;
       const folder = getFolderById(ctx, folderId);
       folder.pages.splice(position, 0, page);
@@ -55,4 +55,4 @@ Resolvers.Mutation = {
   }),
 };
 
-module.exports = { Resolvers, createListCollectionPage };
+module.exports = { Resolvers, createListCollectorPage };

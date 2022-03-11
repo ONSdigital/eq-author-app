@@ -3,17 +3,14 @@ const { omit } = require("lodash");
 
 const createQuestionPage = (input = {}) => ({
   id: uuidv4(),
-  pageType: "QuestionPage",
+  pageType: "ListCollectorPage",
   title: "",
-  description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [],
+  listId: "",
+  anotherTitle: "",
+  anotherPositive: "Yes",
+  anotherNegative: "No",
+  addItemTitle: "",
   routing: null,
-  alias: null,
-  ...omit(input, "folderId"),
 });
 
 module.exports = createQuestionPage;
