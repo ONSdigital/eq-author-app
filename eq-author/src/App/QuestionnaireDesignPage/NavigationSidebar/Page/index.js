@@ -44,6 +44,7 @@ const Page = ({
   const iconMap = {
     QuestionPage: IconQuestionPage,
     CalculatedSummaryPage: IconSummaryPage,
+    ListCollectorPage: IconQuestionPage,
   };
 
   return (
