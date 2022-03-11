@@ -34,7 +34,7 @@ const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
   return (
     <Wrapper>
-      <DeleteButton {...otherProps}>
+      <DeleteButton title="Delete" {...otherProps}>
         <IconText icon={IconDelete} hideText={hideText}>
           {iconText}
         </IconText>
