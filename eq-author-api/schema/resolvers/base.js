@@ -45,7 +45,6 @@ const {
   createSection,
   createTheme,
   createList,
-  createListCollector,
 } = require("../../src/businessLogic");
 
 const {
