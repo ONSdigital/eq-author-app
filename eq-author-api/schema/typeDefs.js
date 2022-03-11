@@ -931,6 +931,18 @@ type Mutation {
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
   deleteListAnswer(input: DeleteListAnswerInput): List
   moveListAnswer(input: MoveListAnswerInput!): Answer!
+  createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
+}
+
+input CreateListCollectorPageInput {
+  title: String
+  folderId: ID!
+  listId: ID
+  anotherTitle: String
+  anotherPositive: Boolean
+  anotherNegative: String
+  addItemTitle: String
+  routing: String
 }
 
 input UpdateListInput {
