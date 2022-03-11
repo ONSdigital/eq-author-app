@@ -235,7 +235,7 @@ type listCollectorPage implements Page & Skippable & Routable {
   title: String!
   displayName: String!
   pageType: PageType!
-  listId: listId!
+  listId: ID
   section: Section!
   folder: Folder!
   position: Int!
