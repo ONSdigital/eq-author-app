@@ -32,7 +32,7 @@ export const QuestionnaireLink = styled.span`
   display: flex;
   flex-direction: column;
   text-decoration: underline;
-  width: fit-content;
+
   &:focus {
     outline: none;
   }
@@ -72,23 +72,39 @@ const LockedIconTextButton = styled(IconTextButton)`
   padding: 0.375em 0.55em;
 `;
 
-export const DuplicateIconButton = styled(DuplicateButton)`
+export const StarredIconButton = styled(StarredIcon)`
   svg {
     path {
-      fill: ${colors.nightBlue};
+      fill: ${colors.oceanBlue};
+    }
+  }
+`;
+
+export const DuplicateIconButton = styled(DuplicateButton)`
+  &:hover svg * {
+    transition: 0.1s;
+    fill: ${colors.white};
+  }
+  svg {
+    path {
+      fill: ${colors.oceanBlue};
     }
   }
 `;
 
 export const DeleteButton = styled(IconButtonDelete)`
+  &:hover svg * {
+    transition: 0.1s;
+    fill: ${colors.white};
+  }
   svg {
     path {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.nightBlue};
+        disabledIcon ? colors.grey150 : colors.oceanBlue};
     }
     polygon {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.nightBlue};
+        disabledIcon ? colors.grey150 : colors.oceanBlue};
     }
   }
   .lid {
