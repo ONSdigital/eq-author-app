@@ -16,7 +16,7 @@ query GetQuestionnaire($input: QueryInput!) {
     hub
     collectionLists {
       id
-      lists{
+      lists {
         ...List
       }
     }
@@ -162,6 +162,16 @@ fragment ListCollectorPages on ListCollectorPage {
   position
   displayName
   pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }
 
 fragment Answers on Answer {
