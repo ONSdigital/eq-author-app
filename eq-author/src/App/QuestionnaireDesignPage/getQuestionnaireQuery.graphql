@@ -118,6 +118,7 @@ fragment PageNav on Section {
     pages {
       ...Pages
       ...ConfirmationPages
+      ...ListCollectorPages
     }
     validationErrorInfo {
       id
@@ -151,6 +152,16 @@ fragment Pages on Page {
       id
     }
   }
+}
+
+fragment ListCollectorPages on ListCollectorPage {
+  id
+  alias
+  title
+  alias
+  position
+  displayName
+  pageType
 }
 
 fragment Answers on Answer {
