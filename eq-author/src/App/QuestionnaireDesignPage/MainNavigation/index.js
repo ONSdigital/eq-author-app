@@ -52,6 +52,7 @@ const Platform = styled.h3`
   text-align: center;
   padding: 0.5em;
   margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const StyledMainNavigation = styled.div`
