@@ -46,7 +46,7 @@ Resolvers.Mutation = {
       return page;
     }
   ),
-  updateQuestionPage: createMutation((_, { input }, ctx) => {
+  updateListCollectorPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
 
     merge(page, omit(input, "folderId"));
