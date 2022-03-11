@@ -21,19 +21,19 @@ const tableHeadings = [
   },
   {
     heading: Headings.MODIFIED,
-    colWidth: "9%",
+    colWidth: "11%",
     sortColumn: "updatedAt",
     sortable: true,
   },
   {
     heading: Headings.LOCKED,
-    colWidth: "8%",
+    colWidth: "9%",
     sortColumn: "locked",
     sortable: true,
   },
   {
     heading: Headings.STARRED,
-    colWidth: "8%",
+    colWidth: "10%",
     sortColumn: "starred",
     sortable: true,
   },
