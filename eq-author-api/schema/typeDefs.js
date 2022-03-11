@@ -239,10 +239,10 @@ type listCollectorPage implements Page & Skippable & Routable {
   section: Section!
   folder: Folder!
   position: Int!
-  anotherTitle: anotherTitle
-  anotherPositive: anotherPositive
-  anotherNegative:  anotherNegative
-  addItemTitle: addItemTitle
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative:  String
+  addItemTitle: String
   routing: Routing2
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
