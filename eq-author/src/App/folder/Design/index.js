@@ -7,6 +7,7 @@ import {
 import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
+  useCreateListCollectorPage,
 } from "hooks/useCreateQuestionPage";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
@@ -72,6 +73,7 @@ const FolderDesignPage = ({ history, match }) => {
   const onAddQuestionPage = useCreateQuestionPage();
   const addFolder = useCreateFolder();
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
+  const addListCollectorPage = useCreateListCollectorPage();
 
   const { loading, error, data } = useQuery(GET_FOLDER_QUERY, {
     variables: { input: { folderId } },
@@ -127,6 +129,17 @@ const FolderDesignPage = ({ history, match }) => {
           sectionId: folder.section.id,
           position: folder.position + 1,
         }),
+      onAddListCollectorPage: (createInsideFolder) =>
+        createInsideFolder
+          ? addListCollectorPage({
+              folderId,
+              position: folder.pages.length + 1,
+            })
+          : addPageWithFolder({
+              sectionId: folder.section.id,
+              position: folder.position + 1,
+              isListCollector: true,
+            }),
     },
     [folder]
   );

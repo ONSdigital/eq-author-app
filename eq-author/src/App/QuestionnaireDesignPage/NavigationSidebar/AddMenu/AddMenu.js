@@ -43,12 +43,14 @@ const AddMenu = ({
   canAddQuestionPage,
   onAddSection,
   onStartImportingContent,
+  onAddListCollectorPage,
   canAddSection,
   onAddCalculatedSummaryPage,
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   canImportContent,
+  canAddListCollectorPage,
   onAddFolder,
   canAddFolder,
   isFolder,
@@ -91,6 +93,13 @@ const AddMenu = ({
       text: "Calculated summary",
     },
     {
+      handleClick: () => onAddListCollectorPage(),
+      disabled: !canAddListCollectorPage,
+      dataTest: "btn-add-list-collector-page",
+      icon: IconQuestion,
+      text: "List collector",
+    },
+    {
       handleClick: () => onStartImportingContent(false),
       disabled: !canImportContent,
       dataTest: "btn-import-content",
@@ -129,6 +138,13 @@ const AddMenu = ({
                 text: "Calculated summary",
               },
               {
+                handleClick: () => onAddListCollectorPage(true),
+                disabled: !canAddListCollectorPage,
+                dataTest: "btn-add-list-collector-page-inside",
+                icon: IconQuestion,
+                text: "List collector",
+              },
+              {
                 handleClick: () => onStartImportingContent(true),
                 disabled: !canImportContent,
                 dataTest: "btn-import-content",
@@ -165,6 +181,8 @@ AddMenu.propTypes = {
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,
+  onAddListCollectorPage: PropTypes.func.isRequired,
+  canAddListCollectorPage: PropTypes.func.isRequired,
 };
 
 export default AddMenu;

@@ -26,6 +26,9 @@ mutation CreateFolder($input: CreateFolderInput!) {
           ... on CalculatedSummaryPage {
             id
           }
+          ... on ListCollectorPage {
+            id
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }

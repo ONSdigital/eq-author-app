@@ -937,6 +937,7 @@ type Mutation {
 }
 
 input CreateListCollectorPageInput {
+  position: Int
   title: String
   folderId: ID!
   listId: ID
@@ -1163,6 +1164,7 @@ input CreateFolderInput {
   title: String
   position: Int
   isCalcSum: Boolean
+  isListCollector: Boolean
 }
 
 input UpdateFolderInput {
