@@ -1,18 +1,19 @@
 const hasUnreadComments = (comments, userId) => {
+  let hasNotRead = false;
   if (!comments) {
-    return false;
+    hasNotRead = false;
   }
   comments.forEach((comment) => {
     if (!comment.readBy.some((id) => userId === id)) {
-      return true;
+      hasNotRead = true;
     }
     comment.replies.forEach((reply) => {
       if (!reply.readBy.some((id) => userId === id)) {
-        return true;
+        hasNotRead = true;
       }
     });
   });
-  return false;
+  return hasNotRead;
 };
 
 export default hasUnreadComments;

@@ -51,11 +51,6 @@ const Page = ({
     CalculatedSummaryPage: IconSummaryPage,
   };
 
-  console.log(
-    "hasUnreadComments(comments, me.id)",
-    hasUnreadComments(comments, me.id)
-  );
-
   return (
     <Draggable key={pageId} draggableId={pageId} index={position}>
       {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
