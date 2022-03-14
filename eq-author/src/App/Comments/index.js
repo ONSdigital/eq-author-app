@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -14,6 +14,7 @@ import COMMENT_ADD from "./graphql/createNewComment.graphql";
 import REPLY_ADD from "./graphql/createNewReply.graphql";
 
 import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
+import UPDATE_COMMENTS_AS_READ from "graphql/updateCommentsAsRead.graphql";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -79,11 +80,25 @@ const Replies = styled(Collapsible)`
 
 const CommentsPanel = ({ componentId }) => {
   const { me } = useMe();
+  const { id: userId } = me;
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [createReply] = useMutation(REPLY_ADD);
+  const [updateCommentsAsRead] = useMutation(UPDATE_COMMENTS_AS_READ);
 
-  handleSetCommentsAsRead(componentId, me.id);
+  // https://stackoverflow.com/questions/66404382/how-to-detect-route-changes-using-react-router-in-react
+  useEffect(() => {
+    return function cleanup() {
+      updateCommentsAsRead({
+        variables: {
+          input: {
+            pageId: componentId,
+            userId,
+          },
+        },
+      });
+    };
+  }, [updateCommentsAsRead, componentId, userId]);
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
