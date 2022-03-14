@@ -105,7 +105,7 @@ const CommentsPanel = ({ error, loading, comments, componentId }) => {
     name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
 
   const sortByDate = (commentArr) =>
-    commentArr.sort((a, b) =>
+    commentArr?.sort((a, b) =>
       b.datePosted.toString().localeCompare(a.datePosted.toString())
     );
 
@@ -128,10 +128,10 @@ const CommentsPanel = ({ error, loading, comments, componentId }) => {
   });
 
   const formattedComments = sortByDate(
-    comments.map(({ replies, ...rest }) => ({
+    comments?.map(({ replies, ...rest }) => ({
       ...formatComment(rest),
       replies: sortByDate(
-        replies.map((comment) => ({
+        replies?.map((comment) => ({
           ...formatComment(comment),
         }))
       ),
@@ -156,7 +156,7 @@ const CommentsPanel = ({ error, loading, comments, componentId }) => {
 
   const renderComments = (comments = [], componentId) => (
     <ul>
-      {comments.map(({ id: commentId, replies, ...rest }) => (
+      {comments?.map(({ id: commentId, replies, ...rest }) => (
         <li key={`comment-${commentId}`} data-test={`Comment-${commentId}`}>
           <Comment
             {...rest}
