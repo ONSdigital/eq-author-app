@@ -2,17 +2,13 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { useSubscription } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { useMe } from "App/MeContext";
 import { colors } from "constants/theme";
-
-import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
 import COMMENT_ADD from "./graphql/createNewComment.graphql";
 import REPLY_ADD from "./graphql/createNewReply.graphql";
 
-import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
 import UPDATE_COMMENTS_AS_READ from "graphql/updateCommentsAsRead.graphql";
 
 import Error from "components/Error";
@@ -75,7 +71,7 @@ const Replies = styled(Collapsible)`
   }
 `;
 
-const CommentsPanel = ({ componentId }) => {
+const CommentsPanel = ({ error, loading, comments, componentId }) => {
   const { me } = useMe();
   const { id: userId } = me;
 
@@ -97,22 +93,6 @@ const CommentsPanel = ({ componentId }) => {
     };
   }, [updateCommentsAsRead, componentId, userId]);
 
-  const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
-    variables: {
-      componentId,
-    },
-    fetchPolicy: "network-only",
-  });
-
-  useSubscription(COMMENT_SUBSCRIPTION, {
-    variables: {
-      id: componentId,
-    },
-    onSubscriptionData: () => {
-      refetch();
-    },
-  });
-
   if (loading) {
     return <Loading height="100%">Comments loading…</Loading>;
   }
@@ -120,8 +100,6 @@ const CommentsPanel = ({ componentId }) => {
   if (error) {
     return <Error>Oops! Something went wrong</Error>;
   }
-
-  const { comments } = data;
 
   const formatName = (name) =>
     name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
@@ -245,6 +223,9 @@ CommentsPanel.propTypes = {
    * The ID of the component users are commenting on. This may be a page, question page, calculated summary, etc.
    */
   componentId: PropTypes.string.isRequired,
+  error: PropTypes.bool,
+  loading: PropTypes.bool,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default CommentsPanel;

@@ -16,7 +16,7 @@ import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import Panel from "components/Panel";
 
 export const UnwrappedPreviewPageRoute = (props) => {
-  const { loading, data } = props;
+  const { loading, data, error } = props;
 
   if (loading) {
     return (
@@ -31,7 +31,7 @@ export const UnwrappedPreviewPageRoute = (props) => {
   const { page } = data;
 
   if (page.pageType === "QuestionPage") {
-    return <QuestionPagePreview page={page} />;
+    return <QuestionPagePreview error={error} loading={loading} page={page} />;
   }
   if (page.pageType === "CalculatedSummaryPage") {
     return <CalculatedSummaryPreview page={page} />;

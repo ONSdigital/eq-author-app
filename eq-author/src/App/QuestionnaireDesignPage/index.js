@@ -40,6 +40,8 @@ import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 import useLockStatusSubscription from "hooks/useLockStatusSubscription";
 import useValidationsSubscription from "hooks/useValidationsSubscription";
 import useQuestionnaireQuery from "./useQuestionnaireQuery";
+import { useSubscription } from "react-apollo";
+import COMMENT_SUBSCRIPTION from "graphql/subscriptions/commentSubscription.graphql";
 
 import { colors } from "constants/theme";
 import hotkeys from "hotkeys-js";
@@ -118,7 +120,17 @@ export const QuestionnaireDesignPage = () => {
     error,
     loading,
     data: { questionnaire } = {},
+    refetch,
   } = useQuestionnaireQuery(questionnaireId);
+
+  useSubscription(COMMENT_SUBSCRIPTION, {
+    variables: {
+      id: questionnaireId,
+    },
+    onSubscriptionData: () => {
+      refetch();
+    },
+  });
 
   const formTypeErrorCount =
     questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(

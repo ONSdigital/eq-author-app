@@ -178,9 +178,9 @@ const createNewQuestionnaire = (input) => {
   };
 };
 
-const publishCommentUpdates = (componentId) => {
+const publishCommentUpdates = (questionnaireId) => {
   pubsub.publish("commentsUpdated", {
-    componentId,
+    questionnaireId,
   });
 };
 
@@ -349,13 +349,13 @@ const Resolvers = {
       resolve: (questionnaire) => questionnaire,
     },
     commentsUpdated: {
-      resolve: ({ componentId }) => {
-        return { id: componentId };
+      resolve: ({ questionnaireId }) => {
+        return { id: questionnaireId };
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator(["commentsUpdated"]),
         (payload, variables) => {
-          return payload.componentId === variables.id;
+          return payload.questionnaireId === variables.id;
         }
       ),
     },
@@ -1108,7 +1108,7 @@ const Resolvers = {
       }
 
       await saveComments(questionnaireComments);
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return newComment;
     },
@@ -1150,7 +1150,7 @@ const Resolvers = {
         remove(componentComments, ({ id }) => id === commentId);
         await saveComments(questionnaireComments);
       }
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
       return componentComments;
     },
     updateComment: async (_, { input }, ctx) => {
@@ -1172,7 +1172,7 @@ const Resolvers = {
       commentToEdit.readBy = [ctx.user.id];
       await saveComments(questionnaireComments);
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return commentToEdit;
     },
@@ -1203,7 +1203,7 @@ const Resolvers = {
 
       await saveComments(questionnaireComments);
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return newReply;
     },
@@ -1228,7 +1228,7 @@ const Resolvers = {
       replyToEdit.readBy = [ctx.user.id];
       await saveComments(questionnaireComments);
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
       return replyToEdit;
     },
     deleteReply: async (_, { input }, ctx) => {
@@ -1247,7 +1247,7 @@ const Resolvers = {
         remove(replies, ({ id }) => id === replyId);
         await saveComments(questionnaireComments);
       }
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return replies;
     },

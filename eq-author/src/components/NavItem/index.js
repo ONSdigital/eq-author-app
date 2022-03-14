@@ -105,6 +105,7 @@ NavItem.propTypes = {
   className: PropTypes.string,
   isDragging: PropTypes.bool,
   dragHandleProps: PropTypes.object, // eslint-disable-line
+  unreadComment: PropTypes.bool,
 };
 
 export default NavItem;

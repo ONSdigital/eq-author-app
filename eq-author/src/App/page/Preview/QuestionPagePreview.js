@@ -110,7 +110,9 @@ const QuestionPagePreview = ({ page }) => {
       logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
-      renderPanel={() => <CommentsPanel componentId={page.id} />}
+      renderPanel={() => (
+        <CommentsPanel comments={page.comments} componentId={page.id} />
+      )}
     >
       <Panel>
         <Container>
