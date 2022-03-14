@@ -130,7 +130,6 @@ fragment Pages on Page {
   id
   alias
   title
-  alias
   position
   displayName
   pageType
@@ -158,7 +157,6 @@ fragment ListCollectorPages on ListCollectorPage {
   id
   alias
   title
-  alias
   position
   displayName
   pageType

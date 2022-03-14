@@ -13,6 +13,8 @@ mutation CreateFolder($input: CreateFolderInput!) {
           ...Page
           position
           displayName
+          title
+          alias
           pageType
           ... on QuestionPage {
             guidance
