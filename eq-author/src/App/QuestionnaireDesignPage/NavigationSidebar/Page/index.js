@@ -14,6 +14,9 @@ import IconSummaryPage from "assets/icon-summarypage.svg?inline";
 import { Draggable } from "react-beautiful-dnd";
 import NavItem from "components/NavItem";
 
+import { useMe } from "App/MeContext";
+import hasUnreadComments from "utils/hasUnreadComments";
+
 const ListItem = styled.li`
   ${({ isDragging }) => isDragging && focusStyle}
   ${({ isDragging }) =>
@@ -38,13 +41,20 @@ const Page = ({
   confirmation,
   validationErrorInfo,
   position,
+  comments,
 }) => {
+  const { me } = useMe();
   const { tab = "design" } = useParams();
 
   const iconMap = {
     QuestionPage: IconQuestionPage,
     CalculatedSummaryPage: IconSummaryPage,
   };
+
+  console.log(
+    "hasUnreadComments(comments, me.id)",
+    hasUnreadComments(comments, me.id)
+  );
 
   return (
     <Draggable key={pageId} draggableId={pageId} index={position}>
@@ -61,6 +71,7 @@ const Page = ({
             errorCount={validationErrorInfo?.totalCount}
             hasConfirmation={Boolean(confirmation)}
             dragHandleProps={dragHandleProps}
+            unreadComment={hasUnreadComments(comments, me.id)}
           />
           {confirmation && (
             <ConfirmationPage
@@ -89,6 +100,7 @@ Page.propTypes = {
   confirmation: PropTypes.object, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default Page;
