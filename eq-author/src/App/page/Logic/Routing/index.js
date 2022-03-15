@@ -16,6 +16,7 @@ import { buildPagePath } from "utils/UrlUtils";
 import Logic from "App/shared/Logic";
 
 import { PageContextProvider } from "components/QuestionnaireContext";
+import Comment from "graphql/fragments/comment.graphql";
 
 const ROUTING_PAGE_TYPES = ["QuestionPage", "CalculatedSummaryPage"];
 
@@ -81,6 +82,11 @@ const query = gql`
       id
       displayName
       pageType
+      ... on QuestionPage {
+        comments {
+          ...Comment
+        }
+      }
       ...RoutingPage
       section {
         id
@@ -88,6 +94,7 @@ const query = gql`
       }
     }
   }
+  ${Comment}
 `;
 const ROUTING_QUERY = transformNestedFragments(query, RoutingPage.fragments);
 

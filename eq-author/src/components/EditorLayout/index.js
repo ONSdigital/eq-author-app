@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { Titled } from "react-titled";
-import { useSubscription } from "react-apollo";
-import { useParams } from "react-router-dom";
 import { useMe } from "App/MeContext";
 import hasUnreadComments from "utils/hasUnreadComments";
 
@@ -16,13 +14,10 @@ import MainCanvas from "components/MainCanvas";
 import ScrollPane from "components/ScrollPane";
 import { Grid, Column } from "components/Grid";
 
-import COMMENT_SUBSCRIPTION from "graphql/subscriptions/commentSubscription.graphql";
-
 import AddPage from "assets/icon-add-page.svg?inline";
 
 import Tabs from "./Tabs";
 import Header from "./Header";
-import useQuestionnaireQuery from "../../App/QuestionnaireDesignPage/useQuestionnaireQuery";
 
 const Centered = styled.div`
   display: flex;
@@ -77,27 +72,6 @@ const EditorLayout = ({
   ...otherProps
 }) => {
   const { me } = useMe();
-  const { questionnaireId } = useParams();
-
-  if (!comments) {
-    comments = [];
-  }
-
-  const {
-    error,
-    loading,
-    data: { questionnaire } = {},
-    refetch,
-  } = useQuestionnaireQuery(questionnaireId);
-
-  useSubscription(COMMENT_SUBSCRIPTION, {
-    variables: {
-      id: questionnaireId,
-    },
-    onSubscriptionData: () => {
-      refetch();
-    },
-  });
 
   return (
     <Titled title={(existingTitle) => `${existingTitle} - ${title}`}>
@@ -108,9 +82,6 @@ const EditorLayout = ({
             preview={preview}
             logic={logic}
             validationErrorInfo={validationErrorInfo}
-            loading={loading}
-            error={error}
-            questionnaire={questionnaire}
             unreadComment={hasUnreadComments(comments, me.id)}
           />
         </Header>

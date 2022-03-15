@@ -286,20 +286,6 @@ const Resolvers = {
       }
       return [];
     },
-    allComments: async (root, args, ctx) => {
-      const questionnaireId = ctx.questionnaire.id;
-      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
-
-      const questionnaireComments = [];
-
-      Object.keys(comments).forEach((key) => {
-        comments[key].forEach((comment) => {
-          questionnaireComments.push(comment);
-        });
-      });
-
-      return questionnaireComments;
-    },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
@@ -358,24 +344,6 @@ const Resolvers = {
           return payload.questionnaireId === variables.id;
         }
       ),
-    },
-    allCommentsUpdated: {
-      resolve: async (root, args) => {
-        const { id } = args;
-
-        const { comments } = await getCommentsForQuestionnaire(id);
-
-        const questionnaireComments = [];
-
-        Object.keys(comments).forEach((key) => {
-          comments[key].forEach((comment) => {
-            questionnaireComments.push(comment);
-          });
-        });
-
-        return questionnaireComments;
-      },
-      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
     },
   },
 

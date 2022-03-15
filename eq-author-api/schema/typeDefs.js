@@ -724,7 +724,6 @@ type Query {
   me: User!
   users: [User!]!
   comments(id: ID!): [Comment!]!
-  allComments: [Comment]
   skippable(input: QueryInput!): Skippable
   submission: Submission
   collectionLists: CollectionLists
@@ -1501,7 +1500,6 @@ type Subscription {
   publishStatusUpdated(id: ID!): Questionnaire!
   commentsUpdated(id: ID!): commentSub!
   lockStatusUpdated(id: ID): Questionnaire!
-  allCommentsUpdated(id: ID!): [Comment]!
 }
 
 input PublishQuestionnaireInput {
