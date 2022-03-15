@@ -10,6 +10,7 @@ import IconSummary from "assets/icon-summarypage.svg?inline";
 import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
+import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -96,7 +97,7 @@ const AddMenu = ({
       handleClick: () => onAddListCollectorPage(),
       disabled: !canAddListCollectorPage,
       dataTest: "btn-add-list-collector-page",
-      icon: IconQuestion,
+      icon: IconListCollectorPage,
       text: "List collector",
     },
     {
