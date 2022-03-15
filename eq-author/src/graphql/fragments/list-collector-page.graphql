@@ -1,0 +1,19 @@
+fragment Page on ListCollectorPage {
+  id
+  title
+  displayName
+  pageType
+  listId
+  section
+  folder
+  position
+  anotherTitle
+  anotherPositive
+  anotherNegative
+  addItemTitle
+  routing
+  skipConditions
+  totalValidation
+  validationErrorInfo
+  alias
+}

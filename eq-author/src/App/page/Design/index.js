@@ -17,6 +17,7 @@ import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
+import ListCollectorPageEditor from "./ListCollectorPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
@@ -42,15 +43,12 @@ export const PAGE_QUERY = gql`
   }
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
   ${QuestionPageEditor.fragments.QuestionPage}
+  ${ListCollectorPageEditor.fragments.ListCollectorPage}
 `;
 
 export const UnwrappedPageRoute = (props) => {
   const { onAddQuestionPage } = useNavigationCallbacks();
-  const {
-    error,
-    loading,
-    data: { page = {} } = {},
-  } = useQuery(PAGE_QUERY, {
+  const { error, loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -76,6 +74,16 @@ export const UnwrappedPageRoute = (props) => {
     if (page.pageType === CalculatedSummaryPage) {
       return (
         <CalculatedSummaryPageEditor
+          key={page.id} // resets the state of the RichTextEditors when navigating pages
+          {...props}
+          page={page}
+        />
+      );
+    }
+
+    if (page.pageType === ListCollectorPage) {
+      return (
+        <ListCollectorPageEditor
           key={page.id} // resets the state of the RichTextEditors when navigating pages
           {...props}
           page={page}
