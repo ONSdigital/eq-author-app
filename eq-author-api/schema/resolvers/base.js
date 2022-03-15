@@ -1106,6 +1106,9 @@ const Resolvers = {
           }
         });
       });
+      await saveComments(questionnaireComments);
+
+      return pageComments;
     },
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
