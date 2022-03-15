@@ -69,7 +69,6 @@ const TABS = [
 
 export const UnwrappedTabs = (props) => {
   const { match, validationErrorInfo, unreadComment } = props;
-  console.log("unreadComment", unreadComment);
 
   const tabErrors = useCallback(
     (tabKey) => {
@@ -141,6 +140,7 @@ UnwrappedTabs.propTypes = {
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
   validationErrorInfo: CustomPropTypes.validationErrorInfo,
+  unreadComment: PropTypes.bool,
 };
 
 export default withRouter(UnwrappedTabs);

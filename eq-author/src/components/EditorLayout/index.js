@@ -166,6 +166,7 @@ EditorLayout.propTypes = {
   title: PropTypes.string,
   renderPanel: PropTypes.func,
   validationErrorInfo: CustomPropTypes.validationErrorInfo,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default EditorLayout;
