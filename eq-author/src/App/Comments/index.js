@@ -158,6 +158,16 @@ const CommentsPanel = ({ error, loading, comments, componentId }) => {
     </ul>
   );
 
+  const hasUnreadReplies = (replies) => {
+    let hasNotRead = false;
+    replies.forEach((reply) => {
+      if (!reply.readBy.some((id) => id === userId)) {
+        hasNotRead = true;
+      }
+    });
+    return hasNotRead;
+  };
+
   const renderComments = (comments = [], componentId) => (
     <ul>
       {comments.map(({ id: commentId, replies, ...rest }) => (
@@ -190,6 +200,7 @@ const CommentsPanel = ({ error, loading, comments, componentId }) => {
                 replies.length > 1 ? "replies" : "reply"
               }`}
               withoutHideThis
+              defaultOpen={hasUnreadReplies(replies)}
             >
               {renderReplies(replies, commentId, componentId)}
             </Replies>
