@@ -10,6 +10,7 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 import Layout from "components/Layout";
 import Loading from "components/Loading";
 import Error from "components/Error";
+import Theme from "contexts/themeContext";
 
 import * as Headings from "constants/table-headings";
 
@@ -86,18 +87,20 @@ const QuestionnairesPage = ({
   };
 
   return (
-    <Layout title="Author">
-      <QuestionnairesView
-        questionnaires={data.questionnaires}
-        onDeleteQuestionnaire={onDeleteQuestionnaire}
-        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-        onCreateQuestionnaire={onCreateQuestionnaire}
-        enabledHeadings={enabledHeadings}
-        onQuestionnaireClick={handleClick}
-        canCreateQuestionnaire
-        padding="large"
-      />
-    </Layout>
+    <Theme themeName={"ons"}>
+      <Layout title="Author">
+        <QuestionnairesView
+          questionnaires={data.questionnaires}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onCreateQuestionnaire={onCreateQuestionnaire}
+          enabledHeadings={enabledHeadings}
+          onQuestionnaireClick={handleClick}
+          canCreateQuestionnaire
+          padding="large"
+        />
+      </Layout>
+    </Theme>
   );
 };
 
