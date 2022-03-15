@@ -14,10 +14,15 @@ const Result = styled.div`
   margin-top: 0.5em;
 `;
 
+const index = (currentPageIndex, pageCount) => {
+  pageCount === 0 ? (currentPageIndex = 0) : (currentPageIndex += 1);
+  return currentPageIndex;
+};
+
 const PaginationNavTable = ({ pageCount, currentPageIndex, onPageChange }) => (
   <>
     <Result data-test="pages">
-      {`Page ${currentPageIndex + 1} of ${pageCount}`}
+      {`Page ${index(currentPageIndex, pageCount)} of ${pageCount}`}
     </Result>
     <Pagination
       currentPageIndex={currentPageIndex}

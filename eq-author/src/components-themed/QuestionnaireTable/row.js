@@ -73,14 +73,6 @@ const LockedIconTextButton = styled(IconTextButton)`
   padding: 0.375em 0.55em;
 `;
 
-export const StarredIconButton = styled(StarredIcon)`
-  svg {
-    path {
-      fill: ${colors.oceanBlue};
-    }
-  }
-`;
-
 export const DuplicateIconButton = styled(DuplicateButton)`
   &:hover svg * {
     transition: 0.1s;
@@ -88,7 +80,7 @@ export const DuplicateIconButton = styled(DuplicateButton)`
   }
   svg {
     path {
-      fill: ${colors.oceanBlue};
+      fill: ${colors.nightBlue};
     }
   }
 `;
@@ -101,11 +93,11 @@ export const DeleteButton = styled(IconButtonDelete)`
   svg {
     path {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.oceanBlue};
+        disabledIcon ? colors.grey150 : colors.nightBlue};
     }
     polygon {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.oceanBlue};
+        disabledIcon ? colors.grey150 : colors.nightBlue};
     }
   }
   .lid {
@@ -116,7 +108,7 @@ export const DeleteButton = styled(IconButtonDelete)`
 export const ShortTitle = styled.span`
   color: ${colors.grey80};
   text-decoration-color: ${colors.grey80};
-  font-size: 0.8em;
+  font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0;
 `;
@@ -180,7 +172,7 @@ export const TR = styled.tr`
 const TD = styled.td`
   line-height: 1.3;
   padding-left: 0.5em;
-  font-size: 0.9em;
+  font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
 

@@ -32,7 +32,7 @@ const TH = styled.th`
   color: ${colors.grey80};
   width: ${(props) => props.colWidth};
   font-weight: 700;
-  font-size: 0.9em;
+  font-size: 0.9rem;
 
   :first-child {
     border-top-left-radius: ${radius};
