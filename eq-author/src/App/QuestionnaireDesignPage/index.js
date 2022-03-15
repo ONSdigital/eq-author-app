@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Titled } from "react-titled";
+import { useSubscription } from "react-apollo";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -40,7 +41,6 @@ import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 import useLockStatusSubscription from "hooks/useLockStatusSubscription";
 import useValidationsSubscription from "hooks/useValidationsSubscription";
 import useQuestionnaireQuery from "./useQuestionnaireQuery";
-import { useSubscription } from "react-apollo";
 import COMMENT_SUBSCRIPTION from "graphql/subscriptions/commentSubscription.graphql";
 
 import { colors } from "constants/theme";

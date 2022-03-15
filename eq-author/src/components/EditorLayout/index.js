@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { Titled } from "react-titled";
+import { useSubscription } from "react-apollo";
+import { useParams } from "react-router-dom";
+import { useMe } from "App/MeContext";
+import hasUnreadComments from "utils/hasUnreadComments";
 
 import { colors } from "constants/theme";
 
@@ -12,10 +16,13 @@ import MainCanvas from "components/MainCanvas";
 import ScrollPane from "components/ScrollPane";
 import { Grid, Column } from "components/Grid";
 
+import COMMENT_SUBSCRIPTION from "graphql/subscriptions/commentSubscription.graphql";
+
 import AddPage from "assets/icon-add-page.svg?inline";
 
 import Tabs from "./Tabs";
 import Header from "./Header";
+import useQuestionnaireQuery from "../../App/QuestionnaireDesignPage/useQuestionnaireQuery";
 
 const Centered = styled.div`
   display: flex;
@@ -66,55 +73,87 @@ const EditorLayout = ({
   mainCanvasMaxWidth,
   renderPanel,
   validationErrorInfo,
+  comments,
   ...otherProps
-}) => (
-  <Titled title={(existingTitle) => `${existingTitle} - ${title}`}>
-    <Container>
-      <Header title={title}>
-        <Tabs
-          design={design}
-          preview={preview}
-          logic={logic}
-          validationErrorInfo={validationErrorInfo}
-        />
-      </Header>
-      <ScrollPane scrollToTop>
-        <StyledGrid {...otherProps}>
-          <StyledColumn
-            cols={singleColumnLayout ? 12 : 9}
-            gutters={false}
-            tabIndex="-1"
-            className="keyNav"
-          >
-            <Margin>
-              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
-            </Margin>
+}) => {
+  const { me } = useMe();
+  const { questionnaireId } = useParams();
 
-            {onAddQuestionPage && (
-              <Centered>
-                <Button
-                  variant="tertiary"
-                  small
-                  onClick={onAddQuestionPage}
-                  data-test="btn-add-page"
-                >
-                  <IconText icon={AddPage}>Add question page</IconText>
-                </Button>
-              </Centered>
+  if (!comments) {
+    comments = [];
+  }
+
+  const {
+    error,
+    loading,
+    data: { questionnaire } = {},
+    refetch,
+  } = useQuestionnaireQuery(questionnaireId);
+
+  useSubscription(COMMENT_SUBSCRIPTION, {
+    variables: {
+      id: questionnaireId,
+    },
+    onSubscriptionData: () => {
+      refetch();
+    },
+  });
+
+  return (
+    <Titled title={(existingTitle) => `${existingTitle} - ${title}`}>
+      <Container>
+        <Header title={title}>
+          <Tabs
+            design={design}
+            preview={preview}
+            logic={logic}
+            validationErrorInfo={validationErrorInfo}
+            loading={loading}
+            error={error}
+            questionnaire={questionnaire}
+            unreadComment={hasUnreadComments(comments, me.id)}
+          />
+        </Header>
+        <ScrollPane scrollToTop>
+          <StyledGrid {...otherProps}>
+            <StyledColumn
+              cols={singleColumnLayout ? 12 : 9}
+              gutters={false}
+              tabIndex="-1"
+              className="keyNav"
+            >
+              <Margin>
+                <MainCanvas maxWidth={mainCanvasMaxWidth}>
+                  {children}
+                </MainCanvas>
+              </Margin>
+
+              {onAddQuestionPage && (
+                <Centered>
+                  <Button
+                    variant="tertiary"
+                    small
+                    onClick={onAddQuestionPage}
+                    data-test="btn-add-page"
+                  >
+                    <IconText icon={AddPage}>Add question page</IconText>
+                  </Button>
+                </Centered>
+              )}
+            </StyledColumn>
+            {singleColumnLayout ? null : (
+              <Column cols={3} gutters={false}>
+                <PanelWrapper data-test="right-hand-panel">
+                  {renderPanel ? renderPanel() : null}
+                </PanelWrapper>
+              </Column>
             )}
-          </StyledColumn>
-          {singleColumnLayout ? null : (
-            <Column cols={3} gutters={false}>
-              <PanelWrapper data-test="right-hand-panel">
-                {renderPanel ? renderPanel() : null}
-              </PanelWrapper>
-            </Column>
-          )}
-        </StyledGrid>
-      </ScrollPane>
-    </Container>
-  </Titled>
-);
+          </StyledGrid>
+        </ScrollPane>
+      </Container>
+    </Titled>
+  );
+};
 
 EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,

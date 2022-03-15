@@ -102,6 +102,7 @@ const QuestionPagePreview = ({ page }) => {
     additionalInfoContent,
     additionalInfoEnabled,
     answers,
+    comments,
   } = page;
 
   return (
@@ -113,6 +114,7 @@ const QuestionPagePreview = ({ page }) => {
       renderPanel={() => (
         <CommentsPanel comments={page.comments} componentId={page.id} />
       )}
+      comments={comments}
     >
       <Panel>
         <Container>

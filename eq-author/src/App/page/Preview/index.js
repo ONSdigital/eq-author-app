@@ -29,9 +29,17 @@ export const UnwrappedPreviewPageRoute = (props) => {
   }
 
   const { page } = data;
+  const { comments } = page;
 
   if (page.pageType === "QuestionPage") {
-    return <QuestionPagePreview error={error} loading={loading} page={page} />;
+    return (
+      <QuestionPagePreview
+        comments={comments}
+        error={error}
+        loading={loading}
+        page={page}
+      />
+    );
   }
   if (page.pageType === "CalculatedSummaryPage") {
     return <CalculatedSummaryPreview page={page} />;

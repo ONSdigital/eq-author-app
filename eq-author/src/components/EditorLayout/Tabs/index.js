@@ -68,7 +68,8 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = (props) => {
-  const { match, validationErrorInfo } = props;
+  const { match, validationErrorInfo, unreadComment } = props;
+  console.log("unreadComment", unreadComment);
 
   const tabErrors = useCallback(
     (tabKey) => {
@@ -97,9 +98,6 @@ export const UnwrappedTabs = (props) => {
     },
     [validationErrorInfo]
   );
-
-  // TODO: Change test value
-  const unreadComment = true;
 
   return (
     <div>
