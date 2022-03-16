@@ -82,6 +82,11 @@ const query = gql`
       id
       displayName
       pageType
+      ... on CalculatedSummaryPage {
+        comments {
+          ...Comment
+        }
+      }
       ... on QuestionPage {
         comments {
           ...Comment
