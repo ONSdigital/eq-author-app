@@ -229,5 +229,8 @@ fragment Introduction on Questionnaire {
       id
       totalCount
     }
+    comments {
+      ...Comment
+    }
   }
 }
