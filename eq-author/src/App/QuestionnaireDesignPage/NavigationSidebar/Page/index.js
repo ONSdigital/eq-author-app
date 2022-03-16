@@ -79,6 +79,7 @@ const Page = ({
               })}
               errorCount={confirmation?.validationErrorInfo?.totalCount}
               dragHandleProps={dragHandleProps}
+              unreadComment={hasUnreadComments(comments, me.id)}
             />
           )}
         </ListItem>
