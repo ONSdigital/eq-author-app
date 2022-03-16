@@ -29,7 +29,10 @@ export const SubmissionDesign = () => {
   }
 
   return (
-    <SubmissionLayout data-test="submission-page">
+    <SubmissionLayout
+      comments={submission?.comments}
+      data-test="submission-page"
+    >
       <SubmissionEditor submission={submission} />
     </SubmissionLayout>
   );

@@ -21,7 +21,6 @@ const Preview = ({ match }) => {
   });
 
   const submission = data?.questionnaire.submission;
-  console.log("submission", submission);
   const questionnaireTitle = data?.questionnaire.title;
 
   if (loading) {
