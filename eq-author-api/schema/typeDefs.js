@@ -678,6 +678,7 @@ type QuestionnaireIntroduction {
   tertiaryTitle: String!
   tertiaryDescription: String!
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 type Reply {

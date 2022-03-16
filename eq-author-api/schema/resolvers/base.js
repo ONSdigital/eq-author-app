@@ -1383,6 +1383,7 @@ const Resolvers = {
   QuestionnaireIntroduction: {
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
   Submission: {
     comments: ({ id }, args, ctx) => ctx.comments[id],

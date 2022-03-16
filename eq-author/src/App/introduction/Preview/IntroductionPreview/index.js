@@ -148,11 +148,14 @@ const IntroductionPreview = ({ loading, data, match }) => {
       collapsibles,
       tertiaryTitle,
       tertiaryDescription,
+      comments,
     },
   } = data;
 
   return (
-    <IntroductionLayout renderPanel={() => <CommentsPanel componentId={id} />}>
+    <IntroductionLayout
+      renderPanel={() => <CommentsPanel comments={comments} componentId={id} />}
+    >
       <Container>
         <PageTitle missingText="Missing introduction title" title={title} />
         If the company details or structure have changed contact us on{" "}

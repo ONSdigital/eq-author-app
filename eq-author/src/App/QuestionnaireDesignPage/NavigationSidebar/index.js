@@ -149,6 +149,10 @@ const NavigationSidebar = ({ questionnaire }) => {
                     errorCount={
                       questionnaire.introduction.validationErrorInfo.totalCount
                     }
+                    unreadComment={hasUnreadComments(
+                      questionnaire?.introduction?.comments,
+                      me.id
+                    )}
                   />
                 </MenuListItem>
               )}
