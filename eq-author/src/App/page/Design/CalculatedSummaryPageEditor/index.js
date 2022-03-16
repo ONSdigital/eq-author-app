@@ -28,6 +28,7 @@ import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
 import withValidationError from "enhancers/withValidationError";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 const titleControls = {
   emphasis: true,
@@ -171,7 +172,11 @@ CalculatedSummaryPageEditor.fragments = {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
+      comments {
+        ...Comment
+      }
     }
+    ${CommentFragment}
     ${AnswerSelector.fragments.AnswerSelector}
     ${ValidationErrorInfoFragment}
   `,

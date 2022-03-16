@@ -147,6 +147,11 @@ fragment Pages on Page {
     }
     totalCount
   }
+  ... on CalculatedSummaryPage {
+    comments {
+      ...Comment
+    }
+  }
   ... on QuestionPage {
     answers {
       ...Answers

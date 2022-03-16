@@ -246,6 +246,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
   skipConditions: [ExpressionGroup2]
+  comments: [Comment]
 }
 
 type ConfirmationOption {
