@@ -21,7 +21,11 @@ import ListCollectorPageEditor from "./ListCollectorPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
-import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+import {
+  QuestionPage,
+  CalculatedSummaryPage,
+  ListCollectorPage,
+} from "constants/page-types";
 
 import RedirectRoute from "components/RedirectRoute";
 
