@@ -1693,6 +1693,7 @@ const Resolvers = {
         totalCount: confirmationQuestionErrors.length,
       };
     },
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
   ConfirmationOption: {

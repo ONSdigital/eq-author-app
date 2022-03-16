@@ -21,6 +21,7 @@ import Panel from "components/Panel";
 import CommentsPanel from "App/Comments";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 const Container = styled.div`
   padding: 2em;
@@ -75,6 +76,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
   } = data;
 
   const { questionConfirmation } = data;
+  const { comments } = questionConfirmation;
   const pageTitle = title && title.replace(/[[\]]/g, "");
 
   return (
@@ -82,7 +84,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
       preview
       logic
       title={displayName}
-      renderPanel={() => <CommentsPanel componentId={id} />}
+      renderPanel={() => <CommentsPanel comments={comments} componentId={id} />}
       validationErrorInfo={questionConfirmation.validationErrorInfo}
     >
       <Panel>
@@ -123,9 +125,13 @@ const CONFIRMATION_QUERY = gql`
       validationErrorInfo {
         ...ValidationErrorInfo
       }
+      comments {
+        ...Comment
+      }
     }
   }
 
+  ${CommentFragment}
   ${Editor.fragments.QuestionConfirmation}
   ${ValidationErrorInfoFragment}
 `;

@@ -265,6 +265,7 @@ type QuestionConfirmation implements Skippable {
   negative: ConfirmationOption!
   validationErrorInfo: ValidationErrorInfo
   skipConditions: [ExpressionGroup2]
+  comments: [Comment]
 }
 
 interface Answer {

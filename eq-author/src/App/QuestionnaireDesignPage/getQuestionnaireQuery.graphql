@@ -211,6 +211,9 @@ fragment ConfirmationPages on QuestionPage {
       id
       totalCount
     }
+    comments {
+      ...Comment
+    }
   }
 }
 fragment Introduction on Questionnaire {
