@@ -17,7 +17,6 @@ import PageHeader from "../PageHeader";
 
 import withUpdateListCollectorPage from "./withUpdateListCollectorPage";
 
-import QuestionProperties from "./QuestionProperties";
 import TotalValidation from "../Validation/GroupValidations/TotalValidation";
 
 import {
@@ -27,8 +26,6 @@ import {
 } from "constants/validationMessages";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
-import ContentContainer from "components/ContentContainer";
-import ValidationError from "components/ValidationError";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -44,7 +41,6 @@ export const UnwrappedListCollectorEditor = (props) => {
     onChange,
     onUpdate,
 
-    fetchAnswers,
     enableValidationMessage,
 
     match,
@@ -75,14 +71,6 @@ export const UnwrappedListCollectorEditor = (props) => {
         onChange={onChange}
         alertText="All edits, properties and routing settings will also be removed."
       />
-      <div>
-        <QuestionProperties
-          page={page}
-          onChange={onChange}
-          onUpdate={onUpdate}
-          fetchAnswers={fetchAnswers}
-        />
-      </div>
     </div>
   );
 };
@@ -90,25 +78,36 @@ export const UnwrappedListCollectorEditor = (props) => {
 UnwrappedListCollectorEditor.propTypes = propTypes;
 
 UnwrappedListCollectorEditor.fragments = {
-  QuestionPage: gql`
+  ListCollectorPage: gql`
     fragment ListCollectorPage on ListCollectorPage {
       id
       title
       displayName
       pageType
       listId
-      section
-      folder
       position
       anotherTitle
       anotherPositive
       anotherNegative
       addItemTitle
-      routing
-      skipConditions
-      totalValidation
-      validationErrorInfo
       alias
+      folder {
+        id
+        position
+      }
+      section {
+        id
+        position
+        questionnaire {
+          id
+          metadata {
+            id
+            displayName
+            type
+            key
+          }
+        }
+      }
       totalValidation {
         ...TotalValidationRule
       }
@@ -123,7 +122,6 @@ UnwrappedListCollectorEditor.fragments = {
 
 export default flowRight(
   withUpdateListCollectorPage,
-  withCreateExclusive,
   withPropRenamed("withUpdateListCollectorPage", "onUpdate"),
   withEntityEditor(
     "page",
