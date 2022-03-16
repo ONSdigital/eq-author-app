@@ -60,17 +60,21 @@ const QuestionnairesPage = ({
 
   if (loading) {
     return (
-      <Layout title="Questionnaires">
-        <Loading height="24.25rem">Questionnaires loading…</Loading>
-      </Layout>
+      <Theme themeName={"ons"}>
+        <Layout title="Author">
+          <Loading height="24.25rem">Questionnaires loading…</Loading>
+        </Layout>
+      </Theme>
     );
   }
 
   if (error || !data) {
     return (
-      <Layout title="Questionnaires">
-        <Error>Oops! Questionnaires could not be found</Error>
-      </Layout>
+      <Theme themeName={"ons"}>
+        <Layout title="Author">
+          <Error>Oops! Questionnaires could not be found</Error>
+        </Layout>
+      </Theme>
     );
   }
   const handleClick = (questionnaireId) =>

@@ -12,7 +12,9 @@ const HeaderTop = styled.div`
     variant === "Internal"
       ? theme.colors.internalHeaderTop
       : theme.colors.externalHeaderTop};
-  height: 46px;
+  padding-top: 5px;
+  height: 56px;
+  min-height: 36px;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -120,8 +122,7 @@ const Header = ({
               <Column cols={9}>
                 <HeaderTitle headerDescription={headerDescription}>
                   {children}
-                  {enableOn(["gcp"]) && " (GCP)"}
-                  {disableOn(["gcp"]) && " (AWS)"}
+                  {enableOn(["gcp"]) ? " (GCP)" : " (AWS)"}
                 </HeaderTitle>
                 {headerDescription && (
                   <HeaderDescription>{headerDescription}</HeaderDescription>
