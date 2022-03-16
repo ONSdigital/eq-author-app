@@ -31,6 +31,7 @@ import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 import { contactDetailsErrors } from "constants/validationMessages";
 
@@ -406,7 +407,11 @@ const fragment = gql`
     validationErrorInfo {
       ...ValidationErrorInfo
     }
+    comments {
+      ...Comment
+    }
   }
+  ${CommentFragment}
   ${ValidationErrorInfoFragment}
 `;
 
