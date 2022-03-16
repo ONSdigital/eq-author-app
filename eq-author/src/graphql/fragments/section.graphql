@@ -1,3 +1,5 @@
+#import "graphql/fragments/comment.graphql"
+
 fragment Section on Section {
   id
   title
@@ -23,5 +25,33 @@ fragment Section on Section {
       errorCode
     }
     totalCount
+  }
+  comments {
+    id
+    commentText
+    user {
+      id
+      name
+      picture
+      email
+      displayName
+    }
+    createdTime
+    editedTime
+    replies {
+      id
+      commentText
+      createdTime
+      editedTime
+      user {
+        id
+        name
+        picture
+        email
+        displayName
+      }
+      readBy
+    }
+    readBy
   }
 }

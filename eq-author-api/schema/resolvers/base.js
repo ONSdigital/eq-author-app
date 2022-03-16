@@ -1404,6 +1404,7 @@ const Resolvers = {
         ({ sectionId, folderId, pageId }) =>
           id === sectionId && !pageId && !folderId
       ),
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
   Folder: {

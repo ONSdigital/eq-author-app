@@ -110,6 +110,9 @@ fragment Sections on Section {
     id
     totalCount
   }
+  comments {
+    ...Comment
+  }
   ...PageNav
 }
 fragment PageNav on Section {

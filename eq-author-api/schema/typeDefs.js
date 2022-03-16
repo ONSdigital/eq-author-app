@@ -179,6 +179,7 @@ type Section {
   introductionTitle: String
   introductionContent: String
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 interface Page {
