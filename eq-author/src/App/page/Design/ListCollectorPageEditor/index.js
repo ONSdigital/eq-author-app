@@ -128,22 +128,6 @@ const UnwrappedListCollectorEditor = (props) => {
         alertText="All edits, properties and routing settings will also be removed."
       />
       <StyledGrid>
-        {/* 
-
-Info text - The list collector is the way to recreate the List collector questionnaire design pattern. This is made up of two questions, a repeating list question and a collection question. These become available once you select a collection list to link them to.
-
-Collapsible label - How to create the List Collector questionnaire design pattern in Author?
-
-Collapsible text - To create the list collector pattern in Author we do this in the following steps:
-1. Go to the Collection Lists page on the left hand menu and create a Collection list.
-2. Add the answers you need to collect that will make up each item on the list, for example adding two text field answer types to collect the respondents first name and last name.
-3. In the questionnaire add a List collector page via the add/import menu.
-4. On the new List collector page there is Collection list area where you must select a list from the dropdown menu, this menu will show any lists that have been created in the Collection lists page.
-5. Once the list is selected two new containers appear on the page, these contain the two questions which will help compile the list. These are the Repeating list collector question and the Collection question.
-6. These two questions will repeat for the respondent until there is nothing else to add to the list and they select the negative radio option, for example (a) does anyone else live in the household? if yes then, (b) what is their name?
-7. Each time the respondent adds to the list this a summary of the list will be displayed on the Repeating list collector question.
-
- */}
         <Text>
           <b>List collector</b>
           <br />
