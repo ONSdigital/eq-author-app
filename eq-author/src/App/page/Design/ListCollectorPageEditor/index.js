@@ -91,32 +91,24 @@ UnwrappedListCollectorEditor.propTypes = propTypes;
 
 UnwrappedListCollectorEditor.fragments = {
   QuestionPage: gql`
-    fragment QuestionPage on QuestionPage {
+    fragment ListCollectorPage on ListCollectorPage {
       id
-      alias
       title
-      pageType
-
       displayName
+      pageType
+      listId
+      section
+      folder
       position
-
-      folder {
-        id
-        position
-      }
-      section {
-        id
-        position
-        questionnaire {
-          id
-          metadata {
-            id
-            displayName
-            type
-            key
-          }
-        }
-      }
+      anotherTitle
+      anotherPositive
+      anotherNegative
+      addItemTitle
+      routing
+      skipConditions
+      totalValidation
+      validationErrorInfo
+      alias
       totalValidation {
         ...TotalValidationRule
       }

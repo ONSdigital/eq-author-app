@@ -39,6 +39,7 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
+      ...ListCollectorPage
       folder {
         id
         position
