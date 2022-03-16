@@ -21,6 +21,7 @@ const Preview = ({ match }) => {
   });
 
   const submission = data?.questionnaire.submission;
+  console.log("submission", submission);
   const questionnaireTitle = data?.questionnaire.title;
 
   if (loading) {
@@ -37,7 +38,12 @@ const Preview = ({ match }) => {
 
   return (
     <SubmissionLayout
-      renderPanel={() => <CommentsPanel componentId={submission.id} />}
+      renderPanel={() => (
+        <CommentsPanel
+          comments={submission.comments}
+          componentId={submission.id}
+        />
+      )}
     >
       <SubmissionPreview
         submission={submission}

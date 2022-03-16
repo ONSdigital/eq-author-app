@@ -43,6 +43,9 @@ query GetQuestionnaire($input: QueryInput!) {
       viewPrintAnswers
       emailConfirmation
       feedback
+      comments {
+        ...Comment
+      }
     }
     validationErrorInfo {
       ...ValidationErrorInfo

@@ -706,6 +706,7 @@ type Submission {
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean
   feedback: Boolean
+  comments: [Comment]
 }
 
 type Query {

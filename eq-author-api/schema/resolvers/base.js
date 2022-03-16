@@ -1384,6 +1384,9 @@ const Resolvers = {
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
   },
+  Submission: {
+    comments: ({ id }, args, ctx) => ctx.comments[id],
+  },
 
   Section: {
     folders: (section) => section.folders,
