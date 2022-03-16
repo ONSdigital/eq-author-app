@@ -942,7 +942,7 @@ input CreateListCollectorPageInput {
   folderId: ID!
   listId: ID
   anotherTitle: String
-  anotherPositive: Boolean
+  anotherPositive: String
   anotherNegative: String
   addItemTitle: String
 }
@@ -952,9 +952,10 @@ input UpdateListCollectorPageInput {
   title: String
   listId: ID
   anotherTitle: String
-  anotherPositive: Boolean
+  anotherPositive: String
   anotherNegative: String
   addItemTitle: String
+  alias: String
 }
 
 input UpdateListInput {

@@ -1,14 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 
-import getIdForObject from "utils/getIdForObject";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withPropRenamed from "enhancers/withPropRenamed";
-import withEntityEditor from "components/withEntityEditor";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
@@ -16,8 +13,6 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import PageHeader from "../PageHeader";
 
 import withUpdateListCollectorPage from "./withUpdateListCollectorPage";
-
-import TotalValidation from "../Validation/GroupValidations/TotalValidation";
 
 import {
   ERR_NO_VALUE,
@@ -33,24 +28,28 @@ const propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
+  onUpdateListCollectorPage: PropTypes.func,
 };
 export const UnwrappedListCollectorEditor = (props) => {
-  const {
-    page,
-    page: { id, lists },
-    onChange,
-    onUpdate,
-
-    enableValidationMessage,
-
-    match,
-  } = props;
+  const { page, onUpdateListCollectorPage } = props;
 
   useSetNavigationCallbacksForPage({
     page: page,
     folder: page?.folder,
     section: page?.section,
   });
+
+  const [entity, setEntity] = useState(page);
+
+  useEffect(() => {
+    setEntity(page);
+  }, [page]);
+
+  const handleOnChange = (event) => {
+    const updatedEntity = { ...entity };
+    updatedEntity[event.name] = event.value;
+    setEntity(updatedEntity);
+  };
 
   const totalValidationErrors = page.validationErrorInfo.errors.filter(
     ({ field }) => field === "totalValidation"
@@ -67,8 +66,9 @@ export const UnwrappedListCollectorEditor = (props) => {
     <div data-test="question-page-editor">
       <PageHeader
         {...props}
-        onUpdate={onUpdate}
-        onChange={onChange}
+        page={entity}
+        onUpdate={() => onUpdateListCollectorPage(entity)}
+        onChange={handleOnChange}
         alertText="All edits, properties and routing settings will also be removed."
       />
     </div>
@@ -122,10 +122,5 @@ UnwrappedListCollectorEditor.fragments = {
 
 export default flowRight(
   withUpdateListCollectorPage,
-  withPropRenamed("withUpdateListCollectorPage", "onUpdate"),
-  withEntityEditor(
-    "page",
-    UnwrappedListCollectorEditor.fragments.ListCollectorPage
-  ),
   withChangeUpdate
 )(UnwrappedListCollectorEditor);

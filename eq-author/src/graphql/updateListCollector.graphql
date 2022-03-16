@@ -1,0 +1,12 @@
+#import "./fragments/list-collector.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+
+mutation UpdateListCollectorPage($input: UpdateListCollectorPageInput!) {
+  updateListCollectorPage(input: $input) {
+    ...ListCollector
+    displayName
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}
