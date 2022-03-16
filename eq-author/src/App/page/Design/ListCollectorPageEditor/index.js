@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { flowRight } from "lodash";
 import Collapsible from "components/Collapsible";
 import styled from "styled-components";
 import { colors } from "constants/theme";
-import getIdForObject from "utils/getIdForObject";
-import withPropRenamed from "enhancers/withPropRenamed";
+import { filter } from "graphql-anywhere";
+
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import UPDATE_LIST_COLLECTOR_MUTATION from "graphql/updateListCollector.graphql";
 
 import PageHeader from "../PageHeader";
-
-import withUpdateListCollectorPage from "./withUpdateListCollectorPage";
 
 import {
   ERR_NO_VALUE,
@@ -32,8 +31,25 @@ const propTypes = {
   enableValidationMessage: PropTypes.bool,
   onUpdateListCollectorPage: PropTypes.func,
 };
-export const UnwrappedListCollectorEditor = (props) => {
-  const { page, onUpdateListCollectorPage } = props;
+
+const inputFilter = gql`
+  {
+    id
+    title
+    listId
+    anotherTitle
+    anotherPositive
+    anotherNegative
+    addItemTitle
+    alias
+  }
+`;
+
+const UnwrappedListCollectorEditor = (props) => {
+  const { page } = props;
+  const [updateListCollectorMutation] = useMutation(
+    UPDATE_LIST_COLLECTOR_MUTATION
+  );
 
   useSetNavigationCallbacksForPage({
     page: page,
@@ -44,8 +60,8 @@ export const UnwrappedListCollectorEditor = (props) => {
   const [entity, setEntity] = useState(page);
 
   useEffect(() => {
-    setEntity(page);
-  }, [page]);
+    setEntity(entity);
+  }, [entity]);
 
   const handleOnChange = (event) => {
     const updatedEntity = { ...entity };
@@ -84,6 +100,13 @@ export const UnwrappedListCollectorEditor = (props) => {
   `;
 
   const Text = styled.p``;
+  const handleOnUpdate = (temp) => {
+    const data = filter(inputFilter, temp);
+    updateListCollectorMutation({
+      variables: { input: data },
+    });
+  };
+
   const totalValidationErrors = page.validationErrorInfo.errors.filter(
     ({ field }) => field === "totalValidation"
   );
@@ -100,7 +123,7 @@ export const UnwrappedListCollectorEditor = (props) => {
       <PageHeader
         {...props}
         page={entity}
-        onUpdate={() => onUpdateListCollectorPage(entity)}
+        onUpdate={() => handleOnUpdate(entity)}
         onChange={handleOnChange}
         alertText="All edits, properties and routing settings will also be removed."
       />
@@ -222,6 +245,4 @@ UnwrappedListCollectorEditor.fragments = {
   `,
 };
 
-export default flowRight(withUpdateListCollectorPage)(
-  UnwrappedListCollectorEditor
-);
+export default UnwrappedListCollectorEditor;
