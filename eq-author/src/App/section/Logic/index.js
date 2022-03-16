@@ -51,6 +51,7 @@ const LogicPage = ({ children, section }) => (
     title={section.displayName || ""}
     singleColumnLayout
     mainCanvasMaxWidth="80em"
+    comments={section.comments}
   >
     <LogicMainCanvas>
       <Grid>
