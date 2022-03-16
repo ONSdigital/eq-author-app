@@ -8,6 +8,7 @@ import chevron from "assets/icon-chevron.svg";
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
+import CommentNotification from "components/Comments/CommentNotification";
 
 const hoverStyling = `
   &:hover {
@@ -142,6 +143,7 @@ const CollapsibleNavItem = ({
   className,
   children,
   containsActiveEntity,
+  unreadComment,
 }) => {
   const [isOpen, toggleCollapsible] = useState(open);
 
@@ -173,6 +175,9 @@ const CollapsibleNavItem = ({
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
           <Title>{title}</Title>
+          {unreadComment && (
+            <CommentNotification id="comment-notification" variant="nav" />
+          )}
           {isOpen && selfErrorCount > 0 && (
             <Badge variant="nav" medium data-test="NavItem-error">
               <VisuallyHidden>
@@ -221,6 +226,7 @@ CollapsibleNavItem.propTypes = {
   open: PropTypes.bool,
   containsActiveEntity: PropTypes.bool,
   isDragging: PropTypes.bool,
+  unreadComment: PropTypes.bool,
 };
 
 export default CollapsibleNavItem;

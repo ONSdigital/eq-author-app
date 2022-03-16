@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+import { useMe } from "App/MeContext";
 
 import { buildSectionPath } from "utils/UrlUtils";
+import hasUnreadComments from "utils/hasUnreadComments";
 
 import IconSection from "assets/icon-section.svg?inline";
 
@@ -39,7 +41,9 @@ const Section = ({
   validationErrorInfo,
   open,
   position,
+  comments,
 }) => {
+  const { me } = useMe();
   const { entityId, tab = "design" } = useParams();
 
   const isCurrentPage = (navItemId, currentPageId) =>
@@ -73,6 +77,7 @@ const Section = ({
             containsActiveEntity={allPagesInSection
               .map(({ id }) => isCurrentPage(id, entityId))
               .find(Boolean)}
+            unreadComment={hasUnreadComments(comments, me.id)}
           >
             <Droppable droppableId={sectionId} type={`section-content`}>
               {(
@@ -113,6 +118,7 @@ Section.propTypes = {
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   open: PropTypes.bool,
   position: PropTypes.number,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default Section;
