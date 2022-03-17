@@ -46,7 +46,7 @@ const IconwithTextBelow = styled.div`
   div {
     text-align: center;
     width: 70px;
-    font-size: 0.65em;
+    font-size: 0.75em;
   }
   svg {
     margin-top: 0.7em;
