@@ -1,5 +1,3 @@
-#import "graphql/fragments/comment.graphql"
-
 fragment Section on Section {
   id
   title
