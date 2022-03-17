@@ -155,6 +155,7 @@ const IntroductionPreview = ({ loading, data, match }) => {
   return (
     <IntroductionLayout
       renderPanel={() => <CommentsPanel comments={comments} componentId={id} />}
+      comments={comments}
     >
       <Container>
         <PageTitle missingText="Missing introduction title" title={title} />

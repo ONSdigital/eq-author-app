@@ -46,6 +46,7 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
         <CommentsPanel comments={section.comments} componentId={section.id} />
       )}
       validationErrorInfo={section.validationErrorInfo}
+      comments={section.comments}
     >
       <SectionIntroPreview section={section} />
     </EditorLayout>

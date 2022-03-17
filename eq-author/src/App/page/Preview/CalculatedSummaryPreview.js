@@ -91,6 +91,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
       renderPanel={() => (
         <CommentsPanel comments={page.comments} componentId={page.id} />
       )}
+      comments={page.comments}
     >
       <Panel data-test="calSum test page">
         <Container>

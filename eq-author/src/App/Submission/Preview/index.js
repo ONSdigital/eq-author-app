@@ -43,6 +43,7 @@ const Preview = ({ match }) => {
           componentId={submission.id}
         />
       )}
+      comments={submission.comments}
     >
       <SubmissionPreview
         submission={submission}
