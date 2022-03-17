@@ -119,18 +119,18 @@ export const activeNavItemStyle = css`
   }
 
   #comment-notification {
-    border-top: 3px solid ${({ theme }) => theme.colors.badgeSelectedBackground};
-    border-bottom: 3px solid
+    border-top: 1px solid ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-bottom: 1px solid
       ${({ theme }) => theme.colors.badgeSelectedBackground};
-    border-right: 3px solid
+    border-right: 2px solid
       ${({ theme }) => theme.colors.badgeSelectedBackground};
-    border-left: 5px solid
+    border-left: 4px solid
       ${({ theme }) => theme.colors.badgeSelectedBackground};
 
     &::before {
-      border-left: 7px solid
+      border-left: 6px solid
         ${({ theme }) => theme.colors.badgeSelectedBackground};
-      border-top: 7px solid
+      border-top: 6px solid
         ${({ theme }) => theme.colors.badgeSelectedBackground};
     }
   }

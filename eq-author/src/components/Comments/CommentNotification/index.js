@@ -1,16 +1,16 @@
 import styled, { css } from "styled-components";
 
 const CommentNotificationNavItem = css`
-  border-top: 3px solid ${({ theme }) => theme.colors.neonYellow};
-  border-bottom: 3px solid ${({ theme }) => theme.colors.neonYellow};
-  border-right: 3px solid ${({ theme }) => theme.colors.neonYellow};
-  border-left: 5px solid ${({ theme }) => theme.colors.neonYellow};
+  border-top: 1px solid ${({ theme }) => theme.colors.neonYellow};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.neonYellow};
+  border-right: 2px solid ${({ theme }) => theme.colors.neonYellow};
+  border-left: 4px solid ${({ theme }) => theme.colors.neonYellow};
   &::before {
-    border-bottom: 7px solid transparent;
-    border-left: 7px solid ${({ theme }) => theme.colors.neonYellow};
-    border-right: 7px solid transparent;
-    border-top: 7px solid ${({ theme }) => theme.colors.neonYellow};
-    left: -5px;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid ${({ theme }) => theme.colors.neonYellow};
+    border-right: 6px solid transparent;
+    border-top: 6px solid ${({ theme }) => theme.colors.neonYellow};
+    left: -4px;
   }
 `;
 
