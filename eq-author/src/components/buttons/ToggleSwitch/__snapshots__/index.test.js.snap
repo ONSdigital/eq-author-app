@@ -115,8 +115,8 @@ exports[`ToggleSwitch should render 1`] = `
   height: 1em;
   width: 1em;
   background: #FFFFFF;
-  top: calc(50% - 1em / 2);
-  left: calc(33% - 1em / 2);
+  top: calc(41% - 1em / 2);
+  left: calc(32% - 1em / 2);
   position: relative;
   will-change: transform;
   -webkit-transform: translateX( 0em );
@@ -330,8 +330,8 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   height: 1em;
   width: 1em;
   background: #FFFFFF;
-  top: calc(50% - 1em / 2);
-  left: calc(33% - 1em / 2);
+  top: calc(41% - 1em / 2);
+  left: calc(32% - 1em / 2);
   position: relative;
   will-change: transform;
   -webkit-transform: translateX( 0em );
