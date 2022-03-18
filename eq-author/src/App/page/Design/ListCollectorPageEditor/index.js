@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
@@ -7,12 +7,14 @@ import Collapsible from "components/Collapsible";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { filter } from "graphql-anywhere";
-
+import Loading from "components/Loading";
+import { useParams } from "react-router-dom";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import UPDATE_LIST_COLLECTOR_MUTATION from "graphql/updateListCollector.graphql";
-
+import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
+// import buildCollectionListsPath from "utils/UrlUtils";
 import PageHeader from "../PageHeader";
 
 import {
@@ -45,6 +47,50 @@ const inputFilter = gql`
   }
 `;
 
+const StyledGrid = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  /* border: 1px solid ${colors.lightGrey}; */
+  margin: 0.5em 1em;
+`;
+
+const List = styled.ol`
+  margin: 0 0 1.5em;
+  padding: 0;
+  counter-reset: item;
+`;
+
+const ListItem = styled.li`
+  margin: 0;
+  padding: 0 0 0.25em 2em;
+  text-indent: -1.5em;
+  list-style-type: none;
+  counter-increment: item;
+  &:before {
+    display: inline-block;
+    width: 1.5em;
+    padding-right: 0.5em;
+    font-weight: bold;
+    text-align: right;
+    content: counter(item) ".";
+  }
+`;
+
+const Text = styled.p``;
+
+const CollapsibleContent = styled.p``;
+
+const CustomSelect = styled.select`
+  font-size: 1em;
+  border: thin solid #d6d8da;
+  border-radius: 4px;
+  padding: 0.3em;
+  color: #222222;
+  display: block;
+  width: 30%;
+`;
+
 const UnwrappedListCollectorEditor = (props) => {
   const { page } = props;
   const [updateListCollectorMutation] = useMutation(
@@ -69,37 +115,6 @@ const UnwrappedListCollectorEditor = (props) => {
     setEntity(updatedEntity);
   };
 
-  const StyledGrid = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-    /* border: 1px solid ${colors.lightGrey}; */
-    margin: 0.5em 1em;
-  `;
-
-  const List = styled.ol`
-    margin: 0 0 1.5em;
-    padding: 0;
-    counter-reset: item;
-  `;
-
-  const ListItem = styled.li`
-    margin: 0;
-    padding: 0 0 0.25em 2em;
-    text-indent: -1.5em;
-    list-style-type: none;
-    counter-increment: item;
-    &:before {
-      display: inline-block;
-      width: 1.5em;
-      padding-right: 0.5em;
-      font-weight: bold;
-      text-align: right;
-      content: counter(item) ".";
-    }
-  `;
-
-  const Text = styled.p``;
   const handleOnUpdate = (temp) => {
     const data = filter(inputFilter, temp);
     updateListCollectorMutation({
@@ -118,15 +133,35 @@ const UnwrappedListCollectorEditor = (props) => {
     ERR_REFERENCE_DELETED,
   };
 
+  const { loading, data } = useQuery(COLLECTION_LISTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading) {
+    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+  }
+  let lists = [];
+
+  if (data) {
+    lists = data.collectionLists?.lists || [];
+  }
+
+  // trying to output the correct url for Collection List Page
+  // const params = useParams();
+
+  // const CollectionListPageLink = buildCollectionListsPath(params);
+  const CollectionListPageLink = "/collectionList";
   return (
-    <div data-test="question-page-editor">
+    <div data- test="question-page-editor">
       <PageHeader
         {...props}
         page={entity}
+        pageType="collectionListPage"
         onUpdate={() => handleOnUpdate(entity)}
         onChange={handleOnChange}
         alertText="All edits, properties and routing settings will also be removed."
       />
+
       <StyledGrid>
         <Text>
           <b>List collector</b>
@@ -180,6 +215,46 @@ const UnwrappedListCollectorEditor = (props) => {
           </List>
         </Collapsible>
       </StyledGrid>
+
+      <Collapsible
+        title="Collection List?"
+        defaultOpen
+        className="default-value"
+        variant="content"
+        withoutHideThis
+      >
+        <CollapsibleContent>
+          The collection list contains the answer types to the collection
+          question the respondent will be asked. You can create a list on the{" "}
+          <a href={CollectionListPageLink}>Collection list page</a>.
+        </CollapsibleContent>
+
+        <CollapsibleContent>
+          <CustomSelect>
+            {lists === null || lists === undefined || !lists.length || !data ? (
+              <option>Currently no lists</option>
+            ) : (
+              lists.map((list) => (
+                <option key={list.id}>{list.displayName}</option>
+              ))
+            )}
+          </CustomSelect>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <Collapsible
+        title="Repeating list collector question"
+        defaultOpen
+        className="default-value"
+        variant="content"
+        withoutHideThis
+      >
+        <CollapsibleContent>
+          This question is to ask respondents if they have anything to add to
+          the list, if they do the collection question will add it to the list
+          and return them to this question until they have nothing more to add.
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 };
