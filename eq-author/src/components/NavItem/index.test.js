@@ -1,6 +1,7 @@
 import React from "react";
 
 import { render } from "tests/utils/rtl";
+import Theme from "contexts/themeContext";
 
 import NavItem from ".";
 
@@ -8,7 +9,12 @@ const renderNavItem = ({
   title = "Superstore",
   titleUrl = "http://www.google.com",
   ...rest
-}) => render(<NavItem title={title} titleUrl={titleUrl} {...rest} />);
+}) =>
+  render(
+    <Theme>
+      <NavItem title={title} titleUrl={titleUrl} {...rest} />
+    </Theme>
+  );
 
 describe("Navigation item", () => {
   it("Can render", () => {
