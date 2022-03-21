@@ -1,6 +1,0 @@
-subscription AllCommentsUpdated($id: ID!) {
-  allCommentsUpdated(id: $id) {
-    id
-    readBy
-  }
-}

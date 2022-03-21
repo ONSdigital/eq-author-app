@@ -2,6 +2,8 @@ import React from "react";
 import moment from "moment";
 
 import { render } from "tests/utils/rtl";
+import { MeContext } from "App/MeContext";
+import Theme from "contexts/themeContext";
 
 import Comment from ".";
 
@@ -14,8 +16,19 @@ jest.mock("@apollo/react-hooks", () => ({
 describe("Comment", () => {
   let mockComment;
 
+  const me = {
+    id: "1",
+    name: "Name",
+  };
+
   const renderComment = (props) =>
-    render(<Comment {...mockComment} canDelete canEdit {...props} />);
+    render(
+      <MeContext.Provider value={me}>
+        <Theme>
+          <Comment {...mockComment} canDelete canEdit {...props} />
+        </Theme>
+      </MeContext.Provider>
+    );
 
   beforeEach(() => {
     mockComment = {

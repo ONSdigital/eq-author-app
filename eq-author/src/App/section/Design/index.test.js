@@ -154,6 +154,7 @@ const moveSectionMock = {
           viewPrintAnswers: true,
           emailConfirmation: true,
           feedback: true,
+          comments: [],
           __typename: "Submission",
         },
       },
