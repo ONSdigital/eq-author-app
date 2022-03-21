@@ -16,6 +16,8 @@ const CommentNotificationNavItem = css`
 
 const CommentNotificationTabs = css`
   display: inline-flex;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
   &::before {
     border-bottom: 4px solid transparent;
     border-left: 4px solid ${({ theme }) => theme.colors.neonYellow};
@@ -33,8 +35,6 @@ const CommentNotification = styled.div`
   margin-right: 0.5em;
   &::before {
     content: "";
-    height: 0;
-    width: 0;
     position: absolute;
   }
 
