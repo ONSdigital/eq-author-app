@@ -16,14 +16,14 @@ jest.mock("@apollo/react-hooks", () => ({
 describe("Comment", () => {
   let mockComment;
 
-  const me = {
+  const user = {
     id: "1",
     name: "Name",
   };
 
   const renderComment = (props) =>
     render(
-      <MeContext.Provider value={me}>
+      <MeContext.Provider value={{ me: user }}>
         <Theme>
           <Comment {...mockComment} canDelete canEdit {...props} />
         </Theme>
