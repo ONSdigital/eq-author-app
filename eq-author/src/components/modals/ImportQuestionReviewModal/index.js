@@ -60,6 +60,11 @@ const ContentHeading = styled.h4`
   color: ${colors.textLight};
 `;
 
+const Container = styled.div`
+  display: flex;
+  gap: 0.5em;
+`;
+
 const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
   <QuestionContainer>
     <SpacedRow>
@@ -104,7 +109,7 @@ const ImportQuestionReviewModal = ({
     confirmEnabled={Boolean(startingSelectedQuestions?.length) || false}
   >
     <Header>
-      <Heading> Import questions from {questionnaire.title} </Heading>
+      <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
         <Warning>
           Question logic, piping and Qcodes will not be imported.
@@ -132,11 +137,23 @@ const ImportQuestionReviewModal = ({
           </QuestionsPane>
         </>
       ) : (
-        <ContentHeading> No questions selected. </ContentHeading>
+        <ContentHeading>
+          *Select individual questions or entire sections to be imported, you
+          cannot choose both*
+        </ContentHeading>
       )}
-      <Button onClick={onSelectQuestions}>
-        Select {startingSelectedQuestions?.length >= 1 && "more"} questions
-      </Button>
+      <Container>
+        <Button onClick={onSelectQuestions}>
+          {startingSelectedQuestions?.length >= 1
+            ? "Select more questions"
+            : "Questions"}
+        </Button>
+        <Button onClick={onSelectQuestions}>
+          {startingSelectedQuestions?.length >= 1
+            ? "Select more sections"
+            : "Sections"}
+        </Button>
+      </Container>
     </Content>
   </Wizard>
 );
