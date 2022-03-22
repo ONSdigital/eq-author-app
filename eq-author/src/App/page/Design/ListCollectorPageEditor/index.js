@@ -119,22 +119,19 @@ const UnwrappedListCollectorEditor = (props) => {
     setEntity(updatedEntity);
   };
 
-  const handleOnUpdate = (temp) => {
-    const data = filter(inputFilter, temp);
-    updateListCollectorMutation({
-      variables: { input: data },
-    });
-  };
-
-  const handleUpdateList = (event) => {
-    if (event.target.value === "newList") {
+  const handleOnUpdate = (event) => {
+    const inputData = event.target || event;
+    if (inputData.value === "newList") {
       history.push(CollectionListPageLink);
       return;
     }
     const updatedEntity = { ...entity };
-    updatedEntity[event.target.name] = event.target.value;
+    updatedEntity[inputData.name] = inputData.value;
     setEntity(updatedEntity);
-    handleOnUpdate(updatedEntity);
+    const data = filter(inputFilter, updatedEntity);
+    updateListCollectorMutation({
+      variables: { input: data },
+    });
   };
 
   const { loading, data } = useQuery(COLLECTION_LISTS, {
