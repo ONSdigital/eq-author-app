@@ -9,15 +9,12 @@ import { colors } from "constants/theme";
 import { filter } from "graphql-anywhere";
 import Loading from "components/Loading";
 import { Field, Input, Label } from "components/Forms";
-import { useParams } from "react-router-dom";
-import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import UPDATE_LIST_COLLECTOR_MUTATION from "graphql/updateListCollector.graphql";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import { buildCollectionListsPath } from "utils/UrlUtils";
 import PageHeader from "../PageHeader";
-
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const propTypes = {
@@ -87,20 +84,6 @@ const CustomSelect = styled.select`
   width: 30%;
 `;
 
-const StyledInput = styled.input`
-  border-radius: ${({ theme }) => theme.radius};
-  border: 1px solid ${({ theme }) => theme.colors.input};
-  outline: none;
-  padding: 0.39rem 0.5rem;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: ${({ theme }) => theme.colors.input};
-  min-width: 375px;
-  &:focus {
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
-  }
-`;
-
 const UnwrappedListCollectorEditor = (props) => {
   const {
     history,
@@ -118,9 +101,7 @@ const UnwrappedListCollectorEditor = (props) => {
     folder: page?.folder,
     section: page?.section,
   });
-
   const [entity, setEntity] = useState(page);
-
   useEffect(() => {
     setEntity(entity);
   }, [entity]);
@@ -128,14 +109,12 @@ const UnwrappedListCollectorEditor = (props) => {
   const CollectionListPageLink = buildCollectionListsPath({ questionnaireId });
 
   const handleOnChange = (event) => {
-    debugger;
     const updatedEntity = { ...entity };
     updatedEntity[event.name] = event.value;
     setEntity(updatedEntity);
   };
 
   const handleOnUpdate = (temp) => {
-    debugger;
     const data = filter(inputFilter, temp);
     updateListCollectorMutation({
       variables: { input: data },
@@ -165,7 +144,6 @@ const UnwrappedListCollectorEditor = (props) => {
   if (data) {
     lists = data.collectionLists?.lists || [];
   }
-
   return (
     <div data- test="question-page-editor">
       <PageHeader
@@ -180,13 +158,11 @@ const UnwrappedListCollectorEditor = (props) => {
       <StyledGrid>
         <Field>
           <Label htmlFor="title">List name</Label>
-          <StyledInput
-            name="title"
-            type="text"
+          <Input
+            name={"title"}
+            onChange={handleOnChange}
+            onBlur={() => handleOnUpdate(entity)}
             value={entity.title}
-            onUpdate={() => handleOnUpdate(entity)}
-            onChange={(event) => handleOnChange(event.target)}
-            data-test="txt-list-collector-title"
           />
         </Field>
         <Text>
@@ -283,6 +259,45 @@ const UnwrappedListCollectorEditor = (props) => {
           This question is to ask respondents if they have anything to add to
           the list, if they do the collection question will add it to the list
           and return them to this question until they have nothing more to add.
+        </CollapsibleContent>
+      </Collapsible>
+
+      <Collapsible
+        title="Repeating list collector question"
+        defaultOpen
+        className="default-value"
+        variant="content"
+        withoutHideThis
+      >
+        <CollapsibleContent>
+          This question is to ask respondents if they have anything to add to
+          the list, if they do the collection question will add it to the list
+          and return them to this question until they have nothing more to add.
+        </CollapsibleContent>
+        {/* Rich Text Editor in here */}
+        <CollapsibleContent>
+          <hr />
+          <b>Repeating radio answer</b>
+          <br />
+          The repeating question answer type is a radio option, the positive
+          answer takes respondents to the Collection list question and then
+          returns them to the repeating question until they choose the negative
+          radio option.
+          {/* Positive answer label in here */}
+          {/* Negative answer label in here */}
+        </CollapsibleContent>
+      </Collapsible>
+
+      <Collapsible
+        title="Collection question"
+        defaultOpen
+        className="default-value"
+        variant="content"
+        withoutHideThis
+      >
+        <CollapsibleContent>
+          This question will be displayed along with the answer types from the
+          selected collection list.
         </CollapsibleContent>
       </Collapsible>
     </div>
