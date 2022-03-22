@@ -11,7 +11,7 @@ import { SORT_ORDER } from "constants/sort-order";
 import tableHeadings from "./tableHeadings";
 
 const Thead = styled.thead`
-  background-color: ${colors.grey6};
+  background-color: ${colors.grey5};
 
   ${({ sticky }) =>
     sticky &&
@@ -29,7 +29,7 @@ const Thead = styled.thead`
 `;
 
 const TH = styled.th`
-  color: ${colors.grey80};
+  color: ${colors.grey75};
   width: ${(props) => props.colWidth};
   font-weight: 700;
   font-size: 0.9rem;

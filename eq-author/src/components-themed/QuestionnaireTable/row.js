@@ -120,7 +120,7 @@ const ButtonGroup = styled.div`
 export const TR = styled.tr`
   scroll-margin-top: 3em;
   border-top: 1px solid black;
-  background-color: ${colors.grey6};
+  background-color: ${colors.grey5};
   :nth-of-type(2n-1) {
     background-color: rgba(0, 0, 0, 0);
   }
