@@ -5,11 +5,9 @@ import styled from "styled-components";
 import { useMe } from "App/MeContext";
 
 import Tooltip from "components/Forms/Tooltip";
-import { colors } from "constants/theme";
 import Button from "components/buttons/Button";
 
 import IconText from "components/IconText";
-import guestAvatar from "./icon-guest-avatar.svg";
 import signOutIcon from "./signout-icon.svg?inline";
 
 export const LogoutButton = styled(Button)`
@@ -20,7 +18,6 @@ export const LogoutButton = styled(Button)`
   text-decoration: underline;
   &:hover {
     background: none;
-    /* color: ${colors.text}; */
   }
   &:focus {
     box-shadow: none;

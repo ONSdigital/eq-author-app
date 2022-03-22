@@ -5,7 +5,7 @@ import CustomPropTypes from "custom-prop-types";
 import { Grid, Column } from "components/Grid";
 import UserProfile from "components/UserProfile";
 import { withMe } from "App/MeContext";
-import { enableOn, disableOn } from "utils/featureFlags";
+import { enableOn } from "utils/featureFlags";
 
 const HeaderTop = styled.div`
   background-color: ${({ theme, variant }) =>
@@ -91,7 +91,6 @@ const Header = ({
   headerDescription,
   logo,
   headerTopContent,
-  centerCols,
   me,
 }) => {
   return (
@@ -142,13 +141,11 @@ Header.propTypes = {
   headerDescription: PropType.string,
   logo: PropType.node,
   headerTopContent: PropType.node,
-  centerCols: PropType.number,
   me: CustomPropTypes.user,
 };
 
 Header.defaultProps = {
   variant: "Internal",
-  centerCols: 12,
 };
 
 export default withMe(Header);

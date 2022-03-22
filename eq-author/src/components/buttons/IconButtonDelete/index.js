@@ -41,7 +41,7 @@ const IconButtonDelete = ({
   const icon = disabledIcon ? IconDisabledDelete : IconDelete;
   return (
     <Wrapper>
-      <DeleteButton title="Delete" {...otherProps}>
+      <DeleteButton {...otherProps}>
         <IconText icon={icon} hideText={hideText}>
           {iconText}
         </IconText>
@@ -56,6 +56,7 @@ DeleteTooltip.propTypes = {
 IconButtonDelete.propTypes = {
   hideText: PropTypes.bool,
   iconText: PropTypes.string,
+  disabledIcon: PropTypes.bool,
 };
 
 IconButtonDelete.defaultProps = {

@@ -6,6 +6,7 @@ import TableHead from "./tableHead";
 import TableBody from "./tableBody";
 import Panel from "components/Panel";
 import { colors } from "constants/theme";
+import MainCanvas from "components/MainCanvas";
 
 const Border = styled(Panel)`
   border: 1px solid ${colors.black};
@@ -16,9 +17,14 @@ const TableWrapper = styled.table`
   border-collapse: collapse;
   table-layout: fixed;
   text-align: left;
-  /* border: 0.01em solid black; */
   border-radius: 1em;
   border-top-left-radius: 1em;
+`;
+
+const Canvas = styled(MainCanvas)`
+  padding: 0;
+  margin: 0;
+  max-width: none;
 `;
 
 const QuestionnaireTable = ({
@@ -36,33 +42,35 @@ const QuestionnaireTable = ({
   clickable,
   onRowClick,
   questionnaireModal,
-  variant, //what is variant is it needed
+  variant,
 }) => {
   return (
-    <Border>
-      <TableWrapper variant={variant}>
-        <TableHead
-          onSortClick={onSortClick}
-          onReverseClick={onReverseClick}
-          sortOrder={sortOrder}
-          currentSortColumn={currentSortColumn}
-          enabledHeadings={enabledHeadings}
-          sticky={variant === "selectModal"}
-        />
-        <TableBody
-          questionnaires={questionnaires}
-          selectedQuestionnaire={selectedQuestionnaire}
-          autoFocusId={autoFocusId}
-          onDeleteQuestionnaire={onDeleteQuestionnaire}
-          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-          handleLock={handleLock}
-          clickable={clickable}
-          enabledHeadings={enabledHeadings}
-          onRowClick={onRowClick}
-          questionnaireModal={questionnaireModal}
-        />
-      </TableWrapper>
-    </Border>
+    <Canvas>
+      <Border>
+        <TableWrapper variant={variant}>
+          <TableHead
+            onSortClick={onSortClick}
+            onReverseClick={onReverseClick}
+            sortOrder={sortOrder}
+            currentSortColumn={currentSortColumn}
+            enabledHeadings={enabledHeadings}
+            sticky={variant === "selectModal"}
+          />
+          <TableBody
+            questionnaires={questionnaires}
+            selectedQuestionnaire={selectedQuestionnaire}
+            autoFocusId={autoFocusId}
+            onDeleteQuestionnaire={onDeleteQuestionnaire}
+            onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+            handleLock={handleLock}
+            clickable={clickable}
+            enabledHeadings={enabledHeadings}
+            onRowClick={onRowClick}
+            questionnaireModal={questionnaireModal}
+          />
+        </TableWrapper>
+      </Border>
+    </Canvas>
   );
 };
 

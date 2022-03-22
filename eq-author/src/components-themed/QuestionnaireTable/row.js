@@ -322,7 +322,6 @@ export const Row = ({
             )}
             <QuestionnaireLink
               data-test="anchor-questionnaire-title"
-              title={displayName}
               tabIndex="0"
               linkHasFocus={linkHasFocus}
               questionnaireModal={questionnaireModal}
