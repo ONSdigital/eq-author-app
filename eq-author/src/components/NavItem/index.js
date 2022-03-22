@@ -81,7 +81,11 @@ const NavItem = ({
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>
       {unreadComment && (
-        <CommentNotification id="comment-notification" variant="nav" />
+        <CommentNotification
+          id="comment-notification"
+          variant="nav"
+          data-test="comment-notification-nav"
+        />
       )}
       {errorCount > 0 && (
         <Badge id="badge" variant="nav" medium data-test="NavItem-error">

@@ -36,4 +36,28 @@ describe("Navigation item", () => {
       expect(getByTestId("NavItem-error")).toBeVisible();
     });
   });
+
+  describe("Comment notification", () => {
+    it("Should not show the comment notification icon if there are no unread comments", () => {
+      const { queryByTestId } = renderNavItem({});
+
+      expect(queryByTestId("comment-notification-nav")).toBeNull();
+    });
+
+    it("Should show the comment notification icon if there are unread comments", () => {
+      const { getByTestId } = renderNavItem({ unreadComment: true });
+
+      expect(getByTestId("comment-notification-nav")).toBeVisible();
+    });
+  });
+
+  it("Should show the comment notification icon and error badge if there are both errors and unread comments", () => {
+    const { getByTestId } = renderNavItem({
+      errorCount: 1,
+      unreadComment: true,
+    });
+
+    expect(getByTestId("comment-notification-nav")).toBeVisible();
+    expect(getByTestId("NavItem-error")).toBeVisible();
+  });
 });
