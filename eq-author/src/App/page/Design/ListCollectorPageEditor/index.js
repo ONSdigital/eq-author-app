@@ -164,7 +164,7 @@ const UnwrappedListCollectorEditor = (props) => {
             <Input
               name={"title"}
               onChange={handleOnChange}
-              onBlur={handleOnUpdate}
+              onBlur={() => handleOnUpdate(entity)}
               value={entity.title}
             />
           </Field>
