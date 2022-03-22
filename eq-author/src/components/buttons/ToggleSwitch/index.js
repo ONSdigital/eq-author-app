@@ -55,8 +55,8 @@ const ToggleSwitchKnob = styled.div`
   height: ${knobSize}em;
   width: ${knobSize}em;
   background: ${colors.white};
-  top: calc(50% - ${knobSize}em / 2);
-  left: calc(33% - ${knobSize}em / 2);
+  top: calc(42% - ${knobSize}em / 2);
+  left: calc(32% - ${knobSize}em / 2);
   position: relative;
   will-change: transform;
   transform: translateX(
