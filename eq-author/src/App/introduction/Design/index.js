@@ -24,7 +24,7 @@ export const IntroductionDesign = ({ loading, error, data }) => {
   }
 
   const introduction = get("questionnaireIntroduction", data);
-  const { comments } = introduction;
+  const comments = introduction?.comments;
 
   if (error || isEmpty(introduction)) {
     return <Error>Something went wrong</Error>;

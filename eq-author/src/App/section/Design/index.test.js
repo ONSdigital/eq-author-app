@@ -48,6 +48,7 @@ const section = {
   sectionSummary: false,
   collapsibleSummary: false,
   summaryTitle: "",
+  comments: [],
   folders: [
     {
       __typename: "Folder",

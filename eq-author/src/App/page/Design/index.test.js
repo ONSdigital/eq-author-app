@@ -3,6 +3,7 @@ import { render } from "tests/utils/rtl";
 import { UnwrappedPageRoute } from "./";
 import { useQuery } from "@apollo/react-hooks";
 import { buildPages } from "tests/utils/createMockQuestionnaire";
+import { MeContext } from "App/MeContext";
 
 jest.mock("components/EditorLayout/Header", () => ({
   __esModule: true,
@@ -37,6 +38,11 @@ useQuery.mockImplementation(() => ({
   loading: true,
 }));
 
+const user = {
+  id: "1",
+  name: "Name",
+};
+
 function defaultSetup(props) {
   const questionnaireId = "questionnaire";
   const sectionId = "1.1";
@@ -45,7 +51,9 @@ function defaultSetup(props) {
     params: { questionnaireId, sectionId, pageId },
   };
   const utils = render(
-    <UnwrappedPageRoute {...props} match={match} fetchAnswers={jest.fn()} />
+    <MeContext.Provider value={{ me: user }}>
+      <UnwrappedPageRoute {...props} match={match} fetchAnswers={jest.fn()} />
+    </MeContext.Provider>
   );
 
   return { ...utils, questionnaireId, sectionId, pageId };
