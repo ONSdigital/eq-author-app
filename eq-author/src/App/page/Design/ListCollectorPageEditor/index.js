@@ -291,7 +291,6 @@ const UnwrappedListCollectorEditor = (props) => {
             list: true,
             bold: true,
           }}
-          autoFocus
         />
 
         <CollapsibleContent>
@@ -332,7 +331,6 @@ const UnwrappedListCollectorEditor = (props) => {
             list: true,
             bold: true,
           }}
-          autoFocus
         />
       </Collapsible>
     </div>
