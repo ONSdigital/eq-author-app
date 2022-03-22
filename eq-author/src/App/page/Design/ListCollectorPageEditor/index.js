@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { filter } from "graphql-anywhere";
 import Loading from "components/Loading";
+import { Field, Input, Label } from "components/Forms";
 import { useParams } from "react-router-dom";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
@@ -86,6 +87,20 @@ const CustomSelect = styled.select`
   width: 30%;
 `;
 
+const StyledInput = styled.input`
+  border-radius: ${({ theme }) => theme.radius};
+  border: 1px solid ${({ theme }) => theme.colors.input};
+  outline: none;
+  padding: 0.39rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: ${({ theme }) => theme.colors.input};
+  min-width: 375px;
+  &:focus {
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.focus};
+  }
+`;
+
 const UnwrappedListCollectorEditor = (props) => {
   const {
     history,
@@ -113,12 +128,14 @@ const UnwrappedListCollectorEditor = (props) => {
   const CollectionListPageLink = buildCollectionListsPath({ questionnaireId });
 
   const handleOnChange = (event) => {
+    debugger;
     const updatedEntity = { ...entity };
     updatedEntity[event.name] = event.value;
     setEntity(updatedEntity);
   };
 
   const handleOnUpdate = (temp) => {
+    debugger;
     const data = filter(inputFilter, temp);
     updateListCollectorMutation({
       variables: { input: data },
@@ -131,8 +148,8 @@ const UnwrappedListCollectorEditor = (props) => {
       return;
     }
     const updatedEntity = { ...entity };
-    setEntity(updatedEntity);
     updatedEntity[event.target.name] = event.target.value;
+    setEntity(updatedEntity);
     handleOnUpdate(updatedEntity);
   };
 
@@ -161,6 +178,17 @@ const UnwrappedListCollectorEditor = (props) => {
       />
 
       <StyledGrid>
+        <Field>
+          <Label htmlFor="title">List name</Label>
+          <StyledInput
+            name="title"
+            type="text"
+            value={entity.title}
+            onUpdate={() => handleOnUpdate(entity)}
+            onChange={(event) => handleOnChange(event.target)}
+            data-test="txt-list-collector-title"
+          />
+        </Field>
         <Text>
           <b>List collector</b>
           <br />
