@@ -70,6 +70,10 @@ const ListItem = styled.li`
   }
 `;
 
+const TitleInputContainer = styled.div`
+  width: 50%;
+`;
+
 const Text = styled.p``;
 
 const CollapsibleContent = styled.p``;
@@ -156,15 +160,17 @@ const UnwrappedListCollectorEditor = (props) => {
       />
 
       <StyledGrid>
-        <Field>
-          <Label htmlFor="title">List name</Label>
-          <Input
-            name={"title"}
-            onChange={handleOnChange}
-            onBlur={() => handleOnUpdate(entity)}
-            value={entity.title}
-          />
-        </Field>
+        <TitleInputContainer>
+          <Field>
+            <Label htmlFor="title">List name</Label>
+            <Input
+              name={"title"}
+              onChange={handleOnChange}
+              onBlur={() => handleOnUpdate(entity)}
+              value={entity.title}
+            />
+          </Field>
+        </TitleInputContainer>
         <Text>
           <b>List collector</b>
           <br />
