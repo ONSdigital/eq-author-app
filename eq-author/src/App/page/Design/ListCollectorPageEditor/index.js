@@ -14,19 +14,14 @@ import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import UPDATE_LIST_COLLECTOR_MUTATION from "graphql/updateListCollector.graphql";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
-// import buildCollectionListsPath from "utils/UrlUtils";
+import { buildCollectionListsPath } from "utils/UrlUtils";
 import PageHeader from "../PageHeader";
-
-import {
-  ERR_NO_VALUE,
-  ERR_REFERENCE_MOVED,
-  ERR_REFERENCE_DELETED,
-} from "constants/validationMessages";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
+  history: CustomPropTypes.history.isRequired,
   page: CustomPropTypes.page.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
@@ -92,7 +87,13 @@ const CustomSelect = styled.select`
 `;
 
 const UnwrappedListCollectorEditor = (props) => {
-  const { page } = props;
+  const {
+    history,
+    match: {
+      params: { questionnaireId },
+    },
+    page,
+  } = props;
   const [updateListCollectorMutation] = useMutation(
     UPDATE_LIST_COLLECTOR_MUTATION
   );
@@ -109,6 +110,8 @@ const UnwrappedListCollectorEditor = (props) => {
     setEntity(entity);
   }, [entity]);
 
+  const CollectionListPageLink = buildCollectionListsPath({ questionnaireId });
+
   const handleOnChange = (event) => {
     const updatedEntity = { ...entity };
     updatedEntity[event.name] = event.value;
@@ -122,15 +125,15 @@ const UnwrappedListCollectorEditor = (props) => {
     });
   };
 
-  const totalValidationErrors = page.validationErrorInfo.errors.filter(
-    ({ field }) => field === "totalValidation"
-  );
-  const error = totalValidationErrors?.[0];
-
-  const errorMessages = {
-    ERR_NO_VALUE,
-    ERR_REFERENCE_MOVED,
-    ERR_REFERENCE_DELETED,
+  const handleUpdateList = (event) => {
+    if (event.target.value === "newList") {
+      history.push(CollectionListPageLink);
+      return;
+    }
+    const updatedEntity = { ...entity };
+    setEntity(updatedEntity);
+    updatedEntity[event.target.name] = event.target.value;
+    handleOnUpdate(updatedEntity);
   };
 
   const { loading, data } = useQuery(COLLECTION_LISTS, {
@@ -146,11 +149,6 @@ const UnwrappedListCollectorEditor = (props) => {
     lists = data.collectionLists?.lists || [];
   }
 
-  // trying to output the correct url for Collection List Page
-  // const params = useParams();
-
-  // const CollectionListPageLink = buildCollectionListsPath(params);
-  const CollectionListPageLink = "/collectionList";
   return (
     <div data- test="question-page-editor">
       <PageHeader
@@ -230,14 +228,18 @@ const UnwrappedListCollectorEditor = (props) => {
         </CollapsibleContent>
 
         <CollapsibleContent>
-          <CustomSelect>
-            {lists === null || lists === undefined || !lists.length || !data ? (
-              <option>Currently no lists</option>
-            ) : (
-              lists.map((list) => (
-                <option key={list.id}>{list.displayName}</option>
-              ))
-            )}
+          <CustomSelect
+            name="listId"
+            onChange={handleUpdateList}
+            value={entity.listId}
+          >
+            <option value="">Select list</option>
+            {lists.map((list) => (
+              <option key={list.id} value={list.id}>
+                {list.displayName}
+              </option>
+            ))}
+            <option value="newList">Create new list</option>
           </CustomSelect>
         </CollapsibleContent>
       </Collapsible>
