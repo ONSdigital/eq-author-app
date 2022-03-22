@@ -36,6 +36,8 @@ const inputFilter = gql`
     anotherTitle
     anotherPositive
     anotherNegative
+    anotherPositiveDescription
+    anotherNegativeDescription
     addItemTitle
     alias
   }
@@ -350,6 +352,8 @@ UnwrappedListCollectorEditor.fragments = {
       anotherTitle
       anotherPositive
       anotherNegative
+      anotherPositiveDescription
+      anotherNegativeDescription
       addItemTitle
       alias
       folder {

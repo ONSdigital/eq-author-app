@@ -242,6 +242,8 @@ type ListCollectorPage implements Page & Skippable & Routable {
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
   addItemTitle: String
   routing: Routing2
   skipConditions: [ExpressionGroup2]
@@ -944,6 +946,8 @@ input CreateListCollectorPageInput {
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
   addItemTitle: String
 }
 
@@ -954,6 +958,8 @@ input UpdateListCollectorPageInput {
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
   addItemTitle: String
   alias: String
 }

@@ -9,6 +9,8 @@ const createListCollectorPage = (input = {}) => ({
   anotherTitle: "",
   anotherPositive: "Yes",
   anotherNegative: "No",
+  anotherPositiveDescription: "",
+  anotherNegativeDescription: "",
   addItemTitle: "",
   routing: null,
   alias: "",
