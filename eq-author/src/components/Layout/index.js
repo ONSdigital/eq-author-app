@@ -14,6 +14,7 @@ import { Grid, Column } from "components/Grid";
 
 const GridAuto = styled(Grid)`
   height: auto;
+  min-height: 100%;
   margin-bottom: -95px;
   padding-bottom: 6.5em;
 `;
