@@ -9,6 +9,7 @@ import { colors } from "constants/theme";
 import { filter } from "graphql-anywhere";
 import Loading from "components/Loading";
 import { Field, Input, Label } from "components/Forms";
+import RichTextEditor from "components/RichTextEditor";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import UPDATE_LIST_COLLECTOR_MUTATION from "graphql/updateListCollector.graphql";
@@ -280,7 +281,23 @@ const UnwrappedListCollectorEditor = (props) => {
           the list, if they do the collection question will add it to the list
           and return them to this question until they have nothing more to add.
         </CollapsibleContent>
-        {/* Rich Text Editor in here */}
+
+        <RichTextEditor
+          id={`update-addItemTitle-textbox`}
+          name="addItemTitle"
+          onChange={handleOnChange}
+          onUpdate={() => handleOnUpdate(entity)}
+          value={entity.addItemTitle}
+          label=""
+          controls={{
+            heading: true,
+            emphasis: true,
+            list: true,
+            bold: true,
+          }}
+          autoFocus
+        />
+
         <CollapsibleContent>
           <hr />
           <b>Repeating radio answer</b>
