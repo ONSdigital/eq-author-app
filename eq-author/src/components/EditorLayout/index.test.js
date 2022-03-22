@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
+import { MeContext } from "App/MeContext";
 
 import EditorLayout from "./";
 
@@ -19,8 +20,17 @@ describe("Editor Layout", () => {
     };
   });
 
+  const user = {
+    id: "1",
+    name: "Name",
+  };
+
   it("should render", () => {
-    const wrapper = shallow(<EditorLayout {...props}>Content</EditorLayout>);
+    const wrapper = shallow(
+      <MeContext.Provider value={{ me: user }}>
+        <EditorLayout {...props}>Content</EditorLayout>
+      </MeContext.Provider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -28,9 +38,11 @@ describe("Editor Layout", () => {
     const onAddQuestionPage = jest.fn();
 
     const wrapper = shallow(
-      <EditorLayout {...props} onAddQuestionPage={onAddQuestionPage}>
-        Content
-      </EditorLayout>
+      <MeContext.Provider value={{ me: user }}>
+        <EditorLayout {...props} onAddQuestionPage={onAddQuestionPage}>
+          Content
+        </EditorLayout>
+      </MeContext.Provider>
     );
 
     wrapper.find(byTestAttr("btn-add-page")).first().simulate("click");
@@ -44,13 +56,15 @@ describe("Editor Layout", () => {
       .mockReturnValue(<div data-test="test-panel">Panel</div>);
 
     const wrapper = shallow(
-      <EditorLayout
-        {...props}
-        singleColumnLayout={null}
-        renderPanel={renderPanel}
-      >
-        Content
-      </EditorLayout>
+      <MeContext.Provider value={{ me: user }}>
+        <EditorLayout
+          {...props}
+          singleColumnLayout={null}
+          renderPanel={renderPanel}
+        >
+          Content
+        </EditorLayout>
+      </MeContext.Provider>
     );
 
     expect(renderPanel).toHaveBeenCalled();
@@ -58,16 +72,21 @@ describe("Editor Layout", () => {
   });
 
   it("should render right hand panel if singleColumnLayout is null", () => {
-    const wrapper = shallow(<EditorLayout {...props}>Content</EditorLayout>);
-
+    const wrapper = shallow(
+      <MeContext.Provider value={{ me: user }}>
+        <EditorLayout {...props}>Content</EditorLayout>
+      </MeContext.Provider>
+    );
     expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(1);
   });
 
   it("should NOT render right hand panel if singleColumnLayout is true", () => {
     const wrapper = shallow(
-      <EditorLayout {...props} singleColumnLayout>
-        Content
-      </EditorLayout>
+      <MeContext.Provider value={{ me: user }}>
+        <EditorLayout {...props} singleColumnLayout>
+          Content
+        </EditorLayout>
+      </MeContext.Provider>
     );
 
     expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(0);

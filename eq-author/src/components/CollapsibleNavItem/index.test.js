@@ -2,6 +2,7 @@ import React from "react";
 
 import { render } from "tests/utils/rtl";
 import { colors } from "constants/theme";
+import Theme from "contexts/themeContext";
 
 import CollapsibleNavItem from ".";
 
@@ -12,9 +13,11 @@ const renderCollapsibleNavItem = ({
   ...rest
 }) =>
   render(
-    <CollapsibleNavItem title={title} titleUrl={titleUrl} {...rest}>
-      {body}
-    </CollapsibleNavItem>
+    <Theme>
+      <CollapsibleNavItem title={title} titleUrl={titleUrl} {...rest}>
+        {body}
+      </CollapsibleNavItem>
+    </Theme>
   );
 
 describe("Collapsible navigation item", () => {
