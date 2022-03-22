@@ -280,10 +280,10 @@ const UnwrappedListCollectorEditor = (props) => {
         </CollapsibleContent>
 
         <RichTextEditor
-          id={`update-addItemTitle-textbox`}
-          name={"addItemTitle"}
+          id={`update-anotherTitle-textbox`}
+          name={"anotherTitle"}
           onUpdate={handleOnUpdate}
-          value={entity.addItemTitle}
+          value={entity.anotherTitle}
           label=""
           controls={{
             heading: true,
@@ -319,11 +319,10 @@ const UnwrappedListCollectorEditor = (props) => {
         </CollapsibleContent>
 
         <RichTextEditor
-          id={`update-anotherTitle-textbox`}
+          id={`update-addItemTitle-textbox`}
           name={"addItemTitle"}
-          onChange={handleOnChange}
-          onUpdate={() => handleOnUpdate(entity)}
-          value={entity.anotherTitle}
+          onUpdate={handleOnUpdate}
+          value={entity.addItemTitle}
           label=""
           controls={{
             heading: true,
