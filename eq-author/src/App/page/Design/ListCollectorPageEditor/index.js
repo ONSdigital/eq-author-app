@@ -282,8 +282,7 @@ const UnwrappedListCollectorEditor = (props) => {
         <RichTextEditor
           id={`update-addItemTitle-textbox`}
           name={"addItemTitle"}
-          onChange={handleOnChange}
-          onUpdate={() => handleOnUpdate(entity)}
+          onUpdate={handleOnUpdate}
           value={entity.addItemTitle}
           label=""
           controls={{
