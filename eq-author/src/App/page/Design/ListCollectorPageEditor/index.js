@@ -284,7 +284,7 @@ const UnwrappedListCollectorEditor = (props) => {
 
         <RichTextEditor
           id={`update-addItemTitle-textbox`}
-          name="addItemTitle"
+          name={"addItemTitle"}
           onChange={handleOnChange}
           onUpdate={() => handleOnUpdate(entity)}
           value={entity.addItemTitle}
@@ -322,6 +322,22 @@ const UnwrappedListCollectorEditor = (props) => {
           This question will be displayed along with the answer types from the
           selected collection list.
         </CollapsibleContent>
+
+        <RichTextEditor
+          id={`update-anotherTitle-textbox`}
+          name={"addItemTitle"}
+          onChange={handleOnChange}
+          onUpdate={() => handleOnUpdate(entity)}
+          value={entity.anotherTitle}
+          label=""
+          controls={{
+            heading: true,
+            emphasis: true,
+            list: true,
+            bold: true,
+          }}
+          autoFocus
+        />
       </Collapsible>
     </div>
   );
