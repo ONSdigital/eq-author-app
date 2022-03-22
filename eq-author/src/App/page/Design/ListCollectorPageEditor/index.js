@@ -164,7 +164,7 @@ const UnwrappedListCollectorEditor = (props) => {
             <Input
               name={"title"}
               onChange={handleOnChange}
-              onBlur={() => handleOnUpdate(entity)}
+              onBlur={handleOnUpdate}
               value={entity.title}
             />
           </Field>
@@ -238,7 +238,7 @@ const UnwrappedListCollectorEditor = (props) => {
         <CollapsibleContent>
           <CustomSelect
             name="listId"
-            onChange={handleUpdateList}
+            onChange={handleOnUpdate}
             value={entity.listId}
           >
             <option value="">Select list</option>
