@@ -152,7 +152,7 @@ const UnwrappedListCollectorEditor = (props) => {
         {...props}
         page={entity}
         pageType="collectionListPage"
-        onUpdate={() => handleOnUpdate(entity)}
+        onUpdate={handleOnUpdate}
         onChange={handleOnChange}
         alertText="All edits, properties and routing settings will also be removed."
       />
@@ -164,7 +164,7 @@ const UnwrappedListCollectorEditor = (props) => {
             <Input
               name={"title"}
               onChange={handleOnChange}
-              onBlur={() => handleOnUpdate(entity)}
+              onBlur={handleOnUpdate}
               value={entity.title}
             />
           </Field>
