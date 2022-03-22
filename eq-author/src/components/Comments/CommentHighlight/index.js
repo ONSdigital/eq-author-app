@@ -16,7 +16,7 @@ const CommentHighlight = ({ children }) => {
     margin-bottom: 1em;
   `;
 
-  return <Highlight>{children}</Highlight>;
+  return <Highlight data-test="comment-highlight">{children}</Highlight>;
 };
 
 CommentHighlight.propTypes = {
