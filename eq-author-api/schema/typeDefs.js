@@ -955,9 +955,9 @@ input UpdateListCollectorPageInput {
   id: ID!
   title: String
   listId: ID
-  anotherTitle: String
-  anotherPositive: String
-  anotherNegative: String
+  anotherTitle: String!
+  anotherPositive: String!
+  anotherNegative: String!
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   addItemTitle: String
