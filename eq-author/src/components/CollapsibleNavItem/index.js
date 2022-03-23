@@ -176,7 +176,11 @@ const CollapsibleNavItem = ({
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
           <Title>{title}</Title>
           {unreadComment && (
-            <CommentNotification id="comment-notification" variant="nav" />
+            <CommentNotification
+              id="comment-notification"
+              variant="nav"
+              data-test="comment-notification-collapsible-nav"
+            />
           )}
           {isOpen && selfErrorCount > 0 && (
             <Badge variant="nav" medium data-test="NavItem-error">

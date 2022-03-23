@@ -118,4 +118,33 @@ describe("Collapsible navigation item", () => {
       expect(() => getByTestId("CollapsibleNavItem-error")).toThrow();
     });
   });
+
+  describe("Comment notification", () => {
+    it("Should not show the comment notification icon if there are no unread comments and nav item is closed", () => {
+      const { queryByTestId } = renderCollapsibleNavItem({});
+
+      expect(queryByTestId("comment-notification-collapsible-nav")).toBeNull();
+    });
+
+    it("Should show the comment notification icon if there are unread comments and nav item is closed", () => {
+      const { getByTestId } = renderCollapsibleNavItem({ unreadComment: true });
+
+      expect(getByTestId("comment-notification-collapsible-nav")).toBeVisible();
+    });
+
+    it("Should not show the comment notification icon if there are no unread comments and nav item is open", () => {
+      const { queryByTestId } = renderCollapsibleNavItem({ open: true });
+
+      expect(queryByTestId("comment-notification-collapsible-nav")).toBeNull();
+    });
+
+    it("Should show the comment notification icon if there are unread comments and nav item is open", () => {
+      const { getByTestId } = renderCollapsibleNavItem({
+        open: true,
+        unreadComment: true,
+      });
+
+      expect(getByTestId("comment-notification-collapsible-nav")).toBeVisible();
+    });
+  });
 });
