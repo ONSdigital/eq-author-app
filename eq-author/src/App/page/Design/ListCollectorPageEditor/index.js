@@ -205,7 +205,10 @@ const UnwrappedListCollectorEditor = (props) => {
           available once you select a collection list to link them to.
         </Text>
 
-        <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
+        <Collapsible
+          title="How to create the List Collector questionnaire design pattern in Author?"
+          withoutHideThis
+        >
           <Text>
             To create the list collector pattern in Author we do this in the
             following steps:
