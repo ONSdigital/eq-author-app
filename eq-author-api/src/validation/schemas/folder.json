@@ -8,7 +8,15 @@
     "pages": {
       "type": "array",
       "items": {
-        "$ref": "page.json"
+        "type": "object",
+        "oneOf": [
+          {
+           "$ref": "page.json"
+          },
+          {
+            "$ref": "listCollectorPage.json"
+          }
+        ]
       }
     },
     "skipConditions": {

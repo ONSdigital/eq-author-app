@@ -12,4 +12,5 @@ module.exports = [
   require("./themeSettings.json"),
   require("./list.json"),
   require("./introduction.json"),
+  require("./listCollectorPage.json"),
 ];
