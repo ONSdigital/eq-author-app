@@ -17,6 +17,9 @@ import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import { buildCollectionListsPath } from "utils/UrlUtils";
 import PageHeader from "../PageHeader";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
+import { find } from "lodash";
+import ValidationError from "components/ValidationError";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -116,6 +119,30 @@ const RadioAnswerWrapper = styled.div`
   width: 95%;
 `;
 
+const getErrorMessages = (errors) => {
+  return errors.map((error) => ({
+    field: error.field,
+    message: find(LIST_COLLECTOR_ERRORS, {
+      errorCode: error.errorCode,
+      field: error.field,
+    }).message,
+  }));
+};
+
+const renderErrors = (errors, field) => {
+  const errorList = errors.filter((error) => error.field === field);
+  return errorList.map((error, index) => (
+    <ValidationError key={index}>
+      {
+        find(LIST_COLLECTOR_ERRORS, {
+          errorCode: error.errorCode,
+          field: error.field,
+        }).message
+      }
+    </ValidationError>
+  ));
+};
+
 const UnwrappedListCollectorEditor = (props) => {
   const {
     history,
@@ -139,6 +166,7 @@ const UnwrappedListCollectorEditor = (props) => {
   }, [entity]);
 
   const CollectionListPageLink = buildCollectionListsPath({ questionnaireId });
+  const errorMessages = getErrorMessages(page.validationErrorInfo.errors);
 
   const handleOnChange = (event) => {
     const updatedEntity = { ...entity };
@@ -195,6 +223,7 @@ const UnwrappedListCollectorEditor = (props) => {
               value={entity.title}
             />
           </Field>
+          {renderErrors(page.validationErrorInfo.errors, "title")}
         </TitleInputContainer>
         <Text>
           <b>List collector</b>
@@ -276,6 +305,7 @@ const UnwrappedListCollectorEditor = (props) => {
             ))}
             <option value="newList">Create new list</option>
           </CustomSelect>
+          {renderErrors(page.validationErrorInfo.errors, "listId")}
         </CollapsibleContent>
       </Collapsible>
 
@@ -305,7 +335,7 @@ const UnwrappedListCollectorEditor = (props) => {
             bold: true,
           }}
         />
-
+        {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
         <CollapsibleContent>
           <hr />
           <b>Repeating radio answer</b>
@@ -325,6 +355,10 @@ const UnwrappedListCollectorEditor = (props) => {
                   onBlur={handleOnUpdate}
                   value={entity.anotherPositive}
                 />
+                {renderErrors(
+                  page.validationErrorInfo.errors,
+                  "anotherPositive"
+                )}
               </RadioAnswerWrapper>
             </Field>
             <Field>
@@ -351,6 +385,10 @@ const UnwrappedListCollectorEditor = (props) => {
                   onBlur={handleOnUpdate}
                   value={entity.anotherNegative}
                 />
+                {renderErrors(
+                  page.validationErrorInfo.errors,
+                  "anotherNegative"
+                )}
               </RadioAnswerWrapper>
             </Field>
             <Field>
@@ -393,6 +431,7 @@ const UnwrappedListCollectorEditor = (props) => {
             bold: true,
           }}
         />
+        {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
       </Collapsible>
     </div>
   );
