@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import Collapsible from "components/Collapsible";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colors } from "constants/theme";
 import { filter } from "graphql-anywhere";
 import Loading from "components/Loading";
@@ -84,6 +84,31 @@ const Text = styled.p``;
 
 const CollapsibleContent = styled.p``;
 
+const errorCSS = css`
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${colors.errorPrimary};
+      &:focus,
+      &:focus-within {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+        box-shadow: 0 0 0 2px ${colors.errorPrimary};
+      }
+      &:hover {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+      }
+    `}
+`;
+const StyledInput = styled(Input)`
+  ${errorCSS}
+`;
+
+const StyledRichTextEditor = styled(RichTextEditor)`
+  ${errorCSS}
+`;
+
 const CustomSelect = styled.select`
   font-size: 1em;
   border: thin solid #d6d8da;
@@ -92,21 +117,7 @@ const CustomSelect = styled.select`
   color: #222222;
   display: block;
   width: 30%;
-  ${({ hasError }) =>
-    hasError &&
-    `
-  border-color: ${colors.errorPrimary};
-  &:focus,
-  &:focus-within {
-    border-color: ${colors.errorPrimary};
-    outline-color: ${colors.errorPrimary};
-    box-shadow: 0 0 0 2px ${colors.errorPrimary};
-  }
-  &:hover {
-    border-color: ${colors.errorPrimary};
-    outline-color: ${colors.errorPrimary};
-  }
-`}
+  ${errorCSS}
 `;
 
 const RadioContainer = styled.div`
@@ -132,42 +143,6 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
-`;
-
-const StyledInput = styled(Input)`
-  ${({ hasError }) =>
-    hasError &&
-    `
-    border-color: ${colors.errorPrimary};
-    &:focus,
-    &:focus-within {
-      border-color: ${colors.errorPrimary};
-      outline-color: ${colors.errorPrimary};
-      box-shadow: 0 0 0 2px ${colors.errorPrimary};
-    }
-    &:hover {
-      border-color: ${colors.errorPrimary};
-      outline-color: ${colors.errorPrimary};
-    }
-  `}
-`;
-
-const StyledRichTextEditor = styled(RichTextEditor)`
-  ${({ hasError }) =>
-    hasError &&
-    `
-    border-color: ${colors.errorPrimary};
-    &:focus,
-    &:focus-within {
-      border-color: ${colors.errorPrimary};
-      outline-color: ${colors.errorPrimary};
-      box-shadow: 0 0 0 2px ${colors.errorPrimary};
-    }
-    &:hover {
-      border-color: ${colors.errorPrimary};
-      outline-color: ${colors.errorPrimary};
-    }
-  `}
 `;
 
 const renderErrors = (errors, field) => {
