@@ -1,4 +1,4 @@
-mutation Mutation($input: UpdateCommentsAsReadInput!) {
+mutation UpdateCommentsAsRead($input: UpdateCommentsAsReadInput!) {
   updateCommentsAsRead(input: $input) {
     id
     readBy

@@ -26,7 +26,9 @@ query Comments($componentId: ID!) {
         email
         displayName
       }
+      readBy
     }
+    readBy
   }
 }`;
 

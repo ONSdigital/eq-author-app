@@ -9,6 +9,7 @@ const {
   createComment,
   deleteComment,
   updateComment,
+  updateCommentsAsRead,
   createReply,
   updateReply,
   deleteReply,
@@ -112,6 +113,29 @@ describe("comments", () => {
       id: commentId,
       commentText: "an edited comment",
       editedTime: expect.any(String),
+    });
+  });
+
+  it("should update comment as read", async () => {
+    const { user } = ctx;
+    await createComment(ctx, {
+      componentId,
+      commentText: "a new comment is created",
+    });
+
+    await updateCommentsAsRead(ctx, {
+      pageId: componentId,
+      userId: user.id,
+    });
+
+    const queryNewComments = await queryComments(ctx, componentId);
+
+    expect(queryNewComments).toMatchObject({
+      comments: [
+        {
+          readBy: [user.id],
+        },
+      ],
     });
   });
 
