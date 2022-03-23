@@ -18,7 +18,7 @@ import { buildCollectionListsPath } from "utils/UrlUtils";
 import PageHeader from "../PageHeader";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
-import { find } from "lodash";
+import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 
 const propTypes = {
@@ -92,6 +92,21 @@ const CustomSelect = styled.select`
   color: #222222;
   display: block;
   width: 30%;
+  ${({ hasError }) =>
+    hasError &&
+    `
+  border-color: ${colors.errorPrimary};
+  &:focus,
+  &:focus-within {
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+    box-shadow: 0 0 0 2px ${colors.errorPrimary};
+  }
+  &:hover {
+    border-color: ${colors.errorPrimary};
+    outline-color: ${colors.errorPrimary};
+  }
+`}
 `;
 
 const RadioContainer = styled.div`
@@ -117,6 +132,42 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
+`;
+
+const StyledInput = styled(Input)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
+`;
+
+const StyledRichTextEditor = styled(RichTextEditor)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
 `;
 
 const renderErrors = (errors, field) => {
@@ -205,11 +256,14 @@ const UnwrappedListCollectorEditor = (props) => {
         <TitleInputContainer>
           <Field>
             <Label htmlFor="title">List name</Label>
-            <Input
+            <StyledInput
               name={"title"}
               onChange={handleOnChange}
               onBlur={handleOnUpdate}
               value={entity.title}
+              hasError={some(page.validationErrorInfo.errors, {
+                field: "title",
+              })}
             />
           </Field>
           {renderErrors(page.validationErrorInfo.errors, "title")}
@@ -285,6 +339,9 @@ const UnwrappedListCollectorEditor = (props) => {
             name="listId"
             onChange={handleOnUpdate}
             value={entity.listId}
+            hasError={some(page.validationErrorInfo.errors, {
+              field: "listId",
+            })}
           >
             <option value="">Select list</option>
             {lists.map((list) => (
@@ -311,7 +368,7 @@ const UnwrappedListCollectorEditor = (props) => {
           and return them to this question until they have nothing more to add.
         </CollapsibleContent>
 
-        <RichTextEditor
+        <StyledRichTextEditor
           id={`update-anotherTitle-textbox`}
           name={"anotherTitle"}
           onUpdate={handleOnUpdate}
@@ -323,6 +380,9 @@ const UnwrappedListCollectorEditor = (props) => {
             list: true,
             bold: true,
           }}
+          hasError={some(page.validationErrorInfo.errors, {
+            field: "anotherTitle",
+          })}
         />
         {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
         <CollapsibleContent>
@@ -338,11 +398,14 @@ const UnwrappedListCollectorEditor = (props) => {
               <RadionIndicator />
               <RadioAnswerWrapper>
                 <Label htmlFor="anotherPositive">Positive answer label</Label>
-                <Input
+                <StyledInput
                   name={"anotherPositive"}
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
                   value={entity.anotherPositive}
+                  hasError={some(page.validationErrorInfo.errors, {
+                    field: "anotherPositive",
+                  })}
                 />
                 {renderErrors(
                   page.validationErrorInfo.errors,
@@ -354,7 +417,7 @@ const UnwrappedListCollectorEditor = (props) => {
               <Label htmlFor="anotherPositiveDescription">
                 Description (optional)
               </Label>
-              <Input
+              <StyledInput
                 name={"anotherPositiveDescription"}
                 onChange={handleOnChange}
                 onBlur={handleOnUpdate}
@@ -368,11 +431,14 @@ const UnwrappedListCollectorEditor = (props) => {
               <RadionIndicator />
               <RadioAnswerWrapper>
                 <Label htmlFor="anotherNegative">Negative answer label</Label>
-                <Input
+                <StyledInput
                   name={"anotherNegative"}
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
                   value={entity.anotherNegative}
+                  hasError={some(page.validationErrorInfo.errors, {
+                    field: "anotherNegative",
+                  })}
                 />
                 {renderErrors(
                   page.validationErrorInfo.errors,
@@ -384,7 +450,7 @@ const UnwrappedListCollectorEditor = (props) => {
               <Label htmlFor="anotherNegativeDescription">
                 Description (optional)
               </Label>
-              <Input
+              <StyledInput
                 name={"anotherNegativeDescription"}
                 onChange={handleOnChange}
                 onBlur={handleOnUpdate}
@@ -407,7 +473,7 @@ const UnwrappedListCollectorEditor = (props) => {
           selected collection list.
         </CollapsibleContent>
 
-        <RichTextEditor
+        <StyledRichTextEditor
           id={`update-addItemTitle-textbox`}
           name={"addItemTitle"}
           onUpdate={handleOnUpdate}
@@ -419,6 +485,9 @@ const UnwrappedListCollectorEditor = (props) => {
             list: true,
             bold: true,
           }}
+          hasError={some(page.validationErrorInfo.errors, {
+            field: "addItemTitle",
+          })}
         />
         {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
       </Collapsible>
