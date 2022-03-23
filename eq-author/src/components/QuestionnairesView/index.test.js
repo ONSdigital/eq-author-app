@@ -269,7 +269,7 @@ describe("QuestionnairesView", () => {
     });
 
     it("should autofocus the next row after when one is deleted", () => {
-      const { getAllByTestId, getByTestId, getByText, rerender } = render(
+      const { getAllByTestId, getByTestId, rerender } = render(
         <QuestionnairesView {...props} />
       );
 
@@ -285,11 +285,13 @@ describe("QuestionnairesView", () => {
         />
       );
 
-      expect(getByText("Questionnaire 2")).toEqual(document.activeElement);
+      expect(getAllByTestId("anchor-questionnaire-title")[0]).toEqual(
+        document.activeElement
+      );
     });
 
     it("should autofocus the last row if the last row is deleted", () => {
-      const { getAllByTestId, getByTestId, getByTitle, rerender } = render(
+      const { getAllByTestId, getByTestId, rerender } = render(
         <QuestionnairesView {...props} />
       );
 
@@ -304,7 +306,9 @@ describe("QuestionnairesView", () => {
         />
       );
 
-      expect(getByTitle("Questionnaire 2")).toEqual(document.activeElement);
+      expect(getAllByTestId("anchor-questionnaire-title")[1]).toEqual(
+        document.activeElement
+      );
     });
 
     it("should not blow up if you delete the last item", async () => {
@@ -326,10 +330,9 @@ describe("QuestionnairesView", () => {
         .fill("")
         .map((_, index) => buildQuestionnaire(index));
 
-      const { getByText, getAllByTestId, getByTitle, getByTestId, rerender } =
-        render(
-          <QuestionnairesView {...props} questionnaires={questionnaires} />
-        );
+      const { getByText, getAllByTestId, getByTestId, rerender } = render(
+        <QuestionnairesView {...props} questionnaires={questionnaires} />
+      );
 
       // Move to page 2
       const nextButton = getByText("Go to next page");
@@ -350,7 +353,10 @@ describe("QuestionnairesView", () => {
       );
 
       expect(getByText("Page 1 of 1")).toBeTruthy();
-      expect(getByTitle("Questionnaire 11")).toEqual(document.activeElement);
+
+      expect(getAllByTestId("anchor-questionnaire-title")[11]).toEqual(
+        document.activeElement
+      );
     });
 
     it("should not delete the questionnaire if the cancel button is clicked", async () => {
@@ -386,13 +392,7 @@ describe("QuestionnairesView", () => {
         buildQuestionnaire(1, { createdAt: "2019-01-01T12:36:50.984Z" }),
       ];
 
-      const {
-        getByText,
-        getByTitle,
-        getByTestId,
-        getAllByTestId,
-        queryByTestId,
-      } = render(
+      const { getByText, getByTestId, getAllByTestId, queryByTestId } = render(
         <QuestionnairesView {...props} questionnaires={questionnaires} />
       );
       const sortTitleButton = getByText("Title");
@@ -406,7 +406,7 @@ describe("QuestionnairesView", () => {
 
       expect(queryByTestId("btn-delete-modal")).toBeNull();
 
-      expect(getByTitle("Questionnaire 3")).toHaveFocus();
+      expect(getAllByTestId("anchor-questionnaire-title")[2]).toHaveFocus();
     });
 
     it("should not re-focus the row after switching page", async () => {
