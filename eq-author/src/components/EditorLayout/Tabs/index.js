@@ -112,7 +112,10 @@ export const UnwrappedTabs = (props) => {
           return (
             <Component data-test={key} key={key} {...otherProps}>
               {key === "preview" && unreadComment && (
-                <CommentNotification variant="tabs" />
+                <CommentNotification
+                  variant="tabs"
+                  data-test="comment-notification-tabs"
+                />
               )}
               {errors && errors.length ? (
                 <>
