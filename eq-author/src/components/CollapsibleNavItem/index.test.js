@@ -101,7 +101,7 @@ describe("Collapsible navigation item", () => {
       expect(() => getByTestId("CollapsibleNavItem-error")).toThrow();
     });
 
-    it("Should show the error dot if the collapsible is closed and there are errors", () => {
+    it("Should show the error dot if the collapsible is closed and the collapsible content has errors", () => {
       const { getByTestId } = renderCollapsibleNavItem({ childErrorCount: 1 });
 
       expect(getByTestId("CollapsibleNavItem-body")).not.toBeVisible();
@@ -116,6 +116,23 @@ describe("Collapsible navigation item", () => {
 
       expect(getByTestId("CollapsibleNavItem-body")).toBeVisible();
       expect(() => getByTestId("CollapsibleNavItem-error")).toThrow();
+    });
+
+    it("Should show the error dot if the collapsible is closed and the collapsible has errors", () => {
+      const { getByTestId } = renderCollapsibleNavItem({ selfErrorCount: 1 });
+
+      expect(getByTestId("CollapsibleNavItem-body")).not.toBeVisible();
+      expect(getByTestId("CollapsibleNavItem-error")).toBeVisible();
+    });
+
+    it("Should show the error dot if the collapsible is open and the collapsible has errors", () => {
+      const { getByTestId } = renderCollapsibleNavItem({
+        open: true,
+        selfErrorCount: 1,
+      });
+
+      expect(getByTestId("CollapsibleNavItem-body")).toBeVisible();
+      expect(getByTestId("NavItem-error")).toBeVisible();
     });
   });
 
