@@ -119,16 +119,6 @@ const RadioAnswerWrapper = styled.div`
   width: 95%;
 `;
 
-const getErrorMessages = (errors) => {
-  return errors.map((error) => ({
-    field: error.field,
-    message: find(LIST_COLLECTOR_ERRORS, {
-      errorCode: error.errorCode,
-      field: error.field,
-    }).message,
-  }));
-};
-
 const renderErrors = (errors, field) => {
   const errorList = errors.filter((error) => error.field === field);
   return errorList.map((error, index) => (
@@ -166,7 +156,6 @@ const UnwrappedListCollectorEditor = (props) => {
   }, [entity]);
 
   const CollectionListPageLink = buildCollectionListsPath({ questionnaireId });
-  const errorMessages = getErrorMessages(page.validationErrorInfo.errors);
 
   const handleOnChange = (event) => {
     const updatedEntity = { ...entity };
