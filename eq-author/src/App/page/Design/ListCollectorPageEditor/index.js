@@ -205,10 +205,7 @@ const UnwrappedListCollectorEditor = (props) => {
           available once you select a collection list to link them to.
         </Text>
 
-        <Collapsible
-          title="How to create the List Collector questionnaire design pattern in Author?"
-          withoutHideThis
-        >
+        <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
           <Text>
             To create the list collector pattern in Author we do this in the
             following steps:
@@ -279,20 +276,6 @@ const UnwrappedListCollectorEditor = (props) => {
             ))}
             <option value="newList">Create new list</option>
           </CustomSelect>
-        </CollapsibleContent>
-      </Collapsible>
-
-      <Collapsible
-        title="Repeating list collector question"
-        defaultOpen
-        className="default-value"
-        variant="content"
-        withoutHideThis
-      >
-        <CollapsibleContent>
-          This question is to ask respondents if they have anything to add to
-          the list, if they do the collection question will add it to the list
-          and return them to this question until they have nothing more to add.
         </CollapsibleContent>
       </Collapsible>
 
