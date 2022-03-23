@@ -91,6 +91,31 @@ const CustomSelect = styled.select`
   width: 30%;
 `;
 
+const RadioContainer = styled.div`
+  margin: 1em 0;
+  border: thin solid #999999;
+  border-radius: 4px;
+  padding: 1em;
+  display: block;
+  width: 100%;
+`;
+
+const RadionIndicator = styled.div`
+  background: ${colors.lightMediumGrey};
+  background-size: cover;
+  height: 1.4em;
+  width: 1.4em;
+  display: inline-block;
+  margin: 2em 1em 0 0;
+  border-radius: 100%;
+  flex: 0 0 auto;
+`;
+
+const RadioAnswerWrapper = styled.div`
+  display: inline-block;
+  width: 95%;
+`;
+
 const UnwrappedListCollectorEditor = (props) => {
   const {
     history,
@@ -303,8 +328,57 @@ const UnwrappedListCollectorEditor = (props) => {
           answer takes respondents to the Collection list question and then
           returns them to the repeating question until they choose the negative
           radio option.
-          {/* Positive answer label in here */}
+          <RadioContainer>
+            <Field>
+              <RadionIndicator />
+              <RadioAnswerWrapper>
+                <Label htmlFor="anotherPositive">Positive answer label</Label>
+                <Input
+                  name={"anotherPositive"}
+                  onChange={handleOnChange}
+                  onBlur={handleOnUpdate}
+                  value={entity.anotherPositive}
+                />
+              </RadioAnswerWrapper>
+            </Field>
+            <Field>
+              <Label htmlFor="anotherPositiveDescription">
+                Description (optional)
+              </Label>
+              <Input
+                name={"anotherPositiveDescription"}
+                onChange={handleOnChange}
+                onBlur={handleOnUpdate}
+                value={entity.anotherPositiveDescription}
+              />
+            </Field>
+          </RadioContainer>
           {/* Negative answer label in here */}
+          <RadioContainer>
+            <Field>
+              <RadionIndicator />
+              <RadioAnswerWrapper>
+                <Label htmlFor="anotherNegative">Negative answer label</Label>
+                <Input
+                  name={"anotherNegative"}
+                  onChange={handleOnChange}
+                  onBlur={handleOnUpdate}
+                  value={entity.anotherNegative}
+                />
+              </RadioAnswerWrapper>
+            </Field>
+            <Field>
+              <Label htmlFor="anotherNegativeDescription">
+                Description (optional)
+              </Label>
+              <Input
+                name={"anotherNegativeDescription"}
+                onChange={handleOnChange}
+                onBlur={handleOnUpdate}
+                value={entity.anotherNegativeDescription}
+              />
+            </Field>
+          </RadioContainer>
         </CollapsibleContent>
       </Collapsible>
 
