@@ -2,8 +2,7 @@
 import React from "react";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import Loading from "components/Loading";
+import { useQuery } from "@apollo/react-hooks";
 import IconText from "components/IconText";
 import Error from "components/preview/Error";
 import { Answer } from "components/preview/Answers";
@@ -18,6 +17,10 @@ import CommentsPanel from "App/Comments";
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
 import Panel from "components/Panel";
+
+const CollectorInfoTop = styled.div`
+  width: 80%;
+`;
 
 const Container = styled.div`
   padding: 2em;
@@ -70,6 +73,7 @@ const OptionDescription = styled.div`
   font-size: 0.8em;
   margin-top: 0.5em;
   color: ${colors.text};
+  width: 100%;
 `;
 
 const OptionItem = styled.div`
@@ -79,11 +83,11 @@ const OptionItem = styled.div`
   border-radius: 0.2em;
   width: fit-content;
   min-width: 20em;
-  max-width: 100%;
+  width: 100%;
   display: block;
   overflow: hidden;
   position: relative;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.5em;
 
   padding-left: 1em;
   word-wrap: break-word;
@@ -94,23 +98,27 @@ export const Description = styled.div`
   word-wrap: break-word;
 `;
 
-const Guidance = styled.div`
-  margin-bottom: 2em;
-  word-wrap: break-word;
-`;
-
-const Box = styled.div`
-  border-left: 10px solid #033e58;
-  background: #eff0f9;
-  padding: 1em;
-`;
-
 const Answers = styled.div`
   margin-bottom: 1em;
 `;
 
-const Details = styled.div`
+const ListDisplayName = styled.div`
   margin-bottom: 1em;
+  font-size: 1.4em;
+  font-weight: bold;
+`;
+
+const Summary = styled.div`
+  padding-bottom: 1em;
+  border-bottom: 1px solid ${colors.lightGrey};
+  margin-bottom: 1em;
+  span {
+    padding-right: 1em;
+  }
+  a {
+    float: right;
+    padding-left: 1em;
+  }
 `;
 
 export const DetailsTitle = styled.div`
@@ -139,15 +147,12 @@ export const DetailsContent = styled.div`
 
 const ListCollectorPagePreview = ({ page }) => {
   const {
-    title,
-    listId,
     anotherTitle,
     anotherPositive,
     anotherNegative,
     anotherPositiveDescription,
     anotherNegativeDescription,
     addItemTitle,
-    // alias,
   } = page;
 
   const { data } = useQuery(COLLECTION_LISTS, {
@@ -165,7 +170,6 @@ const ListCollectorPagePreview = ({ page }) => {
 
   answers = selectedList.answers;
 
-  console.log(answers);
   return (
     <EditorLayout
       preview
@@ -176,142 +180,85 @@ const ListCollectorPagePreview = ({ page }) => {
     >
       <Panel>
         <Container>
-          <PageTitle title={anotherTitle} />
-          <div data-test="listId">
-            <div>{selectedList.displayName}</div>
+          {anotherTitle ? (
+            <PageTitle title={anotherTitle} />
+          ) : (
+            <Error large>Missing repeating list collector question</Error>
+          )}
 
-            {listId ? (
-              <Description dangerouslySetInnerHTML={{ __html: listId }} />
-            ) : (
-              <Error large>Missing listId</Error>
-            )}
-          </div>
+          <CollectorInfoTop>
+            <div data-test="list-display-name">
+              <ListDisplayName>{selectedList.displayName}</ListDisplayName>
+            </div>
 
-          <div data-test="anotherPositive">
-            {anotherPositive ? (
-              <OptionItem>
-                <Input type="radio" />
-                <OptionLabel>
-                  {anotherPositive && (
-                    <OptionDescription>{anotherPositive}</OptionDescription>
-                  )}
-                </OptionLabel>
-              </OptionItem>
-            ) : (
-              <Error large>Missing anotherPositive</Error>
-            )}
-          </div>
-
-          <div data-test="anotherPositiveDescription">
-            {anotherPositiveDescription && (
-              <Description
-                dangerouslySetInnerHTML={{ __html: anotherPositiveDescription }}
-              />
-            )}
-          </div>
-
-          <div data-test="anotherNegative">
-            {anotherNegative ? (
-              <OptionItem>
-                <Input type="radio" />
-                <OptionLabel>
-                  {anotherNegative && (
-                    <OptionDescription>{anotherNegative}</OptionDescription>
-                  )}
-                </OptionLabel>
-              </OptionItem>
-            ) : (
-              <Error large>Missing anotherNegative</Error>
-            )}
-          </div>
-
-          <div data-test="anotherNegativeDescription">
-            {anotherNegativeDescription && (
-              <Description
-                dangerouslySetInnerHTML={{ __html: anotherNegativeDescription }}
-              />
-            )}
-          </div>
-
-          {/* 
-                    {definitionEnabled && (
-                        <Details data-test="definition">
-                            <DetailsTitle>
-                                {definitionLabel || (
-                                    <Error small>Missing definition label</Error>
-                                )}
-                            </DetailsTitle>
-                            <DetailsContent>
-                                {definitionContent ? (
-                                    <span
-                                        dangerouslySetInnerHTML={{ __html: definitionContent }}
-                                    />
-                                ) : (
-                                        <Error large margin={false}>
-                                            Missing definition content
-                  </Error>
-                                    )}
-                            </DetailsContent>
-                        </Details>
+            <Summary>
+              {answers.map((answer) => (
+                <span key={answer.id} value={answer.id}>
+                  {answer.displayName}
+                </span>
+              ))}
+              <a href="#">Remove</a>
+              <a href="#">Change</a>
+            </Summary>
+            <div data-test="anotherPositive">
+              {anotherPositive ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {anotherPositive && (
+                      <OptionDescription>{anotherPositive}</OptionDescription>
                     )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing anotherPositive</Error>
+              )}
+            </div>
 
-                    {guidanceEnabled && (
-                        <div data-test="guidance">
-                            {guidance ? (
-                                <Guidance>
-                                    <Box dangerouslySetInnerHTML={{ __html: guidance }} />
-                                </Guidance>
-                            ) : (
-                                    <Error large>Missing guidance</Error>
-                                )}
-                        </div>
+            <div data-test="anotherPositiveDescription">
+              {anotherPositiveDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: anotherPositiveDescription,
+                  }}
+                />
+              )}
+            </div>
+
+            <div data-test="anotherNegative">
+              {anotherNegative ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {anotherNegative && (
+                      <OptionDescription>{anotherNegative}</OptionDescription>
                     )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing anotherNegative</Error>
+              )}
+            </div>
 
-                    {answers.length ? (
-                        <Answers>
-                            {answers.map((answer) => (
-                                <Answer key={answer.id} answer={answer} />
-                            ))}
-                        </Answers>
-                    ) : (
-                            <Error data-test="no-answers" large>
-                                <IconText icon={IconInfo}>
-                                    No answers have been added to this question.
-              </IconText>
-                            </Error>
-                        )}
-
-                    {additionalInfoEnabled && (
-                        <Details data-test="additional-info">
-                            <DetailsTitle>
-                                {additionalInfoLabel || (
-                                    <Error small>Missing additional information label</Error>
-                                )}
-                            </DetailsTitle>
-                            <DetailsContent>
-                                {additionalInfoContent ? (
-                                    <span
-                                        dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
-                                    />
-                                ) : (
-                                        <Error large margin={false}>
-                                            Missing additional information content
-                  </Error>
-                                    )}
-                            </DetailsContent>
-                        </Details>
-                    )} */}
+            <div data-test="anotherNegativeDescription">
+              {anotherNegativeDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: anotherNegativeDescription,
+                  }}
+                />
+              )}
+            </div>
+          </CollectorInfoTop>
         </Container>
       </Panel>
       <Panel>
         <Container>
-          <div data-test="addItemTitle">
-            {addItemTitle ? (
-              <Description dangerouslySetInnerHTML={{ __html: addItemTitle }} />
-            ) : (
-              <Error large>Missing addItemTitle</Error>
-            )}
-          </div>
+          {addItemTitle ? (
+            <PageTitle title={addItemTitle} />
+          ) : (
+            <Error large>Missing collection question</Error>
+          )}
 
           {answers.length ? (
             <Answers>
