@@ -10,7 +10,7 @@ import EditorLayout from "components/EditorLayout";
 
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
 import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEditor";
-
+import ListCollectorPageEditor from "App/page/Design/ListCollectorPageEditor";
 import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 
@@ -55,12 +55,12 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
-      ...CollectionListPage
+      ...ListCollectorPage
     }
   }
   ${QuestionPageEditor.fragments.QuestionPage}
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
-  ${ListCollectorPagePreview.fragments.ListCollectorPagePreview}
+  ${ListCollectorPageEditor.fragments.ListCollectorPage}
 `;
 
 export default withApollo((props) => (
