@@ -38,7 +38,7 @@ export const UnwrappedPreviewPageRoute = (props) => {
   if (page.pageType === "CalculatedSummaryPage") {
     return <CalculatedSummaryPreview page={page} />;
   }
-  if (page.pageType === "ListCollectionPage") {
+  if (page.pageType === "ListCollectorPage") {
     return <ListCollectorPagePreview page={page} />;
   }
 };
