@@ -2,7 +2,8 @@
 import React from "react";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import Loading from "components/Loading";
 import IconText from "components/IconText";
 import Error from "components/preview/Error";
 import { Answer } from "components/preview/Answers";
@@ -10,7 +11,7 @@ import PageTitle from "components/preview/elements/PageTitle";
 import EditorLayout from "components/EditorLayout";
 
 import { colors } from "constants/theme";
-
+import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import ListCollectorPageEditor from "../Design/ListCollectorPageEditor";
 import CommentsPanel from "App/Comments";
 
@@ -149,6 +150,22 @@ const ListCollectorPagePreview = ({ page }) => {
     // alias,
   } = page;
 
+  const { data } = useQuery(COLLECTION_LISTS, {
+    fetchPolicy: "cache-and-network",
+  });
+  let lists = [];
+
+  if (data) {
+    lists = data.collectionLists?.lists || [];
+  }
+  let selectedList = [];
+  selectedList = lists.find(({ id }) => id === page.listId);
+
+  let answers = [];
+
+  answers = selectedList.answers;
+
+  console.log(answers);
   return (
     <EditorLayout
       preview
@@ -161,6 +178,8 @@ const ListCollectorPagePreview = ({ page }) => {
         <Container>
           <PageTitle title={anotherTitle} />
           <div data-test="listId">
+            <div>{selectedList.displayName}</div>
+
             {listId ? (
               <Description dangerouslySetInnerHTML={{ __html: listId }} />
             ) : (
@@ -293,6 +312,20 @@ const ListCollectorPagePreview = ({ page }) => {
               <Error large>Missing addItemTitle</Error>
             )}
           </div>
+
+          {answers.length ? (
+            <Answers>
+              {answers.map((answer) => (
+                <Answer key={answer.id} answer={answer} />
+              ))}
+            </Answers>
+          ) : (
+            <Error data-test="no-answers" large>
+              <IconText icon={IconInfo}>
+                No answers have been added to this question.
+              </IconText>
+            </Error>
+          )}
         </Container>
       </Panel>
     </EditorLayout>
