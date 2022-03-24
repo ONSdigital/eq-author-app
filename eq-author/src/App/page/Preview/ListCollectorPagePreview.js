@@ -40,6 +40,54 @@ const Container = styled.div`
   }
 `;
 
+const OptionLabel = styled.label`
+  display: block;
+  font-size: 1em;
+  color: inherit;
+  line-height: 1.4;
+  font-weight: bold;
+  padding: 0.7em 1em 0.7em 2.5em;
+  margin: 0;
+`;
+
+const Input = styled.input`
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  border: 1px solid #9b9b9b;
+  padding: 0.5em;
+  background: #eee;
+  box-shadow: inset 0 0 0 3px white;
+  pointer-events: none;
+  position: absolute;
+  top: 1em;
+
+  border-radius: 100px;
+  box-shadow: inset 0 0 0 3px #fff;
+`;
+const OptionDescription = styled.div`
+  font-size: 0.8em;
+  margin-top: 0.5em;
+  color: ${colors.text};
+`;
+
+const OptionItem = styled.div`
+  font-size: 1em;
+  background: #fff;
+  border: 2px solid ${colors.lightGrey};
+  border-radius: 0.2em;
+  width: fit-content;
+  min-width: 20em;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.25em;
+
+  padding-left: 1em;
+  word-wrap: break-word;
+`;
+
 export const Description = styled.div`
   margin-bottom: 1em;
   word-wrap: break-word;
@@ -91,13 +139,13 @@ export const DetailsContent = styled.div`
 const ListCollectorPagePreview = ({ page }) => {
   const {
     title,
-    // listId,
-    // anotherTitle,
-    // anotherPositive,
-    // anotherNegative,
-    // anotherPositiveDescription,
-    // anotherNegativeDescription,
-    // addItemTitle,
+    listId,
+    anotherTitle,
+    anotherPositive,
+    anotherNegative,
+    anotherPositiveDescription,
+    anotherNegativeDescription,
+    addItemTitle,
     // alias,
   } = page;
 
@@ -111,20 +159,62 @@ const ListCollectorPagePreview = ({ page }) => {
     >
       <Panel>
         <Container>
-          <PageTitle title={title} />
-          {/* 
-                    {descriptionEnabled && (
-                        <div data-test="description">
-                            {description ? (
-                                <Description
-                                    dangerouslySetInnerHTML={{ __html: description }}
-                                />
-                            ) : (
-                                    <Error large>Missing description</Error>
-                                )}
-                        </div>
-                    )}
+          <PageTitle title={anotherTitle} />
+          <div data-test="listId">
+            {listId ? (
+              <Description dangerouslySetInnerHTML={{ __html: listId }} />
+            ) : (
+              <Error large>Missing listId</Error>
+            )}
+          </div>
 
+          <div data-test="anotherPositive">
+            {anotherPositive ? (
+              <OptionItem>
+                <Input type="radio" />
+                <OptionLabel>
+                  {anotherPositive && (
+                    <OptionDescription>{anotherPositive}</OptionDescription>
+                  )}
+                </OptionLabel>
+              </OptionItem>
+            ) : (
+              <Error large>Missing anotherPositive</Error>
+            )}
+          </div>
+
+          <div data-test="anotherPositiveDescription">
+            {anotherPositiveDescription && (
+              <Description
+                dangerouslySetInnerHTML={{ __html: anotherPositiveDescription }}
+              />
+            )}
+          </div>
+
+          <div data-test="anotherNegative">
+            {anotherNegative ? (
+              <OptionItem>
+                <Input type="radio" />
+                <OptionLabel>
+                  {anotherNegative && (
+                    <OptionDescription>{anotherNegative}</OptionDescription>
+                  )}
+                </OptionLabel>
+              </OptionItem>
+            ) : (
+              <Error large>Missing anotherNegative</Error>
+            )}
+          </div>
+
+          <div data-test="anotherNegativeDescription">
+            {anotherNegativeDescription && (
+              <Description
+                dangerouslySetInnerHTML={{ __html: anotherNegativeDescription }}
+              />
+            )}
+          </div>
+
+          {/* 
                     {definitionEnabled && (
                         <Details data-test="definition">
                             <DetailsTitle>
@@ -192,6 +282,17 @@ const ListCollectorPagePreview = ({ page }) => {
                             </DetailsContent>
                         </Details>
                     )} */}
+        </Container>
+      </Panel>
+      <Panel>
+        <Container>
+          <div data-test="addItemTitle">
+            {addItemTitle ? (
+              <Description dangerouslySetInnerHTML={{ __html: addItemTitle }} />
+            ) : (
+              <Error large>Missing addItemTitle</Error>
+            )}
+          </div>
         </Container>
       </Panel>
     </EditorLayout>
