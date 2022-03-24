@@ -32,6 +32,7 @@ import RedirectRoute from "components/RedirectRoute";
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
+  ListCollectorPage: { design: true, preview: true, logic: true },
 };
 
 export const PAGE_QUERY = gql`
@@ -53,7 +54,11 @@ export const PAGE_QUERY = gql`
 
 export const UnwrappedPageRoute = (props) => {
   const { onAddQuestionPage } = useNavigationCallbacks();
-  const { error, loading, data: { page = {} } = {} } = useQuery(PAGE_QUERY, {
+  const {
+    error,
+    loading,
+    data: { page = {} } = {},
+  } = useQuery(PAGE_QUERY, {
     variables: {
       input: {
         questionnaireId: props.match.params.questionnaireId,
