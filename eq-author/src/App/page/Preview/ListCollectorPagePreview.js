@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/href-no-hash */
 /* eslint-disable react/no-danger */
 import React from "react";
 import { propType } from "graphql-anywhere";
@@ -167,7 +168,6 @@ const ListCollectorPagePreview = ({ page }) => {
   let answers = [];
   if (page.listId) {
     selectedList = lists.find(({ id }) => id === page.listId);
-    console.log(selectedList.answers);
     if (selectedList.answers) {
       answers = selectedList.answers;
     }
