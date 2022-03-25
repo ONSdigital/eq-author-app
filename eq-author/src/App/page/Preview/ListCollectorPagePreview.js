@@ -164,11 +164,14 @@ const ListCollectorPagePreview = ({ page }) => {
     lists = data.collectionLists?.lists || [];
   }
   let selectedList = [];
-  selectedList = lists.find(({ id }) => id === page.listId);
-
   let answers = [];
-
-  answers = selectedList.answers;
+  if (page.listId) {
+    selectedList = lists.find(({ id }) => id === page.listId);
+    console.log(selectedList.answers);
+    if (selectedList.answers) {
+      answers = selectedList.answers;
+    }
+  }
 
   return (
     <EditorLayout
@@ -190,16 +193,19 @@ const ListCollectorPagePreview = ({ page }) => {
             <div data-test="list-display-name">
               <ListDisplayName>{selectedList.displayName}</ListDisplayName>
             </div>
-
-            <Summary>
-              {answers.map((answer) => (
-                <span key={answer.id} value={answer.id}>
-                  {answer.displayName}
-                </span>
-              ))}
-              <a href="#">Remove</a>
-              <a href="#">Change</a>
-            </Summary>
+            {anotherTitle ? (
+              <Summary>
+                {answers.map((answer) => (
+                  <span key={answer.id} value={answer.id}>
+                    {answer.displayName}
+                  </span>
+                ))}
+                <a href="#">Remove</a>
+                <a href="#">Change</a>
+              </Summary>
+            ) : (
+              <Summary>Missing Answers</Summary>
+            )}
             <div data-test="anotherPositive">
               {anotherPositive ? (
                 <OptionItem>
