@@ -14,6 +14,7 @@ import { colors } from "constants/theme";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import ListCollectorPageEditor from "../Design/ListCollectorPageEditor";
 import CommentsPanel from "App/Comments";
+import Loading from "components/Loading";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
@@ -156,9 +157,14 @@ const ListCollectorPagePreview = ({ page }) => {
     addItemTitle,
   } = page;
 
-  const { data } = useQuery(COLLECTION_LISTS, {
+  const { data, loading } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
   });
+
+  if (loading) {
+    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+  }
+
   let lists = [];
 
   if (data) {
