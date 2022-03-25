@@ -20,6 +20,7 @@ import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks
 import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
 import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
+import Icon from "assets/icon-select.svg";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -111,13 +112,22 @@ const StyledRichTextEditor = styled(RichTextEditor)`
 
 const CustomSelect = styled.select`
   font-size: 1em;
-  border: thin solid #d6d8da;
+  border: 2px solid #d6d8da;
+  border-radius: 4px;
+  appearance: none;
+  background: white url("${Icon}") no-repeat right center;
+  position: relative;
+  transition: opacity 100ms ease-in-out;
   border-radius: 4px;
   padding: 0.3em;
   color: #222222;
   display: block;
   width: 30%;
   ${errorCSS}
+
+  &:hover {
+    outline: none;
+  }
 `;
 
 const RadioContainer = styled.div`
@@ -297,7 +307,7 @@ const UnwrappedListCollectorEditor = (props) => {
       </StyledGrid>
 
       <Collapsible
-        title="Collection List?"
+        title="Collection List"
         defaultOpen
         className="default-value"
         variant="content"
