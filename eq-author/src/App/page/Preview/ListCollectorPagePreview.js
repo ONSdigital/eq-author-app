@@ -49,7 +49,7 @@ const OptionLabel = styled.label`
   font-size: 1em;
   color: inherit;
   line-height: 1.4;
-  font-weight: bold;
+  font-weight: 600;
   padding: 0.7em 1em 0.7em 2.5em;
   margin: 0;
 `;
@@ -70,8 +70,8 @@ const Input = styled.input`
   box-shadow: inset 0 0 0 3px #fff;
 `;
 const OptionDescription = styled.div`
-  font-size: 0.8em;
-  margin-top: 0.5em;
+  font-size: 1em;
+  margin-top: 0.2em;
   color: ${colors.text};
   width: 100%;
 `;
