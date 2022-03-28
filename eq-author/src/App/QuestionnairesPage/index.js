@@ -10,7 +10,6 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 import Layout from "components/Layout";
 import Loading from "components/Loading";
 import Error from "components/Error";
-import Theme from "contexts/themeContext";
 
 import * as Headings from "constants/table-headings";
 
@@ -39,9 +38,9 @@ const enabledHeadings = [
   Headings.OWNER,
   Headings.CREATED,
   Headings.MODIFIED,
+  Headings.PERMISSIONS,
   Headings.LOCKED,
   Headings.STARRED,
-  Headings.ACCESS,
   Headings.ACTIONS,
 ];
 
@@ -60,21 +59,17 @@ const QuestionnairesPage = ({
 
   if (loading) {
     return (
-      <Theme themeName={"ons"}>
-        <Layout title="Author">
-          <Loading height="24.25rem">Questionnaires loading…</Loading>
-        </Layout>
-      </Theme>
+      <Layout title="Questionnaires">
+        <Loading height="24.25rem">Questionnaires loading…</Loading>
+      </Layout>
     );
   }
 
   if (error || !data) {
     return (
-      <Theme themeName={"ons"}>
-        <Layout title="Author">
-          <Error>Oops! Questionnaires could not be found</Error>
-        </Layout>
-      </Theme>
+      <Layout title="Questionnaires">
+        <Error>Oops! Questionnaires could not be found</Error>
+      </Layout>
     );
   }
   const handleClick = (questionnaireId) =>
@@ -91,20 +86,18 @@ const QuestionnairesPage = ({
   };
 
   return (
-    <Theme themeName={"ons"}>
-      <Layout title="Author">
-        <QuestionnairesView
-          questionnaires={data.questionnaires}
-          onDeleteQuestionnaire={onDeleteQuestionnaire}
-          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-          onCreateQuestionnaire={onCreateQuestionnaire}
-          enabledHeadings={enabledHeadings}
-          onQuestionnaireClick={handleClick}
-          canCreateQuestionnaire
-          padding="large"
-        />
-      </Layout>
-    </Theme>
+    <Layout title="Questionnaires">
+      <QuestionnairesView
+        questionnaires={data.questionnaires}
+        onDeleteQuestionnaire={onDeleteQuestionnaire}
+        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        onCreateQuestionnaire={onCreateQuestionnaire}
+        enabledHeadings={enabledHeadings}
+        onQuestionnaireClick={handleClick}
+        canCreateQuestionnaire
+        padding="large"
+      />
+    </Layout>
   );
 };
 

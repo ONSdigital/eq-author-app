@@ -126,9 +126,9 @@ describe("Folder design page", () => {
     });
 
     it("Should trigger a delete modal", () => {
-      const { getByTestId } = renderFolderDesignPage();
+      const { getByTestId, getByTitle } = renderFolderDesignPage();
 
-      fireEvent.click(getByTestId("btn-delete-folder"));
+      fireEvent.click(getByTitle("Delete"));
 
       expect(getByTestId("delete-confirm-modal")).toBeVisible();
     });
@@ -136,9 +136,9 @@ describe("Folder design page", () => {
     it("should delete a folder when the delete button is clicked", () => {
       const deleteFolder = jest.fn();
       useMutation.mockImplementation(jest.fn(() => [deleteFolder]));
-      const { getByTestId } = renderFolderDesignPage();
+      const { getByTestId, getByTitle } = renderFolderDesignPage();
 
-      fireEvent.click(getByTestId("btn-delete-folder"));
+      fireEvent.click(getByTitle("Delete"));
       fireEvent.click(getByTestId("btn-delete-modal"));
 
       expect(deleteFolder).toHaveBeenCalledWith({

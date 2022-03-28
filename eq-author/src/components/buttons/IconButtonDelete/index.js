@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { ReactComponent as IconDelete } from "assets/icon-delete.svg";
-import { ReactComponent as IconDisabledDelete } from "assets/icon-disabled-delete.svg";
+import IconDelete from "assets/icon-delete.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import Tooltip from "components/Forms/Tooltip";
@@ -31,18 +30,12 @@ const DeleteTooltip = ({ children }) => (
   </Tooltip>
 );
 
-const IconButtonDelete = ({
-  hideText,
-  iconText = "Delete",
-  disabledIcon,
-  ...otherProps
-}) => {
+const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
   const Wrapper = hideText ? DeleteTooltip : React.Fragment;
-  const icon = disabledIcon ? IconDisabledDelete : IconDelete;
   return (
     <Wrapper>
-      <DeleteButton {...otherProps}>
-        <IconText icon={icon} hideText={hideText}>
+      <DeleteButton title="Delete" {...otherProps}>
+        <IconText icon={IconDelete} hideText={hideText}>
           {iconText}
         </IconText>
       </DeleteButton>
@@ -56,13 +49,11 @@ DeleteTooltip.propTypes = {
 IconButtonDelete.propTypes = {
   hideText: PropTypes.bool,
   iconText: PropTypes.string,
-  disabledIcon: PropTypes.bool,
 };
 
 IconButtonDelete.defaultProps = {
   hideText: false,
   iconText: "Delete",
-  disabledIcon: false,
 };
 
 export default IconButtonDelete;
