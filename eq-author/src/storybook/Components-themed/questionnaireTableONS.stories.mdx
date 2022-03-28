@@ -1,0 +1,30 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import Theme from "contexts/themeContext";
+import * as Headings from "constants/table-headings";
+import QuestionnaireTable from "components-themed/QuestionnaireTable/index.js"
+import questionnaires from "./exampleQuestionnaire"
+const enabledHeadings = [
+  Headings.TITLE,
+  Headings.OWNER,
+  Headings.CREATED,
+  Headings.MODIFIED,
+  Headings.LOCKED,
+  Headings.STARRED,
+  Headings.ACCESS,
+  Headings.ACTIONS,
+];
+
+
+<Meta title="Themed components/ONS/QuestionnaireTable" component={QuestionnaireTable} />
+
+# Questionnaire Table (ONS theme)
+
+
+<Canvas>
+    <Story name="Questionnaire Table">
+        <Theme themeName={"ons"}>
+            <QuestionnaireTable  enabledHeadings={enabledHeadings}
+        sticky={false} questionnaires={questionnaires}></QuestionnaireTable>
+        </Theme>
+    </Story>
+</Canvas>
