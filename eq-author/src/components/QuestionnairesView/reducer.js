@@ -1,10 +1,8 @@
 import { get, chunk, clamp, sortBy, reverse, flowRight } from "lodash";
 
-import { WRITE } from "constants/questionnaire-permissions";
-
 import { SORT_ORDER } from "constants/sort-order";
 
-const PAGE_SIZE = 16;
+const PAGE_SIZE = 12;
 
 const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   const possibleNextIndex =
@@ -43,17 +41,9 @@ const filterQuestionnairesBySearch = (state) => (questionnaires) => {
   );
 };
 
-const filterQuestionnairesByOwnership = (state) => (questionnaires) => {
-  if (!state.isFiltered) {
-    return questionnaires;
-  }
-  return questionnaires.filter((q) => q.permission === WRITE);
-};
-
 const buildState = (state) => {
   const questionnaires = flowRight([
     filterQuestionnairesBySearch(state),
-    filterQuestionnairesByOwnership(state),
     sortQuestionnaires(state),
   ])(state.apiQuestionnaires);
 
@@ -78,7 +68,6 @@ export const ACTIONS = {
   SORT_COLUMN: "SORT_COLUMN",
   REVERSE_SORT: "REVERSE_SORT",
   SEARCH: "SEARCH",
-  TOGGLE_FILTER: "TOGGLE_FILTER",
 };
 
 const reducer = (state, action) => {
