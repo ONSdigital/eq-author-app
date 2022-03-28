@@ -5,16 +5,14 @@ import CustomPropTypes from "custom-prop-types";
 import { Grid, Column } from "components/Grid";
 import UserProfile from "components/UserProfile";
 import { withMe } from "App/MeContext";
-import { enableOn } from "utils/featureFlags";
+import { enableOn, disableOn } from "utils/featureFlags";
 
 const HeaderTop = styled.div`
   background-color: ${({ theme, variant }) =>
     variant === "Internal"
       ? theme.colors.internalHeaderTop
       : theme.colors.externalHeaderTop};
-  padding-top: 5px;
-  height: 56px;
-  min-height: 36px;
+  height: 46px;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -91,26 +89,16 @@ const Header = ({
   headerDescription,
   logo,
   headerTopContent,
+  centerCols,
   me,
 }) => {
   return (
     <>
       <HeaderTop variant={variant}>
         <Grid align="center" horizontalAlign="center">
-          <Column cols={9}>
-            <Grid align="center">
-              <Column cols={9}>
-                {logo}
-                {headerTopContent}
-              </Column>
-              <Column cols={3}>
-                {me && (
-                  <UserProfileWrapper>
-                    <StyledUserProfile currentUser={me} />
-                  </UserProfileWrapper>
-                )}
-              </Column>
-            </Grid>
+          <Column cols={centerCols}>
+            {logo}
+            {headerTopContent}
           </Column>
         </Grid>
       </HeaderTop>
@@ -121,10 +109,18 @@ const Header = ({
               <Column cols={9}>
                 <HeaderTitle headerDescription={headerDescription}>
                   {children}
-                  {enableOn(["gcp"]) ? " (GCP)" : " (AWS)"}
+                  {enableOn(["gcp"]) && " (GCP)"}
+                  {disableOn(["gcp"]) && " (AWS)"}
                 </HeaderTitle>
                 {headerDescription && (
                   <HeaderDescription>{headerDescription}</HeaderDescription>
+                )}
+              </Column>
+              <Column cols={3}>
+                {me && (
+                  <UserProfileWrapper>
+                    <StyledUserProfile currentUser={me} />
+                  </UserProfileWrapper>
                 )}
               </Column>
             </Grid>
@@ -141,11 +137,13 @@ Header.propTypes = {
   headerDescription: PropType.string,
   logo: PropType.node,
   headerTopContent: PropType.node,
+  centerCols: PropType.number,
   me: CustomPropTypes.user,
 };
 
 Header.defaultProps = {
   variant: "Internal",
+  centerCols: 12,
 };
 
 export default withMe(Header);

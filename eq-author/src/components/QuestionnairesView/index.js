@@ -47,6 +47,7 @@ const QuestionnairesView = ({
       currentSortColumn: "createdAt",
       currentSortOrder: SORT_ORDER.DESCENDING,
       searchTerm: "",
+      isFiltered: true,
     },
     buildInitialState(questionnairesRef.current)
   );
@@ -85,6 +86,12 @@ const QuestionnairesView = ({
     });
   };
 
+  const onToggleFilter = (isFiltered) =>
+    dispatch({
+      type: ACTIONS.TOGGLE_FILTER,
+      payload: { isFiltered },
+    });
+
   const onSearchChange = useCallback(
     (searchTerm) => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
     [dispatch]
@@ -93,16 +100,22 @@ const QuestionnairesView = ({
   if (isEmpty(state.apiQuestionnaires)) {
     return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
   }
+
   return (
     <>
       <Header
         onCreateQuestionnaire={onCreateQuestionnaire}
         onSearchChange={onSearchChange}
+        isFiltered={state.isFiltered}
+        onToggleFilter={onToggleFilter}
         canCreateQuestionnaire={canCreateQuestionnaire}
         padding={padding}
       />
       {isEmpty(state.questionnaires) && (
-        <NoResultsFiltered searchTerm={state.searchTerm} />
+        <NoResultsFiltered
+          searchTerm={state.searchTerm}
+          isFiltered={state.isFiltered}
+        />
       )}
       {!isEmpty(state.questionnaires) && (
         <QuestionnairesTable

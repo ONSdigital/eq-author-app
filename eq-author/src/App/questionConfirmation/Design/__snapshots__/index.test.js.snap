@@ -20,7 +20,6 @@ exports[`QuestionConfirmationRoute should render 1`] = `
       <EditorToolbar__Buttons>
         <IconButtonDelete
           data-test="btn-delete"
-          disabledIcon={false}
           hideText={false}
           iconText="Delete"
           onClick={[Function]}

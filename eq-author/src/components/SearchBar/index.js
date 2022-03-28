@@ -25,22 +25,17 @@ const Search = styled.div`
 
 const SearchInput = styled(Input).attrs({
   type: "search",
-  placeholder: "Search questionnaire titles",
+  placeholder: "Search",
 })`
   width: ${(props) => (props.size === "large" ? "27em" : "20em")};
   padding: ${(props) => (props.paddingType === "large" ? "0.6em" : "0.4em")};
   line-height: 1;
   padding-left: 2.5em;
-  border-radius: 3px;
-  font-size: 1rem;
-  line-height: 1rem;
-  border: 1px solid ${colors.black};
+  border-radius: 4px;
+  border-color: ${colors.bordersLight};
+
   &:hover {
     outline: none;
-  }
-  &:focus,
-  &:active {
-    box-shadow: 0 0 0 2px ${colors.sunYellow};
   }
 `;
 

@@ -46,9 +46,18 @@ describe("Header in Components-themed", () => {
       expect(getByText("Header description")).toBeTruthy();
     });
 
-    it("should render the sign out button for the Heading", () => {
-      const { getByTestId } = renderHeader({ ...props });
-      expect(getByTestId("signOut-btn")).toBeTruthy();
+    it("should render a displayName for the User", () => {
+      const { getByText } = renderHeader({ ...props });
+      expect(getByText("I am Groot")).toBeTruthy();
+    });
+
+    it("should render a guestAvatar if me context does not have one", () => {
+      const { getByRole, getByAltText } = renderHeader({ ...props });
+
+      expect(getByRole("presentation")).toBeTruthy();
+
+      const image = getByAltText("Avatar");
+      expect(image).toHaveAttribute("src", "SvgrURL");
     });
   });
 });

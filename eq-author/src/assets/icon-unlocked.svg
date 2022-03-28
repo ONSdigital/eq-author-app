@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="20px" height="20px" viewBox="0 0 22 21" version="1.1"
+<svg width="24px" height="24px" viewBox="0 0 22 21" version="1.1"
 xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(1)">
   <title>Unlocked</title>
   <circle fill="#888888" fill-rule="nonzero" cx="8" cy="14" r="2">
   </circle>
   <path d="M16.1,0 C13.3,0 11.1,2.2 11.1,5 L11.1,7 L2,7 C0.9,7 0,7.9 0,9 L0,19 C0,20.1 0.9,21 2,21 L14,21 C15.1,21 16,20.1 16,19 L16,9 C16,7.9 15.1,7 14,7 L13,7 L13,5 C13,3.3 14.4,1.9 16.1,1.9 C17.8,1.9 19.2,3.3 19.2,5 L19.2,7 L21.1,7 L21.1,5 C21.1,2.3 18.9,0 16.1,0 Z M14,9 L14,19 L2,19 L2,9 L14,9 Z"
   fill="#888888" fill-rule="nonzero"></path>
-</g>
 </svg>
