@@ -11,7 +11,7 @@ import {
 
 import { READ, WRITE } from "constants/questionnaire-permissions";
 
-import QuestionnairesView, { STORAGE_KEY } from "./";
+import QuestionnairesView, { STORAGE_KEY } from ".";
 
 import { UNPUBLISHED } from "constants/publishStatus";
 import * as Headings from "constants/table-headings";

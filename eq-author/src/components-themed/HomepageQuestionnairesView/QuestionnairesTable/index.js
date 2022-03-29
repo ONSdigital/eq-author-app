@@ -6,10 +6,10 @@ import styled from "styled-components";
 
 import { SORT_ORDER } from "constants/sort-order.js";
 
-import QuestionnaireTable from "components-themed/QuestionnaireTable";
+import QuestionnaireTable from "components-themed/HomepageQuestionnaireTable";
 import Panel from "components/Panel";
 
-import tableHeadings from "components-themed/QuestionnaireTable/tableHeadings";
+import tableHeadings from "components-themed/HomepageQuestionnaireTable/tableHeadings";
 
 import { useQuestionnaireLockingModal } from "components/modals/QuestionnaireLockingModal";
 
