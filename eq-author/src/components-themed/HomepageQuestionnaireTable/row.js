@@ -93,11 +93,11 @@ export const DeleteButton = styled(IconButtonDelete)`
   svg {
     path {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.nightBlue};
+        disabledIcon ? colors.grey75 : colors.nightBlue};
     }
     polygon {
       fill: ${({ disabledIcon }) =>
-        disabledIcon ? colors.grey150 : colors.nightBlue};
+        disabledIcon ? colors.grey75 : colors.nightBlue};
     }
   }
   .lid {
@@ -115,6 +115,8 @@ export const ShortTitle = styled.span`
 
 const ButtonGroup = styled.div`
   display: flex;
+  justify-content: space-evenly;
+  margin-right: 1.5em;
 `;
 
 export const TR = styled.tr`
@@ -122,9 +124,8 @@ export const TR = styled.tr`
   border-top: 1px solid black;
   background-color: ${colors.grey5};
   :nth-of-type(2n-1) {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: ${colors.white};
   }
-  opacity: 1;
   height: 3.2em;
   position: relative;
 

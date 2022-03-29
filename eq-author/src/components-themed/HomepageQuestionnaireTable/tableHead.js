@@ -58,7 +58,7 @@ const SortButton = styled(Button)`
   cursor: pointer;
   padding: 0.5em;
   background-color: transparent;
-  color: inherit;
+  color: ${(props) => (props.active ? colors.black : colors.grey75)};
   font-weight: 700;
   width: 100%;
   text-align: left;
