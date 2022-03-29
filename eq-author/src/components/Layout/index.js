@@ -16,22 +16,22 @@ const GridAuto = styled(Grid)`
   height: auto;
   min-height: 100%;
   margin-bottom: -95px;
-  padding-bottom: 6.5em;
+  padding-bottom: 95px;
 `;
 
 const Layout = ({ title, children }) => (
   <Titled title={() => title}>
     <BaseLayout>
       <Theme themeName={"ons"}>
+        <Header
+          variant="Internal"
+          headerDescription="Questionnaire builder"
+          logo={<Logo />}
+          centerCols={9}
+        >
+          {title}
+        </Header>
         <ScrollPane>
-          <Header
-            variant="Internal"
-            headerDescription="Questionnaire builder"
-            logo={<Logo />}
-            centerCols={9}
-          >
-            {title}
-          </Header>
           <GridAuto horizontalAlign="center">
             <Column cols={9}>{children}</Column>
           </GridAuto>

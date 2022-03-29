@@ -18,7 +18,6 @@ const IconWithText = styled.span`
   svg {
     pointer-events: none;
     flex: 0 0 2em;
-
     path {
       fill: var(--color-text);
     }

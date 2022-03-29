@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { ReactComponent as IconCopy } from "assets/icon-copy.svg";
+import IconCopy from "assets/icon-copy.svg?inline";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import Tooltip from "components/Forms/Tooltip";
