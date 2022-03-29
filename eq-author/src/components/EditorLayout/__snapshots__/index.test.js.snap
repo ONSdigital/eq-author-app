@@ -1,18 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Editor Layout should render 1`] = `
-<EditorLayout
-  design={true}
-  page={
-    Object {
-      "answers": Array [],
-      "displayName": "Foo",
-      "id": "1",
-    }
-  }
-  preview={false}
-  routing={true}
+<GetContext
+  title={[Function]}
 >
-  Content
-</EditorLayout>
+  <EditorLayout__Container>
+    <Component>
+      <withRouter(UnwrappedTabs)
+        design={true}
+        preview={false}
+        unreadComment={false}
+      />
+    </Component>
+    <ScrollPane
+      scrollToTop={true}
+    >
+      <EditorLayout__StyledGrid
+        align="top"
+        fillHeight={true}
+        horizontalAlign="start"
+        page={
+          Object {
+            "answers": Array [],
+            "displayName": "Foo",
+            "id": "1",
+          }
+        }
+        routing={true}
+      >
+        <EditorLayout__StyledColumn
+          className="keyNav"
+          cols={9}
+          gutters={false}
+          tabIndex="-1"
+        >
+          <EditorLayout__Margin>
+            <MainCanvas
+              maxWidth="70em"
+            >
+              Content
+            </MainCanvas>
+          </EditorLayout__Margin>
+        </EditorLayout__StyledColumn>
+        <Column
+          cols={3}
+          gutters={false}
+        >
+          <EditorLayout__PanelWrapper
+            data-test="right-hand-panel"
+          />
+        </Column>
+      </EditorLayout__StyledGrid>
+    </ScrollPane>
+  </EditorLayout__Container>
+</GetContext>
 `;
