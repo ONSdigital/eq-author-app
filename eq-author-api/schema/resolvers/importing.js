@@ -18,6 +18,10 @@ module.exports = {
   Mutation: {
     importQuestions: createMutation(
       async (_, { input: { questionnaireId, questionIds, position } }, ctx) => {
+        console.log("position:::::::::::::", position);
+        console.log("questionIds :>> ", questionIds);
+        // console.log("ctx :>> ", JSON.stringify(ctx, null, 7));
+
         const { sectionId, folderId, index: insertionIndex } = position;
 
         if (!sectionId && !folderId) {
@@ -80,6 +84,8 @@ module.exports = {
             ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
+
+        // console.log("section :>> ", JSON.stringify(section, null, 7));
 
         return section;
       }

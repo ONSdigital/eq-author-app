@@ -77,6 +77,7 @@ export const UnwrappedNavigationHeader = ({
   };
 
   const handleStartImportingContent = (targetInsideFolder) => {
+    console.log("targetInsideFolder1 ::::", targetInsideFolder);
     setTargetInsideFolder(targetInsideFolder);
     setImportingContent(true);
     setOpenMenu(!openMenu);

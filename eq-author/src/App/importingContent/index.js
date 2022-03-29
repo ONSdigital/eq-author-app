@@ -23,6 +23,7 @@ import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import QuestionPicker from "components/QuestionPicker";
 
 const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
+  console.log({ targetInsideFolder });
   /*
    * Modal display states
    */
@@ -159,7 +160,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         const {
           enabled: parentFolderIsEnabled,
           id: folderId,
-          position: positionOfParentFolder,
+          position,
         } = getFolderByPageId(sourceQuestionnaire, currentEntityId);
 
         const { position: positionOfPreviousPage } = getPageById(
@@ -167,11 +168,14 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           currentEntityId
         );
 
+        console.log("parentFolderIsEnabled:", parentFolderIsEnabled);
+
         if (parentFolderIsEnabled) {
           input.position.folderId = folderId;
           input.position.index = positionOfPreviousPage + 1;
         } else {
-          input.position.index = positionOfParentFolder + 1;
+          input.position.folderId = folderId;
+          input.position.index = 0;
         }
 
         break;
