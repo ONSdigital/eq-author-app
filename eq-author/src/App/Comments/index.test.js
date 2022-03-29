@@ -123,4 +123,25 @@ describe("Comments panel", () => {
     expect(replies.length).toBe(1);
     expect(collapsible).toBeInTheDocument();
   });
+
+  it("Should display loading state", () => {
+    const props = { ...mockUseQuery, loading: true };
+    const { getByTestId } = renderPanel(props);
+    expect(getByTestId("loading")).toBeVisible();
+  });
+
+  it("Should display error state", () => {
+    const props = { ...mockUseQuery, error: true };
+    const { getByTestId } = renderPanel(props);
+    expect(getByTestId("error")).toBeVisible();
+  });
+
+  it("Should not display comments if comments is undefined", () => {
+    mockUseQuery.data.comments = undefined;
+    const { queryByTestId, getByTestId } = renderPanel();
+    const commentPanel = getByTestId("comments-panel");
+
+    expect(queryByTestId("Comment__CommentText")).toBeFalsy();
+    expect(commentPanel).toBeTruthy();
+  });
 });
