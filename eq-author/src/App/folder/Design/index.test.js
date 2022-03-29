@@ -12,6 +12,8 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
+const mockUseMe = { me: { id: "user-1" } };
+
 jest.mock("react-apollo", () => ({
   useSubscription: () => null,
 }));
@@ -33,6 +35,10 @@ jest.mock("hooks/useCreateFolder", () => ({
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacks: jest.fn(),
+}));
+
+jest.mock("App/MeContext", () => ({
+  useMe: () => mockUseMe,
 }));
 
 const mockData = {
