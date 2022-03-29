@@ -42,7 +42,7 @@ const AlertText = styled.p`
   font-weight: normal;
 `;
 
-const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
+const NoResultsFiltered = ({ searchTerm }) => {
   if (!searchTerm) {
     return (
       <Alert>
@@ -55,15 +55,6 @@ const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
       </Alert>
     );
   }
-  if (isFiltered) {
-    return (
-      <NoSearchResults
-        searchTerm={searchTerm}
-        alertText="You do not have editor access to any questionnaires matching this
-          criteria"
-      />
-    );
-  }
   return (
     <NoSearchResults
       searchTerm={searchTerm}
@@ -74,7 +65,6 @@ const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
 
 NoResultsFiltered.propTypes = {
   searchTerm: PropTypes.string.isRequired,
-  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default NoResultsFiltered;

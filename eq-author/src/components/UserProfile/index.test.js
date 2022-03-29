@@ -27,15 +27,15 @@ describe("UserProfile", () => {
       </MeContext.Provider>
     );
 
-  it("should show the logged in user's display name", () => {
-    const { getByText } = renderWithContext(<UserProfile />);
-    expect(getByText(me.displayName)).toBeTruthy();
+  it("should show the Sign Out button", () => {
+    const { getByTestId } = renderWithContext(<UserProfile />);
+    expect(getByTestId("signOut-btn")).toBeTruthy();
   });
 
   it("should trigger signOut", () => {
-    const { getByText } = renderWithContext(<UserProfile />);
+    const { getByTestId } = renderWithContext(<UserProfile />);
 
-    fireEvent.click(getByText(me.displayName));
+    fireEvent.click(getByTestId("signOut-btn"));
 
     expect(signOut).toHaveBeenCalled();
   });
