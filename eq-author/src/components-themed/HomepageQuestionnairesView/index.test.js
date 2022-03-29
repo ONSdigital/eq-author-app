@@ -284,7 +284,6 @@ describe("QuestionnairesView", () => {
           questionnaires={props.questionnaires.slice(1)}
         />
       );
-
       expect(getAllByTestId("anchor-questionnaire-title")[0]).toEqual(
         document.activeElement
       );
@@ -305,7 +304,6 @@ describe("QuestionnairesView", () => {
           questionnaires={props.questionnaires.slice(0, 2)}
         />
       );
-
       expect(getAllByTestId("anchor-questionnaire-title")[1]).toEqual(
         document.activeElement
       );
