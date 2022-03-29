@@ -26,7 +26,7 @@ import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
 
 import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
 
-export const QuestionnaireLink = styled.a`
+export const QuestionnaireLink = styled.span`
   color: ${colors.blueLink};
   text-weight: 700;
   display: flex;
