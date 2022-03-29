@@ -57,6 +57,11 @@ const PrevButton = styled(PaginationButton)`
   span {
     padding: 0.7em 1em 0.8em 0em !important;
     color: ${colors.oceanBlue};
+    &:hover,
+    &:active {
+      background-color: ${colors.darkerBlue};
+      color: white;
+    }
   }
 `;
 

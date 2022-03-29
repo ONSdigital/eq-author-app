@@ -14,8 +14,8 @@ import Theme from "contexts/themeContext";
 
 import * as Headings from "constants/table-headings";
 
-import QuestionnairesTable from "components/QuestionnairesView/QuestionnairesTable";
-import QuestionnairesView from "components/QuestionnairesView";
+import QuestionnairesTable from "components-themed/HomepageQuestionnairesView/QuestionnairesTable";
+import QuestionnairesView from "components-themed/HomepageQuestionnairesView";
 
 import deleteQuestionnaireMutation from "graphql/deleteQuestionnaire.graphql";
 
