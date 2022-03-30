@@ -11,7 +11,7 @@ import {
 
 import { READ, WRITE } from "constants/questionnaire-permissions";
 
-import QuestionnairesView, { STORAGE_KEY } from "./";
+import QuestionnairesView, { STORAGE_KEY } from ".";
 
 import { UNPUBLISHED } from "constants/publishStatus";
 import * as Headings from "constants/table-headings";
@@ -254,10 +254,10 @@ describe("QuestionnairesView", () => {
 
     describe("Deletion", () => {
       it("should call onDeleteQuestionnaire when a questionnaire is deleted", () => {
-        const { getAllByTitle, getByTestId } = render(
+        const { getAllByTestId, getByTestId } = render(
           <QuestionnairesView {...props} />
         );
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -268,11 +268,11 @@ describe("QuestionnairesView", () => {
       });
 
       it("should autofocus the next row after when one is deleted", () => {
-        const { getAllByTitle, getByTestId, getByTitle, rerender } = render(
+        const { getAllByTestId, getByTestId, getByTitle, rerender } = render(
           <QuestionnairesView {...props} />
         );
 
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -288,11 +288,11 @@ describe("QuestionnairesView", () => {
       });
 
       it("should autofocus the last row if the last row is deleted", () => {
-        const { getAllByTitle, getByTestId, getByTitle, rerender } = render(
+        const { getAllByTestId, getByTestId, getByTitle, rerender } = render(
           <QuestionnairesView {...props} />
         );
 
-        const deleteButton = getAllByTitle("Delete")[2];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[2];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -308,11 +308,11 @@ describe("QuestionnairesView", () => {
 
       it("should not blow up if you delete the last item", async () => {
         const questionnaires = props.questionnaires.slice(0, 1);
-        const { getAllByTitle, getByTestId } = render(
+        const { getAllByTestId, getByTestId } = render(
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -325,7 +325,7 @@ describe("QuestionnairesView", () => {
           .fill("")
           .map((_, index) => buildQuestionnaire(index));
 
-        const { getByText, getAllByTitle, getByTitle, getByTestId, rerender } =
+        const { getByText, getAllByTestId, getByTitle, getByTestId, rerender } =
           render(
             <QuestionnairesView {...props} questionnaires={questionnaires} />
           );
@@ -336,7 +336,7 @@ describe("QuestionnairesView", () => {
         expect(getByText("Showing 1 of 17")).toBeTruthy();
 
         // Delete the only questionnaire on the page
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -353,10 +353,10 @@ describe("QuestionnairesView", () => {
       });
 
       it("should not delete the questionnaire if the cancel button is clicked", async () => {
-        const { getAllByTitle, getByText } = render(
+        const { getAllByTestId, getByText } = render(
           <QuestionnairesView {...props} />
         );
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const cancelButton = getByText("Cancel");
         fireEvent.click(cancelButton);
@@ -365,10 +365,10 @@ describe("QuestionnairesView", () => {
       });
 
       it("should not delete the questionnaire if the close button is clicked", async () => {
-        const { getAllByTitle, getByLabelText, getByTestId } = render(
+        const { getAllByTestId, getByLabelText, getByTestId } = render(
           <QuestionnairesView {...props} />
         );
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const closeButton = getByLabelText("Close");
         fireEvent.click(closeButton);
@@ -388,7 +388,7 @@ describe("QuestionnairesView", () => {
         const {
           getByText,
           getByTitle,
-          getAllByTitle,
+          getAllByTestId,
           getByTestId,
           queryByTestId,
         } = render(
@@ -398,7 +398,7 @@ describe("QuestionnairesView", () => {
         fireEvent.click(sortTitleButton);
 
         // Delete Questionnaire 2
-        const deleteButton = getAllByTitle("Delete")[1];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -413,13 +413,7 @@ describe("QuestionnairesView", () => {
           .fill(null)
           .map((_, index) => buildQuestionnaire(index));
 
-        const {
-          getByText,
-          getAllByTitle,
-          getByTestId,
-          rerender,
-          getAllByTestId,
-        } = render(
+        const { getByText, getByTestId, rerender, getAllByTestId } = render(
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
@@ -429,7 +423,7 @@ describe("QuestionnairesView", () => {
         expect(getByText("Showing 2 of 18")).toBeTruthy();
 
         // Delete the last one on the page - the other one is focused
-        const deleteButton = getAllByTitle("Delete")[1];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -459,7 +453,7 @@ describe("QuestionnairesView", () => {
           .fill(null)
           .map((_, index) => buildQuestionnaire(index));
 
-        const { getByText, getAllByTitle, getByTestId, rerender } = render(
+        const { getByText, getAllByTestId, getByTestId, rerender } = render(
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
@@ -469,7 +463,7 @@ describe("QuestionnairesView", () => {
         expect(getByText("Showing 2 of 18")).toBeTruthy();
 
         // Delete the last one on the page - the other one is focused
-        const deleteButton = getAllByTitle("Delete")[1];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -488,7 +482,7 @@ describe("QuestionnairesView", () => {
         jest.useFakeTimers();
 
         const {
-          getAllByTitle,
+          getAllByTestId,
           getByTestId,
           getByLabelText,
           queryByText,
@@ -496,7 +490,7 @@ describe("QuestionnairesView", () => {
         } = render(<QuestionnairesView {...props} />);
 
         // Delete the last one on the page - the other one is focused
-        const deleteButton = getAllByTitle("Delete")[0];
+        const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
         fireEvent.click(confirmButton);
@@ -531,14 +525,13 @@ describe("QuestionnairesView", () => {
           ...q,
           permission: READ,
         }));
-        const { getByTitle, queryByTestId, getByLabelText, getByText } = render(
-          <QuestionnairesView {...props} />
-        );
+        const { getByTestId, queryByTestId, getByLabelText, getByText } =
+          render(<QuestionnairesView {...props} />);
 
         fireEvent.click(getByLabelText("All"));
         expect(getByText("Questionnaire 1 Title")).toBeTruthy();
 
-        const deleteButton = getByTitle("Delete");
+        const deleteButton = getByTestId("btn-delete-questionnaire");
         fireEvent.click(deleteButton);
         const confirmButton = queryByTestId("btn-delete-modal");
 
