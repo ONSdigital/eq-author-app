@@ -296,43 +296,43 @@ describe("comments", () => {
         });
       });
 
-      it.only("should set readBy value to empty array if undefined", async () => {
-        const { user } = ctx;
-        // const comment = await createComment(ctx, {
-        //   componentId,
-        //   commentText: "a new comment is created",
-        // });
+      // it.only("should set readBy value to empty array if undefined", async () => {
+      //   const { user } = ctx;
+      //   // const comment = await createComment(ctx, {
+      //   //   componentId,
+      //   //   commentText: "a new comment is created",
+      //   // });
 
-        const comment = {
-          id: componentId,
-          commentText: "test",
-          replies: [],
-        };
+      //   const comment = {
+      //     id: componentId,
+      //     commentText: "test",
+      //     replies: [],
+      //   };
 
-        ctx.comments = {};
+      //   ctx.comments = {};
 
-        ctx.comments[componentId] = [comment];
+      //   ctx.comments[componentId] = [comment];
 
-        console.log(
-          "ctx.questionnaire.sections[0].folders[0].pages[0]",
-          ctx.questionnaire.sections[0].folders[0].pages[0]
-        );
+      //   console.log(
+      //     "ctx.questionnaire.sections[0].folders[0].pages[0]",
+      //     ctx.questionnaire.sections[0].folders[0].pages[0]
+      //   );
 
-        console.log("ctx.comments", ctx.comments);
+      //   console.log("ctx.comments", ctx.comments);
 
-        await updateCommentsAsRead(ctx, {
-          pageId: componentId,
-          userId: user.id,
-        });
+      //   await updateCommentsAsRead(ctx, {
+      //     pageId: componentId,
+      //     userId: user.id,
+      //   });
 
-        const queryNewComments = await queryComments(ctx, componentId);
+      //   const queryNewComments = await queryComments(ctx, componentId);
 
-        expect(queryNewComments.comments).toMatchObject([
-          {
-            readBy: [user.id],
-          },
-        ]);
-      });
+      //   expect(queryNewComments.comments).toMatchObject([
+      //     {
+      //       readBy: [user.id],
+      //     },
+      //   ]);
+      // });
     });
 
     describe("replies", () => {

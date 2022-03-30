@@ -278,8 +278,7 @@ const Resolvers = {
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
     comments: async (root, { id }, ctx) => {
-      const questionnaireId = ctx.questionnaire.id;
-      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
+      const comments = ctx.comments;
 
       if (comments[id]) {
         return comments[id];
@@ -1081,14 +1080,21 @@ const Resolvers = {
       return newComment;
     },
     updateCommentsAsRead: async (_, { input }, ctx) => {
+      /*  updateCommentAsRead must run after getPage - getPage returns one readBy user, updateCommentAsRead returns two
+          If getPage runs after updateCommentAsRead, the readBy data is overwritten and only one user is returned
+          This causes the notification to be displayed when the user has read the comment
+      */
+      const sleep = (ms) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      };
+
+      await sleep(10);
+
       const { pageId, userId } = input;
-      const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
 
-      const pageComments = questionnaireComments.comments[pageId];
+      const pageComments = questionnaireComments[pageId];
 
       pageComments.forEach((comment) => {
         if (!comment.readBy) {
@@ -1106,7 +1112,10 @@ const Resolvers = {
           }
         });
       });
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
       return pageComments;
     },
