@@ -8,7 +8,6 @@ const {
   publishQuestionnaire,
   reviewQuestionnaire,
 } = require("./questionnaire");
-const { createComment } = require("./comments");
 const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection } = require("./section");
 const { createFolder } = require("./folder");
@@ -99,18 +98,6 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
                   position: createdFolder.pages.length,
                   ...page,
                 });
-
-                const createdComment = await createComment(ctx, {
-                  componentId: questionnaire.sections[0].folders[0].pages[0].id,
-                  commentText: "Test",
-                });
-                const createdComment2 = await createComment(ctx, {
-                  componentId: questionnaire.sections[0].folders[0].pages[0].id,
-                  commentText: "Test",
-                });
-
-                // TODO: Change the data structure of ctx.comments to be {componentId: [componentComments]}
-                createdPage.comments = [createdComment, createdComment2];
 
                 if (page.confirmation) {
                   const createdQuestionConfirmation =
