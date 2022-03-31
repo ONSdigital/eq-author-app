@@ -1124,14 +1124,15 @@ const Resolvers = {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
+      const componentComments = questionnaireComments[componentId];
 
-      const componentComments = questionnaireComments.comments[componentId];
       if (componentComments) {
         remove(componentComments, ({ id }) => id === commentId);
-        await saveComments(questionnaireComments);
+        await saveComments({
+          questionnaireId: ctx.questionnaire.id,
+          comments: questionnaireComments,
+        });
       }
       publishCommentUpdates(questionnaire.id);
       return componentComments;
