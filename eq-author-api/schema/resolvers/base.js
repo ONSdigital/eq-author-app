@@ -1053,8 +1053,8 @@ const Resolvers = {
     createComment: async (_, { input }, ctx) => {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
-      const questionnaireComments = ctx.comments;
 
+      const questionnaireComments = ctx.comments;
       const componentComments = questionnaireComments[componentId];
 
       const newComment = {
@@ -1141,20 +1141,23 @@ const Resolvers = {
       const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
-      const pageComments = questionnaireComments.comments[componentId];
+      const questionnaireComments = ctx.comments;
+      const componentComments = questionnaireComments[componentId];
 
-      if (!pageComments) {
+      if (!componentComments) {
         throw new Error("No comments found");
       }
 
-      const commentToEdit = pageComments.find(({ id }) => id === commentId);
+      const commentToEdit = componentComments.find(
+        ({ id }) => id === commentId
+      );
       commentToEdit.commentText = commentText;
       commentToEdit.editedTime = new Date();
       commentToEdit.readBy = [ctx.user.id];
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
       publishCommentUpdates(questionnaire.id);
 
