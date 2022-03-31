@@ -1201,10 +1201,8 @@ const Resolvers = {
       const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
-      const replies = questionnaireComments.comments[componentId].find(
+      const questionnaireComments = ctx.comments;
+      const replies = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       ).replies;
 
@@ -1216,7 +1214,10 @@ const Resolvers = {
       replyToEdit.commentText = commentText;
       replyToEdit.editedTime = new Date();
       replyToEdit.readBy = [ctx.user.id];
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
       publishCommentUpdates(questionnaire.id);
       return replyToEdit;
