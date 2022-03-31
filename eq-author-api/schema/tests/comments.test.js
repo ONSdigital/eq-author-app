@@ -62,19 +62,18 @@ describe("comments", () => {
       commentText: "a new comment is created",
     });
 
-    // const comments = ctx.comments[componentId];
-
-    // const queryNewComments = await queryComments(ctx, componentId);
-    // console.log("ctx.comments", ctx.comments);
     const queryNewComments = ctx.comments[componentId];
 
-    expect(queryNewComments).toMatchObject({
-      comments: [
-        {
-          commentText: "a new comment is created",
-        },
-      ],
-    });
+    expect(queryNewComments).toMatchObject([
+      {
+        commentText: "a new comment is created",
+        createdTime: expect.any(Date),
+        id: expect.any(String),
+        readBy: expect.any(Array),
+        replies: expect.any(Array),
+        userId: expect.any(String),
+      },
+    ]);
   });
 
   it("should add multiple comments on question page and then query those comments", async () => {
