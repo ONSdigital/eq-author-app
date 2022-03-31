@@ -280,6 +280,7 @@ describe("subscriptions", () => {
       questionnaire = ctx.questionnaire;
       createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
       componentId = createdQuestionPage.id;
+      ctx.comments = {};
     });
 
     const commentsSubscription = gql`
