@@ -1167,9 +1167,7 @@ const Resolvers = {
       const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
 
       const newReply = {
         id: uuidv4(),
@@ -1179,16 +1177,21 @@ const Resolvers = {
         createdTime: new Date(),
         readBy: [ctx.user.id],
       };
-      let parentComment = questionnaireComments.comments[componentId].find(
+
+      let parentComment = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       );
+
       if (parentComment) {
         parentComment.replies.push(newReply);
       } else {
         parentComment = [newReply];
       }
 
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
       publishCommentUpdates(questionnaire.id);
 
