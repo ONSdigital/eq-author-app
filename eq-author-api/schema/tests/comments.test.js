@@ -47,11 +47,13 @@ describe("comments", () => {
     questionnaire = ctx.questionnaire;
     createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
     componentId = createdQuestionPage.id;
+    ctx.comments = {};
   });
 
   it("An empty comment array is created on new questionnare", async () => {
-    const comment = await queryComments(ctx, componentId);
-    expect(comment.comments).toHaveLength(0);
+    const comments = ctx.comments;
+    ctx.comments[componentId] = [];
+    expect(comments[componentId]).toHaveLength(0);
   });
 
   it("should add a comment on question page and then query that comment", async () => {
@@ -60,7 +62,11 @@ describe("comments", () => {
       commentText: "a new comment is created",
     });
 
-    const queryNewComments = await queryComments(ctx, componentId);
+    // const comments = ctx.comments[componentId];
+
+    // const queryNewComments = await queryComments(ctx, componentId);
+    // console.log("ctx.comments", ctx.comments);
+    const queryNewComments = ctx.comments[componentId];
 
     expect(queryNewComments).toMatchObject({
       comments: [

@@ -1053,10 +1053,10 @@ const Resolvers = {
     createComment: async (_, { input }, ctx) => {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
+      const questionnaireComments = ctx.comments;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const componentComments = questionnaireComments[componentId];
+
       const newComment = {
         id: uuidv4(),
         commentText: commentText,
@@ -1066,15 +1066,16 @@ const Resolvers = {
         readBy: [ctx.user.id],
       };
 
-      const componentComments = questionnaireComments.comments[componentId];
-
       if (componentComments) {
-        questionnaireComments.comments[componentId].push(newComment);
+        componentComments.push(newComment);
       } else {
-        questionnaireComments.comments[componentId] = [newComment];
+        questionnaireComments[componentId] = [newComment];
       }
 
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
       publishCommentUpdates(questionnaire.id);
 
       return newComment;
