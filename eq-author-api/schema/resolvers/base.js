@@ -99,7 +99,6 @@ const {
   createComments,
   saveMetadata,
   saveComments,
-  getCommentsForQuestionnaire,
   updateUser,
 } = require("../../db/datastore");
 
@@ -1226,17 +1225,18 @@ const Resolvers = {
       const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
 
-      const replies = questionnaireComments.comments[componentId].find(
+      const replies = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       ).replies;
 
       if (replies) {
         remove(replies, ({ id }) => id === replyId);
-        await saveComments(questionnaireComments);
+        await saveComments({
+          questionnaireId: ctx.questionnaire.id,
+          comments: questionnaireComments,
+        });
       }
       publishCommentUpdates(questionnaire.id);
 
