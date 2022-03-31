@@ -26,6 +26,7 @@ const {
 const {
   updateQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
+const { updateSubmission } = require("./submission");
 const { createCollapsible } = require("./collapsible");
 const {
   getFolderById,
@@ -50,8 +51,13 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
     return ctx;
   }
 
-  const { sections, metadata, introduction, ...questionnaireProps } =
-    questionnaireConfig;
+  const {
+    sections,
+    metadata,
+    introduction,
+    submission,
+    ...questionnaireProps
+  } = questionnaireConfig;
 
   await createQuestionnaire(ctx, {
     title: "Questionnaire",
@@ -187,6 +193,16 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
           ...collapsibles[i],
         });
       }
+    }
+  }
+
+  if (submission) {
+    const { ...submissionProps } = submission;
+    if (Object.keys(submissionProps).length > 0) {
+      await updateSubmission(ctx, {
+        id: questionnaire.submission.id,
+        ...submissionProps,
+      });
     }
   }
 
