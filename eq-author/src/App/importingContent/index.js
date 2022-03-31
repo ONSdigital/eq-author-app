@@ -156,24 +156,18 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sectionId,
         };
 
-        const {
-          enabled: parentFolderIsEnabled,
-          id: folderId,
-          position,
-        } = getFolderByPageId(sourceQuestionnaire, currentEntityId);
+        const { id: folderId } = getFolderByPageId(
+          sourceQuestionnaire,
+          currentEntityId
+        );
 
         const { position: positionOfPreviousPage } = getPageById(
           sourceQuestionnaire,
           currentEntityId
         );
 
-        if (parentFolderIsEnabled) {
-          input.position.folderId = folderId;
-          input.position.index = positionOfPreviousPage + 1;
-        } else {
-          input.position.folderId = folderId;
-          input.position.index = 0;
-        }
+        input.position.folderId = folderId;
+        input.position.index = positionOfPreviousPage + 1;
 
         break;
       }
