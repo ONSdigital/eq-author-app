@@ -23,7 +23,6 @@ import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import QuestionPicker from "components/QuestionPicker";
 
 const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
-  console.log({ targetInsideFolder });
   /*
    * Modal display states
    */
@@ -167,8 +166,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sourceQuestionnaire,
           currentEntityId
         );
-
-        console.log("parentFolderIsEnabled:", parentFolderIsEnabled);
 
         if (parentFolderIsEnabled) {
           input.position.folderId = folderId;
