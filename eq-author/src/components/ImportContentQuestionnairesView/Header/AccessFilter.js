@@ -21,7 +21,8 @@ const Buttons = styled.div`
 
 const FilterButton = styled.label`
   background: white;
-  padding: ${props => props.paddingType === "large" ? "0.5rem 1rem" : "0.4rem 1rem"};
+  padding: ${(props) =>
+    props.paddingType === "large" ? "0.5rem 1rem" : "0.4rem 1rem"};
   font-size: 0.9em;
   font-weight: bold;
   cursor: pointer;
