@@ -1,6 +1,9 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
+  deleteQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
+const {
   createQuestionConfirmation,
   updateQuestionConfirmation,
   queryQuestionConfirmation,
@@ -12,9 +15,9 @@ const { NUMBER } = require("../../constants/answerTypes");
 describe("questionConfirmation", () => {
   let ctx, questionnaire;
 
-  // afterEach(async () => {
-  //   await deleteQuestionnaire(ctx, questionnaire.id);
-  // });
+  afterEach(async () => {
+    await deleteQuestionnaire(ctx, questionnaire.id);
+  });
 
   describe("create", () => {
     it("should create a question confirmation", async () => {
@@ -95,6 +98,7 @@ describe("questionConfirmation", () => {
     beforeEach(async () => {
       ctx = await buildContext({
         metadata: [{}],
+        comments: {},
         sections: [
           {
             folders: [
@@ -124,7 +128,6 @@ describe("questionConfirmation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
-      ctx.comments = {};
 
       queriedQuestionConfirmation = await queryQuestionConfirmation(
         ctx,
