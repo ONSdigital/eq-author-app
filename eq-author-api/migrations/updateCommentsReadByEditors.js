@@ -20,15 +20,15 @@ module.exports = (questionnaire) => {
       });
     });
   });
-  if (questionnaire?.introduction) {
-    questionnaire?.introduction?.comments?.forEach((comment) => {
+  if (questionnaire.introduction) {
+    questionnaire.introduction.comments.forEach((comment) => {
       if (!comment.readBy) {
         comment.readBy = [createdBy, ...editors];
       }
     });
   }
-  if (questionnaire?.submission) {
-    questionnaire?.submission?.comments?.forEach((comment) => {
+  if (questionnaire.submission) {
+    questionnaire.submission.comments.forEach((comment) => {
       if (!comment.readBy) {
         comment.readBy = [createdBy, ...editors];
       }
