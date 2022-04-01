@@ -1,39 +1,28 @@
-const { getQuestionnaireMetaById } = require("../db/datastore");
+const {
+  getQuestionnaireMetaById,
+  getCommentsForQuestionnaire,
+  saveComments,
+} = require("../db/datastore");
 
-module.exports = (questionnaire) => {
-  const metadata = getQuestionnaireMetaById(questionnaire.id);
+module.exports = async (questionnaire) => {
+  const metadata = await getQuestionnaireMetaById(questionnaire.id);
+  const commentsData = await getCommentsForQuestionnaire(questionnaire.id);
   const { createdBy, editors } = metadata;
 
-  questionnaire.sections.forEach((section) => {
-    section.comments.forEach((comment) => {
+  Object.entries(commentsData.comments).forEach(([, componentComments]) => {
+    componentComments.forEach((comment) => {
       if (!comment.readBy) {
         comment.readBy = [createdBy, ...editors];
       }
-    });
-    section.folders.forEach((folder) => {
-      folder.pages.forEach((page) => {
-        page.comments.forEach((comment) => {
-          if (!comment.readBy) {
-            comment.readBy = [createdBy, ...editors];
-          }
-        });
+      comment.replies.forEach((reply) => {
+        if (!reply.readBy) {
+          reply.readBy = [createdBy, ...editors];
+        }
       });
     });
   });
-  if (questionnaire.introduction) {
-    questionnaire.introduction.comments.forEach((comment) => {
-      if (!comment.readBy) {
-        comment.readBy = [createdBy, ...editors];
-      }
-    });
-  }
-  if (questionnaire.submission) {
-    questionnaire.submission.comments.forEach((comment) => {
-      if (!comment.readBy) {
-        comment.readBy = [createdBy, ...editors];
-      }
-    });
-  }
+
+  await saveComments(commentsData);
 
   return questionnaire;
 };

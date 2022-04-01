@@ -100,8 +100,8 @@ const createApp = () => {
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,
     loadQuestionnaire,
-    loadComments,
     runQuestionnaireMigrations(logger)(require("./migrations")),
+    loadComments,
     validateQuestionnaire
   );
 

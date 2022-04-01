@@ -1097,16 +1097,10 @@ const Resolvers = {
       const pageComments = questionnaireComments[pageId];
 
       pageComments.forEach((comment) => {
-        if (!comment.readBy) {
-          comment.readBy = [];
-        }
         if (!comment.readBy.includes(userId)) {
           comment.readBy.push(userId);
         }
         comment.replies.forEach((reply) => {
-          if (!reply.readBy) {
-            reply.readBy = [];
-          }
           if (!reply.readBy.includes(userId)) {
             reply.readBy.push(userId);
           }
@@ -1369,12 +1363,10 @@ const Resolvers = {
 
   Comment: {
     user: ({ userId }) => getUserById(userId),
-    readBy: ({ readBy }) => readBy || [],
   },
 
   Reply: {
     user: ({ userId }) => getUserById(userId),
-    readBy: ({ readBy }) => readBy || [],
   },
 
   QuestionnaireInfo: {
