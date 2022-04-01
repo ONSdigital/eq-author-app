@@ -520,4 +520,42 @@ describe("page", () => {
       });
     });
   });
+
+  describe("comments", () => {
+    it("should retrieve comments from context", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
+      });
+
+      questionnaire = ctx.questionnaire;
+      const page = ctx.questionnaire.sections[0].folders[0].pages[0];
+
+      ctx.comments[page.id] = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+
+      const updatedPage = await updateQuestionPage(ctx, {
+        id: page.id,
+      });
+
+      expect(updatedPage.comments).toEqual(
+        expect.arrayContaining(ctx.comments[page.id])
+      );
+    });
+  });
 });
