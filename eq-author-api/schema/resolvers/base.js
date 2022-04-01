@@ -1363,10 +1363,12 @@ const Resolvers = {
 
   Comment: {
     user: ({ userId }) => getUserById(userId),
+    readBy: ({ readBy }) => readBy || [],
   },
 
   Reply: {
     user: ({ userId }) => getUserById(userId),
+    readBy: ({ readBy }) => readBy || [],
   },
 
   QuestionnaireInfo: {
