@@ -19,6 +19,8 @@ query GetQuestionnaire($input: QueryInput!) {
     }
     sections {
       id
+      title
+      alias
       displayName
       position
       folders {

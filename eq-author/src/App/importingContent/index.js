@@ -519,7 +519,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
                   title="Select the section(s) to import"
                   isOpen={selectingSections}
                   sections={sections}
-                  startingSelectedQuestions={questionsToImport}
+                  startingSelectedSections={sectionsToImport}
                   warningPanel="You cannot import folders but you can import any questions they contain."
                   showSearch
                   onClose={onGlobalCancel}

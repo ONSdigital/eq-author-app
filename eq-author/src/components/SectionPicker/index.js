@@ -11,9 +11,9 @@ import { colors } from "constants/theme";
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
 
-import SelectedPageContext, {
-  SelectedPagesProvider,
-} from "./SelectedPagesContext";
+import SelectedSectionContext, {
+  SelectedSectionsProvider,
+} from "./SelectedSectionsContext";
 
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
@@ -64,21 +64,24 @@ const WarningPanel = styled(IconText)`
 
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
-const Page = ({ page }) => {
-  const { title, displayName, alias } = page;
-  const { selectedPages, updateSelectedPages } =
-    useContext(SelectedPageContext);
+const Section = ({ section }) => {
+  const { title, displayName, alias } = section;
+  console.log("title :>> ", title);
+  // console.log('section :>> ', section);
+  const { selectedSections, updateSelectedSections } = useContext(
+    SelectedSectionContext
+  );
 
-  const itemSelected = isSelected(selectedPages, page);
+  const itemSelected = isSelected(selectedSections, section);
 
   const handleClick = () => {
     if (itemSelected) {
-      const selectionWithoutThisPage = selectedPages.filter(
-        (selectedPage) => selectedPage.id !== page.id
+      const selectionWithoutThisSection = selectedSections.filter(
+        (selectedSection) => selectedSection.id !== section.id
       );
-      updateSelectedPages(selectionWithoutThisPage);
+      updateSelectedSections(selectionWithoutThisSection);
     } else {
-      updateSelectedPages([...selectedPages, page]);
+      updateSelectedSections([...selectedSections, section]);
     }
   };
   return (
@@ -87,67 +90,9 @@ const Page = ({ page }) => {
       subtitle={alias}
       onClick={handleClick}
       selected={Boolean(itemSelected)}
-      dataTest="Page"
+      dataTest="SectionPickerItem"
     />
   );
-};
-Page.propTypes = {
-  page: PropTypes.object, // eslint-disable-line
-};
-
-const Folder = ({ folder }) => {
-  const { displayName, pages } = folder;
-
-  const numOfPagesInFolder = pages.length;
-
-  if (numOfPagesInFolder > 0) {
-    return (
-      <Item
-        icon={<FolderIcon />}
-        title={displayName}
-        unselectable
-        dataTest="folder"
-      >
-        <List className="sublist">
-          {pages.map((page) => (
-            <Page key={`page-${page.id}`} page={page} />
-          ))}
-        </List>
-      </Item>
-    );
-  }
-
-  return <React.Fragment />;
-};
-Folder.propTypes = {
-  folder: PropTypes.object, // eslint-disable-line
-};
-
-const Section = ({ section }) => {
-  const { displayName, folders } = section;
-
-  const numOfPagesInSection = getPages({ sections: [section] }).length;
-
-  if (numOfPagesInSection > 0) {
-    return (
-      <Item variant="heading" title={displayName} unselectable>
-        <List>
-          {folders.map((folder) => {
-            const { enabled } = folder;
-            if (enabled) {
-              return <Folder key={`folder-${folder.id}`} folder={folder} />;
-            } else {
-              return folder.pages.map((page) => (
-                <Page key={`page-${page.id}`} page={page} />
-              ));
-            }
-          })}
-        </List>
-      </Item>
-    );
-  }
-
-  return <React.Fragment />;
 };
 Section.propTypes = {
   section: PropTypes.object, // eslint-disable-line
@@ -162,11 +107,11 @@ const QuestionPicker = ({
   onClose,
   onCancel,
   onSubmit,
-  startingSelectedQuestions = [],
+  startingSelectedSections = [],
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSections, updateFilteredSections] = useState([]);
-  const [selectedPages, updateSelectedPages] = useState([]);
+  const [selectedSections, updateSelectedSections] = useState([]);
 
   useEffect(() => {
     updateFilteredSections(
@@ -175,8 +120,8 @@ const QuestionPicker = ({
   }, [sections, searchTerm]);
 
   useEffect(() => {
-    updateSelectedPages(startingSelectedQuestions);
-  }, [startingSelectedQuestions]);
+    updateSelectedSections(startingSelectedSections);
+  }, [startingSelectedSections]);
 
   const handleSubmit = (selection) => {
     onSubmit(selection);
@@ -192,26 +137,19 @@ const QuestionPicker = ({
             onChange={({ value }) => setSearchTerm(value)}
           />
         )}
-        {warningPanel && (
-          <WarningPanel icon={WarningIcon} left>
-            {warningPanel}
-          </WarningPanel>
-        )}
       </Header>
       <Main>
-        {getPages({
-          sections: searchByQuestionTitleOrShortCode(sections, searchTerm),
-        }).length > 0 ? (
+        {sections.length > 0 ? (
           <ScrollPane>
-            <SelectedPagesProvider
-              value={{ selectedPages, updateSelectedPages }}
+            <SelectedSectionsProvider
+              value={{ selectedSections, updateSelectedSections }}
             >
               <List>
                 {filteredSections.map((section) => (
                   <Section key={`section-${section.id}`} section={section} />
                 ))}
               </List>
-            </SelectedPagesProvider>
+            </SelectedSectionsProvider>
           </ScrollPane>
         ) : (
           <NoSearchResults
@@ -228,8 +166,8 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
-            disabled={selectedPages.length === 0}
-            onClick={() => handleSubmit(selectedPages)}
+            disabled={selectedSections.length === 0}
+            onClick={() => handleSubmit(selectedSections)}
           >
             Select
           </Button>
@@ -241,8 +179,7 @@ const QuestionPicker = ({
 QuestionPicker.propTypes = {
   title: PropTypes.string.isRequired,
   sections: PropTypes.array.isRequired, // eslint-disable-line
-  startingSelectedQuestions: PropTypes.array, // eslint-disable-line
-  warningPanel: PropTypes.string,
+  startingSelectedSections: PropTypes.array, // eslint-disable-line
   showSearch: PropTypes.bool,
   isOpen: PropTypes.bool,
   /**
