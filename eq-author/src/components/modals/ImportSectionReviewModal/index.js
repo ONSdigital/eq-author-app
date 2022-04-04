@@ -99,6 +99,7 @@ const ImportQuestionReviewModal = ({
   onSelectQuestions,
   onRemoveSingle,
   onRemoveAll,
+  onSelectSections,
 }) => (
   <Wizard
     isOpen={isOpen}
@@ -148,6 +149,11 @@ const ImportQuestionReviewModal = ({
             ? "Select more questions"
             : "Questions"}
         </Button>
+        <Button onClick={onSelectSections}>
+          {startingSelectedQuestions?.length >= 1
+            ? "Select more sections"
+            : "Sections"}
+        </Button>
       </Container>
     </Content>
   </Wizard>
@@ -161,6 +167,7 @@ ImportQuestionReviewModal.propTypes = {
   onSelectQuestions: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
+  onSelectSections: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }),
