@@ -2,6 +2,13 @@ const updateCommentsReadByEditors = require("./updateCommentsReadByEditors");
 const { buildContext } = require("../tests/utils/contextBuilder");
 
 const {
+  getQuestionnaireMetaById,
+  saveMetadata,
+  saveComments,
+  getCommentsForQuestionnaire,
+} = require("../db/datastore");
+
+const {
   queryComments,
   createComment,
   createReply,
@@ -90,6 +97,50 @@ describe("updateCommentsReadByEditors", () => {
 
     expect(updatedReply).toMatchObject({
       readBy: [user.id],
+    });
+  });
+
+  it("should add questionnaire author and editors to comment readBy array", async () => {
+    const { user } = ctx;
+    const metadata = await getQuestionnaireMetaById(ctx.questionnaire.id);
+    const componentId = ctx.questionnaire.sections[0].folders[0].pages[0].id;
+
+    metadata.editors = ["user1", "user2"];
+
+    await saveMetadata({
+      ...metadata,
+    });
+
+    await createComment(ctx, {
+      componentId,
+      commentText: "a new comment is created",
+    });
+
+    const queryNewComments = await queryComments(ctx, componentId);
+
+    const comment = queryNewComments.comments[0];
+    comment.readBy = null;
+
+    await saveComments({
+      comments: queryNewComments,
+      questionnaireId: ctx.questionnaire.id,
+    });
+
+    await updateCommentsReadByEditors(ctx.questionnaire);
+
+    const updatedQuestionnaireComments = await getCommentsForQuestionnaire(
+      ctx.questionnaire.id
+    );
+
+    const updatedPageComments = updatedQuestionnaireComments.comments;
+
+    // Default createdBy metadata value is ctx.user.id
+    expect(updatedPageComments).toMatchObject({
+      comments: [
+        {
+          readBy: [user.id, "user1", "user2"],
+        },
+      ],
     });
   });
 });
