@@ -26,7 +26,9 @@ mutation createComment($input: CreateCommentInput!) {
         email
         displayName
       }
+      readBy
     }
+    readBy
   }
 }`;
 

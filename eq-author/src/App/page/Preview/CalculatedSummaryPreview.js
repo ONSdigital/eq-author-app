@@ -88,7 +88,10 @@ const CalculatedSummaryPagePreview = ({ page }) => {
       preview
       logic
       validationErrorInfo={page.validationErrorInfo}
-      renderPanel={() => <CommentsPanel componentId={page.id} />}
+      renderPanel={() => (
+        <CommentsPanel comments={page.comments} componentId={page.id} />
+      )}
+      comments={page.comments}
     >
       <Panel data-test="calSum test page">
         <Container>

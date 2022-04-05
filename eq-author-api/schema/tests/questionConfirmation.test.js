@@ -70,6 +70,7 @@ describe("questionConfirmation", () => {
         ],
       });
       questionnaire = ctx.questionnaire;
+      ctx.comments = {};
       const update = {
         id: questionnaire.sections[0].folders[0].pages[0].confirmation.id,
         title: "title-updated",
@@ -97,6 +98,7 @@ describe("questionConfirmation", () => {
     beforeEach(async () => {
       ctx = await buildContext({
         metadata: [{}],
+        comments: {},
         sections: [
           {
             folders: [
@@ -244,6 +246,53 @@ describe("questionConfirmation", () => {
       );
       expect(queriedQuestionConfirmation.negative).toHaveProperty(
         "validationErrorInfo"
+      );
+    });
+  });
+
+  describe("comments", () => {
+    beforeEach(async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    confirmation: {},
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+      ctx.comments = {};
+    });
+
+    it("should retrieve comments from context", async () => {
+      const confirmation =
+        questionnaire.sections[0].folders[0].pages[0].confirmation;
+
+      ctx.comments[confirmation.id] = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+
+      const updatedQuestionConfirmation = await updateQuestionConfirmation(
+        ctx,
+        { id: confirmation.id }
+      );
+
+      expect(updatedQuestionConfirmation.comments).toEqual(
+        expect.arrayContaining(ctx.comments[confirmation.id])
       );
     });
   });

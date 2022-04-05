@@ -1,6 +1,7 @@
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
+#import "./fragments/comment.graphql"
 #import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
 
 query GetSection($input: QueryInput!) {
@@ -23,6 +24,9 @@ query GetSection($input: QueryInput!) {
     }
     validationErrorInfo {
       ...ValidationErrorInfo
+    }
+    comments {
+      ...Comment
     }
     folders {
       id

@@ -23,6 +23,10 @@ const updateQuestionnaireIntroductionMutation = `
           id
         }
       }
+      comments {
+        id
+        commentText
+      }
     }
   }
 `;

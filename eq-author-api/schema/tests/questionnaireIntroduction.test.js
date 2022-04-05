@@ -60,6 +60,8 @@ describe("questionnaire", () => {
         contactDetailsEmailAddress: "new contactDetailsEmailAddress",
       };
 
+      ctx.comments = {};
+
       const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
         id: questionnaire.introduction.id,
         ...changes,
@@ -71,6 +73,7 @@ describe("questionnaire", () => {
         additionalGuidancePanel: "new guidance panel",
         additionalGuidancePanelSwitch: true,
         validationErrorInfo: expect.any(Object),
+        comments: null,
         ...changes,
       });
     });
@@ -90,6 +93,8 @@ describe("questionnaire", () => {
         contactDetailsEmailAddress: "",
       };
 
+      ctx.comments = {};
+
       const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
         id: questionnaire.introduction.id,
         ...changes,
@@ -100,6 +105,31 @@ describe("questionnaire", () => {
         errors: expect.any(Array),
       });
       expect(updatedIntroduction.validationErrorInfo.errors).toHaveLength(2);
+    });
+  });
+
+  describe("comments", () => {
+    it("should retrieve comments from context", async () => {
+      ctx.comments = {};
+
+      ctx.comments[questionnaire.introduction.id] = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+
+      const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
+        id: questionnaire.introduction.id,
+      });
+
+      expect(updatedIntroduction.comments).toEqual(
+        expect.arrayContaining(ctx.comments[questionnaire.introduction.id])
+      );
     });
   });
 });

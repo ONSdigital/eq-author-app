@@ -30,6 +30,7 @@ const migrations = [
   require("./migrateFolder"),
   require("./addSummaryTitle"),
   require("./addCollectionLists"),
+  require("./updateCommentsReadByEditors"),
 ];
 
 const currentVersion = migrations.length;

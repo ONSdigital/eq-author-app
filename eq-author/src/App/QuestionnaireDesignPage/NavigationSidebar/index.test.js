@@ -1,6 +1,8 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import { useParams } from "react-router-dom";
+import { MeContext } from "App/MeContext";
+import Theme from "contexts/themeContext";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
@@ -19,8 +21,19 @@ const props = {
   questionnaire: buildQuestionnaire({ folderCount: 2 }),
 };
 
+const user = {
+  id: "1",
+  name: "Name",
+};
+
 const renderNavigationSidebar = (props) => {
-  const utils = render(<NavigationSidebar {...props} />);
+  const utils = render(
+    <MeContext.Provider value={{ me: user }}>
+      <Theme>
+        <NavigationSidebar {...props} />
+      </Theme>
+    </MeContext.Provider>
+  );
   return { ...props, ...utils };
 };
 

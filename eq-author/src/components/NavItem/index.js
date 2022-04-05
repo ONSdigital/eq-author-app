@@ -13,6 +13,7 @@ import {
 import Badge from "components/Badge";
 import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
+import CommentNotification from "components/Comments/CommentNotification";
 
 const Title = styled(Truncated)`
   color: ${colors.white};
@@ -63,6 +64,7 @@ const NavItem = ({
   bordered,
   errorCount,
   className,
+  unreadComment,
   dragHandleProps,
 }) => {
   return (
@@ -78,8 +80,15 @@ const NavItem = ({
     >
       {Icon && <Icon data-test="NavItem-icon" />}
       <Title data-test="NavItem-title">{title}</Title>
+      {unreadComment && (
+        <CommentNotification
+          id="comment-notification"
+          variant="nav"
+          data-test="comment-notification-nav"
+        />
+      )}
       {errorCount > 0 && (
-        <Badge variant="nav" medium data-test="NavItem-error">
+        <Badge id="badge" variant="nav" medium data-test="NavItem-error">
           <VisuallyHidden>
             <span>Amount of errors:</span>
           </VisuallyHidden>
@@ -100,6 +109,7 @@ NavItem.propTypes = {
   className: PropTypes.string,
   isDragging: PropTypes.bool,
   dragHandleProps: PropTypes.object, // eslint-disable-line
+  unreadComment: PropTypes.bool,
 };
 
 export default NavItem;

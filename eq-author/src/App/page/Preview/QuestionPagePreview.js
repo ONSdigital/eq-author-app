@@ -102,6 +102,7 @@ const QuestionPagePreview = ({ page }) => {
     additionalInfoContent,
     additionalInfoEnabled,
     answers,
+    comments,
   } = page;
 
   return (
@@ -110,7 +111,10 @@ const QuestionPagePreview = ({ page }) => {
       logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
-      renderPanel={() => <CommentsPanel componentId={page.id} />}
+      renderPanel={() => (
+        <CommentsPanel comments={page.comments} componentId={page.id} />
+      )}
+      comments={comments}
     >
       <Panel>
         <Container>

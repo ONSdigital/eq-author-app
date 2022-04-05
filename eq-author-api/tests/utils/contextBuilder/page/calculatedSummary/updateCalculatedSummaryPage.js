@@ -16,6 +16,10 @@ const updateCalculatedSummaryPageMutation = `
             id
         }
         totalTitle
+        comments {
+          id
+          commentText
+        }
     }
   }
 `;

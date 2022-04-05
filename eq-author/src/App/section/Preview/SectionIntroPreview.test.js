@@ -29,6 +29,7 @@ describe("SectionIntroPreview", () => {
         errors: [],
         __typename: "ValidationErrorInfo",
       },
+      comments: [],
     };
   });
 

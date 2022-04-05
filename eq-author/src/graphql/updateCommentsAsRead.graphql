@@ -1,0 +1,10 @@
+mutation UpdateCommentsAsRead($input: UpdateCommentsAsReadInput!) {
+  updateCommentsAsRead(input: $input) {
+    id
+    readBy
+    replies {
+      id
+      readBy
+    }
+  }
+}
