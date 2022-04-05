@@ -4,6 +4,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 
 import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
+import { useCreateListCollectorPage } from "hooks/useCreateListCollectorPage";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
 import FolderDesignPage from "./";
@@ -24,6 +25,7 @@ jest.mock("@apollo/react-hooks", () => ({
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
   useCreateCalculatedSummaryPage: jest.fn(),
+  useCreateListCollectorPage: jest.fn(),
 }));
 
 jest.mock("hooks/useCreateFolder", () => ({
