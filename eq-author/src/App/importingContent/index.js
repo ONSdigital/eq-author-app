@@ -281,12 +281,14 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   };
 
   const onReviewSectionsSubmit = (selectedSections) => {
-    const questionIds = selectedSections.map(({ id }) => id);
+    const sectionIds = selectedSections.map(({ id }) => id);
 
     let input = {
-      questionIds,
+      sectionIds,
       questionnaireId: questionnaireImportingFrom.id,
     };
+
+    console.log("currentEntityName :>> ", currentEntityName);
 
     switch (currentEntityName) {
       case "section": {
@@ -295,6 +297,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           index: 0,
         };
 
+        console.log("sectionId :>> ", currentEntityId);
+
         break;
       }
       case "folder": {
@@ -302,6 +306,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sourceQuestionnaire,
           currentEntityId
         );
+
+        console.log("sectionId :>> ", sectionId);
 
         const { position } = getFolderById(
           sourceQuestionnaire,
@@ -326,6 +332,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sourceQuestionnaire,
           currentEntityId
         );
+
+        console.log("sectionId :>> ", sectionId);
 
         input.position = {
           sectionId,
@@ -390,146 +398,111 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           }}
         </Query>
       )}
-      {selectingContent &&
-        (console.log("SELECTING CONTENT"),
-        console.log("selectingQuestionnaire", selectingQuestionnaire),
-        console.log("reviewingQuestions", reviewingQuestions),
-        console.log("selectingQuestions", selectingQuestions),
-        console.log("reviewingSections", reviewingSections),
-        console.log("selectingSections", selectingSections),
-        (
-          <SelectContentModal
-            isOpen={selectingContent}
-            questionnaire={questionnaireImportingFrom}
-            onCancel={onGlobalCancel}
-            onConfirm={onReviewQuestionsSubmit}
-            onBack={onBackFromReviewingQuestions}
-            onSelectQuestions={onSelectQuestions}
-            onSelectSections={onSelectSections}
-          />
-        ))}
-      {reviewingQuestions &&
-        (console.log("REVIEWING QUESTIONS"),
-        console.log("selectingQuestionnaire", selectingQuestionnaire),
-        console.log("reviewingQuestions", reviewingQuestions),
-        console.log("selectingQuestions", selectingQuestions),
-        console.log("reviewingSections", reviewingSections),
-        console.log("selectingSections", selectingSections),
-        (
-          <ReviewQuestionsModal
-            isOpen={reviewingQuestions}
-            questionnaire={questionnaireImportingFrom}
-            startingSelectedQuestions={questionsToImport}
-            onCancel={onGlobalCancel}
-            onConfirm={onReviewQuestionsSubmit}
-            onBack={onBackFromReviewingQuestions}
-            onSelectQuestions={onSelectQuestions}
-            onRemoveAll={onRemoveAllSelectedQuestions}
-            onRemoveSingle={onRemoveSingleSelectedQuestion}
-          />
-        ))}
-      {selectingQuestions &&
-        (console.log("SELECTING QUESTIONS"),
-        console.log("selectingQuestionnaire", selectingQuestionnaire),
-        console.log("reviewingQuestions", reviewingQuestions),
-        console.log("selectingQuestions", selectingQuestions),
-        console.log("reviewingSections", reviewingSections),
-        console.log("selectingSections", selectingSections),
-        (
-          <Query
-            query={GET_QUESTIONNAIRE}
-            variables={{
-              input: { questionnaireId: questionnaireImportingFrom.id },
-            }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <React.Fragment />;
-              }
+      {selectingContent && (
+        <SelectContentModal
+          isOpen={selectingContent}
+          questionnaire={questionnaireImportingFrom}
+          onCancel={onGlobalCancel}
+          onConfirm={onReviewQuestionsSubmit}
+          onBack={onBackFromReviewingQuestions}
+          onSelectQuestions={onSelectQuestions}
+          onSelectSections={onSelectSections}
+        />
+      )}
+      {reviewingQuestions && (
+        <ReviewQuestionsModal
+          isOpen={reviewingQuestions}
+          questionnaire={questionnaireImportingFrom}
+          startingSelectedQuestions={questionsToImport}
+          onCancel={onGlobalCancel}
+          onConfirm={onReviewQuestionsSubmit}
+          onBack={onBackFromReviewingQuestions}
+          onSelectQuestions={onSelectQuestions}
+          onRemoveAll={onRemoveAllSelectedQuestions}
+          onRemoveSingle={onRemoveSingleSelectedQuestion}
+        />
+      )}
+      {selectingQuestions && (
+        <Query
+          query={GET_QUESTIONNAIRE}
+          variables={{
+            input: { questionnaireId: questionnaireImportingFrom.id },
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <React.Fragment />;
+            }
 
-              if (error || !data) {
-                return <React.Fragment />;
-              }
+            if (error || !data) {
+              return <React.Fragment />;
+            }
 
-              const { sections } = data.questionnaire;
+            const { sections } = data.questionnaire;
 
-              return (
-                <QuestionPicker
-                  title="Select the question(s) to import"
-                  isOpen={selectingQuestions}
-                  sections={sections}
-                  startingSelectedQuestions={questionsToImport}
-                  warningPanel="You cannot import folders but you can import any questions they contain."
-                  showSearch
-                  onClose={onGlobalCancel}
-                  onCancel={onQuestionPickerCancel}
-                  onSubmit={onQuestionPickerSubmit}
-                />
-              );
-            }}
-          </Query>
-        ))}
-      {reviewingSections &&
-        (console.log("REVIEWING SECTIONS"),
-        console.log("selectingQuestionnaire", selectingQuestionnaire),
-        console.log("reviewingQuestions", reviewingQuestions),
-        console.log("selectingQuestions", selectingQuestions),
-        console.log("reviewingSections", reviewingSections),
-        console.log("selectingSections", selectingSections),
-        (
-          <ReviewSectionsModal
-            isOpen={reviewingSections}
-            questionnaire={questionnaireImportingFrom}
-            startingSelectedSections={sectionsToImport}
-            onCancel={onGlobalCancel}
-            onConfirm={onReviewSectionsSubmit}
-            onBack={onBackFromReviewingSections}
-            onSelectSections={onSelectSections}
-            onRemoveAll={onRemoveAllSelectedSections}
-            onRemoveSingle={onRemoveSingleSelectedSection}
-          />
-        ))}
-      {selectingSections &&
-        (console.log("SELECTING SECTIONS"),
-        console.log("selectingQuestionnaire", selectingQuestionnaire),
-        console.log("reviewingQuestions", reviewingQuestions),
-        console.log("selectingQuestions", selectingQuestions),
-        console.log("reviewingSections", reviewingSections),
-        console.log("selectingSections", selectingSections),
-        (
-          <Query
-            query={GET_QUESTIONNAIRE}
-            variables={{
-              input: { questionnaireId: questionnaireImportingFrom.id },
-            }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) {
-                return <React.Fragment />;
-              }
+            return (
+              <QuestionPicker
+                title="Select the question(s) to import"
+                isOpen={selectingQuestions}
+                sections={sections}
+                startingSelectedQuestions={questionsToImport}
+                warningPanel="You cannot import folders but you can import any questions they contain."
+                showSearch
+                onClose={onGlobalCancel}
+                onCancel={onQuestionPickerCancel}
+                onSubmit={onQuestionPickerSubmit}
+              />
+            );
+          }}
+        </Query>
+      )}
+      {reviewingSections && (
+        <ReviewSectionsModal
+          isOpen={reviewingSections}
+          questionnaire={questionnaireImportingFrom}
+          startingSelectedSections={sectionsToImport}
+          onCancel={onGlobalCancel}
+          onConfirm={onReviewSectionsSubmit}
+          onBack={onBackFromReviewingSections}
+          onSelectSections={onSelectSections}
+          onRemoveAll={onRemoveAllSelectedSections}
+          onRemoveSingle={onRemoveSingleSelectedSection}
+        />
+      )}
+      {selectingSections && (
+        <Query
+          query={GET_QUESTIONNAIRE}
+          variables={{
+            input: { questionnaireId: questionnaireImportingFrom.id },
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <React.Fragment />;
+            }
 
-              if (error || !data) {
-                return <React.Fragment />;
-              }
+            if (error || !data) {
+              return <React.Fragment />;
+            }
 
-              const { sections } = data.questionnaire;
+            const { sections } = data.questionnaire;
 
-              return (
-                <SectionPicker
-                  title="Select the section(s) to import"
-                  isOpen={selectingSections}
-                  sections={sections}
-                  startingSelectedSections={sectionsToImport}
-                  warningPanel="You cannot import folders but you can import any questions they contain."
-                  showSearch
-                  onClose={onGlobalCancel}
-                  onCancel={onSectionPickerCancel}
-                  onSubmit={onSectionPickerSubmit}
-                />
-              );
-            }}
-          </Query>
-        ))}
+            return (
+              <SectionPicker
+                title="Select the section(s) to import"
+                isOpen={selectingSections}
+                sections={sections}
+                startingSelectedSections={sectionsToImport}
+                warningPanel="You cannot import folders but you can import any questions they contain."
+                showSearch
+                onClose={onGlobalCancel}
+                onCancel={onSectionPickerCancel}
+                onSubmit={onSectionPickerSubmit}
+              />
+            );
+          }}
+        </Query>
+      )}
     </>
   );
 };

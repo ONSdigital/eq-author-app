@@ -812,6 +812,12 @@ input ImportQuestionsInput {
   position: Position!
 }
 
+input ImportSectionsInput {
+  questionnaireId: ID!
+  sectionIds: [ID!]!
+  position: Position!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -820,6 +826,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
+  importSections(input: ImportSectionsInput!): Section
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
