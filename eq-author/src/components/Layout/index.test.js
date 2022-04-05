@@ -43,9 +43,8 @@ describe("Layout", () => {
     expect(getByText("Contents")).toBeTruthy();
   });
 
-  it("should show the user profile when the user is logged in", async () => {
-    const { getByText } = renderLayoutWithContext(props);
-
-    expect(getByText("Teri Dactyl")).toBeTruthy();
+  it("should show the sign out button the user is logged in", () => {
+    const { getByTestId } = renderLayoutWithContext(props);
+    expect(getByTestId("signOut-btn")).toBeTruthy();
   });
 });

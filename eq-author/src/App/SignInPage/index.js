@@ -17,6 +17,7 @@ import ResetPassword from "./ResetPassword";
 import CreateAccount from "./CreateAccount";
 import EmailVerification from "./EmailVerification";
 import ApiError from "./ApiError";
+import Theme from "contexts/themeContext";
 
 const MainPanel = styled.div`
   margin: 2em auto 0;
@@ -90,84 +91,86 @@ const SignInPage = ({
 
   return (
     <>
-      {me && <Redirect to="/" />}
+      <Theme themeName={"ons"}>
+        {me && <Redirect to="/" />}
 
-      <Layout title="Author">
-        <MainPanel>
-          {isSigningIn && !sentEmailVerification && (
-            <Loading height="38rem">Logging you in...</Loading>
-          )}
-          <Grid>
-            <Column cols={8}>
-              {!recoverPassword &&
-                !createAccount &&
-                !sentEmailVerification &&
-                !resetPassword &&
-                !isSigningIn &&
-                !apiError && (
-                  <SignInForm
+        <Layout title="Author">
+          <MainPanel>
+            {isSigningIn && !sentEmailVerification && (
+              <Loading height="38rem">Logging you in...</Loading>
+            )}
+            <Grid>
+              <Column cols={8}>
+                {!recoverPassword &&
+                  !createAccount &&
+                  !sentEmailVerification &&
+                  !resetPassword &&
+                  !isSigningIn &&
+                  !apiError && (
+                    <SignInForm
+                      recoverPassword={recoverPassword}
+                      setForgotPassword={setForgotPassword}
+                      setCreateAccountFunction={setCreateAccountFunction}
+                      errorMessage={errorMessage}
+                      setErrorMessage={setErrorMessage}
+                      passwordResetSuccess={passwordResetSuccess}
+                      setPasswordResetSuccess={setPasswordResetSuccess}
+                      emailNowVerified={emailNowVerified}
+                      setEmailNowVerified={setEmailNowVerified}
+                    />
+                  )}
+                {recoverPassword && (
+                  <RecoverPassword
+                    recoveryEmail={recoveryEmail}
+                    setRecoveryEmail={setRecoveryEmail}
                     recoverPassword={recoverPassword}
                     setForgotPassword={setForgotPassword}
-                    setCreateAccountFunction={setCreateAccountFunction}
                     errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
-                    passwordResetSuccess={passwordResetSuccess}
-                    setPasswordResetSuccess={setPasswordResetSuccess}
-                    emailNowVerified={emailNowVerified}
-                    setEmailNowVerified={setEmailNowVerified}
                   />
                 )}
-              {recoverPassword && (
-                <RecoverPassword
-                  recoveryEmail={recoveryEmail}
-                  setRecoveryEmail={setRecoveryEmail}
-                  recoverPassword={recoverPassword}
-                  setForgotPassword={setForgotPassword}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                />
-              )}
-              {resetPassword && (
-                <ResetPassword
-                  setForgotPassword={setForgotPassword}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                  actionCode={actionCode}
-                  resetThePassword={resetThePassword}
-                  setPasswordResetSuccess={setPasswordResetSuccess}
-                  signOut={signOut}
-                />
-              )}
-              {createAccount && (
-                <CreateAccount
-                  setCreateAccountFunction={setCreateAccountFunction}
-                  setForgotPassword={setForgotPassword}
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                  setVerificationEmail={setVerificationEmail}
-                />
-              )}
-              {sentEmailVerification && !errorMessage && (
-                <EmailVerification
-                  verificationEmail={verificationEmail}
-                  emailNowVerified={emailNowVerified}
-                  setErrorMessage={setErrorMessage}
-                  signOut={signOut}
-                />
-              )}
-              {apiError && (
-                <ApiError
-                  errorMessage={errorMessage}
-                  setErrorMessage={setErrorMessage}
-                  setApiError={setApiError}
-                  signOut={signOut}
-                  verificationEmail={verificationEmail}
-                />
-              )}
-            </Column>
-          </Grid>
-        </MainPanel>
-      </Layout>
+                {resetPassword && (
+                  <ResetPassword
+                    setForgotPassword={setForgotPassword}
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    actionCode={actionCode}
+                    resetThePassword={resetThePassword}
+                    setPasswordResetSuccess={setPasswordResetSuccess}
+                    signOut={signOut}
+                  />
+                )}
+                {createAccount && (
+                  <CreateAccount
+                    setCreateAccountFunction={setCreateAccountFunction}
+                    setForgotPassword={setForgotPassword}
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    setVerificationEmail={setVerificationEmail}
+                  />
+                )}
+                {sentEmailVerification && !errorMessage && (
+                  <EmailVerification
+                    verificationEmail={verificationEmail}
+                    emailNowVerified={emailNowVerified}
+                    setErrorMessage={setErrorMessage}
+                    signOut={signOut}
+                  />
+                )}
+                {apiError && (
+                  <ApiError
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    setApiError={setApiError}
+                    signOut={signOut}
+                    verificationEmail={verificationEmail}
+                  />
+                )}
+              </Column>
+            </Grid>
+          </MainPanel>
+        </Layout>
+      </Theme>
     </>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { UnwrappedTabs, Tab, activeClassName } from "./";
 import { render, flushPromises, act } from "tests/utils/rtl";
+import Theme from "contexts/themeContext";
 
 describe("Tabs", () => {
   let props;
@@ -68,6 +69,22 @@ describe("Tabs", () => {
 
     expect(getByTestId("small-badge")).toBeTruthy();
   });
+
+  it("should display comment notification if there are unread comments", async () => {
+    props.unreadComment = true;
+    const { getByTestId } = render(
+      <Theme>
+        <UnwrappedTabs {...props} design logic preview />
+      </Theme>
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByTestId("comment-notification-tabs")).toBeTruthy();
+  });
+
   it("should provide the validation error dot for the logic tab if design page has error", async () => {
     props.validationErrorInfo = {
       totalCount: 2,

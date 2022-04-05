@@ -1,6 +1,8 @@
 #import "./fragments/folder.graphql"
 #import "./fragments/page.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/comment.graphql"
+
 mutation CreateFolder($input: CreateFolderInput!) {
   createFolder(input: $input) {
     ...Folder
@@ -21,6 +23,9 @@ mutation CreateFolder($input: CreateFolderInput!) {
             }
             confirmation {
               id
+            }
+            comments {
+              ...Comment
             }
           }
           ... on CalculatedSummaryPage {

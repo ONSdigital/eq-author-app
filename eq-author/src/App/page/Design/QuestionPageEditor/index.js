@@ -12,6 +12,7 @@ import withEntityEditor from "components/withEntityEditor";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 import PageHeader from "../PageHeader";
 import withUpdateAnswer from "../answers/withUpdateAnswer";
@@ -188,6 +189,9 @@ UnwrappedQuestionPageEditor.fragments = {
       additionalInfoEnabled
       displayName
       position
+      comments {
+        ...Comment
+      }
       answers {
         ...AnswerEditor
       }
@@ -215,6 +219,7 @@ UnwrappedQuestionPageEditor.fragments = {
         ...ValidationErrorInfo
       }
     }
+    ${CommentFragment}
     ${ValidationErrorInfoFragment}
     ${TotalValidationRuleFragment}
     ${AnswersEditor.fragments.AnswersEditor}

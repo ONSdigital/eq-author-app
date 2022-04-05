@@ -5,6 +5,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import Loading from "components/Loading";
 import Layout from "components/Layout";
+import Theme from "contexts/themeContext";
 
 import { withMe } from "App/MeContext";
 
@@ -22,9 +23,11 @@ const PrivateRoute = React.memo(
 
     if (isSigningIn) {
       render = () => (
-        <Layout title="Logging in...">
-          <Loading height="38rem">Logging you in...</Loading>
-        </Layout>
+        <Theme themeName={"ons"}>
+          <Layout title="Author">
+            <Loading height="38rem">Logging you in...</Loading>
+          </Layout>
+        </Theme>
       );
     } else if (me) {
       render = (props) => <Component {...props} />;

@@ -10,11 +10,12 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 import Layout from "components/Layout";
 import Loading from "components/Loading";
 import Error from "components/Error";
+import Theme from "contexts/themeContext";
 
 import * as Headings from "constants/table-headings";
 
-import QuestionnairesTable from "components/QuestionnairesView/QuestionnairesTable";
-import QuestionnairesView from "components/QuestionnairesView";
+import QuestionnairesTable from "components-themed/HomepageQuestionnairesView/QuestionnairesTable";
+import QuestionnairesView from "components-themed/HomepageQuestionnairesView";
 
 import deleteQuestionnaireMutation from "graphql/deleteQuestionnaire.graphql";
 
@@ -38,9 +39,9 @@ const enabledHeadings = [
   Headings.OWNER,
   Headings.CREATED,
   Headings.MODIFIED,
-  Headings.PERMISSIONS,
   Headings.LOCKED,
   Headings.STARRED,
+  Headings.ACCESS,
   Headings.ACTIONS,
 ];
 
@@ -59,17 +60,21 @@ const QuestionnairesPage = ({
 
   if (loading) {
     return (
-      <Layout title="Questionnaires">
-        <Loading height="24.25rem">Questionnaires loading…</Loading>
-      </Layout>
+      <Theme themeName={"ons"}>
+        <Layout title="Author">
+          <Loading height="24.25rem">Questionnaires loading…</Loading>
+        </Layout>
+      </Theme>
     );
   }
 
   if (error || !data) {
     return (
-      <Layout title="Questionnaires">
-        <Error>Oops! Questionnaires could not be found</Error>
-      </Layout>
+      <Theme themeName={"ons"}>
+        <Layout title="Author">
+          <Error>Oops! Questionnaires could not be found</Error>
+        </Layout>
+      </Theme>
     );
   }
   const handleClick = (questionnaireId) =>
@@ -86,18 +91,20 @@ const QuestionnairesPage = ({
   };
 
   return (
-    <Layout title="Questionnaires">
-      <QuestionnairesView
-        questionnaires={data.questionnaires}
-        onDeleteQuestionnaire={onDeleteQuestionnaire}
-        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-        onCreateQuestionnaire={onCreateQuestionnaire}
-        enabledHeadings={enabledHeadings}
-        onQuestionnaireClick={handleClick}
-        canCreateQuestionnaire
-        padding="large"
-      />
-    </Layout>
+    <Theme themeName={"ons"}>
+      <Layout title="Author">
+        <QuestionnairesView
+          questionnaires={data.questionnaires}
+          onDeleteQuestionnaire={onDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onCreateQuestionnaire={onCreateQuestionnaire}
+          enabledHeadings={enabledHeadings}
+          onQuestionnaireClick={handleClick}
+          canCreateQuestionnaire
+          padding="large"
+        />
+      </Layout>
+    </Theme>
   );
 };
 

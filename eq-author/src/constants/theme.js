@@ -24,6 +24,7 @@ export const colors = {
   lightGreen: "#EDF4F0",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
+  darkGreen: "#424344",
   black: "#222222",
   sidebarBlack: "#333333",
   white: "#FFFFFF",
@@ -34,15 +35,20 @@ export const colors = {
   oceanBlue: "#206095",
   skyBlue: "#27a0cc",
   aquaTeal: "#00a3a6",
+  blueLink: "#236198",
   leafGreen: "#0f8243",
   rubyRed: "#d0021b",
   jaffaOrange: "#fa6401",
   sunYellow: "#fbc900",
   neonYellow: "#f0f762",
+  grey150: "#282b2b",
   grey100: "#414042",
+  grey80: "#737373",
   grey75: "#707071",
+  grey70: "#858587",
   grey35: "#bcbcbd",
   grey15: "#e2e2e3",
+  grey6: "#f5f5f7",
   grey5: "#f5f5f6",
   infoTint: "#e9eff4",
   infoVibrant: "#1f84d8",
@@ -78,6 +84,7 @@ colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
+colors.commentHighlight = colors.darkGreen;
 
 export const radius = "4px";
 
@@ -113,6 +120,23 @@ export const activeNavItemStyle = css`
   > svg {
     path {
       fill: ${colors.black};
+    }
+  }
+
+  #comment-notification {
+    border-top: 1px solid ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-bottom: 1px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-right: 2px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-left: 4px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+
+    &::before {
+      border-left: 6px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
+      border-top: 6px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
     }
   }
 `;

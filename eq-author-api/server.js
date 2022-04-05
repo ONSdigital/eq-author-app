@@ -19,6 +19,7 @@ const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 const convertQuestionnaire = require("./middleware/convertQuestionnaire");
+const loadComments = require("./middleware/loadComments");
 
 const schema = require("./schema");
 
@@ -100,6 +101,7 @@ const createApp = () => {
     rejectUnidentifiedUsers,
     loadQuestionnaire,
     runQuestionnaireMigrations(logger)(require("./migrations")),
+    loadComments,
     validateQuestionnaire
   );
 
@@ -115,6 +117,7 @@ const createApp = () => {
       return {
         questionnaire: req.questionnaire,
         user: req.user,
+        comments: req.comments,
         validationErrorInfo: req.validationErrorInfo,
       };
     },

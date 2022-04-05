@@ -66,6 +66,7 @@ describe("section", () => {
         sections: [{}],
       });
       questionnaire = ctx.questionnaire;
+      ctx.comments = {};
     });
 
     it("should mutate a section", async () => {
@@ -233,6 +234,7 @@ describe("section", () => {
 
         questionnaire = ctx.questionnaire;
         section = questionnaire.sections[0];
+        ctx.comments = {};
       });
 
       it("should not validate the section title if Hub is off", async () => {
@@ -317,6 +319,44 @@ describe("section", () => {
           errors: expect.any(Array),
         });
         expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+      });
+    });
+
+    describe("comments", () => {
+      beforeEach(async () => {
+        ctx = await buildContext({
+          sections: [{}, {}],
+        });
+        questionnaire = ctx.questionnaire;
+      });
+
+      it("should retrieve comments from context", async () => {
+        const section = questionnaire.sections[0];
+
+        const update = {
+          id: section.id,
+          title: section.title,
+          introductionTitle: "",
+          introductionContent: "",
+        };
+        ctx.comments = {};
+
+        ctx.comments[section.id] = [
+          {
+            id: "comment-1",
+            commentText: "Test comment 1",
+          },
+          {
+            id: "comment-2",
+            commentText: "Test comment 2",
+          },
+        ];
+
+        const updatedSection = await updateSection(ctx, update);
+
+        expect(updatedSection.comments).toEqual(
+          expect.arrayContaining(ctx.comments[section.id])
+        );
       });
     });
   });

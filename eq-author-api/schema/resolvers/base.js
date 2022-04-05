@@ -99,7 +99,6 @@ const {
   createComments,
   saveMetadata,
   saveComments,
-  getCommentsForQuestionnaire,
   updateUser,
 } = require("../../db/datastore");
 
@@ -178,9 +177,9 @@ const createNewQuestionnaire = (input) => {
   };
 };
 
-const publishCommentUpdates = (componentId) => {
+const publishCommentUpdates = (questionnaireId) => {
   pubsub.publish("commentsUpdated", {
-    componentId,
+    questionnaireId,
   });
 };
 
@@ -278,8 +277,7 @@ const Resolvers = {
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
     comments: async (root, { id }, ctx) => {
-      const questionnaireId = ctx.questionnaire.id;
-      const { comments } = await getCommentsForQuestionnaire(questionnaireId);
+      const comments = ctx.comments;
 
       if (comments[id]) {
         return comments[id];
@@ -335,13 +333,13 @@ const Resolvers = {
       resolve: (questionnaire) => questionnaire,
     },
     commentsUpdated: {
-      resolve: ({ componentId }) => {
-        return { id: componentId };
+      resolve: ({ questionnaireId }) => {
+        return { id: questionnaireId };
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator(["commentsUpdated"]),
         (payload, variables) => {
-          return payload.componentId === variables.id;
+          return payload.questionnaireId === variables.id;
         }
       ),
     },
@@ -1055,65 +1053,106 @@ const Resolvers = {
       const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
+      const componentComments = questionnaireComments[componentId];
+
       const newComment = {
         id: uuidv4(),
         commentText: commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
         replies: [],
+        readBy: [ctx.user.id],
       };
 
-      const componentComments = questionnaireComments.comments[componentId];
-
       if (componentComments) {
-        questionnaireComments.comments[componentId].push(newComment);
+        componentComments.push(newComment);
       } else {
-        questionnaireComments.comments[componentId] = [newComment];
+        questionnaireComments[componentId] = [newComment];
       }
 
-      await saveComments(questionnaireComments);
-      publishCommentUpdates(componentId);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
+      publishCommentUpdates(questionnaire.id);
 
       return newComment;
+    },
+    updateCommentsAsRead: async (_, { input }, ctx) => {
+      /*  updateCommentAsRead must run after getPage - getPage returns one readBy user, updateCommentAsRead returns two
+          If getPage runs after updateCommentAsRead, the readBy data is overwritten and only one user is returned
+          This causes the notification to be displayed when the user has read the comment
+      */
+      const sleep = (ms) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      };
+
+      await sleep(10);
+
+      const { pageId, userId } = input;
+
+      const questionnaireComments = ctx.comments;
+
+      const pageComments = questionnaireComments[pageId];
+
+      pageComments.forEach((comment) => {
+        if (!comment.readBy.includes(userId)) {
+          comment.readBy.push(userId);
+        }
+        comment.replies.forEach((reply) => {
+          if (!reply.readBy.includes(userId)) {
+            reply.readBy.push(userId);
+          }
+        });
+      });
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
+
+      return pageComments;
     },
     deleteComment: async (_, { input }, ctx) => {
       const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
+      const componentComments = questionnaireComments[componentId];
 
-      const componentComments = questionnaireComments.comments[componentId];
       if (componentComments) {
         remove(componentComments, ({ id }) => id === commentId);
-        await saveComments(questionnaireComments);
+        await saveComments({
+          questionnaireId: ctx.questionnaire.id,
+          comments: questionnaireComments,
+        });
       }
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
       return componentComments;
     },
     updateComment: async (_, { input }, ctx) => {
       const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
-      const pageComments = questionnaireComments.comments[componentId];
+      const questionnaireComments = ctx.comments;
+      const componentComments = questionnaireComments[componentId];
 
-      if (!pageComments) {
+      if (!componentComments) {
         throw new Error("No comments found");
       }
 
-      const commentToEdit = pageComments.find(({ id }) => id === commentId);
+      const commentToEdit = componentComments.find(
+        ({ id }) => id === commentId
+      );
       commentToEdit.commentText = commentText;
       commentToEdit.editedTime = new Date();
-      await saveComments(questionnaireComments);
+      commentToEdit.readBy = [ctx.user.id];
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return commentToEdit;
     },
@@ -1121,9 +1160,7 @@ const Resolvers = {
       const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
 
       const newReply = {
         id: uuidv4(),
@@ -1131,19 +1168,25 @@ const Resolvers = {
         commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
+        readBy: [ctx.user.id],
       };
-      let parentComment = questionnaireComments.comments[componentId].find(
+
+      let parentComment = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       );
+
       if (parentComment) {
         parentComment.replies.push(newReply);
       } else {
         parentComment = [newReply];
       }
 
-      await saveComments(questionnaireComments);
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return newReply;
     },
@@ -1151,10 +1194,8 @@ const Resolvers = {
       const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
-      const replies = questionnaireComments.comments[componentId].find(
+      const questionnaireComments = ctx.comments;
+      const replies = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       ).replies;
 
@@ -1165,28 +1206,33 @@ const Resolvers = {
       const replyToEdit = replies.find(({ id }) => id === replyId);
       replyToEdit.commentText = commentText;
       replyToEdit.editedTime = new Date();
-      await saveComments(questionnaireComments);
+      replyToEdit.readBy = [ctx.user.id];
+      await saveComments({
+        questionnaireId: ctx.questionnaire.id,
+        comments: questionnaireComments,
+      });
 
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
       return replyToEdit;
     },
     deleteReply: async (_, { input }, ctx) => {
       const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
 
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
+      const questionnaireComments = ctx.comments;
 
-      const replies = questionnaireComments.comments[componentId].find(
+      const replies = questionnaireComments[componentId].find(
         ({ id }) => id === commentId
       ).replies;
 
       if (replies) {
         remove(replies, ({ id }) => id === replyId);
-        await saveComments(questionnaireComments);
+        await saveComments({
+          questionnaireId: ctx.questionnaire.id,
+          comments: questionnaireComments,
+        });
       }
-      publishCommentUpdates(componentId);
+      publishCommentUpdates(questionnaire.id);
 
       return replies;
     },
@@ -1349,6 +1395,10 @@ const Resolvers = {
   QuestionnaireIntroduction: {
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
+    comments: ({ id }, args, ctx) => ctx.comments[id],
+  },
+  Submission: {
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
   Section: {
@@ -1366,6 +1416,7 @@ const Resolvers = {
         ({ sectionId, folderId, pageId }) =>
           id === sectionId && !pageId && !folderId
       ),
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
   Folder: {
@@ -1655,6 +1706,7 @@ const Resolvers = {
         totalCount: confirmationQuestionErrors.length,
       };
     },
+    comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
   ConfirmationOption: {

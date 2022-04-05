@@ -1,3 +1,4 @@
+#import "graphql/fragments/comment.graphql"
 query GetSubmissionQuery {
   submission {
     id
@@ -5,5 +6,8 @@ query GetSubmissionQuery {
     viewPrintAnswers
     emailConfirmation
     feedback
+    comments {
+      ...Comment
+    }
   }
 }

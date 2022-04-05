@@ -49,6 +49,7 @@ Resolvers.CalculatedSummaryPage = {
 
   validationErrorInfo: ({ id }, args, ctx) =>
     returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
+  comments: ({ id }, args, ctx) => ctx.comments[id],
 };
 
 Resolvers.Mutation = {

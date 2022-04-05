@@ -537,4 +537,49 @@ describe("calculated Summary", () => {
       expect(summaryAnswers).toHaveLength(2);
     });
   });
+
+  describe("comments", () => {
+    it("should retrieve comments from context", async () => {
+      const ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    pageType: "calculatedSummary",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const calculatedSummaryPage =
+        ctx.questionnaire.sections[0].folders[0].pages[0];
+
+      ctx.comments[calculatedSummaryPage.id] = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+
+      const updatedCalculatedSummaryPage = await updateCalculatedSummaryPage(
+        ctx,
+        {
+          id: calculatedSummaryPage.id,
+        }
+      );
+
+      expect(updatedCalculatedSummaryPage.comments).toEqual(
+        expect.arrayContaining(ctx.comments[calculatedSummaryPage.id])
+      );
+    });
+  });
 });
