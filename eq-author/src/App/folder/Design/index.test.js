@@ -2,10 +2,7 @@ import React from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import {
-  useCreateQuestionPage,
-  useCreateListCollectorPage,
-} from "hooks/useCreateQuestionPage";
+import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
