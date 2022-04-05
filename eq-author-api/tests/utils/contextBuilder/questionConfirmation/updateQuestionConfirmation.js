@@ -13,6 +13,10 @@ const updateQuestionConfirmationMutation = `
         label
         description
       }
+      comments {
+        id
+        commentText
+      }
     }
   }
 `;

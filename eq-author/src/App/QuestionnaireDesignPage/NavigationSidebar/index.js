@@ -5,8 +5,10 @@ import { useParams } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+import { useMe } from "App/MeContext";
 
 import { buildIntroductionPath, buildSubmissionPath } from "utils/UrlUtils";
+import hasUnreadComments from "utils/hasUnreadComments";
 import { enableOn } from "utils/featureFlags";
 import onDragEnd from "./dragDropFunctions/onDragEnd";
 
@@ -97,6 +99,7 @@ const BorderedNavItem = styled(NavItem)`
 `;
 
 const NavigationSidebar = ({ questionnaire }) => {
+  const { me } = useMe();
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
 
@@ -146,6 +149,10 @@ const NavigationSidebar = ({ questionnaire }) => {
                     errorCount={
                       questionnaire.introduction.validationErrorInfo.totalCount
                     }
+                    unreadComment={hasUnreadComments(
+                      questionnaire?.introduction?.comments,
+                      me.id
+                    )}
                   />
                 </MenuListItem>
               )}
@@ -191,6 +198,10 @@ const NavigationSidebar = ({ questionnaire }) => {
                       entityId
                     )}
                     icon={SubmissionIcon}
+                    unreadComment={hasUnreadComments(
+                      questionnaire?.submission?.comments,
+                      me.id
+                    )}
                   />
                 </MenuListItem>
               )}

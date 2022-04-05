@@ -2,6 +2,7 @@
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
 #import "./fragments/questionnaire.graphql"
+#import "./fragments/comment.graphql"
 
 mutation CreateSection($input: CreateSectionInput!) {
   createSection(input: $input) {
@@ -28,6 +29,9 @@ mutation CreateSection($input: CreateSectionInput!) {
           }
           validationErrorInfo {
             ...ValidationErrorInfo
+          }
+          comments {
+            ...Comment
           }
         }
       }

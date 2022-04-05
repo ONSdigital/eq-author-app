@@ -27,6 +27,10 @@ const updateSectionMutation = `
           id
         }
       }
+      comments {
+        id
+        commentText
+      }
     }
   }
 `;

@@ -69,6 +69,7 @@ export const UnwrappedPageRoute = (props) => {
   });
 
   const { questionnaire } = useQuestionnaire();
+  const { comments } = page;
 
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
@@ -140,6 +141,7 @@ export const UnwrappedPageRoute = (props) => {
         title={page?.displayName || ""}
         onAddQuestionPage={onAddQuestionPage}
         validationErrorInfo={page?.validationErrorInfo}
+        comments={comments}
         {...(availableTabMatrix[page?.pageType] || {})}
       >
         <Panel>

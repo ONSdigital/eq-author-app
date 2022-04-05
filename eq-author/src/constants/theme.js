@@ -24,6 +24,7 @@ export const colors = {
   lightGreen: "#EDF4F0",
   green: "#0f8243",
   highlightGreen: "#dce5b0",
+  darkGreen: "#424344",
   black: "#222222",
   sidebarBlack: "#333333",
   white: "#FFFFFF",
@@ -83,6 +84,7 @@ colors.info = colors.oceanBlue;
 colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
+colors.commentHighlight = colors.darkGreen;
 
 export const radius = "4px";
 
@@ -118,6 +120,23 @@ export const activeNavItemStyle = css`
   > svg {
     path {
       fill: ${colors.black};
+    }
+  }
+
+  #comment-notification {
+    border-top: 1px solid ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-bottom: 1px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-right: 2px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+    border-left: 4px solid
+      ${({ theme }) => theme.colors.badgeSelectedBackground};
+
+    &::before {
+      border-left: 6px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
+      border-top: 6px solid
+        ${({ theme }) => theme.colors.badgeSelectedBackground};
     }
   }
 `;

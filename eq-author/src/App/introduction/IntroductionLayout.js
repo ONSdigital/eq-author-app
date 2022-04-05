@@ -5,8 +5,13 @@ import EditorLayout from "components/EditorLayout";
 
 import Panel from "components/Panel";
 
-const IntroductionLayout = ({ renderPanel, children }) => (
-  <EditorLayout preview title="Introduction" renderPanel={renderPanel}>
+const IntroductionLayout = ({ renderPanel, comments, children }) => (
+  <EditorLayout
+    preview
+    title="Introduction"
+    renderPanel={renderPanel}
+    comments={comments}
+  >
     <Panel>{children}</Panel>
   </EditorLayout>
 );
@@ -14,6 +19,7 @@ const IntroductionLayout = ({ renderPanel, children }) => (
 IntroductionLayout.propTypes = {
   children: PropTypes.node.isRequired,
   renderPanel: PropTypes.func,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default IntroductionLayout;

@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { useSubscription } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { useMe } from "App/MeContext";
 import { colors } from "constants/theme";
-
-import COMMENT_QUERY from "./graphql/commentsQuery.graphql";
 
 import COMMENT_ADD from "./graphql/createNewComment.graphql";
 import REPLY_ADD from "./graphql/createNewReply.graphql";
 
-import COMMENT_SUBSCRIPTION from "./graphql/commentSubscription.graphql";
+import UPDATE_COMMENTS_AS_READ from "graphql/updateCommentsAsRead.graphql";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -74,27 +71,31 @@ const Replies = styled(Collapsible)`
   }
 `;
 
-const CommentsPanel = ({ componentId }) => {
+const CommentsPanel = ({ error, loading, comments, componentId }) => {
+  const { me } = useMe();
+  const { id: userId } = me;
+
   const [createComment] = useMutation(COMMENT_ADD);
   const [createReply] = useMutation(REPLY_ADD);
+  const [updateCommentsAsRead] = useMutation(UPDATE_COMMENTS_AS_READ);
 
-  const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
-    variables: {
-      componentId,
-    },
-    fetchPolicy: "network-only",
-  });
+  // https://stackoverflow.com/questions/66404382/how-to-detect-route-changes-using-react-router-in-react
+  useEffect(() => {
+    return function cleanup() {
+      updateCommentsAsRead({
+        variables: {
+          input: {
+            pageId: componentId,
+            userId,
+          },
+        },
+      });
+    };
+  }, [updateCommentsAsRead, componentId, userId]);
 
-  useSubscription(COMMENT_SUBSCRIPTION, {
-    variables: {
-      id: componentId,
-    },
-    onSubscriptionData: () => {
-      refetch();
-    },
-  });
-
-  const { me } = useMe();
+  if (!comments) {
+    comments = [];
+  }
 
   if (loading) {
     return <Loading height="100%">Comments loading…</Loading>;
@@ -103,8 +104,6 @@ const CommentsPanel = ({ componentId }) => {
   if (error) {
     return <Error>Oops! Something went wrong</Error>;
   }
-
-  const { comments } = data;
 
   const formatName = (name) =>
     name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
@@ -118,6 +117,7 @@ const CommentsPanel = ({ componentId }) => {
     id,
     user,
     commentText,
+    readBy,
     createdTime,
     editedTime,
   }) => ({
@@ -125,6 +125,7 @@ const CommentsPanel = ({ componentId }) => {
     authorName: formatName(user.displayName) || user.name || "",
     canEdit: user.id === me.id,
     canDelete: user.id === me.id,
+    readBy,
     datePosted: createdTime,
     dateModified: editedTime,
     commentText,
@@ -156,6 +157,16 @@ const CommentsPanel = ({ componentId }) => {
       ))}
     </ul>
   );
+
+  const hasUnreadReplies = (replies) => {
+    let hasNotRead = false;
+    replies.forEach((reply) => {
+      if (!reply.readBy.some((id) => id === userId)) {
+        hasNotRead = true;
+      }
+    });
+    return hasNotRead;
+  };
 
   const renderComments = (comments = [], componentId) => (
     <ul>
@@ -189,6 +200,7 @@ const CommentsPanel = ({ componentId }) => {
                 replies.length > 1 ? "replies" : "reply"
               }`}
               withoutHideThis
+              defaultOpen={hasUnreadReplies(replies)}
             >
               {renderReplies(replies, commentId, componentId)}
             </Replies>
@@ -226,6 +238,9 @@ CommentsPanel.propTypes = {
    * The ID of the component users are commenting on. This may be a page, question page, calculated summary, etc.
    */
   componentId: PropTypes.string.isRequired,
+  error: PropTypes.bool,
+  loading: PropTypes.bool,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default CommentsPanel;

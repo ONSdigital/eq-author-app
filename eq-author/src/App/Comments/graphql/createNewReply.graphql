@@ -12,5 +12,6 @@ mutation CreateReply($input: CreateReplyInput!) {
       displayName
     }
     parentCommentId
+    readBy
   }
 }

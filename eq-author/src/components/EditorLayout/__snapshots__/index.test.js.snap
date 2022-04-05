@@ -9,6 +9,7 @@ exports[`Editor Layout should render 1`] = `
       <withRouter(UnwrappedTabs)
         design={true}
         preview={false}
+        unreadComment={false}
       />
     </Component>
     <ScrollPane

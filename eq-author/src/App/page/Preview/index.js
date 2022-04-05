@@ -20,6 +20,7 @@ import Panel from "components/Panel";
 
 export const UnwrappedPreviewPageRoute = (props) => {
   const { loading, data } = props;
+
   if (loading) {
     return (
       <EditorLayout>

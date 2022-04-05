@@ -9,6 +9,7 @@ const {
   createComment,
   deleteComment,
   updateComment,
+  updateCommentsAsRead,
   createReply,
   updateReply,
   deleteReply,
@@ -46,11 +47,13 @@ describe("comments", () => {
     questionnaire = ctx.questionnaire;
     createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
     componentId = createdQuestionPage.id;
+    ctx.comments = {};
   });
 
   it("An empty comment array is created on new questionnare", async () => {
-    const comment = await queryComments(ctx, componentId);
-    expect(comment.comments).toHaveLength(0);
+    const comments = ctx.comments;
+    ctx.comments[componentId] = [];
+    expect(comments[componentId]).toHaveLength(0);
   });
 
   it("should add a comment on question page and then query that comment", async () => {
@@ -59,15 +62,18 @@ describe("comments", () => {
       commentText: "a new comment is created",
     });
 
-    const queryNewComments = await queryComments(ctx, componentId);
+    const queryNewComments = ctx.comments[componentId];
 
-    expect(queryNewComments).toMatchObject({
-      comments: [
-        {
-          commentText: "a new comment is created",
-        },
-      ],
-    });
+    expect(queryNewComments).toMatchObject([
+      {
+        commentText: "a new comment is created",
+        createdTime: expect.any(Date),
+        id: expect.any(String),
+        readBy: expect.any(Array),
+        replies: expect.any(Array),
+        userId: expect.any(String),
+      },
+    ]);
   });
 
   it("should add multiple comments on question page and then query those comments", async () => {
@@ -249,6 +255,107 @@ describe("comments", () => {
       const queriedComment = await queryComments(ctx, componentId);
 
       expect(queriedComment.comments[0].replies).toHaveLength(0);
+    });
+  });
+
+  describe("read comments and replies", () => {
+    describe("comments", () => {
+      it("should set comment as read for the comment's author", async () => {
+        const { user } = ctx;
+        await createComment(ctx, {
+          componentId,
+          commentText: "a new comment is created",
+        });
+
+        const queryNewComments = await queryComments(ctx, componentId);
+
+        expect(queryNewComments).toMatchObject({
+          comments: [
+            {
+              readBy: [user.id],
+            },
+          ],
+        });
+      });
+
+      it("should update comment as read if user has not read the comment", async () => {
+        const { user } = ctx;
+        await createComment(ctx, {
+          componentId,
+          commentText: "a new comment is created",
+        });
+
+        await updateCommentsAsRead(ctx, {
+          pageId: componentId,
+          userId: "2",
+        });
+
+        const queryNewComments = await queryComments(ctx, componentId);
+
+        expect(queryNewComments).toMatchObject({
+          comments: [
+            {
+              readBy: [user.id, "2"],
+            },
+          ],
+        });
+      });
+    });
+
+    describe("replies", () => {
+      it("should set reply as read for the reply's author", async () => {
+        const { user } = ctx;
+
+        const comment = await createComment(ctx, {
+          componentId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = comment.id;
+
+        await createReply(ctx, {
+          componentId,
+          commentId,
+          commentText: "a new reply is created",
+        });
+
+        const queryNewComments = await queryComments(ctx, componentId);
+
+        expect(queryNewComments.comments[0].replies).toMatchObject([
+          {
+            readBy: [user.id],
+          },
+        ]);
+      });
+
+      it("should update reply as read if user has not read the reply", async () => {
+        const { user } = ctx;
+        const comment = await createComment(ctx, {
+          componentId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = comment.id;
+
+        await createReply(ctx, {
+          componentId,
+          commentId,
+          commentText: "a new reply is created",
+        });
+
+        await updateCommentsAsRead(ctx, {
+          pageId: componentId,
+          userId: "2",
+        });
+
+        const queryNewComments = await queryComments(ctx, componentId);
+
+        expect(queryNewComments.comments[0].replies).toMatchObject([
+          {
+            readBy: [user.id, "2"],
+          },
+        ]);
+      });
     });
   });
 });

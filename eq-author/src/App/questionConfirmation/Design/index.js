@@ -18,6 +18,7 @@ import questionConfirmationIcon from "./question-confirmation-icon.svg";
 import Editor from "./Editor";
 import Panel from "components/Panel";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
@@ -97,6 +98,7 @@ export const UnwrappedQuestionConfirmationRoute = ({
       preview
       logic
       validationErrorInfo={data?.questionConfirmation.validationErrorInfo}
+      comments={data?.questionConfirmation.comments}
     >
       <Panel>{renderContent()}</Panel>
     </EditorLayout>
@@ -129,8 +131,12 @@ const CONFIRMATION_QUERY = gql`
       validationErrorInfo {
         ...ValidationErrorInfo
       }
+      comments {
+        ...Comment
+      }
     }
   }
+  ${CommentFragment}
   ${Editor.fragments.QuestionConfirmation}
   ${ValidationErrorInfoFragment}
 `;

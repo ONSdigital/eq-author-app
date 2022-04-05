@@ -179,6 +179,7 @@ type Section {
   introductionTitle: String
   introductionContent: String
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 interface Page {
@@ -228,6 +229,7 @@ type QuestionPage implements Page & Skippable & Routable {
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 type ListCollectorPage implements Page & Skippable & Routable {
@@ -267,6 +269,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
   skipConditions: [ExpressionGroup2]
+  comments: [Comment]
 }
 
 type ConfirmationOption {
@@ -286,6 +289,7 @@ type QuestionConfirmation implements Skippable {
   negative: ConfirmationOption!
   validationErrorInfo: ValidationErrorInfo
   skipConditions: [ExpressionGroup2]
+  comments: [Comment]
 }
 
 interface Answer {
@@ -700,6 +704,7 @@ type QuestionnaireIntroduction {
   tertiaryTitle: String!
   tertiaryDescription: String!
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]
 }
 
 type Reply {
@@ -709,6 +714,7 @@ type Reply {
   createdTime: DateTime!
   user: User!
   editedTime:  DateTime
+  readBy: [ID]
 }
 
 type Comment {
@@ -718,6 +724,7 @@ type Comment {
   user: User!
   replies: [Reply]!
   editedTime: DateTime
+  readBy: [ID]
 }
 
 type Submission {
@@ -726,6 +733,7 @@ type Submission {
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean
   feedback: Boolean
+  comments: [Comment]
 }
 
 type Query {
@@ -936,6 +944,7 @@ type Mutation {
   moveListAnswer(input: MoveListAnswerInput!): Answer!
   createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
+  updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]!
 }
 
 input CreateListCollectorPageInput {
@@ -1217,7 +1226,7 @@ input DeleteCommentInput {
 input UpdateCommentInput {
   componentId: ID!
   commentId: ID!
-  commentText: String!
+  commentText: String
 }
 
 input CreateReplyInput {
@@ -1454,6 +1463,11 @@ input CreateMetadataInput {
 
 input DeleteMetadataInput {
   id: ID!
+}
+
+input UpdateCommentsAsReadInput {
+  pageId: ID!
+  userId: ID!
 }
 
 input UpdateMetadataInput {

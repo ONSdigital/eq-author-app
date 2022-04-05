@@ -16,6 +16,10 @@ const updateQuestionPageMutation = `
       additionalInfoLabel
       additionalInfoContent
       additionalInfoEnabled
+      comments {
+        id
+        commentText
+      }
     }
   }
 `;

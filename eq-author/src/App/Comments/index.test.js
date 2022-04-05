@@ -1,4 +1,5 @@
 import React from "react";
+import Theme from "contexts/themeContext";
 
 import { render, queryByTestId } from "tests/utils/rtl";
 
@@ -24,6 +25,7 @@ const mockUseQuery = {
         createdTime: "2021-03-30T14:48:00.000Z",
         editedTime: null,
         replies: [],
+        readBy: ["user-1"],
       },
       {
         id: "comment-2",
@@ -32,6 +34,7 @@ const mockUseQuery = {
           "Has anyone noticed anything out of the ordinary back here? ",
         createdTime: "2021-03-30T14:49:00.000Z",
         editedTime: null,
+        readBy: ["user-1"],
         replies: [
           {
             id: "comment-2-reply-1",
@@ -40,6 +43,7 @@ const mockUseQuery = {
               "Well, it's Halloween, so everything's kind of out of the ordinary.",
             createdTime: "2021-03-30T15:01:00.000Z",
             editedTime: null,
+            readBy: ["user-1"],
           },
         ],
       },
@@ -63,7 +67,15 @@ jest.mock("App/MeContext", () => ({
 
 describe("Comments panel", () => {
   const renderPanel = (props) =>
-    render(<CommentsPanel componentId="page-1" {...props} />);
+    render(
+      <Theme>
+        <CommentsPanel
+          componentId="page-1"
+          comments={mockUseQuery.data.comments}
+          {...props}
+        />
+      </Theme>
+    );
 
   afterEach(() => jest.clearAllMocks());
 
@@ -110,5 +122,26 @@ describe("Comments panel", () => {
 
     expect(replies.length).toBe(1);
     expect(collapsible).toBeInTheDocument();
+  });
+
+  it("Should display loading state", () => {
+    const props = { ...mockUseQuery, loading: true };
+    const { getByTestId } = renderPanel(props);
+    expect(getByTestId("loading")).toBeVisible();
+  });
+
+  it("Should display error state", () => {
+    const props = { ...mockUseQuery, error: true };
+    const { getByTestId } = renderPanel(props);
+    expect(getByTestId("error")).toBeVisible();
+  });
+
+  it("Should not display comments if comments is undefined", () => {
+    mockUseQuery.data.comments = undefined;
+    const { queryByTestId, getByTestId } = renderPanel();
+    const commentPanel = getByTestId("comments-panel");
+
+    expect(queryByTestId("Comment__CommentText")).toBeFalsy();
+    expect(commentPanel).toBeTruthy();
   });
 });

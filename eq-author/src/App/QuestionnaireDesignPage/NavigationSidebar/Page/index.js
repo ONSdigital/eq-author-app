@@ -15,6 +15,9 @@ import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
 import { Draggable } from "react-beautiful-dnd";
 import NavItem from "components/NavItem";
 
+import { useMe } from "App/MeContext";
+import hasUnreadComments from "utils/hasUnreadComments";
+
 const ListItem = styled.li`
   ${({ isDragging }) => isDragging && focusStyle}
   ${({ isDragging }) =>
@@ -39,7 +42,9 @@ const Page = ({
   confirmation,
   validationErrorInfo,
   position,
+  comments,
 }) => {
+  const { me } = useMe();
   const { tab = "design" } = useParams();
 
   const iconMap = {
@@ -63,6 +68,7 @@ const Page = ({
             errorCount={validationErrorInfo?.totalCount}
             hasConfirmation={Boolean(confirmation)}
             dragHandleProps={dragHandleProps}
+            unreadComment={hasUnreadComments(comments, me.id)}
           />
           {confirmation && (
             <ConfirmationPage
@@ -75,6 +81,7 @@ const Page = ({
               })}
               errorCount={confirmation?.validationErrorInfo?.totalCount}
               dragHandleProps={dragHandleProps}
+              unreadComment={hasUnreadComments(confirmation?.comments, me.id)}
             />
           )}
         </ListItem>
@@ -91,6 +98,7 @@ Page.propTypes = {
   confirmation: PropTypes.object, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
+  comments: PropTypes.array, //eslint-disable-line
 };
 
 export default Page;

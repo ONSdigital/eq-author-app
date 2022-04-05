@@ -1,5 +1,6 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 #import "graphql/lists/list.graphql"
+#import "graphql/fragments/comment.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -42,6 +43,9 @@ query GetQuestionnaire($input: QueryInput!) {
       viewPrintAnswers
       emailConfirmation
       feedback
+      comments {
+        ...Comment
+      }
     }
     validationErrorInfo {
       ...ValidationErrorInfo
@@ -106,6 +110,9 @@ fragment Sections on Section {
     id
     totalCount
   }
+  comments {
+    ...Comment
+  }
   ...PageNav
 }
 fragment PageNav on Section {
@@ -143,12 +150,20 @@ fragment Pages on Page {
     }
     totalCount
   }
+  ... on CalculatedSummaryPage {
+    comments {
+      ...Comment
+    }
+  }
   ... on QuestionPage {
     answers {
       ...Answers
     }
     confirmation {
       id
+    }
+    comments {
+      ...Comment
     }
   }
 }
@@ -223,6 +238,9 @@ fragment ConfirmationPages on QuestionPage {
       id
       totalCount
     }
+    comments {
+      ...Comment
+    }
   }
 }
 fragment Introduction on Questionnaire {
@@ -232,6 +250,9 @@ fragment Introduction on Questionnaire {
     validationErrorInfo {
       id
       totalCount
+    }
+    comments {
+      ...Comment
     }
   }
 }

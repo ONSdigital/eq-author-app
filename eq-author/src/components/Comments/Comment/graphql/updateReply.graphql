@@ -3,5 +3,6 @@ mutation UpdateReply($input: UpdateReplyInput!) {
     id
     commentText
     editedTime
+    readBy
   }
 }

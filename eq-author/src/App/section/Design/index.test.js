@@ -48,6 +48,7 @@ const section = {
   sectionSummary: false,
   collapsibleSummary: false,
   summaryTitle: "",
+  comments: [],
   folders: [
     {
       __typename: "Folder",
@@ -154,6 +155,7 @@ const moveSectionMock = {
           viewPrintAnswers: true,
           emailConfirmation: true,
           feedback: true,
+          comments: [],
           __typename: "Submission",
         },
       },

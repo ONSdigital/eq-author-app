@@ -24,12 +24,14 @@ export const IntroductionDesign = ({ loading, error, data }) => {
   }
 
   const introduction = get("questionnaireIntroduction", data);
+  const comments = introduction?.comments;
+
   if (error || isEmpty(introduction)) {
     return <Error>Something went wrong</Error>;
   }
 
   return (
-    <IntroductionLayout>
+    <IntroductionLayout comments={comments}>
       <IntroductionEditor introduction={introduction} />
     </IntroductionLayout>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
 import Theme from "contexts/themeContext";
+import { MeContext } from "App/MeContext";
 
 import SubmissionDesign from ".";
 
@@ -50,12 +51,18 @@ const match = {
 };
 
 const history = { push: jest.fn() };
+const user = {
+  id: "1",
+  name: "Name",
+};
 
 const renderSubmissionDesignPage = () => {
   return render(
-    <Theme>
-      <SubmissionDesign match={match} history={history} loading={false} />
-    </Theme>,
+    <MeContext.Provider value={{ me: user }}>
+      <Theme>
+        <SubmissionDesign match={match} history={history} loading={false} />
+      </Theme>
+    </MeContext.Provider>,
     {
       route: `/q/${questionnaire.id}/submission/${submission.id}/design`,
       urlParamMatcher:
