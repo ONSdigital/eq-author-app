@@ -275,7 +275,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 
   const onRemoveAllSelectedSections = () => setSectionsToImport([]);
 
-  const onRemoveSingleSelectedSelection = (index) => {
+  const onRemoveSingleSelectedSection = (index) => {
     const filteredSections = sectionsToImport.filter((_, i) => i !== index);
     setSectionsToImport(filteredSections);
   };
@@ -480,13 +480,13 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           <ReviewSectionsModal
             isOpen={reviewingSections}
             questionnaire={questionnaireImportingFrom}
-            startingSelectedQuestions={questionsToImport}
+            startingSelectedSections={sectionsToImport}
             onCancel={onGlobalCancel}
             onConfirm={onReviewSectionsSubmit}
             onBack={onBackFromReviewingSections}
             onSelectSections={onSelectSections}
-            onRemoveAll={onRemoveAllSelectedQuestions}
-            onRemoveSingle={onRemoveSingleSelectedQuestion}
+            onRemoveAll={onRemoveAllSelectedSections}
+            onRemoveSingle={onRemoveSingleSelectedSection}
           />
         ))}
       {selectingSections &&

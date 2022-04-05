@@ -14,14 +14,14 @@ import Wizard, {
 } from "components/modals/Wizard";
 import Button from "components/buttons/Button";
 
-const QuestionsPane = styled.div`
+const SectionsPane = styled.div`
   max-height: 17em;
   overflow: hidden;
   overflow-y: scroll;
   margin-bottom: 0.5em;
 `;
 
-const QuestionContainer = styled.div`
+const SectionContainer = styled.div`
   background-color: ${colors.blue};
   border-radius: ${radius};
   margin: 0 0 0.5em;
@@ -65,8 +65,8 @@ const Container = styled.div`
   gap: 0.5em;
 `;
 
-const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
-  <QuestionContainer>
+const SectionRow = ({ section: { alias, title, displayName }, onRemove }) => (
+  <SectionContainer>
     <SpacedRow>
       <div>
         <p>{alias}</p>
@@ -78,64 +78,61 @@ const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
         </span>
       </RemoveButton>
     </SpacedRow>
-  </QuestionContainer>
+  </SectionContainer>
 );
 
-QuestionRow.propTypes = {
-  question: PropTypes.shape({
+SectionRow.propTypes = {
+  section: PropTypes.shape({
     alias: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
   }),
   onRemove: PropTypes.func.isRequired,
 };
 
-const ImportQuestionReviewModal = ({
+const ImportSectionReviewModal = ({
   questionnaire,
-  startingSelectedQuestions,
+  startingSelectedSections,
   isOpen,
   onConfirm,
   onCancel,
   onBack,
-  onSelectQuestions,
+  onSelectSections,
   onRemoveSingle,
   onRemoveAll,
-  onSelectSections,
 }) => (
   <Wizard
     isOpen={isOpen}
     confirmText="Import"
-    onConfirm={() => onConfirm(startingSelectedQuestions)}
+    onConfirm={() => onConfirm(startingSelectedSections)}
     onCancel={onCancel}
     onBack={onBack}
-    confirmEnabled={Boolean(startingSelectedQuestions?.length) || false}
+    confirmEnabled={Boolean(startingSelectedSections?.length) || false}
   >
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning>
-          Question logic, piping and Qcodes will not be imported.
-        </Warning>
+        <Warning>Qcodes will not be imported.</Warning>
       </Subheading>
     </Header>
     <Content>
-      {startingSelectedQuestions?.length ? (
+      {startingSelectedSections?.length ? (
         <>
           <SpacedRow>
             <ContentHeading>
-              Question{startingSelectedQuestions.length > 1 ? "s" : ""} to
-              import
+              Question{startingSelectedSections.length > 1 ? "s" : ""} to import
             </ContentHeading>
             <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
           </SpacedRow>
-          <QuestionsPane>
-            {startingSelectedQuestions.map((question, index) => (
-              <QuestionRow
-                question={question}
+          <SectionsPane>
+            {startingSelectedSections.map((section, index) => (
+              <SectionRow
+                section={section}
                 key={index}
                 onRemove={() => onRemoveSingle(index)}
               />
             ))}
-          </QuestionsPane>
+          </SectionsPane>
         </>
       ) : (
         <ContentHeading>
@@ -144,13 +141,8 @@ const ImportQuestionReviewModal = ({
         </ContentHeading>
       )}
       <Container>
-        <Button onClick={onSelectQuestions}>
-          {startingSelectedQuestions?.length >= 1
-            ? "Select more questions"
-            : "Questions"}
-        </Button>
         <Button onClick={onSelectSections}>
-          {startingSelectedQuestions?.length >= 1
+          {startingSelectedSections?.length >= 1
             ? "Select more sections"
             : "Sections"}
         </Button>
@@ -159,19 +151,18 @@ const ImportQuestionReviewModal = ({
   </Wizard>
 );
 
-ImportQuestionReviewModal.propTypes = {
+ImportSectionReviewModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-  onSelectQuestions: PropTypes.func.isRequired,
+  onSelectSections: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
-  onSelectSections: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }),
-  startingSelectedQuestions: PropTypes.array, // eslint-disable-line
+  startingSelectedSections: PropTypes.array, // eslint-disable-line
 };
 
-export default ImportQuestionReviewModal;
+export default ImportSectionReviewModal;
