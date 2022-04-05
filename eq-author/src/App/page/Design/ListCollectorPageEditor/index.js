@@ -21,6 +21,7 @@ import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
 import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 import Icon from "assets/icon-select.svg";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -498,6 +499,9 @@ UnwrappedListCollectorEditor.fragments = {
       anotherNegativeDescription
       addItemTitle
       alias
+      comments {
+        ...Comment
+      }
       folder {
         id
         position
@@ -522,6 +526,7 @@ UnwrappedListCollectorEditor.fragments = {
         ...ValidationErrorInfo
       }
     }
+    ${CommentFragment}
     ${ValidationErrorInfoFragment}
     ${TotalValidationRuleFragment}
   `,

@@ -185,6 +185,9 @@ fragment ListCollectorPages on ListCollectorPage {
     }
     totalCount
   }
+  comments {
+    ...Comment
+  }
 }
 
 fragment Answers on Answer {

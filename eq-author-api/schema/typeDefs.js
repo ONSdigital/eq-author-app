@@ -252,6 +252,7 @@ type ListCollectorPage implements Page & Skippable & Routable {
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
   alias: String
+  comments: [Comment]
 }
 
 type CalculatedSummaryPage implements Page & Skippable & Routable {

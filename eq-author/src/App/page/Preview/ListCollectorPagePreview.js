@@ -155,6 +155,7 @@ const ListCollectorPagePreview = ({ page }) => {
     anotherPositiveDescription,
     anotherNegativeDescription,
     addItemTitle,
+    comments,
   } = page;
 
   const { data, loading } = useQuery(COLLECTION_LISTS, {
@@ -185,7 +186,10 @@ const ListCollectorPagePreview = ({ page }) => {
       logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
-      renderPanel={() => <CommentsPanel componentId={page.id} />}
+      renderPanel={() => (
+        <CommentsPanel comments={page.comments} componentId={page.id} />
+      )}
+      comments={comments}
     >
       <Panel>
         <Container>
