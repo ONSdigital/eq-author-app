@@ -118,37 +118,20 @@ module.exports = {
           stripQCodes(
             sections.map((section) => ({
               ...section,
-              skipConditions: null,
-              routing: null,
+              displayConditions: null,
             }))
           )
         );
 
-        let section;
-        if (folderId) {
-          const folder = getFolderById(ctx, folderId);
-          if (!folder) {
-            throw new UserInputError(
-              `Folder with ID ${folderId} doesn't exist in target questionnaire.`
-            );
-          }
-          folder.pages.splice(insertionIndex, 0, ...strippedPages);
-          section = getSectionByFolderId(ctx, folderId);
-        } else {
-          section = getSectionById(ctx, sectionId);
-          if (!section) {
-            throw new UserInputError(
-              `Section with ID ${sectionId} doesn't exist in target questionnaire.`
-            );
-          }
-
-          // Insert each imported page into its own disabled folder per EAR-1315
-          section.folders.splice(
-            insertionIndex,
-            0,
-            ...strippedPages.map((page) => createFolder({ pages: [page] }))
+        const section = getSectionById(ctx, sectionId);
+        if (!section) {
+          throw new UserInputError(
+            `Section with ID ${sectionId} doesn't exist in target questionnaire.`
           );
         }
+
+        // Insert each imported page into its own disabled folder per EAR-1315
+        section.folders.splice(insertionIndex, 0, ...strippedSections);
 
         return section;
       }

@@ -1,0 +1,113 @@
+mutation ImportStuff($input: ImportSectionsInput!) {
+  importSections(input: $input) {
+    id
+    ...Sections
+  }
+}
+
+fragment Sections on Section {
+  id
+  title
+  displayName
+  questionnaire {
+    id
+  }
+  validationErrorInfo {
+    id
+    totalCount
+  }
+  ...PageNav
+}
+
+fragment PageNav on Section {
+  id
+  folders {
+    id
+    alias
+    displayName
+    position
+    pages {
+      ...Pages
+      ...ConfirmationPages
+    }
+    validationErrorInfo {
+      id
+      totalCount
+    }
+  }
+}
+
+fragment Pages on Page {
+  id
+  alias
+  title
+  alias
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+  ... on QuestionPage {
+    answers {
+      ...Answers
+    }
+    confirmation {
+      id
+    }
+  }
+}
+
+fragment Answers on Answer {
+  id
+  displayName
+  description
+  guidance
+  qCode
+  label
+  secondaryLabel
+  secondaryLabelDefault
+  type
+  properties
+  ... on BasicAnswer {
+    secondaryQCode
+  }
+  ... on MultipleChoiceAnswer {
+    options {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
+    mutuallyExclusiveOption {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
+  }
+}
+
+fragment ConfirmationPages on QuestionPage {
+  id
+  confirmation {
+    id
+    displayName
+    qCode
+    validationErrorInfo {
+      id
+      totalCount
+    }
+  }
+}

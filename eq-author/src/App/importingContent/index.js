@@ -16,7 +16,8 @@ import {
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
-import IMPORT_CONTENT from "graphql/importContent.graphql";
+import IMPORT_QUESTIONS from "graphql/importQuestions.graphql";
+import IMPORT_SECTIONS from "graphql/importSections.graphql";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
@@ -60,7 +61,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
    * Handlers
    */
 
-  const [importContent] = useMutation(IMPORT_CONTENT);
+  const [importQuestions] = useMutation(IMPORT_QUESTIONS);
+  const [importSections] = useMutation(IMPORT_SECTIONS);
 
   // Global
 
@@ -226,7 +228,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       }
     }
 
-    importContent({ variables: { input } });
+    importQuestions({ variables: { input } });
     onGlobalCancel();
   };
 
@@ -359,7 +361,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       }
     }
 
-    importContent({ variables: { input } });
+    importSections({ variables: { input } });
     onGlobalCancel();
   };
 
