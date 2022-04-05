@@ -37,7 +37,13 @@ const Preview = ({ match }) => {
 
   return (
     <SubmissionLayout
-      renderPanel={() => <CommentsPanel componentId={submission.id} />}
+      renderPanel={() => (
+        <CommentsPanel
+          comments={submission.comments}
+          componentId={submission.id}
+        />
+      )}
+      comments={submission.comments}
     >
       <SubmissionPreview
         submission={submission}

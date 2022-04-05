@@ -5,6 +5,7 @@ import NavItem from "../../components/NavItem";
 import { ReactComponent as IconQuestionPage } from "assets/icon-questionpage.svg?inline";
 import CollapsibleNavItem from "../../components/CollapsibleNavItem";
 import ExampleContainer from "./ExampleContainer";
+import Theme from "contexts/themeContext";
 
 <Meta title="Components/Navigation Item" component={NavigationItem} />
 
@@ -69,6 +70,24 @@ import ExampleContainer from "./ExampleContainer";
       >
         Inctum, laoreet enim a
       </NavItem>
+    </ExampleContainer>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Unread Comment">
+    <ExampleContainer style={{ boxSizing: "border-box" }}>
+      <Theme>
+        <NavItem
+          title="Lorem ipsum dolor sit amet"
+          titleUrl="/"
+          icon={IconQuestionPage}
+          unreadComment
+          errorCount={1}
+        >
+          Inctum, laoreet enim a
+        </NavItem>
+      </Theme>
     </ExampleContainer>
   </Story>
 </Canvas>

@@ -4,6 +4,8 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 
+import Comment from "graphql/fragments/comment.graphql";
+
 import IntroductionPreview from "./IntroductionPreview";
 
 export const fragment = gql`
@@ -24,7 +26,11 @@ export const fragment = gql`
     }
     tertiaryTitle
     tertiaryDescription
+    comments {
+      ...Comment
+    }
   }
+  ${Comment}
 `;
 
 export const QUESTIONNAIRE_QUERY = gql`

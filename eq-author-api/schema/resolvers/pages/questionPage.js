@@ -34,6 +34,9 @@ Resolvers.QuestionPage = {
       totalCount: pageErrors.length,
     };
   },
+  comments: ({ id }, args, ctx) => {
+    return ctx.comments[id];
+  },
 };
 
 Resolvers.Mutation = {

@@ -42,8 +42,11 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
       preview
       logic={enableOn(["hub"])}
       title={section.displayName}
-      renderPanel={() => <CommentsPanel componentId={section.id} />}
+      renderPanel={() => (
+        <CommentsPanel comments={section.comments} componentId={section.id} />
+      )}
       validationErrorInfo={section.validationErrorInfo}
+      comments={section.comments}
     >
       <SectionIntroPreview section={section} />
     </EditorLayout>

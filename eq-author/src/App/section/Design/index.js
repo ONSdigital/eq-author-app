@@ -197,6 +197,7 @@ export const UnwrappedSectionRoute = (props) => {
       title={section?.displayName || ""}
       validationErrorInfo={section?.validationErrorInfo}
       logic={enableOn(["hub"])}
+      comments={section?.comments}
     >
       <Panel>
         {renderContent()} {redirectPage()}

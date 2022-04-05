@@ -17,6 +17,7 @@ describe("Introduction Design", () => {
       data: {
         questionnaireIntroduction: {
           id: "1",
+          comments: [],
         },
       },
     };

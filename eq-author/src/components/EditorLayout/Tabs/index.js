@@ -11,6 +11,7 @@ import {
 } from "utils/UrlUtils";
 
 import Badge from "components/Badge";
+import CommentNotification from "components/Comments/CommentNotification";
 
 export const activeClassName = "active";
 
@@ -67,7 +68,7 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = (props) => {
-  const { match, validationErrorInfo } = props;
+  const { match, validationErrorInfo, unreadComment } = props;
 
   const tabErrors = useCallback(
     (tabKey) => {
@@ -110,8 +111,16 @@ export const UnwrappedTabs = (props) => {
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
+              {key === "preview" && unreadComment && (
+                <CommentNotification
+                  variant="tabs"
+                  data-test="comment-notification-tabs"
+                />
+              )}
               {errors && errors.length ? (
-                <Badge variant="tabs" small data-test="small-badge" />
+                <>
+                  <Badge variant="tabs" small data-test="small-badge" />
+                </>
               ) : null}
               {children}
             </Component>
@@ -134,6 +143,7 @@ UnwrappedTabs.propTypes = {
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
   validationErrorInfo: CustomPropTypes.validationErrorInfo,
+  unreadComment: PropTypes.bool,
 };
 
 export default withRouter(UnwrappedTabs);

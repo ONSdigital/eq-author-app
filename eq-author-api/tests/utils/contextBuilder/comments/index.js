@@ -6,4 +6,5 @@ module.exports = {
   ...require("./createReply"),
   ...require("./updateReply"),
   ...require("./deleteReply"),
+  ...require("./updateCommentsAsRead"),
 };

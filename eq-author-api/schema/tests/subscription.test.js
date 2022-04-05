@@ -280,6 +280,7 @@ describe("subscriptions", () => {
       questionnaire = ctx.questionnaire;
       createdQuestionPage = questionnaire.sections[0].folders[0].pages[0];
       componentId = createdQuestionPage.id;
+      ctx.comments = {};
     });
 
     const commentsSubscription = gql`
@@ -292,7 +293,7 @@ describe("subscriptions", () => {
 
     it("Question page - should send event when new comment is created", async () => {
       iterator = await executeSubscription(commentsSubscription, {
-        id: componentId,
+        id: questionnaire.id,
       });
 
       await createComment(ctx, {
@@ -302,12 +303,12 @@ describe("subscriptions", () => {
 
       const result = await iterator.next();
 
-      expect(result.value.data.commentsUpdated.id).toBe(componentId);
+      expect(result.value.data.commentsUpdated.id).toBe(questionnaire.id);
     });
 
     it("Question page - should send event when comment has been updated", async () => {
       iterator = await executeSubscription(commentsSubscription, {
-        id: componentId,
+        id: questionnaire.id,
       });
 
       const newComment = await createComment(ctx, {
@@ -322,12 +323,12 @@ describe("subscriptions", () => {
         commentText: "an edited comment",
       });
       const result = await iterator.next();
-      expect(result.value.data.commentsUpdated.id).toBe(componentId);
+      expect(result.value.data.commentsUpdated.id).toBe(questionnaire.id);
     });
 
     it("Question page - should send event when comment has been deleted", async () => {
       iterator = await executeSubscription(commentsSubscription, {
-        id: componentId,
+        id: questionnaire.id,
       });
 
       const newComment = await createComment(ctx, {
@@ -342,7 +343,7 @@ describe("subscriptions", () => {
         commentId: commentId,
       });
       const result = await iterator.next();
-      expect(result.value.data.commentsUpdated.id).toBe(componentId);
+      expect(result.value.data.commentsUpdated.id).toBe(questionnaire.id);
     });
   });
 

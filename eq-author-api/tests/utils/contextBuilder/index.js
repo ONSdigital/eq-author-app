@@ -26,6 +26,7 @@ const {
 const {
   updateQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
+const { updateSubmission } = require("./submission");
 const { createCollapsible } = require("./collapsible");
 const {
   getFolderById,
@@ -54,6 +55,8 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
     sections,
     metadata,
     introduction,
+    submission,
+    comments,
     ...questionnaireProps
   } = questionnaireConfig;
 
@@ -68,6 +71,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
 
   const { questionnaire } = ctx;
   ctx.questionnaire.sections = [];
+  ctx.comments = comments || {};
 
   if (Array.isArray(sections)) {
     for (let section of sections) {
@@ -104,13 +108,11 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
                 });
 
                 if (page.confirmation) {
-                  const createdQuestionConfirmation = await createQuestionConfirmation(
-                    ctx,
-                    {
+                  const createdQuestionConfirmation =
+                    await createQuestionConfirmation(ctx, {
                       pageId: createdPage.id,
                       ...page.confirmation,
-                    }
-                  );
+                    });
                   if (Object.keys(page.confirmation).length > 0) {
                     await updateQuestionConfirmation(ctx, {
                       ...page.confirmation,
@@ -193,6 +195,16 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
           ...collapsibles[i],
         });
       }
+    }
+  }
+
+  if (submission) {
+    const { ...submissionProps } = submission;
+    if (Object.keys(submissionProps).length > 0) {
+      await updateSubmission(ctx, {
+        id: questionnaire.submission.id,
+        ...submissionProps,
+      });
     }
   }
 

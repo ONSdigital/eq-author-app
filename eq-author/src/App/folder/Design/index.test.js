@@ -12,6 +12,8 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 const mockQuestionnaire = buildQuestionnaire({ folderCount: 2 });
 const firstFolder = mockQuestionnaire.sections[0].folders[0];
 
+const mockUseMe = { me: { id: "user-1" } };
+
 jest.mock("react-apollo", () => ({
   useSubscription: () => null,
 }));
@@ -33,6 +35,10 @@ jest.mock("hooks/useCreateFolder", () => ({
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacks: jest.fn(),
+}));
+
+jest.mock("App/MeContext", () => ({
+  useMe: () => mockUseMe,
 }));
 
 const mockData = {
@@ -126,9 +132,9 @@ describe("Folder design page", () => {
     });
 
     it("Should trigger a delete modal", () => {
-      const { getByTestId, getByTitle } = renderFolderDesignPage();
+      const { getByTestId } = renderFolderDesignPage();
 
-      fireEvent.click(getByTitle("Delete"));
+      fireEvent.click(getByTestId("btn-delete-folder"));
 
       expect(getByTestId("delete-confirm-modal")).toBeVisible();
     });
@@ -136,9 +142,9 @@ describe("Folder design page", () => {
     it("should delete a folder when the delete button is clicked", () => {
       const deleteFolder = jest.fn();
       useMutation.mockImplementation(jest.fn(() => [deleteFolder]));
-      const { getByTestId, getByTitle } = renderFolderDesignPage();
+      const { getByTestId } = renderFolderDesignPage();
 
-      fireEvent.click(getByTitle("Delete"));
+      fireEvent.click(getByTestId("btn-delete-folder"));
       fireEvent.click(getByTestId("btn-delete-modal"));
 
       expect(deleteFolder).toHaveBeenCalledWith({

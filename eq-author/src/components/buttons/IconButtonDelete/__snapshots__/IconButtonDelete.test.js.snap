@@ -5,7 +5,6 @@ exports[`IconButtonDelete should pass on props 1`] = `
   <IconButtonDelete__DeleteButton
     anotherProp="test"
     onClick={[MockFunction]}
-    title="Delete"
     type="button"
     variant="primary"
   >
@@ -23,7 +22,6 @@ exports[`IconButtonDelete should wrap in tooltip when text is hidden 1`] = `
 <DeleteTooltip>
   <IconButtonDelete__DeleteButton
     onClick={[MockFunction]}
-    title="Delete"
     type="button"
     variant="primary"
   >

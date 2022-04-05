@@ -2,6 +2,7 @@ import React from "react";
 import RoutingPage, { NO_ROUTING_TITLE } from "./Routing";
 import { buildFolders } from "tests/utils/createMockQuestionnaire";
 import { render, screen } from "tests/utils/rtl";
+import { MeContext } from "App/MeContext";
 
 import { useQuery } from "@apollo/react-hooks";
 
@@ -16,6 +17,11 @@ jest.mock("components/EditorLayout/Tabs", () => ({
 }));
 
 describe("Folder: routing page", () => {
+  const user = {
+    id: "1",
+    name: "Name",
+  };
+
   it("should show placeholder page stating routing is disabled", () => {
     const [mockFolder] = buildFolders();
     useQuery.mockImplementation(() => ({
@@ -23,9 +29,13 @@ describe("Folder: routing page", () => {
     }));
 
     render(
-      <RoutingPage
-        match={{ params: { questionnaireId: "woo", folderId: mockFolder.id } }}
-      />
+      <MeContext.Provider value={{ me: user }}>
+        <RoutingPage
+          match={{
+            params: { questionnaireId: "woo", folderId: mockFolder.id },
+          }}
+        />
+      </MeContext.Provider>
     );
 
     expect(screen.queryByText(NO_ROUTING_TITLE)).toBeTruthy();
