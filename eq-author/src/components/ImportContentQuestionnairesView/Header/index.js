@@ -39,7 +39,11 @@ const Header = ({
     <>
       <Wrapper>
         <SearchBar onChange={onSearchChangeDebounced} paddingType={padding} />
-        <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} paddingType={padding} />
+        <AccessFilter
+          onToggleFilter={onToggleFilter}
+          isFiltered={isFiltered}
+          paddingType={padding}
+        />
 
         {canCreateQuestionnaire && (
           <Button
