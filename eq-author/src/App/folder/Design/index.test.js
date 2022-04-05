@@ -2,9 +2,11 @@ import React from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import { useCreateQuestionPage } from "hooks/useCreateQuestionPage";
+import {
+  useCreateQuestionPage,
+  useCreateListCollectorPage,
+} from "hooks/useCreateQuestionPage";
 import { useCreatePageWithFolder } from "hooks/useCreateFolder";
-import { useCreateListCollectorPage } from "hooks/useCreateListCollectorPage";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
 import FolderDesignPage from "./";
@@ -182,6 +184,7 @@ describe("Folder design page", () => {
         {
           onAddQuestionPage: expect.any(Function),
           onAddCalculatedSummaryPage: expect.any(Function),
+          onAddListCollectorPage: expect.any(Function),
           onAddFolder: expect.any(Function),
         },
         [
