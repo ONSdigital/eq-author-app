@@ -102,11 +102,14 @@ module.exports = {
           );
         }
 
-        const sections = getSectionsByIds(
+        const sourceSections = getSectionsByIds(
           { questionnaire: sourceQuestionnaire },
           sectionIds
         );
-        if (sections.length !== sectionIds.length) {
+
+        const destinationSections = ctx.questionnaire.sections;
+
+        if (sourceSections.length !== sectionIds.length) {
           throw new UserInputError(
             `Not all page IDs in [${sectionIds}] exist in source questionnaire ${questionnaireId}.`
           );
@@ -116,7 +119,7 @@ module.exports = {
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
         const strippedSections = remapAllNestedIds(
           stripQCodes(
-            sections.map((section) => ({
+            sourceSections.map((section) => ({
               ...section,
               displayConditions: null,
             }))
@@ -130,10 +133,9 @@ module.exports = {
           );
         }
 
-        // Insert each imported page into its own disabled folder per EAR-1315
-        section.folders.splice(insertionIndex, 0, ...strippedSections);
+        destinationSections.splice(insertionIndex, 0, ...strippedSections);
 
-        return section;
+        return destinationSections;
       }
     ),
   },

@@ -834,7 +834,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
-  importSections(input: ImportSectionsInput!): Section
+  importSections(input: ImportSectionsInput!): [Section]
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
