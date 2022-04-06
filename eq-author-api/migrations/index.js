@@ -31,6 +31,7 @@ const migrations = [
   require("./addSummaryTitle"),
   require("./addCollectionLists"),
   require("./updateCommentsReadByEditors"),
+  require("./updateEnabledHub"),
 ];
 
 const currentVersion = migrations.length;

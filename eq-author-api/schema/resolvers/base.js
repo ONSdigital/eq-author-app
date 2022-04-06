@@ -547,6 +547,7 @@ const Resolvers = {
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       return section;
     }),
     updateSection: createMutation((_, { input }, ctx) => {
@@ -565,6 +566,7 @@ const Resolvers = {
       }
       deleteFirstPageSkipConditions(ctx);
       deleteLastPageRouting(ctx);
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
@@ -582,6 +584,7 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       return remappedSection;
     }),
     createFolder: createMutation(

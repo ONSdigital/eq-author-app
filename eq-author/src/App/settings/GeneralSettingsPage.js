@@ -240,7 +240,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     <HorizontalSeparator />
                     {enableOn(["hub"]) && (
                       <>
-                        <InlineField>
+                        {/* <InlineField>
                           <Label htmlFor="toggle-hub-navigation">
                             Hub navigation
                           </Label>
@@ -261,11 +261,11 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             }
                             checked={hub}
                           />
-                        </InlineField>
-                        <InformationPanel>
+                        </InlineField> */}
+                        {/* <InformationPanel>
                           Let respondents access different sections of the
                           survey from a single central &quot;hub&quot; screen.
-                        </InformationPanel>
+                        </InformationPanel> */}
                         {type === BUSINESS && (
                           <EnableDisableWrapper
                             data-test="toggle-hub-introduction-wrapper"
