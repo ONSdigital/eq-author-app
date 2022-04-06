@@ -43,7 +43,7 @@ const ImportQuestionReviewModal = ({
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
         <Warning>
-          CONTENT MODAL Question logic, piping and Qcodes will not be imported.
+          Question logic, piping and Qcodes will not be imported.
         </Warning>
       </Subheading>
     </Header>

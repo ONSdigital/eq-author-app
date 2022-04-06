@@ -1,3 +1,5 @@
+#import "./fragments/comment.graphql"
+
 mutation ImportStuff($input: ImportQuestionsInput!) {
   importQuestions(input: $input) {
     id
@@ -11,6 +13,9 @@ fragment Sections on Section {
   displayName
   questionnaire {
     id
+  }
+  comments {
+    ...Comment
   }
   validationErrorInfo {
     id
@@ -56,6 +61,9 @@ fragment Pages on Page {
     totalCount
   }
   ... on QuestionPage {
+    comments {
+      ...Comment
+    }
     answers {
       ...Answers
     }
@@ -105,6 +113,9 @@ fragment ConfirmationPages on QuestionPage {
     id
     displayName
     qCode
+    comments {
+      ...Comment
+    }
     validationErrorInfo {
       id
       totalCount

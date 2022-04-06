@@ -1,7 +1,12 @@
+#import "./fragments/comment.graphql"
+
 mutation ImportSections($input: ImportSectionsInput!) {
   importSections(input: $input) {
     id
     title
+    comments {
+      ...Comment
+    }
     folders {
       id
       alias
@@ -55,8 +60,14 @@ mutation ImportSections($input: ImportSectionsInput!) {
               }
             }
           }
+          comments {
+            ...Comment
+          }
           confirmation {
             id
+            comments {
+              ...Comment
+            }
           }
         }
       }
