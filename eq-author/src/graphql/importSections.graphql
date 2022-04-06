@@ -1,54 +1,36 @@
+#import "./fragments/section.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
 #import "./fragments/comment.graphql"
 
 mutation ImportSections($input: ImportSectionsInput!) {
   importSections(input: $input) {
-    id
-    title
-    comments {
-      ...Comment
-    }
+    ...Section
+    position
+    displayName
     folders {
-      id
-      alias
+      ...Folder
       pages {
-        id
-        title
-        alias
+        ...Page
+        position
         displayName
         pageType
-        validationErrorInfo {
-          id
-          errors {
-            id
-            type
-            field
-            errorCode
-          }
-          totalCount
-        }
+        title
         ... on QuestionPage {
+          alias
+          description
+          guidance
           answers {
-            id
-            displayName
-            description
-            guidance
-            qCode
-            label
-            secondaryLabel
-            secondaryLabelDefault
-            type
-            properties
+            ...Answer
             ... on BasicAnswer {
               secondaryQCode
             }
             ... on MultipleChoiceAnswer {
               options {
-                id
-                displayName
-                label
-                description
-                value
-                qCode
+                ...Option
               }
               mutuallyExclusiveOption {
                 id
@@ -60,14 +42,36 @@ mutation ImportSections($input: ImportSectionsInput!) {
               }
             }
           }
-          comments {
-            ...Comment
-          }
           confirmation {
             id
+            qCode
+            displayName
             comments {
               ...Comment
             }
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          alias
+          pageType
+          displayName
+          position
+          summaryAnswers {
+            id
+            displayName
+            description
+            guidance
+            label
+            secondaryLabel
+            secondaryLabelDefault
+          }
+          comments {
+            ...Comment
           }
         }
       }
