@@ -4,6 +4,7 @@
 #import "./fragments/page.graphql"
 #import "./fragments/answer.graphql"
 #import "./fragments/option.graphql"
+#import "./fragments/comment.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
@@ -45,13 +46,22 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
             id
             qCode
             displayName
+            comments {
+              ...Comment
+            }
             validationErrorInfo {
               ...ValidationErrorInfo
             }
           }
+          comments {
+            ...Comment
+          }
         }
         ... on CalculatedSummaryPage {
           id
+          comments {
+            ...Comment
+          }
         }
         validationErrorInfo {
           ...ValidationErrorInfo
