@@ -362,6 +362,7 @@ const UnwrappedListCollectorEditor = (props) => {
           label=""
           controls={{
             heading: true,
+            piping: true,
             emphasis: true,
             list: true,
             bold: true,
@@ -467,6 +468,7 @@ const UnwrappedListCollectorEditor = (props) => {
           label=""
           controls={{
             heading: true,
+            piping: true,
             emphasis: true,
             list: true,
             bold: true,
