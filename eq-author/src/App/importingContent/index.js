@@ -126,7 +126,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     setSelectingContent(false);
   };
 
-  const onRemoveAllSelectedQuestions = () => {
+  const onRemoveAllSelectedContent = () => {
     if (reviewingQuestions) {
       setQuestionsToImport([]);
     } else {
@@ -134,7 +134,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     }
   };
 
-  const onRemoveSingleSelectedQuestion = (index) => {
+  const onRemoveSingleSelectedContent = (index) => {
     if (reviewingQuestions) {
       const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
       setQuestionsToImport(filteredQuestions);
@@ -257,13 +257,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     setSelectingContent(false);
   };
 
-  const onRemoveAllSelectedSections = () => setSectionsToImport([]);
-
-  const onRemoveSingleSelectedSection = (index) => {
-    const filteredSections = sectionsToImport.filter((_, i) => i !== index);
-    setSectionsToImport(filteredSections);
-  };
-
   const onReviewSectionsSubmit = (selectedSections) => {
     const sectionIds = selectedSections.map(({ id }) => id);
 
@@ -369,8 +362,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
-          onRemoveAll={onRemoveAllSelectedQuestions}
-          onRemoveSingle={onRemoveSingleSelectedQuestion}
+          onRemoveAll={onRemoveAllSelectedContent}
+          onRemoveSingle={onRemoveSingleSelectedContent}
         />
       )}
       {selectingQuestions && (
@@ -416,8 +409,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           onConfirm={onReviewSectionsSubmit}
           onBack={onBackFromReviewingSections}
           onSelectSections={onSelectSections}
-          onRemoveAll={onRemoveAllSelectedSections}
-          onRemoveSingle={onRemoveSingleSelectedSection}
+          onRemoveAll={onRemoveAllSelectedContent}
+          onRemoveSingle={onRemoveSingleSelectedContent}
         />
       )}
       {selectingSections && (

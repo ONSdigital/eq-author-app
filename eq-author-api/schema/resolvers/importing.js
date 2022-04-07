@@ -90,9 +90,7 @@ module.exports = {
         const { sectionId, index: insertionIndex } = position;
 
         if (!sectionId) {
-          throw new UserInputError(
-            "Target folder or section ID must be provided."
-          );
+          throw new UserInputError("Target section ID must be provided.");
         }
 
         const sourceQuestionnaire = await getQuestionnaire(questionnaireId);

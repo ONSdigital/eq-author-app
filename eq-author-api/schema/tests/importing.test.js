@@ -2,6 +2,7 @@ const { buildContext } = require("../../tests/utils/contextBuilder");
 const { getPages } = require("../resolvers/utils");
 const {
   importQuestions,
+  importSections,
 } = require("../../tests/utils/contextBuilder/importing");
 
 describe("Importing questions", () => {
@@ -186,6 +187,45 @@ describe("Importing questions", () => {
           },
         ],
       });
+    });
+  });
+});
+
+describe("Importing sections", () => {
+  describe("Error conditions", () => {
+    const defaultInput = {
+      questionnaireId: "questionnaire-id",
+      sectionIds: ["s1", "s2", "s3"],
+      position: {
+        index: 0,
+        sectionId: "s0",
+      },
+    };
+
+    it("should throw error if sectionId is not provided", async () => {
+      expect(
+        importSections(await buildContext({}), {
+          ...defaultInput,
+          position: { index: 0, sectionId: null },
+        })
+      ).rejects.toThrow("Target section ID must be provided");
+    });
+
+    it("should throw error if source questionnaireID doesn't exist", async () => {
+      expect(
+        importSections(await buildContext({}), defaultInput)
+      ).rejects.toThrow(/Questionnaire with ID .+ does not exist/);
+    });
+
+    it("should throw error if not all sections present in source questionnaire", async () => {
+      const { questionnaire: source } = await buildContext({});
+      const ctx = await buildContext({});
+      expect(
+        importSections(ctx, {
+          ...defaultInput,
+          questionnaireId: source.id,
+        })
+      ).rejects.toThrow(/Not all section IDs .+ exist in source questionnaire/);
     });
   });
 });
