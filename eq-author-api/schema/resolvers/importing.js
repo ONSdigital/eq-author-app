@@ -119,22 +119,21 @@ module.exports = {
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
-        const strippedSections = () =>
-          remapAllNestedIds(
-            stripQCodes(
-              sourceSections.forEach((section) => {
-                section.displayConditions = null;
-                section.folders.forEach((folder) => {
-                  folder.skipConditions = null;
-                  folder.pages.forEach((page) => {
-                    page.routing = null;
-                    page.skipConditions = null;
-                  });
+        remapAllNestedIds(
+          stripQCodes(
+            sourceSections.forEach((section) => {
+              section.displayConditions = null;
+              section.folders.forEach((folder) => {
+                folder.skipConditions = null;
+                folder.pages.forEach((page) => {
+                  page.routing = null;
+                  page.skipConditions = null;
                 });
-                sectionsWithoutLogic.push(section);
-              })
-            )
-          );
+              });
+              sectionsWithoutLogic.push(section);
+            })
+          )
+        );
 
         const section = getSectionById(ctx, sectionId);
         if (!section) {
@@ -142,8 +141,6 @@ module.exports = {
             `Section with ID ${sectionId} doesn't exist in target questionnaire.`
           );
         }
-
-        strippedSections();
 
         destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
 
