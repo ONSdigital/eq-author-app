@@ -9,6 +9,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 import {
   getSectionByPageId,
   getSectionByFolderId,
+  getSectionById,
   getPageById,
   getFolderById,
   getFolderByPageId,
@@ -273,9 +274,14 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 
     switch (currentEntityName) {
       case "section": {
+        const { position } = getSectionById(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+
         input.position = {
           sectionId: currentEntityId,
-          index: 0,
+          index: position + 1,
         };
 
         break;
