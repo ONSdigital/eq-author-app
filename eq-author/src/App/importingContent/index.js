@@ -287,43 +287,24 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         break;
       }
       case "folder": {
-        const { id: sectionId } = getSectionByFolderId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        const { position } = getFolderById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+        const { id: sectionId, position: positionOfParentSection } =
+          getSectionByFolderId(sourceQuestionnaire, currentEntityId);
 
         input.position = {
           sectionId,
         };
 
-        if (targetInsideFolder) {
-          input.position.folderId = currentEntityId;
-          input.position.index = 0;
-        } else {
-          input.position.index = position + 1;
-        }
+        input.position.index = positionOfParentSection + 1;
 
         break;
       }
       case "page": {
-        const { id: sectionId } = getSectionByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+        const { id: sectionId, position: positionOfParentSection } =
+          getSectionByPageId(sourceQuestionnaire, currentEntityId);
 
         input.position = {
           sectionId,
         };
-
-        const { position: positionOfParentSection } = getSectionByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
 
         input.position.index = positionOfParentSection + 1;
 
