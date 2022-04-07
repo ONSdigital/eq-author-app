@@ -22,22 +22,7 @@ describe("enableHub", () => {
   });
 
   it("should enable hub when there is more than section", () => {
-    expect(updateEnabledHub(questionnaire)).toMatchObject({
-      id: "aca64645-98ef-43ae-8b77-d749b4e89a05",
-      title: "laa",
-      theme: "default",
-      hub: true,
-      navigation: false,
-      metadata: [],
-      sections: [
-        {
-          id: "section1",
-        },
-        {
-          id: "section2",
-        },
-      ],
-    });
+    expect(updateEnabledHub(questionnaire).hub).toEqual(true);
   });
 });
 
@@ -48,7 +33,7 @@ describe("disabledHub", () => {
       id: "aca64645-98ef-43ae-8b77-d749b4e89a05",
       title: "laa",
       theme: "default",
-      hub: false,
+      hub: true,
       navigation: false,
       metadata: [],
       sections: [
@@ -60,18 +45,6 @@ describe("disabledHub", () => {
   });
 
   it("shouldn't enable hub when there is only one section", () => {
-    expect(updateEnabledHub(questionnaire)).toMatchObject({
-      id: "aca64645-98ef-43ae-8b77-d749b4e89a05",
-      title: "laa",
-      theme: "default",
-      hub: false,
-      navigation: false,
-      metadata: [],
-      sections: [
-        {
-          id: "section1",
-        },
-      ],
-    });
+    expect(updateEnabledHub(questionnaire).hub).toEqual(false);
   });
 });
