@@ -96,14 +96,6 @@ describe("RoutingDestinationContentPicker", () => {
     expect(queryByText("Select a destination")).not.toBeVisible();
   });
 
-  it("should not render 'Later sections' when else destination selector", () => {
-    const { clickOpen, queryByText } = modifiedSetup({
-      id: "else",
-    });
-    clickOpen();
-    expect(queryByText("Later sections")).toBeNull();
-  });
-
   describe("displayName", () => {
     it("should correctly render page display name", () => {
       const { getByText } = modifiedSetup({

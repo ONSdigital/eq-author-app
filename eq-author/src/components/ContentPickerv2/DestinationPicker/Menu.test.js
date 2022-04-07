@@ -170,19 +170,6 @@ describe("Destination Picker Menu", () => {
       expect(getByText("Question four")).toBeVisible();
     });
 
-    it("should display sections in 'Later sections'", () => {
-      const { queryByText, getByText, click } = defaultSetup();
-      click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-      expect(queryByText("Section one")).toBeFalsy();
-      expect(getByText("Section two")).toBeVisible();
-      expect(getByText("Section three")).toBeVisible();
-      expect(getByText("Section four")).toBeVisible();
-    });
-
     it("should display 'Other destinations' options", () => {
       const { getByText, click } = defaultSetup();
       click(tabTitles.other);
@@ -203,20 +190,6 @@ describe("Destination Picker Menu", () => {
         "true"
       );
 
-      // doesn't change with other keyDown
-      keyPress(tabTitles.later, { key: "Escape", code: "Escape" });
-      expect(getByText(tabTitles.current)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-
-      // changes with Enter
-      keyPress(tabTitles.later, { key: "Enter", code: "Enter" });
-      expect(getByText(tabTitles.later)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-
       // changes with Space
       keyPress(tabTitles.other, { key: " ", code: "Space" });
       expect(getByText(tabTitles.other)).toHaveAttribute(
@@ -228,8 +201,8 @@ describe("Destination Picker Menu", () => {
     it("should be able to change destination tabs with click", () => {
       const { getByText, click } = defaultSetup();
 
-      click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveAttribute(
+      click(tabTitles.current);
+      expect(getByText(tabTitles.current)).toHaveAttribute(
         "aria-selected",
         "true"
       );
@@ -272,17 +245,6 @@ describe("Destination Picker Menu", () => {
         logicalDestination: LogicalDestinationArray[1].logicalDestination,
       });
     });
-
-    it("should display 'Later sections' when hub is disabled", () => {
-      const { queryByText } = defaultSetup();
-      expect(queryByText(tabTitles.later)).toBeTruthy();
-    });
-
-    it("should display 'End of questionnaire' when hub is disabled", () => {
-      const { click, queryByText } = defaultSetup();
-      click(tabTitles.other);
-      expect(queryByText("End of questionnaire")).toBeTruthy();
-    });
   });
 
   describe("Hub is enabled", () => {
@@ -291,17 +253,11 @@ describe("Destination Picker Menu", () => {
       useQuestionnaire.mockImplementation(() => ({ questionnaire }));
     });
 
-    it("should not display 'Later sections' when hub is enabled", () => {
-      const { queryByText } = defaultSetup();
-      expect(queryByText(tabTitles.later)).toBeFalsy();
-    });
-
     it("should display 'Current section' and 'Other destinations' when hub is enabled", () => {
       const { queryByText } = defaultSetup();
       expect(queryByText(tabTitles.current)).toBeTruthy();
       expect(queryByText(tabTitles.other)).toBeTruthy();
     });
-
     it("should not display 'End of questionnaire' when hub is enabled", () => {
       const { click, queryByText } = defaultSetup();
       click(tabTitles.other);

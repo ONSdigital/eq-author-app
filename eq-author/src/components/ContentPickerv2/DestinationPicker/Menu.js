@@ -28,7 +28,6 @@ const Column = styled.div`
 
 export const tabTitles = {
   current: "Current section",
-  later: "Later sections",
   other: "Other destinations",
 };
 
@@ -48,10 +47,6 @@ const buildTabs = (data, questionnaire) => ({
     title: tabTitles.current,
     destinations: data.pages,
   },
-  later: {
-    title: tabTitles.later,
-    destinations: data.sections,
-  },
   other: {
     title: tabTitles.other,
     destinations: otherDestinations(data, questionnaire),
@@ -63,20 +58,13 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { questionnaire } = useQuestionnaire();
 
-  const { current, later, other } = buildTabs(data, questionnaire);
+  const { current, other } = buildTabs(data, questionnaire);
 
   const getRequiredTabs = () => {
     const requiredTabs = [];
 
     if (current.destinations.length !== 0) {
       requiredTabs.push(current);
-    }
-    if (
-      later?.destinations?.length !== 0 &&
-      later.destinations &&
-      !questionnaire.hub
-    ) {
-      requiredTabs.push(later);
     }
     requiredTabs.push(other);
 
