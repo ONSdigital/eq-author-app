@@ -1,7 +1,7 @@
 const enableOn = (flags) => {
-  const featureFlagsInfo = process.env.FEATURE_FLAGS || [];
+  const featureFlagsInfo = process.env.FEATURE_FLAGS || "";
 
-  const enabledFlags = featureFlagsInfo.toString().split(",");
+  const enabledFlags = featureFlagsInfo.split(",");
 
   const displayFeature = flags.every((flag) => enabledFlags.includes(flag));
 
