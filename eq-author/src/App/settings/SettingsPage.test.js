@@ -635,47 +635,6 @@ describe("Settings page", () => {
     });
   });
 
-  describe("Hub navigation toggle", () => {
-    it("Should not display hub introduction toggle switch when hub feature flag is not enabled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "";
-
-      const { queryByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const hubNavigationToggle = queryByTestId("toggle-hub-navigation");
-
-      expect(hubNavigationToggle).not.toBeInTheDocument();
-    });
-
-    it("Should enable/disable hub navigation when toggled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "hub";
-
-      const { getByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const hubNavigationToggle = getByTestId("toggle-hub-navigation");
-
-      const toggle = Object.values(hubNavigationToggle.children).reduce(
-        (child) => (child.type === "checkbox" ? child : null)
-      );
-
-      expect(queryWasCalled).toBeFalsy();
-
-      await act(async () => {
-        await fireEvent.click(toggle);
-        flushPromises();
-      });
-
-      expect(queryWasCalled).toBeTruthy();
-    });
-  });
-
   describe("Hub introduction toggle", () => {
     beforeEach(() => {
       config.REACT_APP_FEATURE_FLAGS = "hub";
