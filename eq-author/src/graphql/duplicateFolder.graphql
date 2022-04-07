@@ -3,6 +3,7 @@
 #import "./fragments/page.graphql"
 #import "./fragments/answer.graphql"
 #import "./fragments/option.graphql"
+#import "./fragments/comment.graphql"
 
 mutation duplicateFolder($input: DuplicateFolderInput!) {
   duplicateFolder(input: $input) {
@@ -42,10 +43,16 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
                 }
               }
             }
+            comments {
+              ...Comment
+            }
             confirmation {
               id
               qCode
               displayName
+              comments {
+                ...Comment
+              }
               validationErrorInfo {
                 ...ValidationErrorInfo
               }
@@ -53,6 +60,10 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
           }
           ... on CalculatedSummaryPage {
             id
+            alias
+            comments {
+              ...Comment
+            }
           }
           validationErrorInfo {
             ...ValidationErrorInfo

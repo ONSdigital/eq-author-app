@@ -2,6 +2,7 @@
 #import "./fragments/answer.graphql"
 #import "./fragments/folder.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/comment.graphql"
 
 mutation duplicatePage($input: DuplicatePageInput!) {
   duplicatePage(input: $input) {
@@ -46,6 +47,9 @@ mutation duplicatePage($input: DuplicatePageInput!) {
         id
         qCode
         displayName
+        comments {
+          ...Comment
+        }
         validationErrorInfo {
           ...ValidationErrorInfo
         }
