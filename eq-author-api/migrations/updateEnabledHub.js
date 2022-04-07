@@ -1,5 +1,10 @@
+const { enableOn } = require("../utils/featureFlag");
+
 module.exports = (questionnaire) => {
-  questionnaire.hub = questionnaire.sections.length > 1;
+  process.env.FEATURE_FLAGS = "hub";
+  if (enableOn(["hub"])) {
+    questionnaire.hub = questionnaire.sections.length > 1;
+  }
 
   return questionnaire;
 };
