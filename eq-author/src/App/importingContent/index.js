@@ -126,13 +126,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   };
 
   const onRemoveAllSelectedQuestions = () => {
-    console.log("REMOVE ALL SELECTED QUESITONS");
-    console.log("selectingQuestionnaire", selectingQuestionnaire);
-    console.log("reviewingQuestions", reviewingQuestions);
-    console.log("selectingQuestions", selectingQuestions);
-    console.log("reviewingSections", reviewingSections);
-    console.log("selectingSections", selectingSections);
-
     if (reviewingQuestions) {
       setQuestionsToImport([]);
     } else {
@@ -141,13 +134,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   };
 
   const onRemoveSingleSelectedQuestion = (index) => {
-    console.log("REMOVE SINGLE SELECTED QUESITONS");
-    console.log("selectingQuestionnaire", selectingQuestionnaire);
-    console.log("reviewingQuestions", reviewingQuestions);
-    console.log("selectingQuestions", selectingQuestions);
-    console.log("reviewingSections", reviewingSections);
-    console.log("selectingSections", selectingSections);
-
     if (reviewingQuestions) {
       const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
       setQuestionsToImport(filteredQuestions);
@@ -285,16 +271,12 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       questionnaireId: questionnaireImportingFrom.id,
     };
 
-    console.log("currentEntityName :>> ", currentEntityName);
-
     switch (currentEntityName) {
       case "section": {
         input.position = {
           sectionId: currentEntityId,
           index: 0,
         };
-
-        console.log("sectionId :>> ", currentEntityId);
 
         break;
       }
@@ -303,8 +285,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sourceQuestionnaire,
           currentEntityId
         );
-
-        console.log("sectionId :>> ", sectionId);
 
         const { position } = getFolderById(
           sourceQuestionnaire,
@@ -329,8 +309,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sourceQuestionnaire,
           currentEntityId
         );
-
-        console.log("sectionId :>> ", sectionId);
 
         input.position = {
           sectionId,

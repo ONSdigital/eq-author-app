@@ -66,8 +66,6 @@ const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Section = ({ section }) => {
   const { title, displayName, alias } = section;
-  console.log("title :>> ", title);
-  // console.log('section :>> ', section);
   const { selectedSections, updateSelectedSections } = useContext(
     SelectedSectionContext
   );

@@ -111,7 +111,7 @@ module.exports = {
 
         if (sourceSections.length !== sectionIds.length) {
           throw new UserInputError(
-            `Not all page IDs in [${sectionIds}] exist in source questionnaire ${questionnaireId}.`
+            `Not all section IDs in [${sectionIds}] exist in source questionnaire ${questionnaireId}.`
           );
         }
 
