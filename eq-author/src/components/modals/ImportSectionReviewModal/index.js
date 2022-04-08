@@ -97,6 +97,7 @@ const ImportSectionReviewModal = ({
   onConfirm,
   onCancel,
   onBack,
+  onSelectQuestions,
   onSelectSections,
   onRemoveSingle,
   onRemoveAll,
@@ -112,7 +113,9 @@ const ImportSectionReviewModal = ({
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning>Qcodes will not be imported.</Warning>
+        <Warning>
+          Question logic, piping and Qcodes will not be imported.
+        </Warning>
       </Subheading>
     </Header>
     <Content>
@@ -141,6 +144,9 @@ const ImportSectionReviewModal = ({
         </ContentHeading>
       )}
       <Container>
+        {startingSelectedSections?.length === 0 && (
+          <Button onClick={onSelectQuestions}>Questions</Button>
+        )}
         <Button onClick={onSelectSections}>
           {startingSelectedSections?.length >= 1
             ? "Select more sections"
@@ -156,6 +162,7 @@ ImportSectionReviewModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  onSelectQuestions: PropTypes.func.isRequired,
   onSelectSections: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,

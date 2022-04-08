@@ -362,6 +362,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
+          onSelectSections={onSelectSections}
           onRemoveAll={onRemoveAllSelectedContent}
           onRemoveSingle={onRemoveSingleSelectedContent}
         />
@@ -408,6 +409,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           onCancel={onGlobalCancel}
           onConfirm={onReviewSectionsSubmit}
           onBack={onBackFromReviewingSections}
+          onSelectQuestions={onSelectQuestions}
           onSelectSections={onSelectSections}
           onRemoveAll={onRemoveAllSelectedContent}
           onRemoveSingle={onRemoveSingleSelectedContent}
