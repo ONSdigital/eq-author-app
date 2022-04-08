@@ -33,11 +33,15 @@ describe("Import questions review modal", () => {
       />
     );
 
-    expect(screen.queryByText(/No questions selected/)).toBeTruthy();
+    expect(
+      screen.queryByText(
+        /Select individual questions or entire sections to be imported, you cannot choose both/
+      )
+    ).toBeTruthy();
     // Import button should be disabled when no questions selected
     expect(screen.getByText(/^Import$/)).toBeDisabled();
 
-    userEvent.click(screen.queryByText(/Select questions/));
+    userEvent.click(screen.queryByTestId("select-questions-button"));
 
     expect(mockOnSelectQuestions.mock.calls.length).toBe(1);
   });

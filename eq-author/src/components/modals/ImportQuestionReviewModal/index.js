@@ -144,7 +144,7 @@ const ImportQuestionReviewModal = ({
         </ContentHeading>
       )}
       <Container>
-        <Button onClick={onSelectQuestions}>
+        <Button onClick={onSelectQuestions} data-test="select-questions-button">
           {startingSelectedQuestions?.length >= 1
             ? "Select more questions"
             : "Questions"}
