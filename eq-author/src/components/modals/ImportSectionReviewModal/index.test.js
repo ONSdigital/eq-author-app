@@ -5,14 +5,8 @@ import ImportQuestionReviewModal from ".";
 import mockSections from "../../../tests/mocks/mockSections.json";
 
 const mockQuestionnaire = {
-  title: "Important Questions",
+  title: "Import sections",
 };
-
-// const mockQuestions = [
-//   { alias: "Q1", title: "How many roads must a man walk down?" },
-//   { alias: "Q2", title: "What is the airspeed velocity of a swallow?" },
-//   { alias: "Q3", title: "What is your favourite colour?" },
-// ];
 
 const mockOnSelectSections = jest.fn();
 const mockOnRemoveSingle = jest.fn();
