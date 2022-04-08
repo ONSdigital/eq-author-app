@@ -9,7 +9,7 @@ import {
 
 import ContentPicker from "./";
 
-import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+import { NextPage } from "constants/destinations";
 import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
@@ -564,12 +564,6 @@ describe("Content picker", () => {
               id: NextPage,
               displayName: destinationKey[NextPage],
               logicalDestination: NextPage,
-            },
-            {
-              id: EndOfQuestionnaire,
-              displayName: destinationKey[EndOfQuestionnaire],
-              logicalDestination: EndOfQuestionnaire,
-              displayEnabled: !questionnaire.hub,
             },
           ]),
           pages: [

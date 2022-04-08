@@ -10,15 +10,11 @@ import ContentPicker from "components/ContentPickerv2";
 
 import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
-import {
-  logicalDestinations,
-  EndOfQuestionnaire,
-} from "constants/destinations";
+import { logicalDestinations } from "constants/destinations";
 
 import { destinationKey } from "constants/destinationKey";
 
-const logicalDisplayName = (logical) =>
-  destinationKey[logical] || destinationKey[EndOfQuestionnaire];
+const logicalDisplayName = (logical) => destinationKey[logical];
 
 const absoluteDisplayName = (selected) =>
   (selected.section || selected.page).displayName;

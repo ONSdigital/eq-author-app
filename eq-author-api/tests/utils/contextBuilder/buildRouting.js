@@ -1,9 +1,6 @@
 const { get, isNull } = require("lodash");
 
-const {
-  NEXT_PAGE,
-  END_OF_QUESTIONNAIRE,
-} = require("../../../constants/logicalDestinations");
+const { NEXT_PAGE } = require("../../../constants/logicalDestinations");
 
 const {
   createRouting,
@@ -19,7 +16,7 @@ const convertPathToDestination = (
   { section, folder, page, logical },
   questionnaire
 ) => {
-  if (logical === END_OF_QUESTIONNAIRE || logical === NEXT_PAGE) {
+  if (logical === NEXT_PAGE) {
     return { logical };
   } else if (!isNull(page) && !isNull(section)) {
     return {

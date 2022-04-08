@@ -3,11 +3,7 @@ import { render, fireEvent } from "tests/utils/rtl";
 
 import Menu, { tabTitles } from "./Menu";
 
-import {
-  EndOfQuestionnaire,
-  NextPage,
-  EndOfCurrentSection,
-} from "constants/destinations";
+import { NextPage, EndOfCurrentSection } from "constants/destinations";
 
 import { destinationKey } from "constants/destinationKey";
 
@@ -31,12 +27,6 @@ const props = {
         id: EndOfCurrentSection,
         logicalDestination: EndOfCurrentSection,
         displayName: EndOfCurrentSection,
-      },
-      {
-        id: EndOfQuestionnaire,
-        displayName: destinationKey[EndOfQuestionnaire],
-        logicalDestination: EndOfQuestionnaire,
-        displayEnabled: !questionnaire.hub,
       },
     ]),
     pages: [
@@ -179,7 +169,6 @@ describe("Destination Picker Menu", () => {
       );
       expect(getByText(destinationKey[NextPage])).toBeVisible();
       expect(getByText(destinationKey[EndOfCurrentSection])).toBeVisible();
-      expect(getByText(destinationKey[EndOfQuestionnaire])).toBeVisible();
     });
 
     it("should be able to change destination tabs with Space or enter", () => {
@@ -257,11 +246,6 @@ describe("Destination Picker Menu", () => {
       const { queryByText } = defaultSetup();
       expect(queryByText(tabTitles.current)).toBeTruthy();
       expect(queryByText(tabTitles.other)).toBeTruthy();
-    });
-    it("should not display 'End of questionnaire' when hub is enabled", () => {
-      const { click, queryByText } = defaultSetup();
-      click(tabTitles.other);
-      expect(queryByText("End of questionnaire")).toBeFalsy();
     });
   });
 });

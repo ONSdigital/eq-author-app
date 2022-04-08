@@ -10,8 +10,6 @@ const {
 
 const { GREATER_THAN } = require("../../constants/validationConditions");
 
-const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
-
 const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
 
 const { AND } = require("../../constants/routingOperators");
@@ -36,7 +34,6 @@ const {
   ERR_REFERENCE_MOVED,
   ERR_VALID_REQUIRED,
   ERR_INVALID,
-  ERR_DESTINATION_INVALID_WITH_HUB,
   PIPING_METADATA_DELETED,
   CALCSUM_MOVED,
   ERR_SEC_CONDITION_NOT_SELECTED,
@@ -44,6 +41,7 @@ const {
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
+const { NEXT_PAGE } = require("../../constants/logicalDestinations");
 
 const uuidRejex =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
@@ -1767,28 +1765,6 @@ describe("schema validation", () => {
       );
       expect(destinationMissingErrors).toHaveLength(1);
     });
-    it("Should return an error when the hub is enabled and the destination is EndOfQuestionnaire", () => {
-      questionnaire.sections[0].folders[0].pages[0].routing = {
-        ...defaultRouting,
-        rules: [
-          {
-            ...defaultRouting.rules[0],
-            destination: {
-              id: "destination_1",
-              logical: "EndOfQuestionnaire",
-            },
-          },
-        ],
-      };
-
-      questionnaire.hub = true;
-
-      const destinationMissingErrors = validation(questionnaire).filter(
-        ({ errorCode }) => errorCode === ERR_DESTINATION_INVALID_WITH_HUB
-      );
-
-      expect(destinationMissingErrors).toHaveLength(1);
-    });
 
     it("should return an error if a routing destination has been deleted", () => {
       questionnaire.sections[0].folders[0].pages[0].routing = {
@@ -1819,7 +1795,7 @@ describe("schema validation", () => {
         id: "routing_1",
         else: {
           id: "else_1",
-          logical: END_OF_QUESTIONNAIRE,
+          logical: NEXT_PAGE,
         },
         rules: [
           {

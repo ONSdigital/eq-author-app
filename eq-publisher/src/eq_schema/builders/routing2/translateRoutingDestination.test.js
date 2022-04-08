@@ -67,15 +67,6 @@ describe("Translation of a routing destination", () => {
     ).toMatchObject({ group: "confirmation-group" });
   });
 
-  it("should translate a end of questionnaire destination", () => {
-    const authorDestination = {
-      logical: "EndOfQuestionnaire",
-    };
-    expect(
-      translateRoutingDestination(authorDestination, "1", { questionnaireJson })
-    ).toMatchObject({ group: "confirmation-group" });
-  });
-
   it("should fail if not provided any destinations", () => {
     const authorDestination = {};
 

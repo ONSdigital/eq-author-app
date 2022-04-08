@@ -90,7 +90,7 @@ describe("RuleEditor", () => {
 
   it("should allow changing of the destination", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
-    const data = { logical: "EndOfQuestionnaire" };
+    const data = { logical: "EndOfCurrentSection" };
     wrapper.find(RoutingRuleDestinationSelector).simulate("change", data);
     expect(defaultProps.updateRule).toHaveBeenCalledWith({
       ...defaultProps.rule,
