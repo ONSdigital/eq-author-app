@@ -11,14 +11,16 @@ const mockQuestionnaire = {
 const mockOnSelectSections = jest.fn();
 const mockOnRemoveSingle = jest.fn();
 const mockOnRemoveAll = jest.fn();
+const mockOnSelectQuestions = jest.fn();
 
 describe("Import sections review modal", () => {
-  it("Should call onSelectSections when the button is clicked", () => {
+  it("Should call onSelectSections when the sections button is clicked", () => {
     render(
       <ImportQuestionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectSections={mockOnSelectSections}
+        onSelectQuestions={mockOnSelectQuestions}
         startingSelectedSections={[]}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -36,7 +38,11 @@ describe("Import sections review modal", () => {
     // Import button should be disabled when no questions selected
     expect(screen.getByText(/^Import$/)).toBeDisabled();
 
-    userEvent.click(screen.getByTestId("select-sections-button"));
+    expect(mockOnSelectSections.mock.calls.length).toBe(0);
+
+    userEvent.click(
+      screen.getByTestId("section-review-select-sections-button")
+    );
 
     expect(mockOnSelectSections.mock.calls.length).toBe(1);
   });
@@ -48,6 +54,7 @@ describe("Import sections review modal", () => {
         isOpen
         startingSelectedSections={mockSections}
         onSelectsections={mockOnSelectSections}
+        onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -70,6 +77,7 @@ describe("Import sections review modal", () => {
         isOpen
         startingSelectedSections={mockSections}
         onSelectSections={mockOnSelectSections}
+        onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -90,6 +98,7 @@ describe("Import sections review modal", () => {
         isOpen
         startingSelectedSections={mockSections}
         onSelectSections={mockOnSelectSections}
+        onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -110,6 +119,7 @@ describe("Import sections review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectSections={mockOnSelectSections}
+        onSelectQuestions={mockOnSelectQuestions}
         startingSelectedSections={mockSections}
         onConfirm={mockHandleConfirm}
         onCancel={jest.fn()}
@@ -123,5 +133,80 @@ describe("Import sections review modal", () => {
     userEvent.click(screen.queryByText(/^Import$/));
 
     expect(mockHandleConfirm).toHaveBeenCalledWith(mockSections);
+  });
+
+  describe("Questions button", () => {
+    it("Should render questions button if no sections are selected", () => {
+      const mockHandleConfirm = jest.fn();
+
+      render(
+        <ImportQuestionReviewModal
+          questionnaire={mockQuestionnaire}
+          isOpen
+          onSelectSections={mockOnSelectSections}
+          onSelectQuestions={mockOnSelectQuestions}
+          startingSelectedSections={[]}
+          onConfirm={mockHandleConfirm}
+          onCancel={jest.fn()}
+          onBack={jest.fn()}
+          onRemoveAll={mockOnRemoveAll}
+          onRemoveSingle={mockOnRemoveSingle}
+        />
+      );
+
+      expect(
+        screen.queryByTestId("section-review-select-questions-button")
+      ).toBeTruthy();
+    });
+
+    it("Should not render questions button if sections are selected", () => {
+      const mockHandleConfirm = jest.fn();
+
+      render(
+        <ImportQuestionReviewModal
+          questionnaire={mockQuestionnaire}
+          isOpen
+          onSelectSections={mockOnSelectSections}
+          onSelectQuestions={mockOnSelectQuestions}
+          startingSelectedSections={mockSections}
+          onConfirm={mockHandleConfirm}
+          onCancel={jest.fn()}
+          onBack={jest.fn()}
+          onRemoveAll={mockOnRemoveAll}
+          onRemoveSingle={mockOnRemoveSingle}
+        />
+      );
+
+      expect(
+        screen.queryByTestId("section-review-select-questions-button")
+      ).toBeFalsy();
+    });
+
+    it("Should call onSelectQuestions when questions button is clicked", () => {
+      const mockHandleConfirm = jest.fn();
+
+      render(
+        <ImportQuestionReviewModal
+          questionnaire={mockQuestionnaire}
+          isOpen
+          onSelectSections={mockOnSelectSections}
+          onSelectQuestions={mockOnSelectQuestions}
+          startingSelectedSections={[]}
+          onConfirm={mockHandleConfirm}
+          onCancel={jest.fn()}
+          onBack={jest.fn()}
+          onRemoveAll={mockOnRemoveAll}
+          onRemoveSingle={mockOnRemoveSingle}
+        />
+      );
+
+      expect(mockOnSelectQuestions.mock.calls.length).toBe(0);
+
+      userEvent.click(
+        screen.getByTestId("section-review-select-questions-button")
+      );
+
+      expect(mockOnSelectQuestions.mock.calls.length).toBe(1);
+    });
   });
 });
