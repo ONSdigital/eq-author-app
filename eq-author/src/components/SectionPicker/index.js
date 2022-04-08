@@ -96,7 +96,7 @@ Section.propTypes = {
   section: PropTypes.object, // eslint-disable-line
 };
 
-const QuestionPicker = ({
+const SectionPicker = ({
   title,
   sections,
   warningPanel,
@@ -174,7 +174,7 @@ const QuestionPicker = ({
     </StyledModal>
   );
 };
-QuestionPicker.propTypes = {
+SectionPicker.propTypes = {
   title: PropTypes.string.isRequired,
   sections: PropTypes.array.isRequired, // eslint-disable-line
   startingSelectedSections: PropTypes.array, // eslint-disable-line
@@ -196,4 +196,4 @@ QuestionPicker.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default QuestionPicker;
+export default SectionPicker;
