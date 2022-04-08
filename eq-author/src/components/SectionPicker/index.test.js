@@ -102,29 +102,11 @@ describe("SectionPicker", () => {
       expect(queryByText("Pets 2")).toBeInTheDocument();
     });
 
-    // it("Doesnt show the search bar if showSearch is false", () => {
-    //   const defaultPropsWithSearchFalse = {
-    //     title: "Select the question(s) to import",
-    //     isOpen: true,
-    //     showSearch: false,
-    //     warningPanel:
-    //       "You cannot import folders but you can import any questions they contain.",
-    //     onSubmit: jest.fn(),
-    //     onClose: jest.fn(),
-    //     onCancel: jest.fn(),
-    //     startingSelectedQuestions: [],
-    //     sections: mockSections,
-    //   };
+    it("Does not show the search bar if showSearch is false", () => {
+      const { queryByTestId } = renderSectionPicker({ showSearch: false });
+      const searchBar = queryByTestId("search-bar");
 
-    //   const renderSectionPicker = (args) =>
-    //     render(
-    //       <SectionPicker isOpen {...defaultPropsWithSearchFalse} {...args} />
-    //     );
-
-    //   const { queryByTestId } = renderSectionPicker({});
-    //   const searchBar = queryByTestId("search-bar");
-
-    //   expect(searchBar).toBeNull();
-    // });
+      expect(searchBar).toBeNull();
+    });
   });
 });
