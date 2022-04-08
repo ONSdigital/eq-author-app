@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { getPages } from "utils/questionnaireUtils";
 import { stripHtmlToText } from "utils/stripHTML";
 import searchBySectionTitleOrShortCode from "utils/searchFunctions/searchBySectionTitleShortCode";
 
@@ -137,7 +136,9 @@ const SectionPicker = ({
         )}
       </Header>
       <Main>
-        {sections.length > 0 ? (
+        {searchTerm === "" ||
+        (searchTerm !== "" &&
+          searchBySectionTitleOrShortCode(sections, searchTerm).length > 0) ? (
           <ScrollPane>
             <SelectedSectionsProvider
               value={{ selectedSections, updateSelectedSections }}
