@@ -3,8 +3,11 @@ import { render } from "tests/utils/rtl";
 
 import DestinationPicker, { Title } from "./";
 
-import { NextPage, EndOfCurrentSection } from "constants/destinations";
-
+import {
+  EndOfQuestionnaire,
+  NextPage,
+  EndOfCurrentSection,
+} from "constants/destinations";
 import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
@@ -24,6 +27,12 @@ const data = () => ({
       id: EndOfCurrentSection,
       logicalDestination: EndOfCurrentSection,
       displayName: EndOfCurrentSection,
+    },
+    {
+      id: EndOfQuestionnaire,
+      displayName: destinationKey[EndOfQuestionnaire],
+      logicalDestination: EndOfQuestionnaire,
+      displayEnabled: !questionnaire.hub,
     },
   ]),
   pages: [

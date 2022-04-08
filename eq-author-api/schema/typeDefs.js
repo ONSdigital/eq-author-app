@@ -341,6 +341,7 @@ type Option {
 
 enum LogicalDestinations {
   NextPage
+  EndOfQuestionnaire
 }
 
 type LogicalDestination {
@@ -559,6 +560,7 @@ enum LogicalDestination2 {
   Default
   NextPage
   EndOfCurrentSection
+  EndOfQuestionnaire
 }
 
 type Destination2 {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import { enableOn } from "utils/featureFlags";
+
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import {
@@ -28,6 +30,7 @@ const Column = styled.div`
 
 export const tabTitles = {
   current: "Current section",
+  later: "Later sections",
   other: "Other destinations",
 };
 
@@ -38,14 +41,21 @@ const otherDestinations = ({ logicalDestinations }, questionnaire) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
-
-  return dest;
+  if (enableOn(["removedRoutingDestinations"])) {
+    return dest.filter((dest) => dest.id !== "EndOfQuestionnaire");
+  } else {
+    return dest;
+  }
 };
 
 const buildTabs = (data, questionnaire) => ({
   current: {
     title: tabTitles.current,
     destinations: data.pages,
+  },
+  later: {
+    title: tabTitles.later,
+    destinations: data.sections,
   },
   other: {
     title: tabTitles.other,
@@ -58,13 +68,21 @@ const Menu = ({ data, onSelected, isSelected }) => {
 
   const { questionnaire } = useQuestionnaire();
 
-  const { current, other } = buildTabs(data, questionnaire);
+  const { current, later, other } = buildTabs(data, questionnaire);
 
   const getRequiredTabs = () => {
     const requiredTabs = [];
 
     if (current.destinations.length !== 0) {
       requiredTabs.push(current);
+    }
+    if (
+      later?.destinations?.length !== 0 &&
+      later.destinations &&
+      !questionnaire.hub &&
+      !enableOn(["removedRoutingDestinations"])
+    ) {
+      requiredTabs.push(later);
     }
     requiredTabs.push(other);
 

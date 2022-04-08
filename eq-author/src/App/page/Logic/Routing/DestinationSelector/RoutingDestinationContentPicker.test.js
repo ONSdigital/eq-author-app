@@ -96,6 +96,14 @@ describe("RoutingDestinationContentPicker", () => {
     expect(queryByText("Select a destination")).not.toBeVisible();
   });
 
+  it("should not render 'Later sections' when else destination selector", () => {
+    const { clickOpen, queryByText } = modifiedSetup({
+      id: "else",
+    });
+    clickOpen();
+    expect(queryByText("Later sections")).toBeNull();
+  });
+
   describe("displayName", () => {
     it("should correctly render page display name", () => {
       const { getByText } = modifiedSetup({
@@ -109,6 +117,14 @@ describe("RoutingDestinationContentPicker", () => {
         selected: { section: { id: "1", displayName: "section name" } },
       });
       expect(getByText("section name")).toBeVisible();
+    });
+
+    it("should correctly render logicalDestination EndOfQuestionnaire", () => {
+      const { getByText } = modifiedSetup({
+        selected: { logical: "EndOfQuestionnaire" },
+      });
+
+      expect(getByText("End of questionnaire")).toBeVisible();
     });
 
     it("should correctly render logicalDestination NextPage", () => {

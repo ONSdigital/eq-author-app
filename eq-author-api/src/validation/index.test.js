@@ -34,6 +34,7 @@ const {
   ERR_REFERENCE_MOVED,
   ERR_VALID_REQUIRED,
   ERR_INVALID,
+  ERR_DESTINATION_INVALID_WITH_HUB,
   PIPING_METADATA_DELETED,
   CALCSUM_MOVED,
   ERR_SEC_CONDITION_NOT_SELECTED,
@@ -1763,6 +1764,52 @@ describe("schema validation", () => {
       const destinationMissingErrors = validation(questionnaire).filter(
         ({ errorCode }) => errorCode === ERR_DESTINATION_REQUIRED
       );
+      expect(destinationMissingErrors).toHaveLength(1);
+    });
+
+    it("Should return an error when the hub is enabled and the destination is EndOfQuestionnaire", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = {
+        ...defaultRouting,
+        rules: [
+          {
+            ...defaultRouting.rules[0],
+            destination: {
+              id: "destination_1",
+              logical: "EndOfQuestionnaire",
+            },
+          },
+        ],
+      };
+
+      questionnaire.hub = true;
+
+      const destinationMissingErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_INVALID_WITH_HUB
+      );
+
+      expect(destinationMissingErrors).toHaveLength(1);
+    });
+
+    it("Should return an error when the hub is enabled and the destination is a later section", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = {
+        ...defaultRouting,
+        rules: [
+          {
+            ...defaultRouting.rules[0],
+            destination: {
+              id: "destination_1",
+              sectionId: "section_1",
+            },
+          },
+        ],
+      };
+
+      questionnaire.hub = true;
+
+      const destinationMissingErrors = validation(questionnaire).filter(
+        ({ errorCode }) => errorCode === ERR_DESTINATION_INVALID_WITH_HUB
+      );
+
       expect(destinationMissingErrors).toHaveLength(1);
     });
 
