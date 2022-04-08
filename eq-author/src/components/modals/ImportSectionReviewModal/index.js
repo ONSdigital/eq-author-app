@@ -147,7 +147,7 @@ const ImportSectionReviewModal = ({
         {startingSelectedSections?.length === 0 && (
           <Button onClick={onSelectQuestions}>Questions</Button>
         )}
-        <Button onClick={onSelectSections}>
+        <Button onClick={onSelectSections} data-test="select-sections-button">
           {startingSelectedSections?.length >= 1
             ? "Select more sections"
             : "Sections"}
