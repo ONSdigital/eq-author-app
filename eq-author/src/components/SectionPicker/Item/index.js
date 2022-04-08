@@ -138,6 +138,7 @@ const WrappedItem = ({
         tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
         onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
+        data-test="section-picker-item"
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
         {variant !== "heading" && (
