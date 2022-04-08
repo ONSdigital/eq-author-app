@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { getPages } from "utils/questionnaireUtils";
 import { stripHtmlToText } from "utils/stripHTML";
-import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleShortCode";
+import searchBySectionTitleOrShortCode from "utils/searchFunctions/searchBySectionTitleShortCode";
 
 import { colors } from "constants/theme";
 
@@ -113,7 +113,7 @@ const SectionPicker = ({
 
   useEffect(() => {
     updateFilteredSections(
-      searchByQuestionTitleOrShortCode(sections, searchTerm)
+      searchBySectionTitleOrShortCode(sections, searchTerm)
     );
   }, [sections, searchTerm]);
 
