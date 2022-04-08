@@ -54,8 +54,18 @@ const ImportQuestionReviewModal = ({
       </ContentHeading>
 
       <Container>
-        <Button onClick={onSelectQuestions}>Questions</Button>
-        <Button onClick={onSelectSections}>Sections</Button>
+        <Button
+          onClick={onSelectQuestions}
+          data-test="content-modal-select-questions-button"
+        >
+          Questions
+        </Button>
+        <Button
+          onClick={onSelectSections}
+          data-test="content-modal-select-sections-button"
+        >
+          Sections
+        </Button>
       </Container>
     </Content>
   </Wizard>
