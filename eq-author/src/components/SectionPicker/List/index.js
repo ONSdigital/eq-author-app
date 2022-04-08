@@ -8,7 +8,11 @@ const OrderedList = styled.ol`
 `;
 
 const List = ({ children, className }) => {
-  return <OrderedList className={className}>{children}</OrderedList>;
+  return (
+    <OrderedList className={className} data-test="section-picker-list">
+      {children}
+    </OrderedList>
+  );
 };
 List.propTypes = {
   children: PropTypes.node.isRequired,
