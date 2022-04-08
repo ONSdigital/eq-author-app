@@ -153,7 +153,7 @@ const SectionPicker = ({
         ) : (
           <NoSearchResults
             searchTerm={searchTerm}
-            alertText="Please check the answer exists."
+            alertText="Please check the section exists."
           />
         )}
       </Main>

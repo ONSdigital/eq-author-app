@@ -102,6 +102,22 @@ describe("SectionPicker", () => {
       expect(queryByText("Pets 2")).toBeInTheDocument();
     });
 
+    it("Renders no results component if section is not found", () => {
+      const { getByText, getByTestId, queryByText } = renderSectionPicker({});
+
+      const searchBar = getByTestId("search-bar");
+
+      fireEvent.change(searchBar, {
+        target: { value: "house" },
+      });
+
+      expect(queryByText("Cars")).not.toBeInTheDocument();
+      expect(queryByText("Pets")).not.toBeInTheDocument();
+      expect(queryByText("Pets 2")).not.toBeInTheDocument();
+      expect(getByText(/No results found for 'house'/)).toBeInTheDocument();
+      expect(getByText(/Please check the section exists/)).toBeInTheDocument();
+    });
+
     it("Does not show the search bar if showSearch is false", () => {
       const { queryByTestId } = renderSectionPicker({ showSearch: false });
       const searchBar = queryByTestId("search-bar");
