@@ -7,16 +7,12 @@ import searchBySectionTitleOrShortCode from "utils/searchFunctions/searchBySecti
 
 import { colors } from "constants/theme";
 
-import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
-import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
-
 import SelectedSectionContext, {
   SelectedSectionsProvider,
 } from "./SelectedSectionsContext";
 
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
-import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import ScrollPane from "components/ScrollPane";
@@ -57,10 +53,6 @@ const Title = styled.h2`
   margin-bottom: 0.75em;
 `;
 
-const WarningPanel = styled(IconText)`
-  font-weight: bold;
-`;
-
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Section = ({ section }) => {
@@ -99,7 +91,6 @@ Section.propTypes = {
 const SectionPicker = ({
   title,
   sections,
-  warningPanel,
   showSearch,
   isOpen,
   onClose,
