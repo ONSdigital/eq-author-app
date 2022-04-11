@@ -19,6 +19,12 @@ const Item = styled.div`
     ${focusStyle}
   }
 
+  ${({ position }) =>
+    position === 0 &&
+    `
+      border-top: 1px solid ${colors.lightGrey};
+    `}
+
   ${({ unselectable }) =>
     unselectable &&
     `
@@ -119,6 +125,7 @@ const WrappedItem = ({
   selected,
   unselectable = false,
   onClick,
+  position,
   children,
   dataTest,
 }) => {
@@ -138,6 +145,7 @@ const WrappedItem = ({
         tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
         onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
+        position={position}
         data-test="section-picker-item"
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
@@ -160,6 +168,7 @@ WrappedItem.propTypes = {
   variant: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
+  position: PropTypes.number,
   children: PropTypes.node,
   dataTest: PropTypes.string,
 };

@@ -37,7 +37,7 @@ const Header = styled.header`
   margin: 0 1.5em;
 
   > * {
-    margin-bottom: 0.5em;
+    margin-bottom: 2em;
   }
 `;
 
@@ -64,7 +64,7 @@ const WarningPanel = styled(IconText)`
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Section = ({ section }) => {
-  const { title, displayName, alias } = section;
+  const { title, displayName, alias, position } = section;
   const { selectedSections, updateSelectedSections } = useContext(
     SelectedSectionContext
   );
@@ -87,6 +87,7 @@ const Section = ({ section }) => {
       subtitle={alias}
       onClick={handleClick}
       selected={Boolean(itemSelected)}
+      position={position}
       dataTest="SectionPickerItem"
     />
   );
