@@ -48,7 +48,6 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     useState(null);
 
   const [sectionsToImport, setSectionsToImport] = useState([]);
-  const [sectionsImportingFrom, setSectionsImportingFrom] = useState(null);
 
   const {
     questionnaireId: currentQuestionnaireId,
