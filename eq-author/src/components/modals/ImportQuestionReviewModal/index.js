@@ -83,7 +83,7 @@ const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
 
 QuestionRow.propTypes = {
   question: PropTypes.shape({
-    alias: PropTypes.string.isRequired,
+    alias: PropTypes.string,
     title: PropTypes.string.isRequired,
   }),
   onRemove: PropTypes.func.isRequired,
