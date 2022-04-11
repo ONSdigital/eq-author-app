@@ -25,7 +25,6 @@ const Container = styled.div`
 const ImportQuestionReviewModal = ({
   questionnaire,
   isOpen,
-  onConfirm,
   onCancel,
   onBack,
   onSelectQuestions,
@@ -34,7 +33,7 @@ const ImportQuestionReviewModal = ({
   <Wizard
     isOpen={isOpen}
     confirmText="Import"
-    onConfirm={() => onConfirm(onSelectQuestions)}
+    onConfirm={() => {}}
     onCancel={onCancel}
     onBack={onBack}
     confirmEnabled={false}
