@@ -25,34 +25,6 @@ const Item = styled.div`
       border-top: 1px solid ${colors.lightGrey};
     `}
 
-  ${({ unselectable }) =>
-    unselectable &&
-    `
-    cursor: default;
-    &:hover {
-        background-color: transparent;
-    }
-
-    &:focus{
-      outline: none;
-      box-shadow: none;
-      border-color: ${colors.lightGrey};
-    }
-  `}
-
-  ${({ variant }) =>
-    variant === "heading" &&
-    `
-        height: 2em; 
-        background-color: ${colors.lightMediumGrey};
-
-        cursor: default;
-
-        &:hover {
-            background-color: ${colors.lightMediumGrey};
-        }
-    `}
-
   ${(props) =>
     props["aria-selected"] &&
     !props.heading &&
@@ -73,20 +45,8 @@ const Item = styled.div`
     `}
 `;
 
-const ListItem = styled.li`
-  list-style: none;
-  margin: 0;
-  padding: 0;
+const List = styled.div``;
 
-  ol.sublist li *,
-  ul.sublist li * {
-    padding-left: 2.1rem;
-  }
-
-  &${Item}:first-of-type .heading {
-    border-top: 1px solid ${colors.lightGrey};
-  }
-`;
 const Heading = styled.h3`
   font-size: 1em;
   font-weight: bold;
@@ -123,7 +83,6 @@ const WrappedItem = ({
   subtitle,
   variant,
   selected,
-  unselectable = false,
   onClick,
   position,
   children,
@@ -136,13 +95,11 @@ const WrappedItem = ({
   };
 
   return (
-    <ListItem data-test={dataTest}>
+    <List data-test={dataTest}>
       <Item
-        variant={variant}
         className={`${variant}`}
         aria-selected={selected}
-        $unselectable={unselectable}
-        tabIndex={unselectable ? -1 : 0}
+        tabIndex={0}
         onClick={onClick}
         onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
         position={position}
@@ -157,7 +114,7 @@ const WrappedItem = ({
         {variant === "heading" && <Heading>{title}</Heading>}
       </Item>
       {children}
-    </ListItem>
+    </List>
   );
 };
 WrappedItem.propTypes = {
