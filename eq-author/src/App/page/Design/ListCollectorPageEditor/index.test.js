@@ -1,4 +1,4 @@
-import { UnwrappedListCollectorEditor } from "./";
+import { UnwrappedListCollectorPageEditor } from "./index.js";
 
 import React from "react";
 import { shallow } from "enzyme";
@@ -30,7 +30,7 @@ describe("List Collector Page Editor", () => {
 
   const render = ({ ...props }) => {
     return shallow(
-      <UnwrappedListCollectorEditor
+      <UnwrappedListCollectorPageEditor
         {...mockHandlers}
         questionnaire={questionnaire}
         page={page}

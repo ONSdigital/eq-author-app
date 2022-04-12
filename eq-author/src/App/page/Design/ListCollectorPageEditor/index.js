@@ -170,7 +170,7 @@ const renderErrors = (errors, field) => {
   ));
 };
 
-const UnwrappedListCollectorEditor = (props) => {
+const UnwrappedListCollectorPageEditor = (props) => {
   const {
     history,
     match: {
@@ -483,9 +483,9 @@ const UnwrappedListCollectorEditor = (props) => {
   );
 };
 
-UnwrappedListCollectorEditor.propTypes = propTypes;
+UnwrappedListCollectorPageEditor.propTypes = propTypes;
 
-UnwrappedListCollectorEditor.fragments = {
+UnwrappedListCollectorPageEditor.fragments = {
   ListCollectorPage: gql`
     fragment ListCollectorPage on ListCollectorPage {
       id
@@ -534,4 +534,4 @@ UnwrappedListCollectorEditor.fragments = {
   `,
 };
 
-export default UnwrappedListCollectorEditor;
+export default UnwrappedListCollectorPageEditor;
