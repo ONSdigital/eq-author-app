@@ -1,7 +1,7 @@
-import { UnwrappedListCollectorPageEditor } from "./index.js";
+import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
@@ -28,8 +28,8 @@ describe("List Collector Page Editor", () => {
     },
   };
 
-  const render = ({ ...props }) => {
-    return shallow(
+  const renderListCollector = ({ ...props }) =>
+    render(
       <UnwrappedListCollectorPageEditor
         {...mockHandlers}
         questionnaire={questionnaire}
@@ -41,7 +41,6 @@ describe("List Collector Page Editor", () => {
         {...props}
       />
     );
-  };
 
   beforeEach(() => {
     mockHandlers = {
@@ -143,15 +142,14 @@ describe("List Collector Page Editor", () => {
         id: "collection-lists-1",
       },
     };
-
-    wrapper = render({});
   });
 
   it("should delete the correct answer", () => {
-    wrapper
-      .find("[data-test='answers-editor']")
-      .first()
-      .simulate("deleteAnswer", page.answers[0].id);
+    // wrapper
+    // .find("[data-test='answers-editor']")
+    // .first()
+    // .simulate("deleteAnswer", page.answers[0].id);
+    const { getByTestId } = renderListCollector({});
 
     expect(mockHandlers.onDeleteAnswer).toHaveBeenCalledWith(
       page.id,
@@ -160,7 +158,7 @@ describe("List Collector Page Editor", () => {
   });
 
   it("should add an answer with a type", () => {
-    wrapper.find("[data-test='add-answer']").simulate("select", "Textfield");
+    // wrapper.find("[data-test='add-answer']").simulate("select", "Textfield");
     expect(mockHandlers.onAddAnswer).toHaveBeenCalledWith(
       match.params.pageId,
       "Textfield"
