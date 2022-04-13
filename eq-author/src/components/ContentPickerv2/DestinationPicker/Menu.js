@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import { enableOn } from "utils/featureFlags";
+
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import {
@@ -39,8 +41,11 @@ const otherDestinations = ({ logicalDestinations }, questionnaire) => {
     item.displayName = destinationKey[item.id];
     return item;
   });
-
-  return dest;
+  if (enableOn(["removedRoutingDestinations"])) {
+    return dest.filter((dest) => dest.id !== "EndOfQuestionnaire");
+  } else {
+    return dest;
+  }
 };
 
 const buildTabs = (data, questionnaire) => ({
@@ -74,7 +79,8 @@ const Menu = ({ data, onSelected, isSelected }) => {
     if (
       later?.destinations?.length !== 0 &&
       later.destinations &&
-      !questionnaire.hub
+      !questionnaire.hub &&
+      !enableOn(["removedRoutingDestinations"])
     ) {
       requiredTabs.push(later);
     }

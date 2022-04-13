@@ -228,8 +228,8 @@ describe("Destination Picker Menu", () => {
     it("should be able to change destination tabs with click", () => {
       const { getByText, click } = defaultSetup();
 
-      click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveAttribute(
+      click(tabTitles.current);
+      expect(getByText(tabTitles.current)).toHaveAttribute(
         "aria-selected",
         "true"
       );

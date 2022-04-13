@@ -10,8 +10,6 @@ const {
 
 const { GREATER_THAN } = require("../../constants/validationConditions");
 
-const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
-
 const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
 
 const { AND } = require("../../constants/routingOperators");
@@ -44,6 +42,7 @@ const {
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
+const { NEXT_PAGE } = require("../../constants/logicalDestinations");
 
 const uuidRejex =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
@@ -1843,7 +1842,7 @@ describe("schema validation", () => {
         id: "routing_1",
         else: {
           id: "else_1",
-          logical: END_OF_QUESTIONNAIRE,
+          logical: NEXT_PAGE,
         },
         rules: [
           {
