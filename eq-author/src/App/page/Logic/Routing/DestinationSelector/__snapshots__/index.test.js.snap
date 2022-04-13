@@ -39,7 +39,7 @@ exports[`components/RoutingRuleDestinationSelector should render 1`] = `
           selected={
             Object {
               "logicalDestination": Object {
-                "destinationType": "EndOfQuestionnaire",
+                "destinationType": "NextPage",
               },
             }
           }
