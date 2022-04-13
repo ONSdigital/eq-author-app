@@ -28,7 +28,7 @@
     "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
-    "firebase-admin": "^9.11.0",
+    "firebase-admin": "^10.0.2",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
