@@ -228,7 +228,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
     lists = data.collectionLists?.lists || [];
   }
   return (
-    <div data- test="question-page-editor">
+    <div data-test="list-page-editor">
       <PageHeader
         {...props}
         page={entity}
@@ -247,6 +247,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               onChange={handleOnChange}
               onBlur={handleOnUpdate}
               value={entity.title}
+              data-test="list-name-input"
               hasError={some(page.validationErrorInfo.errors, {
                 field: "title",
               })}
@@ -323,6 +324,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <CollapsibleContent>
           <CustomSelect
             name="listId"
+            data-test="list-select"
             onChange={handleOnUpdate}
             value={entity.listId}
             hasError={some(page.validationErrorInfo.errors, {
@@ -357,6 +359,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <StyledRichTextEditor
           id={`update-anotherTitle-textbox`}
           name={"anotherTitle"}
+          data-test="another-title-input"
           onUpdate={handleOnUpdate}
           value={entity.anotherTitle}
           label=""
@@ -387,6 +390,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 <Label htmlFor="anotherPositive">Positive answer label</Label>
                 <StyledInput
                   name={"anotherPositive"}
+                  data-test="another-positive-input"
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
                   value={entity.anotherPositive}
@@ -420,6 +424,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 <Label htmlFor="anotherNegative">Negative answer label</Label>
                 <StyledInput
                   name={"anotherNegative"}
+                  data-test="another-negative-input"
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
                   value={entity.anotherNegative}
@@ -463,6 +468,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <StyledRichTextEditor
           id={`update-addItemTitle-textbox`}
           name={"addItemTitle"}
+          data-test="add-item-title-input"
           onUpdate={handleOnUpdate}
           value={entity.addItemTitle}
           label=""

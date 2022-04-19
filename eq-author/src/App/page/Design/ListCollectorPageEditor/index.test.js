@@ -143,25 +143,30 @@ describe("List Collector Page Editor", () => {
       },
     };
   });
+  describe("List Collector page", () => {
+    it("should render", () => {
+      const { getByTestId } = renderListCollector();
+      expect(getByTestId("list-page-editor")).toBeVisible();
+    });
 
-  it("should delete the correct answer", () => {
-    // wrapper
-    // .find("[data-test='answers-editor']")
-    // .first()
-    // .simulate("deleteAnswer", page.answers[0].id);
-    const { getByTestId } = renderListCollector({});
+    // it("add a list collector name", () => {
+    //   const { getByTestId } = renderListCollector();
+    //   expect(getByTestId("list-page-editor")).toBeVisible();
+    // });
 
-    expect(mockHandlers.onDeleteAnswer).toHaveBeenCalledWith(
-      page.id,
-      page.answers[0].id
-    );
-  });
+    // it("pick a list", () => {
+    //   const { getByTestId } = renderListCollector();
+    //   expect(getByTestId("list-page-editor")).toBeVisible();
+    // });
 
-  it("should add an answer with a type", () => {
-    // wrapper.find("[data-test='add-answer']").simulate("select", "Textfield");
-    expect(mockHandlers.onAddAnswer).toHaveBeenCalledWith(
-      match.params.pageId,
-      "Textfield"
-    );
+    // it("add a repeating question", () => {
+    //   const { getByTestId } = renderListCollector();
+    //   expect(getByTestId("list-page-editor")).toBeVisible();
+    // });
+
+    // it("add a collection question", () => {
+    //   const { getByTestId } = renderListCollector();
+    //   expect(getByTestId("list-page-editor")).toBeVisible();
+    // });
   });
 });
