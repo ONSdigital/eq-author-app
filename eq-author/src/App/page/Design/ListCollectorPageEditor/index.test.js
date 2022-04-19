@@ -182,7 +182,7 @@ describe("List Collector Page Editor", () => {
   describe("List Collector page", () => {
     it("should render", async () => {
       const { getByTestId } = await renderListCollector();
-      // screen.debug(undefined, 60000);
+
       expect(getByTestId("list-page-editor")).toBeVisible();
     });
 
