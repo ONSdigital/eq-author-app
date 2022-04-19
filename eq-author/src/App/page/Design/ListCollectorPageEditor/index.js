@@ -84,7 +84,9 @@ const TitleInputContainer = styled.div`
 
 const Text = styled.p``;
 
-const CollapsibleContent = styled.p``;
+const CollapsibleContent = styled.div`
+  padding-bottom: 1em;
+`;
 
 const errorCSS = css`
   ${({ hasError }) =>
