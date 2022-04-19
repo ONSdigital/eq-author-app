@@ -23,7 +23,24 @@ jest.mock("@apollo/react-hooks", () => ({
 useQuery.mockImplementation(() => ({
   loading: false,
   error: false,
-  data: {},
+  data: {
+    collectionLists: {
+      id: "cl1",
+      lists: [
+        {
+          id: "list1",
+          listName: "List One",
+          answers: [
+            {
+              id: "answer1",
+              type: "TextField",
+              displayName: "Answer One",
+            },
+          ],
+        },
+      ],
+    },
+  },
 }));
 
 describe("List Collector Page Editor", () => {
@@ -94,14 +111,11 @@ describe("List Collector Page Editor", () => {
       title: "<p>Hello world</p>",
       alias: "Who am I?",
       anotherNegativeDescription: "",
-      alias: "",
-      title: "List Names",
       anotherPositiveDescription: "",
       addItemTitle: "What are the names of everyone who live at ?",
       anotherTitle: "Does anyone live at  as their permanent or family home?",
       pageType: "ListCollectorPage",
       anotherPositive: "Yes",
-      id: "shortID",
       listId: "list-1",
       anotherNegative: "No",
       validationErrorInfo: {
@@ -190,7 +204,7 @@ describe("List Collector Page Editor", () => {
       const { getByTestId } = renderListCollector();
       expect(getByTestId("list-page-editor")).toBeVisible();
       const listSelect = getByTestId("list-select");
-      expect(listSelect.value).toBe("shortID");
+      expect(listSelect.value).toBe("list1");
     });
 
     it("add a repeating question", () => {
