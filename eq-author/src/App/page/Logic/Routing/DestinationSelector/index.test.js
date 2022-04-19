@@ -12,7 +12,7 @@ describe("components/RoutingRuleDestinationSelector", () => {
       onChange: jest.fn(),
       value: {
         logicalDestination: {
-          destinationType: "EndOfQuestionnaire",
+          destinationType: "NextPage",
         },
       },
       label: "Test",

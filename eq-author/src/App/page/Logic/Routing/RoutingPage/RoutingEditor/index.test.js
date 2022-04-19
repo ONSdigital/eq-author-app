@@ -41,7 +41,7 @@ describe("components/RoutingRuleSet", () => {
   });
 
   it("should allow change of ELSE condition", () => {
-    const destination = { logical: "EndOfQuestionnaire" };
+    const destination = { logical: "EndOfCurrentSection" };
 
     const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
     wrapper.find("[data-test='select-else']").simulate("change", destination);
