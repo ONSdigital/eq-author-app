@@ -1,10 +1,23 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, screen, act } from "tests/utils/rtl";
+import { useQuery } from "@apollo/react-hooks";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
+}));
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useQuery: jest.fn(),
+  useSubscription: jest.fn(() => jest.fn()),
+}));
+
+useQuery.mockImplementation(() => ({
+  loading: false,
+  error: false,
+  data: {},
 }));
 
 describe("List Collector Page Editor", () => {
@@ -27,6 +40,9 @@ describe("List Collector Page Editor", () => {
       pageId: "3",
     },
   };
+  const history = {
+    push: jest.fn(),
+  };
 
   const renderListCollector = ({ ...props }) =>
     render(
@@ -38,6 +54,7 @@ describe("List Collector Page Editor", () => {
         showMovePageDialog={false}
         showDeleteConfirmDialog={false}
         match={match}
+        history={history}
         {...props}
       />
     );
@@ -104,7 +121,7 @@ describe("List Collector Page Editor", () => {
           type: "TextField",
         },
       ],
-      section: { questionnaire: { metadata: [] } },
+      section: { id: "3", questionnaire: { id: "1", metadata: [] } },
     };
 
     section = {
@@ -144,8 +161,9 @@ describe("List Collector Page Editor", () => {
     };
   });
   describe("List Collector page", () => {
-    it("should render", () => {
-      const { getByTestId } = renderListCollector();
+    it("should render", async () => {
+      const { getByTestId } = await renderListCollector();
+
       expect(getByTestId("list-page-editor")).toBeVisible();
     });
 
