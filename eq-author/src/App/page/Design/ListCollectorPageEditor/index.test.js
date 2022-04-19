@@ -1,7 +1,13 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import { render, screen, act } from "tests/utils/rtl";
+import {
+  render,
+  screen,
+  act,
+  fireEvent,
+  queryByAttribute,
+} from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -91,12 +97,11 @@ describe("List Collector Page Editor", () => {
       alias: "",
       title: "List Names",
       anotherPositiveDescription: "",
-      addItemTitle: "<p>What are the names of everyone who live at ?</p>",
-      anotherTitle:
-        "<p>Does anyone live at  as their permanent or family home?</p>",
+      addItemTitle: "What are the names of everyone who live at ?",
+      anotherTitle: "Does anyone live at  as their permanent or family home?",
       pageType: "ListCollectorPage",
       anotherPositive: "Yes",
-      id: "b6d9efb5-24e5-4e42-abbc-912ef6aebcdb",
+      id: "shortID",
       listId: "list-1",
       anotherNegative: "No",
       validationErrorInfo: {
@@ -163,28 +168,87 @@ describe("List Collector Page Editor", () => {
   describe("List Collector page", () => {
     it("should render", async () => {
       const { getByTestId } = await renderListCollector();
-
+      // screen.debug(undefined, 60000);
       expect(getByTestId("list-page-editor")).toBeVisible();
     });
 
-    // it("add a list collector name", () => {
-    //   const { getByTestId } = renderListCollector();
-    //   expect(getByTestId("list-page-editor")).toBeVisible();
-    // });
+    it("add a list collector name", () => {
+      const { getByTestId } = renderListCollector();
 
-    // it("pick a list", () => {
-    //   const { getByTestId } = renderListCollector();
-    //   expect(getByTestId("list-page-editor")).toBeVisible();
-    // });
+      const listNameInput = getByTestId("list-name-input");
 
-    // it("add a repeating question", () => {
-    //   const { getByTestId } = renderListCollector();
-    //   expect(getByTestId("list-page-editor")).toBeVisible();
-    // });
+      expect(listNameInput.value).toBe("List Names");
+
+      fireEvent.change(listNameInput, {
+        target: { value: "List Names 1" },
+      });
+
+      expect(listNameInput.value).toBe("List Names 1");
+    });
+
+    it("pick a list", () => {
+      const { getByTestId } = renderListCollector();
+      expect(getByTestId("list-page-editor")).toBeVisible();
+      const listSelect = getByTestId("list-select");
+      expect(listSelect.value).toBe("shortID");
+    });
+
+    it("add a repeating question", () => {
+      const { getElemenById } = renderListCollector();
+      const anotherRepeatingQuestionInput = getElemenById(
+        "update-anotherTitle-textbox"
+      );
+
+      expect(anotherRepeatingQuestionInput.value).toBe(
+        "What are the names of everyone who live at ?"
+      );
+
+      fireEvent.change(anotherRepeatingQuestionInput, {
+        target: { value: "What are the names of everyone who live at ? 1" },
+      });
+
+      expect(anotherRepeatingQuestionInput.value).toBe(
+        "hat are the names of everyone who live at ? 1"
+      );
+    });
+
+    it("update a positive answer label", () => {
+      const { getByTestId } = renderListCollector();
+      const positiveAnswerInput = getByTestId("another-positive-input");
+
+      expect(positiveAnswerInput.value).toBe("Yes");
+
+      fireEvent.change(positiveAnswerInput, {
+        target: { value: "Yes 1" },
+      });
+
+      expect(positiveAnswerInput.value).toBe("Yes 1");
+    });
+
+    it("update a negative answer label", () => {
+      const { getByTestId } = renderListCollector();
+      const negativeAnswerInput = getByTestId("another-negative-input");
+
+      expect(negativeAnswerInput.value).toBe("No");
+
+      fireEvent.change(negativeAnswerInput, {
+        target: { value: "No 1" },
+      });
+
+      expect(negativeAnswerInput.value).toBe("No 1");
+    });
 
     // it("add a collection question", () => {
-    //   const { getByTestId } = renderListCollector();
-    //   expect(getByTestId("list-page-editor")).toBeVisible();
+
+    //   const reportingQuestionInput = queryByAttribute("#update-addItemTitle-textbox");
+
+    //   expect(reportingQuestionInput.value).toBe("Does anyone live at  as their permanent or family home?");
+
+    //   fireEvent.change(reportingQuestionInput, {
+    //     target: { value: "Does anyone live at  as their permanent or family home? 1" },
+    //   });
+
+    //   expect(reportingQuestionInput.value).toBe("Does anyone live at  as their permanent or family home? 1");
     // });
   });
 });

@@ -361,7 +361,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <StyledRichTextEditor
           id={`update-anotherTitle-textbox`}
           name={"anotherTitle"}
-          data-test="another-title-input"
+          data-test={`another-title-input`}
           onUpdate={handleOnUpdate}
           value={entity.anotherTitle}
           label=""
@@ -470,7 +470,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <StyledRichTextEditor
           id={`update-addItemTitle-textbox`}
           name={"addItemTitle"}
-          data-test="add-item-title-input"
+          data-test={`add-item-title-input`}
           onUpdate={handleOnUpdate}
           value={entity.addItemTitle}
           label=""
