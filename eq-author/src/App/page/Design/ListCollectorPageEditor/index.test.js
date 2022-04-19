@@ -108,7 +108,7 @@ describe("List Collector Page Editor", () => {
       id: "1",
       displayName: "Question",
       position: 1,
-      title: "<p>Hello world</p>",
+      title: "List Names",
       alias: "Who am I?",
       anotherNegativeDescription: "",
       anotherPositiveDescription: "",
@@ -116,7 +116,7 @@ describe("List Collector Page Editor", () => {
       anotherTitle: "Does anyone live at  as their permanent or family home?",
       pageType: "ListCollectorPage",
       anotherPositive: "Yes",
-      listId: "list-1",
+      listId: "list1",
       anotherNegative: "No",
       validationErrorInfo: {
         totalCount: 0,
