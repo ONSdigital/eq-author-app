@@ -207,25 +207,6 @@ describe("List Collector Page Editor", () => {
       expect(listSelect.value).toBe("list1");
     });
 
-    it("add a repeating question", () => {
-      const { getElemenById } = renderListCollector();
-      const anotherRepeatingQuestionInput = getElemenById(
-        "update-anotherTitle-textbox"
-      );
-
-      expect(anotherRepeatingQuestionInput.value).toBe(
-        "What are the names of everyone who live at ?"
-      );
-
-      fireEvent.change(anotherRepeatingQuestionInput, {
-        target: { value: "What are the names of everyone who live at ? 1" },
-      });
-
-      expect(anotherRepeatingQuestionInput.value).toBe(
-        "hat are the names of everyone who live at ? 1"
-      );
-    });
-
     it("update a positive answer label", () => {
       const { getByTestId } = renderListCollector();
       const positiveAnswerInput = getByTestId("another-positive-input");
@@ -251,18 +232,5 @@ describe("List Collector Page Editor", () => {
 
       expect(negativeAnswerInput.value).toBe("No 1");
     });
-
-    // it("add a collection question", () => {
-
-    //   const reportingQuestionInput = queryByAttribute("#update-addItemTitle-textbox");
-
-    //   expect(reportingQuestionInput.value).toBe("Does anyone live at  as their permanent or family home?");
-
-    //   fireEvent.change(reportingQuestionInput, {
-    //     target: { value: "Does anyone live at  as their permanent or family home? 1" },
-    //   });
-
-    //   expect(reportingQuestionInput.value).toBe("Does anyone live at  as their permanent or family home? 1");
-    // });
   });
 });
