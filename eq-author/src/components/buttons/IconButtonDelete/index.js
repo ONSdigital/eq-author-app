@@ -7,6 +7,7 @@ import { ReactComponent as IconDisabledDelete } from "assets/icon-disabled-delet
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import Tooltip from "components/Forms/Tooltip";
+import { colors } from "constants/theme";
 
 const DeleteButton = styled(Button).attrs({
   variant: "tertiary",
@@ -15,12 +16,14 @@ const DeleteButton = styled(Button).attrs({
   .lid {
     transform-origin: 50% 50%;
     transition: all 200ms ease-out;
+    fill: ${colors.blue};
   }
 
   &:focus,
   &:hover {
     .lid {
       transform: translateY(-1px) rotate(6deg);
+      fill: ${colors.white};
     }
   }
 `;
