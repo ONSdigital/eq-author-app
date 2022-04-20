@@ -1,0 +1,62 @@
+{
+  "$id": "http://example.com/schemas/listCollectorPage.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "addItemTitle": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "anotherTitle": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "listId": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "anotherPositive": {
+      "if": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      },
+      "then": {
+        "not": {
+          "const": {
+            "$data": "1/anotherNegative"
+          }
+        },
+        "errorMessage": "ERR_UNIQUE_REQUIRED"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      }
+    },
+    "anotherNegative": {
+      "if": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      },
+      "then": {
+        "not": {
+          "const": {
+            "$data": "1/anotherPositive"
+          }
+        },
+        "errorMessage": "ERR_UNIQUE_REQUIRED"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "addItemTitle",
+    "anotherPositive",
+    "anotherNegative",
+    "anotherTitle",
+    "listId"
+  ]
+}

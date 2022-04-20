@@ -18,7 +18,11 @@ import Logic from "App/shared/Logic";
 import { PageContextProvider } from "components/QuestionnaireContext";
 import Comment from "graphql/fragments/comment.graphql";
 
-const ROUTING_PAGE_TYPES = ["QuestionPage", "CalculatedSummaryPage"];
+const ROUTING_PAGE_TYPES = [
+  "QuestionPage",
+  "CalculatedSummaryPage",
+  "ListCollectorPage",
+];
 
 export class UnwrappedQuestionRoutingRoute extends React.Component {
   static propTypes = {

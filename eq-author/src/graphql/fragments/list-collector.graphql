@@ -1,0 +1,13 @@
+fragment ListCollector on ListCollectorPage {
+  id
+  title
+  alias
+  displayName
+  listId
+  anotherTitle
+  anotherPositive
+  anotherNegative
+  anotherPositiveDescription
+  anotherNegativeDescription
+  addItemTitle
+}

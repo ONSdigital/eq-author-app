@@ -84,6 +84,12 @@ export const UnwrappedSectionRoute = (props) => {
           position: section.folders.length + 1,
           isCalcSum: true,
         }),
+      onAddListCollectorPage: () =>
+        addFolderWithPage({
+          sectionId: section.id,
+          position: section.folders.length + 1,
+          isListCollector: true,
+        }),
       onAddFolder: () => addFolder({ sectionId: section.id, position: 0 }),
     },
     [section]

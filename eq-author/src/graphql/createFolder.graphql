@@ -15,6 +15,8 @@ mutation CreateFolder($input: CreateFolderInput!) {
           ...Page
           position
           displayName
+          title
+          alias
           pageType
           ... on QuestionPage {
             guidance
@@ -29,6 +31,9 @@ mutation CreateFolder($input: CreateFolderInput!) {
             }
           }
           ... on CalculatedSummaryPage {
+            id
+          }
+          ... on ListCollectorPage {
             id
           }
           validationErrorInfo {

@@ -12,6 +12,7 @@ const createSection = require("./createSection");
 const createTheme = require("./createTheme");
 const updateDestination = require("./updateDestination");
 const createList = require("./createList");
+const createListCollectorPage = require("./createListCollectorPage");
 
 module.exports = {
   createRouting,
@@ -28,4 +29,5 @@ module.exports = {
   createTheme,
   updateDestination,
   createList,
+  createListCollectorPage,
 };

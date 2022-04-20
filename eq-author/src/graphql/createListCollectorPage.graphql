@@ -1,0 +1,23 @@
+#import "./fragments/list-collector.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
+mutation CreateListCollectorPage($input: CreateListCollectorPageInput!) {
+  createListCollectorPage(input: $input) {
+    ...ListCollector
+    displayName
+    position
+    pageType
+    section {
+      id
+      folders {
+        ...Folder
+        pages {
+          id
+        }
+      }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

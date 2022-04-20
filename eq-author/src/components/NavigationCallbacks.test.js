@@ -16,6 +16,7 @@ import { useCreateFolder } from "hooks/useCreateFolder";
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
   useCreateCalculatedSummaryPage: jest.fn(),
+  useCreateListCollectorPage: jest.fn(),
 }));
 
 jest.mock("hooks/useCreateFolder", () => ({

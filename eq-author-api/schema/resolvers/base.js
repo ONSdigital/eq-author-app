@@ -596,8 +596,12 @@ const Resolvers = {
       return remappedSection;
     }),
     createFolder: createMutation(
-      (root, { input: { isCalcSum, position, ...params } }, ctx) => {
-        const folder = createFolder(params, isCalcSum);
+      (
+        root,
+        { input: { isCalcSum, isListCollector, position, ...params } },
+        ctx
+      ) => {
+        const folder = createFolder(params, isCalcSum, isListCollector);
         const section = getSectionById(ctx, params.sectionId);
         section.folders.splice(position, 0, folder);
         return folder;
