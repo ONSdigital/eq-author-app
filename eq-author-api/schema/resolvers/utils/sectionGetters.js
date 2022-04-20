@@ -2,6 +2,9 @@ const { find, some } = require("lodash");
 
 const getSections = (ctx) => ctx.questionnaire.sections;
 
+const getSectionsByIds = (ctx, ids) =>
+  getSections(ctx).filter(({ id }) => ids.includes(id));
+
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
 const getSectionByFolderId = (ctx, folderId) =>
@@ -22,6 +25,7 @@ const getSectionByPageId = (ctx, pageId) =>
 
 module.exports = {
   getSections,
+  getSectionsByIds,
   getSectionById,
   getSectionByFolderId,
   getSectionByPageId,
