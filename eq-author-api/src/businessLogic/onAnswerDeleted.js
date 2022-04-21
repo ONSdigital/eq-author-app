@@ -1,5 +1,5 @@
 const { filter, forEach, uniq } = require("lodash/fp");
-
+const { logger } = require("../../utils/logger");
 const {
   SELECTED_ANSWER_DELETED,
 } = require("../../constants/routingNoLeftSide");
@@ -25,6 +25,8 @@ const removeAnswerFromExpressions = (ctx, deletedAnswer) => {
 const removeAnswerGroup = (page, deletedAnswer) => {
   const answerTypes = uniq(page.answers.map((a) => a.type));
   const firstAnswerType = answerTypes[0];
+  logger.info(`Removed Answer from Group`);
+
   if (
     answerTypes.length === 1 &&
     page.answers.length > 1 &&
@@ -51,7 +53,6 @@ const removeAnswerGroup = (page, deletedAnswer) => {
 
 const removeAnswerFromPiping = (deletedAnswer, pages) => {
   const deletedAnswerId = deletedAnswer.id;
-
   pages.forEach((page) => {
     const { title, description } = page;
     if (title?.includes(deletedAnswerId)) {
@@ -65,6 +66,7 @@ const removeAnswerFromPiping = (deletedAnswer, pages) => {
       );
     }
   });
+  logger.info(`Removed Answer from Piping with Answer ID ${deletedAnswerId}`);
   return pages;
 };
 
