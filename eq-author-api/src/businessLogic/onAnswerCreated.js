@@ -23,17 +23,11 @@ const createOrRemoveAnswerGroup = (page, newAnswer) => {
     return;
   }
 
-  logger.info(
-    `Answer Created or Removed with Answer Types ${JSON.stringify(answerTypes)}`
-  );
+  logger.info(`Answer Created  Answer Types ${JSON.stringify(answerTypes)}`);
 
   page.totalValidation = createTotalValidation();
 
-  logger.info(
-    `Answer Created or Removed with validation ${JSON.stringify(
-      page.validation
-    )}`
-  );
+  logger.info(`Answer Created  validation ${JSON.stringify(page.validation)}`);
 };
 
 module.exports = (page, answer) => {

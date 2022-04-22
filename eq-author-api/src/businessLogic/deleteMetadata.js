@@ -1,4 +1,8 @@
+const { logger } = require("../../utils/logger");
+
 module.exports = (deletedMetadata, pages) => {
+  logger.info(`Removed MetaData with ID ${deletedMetadata.id}`);
+
   if (pages) {
     pages.forEach((page) => {
       const { title, description } = page;

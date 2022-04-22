@@ -1,3 +1,5 @@
+const { logger } = require("../../utils/logger");
+
 module.exports = (ctx) => {
   if (
     ctx.questionnaire &&
@@ -6,6 +8,12 @@ module.exports = (ctx) => {
     ctx.questionnaire.sections[0].folders[0].pages[0] &&
     ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions
   ) {
+    logger.info(
+      `Removed First Page Skip Conditions ${JSON.stringify(
+        ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions
+      )}`
+    );
+
     delete ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions;
   }
 };
