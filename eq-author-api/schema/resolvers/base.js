@@ -19,6 +19,7 @@ const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
 const { withFilter, UserInputError } = require("apollo-server-express");
 const fetch = require("node-fetch");
+const { logger } = require("../../utils/logger");
 
 const {
   UNPUBLISHED,
@@ -357,12 +358,14 @@ const Resolvers = {
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
+      logger.info("Questionnaire Created");
 
       return ctx.questionnaire;
     },
     updateQuestionnaire: createMutation((_, { input }, ctx) => {
       Object.assign(ctx.questionnaire, input);
       onQuestionnaireUpdated(ctx.questionnaire);
+      logger.info("Questionnaire Updated");
 
       return ctx.questionnaire;
     }),
@@ -414,6 +417,7 @@ const Resolvers = {
       }
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
+      logger.info(`Deleted Questionnaire with ID ${input.id}`);
 
       await deleteQuestionnaire(input.id);
       ctx.questionnaire = null;
@@ -433,10 +437,16 @@ const Resolvers = {
         surveyVersion: 1,
         locked: false,
       };
+
+      logger.info(
+        `Duplicated questionnire with title - ${questionnaire.title}`
+      );
+
       return createQuestionnaire(newQuestionnaire, ctx);
     },
     updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
       ctx.questionnaire.surveyId = surveyId;
+      logger.info(`Updated survery with ID ${surveyId}`);
       return ctx.questionnaire;
     }),
     updateSubmission: createMutation((root, { input }, ctx) => {
@@ -552,11 +562,13 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
+      logger.info("New Section Created and Hub Turned On");
       return section;
     }),
     updateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);
       merge(section, input);
+      logger.info(`Section Updated with ID - ${input.id}`);
       return section;
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
@@ -573,6 +585,8 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
+      logger.info(`Removed Section with ID - ${input.id}`);
+
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
@@ -593,6 +607,7 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
+      logger.info("Section Duplicated");
       return remappedSection;
     }),
     createFolder: createMutation(
@@ -636,6 +651,8 @@ const Resolvers = {
         } else {
           section.folders.splice(position, 0, folderToMove);
         }
+        logger.info("Folder moved.");
+
         return ctx.questionnaire;
       }
     ),
@@ -647,6 +664,8 @@ const Resolvers = {
       const duplicatedFolder = createFolder(newFolder);
       const remappedFolder = remapAllNestedIds(duplicatedFolder);
       section.folders.splice(input.position, 0, remappedFolder);
+      logger.info("Duplicated Folder.");
+
       return remappedFolder;
     }),
     createAnswer: createMutation((root, { input }, ctx) => {
@@ -924,16 +943,22 @@ const Resolvers = {
           lists: [],
         };
       }
+
+      logger.info(`List created with - ${JSON.stringify(list)}`);
       ctx.questionnaire.collectionLists.lists.push(list);
       return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
       const list = getListById(ctx, input.id);
       list.listName = input.listName;
+      logger.info(`List created with - ${input.listName}`);
+
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
       remove(ctx.questionnaire.collectionLists.lists, { id: input.id });
+      logger.info(`List removed with ID - ${input.id}`);
+
       return ctx.questionnaire.collectionLists;
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
@@ -944,6 +969,7 @@ const Resolvers = {
       list.answers.push(answer);
 
       onAnswerCreated(list, answer);
+      logger.info(`List Answer Created`);
 
       return list;
     }),
@@ -1087,6 +1113,7 @@ const Resolvers = {
         comments: questionnaireComments,
       });
       publishCommentUpdates(questionnaire.id);
+      logger.info(`Comment created ${JSON.stringify(newComment)} `);
 
       return newComment;
     },
@@ -1139,6 +1166,8 @@ const Resolvers = {
         });
       }
       publishCommentUpdates(questionnaire.id);
+      logger.info(`Comment deleted with ID ${commentId} `);
+
       return componentComments;
     },
     updateComment: async (_, { input }, ctx) => {
@@ -1162,6 +1191,8 @@ const Resolvers = {
         questionnaireId: ctx.questionnaire.id,
         comments: questionnaireComments,
       });
+
+      logger.info(`Updated comment text with ${commentText} by ${ctx.user.id}`);
 
       publishCommentUpdates(questionnaire.id);
 
@@ -1197,6 +1228,12 @@ const Resolvers = {
         comments: questionnaireComments,
       });
 
+      logger.info(
+        `Reply comment text with ${JSON.stringify(
+          newReply
+        )} on parent comment ${JSON.stringify(parentComment)}`
+      );
+
       publishCommentUpdates(questionnaire.id);
 
       return newReply;
@@ -1223,6 +1260,10 @@ const Resolvers = {
         comments: questionnaireComments,
       });
 
+      logger.info(
+        `Reply updated with ${commentText} created by user with ID ${ctx.user.id}`
+      );
+
       publishCommentUpdates(questionnaire.id);
       return replyToEdit;
     },
@@ -1244,6 +1285,7 @@ const Resolvers = {
         });
       }
       publishCommentUpdates(questionnaire.id);
+      logger.info(`Reply deleted with ID ${commentId}`);
 
       return replies;
     },
