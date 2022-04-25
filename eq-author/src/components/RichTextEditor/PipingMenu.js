@@ -100,6 +100,7 @@ const PipingMenu = ({
           disabled={disabled}
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
+          modalVisible={isPickerOpen}
           data-test="piping-button-variable"
         >
           <IconPipingVariable />
