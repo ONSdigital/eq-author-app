@@ -87,6 +87,7 @@ const PipingMenu = ({
           disabled={disabled || !metadataData.length}
           onClick={() => handleButtonClick(METADATA)}
           canFocus={canFocus}
+          modalVisible={isPickerOpen}
           data-test="piping-button-metadata"
         >
           <IconPipingMetadata />
