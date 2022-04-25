@@ -108,6 +108,7 @@ const LinkToolbarButton = ({
         disabled={linkIsUnderCursor || disabled}
         canFocus={canFocus}
         onClick={() => setModalVisible(true)}
+        modalVisible={modalVisible}
       >
         <Icon />
       </ToolbarButton>
