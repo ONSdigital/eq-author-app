@@ -6,7 +6,7 @@ const onFolderDeleted = (ctx, removedFolder, pages) => {
     removedFolder.pages.forEach((page) => {
       onPageDeleted(ctx, removedFolder, page, pages);
     });
-    logger.info(`Folder Deleted`);
+    logger.info(`Folder Deleted with ID ${removedFolder.id}`);
   }
 };
 
