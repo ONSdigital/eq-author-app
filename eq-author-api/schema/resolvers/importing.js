@@ -5,6 +5,7 @@ const {
   getSectionByFolderId,
   stripQCodes,
   remapAllNestedIds,
+  getSectionsByIds,
 } = require("./utils");
 
 const createFolder = require("../../src/businessLogic/createFolder");
@@ -82,6 +83,66 @@ module.exports = {
         }
 
         return section;
+      }
+    ),
+    importSections: createMutation(
+      async (_, { input: { questionnaireId, sectionIds, position } }, ctx) => {
+        const { sectionId, index: insertionIndex } = position;
+
+        if (!sectionId) {
+          throw new UserInputError("Target section ID must be provided.");
+        }
+
+        const sourceQuestionnaire = await getQuestionnaire(questionnaireId);
+        if (!sourceQuestionnaire) {
+          throw new UserInputError(
+            `Questionnaire with ID ${questionnaireId} does not exist.`
+          );
+        }
+
+        const sourceSections = getSectionsByIds(
+          { questionnaire: sourceQuestionnaire },
+          sectionIds
+        );
+
+        const destinationSections = ctx.questionnaire.sections;
+
+        if (sourceSections.length !== sectionIds.length) {
+          throw new UserInputError(
+            `Not all section IDs in [${sectionIds}] exist in source questionnaire ${questionnaireId}.`
+          );
+        }
+
+        let sectionsWithoutLogic = [];
+
+        // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
+        // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
+        remapAllNestedIds(
+          stripQCodes(
+            sourceSections.forEach((section) => {
+              section.displayConditions = null;
+              section.folders.forEach((folder) => {
+                folder.skipConditions = null;
+                folder.pages.forEach((page) => {
+                  page.routing = null;
+                  page.skipConditions = null;
+                });
+              });
+              sectionsWithoutLogic.push(section);
+            })
+          )
+        );
+
+        const section = getSectionById(ctx, sectionId);
+        if (!section) {
+          throw new UserInputError(
+            `Section with ID ${sectionId} doesn't exist in target questionnaire.`
+          );
+        }
+
+        destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
+
+        return destinationSections;
       }
     ),
   },

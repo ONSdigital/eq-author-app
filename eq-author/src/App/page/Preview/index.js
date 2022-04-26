@@ -10,9 +10,12 @@ import EditorLayout from "components/EditorLayout";
 
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
 import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEditor";
-
+import ListCollectorPageEditor from "App/page/Design/ListCollectorPageEditor";
 import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
+
+import ListCollectorPagePreview from "./ListCollectorPagePreview";
+
 import Panel from "components/Panel";
 
 export const UnwrappedPreviewPageRoute = (props) => {
@@ -36,6 +39,9 @@ export const UnwrappedPreviewPageRoute = (props) => {
   if (page.pageType === "CalculatedSummaryPage") {
     return <CalculatedSummaryPreview page={page} />;
   }
+  if (page.pageType === "ListCollectorPage") {
+    return <ListCollectorPagePreview page={page} />;
+  }
 };
 
 UnwrappedPreviewPageRoute.propTypes = {
@@ -50,10 +56,12 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
+      ...ListCollectorPage
     }
   }
   ${QuestionPageEditor.fragments.QuestionPage}
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
+  ${ListCollectorPageEditor.fragments.ListCollectorPage}
 `;
 
 export default withApollo((props) => (

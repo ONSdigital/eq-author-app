@@ -37,7 +37,8 @@ export const flattenAnswer = (answer) =>
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
   const pages = getPages(questionnaire)?.filter(
-    ({ pageType }) => pageType !== "CalculatedSummaryPage"
+    ({ pageType }) =>
+      pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
   );
 
   return pages?.flatMap((page) => {

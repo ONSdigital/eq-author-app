@@ -67,13 +67,22 @@ export const IconTextButton = styled(Button).attrs({
     transition: 0.1s;
     fill: ${colors.white};
   }
+  &:hover {
+    --color-bg: ${colors.darkerBlue};
+  }
 `;
 
 const LockedIconTextButton = styled(IconTextButton)`
   padding: 0.375em 0.55em;
+  &:hover {
+    --color-bg: ${colors.darkerBlue};
+  }
 `;
 
 export const DuplicateIconButton = styled(DuplicateButton)`
+  &:hover {
+    --color-bg: ${colors.darkerBlue};
+  }
   &:hover svg * {
     transition: 0.1s;
     fill: ${colors.white};
@@ -86,6 +95,9 @@ export const DuplicateIconButton = styled(DuplicateButton)`
 `;
 
 export const DeleteButton = styled(IconButtonDelete)`
+  &:hover {
+    --color-bg: ${colors.darkerBlue};
+  }
   &:hover svg * {
     transition: 0.1s;
     fill: ${colors.white};

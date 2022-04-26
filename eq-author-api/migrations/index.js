@@ -32,6 +32,8 @@ const migrations = [
   require("./addCollectionLists"),
   require("./updateCommentsReadByEditors"),
   require("./updateEnabledHub"),
+  require("./updateEnabledHubAWSFix"),
+  require("./updateEnabledHubAWSFixTwo"),
 ];
 
 const currentVersion = migrations.length;

@@ -232,6 +232,29 @@ type QuestionPage implements Page & Skippable & Routable {
   comments: [Comment]
 }
 
+type ListCollectorPage implements Page & Skippable & Routable {
+  id: ID!
+  title: String!
+  displayName: String!
+  pageType: PageType!
+  listId: ID
+  section: Section!
+  folder: Folder!
+  position: Int!
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative: String
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
+  addItemTitle: String
+  routing: Routing2
+  skipConditions: [ExpressionGroup2]
+  totalValidation: TotalValidationRule
+  validationErrorInfo: ValidationErrorInfo
+  alias: String
+  comments: [Comment]
+}
+
 type CalculatedSummaryPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
@@ -491,6 +514,7 @@ enum PageType {
   QuestionPage
   InterstitialPage
   CalculatedSummaryPage
+  ListCollectorPage
 }
 
 enum AnswerType {
@@ -820,6 +844,12 @@ input ImportQuestionsInput {
   position: Position!
 }
 
+input ImportSectionsInput {
+  questionnaireId: ID!
+  sectionIds: [ID!]!
+  position: Position!
+}
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -828,6 +858,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
+  importSections(input: ImportSectionsInput!): [Section]
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
@@ -919,7 +950,35 @@ type Mutation {
   updateListAnswersOfType(input: UpdateListAnswersOfTypeInput!): [Answer!]!
   deleteListAnswer(input: DeleteListAnswerInput): List
   moveListAnswer(input: MoveListAnswerInput!): Answer!
+  createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
+  updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]!
+}
+
+input CreateListCollectorPageInput {
+  position: Int
+  title: String
+  folderId: ID!
+  listId: ID
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative: String
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
+  addItemTitle: String
+}
+
+input UpdateListCollectorPageInput {
+  id: ID!
+  title: String
+  listId: ID
+  anotherTitle: String!
+  anotherPositive: String!
+  anotherNegative: String!
+  anotherPositiveDescription: String
+  anotherNegativeDescription: String
+  addItemTitle: String
+  alias: String
 }
 
 input UpdateListInput {
@@ -1129,6 +1188,7 @@ input CreateFolderInput {
   title: String
   position: Int
   isCalcSum: Boolean
+  isListCollector: Boolean
 }
 
 input UpdateFolderInput {

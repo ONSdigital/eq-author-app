@@ -1,0 +1,80 @@
+#import "./fragments/section.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
+#import "./fragments/comment.graphql"
+
+mutation ImportSections($input: ImportSectionsInput!) {
+  importSections(input: $input) {
+    ...Section
+    position
+    displayName
+    folders {
+      ...Folder
+      pages {
+        ...Page
+        position
+        displayName
+        pageType
+        title
+        ... on QuestionPage {
+          alias
+          description
+          guidance
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+                displayName
+                label
+                description
+                value
+                qCode
+              }
+            }
+          }
+          confirmation {
+            id
+            qCode
+            displayName
+            comments {
+              ...Comment
+            }
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          alias
+          pageType
+          displayName
+          position
+          summaryAnswers {
+            id
+            displayName
+            description
+            guidance
+            label
+            secondaryLabel
+            secondaryLabelDefault
+          }
+          comments {
+            ...Comment
+          }
+        }
+      }
+    }
+  }
+}

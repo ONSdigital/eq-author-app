@@ -9,6 +9,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 import {
   getSectionByPageId,
   getSectionByFolderId,
+  getSectionById,
   getPageById,
   getFolderById,
   getFolderByPageId,
@@ -16,11 +17,15 @@ import {
 
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
-import IMPORT_CONTENT from "graphql/importContent.graphql";
+import IMPORT_QUESTIONS from "graphql/importQuestions.graphql";
+import IMPORT_SECTIONS from "graphql/importSections.graphql";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
+import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
+import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
+import SectionPicker from "components/SectionPicker";
 
 const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   /*
@@ -31,7 +36,9 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const [selectingQuestionnaire, setSelectingQuestionnaire] = useState(true);
   const [reviewingQuestions, setReviewingQuestions] = useState(false);
   const [selectingQuestions, setSelectingQuestions] = useState(false);
-
+  const [reviewingSections, setReviewingSections] = useState(false);
+  const [selectingSections, setSelectingSections] = useState(false);
+  const [selectingContent, setSelectingContent] = useState(false);
   /*
    * Data
    */
@@ -39,6 +46,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const [questionsToImport, setQuestionsToImport] = useState([]);
   const [questionnaireImportingFrom, setQuestionnaireImportingFrom] =
     useState(null);
+
+  const [sectionsToImport, setSectionsToImport] = useState([]);
 
   const {
     questionnaireId: currentQuestionnaireId,
@@ -52,7 +61,8 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
    * Handlers
    */
 
-  const [importContent] = useMutation(IMPORT_CONTENT);
+  const [importQuestions] = useMutation(IMPORT_QUESTIONS);
+  const [importSections] = useMutation(IMPORT_SECTIONS);
 
   // Global
 
@@ -62,6 +72,9 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
     setQuestionnaireImportingFrom(null);
     setQuestionsToImport([]);
     stopImporting();
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
   };
 
   // Selecting a questionnaire
@@ -69,7 +82,9 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const onSelectQuestionnaire = (questionnaire) => {
     setQuestionnaireImportingFrom(questionnaire);
     setSelectingQuestionnaire(false);
-    setReviewingQuestions(true);
+    setReviewingQuestions(false);
+    setReviewingSections(false);
+    setSelectingContent(true);
   };
 
   // Selecting questions to import
@@ -77,12 +92,18 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const onQuestionPickerCancel = () => {
     setSelectingQuestions(false);
     setReviewingQuestions(true);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
   };
 
   const onQuestionPickerSubmit = (selection) => {
     setQuestionsToImport(selection);
     setSelectingQuestions(false);
     setReviewingQuestions(true);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
   };
 
   // Reviewing questions to import
@@ -90,19 +111,36 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
   const onSelectQuestions = () => {
     setReviewingQuestions(false);
     setSelectingQuestions(true);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
   };
 
   const onBackFromReviewingQuestions = () => {
     setReviewingQuestions(false);
     setSelectingQuestionnaire(true);
     setQuestionsToImport([]);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
   };
 
-  const onRemoveAllSelectedQuestions = () => setQuestionsToImport([]);
+  const onRemoveAllSelectedContent = () => {
+    if (reviewingQuestions) {
+      setQuestionsToImport([]);
+    } else {
+      setSectionsToImport([]);
+    }
+  };
 
-  const onRemoveSingleSelectedQuestion = (index) => {
-    const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
-    setQuestionsToImport(filteredQuestions);
+  const onRemoveSingleSelectedContent = (index) => {
+    if (reviewingQuestions) {
+      const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
+      setQuestionsToImport(filteredQuestions);
+    } else {
+      const filteredSections = sectionsToImport.filter((_, i) => i !== index);
+      setSectionsToImport(filteredSections);
+    }
   };
 
   const onReviewQuestionsSubmit = (selectedQuestions) => {
@@ -176,7 +214,100 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
       }
     }
 
-    importContent({ variables: { input } });
+    importQuestions({ variables: { input } });
+    onGlobalCancel();
+  };
+
+  // Selecting sections to import
+
+  const onSectionPickerCancel = () => {
+    setSelectingSections(false);
+    setReviewingSections(true);
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setSelectingContent(false);
+  };
+
+  const onSectionPickerSubmit = (selection) => {
+    setSectionsToImport(selection);
+    setSelectingSections(false);
+    setReviewingSections(true);
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setSelectingContent(false);
+  };
+
+  // Reviewing sections to import
+
+  const onSelectSections = () => {
+    setReviewingSections(false);
+    setSelectingSections(true);
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setSelectingContent(false);
+  };
+
+  const onBackFromReviewingSections = () => {
+    setSelectingQuestionnaire(true);
+    setSectionsToImport([]);
+    setReviewingSections(false);
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setSelectingContent(false);
+  };
+
+  const onReviewSectionsSubmit = (selectedSections) => {
+    const sectionIds = selectedSections.map(({ id }) => id);
+
+    let input = {
+      sectionIds,
+      questionnaireId: questionnaireImportingFrom.id,
+    };
+
+    switch (currentEntityName) {
+      case "section": {
+        const { position } = getSectionById(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+
+        input.position = {
+          sectionId: currentEntityId,
+          index: position + 1,
+        };
+
+        break;
+      }
+      case "folder": {
+        const { id: sectionId, position: positionOfParentSection } =
+          getSectionByFolderId(sourceQuestionnaire, currentEntityId);
+
+        input.position = {
+          sectionId,
+        };
+
+        input.position.index = positionOfParentSection + 1;
+
+        break;
+      }
+      case "page": {
+        const { id: sectionId, position: positionOfParentSection } =
+          getSectionByPageId(sourceQuestionnaire, currentEntityId);
+
+        input.position = {
+          sectionId,
+        };
+
+        input.position.index = positionOfParentSection + 1;
+
+        break;
+      }
+      default: {
+        throw new Error("Unknown entity");
+      }
+    }
+
+    importSections({ variables: { input } });
     onGlobalCancel();
   };
 
@@ -210,6 +341,17 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           }}
         </Query>
       )}
+      {selectingContent && (
+        <SelectContentModal
+          isOpen={selectingContent}
+          questionnaire={questionnaireImportingFrom}
+          onCancel={onGlobalCancel}
+          onConfirm={onReviewQuestionsSubmit}
+          onBack={onBackFromReviewingQuestions}
+          onSelectQuestions={onSelectQuestions}
+          onSelectSections={onSelectSections}
+        />
+      )}
       {reviewingQuestions && (
         <ReviewQuestionsModal
           isOpen={reviewingQuestions}
@@ -219,8 +361,9 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
-          onRemoveAll={onRemoveAllSelectedQuestions}
-          onRemoveSingle={onRemoveSingleSelectedQuestion}
+          onSelectSections={onSelectSections}
+          onRemoveAll={onRemoveAllSelectedContent}
+          onRemoveSingle={onRemoveSingleSelectedContent}
         />
       )}
       {selectingQuestions && (
@@ -252,6 +395,54 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
                 onClose={onGlobalCancel}
                 onCancel={onQuestionPickerCancel}
                 onSubmit={onQuestionPickerSubmit}
+              />
+            );
+          }}
+        </Query>
+      )}
+      {reviewingSections && (
+        <ReviewSectionsModal
+          isOpen={reviewingSections}
+          questionnaire={questionnaireImportingFrom}
+          startingSelectedSections={sectionsToImport}
+          onCancel={onGlobalCancel}
+          onConfirm={onReviewSectionsSubmit}
+          onBack={onBackFromReviewingSections}
+          onSelectQuestions={onSelectQuestions}
+          onSelectSections={onSelectSections}
+          onRemoveAll={onRemoveAllSelectedContent}
+          onRemoveSingle={onRemoveSingleSelectedContent}
+        />
+      )}
+      {selectingSections && (
+        <Query
+          query={GET_QUESTIONNAIRE}
+          variables={{
+            input: { questionnaireId: questionnaireImportingFrom.id },
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <React.Fragment />;
+            }
+
+            if (error || !data) {
+              return <React.Fragment />;
+            }
+
+            const { sections } = data.questionnaire;
+
+            return (
+              <SectionPicker
+                title="Select the section(s) to import"
+                isOpen={selectingSections}
+                sections={sections}
+                startingSelectedSections={sectionsToImport}
+                warningPanel="You cannot import folders but you can import any questions they contain."
+                showSearch
+                onClose={onGlobalCancel}
+                onCancel={onSectionPickerCancel}
+                onSubmit={onSectionPickerSubmit}
               />
             );
           }}

@@ -26,6 +26,7 @@ jest.mock("@apollo/react-hooks", () => ({
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
   useCreateCalculatedSummaryPage: jest.fn(),
+  useCreateListCollectorPage: jest.fn(),
 }));
 
 jest.mock("hooks/useCreateFolder", () => ({
@@ -186,6 +187,7 @@ describe("Folder design page", () => {
         {
           onAddQuestionPage: expect.any(Function),
           onAddCalculatedSummaryPage: expect.any(Function),
+          onAddListCollectorPage: expect.any(Function),
           onAddFolder: expect.any(Function),
         },
         [

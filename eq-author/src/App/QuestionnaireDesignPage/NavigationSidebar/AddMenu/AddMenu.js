@@ -10,6 +10,8 @@ import IconSummary from "assets/icon-summarypage.svg?inline";
 import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
+import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
+import { enableOn } from "utils/featureFlags";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -43,12 +45,14 @@ const AddMenu = ({
   canAddQuestionPage,
   onAddSection,
   onStartImportingContent,
+  onAddListCollectorPage,
   canAddSection,
   onAddCalculatedSummaryPage,
   canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   canImportContent,
+  canAddListCollectorPage,
   onAddFolder,
   canAddFolder,
   isFolder,
@@ -99,6 +103,47 @@ const AddMenu = ({
     },
   ];
 
+  const extraButtons = [
+    {
+      handleClick: () => onAddQuestionPage(true),
+      disabled: !canAddQuestionPage,
+      dataTest: "btn-add-question-page-inside",
+      icon: IconQuestion,
+      text: "Question",
+    },
+    {
+      handleClick: () => onAddCalculatedSummaryPage(true),
+      disabled: !canAddCalculatedSummaryPage,
+      dataTest: "btn-add-calculated-summary-inside",
+      icon: IconSummary,
+      text: "Calculated summary",
+    },
+    {
+      handleClick: () => onStartImportingContent(true),
+      disabled: !canImportContent,
+      dataTest: "btn-import-content",
+      icon: IconImport,
+      text: "Import content",
+    },
+  ];
+
+  if (enableOn(["lists"])) {
+    defaultButtons.splice(5, 0, {
+      handleClick: () => onAddListCollectorPage(),
+      disabled: !canAddListCollectorPage,
+      dataTest: "btn-add-list-collector-page",
+      icon: IconListCollectorPage,
+      text: "List collector",
+    });
+    extraButtons.splice(2, 0, {
+      handleClick: () => onAddListCollectorPage(true),
+      disabled: !canAddListCollectorPage,
+      dataTest: "btn-add-list-collector-page-inside",
+      icon: IconQuestion,
+      text: "List collector",
+    });
+  }
+
   return (
     <Popout
       open={addMenuOpen}
@@ -113,29 +158,7 @@ const AddMenu = ({
       <AddMenuWindow data-test="addmenu-window">
         {isFolder && (
           <FolderAddSubMenu folderTitle={folderTitle}>
-            {[
-              {
-                handleClick: () => onAddQuestionPage(true),
-                disabled: !canAddQuestionPage,
-                dataTest: "btn-add-question-page-inside",
-                icon: IconQuestion,
-                text: "Question",
-              },
-              {
-                handleClick: () => onAddCalculatedSummaryPage(true),
-                disabled: !canAddCalculatedSummaryPage,
-                dataTest: "btn-add-calculated-summary-inside",
-                icon: IconSummary,
-                text: "Calculated summary",
-              },
-              {
-                handleClick: () => onStartImportingContent(true),
-                disabled: !canImportContent,
-                dataTest: "btn-import-content",
-                icon: IconImport,
-                text: "Import content",
-              },
-            ].map((item) => (
+            {extraButtons.map((item) => (
               <MenuButton key={`${item.dataTest}-folder`} {...item} />
             ))}
           </FolderAddSubMenu>
@@ -165,6 +188,8 @@ AddMenu.propTypes = {
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,
+  onAddListCollectorPage: PropTypes.func.isRequired,
+  canAddListCollectorPage: PropTypes.func.isRequired,
 };
 
 export default AddMenu;

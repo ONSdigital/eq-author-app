@@ -6,6 +6,7 @@ exports[`PipingMenu should render 1`] = `
     canFocus={true}
     data-test="piping-button"
     disabled={false}
+    modalVisible={false}
     onClick={[Function]}
     title="Pipe answer"
   >
@@ -15,6 +16,7 @@ exports[`PipingMenu should render 1`] = `
     canFocus={true}
     data-test="piping-button-metadata"
     disabled={false}
+    modalVisible={false}
     onClick={[Function]}
     title="Pipe metadata"
   >
@@ -23,6 +25,7 @@ exports[`PipingMenu should render 1`] = `
   <PipingMenu__MenuButton
     canFocus={true}
     data-test="piping-button-variable"
+    modalVisible={false}
     onClick={[Function]}
     title="Pipe variable"
   >

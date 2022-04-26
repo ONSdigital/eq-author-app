@@ -10,6 +10,7 @@ import { buildPagePath, buildConfirmationPath } from "utils/UrlUtils";
 import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
 import IconSummaryPage from "assets/icon-summarypage.svg?inline";
+import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
 
 import { Draggable } from "react-beautiful-dnd";
 import NavItem from "components/NavItem";
@@ -49,6 +50,7 @@ const Page = ({
   const iconMap = {
     QuestionPage: IconQuestionPage,
     CalculatedSummaryPage: IconSummaryPage,
+    ListCollectorPage: IconListCollectorPage,
   };
 
   return (

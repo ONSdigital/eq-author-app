@@ -125,6 +125,7 @@ fragment PageNav on Section {
     pages {
       ...Pages
       ...ConfirmationPages
+      ...ListCollectorPages
     }
     validationErrorInfo {
       id
@@ -136,7 +137,6 @@ fragment Pages on Page {
   id
   alias
   title
-  alias
   position
   displayName
   pageType
@@ -165,6 +165,28 @@ fragment Pages on Page {
     comments {
       ...Comment
     }
+  }
+}
+
+fragment ListCollectorPages on ListCollectorPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+  comments {
+    ...Comment
   }
 }
 

@@ -29,8 +29,12 @@ export const UnwrappedNavigationHeader = ({
 
   const { entityName, entityId } = useParams();
   const { questionnaire } = useQuestionnaire();
-  const { onAddQuestionPage, onAddFolder, onAddCalculatedSummaryPage } =
-    useNavigationCallbacks();
+  const {
+    onAddQuestionPage,
+    onAddFolder,
+    onAddCalculatedSummaryPage,
+    onAddListCollectorPage,
+  } = useNavigationCallbacks();
 
   const canAddQuestionCalculatedSummmaryPagesAndFolder = [
     PAGE,
@@ -71,6 +75,11 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
+  const handleAddListCollectorPage = (createInsideFolder) => {
+    onAddListCollectorPage(createInsideFolder);
+    setOpenMenu(!openMenu);
+  };
+
   const handleAddFolder = () => {
     onAddFolder();
     setOpenMenu(!openMenu);
@@ -97,12 +106,14 @@ export const UnwrappedNavigationHeader = ({
         onAddSection={handleAddSection}
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
         onAddFolder={handleAddFolder}
+        onAddListCollectorPage={handleAddListCollectorPage}
         onStartImportingContent={handleStartImportingContent}
         canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddCalculatedSummaryPage={
           canAddQuestionCalculatedSummmaryPagesAndFolder
         }
         canAddQuestionConfirmation={canAddQuestionConfirmation}
+        canAddListCollectorPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddSection={canAddSection}
         canImportContent={canImportContent}

@@ -6,6 +6,49 @@ export default {
   ERR_NO_ANSWERS: ({ message }) => message,
 };
 
+export const LIST_COLLECTOR_ERRORS = [
+  {
+    field: "title",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter list collector name",
+  },
+  {
+    field: "listId",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "List required",
+  },
+  {
+    field: "anotherTitle",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter repeating list collector question",
+  },
+  {
+    field: "anotherPositive",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a positive answer label",
+  },
+  {
+    field: "anotherPositive",
+    errorCode: "ERR_UNIQUE_REQUIRED",
+    message: "Enter a unique label for positive answer",
+  },
+  {
+    field: "anotherNegative",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a negative answer label ",
+  },
+  {
+    field: "anotherNegative",
+    errorCode: "ERR_UNIQUE_REQUIRED",
+    message: "Enter a unique label for negative answer",
+  },
+  {
+    field: "addItemTitle",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter collection question",
+  },
+];
+
 export const richTextEditorErrors = {
   QUESTION_TITLE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",

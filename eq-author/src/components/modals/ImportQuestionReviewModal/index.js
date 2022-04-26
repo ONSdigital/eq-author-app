@@ -60,6 +60,11 @@ const ContentHeading = styled.h4`
   color: ${colors.textLight};
 `;
 
+const Container = styled.div`
+  display: flex;
+  gap: 0.5em;
+`;
+
 const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
   <QuestionContainer>
     <SpacedRow>
@@ -78,7 +83,7 @@ const QuestionRow = ({ question: { alias, title, displayName }, onRemove }) => (
 
 QuestionRow.propTypes = {
   question: PropTypes.shape({
-    alias: PropTypes.string.isRequired,
+    alias: PropTypes.string,
     title: PropTypes.string.isRequired,
   }),
   onRemove: PropTypes.func.isRequired,
@@ -92,6 +97,7 @@ const ImportQuestionReviewModal = ({
   onCancel,
   onBack,
   onSelectQuestions,
+  onSelectSections,
   onRemoveSingle,
   onRemoveAll,
 }) => (
@@ -104,7 +110,7 @@ const ImportQuestionReviewModal = ({
     confirmEnabled={Boolean(startingSelectedQuestions?.length) || false}
   >
     <Header>
-      <Heading> Import questions from {questionnaire.title} </Heading>
+      <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
         <Warning>
           Question logic, piping and Qcodes will not be imported.
@@ -132,11 +138,29 @@ const ImportQuestionReviewModal = ({
           </QuestionsPane>
         </>
       ) : (
-        <ContentHeading> No questions selected. </ContentHeading>
+        <ContentHeading>
+          *Select individual questions or entire sections to be imported, you
+          cannot choose both*
+        </ContentHeading>
       )}
-      <Button onClick={onSelectQuestions}>
-        Select {startingSelectedQuestions?.length >= 1 && "more"} questions
-      </Button>
+      <Container>
+        <Button
+          onClick={onSelectQuestions}
+          data-test="question-review-select-questions-button"
+        >
+          {startingSelectedQuestions?.length >= 1
+            ? "Select more questions"
+            : "Questions"}
+        </Button>
+        {startingSelectedQuestions?.length === 0 && (
+          <Button
+            onClick={onSelectSections}
+            data-test="question-review-select-sections-button"
+          >
+            Sections
+          </Button>
+        )}
+      </Container>
     </Content>
   </Wizard>
 );
@@ -147,6 +171,7 @@ ImportQuestionReviewModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   onSelectQuestions: PropTypes.func.isRequired,
+  onSelectSections: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({

@@ -17,16 +17,22 @@ import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
+import ListCollectorPageEditor from "./ListCollectorPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
-import { QuestionPage, CalculatedSummaryPage } from "constants/page-types";
+import {
+  QuestionPage,
+  CalculatedSummaryPage,
+  ListCollectorPage,
+} from "constants/page-types";
 
 import RedirectRoute from "components/RedirectRoute";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
+  ListCollectorPage: { design: true, preview: true, logic: true },
 };
 
 export const PAGE_QUERY = gql`
@@ -34,6 +40,7 @@ export const PAGE_QUERY = gql`
     page(input: $input) {
       ...QuestionPage
       ...CalculatedSummaryPage
+      ...ListCollectorPage
       folder {
         id
         position
@@ -42,6 +49,7 @@ export const PAGE_QUERY = gql`
   }
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
   ${QuestionPageEditor.fragments.QuestionPage}
+  ${ListCollectorPageEditor.fragments.ListCollectorPage}
 `;
 
 export const UnwrappedPageRoute = (props) => {
@@ -77,6 +85,16 @@ export const UnwrappedPageRoute = (props) => {
     if (page.pageType === CalculatedSummaryPage) {
       return (
         <CalculatedSummaryPageEditor
+          key={page.id} // resets the state of the RichTextEditors when navigating pages
+          {...props}
+          page={page}
+        />
+      );
+    }
+
+    if (page.pageType === ListCollectorPage) {
+      return (
+        <ListCollectorPageEditor
           key={page.id} // resets the state of the RichTextEditors when navigating pages
           {...props}
           page={page}

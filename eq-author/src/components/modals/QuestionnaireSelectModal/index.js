@@ -98,7 +98,6 @@ const QuestionnaireSelectModal = ({
 QuestionnaireSelectModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
   onSelect: PropTypes.func,
   disableSelect: PropTypes.bool,
   questionnaires: PropTypes.arrayOf(PropTypes.object),

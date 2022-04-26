@@ -3,6 +3,7 @@ const updateEnabledHub = require("./updateEnabledHub");
 describe("enableHub", () => {
   let questionnaire = {};
   beforeEach(() => {
+    process.env.FEATURE_FLAGS = "hub";
     questionnaire = {
       id: "aca64645-98ef-43ae-8b77-d749b4e89a05",
       title: "laa",
@@ -29,6 +30,7 @@ describe("enableHub", () => {
 describe("disabledHub", () => {
   let questionnaire = {};
   beforeEach(() => {
+    process.env.FEATURE_FLAGS = "hub";
     questionnaire = {
       id: "aca64645-98ef-43ae-8b77-d749b4e89a05",
       title: "laa",
