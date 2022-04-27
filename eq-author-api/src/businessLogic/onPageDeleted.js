@@ -7,7 +7,10 @@ module.exports = (ctx, section, removedPage, pages) => {
       onAnswerDeleted(ctx, removedPage, answer, pages);
     });
   }
-  logger.info(`Page Deleted with ID ${removedPage.id}`);
+  logger.info(
+    { qid: ctx.questionnaire.id },
+    `Page Deleted with ID ${removedPage.id}`
+  );
 
   return pages;
 };

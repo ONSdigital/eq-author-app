@@ -47,7 +47,9 @@ module.exports = (answer, page) => {
     if (answer.type === "Radio") {
       defaultOptions.push(createOption());
     }
-    logger.info(`Checkbox or Radio created with Options ${defaultOptions}`);
+    logger.info(
+      `Checkbox or Radio created with Options ${JSON.stringify(defaultOptions)}`
+    );
   }
 
   logger.info(`Answer created with Properties ${JSON.stringify(properties)}`);

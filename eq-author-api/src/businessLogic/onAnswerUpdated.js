@@ -15,7 +15,7 @@ const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
     }
   });
 
-  logger.info(`Piping In Answers Updated`);
+  logger.info(`Piping In Answers Updated with ID ${updatedAnswer.id}`);
 
   return pages;
 };

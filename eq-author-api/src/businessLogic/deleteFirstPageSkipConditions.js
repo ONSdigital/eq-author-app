@@ -9,6 +9,7 @@ module.exports = (ctx) => {
     ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions
   ) {
     logger.info(
+      { qid: ctx.questionnaire.id },
       `Removed First Page Skip Conditions ${JSON.stringify(
         ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions
       )}`

@@ -358,7 +358,7 @@ const Resolvers = {
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
-      logger.info("Questionnaire Created");
+      logger.info(`Questionnaire Created with ID ${ctx.questionnaire.id}`);
 
       return ctx.questionnaire;
     },
@@ -419,7 +419,10 @@ const Resolvers = {
       }
       enforceHasWritePermission(ctx.questionnaire, ctx.user); // throws ForbiddenError
       enforceQuestionnaireLocking(ctx.questionnaire); // throws ForbiddenError
-      logger.info(`Deleted Questionnaire with ID ${input.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Deleted Questionnaire with ID ${input.id}`
+      );
 
       await deleteQuestionnaire(input.id);
       ctx.questionnaire = null;
@@ -441,6 +444,7 @@ const Resolvers = {
       };
 
       logger.info(
+        { qid: ctx.questionnaire.id },
         `Duplicated questionnire with title - ${questionnaire.title}`
       );
 
@@ -448,7 +452,10 @@ const Resolvers = {
     },
     updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
       ctx.questionnaire.surveyId = surveyId;
-      logger.info(`Updated survery with ID ${surveyId}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Updated survery with ID ${surveyId}`
+      );
       return ctx.questionnaire;
     }),
     updateSubmission: createMutation((root, { input }, ctx) => {
@@ -564,13 +571,19 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
-      logger.info("New Section Created and Hub Turned On");
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        "New Section Created and Hub Turned On"
+      );
       return section;
     }),
     updateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);
       merge(section, input);
-      logger.info(`Section Updated with ID - ${input.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Section Updated with ID - ${input.id}`
+      );
       return section;
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
@@ -587,7 +600,10 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
-      logger.info(`Removed Section with ID - ${input.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Removed Section with ID - ${input.id}`
+      );
 
       return ctx.questionnaire;
     }),
@@ -610,6 +626,7 @@ const Resolvers = {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
       logger.info(
+        { qid: ctx.questionnaire.id },
         `Section Duplicated from Section with ID ${input.id}. New Section ID is ${duplicatedSection.id}`
       );
       return remappedSection;
@@ -657,10 +674,12 @@ const Resolvers = {
           const newSection = getSectionById(ctx, sectionId);
           newSection.folders.splice(position, 0, folderToMove);
           logger.info(
+            { qid: ctx.questionnaire.id },
             `Folder with ID ${folderToMove.id} moved to section with ID ${newSection.id} at position ${position} from ${section.id}`
           );
         } else {
           logger.info(
+            { qid: ctx.questionnaire.id },
             `Folder with ID ${folderToMove.id} moved to position ${position}`
           );
           section.folders.splice(position, 0, folderToMove);
@@ -678,6 +697,7 @@ const Resolvers = {
       const remappedFolder = remapAllNestedIds(duplicatedFolder);
       section.folders.splice(input.position, 0, remappedFolder);
       logger.info(
+        { qid: ctx.questionnaire.id },
         `Duplicated Folder with ID ${folder.id}. New, Duplicated Folder with ID ${duplicatedFolder.id}`
       );
 
@@ -959,20 +979,29 @@ const Resolvers = {
         };
       }
 
-      logger.info(`List created with - ${JSON.stringify(list)}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `List created with - ${JSON.stringify(list)}`
+      );
       ctx.questionnaire.collectionLists.lists.push(list);
       return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
       const list = getListById(ctx, input.id);
       list.listName = input.listName;
-      logger.info(`List created with - ${input.listName}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `List created with - ${input.listName}`
+      );
 
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
       remove(ctx.questionnaire.collectionLists.lists, { id: input.id });
-      logger.info(`List removed with ID - ${input.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `List removed with ID - ${input.id}`
+      );
 
       return ctx.questionnaire.collectionLists;
     }),
@@ -984,7 +1013,10 @@ const Resolvers = {
       list.answers.push(answer);
 
       onAnswerCreated(list, answer);
-      logger.info(`List Answer Created with ID - ${answer.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `List Answer Created with ID - ${answer.id}`
+      );
 
       return list;
     }),
@@ -1128,7 +1160,10 @@ const Resolvers = {
         comments: questionnaireComments,
       });
       publishCommentUpdates(questionnaire.id);
-      logger.info(`Comment created ${JSON.stringify(newComment)} `);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Comment created ${JSON.stringify(newComment)} `
+      );
 
       return newComment;
     },
@@ -1181,7 +1216,10 @@ const Resolvers = {
         });
       }
       publishCommentUpdates(questionnaire.id);
-      logger.info(`Comment deleted with ID ${commentId} `);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Comment deleted with ID ${commentId} `
+      );
 
       return componentComments;
     },
@@ -1207,7 +1245,10 @@ const Resolvers = {
         comments: questionnaireComments,
       });
 
-      logger.info(`Updated comment text with ${commentText} by ${ctx.user.id}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Updated comment text with ${commentText} by ${ctx.user.id}`
+      );
 
       publishCommentUpdates(questionnaire.id);
 
@@ -1244,6 +1285,7 @@ const Resolvers = {
       });
 
       logger.info(
+        { qid: ctx.questionnaire.id },
         `Reply comment text with ${JSON.stringify(
           newReply
         )} on parent comment ${JSON.stringify(parentComment)}`
@@ -1276,6 +1318,7 @@ const Resolvers = {
       });
 
       logger.info(
+        { qid: ctx.questionnaire.id },
         `Reply updated with ${commentText} created by user with ID ${ctx.user.id}`
       );
 
@@ -1300,7 +1343,10 @@ const Resolvers = {
         });
       }
       publishCommentUpdates(questionnaire.id);
-      logger.info(`Reply deleted with ID ${commentId}`);
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Reply deleted with ID ${commentId}`
+      );
 
       return replies;
     },
