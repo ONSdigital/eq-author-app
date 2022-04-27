@@ -660,6 +660,9 @@ const Resolvers = {
             `Folder with ID ${folderToMove.id} moved to section with ID ${newSection.id} at position ${position} from ${section.id}`
           );
         } else {
+          logger.info(
+            `Folder with ID ${folderToMove.id} moved to position ${position}`
+          );
           section.folders.splice(position, 0, folderToMove);
         }
 
