@@ -7,6 +7,8 @@ import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 import PasswordInput from "components-themed/Input/PasswordInput";
 
+import PasswordStrength from "../PasswordStrength";
+
 import {
   PageTitle,
   Description,
@@ -39,6 +41,10 @@ const CreateAccount = ({
       setErrorMessage("Enter email");
     } else if (fullName === "") {
       setErrorMessage("Enter full name");
+    } else if (password.length < 8) {
+      setErrorMessage("Your password must be at least 8 characters.");
+    } else if (PasswordStrength(password)) {
+      setErrorMessage("Common phrases and passwords are not allowed.");
     } else if (password === "") {
       setErrorMessage("Enter password");
     } else {
