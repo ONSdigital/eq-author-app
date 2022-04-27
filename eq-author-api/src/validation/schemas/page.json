@@ -186,27 +186,31 @@
           }
         },
         "then": {
-          "properties": {
-            "totalTitle": {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            "summaryAnswers": {
-              "type": "array",
-              "items": {
-                "$ref": "answer.json"
-              },
-              "calculatedSummaryUnitConsistency": {
-                "$data": "/sections"
-              },
-              "calculatedSummaryPosition": {
-                "$data": "/sections"
-              },
-              "minItems": 2,
-              "errorMessage": {
-                "minItems": "ERR_NO_ANSWERS"
+          "allOf": [
+            {
+              "properties": {
+                "summaryAnswers": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "answer.json"
+                  },
+                  "calculatedSummaryUnitConsistency": {
+                    "$data": "/sections"
+                  },
+                  "calculatedSummaryPosition": {
+                    "$data": "/sections"
+                  },
+                  "minItems": 2,
+                  "errorMessage": {
+                    "minItems": "ERR_NO_ANSWERS"
+                  }
+                },
+                "totalTitle": {
+                  "$ref": "definitions.json#/definitions/populatedString"
+                }
               }
             }
-          },
+          ],
           "required": ["summaryAnswers"]
         }
       }

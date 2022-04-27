@@ -156,7 +156,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           size="large"
           fetchAnswers={fetchAnswers}
           metadata={get(page, "section.questionnaire.metadata", [])}
-          // errorValidationMsg={getErrorMessage()}
+          errorValidationMsg={getErrorMessage()}
           testSelector="txt-total-title"
         />
       </PageSegment>
