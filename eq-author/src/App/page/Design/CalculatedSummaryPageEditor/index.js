@@ -45,8 +45,12 @@ const SelectorTitle = styled.h2`
   margin: 0 0 0.4em;
 `;
 
-const { CALCSUM_TITLE_NOT_ENTERED, PIPING_TITLE_MOVED, PIPING_TITLE_DELETED } =
-  richTextEditorErrors;
+const {
+  CALCSUM_TITLE_NOT_ENTERED,
+  PIPING_TITLE_MOVED,
+  PIPING_TITLE_DELETED,
+  CALCSUM_TOTAL_TITLE_NOT_ENTERED,
+} = richTextEditorErrors;
 
 const ERROR_SITUATIONS = [
   {
@@ -70,6 +74,13 @@ const ERROR_SITUATIONS = [
       }),
     message: () => PIPING_TITLE_DELETED.message,
   },
+  {
+    condition: (errors) =>
+      some(errors, {
+        errorCode: CALCSUM_TOTAL_TITLE_NOT_ENTERED.errorCode,
+      }),
+    message: () => CALCSUM_TOTAL_TITLE_NOT_ENTERED.message,
+  },
 ];
 
 export const CalculatedSummaryPageEditor = (props) => {
@@ -87,6 +98,8 @@ export const CalculatedSummaryPageEditor = (props) => {
     folder: page.folder,
     section: page.section,
   });
+
+  console.log("props.page.validationErrorInfo", props.page.validationErrorInfo);
 
   const getErrorMessage = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
@@ -143,6 +156,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           size="large"
           fetchAnswers={fetchAnswers}
           metadata={get(page, "section.questionnaire.metadata", [])}
+          // errorValidationMsg={getErrorMessage()}
           testSelector="txt-total-title"
         />
       </PageSegment>
