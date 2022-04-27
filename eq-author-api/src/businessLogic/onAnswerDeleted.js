@@ -25,7 +25,7 @@ const removeAnswerFromExpressions = (ctx, deletedAnswer) => {
 const removeAnswerGroup = (page, deletedAnswer) => {
   const answerTypes = uniq(page.answers.map((a) => a.type));
   const firstAnswerType = answerTypes[0];
-  logger.info(`Removed Answer from Group`);
+  logger.info(`Removed Answer from Group with id ${deletedAnswer.id}`);
 
   if (
     answerTypes.length === 1 &&

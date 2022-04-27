@@ -365,7 +365,9 @@ const Resolvers = {
     updateQuestionnaire: createMutation((_, { input }, ctx) => {
       Object.assign(ctx.questionnaire, input);
       onQuestionnaireUpdated(ctx.questionnaire);
-      logger.info("Questionnaire Updated");
+      logger.info(
+        `Questionnaire Updated with the ID - ${ctx.questionnaire.id}`
+      );
 
       return ctx.questionnaire;
     }),
@@ -607,7 +609,9 @@ const Resolvers = {
       if (enableOn(["hub"])) {
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       }
-      logger.info("Section Duplicated");
+      logger.info(
+        `Section Duplicated from Section with ID ${input.id}. New Section ID is ${duplicatedSection.id}`
+      );
       return remappedSection;
     }),
     createFolder: createMutation(
@@ -655,7 +659,9 @@ const Resolvers = {
         } else {
           section.folders.splice(position, 0, folderToMove);
         }
-        logger.info("Folder moved.");
+        logger.info(
+          `Folder with ID ${folderToMove.id} moved to section with ID ${newSection.id} at position ${position} from ${section.id}`
+        );
 
         return ctx.questionnaire;
       }
@@ -668,7 +674,9 @@ const Resolvers = {
       const duplicatedFolder = createFolder(newFolder);
       const remappedFolder = remapAllNestedIds(duplicatedFolder);
       section.folders.splice(input.position, 0, remappedFolder);
-      logger.info("Duplicated Folder.");
+      logger.info(
+        `Duplicated Folder with ID ${folder.id}. New, Duplicated Folder with ID ${duplicatedFolder.id}`
+      );
 
       return remappedFolder;
     }),
@@ -973,7 +981,7 @@ const Resolvers = {
       list.answers.push(answer);
 
       onAnswerCreated(list, answer);
-      logger.info(`List Answer Created`);
+      logger.info(`List Answer Created with ID - ${answer.id}`);
 
       return list;
     }),
