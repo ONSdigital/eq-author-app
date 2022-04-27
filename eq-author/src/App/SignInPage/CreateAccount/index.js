@@ -36,14 +36,14 @@ const CreateAccount = ({
     setErrorMessage("");
   }
 
-  const handleCreateAccount = async (createEmail, fullName, password) => {
+  const handleCreateAccount = (createEmail, fullName, password) => {
     if (createEmail === "") {
       setErrorMessage("Enter email");
     } else if (fullName === "") {
       setErrorMessage("Enter full name");
     } else if (password.length < 8) {
       setErrorMessage("Your password must be at least 8 characters.");
-    } else if (await PasswordStrength(password)) {
+    } else if (PasswordStrength(password)) {
       setErrorMessage("Common phrases and passwords are not allowed.");
     } else if (password === "") {
       setErrorMessage("Enter password");
