@@ -1345,7 +1345,7 @@ const Resolvers = {
       publishCommentUpdates(questionnaire.id);
       logger.info(
         { qid: ctx.questionnaire.id },
-        `Reply deleted with ID ${commentId}`
+        `Reply deleted with ID ${replyId} from parent comment ${commentID}`
       );
 
       return replies;
