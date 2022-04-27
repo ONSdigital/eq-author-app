@@ -1,7 +1,8 @@
-import passwords from "./files/filtered8.json";
-
-function PasswordStrength(password) {
-  let found = passwords.includes(password);
+async function PasswordStrength(password) {
+  const passwords = await fetch("/commonPasswordList.json");
+  let found =
+    !passwords ||
+    (typeof passwords === "array" && passwords.includes(password));
   return found;
 }
 
