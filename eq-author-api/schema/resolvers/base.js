@@ -656,12 +656,12 @@ const Resolvers = {
         if (sectionId) {
           const newSection = getSectionById(ctx, sectionId);
           newSection.folders.splice(position, 0, folderToMove);
+          logger.info(
+            `Folder with ID ${folderToMove.id} moved to section with ID ${newSection.id} at position ${position} from ${section.id}`
+          );
         } else {
           section.folders.splice(position, 0, folderToMove);
         }
-        logger.info(
-          `Folder with ID ${folderToMove.id} moved to section with ID ${newSection.id} at position ${position} from ${section.id}`
-        );
 
         return ctx.questionnaire;
       }
