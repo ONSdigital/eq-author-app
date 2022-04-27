@@ -1,8 +1,7 @@
 async function PasswordStrength(password) {
-  const passwords = await fetch("/commonPasswordList.json");
-  let found =
-    !passwords ||
-    (typeof passwords === "array" && passwords.includes(password));
+  const response = await fetch("/commonPasswordList.json");
+  const passwords = await response.json();
+  let found = passwords.includes(password);
   return found;
 }
 
