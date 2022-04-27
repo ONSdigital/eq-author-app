@@ -2,7 +2,7 @@ import React from "react";
 import useModal from "hooks/useModal";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
-import QuestionnairesView from "components/QuestionnairesView";
+import QuestionnairesView from "components/ImportContentQuestionnairesView";
 import * as Headings from "constants/table-headings";
 import {
   Title,

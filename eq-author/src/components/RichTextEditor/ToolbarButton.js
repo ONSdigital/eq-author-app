@@ -55,9 +55,10 @@ const ToolbarButton = ({
   active,
   canFocus,
   disabled,
+  modalVisible,
   ...otherProps
 }) => {
-  return (
+  return !modalVisible ? (
     <Tooltip content={title} place="top" offset={{ bottom: 8 }} key={title}>
       <StyledToolbarButton
         active={active && canFocus}
@@ -68,6 +69,15 @@ const ToolbarButton = ({
         <VisuallyHidden>{title}</VisuallyHidden>
       </StyledToolbarButton>
     </Tooltip>
+  ) : (
+    <StyledToolbarButton
+      active={active && canFocus}
+      disabled={disabled || !canFocus}
+      {...otherProps}
+    >
+      {children}
+      <VisuallyHidden>{title}</VisuallyHidden>
+    </StyledToolbarButton>
   );
 };
 
@@ -75,6 +85,7 @@ ToolbarButton.propTypes = {
   active: PropTypes.bool,
   canFocus: PropTypes.bool,
   disabled: PropTypes.bool,
+  modalVisible: PropTypes.bool,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };

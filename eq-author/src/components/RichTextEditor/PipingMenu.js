@@ -76,6 +76,7 @@ const PipingMenu = ({
           disabled={disabled || !answerData.length}
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
+          modalVisible={isPickerOpen}
           data-test="piping-button"
         >
           <IconPiping />
@@ -87,6 +88,7 @@ const PipingMenu = ({
           disabled={disabled || !metadataData.length}
           onClick={() => handleButtonClick(METADATA)}
           canFocus={canFocus}
+          modalVisible={isPickerOpen}
           data-test="piping-button-metadata"
         >
           <IconPipingMetadata />
@@ -98,6 +100,7 @@ const PipingMenu = ({
           disabled={disabled}
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
+          modalVisible={isPickerOpen}
           data-test="piping-button-variable"
         >
           <IconPipingVariable />
