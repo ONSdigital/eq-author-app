@@ -52,6 +52,7 @@ const ErrorWrapper = styled.div`
 
 const Footer = styled.div``;
 
+// Function exported for testing
 export const findAnswersErrors = (errors) => {
   return (
     errors.some((error) => error.errorCode === "ERR_NO_ANSWERS") ||
