@@ -2264,7 +2264,7 @@ describe("schema validation", () => {
         pageType: "CalculatedSummaryPage",
         summaryAnswers: [],
         alias: null,
-        totalTitle: null,
+        totalTitle: "Test",
       };
     });
 
