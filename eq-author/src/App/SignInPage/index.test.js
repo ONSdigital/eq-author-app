@@ -238,7 +238,7 @@ describe("SignInPage", () => {
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
-      userEvent.type(input2, "faceboo");
+      userEvent.type(input3, "faceboo");
 
       userEvent.click(screen.getByText("Create account"));
       expect(
@@ -261,7 +261,7 @@ describe("SignInPage", () => {
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
-      userEvent.type(input2, "facebook");
+      userEvent.type(input3, "facebook");
 
       userEvent.click(screen.getByText("Create account"));
       expect(
