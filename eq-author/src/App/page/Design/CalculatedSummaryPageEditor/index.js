@@ -53,7 +53,6 @@ const {
 } = richTextEditorErrors;
 
 const ERROR_SITUATIONS = [
-  // ! errorCode for title and total title are the same - the first some condition is true on total title, so first messsage is displayed
   {
     field: "title",
     condition: (errors) =>
@@ -104,7 +103,6 @@ export const CalculatedSummaryPageEditor = (props) => {
     section: page.section,
   });
 
-  // ! New error is happening because this function is not passed a parameter to handle which error is selected
   const getErrorMessage = (errorField) => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message, field } = ERROR_SITUATIONS[i];
