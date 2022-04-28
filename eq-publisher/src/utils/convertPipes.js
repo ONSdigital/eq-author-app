@@ -39,6 +39,7 @@ const FILTER_MAP = {
       ? `format_conditional_date (${value}, metadata['${key}'])`
       : `${value} | format_date`,
   Unit: (value, unit) => `format_unit('${unitConversion[unit]}',${value})`,
+  Percentage: (value) => `format_percentage(${value})`,
 };
 
 const PIPE_TYPES = {
