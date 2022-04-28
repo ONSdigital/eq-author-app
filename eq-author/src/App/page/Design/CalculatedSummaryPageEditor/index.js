@@ -53,7 +53,9 @@ const {
 } = richTextEditorErrors;
 
 const ERROR_SITUATIONS = [
+  // ! errorCode for title and total title are the same - the first some condition is true on total title, so first messsage is displayed
   {
+    field: "title",
     condition: (errors) =>
       some(errors, {
         errorCode: CALCSUM_TITLE_NOT_ENTERED.errorCode,
@@ -61,6 +63,7 @@ const ERROR_SITUATIONS = [
     message: () => CALCSUM_TITLE_NOT_ENTERED.message,
   },
   {
+    field: "title",
     condition: (errors) =>
       some(errors, {
         errorCode: PIPING_TITLE_MOVED.errorCode,
@@ -68,6 +71,7 @@ const ERROR_SITUATIONS = [
     message: () => PIPING_TITLE_MOVED.message,
   },
   {
+    field: "title",
     condition: (errors) =>
       some(errors, {
         errorCode: PIPING_TITLE_DELETED.errorCode,
@@ -75,6 +79,7 @@ const ERROR_SITUATIONS = [
     message: () => PIPING_TITLE_DELETED.message,
   },
   {
+    field: "totalTitle",
     condition: (errors) =>
       some(errors, {
         errorCode: CALCSUM_TOTAL_TITLE_NOT_ENTERED.errorCode,
@@ -99,12 +104,14 @@ export const CalculatedSummaryPageEditor = (props) => {
     section: page.section,
   });
 
-  console.log("props.page.validationErrorInfo", props.page.validationErrorInfo);
-
-  const getErrorMessage = () => {
+  // ! New error is happening because this function is not passed a parameter to handle which error is selected
+  const getErrorMessage = (errorField) => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
-      const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(props.page.validationErrorInfo.errors)) {
+      const { condition, message, field } = ERROR_SITUATIONS[i];
+      if (
+        errorField === field &&
+        condition(props.page.validationErrorInfo.errors)
+      ) {
         return message(props.page.validationErrorInfo.errors);
       }
     }
@@ -135,7 +142,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           testSelector="txt-summary-title"
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
-          errorValidationMsg={getErrorMessage()}
+          errorValidationMsg={getErrorMessage("title")}
           autoFocus={!page.title}
         />
         <div>
@@ -156,7 +163,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           size="large"
           fetchAnswers={fetchAnswers}
           metadata={get(page, "section.questionnaire.metadata", [])}
-          errorValidationMsg={getErrorMessage()}
+          errorValidationMsg={getErrorMessage("totalTitle")}
           testSelector="txt-total-title"
         />
       </PageSegment>

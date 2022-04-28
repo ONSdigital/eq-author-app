@@ -59,7 +59,7 @@ export const richTextEditorErrors = {
     message: "Enter a calculated summary title",
   },
   CALCSUM_TOTAL_TITLE_NOT_ENTERED: {
-    errorCode: "ERR_VALID_REQUIRED",
+    errorCode: "ERR_VALID_TOTAL_TITLE_REQUIRED",
     message: "Enter a total title",
   },
   CONFIRMATION_TITLE_NOT_ENTERED: "Enter a confirmation question title",

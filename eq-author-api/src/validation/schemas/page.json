@@ -206,7 +206,9 @@
                   }
                 },
                 "totalTitle": {
-                  "$ref": "definitions.json#/definitions/populatedString"
+                  "type": "string",
+                  "pattern": "\\w+",
+                  "errorMessage": "ERR_VALID_TOTAL_TITLE_REQUIRED"
                 }
               }
             }
