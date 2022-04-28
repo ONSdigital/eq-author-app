@@ -186,24 +186,33 @@
           }
         },
         "then": {
-          "properties": {
-            "summaryAnswers": {
-              "type": "array",
-              "items": {
-                "$ref": "answer.json"
-              },
-              "calculatedSummaryUnitConsistency": {
-                "$data": "/sections"
-              },
-              "calculatedSummaryPosition": {
-                "$data": "/sections"
-              },
-              "minItems": 2,
-              "errorMessage": {
-                "minItems": "ERR_NO_ANSWERS"
+          "allOf": [
+            {
+              "properties": {
+                "summaryAnswers": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "answer.json"
+                  },
+                  "calculatedSummaryUnitConsistency": {
+                    "$data": "/sections"
+                  },
+                  "calculatedSummaryPosition": {
+                    "$data": "/sections"
+                  },
+                  "minItems": 2,
+                  "errorMessage": {
+                    "minItems": "ERR_NO_ANSWERS"
+                  }
+                },
+                "totalTitle": {
+                  "type": "string",
+                  "pattern": "\\w+",
+                  "errorMessage": "ERR_VALID_TOTAL_TITLE_REQUIRED"
+                }
               }
             }
-          },
+          ],
           "required": ["summaryAnswers"]
         }
       }
