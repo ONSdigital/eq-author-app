@@ -1,9 +1,11 @@
 import React from "react";
 import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
-import { render, screen, act } from "tests/utils/rtl";
+import { render, screen, act, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
-import waitForExpect from "wait-for-expect";
+import passwordStrength from "./PasswordStrength";
+
+jest.mock("./PasswordStrength", () => jest.fn(() => Promise.resolve(false)));
 
 describe("SignInPage", () => {
   let props;
@@ -173,7 +175,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-fullName")).toBeVisible();
     });
 
-    it("should display error when email is empty", () => {
+    it("should display error when email is empty", async () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
@@ -184,27 +186,10 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       userEvent.click(screen.getByText("Create account"));
-      expect(getAllByText("Enter email")).toBeTruthy();
+      await waitFor(() => expect(getAllByText("Enter email")).toBeTruthy());
     });
 
-    it("should display error when name is empty", () => {
-      const { getByTestId, getByText, getAllByText } = renderSignIn({
-        ...props,
-      });
-
-      const button = getByText("Create an Author account");
-      userEvent.click(button);
-
-      expect(getByTestId("txt-create-email")).toBeVisible();
-
-      const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
-
-      userEvent.click(screen.getByText("Create account"));
-      expect(getAllByText("Enter full name")).toBeTruthy();
-    });
-
-    it("should display error when password is empty", () => {
+    it("should display error when name is empty", async () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
@@ -216,14 +201,12 @@ describe("SignInPage", () => {
 
       const input = screen.getByLabelText("Email address");
       userEvent.type(input, "testEmail@test.com");
-      const input2 = screen.getByLabelText("First and last name");
-      userEvent.type(input2, "My name is the best");
 
       userEvent.click(screen.getByText("Create account"));
-      expect(getAllByText("Enter password")).toBeTruthy();
+      await waitFor(() => expect(getAllByText("Enter full name")).toBeTruthy());
     });
 
-    it("should display error when password is not long enough", () => {
+    it("should display error when password is empty", async () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
@@ -237,16 +220,12 @@ describe("SignInPage", () => {
       userEvent.type(input, "testEmail@test.com");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
-      const input3 = screen.getByLabelText("Password");
-      userEvent.type(input2, "faceboo");
 
       userEvent.click(screen.getByText("Create account"));
-      expect(
-        getAllByText("Your password must be at least 8 characters.")
-      ).toBeTruthy();
+      await waitFor(() => expect(getAllByText("Enter password")).toBeTruthy());
     });
 
-    it("should display error when password is not common", () => {
+    it("should display error when password is not long enough", async () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
@@ -261,12 +240,40 @@ describe("SignInPage", () => {
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
-      userEvent.type(input2, "facebook");
+      userEvent.type(input3, "faceboo");
 
       userEvent.click(screen.getByText("Create account"));
-      expect(
-        getAllByText("Common phrases and passwords are not allowed.")
-      ).toBeTruthy();
+      await waitFor(() =>
+        expect(
+          getAllByText("Your password must be at least 8 characters.")
+        ).toBeTruthy()
+      );
+    });
+
+    it("should display error when password is not common", async () => {
+      passwordStrength.mockImplementation(jest.fn(() => Promise.resolve(true)));
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+      const input2 = screen.getByLabelText("First and last name");
+      userEvent.type(input2, "My name is the best");
+      const input3 = screen.getByLabelText("Password");
+      userEvent.type(input3, "facebook");
+
+      userEvent.click(screen.getByText("Create account"));
+      await waitFor(() =>
+        expect(
+          getAllByText("Common phrases and passwords are not allowed.")
+        ).toBeTruthy()
+      );
     });
 
     it("should return to sign in form from recover password form", () => {
