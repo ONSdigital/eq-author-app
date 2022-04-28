@@ -70,14 +70,12 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
     });
 
   const findAnswersErrors = () => {
-    let result = false;
-    errors.forEach((error) => {
-      if (error.errorCode === "ERR_NO_ANSWERS") {
-        result = true;
-      }
-    });
-
-    return result;
+    return (
+      errors.some((error) => error.errorCode === "ERR_NO_ANSWERS") ||
+      errors.some(
+        (error) => error.errorCode === "ERR_CALCULATED_UNIT_INCONSISTENCY"
+      )
+    );
   };
 
   return (
