@@ -69,6 +69,17 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
       ),
     });
 
+  const findAnswersErrors = () => {
+    let result = false;
+    errors.forEach((error) => {
+      if (error.errorCode === "ERR_NO_ANSWERS") {
+        result = true;
+      }
+    });
+
+    return result;
+  };
+
   return (
     <>
       <Header>
@@ -89,7 +100,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
             />
           ))}
         </ErrorWrapper>
-        {errors.length > 0 && (
+        {errors.length > 0 && findAnswersErrors() && (
           <ValidationError>
             {calculatedSummaryErrors[errors[0].errorCode]}
           </ValidationError>
