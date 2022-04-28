@@ -223,6 +223,52 @@ describe("SignInPage", () => {
       expect(getAllByText("Enter password")).toBeTruthy();
     });
 
+    it("should display error when password is not long enough", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+      const input2 = screen.getByLabelText("First and last name");
+      userEvent.type(input2, "My name is the best");
+      const input3 = screen.getByLabelText("Password");
+      userEvent.type(input2, "faceboo");
+
+      userEvent.click(screen.getByText("Create account"));
+      expect(
+        getAllByText("Your password must be at least 8 characters.")
+      ).toBeTruthy();
+    });
+
+    it("should display error when password is not common", () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const input = screen.getByLabelText("Email address");
+      userEvent.type(input, "testEmail@test.com");
+      const input2 = screen.getByLabelText("First and last name");
+      userEvent.type(input2, "My name is the best");
+      const input3 = screen.getByLabelText("Password");
+      userEvent.type(input2, "facebook");
+
+      userEvent.click(screen.getByText("Create account"));
+      expect(
+        getAllByText("Common phrases and passwords are not allowed.")
+      ).toBeTruthy();
+    });
+
     it("should return to sign in form from recover password form", () => {
       const { getByText, getByTestId } = renderSignIn({
         ...props,

@@ -41,7 +41,7 @@ const CreateAccount = ({
       setErrorMessage("Enter email");
     } else if (fullName === "") {
       setErrorMessage("Enter full name");
-    } else if (password.length < 8 && password.length != 0) {
+    } else if (password.length < 8 && password.length !== 0) {
       setErrorMessage("Your password must be at least 8 characters.");
     } else if (PasswordStrength(password) === true) {
       setErrorMessage("Common phrases and passwords are not allowed.");
