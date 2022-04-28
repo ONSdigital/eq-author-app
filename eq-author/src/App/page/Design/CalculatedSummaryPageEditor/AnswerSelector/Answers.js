@@ -74,7 +74,8 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
       errors.some((error) => error.errorCode === "ERR_NO_ANSWERS") ||
       errors.some(
         (error) => error.errorCode === "ERR_CALCULATED_UNIT_INCONSISTENCY"
-      )
+      ) ||
+      errors.some((error) => error.errorCode === "CALCSUM_MOVED")
     );
   };
 
