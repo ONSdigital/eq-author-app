@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "tests/utils/rtl";
 
-import Answers from "./Answers";
+import Answers, { findAnswersErrors } from "./Answers";
 
 describe("Answers", () => {
   let mockPage, mockOnUpdateCalculatedSummaryPage, mockOnSelect;
@@ -128,5 +128,31 @@ describe("Answers", () => {
     const errorMessage = getByText("Select another number answer");
 
     expect(errorMessage).toBeInTheDocument();
+  });
+
+  describe("findAnswersErrors", () => {
+    it("should return false if errorCode is not ERR_NO_ANSWERS, ERR_CALCULATED_UNIT_INCONSISTENCY or CALCSUM_MOVED", () => {
+      const errors = [{ errorCode: "TEST_ERROR_CODE" }];
+
+      expect(findAnswersErrors(errors)).toBeFalsy();
+    });
+
+    it("should return true if errorCode ERR_NO_ANSWERS is defined in errors", () => {
+      const errors = [{ errorCode: "ERR_NO_ANSWERS" }];
+
+      expect(findAnswersErrors(errors)).toBeTruthy();
+    });
+
+    it("should return true if errorCode ERR_CALCULATED_UNIT_INCONSISTENCY is defined in errors", () => {
+      const errors = [{ errorCode: "ERR_CALCULATED_UNIT_INCONSISTENCY" }];
+
+      expect(findAnswersErrors(errors)).toBeTruthy();
+    });
+
+    it("should return true if errorCode CALCSUM_MOVED is defined in errors", () => {
+      const errors = [{ errorCode: "CALCSUM_MOVED" }];
+
+      expect(findAnswersErrors(errors)).toBeTruthy();
+    });
   });
 });
