@@ -52,6 +52,16 @@ const ErrorWrapper = styled.div`
 
 const Footer = styled.div``;
 
+export const findAnswersErrors = (errors) => {
+  return (
+    errors.some((error) => error.errorCode === "ERR_NO_ANSWERS") ||
+    errors.some(
+      (error) => error.errorCode === "ERR_CALCULATED_UNIT_INCONSISTENCY"
+    ) ||
+    errors.some((error) => error.errorCode === "CALCSUM_MOVED")
+  );
+};
+
 const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
   const sectionTitle = page.section.displayName;
   const answerType = page.summaryAnswers[0].type;
@@ -69,16 +79,6 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
       ),
     });
 
-  const findAnswersErrors = () => {
-    return (
-      errors.some((error) => error.errorCode === "ERR_NO_ANSWERS") ||
-      errors.some(
-        (error) => error.errorCode === "ERR_CALCULATED_UNIT_INCONSISTENCY"
-      ) ||
-      errors.some((error) => error.errorCode === "CALCSUM_MOVED")
-    );
-  };
-
   return (
     <>
       <Header>
@@ -90,7 +90,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
         </RemoveAllBtn>
       </Header>
       <Body>
-        <ErrorWrapper hasError={errors.length > 0 && findAnswersErrors()}>
+        <ErrorWrapper hasError={errors.length > 0 && findAnswersErrors(errors)}>
           {selectedAnswers.map((answer) => (
             <SelectedAnswer
               key={answer.id}
@@ -99,7 +99,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
             />
           ))}
         </ErrorWrapper>
-        {errors.length > 0 && findAnswersErrors() && (
+        {errors.length > 0 && findAnswersErrors(errors) && (
           <ValidationError>
             {calculatedSummaryErrors[errors[0].errorCode]}
           </ValidationError>
