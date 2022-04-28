@@ -6,8 +6,7 @@ import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 import PasswordInput from "components-themed/Input/PasswordInput";
-
-import PasswordStrength from "../PasswordStrength";
+import passwordStrength from "../PasswordStrength";
 
 import {
   PageTitle,
@@ -37,62 +36,41 @@ const CreateAccount = ({
   }
 
   const handleCreateAccount = (createEmail, fullName, password) => {
-    if (createEmail === "") {
-      setErrorMessage("Enter email");
-    } else if (fullName === "") {
-      setErrorMessage("Enter full name");
-    } else if (password.length < 8 && password.length !== 0) {
-      setErrorMessage("Your password must be at least 8 characters.");
-    } else if (PasswordStrength(password) === true) {
-      setErrorMessage("Common phrases and passwords are not allowed.");
-    } else if (password === "") {
-      setErrorMessage("Enter password");
-    } else {
-      auth
-        .createUserWithEmailAndPassword(createEmail, password)
-        .then((response) => {
-          response.user
-            .updateProfile({
-              displayName: fullName,
-            })
-            .then(
-              function () {
-                setVerificationEmail(createEmail);
-                setErrorMessage("");
-              },
-              function (error) {
-                setErrorMessage(error.message);
-              }
-            );
-          setCreateAccountFunction(false);
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
-      // try {
-      //   const response = auth.createUserWithEmailAndPassword(
-      //     createEmail,
-      //     password
-      //   );
-      //   const user = response.user;
-      //   user
-      //     .updateProfile({
-      //       displayName: fullName,
-      //     })
-      //     .then(
-      //       function () {
-      //         setVerificationEmail(createEmail);
-      //         setErrorMessage("");
-      //       },
-      //       function (error) {
-      //         setErrorMessage(error.message);
-      //       }
-      //     );
-      //   setCreateAccountFunction(false);
-      // } catch (error) {
-      //   setErrorMessage(error.message);
-      // }
-    }
+    passwordStrength(password).then((commonPassword) => {
+      if (createEmail === "") {
+        setErrorMessage("Enter email");
+      } else if (fullName === "") {
+        setErrorMessage("Enter full name");
+      } else if (password.length < 8 && password.length !== 0) {
+        setErrorMessage("Your password must be at least 8 characters.");
+      } else if (commonPassword) {
+        setErrorMessage("Common phrases and passwords are not allowed.");
+      } else if (password === "") {
+        setErrorMessage("Enter password");
+      } else {
+        auth
+          .createUserWithEmailAndPassword(createEmail, password)
+          .then((response) => {
+            response.user
+              .updateProfile({
+                displayName: fullName,
+              })
+              .then(
+                function () {
+                  setVerificationEmail(createEmail);
+                  setErrorMessage("");
+                },
+                function (error) {
+                  setErrorMessage(error.message);
+                }
+              );
+            setCreateAccountFunction(false);
+          })
+          .catch((error) => {
+            setErrorMessage(error.message);
+          });
+      }
+    });
   };
 
   function handleLinkToAnchor() {
