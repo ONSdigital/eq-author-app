@@ -70,10 +70,55 @@ const createApp = () => {
       frameguard: {
         action: "deny",
       },
+      hsts: {
+        maxAge: 15552000,
+        includeSubDomains: true
+      },
+      noSniff: true,
+      crossDomain: {
+        permittedPolicies: "none",
+      },
+      clearSiteData: ["cache", "cookies", "storage"],
+      crossOriginEmbedderPolicy: "require-corp",
+      crossOriginOpenerPolicy: "same-origin",
+      crossOriginResourcePolicy: "same-origin",
+      permissionsPolicy: {
+        features: {
+          accelerometer: [],
+          autoplay: [],
+          camera: [],
+          displayCapture: [],
+          documentDomain: [],
+          encryptedMedia: [],
+          fullscreen: [],
+          geolocation: [],
+          gyroscope: [],
+          magnetometer: [],
+          microphone: [],
+          midi: [],
+          payment: [],
+          pictureInPicture: [],
+          publickeyCredentialsGet: [],
+          screenWakeLock: [],
+          syncXhr: ["self"],
+          usb: [],
+          webShare: [],
+          xrSpatialTracking: [],
+        }
+      },
+      cacheControl: {
+        noStore: true,
+        maxAge: 0
+      },
+      pragma: "no-cache",
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
           objectSrc: ["'none'"],
+          childSrc: ["'self'"],
+          frameAncestors: ["'none"],
+          upgradeInsecureRequests: true,
+          blockAllMixedContent: true,
           baseUri: ["'none'"],
           fontSrc: ["'self'", "https://fonts.gstatic.com"],
           styleSrc: [
