@@ -89,7 +89,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
         </RemoveAllBtn>
       </Header>
       <Body>
-        <ErrorWrapper hasError={errors.length > 0}>
+        <ErrorWrapper hasError={errors.length > 0 && findAnswersErrors()}>
           {selectedAnswers.map((answer) => (
             <SelectedAnswer
               key={answer.id}
