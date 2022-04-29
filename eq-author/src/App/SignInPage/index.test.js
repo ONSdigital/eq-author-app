@@ -3,9 +3,9 @@ import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
 import { render, screen, act, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
-import passwordStrength from "./PasswordStrength";
+import isCommonPassword from "./CommonPassword";
 
-jest.mock("./PasswordStrength", () => jest.fn(() => Promise.resolve(false)));
+jest.mock("./CommonPassword", () => jest.fn(() => Promise.resolve(false)));
 
 describe("SignInPage", () => {
   let props;
@@ -251,7 +251,7 @@ describe("SignInPage", () => {
     });
 
     it("should display error when password is not common", async () => {
-      passwordStrength.mockImplementation(jest.fn(() => Promise.resolve(true)));
+      isCommonPassword.mockImplementation(jest.fn(() => Promise.resolve(true)));
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });

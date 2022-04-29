@@ -6,7 +6,7 @@ import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 import PasswordInput from "components-themed/Input/PasswordInput";
-import passwordStrength from "../PasswordStrength";
+import isCommonPassword from "../CommonPassword";
 
 import {
   PageTitle,
@@ -36,7 +36,7 @@ const CreateAccount = ({
   }
 
   const handleCreateAccount = (createEmail, fullName, password) => {
-    passwordStrength(password).then((commonPassword) => {
+    isCommonPassword(password).then((commonPassword) => {
       if (createEmail === "") {
         setErrorMessage("Enter email");
       } else if (fullName === "") {

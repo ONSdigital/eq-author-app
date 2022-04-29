@@ -1,4 +1,4 @@
-const passwordStrength = (password) =>
+const isCommonPassword = (password) =>
   new Promise((resolve) => {
     fetch("/commonPasswordList.json").then((response) => {
       response.json().then((passwords) => {
@@ -8,4 +8,4 @@ const passwordStrength = (password) =>
     });
   });
 
-export default passwordStrength;
+export default isCommonPassword;

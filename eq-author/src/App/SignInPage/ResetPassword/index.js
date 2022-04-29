@@ -7,7 +7,7 @@ import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 import PasswordInput from "components-themed/Input/PasswordInput";
-import passwordStrength from "../PasswordStrength";
+import isCommonPassword from "../CommonPassword";
 
 import {
   PageTitle,
@@ -45,7 +45,7 @@ const ResetPassword = ({
   }, [actionCode, userEmail, setErrorMessage]);
 
   const handleResetPassword = (newPassword) => {
-    passwordStrength(newPassword).then((commonPassword) => {
+    isCommonPassword(newPassword).then((commonPassword) => {
       if (newPassword === "" || newPassword === null) {
         setErrorMessage("Password cannot be empty");
       } else if (newPassword.length < 8 && newPassword.length !== 0) {
