@@ -1,4 +1,5 @@
 const { uniq } = require("lodash/fp");
+const { logger } = require("../../utils/logger");
 
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 
@@ -22,7 +23,11 @@ const createOrRemoveAnswerGroup = (page, newAnswer) => {
     return;
   }
 
+  logger.info(`Answer Created  Answer Types ${JSON.stringify(answerTypes)}`);
+
   page.totalValidation = createTotalValidation();
+
+  logger.info(`Answer Created  validation ${JSON.stringify(page.validation)}`);
 };
 
 module.exports = (page, answer) => {

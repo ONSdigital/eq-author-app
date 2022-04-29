@@ -1,4 +1,6 @@
 const { includes, flatten, values, omit, find, get } = require("lodash/fp");
+const { logger } = require("../../utils/logger");
+
 const { v4: uuidv4 } = require("uuid");
 const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties");
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
@@ -14,8 +16,10 @@ module.exports = (answer, page) => {
     const existingAnswerTypes = page.answers.map((a) => a.type);
 
     if (existingAnswerTypes.includes(answer.type)) {
-      const sharedProperties = find({ type: answer.type }, page.answers)
-        .properties;
+      const sharedProperties = find(
+        { type: answer.type },
+        page.answers
+      ).properties;
       properties = sharedProperties;
     }
   }
@@ -43,7 +47,13 @@ module.exports = (answer, page) => {
     if (answer.type === "Radio") {
       defaultOptions.push(createOption());
     }
+    logger.info(
+      `Checkbox or Radio created with Options ${JSON.stringify(defaultOptions)}`
+    );
   }
+
+  logger.info(`Answer created with Properties ${JSON.stringify(properties)}`);
+  logger.info(`Answer created with Validation ${JSON.stringify(validation)}`);
 
   return {
     id: uuidv4(),

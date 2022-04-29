@@ -1,3 +1,5 @@
+const { logger } = require("../../utils/logger");
+
 const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
   pages.forEach((page) => {
     const { title, description } = page;
@@ -12,6 +14,9 @@ const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
       );
     }
   });
+
+  logger.info(`Piping In Answers Updated with ID ${updatedAnswer.id}`);
+
   return pages;
 };
 
