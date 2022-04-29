@@ -15,7 +15,6 @@ const StyledDescribedText = styled(DescribedText)`
 `;
 const StyledField = styled(Field)`
   margin-left: 0;
-  margin-right: 2em;
 `;
 
 const InlineField = styled(Field)`
@@ -31,7 +30,7 @@ const ToggleWrapper = styled.div`
 `;
 
 const Caption = styled.p`
-  margin-top: 0s;
+  margin-top: 0.3rem;
   margin-bottom: 1.5rem;
   margin-left: 0;
   font-size: 0.85em;
@@ -47,6 +46,10 @@ const SummaryLabel = styled.label`
 const EnableDisableWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
+
+const StyledWrappingInput = styled(WrappingInput)`
+  border-radius: 0;
 `;
 
 const SectionSummary = ({
@@ -80,7 +83,7 @@ const SectionSummary = ({
             Summary title
           </StyledDescribedText>
         </Label>
-        <WrappingInput
+        <StyledWrappingInput
           id={`summary-title-${id}`}
           name="summaryTitle"
           onChange={(e) => setSummaryTitle(e.value)}
