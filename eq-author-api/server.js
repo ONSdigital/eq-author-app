@@ -79,7 +79,7 @@ const createApp = () => {
         permittedPolicies: "none",
       },
       clearSiteData: ["cache", "cookies", "storage"],
-      crossOriginEmbedderPolicy: "require-corp",
+      crossOriginEmbedderPolicy: true,
       crossOriginOpenerPolicy: "same-origin",
       crossOriginResourcePolicy: "same-origin",
       permissionsPolicy: {
@@ -117,8 +117,8 @@ const createApp = () => {
           objectSrc: ["'none'"],
           childSrc: ["'self'"],
           frameAncestors: ["'none"],
-          upgradeInsecureRequests: true,
-          blockAllMixedContent: true,
+          upgradeInsecureRequests: ['true'],
+          blockAllMixedContent: ['true'],
           baseUri: ["'none'"],
           fontSrc: ["'self'", "https://fonts.gstatic.com"],
           styleSrc: [
