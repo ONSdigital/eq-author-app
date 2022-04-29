@@ -6,6 +6,7 @@ const createCalculatedSummary = (input = {}) => ({
   title: "",
   pageType: "CalculatedSummaryPage",
   summaryAnswers: [],
+  totalTitle: "",
   ...omit(input, "folderId"),
 });
 
