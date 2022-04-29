@@ -2264,7 +2264,7 @@ describe("schema validation", () => {
         pageType: "CalculatedSummaryPage",
         summaryAnswers: [],
         alias: null,
-        totalTitle: null,
+        totalTitle: "Test",
       };
     });
 
@@ -2289,6 +2289,29 @@ describe("schema validation", () => {
 
         expect(errors).toHaveLength(1);
         expect(errors[0].errorCode).toBe(CALCSUM_MOVED);
+      });
+
+      it("Should validate when the calculated summary total title is empty", () => {
+        const pages = questionnaire.sections[0].folders[0].pages;
+
+        mockCalcSum.summaryAnswers = [
+          pages[0].answers[0].id,
+          pages[1].answers[0].id,
+        ];
+
+        mockCalcSum.totalTitle = "";
+
+        const rearrangedFolders = [
+          { id: "folder_1", pages: [{ ...pages[0] }] },
+          { id: "folder_2", pages: [{ ...pages[1] }] },
+          { id: "folder_3", pages: [{ ...mockCalcSum }] },
+        ];
+
+        questionnaire.sections[0].folders = rearrangedFolders;
+        questionnaire.id = 2;
+        const errors = validation(questionnaire);
+
+        expect(errors).toHaveLength(1);
       });
 
       it("Should not validate when the calc sum appears after the answers it uses", () => {
