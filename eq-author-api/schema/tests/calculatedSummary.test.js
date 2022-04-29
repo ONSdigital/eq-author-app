@@ -346,11 +346,12 @@ describe("calculated Summary", () => {
 
     const calSumPage = questionnaire.sections[0].folders[0].pages[1];
     const result = await queryPage(ctx, calSumPage.id);
-    expect(result.validationErrorInfo.totalCount).toEqual(2);
+    expect(result.validationErrorInfo.totalCount).toEqual(3);
 
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       title: "calc sum title",
+      totalTitle: "Test",
     });
 
     const validResult = await queryPage(ctx, calSumPage.id);
@@ -397,6 +398,7 @@ describe("calculated Summary", () => {
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       title: "Goo",
+      totalTitle: "Test",
       summaryAnswers: [answers[0].id, answers[1].id],
     });
     const validResult = await queryPage(ctx, calSumPage.id);
