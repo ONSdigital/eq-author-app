@@ -62,7 +62,7 @@
     "jest-transform-graphql": "latest",
     "mini-css-extract-plugin": "latest",
     "optimize-css-assets-webpack-plugin": "latest",
-    "pino": "^6.11.0",
+    "pino": "^7.11.0",
     "pino-pretty": "^3.6.1",
     "pnp-webpack-plugin": "latest",
     "postcss-flexbugs-fixes": "latest",
