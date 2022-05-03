@@ -19,7 +19,6 @@ module.exports =
       merge(questionnaireMeta, { ...req.questionnaire });
       req.questionnaire = questionnaireMeta;
       const migrationsToRun = migrations.slice(req.questionnaire.version);
-      //await migrationsToRun[1](req.questionnaire);
       for (let migration of migrationsToRun) {
         logger.info(
           `Running migration for version ${migration.name} on ${req.questionnaire.id}`
