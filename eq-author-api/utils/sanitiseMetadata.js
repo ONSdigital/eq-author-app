@@ -13,7 +13,7 @@ const filterUnacceptableMeta = omit([
   "account_service_url",
 ]);
 
-const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
+const defaultMetadata = (questionnaireId, tokenIssueTime, schemaUrl) => ({
   tx_id: uuidv1(),
   jti: uuidv1(),
   iat: tokenIssueTime,
@@ -26,7 +26,7 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
   eq_id: questionnaireId,
   collection_exercise_sid: uuidv1(),
   period_id: "201605",
-  survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`,
+  schema_url: `${schemaUrl}${questionnaireId}?r${tokenIssueTime}`,
   questionnaire_id: uuidv1(),
   response_id: uuidv1(),
   schema_name: "test",
@@ -37,11 +37,11 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
 });
 
 module.exports.sanitiseMetadata = (metadata, questionnaireId) => {
-  const surveyUrl = process.env.PUBLISHER_URL;
+  const schemaUrl = process.env.PUBLISHER_URL;
   const refinedMetadata = filterUnacceptableMeta(metadata);
   const tokenIssueTime = Math.round(new Date().getTime() / 1000);
   return assign(
-    defaultMetadata(questionnaireId, tokenIssueTime, surveyUrl),
+    defaultMetadata(questionnaireId, tokenIssueTime, schemaUrl),
     refinedMetadata
   );
 };
