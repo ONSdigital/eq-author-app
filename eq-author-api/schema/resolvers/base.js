@@ -444,7 +444,7 @@ const Resolvers = {
       };
 
       logger.info(
-        { qid: ctx.questionnaire.id },
+        { qid: questionnaire.id },
         `Duplicated questionnire with title - ${questionnaire.title}`
       );
 
