@@ -122,10 +122,10 @@ const CustomSelect = styled.select`
   position: relative;
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
-  padding: 0.3em;
+  padding: 0.3em 1.5em 0.3em 0.3em;
   color: #222222;
   display: block;
-  width: 30%;
+  min-width: 30%;
   ${errorCSS}
 
   &:hover {
