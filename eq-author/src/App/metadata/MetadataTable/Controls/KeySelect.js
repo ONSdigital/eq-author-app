@@ -39,14 +39,13 @@ class KeySelect extends Component {
   };
 
   handleStateChange = (changes) => {
-    const { name, onChange, onUpdate } = this.props;
+  const { name, onChange, onUpdate } = this.props;
     const { inputValue: value, selectedItem } = changes;
     //isssue lies here
     if (selectedItem) {
       onChange({ name, value: selectedItem.value }, onUpdate);
     }
     if (/^[a-z0-9-_]+$/i.test(value) || value === "") {
-      console.log('value :>> ', value);
       if(value === undefined){
         this.setState(() => ({selectedItem}))
       }

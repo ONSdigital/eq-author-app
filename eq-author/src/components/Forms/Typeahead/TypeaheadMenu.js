@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
-import { radius } from "constants/theme";
+import { radius, colors } from "constants/theme";
 
 import { noop } from "lodash";
 
@@ -21,6 +21,7 @@ const MenuList = styled.ul`
   &:empty {
     padding: 0;
   }
+
 `;
 
 const MenuItem = styled.li`
@@ -41,8 +42,13 @@ const MenuItemText = styled.div`
   padding: 0.6em 1em;
   line-height: 1;
   &:hover {
-    background-color: #e4e8eb;
-  }
+      background-color: ${colors.lightMediumGrey};
+    }
+  ${({ isActive }) =>
+    isActive &&
+    `
+    background-color: ${colors.lightMediumGrey};
+  `}
 `;
 
 export const filterItemsByInputValue = (items, inputValue) =>
@@ -72,10 +78,12 @@ const TypeaheadMenu = ({
             })}
             // Overwrites onMouseMove to perform no operation - the default onMouseMove function breaks search
             onMouseMove={noop}
+            tabIndex={0}
           >
             <MenuItemText
               isActive={highlightedIndex === index}
               isSelected={selectedItem === item}
+              tabIndex={0}
             >
               {item.value}
             </MenuItemText>
