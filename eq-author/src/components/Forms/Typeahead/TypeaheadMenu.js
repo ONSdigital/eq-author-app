@@ -78,12 +78,10 @@ const TypeaheadMenu = ({
             })}
             // Overwrites onMouseMove to perform no operation - the default onMouseMove function breaks search
             onMouseMove={noop}
-            tabIndex={0}
           >
             <MenuItemText
               isActive={highlightedIndex === index}
               isSelected={selectedItem === item}
-              tabIndex={0}
             >
               {item.value}
             </MenuItemText>
