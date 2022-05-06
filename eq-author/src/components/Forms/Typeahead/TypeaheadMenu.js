@@ -21,7 +21,6 @@ const MenuList = styled.ul`
   &:empty {
     padding: 0;
   }
-
 `;
 
 const MenuItem = styled.li`
@@ -42,8 +41,8 @@ const MenuItemText = styled.div`
   padding: 0.6em 1em;
   line-height: 1;
   &:hover {
-      background-color: ${colors.lightMediumGrey};
-    }
+    background-color: ${colors.lightMediumGrey};
+  }
   ${({ isActive }) =>
     isActive &&
     `
