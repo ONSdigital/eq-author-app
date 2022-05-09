@@ -7,6 +7,8 @@ map $sent_http_content_type $expires {
   ~image/                    max;
 }
 
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+
 server {
   listen 3000;
   server_name eq-author;
