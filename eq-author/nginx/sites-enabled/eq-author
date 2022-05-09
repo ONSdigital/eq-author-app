@@ -18,7 +18,7 @@ add_header Cross-Origin-Resource-Policy: same-origin;
 add_header Cache-Control: no-store;
 add_header Pragma: no-cache;
 add_header Permissions-Policy: "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
-add_header Content-Security-Policy "default-src 'self'; font-src *; img-src * data:; script-src *; style-src *";
+add_header Content-Security-Policy "default-src 'self'; object-src: 'none'; font-src *; img-src * data:; script-src *; style-src *";
 
 server {
   listen 3000;
