@@ -1,3 +1,5 @@
+//This helprr is currently UNUSED, but kept for future use
+
 const { get, isNumber } = require("lodash");
 
 const {
