@@ -3,7 +3,6 @@ module.exports = (ajv) => {
   require("./uniquePropertyValueInArrayOfObjects")(ajv);
   require("./calculatedSummaryUnitConsistency")(ajv);
   require("./calculatedSummaryPosition")(ajv);
-  require("./linkedDecimalValidation")(ajv);
   require("./validateLatestAfterEarliest")(ajv);
   require("./validateDuration")(ajv);
   require("./validateMultipleChoiceCondition")(ajv);
