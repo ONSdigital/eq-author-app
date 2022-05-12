@@ -63,7 +63,10 @@ class KeySelect extends Component {
         selectedItem={{ value }}
       >
         {({ getInputProps, isOpen, openMenu, ...otherProps }) => (
-          <div>
+          <div
+          // id={"metadata-key-column"}
+          // aria-labelledby={"metadata-key-column"}
+          >
             <TableTypeaheadInput
               name={name}
               {...getInputProps({
