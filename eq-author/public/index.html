@@ -9,7 +9,6 @@
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains" />
-    <meta http-equiv="X-Frame-Options" content="deny" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-Permitted-Cross-Domain-Policies" content="none" />
     <meta http-equiv="Referrer-Policy" content="no-referrer" />
@@ -17,9 +16,8 @@
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
     <meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin" />
     <meta http-equiv="Cache-Control" content="no-store" />
-    <meta http-equiv="Permissions-Policy" content="" />
-    <meta http-equiv="" content="geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src: 'none'; child-src: 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; font-src https://fonts.gstatic.com; img-src 'self' http://cdn.jsdelivr.net/npm/@apollographql/; script-src 'self' https://www.googleapis.com/identitytoolkit/v3 http://cdn.jsdelivr.net/npm/@apollographql/ 'sha256-qQ+vMtTOJ7ZAi9QUiV74BIEp2+xQJt7uiJ47QICu6xI='; style-src 'self' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-iRiwFogHwyIOlQ0vgwGxLZXMnuPZa9eZnswp4v8s6fE=' 'sha256-WYkrRZYpK8d/rqMjoMTIfcPzRxeojQUncPzhW9/2pg8=' 'sha256-jQoC6QpIonlMBPFbUGlJFRJFFWbbijMl7Z8XqWrb46o='" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' ws://localhost:3000 ws://localhost:4000; object-src 'none'; child-src 'self'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; font-src https://fonts.gstatic.com; img-src 'self' http://cdn.jsdelivr.net/npm/@apollographql/; script-src 'self' http://localhost:4000/graphql 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com" />
     <script>
       var isChrome = !!window.chrome;
 
