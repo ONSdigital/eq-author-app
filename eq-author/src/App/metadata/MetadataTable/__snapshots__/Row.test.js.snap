@@ -15,6 +15,7 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-alias-column"
       name="alias"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -55,6 +56,7 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-value-column"
       name="textValue"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -94,6 +96,7 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-alias-column"
       name="alias"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -174,6 +177,7 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-alias-column"
       name="alias"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -277,6 +281,7 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-alias-column"
       name="alias"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -368,6 +373,7 @@ exports[`MetadataTable should render 1`] = `
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-alias-column"
       name="alias"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
@@ -408,6 +414,7 @@ exports[`MetadataTable should render 1`] = `
   </TableColumn>
   <TableColumn>
     <TableInput
+      id="metadata-value-column"
       name="textValue"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
