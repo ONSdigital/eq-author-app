@@ -17,6 +17,7 @@ add_header Cross-Origin-Opener-Policy same-origin;
 add_header Cross-Origin-Resource-Policy same-origin;
 add_header Cache-Control no-store;
 add_header Pragma no-cache;
+add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
 
 server {
   listen 3000;
