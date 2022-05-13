@@ -67,6 +67,7 @@ export const StatelessRow = ({
       </TableColumn>
       <TableColumn>
         <TableInput
+          id={"metadata-alias-column"}
           onChange={onChange}
           onBlur={onUpdate}
           value={alias}
@@ -85,6 +86,7 @@ export const StatelessRow = ({
       <TableColumn>
         {(type === TEXT.value || type === TEXT_OPTIONAL.value) && (
           <TableInput
+            id={"metadata-value-column"}
             onChange={onChange}
             onBlur={onUpdate}
             value={textValue}
