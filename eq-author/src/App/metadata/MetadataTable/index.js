@@ -1,9 +1,12 @@
 import React from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { AddRowButton } from "components/datatable/Controls";
 import IconText from "components/IconText";
 import Icon from "components/datatable/icon-plus.svg?inline";
+import { Label } from "components/Forms";
+import { colors } from "constants/theme";
 
 import {
   Table,
@@ -16,6 +19,13 @@ import {
 } from "components/datatable/Elements";
 
 import Row from "./Row";
+
+const StyledLabel = styled(Label)`
+  line-height: normal;
+  vertical-align: baseline;
+  margin-bottom: 0;
+  color: ${colors.darkGrey};
+`;
 
 const MetadataTable = ({
   questionnaireId,
@@ -32,9 +42,13 @@ const MetadataTable = ({
       <TableHead>
         <TableRow>
           <TableHeadColumn width="15%">Key</TableHeadColumn>
-          <TableHeadColumn width="15%">Alias</TableHeadColumn>
+          <TableHeadColumn width="15%">
+            <StyledLabel htmlFor={"metadata-alias-column"}>Alias</StyledLabel>
+          </TableHeadColumn>
           <TableHeadColumn width="15%">Type</TableHeadColumn>
-          <TableHeadColumn width="40%">Value</TableHeadColumn>
+          <TableHeadColumn width="40%">
+            <StyledLabel htmlFor={"metadata-value-column"}>Value</StyledLabel>
+          </TableHeadColumn>
           <TableHeadColumn width="15%">Fallback</TableHeadColumn>
           <TableHeadColumn width="34px" />
         </TableRow>

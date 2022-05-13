@@ -63,7 +63,7 @@ class KeySelect extends Component {
         selectedItem={{ value }}
       >
         {({ getInputProps, isOpen, openMenu, ...otherProps }) => (
-          <div>
+          <div id={value} aria-labelledby={value}>
             <TableTypeaheadInput
               name={name}
               {...getInputProps({
@@ -71,6 +71,8 @@ class KeySelect extends Component {
                 onBlur: this.handleBlur,
                 "data-test": "key-input",
               })}
+              id={value}
+              aria-labelledby={value}
             />
             {isOpen && (
               <TableTypeaheadMenu
