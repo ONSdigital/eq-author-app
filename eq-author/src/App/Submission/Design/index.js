@@ -12,7 +12,9 @@ import SubmissionLayout from "../SubmissionLayout";
 import SubmissionEditor from "./SubmissionEditor";
 
 export const SubmissionDesign = () => {
-  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY);
+  const { loading, error, data } = useQuery(GET_SUBMISSION_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
 
   const submission = data?.submission;
 
