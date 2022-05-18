@@ -89,7 +89,7 @@
         }
       },
       "required": ["label"],
-      "errorMessage": {"required": {"label": "ERR_VALID_REQUIRED"}}
+      "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },
     "numericAnswer": {
       "if": {
@@ -204,11 +204,6 @@
     "properties": {
       "type": "object",
       "properties": {
-        "decimals": {
-          "linkedDecimalValidation": {
-            "$data": "/sections"
-          }
-        },
         "maxLength": {
           "type": "number",
           "minimum": 10,

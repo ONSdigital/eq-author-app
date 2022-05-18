@@ -68,10 +68,7 @@ class KeySelect extends Component {
         selectedItem={{ value }}
       >
         {({ getInputProps, isOpen, openMenu, ...otherProps }) => (
-          <div
-          // id={"metadata-key-column"}
-          // aria-labelledby={"metadata-key-column"}
-          >
+          <div id={value} aria-labelledby={value}>
             <TableTypeaheadInput
               name={name}
               {...getInputProps({
@@ -79,6 +76,8 @@ class KeySelect extends Component {
                 onBlur: this.handleBlur,
                 "data-test": "key-input",
               })}
+              id={value}
+              aria-labelledby={value}
             />
             {isOpen && (
               <TableTypeaheadMenu
