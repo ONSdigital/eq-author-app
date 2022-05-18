@@ -40,9 +40,14 @@ class KeySelect extends Component {
 
   handleStateChange = (changes) => {
     const { name, onChange, onUpdate } = this.props;
-    const { inputValue: value, selectedItem } = changes;
+    const { inputValue: value, selectedItem, highlightedIndex } = changes;
     if (selectedItem) {
       onChange({ name, value: selectedItem.value }, onUpdate);
+    }
+    if (document.getElementById(`keyList-item-${highlightedIndex}`)) {
+      document
+        .getElementById(`keyList-item-${highlightedIndex}`)
+        .scrollIntoView(false);
     }
     if (/^[a-z0-9-_]+$/i.test(value) || value === "") {
       if (value === undefined) {
