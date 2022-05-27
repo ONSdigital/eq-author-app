@@ -2,6 +2,8 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 
 import Modal, { CloseButton } from "./";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 describe("components/Modal", () => {
   jest.useFakeTimers();
@@ -16,6 +18,7 @@ describe("components/Modal", () => {
       icon: "move",
       isOpen: true,
       children: <p>Modal content</p>,
+      history: jest.fn(),
     };
   });
 
@@ -31,9 +34,12 @@ describe("components/Modal", () => {
     });
 
     it("should render the react modal when opened", () => {
-      const wrapper = mount(<Modal {...props} isOpen={false} />);
-      wrapper.setProps({ isOpen: true });
-      wrapper.update();
+      const history = createMemoryHistory();
+      const wrapper = mount(
+        <Router history={history}>
+          <Modal {...props} isOpen />
+        </Router>
+      );
       expect(wrapper.find("Modal__StyledModal").exists()).toBe(true);
     });
   });
@@ -46,19 +52,34 @@ describe("components/Modal", () => {
     });
 
     it("should close if overlay is clicked", () => {
-      const wrapper = mount(<Modal {...props} />);
+      const history = createMemoryHistory();
+      const wrapper = mount(
+        <Router history={history}>
+          <Modal {...props} isOpen />
+        </Router>
+      );
       wrapper.find(".Overlay").simulate("click");
       expect(props.onClose).toHaveBeenCalled();
     });
 
     it("should close if ESC key is pressed", () => {
-      const wrapper = mount(<Modal {...props} />);
+      const history = createMemoryHistory();
+      const wrapper = mount(
+        <Router history={history}>
+          <Modal {...props} isOpen />
+        </Router>
+      );
       wrapper.find(".Modal").simulate("keyDown", { keyCode: 27 });
       expect(props.onClose).toHaveBeenCalled();
     });
 
     it("should not close if any other key is pressed", () => {
-      const wrapper = mount(<Modal {...props} />);
+      const history = createMemoryHistory();
+      const wrapper = mount(
+        <Router history={history}>
+          <Modal {...props} isOpen />
+        </Router>
+      );
       wrapper.find(".Modal").simulate("keyDown", { keyCode: 28 });
       expect(props.onClose).not.toHaveBeenCalled();
     });
@@ -83,16 +104,29 @@ describe("components/Modal", () => {
     });
 
     it("should not hide the react modal until after the animation timeout", () => {
-      const wrapper = mount(<Modal {...props} />);
-      wrapper.setProps({ isOpen: false });
-      expect(wrapper.text()).toContain("Modal content");
+      const history = createMemoryHistory();
+      const wrapper = (isOpen) =>
+        mount(
+          <Router history={history}>
+            <Modal {...props} isOpen={isOpen} />
+          </Router>
+        );
+      // console.log(wrapper.html())
+      // wrapper.setProps({ isOpen: false });
+      expect(wrapper(true).text()).toContain("Modal content");
       jest.runAllTimers();
-      wrapper.update();
-      expect(wrapper.text()).toBe("");
+      // wrapper(false);
+      // wrapper.update();
+      expect(wrapper(false).text()).toBe("");
     });
 
     it("should not error if it is unmounted whilst animating out", () => {
-      const wrapper = mount(<Modal {...props} />);
+      const history = createMemoryHistory();
+      const wrapper = mount(
+        <Router history={history}>
+          <Modal {...props} isOpen />
+        </Router>
+      );
       wrapper.setProps({ isOpen: false });
       wrapper.unmount();
       expect(() => {
