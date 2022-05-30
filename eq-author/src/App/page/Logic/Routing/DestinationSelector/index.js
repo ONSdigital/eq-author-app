@@ -16,6 +16,7 @@ const DESTINATION_TYPE = {
   Section: "Section",
   QuestionPage: "QuestionPage",
   CalculatedSummaryPage: "CalculatedSummaryPage",
+  ListCollectorPage: "ListCollectorPage",
 };
 
 const RoutingRuleResult = styled.div`
@@ -47,6 +48,7 @@ const typeToPropertyName = {
   [DESTINATION_TYPE.Section]: "sectionId",
   [DESTINATION_TYPE.QuestionPage]: "pageId",
   [DESTINATION_TYPE.CalculatedSummaryPage]: "pageId",
+  [DESTINATION_TYPE.ListCollectorPage]: "pageId",
 };
 
 export const UnwrappedDestinationSelector = ({
