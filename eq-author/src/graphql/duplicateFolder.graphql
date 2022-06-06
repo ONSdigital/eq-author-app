@@ -65,6 +65,13 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
               ...Comment
             }
           }
+          ... on ListCollectorPage {
+            id
+            alias
+            comments {
+              ...Comment
+            }
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }
