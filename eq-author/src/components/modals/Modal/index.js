@@ -4,8 +4,13 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import UnstyledCloseButton from "components/buttons/CloseButton";
+import ScrollPane from "components/ScrollPane";
 
 const ANIMATION_DURATION = 100;
+
+const StyledScrollPane = styled(ScrollPane)`
+  max-height: 100vh;
+`;
 
 export const CloseButton = styled(UnstyledCloseButton).attrs({
   size: "medium",
@@ -149,8 +154,12 @@ class Modal extends React.Component {
         closeTimeoutMS={300}
         {...otherProps}
       >
-        {hasCloseButton && <CloseButton onClick={onClose}>&times;</CloseButton>}
-        {children}
+        <StyledScrollPane>
+          {hasCloseButton && (
+            <CloseButton onClick={onClose}>&times;</CloseButton>
+          )}
+          {children}
+        </StyledScrollPane>
       </StyledModal>
     );
   }
