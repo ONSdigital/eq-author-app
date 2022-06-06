@@ -111,12 +111,8 @@ describe("components/Modal", () => {
             <Modal {...props} isOpen={isOpen} />
           </Router>
         );
-      // console.log(wrapper.html())
-      // wrapper.setProps({ isOpen: false });
       expect(wrapper(true).text()).toContain("Modal content");
       jest.runAllTimers();
-      // wrapper(false);
-      // wrapper.update();
       expect(wrapper(false).text()).toBe("");
     });
 
