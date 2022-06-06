@@ -6,6 +6,7 @@ exports[`Typeahead should render 1`] = `
   defaultIsOpen={false}
   environment={Object {}}
   getA11yStatusMessage={[Function]}
+  id="keyList"
   itemToString={[Function]}
   onChange={[MockFunction]}
   onInputValueChange={[Function]}
