@@ -99,7 +99,7 @@ describe("EditorToolbar", () => {
 
     expect(screen.queryByText("Move folder")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByTestId("move-modal").children[0]);
+    fireEvent.click(screen.getByTestId("move-modal").children[0].children[0]);
 
     await waitForElementToBeRemoved(() => screen.queryByText("Move folder"));
 
