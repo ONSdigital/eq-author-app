@@ -19,6 +19,10 @@ import { binaryExpressionErrors } from "constants/validationMessages";
 
 import { OR } from "constants/routingOperators";
 
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [jest.fn()],
+}));
+
 describe("BinaryExpressionEditor", () => {
   let defaultProps, expression, expressionGroup;
   beforeEach(() => {
