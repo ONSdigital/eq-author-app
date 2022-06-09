@@ -17,7 +17,14 @@ const {
   getAllExpressionGroups,
   getExpressionGroupByExpressionId,
   returnValidationErrors,
+  getPageBySkipConditionId,
 } = require("../../utils");
+
+const {
+  deleteSkipCondition,
+  deleteSkipConditions,
+} = require("../../base");
+
 
 const Resolvers = {};
 
@@ -254,10 +261,30 @@ Resolvers.Mutation = {
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     const expressionGroup = getExpressionGroupByExpressionId(ctx, input.id);
     // Delete the expression group (e.g. skip condition or display condition) with a given ID
-    expressionGroup.expressions = reject(
-      { id: input.id },
-      expressionGroup.expressions
-    );
+
+    if (expressionGroup.expressions.length === 1) {
+      // need to check if need to delete skip condition or rule completely
+
+      console.log("Expression Id", input);
+      console.log("Skip Condition Id", expressionGroup.id);
+      const page = getPageBySkipConditionId(ctx, expressionGroup.id);
+      console.log("Page Id", page.id);
+
+
+
+      const skipConditionLength = page.skipConditions.length;
+      if (skipConditionLength === 1 ) {
+        console.log("DELETE RULE parent id = ", page.id);
+      } else {
+        console.log("DELETE SKIP CONDITION");
+      }
+    } else {
+      console.log("DELETED Expression");
+      // expressionGroup.expressions = reject(
+      //   { id: input.id },
+      //   expressionGroup.expressions
+      // );
+    }
 
     return expressionGroup;
   }),

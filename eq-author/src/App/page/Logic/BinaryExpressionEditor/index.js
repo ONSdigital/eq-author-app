@@ -179,7 +179,6 @@ export const UnwrappedBinaryExpressionEditor = ({
             <Tooltip content="Remove condition" place="top">
               <RemoveButton
                 onClick={handleDeleteClick}
-                disabled={expressionGroup.expressions.length === 1}
                 data-test="btn-remove"
                 small
               >
