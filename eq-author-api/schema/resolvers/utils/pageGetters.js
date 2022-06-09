@@ -23,12 +23,6 @@ const getPageByAnswerId = (ctx, answerId) =>
     (page) => page.answers && some(page.answers, { id: answerId })
   );
 
-const getPageBySkipConditionId = (ctx, skipConditionId) =>
-  find(
-    getPages(ctx),
-    (page) => page.skipConditions && some(page.skipConditions, { id: skipConditionId })
-  );
-
 const getPageByConfirmationId = (ctx, confirmationId) =>
   find(getPages(ctx), (page) => {
     if (get(page, "confirmation.id") === confirmationId) {
@@ -59,5 +53,4 @@ module.exports = {
   getPageByAnswerId,
   getConfirmations,
   getConfirmationById,
-  getPageBySkipConditionId,
 };
