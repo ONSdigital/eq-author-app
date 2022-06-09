@@ -118,6 +118,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   groupOperatorComponent,
   onExpressionDeleted = () => null,
 }) => {
+  const { expressions } = expressionGroup;
   const [deleteSkipCondition] = useMutation(DELETE_SKIP_CONDITION);
 
   const handleLeftSideChange = (contentPickerResult) => {
@@ -126,7 +127,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   };
 
   const handleDeleteClick = () => {
-    if (expressionIndex === 0) {
+    if (expressionIndex === 0 && expressions.length === 1) {
       deleteSkipCondition({
         variables: {
           input: { id: expressionGroup.id },
