@@ -127,7 +127,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   };
 
   const handleDeleteClick = () => {
-    if (expressionIndex === 0 && expressions.length === 1) {
+    if (expressions.length === 1) {
       deleteSkipCondition({
         variables: {
           input: { id: expressionGroup.id },
