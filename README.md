@@ -18,7 +18,7 @@
 
 </div>
 
-Author is an application for building questionnaires that run on the [Survey Runner](https://github.com/ONSDigital/eq-survey-runner) platform.
+Author is an application for building questionnaires that run on the [Survey Runner on AWS](https://github.com/ONSDigital/eq-survey-runner) and [EQ Questionnaire Schema on GCP](https://github.com/ONSdigital/eq-questionnaire-schemas) platforms. 
 
 The project is composed of three components:
 
@@ -28,6 +28,5 @@ The project is composed of three components:
 
 ## Guides
 
-- [Installation](/docs/INSTALLATION.md)
-- [Authentication](/docs/AUTHENTICATION.md)
-- [Debugging](/docs/DEBUGGING.md)
+- [Guides on the Wiki](https://github.com/ONSdigital/eq-author-app/wiki/Guides)
+
