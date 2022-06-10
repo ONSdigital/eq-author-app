@@ -43,6 +43,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
         >
           <components__RemoveButton
             data-test="btn-remove"
+            disabled={true}
             onClick={[Function]}
             small={true}
             type="button"

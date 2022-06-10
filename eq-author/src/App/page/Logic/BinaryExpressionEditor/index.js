@@ -107,6 +107,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   expression,
   expressionIndex,
   expressionGroup,
+  conditionType,
   label = "If",
   updateLeftSide,
   updateRightSide,
@@ -127,7 +128,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   };
 
   const handleDeleteClick = () => {
-    if (expressions.length === 1) {
+    if (expressions.length === 1 && conditionType === "skip") {
       deleteSkipCondition({
         variables: {
           input: { id: expressionGroup.id },
@@ -194,6 +195,10 @@ export const UnwrappedBinaryExpressionEditor = ({
             <Tooltip content="Remove condition" place="top">
               <RemoveButton
                 onClick={handleDeleteClick}
+                disabled={
+                  conditionType !== "skip" &&
+                  expressionGroup.expressions.length === 1
+                }
                 data-test="btn-remove"
                 small
               >
@@ -265,6 +270,7 @@ const expressionPropType = propType(fragment);
 UnwrappedBinaryExpressionEditor.propTypes = {
   expression: propType(fragment).isRequired,
   label: PropTypes.string,
+  conditionType: PropTypes.string,
   expressionIndex: PropTypes.number.isRequired,
   updateLeftSide: PropTypes.func.isRequired,
   deleteBinaryExpression: PropTypes.func.isRequired,
