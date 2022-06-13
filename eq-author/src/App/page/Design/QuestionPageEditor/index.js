@@ -80,6 +80,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
     enableValidationMessage,
     onAddAnswer,
     onDeleteAnswer,
+    allCalculatedSummaryPages,
     match,
   } = props;
 
@@ -116,6 +117,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
             page={page}
             fetchAnswers={fetchAnswers}
             enableValidationMessage={enableValidationMessage}
+            allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
         </QuestionSegment>
         <QuestionProperties

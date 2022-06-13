@@ -34,10 +34,12 @@ const PipingMenuPropTypes = {
 };
 
 const PipingMenu = ({
+  pageType,
   onItemChosen,
   disabled,
   canFocus,
   allowableTypes = [ANSWER, METADATA],
+  allCalculatedSummaryPages,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -107,6 +109,7 @@ const PipingMenu = ({
         </MenuButton>
       )}
       <ContentPicker
+        pageType={pageType}
         isOpen={isPickerOpen}
         data={pickerContent === METADATA ? metadataData : answerData}
         startingSelectedAnswers={[]}
@@ -115,6 +118,7 @@ const PipingMenu = ({
         data-test="picker"
         singleItemSelect
         contentType={pickerContent}
+        allCalculatedSummaryPages={allCalculatedSummaryPages}
       />
     </>
   );

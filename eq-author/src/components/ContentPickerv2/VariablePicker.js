@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import { useQuery } from "@apollo/react-hooks";
 
 import styled from "styled-components";
 
@@ -76,7 +77,12 @@ const VariableItemList = styled.ul`
   padding: 0;
 `;
 
-const VariablePicker = ({ onSelected, isSelected }) => {
+const VariablePicker = ({
+  onSelected,
+  isSelected,
+  pageType,
+  allCalculatedSummaryPages,
+}) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -100,30 +106,61 @@ const VariablePicker = ({ onSelected, isSelected }) => {
                 <RightPositioner>Type</RightPositioner>
               </TableHeadCol>
             </TableHeader>
-            <VariableItemList>
-              <VariableItem
-                key="total"
-                onClick={() => onSelected(totalObject)}
-                aria-selected={isSelected(totalObject)}
-                aria-label={"total"}
-                tabIndex="0"
-                onKeyUp={(event) => onEnterUp(event, totalObject)}
-              >
-                <Col>
-                  <MenuItemTitle>
-                    <Truncated>Total</Truncated>
-                  </MenuItemTitle>
-                  <MenuItemSubtitle>
-                    <Truncated>Calculated summary</Truncated>
-                  </MenuItemSubtitle>
-                </Col>
-                <Col>
-                  <RightPositioner>
-                    <MenuItemType>Number</MenuItemType>
-                  </RightPositioner>
-                </Col>
-              </VariableItem>
-            </VariableItemList>
+            {pageType === "QuestionPage" ? (
+              allCalculatedSummaryPages.forEach((calculatedSummaryPage) => {
+                return (
+                  <VariableItemList>
+                    <VariableItem
+                      key="total"
+                      onClick={() => onSelected(totalObject)}
+                      aria-selected={isSelected(totalObject)}
+                      aria-label={"total"}
+                      tabIndex="0"
+                      onKeyUp={(event) => onEnterUp(event, totalObject)}
+                    >
+                      <Col>
+                        <MenuItemTitle>
+                          <Truncated>Total</Truncated>
+                        </MenuItemTitle>
+                        <MenuItemSubtitle>
+                          <Truncated>Calculated summary</Truncated>
+                        </MenuItemSubtitle>
+                      </Col>
+                      <Col>
+                        <RightPositioner>
+                          <MenuItemType>Number</MenuItemType>
+                        </RightPositioner>
+                      </Col>
+                    </VariableItem>
+                  </VariableItemList>
+                );
+              })
+            ) : (
+              <VariableItemList>
+                <VariableItem
+                  key="total"
+                  onClick={() => onSelected(totalObject)}
+                  aria-selected={isSelected(totalObject)}
+                  aria-label={"total"}
+                  tabIndex="0"
+                  onKeyUp={(event) => onEnterUp(event, totalObject)}
+                >
+                  <Col>
+                    <MenuItemTitle>
+                      <Truncated>Total</Truncated>
+                    </MenuItemTitle>
+                    <MenuItemSubtitle>
+                      <Truncated>Calculated summary</Truncated>
+                    </MenuItemSubtitle>
+                  </Col>
+                  <Col>
+                    <RightPositioner>
+                      <MenuItemType>Number</MenuItemType>
+                    </RightPositioner>
+                  </Col>
+                </VariableItem>
+              </VariableItemList>
+            )}
           </Table>
         </ScrollPane>
       </MenuContainer>

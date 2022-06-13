@@ -121,6 +121,7 @@ class ToolBar extends React.Component {
 
   render() {
     const {
+      pageType,
       visible,
       onPiping,
       onLinkChosen,
@@ -132,6 +133,7 @@ class ToolBar extends React.Component {
       defaultTab,
       linkCount,
       linkLimit,
+      allCalculatedSummaryPages,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
@@ -156,11 +158,13 @@ class ToolBar extends React.Component {
             <>
               <Separator />
               <PipingMenu
+                pageType={pageType}
                 disabled={isPipingDisabled}
                 onItemChosen={onPiping}
                 canFocus={visible}
                 allowableTypes={allowableTypes}
                 defaultTab={defaultTab}
+                allCalculatedSummaryPages={allCalculatedSummaryPages}
               />
             </>
           )}

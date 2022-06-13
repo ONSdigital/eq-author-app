@@ -42,6 +42,7 @@ const Container = styled.div`
 `;
 
 const ContentPicker = ({
+  pageType,
   contentType,
   data,
   onOpen,
@@ -50,6 +51,7 @@ const ContentPicker = ({
   startingSelectedAnswers,
   multiselect,
   onSubmit,
+  allCalculatedSummaryPages,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -139,6 +141,8 @@ const ContentPicker = ({
             }
             isSelected={isSelected}
             data={data}
+            pageType={pageType}
+            allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
         );
 
@@ -205,6 +209,7 @@ ContentPicker.propTypes = {
   onSubmit: PropTypes.func,
   contentType: PropTypes.string,
   multiselect: PropTypes.bool,
+  pageType: PropTypes.string,
 };
 
 export default ContentPicker;
