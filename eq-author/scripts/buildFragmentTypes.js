@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /* eslint-disable import/unambiguous, */
-const { makeExecutableSchema } = require("graphql-tools");
-const { graphql } = require("graphql");
-const chalk = require("chalk");
-const schema = require("../../eq-author-api/schema/typeDefs");
-const fs = require("fs");
-const { logger } = require("../src/utils/logger");
+import schema from "../../eq-author-api/schema/typeDefs.js";
+import { makeExecutableSchema } from "graphql-tools";
+import { graphql } from "graphql";
+import fs from "fs";
+import chalk from "chalk";
 
 const pathToSave = process.argv[2];
 if (!pathToSave) {
@@ -62,8 +61,8 @@ const generateIntrospectionFragmentMatcher = (schema, outPath) => {
 
 generateIntrospectionFragmentMatcher(schema, pathToSave)
   .then((res) => {
-    logger.info("Fragment types file built at " + pathToSave);
+    // logger.info("Fragment types file built at " + pathToSave);
   })
   .catch((e) => {
-    logger.error("Fragment types file build failed: ", e);
+    // logger.error("Fragment types file build failed: ", e);
   });

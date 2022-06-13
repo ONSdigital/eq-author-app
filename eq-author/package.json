@@ -93,8 +93,9 @@
   "dependencies": {
     "@apollo/react-testing": "latest",
     "@babel/plugin-transform-react-jsx": "^7.16.7",
+    "@graphql-tools/stitch": "^8.6.10",
     "@sentry/browser": "latest",
-    "apollo-cache-inmemory": "1.6.2",
+    "apollo-cache-inmemory": "latest",
     "apollo-client": "latest",
     "apollo-link": "latest",
     "apollo-link-context": "latest",

@@ -1,21 +1,36 @@
 /* eslint-disable import/unambiguous */
 "use strict";
 
-const path = require("path");
-const webpack = require("webpack");
-const PnpWebpackPlugin = require("pnp-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
-const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
-const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin");
-const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
-const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
-const getClientEnvironment = require("./env");
-const paths = require("./paths");
-const {
-  WebpackManifestPlugin: ManifestPlugin,
-} = require("webpack-manifest-plugin");
-const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
+// const path = require("path");
+import path from "path";
+// const webpack = require("webpack");
+import webpack from "webpack";
+// const PnpWebpackPlugin = require("pnp-webpack-plugin");
+import PnpWebpackPlugin from "pnp-webpack-plugin";
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+// const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+// const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
+import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin.js";
+// const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin");
+// import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin.js";
+// const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
+import ModuleScopePlugin from "react-dev-utils/ModuleScopePlugin.js";
+
+// const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
+import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent.js";
+
+// const getClientEnvironment = require("./env");
+import getClientEnvironment from "./env.js";
+
+// const paths = require("./paths");
+import paths from "./paths.js";
+// const {
+//   WebpackManifestPlugin: ManifestPlugin,
+// } = require("webpack-manifest-plugin");
+import { WebpackManifestPlugin as ManifestPlugin } from "webpack-manifest-plugin";
+// const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -69,7 +84,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
-module.exports = {
+export default {
   mode: "development",
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebook/create-react-app/issues/343
@@ -86,8 +101,8 @@ module.exports = {
     // to bring better experience for Create React App users. You can replace
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
-    require.resolve("react-dev-utils/webpackHotDevClient"),
+    require.resolve("webpack/hot/dev-server"),
+
     // Finally, this is your app's code:
     paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
@@ -352,7 +367,9 @@ module.exports = {
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
-    new ModuleNotFoundPlugin(paths.appPath),
+
+    // new ModuleNotFoundPlugin(paths.appPath),
+
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
@@ -366,7 +383,7 @@ module.exports = {
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebook/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+    // new WatchMissingNodeModulesPlugin(paths.appNodeModules),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
     // solution that requires the user to opt into importing specific locales.
