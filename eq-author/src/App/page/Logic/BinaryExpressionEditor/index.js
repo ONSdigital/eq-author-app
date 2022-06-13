@@ -3,6 +3,7 @@ import { PropTypes } from "prop-types";
 import { flow, some } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import Tooltip from "components/Forms/Tooltip";
+import { useMutation } from "@apollo/react-hooks";
 
 import {
   RADIO,
@@ -42,6 +43,8 @@ import withUpdateRightSide from "./withUpdateRightSide";
 import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
+
+import DELETE_SKIP_CONDITION from "../../../shared/Logic/SkipLogic/deleteSkipCondition.graphql";
 
 import {
   ActionButtons,
@@ -104,6 +107,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   expression,
   expressionIndex,
   expressionGroup,
+  conditionType,
   label = "If",
   updateLeftSide,
   updateRightSide,
@@ -115,13 +119,25 @@ export const UnwrappedBinaryExpressionEditor = ({
   groupOperatorComponent,
   onExpressionDeleted = () => null,
 }) => {
+  const { expressions } = expressionGroup;
+  const [deleteSkipCondition] = useMutation(DELETE_SKIP_CONDITION);
+
   const handleLeftSideChange = (contentPickerResult) => {
     expression.left.id !== contentPickerResult.value.id &&
       updateLeftSide(expression, contentPickerResult.value.id);
   };
 
-  const handleDeleteClick = () =>
-    deleteBinaryExpression(expression.id, onExpressionDeleted);
+  const handleDeleteClick = () => {
+    if (expressions.length === 1 && conditionType === "skip") {
+      deleteSkipCondition({
+        variables: {
+          input: { id: expressionGroup.id },
+        },
+      });
+    } else {
+      deleteBinaryExpression(expression.id, onExpressionDeleted);
+    }
+  };
 
   const handleAddClick = () => createBinaryExpression(expressionGroup.id);
 
@@ -179,7 +195,10 @@ export const UnwrappedBinaryExpressionEditor = ({
             <Tooltip content="Remove condition" place="top">
               <RemoveButton
                 onClick={handleDeleteClick}
-                disabled={expressionGroup.expressions.length === 1}
+                disabled={
+                  conditionType !== "skip" &&
+                  expressionGroup.expressions.length === 1
+                }
                 data-test="btn-remove"
                 small
               >
@@ -251,6 +270,7 @@ const expressionPropType = propType(fragment);
 UnwrappedBinaryExpressionEditor.propTypes = {
   expression: propType(fragment).isRequired,
   label: PropTypes.string,
+  conditionType: PropTypes.string,
   expressionIndex: PropTypes.number.isRequired,
   updateLeftSide: PropTypes.func.isRequired,
   deleteBinaryExpression: PropTypes.func.isRequired,
