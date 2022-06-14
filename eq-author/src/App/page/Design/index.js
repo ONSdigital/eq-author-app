@@ -77,7 +77,6 @@ export const UnwrappedPageRoute = (props) => {
       questionnaire.sections.forEach((section) => {
         section.folders.forEach((folder) => {
           folder.pages.forEach((tempPage) => {
-            console.log("tempPage :>> ", tempPage);
             if (
               tempPage?.pageType === "CalculatedSummaryPage" &&
               page.position > tempPage.position

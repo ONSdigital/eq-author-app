@@ -90,7 +90,11 @@ const VariablePicker = ({
     }
   };
 
-  const totalObject = { id: "total", displayName: "total" };
+  const totalObject = { id: "total", displayName: "total title" };
+
+  const removeParagraphTag = (title) => {
+    return title.slice(3, -4);
+  };
 
   return (
     <>
@@ -108,14 +112,9 @@ const VariablePicker = ({
             </TableHeader>
             <VariableItemList>
               {pageType === "QuestionPage" ? (
-                (console.log(
-                  "allCalculatedSummaryPages :>> ",
-                  allCalculatedSummaryPages
-                ),
                 allCalculatedSummaryPages.map((calculatedSummaryPage) => {
-                  console.log(
-                    "calculatedSummaryPage :>> ",
-                    calculatedSummaryPage
+                  calculatedSummaryPage.displayName = removeParagraphTag(
+                    calculatedSummaryPage.totalTitle
                   );
                   return (
                     <VariableItem
@@ -132,7 +131,9 @@ const VariablePicker = ({
                       <Col>
                         <MenuItemTitle>
                           <Truncated>
-                            {calculatedSummaryPage.totalTitle.slice(3, -4)}
+                            {removeParagraphTag(
+                              calculatedSummaryPage.totalTitle
+                            )}
                           </Truncated>
                         </MenuItemTitle>
                         <MenuItemSubtitle>
@@ -146,7 +147,7 @@ const VariablePicker = ({
                       </Col>
                     </VariableItem>
                   );
-                }))
+                })
               ) : (
                 <VariableItem
                   key="total"
