@@ -567,6 +567,23 @@ describe("Content picker", () => {
       expect(getByText("total1")).toBeInTheDocument();
       expect(getByText("total2")).toBeInTheDocument();
     });
+
+    it("should call onClick for question pages", () => {
+      const allCalculatedSummaryPages = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
+      const { getByText } = renderContentPicker({
+        allCalculatedSummaryPages,
+        pageType: "QuestionPage",
+      });
+
+      const firstElement = getByText("total1").closest("li");
+      fireEvent.click(firstElement);
+      expect(firstElement.getAttribute("aria-selected")).toBe("true");
+      fireEvent.click(firstElement);
+      expect(firstElement.getAttribute("aria-selected")).toBe("false");
+    });
   });
 
   describe("destination content", () => {
