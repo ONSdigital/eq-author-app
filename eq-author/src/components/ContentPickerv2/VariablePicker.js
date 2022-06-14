@@ -90,7 +90,7 @@ const VariablePicker = ({
     }
   };
 
-  const totalObject = { id: "total", displayName: "total title" };
+  const totalObject = { id: "total", displayName: "total" };
 
   const removeParagraphTag = (title) => {
     return title.slice(3, -4);

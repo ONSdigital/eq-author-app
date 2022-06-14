@@ -3,6 +3,13 @@
 exports[`MetaEditor should be able to display both deleted metadata and deleted answer in piping errors in the title 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -10,6 +17,7 @@ exports[`MetaEditor should be able to display both deleted metadata and deleted 
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={
       Array [
@@ -36,6 +44,13 @@ exports[`MetaEditor should be able to display both deleted metadata and deleted 
 exports[`MetaEditor should display the correct error message when piping answer in title is deleted 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -43,6 +58,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={
       Array [
@@ -68,6 +84,13 @@ exports[`MetaEditor should display the correct error message when piping answer 
 exports[`MetaEditor should display the correct error message when piping answer in title is moved after This question 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -75,6 +98,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={
       Array [
@@ -100,6 +124,13 @@ exports[`MetaEditor should display the correct error message when piping answer 
 exports[`MetaEditor should display the correct error message when the definition content is missing 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -107,6 +138,7 @@ exports[`MetaEditor should display the correct error message when the definition
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
@@ -128,6 +160,13 @@ exports[`MetaEditor should display the correct error message when the definition
 exports[`MetaEditor should display the correct error message when the definition label is missing 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -135,6 +174,7 @@ exports[`MetaEditor should display the correct error message when the definition
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
@@ -156,6 +196,13 @@ exports[`MetaEditor should display the correct error message when the definition
 exports[`MetaEditor should display the correct error message when the description is enabled and empty 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -163,6 +210,7 @@ exports[`MetaEditor should display the correct error message when the descriptio
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
@@ -184,6 +232,13 @@ exports[`MetaEditor should display the correct error message when the descriptio
 exports[`MetaEditor should display the correct error message when the includes/excludes content is missing 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -191,6 +246,7 @@ exports[`MetaEditor should display the correct error message when the includes/e
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
@@ -212,6 +268,13 @@ exports[`MetaEditor should display the correct error message when the includes/e
 exports[`MetaEditor should display the correct error message when the title is missing 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -219,6 +282,7 @@ exports[`MetaEditor should display the correct error message when the title is m
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={
       Array [
@@ -244,6 +308,13 @@ exports[`MetaEditor should display the correct error message when the title is m
 exports[`MetaEditor should render 1`] = `
 <div>
   <RichTextEditor
+    allowableTypes={
+      Array [
+        "Custom",
+        "Metadata",
+        "Variables",
+      ]
+    }
     autoFocus={false}
     controls={
       Object {
@@ -251,6 +322,7 @@ exports[`MetaEditor should render 1`] = `
         "piping": true,
       }
     }
+    defaultTab="variables"
     disabled={false}
     errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
