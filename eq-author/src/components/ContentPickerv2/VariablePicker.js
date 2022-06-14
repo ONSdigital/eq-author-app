@@ -106,21 +106,34 @@ const VariablePicker = ({
                 <RightPositioner>Type</RightPositioner>
               </TableHeadCol>
             </TableHeader>
-            {pageType === "QuestionPage" ? (
-              allCalculatedSummaryPages.forEach((calculatedSummaryPage) => {
-                return (
-                  <VariableItemList>
+            <VariableItemList>
+              {pageType === "QuestionPage" ? (
+                (console.log(
+                  "allCalculatedSummaryPages :>> ",
+                  allCalculatedSummaryPages
+                ),
+                allCalculatedSummaryPages.map((calculatedSummaryPage) => {
+                  console.log(
+                    "calculatedSummaryPage :>> ",
+                    calculatedSummaryPage
+                  );
+                  return (
                     <VariableItem
-                      key="total"
-                      onClick={() => onSelected(totalObject)}
-                      aria-selected={isSelected(totalObject)}
+                      id={calculatedSummaryPage.id}
+                      key={calculatedSummaryPage.id}
+                      onClick={() => onSelected(calculatedSummaryPage)}
+                      aria-selected={isSelected(calculatedSummaryPage)}
                       aria-label={"total"}
                       tabIndex="0"
-                      onKeyUp={(event) => onEnterUp(event, totalObject)}
+                      onKeyUp={(event) =>
+                        onEnterUp(event, calculatedSummaryPage)
+                      }
                     >
                       <Col>
                         <MenuItemTitle>
-                          <Truncated>Total</Truncated>
+                          <Truncated>
+                            {calculatedSummaryPage.totalTitle.slice(3, -4)}
+                          </Truncated>
                         </MenuItemTitle>
                         <MenuItemSubtitle>
                           <Truncated>Calculated summary</Truncated>
@@ -132,11 +145,9 @@ const VariablePicker = ({
                         </RightPositioner>
                       </Col>
                     </VariableItem>
-                  </VariableItemList>
-                );
-              })
-            ) : (
-              <VariableItemList>
+                  );
+                }))
+              ) : (
                 <VariableItem
                   key="total"
                   onClick={() => onSelected(totalObject)}
@@ -159,8 +170,8 @@ const VariablePicker = ({
                     </RightPositioner>
                   </Col>
                 </VariableItem>
-              </VariableItemList>
-            )}
+              )}
+            </VariableItemList>
           </Table>
         </ScrollPane>
       </MenuContainer>

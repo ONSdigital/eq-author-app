@@ -72,17 +72,22 @@ export const UnwrappedPageRoute = (props) => {
   const { comments } = page;
 
   const getAllCalculatedSummaryPages = () => {
-    console.log("questionnaire :>> ", questionnaire);
     const allCalculatedSummaryPages = [];
-    questionnaire.sections.forEach((section) => {
-      section.folders.forEach((folder) => {
-        folder.pages.forEach((page) => {
-          if (page.pageType === "CalculatedSummaryPage") {
-            allCalculatedSummaryPages.push(page);
-          }
+    if (questionnaire) {
+      questionnaire.sections.forEach((section) => {
+        section.folders.forEach((folder) => {
+          folder.pages.forEach((tempPage) => {
+            console.log("tempPage :>> ", tempPage);
+            if (
+              tempPage?.pageType === "CalculatedSummaryPage" &&
+              page.position > tempPage.position
+            ) {
+              allCalculatedSummaryPages.push(tempPage);
+            }
+          });
         });
       });
-    });
+    }
     return allCalculatedSummaryPages;
   };
 
