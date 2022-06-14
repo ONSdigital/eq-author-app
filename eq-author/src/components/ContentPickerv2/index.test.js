@@ -87,7 +87,8 @@ describe("Content picker", () => {
     props = { data, onClose, onSubmit, startingSelectedAnswers };
   });
 
-  const renderContentPicker = () => render(<ContentPicker {...props} isOpen />);
+  const renderContentPicker = (args) =>
+    render(<ContentPicker {...props} {...args} isOpen />);
 
   it("should not render picker by default", () => {
     const { queryByTestId } = renderContentPicker();
@@ -551,6 +552,20 @@ describe("Content picker", () => {
 
       fireEvent.click(variableItem);
       expect(variableItem).toHaveAttribute("aria-selected", "false");
+    });
+
+    it("should display multiple calculated summary total titles for a question page", () => {
+      const allCalculatedSummaryPages = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
+      const { getByText } = renderContentPicker({
+        allCalculatedSummaryPages,
+        pageType: "QuestionPage",
+      });
+
+      expect(getByText("total1")).toBeInTheDocument();
+      expect(getByText("total2")).toBeInTheDocument();
     });
   });
 
