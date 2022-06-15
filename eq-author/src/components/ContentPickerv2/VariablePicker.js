@@ -113,20 +113,19 @@ const VariablePicker = ({
             <VariableItemList>
               {pageType === "QuestionPage" ? (
                 allCalculatedSummaryPages.map((calculatedSummaryPage) => {
-                  calculatedSummaryPage.displayName = removeParagraphTag(
+                  totalObject.id = calculatedSummaryPage.id;
+                  totalObject.displayName = removeParagraphTag(
                     calculatedSummaryPage.totalTitle
                   );
                   return (
                     <VariableItem
                       id={calculatedSummaryPage.id}
                       key={calculatedSummaryPage.id}
-                      onClick={() => onSelected(calculatedSummaryPage)}
-                      aria-selected={isSelected(calculatedSummaryPage)}
+                      onClick={() => onSelected(totalObject)}
+                      aria-selected={isSelected(totalObject)}
                       aria-label={"total"}
                       tabIndex="0"
-                      onKeyUp={(event) =>
-                        onEnterUp(event, calculatedSummaryPage)
-                      }
+                      onKeyUp={(event) => onEnterUp(event, totalObject)}
                     >
                       <Col>
                         <MenuItemTitle>
