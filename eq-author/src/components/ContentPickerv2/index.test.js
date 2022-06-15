@@ -584,6 +584,24 @@ describe("Content picker", () => {
       fireEvent.click(firstElement);
       expect(firstElement.getAttribute("aria-selected")).toBe("false");
     });
+
+    it("should select item via keyboard enter for question pages", () => {
+      const allCalculatedSummaryPages = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
+      const { getByText } = renderContentPicker({
+        allCalculatedSummaryPages,
+        pageType: "QuestionPage",
+      });
+
+      const variableItem = getByText("total1").closest("li");
+
+      fireEvent.keyUp(variableItem, { keyCode: 13 });
+      expect(variableItem.getAttribute("aria-selected")).toBe("true");
+      fireEvent.keyUp(variableItem, { keyCode: 13 });
+      expect(variableItem.getAttribute("aria-selected")).toBe("false");
+    });
   });
 
   describe("destination content", () => {
