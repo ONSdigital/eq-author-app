@@ -142,6 +142,7 @@ const SkipConditionEditor = ({
                 <BinaryExpressionEditor
                   expression={expression}
                   expressionGroup={expressionGroup}
+                  conditionType="skip"
                   label={index > 0 ? LABEL_AND : LABEL_IF}
                   expressionIndex={index}
                   canAddCondition={

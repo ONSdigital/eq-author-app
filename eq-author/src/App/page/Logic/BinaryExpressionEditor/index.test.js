@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { render, flushPromises, act, screen } from "tests/utils/rtl";
+import { useMutation } from "@apollo/react-hooks";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 import {
@@ -18,6 +19,10 @@ import NumberAnswerSelector from "./NumberAnswerSelector";
 import { binaryExpressionErrors } from "constants/validationMessages";
 
 import { OR } from "constants/routingOperators";
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: jest.fn(() => [() => null]),
+}));
 
 describe("BinaryExpressionEditor", () => {
   let defaultProps, expression, expressionGroup;
@@ -75,11 +80,17 @@ describe("BinaryExpressionEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should disable the delete expression button when there's only one expression", () => {
+  it("should disable the delete expression button when there's only one expression and conditionType is not skip", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     expect(
       wrapper.find(byTestAttr("btn-remove")).prop("disabled")
     ).toBeTruthy();
+  });
+
+  it("should not disable the delete expression button when there's only one expression and conditionType is skip", () => {
+    defaultProps.conditionType = "skip";
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    expect(wrapper.find(byTestAttr("btn-remove")).prop("disabled")).toBeFalsy();
   });
 
   it("should render multiple choice editor correctly", () => {
@@ -104,13 +115,43 @@ describe("BinaryExpressionEditor", () => {
     );
   });
 
-  it("should call deleteBinaryExpression when remove button is clicked", () => {
+  it("should call deleteBinaryExpression when remove button is clicked and expressions length is greater than 1", () => {
+    // Pushes newExpression to expressions array to increase expressions length above 1
+    const newExpression = {
+      id: "2",
+      left: {
+        id: "3",
+        type: RADIO,
+      },
+      condition: "Equal",
+      secondaryCondition: null,
+      right: null,
+      validationErrorInfo: {
+        id: "6dd",
+        errors: [],
+        totalCount: 0,
+      },
+    };
+    defaultProps.expressionGroup.expressions.push({ newExpression });
+
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression.id,
       expect.any(Function)
     );
+  });
+
+  it("should call deleteSkipCondition when remove button is clicked, expressions length is 1 and conditionType is skip", () => {
+    const deleteSkipCondition = jest.fn();
+    defaultProps.conditionType = "skip";
+    useMutation.mockImplementationOnce(jest.fn(() => [deleteSkipCondition]));
+
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    expect(deleteSkipCondition).toHaveBeenCalledWith({
+      variables: { input: { id: defaultProps.expressionGroup.id } },
+    });
   });
 
   it("should correctly submit from RoutingAnswerContentPicker", () => {
