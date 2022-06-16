@@ -90,9 +90,28 @@ const VariablePicker = ({
     }
   };
 
-  const totalObject = { id: "total", displayName: "total" };
+  const totalObject = (calculatedSummaryPage) => {
+    let tempTotalObject;
+    if (!calculatedSummaryPage) {
+      tempTotalObject = {
+        id: "total",
+        displayName: "total",
+      };
+    } else {
+      tempTotalObject = {
+        id: calculatedSummaryPage.id,
+        displayName: formatTotalTitle(calculatedSummaryPage.totalTitle),
+      };
+    }
+    console.log("tempTotalObject :>> ", tempTotalObject);
+    return tempTotalObject;
+  };
 
-  const removeParagraphTag = (title) => {
+  // removes paragraph tags from total title if a title exists.
+  const formatTotalTitle = (title) => {
+    if (!title) {
+      return "Untitled total";
+    }
     return title.slice(3, -4);
   };
 
@@ -113,26 +132,26 @@ const VariablePicker = ({
             <VariableItemList>
               {pageType === "QuestionPage" ? (
                 allCalculatedSummaryPages.map((calculatedSummaryPage) => {
-                  totalObject.id = calculatedSummaryPage.id;
-                  totalObject.displayName = removeParagraphTag(
-                    calculatedSummaryPage.totalTitle
-                  );
                   return (
                     <VariableItem
                       id={calculatedSummaryPage.id}
                       key={calculatedSummaryPage.id}
-                      onClick={() => onSelected(totalObject)}
-                      aria-selected={isSelected(totalObject)}
+                      onClick={() =>
+                        onSelected(totalObject(calculatedSummaryPage))
+                      }
+                      aria-selected={isSelected(
+                        totalObject(calculatedSummaryPage)
+                      )}
                       aria-label={"total"}
                       tabIndex="0"
-                      onKeyUp={(event) => onEnterUp(event, totalObject)}
+                      onKeyUp={(event) =>
+                        onEnterUp(event, totalObject(calculatedSummaryPage))
+                      }
                     >
                       <Col>
                         <MenuItemTitle>
                           <Truncated>
-                            {removeParagraphTag(
-                              calculatedSummaryPage.totalTitle
-                            )}
+                            {formatTotalTitle(calculatedSummaryPage.totalTitle)}
                           </Truncated>
                         </MenuItemTitle>
                         <MenuItemSubtitle>
@@ -150,11 +169,11 @@ const VariablePicker = ({
               ) : (
                 <VariableItem
                   key="total"
-                  onClick={() => onSelected(totalObject)}
-                  aria-selected={isSelected(totalObject)}
+                  onClick={() => onSelected(totalObject())}
+                  aria-selected={isSelected(totalObject())}
                   aria-label={"total"}
                   tabIndex="0"
-                  onKeyUp={(event) => onEnterUp(event, totalObject)}
+                  onKeyUp={(event) => onEnterUp(event, totalObject())}
                 >
                   <Col>
                     <MenuItemTitle>
