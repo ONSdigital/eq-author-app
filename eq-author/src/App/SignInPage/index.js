@@ -35,6 +35,7 @@ const SignInPage = ({
   const [createAccount, setCreateAccount] = useState(false);
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [verificationEmail, setVerificationEmail] = useState("");
   const [emailNowVerified, setEmailNowVerified] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
@@ -145,7 +146,9 @@ const SignInPage = ({
                     setCreateAccountFunction={setCreateAccountFunction}
                     setForgotPassword={setForgotPassword}
                     errorMessage={errorMessage}
+                    errorMessageEmail={errorMessageEmail}
                     setErrorMessage={setErrorMessage}
+                    setErrorMessageEmail={setErrorMessageEmail}
                     setVerificationEmail={setVerificationEmail}
                   />
                 )}

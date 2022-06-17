@@ -24,6 +24,14 @@ export const Description = styled.p`
   color: ${colors.text};
 `;
 
+export const FieldDescription = styled.p`
+  margin: 0 0 0.55rem 0;
+  font-size: 0.7777777778rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: ${colors.text};
+`;
+
 export const InlineDescription = styled(Description)`
   display: inline-block;
 `;

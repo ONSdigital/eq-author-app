@@ -3,6 +3,7 @@
 exports[`components-themed/Label should render correctly 1`] = `
 <Label__StyledLabel
   bold={true}
+  hasDescription={false}
 >
   Name
 </Label__StyledLabel>

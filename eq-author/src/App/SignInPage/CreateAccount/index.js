@@ -20,7 +20,9 @@ const CreateAccount = ({
   setCreateAccountFunction,
   setForgotPassword,
   errorMessage,
+  errorMessageEmail,
   setErrorMessage,
+  setErrorMessageEmail,
   setVerificationEmail,
 }) => {
   const [createEmail, setCreateEmail] = useState("");
@@ -33,12 +35,22 @@ const CreateAccount = ({
     setCreateAccountFunction(false);
     setForgotPassword(false);
     setErrorMessage("");
+    setErrorMessageEmail("");
   }
 
   const handleCreateAccount = (createEmail, fullName, password) => {
     isCommonPassword(password).then((commonPassword) => {
       if (createEmail === "") {
         setErrorMessage("Enter email");
+        setErrorMessageEmail("Enter a valid email address");
+      } else if (
+        !(
+          createEmail.includes("@ext.ons.gov.uk") ||
+          createEmail.includes("@ons.gov.uk")
+        )
+      ) {
+        setErrorMessage("Only ONS email addresses allowed");
+        setErrorMessageEmail("Enter a valid ONS email address");
       } else if (fullName === "") {
         setErrorMessage("Enter full name");
       } else if (password.length < 8 && password.length !== 0) {
@@ -59,6 +71,7 @@ const CreateAccount = ({
                 function () {
                   setVerificationEmail(createEmail);
                   setErrorMessage("");
+                  setErrorMessageEmail("");
                 },
                 function (error) {
                   setErrorMessage(error.message);
@@ -102,6 +115,8 @@ const CreateAccount = ({
           condition={errorMessage?.toLowerCase().includes("email")}
           dataTest="txt-create-email"
           innerRef={errorRefCreateAcc}
+          errorMessage={errorMessageEmail}
+          description="Only ONS email addresses allowed"
         />
         <InputWithConditionalError
           type="text"
@@ -127,6 +142,7 @@ const CreateAccount = ({
                   value={password}
                   onChange={({ value }) => setPassword(value)}
                   data-test="txt-create-password"
+                  description="Your password must be at least 8 characters"
                 />
               </Panel>
             </>
@@ -137,6 +153,7 @@ const CreateAccount = ({
                 value={password}
                 onChange={({ value }) => setPassword(value)}
                 data-test="txt-create-password"
+                description="Your password must be at least 8 characters"
               />
             </>
           )}
@@ -162,7 +179,9 @@ CreateAccount.propTypes = {
   setCreateAccountFunction: PropTypes.func,
   setForgotPassword: PropTypes.func,
   errorMessage: PropTypes.string,
+  errorMessageEmail: PropTypes.string,
   setErrorMessage: PropTypes.func,
+  setErrorMessageEmail: PropTypes.func,
   setVerificationEmail: PropTypes.func,
 };
 

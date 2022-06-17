@@ -87,7 +87,7 @@ describe("SignInPage", () => {
       });
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
 
       const btn = getByTestId("signIn-button");
       userEvent.click(btn);
@@ -200,7 +200,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
 
       userEvent.click(screen.getByText("Create account"));
       await waitFor(() => expect(getAllByText("Enter full name")).toBeTruthy());
@@ -217,7 +217,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
 
@@ -236,7 +236,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ext.ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
@@ -262,7 +262,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
