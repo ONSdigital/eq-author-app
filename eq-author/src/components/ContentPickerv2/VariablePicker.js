@@ -91,7 +91,6 @@ const VariablePicker = ({ onSelected, isSelected, pageType, data }) => {
       tempTotalObject = {
         id: "total",
         displayName: "total",
-        type: data.type,
       };
     } else {
       tempTotalObject = {
