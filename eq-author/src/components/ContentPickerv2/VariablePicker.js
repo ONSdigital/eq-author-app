@@ -77,12 +77,7 @@ const VariableItemList = styled.ul`
   padding: 0;
 `;
 
-const VariablePicker = ({
-  onSelected,
-  isSelected,
-  pageType,
-  allCalculatedSummaryPages,
-}) => {
+const VariablePicker = ({ onSelected, isSelected, pageType, data }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -90,20 +85,22 @@ const VariablePicker = ({
     }
   };
 
-  const totalObject = (calculatedSummaryPage) => {
+  const totalObject = (data) => {
     let tempTotalObject;
-    if (!calculatedSummaryPage) {
+    if (!data) {
       tempTotalObject = {
         id: "total",
         displayName: "total",
+        type: data.type,
       };
     } else {
       tempTotalObject = {
-        id: calculatedSummaryPage.id,
-        displayName: formatTotalTitle(calculatedSummaryPage.totalTitle),
+        id: data.id,
+        displayName: formatTotalTitle(data.totalTitle),
+        type: data.type,
       };
     }
-    console.log("tempTotalObject :>> ", tempTotalObject);
+
     return tempTotalObject;
   };
 
@@ -131,7 +128,7 @@ const VariablePicker = ({
             </TableHeader>
             <VariableItemList>
               {pageType === "QuestionPage" ? (
-                allCalculatedSummaryPages.map((calculatedSummaryPage) => {
+                data.map((calculatedSummaryPage) => {
                   return (
                     <VariableItem
                       id={calculatedSummaryPage.id}

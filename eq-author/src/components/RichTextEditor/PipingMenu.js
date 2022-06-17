@@ -70,6 +70,19 @@ const PipingMenu = ({
 
   const metadataData = questionnaire?.metadata || [];
 
+  const handlePickerContent = (contentType) => {
+    switch (contentType) {
+      case METADATA:
+        return metadataData;
+      case ANSWER:
+        return answerData;
+      case VARIABLES:
+        return allCalculatedSummaryPages;
+      default:
+        return answerData;
+    }
+  };
+
   return (
     <>
       {allowableTypes.includes(ANSWER) && (
@@ -99,7 +112,7 @@ const PipingMenu = ({
       {allowableTypes.includes(VARIABLES) && (
         <MenuButton
           title="Pipe variable"
-          disabled={disabled}
+          disabled={disabled || !allCalculatedSummaryPages?.length}
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}
@@ -111,14 +124,13 @@ const PipingMenu = ({
       <ContentPicker
         pageType={pageType}
         isOpen={isPickerOpen}
-        data={pickerContent === METADATA ? metadataData : answerData}
+        data={handlePickerContent(pickerContent)}
         startingSelectedAnswers={[]}
         onClose={handlePickerClose}
         onSubmit={handlePickerSubmit}
         data-test="picker"
         singleItemSelect
         contentType={pickerContent}
-        allCalculatedSummaryPages={allCalculatedSummaryPages}
       />
     </>
   );

@@ -51,7 +51,6 @@ const ContentPicker = ({
   startingSelectedAnswers,
   multiselect,
   onSubmit,
-  allCalculatedSummaryPages,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -104,6 +103,10 @@ const ContentPicker = ({
     ? updateSelectedItemsMultiple
     : updateSelectedItemsSingle;
 
+  // const handlePipingCalc = (pageType) => {
+  //  return pageType === "QuestionPage" ? "CalculatedSummaryPage" : "variable"
+  // }
+
   const renderPicker = () => {
     switch (contentType) {
       case METADATA:
@@ -142,7 +145,6 @@ const ContentPicker = ({
             isSelected={isSelected}
             data={data}
             pageType={pageType}
-            allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
         );
 

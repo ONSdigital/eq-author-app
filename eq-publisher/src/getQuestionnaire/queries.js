@@ -255,6 +255,7 @@ exports.getQuestionnaire = `
               skipConditions {
                 ...ExpressionGroup
               }
+              type
             }
             ... on Routable {
               routing {

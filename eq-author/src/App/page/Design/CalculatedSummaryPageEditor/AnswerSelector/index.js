@@ -48,6 +48,7 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
     onUpdateCalculatedSummaryPage({
       id: page.id,
       summaryAnswers: answers,
+      type: answers[0].type,
     });
   };
 
@@ -95,6 +96,7 @@ AnswerSelector.fragments = {
         type
         properties
       }
+      type
     }
   `,
 };

@@ -72,12 +72,20 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
     validationErrorInfo: { errors },
   } = page;
 
+  // const selectedAnswersLeft = (answers) => {
+
+  //   return (selectedAnswers.filter(
+  //     (id) => !answers.find((answer) => answer.id === id)
+  //   )).length === 0 && ""
+  // }
+  // console.log('object :>> ', selectedAnswersLeft(selectedAnswers));
   const handleRemoveAnswers = (answers) =>
     onUpdateCalculatedSummaryPage({
       id: page.id,
       summaryAnswers: selectedAnswers.filter(
         ({ id }) => !answers.find((answer) => answer.id === id)
       ),
+      // type:
     });
 
   return (
