@@ -81,7 +81,7 @@
     "@shelf/jest-mongodb": "^2.0.1",
     "commander": "latest",
     "dynamodb-admin": "latest",
-    "eslint": "^7.31.0",
+    "eslint": "^8.18.0",
     "eslint-config-eq-author": "latest",
     "jest": "latest",
     "nodemon": "latest",
