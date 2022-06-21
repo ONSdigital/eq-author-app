@@ -49,11 +49,17 @@ const CreateAccount = ({
       } else if (
         !endsWithAnyDomain(
           createEmail,
-          process.env.REACT_APP_DOMAINS.split(",")
+          process.env.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
         )
       ) {
-        setErrorMessage("Enter a valid ONS Email");
-        setErrorMessageEmail("Enter a valid ONS email address");
+        setErrorMessage(
+          "Enter a valid " + process.env.REACT_APP_ORGANISATION_ABBR + " Email"
+        );
+        setErrorMessageEmail(
+          "Enter a valid " +
+            process.env.REACT_APP_ORGANISATION_ABBR +
+            " email address"
+        );
       } else if (fullName === "") {
         setErrorMessage("Enter full name");
       } else if (password.length < 8 && password.length !== 0) {
@@ -120,7 +126,11 @@ const CreateAccount = ({
           dataTest="txt-create-email"
           innerRef={errorRefCreateAcc}
           errorMessage={errorMessageEmail}
-          description="Only ONS email addresses allowed"
+          description={
+            "Only " +
+            process.env.REACT_APP_ORGANISATION_ABBR +
+            " email addresses allowed"
+          }
         />
         <InputWithConditionalError
           type="text"

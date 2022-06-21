@@ -19,7 +19,7 @@ describe("SignInPage", () => {
       sentEmailVerification: false,
       searchParams: "",
     };
-    process.env.REACT_APP_DOMAINS = "";
+    process.env.REACT_APP_VALID_EMAIL_DOMAINS = "";
   });
 
   const renderSignIn = (props) =>
@@ -255,7 +255,8 @@ describe("SignInPage", () => {
       const { getByTestId, getByText, getAllByText } = renderSignIn({
         ...props,
       });
-      process.env.REACT_APP_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_VALID_EMAIL_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_ORGANISATION_ABBR = "ONS";
 
       const button = getByText("Create an Author account");
       userEvent.click(button);
@@ -273,13 +274,17 @@ describe("SignInPage", () => {
       await waitFor(() =>
         expect(getAllByText("Enter a valid ONS Email")).toBeTruthy()
       );
+      await waitFor(() =>
+        expect(getAllByText("Only ONS email addresses allowed")).toBeTruthy()
+      );
     });
 
     it("should not display error when email has valid domain", async () => {
       const { getByTestId, getByText, queryByText } = renderSignIn({
         ...props,
       });
-      process.env.REACT_APP_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_VALID_EMAIL_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_ORGANISATION_ABBR = "ONS";
 
       const button = getByText("Create an Author account");
       userEvent.click(button);
