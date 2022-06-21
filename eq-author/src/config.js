@@ -29,6 +29,7 @@ const config = {
     window.config.REACT_APP_GTM_AUTH || process.env.REACT_APP_GTM_AUTH,
   REACT_APP_GTM_PREVIEW:
     window.config.REACT_APP_GTM_PREVIEW || process.env.REACT_APP_GTM_PREVIEW,
+  REACT_APP_DOMAINS: window.config.DOMAINS || process.env.DOMAINS,
   REACT_APP_FEATURE_FLAGS:
     window.config.REACT_APP_FEATURE_FLAGS ||
     process.env.REACT_APP_FEATURE_FLAGS ||

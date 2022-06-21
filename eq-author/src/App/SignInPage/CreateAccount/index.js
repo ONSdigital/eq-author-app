@@ -38,18 +38,21 @@ const CreateAccount = ({
     setErrorMessageEmail("");
   }
 
+  const endsWithAnyDomain = (email, domains) => {
+    return domains.some((domain) => email.endsWith(domain));
+  };
+
   const handleCreateAccount = (createEmail, fullName, password) => {
     isCommonPassword(password).then((commonPassword) => {
       if (createEmail === "") {
         setErrorMessage("Enter email");
-        setErrorMessageEmail("Enter a valid email address");
       } else if (
-        !(
-          createEmail.includes("@ext.ons.gov.uk") ||
-          createEmail.includes("@ons.gov.uk")
+        !endsWithAnyDomain(
+          createEmail,
+          process.env.REACT_APP_DOMAINS.split(",")
         )
       ) {
-        setErrorMessage("Only ONS email addresses allowed");
+        setErrorMessage("Enter a valid ONS Email");
         setErrorMessageEmail("Enter a valid ONS email address");
       } else if (fullName === "") {
         setErrorMessage("Enter full name");
@@ -92,6 +95,7 @@ const CreateAccount = ({
     }
   }
 
+  // Can use errorMessage.toLowerCase().includes("valid ONS email") (or similar) to conditionally render panel title
   return (
     <>
       <>

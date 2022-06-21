@@ -1,7 +1,7 @@
 import React from "react";
 import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
-import { render, screen, act, waitFor } from "tests/utils/rtl";
+import { render, screen, act, waitFor, fireEvent } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import isCommonPassword from "./CommonPassword";
 
@@ -19,6 +19,7 @@ describe("SignInPage", () => {
       sentEmailVerification: false,
       searchParams: "",
     };
+    process.env.REACT_APP_DOMAINS = "";
   });
 
   const renderSignIn = (props) =>
@@ -247,6 +248,60 @@ describe("SignInPage", () => {
         expect(
           getAllByText("Your password must be at least 8 characters.")
         ).toBeTruthy()
+      );
+    });
+
+    it("should display error when email does not have valid domain", async () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+      process.env.REACT_APP_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const emailInput = screen.getByLabelText("Email address");
+      userEvent.type(emailInput, "testEmail@test.com");
+      const nameInput = screen.getByLabelText("First and last name");
+      userEvent.type(nameInput, "My name is the best");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(passwordInput, "thispasswordisvalid");
+
+      userEvent.click(screen.getByText("Create account"));
+      await waitFor(() =>
+        expect(getAllByText("Enter a valid ONS Email")).toBeTruthy()
+      );
+    });
+
+    it("should not display error when email has valid domain", async () => {
+      const { getByTestId, getByText, queryByText } = renderSignIn({
+        ...props,
+      });
+      process.env.REACT_APP_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const emailInput = screen.getByLabelText("Email address");
+      userEvent.type(emailInput, "testEmail@ons.gov.uk");
+      const nameInput = screen.getByLabelText("First and last name");
+      userEvent.type(nameInput, "My name is the best");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(passwordInput, "thispasswordisvalid");
+
+      userEvent.click(screen.getByText("Create account"));
+      await waitFor(() =>
+        expect(queryByText("Enter a valid ONS Email")).toBeFalsy()
+      );
+
+      fireEvent.change(emailInput, { target: { value: "" } });
+      userEvent.type(emailInput, "testEmail@ext.ons.gov.uk");
+      await waitFor(() =>
+        expect(queryByText("Enter a valid ONS Email")).toBeFalsy()
       );
     });
 
