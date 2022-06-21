@@ -72,20 +72,16 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
     validationErrorInfo: { errors },
   } = page;
 
-  // const selectedAnswersLeft = (answers) => {
-
-  //   return (selectedAnswers.filter(
-  //     (id) => !answers.find((answer) => answer.id === id)
-  //   )).length === 0 && ""
-  // }
-  // console.log('object :>> ', selectedAnswersLeft(selectedAnswers));
+  const selectedAnswersLeft = (answers) => {
+    return selectedAnswers.filter(
+      ({ id }) => !answers.find((answer) => answer.id === id)
+    );
+  };
   const handleRemoveAnswers = (answers) =>
     onUpdateCalculatedSummaryPage({
       id: page.id,
-      summaryAnswers: selectedAnswers.filter(
-        ({ id }) => !answers.find((answer) => answer.id === id)
-      ),
-      // type:
+      summaryAnswers: selectedAnswersLeft(answers),
+      type: selectedAnswersLeft(answers).length === 0 ? "" : answerType,
     });
 
   return (

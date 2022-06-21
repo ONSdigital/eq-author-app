@@ -112,7 +112,11 @@ const PipingMenu = ({
       {allowableTypes.includes(VARIABLES) && (
         <MenuButton
           title="Pipe variable"
-          // disabled={disabled || pageType === "QuestionPage" ? !allCalculatedSummaryPages?.length : disabled}
+          disabled={
+            disabled ||
+            (pageType === "QuestionPage" &&
+              !allCalculatedSummaryPages[0]?.summaryAnswers.length)
+          } //need to disable if no answers
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}

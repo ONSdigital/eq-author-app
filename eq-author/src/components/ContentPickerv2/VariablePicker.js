@@ -156,7 +156,9 @@ const VariablePicker = ({ onSelected, isSelected, pageType, data }) => {
                       </Col>
                       <Col>
                         <RightPositioner>
-                          <MenuItemType>Number</MenuItemType>
+                          <MenuItemType>
+                            {calculatedSummaryPage.type}
+                          </MenuItemType>
                         </RightPositioner>
                       </Col>
                     </VariableItem>
