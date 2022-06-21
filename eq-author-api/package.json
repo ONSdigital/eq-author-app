@@ -18,7 +18,7 @@
     "ajv-errors": "^3.0.0",
     "ajv-keywords": "^5.0.0",
     "apollo-opentracing": "latest",
-    "apollo-server-express": "latest",
+    "apollo-server-express": "3.0.0",
     "body-parser": "latest",
     "chalk": "latest",
     "cheerio": "^1.0.0-rc.10",
