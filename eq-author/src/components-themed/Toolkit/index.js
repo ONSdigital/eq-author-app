@@ -54,7 +54,7 @@ export const ButtonLink = styled.button`
   padding: 0 !important;
   margin: 0 0 0.5rem;
   font-size: 1.125rem;
-  color: ${colors.blue};
+  color: ${colors.oceanBlue};
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
