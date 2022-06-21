@@ -29,6 +29,19 @@ const CreateAccount = ({
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   let errorRefCreateAcc = useRef();
+  const textValidEmailError = process.env.REACT_APP_ORGANISATION_ABBR
+    ? "Enter a valid " + process.env.REACT_APP_ORGANISATION_ABBR + " email"
+    : "Enter a valid authorised email";
+  const textValidEmailErrorMessage = process.env.REACT_APP_ORGANISATION_ABBR
+    ? "Enter a valid " +
+      process.env.REACT_APP_ORGANISATION_ABBR +
+      " email address"
+    : "Enter a valid authorised email address";
+  const textValidEmailDescription = process.env.REACT_APP_ORGANISATION_ABBR
+    ? "Only " +
+      process.env.REACT_APP_ORGANISATION_ABBR +
+      " email addresses allowed"
+    : "Only authorised email addresses allowed";
 
   function handleReturnToSignInPage(e) {
     e.preventDefault();
@@ -52,14 +65,8 @@ const CreateAccount = ({
           process.env.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
         )
       ) {
-        setErrorMessage(
-          "Enter a valid " + process.env.REACT_APP_ORGANISATION_ABBR + " Email"
-        );
-        setErrorMessageEmail(
-          "Enter a valid " +
-            process.env.REACT_APP_ORGANISATION_ABBR +
-            " email address"
-        );
+        setErrorMessage(textValidEmailError);
+        setErrorMessageEmail(textValidEmailErrorMessage);
       } else if (fullName === "") {
         setErrorMessage("Enter full name");
       } else if (password.length < 8 && password.length !== 0) {
@@ -126,11 +133,7 @@ const CreateAccount = ({
           dataTest="txt-create-email"
           innerRef={errorRefCreateAcc}
           errorMessage={errorMessageEmail}
-          description={
-            "Only " +
-            process.env.REACT_APP_ORGANISATION_ABBR +
-            " email addresses allowed"
-          }
+          description={textValidEmailDescription}
         />
         <InputWithConditionalError
           type="text"
