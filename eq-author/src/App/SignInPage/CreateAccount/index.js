@@ -37,7 +37,9 @@ const CreateAccount = ({
       process.env.REACT_APP_ORGANISATION_ABBR +
       " email address"
     : "Enter a valid authorised email address";
-  const textValidEmailDescription = process.env.REACT_APP_ORGANISATION_ABBR
+  const textValidEmailDescription = !process.env.REACT_APP_VALID_EMAIL_DOMAINS
+    ? ""
+    : process.env.REACT_APP_ORGANISATION_ABBR
     ? "Only " +
       process.env.REACT_APP_ORGANISATION_ABBR +
       " email addresses allowed"
@@ -60,6 +62,7 @@ const CreateAccount = ({
       if (createEmail === "") {
         setErrorMessage("Enter email");
       } else if (
+        process.env.REACT_APP_VALID_EMAIL_DOMAINS &&
         !endsWithAnyDomain(
           createEmail,
           process.env.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
