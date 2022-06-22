@@ -555,12 +555,11 @@ describe("Content picker", () => {
     });
 
     it("should display multiple calculated summary total titles for a question page", () => {
-      const allCalculatedSummaryPages = [
+      props.data = [
         { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
         { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
       ];
       const { getByText } = renderContentPicker({
-        allCalculatedSummaryPages,
         pageType: "QuestionPage",
       });
 
@@ -569,12 +568,11 @@ describe("Content picker", () => {
     });
 
     it("should call onClick for question pages", () => {
-      const allCalculatedSummaryPages = [
+      props.data = [
         { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
         { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
       ];
       const { getByText } = renderContentPicker({
-        allCalculatedSummaryPages,
         pageType: "QuestionPage",
       });
 
@@ -586,12 +584,11 @@ describe("Content picker", () => {
     });
 
     it("should select item via keyboard enter for question pages", () => {
-      const allCalculatedSummaryPages = [
+      props.data = [
         { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
         { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
       ];
       const { getByText } = renderContentPicker({
-        allCalculatedSummaryPages,
         pageType: "QuestionPage",
       });
 

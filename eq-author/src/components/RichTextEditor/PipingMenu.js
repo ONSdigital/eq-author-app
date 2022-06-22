@@ -116,7 +116,7 @@ const PipingMenu = ({
             disabled ||
             (pageType === "QuestionPage" &&
               !allCalculatedSummaryPages[0]?.summaryAnswers.length)
-          } //need to disable if no answers
+          }
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}
