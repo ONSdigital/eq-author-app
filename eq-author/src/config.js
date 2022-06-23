@@ -29,6 +29,10 @@ const config = {
     window.config.REACT_APP_GTM_AUTH || process.env.REACT_APP_GTM_AUTH,
   REACT_APP_GTM_PREVIEW:
     window.config.REACT_APP_GTM_PREVIEW || process.env.REACT_APP_GTM_PREVIEW,
+  REACT_APP_VALID_EMAIL_DOMAINS:
+    window.config.VALID_EMAIL_DOMAINS || process.env.VALID_EMAIL_DOMAINS,
+  REACT_APP_ORGANISATION_ABBR:
+    window.config.ORGANISATION_ABBR || process.env.ORGANISATION_ABBR,
   REACT_APP_FEATURE_FLAGS:
     window.config.REACT_APP_FEATURE_FLAGS ||
     process.env.REACT_APP_FEATURE_FLAGS ||

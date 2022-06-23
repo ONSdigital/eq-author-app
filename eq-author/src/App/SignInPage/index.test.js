@@ -1,7 +1,7 @@
 import React from "react";
 import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
-import { render, screen, act, waitFor } from "tests/utils/rtl";
+import { render, screen, act, waitFor, fireEvent } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import isCommonPassword from "./CommonPassword";
 
@@ -19,6 +19,7 @@ describe("SignInPage", () => {
       sentEmailVerification: false,
       searchParams: "",
     };
+    process.env.REACT_APP_VALID_EMAIL_DOMAINS = "";
   });
 
   const renderSignIn = (props) =>
@@ -87,7 +88,7 @@ describe("SignInPage", () => {
       });
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
 
       const btn = getByTestId("signIn-button");
       userEvent.click(btn);
@@ -200,7 +201,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
 
       userEvent.click(screen.getByText("Create account"));
       await waitFor(() => expect(getAllByText("Enter full name")).toBeTruthy());
@@ -217,7 +218,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
 
@@ -236,7 +237,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ext.ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
@@ -247,6 +248,62 @@ describe("SignInPage", () => {
         expect(
           getAllByText("Your password must be at least 8 characters.")
         ).toBeTruthy()
+      );
+    });
+
+    it("should display error when email does not have valid domain", async () => {
+      const { getByTestId, getByText, getAllByText } = renderSignIn({
+        ...props,
+      });
+      process.env.REACT_APP_VALID_EMAIL_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_ORGANISATION_ABBR = "ONS";
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const emailInput = screen.getByLabelText("Email address");
+      userEvent.type(emailInput, "testEmail@test.com");
+      const nameInput = screen.getByLabelText("First and last name");
+      userEvent.type(nameInput, "My name is the best");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(passwordInput, "thispasswordisvalid");
+
+      userEvent.click(screen.getByText("Create account"));
+      await waitFor(() =>
+        expect(getAllByText("Only ONS email addresses allowed")).toBeTruthy()
+      );
+    });
+
+    it("should not display error when email has valid domain", async () => {
+      const { getByTestId, getByText, queryByText } = renderSignIn({
+        ...props,
+      });
+      process.env.REACT_APP_VALID_EMAIL_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
+      process.env.REACT_APP_ORGANISATION_ABBR = "ONS";
+
+      const button = getByText("Create an Author account");
+      userEvent.click(button);
+
+      expect(getByTestId("txt-create-email")).toBeVisible();
+
+      const emailInput = screen.getByLabelText("Email address");
+      userEvent.type(emailInput, "testEmail@ons.gov.uk");
+      const nameInput = screen.getByLabelText("First and last name");
+      userEvent.type(nameInput, "My name is the best");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(passwordInput, "thispasswordisvalid");
+
+      userEvent.click(screen.getByText("Create account"));
+      await waitFor(() =>
+        expect(queryByText("Enter a valid ONS Email")).toBeFalsy()
+      );
+
+      fireEvent.change(emailInput, { target: { value: "" } });
+      userEvent.type(emailInput, "testEmail@ext.ons.gov.uk");
+      await waitFor(() =>
+        expect(queryByText("Enter a valid ONS Email")).toBeFalsy()
       );
     });
 
@@ -262,7 +319,7 @@ describe("SignInPage", () => {
       expect(getByTestId("txt-create-email")).toBeVisible();
 
       const input = screen.getByLabelText("Email address");
-      userEvent.type(input, "testEmail@test.com");
+      userEvent.type(input, "testEmail@ons.gov.uk");
       const input2 = screen.getByLabelText("First and last name");
       userEvent.type(input2, "My name is the best");
       const input3 = screen.getByLabelText("Password");
