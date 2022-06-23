@@ -272,9 +272,6 @@ describe("SignInPage", () => {
 
       userEvent.click(screen.getByText("Create account"));
       await waitFor(() =>
-        expect(getAllByText("Enter a valid ONS email")).toBeTruthy()
-      );
-      await waitFor(() =>
         expect(getAllByText("Only ONS email addresses allowed")).toBeTruthy()
       );
     });

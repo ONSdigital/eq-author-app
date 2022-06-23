@@ -29,10 +29,12 @@ const CreateAccount = ({
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   let errorRefCreateAcc = useRef();
-  
+
   const textValidEmailError = process.env.REACT_APP_ORGANISATION_ABBR
-    ? "Only " + process.env.REACT_APP_ORGANISATION_ABBR + " email addresses allowed"
-    : "Enter a valid authorised email";
+    ? "Only " +
+      process.env.REACT_APP_ORGANISATION_ABBR +
+      " email addresses allowed"
+    : "Only authorised email addresses allowed";
   const textValidEmailErrorMessage = process.env.REACT_APP_ORGANISATION_ABBR
     ? "Enter a valid " +
       process.env.REACT_APP_ORGANISATION_ABBR +
@@ -112,7 +114,6 @@ const CreateAccount = ({
     }
   }
 
-  // Can use errorMessage.toLowerCase().includes("valid ONS email") (or similar) to conditionally render panel title
   return (
     <>
       <>
