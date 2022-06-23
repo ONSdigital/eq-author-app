@@ -189,7 +189,7 @@ AddMenu.propTypes = {
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,
   onAddListCollectorPage: PropTypes.func.isRequired,
-  canAddListCollectorPage: PropTypes.func.isRequired,
+  canAddListCollectorPage: PropTypes.bool.isRequired,
 };
 
 export default AddMenu;

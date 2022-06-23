@@ -63,6 +63,12 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
             ...Comment
           }
         }
+        ... on ListCollectorPage {
+          id
+          comments {
+            ...Comment
+          }
+        }
         validationErrorInfo {
           ...ValidationErrorInfo
         }
