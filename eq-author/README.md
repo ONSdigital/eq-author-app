@@ -14,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 `yarn build` - Builds the app for production to the `build` folder. See [Creating a Production Build](https://facebook.github.io/create-react-app/docs/production-build) for more information.
 
-`yarn test` - Launches the test runner in the interactive watch mode.
+`yarn test` - Launches the test runner in the interactive watch mode
 
 `yarn test -- --coverage` - Collects code coverage in `./coverage` folder.
 
