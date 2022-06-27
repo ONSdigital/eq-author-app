@@ -253,7 +253,7 @@ describe("SignInPage", () => {
     });
 
     it("should display error when email does not have valid domain", async () => {
-      const { getByTestId, getByText } = renderSignIn({
+      const { getByTestId, getByText, queryByText } = renderSignIn({
         ...props,
       });
       config.REACT_APP_VALID_EMAIL_DOMAINS = "@ons.gov.uk,@ext.ons.gov.uk";
@@ -273,7 +273,7 @@ describe("SignInPage", () => {
 
       userEvent.click(screen.getByText("Create account"));
       await waitFor(() =>
-        expect(getByText("Enter a valid ONS email address")).toBeTruthy()
+        expect(queryByText("Enter a valid ONS email address")).toBeTruthy()
       );
     });
 
