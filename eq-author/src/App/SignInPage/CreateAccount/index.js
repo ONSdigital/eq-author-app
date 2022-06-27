@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
+import config from "config";
 
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
@@ -15,8 +16,6 @@ import {
   ButtonLink,
 } from "components-themed/Toolkit";
 import InputWithConditionalError from "../../../components/InputWithConditionalError";
-
-import config from "config";
 
 const CreateAccount = ({
   setCreateAccountFunction,
