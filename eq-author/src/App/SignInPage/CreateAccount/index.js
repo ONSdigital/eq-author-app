@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
+import config from "config";
 
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
@@ -30,22 +31,16 @@ const CreateAccount = ({
   const [password, setPassword] = useState("");
   let errorRefCreateAcc = useRef();
 
-  const textValidEmailError = process.env.REACT_APP_ORGANISATION_ABBR
-    ? "Only " +
-      process.env.REACT_APP_ORGANISATION_ABBR +
-      " email addresses allowed"
+  const textValidEmailError = config.REACT_APP_ORGANISATION_ABBR
+    ? "Only " + config.REACT_APP_ORGANISATION_ABBR + " email addresses allowed"
     : "Only authorised email addresses allowed";
-  const textValidEmailErrorMessage = process.env.REACT_APP_ORGANISATION_ABBR
-    ? "Enter a valid " +
-      process.env.REACT_APP_ORGANISATION_ABBR +
-      " email address"
+  const textValidEmailErrorMessage = config.REACT_APP_ORGANISATION_ABBR
+    ? "Enter a valid " + config.REACT_APP_ORGANISATION_ABBR + " email address"
     : "Enter a valid authorised email address";
-  const textValidEmailDescription = !process.env.REACT_APP_VALID_EMAIL_DOMAINS
+  const textValidEmailDescription = !config.REACT_APP_VALID_EMAIL_DOMAINS
     ? ""
-    : process.env.REACT_APP_ORGANISATION_ABBR
-    ? "Only " +
-      process.env.REACT_APP_ORGANISATION_ABBR +
-      " email addresses allowed"
+    : config.REACT_APP_ORGANISATION_ABBR
+    ? "Only " + config.REACT_APP_ORGANISATION_ABBR + " email addresses allowed"
     : "Only authorised email addresses allowed";
 
   function handleReturnToSignInPage(e) {
@@ -65,10 +60,10 @@ const CreateAccount = ({
       if (createEmail === "") {
         setErrorMessage("Enter email");
       } else if (
-        process.env.REACT_APP_VALID_EMAIL_DOMAINS &&
+        config.REACT_APP_VALID_EMAIL_DOMAINS &&
         !endsWithAnyDomain(
           createEmail,
-          process.env.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
+          config.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
         )
       ) {
         setErrorMessage(textValidEmailError);
