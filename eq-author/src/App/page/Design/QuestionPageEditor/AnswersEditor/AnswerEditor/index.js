@@ -18,6 +18,7 @@ import {
   DATE_RANGE,
   UNIT,
   DURATION,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
@@ -96,6 +97,9 @@ class AnswerEditor extends React.Component {
     }
     if ([PERCENTAGE, NUMBER, CURRENCY, UNIT, DURATION].includes(type)) {
       return <BasicAnswer type={type} {...this.props} showDescription />;
+    }
+    if (type === MUTUALLY_EXCLUSIVE_OPTION) {
+      console.log("Add component");
     }
     if (type === CHECKBOX) {
       return <MultipleChoiceAnswer type={type} {...this.props} />;

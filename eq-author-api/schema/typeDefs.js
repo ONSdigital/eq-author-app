@@ -531,6 +531,7 @@ enum AnswerType {
   TextArea
   TextField
   Unit
+  MutuallyExclusiveOption
 }
 
 enum ThemeShortName {
