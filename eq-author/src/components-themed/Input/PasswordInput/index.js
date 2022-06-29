@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import Input from "components-themed/Input";
 import Label from "components-themed/Label";
-import { ButtonLink } from "components-themed/Toolkit";
+import { ButtonLink, FieldDescription } from "components-themed/Toolkit";
 
 const PasswordContainer = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const PasswordButtonLink = styled(ButtonLink)`
   margin: 0.2rem 1.25rem 0;
 `;
 
-const PasswordInput = ({ id, dataTest, ...otherProps }) => {
+const PasswordInput = ({ id, dataTest, description, ...otherProps }) => {
   const [hidden, setHidden] = useState(true);
 
   function handlePasswordToggle(e) {
@@ -41,7 +41,14 @@ const PasswordInput = ({ id, dataTest, ...otherProps }) => {
 
   return (
     <>
-      <Label htmlFor={id}>Password</Label>
+      {description ? (
+        <Label htmlFor={id} hasDescription>
+          Password
+        </Label>
+      ) : (
+        <Label htmlFor={id}>Password</Label>
+      )}
+      {description && <FieldDescription>{description}</FieldDescription>}
       <PasswordContainer>
         <Password
           type={hidden ? "password" : "text"}
@@ -62,6 +69,7 @@ const PasswordInput = ({ id, dataTest, ...otherProps }) => {
 PasswordInput.propTypes = {
   id: PropTypes.string,
   dataTest: PropTypes.string,
+  description: PropTypes.string,
 };
 
 export default PasswordInput;
