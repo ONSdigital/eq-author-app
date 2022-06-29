@@ -149,6 +149,11 @@ export const DetailsContent = styled.div`
 
 const ListCollectorPagePreview = ({ page }) => {
   const {
+    drivingQuestion,
+    drivingPositive,
+    drivingNegative,
+    drivingPositiveDescription,
+    drivingNegativeDescription,
     anotherTitle,
     anotherPositive,
     anotherNegative,

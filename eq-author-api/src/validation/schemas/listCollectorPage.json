@@ -8,6 +8,41 @@
     "title": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
+    "drivingQuestion": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "drivingPositive": {
+      "if": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      },
+      "then": {
+        "not": {
+          "const": {
+            "$data": "1/drivingNegative"
+          }
+        },
+        "errorMessage": "ERR_UNIQUE_REQUIRED"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      }
+    },
+    "drivingNegative": {
+      "if": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      },
+      "then": {
+        "not": {
+          "const": {
+            "$data": "1/drivingPositive"
+          }
+        },
+        "errorMessage": "ERR_UNIQUE_REQUIRED"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      }
+    },
     "addItemTitle": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
@@ -53,6 +88,7 @@
   "required": [
     "id",
     "title",
+    "drivingQuestion",
     "addItemTitle",
     "anotherPositive",
     "anotherNegative",
