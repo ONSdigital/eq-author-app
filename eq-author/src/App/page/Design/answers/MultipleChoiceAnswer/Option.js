@@ -11,7 +11,11 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import {
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE_OPTION,
+} from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
@@ -256,7 +260,8 @@ StatelessOption.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEnterKey: PropTypes.func,
   hasDeleteButton: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf([RADIO, CHECKBOX]).isRequired,
+  type: PropTypes.oneOf([RADIO, CHECKBOX, MUTUALLY_EXCLUSIVE_OPTION])
+    .isRequired,
   labelPlaceholder: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,

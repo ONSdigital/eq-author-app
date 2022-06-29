@@ -38,7 +38,11 @@ module.exports = (answer, page) => {
   }
 
   let defaultOptions;
-  if (answer.type === "Checkbox" || answer.type === "Radio") {
+  if (
+    answer.type === "Checkbox" ||
+    answer.type === "Radio" ||
+    answer.type === "MutuallyExclusiveOption"
+  ) {
     const createOption = require("./createOption");
 
     defaultOptions = [];

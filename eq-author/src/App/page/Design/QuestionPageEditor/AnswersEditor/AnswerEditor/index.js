@@ -30,6 +30,7 @@ import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/page/Design/answers/DateRange";
 import DateSingle from "App/page/Design/answers/DateSingle";
 import BasicAnswer from "App/page/Design/answers/BasicAnswer";
+import MutuallyExclusive from "App/page/Design/answers/MutuallyExclusive";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -98,15 +99,17 @@ class AnswerEditor extends React.Component {
     if ([PERCENTAGE, NUMBER, CURRENCY, UNIT, DURATION].includes(type)) {
       return <BasicAnswer type={type} {...this.props} showDescription />;
     }
-    if (type === MUTUALLY_EXCLUSIVE_OPTION) {
-      return <BasicAnswer type={type} {...this.props} showDescription />;
-    }
     if (type === CHECKBOX) {
       return <MultipleChoiceAnswer type={type} {...this.props} />;
     }
     if (type === RADIO) {
       return (
         <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
+      );
+    }
+    if (type === MUTUALLY_EXCLUSIVE_OPTION) {
+      return (
+        <MultipleChoiceAnswer type={type} {...this.props} showDescription />
       );
     }
     if (type === DATE_RANGE) {
