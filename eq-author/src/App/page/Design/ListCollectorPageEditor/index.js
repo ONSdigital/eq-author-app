@@ -38,6 +38,11 @@ const inputFilter = gql`
     id
     title
     listId
+    drivingQuestion
+    drivingPositive
+    drivingNegative
+    drivingPositiveDescription
+    drivingNegativeDescription
     anotherTitle
     anotherPositive
     anotherNegative
@@ -77,6 +82,8 @@ const ListItem = styled.li`
     content: counter(item) ".";
   }
 `;
+
+const QuestionRender = styled.div``;
 
 const TitleInputContainer = styled.div`
   width: 50%;
@@ -217,6 +224,8 @@ const UnwrappedListCollectorPageEditor = (props) => {
     });
   };
 
+  const renderLCQuestions = false;
+
   const { loading, data } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
   });
@@ -260,10 +269,9 @@ const UnwrappedListCollectorPageEditor = (props) => {
         <Text>
           <b>List collector</b>
           <br />
-          The list collector is the way to recreate the List collector
-          questionnaire design pattern. This is made up of two questions, a
-          repeating list question and a collection question. These become
-          available once you select a collection list to link them to.
+          The list collector is made up of three questions, a driving question,
+          a repeating question and a collection question. These become available
+          once you select a collection list to link them to.
         </Text>
 
         <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
@@ -277,34 +285,76 @@ const UnwrappedListCollectorPageEditor = (props) => {
               Collection list.
             </ListItem>
             <ListItem>
-              Add the answers you need to collect that will make up each item on
-              the list, for example adding two text field answer types to
-              collect the respondents first name and last name.
+              Inside a questionnaire in Author, select the Collection lists page
+              from the main menu.
+            </ListItem>
+            <ListItem>Select the Create a collection list.</ListItem>
+            <ListItem>
+              Enter a collection list name that appears, call it Householders
+              list.
             </ListItem>
             <ListItem>
-              In the questionnaire add a List collector page via the add/import
-              menu.
+              Select the Add an answer option and choose a Text answer type from
+              the menu.These are the answers that will be collected for the
+              list.
             </ListItem>
             <ListItem>
-              On the new List collector page there is Collection list area where
-              you must select a list from the dropdown menu, this menu will show
-              any lists that have been created in the Collection lists page.
+              nter the label First name in the answer container.
             </ListItem>
             <ListItem>
-              Once the list is selected two new containers appear on the page,
-              these contain the two questions which will help compile the list.
-              These are the Repeating list collector question and the Collection
-              question.
+              Select the Add another answer option and again choose a Text
+              answer type from the menu.
             </ListItem>
             <ListItem>
-              These two questions will repeat for the respondent until there is
-              nothing else to add to the list and they select the negative radio
-              option, for example (a) does anyone else live in the household? if
-              yes then, (b) what is their name?
+              Enter the label Last name in the answer container.
             </ListItem>
             <ListItem>
-              Each time the respondent adds to the list this a summary of the
-              list will be displayed on the Repeating list collector question.
+              Go to the content menu of the questionnaire where you want to add
+              the List Collector. Select List Collector from the Add/Import
+              content menu.
+            </ListItem>
+            <ListItem>
+              Name the List Collector page Household question. Naming the page
+              is optional, if left blank it appears as the default Unnamed list
+              collector.
+            </ListItem>
+            <ListItem>
+              In the Collection list container, Select Householders list from
+              the dropdown menu.
+            </ListItem>
+            <ListItem>
+              Once the list is selected, new containers appear titled driving
+              question, collection question and repeating question.
+            </ListItem>
+            <ListItem>
+              In the driving question container enter the question Does anyone
+              live in the household? In the positive answer label enter Yes,
+              someone lives there and in the negative answer label enter No,
+              nobody lives there.
+            </ListItem>
+            <ListItem>
+              The driving and repeating question radio answers have logic
+              already built in, so if the respondent selects the positive answer
+              option they will return to the collection question. If they select
+              the negative answer option they will leave the list collector
+              page.
+            </ListItem>
+            <ListItem>
+              In the collection question container enter the question Who do you
+              need to add to the household? The answer types that go with this
+              question come from the collection list itself. In this case two
+              text answers labeled First name and Last name.
+            </ListItem>
+            <ListItem>
+              The repeating question is basically a variation of the driving
+              question and will repeat for every subsequent person to add to the
+              list. In the repeating question container enter the question Does
+              anyone else live in the household? In the positive answer label
+              enter Yes, someone else lives there and in the negative answer
+              label enter No, nobody else lives there.
+            </ListItem>
+            <ListItem>
+              The list collector is now complete and ready for use.
             </ListItem>
           </List>
         </Collapsible>
@@ -344,77 +394,71 @@ const UnwrappedListCollectorPageEditor = (props) => {
           {renderErrors(page.validationErrorInfo.errors, "listId")}
         </CollapsibleContent>
       </Collapsible>
+      {/* Contiotonal render this START */}
+      <QuestionRender>
+        <Collapsible
+          title="Driving question"
+          defaultOpen
+          className="default-value"
+          variant="content"
+          withoutHideThis
+        >
+          <CollapsibleContent>
+            The initial driving question is asking the respondent if they have
+            anything that will be added to the list. If they do they go to the
+            collection question and then onto the repeating question until they
+            have nothing more to add to the list.
+          </CollapsibleContent>
 
-      <Collapsible
-        title="Repeating list collector question"
-        defaultOpen
-        className="default-value"
-        variant="content"
-        withoutHideThis
-      >
-        <CollapsibleContent>
-          This question is to ask respondents if they have anything to add to
-          the list, if they do the collection question will add it to the list
-          and return them to this question until they have nothing more to add.
-        </CollapsibleContent>
-
-        <StyledRichTextEditor
-          id={`update-anotherTitle-textbox`}
-          name={"anotherTitle"}
-          data-test={`another-title-input`}
-          onUpdate={handleOnUpdate}
-          value={entity.anotherTitle}
-          label=""
-          controls={{
-            heading: true,
-            piping: true,
-            emphasis: true,
-            list: true,
-            bold: true,
-          }}
-          hasError={some(page.validationErrorInfo.errors, {
-            field: "anotherTitle",
-          })}
-        />
-        {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
-        <CollapsibleContent>
-          <hr />
-          <b>Repeating radio answer</b>
-          <br />
-          The repeating question answer type is a radio option, the positive
-          answer takes respondents to the Collection list question and then
-          returns them to the repeating question until they choose the negative
-          radio option.
+          <StyledRichTextEditor
+            id={`update-drivingQuestion-textbox`}
+            name={"drivingQuestion"}
+            data-test={`driving-question-input`}
+            onUpdate={handleOnUpdate}
+            value={entity.drivingQuestion}
+            label=""
+            controls={{
+              heading: true,
+              piping: true,
+              emphasis: true,
+              list: true,
+              bold: true,
+            }}
+            hasError={some(page.validationErrorInfo.errors, {
+              field: "drivingQuestion",
+            })}
+          />
+          {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
           <RadioContainer>
             <Field>
               <RadionIndicator />
               <RadioAnswerWrapper>
-                <Label htmlFor="anotherPositive">Positive answer label</Label>
+                <Label htmlFor="drivingPositive">Positive answer label</Label>
                 <StyledInput
-                  name={"anotherPositive"}
-                  data-test="another-positive-input"
+                  name={"drivingPositive"}
+                  data-test="driving-positive-input"
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
-                  value={entity.anotherPositive}
+                  value={entity.drivingPositive}
                   hasError={some(page.validationErrorInfo.errors, {
-                    field: "anotherPositive",
+                    field: "drivingPositive",
                   })}
                 />
                 {renderErrors(
                   page.validationErrorInfo.errors,
-                  "anotherPositive"
+                  "drivingPositive"
                 )}
               </RadioAnswerWrapper>
             </Field>
             <Field>
-              <Label htmlFor="anotherPositiveDescription">
+              <Label htmlFor="drivingPositiveDescription">
                 Description (optional)
               </Label>
               <StyledInput
-                name={"anotherPositiveDescription"}
+                name={"drivingPositiveDescription"}
                 onChange={handleOnChange}
                 onBlur={handleOnUpdate}
-                value={entity.anotherPositiveDescription}
+                value={entity.drivingPositiveDescription}
               />
             </Field>
           </RadioContainer>
@@ -423,70 +467,182 @@ const UnwrappedListCollectorPageEditor = (props) => {
             <Field>
               <RadionIndicator />
               <RadioAnswerWrapper>
-                <Label htmlFor="anotherNegative">Negative answer label</Label>
+                <Label htmlFor="drivingNegative">Negative answer label</Label>
                 <StyledInput
-                  name={"anotherNegative"}
-                  data-test="another-negative-input"
+                  name={"drivingNegative"}
+                  data-test="driving-negative-input"
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
-                  value={entity.anotherNegative}
+                  value={entity.drivingNegative}
                   hasError={some(page.validationErrorInfo.errors, {
-                    field: "anotherNegative",
+                    field: "drivingNegative",
                   })}
                 />
                 {renderErrors(
                   page.validationErrorInfo.errors,
-                  "anotherNegative"
+                  "drivingNegative"
                 )}
               </RadioAnswerWrapper>
             </Field>
             <Field>
-              <Label htmlFor="anotherNegativeDescription">
+              <Label htmlFor="drivingNegativeDescription">
                 Description (optional)
               </Label>
               <StyledInput
-                name={"anotherNegativeDescription"}
+                name={"drivingNegativeDescription"}
                 onChange={handleOnChange}
                 onBlur={handleOnUpdate}
-                value={entity.anotherNegativeDescription}
+                value={entity.drivingNegativeDescription}
               />
             </Field>
           </RadioContainer>
-        </CollapsibleContent>
-      </Collapsible>
+        </Collapsible>
 
-      <Collapsible
-        title="Collection question"
-        defaultOpen
-        className="default-value"
-        variant="content"
-        withoutHideThis
-      >
-        <CollapsibleContent>
-          This question will be displayed along with the answer types from the
-          selected collection list.
-        </CollapsibleContent>
+        <Collapsible
+          title="Collection question"
+          defaultOpen
+          className="default-value"
+          variant="content"
+          withoutHideThis
+        >
+          <CollapsibleContent>
+            This question will be displayed along with the answer types from the
+            selected collection list.
+          </CollapsibleContent>
 
-        <StyledRichTextEditor
-          id={`update-addItemTitle-textbox`}
-          name={"addItemTitle"}
-          data-test={`add-item-title-input`}
-          onUpdate={handleOnUpdate}
-          value={entity.addItemTitle}
-          label=""
-          controls={{
-            heading: true,
-            piping: true,
-            emphasis: true,
-            list: true,
-            bold: true,
-          }}
-          hasError={some(page.validationErrorInfo.errors, {
-            field: "addItemTitle",
-          })}
-        />
-        {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
-      </Collapsible>
+          <StyledRichTextEditor
+            id={`update-addItemTitle-textbox`}
+            name={"addItemTitle"}
+            data-test={`add-item-title-input`}
+            onUpdate={handleOnUpdate}
+            value={entity.addItemTitle}
+            label=""
+            controls={{
+              heading: true,
+              piping: true,
+              emphasis: true,
+              list: true,
+              bold: true,
+            }}
+            hasError={some(page.validationErrorInfo.errors, {
+              field: "addItemTitle",
+            })}
+          />
+          {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
+        </Collapsible>
+
+        <Collapsible
+          title="Repeating question"
+          defaultOpen
+          className="default-value"
+          variant="content"
+          withoutHideThis
+        >
+          <CollapsibleContent>
+            This question is to ask respondents if they have anything to add to
+            the list, if they do the collection question will add it to the list
+            and return them to this question until they have nothing more to
+            add.
+          </CollapsibleContent>
+
+          <StyledRichTextEditor
+            id={`update-anotherTitle-textbox`}
+            name={"anotherTitle"}
+            data-test={`another-title-input`}
+            onUpdate={handleOnUpdate}
+            value={entity.anotherTitle}
+            label=""
+            controls={{
+              heading: true,
+              piping: true,
+              emphasis: true,
+              list: true,
+              bold: true,
+            }}
+            hasError={some(page.validationErrorInfo.errors, {
+              field: "anotherTitle",
+            })}
+          />
+          {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
+          <CollapsibleContent>
+            <hr />
+            <b>Repeating radio answer</b>
+            <br />
+            The repeating question answer type is a radio option, the positive
+            answer takes respondents to the Collection list question and then
+            returns them to the repeating question until they choose the
+            negative radio option.
+            <RadioContainer>
+              <Field>
+                <RadionIndicator />
+                <RadioAnswerWrapper>
+                  <Label htmlFor="anotherPositive">Positive answer label</Label>
+                  <StyledInput
+                    name={"anotherPositive"}
+                    data-test="another-positive-input"
+                    onChange={handleOnChange}
+                    onBlur={handleOnUpdate}
+                    value={entity.anotherPositive}
+                    hasError={some(page.validationErrorInfo.errors, {
+                      field: "anotherPositive",
+                    })}
+                  />
+                  {renderErrors(
+                    page.validationErrorInfo.errors,
+                    "anotherPositive"
+                  )}
+                </RadioAnswerWrapper>
+              </Field>
+              <Field>
+                <Label htmlFor="anotherPositiveDescription">
+                  Description (optional)
+                </Label>
+                <StyledInput
+                  name={"anotherPositiveDescription"}
+                  onChange={handleOnChange}
+                  onBlur={handleOnUpdate}
+                  value={entity.anotherPositiveDescription}
+                />
+              </Field>
+            </RadioContainer>
+            {/* Negative answer label in here */}
+            <RadioContainer>
+              <Field>
+                <RadionIndicator />
+                <RadioAnswerWrapper>
+                  <Label htmlFor="anotherNegative">Negative answer label</Label>
+                  <StyledInput
+                    name={"anotherNegative"}
+                    data-test="another-negative-input"
+                    onChange={handleOnChange}
+                    onBlur={handleOnUpdate}
+                    value={entity.anotherNegative}
+                    hasError={some(page.validationErrorInfo.errors, {
+                      field: "anotherNegative",
+                    })}
+                  />
+                  {renderErrors(
+                    page.validationErrorInfo.errors,
+                    "anotherNegative"
+                  )}
+                </RadioAnswerWrapper>
+              </Field>
+              <Field>
+                <Label htmlFor="anotherNegativeDescription">
+                  Description (optional)
+                </Label>
+                <StyledInput
+                  name={"anotherNegativeDescription"}
+                  onChange={handleOnChange}
+                  onBlur={handleOnUpdate}
+                  value={entity.anotherNegativeDescription}
+                />
+              </Field>
+            </RadioContainer>
+          </CollapsibleContent>
+        </Collapsible>
+      </QuestionRender>
+      {/* Contiotonal render this END */}
     </div>
   );
 };
@@ -502,6 +658,11 @@ UnwrappedListCollectorPageEditor.fragments = {
       pageType
       listId
       position
+      drivingQuestion
+      drivingPositive
+      drivingNegative
+      drivingPositiveDescription
+      drivingNegativeDescription
       anotherTitle
       anotherPositive
       anotherNegative
