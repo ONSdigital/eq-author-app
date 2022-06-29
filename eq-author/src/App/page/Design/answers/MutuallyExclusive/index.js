@@ -133,6 +133,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 hasDeleteButton={showDeleteOption}
                 hideMoveButtons={numberOfOptions === 1}
                 answer={answer}
+                hasMultipleOptions={answer.options.length > 1}
               />
             )}
           </Reorder>

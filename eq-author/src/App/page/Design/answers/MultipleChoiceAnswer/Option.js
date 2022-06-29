@@ -88,6 +88,7 @@ export const StatelessOption = ({
   canMoveDown,
   onMoveDown,
   hideMoveButtons,
+  hasMultipleOptions,
 }) => {
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
@@ -196,7 +197,10 @@ export const StatelessOption = ({
       <div>
         {renderToolbar()}
         <Flex>
-          <DummyMultipleChoice type={type} />
+          <DummyMultipleChoice
+            type={type}
+            hasMultipleOptions={hasMultipleOptions}
+          />
           <OptionField>
             <Label htmlFor={`option-label-${option.id}`}>
               {label || "Label"}
@@ -271,6 +275,7 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
+  hasMultipleOptions: PropTypes.bool,
 };
 
 StatelessOption.fragments = {
