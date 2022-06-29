@@ -1559,7 +1559,7 @@ const Resolvers = {
 
   Answer: {
     __resolveType: ({ type }) => {
-      if (includes(["Checkbox", "Radio"], type)) {
+      if (includes(["Checkbox", "Radio", "MutuallyExclusiveOption"], type)) {
         return "MultipleChoiceAnswer";
       } else {
         return "BasicAnswer";
