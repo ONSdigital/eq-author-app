@@ -224,8 +224,6 @@ const UnwrappedListCollectorPageEditor = (props) => {
     });
   };
 
-  const renderLCQuestions = false;
-
   const { loading, data } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
   });
