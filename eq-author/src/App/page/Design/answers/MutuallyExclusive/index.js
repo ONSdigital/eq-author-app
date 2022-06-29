@@ -110,32 +110,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
   const showDeleteOption = numberOfOptions > minOptions;
   return (
     <>
-      <Field>
-        <Label htmlFor={`answer-label-${answer.id}`}>
-          {"Label (optional)"}
-        </Label>
-        <WrappingInput
-          id={`answer-label-${answer.id}`}
-          name="label"
-          onChange={onChange}
-          onBlur={onUpdate}
-          value={answer.label}
-          data-autofocus={autoFocus || null}
-          placeholder={""}
-          data-test="txt-answer-label"
-          bold
-          errorValidationMsg={
-            optionErrorMsg
-              ? optionErrorMsg
-              : getValidationError({
-                  field: "label",
-                  type: "answer",
-                  label: errorLabel,
-                  requiredMsg: errorMsg,
-                })
-          }
-        />
-      </Field>
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AnswerWrapper>
         <TransitionGroup

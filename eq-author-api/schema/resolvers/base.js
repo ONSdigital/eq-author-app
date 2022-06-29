@@ -29,7 +29,12 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { DATE, CHECKBOX, RADIO } = require("../../constants/answerTypes");
+const {
+  DATE,
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE_OPTION,
+} = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -843,7 +848,7 @@ const Resolvers = {
         }
       });
 
-      if (![CHECKBOX, RADIO].includes(answer.type)) {
+      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE_OPTION].includes(answer.type)) {
         delete answer.options;
       }
 

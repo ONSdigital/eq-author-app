@@ -108,9 +108,7 @@ class AnswerEditor extends React.Component {
       );
     }
     if (type === MUTUALLY_EXCLUSIVE_OPTION) {
-      return (
-        <MultipleChoiceAnswer type={type} {...this.props} showDescription />
-      );
+      return <MutuallyExclusive type={type} {...this.props} />;
     }
     if (type === DATE_RANGE) {
       return <DateRange {...this.props} />;
