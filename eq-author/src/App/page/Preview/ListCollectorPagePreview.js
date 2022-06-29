@@ -198,16 +198,86 @@ const ListCollectorPagePreview = ({ page }) => {
     >
       <Panel>
         <Container>
-          {anotherTitle ? (
-            <PageTitle title={anotherTitle} />
+          {drivingQuestion ? (
+            <PageTitle title={drivingQuestion} />
           ) : (
-            <Error large>Missing repeating list collector question</Error>
+            <Error large>Missing driving question</Error>
           )}
 
           <CollectorInfoTop>
             <div data-test="list-display-name">
               <ListDisplayName>{selectedList.displayName}</ListDisplayName>
             </div>
+
+            {drivingQuestion ? (
+              <Summary>
+                {answers.map((answer) => (
+                  <span key={answer.id} value={answer.id}>
+                    {answer.displayName}
+                  </span>
+                ))}
+                <a href="#">Remove</a>
+                <a href="#">Change</a>
+              </Summary>
+            ) : (
+              <Summary>Missing Answers</Summary>
+            )}
+            <div data-test="drivingPositive">
+              {drivingPositive ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {drivingPositive && (
+                      <OptionDescription>{drivingPositive}</OptionDescription>
+                    )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing drivingPositive</Error>
+              )}
+            </div>
+
+            <div data-test="drivingPositiveDescription">
+              {drivingPositiveDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: drivingPositiveDescription,
+                  }}
+                />
+              )}
+            </div>
+
+            <div data-test="drivingNegative">
+              {drivingNegative ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {drivingNegative && (
+                      <OptionDescription>{drivingNegative}</OptionDescription>
+                    )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing drivingNegative</Error>
+              )}
+            </div>
+
+            <div data-test="drivingNegativeDescription">
+              {drivingNegativeDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: anotherNegativeDescription,
+                  }}
+                />
+              )}
+            </div>
+
+            {anotherTitle ? (
+              <PageTitle title={anotherTitle} />
+            ) : (
+              <Error large>Missing repeating list collector question</Error>
+            )}
+
             {anotherTitle ? (
               <Summary>
                 {answers.map((answer) => (
