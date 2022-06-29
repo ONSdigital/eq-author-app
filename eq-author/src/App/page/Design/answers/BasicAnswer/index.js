@@ -27,7 +27,7 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD } from "constants/answer-types";
+import { TEXTFIELD, MUTUALLY_EXCLUSIVE_OPTION } from "constants/answer-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -116,6 +116,16 @@ export const StatelessBasicAnswer = ({
             data-test="txt-answer-description"
           />
         </Field>
+      )}
+      {type === MUTUALLY_EXCLUSIVE_OPTION && (
+        <Collapsible title="What is an OR answer?">
+          <CollapsibleContent>
+            The OR answer type is a mutually exclusive answer. When selected,
+            any preceding answers given on the page will be cleared. It will
+            appear as a checkbox answer to the respondent unless there is more
+            than one OR option, in which case it will display as a Radio answer.
+          </CollapsibleContent>
+        </Collapsible>
       )}
       <AnswerProperties
         answer={answer}

@@ -99,7 +99,7 @@ class AnswerEditor extends React.Component {
       return <BasicAnswer type={type} {...this.props} showDescription />;
     }
     if (type === MUTUALLY_EXCLUSIVE_OPTION) {
-      console.log("Add component");
+      return <BasicAnswer type={type} {...this.props} showDescription />;
     }
     if (type === CHECKBOX) {
       return <MultipleChoiceAnswer type={type} {...this.props} />;
