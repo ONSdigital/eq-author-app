@@ -148,6 +148,9 @@ class AnswerEditor extends React.Component {
         </>
       );
     }
+    if (answer.type === MUTUALLY_EXCLUSIVE_OPTION) {
+      return "OR";
+    }
     return answer.type;
   }
 
