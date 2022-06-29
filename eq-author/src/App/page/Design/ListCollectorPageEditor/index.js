@@ -395,213 +395,71 @@ const UnwrappedListCollectorPageEditor = (props) => {
         </CollapsibleContent>
       </Collapsible>
       {/* Contiotonal render this START */}
-      <QuestionRender>
-        <Collapsible
-          title="Driving question"
-          defaultOpen
-          className="default-value"
-          variant="content"
-          withoutHideThis
-        >
-          <CollapsibleContent>
-            The initial driving question is asking the respondent if they have
-            anything that will be added to the list. If they do they go to the
-            collection question and then onto the repeating question until they
-            have nothing more to add to the list.
-          </CollapsibleContent>
+      {entity.listId ? (
+        <QuestionRender>
+          <Collapsible
+            title="Driving question"
+            defaultOpen
+            className="default-value"
+            variant="content"
+            withoutHideThis
+          >
+            <CollapsibleContent>
+              The initial driving question is asking the respondent if they have
+              anything that will be added to the list. If they do they go to the
+              collection question and then onto the repeating question until
+              they have nothing more to add to the list.
+            </CollapsibleContent>
 
-          <StyledRichTextEditor
-            id={`update-drivingQuestion-textbox`}
-            name={"drivingQuestion"}
-            data-test={`driving-question-input`}
-            onUpdate={handleOnUpdate}
-            value={entity.drivingQuestion}
-            label=""
-            controls={{
-              heading: true,
-              piping: true,
-              emphasis: true,
-              list: true,
-              bold: true,
-            }}
-            hasError={some(page.validationErrorInfo.errors, {
-              field: "drivingQuestion",
-            })}
-          />
-          {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
-          <RadioContainer>
-            <Field>
-              <RadionIndicator />
-              <RadioAnswerWrapper>
-                <Label htmlFor="drivingPositive">Positive answer label</Label>
-                <StyledInput
-                  name={"drivingPositive"}
-                  data-test="driving-positive-input"
-                  onChange={handleOnChange}
-                  onBlur={handleOnUpdate}
-                  value={entity.drivingPositive}
-                  hasError={some(page.validationErrorInfo.errors, {
-                    field: "drivingPositive",
-                  })}
-                />
-                {renderErrors(
-                  page.validationErrorInfo.errors,
-                  "drivingPositive"
-                )}
-              </RadioAnswerWrapper>
-            </Field>
-            <Field>
-              <Label htmlFor="drivingPositiveDescription">
-                Description (optional)
-              </Label>
-              <StyledInput
-                name={"drivingPositiveDescription"}
-                onChange={handleOnChange}
-                onBlur={handleOnUpdate}
-                value={entity.drivingPositiveDescription}
-              />
-            </Field>
-          </RadioContainer>
-          {/* Negative answer label in here */}
-          <RadioContainer>
-            <Field>
-              <RadionIndicator />
-              <RadioAnswerWrapper>
-                <Label htmlFor="drivingNegative">Negative answer label</Label>
-                <StyledInput
-                  name={"drivingNegative"}
-                  data-test="driving-negative-input"
-                  onChange={handleOnChange}
-                  onBlur={handleOnUpdate}
-                  value={entity.drivingNegative}
-                  hasError={some(page.validationErrorInfo.errors, {
-                    field: "drivingNegative",
-                  })}
-                />
-                {renderErrors(
-                  page.validationErrorInfo.errors,
-                  "drivingNegative"
-                )}
-              </RadioAnswerWrapper>
-            </Field>
-            <Field>
-              <Label htmlFor="drivingNegativeDescription">
-                Description (optional)
-              </Label>
-              <StyledInput
-                name={"drivingNegativeDescription"}
-                onChange={handleOnChange}
-                onBlur={handleOnUpdate}
-                value={entity.drivingNegativeDescription}
-              />
-            </Field>
-          </RadioContainer>
-        </Collapsible>
-
-        <Collapsible
-          title="Collection question"
-          defaultOpen
-          className="default-value"
-          variant="content"
-          withoutHideThis
-        >
-          <CollapsibleContent>
-            This question will be displayed along with the answer types from the
-            selected collection list.
-          </CollapsibleContent>
-
-          <StyledRichTextEditor
-            id={`update-addItemTitle-textbox`}
-            name={"addItemTitle"}
-            data-test={`add-item-title-input`}
-            onUpdate={handleOnUpdate}
-            value={entity.addItemTitle}
-            label=""
-            controls={{
-              heading: true,
-              piping: true,
-              emphasis: true,
-              list: true,
-              bold: true,
-            }}
-            hasError={some(page.validationErrorInfo.errors, {
-              field: "addItemTitle",
-            })}
-          />
-          {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
-        </Collapsible>
-
-        <Collapsible
-          title="Repeating question"
-          defaultOpen
-          className="default-value"
-          variant="content"
-          withoutHideThis
-        >
-          <CollapsibleContent>
-            This question is to ask respondents if they have anything to add to
-            the list, if they do the collection question will add it to the list
-            and return them to this question until they have nothing more to
-            add.
-          </CollapsibleContent>
-
-          <StyledRichTextEditor
-            id={`update-anotherTitle-textbox`}
-            name={"anotherTitle"}
-            data-test={`another-title-input`}
-            onUpdate={handleOnUpdate}
-            value={entity.anotherTitle}
-            label=""
-            controls={{
-              heading: true,
-              piping: true,
-              emphasis: true,
-              list: true,
-              bold: true,
-            }}
-            hasError={some(page.validationErrorInfo.errors, {
-              field: "anotherTitle",
-            })}
-          />
-          {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
-          <CollapsibleContent>
-            <hr />
-            <b>Repeating radio answer</b>
-            <br />
-            The repeating question answer type is a radio option, the positive
-            answer takes respondents to the Collection list question and then
-            returns them to the repeating question until they choose the
-            negative radio option.
+            <StyledRichTextEditor
+              id={`update-drivingQuestion-textbox`}
+              name={"drivingQuestion"}
+              data-test={`driving-question-input`}
+              onUpdate={handleOnUpdate}
+              value={entity.drivingQuestion}
+              label=""
+              controls={{
+                heading: true,
+                piping: true,
+                emphasis: true,
+                list: true,
+                bold: true,
+              }}
+              hasError={some(page.validationErrorInfo.errors, {
+                field: "drivingQuestion",
+              })}
+            />
+            {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
             <RadioContainer>
               <Field>
                 <RadionIndicator />
                 <RadioAnswerWrapper>
-                  <Label htmlFor="anotherPositive">Positive answer label</Label>
+                  <Label htmlFor="drivingPositive">Positive answer label</Label>
                   <StyledInput
-                    name={"anotherPositive"}
-                    data-test="another-positive-input"
+                    name={"drivingPositive"}
+                    data-test="driving-positive-input"
                     onChange={handleOnChange}
                     onBlur={handleOnUpdate}
-                    value={entity.anotherPositive}
+                    value={entity.drivingPositive}
                     hasError={some(page.validationErrorInfo.errors, {
-                      field: "anotherPositive",
+                      field: "drivingPositive",
                     })}
                   />
                   {renderErrors(
                     page.validationErrorInfo.errors,
-                    "anotherPositive"
+                    "drivingPositive"
                   )}
                 </RadioAnswerWrapper>
               </Field>
               <Field>
-                <Label htmlFor="anotherPositiveDescription">
+                <Label htmlFor="drivingPositiveDescription">
                   Description (optional)
                 </Label>
                 <StyledInput
-                  name={"anotherPositiveDescription"}
+                  name={"drivingPositiveDescription"}
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
-                  value={entity.anotherPositiveDescription}
+                  value={entity.drivingPositiveDescription}
                 />
               </Field>
             </RadioContainer>
@@ -610,38 +468,188 @@ const UnwrappedListCollectorPageEditor = (props) => {
               <Field>
                 <RadionIndicator />
                 <RadioAnswerWrapper>
-                  <Label htmlFor="anotherNegative">Negative answer label</Label>
+                  <Label htmlFor="drivingNegative">Negative answer label</Label>
                   <StyledInput
-                    name={"anotherNegative"}
-                    data-test="another-negative-input"
+                    name={"drivingNegative"}
+                    data-test="driving-negative-input"
                     onChange={handleOnChange}
                     onBlur={handleOnUpdate}
-                    value={entity.anotherNegative}
+                    value={entity.drivingNegative}
                     hasError={some(page.validationErrorInfo.errors, {
-                      field: "anotherNegative",
+                      field: "drivingNegative",
                     })}
                   />
                   {renderErrors(
                     page.validationErrorInfo.errors,
-                    "anotherNegative"
+                    "drivingNegative"
                   )}
                 </RadioAnswerWrapper>
               </Field>
               <Field>
-                <Label htmlFor="anotherNegativeDescription">
+                <Label htmlFor="drivingNegativeDescription">
                   Description (optional)
                 </Label>
                 <StyledInput
-                  name={"anotherNegativeDescription"}
+                  name={"drivingNegativeDescription"}
                   onChange={handleOnChange}
                   onBlur={handleOnUpdate}
-                  value={entity.anotherNegativeDescription}
+                  value={entity.drivingNegativeDescription}
                 />
               </Field>
             </RadioContainer>
-          </CollapsibleContent>
-        </Collapsible>
-      </QuestionRender>
+          </Collapsible>
+
+          <Collapsible
+            title="Collection question"
+            defaultOpen
+            className="default-value"
+            variant="content"
+            withoutHideThis
+          >
+            <CollapsibleContent>
+              This question will be displayed along with the answer types from
+              the selected collection list.
+            </CollapsibleContent>
+
+            <StyledRichTextEditor
+              id={`update-addItemTitle-textbox`}
+              name={"addItemTitle"}
+              data-test={`add-item-title-input`}
+              onUpdate={handleOnUpdate}
+              value={entity.addItemTitle}
+              label=""
+              controls={{
+                heading: true,
+                piping: true,
+                emphasis: true,
+                list: true,
+                bold: true,
+              }}
+              hasError={some(page.validationErrorInfo.errors, {
+                field: "addItemTitle",
+              })}
+            />
+            {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
+          </Collapsible>
+
+          <Collapsible
+            title="Repeating question"
+            defaultOpen
+            className="default-value"
+            variant="content"
+            withoutHideThis
+          >
+            <CollapsibleContent>
+              This question is to ask respondents if they have anything to add
+              to the list, if they do the collection question will add it to the
+              list and return them to this question until they have nothing more
+              to add.
+            </CollapsibleContent>
+
+            <StyledRichTextEditor
+              id={`update-anotherTitle-textbox`}
+              name={"anotherTitle"}
+              data-test={`another-title-input`}
+              onUpdate={handleOnUpdate}
+              value={entity.anotherTitle}
+              label=""
+              controls={{
+                heading: true,
+                piping: true,
+                emphasis: true,
+                list: true,
+                bold: true,
+              }}
+              hasError={some(page.validationErrorInfo.errors, {
+                field: "anotherTitle",
+              })}
+            />
+            {renderErrors(page.validationErrorInfo.errors, "anotherTitle")}
+            <CollapsibleContent>
+              <hr />
+              <b>Repeating radio answer</b>
+              <br />
+              The repeating question answer type is a radio option, the positive
+              answer takes respondents to the Collection list question and then
+              returns them to the repeating question until they choose the
+              negative radio option.
+              <RadioContainer>
+                <Field>
+                  <RadionIndicator />
+                  <RadioAnswerWrapper>
+                    <Label htmlFor="anotherPositive">
+                      Positive answer label
+                    </Label>
+                    <StyledInput
+                      name={"anotherPositive"}
+                      data-test="another-positive-input"
+                      onChange={handleOnChange}
+                      onBlur={handleOnUpdate}
+                      value={entity.anotherPositive}
+                      hasError={some(page.validationErrorInfo.errors, {
+                        field: "anotherPositive",
+                      })}
+                    />
+                    {renderErrors(
+                      page.validationErrorInfo.errors,
+                      "anotherPositive"
+                    )}
+                  </RadioAnswerWrapper>
+                </Field>
+                <Field>
+                  <Label htmlFor="anotherPositiveDescription">
+                    Description (optional)
+                  </Label>
+                  <StyledInput
+                    name={"anotherPositiveDescription"}
+                    onChange={handleOnChange}
+                    onBlur={handleOnUpdate}
+                    value={entity.anotherPositiveDescription}
+                  />
+                </Field>
+              </RadioContainer>
+              {/* Negative answer label in here */}
+              <RadioContainer>
+                <Field>
+                  <RadionIndicator />
+                  <RadioAnswerWrapper>
+                    <Label htmlFor="anotherNegative">
+                      Negative answer label
+                    </Label>
+                    <StyledInput
+                      name={"anotherNegative"}
+                      data-test="another-negative-input"
+                      onChange={handleOnChange}
+                      onBlur={handleOnUpdate}
+                      value={entity.anotherNegative}
+                      hasError={some(page.validationErrorInfo.errors, {
+                        field: "anotherNegative",
+                      })}
+                    />
+                    {renderErrors(
+                      page.validationErrorInfo.errors,
+                      "anotherNegative"
+                    )}
+                  </RadioAnswerWrapper>
+                </Field>
+                <Field>
+                  <Label htmlFor="anotherNegativeDescription">
+                    Description (optional)
+                  </Label>
+                  <StyledInput
+                    name={"anotherNegativeDescription"}
+                    onChange={handleOnChange}
+                    onBlur={handleOnUpdate}
+                    value={entity.anotherNegativeDescription}
+                  />
+                </Field>
+              </RadioContainer>
+            </CollapsibleContent>
+          </Collapsible>
+        </QuestionRender>
+      ) : (
+        <QuestionRender />
+      )}
       {/* Contiotonal render this END */}
     </div>
   );
