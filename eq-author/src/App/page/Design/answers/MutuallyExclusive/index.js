@@ -11,8 +11,11 @@ import withEntityEditor from "components/withEntityEditor";
 import Option from "../MultipleChoiceAnswer/Option";
 import OptionTransition from "../MultipleChoiceAnswer/OptionTransition";
 import BasicAnswer from "../BasicAnswer";
+
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
+import Button from "components/buttons/Button";
+
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
@@ -55,7 +58,8 @@ const SpecialOptionWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
-const StyledSplitButton = styled(SplitButton)`
+const AddOptionButton = styled(Button)`
+  width: 100%;
   margin-bottom: 1em;
 `;
 
@@ -93,17 +97,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
     e.preventDefault();
     e.stopPropagation();
     onAddOption(answer.id, { hasAdditionalAnswer: false }).then(focusOnEntity);
-  };
-
-  const handleAddExclusive = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onAddExclusive(answer.id).then(focusOnEntity);
-  };
-
-  const handleAddOther = (e) => {
-    e.preventDefault();
-    onAddOption(answer.id, { hasAdditionalAnswer: true }).then(focusOnEntity);
   };
 
   const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
@@ -157,33 +150,13 @@ export const UnwrappedMultipleChoiceAnswer = ({
         </TransitionGroup>
 
         <div>
-          <StyledSplitButton
-            onPrimaryAction={handleAddOption}
-            primaryText={
-              answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-            }
-            onToggleOpen={(setopen) => setOpen(setopen)}
-            open={open}
+          <AddOptionButton
+            onClick={handleAddOption}
+            variant="secondary"
             dataTest="btn-add-option"
           >
-            <Dropdown>
-              <MenuItem
-                onClick={handleAddOther}
-                data-test="btn-add-option-other"
-              >
-                Add &ldquo;Other&rdquo; option
-              </MenuItem>
-              {answer.type === CHECKBOX && (
-                <MenuItem
-                  onClick={handleAddExclusive}
-                  disabled={answer.mutuallyExclusiveOption !== null}
-                  data-test="btn-add-mutually-exclusive-option"
-                >
-                  Add an &ldquo;Or&rdquo; option
-                </MenuItem>
-              )}
-            </Dropdown>
-          </StyledSplitButton>
+            Add another option
+          </AddOptionButton>
         </div>
       </AnswerWrapper>
     </>
