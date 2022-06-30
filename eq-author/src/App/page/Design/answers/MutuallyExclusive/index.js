@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 import PropTypes from "prop-types";
@@ -12,17 +12,13 @@ import Option from "../MultipleChoiceAnswer/Option";
 import OptionTransition from "../MultipleChoiceAnswer/OptionTransition";
 import BasicAnswer from "../BasicAnswer";
 
-import { Field, Label } from "components/Forms";
-import WrappingInput from "components/Forms/WrappingInput";
 import Button from "components/buttons/Button";
 
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { flowRight, lowerCase } from "lodash";
+// TODO: Fix error message
+// import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { flowRight /*, lowerCase */ } from "lodash";
 import { colors } from "constants/theme";
-import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
-import SplitButton from "components/buttons/SplitButton";
-import Dropdown from "components/buttons/SplitButton/Dropdown";
-import MenuItem from "components/buttons/SplitButton/MenuItem";
+import { TEXTFIELD } from "constants/answer-types";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 
 import gql from "graphql-tag";
@@ -66,28 +62,17 @@ const AddOptionButton = styled(Button)`
 export const UnwrappedMultipleChoiceAnswer = ({
   answer,
   onUpdateOption,
-  onUpdate,
   minOptions,
   onMoveOption,
-  onChange,
-  autoFocus,
-  getValidationError,
-  optionErrorMsg,
-  errorLabel,
   type,
   onDeleteOption,
   onAddOption,
-  onAddExclusive,
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
 
-  const [open, setOpen] = useState(false);
-  useEffect(() => {
-    setOpen(false);
-  }, [answer]);
-
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  // TODO: Fix error message
+  // const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   const handleOptionDelete = (optionId) => {
     onDeleteOption(optionId, answer.id);

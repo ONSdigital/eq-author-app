@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import fp from "lodash/fp";
-import { noop } from "lodash";
 
 import CustomPropTypes from "custom-prop-types";
 
