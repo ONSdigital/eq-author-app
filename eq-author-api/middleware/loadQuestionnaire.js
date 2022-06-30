@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
 
   if (questionnaire && questionnaire.isPublic === false) {
     const userId = req.user.id;
-    const authorizedUsers = [questionnaire.createdBy, ...questionnaire.editors];
+    const authorizedUsers = [questionnaire.createdBy, ...questionnaire.editors, "publisher"];
 
     if (!authorizedUsers.includes(userId)) {
       res.status(403).send("Unauthorized questionnaire access");
@@ -30,3 +30,4 @@ module.exports = async (req, res, next) => {
   req.questionnaire = questionnaire;
   next();
 };
+     

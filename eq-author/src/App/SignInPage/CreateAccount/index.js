@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import auth from "components/Auth";
+import config from "config";
 
 import { Field } from "components/Forms";
 import Button from "components-themed/buttons";
@@ -20,7 +21,9 @@ const CreateAccount = ({
   setCreateAccountFunction,
   setForgotPassword,
   errorMessage,
+  errorMessageEmail,
   setErrorMessage,
+  setErrorMessageEmail,
   setVerificationEmail,
 }) => {
   const [createEmail, setCreateEmail] = useState("");
@@ -28,17 +31,43 @@ const CreateAccount = ({
   const [password, setPassword] = useState("");
   let errorRefCreateAcc = useRef();
 
+  const textValidEmailError = config.REACT_APP_ORGANISATION_ABBR
+    ? "Only " + config.REACT_APP_ORGANISATION_ABBR + " email addresses allowed"
+    : "Only authorised email addresses allowed";
+  const textValidEmailErrorMessage = config.REACT_APP_ORGANISATION_ABBR
+    ? "Enter a valid " + config.REACT_APP_ORGANISATION_ABBR + " email address"
+    : "Enter a valid authorised email address";
+  const textValidEmailDescription = !config.REACT_APP_VALID_EMAIL_DOMAINS
+    ? ""
+    : config.REACT_APP_ORGANISATION_ABBR
+    ? "Only " + config.REACT_APP_ORGANISATION_ABBR + " email addresses allowed"
+    : "Only authorised email addresses allowed";
+
   function handleReturnToSignInPage(e) {
     e.preventDefault();
     setCreateAccountFunction(false);
     setForgotPassword(false);
     setErrorMessage("");
+    setErrorMessageEmail("");
   }
+
+  const endsWithAnyDomain = (email, domains) => {
+    return domains.some((domain) => email.endsWith(domain));
+  };
 
   const handleCreateAccount = (createEmail, fullName, password) => {
     isCommonPassword(password).then((commonPassword) => {
       if (createEmail === "") {
         setErrorMessage("Enter email");
+      } else if (
+        config.REACT_APP_VALID_EMAIL_DOMAINS &&
+        !endsWithAnyDomain(
+          createEmail,
+          config.REACT_APP_VALID_EMAIL_DOMAINS.split(",")
+        )
+      ) {
+        setErrorMessage(textValidEmailError);
+        setErrorMessageEmail(textValidEmailErrorMessage);
       } else if (fullName === "") {
         setErrorMessage("Enter full name");
       } else if (password.length < 8 && password.length !== 0) {
@@ -59,6 +88,7 @@ const CreateAccount = ({
                 function () {
                   setVerificationEmail(createEmail);
                   setErrorMessage("");
+                  setErrorMessageEmail("");
                 },
                 function (error) {
                   setErrorMessage(error.message);
@@ -102,6 +132,8 @@ const CreateAccount = ({
           condition={errorMessage?.toLowerCase().includes("email")}
           dataTest="txt-create-email"
           innerRef={errorRefCreateAcc}
+          errorMessage={errorMessageEmail}
+          description={textValidEmailDescription}
         />
         <InputWithConditionalError
           type="text"
@@ -127,6 +159,7 @@ const CreateAccount = ({
                   value={password}
                   onChange={({ value }) => setPassword(value)}
                   data-test="txt-create-password"
+                  description="Your password must be at least 8 characters"
                 />
               </Panel>
             </>
@@ -137,6 +170,7 @@ const CreateAccount = ({
                 value={password}
                 onChange={({ value }) => setPassword(value)}
                 data-test="txt-create-password"
+                description="Your password must be at least 8 characters"
               />
             </>
           )}
@@ -162,7 +196,9 @@ CreateAccount.propTypes = {
   setCreateAccountFunction: PropTypes.func,
   setForgotPassword: PropTypes.func,
   errorMessage: PropTypes.string,
+  errorMessageEmail: PropTypes.string,
   setErrorMessage: PropTypes.func,
+  setErrorMessageEmail: PropTypes.func,
   setVerificationEmail: PropTypes.func,
 };
 

@@ -6,12 +6,15 @@ import Label from "components-themed/Label";
 import Input from "components-themed/Input";
 import Panel from "components-themed/panels";
 
+import { FieldDescription } from "components-themed/Toolkit";
+
 const InputWithConditionalError = ({
   type,
   id,
   title,
   name,
   value,
+  description,
   condition,
   handleChange,
   errorMessage,
@@ -26,7 +29,14 @@ const InputWithConditionalError = ({
       innerRef={innerRef}
     >
       <Field>
-        <Label htmlFor={id}>{title}</Label>
+        {description ? (
+          <Label htmlFor={id} hasDescription>
+            {title}
+          </Label>
+        ) : (
+          <Label htmlFor={id}>{title}</Label>
+        )}
+        {description && <FieldDescription>{description}</FieldDescription>}
         <Input
           type={type}
           name={name}
@@ -39,7 +49,14 @@ const InputWithConditionalError = ({
     </Panel>
   ) : (
     <Field>
-      <Label htmlFor={id}>{title}</Label>
+      {description ? (
+        <Label htmlFor={id} hasDescription>
+          {title}
+        </Label>
+      ) : (
+        <Label htmlFor={id}>{title}</Label>
+      )}
+      {description && <FieldDescription>{description}</FieldDescription>}
       <Input
         type={type}
         id={id}
@@ -57,6 +74,7 @@ InputWithConditionalError.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
+  description: PropTypes.string,
   condition: PropTypes.bool.isRequired,
   handleChange: PropTypes.func,
   errorMessage: PropTypes.string,

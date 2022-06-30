@@ -24,6 +24,14 @@ export const Description = styled.p`
   color: ${colors.text};
 `;
 
+export const FieldDescription = styled.p`
+  margin: 0 0 0.55rem 0;
+  font-size: 0.7777777778rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: ${colors.text};
+`;
+
 export const InlineDescription = styled(Description)`
   display: inline-block;
 `;
@@ -46,7 +54,7 @@ export const ButtonLink = styled.button`
   padding: 0 !important;
   margin: 0 0 0.5rem;
   font-size: 1.125rem;
-  color: ${colors.blue};
+  color: ${colors.oceanBlue};
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
