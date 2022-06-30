@@ -43,6 +43,7 @@ export default class AnswerTypeButton extends React.Component {
     order: PropTypes.number,
     doNotShowDR: PropTypes.bool,
     mutuallyExclusiveEnabled: PropTypes.bool,
+    radioEnabled: PropTypes.bool,
   };
 
   handleClick = () => {
@@ -54,6 +55,7 @@ export default class AnswerTypeButton extends React.Component {
       <IconGridButton
         doNotShowDR={this.props.doNotShowDR}
         mutuallyExclusiveEnabled={this.props.mutuallyExclusiveEnabled}
+        radioEnabled={this.props.radioEnabled}
         disabled={this.props.disabled}
         iconSrc={icons[this.props.type]}
         onClick={this.handleClick}

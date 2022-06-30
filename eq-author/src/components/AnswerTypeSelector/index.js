@@ -74,6 +74,13 @@ const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
   return allowMutuallyExclusive;
 };
 
+// const radioEnabled = (answers, hasMutuallyExclusiveAnswer) => {
+//   let allowRadio = false;
+
+//   if(answers.some)
+
+// }
+
 class AnswerTypeSelector extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
@@ -107,6 +114,7 @@ class AnswerTypeSelector extends React.Component {
     let hasDateRange = false;
     let hasOtherAnswerType = false;
     let hasRadioAnswer = false;
+    let hasMutuallyExclusiveAnswer = false;
 
     const answers = Array.from(this.props.page.answers);
     const mutuallyExclusive = _.some(answers, (e) => {
@@ -122,6 +130,14 @@ class AnswerTypeSelector extends React.Component {
       }
       if (answersHaveAnswerType(this.props.page.answers, RADIO)) {
         hasRadioAnswer = true;
+      }
+      if (
+        answersHaveAnswerType(
+          this.props.page.answers,
+          MUTUALLY_EXCLUSIVE_OPTION
+        )
+      ) {
+        hasMutuallyExclusiveAnswer = true;
       }
     }
 
@@ -157,6 +173,7 @@ class AnswerTypeSelector extends React.Component {
                 this.props.page.answers,
                 hasRadioAnswer
               )}
+              radioEnabled={!hasMutuallyExclusiveAnswer}
             />
           </Popout>
         </ErrorContext>
