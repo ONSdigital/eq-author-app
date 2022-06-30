@@ -153,6 +153,7 @@ Option.propTypes = {
   answer: PropTypes.shape({
     label: PropTypes.string,
   }),
+  answerOptions: PropTypes.array, // eslint-disable-line
 };
 
 const MultipleChoiceAnswer = ({ answer }) => {
