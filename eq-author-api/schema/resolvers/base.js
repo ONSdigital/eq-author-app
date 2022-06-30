@@ -711,8 +711,13 @@ const Resolvers = {
     createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input, page);
+      const lastAnswer = page.answers[page.answers.length - 1];
 
-      page.answers.push(answer);
+      if (lastAnswer && lastAnswer.type === MUTUALLY_EXCLUSIVE_OPTION) {
+        page.answers.splice(page.answers.length - 1, 0, answer);
+      } else {
+        page.answers.push(answer);
+      }
 
       onAnswerCreated(page, answer);
 
