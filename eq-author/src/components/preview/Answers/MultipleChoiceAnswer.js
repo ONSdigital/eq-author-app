@@ -160,7 +160,10 @@ const MultipleChoiceAnswer = ({ answer }) => {
   return (
     <Field>
       <Legend>
-        {answer.options[0].mutuallyExclusive ? "Or" : answer.label}
+        {answer.options[0].mutuallyExclusive ||
+        answer.type === MUTUALLY_EXCLUSIVE_OPTION
+          ? "Or"
+          : answer.label}
       </Legend>
       {answer.type === CHECKBOX && !answer.label && (
         <SelectAll>Select all that apply:</SelectAll>
