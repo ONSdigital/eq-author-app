@@ -21,6 +21,7 @@ import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import { enableOn } from "utils/featureFlags";
 
 import gql from "graphql-tag";
 
@@ -198,15 +199,16 @@ export const UnwrappedMultipleChoiceAnswer = ({
               >
                 Add &ldquo;Other&rdquo; option
               </MenuItem>
-              {answer.type === CHECKBOX && (
-                <MenuItem
-                  onClick={handleAddExclusive}
-                  disabled={answer.mutuallyExclusiveOption !== null}
-                  data-test="btn-add-mutually-exclusive-option"
-                >
-                  Add an &ldquo;Or&rdquo; option
-                </MenuItem>
-              )}
+              {answer.type === CHECKBOX &&
+                !enableOn(["mutuallyExclusiveAnswer"]) && (
+                  <MenuItem
+                    onClick={handleAddExclusive}
+                    disabled={answer.mutuallyExclusiveOption !== null}
+                    data-test="btn-add-mutually-exclusive-option"
+                  >
+                    Add an &ldquo;Or&rdquo; option
+                  </MenuItem>
+                )}
             </Dropdown>
           </StyledSplitButton>
         </div>
