@@ -2,7 +2,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import {
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE_OPTION,
+} from "constants/answer-types";
 import { Field } from "./elements";
 import { colors } from "constants/theme";
 
@@ -35,7 +39,11 @@ export const Input = styled.input`
   top: 1em;
   left: 1em;
 
-  ${(props) => props.type === RADIO && radioInput};
+  ${(props) =>
+    (props.type === RADIO ||
+      (props.type === MUTUALLY_EXCLUSIVE_OPTION &&
+        props.answerOptions.length > 1)) &&
+    radioInput};
   ${(props) => props.error && inputWithError};
 `;
 
@@ -117,9 +125,14 @@ const OptionPropType = PropTypes.shape({
   description: PropTypes.string,
 });
 
-export const Option = ({ option, type, answer }) => (
+export const Option = ({ option, type, answer, answerOptions }) => (
   <OptionItem error={!option.label}>
-    <Input type={type} error={!option.label} />
+    <Input
+      type={type}
+      error={!option.label}
+      answer={answer}
+      answerOptions={answerOptions}
+    />
     <OptionLabel>
       {option.label || "Missing label"}
       {option.description && (
@@ -157,6 +170,7 @@ const MultipleChoiceAnswer = ({ answer }) => {
           option={option}
           type={answer.type}
           answer={option.additionalAnswer}
+          answerOptions={answer.options}
         />
       ))}
       {answer.mutuallyExclusiveOption && (

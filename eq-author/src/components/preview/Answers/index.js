@@ -14,6 +14,7 @@ import {
   PERCENTAGE,
   UNIT,
   DURATION,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 
 import DateAnswer from "./DateAnswer";
@@ -37,6 +38,7 @@ export const answerComponents = {
   [PERCENTAGE]: AnswerTrailingUnit,
   [UNIT]: AnswerTrailingUnit,
   [DURATION]: DurationAnswer,
+  [MUTUALLY_EXCLUSIVE_OPTION]: MultipleChoiceAnswer,
 };
 
 const AnswerWrapper = styled.div`
