@@ -173,10 +173,18 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled //always true as mutually exclusive is always the last answer
-                  tabIndex={-1}
+                  disabled={
+                    !this.props.canMoveUp ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                  }
+                  tabIndex={
+                    !this.props.canMoveUp ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                      ? -1
+                      : undefined
+                  }
                   aria-label={"Move answer up"}
-                  onClick={noop}
+                  onClick={this.props.onMoveUp}
                   data-test="btn-move-answer-up"
                 >
                   <IconUp />
@@ -189,10 +197,18 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled //always true as mutually exclusive is always the last answer
-                  tabIndex={-1}
+                  disabled={
+                    !this.props.canMoveDown ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                  }
+                  tabIndex={
+                    !this.props.canMoveDown ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                      ? -1
+                      : undefined
+                  }
                   aria-label={"Move answer down"}
-                  onClick={noop}
+                  onClick={this.props.onMoveDown}
                   data-test="btn-move-answer-down"
                 >
                   <IconDown />

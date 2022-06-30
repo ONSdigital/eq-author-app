@@ -9,6 +9,8 @@ import ValidationError from "components/ValidationError";
 import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 import { RADIO, MUTUALLY_EXCLUSIVE_OPTION } from "constants/answer-types";
 
+import answersHaveAnswerType from "utils/answersHaveAnswerType";
+
 import { colors } from "constants/theme";
 
 import withValidationError from "enhancers/withValidationError";
@@ -47,15 +49,6 @@ const ErrorContext = styled.div`
     `}
 `;
 
-// Returns true if page's answers include an answer of the specified answerType
-const answersHaveAnswerType = (answers, answerType) => {
-  if (answers.some((answer) => answer.type === answerType)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
 const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
   let allowMutuallyExclusive = false;
   // Mutually exclusive button will be disabled when page has no answers, page has a radio answer, or page already has mutually exclusive answer
@@ -73,13 +66,6 @@ const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
 
   return allowMutuallyExclusive;
 };
-
-// const radioEnabled = (answers, hasMutuallyExclusiveAnswer) => {
-//   let allowRadio = false;
-
-//   if(answers.some)
-
-// }
 
 class AnswerTypeSelector extends React.Component {
   static propTypes = {
