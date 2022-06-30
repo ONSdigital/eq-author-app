@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import gql from "graphql-tag";
 import fp from "lodash/fp";
+import { noop } from "lodash";
 
 import CustomPropTypes from "custom-prop-types";
 
@@ -172,18 +173,10 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
-                  }
-                  tabIndex={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
-                      ? -1
-                      : undefined
-                  }
+                  disabled //always true as mutually exclusive is always the last answer
+                  tabIndex={-1}
                   aria-label={"Move answer up"}
-                  onClick={this.props.onMoveUp}
+                  onClick={noop}
                   data-test="btn-move-answer-up"
                 >
                   <IconUp />
@@ -196,18 +189,10 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
-                  }
-                  tabIndex={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
-                      ? -1
-                      : undefined
-                  }
+                  disabled //always true as mutually exclusive is always the last answer
+                  tabIndex={-1}
                   aria-label={"Move answer down"}
-                  onClick={this.props.onMoveDown}
+                  onClick={noop}
                   data-test="btn-move-answer-down"
                 >
                   <IconDown />
