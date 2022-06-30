@@ -67,6 +67,7 @@ class AnswerTypeGrid extends React.Component {
     onSelect: PropTypes.func.isRequired,
     "aria-labelledby": PropTypes.string,
     doNotShowDR: PropTypes.bool,
+    mutuallyExclusiveEnabled: PropTypes.bool,
   };
 
   handleSelect = (type) => {
@@ -82,6 +83,7 @@ class AnswerTypeGrid extends React.Component {
     const {
       "aria-labelledby": labelledby,
       doNotShowDR,
+      mutuallyExclusiveEnabled,
       ...otherProps
     } = this.props;
     return (
@@ -101,6 +103,7 @@ class AnswerTypeGrid extends React.Component {
                 <AnswerTypeButton
                   key={button.type}
                   doNotShowDR={doNotShowDR}
+                  mutuallyExclusiveEnabled={mutuallyExclusiveEnabled}
                   {...props}
                 />
               );

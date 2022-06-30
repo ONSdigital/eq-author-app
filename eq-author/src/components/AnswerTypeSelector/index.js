@@ -7,6 +7,7 @@ import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ValidationError from "components/ValidationError";
 import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
+import { RADIO, MUTUALLY_EXCLUSIVE_OPTION } from "constants/answer-types";
 
 import { colors } from "constants/theme";
 
@@ -46,6 +47,33 @@ const ErrorContext = styled.div`
     `}
 `;
 
+// Returns true if page's answers include an answer of the specified answerType
+const answersHaveAnswerType = (answers, answerType) => {
+  if (answers.some((answer) => answer.type === answerType)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
+  let allowMutuallyExclusive = false;
+  // Mutually exclusive button will be disabled when page has no answers, page has a radio answer, or page already has mutually exclusive answer
+  // Does not need to handle date range as "Add an answer" button is disabled when page has a date range answer
+  if (
+    answers.length === 0 ||
+    !answers ||
+    hasRadioAnswer ||
+    answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE_OPTION)
+  ) {
+    allowMutuallyExclusive = false;
+  } else {
+    allowMutuallyExclusive = true;
+  }
+
+  return allowMutuallyExclusive;
+};
+
 class AnswerTypeSelector extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
@@ -78,6 +106,7 @@ class AnswerTypeSelector extends React.Component {
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;
+    let hasRadioAnswer = false;
 
     const answers = Array.from(this.props.page.answers);
     const mutuallyExclusive = _.some(answers, (e) => {
@@ -90,6 +119,9 @@ class AnswerTypeSelector extends React.Component {
       }
       if (this.props.page.answers[0].type !== "DateRange") {
         hasOtherAnswerType = true;
+      }
+      if (answersHaveAnswerType(this.props.page.answers, RADIO)) {
+        hasRadioAnswer = true;
       }
     }
 
@@ -121,6 +153,10 @@ class AnswerTypeSelector extends React.Component {
               onSelect={this.handleSelect}
               ref={this.saveGridRef}
               doNotShowDR={hasOtherAnswerType}
+              mutuallyExclusiveEnabled={mutuallyExclusiveEnabled(
+                this.props.page.answers,
+                hasRadioAnswer
+              )}
             />
           </Popout>
         </ErrorContext>
