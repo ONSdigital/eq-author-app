@@ -77,6 +77,7 @@ class ToolBar extends React.Component {
   };
 
   static propTypes = {
+    pageType: PropTypes.string,
     onToggle: PropTypes.func.isRequired,
     onPiping: PropTypes.func.isRequired,
     onLinkChosen: PropTypes.func,
@@ -99,6 +100,7 @@ class ToolBar extends React.Component {
     }),
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
+    allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
   renderButton = (button) => {

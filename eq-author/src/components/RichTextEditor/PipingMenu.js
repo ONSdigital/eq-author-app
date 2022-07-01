@@ -27,10 +27,12 @@ export const MenuButton = styled(ToolbarButton)`
 `;
 
 const PipingMenuPropTypes = {
+  pageType: PropTypes.string,
   onItemChosen: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   canFocus: PropTypes.bool,
   allowableTypes: PropTypes.arrayOf(PropTypes.string),
+  allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
 };
 
 const PipingMenu = ({

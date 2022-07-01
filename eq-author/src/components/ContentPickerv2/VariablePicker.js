@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { useQuery } from "@apollo/react-hooks";
 
 import styled from "styled-components";
 
@@ -200,6 +199,7 @@ VariablePicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.metadata),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
+  pageType: PropTypes.string,
 };
 
 export default VariablePicker;

@@ -39,7 +39,6 @@ export const findPipedEntities = (contentState) =>
   getEntities(contentState, ENTITY_TYPE);
 
 export const createPipedEntity = (create, entity) => {
-  console.log("entity :>> ", entity);
   return create(ENTITY_TYPE, "IMMUTABLE", entity);
 };
 

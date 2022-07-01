@@ -64,6 +64,7 @@ const propTypes = {
   onUpdate: PropTypes.func.isRequired,
   fetchAnswers: PropTypes.func.isRequired,
   enableValidationMessage: PropTypes.bool,
+  allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
 };
 export const UnwrappedQuestionPageEditor = (props) => {
   const {

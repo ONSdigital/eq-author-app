@@ -136,6 +136,7 @@ class RichTextEditor extends React.Component {
   };
 
   static propTypes = {
+    pageType: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onUpdate: PropTypes.func.isRequired,
@@ -172,6 +173,7 @@ class RichTextEditor extends React.Component {
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
+    allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
   constructor(props) {
