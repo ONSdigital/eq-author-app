@@ -41,7 +41,7 @@ module.exports = (answer, page) => {
   if (
     answer.type === "Checkbox" ||
     answer.type === "Radio" ||
-    answer.type === "MutuallyExclusiveOption"
+    answer.type === "MutuallyExclusive"
   ) {
     const createOption = require("./createOption");
 

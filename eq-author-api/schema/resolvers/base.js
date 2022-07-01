@@ -33,7 +33,7 @@ const {
   DATE,
   CHECKBOX,
   RADIO,
-  MUTUALLY_EXCLUSIVE_OPTION,
+  MUTUALLY_EXCLUSIVE,
 } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -713,7 +713,7 @@ const Resolvers = {
       const answer = createAnswer(input, page);
       const lastAnswer = page.answers[page.answers.length - 1];
 
-      if (lastAnswer && lastAnswer.type === MUTUALLY_EXCLUSIVE_OPTION) {
+      if (lastAnswer && lastAnswer.type === MUTUALLY_EXCLUSIVE) {
         page.answers.splice(page.answers.length - 1, 0, answer);
       } else {
         page.answers.push(answer);
@@ -853,7 +853,7 @@ const Resolvers = {
         }
       });
 
-      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE_OPTION].includes(answer.type)) {
+      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE].includes(answer.type)) {
         delete answer.options;
       }
 
@@ -1564,7 +1564,7 @@ const Resolvers = {
 
   Answer: {
     __resolveType: ({ type }) => {
-      if (includes(["Checkbox", "Radio", "MutuallyExclusiveOption"], type)) {
+      if (includes(["Checkbox", "Radio", "MutuallyExclusive"], type)) {
         return "MultipleChoiceAnswer";
       } else {
         return "BasicAnswer";

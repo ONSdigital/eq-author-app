@@ -1,18 +1,14 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { radius, colors } from "constants/theme";
-import {
-  CHECKBOX,
-  RADIO,
-  MUTUALLY_EXCLUSIVE_OPTION,
-} from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import { get } from "lodash";
 
 const borderRadii = (hasMultipleOptions) => {
   const radii = {
     [CHECKBOX]: radius,
     [RADIO]: "100%",
-    [MUTUALLY_EXCLUSIVE_OPTION]: hasMultipleOptions ? "100%" : radius,
+    [MUTUALLY_EXCLUSIVE]: hasMultipleOptions ? "100%" : radius,
   };
 
   return radii;
@@ -33,7 +29,7 @@ const MultipleChoice = styled.div.attrs({
 `;
 
 MultipleChoice.propTypes = {
-  type: PropTypes.oneOf([CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE_OPTION]),
+  type: PropTypes.oneOf([CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE]),
   hasMultipleOptions: PropTypes.bool,
 };
 

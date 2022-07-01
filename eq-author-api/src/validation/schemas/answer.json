@@ -7,7 +7,7 @@
         "properties": {
           "type": {
             "not": {
-              "enum": ["Checkbox", "Radio", "MutuallyExclusiveOption"]
+              "enum": ["Checkbox", "Radio", "MutuallyExclusive"]
             }
           }
         }
@@ -56,7 +56,7 @@
       "if": {
         "properties": {
           "type": {
-            "const": "MutuallyExclusiveOption"
+            "const": "MutuallyExclusive"
           }
         }
       },

@@ -18,7 +18,7 @@ import {
   DATE_RANGE,
   UNIT,
   DURATION,
-  MUTUALLY_EXCLUSIVE_OPTION,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
@@ -107,7 +107,7 @@ class AnswerEditor extends React.Component {
         <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
       );
     }
-    if (type === MUTUALLY_EXCLUSIVE_OPTION) {
+    if (type === MUTUALLY_EXCLUSIVE) {
       return <MutuallyExclusive type={type} {...this.props} />;
     }
     if (type === DATE_RANGE) {
@@ -146,7 +146,7 @@ class AnswerEditor extends React.Component {
         </>
       );
     }
-    if (answer.type === MUTUALLY_EXCLUSIVE_OPTION) {
+    if (answer.type === MUTUALLY_EXCLUSIVE) {
       return "OR";
     }
     return answer.type;
@@ -174,11 +174,11 @@ class AnswerEditor extends React.Component {
                   color="white"
                   disabled={
                     !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
                   }
                   tabIndex={
                     !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
                       ? -1
                       : undefined
                   }
@@ -198,11 +198,11 @@ class AnswerEditor extends React.Component {
                   color="white"
                   disabled={
                     !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
                   }
                   tabIndex={
                     !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE_OPTION
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
                       ? -1
                       : undefined
                   }

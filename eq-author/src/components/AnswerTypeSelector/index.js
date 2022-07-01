@@ -7,7 +7,7 @@ import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ValidationError from "components/ValidationError";
 import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
-import { RADIO, MUTUALLY_EXCLUSIVE_OPTION } from "constants/answer-types";
+import { RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
 import answersHaveAnswerType from "utils/answersHaveAnswerType";
 
@@ -57,7 +57,7 @@ const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
     answers.length === 0 ||
     !answers ||
     hasRadioAnswer ||
-    answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE_OPTION)
+    answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE)
   ) {
     allowMutuallyExclusive = false;
   } else {
@@ -117,12 +117,7 @@ class AnswerTypeSelector extends React.Component {
       if (answersHaveAnswerType(this.props.page.answers, RADIO)) {
         hasRadioAnswer = true;
       }
-      if (
-        answersHaveAnswerType(
-          this.props.page.answers,
-          MUTUALLY_EXCLUSIVE_OPTION
-        )
-      ) {
+      if (answersHaveAnswerType(this.props.page.answers, MUTUALLY_EXCLUSIVE)) {
         hasMutuallyExclusiveAnswer = true;
       }
     }

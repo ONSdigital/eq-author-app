@@ -9,7 +9,7 @@ const TEXTFIELD = "TextField";
 const RADIO = "Radio";
 const CHECKBOX = "Checkbox";
 const DURATION = "Duration";
-const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
+const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
 
 const BASIC_ANSWERS = [NUMBER, CURRENCY, UNIT, DURATION, TEXTAREA, TEXTFIELD];
 const NON_RADIO_ANSWERS = [
@@ -18,7 +18,7 @@ const NON_RADIO_ANSWERS = [
   DATE,
   DATE_RANGE,
   CHECKBOX,
-  MUTUALLY_EXCLUSIVE_OPTION,
+  MUTUALLY_EXCLUSIVE,
 ];
 
 module.exports = {
@@ -34,6 +34,6 @@ module.exports = {
   RADIO,
   CHECKBOX,
   BASIC_ANSWERS,
-  MUTUALLY_EXCLUSIVE_OPTION,
+  MUTUALLY_EXCLUSIVE,
   NON_RADIO_ANSWERS,
 };

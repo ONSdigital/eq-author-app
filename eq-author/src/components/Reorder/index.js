@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import getIdForObject from "utils/getIdForObject";
 import answersHaveAnswerType from "utils/answersHaveAnswerType";
-import { MUTUALLY_EXCLUSIVE_OPTION } from "constants/answer-types";
+import { MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
 const MOVE_DURATION = 400;
 const UP = "UP";
@@ -72,7 +72,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
 
   const hasMutuallyExclusiveAnswer = answersHaveAnswerType(
     list,
-    MUTUALLY_EXCLUSIVE_OPTION
+    MUTUALLY_EXCLUSIVE
   );
 
   useEffect(

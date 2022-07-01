@@ -1,3 +1,5 @@
+import { enableOn } from "utils/featureFlags";
+
 export const CHECKBOX = "Checkbox";
 export const RADIO = "Radio";
 export const TEXTFIELD = "TextField";
@@ -21,7 +23,9 @@ export const ROUTING_ANSWER_TYPES = [
 
 export const RADIO_OPTION = "RadioOption";
 export const CHECKBOX_OPTION = "CheckboxOption";
-export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
+export const MUTUALLY_EXCLUSIVE = enableOn(["mutuallyExclusiveAnswer"])
+  ? "MutuallyExclusive"
+  : "MutuallyExclusiveOption";
 
 export default [
   CHECKBOX,

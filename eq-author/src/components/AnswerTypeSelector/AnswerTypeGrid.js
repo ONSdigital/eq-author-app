@@ -19,7 +19,7 @@ import {
   TEXTFIELD,
   RADIO,
   CHECKBOX,
-  MUTUALLY_EXCLUSIVE_OPTION,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -62,7 +62,7 @@ export const buttons = enableOn(["mutuallyExclusiveAnswer"])
       { type: TEXTFIELD, title: "Text" },
       { type: RADIO, title: "Radio" },
       { type: CHECKBOX, title: "Checkbox" },
-      { type: MUTUALLY_EXCLUSIVE_OPTION, title: "OR answer" },
+      { type: MUTUALLY_EXCLUSIVE, title: "OR answer" },
     ]
   : [
       { type: NUMBER, title: "Number" },

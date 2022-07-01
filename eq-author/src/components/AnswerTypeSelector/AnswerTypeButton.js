@@ -31,7 +31,7 @@ export const icons = {
   [AnswerTypes.TEXTAREA]: textareaIcon,
   [AnswerTypes.RADIO]: radioIcon,
   [AnswerTypes.CHECKBOX]: checkboxIcon,
-  [AnswerTypes.MUTUALLY_EXCLUSIVE_OPTION]: mutuallyExclusiveIcon,
+  [AnswerTypes.MUTUALLY_EXCLUSIVE]: mutuallyExclusiveIcon,
 };
 
 export default class AnswerTypeButton extends React.Component {

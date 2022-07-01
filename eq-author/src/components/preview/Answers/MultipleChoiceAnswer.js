@@ -2,11 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";
 
-import {
-  CHECKBOX,
-  RADIO,
-  MUTUALLY_EXCLUSIVE_OPTION,
-} from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import { Field } from "./elements";
 import { colors } from "constants/theme";
 
@@ -41,8 +37,7 @@ export const Input = styled.input`
 
   ${(props) =>
     (props.type === RADIO ||
-      (props.type === MUTUALLY_EXCLUSIVE_OPTION &&
-        props.answerOptions.length > 1)) &&
+      (props.type === MUTUALLY_EXCLUSIVE && props.answerOptions.length > 1)) &&
     radioInput};
   ${(props) => props.error && inputWithError};
 `;
@@ -161,7 +156,7 @@ const MultipleChoiceAnswer = ({ answer }) => {
     <Field>
       <Legend>
         {answer.options[0].mutuallyExclusive ||
-        answer.type === MUTUALLY_EXCLUSIVE_OPTION
+        answer.type === MUTUALLY_EXCLUSIVE
           ? "Or"
           : answer.label}
       </Legend>
