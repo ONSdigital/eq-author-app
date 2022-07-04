@@ -5,6 +5,11 @@ exports[`MultipleChoiceAnswer Option should render answer when it has one 1`] = 
   error={true}
 >
   <MultipleChoiceAnswer__Input
+    answer={
+      Object {
+        "id": "1",
+      }
+    }
     error={true}
     type="Checkbox"
   />
@@ -195,6 +200,13 @@ exports[`MultipleChoiceAnswer should render checkboxes 1`] = `
     Foo
   </MultipleChoiceAnswer__Legend>
   <Option
+    answerOptions={
+      Array [
+        Object {
+          "id": "1",
+        },
+      ]
+    }
     key="1"
     option={
       Object {
@@ -212,6 +224,13 @@ exports[`MultipleChoiceAnswer should render mutually exclusive when it has one 1
     Foo
   </MultipleChoiceAnswer__Legend>
   <Option
+    answerOptions={
+      Array [
+        Object {
+          "id": "1",
+        },
+      ]
+    }
     key="1"
     option={
       Object {
@@ -242,6 +261,20 @@ exports[`MultipleChoiceAnswer should render other when it has one 1`] = `
     Foo
   </MultipleChoiceAnswer__Legend>
   <Option
+    answerOptions={
+      Array [
+        Object {
+          "id": "1",
+        },
+        Object {
+          "additionalAnswer": Object {
+            "id": 2,
+            "type": "TextField",
+          },
+          "id": "2",
+        },
+      ]
+    }
     key="1"
     option={
       Object {
@@ -256,6 +289,20 @@ exports[`MultipleChoiceAnswer should render other when it has one 1`] = `
         "id": 2,
         "type": "TextField",
       }
+    }
+    answerOptions={
+      Array [
+        Object {
+          "id": "1",
+        },
+        Object {
+          "additionalAnswer": Object {
+            "id": 2,
+            "type": "TextField",
+          },
+          "id": "2",
+        },
+      ]
     }
     key="2"
     option={
@@ -278,6 +325,13 @@ exports[`MultipleChoiceAnswer should render radio 1`] = `
     Foo
   </MultipleChoiceAnswer__Legend>
   <Option
+    answerOptions={
+      Array [
+        Object {
+          "id": "1",
+        },
+      ]
+    }
     key="1"
     option={
       Object {
