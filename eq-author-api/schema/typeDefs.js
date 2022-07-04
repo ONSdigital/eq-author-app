@@ -966,8 +966,8 @@ input CreateListCollectorPageInput {
   folderId: ID!
   listId: ID
   drivingQuestion: String
-  drivingPositive: String!
-  drivingNegative: String!
+  drivingPositive: String
+  drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   anotherTitle: String
