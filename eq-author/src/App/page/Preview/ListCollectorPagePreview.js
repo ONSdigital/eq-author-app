@@ -197,13 +197,13 @@ const ListCollectorPagePreview = ({ page }) => {
     >
       <Panel>
         <Container>
-          {drivingQuestion ? (
-            <PageTitle title={drivingQuestion} />
-          ) : (
-            <Error large>Missing driving question</Error>
-          )}
-
           <CollectorInfoTop>
+            {drivingQuestion ? (
+              <PageTitle title={drivingQuestion} />
+            ) : (
+              <Error large>Missing driving question</Error>
+            )}
+
             <div data-test="drivingPositive">
               {drivingPositive ? (
                 <OptionItem>
@@ -253,7 +253,12 @@ const ListCollectorPagePreview = ({ page }) => {
                 />
               )}
             </div>
-
+          </CollectorInfoTop>
+        </Container>
+      </Panel>
+      <Panel>
+        <Container>
+          <CollectorInfoTop>
             {anotherTitle ? (
               <PageTitle title={anotherTitle} />
             ) : (
