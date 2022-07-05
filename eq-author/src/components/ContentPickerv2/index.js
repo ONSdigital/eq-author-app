@@ -103,10 +103,6 @@ const ContentPicker = ({
     ? updateSelectedItemsMultiple
     : updateSelectedItemsSingle;
 
-  // const handlePipingCalc = (pageType) => {
-  //  return pageType === "QuestionPage" ? "CalculatedSummaryPage" : "variable"
-  // }
-
   const renderPicker = () => {
     switch (contentType) {
       case METADATA:
