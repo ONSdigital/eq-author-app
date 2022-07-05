@@ -188,7 +188,6 @@ const ListCollectorPagePreview = ({ page }) => {
   return (
     <EditorLayout
       preview
-      logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
       renderPanel={() => (
@@ -205,23 +204,6 @@ const ListCollectorPagePreview = ({ page }) => {
           )}
 
           <CollectorInfoTop>
-            <div data-test="list-display-name">
-              <ListDisplayName>{selectedList.displayName}</ListDisplayName>
-            </div>
-
-            {drivingQuestion ? (
-              <Summary>
-                {answers.map((answer) => (
-                  <span key={answer.id} value={answer.id}>
-                    {answer.displayName}
-                  </span>
-                ))}
-                <a href="#">Remove</a>
-                <a href="#">Change</a>
-              </Summary>
-            ) : (
-              <Summary>Missing Answers</Summary>
-            )}
             <div data-test="drivingPositive">
               {drivingPositive ? (
                 <OptionItem>
