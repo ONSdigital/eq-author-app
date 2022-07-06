@@ -14,9 +14,7 @@ import BasicAnswer from "../BasicAnswer";
 
 import Button from "components/buttons/Button";
 
-// TODO: Fix error message
-// import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { flowRight /*, lowerCase */ } from "lodash";
+import { flowRight } from "lodash";
 import { colors } from "constants/theme";
 import { TEXTFIELD } from "constants/answer-types";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -70,9 +68,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
-
-  // TODO: Fix error message
-  // const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   const handleOptionDelete = (optionId) => {
     onDeleteOption(optionId, answer.id);
