@@ -36,6 +36,7 @@ import {
   RADIO_OPTION,
   CHECKBOX_OPTION,
   MUTUALLY_EXCLUSIVE,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
@@ -75,7 +76,8 @@ const QcodeValidationError = styled(ValidationError)`
 const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
   [CHECKBOX_OPTION]: "Checkbox option",
-  [MUTUALLY_EXCLUSIVE]: "Mutually exclusive checkbox",
+  [MUTUALLY_EXCLUSIVE_OPTION]: "Mutually exclusive option",
+  [MUTUALLY_EXCLUSIVE]: "Mutually exclusive",
   [CHECKBOX]: "Checkbox",
   [RADIO]: "Radio",
   [TEXTFIELD]: "Text field",

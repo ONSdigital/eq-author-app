@@ -26,6 +26,7 @@ export const CHECKBOX_OPTION = "CheckboxOption";
 export const MUTUALLY_EXCLUSIVE = enableOn(["mutuallyExclusiveAnswer"])
   ? "MutuallyExclusive"
   : "MutuallyExclusiveOption";
+export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
 
 export default [
   CHECKBOX,
