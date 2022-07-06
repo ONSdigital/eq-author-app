@@ -30,7 +30,6 @@ import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/page/Design/answers/DateRange";
 import DateSingle from "App/page/Design/answers/DateSingle";
 import BasicAnswer from "App/page/Design/answers/BasicAnswer";
-import MutuallyExclusive from "App/page/Design/answers/MutuallyExclusive";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -108,7 +107,7 @@ class AnswerEditor extends React.Component {
       );
     }
     if (type === MUTUALLY_EXCLUSIVE) {
-      return <MutuallyExclusive type={type} {...this.props} />;
+      return <MultipleChoiceAnswer type={type} {...this.props} />;
     }
     if (type === DATE_RANGE) {
       return <DateRange {...this.props} />;

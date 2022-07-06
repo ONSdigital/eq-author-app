@@ -16,11 +16,16 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
-import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
+import {
+  TEXTFIELD,
+  CHECKBOX,
+  MUTUALLY_EXCLUSIVE,
+} from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import Button from "components/buttons/Button";
 import { enableOn } from "utils/featureFlags";
 
 import gql from "graphql-tag";
@@ -57,6 +62,11 @@ const SpecialOptionWrapper = styled.div`
 `;
 
 const StyledSplitButton = styled(SplitButton)`
+  margin-bottom: 1em;
+`;
+
+const AddOptionButton = styled(Button)`
+  width: 100%;
   margin-bottom: 1em;
 `;
 
@@ -160,6 +170,10 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 hasDeleteButton={showDeleteOption}
                 hideMoveButtons={numberOfOptions === 1}
                 answer={answer}
+                hasMultipleOptions={
+                  answer.type === MUTUALLY_EXCLUSIVE &&
+                  answer.options.length > 1
+                }
               />
             )}
           </Reorder>
@@ -183,34 +197,44 @@ export const UnwrappedMultipleChoiceAnswer = ({
         </TransitionGroup>
 
         <div>
-          <StyledSplitButton
-            onPrimaryAction={handleAddOption}
-            primaryText={
-              answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-            }
-            onToggleOpen={(setopen) => setOpen(setopen)}
-            open={open}
-            dataTest="btn-add-option"
-          >
-            <Dropdown>
-              <MenuItem
-                onClick={handleAddOther}
-                data-test="btn-add-option-other"
-              >
-                Add &ldquo;Other&rdquo; option
-              </MenuItem>
-              {answer.type === CHECKBOX &&
-                !enableOn(["mutuallyExclusiveAnswer"]) && (
-                  <MenuItem
-                    onClick={handleAddExclusive}
-                    disabled={answer.mutuallyExclusiveOption !== null}
-                    data-test="btn-add-mutually-exclusive-option"
-                  >
-                    Add an &ldquo;Or&rdquo; option
-                  </MenuItem>
-                )}
-            </Dropdown>
-          </StyledSplitButton>
+          {answer.type !== MUTUALLY_EXCLUSIVE ? (
+            <StyledSplitButton
+              onPrimaryAction={handleAddOption}
+              primaryText={
+                answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
+              }
+              onToggleOpen={(setopen) => setOpen(setopen)}
+              open={open}
+              dataTest="btn-add-option"
+            >
+              <Dropdown>
+                <MenuItem
+                  onClick={handleAddOther}
+                  data-test="btn-add-option-other"
+                >
+                  Add &ldquo;Other&rdquo; option
+                </MenuItem>
+                {answer.type === CHECKBOX &&
+                  !enableOn(["mutuallyExclusiveAnswer"]) && (
+                    <MenuItem
+                      onClick={handleAddExclusive}
+                      disabled={answer.mutuallyExclusiveOption !== null}
+                      data-test="btn-add-mutually-exclusive-option"
+                    >
+                      Add an &ldquo;Or&rdquo; option
+                    </MenuItem>
+                  )}
+              </Dropdown>
+            </StyledSplitButton>
+          ) : (
+            <AddOptionButton
+              onClick={handleAddOption}
+              variant="secondary"
+              dataTest="btn-add-option"
+            >
+              Add another option
+            </AddOptionButton>
+          )}
         </div>
       </AnswerWrapper>
     </>
