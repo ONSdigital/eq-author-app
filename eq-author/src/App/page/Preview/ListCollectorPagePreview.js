@@ -169,7 +169,7 @@ const ListCollectorPagePreview = ({ page }) => {
 
   if (loading) {
     return (
-      <EditorLayout preview title={page.displayName}>
+      <EditorLayout>
         <Loading height="100%">Questionnaire lists loading…</Loading>
       </EditorLayout>
     );
