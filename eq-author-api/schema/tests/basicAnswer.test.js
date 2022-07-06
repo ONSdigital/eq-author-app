@@ -17,6 +17,7 @@ const {
   CURRENCY,
   TEXTFIELD,
   DURATION,
+  MUTUALLY_EXCLUSIVE,
 } = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
@@ -436,6 +437,44 @@ describe("basic answer", () => {
       const answer = questionnaire.sections[0].folders[0].pages[0].answers[0];
       const page = await deleteAnswer(ctx, answer.id);
       expect(page.id).toEqual(questionnaire.sections[0].folders[0].pages[0].id);
+    });
+  });
+
+  describe("mutuallyExclusive", () => {
+    it("should add new answers before mutually exclusive answer", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: NUMBER,
+                      },
+                      {
+                        type: MUTUALLY_EXCLUSIVE,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      questionnaire = ctx.questionnaire;
+      const questionPage = questionnaire.sections[0].folders[0].pages[0];
+      await createAnswer(ctx, {
+        type: NUMBER,
+        questionPageId: questionPage.id,
+      });
+
+      expect(questionPage.answers.length).toEqual(3);
+      expect(questionPage.answers[1].type).toBe(NUMBER);
+      expect(questionPage.answers[2].type).toBe(MUTUALLY_EXCLUSIVE);
     });
   });
 });
