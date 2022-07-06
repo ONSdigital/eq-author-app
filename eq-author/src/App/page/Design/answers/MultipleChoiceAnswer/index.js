@@ -16,6 +16,8 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
+import { enableOn } from "utils/featureFlags";
+
 import {
   TEXTFIELD,
   CHECKBOX,
@@ -26,11 +28,11 @@ import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import Button from "components/buttons/Button";
-import { enableOn } from "utils/featureFlags";
+import Reorder from "components/Reorder";
+import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
 
-import Reorder from "components/Reorder";
 import withMoveOption from "../withMoveOption";
 
 const AnswerWrapper = styled.div`
@@ -67,8 +69,11 @@ const StyledSplitButton = styled(SplitButton)`
 
 const AddOptionButton = styled(Button)`
   width: 100%;
+  margin-top: 1em;
   margin-bottom: 1em;
 `;
+
+const CollapsibleContent = styled.p``;
 
 export const UnwrappedMultipleChoiceAnswer = ({
   answer,
@@ -195,7 +200,17 @@ export const UnwrappedMultipleChoiceAnswer = ({
             </OptionTransition>
           )}
         </TransitionGroup>
-
+        {type === MUTUALLY_EXCLUSIVE && (
+          <Collapsible title="What is an OR answer?">
+            <CollapsibleContent>
+              The OR answer type is a mutually exclusive answer. When selected,
+              any preceding answers given on the page will be cleared. It will
+              appear as a checkbox answer to the respondent unless there is more
+              than one OR option, in which case it will display as a Radio
+              answer.
+            </CollapsibleContent>
+          </Collapsible>
+        )}
         <div>
           {answer.type !== MUTUALLY_EXCLUSIVE ? (
             <StyledSplitButton
