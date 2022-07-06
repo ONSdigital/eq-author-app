@@ -168,7 +168,19 @@ const ListCollectorPagePreview = ({ page }) => {
   });
 
   if (loading) {
-    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+    return (
+      <EditorLayout
+        preview
+        title={page.displayName}
+        validationErrorInfo={page.validationErrorInfo}
+        renderPanel={() => (
+          <CommentsPanel comments={page.comments} componentId={page.id} />
+        )}
+        comments={comments}
+      >
+        <Loading height="100%">Questionnaire lists loading…</Loading>
+      </EditorLayout>
+    );
   }
 
   let lists = [];
