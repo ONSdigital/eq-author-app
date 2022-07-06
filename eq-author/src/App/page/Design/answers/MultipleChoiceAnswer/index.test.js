@@ -2,7 +2,7 @@ import React from "react";
 
 import { UnwrappedMultipleChoiceAnswer } from "./";
 import { render } from "enzyme";
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import createMockStore from "tests/utils/createMockStore";
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
@@ -79,6 +79,12 @@ describe("radio", () => {
   it("should render a checkbox", () => {
     props.answer.type = CHECKBOX;
     props.type = CHECKBOX;
+    expect(createMultipleChoice(props)).toMatchSnapshot();
+  });
+
+  it("should render a mutually exclusive", () => {
+    props.answer.type = MUTUALLY_EXCLUSIVE;
+    props.type = MUTUALLY_EXCLUSIVE;
     expect(createMultipleChoice(props)).toMatchSnapshot();
   });
 });
