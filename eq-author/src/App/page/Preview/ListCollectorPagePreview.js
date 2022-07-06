@@ -169,15 +169,7 @@ const ListCollectorPagePreview = ({ page }) => {
 
   if (loading) {
     return (
-      <EditorLayout
-        preview
-        title={page.displayName}
-        validationErrorInfo={page.validationErrorInfo}
-        renderPanel={() => (
-          <CommentsPanel comments={page.comments} componentId={page.id} />
-        )}
-        comments={comments}
-      >
+      <EditorLayout preview title={page.displayName}>
         <Loading height="100%">Questionnaire lists loading…</Loading>
       </EditorLayout>
     );
