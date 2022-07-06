@@ -104,12 +104,6 @@ const Answers = styled.div`
   margin-bottom: 1em;
 `;
 
-const ListDisplayName = styled.div`
-  margin-bottom: 1em;
-  font-size: 1.4em;
-  font-weight: bold;
-`;
-
 const Summary = styled.div`
   padding-bottom: 1em;
   border-bottom: 1px solid ${colors.lightGrey};
