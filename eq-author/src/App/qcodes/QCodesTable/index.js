@@ -77,8 +77,7 @@ const QcodeValidationError = styled(ValidationError)`
 const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
   [CHECKBOX_OPTION]: "Checkbox option",
-  [MUTUALLY_EXCLUSIVE_OPTION]:
-    enableOn(["mutuallyExclusiveAnswer"]) && "Mutually exclusive option",
+  [MUTUALLY_EXCLUSIVE_OPTION]: "Mutually exclusive option",
   [MUTUALLY_EXCLUSIVE]: enableOn(["mutuallyExclusiveAnswer"])
     ? "Mutually exclusive"
     : "Mutually exclusive checkbox",
