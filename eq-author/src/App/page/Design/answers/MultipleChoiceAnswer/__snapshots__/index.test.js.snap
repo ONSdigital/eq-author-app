@@ -862,105 +862,7 @@ Array [
 `;
 
 exports[`radio should render a mutually exclusive 1`] = `
-Array [
-  .c1 {
-  display: block;
-  margin-bottom: 0.4em;
-  font-weight: bold;
-  vertical-align: middle;
-  color: #222222;
-  line-height: 1.3;
-}
-
-.c0 {
-  display: block;
-  margin-bottom: 1em;
-  position: relative;
-}
-
-.c2 {
-  font-weight: bold;
-}
-
-.c3 {
-  font-size: 1em;
-  border: thin solid #999999;
-  padding: 0.5em;
-  color: #222222;
-  display: block;
-  width: 100%;
-  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
-  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
-  outline: thin solid transparent;
-  font-weight: inherit;
-  border-radius: 4px;
-  resize: none;
-  overflow: hidden;
-}
-
-.c3:hover {
-  border-color: #3B7A9E;
-  box-shadow: 0 0 0 1pt #3B7A9E;
-}
-
-.c3:focus,
-.c3:focus-within {
-  border-color: transparent;
-  outline: 3px solid #FDBD56;
-  box-shadow: 0 0 0 3px #FDBD56;
-}
-
-.c3::-webkit-input-placeholder {
-  color: #a3a3a3;
-}
-
-.c3::-moz-placeholder {
-  color: #a3a3a3;
-}
-
-.c3:-ms-input-placeholder {
-  color: #a3a3a3;
-}
-
-.c3::placeholder {
-  color: #a3a3a3;
-}
-
-.c3:focus {
-  outline: none;
-  border-style: solid;
-  border-color: #3B7A9E;
-}
-
-.c3[disabled] {
-  opacity: 0.8;
-  pointer-events: none;
-}
-
-<div
-    class="c0"
-  >
-    <label
-      class="c1"
-      for="answer-label-ansID1"
-    >
-      Label (optional)
-    </label>
-    <div
-      class="c2"
-    >
-      <textarea
-        aria-invalid="false"
-        class="c3"
-        data-autofocus="true"
-        data-test="txt-answer-label"
-        id="answer-label-ansID1"
-        name="label"
-        placeholder=""
-      />
-    </div>
-  </div>,
-  .c10 {
+.c10 {
   display: block;
   margin-bottom: 0.4em;
   font-weight: bold;
@@ -1351,132 +1253,131 @@ Array [
 }
 
 <div
-    class="c0"
+  class="c0"
+>
+  <div
+    class="c1"
+    data-test="multiple-choice-options"
   >
-    <div
-      class="c1"
-      data-test="multiple-choice-options"
-    >
-      <div>
+    <div>
+      <div
+        class="c2 c3"
+      >
         <div
-          class="c2 c3"
+          class="c4"
         >
-          <div
-            class="c4"
-          >
-            <div>
+          <div>
+            <div
+              class="c5"
+            />
+            <div
+              class="c6"
+            >
               <div
-                class="c5"
+                class="c7"
+                data-test="dummy-multiple-choice"
+                type="MutuallyExclusiveOption"
               />
-              <div
-                class="c6"
-              >
-                <div
-                  class="c7"
-                  data-test="dummy-multiple-choice"
-                  type="MutuallyExclusiveOption"
-                />
-                <div
-                  class="c8 c9"
-                >
-                  <label
-                    class="c10"
-                    for="option-label-1"
-                  >
-                    Label
-                  </label>
-                  <div
-                    class="c11"
-                  >
-                    <textarea
-                      aria-invalid="false"
-                      class="c12"
-                      data-autofocus="true"
-                      data-test="option-label"
-                      id="option-label-1"
-                      invalid=""
-                      name="label"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-              </div>
               <div
                 class="c8 c9"
               >
                 <label
                   class="c10"
-                  for="option-description-1"
+                  for="option-label-1"
                 >
-                  Description (optional)
+                  Label
                 </label>
                 <div
-                  class="c13"
+                  class="c11"
                 >
                   <textarea
                     aria-invalid="false"
                     class="c12"
-                    data-test="option-description"
-                    id="option-description-1"
-                    name="description"
+                    data-autofocus="true"
+                    data-test="option-label"
+                    id="option-label-1"
+                    invalid=""
+                    name="label"
+                    placeholder=""
                   />
                 </div>
+              </div>
+            </div>
+            <div
+              class="c8 c9"
+            >
+              <label
+                class="c10"
+                for="option-description-1"
+              >
+                Description (optional)
+              </label>
+              <div
+                class="c13"
+              >
+                <textarea
+                  aria-invalid="false"
+                  class="c12"
+                  data-test="option-description"
+                  id="option-description-1"
+                  name="description"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="c14"
+    data-test="collapsible"
+  >
     <div
-      class="c14"
-      data-test="collapsible"
+      class="c15 collapsible-header"
+      data-test="collapsible-header"
     >
-      <div
-        class="c15 collapsible-header"
-        data-test="collapsible-header"
+      <h2
+        class="c16 collapsible-title"
+        data-test="collapsible-title"
       >
-        <h2
-          class="c16 collapsible-title"
-          data-test="collapsible-title"
-        >
-          <button
-            aria-controls="collapsible-body"
-            class="c17 collapsible-toggle-Collapsible-Button"
-            data-test="collapsible-toggle-button"
-          >
-            What is an OR answer?
-          </button>
-        </h2>
-      </div>
-      <div
-        aria-hidden="true"
-        class="c18 collapsible-body"
-        data-test="collapsible-body"
-      >
-        <p
-          class=""
-        >
-          The OR answer type is a mutually exclusive answer. When selected, any preceding answers given on the page will be cleared. It will appear as a checkbox answer to the respondent unless there is more than one OR option, in which case it will display as a Radio answer.
-        </p>
         <button
-          class="c19"
-          data-test="collapsible-hide-button"
-          type="button"
+          aria-controls="collapsible-body"
+          class="c17 collapsible-toggle-Collapsible-Button"
+          data-test="collapsible-toggle-button"
         >
-          Hide this
+          What is an OR answer?
         </button>
-      </div>
+      </h2>
     </div>
-    <div>
+    <div
+      aria-hidden="true"
+      class="c18 collapsible-body"
+      data-test="collapsible-body"
+    >
+      <p
+        class=""
+      >
+        The OR answer type is a mutually exclusive answer. When selected, any preceding answers given on the page will be cleared. It will appear as a checkbox answer to the respondent unless there is more than one OR option, in which case it will display as a Radio answer.
+      </p>
       <button
-        class="c20"
+        class="c19"
+        data-test="collapsible-hide-button"
         type="button"
       >
-        Add another option
+        Hide this
       </button>
     </div>
-  </div>,
-]
+  </div>
+  <div>
+    <button
+      class="c20"
+      type="button"
+    >
+      Add another option
+    </button>
+  </div>
+</div>
 `;
 
 exports[`radio should render a radio 1`] = `
