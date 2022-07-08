@@ -54,8 +54,6 @@ describe("convertMutuallyExclusiveOptions", () => {
   });
 
   it("should convert mutually exclusive to mutually exclusive answer type with correct data when feature flag is set", () => {
-    process.env.FEATURE_FLAGS = "mutuallyExclusiveAnswer";
-
     const updatedQuestionnaire = convertMutuallyExclusiveOptions(questionnaire);
     const updatedQuestionnaireAnswers =
       updatedQuestionnaire.sections[0].folders[0].pages[0].answers;

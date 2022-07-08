@@ -10,7 +10,6 @@ import { MISSING_LABEL } from "constants/validationMessages";
 import { CHECKBOX } from "constants/answer-types";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import WrappingInput from "components/Forms/WrappingInput";
-import { enableOn } from "utils/featureFlags";
 
 const ToggleWrapper = styled.div`
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
@@ -74,24 +73,22 @@ const MutuallyExclusive = ({
 
   return (
     <>
-      {!enableOn(["mutuallyExclusiveAnswer"]) && (
-        <ToggleWrapper data-test="toggle-wrapper" disabled={disabled}>
-          <InlineField
+      <ToggleWrapper data-test="toggle-wrapper" disabled={disabled}>
+        <InlineField
+          id="toggle-or-option"
+          htmlFor="toggle-or-option"
+          label={`"Or" option`}
+        >
+          <ToggleSwitch
             id="toggle-or-option"
-            htmlFor="toggle-or-option"
-            label={`"Or" option`}
-          >
-            <ToggleSwitch
-              id="toggle-or-option"
-              name="toggle-or-option"
-              hideLabels={false}
-              onChange={onChangeToggle}
-              checked={Boolean(answer.options)}
-              data-test="toggle-or-option"
-            />
-          </InlineField>
-        </ToggleWrapper>
-      )}
+            name="toggle-or-option"
+            hideLabels={false}
+            onChange={onChangeToggle}
+            checked={Boolean(answer.options)}
+            data-test="toggle-or-option"
+          />
+        </InlineField>
+      </ToggleWrapper>
       {answer.options && (
         <StyledOption>
           <Flex>

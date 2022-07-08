@@ -16,7 +16,6 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
-import { enableOn } from "utils/featureFlags";
 
 import {
   TEXTFIELD,
@@ -89,7 +88,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
   type,
   onDeleteOption,
   onAddOption,
-  onAddExclusive,
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
@@ -109,12 +107,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
     e.preventDefault();
     e.stopPropagation();
     onAddOption(answer.id, { hasAdditionalAnswer: false }).then(focusOnEntity);
-  };
-
-  const handleAddExclusive = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onAddExclusive(answer.id).then(focusOnEntity);
   };
 
   const handleAddOther = (e) => {
@@ -231,16 +223,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 >
                   Add &ldquo;Other&rdquo; option
                 </MenuItem>
-                {answer.type === CHECKBOX &&
-                  !enableOn(["mutuallyExclusiveAnswer"]) && (
-                    <MenuItem
-                      onClick={handleAddExclusive}
-                      disabled={answer.mutuallyExclusiveOption !== null}
-                      data-test="btn-add-mutually-exclusive-option"
-                    >
-                      Add an &ldquo;Or&rdquo; option
-                    </MenuItem>
-                  )}
               </Dropdown>
             </StyledSplitButton>
           ) : (

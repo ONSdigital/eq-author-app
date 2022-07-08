@@ -1276,7 +1276,7 @@ exports[`radio should render a mutually exclusive 1`] = `
               <div
                 class="c7"
                 data-test="dummy-multiple-choice"
-                type="MutuallyExclusiveOption"
+                type="MutuallyExclusive"
               />
               <div
                 class="c8 c9"

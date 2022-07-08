@@ -1,5 +1,4 @@
 import React, { useState, useCallback, memo } from "react";
-import { enableOn } from "utils/featureFlags";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
@@ -78,9 +77,7 @@ const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
   [CHECKBOX_OPTION]: "Checkbox option",
   [MUTUALLY_EXCLUSIVE_OPTION]: "Mutually exclusive option",
-  [MUTUALLY_EXCLUSIVE]: enableOn(["mutuallyExclusiveAnswer"])
-    ? "Mutually exclusive"
-    : "Mutually exclusive checkbox",
+  [MUTUALLY_EXCLUSIVE]: "Mutually exclusive",
   [CHECKBOX]: "Checkbox",
   [RADIO]: "Radio",
   [TEXTFIELD]: "Text field",

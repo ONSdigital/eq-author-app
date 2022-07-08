@@ -5,8 +5,6 @@ import { radius } from "constants/theme";
 import { IconGrid } from "components/IconGrid";
 import AnswerTypeButton from "./AnswerTypeButton";
 
-import { enableOn } from "utils/featureFlags";
-
 import {
   NUMBER,
   CURRENCY,
@@ -48,35 +46,20 @@ const MenuBackground = styled.div`
   border-radius: ${radius};
 `;
 
-// GCP includes different answer type options to AWS
-export const buttons = enableOn(["mutuallyExclusiveAnswer"])
-  ? [
-      { type: NUMBER, title: "Number" },
-      { type: CURRENCY, title: "Currency" },
-      { type: UNIT, title: "Unit" },
-      { type: PERCENTAGE, title: "Percentage" },
-      { type: DURATION, title: "Duration" },
-      { type: DATE, title: "Date" },
-      { type: DATE_RANGE, title: "Date range" },
-      { type: TEXTAREA, title: "Textarea" },
-      { type: TEXTFIELD, title: "Text" },
-      { type: RADIO, title: "Radio" },
-      { type: CHECKBOX, title: "Checkbox" },
-      { type: MUTUALLY_EXCLUSIVE, title: "OR answer" },
-    ]
-  : [
-      { type: NUMBER, title: "Number" },
-      { type: CURRENCY, title: "Currency" },
-      { type: UNIT, title: "Unit" },
-      { type: PERCENTAGE, title: "Percentage" },
-      { type: DURATION, title: "Duration" },
-      { type: DATE, title: "Date" },
-      { type: DATE_RANGE, title: "Date range" },
-      { type: TEXTAREA, title: "Textarea" },
-      { type: TEXTFIELD, title: "Text" },
-      { type: RADIO, title: "Radio" },
-      { type: CHECKBOX, title: "Checkbox" },
-    ];
+export const buttons = [
+  { type: NUMBER, title: "Number" },
+  { type: CURRENCY, title: "Currency" },
+  { type: UNIT, title: "Unit" },
+  { type: PERCENTAGE, title: "Percentage" },
+  { type: DURATION, title: "Duration" },
+  { type: DATE, title: "Date" },
+  { type: DATE_RANGE, title: "Date range" },
+  { type: TEXTAREA, title: "Textarea" },
+  { type: TEXTFIELD, title: "Text" },
+  { type: RADIO, title: "Radio" },
+  { type: CHECKBOX, title: "Checkbox" },
+  { type: MUTUALLY_EXCLUSIVE, title: "OR answer" },
+];
 
 class AnswerTypeGrid extends React.Component {
   static propTypes = {
