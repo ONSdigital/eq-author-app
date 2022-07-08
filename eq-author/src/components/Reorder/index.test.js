@@ -3,6 +3,7 @@ import { shallow, mount } from "enzyme";
 import { act } from "react-dom/test-utils";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from "styled-components";
+import { MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
 import TestProvider from "tests/utils/TestProvider";
 
@@ -51,6 +52,14 @@ describe("Reorder", () => {
   });
 
   it("should not be able to moved down if its the last in the list", () => {
+    shallow(<Reorder {...props} />);
+    const itemProps = props.children.mock.calls[1][0];
+    expect(itemProps.canMoveDown).toEqual(false);
+    expect(itemProps.canMoveUp).toEqual(true);
+  });
+
+  it("should not be able to moved down if it is the penultimate item in the list and list has mutually exclusive answer", () => {
+    props.list[2] = { id: "3", type: MUTUALLY_EXCLUSIVE };
     shallow(<Reorder {...props} />);
     const itemProps = props.children.mock.calls[1][0];
     expect(itemProps.canMoveDown).toEqual(false);
