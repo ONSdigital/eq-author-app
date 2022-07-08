@@ -281,6 +281,7 @@ export const IntroductionEditor = ({
                   id,
                   ...introduction,
                   additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
+                  additionalGuidancePanel: "",
                 })
               }
               checked={additionalGuidancePanelSwitch}
