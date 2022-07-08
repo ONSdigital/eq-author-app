@@ -104,12 +104,6 @@ const Answers = styled.div`
   margin-bottom: 1em;
 `;
 
-const ListDisplayName = styled.div`
-  margin-bottom: 1em;
-  font-size: 1.4em;
-  font-weight: bold;
-`;
-
 const Summary = styled.div`
   padding-bottom: 1em;
   border-bottom: 1px solid ${colors.lightGrey};
@@ -149,6 +143,11 @@ export const DetailsContent = styled.div`
 
 const ListCollectorPagePreview = ({ page }) => {
   const {
+    drivingQuestion,
+    drivingPositive,
+    drivingNegative,
+    drivingPositiveDescription,
+    drivingNegativeDescription,
     anotherTitle,
     anotherPositive,
     anotherNegative,
@@ -163,7 +162,11 @@ const ListCollectorPagePreview = ({ page }) => {
   });
 
   if (loading) {
-    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+    return (
+      <EditorLayout>
+        <Loading height="100%">Questionnaire lists loading…</Loading>
+      </EditorLayout>
+    );
   }
 
   let lists = [];
@@ -183,7 +186,6 @@ const ListCollectorPagePreview = ({ page }) => {
   return (
     <EditorLayout
       preview
-      logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
       renderPanel={() => (
@@ -193,16 +195,74 @@ const ListCollectorPagePreview = ({ page }) => {
     >
       <Panel>
         <Container>
-          {anotherTitle ? (
-            <PageTitle title={anotherTitle} />
-          ) : (
-            <Error large>Missing repeating list collector question</Error>
-          )}
-
           <CollectorInfoTop>
-            <div data-test="list-display-name">
-              <ListDisplayName>{selectedList.displayName}</ListDisplayName>
+            {drivingQuestion ? (
+              <PageTitle title={drivingQuestion} />
+            ) : (
+              <Error large>Missing driving question</Error>
+            )}
+
+            <div data-test="drivingPositive">
+              {drivingPositive ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {drivingPositive && (
+                      <OptionDescription>{drivingPositive}</OptionDescription>
+                    )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing drivingPositive</Error>
+              )}
             </div>
+
+            <div data-test="drivingPositiveDescription">
+              {drivingPositiveDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: drivingPositiveDescription,
+                  }}
+                />
+              )}
+            </div>
+
+            <div data-test="drivingNegative">
+              {drivingNegative ? (
+                <OptionItem>
+                  <Input type="radio" />
+                  <OptionLabel>
+                    {drivingNegative && (
+                      <OptionDescription>{drivingNegative}</OptionDescription>
+                    )}
+                  </OptionLabel>
+                </OptionItem>
+              ) : (
+                <Error large>Missing drivingNegative</Error>
+              )}
+            </div>
+
+            <div data-test="drivingNegativeDescription">
+              {drivingNegativeDescription && (
+                <Description
+                  dangerouslySetInnerHTML={{
+                    __html: anotherNegativeDescription,
+                  }}
+                />
+              )}
+            </div>
+          </CollectorInfoTop>
+        </Container>
+      </Panel>
+      <Panel>
+        <Container>
+          <CollectorInfoTop>
+            {anotherTitle ? (
+              <PageTitle title={anotherTitle} />
+            ) : (
+              <Error large>Missing repeating list collector question</Error>
+            )}
+
             {anotherTitle ? (
               <Summary>
                 {answers.map((answer) => (

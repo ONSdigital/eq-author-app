@@ -4,6 +4,11 @@ fragment ListCollector on ListCollectorPage {
   alias
   displayName
   listId
+  drivingQuestion
+  drivingPositive
+  drivingNegative
+  drivingPositiveDescription
+  drivingNegativeDescription
   anotherTitle
   anotherPositive
   anotherNegative

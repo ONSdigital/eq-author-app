@@ -32,7 +32,7 @@ import RedirectRoute from "components/RedirectRoute";
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
-  ListCollectorPage: { design: true, preview: true, logic: true },
+  ListCollectorPage: { design: true, preview: true, logic: false },
 };
 
 export const PAGE_QUERY = gql`
