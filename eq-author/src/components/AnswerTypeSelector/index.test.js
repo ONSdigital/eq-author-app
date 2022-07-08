@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  NUMBER,
+  CURRENCY,
+  RADIO,
+  MUTUALLY_EXCLUSIVE,
+} from "constants/answer-types";
 
 import {
   render,
@@ -107,5 +113,59 @@ describe("Answer Type Selector", () => {
     const { getByText } = render(<AnswerTypeSelector {...props} />);
 
     expect(getByText("Answer required")).toBeTruthy();
+  });
+
+  describe("Mutually exclusive", () => {
+    it("should not disable mutually exclusive if there are other answers", () => {
+      props.page.answers = [{ type: NUMBER }, { type: CURRENCY }];
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      expect(
+        getByTestId("btn-answer-type-mutuallyexclusive")
+      ).not.toHaveAttribute("disabled");
+    });
+
+    it("should disable mutually exclusive if there are no other answers", () => {
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add an answer/));
+      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+        "disabled"
+      );
+    });
+
+    it("should disable mutually exclusive if there is a radio answer", () => {
+      props.page.answers[0] = { type: RADIO };
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+        "disabled"
+      );
+    });
+
+    it("should disable radio if there is a mutually exclusive answer", () => {
+      props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      expect(getByTestId("btn-answer-type-radio")).toHaveAttribute("disabled");
+    });
+
+    it("should disable mutually exclusive if there is already a mutually exclusive answer", () => {
+      props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+        "disabled"
+      );
+    });
   });
 });
