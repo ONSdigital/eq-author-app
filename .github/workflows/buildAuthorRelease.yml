@@ -2,9 +2,7 @@ name: Build Author Images for Release
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
-
+  
 jobs:
   Author:
     runs-on: ubuntu-latest
