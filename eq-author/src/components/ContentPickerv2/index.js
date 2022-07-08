@@ -42,6 +42,7 @@ const Container = styled.div`
 `;
 
 const ContentPicker = ({
+  pageType,
   contentType,
   data,
   onOpen,
@@ -139,6 +140,7 @@ const ContentPicker = ({
             }
             isSelected={isSelected}
             data={data}
+            pageType={pageType}
           />
         );
 
@@ -205,6 +207,7 @@ ContentPicker.propTypes = {
   onSubmit: PropTypes.func,
   contentType: PropTypes.string,
   multiselect: PropTypes.bool,
+  pageType: PropTypes.string,
 };
 
 export default ContentPicker;

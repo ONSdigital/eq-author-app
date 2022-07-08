@@ -16,6 +16,7 @@ const updateCalculatedSummaryPageMutation = `
             id
         }
         totalTitle
+        type
         comments {
           id
           commentText

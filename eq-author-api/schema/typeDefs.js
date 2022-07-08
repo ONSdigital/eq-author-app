@@ -271,6 +271,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   folder: Folder!
   position: Int!
   summaryAnswers: [Answer!]!
+  type: String
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
@@ -1316,6 +1317,7 @@ input UpdateCalculatedSummaryPageInput {
   totalTitle: String
   qCode: String
   summaryAnswers: [ID!]
+  type: String
 }
 
 input CreateAnswerInput {

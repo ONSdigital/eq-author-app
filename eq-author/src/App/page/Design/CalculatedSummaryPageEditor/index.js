@@ -177,6 +177,7 @@ CalculatedSummaryPageEditor.fragments = {
       alias
       totalTitle
       pageType
+      type
       position
       displayName
       folder {

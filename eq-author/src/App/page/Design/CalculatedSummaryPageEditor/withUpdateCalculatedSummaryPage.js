@@ -9,6 +9,7 @@ const pageFragment = gql`
     alias
     title
     totalTitle
+    type
   }
 `;
 

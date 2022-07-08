@@ -27,17 +27,21 @@ export const MenuButton = styled(ToolbarButton)`
 `;
 
 const PipingMenuPropTypes = {
+  pageType: PropTypes.string,
   onItemChosen: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   canFocus: PropTypes.bool,
   allowableTypes: PropTypes.arrayOf(PropTypes.string),
+  allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
 };
 
 const PipingMenu = ({
+  pageType,
   onItemChosen,
   disabled,
   canFocus,
   allowableTypes = [ANSWER, METADATA],
+  allCalculatedSummaryPages,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -68,6 +72,19 @@ const PipingMenu = ({
 
   const metadataData = questionnaire?.metadata || [];
 
+  const handlePickerContent = (contentType) => {
+    switch (contentType) {
+      case METADATA:
+        return metadataData;
+      case ANSWER:
+        return answerData;
+      case VARIABLES:
+        return allCalculatedSummaryPages;
+      default:
+        return answerData;
+    }
+  };
+
   return (
     <>
       {allowableTypes.includes(ANSWER) && (
@@ -97,7 +114,11 @@ const PipingMenu = ({
       {allowableTypes.includes(VARIABLES) && (
         <MenuButton
           title="Pipe variable"
-          disabled={disabled}
+          disabled={
+            disabled ||
+            (pageType === "QuestionPage" &&
+              !allCalculatedSummaryPages[0]?.summaryAnswers.length)
+          }
           onClick={() => handleButtonClick(VARIABLES)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}
@@ -107,8 +128,9 @@ const PipingMenu = ({
         </MenuButton>
       )}
       <ContentPicker
+        pageType={pageType}
         isOpen={isPickerOpen}
-        data={pickerContent === METADATA ? metadataData : answerData}
+        data={handlePickerContent(pickerContent)}
         startingSelectedAnswers={[]}
         onClose={handlePickerClose}
         onSubmit={handlePickerSubmit}

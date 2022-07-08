@@ -12,6 +12,14 @@ import withValidationError from "enhancers/withValidationError";
 import pageFragment from "graphql/fragments/page.graphql";
 import { getMultipleErrorsByField } from "./validationUtils.js";
 
+import { enableOn } from "utils/featureFlags";
+
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelect/content-types";
+
 const titleControls = {
   emphasis: true,
   piping: true,
@@ -25,7 +33,8 @@ export class StatelessMetaEditor extends React.Component {
     getMultipleErrorsByField(field, this.props.page.validationErrorInfo.errors);
 
   render() {
-    const { page, onChangeUpdate, fetchAnswers } = this.props;
+    const { page, onChangeUpdate, fetchAnswers, allCalculatedSummaryPages } =
+      this.props;
 
     return (
       <div>
@@ -41,7 +50,15 @@ export class StatelessMetaEditor extends React.Component {
           fetchAnswers={fetchAnswers}
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
+          pageType={page.pageType}
+          allowableTypes={
+            enableOn(["pipeCalculatedSummary"])
+              ? [ANSWER, METADATA, VARIABLES]
+              : [ANSWER, METADATA]
+          }
+          defaultTab="variables"
           autoFocus={!page.title}
+          allCalculatedSummaryPages={allCalculatedSummaryPages}
           errorValidationMsg={this.errorMsg("title")}
         />
       </div>
@@ -53,6 +70,7 @@ StatelessMetaEditor.propTypes = {
   fetchAnswers: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
 };
 
 StatelessMetaEditor.fragments = {

@@ -25,6 +25,7 @@ exports[`PipingMenu should render 1`] = `
   <PipingMenu__MenuButton
     canFocus={true}
     data-test="piping-button-variable"
+    disabled={false}
     modalVisible={false}
     onClick={[Function]}
     title="Pipe variable"
