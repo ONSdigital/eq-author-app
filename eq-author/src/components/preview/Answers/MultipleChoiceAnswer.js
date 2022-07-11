@@ -127,6 +127,7 @@ export const Option = ({ option, type, answer, answerOptions }) => (
       error={!option.label}
       answer={answer}
       answerOptions={answerOptions}
+      data-test={`${type}-input`}
     />
     <OptionLabel>
       {option.label || "Missing label"}

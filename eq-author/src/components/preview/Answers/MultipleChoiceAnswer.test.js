@@ -1,7 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
 import MultipleChoiceAnswer, {
   Option,
@@ -84,6 +85,25 @@ describe("MultipleChoiceAnswer", () => {
       expect(
         shallow(<Option option={option} type={CHECKBOX} />)
       ).toMatchSnapshot();
+    });
+
+    it("should render mutually exclusive with multiple options", () => {
+      const answerOptions = [
+        { id: "1", label: "test" },
+        { id: "2", label: "test2" },
+      ];
+      answer = { type: CHECKBOX };
+      const { getByTestId } = render(
+        <Option
+          option={option}
+          type={MUTUALLY_EXCLUSIVE}
+          answerOptions={answerOptions}
+        />
+      );
+
+      expect(getByTestId("MutuallyExclusive-input")).toHaveStyle({
+        "border-radius": "100px",
+      });
     });
 
     it("should render label when it has one", () => {

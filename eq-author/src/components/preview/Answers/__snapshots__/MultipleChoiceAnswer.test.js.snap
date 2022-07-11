@@ -10,6 +10,7 @@ exports[`MultipleChoiceAnswer Option should render answer when it has one 1`] = 
         "id": "1",
       }
     }
+    data-test="Checkbox-input"
     error={true}
     type="Checkbox"
   />
@@ -30,6 +31,7 @@ exports[`MultipleChoiceAnswer Option should render checkbox options 1`] = `
   error={true}
 >
   <MultipleChoiceAnswer__Input
+    data-test="Checkbox-input"
     error={true}
     type="Checkbox"
   />
@@ -44,6 +46,7 @@ exports[`MultipleChoiceAnswer Option should render label when it has one 1`] = `
   error={false}
 >
   <MultipleChoiceAnswer__Input
+    data-test="Checkbox-input"
     error={false}
     type="Checkbox"
   />
@@ -58,6 +61,7 @@ exports[`MultipleChoiceAnswer Option should render radio options 1`] = `
   error={true}
 >
   <MultipleChoiceAnswer__Input
+    data-test="Radio-input"
     error={true}
     type="Radio"
   />
