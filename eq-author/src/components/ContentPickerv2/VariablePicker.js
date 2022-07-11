@@ -76,7 +76,7 @@ const VariableItemList = styled.ul`
   padding: 0;
 `;
 
-const VariablePicker = ({ onSelected, isSelected }) => {
+const VariablePicker = ({ onSelected, isSelected, pageType, data }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -84,7 +84,31 @@ const VariablePicker = ({ onSelected, isSelected }) => {
     }
   };
 
-  const totalObject = { id: "total", displayName: "total" };
+  const totalObject = (data) => {
+    let tempTotalObject;
+    if (!data) {
+      tempTotalObject = {
+        id: "total",
+        displayName: "total",
+      };
+    } else {
+      tempTotalObject = {
+        id: data.id,
+        displayName: formatTotalTitle(data.totalTitle),
+        type: data.type,
+      };
+    }
+
+    return tempTotalObject;
+  };
+
+  // removes paragraph tags from total title if a title exists.
+  const formatTotalTitle = (title) => {
+    if (!title) {
+      return "Untitled total";
+    }
+    return title.slice(3, -4);
+  };
 
   return (
     <>
@@ -101,28 +125,68 @@ const VariablePicker = ({ onSelected, isSelected }) => {
               </TableHeadCol>
             </TableHeader>
             <VariableItemList>
-              <VariableItem
-                key="total"
-                onClick={() => onSelected(totalObject)}
-                aria-selected={isSelected(totalObject)}
-                aria-label={"total"}
-                tabIndex="0"
-                onKeyUp={(event) => onEnterUp(event, totalObject)}
-              >
-                <Col>
-                  <MenuItemTitle>
-                    <Truncated>Total</Truncated>
-                  </MenuItemTitle>
-                  <MenuItemSubtitle>
-                    <Truncated>Calculated summary</Truncated>
-                  </MenuItemSubtitle>
-                </Col>
-                <Col>
-                  <RightPositioner>
-                    <MenuItemType>Number</MenuItemType>
-                  </RightPositioner>
-                </Col>
-              </VariableItem>
+              {pageType === "QuestionPage" ? (
+                data.map((calculatedSummaryPage) => {
+                  return (
+                    <VariableItem
+                      id={calculatedSummaryPage.id}
+                      key={calculatedSummaryPage.id}
+                      onClick={() =>
+                        onSelected(totalObject(calculatedSummaryPage))
+                      }
+                      aria-selected={isSelected(
+                        totalObject(calculatedSummaryPage)
+                      )}
+                      aria-label={"total"}
+                      tabIndex="0"
+                      onKeyUp={(event) =>
+                        onEnterUp(event, totalObject(calculatedSummaryPage))
+                      }
+                    >
+                      <Col>
+                        <MenuItemTitle>
+                          <Truncated>
+                            {formatTotalTitle(calculatedSummaryPage.totalTitle)}
+                          </Truncated>
+                        </MenuItemTitle>
+                        <MenuItemSubtitle>
+                          <Truncated>Calculated summary</Truncated>
+                        </MenuItemSubtitle>
+                      </Col>
+                      <Col>
+                        <RightPositioner>
+                          <MenuItemType>
+                            {calculatedSummaryPage.type}
+                          </MenuItemType>
+                        </RightPositioner>
+                      </Col>
+                    </VariableItem>
+                  );
+                })
+              ) : (
+                <VariableItem
+                  key="total"
+                  onClick={() => onSelected(totalObject())}
+                  aria-selected={isSelected(totalObject())}
+                  aria-label={"total"}
+                  tabIndex="0"
+                  onKeyUp={(event) => onEnterUp(event, totalObject())}
+                >
+                  <Col>
+                    <MenuItemTitle>
+                      <Truncated>Total</Truncated>
+                    </MenuItemTitle>
+                    <MenuItemSubtitle>
+                      <Truncated>Calculated summary</Truncated>
+                    </MenuItemSubtitle>
+                  </Col>
+                  <Col>
+                    <RightPositioner>
+                      <MenuItemType>Number</MenuItemType>
+                    </RightPositioner>
+                  </Col>
+                </VariableItem>
+              )}
             </VariableItemList>
           </Table>
         </ScrollPane>
@@ -135,6 +199,7 @@ VariablePicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.metadata),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
+  pageType: PropTypes.string,
 };
 
 export default VariablePicker;

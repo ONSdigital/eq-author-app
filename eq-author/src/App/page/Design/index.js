@@ -71,6 +71,25 @@ export const UnwrappedPageRoute = (props) => {
   const { questionnaire } = useQuestionnaire();
   const { comments } = page;
 
+  const getAllCalculatedSummaryPages = () => {
+    const allCalculatedSummaryPages = [];
+    if (questionnaire) {
+      questionnaire.sections.forEach((section) => {
+        section.folders.forEach((folder) => {
+          folder.pages.forEach((tempPage) => {
+            if (
+              tempPage?.pageType === "CalculatedSummaryPage" &&
+              page.position > tempPage.position
+            ) {
+              allCalculatedSummaryPages.push(tempPage);
+            }
+          });
+        });
+      });
+    }
+    return allCalculatedSummaryPages;
+  };
+
   const renderPageType = () => {
     if (page.pageType === QuestionPage) {
       return (
@@ -78,6 +97,7 @@ export const UnwrappedPageRoute = (props) => {
           key={page.id} // resets the state of the RichTextEditors when navigating pages
           {...props}
           page={page}
+          allCalculatedSummaryPages={getAllCalculatedSummaryPages()}
         />
       );
     }

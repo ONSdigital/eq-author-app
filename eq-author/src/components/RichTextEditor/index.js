@@ -136,6 +136,7 @@ class RichTextEditor extends React.Component {
   };
 
   static propTypes = {
+    pageType: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onUpdate: PropTypes.func.isRequired,
@@ -172,6 +173,7 @@ class RichTextEditor extends React.Component {
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
+    allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
   constructor(props) {
@@ -374,6 +376,7 @@ class RichTextEditor extends React.Component {
     const contentState = editorState.getCurrentContent();
     const selection = editorState.getSelection();
     const {
+      pageType,
       label,
       multiline,
       size,
@@ -387,6 +390,7 @@ class RichTextEditor extends React.Component {
       linkCount,
       linkLimit,
       withoutMargin,
+      allCalculatedSummaryPages,
       ...otherProps
     } = this.props;
 
@@ -412,6 +416,7 @@ class RichTextEditor extends React.Component {
             invalid={Boolean(errorValidationMsg)}
           >
             <Toolbar
+              pageType={pageType}
               editorState={editorState}
               onToggle={this.handleToggle}
               onPiping={this.handlePiping}
@@ -422,6 +427,7 @@ class RichTextEditor extends React.Component {
               testId={`${testSelector}-toolbar`}
               linkCount={linkCount}
               linkLimit={linkLimit}
+              allCalculatedSummaryPages={allCalculatedSummaryPages}
               {...otherProps}
             />
 

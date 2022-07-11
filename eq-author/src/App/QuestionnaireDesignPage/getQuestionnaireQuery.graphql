@@ -151,6 +151,11 @@ fragment Pages on Page {
     totalCount
   }
   ... on CalculatedSummaryPage {
+    totalTitle
+    type
+    summaryAnswers {
+      id
+    }
     comments {
       ...Comment
     }
