@@ -22,7 +22,7 @@ const inputWithError = css`
   box-shadow: none;
 `;
 
-export const Input = styled.input`
+export const Input = styled.div`
   width: 20px;
   height: 20px;
   appearance: none;
@@ -32,8 +32,8 @@ export const Input = styled.input`
   box-shadow: inset 0 0 0 3px white;
   pointer-events: none;
   position: absolute;
-  top: 1em;
-  left: 1em;
+  top: 0.75em;
+  left: 0.75em;
 
   ${(props) =>
     (props.type === RADIO ||
@@ -128,6 +128,8 @@ export const Option = ({ option, type, answer, answerOptions }) => (
       answer={answer}
       answerOptions={answerOptions}
       data-test={`${type}-input`}
+      aria-label={option.label}
+      tabIndex={0}
     />
     <OptionLabel>
       {option.label || "Missing label"}
