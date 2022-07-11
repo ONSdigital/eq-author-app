@@ -12,6 +12,7 @@ exports[`MultipleChoiceAnswer Option should render answer when it has one 1`] = 
     }
     data-test="Checkbox-input"
     error={true}
+    tabIndex={0}
     type="Checkbox"
   />
   <MultipleChoiceAnswer__OptionLabel>
@@ -33,6 +34,7 @@ exports[`MultipleChoiceAnswer Option should render checkbox options 1`] = `
   <MultipleChoiceAnswer__Input
     data-test="Checkbox-input"
     error={true}
+    tabIndex={0}
     type="Checkbox"
   />
   <MultipleChoiceAnswer__OptionLabel>
@@ -46,8 +48,10 @@ exports[`MultipleChoiceAnswer Option should render label when it has one 1`] = `
   error={false}
 >
   <MultipleChoiceAnswer__Input
+    aria-label="Option label"
     data-test="Checkbox-input"
     error={false}
+    tabIndex={0}
     type="Checkbox"
   />
   <MultipleChoiceAnswer__OptionLabel>
@@ -63,6 +67,7 @@ exports[`MultipleChoiceAnswer Option should render radio options 1`] = `
   <MultipleChoiceAnswer__Input
     data-test="Radio-input"
     error={true}
+    tabIndex={0}
     type="Radio"
   />
   <MultipleChoiceAnswer__OptionLabel>
@@ -81,7 +86,7 @@ exports[`MultipleChoiceAnswer should render Input 1`] = `
         "componentId": "MultipleChoiceAnswer__Input-sc-1jty9me-1",
         "isStatic": false,
         "rules": Array [
-          "width:20px;height:20px;appearance:none;border:1px solid #9b9b9b;padding:0.5em;background:#eee;box-shadow:inset 0 0 0 3px white;pointer-events:none;position:absolute;top:1em;left:1em;",
+          "width:20px;height:20px;appearance:none;border:1px solid #9b9b9b;padding:0.5em;background:#eee;box-shadow:inset 0 0 0 3px white;pointer-events:none;position:absolute;top:0.75em;left:0.75em;",
           [Function],
           ";",
           [Function],
@@ -92,7 +97,7 @@ exports[`MultipleChoiceAnswer should render Input 1`] = `
       "foldedComponentIds": Array [],
       "render": [Function],
       "styledComponentId": "MultipleChoiceAnswer__Input-sc-1jty9me-1",
-      "target": "input",
+      "target": "div",
       "toString": [Function],
       "warnTooManyClasses": [Function],
       "withComponent": [Function],
@@ -113,7 +118,7 @@ exports[`MultipleChoiceAnswer should render Input with radio and error 1`] = `
         "componentId": "MultipleChoiceAnswer__Input-sc-1jty9me-1",
         "isStatic": false,
         "rules": Array [
-          "width:20px;height:20px;appearance:none;border:1px solid #9b9b9b;padding:0.5em;background:#eee;box-shadow:inset 0 0 0 3px white;pointer-events:none;position:absolute;top:1em;left:1em;",
+          "width:20px;height:20px;appearance:none;border:1px solid #9b9b9b;padding:0.5em;background:#eee;box-shadow:inset 0 0 0 3px white;pointer-events:none;position:absolute;top:0.75em;left:0.75em;",
           [Function],
           ";",
           [Function],
@@ -124,7 +129,7 @@ exports[`MultipleChoiceAnswer should render Input with radio and error 1`] = `
       "foldedComponentIds": Array [],
       "render": [Function],
       "styledComponentId": "MultipleChoiceAnswer__Input-sc-1jty9me-1",
-      "target": "input",
+      "target": "div",
       "toString": [Function],
       "warnTooManyClasses": [Function],
       "withComponent": [Function],
