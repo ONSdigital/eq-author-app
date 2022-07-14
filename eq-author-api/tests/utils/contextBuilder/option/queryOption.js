@@ -13,6 +13,8 @@ const getOptionQuery = `
         id
         label
       }
+      dynamicAnswer
+      dynamicAnswerID
       validationErrorInfo {
         errors {
           id
