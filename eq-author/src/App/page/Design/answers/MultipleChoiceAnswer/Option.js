@@ -190,6 +190,17 @@ export const StatelessOption = ({
       ({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING"
     ) && ADDITIONAL_LABEL_MISSING;
 
+  const onUpdateFormat = (value) => {
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          dynamicAnswer: value,
+        },
+      },
+    });
+  };
+
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
@@ -240,8 +251,9 @@ export const StatelessOption = ({
               id={`option-toggle-switch-${option.id}`}
               name="Dynamic Option"
               onChange={() => {
-                console.log("hi");
+                onUpdateFormat(!option.dynamicAnswer);
               }}
+              checked={option.dynamicAnswer || false}
             />
           </InlineField>
           <Collapsible
@@ -295,6 +307,7 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
+  dynamicAnswer: PropTypes.bool,
 };
 
 StatelessOption.fragments = {
