@@ -13,6 +13,9 @@ import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import InlineField from "components/AnswerContent/Format/InlineField";
+import Collapsible from "components/Collapsible";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
@@ -226,6 +229,32 @@ export const StatelessOption = ({
             onKeyDown={handleKeyDown}
             data-test="option-description"
           />
+        </OptionField>
+        <OptionField>
+          <InlineField
+            id={`option-dynamic-answer-${option.id}`}
+            name="Dynamic Answer"
+            label="Dynamic Answer"
+          >
+            <ToggleSwitch
+              id={`option-toggle-switch-${option.id}`}
+              name="Dynamic Option"
+              onChange={() => {
+                console.log("hi");
+              }}
+            />
+          </InlineField>
+          <Collapsible
+            title="What is a dynamic option?"
+            key={`dynamic-answer-collapsible$exists{option.id}`}
+          >
+            <p>
+              Radio answer options can be set to be dynamic to use answers from
+              a previous checkbox question. Note, if only one checkbox answer
+              exists then the radio answer is skipped.
+            </p>
+            <p>Question titles can include piped dynamic option answers.</p>
+          </Collapsible>
         </OptionField>
         {option.additionalAnswer && (
           <LastOptionField>
