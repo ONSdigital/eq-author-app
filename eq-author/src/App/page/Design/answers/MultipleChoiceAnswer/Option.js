@@ -17,6 +17,7 @@ import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
 import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useCurrentPageId } from "components/RouterContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import optionFragment from "graphql/fragments/option.graphql";
@@ -110,31 +111,30 @@ export const StatelessOption = ({
   const [startingTabId, setStartingTabId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { questionnaire } = useQuestionnaire();
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
+  const { questionnaire } = useQuestionnaire();
+  const pageId = useCurrentPageId();
+
+  const data = () => {
+    return getContentBeforeEntity({
+      questionnaire,
+      id: pageId,
+    });
+  };
   const getAllCheckBoxAnswers = () => {
     const allCheckBoxAnswers = [];
-    if (questionnaire) {
-      questionnaire.sections.forEach((section) => {
-        section.folders.forEach((folder) => {
-          folder.pages.forEach((page) => {
-            if (page?.pageType === "QuestionPage") {
-              page.answers.forEach((answer) => {
-                console.log("answer :>> ", answer);
-                if (answer.type === "Checkbox") {
-                  allCheckBoxAnswers.push(answer);
-                }
-
-                // if (
-                //   tempPage?.pageType === "CalculatedSummaryPage" &&
-                //   page.position > tempPage.position
-                // )
-                // {
-                //   allCalculatedSummaryPages.push(tempPage);
-                // }
-              });
-            }
-          });
+    const folderData = data();
+    if (folderData.length !== 0) {
+      folderData[0].folders.forEach((folder) => {
+        folder.pages.forEach((page) => {
+          if (page?.pageType === "QuestionPage") {
+            page.answers.forEach((answer) => {
+              if (answer.type === "Checkbox") {
+                allCheckBoxAnswers.push(answer);
+              }
+            });
+          }
         });
       });
     }
@@ -223,6 +223,8 @@ export const StatelessOption = ({
 
   const { ERR_UNIQUE_REQUIRED } = messageTemplate;
 
+  const handlePickerClose = () => setIsPickerOpen(false);
+
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
   let labelError = "";
@@ -255,6 +257,10 @@ export const StatelessOption = ({
         },
       },
     });
+  };
+
+  const handlePickerSubmit = (...args) => {
+    handlePickerClose();
   };
 
   return (
@@ -361,14 +367,15 @@ export const StatelessOption = ({
         )}
       </div>
       <ContentPicker
-        // pageType={pageType}
+        option={option}
         isOpen={modalIsOpen}
         data={getAllCheckBoxAnswers()}
         startingSelectedAnswers={[]}
         onClose={handleModalClose}
         data-test="picker"
         singleItemSelect
-        contentType={"DynamicAnswer"}
+        contentType="DynamicAnswer"
+        onSubmit={handlePickerSubmit}
       />
     </StyledOption>
   );

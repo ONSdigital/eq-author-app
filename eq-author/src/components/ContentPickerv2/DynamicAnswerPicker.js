@@ -1,4 +1,5 @@
 import React from "react";
+import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
@@ -14,6 +15,8 @@ import {
 import Truncated from "components/Truncated";
 
 import ScrollPane from "components/ScrollPane";
+
+import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 
 const ModalTitle = styled.div`
   font-weight: bold;
@@ -76,7 +79,13 @@ const VariableItemList = styled.ul`
   padding: 0;
 `;
 
-const DynamicAnswerPicker = ({ onSelected, isSelected, pageType, data }) => {
+const DynamicAnswerPicker = ({
+  onSelected,
+  isSelected,
+  pageType,
+  data,
+  option,
+}) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -84,26 +93,21 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, pageType, data }) => {
     }
   };
 
-  const totalObject = (data) => {
-    let tempTotalObject;
-    if (!data) {
-      tempTotalObject = {
-        id: "total",
-        displayName: "total",
-      };
-    } else {
-      tempTotalObject = {
-        id: data.id,
-        displayName: formatTotalTitle(data.totalTitle),
-        type: data.type,
-      };
-    }
+  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
 
-    return tempTotalObject;
+  const onUpdateOption = (value) => {
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          dynamicAnswerID: value,
+        },
+      },
+    });
   };
 
   // removes paragraph tags from total title if a title exists.
-  const formatTotalTitle = (title) => {
+  const formatQuestionTitle = (title) => {
     if (!title) {
       return "Untitled total";
     }
@@ -124,70 +128,41 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, pageType, data }) => {
                 <RightPositioner>Type</RightPositioner>
               </TableHeadCol>
             </TableHeader>
-            {/* <VariableItemList>
-              {pageType === "QuestionPage" ? (
-                data.map((calculatedSummaryPage) => {
-                  return (
-                    <VariableItem
-                      id={calculatedSummaryPage.id}
-                      key={calculatedSummaryPage.id}
-                      onClick={() =>
-                        onSelected(totalObject(calculatedSummaryPage))
-                      }
-                      aria-selected={isSelected(
-                        totalObject(calculatedSummaryPage)
-                      )}
-                      aria-label={"total"}
-                      tabIndex="0"
-                      onKeyUp={(event) =>
-                        onEnterUp(event, totalObject(calculatedSummaryPage))
-                      }
-                    >
-                      <Col>
-                        <MenuItemTitle>
-                          <Truncated>
-                            {formatTotalTitle(calculatedSummaryPage.totalTitle)}
-                          </Truncated>
-                        </MenuItemTitle>
-                        <MenuItemSubtitle>
-                          <Truncated>Calculated summary</Truncated>
-                        </MenuItemSubtitle>
-                      </Col>
-                      <Col>
-                        <RightPositioner>
-                          <MenuItemType>
-                            {calculatedSummaryPage.type}
-                          </MenuItemType>
-                        </RightPositioner>
-                      </Col>
-                    </VariableItem>
-                  );
-                })
-              ) : (
-                <VariableItem
-                  key="total"
-                  onClick={() => onSelected(totalObject())}
-                  aria-selected={isSelected(totalObject())}
-                  aria-label={"total"}
-                  tabIndex="0"
-                  onKeyUp={(event) => onEnterUp(event, totalObject())}
-                >
-                  <Col>
-                    <MenuItemTitle>
-                      <Truncated>Total</Truncated>
-                    </MenuItemTitle>
-                    <MenuItemSubtitle>
-                      <Truncated>Calculated summary</Truncated>
-                    </MenuItemSubtitle>
-                  </Col>
-                  <Col>
-                    <RightPositioner>
-                      <MenuItemType>Number</MenuItemType>
-                    </RightPositioner>
-                  </Col>
-                </VariableItem>
-              )}
-            </VariableItemList> */}
+            <VariableItemList>
+              {data.map((checkboxAnswer) => {
+                return (
+                  <VariableItem
+                    id={checkboxAnswer.id}
+                    key={checkboxAnswer.id}
+                    onClick={() => onUpdateOption(checkboxAnswer.id)}
+                    // aria-selected={isSelected(
+                    //   totalObject(calculatedSummaryPage)
+                    // )}
+                    aria-label={"total"}
+                    tabIndex="0"
+                    // onKeyUp={(event) =>
+                    //   onEnterUp(event, totalObject(calculatedSummaryPage))
+                    // }
+                  >
+                    <Col>
+                      <MenuItemTitle>
+                        <Truncated>{checkboxAnswer.displayName}</Truncated>
+                      </MenuItemTitle>
+                      <MenuItemSubtitle>
+                        <Truncated>
+                          {formatQuestionTitle(checkboxAnswer.questionTitle)}
+                        </Truncated>
+                      </MenuItemSubtitle>
+                    </Col>
+                    <Col>
+                      <RightPositioner>
+                        <MenuItemType>Checkbox</MenuItemType>
+                      </RightPositioner>
+                    </Col>
+                  </VariableItem>
+                );
+              })}
+            </VariableItemList>
           </Table>
         </ScrollPane>
       </MenuContainer>
