@@ -16,6 +16,8 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
@@ -27,6 +29,9 @@ import messageTemplate, {
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
+import DynamicAnswerPicker from "../../../../../components/ContentPickerv2/DynamicAnswerPicker";
+import ContentPicker from "../../../../../components/ContentPickerv2";
+import { DYNAMICANSWER } from "../../../../../components/ContentPickerSelect/content-types";
 
 const ENTER_KEY = 13;
 
@@ -104,6 +109,38 @@ export const StatelessOption = ({
 
   const [startingTabId, setStartingTabId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const { questionnaire } = useQuestionnaire();
+
+  const getAllCheckBoxAnswers = () => {
+    const allCheckBoxAnswers = [];
+    if (questionnaire) {
+      questionnaire.sections.forEach((section) => {
+        section.folders.forEach((folder) => {
+          folder.pages.forEach((page) => {
+            if (page?.pageType === "QuestionPage") {
+              page.answers.forEach((answer) => {
+                console.log("answer :>> ", answer);
+                if (answer.type === "Checkbox") {
+                  allCheckBoxAnswers.push(answer);
+                }
+
+                // if (
+                //   tempPage?.pageType === "CalculatedSummaryPage" &&
+                //   page.position > tempPage.position
+                // )
+                // {
+                //   allCalculatedSummaryPages.push(tempPage);
+                // }
+              });
+            }
+          });
+        });
+      });
+    }
+    console.log("allCheckBoxAnswers :>> ", allCheckBoxAnswers);
+    return allCheckBoxAnswers;
+  };
 
   const handleDeleteClick = () => onDelete(option.id);
   const handleKeyDown = (e) => {
@@ -323,6 +360,16 @@ export const StatelessOption = ({
           </LastOptionField>
         )}
       </div>
+      <ContentPicker
+        // pageType={pageType}
+        isOpen={modalIsOpen}
+        data={getAllCheckBoxAnswers()}
+        startingSelectedAnswers={[]}
+        onClose={handleModalClose}
+        data-test="picker"
+        singleItemSelect
+        contentType={"DynamicAnswer"}
+      />
     </StyledOption>
   );
 };
