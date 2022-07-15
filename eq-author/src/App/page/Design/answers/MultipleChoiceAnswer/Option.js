@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -26,6 +26,7 @@ import messageTemplate, {
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
+import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 
 const ENTER_KEY = 13;
 
@@ -62,6 +63,14 @@ export const StyledOption = styled.div`
   margin-bottom: 1em;
 `;
 
+const CustomInlineField = styled(InlineField)`
+  margin-bottom: 0.6em;
+`;
+
+const CustomSideBarButton = styled(SidebarButton)`
+  width: 20em;
+`;
+
 StyledOption.defaultProps = {
   duration: 200,
 };
@@ -93,6 +102,9 @@ export const StatelessOption = ({
   );
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
 
+  const [startingTabId, setStartingTabId] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleDeleteClick = () => onDelete(option.id);
   const handleKeyDown = (e) => {
     if (e.keyCode === ENTER_KEY) {
@@ -111,6 +123,13 @@ export const StatelessOption = ({
         },
       },
     });
+
+  const handleSidebarButtonClick = () => {
+    setModalIsOpen(true);
+    setStartingTabId(type.id);
+  };
+
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   const renderToolbar = () => {
     return (
@@ -205,47 +224,53 @@ export const StatelessOption = ({
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
         {renderToolbar()}
+        {!option.dynamicAnswer && (
+          <>
+            <Flex>
+              <DummyMultipleChoice type={type} />
+
+              <OptionField>
+                <Label htmlFor={`option-label-${option.id}`}>
+                  {label || "Label"}
+                </Label>
+                <WrappingInput
+                  id={`option-label-${option.id}`}
+                  name="label"
+                  value={option.label}
+                  placeholder={labelPlaceholder}
+                  onChange={onChange}
+                  onBlur={() => setTimeout(onUpdate, 400)}
+                  onKeyDown={handleKeyDown}
+                  data-test="option-label"
+                  data-autofocus={autoFocus || null}
+                  bold
+                  errorValidationMsg={labelError}
+                />
+              </OptionField>
+            </Flex>
+
+            <OptionField>
+              <Label htmlFor={`option-description-${option.id}`}>
+                Description (optional)
+              </Label>
+              <WrappingInput
+                id={`option-description-${option.id}`}
+                name="description"
+                value={option.description}
+                placeholder={descriptionPlaceholder}
+                onChange={onChange}
+                onBlur={onUpdate}
+                onKeyDown={handleKeyDown}
+                data-test="option-description"
+              />
+            </OptionField>
+          </>
+        )}
         <Flex>
-          <DummyMultipleChoice type={type} />
-          <OptionField>
-            <Label htmlFor={`option-label-${option.id}`}>
-              {label || "Label"}
-            </Label>
-            <WrappingInput
-              id={`option-label-${option.id}`}
-              name="label"
-              value={option.label}
-              placeholder={labelPlaceholder}
-              onChange={onChange}
-              onBlur={() => setTimeout(onUpdate, 400)}
-              onKeyDown={handleKeyDown}
-              data-test="option-label"
-              data-autofocus={autoFocus || null}
-              bold
-              errorValidationMsg={labelError}
-            />
-          </OptionField>
-        </Flex>
-        <OptionField>
-          <Label htmlFor={`option-description-${option.id}`}>
-            Description (optional)
-          </Label>
-          <WrappingInput
-            id={`option-description-${option.id}`}
-            name="description"
-            value={option.description}
-            placeholder={descriptionPlaceholder}
-            onChange={onChange}
-            onBlur={onUpdate}
-            onKeyDown={handleKeyDown}
-            data-test="option-description"
-          />
-        </OptionField>
-        <OptionField>
-          <InlineField
+          <CustomInlineField
             id={`option-dynamic-answer-${option.id}`}
             name="Dynamic Answer"
-            label="Dynamic Answer"
+            label="Dynamic Option"
           >
             <ToggleSwitch
               id={`option-toggle-switch-${option.id}`}
@@ -255,7 +280,19 @@ export const StatelessOption = ({
               }}
               checked={option.dynamicAnswer || false}
             />
-          </InlineField>
+          </CustomInlineField>
+        </Flex>
+        <OptionField>
+          <Label>Dynamic Answer</Label>
+          <CustomSideBarButton
+            id={option.id}
+            key={option.id}
+            onClick={handleSidebarButtonClick}
+          >
+            Select an answer
+          </CustomSideBarButton>
+        </OptionField>
+        <OptionField>
           <Collapsible
             title="What is a dynamic option?"
             key={`dynamic-answer-collapsible$exists{option.id}`}

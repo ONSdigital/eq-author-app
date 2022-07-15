@@ -21,7 +21,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=dummy
       - NODE_ENV=development
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
-      - PUBLISHER_URL=http://host.docker.internal:9000/publish/
+      - PUBLISHER_URL=http://host.docker.internal:4000/convert/
       - SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit
       - ENABLE_IMPORT=true
       - JAEGER_SERVICE_NAME=eq_author_api
@@ -37,6 +37,7 @@ services:
       - GOOGLE_AUTH_PROJECT_ID=eq-author-api
       - MONGO_URL=mongodb://root:example@mongo:27017/dev_author?authSource=admin
       - FEATURE_FLAGS=hub
+      - CONVERSION_URL=http://host.docker.internal:9000/publish/
     entrypoint:
       - yarn
       - start:dev
