@@ -28,6 +28,8 @@ export const PreviousAnswerContentPicker = ({
     [questionnaire, id, allowedAnswerTypes]
   );
 
+  console.log("sections : ", sections);
+
   return (
     <ContentPickerSelect
       name="previousAnswer"
