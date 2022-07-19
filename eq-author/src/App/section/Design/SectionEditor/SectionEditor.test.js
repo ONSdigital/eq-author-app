@@ -159,52 +159,6 @@ describe("SectionEditor", () => {
     );
   });
 
-  it("should enable the section title when Collapsible sections is enabled and hub is disabled", () => {
-    const section = {
-      ...section1,
-      title: "",
-      questionnaire: {
-        id: "2",
-        navigation: false,
-        hub: false,
-        collapsibleSummary: true,
-      },
-    };
-    const getValidationError = jest.fn().mockReturnValue("Validation error");
-
-    const wrapper = render({ section, getValidationError });
-    expect(wrapper.find(RichTextEditor).first().prop("disabled")).toEqual(
-      false
-    );
-  });
-
-  it("should validate the section title when Collapsible sections is enabled and hub is disabled", () => {
-    const section = {
-      ...section1,
-      title: "",
-      questionnaire: {
-        id: "2",
-        navigation: false,
-        hub: false,
-        collapsibleSummary: true,
-      },
-    };
-    const getValidationError = jest.fn().mockReturnValue("Validation error");
-
-    const wrapper = render({ section, getValidationError });
-
-    expect(
-      wrapper
-        .find("[testSelector='txt-section-title']")
-        .prop("errorValidationMsg")
-    ).toBe("Validation error");
-
-    expect(getValidationError).toHaveBeenCalledWith({
-      field: "title",
-      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
-    });
-  });
-
   it("should validate the section title when sectionSummary is enabled", () => {
     const section = {
       ...section1,
@@ -232,50 +186,6 @@ describe("SectionEditor", () => {
       field: "title",
       message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
     });
-  });
-
-  it("should enable the hub settings collapsible section when Hub is enabled", () => {
-    const section = {
-      ...section1,
-      questionnaire: {
-        id: "2",
-        navigation: false,
-        hub: true,
-      },
-    };
-    const { getByText } = rtlRender(() => (
-      <SectionEditor
-        section={section}
-        showDeleteConfirmDialog={false}
-        showMoveSectionDialog={false}
-        match={match}
-        {...mockHandlers}
-      />
-    ));
-
-    expect(getByText("Hub settings")).toBeVisible();
-  });
-
-  it("should display the hub settings collapsible section as OPEN when requiredCompleted is true", () => {
-    const section = {
-      ...section1,
-      questionnaire: {
-        id: "2",
-        navigation: false,
-        hub: true,
-      },
-    };
-    const { getByTestId } = rtlRender(() => (
-      <SectionEditor
-        section={section}
-        showDeleteConfirmDialog={false}
-        showMoveSectionDialog={false}
-        match={match}
-        {...mockHandlers}
-      />
-    ));
-
-    expect(getByTestId("collapsible-body")).toBeVisible();
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {
