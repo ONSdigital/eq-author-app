@@ -35,7 +35,6 @@ describe("PreviewSectionRoute", () => {
             showOnHub: false,
             sectionSummary: false,
             collapsibleSummary: false,
-            summaryTitle: "",
             questionnaire: {
               id: "2",
               navigation: true,
@@ -72,7 +71,6 @@ describe("PreviewSectionRoute", () => {
             showOnHub: false,
             sectionSummary: false,
             collapsibleSummary: false,
-            summaryTitle: "",
             questionnaire: {
               id: "2",
               navigation: true,

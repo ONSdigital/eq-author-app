@@ -608,33 +608,6 @@ describe("Settings page", () => {
     });
   });
 
-  describe("Collapsible summary toggle", () => {
-    it("Should enable/disable collapsible summaries when toggled", async () => {
-      const { getByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const collapsibleSummaryToggle = getByTestId(
-        "toggle-collapsible-summary"
-      );
-
-      const toggle = Object.values(collapsibleSummaryToggle.children).reduce(
-        (child) => (child.type === "checkbox" ? child : null)
-      );
-
-      expect(queryWasCalled).toBeFalsy();
-
-      await act(async () => {
-        await fireEvent.click(toggle);
-        flushPromises();
-      });
-
-      expect(queryWasCalled).toBeTruthy();
-    });
-  });
-
   describe("Hub introduction toggle", () => {
     beforeEach(() => {
       config.REACT_APP_FEATURE_FLAGS = "hub";

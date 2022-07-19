@@ -12,7 +12,6 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     showOnHub
     sectionSummary
     collapsibleSummary
-    summaryTitle
     validationErrorInfo {
       ...ValidationErrorInfo
     }
