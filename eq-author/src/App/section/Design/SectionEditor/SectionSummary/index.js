@@ -75,7 +75,6 @@ SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
   collapsibleSummary: PropTypes.bool,
-  summaryTitle: PropTypes.string,
   disabled: PropTypes.bool,
   errorValidationMsg: PropTypes.string,
 };
