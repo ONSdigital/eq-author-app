@@ -79,31 +79,12 @@ const VariableItemList = styled.ul`
   padding: 0;
 `;
 
-const DynamicAnswerPicker = ({
-  onSelected,
-  isSelected,
-  pageType,
-  data,
-  option,
-}) => {
+const DynamicAnswerPicker = ({ onSelected, isSelected, data }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
       onSelected(item);
     }
-  };
-
-  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
-
-  const onUpdateOption = (value) => {
-    updateOption({
-      variables: {
-        input: {
-          id: option.id,
-          dynamicAnswerID: value,
-        },
-      },
-    });
   };
 
   // removes paragraph tags from total title if a title exists.
@@ -132,17 +113,13 @@ const DynamicAnswerPicker = ({
               {data.map((checkboxAnswer) => {
                 return (
                   <VariableItem
-                    id={checkboxAnswer.id}
-                    key={checkboxAnswer.id}
-                    onClick={() => onUpdateOption(checkboxAnswer.id)}
-                    // aria-selected={isSelected(
-                    //   totalObject(calculatedSummaryPage)
-                    // )}
-                    aria-label={"total"}
+                    id={checkboxAnswer}
+                    key={checkboxAnswer}
+                    onClick={() => onSelected(checkboxAnswer)}
+                    aria-selected={isSelected(checkboxAnswer)}
+                    aria-label={checkboxAnswer}
                     tabIndex="0"
-                    // onKeyUp={(event) =>
-                    //   onEnterUp(event, totalObject(calculatedSummaryPage))
-                    // }
+                    onKeyUp={(event) => onEnterUp(event, checkboxAnswer)}
                   >
                     <Col>
                       <MenuItemTitle>

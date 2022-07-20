@@ -29,10 +29,8 @@ import messageTemplate, {
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
-import DynamicAnswerPicker from "../../../../../components/ContentPickerv2/DynamicAnswerPicker";
+import SidebarButton from "components/buttons/SidebarButton";
 import ContentPicker from "../../../../../components/ContentPickerv2";
-import { DYNAMICANSWER } from "../../../../../components/ContentPickerSelect/content-types";
 
 const ENTER_KEY = 13;
 
@@ -111,8 +109,6 @@ export const StatelessOption = ({
   const [startingTabId, setStartingTabId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
-
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
 
@@ -138,7 +134,6 @@ export const StatelessOption = ({
         });
       });
     }
-    console.log("allCheckBoxAnswers :>> ", allCheckBoxAnswers);
     return allCheckBoxAnswers;
   };
 
@@ -223,7 +218,7 @@ export const StatelessOption = ({
 
   const { ERR_UNIQUE_REQUIRED } = messageTemplate;
 
-  const handlePickerClose = () => setIsPickerOpen(false);
+  const handlePickerClose = () => setModalIsOpen(false);
 
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
@@ -259,8 +254,16 @@ export const StatelessOption = ({
     });
   };
 
-  const handlePickerSubmit = (...args) => {
+  const handlePickerSubmit = (item) => {
     handlePickerClose();
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          dynamicAnswerID: item.id,
+        },
+      },
+    });
   };
 
   return (
@@ -309,45 +312,49 @@ export const StatelessOption = ({
             </OptionField>
           </>
         )}
-        <Flex>
-          <CustomInlineField
-            id={`option-dynamic-answer-${option.id}`}
-            name="Dynamic Answer"
-            label="Dynamic Option"
-          >
-            <ToggleSwitch
-              id={`option-toggle-switch-${option.id}`}
-              name="Dynamic Option"
-              onChange={() => {
-                onUpdateFormat(!option.dynamicAnswer);
-              }}
-              checked={option.dynamicAnswer || false}
-            />
-          </CustomInlineField>
-        </Flex>
-        <OptionField>
-          <Label>Dynamic Answer</Label>
-          <CustomSideBarButton
-            id={option.id}
-            key={option.id}
-            onClick={handleSidebarButtonClick}
-          >
-            Select an answer
-          </CustomSideBarButton>
-        </OptionField>
-        <OptionField>
-          <Collapsible
-            title="What is a dynamic option?"
-            key={`dynamic-answer-collapsible$exists{option.id}`}
-          >
-            <p>
-              Radio answer options can be set to be dynamic to use answers from
-              a previous checkbox question. Note, if only one checkbox answer
-              exists then the radio answer is skipped.
-            </p>
-            <p>Question titles can include piped dynamic option answers.</p>
-          </Collapsible>
-        </OptionField>
+        {type === "Radio" && (
+          <>
+            <Flex>
+              <CustomInlineField
+                id={`option-dynamic-answer-${option.id}`}
+                name="Dynamic Answer"
+                label="Dynamic Option"
+              >
+                <ToggleSwitch
+                  id={`option-toggle-switch-${option.id}`}
+                  name="Dynamic Option"
+                  onChange={() => {
+                    onUpdateFormat(!option.dynamicAnswer);
+                  }}
+                  checked={option.dynamicAnswer || false}
+                />
+              </CustomInlineField>
+            </Flex>
+            <OptionField>
+              <Label>Dynamic Answer</Label>
+              <CustomSideBarButton
+                id={option.id}
+                key={option.id}
+                onClick={handleSidebarButtonClick}
+              >
+                Select an answer
+              </CustomSideBarButton>
+            </OptionField>
+            <OptionField>
+              <Collapsible
+                title="What is a dynamic option?"
+                key={`dynamic-answer-collapsible$exists{option.id}`}
+              >
+                <p>
+                  Radio answer options can be set to be dynamic to use answers
+                  from a previous checkbox question. Note, if only one checkbox
+                  answer exists then the radio answer is skipped.
+                </p>
+                <p>Question titles can include piped dynamic option answers.</p>
+              </Collapsible>
+            </OptionField>
+          </>
+        )}
         {option.additionalAnswer && (
           <LastOptionField>
             <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>
@@ -367,15 +374,12 @@ export const StatelessOption = ({
         )}
       </div>
       <ContentPicker
-        option={option}
         isOpen={modalIsOpen}
         data={getAllCheckBoxAnswers()}
-        startingSelectedAnswers={[]}
         onClose={handleModalClose}
-        data-test="picker"
-        singleItemSelect
-        contentType="DynamicAnswer"
         onSubmit={handlePickerSubmit}
+        data-test="picker"
+        contentType="DynamicAnswer"
       />
     </StyledOption>
   );
