@@ -44,7 +44,6 @@ const Container = styled.div`
 `;
 
 const ContentPicker = ({
-  option,
   pageType,
   contentType,
   data,
@@ -160,7 +159,6 @@ const ContentPicker = ({
       case DYNAMICANSWER:
         return (
           <DynamicAnswerPicker
-            option={option}
             onConfirm={handleConfirm}
             onSelected={(item) => handleSelected(item)}
             isSelected={isSelected}
