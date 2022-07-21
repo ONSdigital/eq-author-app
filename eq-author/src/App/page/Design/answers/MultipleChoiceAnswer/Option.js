@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -29,8 +29,8 @@ import messageTemplate, {
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-import SidebarButton from "components/buttons/SidebarButton";
-import ContentPicker from "../../../../../components/ContentPickerv2";
+import ContentPickerSelect from "components/ContentPickerSelect";
+import { DYNAMICANSWER } from "components/ContentPickerSelect/content-types";
 
 const ENTER_KEY = 13;
 
@@ -71,10 +71,6 @@ const CustomInlineField = styled(InlineField)`
   margin-bottom: 0.6em;
 `;
 
-const CustomSideBarButton = styled(SidebarButton)`
-  width: 20em;
-`;
-
 StyledOption.defaultProps = {
   duration: 200,
 };
@@ -105,36 +101,33 @@ export const StatelessOption = ({
     option?.additionalAnswer?.label ?? ""
   );
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
-
-  const [startingTabId, setStartingTabId] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
   const { questionnaire } = useQuestionnaire();
-  const pageId = useCurrentPageId();
+  const id = useCurrentPageId();
 
-  const data = () => {
-    return getContentBeforeEntity({
-      questionnaire,
-      id: pageId,
-    });
-  };
-  const getAllCheckBoxAnswers = () => {
-    const allCheckBoxAnswers = [];
-    const folderData = data();
+  const previousCheckboxAnswers = useMemo(
+    () =>
+      getContentBeforeEntity({
+        questionnaire,
+        id,
+        preprocessAnswers: (answer) =>
+          [CHECKBOX].includes(answer.type) ? answer : [],
+      }),
+    [questionnaire, id]
+  );
+
+  const getAllCheckboxAnswers = () => {
+    const allCheckboxAnswers = [];
+    const folderData = previousCheckboxAnswers;
     if (folderData.length !== 0) {
       folderData[0].folders.forEach((folder) => {
         folder.pages.forEach((page) => {
-          if (page?.pageType === "QuestionPage") {
-            page.answers.forEach((answer) => {
-              if (answer.type === "Checkbox") {
-                allCheckBoxAnswers.push(answer);
-              }
-            });
-          }
+          page.answers.forEach((answer) => {
+            allCheckboxAnswers.push(answer);
+          });
         });
       });
     }
-    return allCheckBoxAnswers;
+    return allCheckboxAnswers;
   };
 
   const handleDeleteClick = () => onDelete(option.id);
@@ -155,13 +148,6 @@ export const StatelessOption = ({
         },
       },
     });
-
-  const handleSidebarButtonClick = () => {
-    setModalIsOpen(true);
-    setStartingTabId(type.id);
-  };
-
-  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   const renderToolbar = () => {
     return (
@@ -218,8 +204,6 @@ export const StatelessOption = ({
 
   const { ERR_UNIQUE_REQUIRED } = messageTemplate;
 
-  const handlePickerClose = () => setModalIsOpen(false);
-
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
   let labelError = "";
@@ -249,21 +233,27 @@ export const StatelessOption = ({
         input: {
           id: option.id,
           dynamicAnswer: value,
+          dynamicAnswerID: "",
         },
       },
     });
   };
 
   const handlePickerSubmit = (item) => {
-    handlePickerClose();
     updateOption({
       variables: {
         input: {
           id: option.id,
-          dynamicAnswerID: item.id,
+          dynamicAnswerID: item.value.id,
         },
       },
     });
+  };
+
+  const getSelectedDynamicAnswer = () => {
+    return getAllCheckboxAnswers().find(
+      (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
+    );
   };
 
   return (
@@ -274,7 +264,6 @@ export const StatelessOption = ({
           <>
             <Flex>
               <DummyMultipleChoice type={type} />
-
               <OptionField>
                 <Label htmlFor={`option-label-${option.id}`}>
                   {label || "Label"}
@@ -294,7 +283,6 @@ export const StatelessOption = ({
                 />
               </OptionField>
             </Flex>
-
             <OptionField>
               <Label htmlFor={`option-description-${option.id}`}>
                 Description (optional)
@@ -312,7 +300,7 @@ export const StatelessOption = ({
             </OptionField>
           </>
         )}
-        {type === "Radio" && (
+        {type === "Radio" && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField
@@ -330,29 +318,37 @@ export const StatelessOption = ({
                 />
               </CustomInlineField>
             </Flex>
-            <OptionField>
-              <Label>Dynamic Answer</Label>
-              <CustomSideBarButton
-                id={option.id}
-                key={option.id}
-                onClick={handleSidebarButtonClick}
-              >
-                Select an answer
-              </CustomSideBarButton>
-            </OptionField>
-            <OptionField>
-              <Collapsible
-                title="What is a dynamic option?"
-                key={`dynamic-answer-collapsible$exists{option.id}`}
-              >
-                <p>
-                  Radio answer options can be set to be dynamic to use answers
-                  from a previous checkbox question. Note, if only one checkbox
-                  answer exists then the radio answer is skipped.
-                </p>
-                <p>Question titles can include piped dynamic option answers.</p>
-              </Collapsible>
-            </OptionField>
+            {option.dynamicAnswer && (
+              <>
+                <OptionField>
+                  <Label>Dynamic Answer</Label>
+                  <ContentPickerSelect
+                    name="answerId"
+                    contentTypes={[DYNAMICANSWER]}
+                    answerData={getAllCheckboxAnswers()}
+                    selectedContentDisplayName={getSelectedDynamicAnswer()}
+                    onSubmit={handlePickerSubmit}
+                    data-test="dynamic-answer-picker"
+                  />
+                </OptionField>
+                <OptionField>
+                  <Collapsible
+                    title="What is a dynamic option?"
+                    key={`dynamic-answer-collapsible${option.id}`}
+                  >
+                    <p>
+                      Radio answer options can be set to be dynamic to use
+                      answers from a previous checkbox question. Note, if only
+                      one checkbox answer exists then the radio answer is
+                      skipped.
+                    </p>
+                    <p>
+                      Question titles can include piped dynamic option answers.
+                    </p>
+                  </Collapsible>
+                </OptionField>
+              </>
+            )}
           </>
         )}
         {option.additionalAnswer && (
@@ -373,14 +369,6 @@ export const StatelessOption = ({
           </LastOptionField>
         )}
       </div>
-      <ContentPicker
-        isOpen={modalIsOpen}
-        data={getAllCheckBoxAnswers()}
-        onClose={handleModalClose}
-        onSubmit={handlePickerSubmit}
-        data-test="picker"
-        contentType="DynamicAnswer"
-      />
     </StyledOption>
   );
 };

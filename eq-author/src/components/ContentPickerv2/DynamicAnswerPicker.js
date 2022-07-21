@@ -16,8 +16,6 @@ import Truncated from "components/Truncated";
 
 import ScrollPane from "components/ScrollPane";
 
-import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-
 const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
