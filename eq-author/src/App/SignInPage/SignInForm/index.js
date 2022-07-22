@@ -15,6 +15,8 @@ import Button from "components-themed/buttons";
 import Label, { OptionLabel } from "components-themed/Label";
 import Panel from "components-themed/panels";
 
+import isCommonPassword from "../CommonPassword";
+
 import { Field } from "components/Forms";
 
 const SignInForm = ({
@@ -28,21 +30,30 @@ const SignInForm = ({
   setEmailNowVerified,
 }) => {
   const logInWithEmailAndPassword = (email, password) => {
-    setPasswordResetSuccess(false);
-    setEmailNowVerified(false);
-    if (email === "") {
-      setErrorMessage("Enter email");
-      return;
-    } else if (password === "") {
-      setErrorMessage("Enter password");
-      return;
-    }
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => setForgotPassword(false))
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+    isCommonPassword(password).then((commonPassword) => {
+      setPasswordResetSuccess(false);
+      setEmailNowVerified(false);
+      if (email === "") {
+        setErrorMessage("Enter email");
+        return;
+      } else if (password.length < 8 && password.length !== 0) {
+        setErrorMessage(
+          "Your password must be at least 8 characters." + passwordLink
+        );
+        return;
+      } else if (commonPassword) {
+        setErrorMessage(
+          "Common phrases and passwords are not allowed." + passwordLink
+        );
+        return;
+      }
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then(() => setForgotPassword(false))
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    });
   };
 
   const [email, setEmail] = useState("");
@@ -70,6 +81,11 @@ const SignInForm = ({
     }
   }
 
+  const passwordLink = () => {
+    <ButtonLink onClick={handleRecoverPassword} name="recover-password-button">
+      Reset your password?
+    </ButtonLink>;
+  };
   return (
     <>
       {errorMessage && (
