@@ -5,9 +5,6 @@
     "id": {
       "type": "string"
     },
-    "label": {
-      "$ref": "definitions.json#/definitions/populatedString"
-    },
     "additionalAnswer": {
       "type": "object",
       "properties": {
@@ -23,14 +20,34 @@
           "$ref": "answer.json#/definitions/properties"
         }
       },
-      "required": [
-        "id",
-        "label"
-      ]
+      "required": ["id", "label"]
     }
   },
-  "required": [
-    "id",
-    "label"
+  "required": ["id"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "dynamicAnswer": { "const": true }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "dynamicAnswerID": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "else": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        },
+        "required": ["label"]
+      }
+    }
   ]
 }

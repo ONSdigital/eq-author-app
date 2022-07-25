@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -19,6 +19,7 @@ import Collapsible from "components/Collapsible";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import { useCurrentPageId } from "components/RouterContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
+import ValidationError from "components/ValidationError";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
@@ -26,6 +27,7 @@ import messageTemplate, {
   MISSING_LABEL,
   ADDITIONAL_LABEL_MISSING,
   buildLabelError,
+  dynamicAnswer,
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
@@ -207,13 +209,20 @@ export const StatelessOption = ({
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
   let labelError = "";
-
   if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
     )
   ) {
-    labelError = errorMsg;
+    if (
+      option.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "dynamicAnswerID"
+      )
+    ) {
+      labelError = dynamicAnswer.ERR_VALID_REQUIRED;
+    } else {
+      labelError = errorMsg;
+    }
   } else if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_UNIQUE_REQUIRED"
@@ -329,7 +338,11 @@ export const StatelessOption = ({
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
                     data-test="dynamic-answer-picker"
+                    hasError={Boolean(labelError)}
                   />
+                  {labelError && (
+                    <ValidationError>{labelError}</ValidationError>
+                  )}
                 </OptionField>
                 <OptionField>
                   <Collapsible

@@ -163,6 +163,12 @@ export const calculatedSummaryErrors = {
   CALCSUM_MOVED: "The calculated summary must appear after the answers it uses",
 };
 
+export const dynamicAnswer = {
+  ERR_VALID_REQUIRED: "Answer required",
+  ANSWER_DELETED: "The selected answer has been deleted",
+  ERR_REFERENCE_MOVED: "Answer must be from a previous question",
+};
+
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
