@@ -48,6 +48,31 @@
         },
         "required": ["label"]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "dynamicAnswerID": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "idExists": {
+              "$data": "0/dynamicAnswerID"
+            },
+            "errorMessage": "ERR_REFERENCE_DELETED"
+          },
+          {
+            "idPreceedsCurrentEntity": {
+              "$data": "0/dynamicAnswerID"
+            },
+            "errorMessage": "ERR_REFERENCE_MOVED"
+          }
+        ]
+      }
     }
   ]
 }
