@@ -52,26 +52,32 @@
     {
       "if": {
         "properties": {
+          "dynamicAnswer": { "const": true },
           "dynamicAnswerID": {
             "$ref": "definitions.json#/definitions/populatedString"
           }
         }
       },
       "then": {
-        "allOf": [
-          {
-            "idExists": {
-              "$data": "0/dynamicAnswerID"
-            },
-            "errorMessage": "ERR_REFERENCE_DELETED"
-          },
-          {
-            "idPreceedsCurrentEntity": {
-              "$data": "0/dynamicAnswerID"
-            },
-            "errorMessage": "ERR_REFERENCE_MOVED"
+        "type": "object",
+        "properties": {
+          "dynamicAnswerID": {
+            "allOf": [
+              {
+                "idExists": {
+                  "$data": "1/dynamicAnswerID"
+                },
+                "errorMessage": "ERR_REFERENCE_DELETED"
+              },
+              {
+                "idPreceedsCurrentEntity": {
+                  "$data": "1/dynamicAnswerID"
+                },
+                "errorMessage": "ERR_REFERENCE_MOVED"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   ]
