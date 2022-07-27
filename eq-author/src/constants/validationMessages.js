@@ -165,7 +165,7 @@ export const calculatedSummaryErrors = {
 
 export const dynamicAnswer = {
   ERR_VALID_REQUIRED: "Answer required",
-  ANSWER_DELETED: "The selected answer has been deleted",
+  ERR_REFERENCE_DELETED: "The selected answer has been deleted",
   ERR_REFERENCE_MOVED: "Answer must be from a previous question",
 };
 

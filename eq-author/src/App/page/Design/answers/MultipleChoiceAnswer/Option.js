@@ -229,6 +229,19 @@ export const StatelessOption = ({
     )
   ) {
     labelError = uniqueErrorMsg;
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_REFERENCE_DELETED"
+    )
+  ) {
+    labelError = dynamicAnswer.ERR_REFERENCE_DELETED;
+    console.log("labelError :>> ", labelError);
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_REFERENCE_MOVED"
+    )
+  ) {
+    labelError = dynamicAnswer.ERR_REFERENCE_MOVED;
   }
 
   const otherLabelError =
