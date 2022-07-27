@@ -416,7 +416,6 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
-  dynamicAnswer: PropTypes.bool,
 };
 
 StatelessOption.fragments = {

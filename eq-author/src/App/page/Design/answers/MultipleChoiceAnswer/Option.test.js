@@ -5,6 +5,7 @@ import { StatelessOption } from "./Option";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
+import { useCurrentPageId } from "components/RouterContext";
 import {
   render as rtlRender,
   fireEvent,
@@ -17,6 +18,11 @@ jest.mock("@apollo/react-hooks", () => ({
 }));
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
+
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
+useCurrentPageId.mockImplementation(() => "1.1.2");
 
 describe("Option", () => {
   let mockMutations;

@@ -5,6 +5,7 @@ import { render } from "enzyme";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import createMockStore from "tests/utils/createMockStore";
 import suppressConsoleMessage from "tests/utils/supressConsol";
+import { useCurrentPageId } from "components/RouterContext";
 
 /*
  * @description Suppresses specific messages from being logged in the Console.
@@ -21,6 +22,11 @@ const mockUseMutation = jest.fn();
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
 }));
+
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
+useCurrentPageId.mockImplementation(() => "1.1.2");
 
 const createMultipleChoice = (props) => {
   return render(<UnwrappedMultipleChoiceAnswer {...props} />);
