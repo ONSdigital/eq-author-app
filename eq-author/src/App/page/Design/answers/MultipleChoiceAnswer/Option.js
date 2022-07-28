@@ -212,17 +212,19 @@ export const StatelessOption = ({
   if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
+    ) &&
+    option.validationErrorInfo?.errors?.find(({ field }) => field === "label")
+  ) {
+    labelError = errorMsg;
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ field }) => field === "dynamicAnswerID"
+    ) &&
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
     )
   ) {
-    if (
-      option.validationErrorInfo?.errors?.find(
-        ({ field }) => field === "dynamicAnswerID"
-      )
-    ) {
-      labelError = dynamicAnswer.ERR_VALID_REQUIRED;
-    } else {
-      labelError = errorMsg;
-    }
+    labelError = dynamicAnswer.ERR_VALID_REQUIRED;
   } else if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_UNIQUE_REQUIRED"
@@ -235,7 +237,6 @@ export const StatelessOption = ({
     )
   ) {
     labelError = dynamicAnswer.ERR_REFERENCE_DELETED;
-    console.log("labelError :>> ", labelError);
   } else if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_REFERENCE_MOVED"
