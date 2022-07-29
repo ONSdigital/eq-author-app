@@ -12,6 +12,12 @@ import {
   waitFor,
   screen,
 } from "tests/utils/rtl";
+import messageTemplate, {
+  dynamicAnswer,
+  MISSING_LABEL,
+  ADDITIONAL_LABEL_MISSING,
+  buildLabelError,
+} from "constants/validationMessages";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
@@ -37,6 +43,16 @@ describe("Option", () => {
       id: "additional1",
       label: "",
       type: "TextField",
+      validationErrorInfo: {
+        errors: [],
+        totalCount: 0,
+      },
+    },
+    dynamicAnswer: false,
+    dynamicAnswerID: "",
+    validationErrorInfo: {
+      errors: [],
+      totalCount: 0,
     },
     __typename: "Option",
   };
@@ -67,6 +83,7 @@ describe("Option", () => {
       onFocus: jest.fn(),
       onDelete: jest.fn(),
       onEnterKey: jest.fn(),
+      onSubmit: jest.fn(),
     };
 
     render();
@@ -172,5 +189,237 @@ describe("Option", () => {
       .getDOMNode();
 
     expect(input.hasAttribute("data-autofocus")).toBe(false);
+  });
+
+  it("it should invoke onChange when the dynamic answer togggle switch is clicked", () => {
+    const option = {
+      id: "1",
+      label: "",
+      description: "",
+      dynamicAnswer: false,
+      dynamicAnswerID: "",
+      __typename: "Option",
+    };
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
+    fireEvent.change(getByTestId("option-toggle-switch-1"), {
+      target: true,
+    });
+  });
+
+  it("it should display dynamic answer content picker the dynamic answer togggle switch is true", () => {
+    const option = {
+      id: "1",
+      label: "",
+      description: "",
+      dynamicAnswer: true,
+      dynamicAnswerID: "",
+      __typename: "Option",
+    };
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
+    expect(getByTestId("dynamic-answer-picker")).toBeInTheDocument();
+  });
+
+  // it("should update dynamic answer ID", () => {
+  //   const option = {
+  //     id: "1",
+  //     label: "",
+  //     description: "",
+  //     dynamicAnswer: true,
+  //     dynamicAnswerID: "",
+  //     __typename: "Option",
+  //   };
+
+  //   const otherProps = {
+  //     option: option,
+  //     hasDeleteButton: true,
+  //     type: RADIO,
+  //     ...mockMutations,
+  //   };
+
+  //   const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
+  //   const f = screen.getByTestId("dynamic-answer-picker")
+  //   fireEvent.submit(f, { item: "3"});
+  //   // .simulate("submit", { id: "1", dynamicAnswerID: "3" });
+
+  //   expect(mockMutations.onSubmit).toHaveBeenCalledTimes(1);
+  // });
+
+  it("it should display a validation message when a dynamic answer hasn't been selected", () => {
+    const option = {
+      id: "1",
+      label: "",
+      description: "",
+      dynamicAnswer: true,
+      dynamicAnswerID: "",
+      validationErrorInfo: {
+        errors: [
+          {
+            id: "1",
+            errorCode: "ERR_VALID_REQUIRED",
+            field: "dynamicAnswerID",
+            type: "option",
+          },
+        ],
+        totalCount: 1,
+      },
+      __typename: "Option",
+    };
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(dynamicAnswer.ERR_VALID_REQUIRED)).toBeTruthy();
+  });
+
+  it("it should display a validation message when a label hasn't been entered", () => {
+    const errorCode = [
+      {
+        id: "1",
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "label",
+        type: "option",
+      },
+    ];
+    option.validationErrorInfo.errors = errorCode;
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+    const error = buildLabelError(MISSING_LABEL, `radio`, 8, 7);
+
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(error)).toBeTruthy();
+  });
+
+  it("it should display a validation message when an other label hasn't been entered", () => {
+    const errorCode = [
+      {
+        id: "1",
+        errorCode: "ADDITIONAL_LABEL_MISSING",
+        field: "label",
+        type: "option",
+      },
+    ];
+    option.additionalAnswer.validationErrorInfo.errors = errorCode;
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(ADDITIONAL_LABEL_MISSING)).toBeTruthy();
+  });
+
+  it("it should display a validation message when two labels are not unique", () => {
+    const error = [
+      {
+        id: "1",
+        errorCode: "ERR_UNIQUE_REQUIRED",
+        field: "label",
+        type: "option",
+      },
+    ];
+    option.validationErrorInfo.errors = error;
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+
+    const { ERR_UNIQUE_REQUIRED } = messageTemplate;
+    const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
+
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(uniqueErrorMsg)).toBeTruthy();
+  });
+
+  it("it should display a validation message when the answer chosen in the dynamic answer picker has been deleted", () => {
+    const option = {
+      id: "1",
+      label: "",
+      description: "",
+      dynamicAnswer: true,
+      dynamicAnswerID: "",
+      validationErrorInfo: {
+        errors: [
+          {
+            id: "1",
+            errorCode: "ERR_REFERENCE_DELETED",
+            field: "dynamicAnswerID",
+            type: "option",
+          },
+        ],
+        totalCount: 1,
+      },
+      __typename: "Option",
+    };
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(dynamicAnswer.ERR_REFERENCE_DELETED)).toBeTruthy();
+  });
+
+  it("it should display a validation message when the answer chosen in the dynamic answer picker has been moved to a position after the question page", () => {
+    const option = {
+      id: "1",
+      label: "",
+      description: "",
+      dynamicAnswer: true,
+      dynamicAnswerID: "",
+      validationErrorInfo: {
+        errors: [
+          {
+            id: "1",
+            errorCode: "ERR_REFERENCE_MOVED",
+            field: "dynamicAnswerID",
+            type: "option",
+          },
+        ],
+        totalCount: 1,
+      },
+      __typename: "Option",
+    };
+
+    const otherProps = {
+      option: option,
+      hasDeleteButton: true,
+      type: RADIO,
+      ...mockMutations,
+    };
+
+    rtlRender(<StatelessOption {...otherProps} />);
+    expect(screen.getByText(dynamicAnswer.ERR_REFERENCE_MOVED)).toBeTruthy();
   });
 });
