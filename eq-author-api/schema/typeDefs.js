@@ -172,7 +172,6 @@ type Section {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -1188,7 +1187,6 @@ input UpdateSectionInput {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
 }
 
 input DeleteSectionInput {

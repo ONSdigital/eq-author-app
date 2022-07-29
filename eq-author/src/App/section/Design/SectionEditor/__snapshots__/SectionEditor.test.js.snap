@@ -46,10 +46,8 @@ exports[`SectionEditor should render 1`] = `
     />
     <SectionEditor__HorizontalRule />
     <SectionSummary
-      collapsibleSummary={false}
       id="section-1"
       sectionSummary={false}
-      summaryTitle=""
     />
     <SectionEditor__HorizontalRule />
     <Label
@@ -155,10 +153,8 @@ exports[`SectionEditor should render 2`] = `
     />
     <SectionEditor__HorizontalRule />
     <SectionSummary
-      collapsibleSummary={false}
       id="section-2"
       sectionSummary={false}
-      summaryTitle=""
     />
     <SectionEditor__HorizontalRule />
     <Label
