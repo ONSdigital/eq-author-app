@@ -1,5 +1,4 @@
 import React from "react";
-import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
@@ -93,6 +92,8 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, data }) => {
     return title.slice(3, -4);
   };
 
+  console.log("data :>> ", data);
+
   return (
     <>
       <ModalHeader>
@@ -111,8 +112,8 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, data }) => {
               {data.map((checkboxAnswer) => {
                 return (
                   <VariableItem
-                    id={checkboxAnswer}
-                    key={checkboxAnswer}
+                    id={checkboxAnswer.id}
+                    key={checkboxAnswer.id}
                     onClick={() => onSelected(checkboxAnswer)}
                     aria-selected={isSelected(checkboxAnswer)}
                     aria-label={checkboxAnswer}
