@@ -722,6 +722,13 @@ describe("Content picker", () => {
           questionTitle: "<p>Checkbox page 2</p>",
           type: "Checkbox",
         },
+        {
+          displayName: "Checkbox 3",
+          id: "7",
+          options: [{ id: "8" }, { id: "9" }],
+          questionTitle: "",
+          type: "Checkbox",
+        },
       ];
 
       props = {
@@ -802,6 +809,14 @@ describe("Content picker", () => {
       const { getByText } = renderContentPicker();
 
       const questionTitle = getByText("Checkbox page 1");
+
+      expect(questionTitle).toBeTruthy();
+    });
+
+    it("should format the question title correctly if a title has not been entered", () => {
+      const { getByText } = renderContentPicker();
+
+      const questionTitle = getByText("Untitled question");
 
       expect(questionTitle).toBeTruthy();
     });

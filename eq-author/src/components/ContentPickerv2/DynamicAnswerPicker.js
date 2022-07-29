@@ -87,12 +87,10 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, data }) => {
   // removes paragraph tags from total title if a title exists.
   const formatQuestionTitle = (title) => {
     if (!title) {
-      return "Untitled total";
+      return "Untitled question";
     }
     return title.slice(3, -4);
   };
-
-  console.log("data :>> ", data);
 
   return (
     <>
