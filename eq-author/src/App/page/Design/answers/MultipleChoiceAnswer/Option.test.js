@@ -233,31 +233,6 @@ describe("Option", () => {
     expect(getByTestId("dynamic-answer-picker")).toBeInTheDocument();
   });
 
-  // it("should update dynamic answer ID", () => {
-  //   const option = {
-  //     id: "1",
-  //     label: "",
-  //     description: "",
-  //     dynamicAnswer: true,
-  //     dynamicAnswerID: "",
-  //     __typename: "Option",
-  //   };
-
-  //   const otherProps = {
-  //     option: option,
-  //     hasDeleteButton: true,
-  //     type: RADIO,
-  //     ...mockMutations,
-  //   };
-
-  //   const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
-  //   const f = screen.getByTestId("dynamic-answer-picker")
-  //   fireEvent.submit(f, { item: "3"});
-  //   // .simulate("submit", { id: "1", dynamicAnswerID: "3" });
-
-  //   expect(mockMutations.onSubmit).toHaveBeenCalledTimes(1);
-  // });
-
   it("it should display a validation message when a dynamic answer hasn't been selected", () => {
     const option = {
       id: "1",
