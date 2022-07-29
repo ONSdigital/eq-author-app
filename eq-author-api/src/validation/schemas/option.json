@@ -21,10 +21,7 @@
         }
       },
       "required": ["id", "label"]
-    },
-    "label": {
-      "$ref": "definitions.json#/definitions/populatedString"
-    } 
+    }
   },
   "required": ["id"],
   "allOf": [
@@ -41,6 +38,22 @@
             "$ref": "definitions.json#/definitions/populatedString"
           }
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "dynamicAnswer": { "const": false }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        },
+        "required": ["label"]
       }
     },
     {
