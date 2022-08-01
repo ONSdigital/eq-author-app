@@ -5,7 +5,7 @@ import {
   METADATA,
   VARIABLES,
   DESTINATION,
-  DYNAMICANSWER,
+  DYNAMIC_ANSWER,
 } from "components/ContentPickerSelect/content-types";
 
 import ContentPicker from "./";
@@ -734,7 +734,7 @@ describe("Content picker", () => {
       props = {
         ...props,
         data,
-        contentType: DYNAMICANSWER,
+        contentType: DYNAMIC_ANSWER,
       };
     });
 

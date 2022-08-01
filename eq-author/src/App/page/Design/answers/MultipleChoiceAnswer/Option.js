@@ -32,7 +32,7 @@ import messageTemplate, {
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import ContentPickerSelect from "components/ContentPickerSelect";
-import { DYNAMICANSWER } from "components/ContentPickerSelect/content-types";
+import { DYNAMIC_ANSWER } from "components/ContentPickerSelect/content-types";
 
 const ENTER_KEY = 13;
 
@@ -71,7 +71,10 @@ export const StyledOption = styled.div`
 
 const CustomInlineField = styled(InlineField)`
   margin-bottom: 0.6em;
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
 `;
+
+const CollapsibleContent = styled.p``;
 
 StyledOption.defaultProps = {
   duration: 200,
@@ -330,6 +333,9 @@ export const StatelessOption = ({
                 id={`option-dynamic-answer-${option.id}`}
                 name="Dynamic Answer"
                 label="Dynamic Option"
+                disabled={
+                  !option.dynamicAnswer && previousCheckboxAnswers.length === 0
+                }
               >
                 <ToggleSwitch
                   id={`option-toggle-switch-${option.id}`}
@@ -338,6 +344,7 @@ export const StatelessOption = ({
                     onUpdateFormat(!option.dynamicAnswer);
                   }}
                   checked={option.dynamicAnswer || false}
+                  hideLabels={false}
                 />
               </CustomInlineField>
             </Flex>
@@ -347,7 +354,7 @@ export const StatelessOption = ({
                   <Label>Dynamic Answer</Label>
                   <ContentPickerSelect
                     name="answerId"
-                    contentTypes={[DYNAMICANSWER]}
+                    contentTypes={[DYNAMIC_ANSWER]}
                     answerData={getAllCheckboxAnswers()}
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
@@ -358,24 +365,23 @@ export const StatelessOption = ({
                     <ValidationError>{labelError}</ValidationError>
                   )}
                 </OptionField>
-                <OptionField>
-                  <Collapsible
-                    title="What is a dynamic option?"
-                    key={`dynamic-answer-collapsible${option.id}`}
-                  >
-                    <p>
-                      Radio answer options can be set to be dynamic to use
-                      answers from a previous checkbox question. Note, if only
-                      one checkbox answer exists then the radio answer is
-                      skipped.
-                    </p>
-                    <p>
-                      Question titles can include piped dynamic option answers.
-                    </p>
-                  </Collapsible>
-                </OptionField>
               </>
             )}
+            <OptionField>
+              <Collapsible
+                title="What is a dynamic option?"
+                key={`dynamic-answer-collapsible${option.id}`}
+              >
+                <CollapsibleContent>
+                  Radio answer options can be set to be dynamic to use answers
+                  from a previous checkbox question. Note, if only one checkbox
+                  answer exists then the radio answer question is skipped.
+                </CollapsibleContent>
+                <CollapsibleContent>
+                  Question titles can include piped dynamic option answers.
+                </CollapsibleContent>
+              </Collapsible>
+            </OptionField>
           </>
         )}
         {option.additionalAnswer && (

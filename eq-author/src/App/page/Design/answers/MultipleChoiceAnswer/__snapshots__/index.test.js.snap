@@ -1231,7 +1231,7 @@ Array [
   line-height: 1.3;
 }
 
-.c16 {
+.c17 {
   display: inline-block;
   margin-bottom: 0;
   font-weight: bold;
@@ -1240,7 +1240,7 @@ Array [
   line-height: 1.3;
 }
 
-.c20 {
+.c21 {
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -1262,46 +1262,46 @@ Array [
   font-size: 1em;
 }
 
-.c20:hover {
+.c21:hover {
   border-color: #3B7A9E;
   box-shadow: 0 0 0 1pt #3B7A9E;
 }
 
-.c20:focus,
-.c20:focus-within {
+.c21:focus,
+.c21:focus-within {
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
 
-.c20::-webkit-input-placeholder {
+.c21::-webkit-input-placeholder {
   color: #a3a3a3;
 }
 
-.c20::-moz-placeholder {
+.c21::-moz-placeholder {
   color: #a3a3a3;
 }
 
-.c20:-ms-input-placeholder {
+.c21:-ms-input-placeholder {
   color: #a3a3a3;
 }
 
-.c20::placeholder {
+.c21::placeholder {
   color: #a3a3a3;
 }
 
-.c20:focus {
+.c21:focus {
   outline: none;
   border-style: solid;
   border-color: #3B7A9E;
 }
 
-.c20[disabled] {
+.c21[disabled] {
   opacity: 0.8;
   pointer-events: none;
 }
 
-.c20:checked {
+.c21:checked {
   background: url(SvgrURL) no-repeat center;
   background-size: 0.8em auto;
 }
@@ -1312,7 +1312,14 @@ Array [
   position: relative;
 }
 
-.c32 {
+.c14 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+  opacity: 0.6;
+}
+
+.c39 {
   position: absolute;
   overflow: hidden;
   -webkit-clip: rect(0 0 0 0);
@@ -1324,7 +1331,7 @@ Array [
   border: 0;
 }
 
-.c31 {
+.c38 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1344,14 +1351,14 @@ Array [
   min-width: 0;
 }
 
-.c31 svg {
+.c38 svg {
   pointer-events: none;
   -webkit-flex: 0 0 2em;
   -ms-flex: 0 0 2em;
   flex: 0 0 2em;
 }
 
-.c31 svg path {
+.c38 svg path {
   fill: var(--color-text);
 }
 
@@ -1431,7 +1438,7 @@ Array [
   flex: 0 0 auto;
 }
 
-.c23 {
+.c24 {
   height: 1em;
   width: 1.5em;
   top: 0.6000000000000001em;
@@ -1445,11 +1452,11 @@ Array [
   cursor: pointer;
 }
 
-.c23:hover {
+.c24:hover {
   border-color: #3B7A9E;
 }
 
-.c24 {
+.c25 {
   display: inline-block;
   height: 1em;
   width: 1em;
@@ -1468,7 +1475,7 @@ Array [
   border: inherit;
 }
 
-.c21 {
+.c22 {
   opacity: 0;
   position: relative;
   height: 100%;
@@ -1477,15 +1484,15 @@ Array [
   cursor: pointer;
 }
 
-.c21:focus + .c22 {
+.c22:focus + .c23 {
   box-shadow: 0 0 0 2px #FDBD56;
 }
 
-.c21:hover + .c22 {
+.c22:hover + .c23 {
   border-color: #3B7A9E;
 }
 
-.c19 {
+.c20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1502,45 +1509,51 @@ Array [
   position: relative;
 }
 
-.c18 {
+.c19 {
   padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  display: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   color: #222222;
   font-weight: 600;
 }
 
-.c18:first-of-type {
+.c19:first-of-type {
   padding-right: 0.5em;
 }
 
-.c18:last-of-type {
+.c19:last-of-type {
   padding-left: 0.5em;
 }
 
-.c25 {
+.c26 {
   padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  display: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   color: #999999;
   font-weight: 600;
 }
 
-.c25:first-of-type {
+.c26:first-of-type {
   padding-right: 0.5em;
 }
 
-.c25:last-of-type {
+.c26:last-of-type {
   padding-left: 0.5em;
 }
 
-.c14 {
+.c15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1552,12 +1565,159 @@ Array [
   align-items: center;
 }
 
-.c17 {
+.c18 {
   margin-right: 0.2em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.c27 {
+  margin: 0;
+}
+
+.c28 {
+  margin: 0;
+}
+
+.c29 {
+  vertical-align: middle;
+  text-align: left;
+  margin: 0;
+  padding: 0.25em 0 0.5em;
+  font-size: inherit;
+}
+
+.c29 .c41 {
+  margin-left: 1em;
+}
+
+.c31 {
+  display: none;
+  margin-top: -1em;
+  border-left: 3px solid #d6d8da;
+  padding: 1em;
+}
+
+.c31 p {
+  margin-top: 0;
+}
+
+.c30 {
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.25em 0.25em 0.25em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #3B7A9E;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  margin-left: 0;
+}
+
+.c30:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c30::before {
+  content: "";
+  background-color: #3B7A9E;
+  -webkit-mask: url(SvgrURL);
+  mask: url(SvgrURL);
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.2em;
+  margin-left: -0.5em;
+}
+
+.c30:hover {
+  color: #003c57;
+}
+
+.c30:hover::before {
+  background-color: #003c57;
+}
+
+.c32 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+  padding: 0.4em 0.8em;
+  color: black;
+  background-color: #d6d8da;
+  font-weight: normal;
+}
+
+.c32[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c32:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c32:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #2d5d79;
+  border-color: var(--color-bg);
+}
+
+.c32:hover {
+  background-color: #999999;
+}
+
+.c32:focus {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
 }
 
 .c5 {
@@ -1599,8 +1759,9 @@ Array [
   margin-bottom: 1em;
 }
 
-.c15 {
+.c16 {
   margin-bottom: 0.6em;
+  pointer-events: none;
 }
 
 .c3 {
@@ -1643,7 +1804,7 @@ Array [
   transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
 }
 
-.c28 {
+.c35 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1688,24 +1849,24 @@ Array [
   z-index: 2;
 }
 
-.c28[disabled] {
+.c35[disabled] {
   pointer-events: none;
   opacity: 0.6;
 }
 
-.c28:focus-within {
+.c35:focus-within {
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
 
-.c28:hover {
+.c35:hover {
   --color-text: #FFFFFF;
   --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
-.c30 {
+.c37 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1749,40 +1910,40 @@ Array [
   position: relative;
 }
 
-.c30[disabled] {
+.c37[disabled] {
   pointer-events: none;
   opacity: 0.6;
 }
 
-.c30:focus-within {
+.c37:focus-within {
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
 
-.c30:hover {
+.c37:hover {
   --color-text: #FFFFFF;
   --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
-.c30:focus {
+.c37:focus {
   z-index: 3;
 }
 
-.c29 {
+.c36 {
   position: relative;
   display: inline-block;
 }
 
-.c33 {
+.c40 {
   position: absolute;
   right: 0;
   top: 100%;
   z-index: 10;
 }
 
-.c26 {
+.c33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1807,7 +1968,7 @@ Array [
   margin: 0 0 1em;
 }
 
-.c27 {
+.c34 {
   margin-bottom: 1em;
 }
 
@@ -1887,30 +2048,31 @@ Array [
                 class="c6"
               >
                 <div
-                  class="c8 c14 c15"
+                  class="c14 c15 c16"
+                  disabled=""
                   name="Dynamic Answer"
                 >
                   <label
-                    class="c16 c17"
+                    class="c17 c18"
                     for="option-dynamic-answer-1"
                   >
                     Dynamic Option
                   </label>
                   <div
                     checked=""
-                    class="c18"
+                    class="c19"
                   >
                     Off
                   </div>
                   <div
                     aria-checked="false"
-                    class="c19"
+                    class="c20"
                     data-test="option-toggle-switch-1"
                     role="switch"
                   >
                     <input
                       aria-checked="false"
-                      class="c20 c21"
+                      class="c21 c22"
                       data-test="option-toggle-switch-1-input"
                       id="option-toggle-switch-1"
                       name="option-toggle-switch-1"
@@ -1918,18 +2080,67 @@ Array [
                       type="checkbox"
                     />
                     <div
-                      class="c22 c23"
+                      class="c23 c24"
                       role="presentation"
                     >
                       <div
-                        class="c24"
+                        class="c25"
                       />
                     </div>
                   </div>
                   <div
-                    class="c25"
+                    class="c26"
                   >
                     On
+                  </div>
+                </div>
+              </div>
+              <div
+                class="c8 c9"
+              >
+                <div
+                  class="c27"
+                  data-test="collapsible"
+                >
+                  <div
+                    class="c28 collapsible-header"
+                    data-test="collapsible-header"
+                  >
+                    <h2
+                      class="c29 collapsible-title"
+                      data-test="collapsible-title"
+                    >
+                      <button
+                        aria-controls="collapsible-body"
+                        class="c30 collapsible-toggle-Collapsible-Button"
+                        data-test="collapsible-toggle-button"
+                      >
+                        What is a dynamic option?
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    class="c31 collapsible-body"
+                    data-test="collapsible-body"
+                  >
+                    <p
+                      class=""
+                    >
+                      Radio answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the radio answer question is skipped.
+                    </p>
+                    <p
+                      class=""
+                    >
+                      Question titles can include piped dynamic option answers.
+                    </p>
+                    <button
+                      class="c32"
+                      data-test="collapsible-hide-button"
+                      type="button"
+                    >
+                      Hide this
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1940,38 +2151,38 @@ Array [
     </div>
     <div>
       <div
-        class="c26 c27"
+        class="c33 c34"
       >
         <button
-          class="c28"
+          class="c35"
           data-test="btn-add-option"
           type="button"
         >
           Add another option
         </button>
         <div
-          class="c29"
+          class="c36"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="c30"
+            class="c37"
             data-test="btn-add-option-menu"
             type="button"
           >
             <span
-              class="c31"
+              class="c38"
             >
               <svg />
               <span
-                class="c32"
+                class="c39"
               >
                 Show additional options
               </span>
             </span>
           </button>
           <div
-            class="c33"
+            class="c40"
           />
         </div>
       </div>

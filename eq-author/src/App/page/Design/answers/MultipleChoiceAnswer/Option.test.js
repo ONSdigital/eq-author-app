@@ -28,7 +28,6 @@ useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 jest.mock("components/RouterContext", () => ({
   useCurrentPageId: jest.fn(),
 }));
-useCurrentPageId.mockImplementation(() => "1.1.2");
 
 describe("Option", () => {
   let mockMutations;
@@ -191,7 +190,7 @@ describe("Option", () => {
     expect(input.hasAttribute("data-autofocus")).toBe(false);
   });
 
-  it("it should invoke onChange when the dynamic answer togggle switch is clicked", () => {
+  it("it should invoke onChange when the dynamic answer toggle switch is clicked", () => {
     const option = {
       id: "1",
       label: "",
@@ -213,7 +212,7 @@ describe("Option", () => {
     });
   });
 
-  it("it should display dynamic answer content picker the dynamic answer togggle switch is true", () => {
+  it("it should display dynamic answer content picker when the dynamic answer togggle switch is true", () => {
     const option = {
       id: "1",
       label: "",

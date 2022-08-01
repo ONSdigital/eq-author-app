@@ -10,7 +10,7 @@ import {
   METADATA,
   VARIABLES,
   DESTINATION,
-  DYNAMICANSWER,
+  DYNAMIC_ANSWER,
 } from "components/ContentPickerSelect/content-types";
 import AnswerPicker from "./AnswerPicker";
 import MetadataPicker from "./MetadataPicker";
@@ -156,7 +156,7 @@ const ContentPicker = ({
           />
         );
 
-      case DYNAMICANSWER:
+      case DYNAMIC_ANSWER:
         return (
           <DynamicAnswerPicker
             onConfirm={handleConfirm}
