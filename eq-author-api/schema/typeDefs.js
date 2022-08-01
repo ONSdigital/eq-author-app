@@ -172,7 +172,6 @@ type Section {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -271,6 +270,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   folder: Folder!
   position: Int!
   summaryAnswers: [Answer!]!
+  type: String
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
@@ -1185,7 +1185,6 @@ input UpdateSectionInput {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
 }
 
 input DeleteSectionInput {
@@ -1316,6 +1315,7 @@ input UpdateCalculatedSummaryPageInput {
   totalTitle: String
   qCode: String
   summaryAnswers: [ID!]
+  type: String
 }
 
 input CreateAnswerInput {

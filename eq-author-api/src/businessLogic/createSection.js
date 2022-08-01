@@ -10,7 +10,6 @@ const createSection = (input = {}) => ({
   requiredCompleted: false,
   showOnHub: true,
   sectionSummary: false,
-  summaryTitle: "",
   ...input,
 });
 

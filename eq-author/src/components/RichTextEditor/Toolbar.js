@@ -77,6 +77,7 @@ class ToolBar extends React.Component {
   };
 
   static propTypes = {
+    pageType: PropTypes.string,
     onToggle: PropTypes.func.isRequired,
     onPiping: PropTypes.func.isRequired,
     onLinkChosen: PropTypes.func,
@@ -99,6 +100,7 @@ class ToolBar extends React.Component {
     }),
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
+    allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
   renderButton = (button) => {
@@ -121,6 +123,7 @@ class ToolBar extends React.Component {
 
   render() {
     const {
+      pageType,
       visible,
       onPiping,
       onLinkChosen,
@@ -132,6 +135,7 @@ class ToolBar extends React.Component {
       defaultTab,
       linkCount,
       linkLimit,
+      allCalculatedSummaryPages,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
@@ -156,11 +160,13 @@ class ToolBar extends React.Component {
             <>
               <Separator />
               <PipingMenu
+                pageType={pageType}
                 disabled={isPipingDisabled}
                 onItemChosen={onPiping}
                 canFocus={visible}
                 allowableTypes={allowableTypes}
                 defaultTab={defaultTab}
+                allCalculatedSummaryPages={allCalculatedSummaryPages}
               />
             </>
           )}
