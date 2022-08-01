@@ -251,7 +251,6 @@ const ListCollectorPagePreview = ({ page }) => {
                 />
               )}
             </div>
-
           </CollectorInfoTop>
         </Container>
       </Panel>
