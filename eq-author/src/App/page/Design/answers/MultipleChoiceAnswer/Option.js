@@ -121,14 +121,16 @@ export const StatelessOption = ({
     [questionnaire, id]
   );
 
-  const getAllCheckboxAnswers = () => {
+  const getCheckboxAnswers = () => {
     const allCheckboxAnswers = [];
     const folderData = previousCheckboxAnswers;
     if (folderData.length !== 0) {
       folderData[0].folders.forEach((folder) => {
         folder.pages.forEach((page) => {
           page.answers.forEach((answer) => {
-            allCheckboxAnswers.push(answer);
+            if (answer.options.length > 1) {
+              allCheckboxAnswers.push(answer);
+            }
           });
         });
       });
@@ -284,7 +286,7 @@ export const StatelessOption = ({
   };
 
   const getSelectedDynamicAnswer = () => {
-    return getAllCheckboxAnswers().find(
+    return getCheckboxAnswers().find(
       (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
     );
   };
@@ -342,7 +344,7 @@ export const StatelessOption = ({
                 label="Dynamic Option"
                 disabled={
                   !option.dynamicAnswer &&
-                  (checkDynamicOption() || previousCheckboxAnswers.length === 0)
+                  (checkDynamicOption() || getCheckboxAnswers().length === 0)
                 }
               >
                 <ToggleSwitch
