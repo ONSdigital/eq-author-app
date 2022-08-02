@@ -86,6 +86,7 @@ StyledOption.propTypes = {
 
 export const StatelessOption = ({
   option,
+  answer,
   onChange,
   onUpdate,
   onDelete,
@@ -153,6 +154,12 @@ export const StatelessOption = ({
         },
       },
     });
+
+  const checkDynamicOption = () => {
+    return answer.options.some((option) => {
+      return option.dynamicAnswer;
+    });
+  };
 
   const renderToolbar = () => {
     return (
@@ -334,7 +341,8 @@ export const StatelessOption = ({
                 name="Dynamic Answer"
                 label="Dynamic Option"
                 disabled={
-                  !option.dynamicAnswer && previousCheckboxAnswers.length === 0
+                  !option.dynamicAnswer &&
+                  (checkDynamicOption() || previousCheckboxAnswers.length === 0)
                 }
               >
                 <ToggleSwitch
@@ -423,6 +431,7 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
+  answer: PropTypes.object, //eslint-disable-line
 };
 
 StatelessOption.fragments = {
