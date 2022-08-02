@@ -5,7 +5,6 @@ import { StatelessOption } from "./Option";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
-import { useCurrentPageId } from "components/RouterContext";
 import {
   render as rtlRender,
   fireEvent,
