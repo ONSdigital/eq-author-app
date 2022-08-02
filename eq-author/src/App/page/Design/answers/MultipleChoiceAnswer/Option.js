@@ -365,7 +365,7 @@ export const StatelessOption = ({
                   <ContentPickerSelect
                     name="answerId"
                     contentTypes={[DYNAMIC_ANSWER]}
-                    answerData={getAllCheckboxAnswers()}
+                    answerData={getCheckboxAnswers()}
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
                     data-test="dynamic-answer-picker"
