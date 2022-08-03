@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -121,19 +121,28 @@ export const StatelessOption = ({
     [questionnaire, id]
   );
 
-  const getAllCheckboxAnswers = () => {
+  const getCheckboxAnswers = () => {
     const allCheckboxAnswers = [];
     const folderData = previousCheckboxAnswers;
     if (folderData.length !== 0) {
       folderData[0].folders.forEach((folder) => {
         folder.pages.forEach((page) => {
           page.answers.forEach((answer) => {
-            allCheckboxAnswers.push(answer);
+            if (answer.options.length > 1) {
+              allCheckboxAnswers.push(answer);
+            }
           });
         });
       });
     }
     return allCheckboxAnswers;
+  };
+
+  //sets option.dynamicAnswer to false if there are no previous checkbox answers with more than one option
+  const checkValidCheckboxAnswers = () => {
+    if (getCheckboxAnswers().length === 0) {
+      option.dynamicAnswer = false;
+    }
   };
 
   const handleDeleteClick = () => onDelete(option.id);
@@ -156,7 +165,7 @@ export const StatelessOption = ({
     });
 
   const checkDynamicOption = () => {
-    return answer.options.some((option) => {
+    return answer?.options?.some((option) => {
       return option.dynamicAnswer;
     });
   };
@@ -284,10 +293,14 @@ export const StatelessOption = ({
   };
 
   const getSelectedDynamicAnswer = () => {
-    return getAllCheckboxAnswers().find(
+    return getCheckboxAnswers().find(
       (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
     );
   };
+
+  useEffect(() => {
+    checkValidCheckboxAnswers();
+  });
 
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
@@ -342,7 +355,7 @@ export const StatelessOption = ({
                 label="Dynamic Option"
                 disabled={
                   !option.dynamicAnswer &&
-                  (checkDynamicOption() || previousCheckboxAnswers.length === 0)
+                  (checkDynamicOption() || getCheckboxAnswers().length === 0)
                 }
               >
                 <ToggleSwitch
@@ -363,7 +376,7 @@ export const StatelessOption = ({
                   <ContentPickerSelect
                     name="answerId"
                     contentTypes={[DYNAMIC_ANSWER]}
-                    answerData={getAllCheckboxAnswers()}
+                    answerData={getCheckboxAnswers()}
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
                     data-test="dynamic-answer-picker"
