@@ -39,6 +39,7 @@ const SignInPage = ({
   const [verificationEmail, setVerificationEmail] = useState("");
   const [emailNowVerified, setEmailNowVerified] = useState(false);
   const [recoverPassword, setRecoverPassword] = useState(false);
+  const [altRecoverPassword, setAltRecoverPassword] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
   const [apiError, setApiError] = useState(false);
@@ -118,6 +119,7 @@ const SignInPage = ({
                       setPasswordResetSuccess={setPasswordResetSuccess}
                       emailNowVerified={emailNowVerified}
                       setEmailNowVerified={setEmailNowVerified}
+                      setAltRecoverPassword={setAltRecoverPassword}
                     />
                   )}
                 {recoverPassword && (
@@ -128,6 +130,7 @@ const SignInPage = ({
                     setForgotPassword={setForgotPassword}
                     errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
+                    altRecoverPassword={altRecoverPassword}
                   />
                 )}
                 {resetPassword && (
