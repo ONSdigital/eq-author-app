@@ -205,7 +205,7 @@ export const StatelessOption = ({
               aria-label="Delete option"
               onClick={handleDeleteClick}
               data-test="btn-delete-option"
-              disabled={!hasDeleteButton}
+              disabled={!hasDeleteButton && option.dynamicAnswer}
               tabIndex={!hasDeleteButton ? -1 : undefined}
             />
           </Tooltip>
