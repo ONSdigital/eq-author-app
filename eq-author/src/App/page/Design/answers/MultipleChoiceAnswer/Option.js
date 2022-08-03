@@ -165,7 +165,7 @@ export const StatelessOption = ({
     });
 
   const checkDynamicOption = () => {
-    return answer.options.some((option) => {
+    return answer?.options?.some((option) => {
       return option.dynamicAnswer;
     });
   };
