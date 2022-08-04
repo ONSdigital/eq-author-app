@@ -170,6 +170,17 @@ export const StatelessOption = ({
     });
   };
 
+  const isDisabled = () => {
+    if (
+      checkDynamicOption() &&
+      answer?.options?.length === 2 &&
+      !option.dynamicAnswer
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   const renderToolbar = () => {
     return (
       <ButtonsContainer>
@@ -214,7 +225,7 @@ export const StatelessOption = ({
               aria-label="Delete option"
               onClick={handleDeleteClick}
               data-test="btn-delete-option"
-              disabled={!hasDeleteButton && option.dynamicAnswer}
+              disabled={!hasDeleteButton && isDisabled()}
               tabIndex={!hasDeleteButton ? -1 : undefined}
             />
           </Tooltip>
@@ -299,7 +310,7 @@ export const StatelessOption = ({
   };
 
   useEffect(() => {
-    checkValidCheckboxAnswers();
+    checkValidCheckboxAnswers(type);
   });
 
   return (
