@@ -15,6 +15,8 @@ import Button from "components-themed/buttons";
 import Label, { OptionLabel } from "components-themed/Label";
 import Panel from "components-themed/panels";
 
+import isCommonPassword from "../CommonPassword";
+
 import { Field } from "components/Forms";
 
 const SignInForm = ({
@@ -26,34 +28,26 @@ const SignInForm = ({
   setPasswordResetSuccess,
   emailNowVerified,
   setEmailNowVerified,
+  setAltRecoverPassword,
 }) => {
-  const logInWithEmailAndPassword = (email, password) => {
-    setPasswordResetSuccess(false);
-    setEmailNowVerified(false);
-    if (email === "") {
-      setErrorMessage("Enter email");
-      return;
-    } else if (password === "") {
-      setErrorMessage("Enter password");
-      return;
-    }
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => setForgotPassword(false))
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
-  };
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkbox, setCheckbox] = useState(false);
+  const [passwordExpired, setPasswordExpired] = useState(false);
 
   let errorRef = useRef();
 
   function handleRecoverPassword(e) {
     e.preventDefault();
     setForgotPassword(true);
+    setAltRecoverPassword(false);
+    setErrorMessage("");
+  }
+
+  function handleResetPassword(e) {
+    e.preventDefault();
+    setForgotPassword(true);
+    setAltRecoverPassword(true);
     setErrorMessage("");
   }
 
@@ -69,6 +63,44 @@ const SignInForm = ({
       errorRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }
+
+  const passwordLink = () => {
+    return (
+      <ButtonLink onClick={handleResetPassword} name="recover-password-button">
+        Reset your password?
+      </ButtonLink>
+    );
+  };
+
+  const logInWithEmailAndPassword = (email, password) => {
+    setPasswordResetSuccess(false);
+    setEmailNowVerified(false);
+    setPasswordExpired(false);
+    if (email === "") {
+      setErrorMessage("Enter email");
+      return;
+    } else if (password === "") {
+      setErrorMessage("Enter password");
+      return;
+    } else if (password.length < 8 && password.length !== 0) {
+      setErrorMessage("Your password has expired.");
+      setPasswordExpired(true);
+      return;
+    }
+    isCommonPassword(password).then((commonPassword) => {
+      if (commonPassword) {
+        setErrorMessage("Common phrases and passwords are not allowed.");
+        setPasswordExpired(true);
+        return;
+      }
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then(() => setForgotPassword(false))
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    });
+  };
 
   return (
     <>
@@ -155,12 +187,16 @@ const SignInForm = ({
         )}
       </Field>
       <Field>
-        <ButtonLink
-          onClick={handleRecoverPassword}
-          name="recover-password-button"
-        >
-          Forgot your password?
-        </ButtonLink>
+        {passwordExpired ? (
+          passwordLink()
+        ) : (
+          <ButtonLink
+            onClick={handleRecoverPassword}
+            name="recover-password-button"
+          >
+            Forgot your password?
+          </ButtonLink>
+        )}
       </Field>
 
       <CheckBoxField>
@@ -207,6 +243,7 @@ SignInForm.propTypes = {
   setPasswordResetSuccess: PropTypes.func,
   emailNowVerified: PropTypes.bool,
   setEmailNowVerified: PropTypes.func,
+  setAltRecoverPassword: PropTypes.func,
 };
 
 export default SignInForm;
