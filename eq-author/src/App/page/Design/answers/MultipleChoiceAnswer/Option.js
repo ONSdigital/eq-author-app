@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -136,13 +136,6 @@ export const StatelessOption = ({
       });
     }
     return allCheckboxAnswers;
-  };
-
-  //sets option.dynamicAnswer to false if there are no previous checkbox answers with more than one option
-  const checkValidCheckboxAnswers = () => {
-    if (getCheckboxAnswers().length === 0) {
-      option.dynamicAnswer = false;
-    }
   };
 
   const handleDeleteClick = () => onDelete(option.id);

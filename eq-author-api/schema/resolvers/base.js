@@ -832,6 +832,23 @@ const Resolvers = {
         }
       });
 
+      answers.forEach((tempAnswer) => {
+        if (
+          tempAnswer.options &&
+          answer.options.length === 2 &&
+          tempAnswer.options.some(
+            ({ dynamicAnswerID }) => answer.id === dynamicAnswerID
+          )
+        ) {
+          tempAnswer.options.forEach((option) => {
+            if (option.dynamicAnswer) {
+              option.dynamicAnswerID = null;
+              return option;
+            }
+          });
+        }
+      });
+
       const removedOption = first(remove(answer.options, { id: input.id }));
 
       getExpressions(ctx).forEach((expression) => {
