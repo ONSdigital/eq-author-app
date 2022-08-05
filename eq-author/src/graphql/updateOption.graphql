@@ -24,6 +24,12 @@ mutation UpdateOption($input: UpdateOptionInput!) {
       list {
         ...List
       }
+      ... on MultipleChoiceAnswer {
+        id
+        options {
+          ...Option
+        }
+      }
     }
   }
 }

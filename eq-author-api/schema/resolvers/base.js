@@ -72,6 +72,7 @@ const {
   getFirstEnabledTheme,
   getListById,
   getListByAnswerId,
+  getAnswerByOptionId,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -818,7 +819,10 @@ const Resolvers = {
     }),
     updateOption: createMutation((_, { input }, ctx) => {
       const option = getOptionById(ctx, input.id);
-
+      const answer = getAnswerByOptionId(ctx, input.id);
+      if (input.dynamicAnswer === false && answer.options.length === 1) {
+        answer.options.push(createOption());
+      }
       merge(option, input);
 
       return option;
