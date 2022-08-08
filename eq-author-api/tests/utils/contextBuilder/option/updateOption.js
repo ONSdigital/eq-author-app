@@ -13,6 +13,8 @@ const updateOptionMutation = `
         id
         label
       }
+      dynamicAnswer
+      dynamicAnswerID
     }
   }
 `;

@@ -1,4 +1,4 @@
-const { compact, find, flatMap, concat } = require("lodash");
+const { compact, find, flatMap, concat, some } = require("lodash");
 const { getPages } = require("./pageGetters");
 
 const getAnswers = (ctx) => {
@@ -17,9 +17,17 @@ const getOptions = (ctx) =>
 
 const getOptionById = (ctx, id) => find(getOptions(ctx), { id });
 
+const getAnswerByOptionId = (ctx, id) =>
+  find(getAnswers(ctx), (answer) => {
+    if (answer.options && some(answer.options, { id: id })) {
+      return answer;
+    }
+  });
+
 module.exports = {
   getAnswers,
   getAnswerById,
   getOptions,
   getOptionById,
+  getAnswerByOptionId,
 };

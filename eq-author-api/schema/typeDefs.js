@@ -361,6 +361,8 @@ type Option {
   description: String
   value: String
   qCode: String
+  dynamicAnswer: Boolean
+  dynamicAnswerID: ID
   answer: Answer
   additionalAnswer: BasicAnswer
   mutuallyExclusive: Boolean
@@ -1387,6 +1389,8 @@ input UpdateOptionInput {
   value: String
   qCode: String
   additionalAnswer: UpdateAnswerInput
+  dynamicAnswer: Boolean
+  dynamicAnswerID: ID
 }
 
 input DeleteOptionInput {

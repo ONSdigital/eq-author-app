@@ -422,6 +422,41 @@ describe("multiple choice answer", () => {
         expect(queriedOption).toBeNull();
       });
 
+      it("should remove dynamicAnswerID from dynamic radio answers", async () => {
+        const { questionnaire } = ctx;
+
+        questionnaire.sections[0].folders[0].pages.push({
+          answers: [
+            {
+              type: RADIO,
+              options: [
+                {
+                  dynamicAnswer: true,
+                  dynamicAnswerID:
+                    questionnaire.sections[0].folders[0].pages[0].answers[0].id,
+                },
+              ],
+            },
+          ],
+        });
+
+        questionnaire.sections[0].folders[0].pages[0].answers[0].options.push({
+          id: 1,
+          label: "",
+          qCode: "",
+        });
+
+        await deleteOption(
+          ctx,
+          questionnaire.sections[0].folders[0].pages[0].answers[0].options[0]
+        );
+
+        expect(
+          questionnaire.sections[0].folders[0].pages[2].answers[0].options[0]
+            .dynamicAnswerID
+        ).toBeNull();
+      });
+
       it("should remove deleted options from routing rules", async () => {
         const { questionnaire } = ctx;
 

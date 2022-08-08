@@ -5,6 +5,7 @@ import {
   METADATA,
   VARIABLES,
   DESTINATION,
+  DYNAMIC_ANSWER,
 } from "components/ContentPickerSelect/content-types";
 
 import ContentPicker from "./";
@@ -701,6 +702,123 @@ describe("Content picker", () => {
         id: "1",
         section: [{ displayName: "Section one", id: "section-1" }],
       });
+    });
+  });
+
+  describe("dynamic answer content", () => {
+    beforeEach(() => {
+      data = [
+        {
+          displayName: "Checkbox 1",
+          id: "1",
+          options: [{ id: "2" }, { id: "3" }],
+          questionTitle: "<p>Checkbox page 1</p>",
+          type: "Checkbox",
+        },
+        {
+          displayName: "Checkbox 2",
+          id: "4",
+          options: [{ id: "5" }, { id: "6" }],
+          questionTitle: "<p>Checkbox page 2</p>",
+          type: "Checkbox",
+        },
+        {
+          displayName: "Checkbox 3",
+          id: "7",
+          options: [{ id: "8" }, { id: "9" }],
+          questionTitle: "",
+          type: "Checkbox",
+        },
+      ];
+
+      props = {
+        ...props,
+        data,
+        contentType: DYNAMIC_ANSWER,
+      };
+    });
+
+    it("should render dynamic answer picker when specified", () => {
+      const { getByText } = renderContentPicker();
+
+      const modalHeader = getByText("Select an answer");
+      expect(modalHeader).toBeTruthy();
+    });
+
+    it("should call onSubmit with selected answer", () => {
+      const { getByText } = renderContentPicker();
+
+      const answer = getByText("Checkbox 2");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.click(answer);
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        displayName: "Checkbox 2",
+        id: "4",
+        options: [{ id: "5" }, { id: "6" }],
+        questionTitle: "<p>Checkbox page 2</p>",
+        type: "Checkbox",
+      });
+    });
+
+    it("should select item via keyboard enter", () => {
+      const { getByText } = renderContentPicker();
+
+      const answer = getByText("Checkbox 2");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.keyUp(answer, { keyCode: 13 });
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        displayName: "Checkbox 2",
+        id: "4",
+        options: [{ id: "5" }, { id: "6" }],
+        questionTitle: "<p>Checkbox page 2</p>",
+        type: "Checkbox",
+      });
+    });
+
+    it("should not select item via any key other than enter", () => {
+      const { getByText } = renderContentPicker();
+
+      const answer = getByText("Checkbox 2");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.keyUp(answer, { keyCode: 32 });
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
+
+    it("should unselect selected item", () => {
+      const { getByText } = renderContentPicker();
+
+      const answer = getByText("Checkbox 1").closest("li");
+
+      fireEvent.click(answer);
+      expect(answer).toHaveAttribute("aria-selected", "true");
+
+      fireEvent.click(answer);
+      expect(answer).toHaveAttribute("aria-selected", "false");
+    });
+
+    it("should format the question title correctly", () => {
+      const { getByText } = renderContentPicker();
+
+      const questionTitle = getByText("Checkbox page 1");
+
+      expect(questionTitle).toBeTruthy();
+    });
+
+    it("should format the question title correctly if a title has not been entered", () => {
+      const { getByText } = renderContentPicker();
+
+      const questionTitle = getByText("Untitled question");
+
+      expect(questionTitle).toBeTruthy();
     });
   });
 });
