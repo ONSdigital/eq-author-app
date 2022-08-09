@@ -116,8 +116,9 @@ describe("Answer Type Selector", () => {
   });
 
   describe("Mutually exclusive", () => {
-    it("should not disable mutually exclusive if there are other answers", () => {
-      props.page.answers = [{ type: NUMBER }, { type: CURRENCY }];
+    // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, delete this test
+    it("should not disable mutually exclusive if is one answer", () => {
+      props.page.answers = [{ type: NUMBER }];
       const { getByText, getByTestId } = render(
         <AnswerTypeSelector {...props} />
       );
@@ -125,6 +126,18 @@ describe("Answer Type Selector", () => {
       expect(
         getByTestId("btn-answer-type-mutuallyexclusive")
       ).not.toHaveAttribute("disabled");
+    });
+
+    it("should disable mutually exclusive if there are multiple answers", () => {
+      props.page.answers = [{ type: NUMBER }, { type: CURRENCY }];
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, change this expect to `.not.toHaveAttribute`
+      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+        "disabled"
+      );
     });
 
     it("should disable mutually exclusive if there are no other answers", () => {
@@ -148,7 +161,7 @@ describe("Answer Type Selector", () => {
       );
     });
 
-    // TODO: (Mutually Exclusive) When Runner supports multiple answers with mutually exclusive, the commented tests and MUTUALLY_EXCLUSIVE import can be uncommented
+    // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, the commented tests and MUTUALLY_EXCLUSIVE import can be uncommented
     // it("should disable radio if there is a mutually exclusive answer", () => {
     //   props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
     //   const { getByText, getByTestId } = render(

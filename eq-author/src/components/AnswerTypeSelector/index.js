@@ -57,7 +57,8 @@ const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
     answers.length === 0 ||
     !answers ||
     hasRadioAnswer ||
-    answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE)
+    answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE) ||
+    answers.length > 1 // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, answers.length > 1 can be removed
   ) {
     allowMutuallyExclusive = false;
   } else {
