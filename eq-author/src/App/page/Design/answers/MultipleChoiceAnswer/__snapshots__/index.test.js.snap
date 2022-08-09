@@ -2050,11 +2050,11 @@ Array [
                 <div
                   class="c14 c15 c16"
                   disabled=""
-                  name="Dynamic Answer"
+                  name="Dynamic Option"
                 >
                   <label
                     class="c17 c18"
-                    for="option-dynamic-answer-1"
+                    for="dynamic-option-toggle-switch-1"
                   >
                     Dynamic Option
                   </label>
@@ -2067,15 +2067,16 @@ Array [
                   <div
                     aria-checked="false"
                     class="c20"
-                    data-test="option-toggle-switch-1"
+                    data-test="dynamic-option-toggle-switch-1"
                     role="switch"
                   >
                     <input
                       aria-checked="false"
+                      aria-label="Dynamic Option"
                       class="c21 c22"
-                      data-test="option-toggle-switch-1-input"
-                      id="option-toggle-switch-1"
-                      name="option-toggle-switch-1"
+                      data-test="dynamic-option-toggle-switch-1-input"
+                      id="dynamic-option-toggle-switch-1"
+                      name="dynamic-option-toggle-switch-1"
                       role="checkbox"
                       type="checkbox"
                     />

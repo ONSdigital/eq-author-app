@@ -206,7 +206,7 @@ describe("Option", () => {
       ...mockMutations,
     };
     const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
-    fireEvent.change(getByTestId("option-toggle-switch-1"), {
+    fireEvent.change(getByTestId("dynamic-option-toggle-switch-1"), {
       target: true,
     });
   });
