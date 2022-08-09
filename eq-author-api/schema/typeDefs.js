@@ -172,7 +172,6 @@ type Section {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
@@ -362,6 +361,8 @@ type Option {
   description: String
   value: String
   qCode: String
+  dynamicAnswer: Boolean
+  dynamicAnswerID: ID
   answer: Answer
   additionalAnswer: BasicAnswer
   mutuallyExclusive: Boolean
@@ -1186,7 +1187,6 @@ input UpdateSectionInput {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
-  summaryTitle: String
 }
 
 input DeleteSectionInput {
@@ -1389,6 +1389,8 @@ input UpdateOptionInput {
   value: String
   qCode: String
   additionalAnswer: UpdateAnswerInput
+  dynamicAnswer: Boolean
+  dynamicAnswerID: ID
 }
 
 input DeleteOptionInput {

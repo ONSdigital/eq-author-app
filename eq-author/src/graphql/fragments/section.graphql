@@ -8,7 +8,6 @@ fragment Section on Section {
   showOnHub
   sectionSummary
   collapsibleSummary
-  summaryTitle
   questionnaire {
     id
     navigation

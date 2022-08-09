@@ -30,8 +30,8 @@ const Wrapper = styled.div`
 
 const ContentBlock = styled.div`
   h2 {
-    font-size: 1em;
-    font-weight: normal;
+    font-size: 1.3em;
+    font-weight: bold;
   }
   word-break: break-word;
 `;

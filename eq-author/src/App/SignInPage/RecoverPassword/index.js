@@ -24,6 +24,7 @@ const RecoverPassword = ({
   setForgotPassword,
   errorMessage,
   setErrorMessage,
+  altRecoverPassword,
 }) => {
   const [recoveryEmailSent, setRecoveryEmailSent] = useState(false);
   let errorRefPwRecover = useRef();
@@ -75,7 +76,11 @@ const RecoverPassword = ({
               handleLinkToAnchor={handleLinkToAnchor}
             />
           )}
-          <PageTitle>Recover Password</PageTitle>
+          {altRecoverPassword ? (
+            <PageTitle>Reset Password</PageTitle>
+          ) : (
+            <PageTitle>Recover Password</PageTitle>
+          )}
           <Description>
             {`Enter the email address you used to create your Author Account.
         We'll email you a link so you can reset your password.`}
@@ -163,6 +168,7 @@ RecoverPassword.propTypes = {
   recoveryEmailSent: PropTypes.bool,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func,
+  altRecoverPassword: PropTypes.bool,
 };
 
 export default RecoverPassword;

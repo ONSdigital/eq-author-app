@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
@@ -13,6 +13,13 @@ import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
+import InlineField from "components/AnswerContent/Format/InlineField";
+import Collapsible from "components/Collapsible";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useCurrentPageId } from "components/RouterContext";
+import getContentBeforeEntity from "utils/getContentBeforeEntity";
+import ValidationError from "components/ValidationError";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
@@ -20,9 +27,12 @@ import messageTemplate, {
   MISSING_LABEL,
   ADDITIONAL_LABEL_MISSING,
   buildLabelError,
+  dynamicAnswer,
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
+import ContentPickerSelect from "components/ContentPickerSelect";
+import { DYNAMIC_ANSWER } from "components/ContentPickerSelect/content-types";
 
 const ENTER_KEY = 13;
 
@@ -59,6 +69,13 @@ export const StyledOption = styled.div`
   margin-bottom: 1em;
 `;
 
+const CustomInlineField = styled(InlineField)`
+  margin-bottom: 0.6em;
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
+
+const CollapsibleContent = styled.p``;
+
 StyledOption.defaultProps = {
   duration: 200,
 };
@@ -69,6 +86,7 @@ StyledOption.propTypes = {
 
 export const StatelessOption = ({
   option,
+  answer,
   onChange,
   onUpdate,
   onDelete,
@@ -89,6 +107,36 @@ export const StatelessOption = ({
     option?.additionalAnswer?.label ?? ""
   );
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
+  const { questionnaire } = useQuestionnaire();
+  const id = useCurrentPageId();
+
+  const previousCheckboxAnswers = useMemo(
+    () =>
+      getContentBeforeEntity({
+        questionnaire,
+        id,
+        preprocessAnswers: (answer) =>
+          [CHECKBOX].includes(answer.type) ? answer : [],
+      }),
+    [questionnaire, id]
+  );
+
+  const getCheckboxAnswers = () => {
+    const allCheckboxAnswers = [];
+    const folderData = previousCheckboxAnswers;
+    if (folderData.length !== 0) {
+      folderData[0].folders.forEach((folder) => {
+        folder.pages.forEach((page) => {
+          page.answers.forEach((answer) => {
+            if (answer.options.length > 1) {
+              allCheckboxAnswers.push(answer);
+            }
+          });
+        });
+      });
+    }
+    return allCheckboxAnswers;
+  };
 
   const handleDeleteClick = () => onDelete(option.id);
   const handleKeyDown = (e) => {
@@ -108,6 +156,23 @@ export const StatelessOption = ({
         },
       },
     });
+
+  const checkDynamicOption = () => {
+    return answer?.options?.some((option) => {
+      return option.dynamicAnswer;
+    });
+  };
+
+  const isDeleteDisabled = () => {
+    if (
+      checkDynamicOption() &&
+      answer?.options?.length === 2 &&
+      !option.dynamicAnswer
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const renderToolbar = () => {
     return (
@@ -153,7 +218,7 @@ export const StatelessOption = ({
               aria-label="Delete option"
               onClick={handleDeleteClick}
               data-test="btn-delete-option"
-              disabled={!hasDeleteButton}
+              disabled={!hasDeleteButton && isDeleteDisabled()}
               tabIndex={!hasDeleteButton ? -1 : undefined}
             />
           </Tooltip>
@@ -167,19 +232,40 @@ export const StatelessOption = ({
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
   const uniqueErrorMsg = ERR_UNIQUE_REQUIRED({ label: "Option label" });
   let labelError = "";
-
   if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
+    ) &&
+    option.validationErrorInfo?.errors?.find(({ field }) => field === "label")
+  ) {
+    labelError = errorMsg;
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ field }) => field === "dynamicAnswerID"
+    ) &&
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_VALID_REQUIRED"
     )
   ) {
-    labelError = errorMsg;
+    labelError = dynamicAnswer.ERR_VALID_REQUIRED;
   } else if (
     option.validationErrorInfo?.errors?.find(
       ({ errorCode }) => errorCode === "ERR_UNIQUE_REQUIRED"
     )
   ) {
     labelError = uniqueErrorMsg;
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_REFERENCE_DELETED"
+    )
+  ) {
+    labelError = dynamicAnswer.ERR_REFERENCE_DELETED;
+  } else if (
+    option.validationErrorInfo?.errors?.find(
+      ({ errorCode }) => errorCode === "ERR_REFERENCE_MOVED"
+    )
+  ) {
+    labelError = dynamicAnswer.ERR_REFERENCE_MOVED;
   }
 
   const otherLabelError =
@@ -187,46 +273,138 @@ export const StatelessOption = ({
       ({ errorCode }) => errorCode === "ADDITIONAL_LABEL_MISSING"
     ) && ADDITIONAL_LABEL_MISSING;
 
+  const onUpdateFormat = (value) => {
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          dynamicAnswer: value,
+          dynamicAnswerID: "",
+        },
+      },
+    });
+  };
+
+  const handlePickerSubmit = (item) => {
+    updateOption({
+      variables: {
+        input: {
+          id: option.id,
+          dynamicAnswerID: item.value.id,
+        },
+      },
+    });
+  };
+
+  const getSelectedDynamicAnswer = () => {
+    return getCheckboxAnswers().find(
+      (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
+    );
+  };
+
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
       <div>
         {renderToolbar()}
-        <Flex>
-          <DummyMultipleChoice type={type} />
-          <OptionField>
-            <Label htmlFor={`option-label-${option.id}`}>
-              {label || "Label"}
-            </Label>
-            <WrappingInput
-              id={`option-label-${option.id}`}
-              name="label"
-              value={option.label}
-              placeholder={labelPlaceholder}
-              onChange={onChange}
-              onBlur={() => setTimeout(onUpdate, 400)}
-              onKeyDown={handleKeyDown}
-              data-test="option-label"
-              data-autofocus={autoFocus || null}
-              bold
-              errorValidationMsg={labelError}
-            />
-          </OptionField>
-        </Flex>
-        <OptionField>
-          <Label htmlFor={`option-description-${option.id}`}>
-            Description (optional)
-          </Label>
-          <WrappingInput
-            id={`option-description-${option.id}`}
-            name="description"
-            value={option.description}
-            placeholder={descriptionPlaceholder}
-            onChange={onChange}
-            onBlur={onUpdate}
-            onKeyDown={handleKeyDown}
-            data-test="option-description"
-          />
-        </OptionField>
+        {!option.dynamicAnswer && (
+          <>
+            <Flex>
+              <DummyMultipleChoice type={type} />
+              <OptionField>
+                <Label htmlFor={`option-label-${option.id}`}>
+                  {label || "Label"}
+                </Label>
+                <WrappingInput
+                  id={`option-label-${option.id}`}
+                  name="label"
+                  value={option.label}
+                  placeholder={labelPlaceholder}
+                  onChange={onChange}
+                  onBlur={() => setTimeout(onUpdate, 400)}
+                  onKeyDown={handleKeyDown}
+                  data-test="option-label"
+                  data-autofocus={autoFocus || null}
+                  bold
+                  errorValidationMsg={labelError}
+                />
+              </OptionField>
+            </Flex>
+            <OptionField>
+              <Label htmlFor={`option-description-${option.id}`}>
+                Description (optional)
+              </Label>
+              <WrappingInput
+                id={`option-description-${option.id}`}
+                name="description"
+                value={option.description}
+                placeholder={descriptionPlaceholder}
+                onChange={onChange}
+                onBlur={onUpdate}
+                onKeyDown={handleKeyDown}
+                data-test="option-description"
+              />
+            </OptionField>
+          </>
+        )}
+        {type === "Radio" && !option.additionalAnswer && (
+          <>
+            <Flex>
+              <CustomInlineField
+                id={`option-dynamic-answer-${option.id}`}
+                name="Dynamic Answer"
+                label="Dynamic Option"
+                disabled={
+                  !option.dynamicAnswer &&
+                  (checkDynamicOption() || getCheckboxAnswers().length === 0)
+                }
+              >
+                <ToggleSwitch
+                  id={`option-toggle-switch-${option.id}`}
+                  name="Dynamic Option"
+                  onChange={() => {
+                    onUpdateFormat(!option.dynamicAnswer);
+                  }}
+                  checked={option.dynamicAnswer || false}
+                  hideLabels={false}
+                />
+              </CustomInlineField>
+            </Flex>
+            {option.dynamicAnswer && (
+              <>
+                <OptionField>
+                  <Label>Dynamic Answer</Label>
+                  <ContentPickerSelect
+                    name="answerId"
+                    contentTypes={[DYNAMIC_ANSWER]}
+                    answerData={getCheckboxAnswers()}
+                    selectedContentDisplayName={getSelectedDynamicAnswer()}
+                    onSubmit={handlePickerSubmit}
+                    data-test="dynamic-answer-picker"
+                    hasError={Boolean(labelError)}
+                  />
+                  {labelError && (
+                    <ValidationError>{labelError}</ValidationError>
+                  )}
+                </OptionField>
+              </>
+            )}
+            <OptionField>
+              <Collapsible
+                title="What is a dynamic option?"
+                key={`dynamic-answer-collapsible${option.id}`}
+              >
+                <CollapsibleContent>
+                  Radio answer options can be set to be dynamic to use answers
+                  from a previous checkbox question. Note, if only one checkbox
+                  answer exists then the radio answer question is skipped.
+                </CollapsibleContent>
+                <CollapsibleContent>
+                  Question titles can include piped dynamic option answers.
+                </CollapsibleContent>
+              </Collapsible>
+            </OptionField>
+          </>
+        )}
         {option.additionalAnswer && (
           <LastOptionField>
             <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>
@@ -266,6 +444,7 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
+  answer: PropTypes.object, //eslint-disable-line
 };
 
 StatelessOption.fragments = {

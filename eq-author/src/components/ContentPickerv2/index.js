@@ -10,11 +10,13 @@ import {
   METADATA,
   VARIABLES,
   DESTINATION,
+  DYNAMIC_ANSWER,
 } from "components/ContentPickerSelect/content-types";
 import AnswerPicker from "./AnswerPicker";
 import MetadataPicker from "./MetadataPicker";
 import VariablePicker from "./VariablePicker";
 import DestinationPicker from "./DestinationPicker";
+import DynamicAnswerPicker from "./DynamicAnswerPicker";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -147,6 +149,16 @@ const ContentPicker = ({
       case DESTINATION:
         return (
           <DestinationPicker
+            onConfirm={handleConfirm}
+            onSelected={(item) => handleSelected(item)}
+            isSelected={isSelected}
+            data={data}
+          />
+        );
+
+      case DYNAMIC_ANSWER:
+        return (
+          <DynamicAnswerPicker
             onConfirm={handleConfirm}
             onSelected={(item) => handleSelected(item)}
             isSelected={isSelected}

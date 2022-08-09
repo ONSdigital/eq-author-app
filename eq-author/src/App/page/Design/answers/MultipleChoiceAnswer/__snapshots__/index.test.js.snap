@@ -1231,13 +1231,95 @@ Array [
   line-height: 1.3;
 }
 
+.c17 {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c21 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0 1em 0 0;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+}
+
+.c21:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c21:focus,
+.c21:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c21::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c21::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c21:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c21::placeholder {
+  color: #a3a3a3;
+}
+
+.c21:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c21[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c21:checked {
+  background: url(SvgrURL) no-repeat center;
+  background-size: 0.8em auto;
+}
+
 .c8 {
   display: block;
   margin-bottom: 1em;
   position: relative;
 }
 
-.c20 {
+.c14 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+  opacity: 0.6;
+}
+
+.c39 {
   position: absolute;
   overflow: hidden;
   -webkit-clip: rect(0 0 0 0);
@@ -1249,7 +1331,7 @@ Array [
   border: 0;
 }
 
-.c19 {
+.c38 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1269,14 +1351,14 @@ Array [
   min-width: 0;
 }
 
-.c19 svg {
+.c38 svg {
   pointer-events: none;
   -webkit-flex: 0 0 2em;
   -ms-flex: 0 0 2em;
   flex: 0 0 2em;
 }
 
-.c19 svg path {
+.c38 svg path {
   fill: var(--color-text);
 }
 
@@ -1356,6 +1438,288 @@ Array [
   flex: 0 0 auto;
 }
 
+.c24 {
+  height: 1em;
+  width: 1.5em;
+  top: 0.6000000000000001em;
+  background: #FFFFFF;
+  border-radius: 2em;
+  position: absolute;
+  border: 1px solid #666666;
+  -webkit-transition: background 100ms ease-out,border-color 100ms ease-in;
+  transition: background 100ms ease-out,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.c24:hover {
+  border-color: #3B7A9E;
+}
+
+.c25 {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  background: #FFFFFF;
+  top: calc(42% - 1em / 2);
+  left: calc(32% - 1em / 2);
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateX( 0em );
+  -ms-transform: translateX( 0em );
+  transform: translateX( 0em );
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  -webkit-transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  border: inherit;
+}
+
+.c22 {
+  opacity: 0;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c22:focus + .c23 {
+  box-shadow: 0 0 0 2px #FDBD56;
+}
+
+.c22:hover + .c23 {
+  border-color: #3B7A9E;
+}
+
+.c20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2em;
+  position: relative;
+}
+
+.c19 {
+  padding: 0 1em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: #222222;
+  font-weight: 600;
+}
+
+.c19:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c19:last-of-type {
+  padding-left: 0.5em;
+}
+
+.c26 {
+  padding: 0 1em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: #999999;
+  font-weight: 600;
+}
+
+.c26:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c26:last-of-type {
+  padding-left: 0.5em;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0.2em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c18 {
+  margin-right: 0.2em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c27 {
+  margin: 0;
+}
+
+.c28 {
+  margin: 0;
+}
+
+.c29 {
+  vertical-align: middle;
+  text-align: left;
+  margin: 0;
+  padding: 0.25em 0 0.5em;
+  font-size: inherit;
+}
+
+.c29 .c41 {
+  margin-left: 1em;
+}
+
+.c31 {
+  display: none;
+  margin-top: -1em;
+  border-left: 3px solid #d6d8da;
+  padding: 1em;
+}
+
+.c31 p {
+  margin-top: 0;
+}
+
+.c30 {
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.25em 0.25em 0.25em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #3B7A9E;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  margin-left: 0;
+}
+
+.c30:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c30::before {
+  content: "";
+  background-color: #3B7A9E;
+  -webkit-mask: url(SvgrURL);
+  mask: url(SvgrURL);
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.2em;
+  margin-left: -0.5em;
+}
+
+.c30:hover {
+  color: #003c57;
+}
+
+.c30:hover::before {
+  background-color: #003c57;
+}
+
+.c32 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+  padding: 0.4em 0.8em;
+  color: black;
+  background-color: #d6d8da;
+  font-weight: normal;
+}
+
+.c32[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c32:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c32:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #2d5d79;
+  border-color: var(--color-bg);
+}
+
+.c32:hover {
+  background-color: #999999;
+}
+
+.c32:focus {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
 .c5 {
   position: absolute;
   left: 10px;
@@ -1393,6 +1757,11 @@ Array [
   border-radius: 4px;
   position: relative;
   margin-bottom: 1em;
+}
+
+.c16 {
+  margin-bottom: 0.6em;
+  pointer-events: none;
 }
 
 .c3 {
@@ -1435,7 +1804,7 @@ Array [
   transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
 }
 
-.c16 {
+.c35 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1480,24 +1849,24 @@ Array [
   z-index: 2;
 }
 
-.c16[disabled] {
+.c35[disabled] {
   pointer-events: none;
   opacity: 0.6;
 }
 
-.c16:focus-within {
+.c35:focus-within {
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
 
-.c16:hover {
+.c35:hover {
   --color-text: #FFFFFF;
   --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
-.c18 {
+.c37 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1541,40 +1910,40 @@ Array [
   position: relative;
 }
 
-.c18[disabled] {
+.c37[disabled] {
   pointer-events: none;
   opacity: 0.6;
 }
 
-.c18:focus-within {
+.c37:focus-within {
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
 }
 
-.c18:hover {
+.c37:hover {
   --color-text: #FFFFFF;
   --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
-.c18:focus {
+.c37:focus {
   z-index: 3;
 }
 
-.c17 {
+.c36 {
   position: relative;
   display: inline-block;
 }
 
-.c21 {
+.c40 {
   position: absolute;
   right: 0;
   top: 100%;
   z-index: 10;
 }
 
-.c14 {
+.c33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1599,7 +1968,7 @@ Array [
   margin: 0 0 1em;
 }
 
-.c15 {
+.c34 {
   margin-bottom: 1em;
 }
 
@@ -1675,6 +2044,106 @@ Array [
                   />
                 </div>
               </div>
+              <div
+                class="c6"
+              >
+                <div
+                  class="c14 c15 c16"
+                  disabled=""
+                  name="Dynamic Answer"
+                >
+                  <label
+                    class="c17 c18"
+                    for="option-dynamic-answer-1"
+                  >
+                    Dynamic Option
+                  </label>
+                  <div
+                    checked=""
+                    class="c19"
+                  >
+                    Off
+                  </div>
+                  <div
+                    aria-checked="false"
+                    class="c20"
+                    data-test="option-toggle-switch-1"
+                    role="switch"
+                  >
+                    <input
+                      aria-checked="false"
+                      class="c21 c22"
+                      data-test="option-toggle-switch-1-input"
+                      id="option-toggle-switch-1"
+                      name="option-toggle-switch-1"
+                      role="checkbox"
+                      type="checkbox"
+                    />
+                    <div
+                      class="c23 c24"
+                      role="presentation"
+                    >
+                      <div
+                        class="c25"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="c26"
+                  >
+                    On
+                  </div>
+                </div>
+              </div>
+              <div
+                class="c8 c9"
+              >
+                <div
+                  class="c27"
+                  data-test="collapsible"
+                >
+                  <div
+                    class="c28 collapsible-header"
+                    data-test="collapsible-header"
+                  >
+                    <h2
+                      class="c29 collapsible-title"
+                      data-test="collapsible-title"
+                    >
+                      <button
+                        aria-controls="collapsible-body"
+                        class="c30 collapsible-toggle-Collapsible-Button"
+                        data-test="collapsible-toggle-button"
+                      >
+                        What is a dynamic option?
+                      </button>
+                    </h2>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    class="c31 collapsible-body"
+                    data-test="collapsible-body"
+                  >
+                    <p
+                      class=""
+                    >
+                      Radio answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the radio answer question is skipped.
+                    </p>
+                    <p
+                      class=""
+                    >
+                      Question titles can include piped dynamic option answers.
+                    </p>
+                    <button
+                      class="c32"
+                      data-test="collapsible-hide-button"
+                      type="button"
+                    >
+                      Hide this
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1682,38 +2151,38 @@ Array [
     </div>
     <div>
       <div
-        class="c14 c15"
+        class="c33 c34"
       >
         <button
-          class="c16"
+          class="c35"
           data-test="btn-add-option"
           type="button"
         >
           Add another option
         </button>
         <div
-          class="c17"
+          class="c36"
         >
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="c18"
+            class="c37"
             data-test="btn-add-option-menu"
             type="button"
           >
             <span
-              class="c19"
+              class="c38"
             >
               <svg />
               <span
-                class="c20"
+                class="c39"
               >
                 Show additional options
               </span>
             </span>
           </button>
           <div
-            class="c21"
+            class="c40"
           />
         </div>
       </div>

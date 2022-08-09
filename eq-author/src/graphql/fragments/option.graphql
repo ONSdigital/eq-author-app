@@ -16,4 +16,6 @@ fragment Option on Option {
       }
     }
   }
+  dynamicAnswer
+  dynamicAnswerID
 }

@@ -184,12 +184,6 @@ export class SectionEditor extends React.Component {
           <SectionSummary
             id={section.id}
             sectionSummary={section.sectionSummary}
-            collapsibleSummary={section.collapsibleSummary}
-            summaryTitle={section.summaryTitle}
-            errorValidationMsg={this.props.getValidationError({
-              field: "summaryTitle",
-              message: sectionErrors.SUMMARY_TITLE_NOT_ENTERED,
-            })}
           />
           <HorizontalRule />
           <Label>

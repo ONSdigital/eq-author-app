@@ -121,7 +121,9 @@ export const Option = ({ option, type, answer }) => (
   <OptionItem error={!option.label}>
     <Input type={type} error={!option.label} />
     <OptionLabel>
-      {option.label || "Missing label"}
+      {option.dynamicAnswer
+        ? "Dynamic option"
+        : option.label || "Missing label"}
       {option.description && (
         <OptionDescription>{option.description}</OptionDescription>
       )}
