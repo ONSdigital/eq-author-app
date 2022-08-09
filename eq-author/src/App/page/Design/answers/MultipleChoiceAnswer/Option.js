@@ -350,7 +350,7 @@ export const StatelessOption = ({
           <>
             <Flex>
               <CustomInlineField
-                id={`option-toggle-switch-${option.id}`}
+                id={`dynamic-option-toggle-switch-${option.id}`}
                 name="Dynamic Option"
                 label="Dynamic Option"
                 disabled={
@@ -359,7 +359,7 @@ export const StatelessOption = ({
                 }
               >
                 <ToggleSwitch
-                  id={`option-toggle-switch-${option.id}`}
+                  id={`dynamic-option-toggle-switch-${option.id}`}
                   name="Dynamic Option"
                   onChange={() => {
                     onUpdateFormat(!option.dynamicAnswer);
