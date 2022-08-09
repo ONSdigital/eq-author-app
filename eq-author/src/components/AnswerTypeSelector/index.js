@@ -127,7 +127,12 @@ class AnswerTypeSelector extends React.Component {
       <AddAnswerButton
         variant="secondary"
         data-test="btn-add-answer"
-        disabled={hasDateRange || mutuallyExclusive}
+        disabled={
+          hasDateRange ||
+          mutuallyExclusive ||
+          (this.props.page.answers.length > 1 &&
+            answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE)) // TODO: When Runner supports multiple answers with mutually exclusive, the code inside the parentheses can be deleted
+        }
       >
         <IconText icon={AddIcon}>
           Add {this.props.page.answers.length === 0 ? "an" : "another"} answer

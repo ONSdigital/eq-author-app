@@ -148,24 +148,25 @@ describe("Answer Type Selector", () => {
       );
     });
 
-    it("should disable radio if there is a mutually exclusive answer", () => {
-      props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
-      const { getByText, getByTestId } = render(
-        <AnswerTypeSelector {...props} />
-      );
-      fireEvent.click(getByText(/Add another answer/));
-      expect(getByTestId("btn-answer-type-radio")).toHaveAttribute("disabled");
-    });
+    // TODO: When Runner supports multiple answers with mutually exclusive, the commented tests can be uncommented
+    // it("should disable radio if there is a mutually exclusive answer", () => {
+    //   props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
+    //   const { getByText, getByTestId } = render(
+    //     <AnswerTypeSelector {...props} />
+    //   );
+    //   fireEvent.click(getByText(/Add another answer/));
+    //   expect(getByTestId("btn-answer-type-radio")).toHaveAttribute("disabled");
+    // });
 
-    it("should disable mutually exclusive if there is already a mutually exclusive answer", () => {
-      props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
-      const { getByText, getByTestId } = render(
-        <AnswerTypeSelector {...props} />
-      );
-      fireEvent.click(getByText(/Add another answer/));
-      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
-        "disabled"
-      );
-    });
+    // it("should disable mutually exclusive if there is already a mutually exclusive answer", () => {
+    //   props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
+    //   const { getByText, getByTestId } = render(
+    //     <AnswerTypeSelector {...props} />
+    //   );
+    //   fireEvent.click(getByText(/Add another answer/));
+    //   expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+    //     "disabled"
+    //   );
+    // });
   });
 });

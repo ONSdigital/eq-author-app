@@ -953,85 +953,6 @@ exports[`radio should render a mutually exclusive 1`] = `
   flex: 0 0 auto;
 }
 
-.c5 {
-  position: absolute;
-  left: 10px;
-  top: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  z-index: 2;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-}
-
-.c6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  margin-top: 1.5em;
-}
-
-.c9 {
-  margin-bottom: 1.5em;
-}
-
-.c4 {
-  border: 1px solid #d6d8da;
-  padding: 1em 1em 0;
-  border-radius: 4px;
-  position: relative;
-  margin-bottom: 1em;
-}
-
-.c3 {
-  position: relative;
-}
-
-.c3.option-enter {
-  opacity: 0;
-  -webkit-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
-  z-index: 200;
-}
-
-.c3.option-enter-active {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-  -webkit-transition: opacity 200ms ease-out,-webkit-transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
-  -webkit-transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
-  transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
-}
-
-.c3.option-exit {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-
-.c3.option-exit-active {
-  opacity: 0;
-  height: 0 !important;
-  -webkit-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
-  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
-  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
-  transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
-}
-
 .c14 {
   margin: 0;
 }
@@ -1177,6 +1098,85 @@ exports[`radio should render a mutually exclusive 1`] = `
   border-color: transparent;
   outline: 3px solid #FDBD56;
   box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c5 {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 2;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  margin-top: 1.5em;
+}
+
+.c9 {
+  margin-bottom: 1.5em;
+}
+
+.c4 {
+  border: 1px solid #d6d8da;
+  padding: 1em 1em 0;
+  border-radius: 4px;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c3.option-enter {
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  z-index: 200;
+}
+
+.c3.option-enter-active {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: opacity 200ms ease-out,-webkit-transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  -webkit-transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.c3.option-exit {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.c3.option-exit-active {
+  opacity: 0;
+  height: 0 !important;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+  transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
 }
 
 .c2 {
