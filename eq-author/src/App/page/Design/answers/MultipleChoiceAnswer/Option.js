@@ -350,8 +350,8 @@ export const StatelessOption = ({
           <>
             <Flex>
               <CustomInlineField
-                id={`option-dynamic-answer-${option.id}`}
-                name="Dynamic Answer"
+                id={`option-toggle-switch-${option.id}`}
+                name="Dynamic Option"
                 label="Dynamic Option"
                 disabled={
                   !option.dynamicAnswer &&
@@ -366,6 +366,7 @@ export const StatelessOption = ({
                   }}
                   checked={option.dynamicAnswer || false}
                   hideLabels={false}
+                  ariaLabel="Dynamic Option"
                 />
               </CustomInlineField>
             </Flex>
