@@ -3,7 +3,7 @@ import {
   NUMBER,
   CURRENCY,
   RADIO,
-  MUTUALLY_EXCLUSIVE,
+  // MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 import {
@@ -148,7 +148,7 @@ describe("Answer Type Selector", () => {
       );
     });
 
-    // TODO: When Runner supports multiple answers with mutually exclusive, the commented tests can be uncommented
+    // TODO: (Mutually Exclusive) When Runner supports multiple answers with mutually exclusive, the commented tests and MUTUALLY_EXCLUSIVE import can be uncommented
     // it("should disable radio if there is a mutually exclusive answer", () => {
     //   props.page.answers = [{ type: NUMBER }, { type: MUTUALLY_EXCLUSIVE }];
     //   const { getByText, getByTestId } = render(

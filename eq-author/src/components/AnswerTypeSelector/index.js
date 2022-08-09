@@ -131,7 +131,7 @@ class AnswerTypeSelector extends React.Component {
           hasDateRange ||
           mutuallyExclusive ||
           (this.props.page.answers.length > 1 &&
-            answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE)) // TODO: When Runner supports multiple answers with mutually exclusive, the code inside the parentheses can be deleted
+            answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE)) // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, the code inside the parentheses can be deleted
         }
       >
         <IconText icon={AddIcon}>
