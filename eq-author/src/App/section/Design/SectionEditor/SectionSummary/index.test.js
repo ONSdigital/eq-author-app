@@ -79,44 +79,4 @@ describe("Section Summary", () => {
       });
     });
   });
-
-  describe("Collapsible summary toggle", () => {
-    it("should render section summary toggle ", async () => {
-      const { getByText } = rtlRender(() => <SectionSummary {...props} />);
-
-      expect(getByText("Collapsible summary")).toBeInTheDocument();
-    });
-
-    it("Should enable and disable section summary when toggled", async () => {
-      const { getByTestId } = rtlRender(() => <SectionSummary {...props} />);
-
-      const preToggle = getByTestId("collapsible-summary");
-
-      const toggle = Object.values(preToggle.children).reduce((child) =>
-        child.type === "checkbox" ? child : null
-      );
-
-      await act(async () => {
-        await fireEvent.click(toggle);
-        flushPromises();
-      });
-
-      expect(mockUseMutation.mock.calls.length).toBe(2);
-      expect(mockUseMutation).toBeCalledWith({
-        variables: {
-          input: {
-            id: props.id,
-            collapsibleSummary: true,
-          },
-        },
-      });
-    });
-
-    it("Should disable collapsible summary toggle when section summary off", async () => {
-      const { getByTestId } = rtlRender(() => <SectionSummary {...props} />);
-
-      const preToggle = getByTestId("collapsible-summary-wrapper");
-      expect(preToggle).toHaveAttribute("disabled");
-    });
-  });
 });

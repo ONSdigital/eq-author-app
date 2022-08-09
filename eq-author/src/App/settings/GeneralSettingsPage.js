@@ -129,7 +129,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     navigation,
     hub,
     summary,
-    collapsibleSummary,
     introduction,
   } = questionnaire;
 
@@ -322,27 +321,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             })
                           }
                           checked={summary}
-                        />
-                      </InlineField>
-                    </EnableDisableWrapper>
-
-                    <EnableDisableWrapper disabled={!summary || hub}>
-                      <InlineField>
-                        <Label htmlFor="toggle-collapsible-summary">
-                          Collapsible sections
-                        </Label>
-                        <ToggleSwitch
-                          id="toggle-collapsible-summary"
-                          name="toggle-collapsible-summary"
-                          hideLabels={false}
-                          onChange={({ value }) =>
-                            updateQuestionnaire({
-                              variables: {
-                                input: { id, collapsibleSummary: value },
-                              },
-                            })
-                          }
-                          checked={collapsibleSummary}
                         />
                       </InlineField>
                     </EnableDisableWrapper>

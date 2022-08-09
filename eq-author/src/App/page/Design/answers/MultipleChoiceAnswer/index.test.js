@@ -22,6 +22,10 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
 }));
 
+jest.mock("components/RouterContext", () => ({
+  useCurrentPageId: jest.fn(),
+}));
+
 const createMultipleChoice = (props) => {
   return render(<UnwrappedMultipleChoiceAnswer {...props} />);
 };

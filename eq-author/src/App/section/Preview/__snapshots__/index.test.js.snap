@@ -47,7 +47,6 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
         "requiredCompleted": false,
         "sectionSummary": false,
         "showOnHub": false,
-        "summaryTitle": "",
         "title": "",
         "validationErrorInfo": Object {
           "__typename": "ValidationErrorInfo",
