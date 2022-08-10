@@ -19,6 +19,8 @@ module.exports = (questionnaire) => {
                 );
 
                 mutuallyExclusiveAnswer.options[0].label = option.label;
+                mutuallyExclusiveAnswer.options[0].description =
+                  option.description;
                 page.answers.push(mutuallyExclusiveAnswer);
                 if (answer.type === "Checkbox") {
                   answer.options = answer.options.filter(

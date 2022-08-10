@@ -23,6 +23,7 @@ describe("convertMutuallyExclusiveOptions", () => {
                         {
                           id: "exclusive-1",
                           label: "No pets",
+                          description: "Do not have any pets",
                           mutuallyExclusive: true,
                         },
                       ],
@@ -38,17 +39,20 @@ describe("convertMutuallyExclusiveOptions", () => {
   });
 
   it("should convert mutually exclusive to mutually exclusive answer type with correct data", () => {
-    const updatedQuestionnaire = convertMutuallyExclusiveOptions(questionnaire);
-    const updatedQuestionnaireAnswers =
-      updatedQuestionnaire.sections[0].folders[0].pages[0].answers;
+    convertMutuallyExclusiveOptions(questionnaire);
+    const questionnaireAnswers =
+      questionnaire.sections[0].folders[0].pages[0].answers;
 
-    expect(updatedQuestionnaireAnswers.length).toBe(2);
-    expect(updatedQuestionnaireAnswers[0].options).toBeUndefined();
-    expect(updatedQuestionnaireAnswers[0].type).toBe("Number");
-    expect(updatedQuestionnaireAnswers[1].type).toBe("MutuallyExclusive");
-    expect(updatedQuestionnaireAnswers[1].questionPageId).toBe("page-1");
-    expect(updatedQuestionnaireAnswers[1].options.length).toBe(1);
-    expect(updatedQuestionnaireAnswers[1].options[0].label).toBe("No pets");
+    expect(questionnaireAnswers.length).toBe(2);
+    expect(questionnaireAnswers[0].options).toBeUndefined();
+    expect(questionnaireAnswers[0].type).toBe("Number");
+    expect(questionnaireAnswers[1].type).toBe("MutuallyExclusive");
+    expect(questionnaireAnswers[1].questionPageId).toBe("page-1");
+    expect(questionnaireAnswers[1].options.length).toBe(1);
+    expect(questionnaireAnswers[1].options[0].label).toBe("No pets");
+    expect(questionnaireAnswers[1].options[0].description).toBe(
+      "Do not have any pets"
+    );
   });
 
   it("should not remove checkbox answer options", () => {
@@ -61,6 +65,7 @@ describe("convertMutuallyExclusiveOptions", () => {
         {
           id: "exclusive-1",
           label: "Don't know",
+          description: "Test description",
           mutuallyExclusive: true,
         },
       ],
@@ -71,14 +76,21 @@ describe("convertMutuallyExclusiveOptions", () => {
     expect(questionnaireAnswers).toHaveLength(1);
     expect(questionnaireAnswers[0].type).toBe("Checkbox");
     expect(questionnaireAnswers[0].options).toHaveLength(3);
+    expect(questionnaireAnswers[0].options[2].label).toBe("Don't know");
+    expect(questionnaireAnswers[0].options[2].description).toBe(
+      "Test description"
+    );
 
-    const updatedQuestionnaire = convertMutuallyExclusiveOptions(questionnaire);
-    const updatedQuestionnaireAnswers =
-      updatedQuestionnaire.sections[0].folders[0].pages[0].answers;
+    convertMutuallyExclusiveOptions(questionnaire);
 
-    expect(updatedQuestionnaireAnswers).toHaveLength(2);
-    expect(updatedQuestionnaireAnswers[0].type).toBe("Checkbox");
-    expect(updatedQuestionnaireAnswers[1].type).toBe("MutuallyExclusive");
-    expect(updatedQuestionnaireAnswers[0].options).toHaveLength(2);
+    expect(questionnaireAnswers).toHaveLength(2);
+    expect(questionnaireAnswers[0].options).toHaveLength(2);
+    expect(questionnaireAnswers[0].type).toBe("Checkbox");
+    expect(questionnaireAnswers[1].type).toBe("MutuallyExclusive");
+    expect(questionnaireAnswers[1].type).toBe("MutuallyExclusive");
+    expect(questionnaireAnswers[1].options[0].label).toBe("Don't know");
+    expect(questionnaireAnswers[1].options[0].description).toBe(
+      "Test description"
+    );
   });
 });
