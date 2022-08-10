@@ -20,7 +20,13 @@ module.exports = (questionnaire) => {
 
                 mutuallyExclusiveAnswer.options[0].label = option.label;
                 page.answers.push(mutuallyExclusiveAnswer);
-                answer.options = undefined;
+                if (answer.options.length > 1) {
+                  answer.options = answer.options.filter(
+                    (option) => !option.mutuallyExclusive
+                  );
+                } else {
+                  answer.options = undefined;
+                }
               }
             });
           }
