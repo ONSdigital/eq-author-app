@@ -12,9 +12,6 @@ import withEntityEditor from "components/withEntityEditor";
 
 import withValidationError from "enhancers/withValidationError";
 
-import CREATE_MUTUALLY_EXCLUSIVE from "./graphql/createMutuallyExclusiveOption.graphql";
-import DELETE_OPTION from "./graphql/deleteOption.graphql";
-import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 import UPDATE_ANSWER_OF_TYPE from "graphql/updateAnswersOfType.graphql";
 import answerFragment from "graphql/fragments/answer.graphql";
@@ -32,7 +29,6 @@ import { TEXTFIELD } from "constants/answer-types";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
-import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
@@ -60,16 +56,12 @@ export const StatelessBasicAnswer = ({
   getValidationError,
   type,
   optionErrorMsg,
-  multipleAnswers,
   page,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
 
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
-  const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
-  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
-  const [deleteOption] = useMutation(DELETE_OPTION);
 
   const { id } = answer;
 
@@ -164,14 +156,6 @@ export const StatelessBasicAnswer = ({
             </Collapsible>
           </>
         )}
-        <MutuallyExclusive
-          answer={answer}
-          createMutuallyExclusive={createMutuallyExclusive}
-          disabled={multipleAnswers}
-          updateOption={updateOption}
-          deleteOption={deleteOption}
-          autoFocus={autoFocus}
-        />
       </AdvancedProperties>
     </div>
   );
