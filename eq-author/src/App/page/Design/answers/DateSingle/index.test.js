@@ -67,27 +67,4 @@ describe("Date", () => {
       buildLabelError(MISSING_LABEL, `${lowerCase(answer.type)}`, 8, 7)
     ).toEqual("Enter a date label");
   });
-
-  it("should render Or option toggle ", async () => {
-    const { getByTestId } = renderDateSingleProperties(props);
-    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
-  });
-
-  it("should disable Or option toggle if multipleAnswers = true", async () => {
-    props.multipleAnswers = true;
-    const { getByTestId } = renderDateSingleProperties(props);
-
-    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
-  });
-
-  it("should show Option label if toggle is on", async () => {
-    props.answer.options[0].mutuallyExclusive = true;
-
-    const { getByTestId } = renderDateSingleProperties(props);
-    fireEvent.click(getByTestId("toggle-or-option-input"), {
-      target: { type: "checkbox", checked: true },
-    });
-
-    expect(getByTestId("option-label")).toBeInTheDocument();
-  });
 });
