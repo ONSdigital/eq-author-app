@@ -1,6 +1,5 @@
 import React from "react";
 import DateSingle from "./";
-import { render, fireEvent } from "tests/utils/rtl";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { lowerCase } from "lodash";
 
@@ -9,9 +8,6 @@ const mockUseMutation = jest.fn();
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
 }));
-
-const renderDateSingleProperties = (props = {}) =>
-  render(<DateSingle {...props} />);
 
 describe("Date", () => {
   let answer;
