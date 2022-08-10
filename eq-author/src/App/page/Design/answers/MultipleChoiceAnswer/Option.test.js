@@ -206,14 +206,14 @@ describe("Option", () => {
       ...mockMutations,
     };
     const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
-    fireEvent.change(getByTestId("option-toggle-switch-1"), {
+    fireEvent.change(getByTestId("dynamic-option-toggle-switch-1"), {
       target: true,
     });
   });
 
   it("it should display dynamic answer content picker when the dynamic answer togggle switch is true", () => {
     const option = {
-      id: "1",
+      id: "2",
       label: "",
       description: "",
       dynamicAnswer: true,
