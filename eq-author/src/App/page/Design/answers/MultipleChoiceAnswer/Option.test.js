@@ -213,7 +213,7 @@ describe("Option", () => {
 
   it("it should display dynamic answer content picker when the dynamic answer togggle switch is true", () => {
     const option = {
-      id: "1",
+      id: "2",
       label: "",
       description: "",
       dynamicAnswer: true,
