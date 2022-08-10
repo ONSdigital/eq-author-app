@@ -129,7 +129,7 @@ export const StatelessOption = ({
       folderData[0].folders.forEach((folder) => {
         folder.pages.forEach((page) => {
           page.answers.forEach((answer) => {
-            if (answer.options.length > 1) {
+            if (answer?.options?.length > 1) {
               allCheckboxAnswers.push(answer);
             }
           });
