@@ -20,7 +20,7 @@ module.exports = (questionnaire) => {
 
                 mutuallyExclusiveAnswer.options[0].label = option.label;
                 page.answers.push(mutuallyExclusiveAnswer);
-                if (answer.options.length > 1) {
+                if (answer.type === "Checkbox") {
                   answer.options = answer.options.filter(
                     (option) => !option.mutuallyExclusive
                   );
