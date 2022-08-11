@@ -24,7 +24,7 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD } from "constants/answer-types";
+import { TEXTFIELD, TEXTAREA, DURATION } from "constants/answer-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -41,6 +41,8 @@ const Caption = styled.div`
 `;
 
 const CollapsibleContent = styled.p``;
+
+const answersWithoutAdditionalProperties = [TEXTFIELD, TEXTAREA, DURATION];
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -115,48 +117,50 @@ export const StatelessBasicAnswer = ({
         updateAnswerOfType={updateAnswerOfType}
         page={page}
       />
-      <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
-        {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
-          <>
-            <AnswerValidation answer={answer} />
-            <InlineField
-              id="default-answer"
-              htmlFor="default-answer"
-              label="Default answer"
-            >
-              <ToggleSwitch
+      {!answersWithoutAdditionalProperties.includes(type) && (
+        <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
+          {["Number", "Currency", "Unit", "Percentage"].includes(type) && (
+            <>
+              <AnswerValidation answer={answer} />
+              <InlineField
                 id="default-answer"
-                name="default-answer"
-                hideLabels={false}
-                onChange={({ value }) =>
-                  updateAnswer({
-                    variables: {
-                      input: { id, properties: { defaultAnswer: value } },
-                    },
-                  })
-                }
-                data-test="default-answer"
-                checked={answer.properties.defaultAnswer}
-              />
-            </InlineField>
-            <Caption>
-              If unanswered a default value of zero will be recorded.
-            </Caption>
-            <Collapsible
-              title="Why would I need a default value?"
-              defaultOpen={false}
-              className="default-value"
-            >
-              <CollapsibleContent>
-                If this answer is not provided by the respondent and is used in
-                validation settings in a future question it will cause an error.
-                Turning on the default answer will prevent this situation from
-                arising.
-              </CollapsibleContent>
-            </Collapsible>
-          </>
-        )}
-      </AdvancedProperties>
+                htmlFor="default-answer"
+                label="Default answer"
+              >
+                <ToggleSwitch
+                  id="default-answer"
+                  name="default-answer"
+                  hideLabels={false}
+                  onChange={({ value }) =>
+                    updateAnswer({
+                      variables: {
+                        input: { id, properties: { defaultAnswer: value } },
+                      },
+                    })
+                  }
+                  data-test="default-answer"
+                  checked={answer.properties.defaultAnswer}
+                />
+              </InlineField>
+              <Caption>
+                If unanswered a default value of zero will be recorded.
+              </Caption>
+              <Collapsible
+                title="Why would I need a default value?"
+                defaultOpen={false}
+                className="default-value"
+              >
+                <CollapsibleContent>
+                  If this answer is not provided by the respondent and is used
+                  in validation settings in a future question it will cause an
+                  error. Turning on the default answer will prevent this
+                  situation from arising.
+                </CollapsibleContent>
+              </Collapsible>
+            </>
+          )}
+        </AdvancedProperties>
+      )}
     </div>
   );
 };
