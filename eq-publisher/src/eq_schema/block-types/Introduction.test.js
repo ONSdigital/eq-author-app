@@ -7,7 +7,7 @@ describe("Introduction", () => {
   beforeEach(() => {
     apiData = {
       id: "1",
-      description: `<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures aren’t available.</li><li>We will treat your data securely and confidentially.</li><li>${piping}</li></ul>`,
+      description: `<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures are not available.</li><li>We will treat your data securely and confidentially.</li><li>${piping}</li></ul>`,
       legalBasis: "NOTICE_2",
       secondaryTitle: `<p>Information you need ${piping}</p>`,
       secondaryDescription:
@@ -49,7 +49,7 @@ describe("Introduction", () => {
           {
             list: [
               "Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. ",
-              "You can provide info estimates if actual figures aren’t available.",
+              "You can provide info estimates if actual figures are not available.",
               "We will treat your data securely and confidentially.",
               "{{ metadata['some_metadata'] }}",
             ],
@@ -75,7 +75,7 @@ describe("Introduction", () => {
           {
             list: [
               "Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. ",
-              "You can provide info estimates if actual figures aren’t available.",
+              "You can provide info estimates if actual figures are not available.",
               "We will treat your data securely and confidentially.",
               "{{ metadata['some_metadata'] }}",
             ],
