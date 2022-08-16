@@ -11,8 +11,7 @@ import ContentPicker from "components/ContentPickerv2";
 import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
 import {
-  logicalDestinations,
-  EndOfQuestionnaire,
+  logicalDestinations
 } from "constants/destinations";
 
 const selectedDisplayName = (selected, logicalDest) => {
@@ -22,7 +21,7 @@ const selectedDisplayName = (selected, logicalDest) => {
     return "Select a destination";
   }
   if (logical) {
-    return (logicalDest[logical] || logicalDest[EndOfQuestionnaire]).displayName;
+    return logicalDest[logical].displayName;
   }
 
   return (selected.section || selected.page).displayName;

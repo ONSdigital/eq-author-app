@@ -1,8 +1,6 @@
-export const EndOfQuestionnaire = "EndOfQuestionnaire";
 export const NextPage = "NextPage";
 export const Default = "Default";
 export const EndOfCurrentSection = "EndOfCurrentSection";
-export const SectionSummary = "SectionSummary";
 
 export const logicalDestinations = (altSection = false) => ({
   [NextPage]: {
