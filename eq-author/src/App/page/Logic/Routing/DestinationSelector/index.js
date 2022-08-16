@@ -58,6 +58,7 @@ export const UnwrappedDestinationSelector = ({
   value,
   match,
   onChange,
+  sectionSummaryEnabled,
 }) => {
   const handleChange = ({ value: { __typename: type, id } }) => {
     const destinationProperty = typeToPropertyName[type] ?? "logical";
@@ -87,6 +88,7 @@ export const UnwrappedDestinationSelector = ({
               disabled={disabled}
               data-test="routing-destination-content-picker"
               hasError={Boolean(errorMessage)}
+              sectionSummaryEnabled={sectionSummaryEnabled}
             />
           </Column>
         </Grid>
@@ -113,6 +115,7 @@ UnwrappedDestinationSelector.propTypes = {
   disabled: PropTypes.bool.isRequired,
   match: CustomPropTypes.match.isRequired,
   validationErrors: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  sectionSummaryEnabled: PropTypes.bool,
 };
 
 UnwrappedDestinationSelector.defaultProps = {

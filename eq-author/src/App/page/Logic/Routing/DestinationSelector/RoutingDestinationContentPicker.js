@@ -15,22 +15,17 @@ import {
   EndOfQuestionnaire,
 } from "constants/destinations";
 
-import { destinationKey } from "constants/destinationKey";
-
-const logicalDisplayName = (logical) =>
-  destinationKey[logical] || destinationKey[EndOfQuestionnaire];
-
-const absoluteDisplayName = (selected) =>
-  (selected.section || selected.page).displayName;
-
-const selectedDisplayName = (selected) => {
+const selectedDisplayName = (selected, logicalDest) => {
   const { page, section, logical } = selected;
 
   if (!page && !section && !logical) {
-    return destinationKey.Default;
+    return "Select a destination";
+  }
+  if (logical) {
+    return (logicalDest({hub:false})[logical] || logicalDest({hub:false})[EndOfQuestionnaire]).displayName;
   }
 
-  return logical ? logicalDisplayName(logical) : absoluteDisplayName(selected);
+  return (selected.section || selected.page).displayName;
 };
 
 export const generateAvailableRoutingDestinations = (
@@ -71,6 +66,7 @@ export const RoutingDestinationContentPicker = ({
   id,
   selected,
   onSubmit,
+  sectionSummaryEnabled,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -86,12 +82,8 @@ export const RoutingDestinationContentPicker = ({
   );
 
   const { pages, sections } = availableRoutingDestinations;
-
-  const displayName = selectedDisplayName(selected, {
-    pages,
-    logicalDestinations,
-    sections,
-  });
+  const logicalDest = logicalDestinations(sectionSummaryEnabled);
+  const displayName = selectedDisplayName(selected, logicalDest);
 
   const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
@@ -100,8 +92,8 @@ export const RoutingDestinationContentPicker = ({
 
   const contentData =
     id === "else"
-      ? { pages, logicalDestinations }
-      : { pages, logicalDestinations, sections };
+      ? { pages, logicalDestinations: logicalDest }
+      : { pages, logicalDestinations: logicalDest, sections };
 
   return (
     <>
@@ -130,6 +122,7 @@ RoutingDestinationContentPicker.propTypes = {
   id: PropTypes.string,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
+  sectionSummaryEnabled: PropTypes.bool,
 };
 
 export default RoutingDestinationContentPicker;

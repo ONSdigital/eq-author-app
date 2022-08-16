@@ -17,7 +17,6 @@ import ScrollPane from "components/ScrollPane";
 import Truncated from "components/Truncated";
 
 import { keyCodes } from "constants/keyCodes";
-import { destinationKey } from "constants/destinationKey";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -37,9 +36,8 @@ export const tabTitles = {
 const { Enter, Space } = keyCodes;
 
 const otherDestinations = ({ logicalDestinations }, questionnaire) => {
-  const dest = logicalDestinations(questionnaire).map((item) => {
-    item.displayName = destinationKey[item.id];
-    return item;
+  const dest = Object.entries(logicalDestinations(questionnaire)).map((item) => {
+    return item[1];
   });
   if (enableOn(["removedRoutingDestinations"])) {
     return dest.filter((dest) => dest.id !== "EndOfQuestionnaire");
