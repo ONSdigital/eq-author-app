@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import { Field } from "./elements";
 import { colors } from "constants/theme";
 
@@ -22,7 +22,7 @@ const inputWithError = css`
   box-shadow: none;
 `;
 
-export const Input = styled.input`
+export const Input = styled.div`
   width: 20px;
   height: 20px;
   appearance: none;
@@ -32,10 +32,13 @@ export const Input = styled.input`
   box-shadow: inset 0 0 0 3px white;
   pointer-events: none;
   position: absolute;
-  top: 1em;
-  left: 1em;
+  top: 0.75em;
+  left: 0.75em;
 
-  ${(props) => props.type === RADIO && radioInput};
+  ${(props) =>
+    (props.type === RADIO ||
+      (props.type === MUTUALLY_EXCLUSIVE && props.answerOptions.length > 1)) &&
+    radioInput};
   ${(props) => props.error && inputWithError};
 `;
 
@@ -117,9 +120,17 @@ const OptionPropType = PropTypes.shape({
   description: PropTypes.string,
 });
 
-export const Option = ({ option, type, answer }) => (
+export const Option = ({ option, type, answer, answerOptions }) => (
   <OptionItem error={!option.label}>
-    <Input type={type} error={!option.label} />
+    <Input
+      type={type}
+      error={!option.label}
+      answer={answer}
+      answerOptions={answerOptions}
+      data-test={`${type}-input`}
+      aria-label={option.label}
+      tabIndex={0}
+    />
     <OptionLabel>
       {option.dynamicAnswer
         ? "Dynamic option"
@@ -142,13 +153,17 @@ Option.propTypes = {
   answer: PropTypes.shape({
     label: PropTypes.string,
   }),
+  answerOptions: PropTypes.array, // eslint-disable-line
 };
 
 const MultipleChoiceAnswer = ({ answer }) => {
   return (
     <Field>
       <Legend>
-        {answer.options[0].mutuallyExclusive ? "Or" : answer.label}
+        {answer.options[0].mutuallyExclusive ||
+        answer.type === MUTUALLY_EXCLUSIVE
+          ? "Or"
+          : answer.label}
       </Legend>
       {answer.type === CHECKBOX && !answer.label && (
         <SelectAll>Select all that apply:</SelectAll>
@@ -159,6 +174,7 @@ const MultipleChoiceAnswer = ({ answer }) => {
           option={option}
           type={answer.type}
           answer={option.additionalAnswer}
+          answerOptions={answer.options}
         />
       ))}
       {answer.mutuallyExclusiveOption && (

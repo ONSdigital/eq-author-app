@@ -589,6 +589,129 @@ exports[`Answer Editor should render Duration 1`] = `
 </AnswerEditor__Answer>
 `;
 
+exports[`Answer Editor should render Mutually Exclusive 1`] = `
+<AnswerEditor__Answer
+  aria-label="MutuallyExclusive answer"
+  className="answer"
+  data-test="answer-editor"
+>
+  <AnswerEditor__AnswerHeader>
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
+      >
+        OR
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <MoveButton
+            aria-label="Move answer up"
+            color="white"
+            data-test="btn-move-answer-up"
+            disabled={true}
+            onClick={[MockFunction]}
+            tabIndex={-1}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <MoveButton
+            aria-label="Move answer down"
+            color="white"
+            data-test="btn-move-answer-down"
+            disabled={true}
+            onClick={[MockFunction]}
+            tabIndex={-1}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            color="white"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
+  </AnswerEditor__AnswerHeader>
+  <AnswerEditor__Padding>
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
+      answer={
+        Object {
+          "advancedProperties": false,
+          "description": "",
+          "displayName": "",
+          "guidance": "",
+          "id": "1",
+          "label": "",
+          "options": Array [
+            Object {
+              "description": "",
+              "id": "1",
+              "label": "",
+            },
+          ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
+          "title": "",
+          "type": "MutuallyExclusive",
+        }
+      }
+      canMoveDown={true}
+      canMoveUp={true}
+      enableValidationMessage={true}
+      multipleAnswers={false}
+      onAddExclusive={[MockFunction]}
+      onAddOption={[MockFunction]}
+      onChange={[MockFunction]}
+      onDeleteAnswer={[MockFunction]}
+      onDeleteOption={[MockFunction]}
+      onMoveDown={[MockFunction]}
+      onMoveUp={[MockFunction]}
+      onUpdate={[MockFunction]}
+      onUpdateOption={[MockFunction]}
+      type="MutuallyExclusive"
+    />
+  </AnswerEditor__Padding>
+</AnswerEditor__Answer>
+`;
+
 exports[`Answer Editor should render Number 1`] = `
 <AnswerEditor__Answer
   aria-label="Number answer"

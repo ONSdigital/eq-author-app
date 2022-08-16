@@ -32,6 +32,7 @@ describe("components/AnswerTypeGrid", () => {
           onClose={handleClose}
           onSelect={handleSelect}
           aria-labelledby="foo"
+          radioEnabled
         />
       );
       const button = getByText(answerType);
