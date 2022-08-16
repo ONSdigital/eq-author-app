@@ -22,7 +22,7 @@ const selectedDisplayName = (selected, logicalDest) => {
     return "Select a destination";
   }
   if (logical) {
-    return (logicalDest({hub:false})[logical] || logicalDest({hub:false})[EndOfQuestionnaire]).displayName;
+    return (logicalDest[logical] || logicalDest[EndOfQuestionnaire]).displayName;
   }
 
   return (selected.section || selected.page).displayName;

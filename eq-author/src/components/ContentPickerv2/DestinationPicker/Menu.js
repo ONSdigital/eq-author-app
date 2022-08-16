@@ -35,15 +35,10 @@ export const tabTitles = {
 
 const { Enter, Space } = keyCodes;
 
-const otherDestinations = ({ logicalDestinations }, questionnaire) => {
-  const dest = Object.entries(logicalDestinations(questionnaire)).map((item) => {
+const otherDestinations = ({ logicalDestinations }) => {
+  return Object.entries(logicalDestinations).map((item) => {
     return item[1];
   });
-  if (enableOn(["removedRoutingDestinations"])) {
-    return dest.filter((dest) => dest.id !== "EndOfQuestionnaire");
-  } else {
-    return dest;
-  }
 };
 
 const buildTabs = (data, questionnaire) => ({
@@ -143,7 +138,7 @@ const Menu = ({ data, onSelected, isSelected }) => {
 Menu.propTypes = {
   data: PropTypes.shape({
     pages: PropTypes.array,
-    logicalDestinations: PropTypes.func,
+    logicalDestinations: PropTypes.object,
     sections: PropTypes.array,
   }),
   onSelected: PropTypes.func.isRequired,
