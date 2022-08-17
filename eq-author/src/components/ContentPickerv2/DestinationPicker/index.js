@@ -45,7 +45,7 @@ const DestinationPicker = ({ data, onSelected, isSelected, ...otherProps }) => (
 DestinationPicker.propTypes = {
   data: PropTypes.shape({
     pages: PropTypes.array,
-    logicalDestinations: PropTypes.func,
+    logicalDestinations: PropTypes.object,
   }),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
