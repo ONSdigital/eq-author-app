@@ -35,16 +35,11 @@ export const generateAvailableRoutingDestinations = (
   if (!questionnaire?.sections || !pageId || !sectionId) {
     return {
       pages: [],
-      sections: [],
     };
   }
 
   const currentSection = questionnaire.sections.find(
     ({ id }) => id === sectionId
-  );
-  const routableSections = takeRightWhile(
-    questionnaire.sections,
-    ({ id }) => id !== sectionId
   );
   const currentSectionPages = currentSection.folders.flatMap(
     ({ pages }) => pages
@@ -57,12 +52,10 @@ export const generateAvailableRoutingDestinations = (
 
   return {
     pages: routablePages || [],
-    sections: routableSections || [],
   };
 };
 
 export const RoutingDestinationContentPicker = ({
-  id,
   selected,
   onSubmit,
   sectionSummaryEnabled,
@@ -80,7 +73,7 @@ export const RoutingDestinationContentPicker = ({
     [questionnaire, pageId, sectionId]
   );
 
-  const { pages, sections } = availableRoutingDestinations;
+  const { pages } = availableRoutingDestinations;
   const logicalDest = logicalDestinations(sectionSummaryEnabled);
   const displayName = selectedDisplayName(selected, logicalDest);
 
@@ -89,10 +82,7 @@ export const RoutingDestinationContentPicker = ({
     onSubmit({ name: "routingDestination", value: selected });
   };
 
-  const contentData =
-    id === "else"
-      ? { pages, logicalDestinations: logicalDest }
-      : { pages, logicalDestinations: logicalDest, sections };
+  const contentData = { pages, logicalDestinations: logicalDest };
 
   return (
     <>
@@ -118,7 +108,6 @@ export const RoutingDestinationContentPicker = ({
 };
 
 RoutingDestinationContentPicker.propTypes = {
-  id: PropTypes.string,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
   sectionSummaryEnabled: PropTypes.bool,

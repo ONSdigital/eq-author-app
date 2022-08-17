@@ -46,7 +46,6 @@ DestinationPicker.propTypes = {
   data: PropTypes.shape({
     pages: PropTypes.array,
     logicalDestinations: PropTypes.func,
-    sections: PropTypes.array,
   }),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
