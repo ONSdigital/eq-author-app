@@ -13,7 +13,7 @@ export const QCodeContext = createContext();
 // - (If present) Answer's embedded secondary answer
 export const flattenAnswer = (answer) =>
   [
-    answer,
+    answer.type !== MUTUALLY_EXCLUSIVE && answer,
     ...(answer.options?.map((option) => ({
       ...option,
       type:
