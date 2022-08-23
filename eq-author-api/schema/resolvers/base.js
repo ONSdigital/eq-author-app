@@ -29,7 +29,12 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-const { DATE, CHECKBOX, RADIO } = require("../../constants/answerTypes");
+const {
+  DATE,
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE,
+} = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -707,8 +712,13 @@ const Resolvers = {
     createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input, page);
+      const lastAnswer = page.answers[page.answers.length - 1];
 
-      page.answers.push(answer);
+      if (lastAnswer && lastAnswer.type === MUTUALLY_EXCLUSIVE) {
+        page.answers.splice(page.answers.length - 1, 0, answer);
+      } else {
+        page.answers.push(answer);
+      }
 
       onAnswerCreated(page, answer);
 
@@ -864,7 +874,7 @@ const Resolvers = {
         }
       });
 
-      if (![CHECKBOX, RADIO].includes(answer.type)) {
+      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE].includes(answer.type)) {
         delete answer.options;
       }
 
@@ -1575,7 +1585,7 @@ const Resolvers = {
 
   Answer: {
     __resolveType: ({ type }) => {
-      if (includes(["Checkbox", "Radio"], type)) {
+      if (includes(["Checkbox", "Radio", "MutuallyExclusive"], type)) {
         return "MultipleChoiceAnswer";
       } else {
         return "BasicAnswer";

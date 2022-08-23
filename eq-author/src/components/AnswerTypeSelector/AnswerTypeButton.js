@@ -17,6 +17,7 @@ import textareaIcon from "./icons/textarea.svg";
 import textfieldIcon from "./icons/textfield.svg";
 import radioIcon from "./icons/radio.svg";
 import checkboxIcon from "./icons/checkbox.svg";
+import mutuallyExclusiveIcon from "./icons/or-answer.svg";
 
 export const icons = {
   [AnswerTypes.NUMBER]: numberIcon,
@@ -30,6 +31,7 @@ export const icons = {
   [AnswerTypes.TEXTAREA]: textareaIcon,
   [AnswerTypes.RADIO]: radioIcon,
   [AnswerTypes.CHECKBOX]: checkboxIcon,
+  [AnswerTypes.MUTUALLY_EXCLUSIVE]: mutuallyExclusiveIcon,
 };
 
 export default class AnswerTypeButton extends React.Component {
@@ -40,6 +42,8 @@ export default class AnswerTypeButton extends React.Component {
     disabled: PropTypes.bool,
     order: PropTypes.number,
     doNotShowDR: PropTypes.bool,
+    mutuallyExclusiveEnabled: PropTypes.bool,
+    radioEnabled: PropTypes.bool,
   };
 
   handleClick = () => {
@@ -50,6 +54,8 @@ export default class AnswerTypeButton extends React.Component {
     return (
       <IconGridButton
         doNotShowDR={this.props.doNotShowDR}
+        mutuallyExclusiveEnabled={this.props.mutuallyExclusiveEnabled}
+        radioEnabled={this.props.radioEnabled}
         disabled={this.props.disabled}
         iconSrc={icons[this.props.type]}
         onClick={this.handleClick}

@@ -861,6 +861,525 @@ Array [
 ]
 `;
 
+exports[`radio should render a mutually exclusive 1`] = `
+.c10 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c8 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c11 {
+  font-weight: bold;
+}
+
+.c13 {
+  font-weight: regular;
+}
+
+.c12 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  font-weight: inherit;
+  border-radius: 4px;
+  resize: none;
+  overflow: hidden;
+}
+
+.c12:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c12:focus,
+.c12:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c12::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c12::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c12:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c12::placeholder {
+  color: #a3a3a3;
+}
+
+.c12:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c12[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c7 {
+  background: #E4E8EB;
+  background-size: cover;
+  height: 1.4em;
+  width: 1.4em;
+  display: inline-block;
+  margin: 2em 1em 0 0;
+  border-radius: 4px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.c14 {
+  margin: 0;
+}
+
+.c15 {
+  margin: 0;
+}
+
+.c16 {
+  vertical-align: middle;
+  text-align: left;
+  margin: 0;
+  padding: 0.25em 0 0.5em;
+  font-size: inherit;
+}
+
+.c16 .c21 {
+  margin-left: 1em;
+}
+
+.c18 {
+  display: none;
+  margin-top: -1em;
+  border-left: 3px solid #d6d8da;
+  padding: 1em;
+}
+
+.c18 p {
+  margin-top: 0;
+}
+
+.c17 {
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.25em 0.25em 0.25em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #3B7A9E;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  margin-left: 0;
+}
+
+.c17:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c17::before {
+  content: "";
+  background-color: #3B7A9E;
+  -webkit-mask: url(SvgrURL);
+  mask: url(SvgrURL);
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.2em;
+  margin-left: -0.5em;
+}
+
+.c17:hover {
+  color: #003c57;
+}
+
+.c17:hover::before {
+  background-color: #003c57;
+}
+
+.c19 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+  padding: 0.4em 0.8em;
+  color: black;
+  background-color: #d6d8da;
+  font-weight: normal;
+}
+
+.c19[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c19:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c19:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #2d5d79;
+  border-color: var(--color-bg);
+}
+
+.c19:hover {
+  background-color: #999999;
+}
+
+.c19:focus {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c5 {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 2;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  margin-top: 1.5em;
+}
+
+.c9 {
+  margin-bottom: 1.5em;
+}
+
+.c4 {
+  border: 1px solid #d6d8da;
+  padding: 1em 1em 0;
+  border-radius: 4px;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c3.option-enter {
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  z-index: 200;
+}
+
+.c3.option-enter-active {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: opacity 200ms ease-out,-webkit-transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  -webkit-transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.c3.option-exit {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.c3.option-exit-active {
+  opacity: 0;
+  height: 0 !important;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+  transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+}
+
+.c2 {
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.c0 {
+  margin: 1em 0 0;
+  width: 85%;
+}
+
+.c1 {
+  margin: 0 0 1em;
+}
+
+.c20 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: #FFFFFF;
+  border: 1px solid var(--color-text);
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.c20[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c20:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c20:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  border-color: var(--color-bg);
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+    data-test="multiple-choice-options"
+  >
+    <div>
+      <div
+        class="c2 c3"
+      >
+        <div
+          class="c4"
+        >
+          <div>
+            <div
+              class="c5"
+            />
+            <div
+              class="c6"
+            >
+              <div
+                class="c7"
+                data-test="dummy-multiple-choice"
+                type="MutuallyExclusive"
+              />
+              <div
+                class="c8 c9"
+              >
+                <label
+                  class="c10"
+                  for="option-label-1"
+                >
+                  Label
+                </label>
+                <div
+                  class="c11"
+                >
+                  <textarea
+                    aria-invalid="false"
+                    class="c12"
+                    data-autofocus="true"
+                    data-test="option-label"
+                    id="option-label-1"
+                    invalid=""
+                    name="label"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="c8 c9"
+            >
+              <label
+                class="c10"
+                for="option-description-1"
+              >
+                Description (optional)
+              </label>
+              <div
+                class="c13"
+              >
+                <textarea
+                  aria-invalid="false"
+                  class="c12"
+                  data-test="option-description"
+                  id="option-description-1"
+                  name="description"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="c14"
+    data-test="collapsible"
+  >
+    <div
+      class="c15 collapsible-header"
+      data-test="collapsible-header"
+    >
+      <h2
+        class="c16 collapsible-title"
+        data-test="collapsible-title"
+      >
+        <button
+          aria-controls="collapsible-body"
+          class="c17 collapsible-toggle-Collapsible-Button"
+          data-test="collapsible-toggle-button"
+        >
+          What is an OR answer?
+        </button>
+      </h2>
+    </div>
+    <div
+      aria-hidden="true"
+      class="c18 collapsible-body"
+      data-test="collapsible-body"
+    >
+      <p
+        class=""
+      >
+        The OR answer type is a mutually exclusive answer. When selected, any preceding answers given on the page will be cleared. It will appear as a checkbox answer to the respondent unless there is more than one OR option, in which case it will display as a Radio answer.
+      </p>
+      <button
+        class="c19"
+        data-test="collapsible-hide-button"
+        type="button"
+      >
+        Hide this
+      </button>
+    </div>
+  </div>
+  <div>
+    <button
+      class="c20"
+      type="button"
+    >
+      Add another option
+    </button>
+  </div>
+</div>
+`;
+
 exports[`radio should render a radio 1`] = `
 Array [
   .c1 {

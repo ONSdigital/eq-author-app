@@ -4,28 +4,14 @@ import { propType } from "graphql-anywhere";
 import { useMutation } from "@apollo/react-hooks";
 
 import answerFragment from "graphql/fragments/answer.graphql";
-import CREATE_MUTUALLY_EXCLUSIVE from "../BasicAnswer/graphql/createMutuallyExclusiveOption.graphql";
-import DELETE_OPTION from "../BasicAnswer/graphql/deleteOption.graphql";
-import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import UPDATE_ANSWER from "graphql/updateAnswer.graphql";
 
 import Date from "../Date";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
-import MutuallyExclusive from "components/AnswerContent/MutuallyExclusive";
 
-export const DateSingle = ({
-  answer,
-  onChange,
-  onUpdate,
-  multipleAnswers,
-  autoFocus,
-  ...otherProps
-}) => {
-  const [createMutuallyExclusive] = useMutation(CREATE_MUTUALLY_EXCLUSIVE);
-  const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
-  const [deleteOption] = useMutation(DELETE_OPTION);
+export const DateSingle = ({ answer, onChange, onUpdate, ...otherProps }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
 
   return (
@@ -45,14 +31,6 @@ export const DateSingle = ({
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         <AnswerValidation answer={answer} />
-        <MutuallyExclusive
-          answer={answer}
-          createMutuallyExclusive={createMutuallyExclusive}
-          disabled={multipleAnswers}
-          updateOption={updateOption}
-          deleteOption={deleteOption}
-          autoFocus={autoFocus}
-        />
       </AdvancedProperties>
     </>
   );

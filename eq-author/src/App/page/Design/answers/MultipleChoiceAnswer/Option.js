@@ -11,7 +11,7 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
@@ -102,6 +102,7 @@ export const StatelessOption = ({
   canMoveDown,
   onMoveDown,
   hideMoveButtons,
+  hasMultipleOptions,
 }) => {
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
@@ -128,7 +129,7 @@ export const StatelessOption = ({
       folderData[0].folders.forEach((folder) => {
         folder.pages.forEach((page) => {
           page.answers.forEach((answer) => {
-            if (answer.options.length > 1) {
+            if (answer?.options?.length > 1) {
               allCheckboxAnswers.push(answer);
             }
           });
@@ -309,7 +310,10 @@ export const StatelessOption = ({
         {!option.dynamicAnswer && (
           <>
             <Flex>
-              <DummyMultipleChoice type={type} />
+              <DummyMultipleChoice
+                type={type}
+                hasMultipleOptions={hasMultipleOptions}
+              />
               <OptionField>
                 <Label htmlFor={`option-label-${option.id}`}>
                   {label || "Label"}
@@ -435,7 +439,7 @@ StatelessOption.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEnterKey: PropTypes.func,
   hasDeleteButton: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf([RADIO, CHECKBOX]).isRequired,
+  type: PropTypes.oneOf([RADIO, CHECKBOX, MUTUALLY_EXCLUSIVE]).isRequired,
   labelPlaceholder: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
@@ -445,6 +449,7 @@ StatelessOption.propTypes = {
   canMoveDown: PropTypes.bool,
   onMoveDown: PropTypes.func,
   hideMoveButtons: PropTypes.bool,
+  hasMultipleOptions: PropTypes.bool,
   answer: PropTypes.object, //eslint-disable-line
 };
 
