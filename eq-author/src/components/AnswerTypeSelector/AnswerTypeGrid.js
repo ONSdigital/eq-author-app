@@ -17,6 +17,7 @@ import {
   TEXTFIELD,
   RADIO,
   CHECKBOX,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -57,6 +58,7 @@ export const buttons = [
   { type: TEXTFIELD, title: "Text" },
   { type: RADIO, title: "Radio" },
   { type: CHECKBOX, title: "Checkbox" },
+  { type: MUTUALLY_EXCLUSIVE, title: "OR answer" },
 ];
 
 class AnswerTypeGrid extends React.Component {
@@ -65,6 +67,8 @@ class AnswerTypeGrid extends React.Component {
     onSelect: PropTypes.func.isRequired,
     "aria-labelledby": PropTypes.string,
     doNotShowDR: PropTypes.bool,
+    mutuallyExclusiveEnabled: PropTypes.bool,
+    radioEnabled: PropTypes.bool,
   };
 
   handleSelect = (type) => {
@@ -80,6 +84,8 @@ class AnswerTypeGrid extends React.Component {
     const {
       "aria-labelledby": labelledby,
       doNotShowDR,
+      mutuallyExclusiveEnabled,
+      radioEnabled,
       ...otherProps
     } = this.props;
     return (
@@ -99,6 +105,8 @@ class AnswerTypeGrid extends React.Component {
                 <AnswerTypeButton
                   key={button.type}
                   doNotShowDR={doNotShowDR}
+                  mutuallyExclusiveEnabled={mutuallyExclusiveEnabled}
+                  radioEnabled={radioEnabled}
                   {...props}
                 />
               );

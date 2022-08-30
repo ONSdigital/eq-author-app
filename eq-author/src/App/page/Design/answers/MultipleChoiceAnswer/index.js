@@ -16,15 +16,22 @@ import WrappingInput from "components/Forms/WrappingInput";
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { flowRight, lowerCase } from "lodash";
 import { colors } from "constants/theme";
-import { TEXTFIELD, CHECKBOX } from "constants/answer-types";
+
+import {
+  TEXTFIELD,
+  CHECKBOX,
+  MUTUALLY_EXCLUSIVE,
+} from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
 import MenuItem from "components/buttons/SplitButton/MenuItem";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import Button from "components/buttons/Button";
+import Reorder from "components/Reorder";
+import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
 
-import Reorder from "components/Reorder";
 import withMoveOption from "../withMoveOption";
 
 const AnswerWrapper = styled.div`
@@ -59,6 +66,14 @@ const StyledSplitButton = styled(SplitButton)`
   margin-bottom: 1em;
 `;
 
+const AddOptionButton = styled(Button)`
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+`;
+
+const CollapsibleContent = styled.p``;
+
 export const UnwrappedMultipleChoiceAnswer = ({
   answer,
   onUpdateOption,
@@ -73,7 +88,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
   type,
   onDeleteOption,
   onAddOption,
-  onAddExclusive,
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
@@ -95,12 +109,6 @@ export const UnwrappedMultipleChoiceAnswer = ({
     onAddOption(answer.id, { hasAdditionalAnswer: false }).then(focusOnEntity);
   };
 
-  const handleAddExclusive = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onAddExclusive(answer.id).then(focusOnEntity);
-  };
-
   const handleAddOther = (e) => {
     e.preventDefault();
     onAddOption(answer.id, { hasAdditionalAnswer: true }).then(focusOnEntity);
@@ -110,32 +118,34 @@ export const UnwrappedMultipleChoiceAnswer = ({
   const showDeleteOption = numberOfOptions > minOptions;
   return (
     <>
-      <Field>
-        <Label htmlFor={`answer-label-${answer.id}`}>
-          {"Label (optional)"}
-        </Label>
-        <WrappingInput
-          id={`answer-label-${answer.id}`}
-          name="label"
-          onChange={onChange}
-          onBlur={onUpdate}
-          value={answer.label}
-          data-autofocus={autoFocus || null}
-          placeholder={""}
-          data-test="txt-answer-label"
-          bold
-          errorValidationMsg={
-            optionErrorMsg
-              ? optionErrorMsg
-              : getValidationError({
-                  field: "label",
-                  type: "answer",
-                  label: errorLabel,
-                  requiredMsg: errorMsg,
-                })
-          }
-        />
-      </Field>
+      {type !== MUTUALLY_EXCLUSIVE && (
+        <Field>
+          <Label htmlFor={`answer-label-${answer.id}`}>
+            {"Label (optional)"}
+          </Label>
+          <WrappingInput
+            id={`answer-label-${answer.id}`}
+            name="label"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={answer.label}
+            data-autofocus={autoFocus || null}
+            placeholder={""}
+            data-test="txt-answer-label"
+            bold
+            errorValidationMsg={
+              optionErrorMsg
+                ? optionErrorMsg
+                : getValidationError({
+                    field: "label",
+                    type: "answer",
+                    label: errorLabel,
+                    requiredMsg: errorMsg,
+                  })
+            }
+          />
+        </Field>
+      )}
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
       <AnswerWrapper>
         <TransitionGroup
@@ -159,6 +169,10 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 hasDeleteButton={showDeleteOption}
                 hideMoveButtons={numberOfOptions === 1}
                 answer={answer}
+                hasMultipleOptions={
+                  answer.type === MUTUALLY_EXCLUSIVE &&
+                  answer.options.length > 1
+                }
               />
             )}
           </Reorder>
@@ -180,35 +194,46 @@ export const UnwrappedMultipleChoiceAnswer = ({
             </OptionTransition>
           )}
         </TransitionGroup>
-
+        {type === MUTUALLY_EXCLUSIVE && (
+          <Collapsible title="What is an OR answer?">
+            <CollapsibleContent>
+              The OR answer type is a mutually exclusive answer. When selected,
+              any preceding answers given on the page will be cleared. It will
+              appear as a checkbox answer to the respondent unless there is more
+              than one OR option, in which case it will display as a Radio
+              answer.
+            </CollapsibleContent>
+          </Collapsible>
+        )}
         <div>
-          <StyledSplitButton
-            onPrimaryAction={handleAddOption}
-            primaryText={
-              answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-            }
-            onToggleOpen={(setopen) => setOpen(setopen)}
-            open={open}
-            dataTest="btn-add-option"
-          >
-            <Dropdown>
-              <MenuItem
-                onClick={handleAddOther}
-                data-test="btn-add-option-other"
-              >
-                Add &ldquo;Other&rdquo; option
-              </MenuItem>
-              {answer.type === CHECKBOX && (
+          {answer.type !== MUTUALLY_EXCLUSIVE ? (
+            <StyledSplitButton
+              onPrimaryAction={handleAddOption}
+              primaryText={
+                answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
+              }
+              onToggleOpen={(setopen) => setOpen(setopen)}
+              open={open}
+              dataTest="btn-add-option"
+            >
+              <Dropdown>
                 <MenuItem
-                  onClick={handleAddExclusive}
-                  disabled={answer.mutuallyExclusiveOption !== null}
-                  data-test="btn-add-mutually-exclusive-option"
+                  onClick={handleAddOther}
+                  data-test="btn-add-option-other"
                 >
-                  Add an &ldquo;Or&rdquo; option
+                  Add &ldquo;Other&rdquo; option
                 </MenuItem>
-              )}
-            </Dropdown>
-          </StyledSplitButton>
+              </Dropdown>
+            </StyledSplitButton>
+          ) : (
+            <AddOptionButton
+              onClick={handleAddOption}
+              variant="secondary"
+              dataTest="btn-add-option"
+            >
+              Add another option
+            </AddOptionButton>
+          )}
         </div>
       </AnswerWrapper>
     </>

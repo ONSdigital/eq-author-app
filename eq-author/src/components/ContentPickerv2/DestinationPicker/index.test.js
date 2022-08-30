@@ -4,12 +4,9 @@ import { render } from "tests/utils/rtl";
 import DestinationPicker, { Title } from "./";
 
 import {
-  EndOfQuestionnaire,
   NextPage,
   EndOfCurrentSection,
 } from "constants/destinations";
-
-import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -18,24 +15,18 @@ jest.mock("components/QuestionnaireContext", () => ({
 }));
 
 const data = () => ({
-  logicalDestinations: jest.fn(() => [
-    {
+  logicalDestinations: {
+    [NextPage]: {
       id: NextPage,
-      displayName: destinationKey[NextPage],
+      displayName: "Next Page",
       logicalDestination: NextPage,
     },
-    {
+    [EndOfCurrentSection]: {
       id: EndOfCurrentSection,
       logicalDestination: EndOfCurrentSection,
-      displayName: EndOfCurrentSection,
-    },
-    {
-      id: EndOfQuestionnaire,
-      displayName: destinationKey[EndOfQuestionnaire],
-      logicalDestination: EndOfQuestionnaire,
-      displayEnabled: !questionnaire.hub,
-    },
-  ]),
+      displayName: "End of section",
+    }
+  },
   pages: [
     {
       id: "4e5f227c-e53e-41e8-ae26-03ba2c38e12d",
@@ -47,13 +38,7 @@ const data = () => ({
         },
       ],
     },
-  ],
-  sections: [
-    {
-      id: "ebf76c02-3d49-4ec4-bcff-5bd6447094f2",
-      displayName: "Section 2",
-    },
-  ],
+  ]
 });
 const onSelected = jest.fn();
 const isSelected = jest.fn();

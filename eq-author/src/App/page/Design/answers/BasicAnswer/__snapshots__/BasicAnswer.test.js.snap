@@ -93,36 +93,7 @@ exports[`BasicAnswer should render with description 1`] = `
     }
     enableHorizontalRule={true}
     updateAnswer={[MockFunction]}
-  >
-    <MutuallyExclusive
-      answer={
-        Object {
-          "advancedProperties": true,
-          "description": "Answer description",
-          "id": "ansID1",
-          "label": "",
-          "options": Array [
-            Object {
-              "description": "option description",
-              "id": "option-1",
-              "label": "option-label",
-              "mutuallyExclusive": false,
-            },
-          ],
-          "properties": Object {
-            "required": false,
-          },
-          "title": "Answer title",
-          "type": "TextField",
-        }
-      }
-      autoFocus={true}
-      createMutuallyExclusive={[MockFunction]}
-      deleteOption={[MockFunction]}
-      disabled={false}
-      updateOption={[MockFunction]}
-    />
-  </AdvancedProperties>
+  />
 </div>
 `;
 
@@ -198,35 +169,6 @@ exports[`BasicAnswer should render without description 1`] = `
     }
     enableHorizontalRule={true}
     updateAnswer={[MockFunction]}
-  >
-    <MutuallyExclusive
-      answer={
-        Object {
-          "advancedProperties": true,
-          "description": "Answer description",
-          "id": "ansID1",
-          "label": "",
-          "options": Array [
-            Object {
-              "description": "option description",
-              "id": "option-1",
-              "label": "option-label",
-              "mutuallyExclusive": false,
-            },
-          ],
-          "properties": Object {
-            "required": false,
-          },
-          "title": "Answer title",
-          "type": "TextField",
-        }
-      }
-      autoFocus={true}
-      createMutuallyExclusive={[MockFunction]}
-      deleteOption={[MockFunction]}
-      disabled={false}
-      updateOption={[MockFunction]}
-    />
-  </AdvancedProperties>
+  />
 </div>
 `;

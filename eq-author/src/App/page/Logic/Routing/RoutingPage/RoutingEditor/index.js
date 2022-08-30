@@ -39,6 +39,7 @@ export class UnwrappedRoutingEditor extends React.Component {
     updateRouting: PropTypes.func.isRequired,
     createRule: PropTypes.func.isRequired,
     moveRule: PropTypes.func.isRequired,
+    sectionSummaryEnabled: PropTypes.bool,
   };
 
   handleAddClick = () => {
@@ -53,7 +54,7 @@ export class UnwrappedRoutingEditor extends React.Component {
   };
 
   render() {
-    const { routing, moveRule: handleMoveRule } = this.props;
+    const { routing, moveRule: handleMoveRule, sectionSummaryEnabled } = this.props;
 
     return (
       <>
@@ -70,6 +71,7 @@ export class UnwrappedRoutingEditor extends React.Component {
               ifLabel={
                 routing.rules.indexOf(rule) > 0 ? LABEL_ELSE_IF : LABEL_IF
               }
+              sectionSummaryEnabled={sectionSummaryEnabled}
               {...props}
             />
           )}
@@ -89,6 +91,7 @@ export class UnwrappedRoutingEditor extends React.Component {
           value={routing.else}
           onChange={this.handleElseChange}
           data-test="select-else"
+          sectionSummaryEnabled={sectionSummaryEnabled}
         />
       </>
     );

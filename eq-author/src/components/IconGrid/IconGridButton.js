@@ -50,9 +50,15 @@ const IconGridButton = ({
   order,
   onClick,
   doNotShowDR,
+  mutuallyExclusiveEnabled,
+  radioEnabled,
   ...otherProps
 }) => {
-  if (doNotShowDR && title === "Date range") {
+  if (
+    (doNotShowDR && title === "Date range") ||
+    (!mutuallyExclusiveEnabled && title === "OR answer") ||
+    (!radioEnabled && title === "Radio")
+  ) {
     disabled = true;
   }
   return (
@@ -79,6 +85,8 @@ IconGridButton.propTypes = {
   order: PropTypes.number,
   onClick: PropTypes.func,
   doNotShowDR: PropTypes.bool,
+  mutuallyExclusiveEnabled: PropTypes.bool,
+  radioEnabled: PropTypes.bool,
 };
 
 export default IconGridButton;

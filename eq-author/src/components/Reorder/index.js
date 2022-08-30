@@ -4,6 +4,8 @@ import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
 import getIdForObject from "utils/getIdForObject";
+import answersHaveAnswerType from "utils/answersHaveAnswerType";
+import { MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
 const MOVE_DURATION = 400;
 const UP = "UP";
@@ -35,6 +37,7 @@ export const Segment = styled.div`
 
 const startingStyles = (items) => items.map(() => ({ transform: 0 }));
 
+// list represents an array of the page's answers
 const Reorder = ({ list, onMove, children, Transition }) => {
   const OuterWrapper = Transition ? TransitionGroup : React.Fragment;
   const InnerWrapper = Transition || React.Fragment;
@@ -66,6 +69,11 @@ const Reorder = ({ list, onMove, children, Transition }) => {
 
     itemElements.current[index] = node.getBoundingClientRect().height;
   };
+
+  const hasMutuallyExclusiveAnswer = answersHaveAnswerType(
+    list,
+    MUTUALLY_EXCLUSIVE
+  );
 
   useEffect(
     () => () => {
@@ -115,7 +123,11 @@ const Reorder = ({ list, onMove, children, Transition }) => {
           onMoveUp: () => handleMove(item, index, UP),
           onMoveDown: () => handleMove(item, index, DOWN),
           canMoveUp: !isTransitioning && index > 0,
-          canMoveDown: !isTransitioning && index < renderedItems.length - 1,
+          canMoveDown:
+            !isTransitioning &&
+            (hasMutuallyExclusiveAnswer
+              ? index < renderedItems.length - 2
+              : index < renderedItems.length - 1),
           isMoving: isTransitioning,
         };
         return (

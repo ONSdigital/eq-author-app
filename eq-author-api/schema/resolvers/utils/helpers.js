@@ -123,8 +123,10 @@ const getMovePosition = (section, pageId, position) => {
 };
 
 const stripQCodes = (entity) =>
-  deepMap(entity, (value, key) =>
-    ["qCode", "secondaryQCode"].includes(key) ? null : value
+  deepMap(
+    entity,
+    (value, key) => (["qCode", "secondaryQCode"].includes(key) ? null : value),
+    { inPlace: true }
   );
 
 module.exports = {

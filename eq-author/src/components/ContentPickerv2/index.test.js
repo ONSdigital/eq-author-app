@@ -11,7 +11,6 @@ import {
 import ContentPicker from "./";
 
 import { EndOfQuestionnaire, NextPage } from "constants/destinations";
-import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -607,19 +606,13 @@ describe("Content picker", () => {
       props = {
         ...props,
         data: {
-          logicalDestinations: jest.fn(() => [
-            {
+          logicalDestinations: {
+            [NextPage]: {
               id: NextPage,
-              displayName: destinationKey[NextPage],
+              displayName: "Next Page",
               logicalDestination: NextPage,
-            },
-            {
-              id: EndOfQuestionnaire,
-              displayName: destinationKey[EndOfQuestionnaire],
-              logicalDestination: EndOfQuestionnaire,
-              displayEnabled: !questionnaire.hub,
-            },
-          ]),
+            }
+          },
           pages: [
             {
               id: "1",
