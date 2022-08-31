@@ -34,6 +34,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: calc(100% - 72px);
   &:focus-visible {
     border: 3px solid ${colors.focus};
     margin: 0;

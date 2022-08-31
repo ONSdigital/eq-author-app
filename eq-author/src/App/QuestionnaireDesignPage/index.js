@@ -52,14 +52,22 @@ import {
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
 
+const MainNavScrollPane = styled(ScrollPane)`
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: ${colors.lightGrey};
+    }
+  }
+`;
+
 const NavColumn = styled(Column)`
   background-color: ${colors.black};
+  display: flex;
 `;
 
 const MainNav = styled.div`
   width: 72px;
   border: 0;
-  float: left;
   background-color: ${colors.black};
   :focus {
     border: 2px solid ${colors.yellow};
@@ -158,22 +166,24 @@ export const QuestionnaireDesignPage = () => {
                 <CallbackContextProvider>
                   <NavColumn cols={3} gutters={false}>
                     <MainNav>
-                      <MainNavigation
-                        hasQuestionnaire={Boolean(questionnaire?.id)}
-                        totalErrorCount={questionnaire?.totalErrorCount || 0}
-                        qcodesEnabled={questionnaire?.qcodes}
-                        settingsError={Boolean(
-                          questionnaire?.themeSettings?.validationErrorInfo
-                            ?.totalCount +
-                            questionnaire?.validationErrorInfo?.totalCount
-                        )}
-                        listsError={some(
-                          questionnaire?.collectionLists?.lists,
-                          (list) => list.validationErrorInfo.errors.length > 0
-                        )}
-                        formTypeErrorCount={formTypeErrorCount}
-                        hasSurveyID={questionnaire?.surveyId !== ""}
-                      />
+                      <MainNavScrollPane>
+                        <MainNavigation
+                          hasQuestionnaire={Boolean(questionnaire?.id)}
+                          totalErrorCount={questionnaire?.totalErrorCount || 0}
+                          qcodesEnabled={questionnaire?.qcodes}
+                          settingsError={Boolean(
+                            questionnaire?.themeSettings?.validationErrorInfo
+                              ?.totalCount +
+                              questionnaire?.validationErrorInfo?.totalCount
+                          )}
+                          listsError={some(
+                            questionnaire?.collectionLists?.lists,
+                            (list) => list.validationErrorInfo.errors.length > 0
+                          )}
+                          formTypeErrorCount={formTypeErrorCount}
+                          hasSurveyID={questionnaire?.surveyId !== ""}
+                        />
+                      </MainNavScrollPane>
                     </MainNav>
                     <NavigationSidebar
                       data-test="side-nav"
