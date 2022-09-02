@@ -39,6 +39,7 @@ const MenuContainer = styled.div`
 `;
 
 const AnswerPicker = ({ data, ...otherProps }) => {
+  console.log("AP 1 data", data);
   const [option, setOption] = useState(
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
@@ -51,7 +52,7 @@ const AnswerPicker = ({ data, ...otherProps }) => {
       setSearchResults(data);
     }
   }, [data]);
-
+  console.log("AP 2 data", data);
   useEffect(() => {
     if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
       const results = searchByAnswerTitleQuestionTitleShortCode(
@@ -64,9 +65,9 @@ const AnswerPicker = ({ data, ...otherProps }) => {
       setSearchResults(data);
     }
   }, [searchTerm, data]);
-
+console.log("AP 3 data", data);
   const numOfResults = getPages({ sections: searchResults }).length;
-
+console.log("searchResults", searchResults);
   return (
     <>
       <ModalHeader>

@@ -4,3 +4,4 @@ export const METADATA = "Metadata";
 export const DESTINATION = "Destination";
 export const VARIABLES = "Variables";
 export const DYNAMIC_ANSWER = "DynamicAnswer";
+export const CALCULATED_SUMMARY_PAGE = "CalculatedSummaryPage";

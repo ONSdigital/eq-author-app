@@ -17,6 +17,8 @@ export const PreviousAnswerContentPicker = ({
   const { questionnaire } = useQuestionnaire();
   const id = useCurrentPageId();
 
+  //console.log("questionnaire", questionnaire);
+
   const sections = useMemo(
     () =>
       getContentBeforePage({

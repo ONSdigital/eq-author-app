@@ -9,6 +9,7 @@ export const DATE = "Date";
 export const DATE_RANGE = "DateRange";
 export const UNIT = "Unit";
 export const DURATION = "Duration";
+export const CALCULATED_SUMMARY_PAGE = "CalculatedSummaryPage";
 
 export const ROUTING_ANSWER_TYPES = [
   RADIO,
@@ -35,4 +36,5 @@ export default [
   DATE_RANGE,
   UNIT,
   DURATION,
+  CALCULATED_SUMMARY_PAGE,
 ];

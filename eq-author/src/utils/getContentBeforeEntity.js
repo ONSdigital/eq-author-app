@@ -10,6 +10,8 @@ const getContentBeforeEntity = (
 ) => {
   const sections = [];
 
+
+
   for (const section of questionnaire.sections) {
     if (section.id === id) {
       return sections;
@@ -35,13 +37,30 @@ const getContentBeforeEntity = (
           return sections;
         }
 
+
         const answers = page?.answers?.flatMap(preprocessAnswers) || [];
+        //TODO: Check that we're only going to be checking for one folder.
+        const calcSummary = section.folders[0].pages.find( page => page.pageType === "CalculatedSummaryPage");
+
         if (answers.length) {
           sections[sections.length - 1].folders[
             sections[sections.length - 1].folders.length - 1
           ].pages.push({
             ...page,
-            answers,
+            answers
+          });
+        } 
+
+        if (page.pageType === "CalculatedSummaryPage") {
+          sections[sections.length - 1].folders[
+            sections[sections.length - 1].folders.length - 1
+          ].pages.push({
+            ...calcSummary,
+            answers: [{
+              id: calcSummary.id,
+              displayName: calcSummary.displayName,
+              __typename: "BasicAnswwer"
+            }]
           });
         }
 

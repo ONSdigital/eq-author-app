@@ -120,6 +120,7 @@ const ContentPicker = ({
         );
 
       case ANSWER:
+        console.log("data", data);
         return (
           <AnswerPicker
             onConfirm={handleConfirm}

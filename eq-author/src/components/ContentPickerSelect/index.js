@@ -15,7 +15,7 @@ import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
 
 import { useTruncation } from "./useTruncation";
 
-import { ANSWER, DYNAMIC_ANSWER } from "./content-types";
+import { ANSWER, DYNAMIC_ANSWER, CALCULATED_SUMMARY_PAGE } from "./content-types";
 import { colors, focusStyle } from "constants/theme";
 
 export const ContentSelectButton = styled(Button).attrs({
@@ -96,12 +96,16 @@ const ContentPickerSelect = ({
   hasError,
   ...otherProps
 }) => {
+  // console.log("answerData", answerData);
+
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
   const [data, contentSelectButtonText] =
-    contentTypes[0] === ANSWER || contentTypes[0] === DYNAMIC_ANSWER
+    contentTypes[0] === ANSWER || contentTypes[0] === DYNAMIC_ANSWER || contentTypes[0] === CALCULATED_SUMMARY_PAGE
       ? [answerData, selectedContentDisplayName]
       : [metadataData, selectedMetadataDisplayName];
+
+  // console.log("data", data);
 
   const buildTitle = useCallback(
     (selectedContent) =>
