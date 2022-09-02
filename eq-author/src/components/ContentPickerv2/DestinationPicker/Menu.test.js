@@ -4,12 +4,9 @@ import { render, fireEvent } from "tests/utils/rtl";
 import Menu, { tabTitles } from "./Menu";
 
 import {
-  EndOfQuestionnaire,
   NextPage,
   EndOfCurrentSection,
 } from "constants/destinations";
-
-import { destinationKey } from "constants/destinationKey";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -21,24 +18,18 @@ let questionnaire;
 
 const props = {
   data: {
-    logicalDestinations: jest.fn(() => [
-      {
+    logicalDestinations: {
+      [NextPage]: {
         id: NextPage,
-        displayName: destinationKey[NextPage],
+        displayName: "Next Page",
         logicalDestination: NextPage,
       },
-      {
+      [EndOfCurrentSection]: {
         id: EndOfCurrentSection,
         logicalDestination: EndOfCurrentSection,
-        displayName: EndOfCurrentSection,
-      },
-      {
-        id: EndOfQuestionnaire,
-        displayName: destinationKey[EndOfQuestionnaire],
-        logicalDestination: EndOfQuestionnaire,
-        displayEnabled: !questionnaire.hub,
-      },
-    ]),
+        displayName: "End of current section",
+      }
+    },
     pages: [
       {
         id: "1",
@@ -79,20 +70,6 @@ const props = {
             displayName: "Section one",
           },
         ],
-      },
-    ],
-    sections: [
-      {
-        id: "section-2",
-        displayName: "Section two",
-      },
-      {
-        id: "section-3",
-        displayName: "Section three",
-      },
-      {
-        id: "section-4",
-        displayName: "Section four",
       },
     ],
   },
@@ -170,19 +147,6 @@ describe("Destination Picker Menu", () => {
       expect(getByText("Question four")).toBeVisible();
     });
 
-    it("should display sections in 'Later sections'", () => {
-      const { queryByText, getByText, click } = defaultSetup();
-      click(tabTitles.later);
-      expect(getByText(tabTitles.later)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-      expect(queryByText("Section one")).toBeFalsy();
-      expect(getByText("Section two")).toBeVisible();
-      expect(getByText("Section three")).toBeVisible();
-      expect(getByText("Section four")).toBeVisible();
-    });
-
     it("should display 'Other destinations' options", () => {
       const { getByText, click } = defaultSetup();
       click(tabTitles.other);
@@ -190,29 +154,14 @@ describe("Destination Picker Menu", () => {
         "aria-selected",
         "true"
       );
-      expect(getByText(destinationKey[NextPage])).toBeVisible();
-      expect(getByText(destinationKey[EndOfCurrentSection])).toBeVisible();
-      expect(getByText(destinationKey[EndOfQuestionnaire])).toBeVisible();
+      expect(getByText("Next Page")).toBeVisible();
+      expect(getByText("End of current section")).toBeVisible();
     });
 
     it("should be able to change destination tabs with Space or enter", () => {
       const { getByText, keyPress } = defaultSetup();
 
       expect(getByText(tabTitles.current)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-
-      // doesn't change with other keyDown
-      keyPress(tabTitles.later, { key: "Escape", code: "Escape" });
-      expect(getByText(tabTitles.current)).toHaveAttribute(
-        "aria-selected",
-        "true"
-      );
-
-      // changes with Enter
-      keyPress(tabTitles.later, { key: "Enter", code: "Enter" });
-      expect(getByText(tabTitles.later)).toHaveAttribute(
         "aria-selected",
         "true"
       );
@@ -261,27 +210,16 @@ describe("Destination Picker Menu", () => {
 
     it("should return last question page if clicking 'End of current section'", () => {
       const { onSelected, click } = defaultSetup();
-      const LogicalDestinationArray = props.data.logicalDestinations();
+      const LogicalDestinationArray = props.data.logicalDestinations;
 
       click("Other destinations");
-      click(destinationKey[EndOfCurrentSection]);
+      click("End of current section");
       expect(onSelected).toHaveBeenCalledTimes(1);
       expect(onSelected).toHaveBeenCalledWith({
-        displayName: destinationKey[EndOfCurrentSection],
-        id: LogicalDestinationArray[1].id,
-        logicalDestination: LogicalDestinationArray[1].logicalDestination,
+        displayName: "End of current section",
+        id: LogicalDestinationArray[EndOfCurrentSection].id,
+        logicalDestination: LogicalDestinationArray[EndOfCurrentSection].logicalDestination,
       });
-    });
-
-    it("should display 'Later sections' when hub is disabled", () => {
-      const { queryByText } = defaultSetup();
-      expect(queryByText(tabTitles.later)).toBeTruthy();
-    });
-
-    it("should display 'End of questionnaire' when hub is disabled", () => {
-      const { click, queryByText } = defaultSetup();
-      click(tabTitles.other);
-      expect(queryByText("End of questionnaire")).toBeTruthy();
     });
   });
 
@@ -289,11 +227,6 @@ describe("Destination Picker Menu", () => {
     beforeEach(() => {
       questionnaire = { hub: true };
       useQuestionnaire.mockImplementation(() => ({ questionnaire }));
-    });
-
-    it("should not display 'Later sections' when hub is enabled", () => {
-      const { queryByText } = defaultSetup();
-      expect(queryByText(tabTitles.later)).toBeFalsy();
     });
 
     it("should display 'Current section' and 'Other destinations' when hub is enabled", () => {

@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { render, fireEvent, screen } from "tests/utils/rtl";
 
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -89,45 +88,6 @@ describe("BasicAnswer", () => {
 
   it("shows default label error if missing buildLabelError insert props", () => {
     expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
-  });
-
-  it("should render Or option toggle ", async () => {
-    props.type = "Percentage";
-    const { getByTestId } = render(<StatelessBasicAnswer {...props} />);
-    expect(getByTestId("toggle-or-option")).toBeInTheDocument();
-  });
-
-  it("should disable Or option toggle if multipleAnswers = true", async () => {
-    props.type = "Percentage";
-    props.multipleAnswers = true;
-    const { getByTestId } = render(<StatelessBasicAnswer {...props} />);
-
-    expect(getByTestId("toggle-wrapper")).toHaveAttribute("disabled");
-  });
-
-  it("should show Option label if toggle is on", async () => {
-    props.answer.options[0].mutuallyExclusive = true;
-
-    const { getByTestId } = render(
-      <StatelessBasicAnswer {...props} type="Percentage" />
-    );
-    fireEvent.click(getByTestId("toggle-or-option-input"), {
-      target: { type: "checkbox", checked: true },
-    });
-
-    expect(getByTestId("option-label")).toBeInTheDocument();
-  });
-
-  it("should show option label when it exists", () => {
-    props.answer.options[0].mutuallyExclusive = true;
-
-    const { getByTestId } = render(
-      <StatelessBasicAnswer {...props} type="Percentage" />
-    );
-    fireEvent.click(getByTestId("toggle-or-option-input"), {
-      target: { type: "checkbox", checked: true },
-    });
-    expect(screen.getByText(/option description/)).toBeInTheDocument();
   });
 
   describe("event handling behaviour", () => {

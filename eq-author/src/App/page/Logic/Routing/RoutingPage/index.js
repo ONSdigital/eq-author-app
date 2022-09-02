@@ -42,7 +42,10 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
           key={page.routing ? "routing-rule-set" : "routing-rule-set-empty"}
         >
           {page.routing ? (
-            <RoutingEditor routing={page.routing} />
+            <RoutingEditor 
+              routing={page.routing} 
+              sectionSummaryEnabled={page.section.sectionSummary} 
+            />
           ) : (
             <Panel>
               <NoRouting

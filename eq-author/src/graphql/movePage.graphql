@@ -32,6 +32,7 @@ mutation MovePage($input: MovePageInput!) {
       title
       displayName
       position
+      sectionSummary
       questionnaire {
         id
       }

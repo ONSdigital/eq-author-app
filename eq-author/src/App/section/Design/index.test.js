@@ -269,7 +269,6 @@ describe("SectionRoute", () => {
       });
       wrapper.update();
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-      expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(true);
     });
 
     it("should render error if problem with request", async () => {

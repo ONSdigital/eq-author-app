@@ -119,14 +119,6 @@ describe("RoutingDestinationContentPicker", () => {
       expect(getByText("section name")).toBeVisible();
     });
 
-    it("should correctly render logicalDestination EndOfQuestionnaire", () => {
-      const { getByText } = modifiedSetup({
-        selected: { logical: "EndOfQuestionnaire" },
-      });
-
-      expect(getByText("End of questionnaire")).toBeVisible();
-    });
-
     it("should correctly render logicalDestination NextPage", () => {
       const { getByText } = modifiedSetup({
         selected: { logical: "NextPage" },
@@ -137,7 +129,7 @@ describe("RoutingDestinationContentPicker", () => {
 
     it("should correctly render logicalDestination Default", () => {
       const { getByText } = modifiedSetup({
-        selected: { logical: "Default" },
+        selected: {},
       });
 
       expect(getByText("Select a destination")).toBeVisible();

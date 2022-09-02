@@ -570,9 +570,7 @@ describe("Qcode Table", () => {
         describe("options", () => {
           it("should display type", () => {
             expect(utils.getAllByText(/Checkbox option/)).toHaveLength(2);
-            expect(
-              utils.getByText(/Mutually exclusive checkbox/)
-            ).toBeVisible();
+            expect(utils.getByText(/Mutually exclusive/)).toBeVisible();
           });
           it("should display answer label", () => {
             expect(utils.getByText(/checkbox-option-1-label/)).toBeVisible();
