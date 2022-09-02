@@ -15,6 +15,7 @@ import {
   PERCENTAGE,
   UNIT,
   DURATION,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 import { CENTIMETRES } from "constants/unit-types";
@@ -181,6 +182,17 @@ describe("Answer Editor", () => {
         properties: {
           unit: YEARSMONTHS,
         },
+      },
+      ...mockMutations,
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render Mutually Exclusive", () => {
+    const wrapper = createWrapper({
+      answer: {
+        ...mockMultipleChoiceAnswer,
+        type: MUTUALLY_EXCLUSIVE,
       },
       ...mockMutations,
     });

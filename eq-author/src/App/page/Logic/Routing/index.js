@@ -100,6 +100,7 @@ const query = gql`
       section {
         id
         position
+        sectionSummary
       }
     }
   }

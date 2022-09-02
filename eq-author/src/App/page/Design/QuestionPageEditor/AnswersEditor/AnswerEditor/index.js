@@ -18,6 +18,7 @@ import {
   DATE_RANGE,
   UNIT,
   DURATION,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
@@ -105,6 +106,9 @@ class AnswerEditor extends React.Component {
         <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
       );
     }
+    if (type === MUTUALLY_EXCLUSIVE) {
+      return <MultipleChoiceAnswer type={type} {...this.props} />;
+    }
     if (type === DATE_RANGE) {
       return <DateRange {...this.props} />;
     }
@@ -141,6 +145,9 @@ class AnswerEditor extends React.Component {
         </>
       );
     }
+    if (answer.type === MUTUALLY_EXCLUSIVE) {
+      return "OR";
+    }
     return answer.type;
   }
 
@@ -164,8 +171,16 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled={!this.props.canMoveUp}
-                  tabIndex={!this.props.canMoveUp ? -1 : undefined}
+                  disabled={
+                    !this.props.canMoveUp ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
+                  }
+                  tabIndex={
+                    !this.props.canMoveUp ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      ? -1
+                      : undefined
+                  }
                   aria-label={"Move answer up"}
                   onClick={this.props.onMoveUp}
                   data-test="btn-move-answer-up"
@@ -180,8 +195,16 @@ class AnswerEditor extends React.Component {
               >
                 <MoveButton
                   color="white"
-                  disabled={!this.props.canMoveDown}
-                  tabIndex={!this.props.canMoveDown ? -1 : undefined}
+                  disabled={
+                    !this.props.canMoveDown ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
+                  }
+                  tabIndex={
+                    !this.props.canMoveDown ||
+                    this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      ? -1
+                      : undefined
+                  }
                   aria-label={"Move answer down"}
                   onClick={this.props.onMoveDown}
                   data-test="btn-move-answer-down"

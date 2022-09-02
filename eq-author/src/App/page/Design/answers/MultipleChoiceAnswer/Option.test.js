@@ -2,7 +2,8 @@ import React from "react";
 import WrappingInput from "components/Forms/WrappingInput";
 import { shallow, mount } from "enzyme";
 import { StatelessOption } from "./Option";
-import { CHECKBOX, RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import { radius } from "constants/theme";
 import { merge } from "lodash";
 import { useMutation } from "@apollo/react-hooks";
 import {
@@ -98,6 +99,20 @@ describe("Option", () => {
     render(rtlRender, { type: CHECKBOX });
     expect(screen.queryByTestId("dummy-multiple-choice")).toHaveStyle({
       "border-radius": "4px",
+    });
+  });
+
+  it("should render a mutually exclusive answer with correct border radius when mutually exclusive answer has one option", () => {
+    render(rtlRender, { type: MUTUALLY_EXCLUSIVE });
+    expect(screen.queryByTestId("dummy-multiple-choice")).toHaveStyle({
+      "border-radius": radius,
+    });
+  });
+
+  it("should render a mutually exclusive answer with border radius 100% when mutually exclusive answer has multiple options", () => {
+    render(rtlRender, { type: MUTUALLY_EXCLUSIVE, hasMultipleOptions: true });
+    expect(screen.queryByTestId("dummy-multiple-choice")).toHaveStyle({
+      "border-radius": "100%",
     });
   });
 
@@ -206,14 +221,14 @@ describe("Option", () => {
       ...mockMutations,
     };
     const { getByTestId } = rtlRender(<StatelessOption {...otherProps} />);
-    fireEvent.change(getByTestId("option-toggle-switch-1"), {
+    fireEvent.change(getByTestId("dynamic-option-toggle-switch-1"), {
       target: true,
     });
   });
 
   it("it should display dynamic answer content picker when the dynamic answer togggle switch is true", () => {
     const option = {
-      id: "1",
+      id: "2",
       label: "",
       description: "",
       dynamicAnswer: true,

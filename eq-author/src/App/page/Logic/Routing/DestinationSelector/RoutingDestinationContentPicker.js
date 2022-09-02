@@ -11,26 +11,20 @@ import ContentPicker from "components/ContentPickerv2";
 import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
 import {
-  logicalDestinations,
-  EndOfQuestionnaire,
+  logicalDestinations
 } from "constants/destinations";
 
-import { destinationKey } from "constants/destinationKey";
-
-const logicalDisplayName = (logical) =>
-  destinationKey[logical] || destinationKey[EndOfQuestionnaire];
-
-const absoluteDisplayName = (selected) =>
-  (selected.section || selected.page).displayName;
-
-const selectedDisplayName = (selected) => {
+const selectedDisplayName = (selected, logicalDest) => {
   const { page, section, logical } = selected;
 
   if (!page && !section && !logical) {
-    return destinationKey.Default;
+    return "Select a destination";
+  }
+  if (logical) {
+    return logicalDest[logical].displayName;
   }
 
-  return logical ? logicalDisplayName(logical) : absoluteDisplayName(selected);
+  return (selected.section || selected.page).displayName;
 };
 
 export const generateAvailableRoutingDestinations = (
@@ -41,16 +35,11 @@ export const generateAvailableRoutingDestinations = (
   if (!questionnaire?.sections || !pageId || !sectionId) {
     return {
       pages: [],
-      sections: [],
     };
   }
 
   const currentSection = questionnaire.sections.find(
     ({ id }) => id === sectionId
-  );
-  const routableSections = takeRightWhile(
-    questionnaire.sections,
-    ({ id }) => id !== sectionId
   );
   const currentSectionPages = currentSection.folders.flatMap(
     ({ pages }) => pages
@@ -63,14 +52,13 @@ export const generateAvailableRoutingDestinations = (
 
   return {
     pages: routablePages || [],
-    sections: routableSections || [],
   };
 };
 
 export const RoutingDestinationContentPicker = ({
-  id,
   selected,
   onSubmit,
+  sectionSummaryEnabled,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -85,23 +73,16 @@ export const RoutingDestinationContentPicker = ({
     [questionnaire, pageId, sectionId]
   );
 
-  const { pages, sections } = availableRoutingDestinations;
-
-  const displayName = selectedDisplayName(selected, {
-    pages,
-    logicalDestinations,
-    sections,
-  });
+  const { pages } = availableRoutingDestinations;
+  const logicalDest = logicalDestinations(sectionSummaryEnabled);
+  const displayName = selectedDisplayName(selected, logicalDest);
 
   const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
     onSubmit({ name: "routingDestination", value: selected });
   };
 
-  const contentData =
-    id === "else"
-      ? { pages, logicalDestinations }
-      : { pages, logicalDestinations, sections };
+  const contentData = { pages, logicalDestinations: logicalDest };
 
   return (
     <>
@@ -127,9 +108,9 @@ export const RoutingDestinationContentPicker = ({
 };
 
 RoutingDestinationContentPicker.propTypes = {
-  id: PropTypes.string,
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
+  sectionSummaryEnabled: PropTypes.bool,
 };
 
 export default RoutingDestinationContentPicker;

@@ -233,6 +233,26 @@ export const SECTION_QUERY = gql`
       ...Section
       displayName
       position
+      displayConditions {
+        id
+        operator
+        expressions {
+          ... on BinaryExpression2 {
+            id
+            left {
+              ... on BasicAnswer {
+                id
+                page {
+                  id
+                  answers {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       folders {
         id
       }

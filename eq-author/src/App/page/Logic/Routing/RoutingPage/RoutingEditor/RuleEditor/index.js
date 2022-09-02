@@ -92,6 +92,7 @@ const RuleEditorProps = {
   onMoveDown: PropTypes.func.isRequired,
   canMoveDown: PropTypes.bool.isRequired,
   className: PropTypes.string,
+  sectionSummaryEnabled: PropTypes.bool,
 };
 
 export const UnwrappedRuleEditor = ({
@@ -101,6 +102,7 @@ export const UnwrappedRuleEditor = ({
   updateRule,
   updateExpressionGroup,
   className,
+  sectionSummaryEnabled,
   ...props
 }) => {
   const {
@@ -258,6 +260,7 @@ export const UnwrappedRuleEditor = ({
         onChange={handleDestinationChange}
         value={destination}
         data-test="select-then"
+        sectionSummaryEnabled={sectionSummaryEnabled}
       />
     </Rule>
   );

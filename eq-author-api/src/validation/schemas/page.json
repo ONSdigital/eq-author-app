@@ -216,6 +216,35 @@
           "required": ["summaryAnswers"]
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "pageType": {
+            "enum": ["QuestionPage"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "answers": {
+            "type": "array",
+            "contains": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "not": {
+                    "enum": ["MutuallyExclusive"]
+                  }
+                }
+              }
+            },
+            "errorMessage": {
+              "contains": "ERR_NO_ANSWERS"
+            }
+          }
+        }
+      }
     }
   ],
   "required": ["id", "title"]
