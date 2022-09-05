@@ -5,6 +5,15 @@ const createCalculatedSummary = (input = {}) => ({
   id: uuidv4(),
   title: "",
   pageType: "CalculatedSummaryPage",
+  answers: [
+    {
+      id: uuidv4(),
+      label: "",
+      type: "",
+      validation: {},
+      properties: {},
+    },
+  ],
   summaryAnswers: [],
   totalTitle: "",
   type: "",
