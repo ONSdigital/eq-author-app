@@ -83,7 +83,9 @@ Resolvers.Mutation = {
 
     merge(page, input);
     page.answers[0].label = page.totalTitle;
-    page.answers[0].type = page.type;
+    if (page.type) {
+      page.answers[0].type = page.type;
+    }
     page.summaryAnswers = input.summaryAnswers;
     return page;
   }),

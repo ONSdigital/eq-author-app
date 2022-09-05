@@ -9,7 +9,7 @@ const createCalculatedSummary = (input = {}) => ({
     {
       id: uuidv4(),
       label: "",
-      type: "",
+      type: "Number",
       validation: {},
       properties: {},
     },
