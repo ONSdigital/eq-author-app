@@ -11,7 +11,7 @@ exports[`IntroductionEditor should render 1`] = `
           }
         }
       >
-        Introduction content
+        Introduction contenttttt
       </IntroductionEditor__SectionTitle>
       <IntroductionEditor__SectionDescription>
         This content is displayed above the “start survey” button. The title is not editable.
@@ -29,8 +29,19 @@ exports[`IntroductionEditor should render 1`] = `
         size="large"
         testSelector="txt-intro-title"
         value="title"
-        withoutMargin={false}
+        withoutMargin={true}
       />
+      <Panel
+        variant="warning"
+        withList={false}
+      >
+        You can have this page display on the Hub via the 
+        <Link
+          to="/q/questionnaire-1/settings"
+        >
+          Settings page
+        </Link>
+      </Panel>
       <div>
         <IntroductionEditor__HorizontalSeparator />
         <IntroductionEditor__SectionTitle
