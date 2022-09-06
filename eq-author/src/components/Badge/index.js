@@ -22,7 +22,7 @@ const mainNavBadge = css`
   margin: 0;
   position: absolute;
   top: 2px;
-  right: 2px;
+  right: 20px;
   padding: 0;
   width: 0.75em;
   height: 0.75em;
