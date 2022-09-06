@@ -32,7 +32,6 @@ import {
   THEME_ERROR_MESSAGES,
   SURVEY_ID_ERRORS,
 } from "constants/validationMessages";
-import { enableOn } from "utils/featureFlags";
 
 import ValidationError from "components/ValidationError";
 
@@ -155,9 +154,9 @@ const ThemesPage = ({ questionnaire }) => {
     );
 
   const removeDisabledThemes = () => {
-    return enableOn(["removedThemes"])
-      ? questionnaireThemes.filter((theme) => !removedThemes.includes(theme.id))
-      : questionnaireThemes;
+    return questionnaireThemes.filter(
+      (theme) => !removedThemes.includes(theme.id)
+    );
   };
 
   const renderThemes = (themes, previewTheme, questionnaireId) =>

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
-import { enableOn } from "utils/featureFlags";
 
 import { buildSettingsPath } from "utils/UrlUtils";
 import { useParams, Link } from "react-router-dom";
@@ -146,7 +145,7 @@ export const IntroductionEditor = ({
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
-            Introduction content
+            Introduction contenttttt
           </SectionTitle>
           <SectionDescription>
             This content is displayed above the “start survey” button. The title
@@ -162,111 +161,103 @@ export const IntroductionEditor = ({
             disabled
             onUpdate={noop}
             testSelector="txt-intro-title"
-            withoutMargin={enableOn(["hub"])}
+            withoutMargin
           />
-          {enableOn(["hub"]) && (
-            <Panel variant="warning">
-              You can have this page display on the Hub via the&nbsp;
-              <Link to={`${buildSettingsPath(params)}`}>Settings page</Link>
-            </Panel>
-          )}
-          {enableOn(["contactDetails"]) && (
-            <div>
-              <HorizontalSeparator />
-              <SectionTitle style={{ marginBottom: "0" }}>
-                ONS contact details
-              </SectionTitle>
-              <SectionDescription>
-                For business to report a change to company details or structure.
-              </SectionDescription>
-              <Field>
-                <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
-                <StyledInput
-                  id="contactDetailsPhoneNumber"
-                  value={phoneNumber}
-                  onChange={({ value }) => setPhoneNumber(value)}
-                  onBlur={() =>
-                    updateQuestionnaireIntroduction({
-                      id,
-                      ...introduction,
-                      contactDetailsPhoneNumber: phoneNumber,
-                    })
-                  }
-                  data-test="txt-contact-details-phone-number"
-                  hasError={hasErrors("contactDetailsPhoneNumber")}
-                />
-                {hasErrors("contactDetailsPhoneNumber") && (
-                  <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
-                )}
-              </Field>
-              <Field>
-                <Label htmlFor="contactDetailsEmailAddress">
-                  Email Address
-                </Label>
-                <StyledInput
-                  id="contactDetailsEmailAddress"
-                  value={email}
-                  onChange={({ value }) => setEmail(value)}
-                  onBlur={() =>
-                    updateQuestionnaireIntroduction({
-                      id,
-                      ...introduction,
-                      contactDetailsEmailAddress: email,
-                    })
-                  }
-                  data-test="txt-contact-details-email-address"
-                  hasError={hasErrors("contactDetailsEmailAddress")}
-                />
-                {hasErrors("contactDetailsEmailAddress") && (
-                  <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
-                )}
-              </Field>
-              <Field>
-                <Label htmlFor="contactDetailsEmailSubject">
-                  Email Subject
-                </Label>
-                <Input
-                  id="contactDetailsEmailSubject"
-                  value={emailSubject}
-                  onChange={({ value }) => setEmailSubject(value)}
-                  onBlur={() =>
-                    updateQuestionnaireIntroduction({
-                      id,
-                      ...introduction,
-                      contactDetailsEmailSubject: emailSubject,
-                    })
-                  }
-                  data-test="txt-contact-details-email-subject"
-                />
-              </Field>
-              <InlineField
-                open={contactDetailsIncludeRuRef}
-                style={{ marginBottom: "0" }}
-              >
-                <Label htmlFor="toggle-contact-details-include-ruref">
-                  Add RU ref to the subject line
-                </Label>
-                <ToggleSwitch
-                  id="toggle-contact-details-include-ruref"
-                  name="toggle-contact-details-include-ruref"
-                  hideLabels={false}
-                  onChange={() =>
-                    updateQuestionnaireIntroduction({
-                      id,
-                      ...introduction,
-                      contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
-                    })
-                  }
-                  checked={contactDetailsIncludeRuRef}
-                />
-              </InlineField>
-              <SectionDescription>
-                Add the reporting unit reference to the end of the subject line,
-                for example, Change of details reference 621476278652.
-              </SectionDescription>
-              <HorizontalSeparator />
-            </div>
-          )}
+          <Panel variant="warning">
+            You can have this page display on the Hub via the&nbsp;
+            <Link to={`${buildSettingsPath(params)}`}>Settings page</Link>
+          </Panel>
+          <div>
+            <HorizontalSeparator />
+            <SectionTitle style={{ marginBottom: "0" }}>
+              ONS contact details
+            </SectionTitle>
+            <SectionDescription>
+              For business to report a change to company details or structure.
+            </SectionDescription>
+            <Field>
+              <Label htmlFor="contactDetailsPhoneNumber">Phone Number</Label>
+              <StyledInput
+                id="contactDetailsPhoneNumber"
+                value={phoneNumber}
+                onChange={({ value }) => setPhoneNumber(value)}
+                onBlur={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    contactDetailsPhoneNumber: phoneNumber,
+                  })
+                }
+                data-test="txt-contact-details-phone-number"
+                hasError={hasErrors("contactDetailsPhoneNumber")}
+              />
+              {hasErrors("contactDetailsPhoneNumber") && (
+                <ValidationError>{PHONE_NOT_ENTERED}</ValidationError>
+              )}
+            </Field>
+            <Field>
+              <Label htmlFor="contactDetailsEmailAddress">Email Address</Label>
+              <StyledInput
+                id="contactDetailsEmailAddress"
+                value={email}
+                onChange={({ value }) => setEmail(value)}
+                onBlur={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    contactDetailsEmailAddress: email,
+                  })
+                }
+                data-test="txt-contact-details-email-address"
+                hasError={hasErrors("contactDetailsEmailAddress")}
+              />
+              {hasErrors("contactDetailsEmailAddress") && (
+                <ValidationError>{EMAIL_NOT_ENTERED}</ValidationError>
+              )}
+            </Field>
+            <Field>
+              <Label htmlFor="contactDetailsEmailSubject">Email Subject</Label>
+              <Input
+                id="contactDetailsEmailSubject"
+                value={emailSubject}
+                onChange={({ value }) => setEmailSubject(value)}
+                onBlur={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    contactDetailsEmailSubject: emailSubject,
+                  })
+                }
+                data-test="txt-contact-details-email-subject"
+              />
+            </Field>
+            <InlineField
+              open={contactDetailsIncludeRuRef}
+              style={{ marginBottom: "0" }}
+            >
+              <Label htmlFor="toggle-contact-details-include-ruref">
+                Add RU ref to the subject line
+              </Label>
+              <ToggleSwitch
+                id="toggle-contact-details-include-ruref"
+                name="toggle-contact-details-include-ruref"
+                hideLabels={false}
+                onChange={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
+                  })
+                }
+                checked={contactDetailsIncludeRuRef}
+              />
+            </InlineField>
+            <SectionDescription>
+              Add the reporting unit reference to the end of the subject line,
+              for example, Change of details reference 621476278652.
+            </SectionDescription>
+            <HorizontalSeparator />
+          </div>
           <InlineField open={additionalGuidancePanelSwitch}>
             <Label htmlFor="toggle-additional-guidance-panel">
               Additional guidance panel

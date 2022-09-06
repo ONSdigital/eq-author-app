@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { enableOn } from "utils/featureFlags";
-
 
 import DummyTextInput from "../TextInput";
 import placeholder from "../placeholder.svg";
@@ -19,11 +17,11 @@ const Field = styled.div`
 `;
 
 const YearField = styled(Field)`
-    width: ${props => props.enableOn ? '6em' : '5em'};
+  width: 6em;
 `;
 
 const SelectField = styled(Field)`
-  width: ${props => props.enableOn ? '5em' : '12em'};
+  width: 5em;
 `;
 
 const Input = styled(DummyTextInput)`
@@ -53,13 +51,13 @@ const Date = ({ showDay, showMonth, showYear }) => {
         </Field>
       )}
       {showMonth && (
-        <SelectField data-test="dummy-date-month" enableOn={enableOn(["hub"])}>
+        <SelectField data-test="dummy-date-month">
           <Label>Month</Label>
           <Input />
         </SelectField>
       )}
       {showYear && (
-        <YearField data-test="dummy-date-year" enableOn={enableOn(["hub"])}>
+        <YearField data-test="dummy-date-year">
           <Label>Year</Label>
           <Input />
         </YearField>

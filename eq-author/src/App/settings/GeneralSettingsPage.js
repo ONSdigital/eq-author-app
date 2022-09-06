@@ -8,7 +8,6 @@ import { withRouter, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 
 import { getThemeSettingsErrorCount } from "./utils";
-import { enableOn, disableOn } from "utils/featureFlags";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
@@ -20,7 +19,6 @@ import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import { InformationPanel } from "components/Panel";
 
 import { BUSINESS } from "constants/questionnaire-types";
 
@@ -120,17 +118,8 @@ Pill.propTypes = {
 };
 
 const GeneralSettingsPage = ({ questionnaire }) => {
-  const {
-    title,
-    shortTitle,
-    type,
-    id,
-    qcodes,
-    navigation,
-    hub,
-    summary,
-    introduction,
-  } = questionnaire;
+  const { title, shortTitle, type, id, qcodes, hub, summary, introduction } =
+    questionnaire;
 
   const showOnHub = introduction?.showOnHub;
 
@@ -237,59 +226,33 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       sent downstream.
                     </Caption>
                     <HorizontalSeparator />
-                    {enableOn(["hub"]) && (
-                      <>
-                        {type === BUSINESS && (
-                          <EnableDisableWrapper
-                            data-test="toggle-hub-introduction-wrapper"
-                            disabled={!hub}
-                          >
-                            <InlineField disabled={!hub}>
-                              <Label htmlFor="toggle-hub-introduction">
-                                Show introduction page on hub
-                              </Label>
-                              <ToggleSwitch
-                                id="toggle-hub-introduction"
-                                name="toggle-hub-introduction"
-                                hideLabels={false}
-                                onChange={({ value }) =>
-                                  updateQuestionnaireIntroduction({
-                                    variables: {
-                                      input: { id, showOnHub: value },
-                                    },
-                                  })
-                                }
-                                checked={showOnHub}
-                              />
-                            </InlineField>
-                          </EnableDisableWrapper>
-                        )}
-                      </>
-                    )}
-                    {disableOn(["hub"]) && (
-                      <>
-                        <InlineField>
-                          <Label>Section navigation</Label>
-                          <ToggleSwitch
-                            id="toggle-section-navigation"
-                            name="toggle-section-navigation"
-                            hideLabels={false}
-                            onChange={({ value }) =>
-                              updateQuestionnaire({
-                                variables: {
-                                  input: { id, navigation: value, hub: false },
-                                },
-                              })
-                            }
-                            checked={navigation}
-                          />
-                        </InlineField>
-                        <InformationPanel>
-                          Let respondents move between sections while
-                          they&apos;re completing the questionnaire.
-                        </InformationPanel>
-                      </>
-                    )}
+                    <>
+                      {type === BUSINESS && (
+                        <EnableDisableWrapper
+                          data-test="toggle-hub-introduction-wrapper"
+                          disabled={!hub}
+                        >
+                          <InlineField disabled={!hub}>
+                            <Label htmlFor="toggle-hub-introduction">
+                              Show introduction page on hub
+                            </Label>
+                            <ToggleSwitch
+                              id="toggle-hub-introduction"
+                              name="toggle-hub-introduction"
+                              hideLabels={false}
+                              onChange={({ value }) =>
+                                updateQuestionnaireIntroduction({
+                                  variables: {
+                                    input: { id, showOnHub: value },
+                                  },
+                                })
+                              }
+                              checked={showOnHub}
+                            />
+                          </InlineField>
+                        </EnableDisableWrapper>
+                      )}
+                    </>
                     <HorizontalSeparator />
                     <Label>Summary page</Label>
                     <Caption>
