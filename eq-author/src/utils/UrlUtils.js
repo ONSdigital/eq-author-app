@@ -16,6 +16,7 @@ import {
   KEYBOARDSHORTCUTS,
   FOLDER,
   SUBMISSION,
+  VIEW_SURVEY,
 } from "../constants/entities";
 
 export const Routes = {
@@ -107,6 +108,14 @@ export const buildSubmissionPath = ({ submissionId, tab, ...rest }) => {
     entityName: SUBMISSION,
   });
 };
+
+export const buildViewSurveyPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: VIEW_SURVEY,
+  });
+};
+
 export const buildMetadataPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,

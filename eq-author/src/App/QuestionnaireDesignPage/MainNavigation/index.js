@@ -38,6 +38,7 @@ import { useQCodeContext } from "components/QCodeContext";
 import {
   buildQcodesPath,
   buildMetadataPath,
+  buildViewSurveyPath,
   buildHistoryPath,
   buildCollectionListsPath,
   buildSharingPath,
@@ -137,6 +138,19 @@ export const UnwrappedMainNavigation = ({
                     View survey
                   </IconText>
                 </LinkButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "view" && "navigation-on") ||
+                    "navigation"
+                  }
+                  small
+                  data-test="btn-preview"
+                  to={buildViewSurveyPath(params)}
+                >
+                  <IconText nav icon={viewIcon}>
+                    View
+                  </IconText>
+                </RouteButton>
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "settings" && "navigation-on") ||
