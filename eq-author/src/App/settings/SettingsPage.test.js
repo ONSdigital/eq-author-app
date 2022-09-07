@@ -364,22 +364,19 @@ describe("Settings page", () => {
   it("Should initially render with the current questionnaire settings displayed", () => {
     const { getByTestId } = renderSettingsPage(mockQuestionnaire, user, mocks);
 
-    const { title, shortTitle, navigation, summary, type } = mockQuestionnaire;
+    const { title, shortTitle, summary, type } = mockQuestionnaire;
 
     const questionnaiteTitleInput = getByTestId("change-questionnaire-title");
     const questionnaireShortTitleInput = getByTestId(
       "change-questionnaire-short-title"
     );
     const questionnaireTypePill = getByTestId("questionnaire-type");
-    const sectionNavigationToggle = getByTestId("toggle-section-navigation")
-      .children[0];
     const questionnaireSummaryToggle = getByTestId("toggle-answer-summary")
       .children[0];
 
     expect(questionnaiteTitleInput.value).toBe(title);
     expect(questionnaireShortTitleInput.value).toBe(shortTitle);
     expect(questionnaireTypePill.textContent).toBe(type);
-    expect(sectionNavigationToggle.checked).toBe(navigation);
     expect(questionnaireSummaryToggle.checked).toBe(summary);
   });
 
@@ -525,22 +522,6 @@ describe("Settings page", () => {
   });
 
   describe("Section navigation toggle", () => {
-    it("Should display section navigation when hub feature flag is not enabled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "";
-
-      const { queryByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const sectionNavigationToggle = queryByTestId(
-        "toggle-section-navigation"
-      );
-
-      expect(sectionNavigationToggle).toBeInTheDocument();
-    });
-
     it("Should not display collapsible summaries when hub feature flag is enabled", async () => {
       config.REACT_APP_FEATURE_FLAGS = "hub";
 
@@ -555,31 +536,6 @@ describe("Settings page", () => {
       );
 
       expect(sectionNavigationToggle).not.toBeInTheDocument();
-    });
-
-    it("Should enable/disable the section navigation when toggled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "";
-
-      const { getByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const sectionNavigationToggle = getByTestId("toggle-section-navigation");
-
-      const toggle = Object.values(sectionNavigationToggle.children).reduce(
-        (child) => (child.type === "checkbox" ? child : null)
-      );
-
-      expect(queryWasCalled).toBeFalsy();
-
-      await act(async () => {
-        await fireEvent.click(toggle);
-        flushPromises();
-      });
-
-      expect(queryWasCalled).toBeTruthy();
     });
   });
 
@@ -611,20 +567,6 @@ describe("Settings page", () => {
   describe("Hub introduction toggle", () => {
     beforeEach(() => {
       config.REACT_APP_FEATURE_FLAGS = "hub";
-    });
-
-    it("Should not display hub introduction toggle switch when hub feature flag is not enabled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "";
-
-      const { queryByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
-
-      expect(hubIntroductionToggle).not.toBeInTheDocument();
     });
 
     it("Should display hub introduction toggle switch on business questionnaire type", async () => {
