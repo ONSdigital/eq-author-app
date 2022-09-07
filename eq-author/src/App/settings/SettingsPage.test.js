@@ -6,8 +6,6 @@ import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
 
-import config from "config";
-
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>

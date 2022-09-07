@@ -9,7 +9,6 @@ import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import ToggleChip from "components/buttons/ToggleChip";
-import { enableOn } from "utils/featureFlags";
 
 describe("MultipleChoiceAnswerOptionsSelector", () => {
   let defaultProps;
