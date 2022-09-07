@@ -523,8 +523,6 @@ describe("Settings page", () => {
 
   describe("Section navigation toggle", () => {
     it("Should not display collapsible summaries when hub feature flag is enabled", async () => {
-      config.REACT_APP_FEATURE_FLAGS = "hub";
-
       const { queryByTestId } = renderSettingsPage(
         mockQuestionnaire,
         user,
@@ -565,10 +563,6 @@ describe("Settings page", () => {
   });
 
   describe("Hub introduction toggle", () => {
-    beforeEach(() => {
-      config.REACT_APP_FEATURE_FLAGS = "hub";
-    });
-
     it("Should display hub introduction toggle switch on business questionnaire type", async () => {
       const { queryByTestId } = renderSettingsPage(
         mockQuestionnaire,

@@ -270,7 +270,6 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(enableOn(["enableCountCondition"])).toBe(true);
     expect(getByTestId("secondaryCondition-selector")).toBeTruthy();
     expect(getByTestId("secondaryCondition-number-input")).toBeTruthy();
   });

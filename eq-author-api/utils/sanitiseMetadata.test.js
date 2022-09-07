@@ -8,8 +8,6 @@ describe("sanitise Metadata", () => {
 
   describe("GCP", () => {
     beforeEach(() => {
-      process.env.FEATURE_FLAGS = "gcp";
-
       defaultMetadata = {
         tx_id: 123,
         jti: 123,
