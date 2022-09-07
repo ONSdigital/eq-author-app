@@ -93,7 +93,7 @@ const QuestionnairesPage = ({
 
   return (
     <Theme themeName={"ons"}>
-      <WarningBanner>Hello world</WarningBanner>
+      <WarningBanner>Action required</WarningBanner>
       <Layout title="Author">
         <QuestionnairesView
           questionnaires={data.questionnaires}
