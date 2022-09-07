@@ -136,8 +136,6 @@ const { THEME_SHORT_NAMES } = require("../../constants/themes");
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
-const { enableOn } = require("../../utils/featureFlag");
-
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
     shortName: input.type === BUSINESS ? "default" : "social",
@@ -574,9 +572,7 @@ const Resolvers = {
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
-      if (enableOn(["hub"])) {
-        ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
-      }
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       logger.info(
         { qid: ctx.questionnaire.id },
         "New Section Created and Hub Turned On"
@@ -603,9 +599,7 @@ const Resolvers = {
       }
       deleteFirstPageSkipConditions(ctx);
       deleteLastPageRouting(ctx);
-      if (enableOn(["hub"])) {
-        ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
-      }
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       logger.info(
         { qid: ctx.questionnaire.id },
         `Removed Section with ID - ${input.id}`
@@ -628,9 +622,7 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
-      if (enableOn(["hub"])) {
-        ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
-      }
+      ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
       logger.info(
         { qid: ctx.questionnaire.id },
         `Section Duplicated from Section with ID ${input.id}. New Section ID is ${duplicatedSection.id}`
