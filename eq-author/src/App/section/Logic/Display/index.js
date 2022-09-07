@@ -25,11 +25,7 @@ const DisplayLogicPage = ({ match }) => {
   }
 
   if (error || !data) {
-    return (
-      <Logic>
-        <Error>Something went wrong</Error>
-      </Logic>
-    );
+    return <Error>Something went wrong</Error>;
   }
 
   const { section } = data;
