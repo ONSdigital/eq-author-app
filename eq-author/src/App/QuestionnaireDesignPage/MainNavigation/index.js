@@ -184,22 +184,6 @@ export const UnwrappedMainNavigation = ({
                   <Badge data-test="lists-error-badge" variant="main-nav" />
                 )}
               </RouteButton>
-              <RouteButton
-                variant={
-                  (whatPageAreWeOn === "collectionLists" && "navigation-on") ||
-                  "navigation"
-                }
-                small
-                data-test="btn-collection-lists"
-                to={buildCollectionListsPath(params)}
-              >
-                <IconText nav icon={collectionListsIcon}>
-                  Collection Lists
-                </IconText>
-                {listsError && (
-                  <Badge data-test="lists-error-badge" variant="main-nav" />
-                )}
-              </RouteButton>
               )
               <RouteButton
                 variant={
