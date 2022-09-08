@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { colors } from "constants/theme";
@@ -19,6 +18,7 @@ const WarningMessage = styled(IconText)`
   margin-bottom: 3em;
   font-weight: bold;
   width: 20em;
+  font-size: 1.1em;
 `;
 
 const BannerMessageContainer = styled.div`
@@ -39,10 +39,10 @@ const Link = styled.a`
   color: ${colors.white};
 `;
 
-const WarningBanner = ({ children }) => {
+const WarningBanner = () => {
   return (
     <Banner>
-      <WarningMessage icon={WarningIcon}>{children}</WarningMessage>
+      <WarningMessage icon={WarningIcon}>Action required</WarningMessage>
       <BannerMessageContainer>
         <Content>
           Author has migrated and this page will be turned off shortly.
