@@ -7,9 +7,9 @@ import WarningIcon from "./icon-warning.svg?inline";
 
 const Banner = styled.div`
   background-color: ${colors.red};
-  height: 5em;
+  height: 6em;
   display: flex;
-  /* flex: 100%; */
+  /* float: left; */
 `;
 
 const WarningMessage = styled(IconText)`
@@ -22,19 +22,36 @@ const WarningMessage = styled(IconText)`
   font-weight: bold;
 `;
 
-const BannerMessage = styled.ul`
+const BannerMessageContainer = styled.div`
   color: ${colors.white};
+  display: flex;
+  flex-direction: column;
+  width: 100em;
 `;
 
-const Content = styled.p``;
+const Content = styled.p`
+  line-height: 0.1em;
+`;
 
-const WarningBanner = ({ bannerMessage, children }) => {
+const WarningBanner = ({ bannerMessages, children }) => {
   return (
     <Banner>
       <WarningMessage icon={WarningIcon}>{children}</WarningMessage>
-      <BannerMessage>
-        <Content>{bannerMessage}</Content>
-      </BannerMessage>
+      <BannerMessageContainer>
+        {/* <BannerMessage> */}
+        <Content>
+          Author has been migrated and this page will turn off shortly.
+        </Content>
+        {/* </BannerMessage> */}
+        {/* <BannerMessage> */}
+        <Content>Please use latest version of Author.</Content>
+        {/* </BannerMessage> */}
+        {/* <BannerMessage> */}
+        <Content>
+          If you have any questions, please contact the Author team.
+        </Content>
+        {/* </BannerMessage> */}
+      </BannerMessageContainer>
     </Banner>
   );
 };
