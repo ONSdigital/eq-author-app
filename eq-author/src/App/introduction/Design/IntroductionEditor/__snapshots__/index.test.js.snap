@@ -11,7 +11,7 @@ exports[`IntroductionEditor should render 1`] = `
           }
         }
       >
-        Introduction contenttttt
+        Introduction content
       </IntroductionEditor__SectionTitle>
       <IntroductionEditor__SectionDescription>
         This content is displayed above the “start survey” button. The title is not editable.
