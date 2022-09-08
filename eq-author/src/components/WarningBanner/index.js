@@ -35,7 +35,11 @@ const Content = styled.div`
   line-height: 1.7em;
 `;
 
-const WarningBanner = ({ bannerMessages, children }) => {
+const Link = styled.a`
+  color: ${colors.white};
+`;
+
+const WarningBanner = ({ children }) => {
   return (
     <Banner>
       <WarningMessage icon={WarningIcon}>{children}</WarningMessage>
@@ -44,12 +48,16 @@ const WarningBanner = ({ bannerMessages, children }) => {
           Author has migrated and this page will be turned off shortly.
         </Content>
         <Content>
-          Please use latest version of Author:
-          https://author.eqbs.gcp.onsdigital.uk/
+          Please use latest version of Author:&nbsp;
+          <Link href="https://author.eqbs.gcp.onsdigital.uk/">
+            https://author.eqbs.gcp.onsdigital.uk/
+          </Link>
         </Content>
         <Content>
-          If you have any questions please contact the Author team at
-          Author.Requests@ons.gov.uk
+          If you have any questions please contact the Author team at&nbsp;
+          <Link href="mailto:Author.Requests@ons.gov.uk">
+            Author.Requests@ons.gov.uk
+          </Link>
         </Content>
       </BannerMessageContainer>
     </Banner>
