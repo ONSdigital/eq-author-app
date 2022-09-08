@@ -145,7 +145,7 @@ export const IntroductionEditor = ({
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
-            Introduction contenttttt
+            Introduction content
           </SectionTitle>
           <SectionDescription>
             This content is displayed above the “start survey” button. The title
