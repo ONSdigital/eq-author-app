@@ -184,7 +184,6 @@ export const UnwrappedMainNavigation = ({
                   <Badge data-test="lists-error-badge" variant="main-nav" />
                 )}
               </RouteButton>
-              )
               <RouteButton
                 variant={
                   (whatPageAreWeOn === "metadata" && "navigation-on") ||
