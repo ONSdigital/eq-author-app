@@ -25,7 +25,6 @@ import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
 
 import useLockStatusSubscription from "hooks/useLockStatusSubscription";
 import WarningBanner from "components/WarningBanner";
-import bannerMessage from "constants/banner-message";
 
 export const QUESTIONNAIRES_QUERY = gql`
   query GetQuestionnaireList {
@@ -94,9 +93,7 @@ const QuestionnairesPage = ({
 
   return (
     <Theme themeName={"ons"}>
-      <WarningBanner bannerMessage={bannerMessage}>
-        Action required
-      </WarningBanner>
+      <WarningBanner>Action required</WarningBanner>
       <Layout title="Author">
         <QuestionnairesView
           questionnaires={data.questionnaires}

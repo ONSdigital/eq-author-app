@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
 import { colors } from "constants/theme";
 import IconText from "components/IconText";
 import WarningIcon from "./icon-warning.svg?inline";
@@ -9,17 +10,15 @@ const Banner = styled.div`
   background-color: ${colors.red};
   height: 6em;
   display: flex;
-  /* float: left; */
 `;
 
 const WarningMessage = styled(IconText)`
   display: flex;
   color: ${colors.white};
-  /* animation: ${fade} 750ms ease-in forwards; */
   padding: 1em;
-  /* margin-right: 60em; */
-  /* margin-bottom: 2em; */
+  margin-bottom: 3em;
   font-weight: bold;
+  width: 20em;
 `;
 
 const BannerMessageContainer = styled.div`
@@ -27,10 +26,13 @@ const BannerMessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100em;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-top: 0.7em;
 `;
 
-const Content = styled.p`
-  line-height: 0.1em;
+const Content = styled.div`
+  line-height: 1.7em;
 `;
 
 const WarningBanner = ({ bannerMessages, children }) => {
@@ -38,19 +40,17 @@ const WarningBanner = ({ bannerMessages, children }) => {
     <Banner>
       <WarningMessage icon={WarningIcon}>{children}</WarningMessage>
       <BannerMessageContainer>
-        {/* <BannerMessage> */}
         <Content>
-          Author has been migrated and this page will turn off shortly.
+          Author has migrated and this page will be turned off shortly.
         </Content>
-        {/* </BannerMessage> */}
-        {/* <BannerMessage> */}
-        <Content>Please use latest version of Author.</Content>
-        {/* </BannerMessage> */}
-        {/* <BannerMessage> */}
         <Content>
-          If you have any questions, please contact the Author team.
+          Please use latest version of Author:
+          https://author.eqbs.gcp.onsdigital.uk/
         </Content>
-        {/* </BannerMessage> */}
+        <Content>
+          If you have any questions please contact the Author team at
+          Author.Requests@ons.gov.uk
+        </Content>
       </BannerMessageContainer>
     </Banner>
   );
