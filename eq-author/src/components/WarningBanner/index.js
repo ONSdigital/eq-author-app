@@ -9,23 +9,32 @@ const Banner = styled.div`
   background-color: ${colors.red};
   height: 5em;
   display: flex;
+  /* flex: 100%; */
 `;
 
 const WarningMessage = styled(IconText)`
-  align-items: center;
   display: flex;
   color: ${colors.white};
   /* animation: ${fade} 750ms ease-in forwards; */
   padding: 1em;
-  margin-right: 60em;
-  margin-bottom: 2em;
+  /* margin-right: 60em; */
+  /* margin-bottom: 2em; */
   font-weight: bold;
 `;
 
-const WarningBanner = ({ children }) => {
+const BannerMessage = styled.ul`
+  color: ${colors.white};
+`;
+
+const Content = styled.p``;
+
+const WarningBanner = ({ bannerMessage, children }) => {
   return (
     <Banner>
       <WarningMessage icon={WarningIcon}>{children}</WarningMessage>
+      <BannerMessage>
+        <Content>{bannerMessage}</Content>
+      </BannerMessage>
     </Banner>
   );
 };
