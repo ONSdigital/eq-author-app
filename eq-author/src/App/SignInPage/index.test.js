@@ -95,6 +95,13 @@ describe("SignInPage", () => {
       userEvent.click(btn);
       expect(getAllByText("Enter password")).toBeTruthy();
     });
+
+    it("should display warning banner message", () => {
+      const { getByText } = renderSignIn({
+        ...props,
+      });
+      expect(getByText("Action required")).toBeTruthy();
+    });
   });
 
   describe("recover password page", () => {
