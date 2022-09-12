@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import IconText from "components/IconText";
 import WarningIcon from "./icon-warning.svg?inline";
+import ExternalLinkIcon from "./icon-external-link.svg";
 
 const Banner = styled.div`
   background-color: ${colors.red};
@@ -36,6 +37,10 @@ const Content = styled.div`
 
 const Link = styled.a`
   color: ${colors.white};
+  [target="_blank"]&:after {
+    content: url(${ExternalLinkIcon});
+    margin-left: 5px;
+  }
 `;
 
 const WarningBanner = () => {
