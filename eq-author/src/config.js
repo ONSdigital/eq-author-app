@@ -16,6 +16,9 @@ const config = {
     process.env.REACT_APP_FIREBASE_PROJECT_ID,
   REACT_APP_LAUNCH_URL:
     window.config.REACT_APP_LAUNCH_URL || process.env.REACT_APP_LAUNCH_URL,
+  REACT_APP_EXTRACTION_URL:
+    window.config.REACT_APP_EXTRACTION_URL ||
+    process.env.REACT_APP_EXTRACTION_URL,
   REACT_APP_FULLSTORY_ORG:
     window.config.REACT_APP_FULLSTORY_ORG ||
     process.env.REACT_APP_FULLSTORY_ORG,

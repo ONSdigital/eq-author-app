@@ -62,11 +62,12 @@ REACT_APP_FIREBASE_PROJECT_ID=ABC REACT_APP_FIREBASE_API_KEY=DEF yarn start
 
 The following environment variables should be placed in a `.env` file in the eq-author folder.
 
-| Name                   | Description                             | Required |
-| ---------------------- | --------------------------------------- | -------- |
-| `REACT_APP_API_URL`    | Set Author API URL                      | Yes      |
-| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target          | No       |
-| `PUBLIC_URL`           | The public URL inferred if not provided | No       |
+| Name                       | Description                             | Required |
+| -------------------------- | --------------------------------------- | -------- |
+| `REACT_APP_API_URL`        | Set Author API URL                      | Yes      |
+| `REACT_APP_LAUNCH_URL`     | Set the launch-a-survey target          | No       |
+| `REACT_APP_EXTRACTION_URL` | Set the extraction tool target url      | No       |
+| `PUBLIC_URL`               | The public URL inferred if not provided | No       |
 
 ### Build configuration
 

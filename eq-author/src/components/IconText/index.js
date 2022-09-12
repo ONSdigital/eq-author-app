@@ -59,14 +59,7 @@ const IconwithTextBelow = styled.div`
   }
 `;
 
-const IconText = ({
-  icon: Icon,
-  nav,
-  hideText,
-  children,
-  positionRight,
-  ...otherProps
-}) => (
+const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
   <>
     {nav && (
       <IconOuter>
@@ -80,9 +73,8 @@ const IconText = ({
     )}
     {!nav && (
       <IconWithText hideText={hideText} {...otherProps}>
-        {!positionRight && <Icon />}
+        <Icon />
         {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-        {positionRight && <Icon />}
       </IconWithText>
     )}
   </>

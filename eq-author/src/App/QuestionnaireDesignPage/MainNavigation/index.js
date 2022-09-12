@@ -140,11 +140,11 @@ export const UnwrappedMainNavigation = ({
                 </LinkButton>
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn === "view" && "navigation-on") ||
+                    (whatPageAreWeOn === "view-survey" && "navigation-on") ||
                     "navigation"
                   }
                   small
-                  data-test="btn-preview"
+                  data-test="btn-view"
                   to={buildViewSurveyPath(params)}
                 >
                   <IconText nav icon={viewIcon}>

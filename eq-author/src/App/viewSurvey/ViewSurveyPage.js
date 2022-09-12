@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useParams } from "react-router-dom";
+import config from "config";
+
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import { Grid } from "components/Grid";
@@ -8,10 +11,7 @@ import { colors } from "constants/theme";
 import MainCanvas from "components/MainCanvas";
 
 import { Panel, InformationPanel } from "components/Panel";
-import Button from "components/buttons/Button";
-import OnsButton from "components/buttons/onsButton";
-import IconText from "components/IconText";
-import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
+import ExternalLinkButton from "components/buttons/ExternalLinkButton";
 
 const Container = styled.div`
   display: flex;
@@ -69,58 +69,59 @@ const SectionContent = styled.p`
   color: ${colors.text};
 `;
 
-const BorderedButton = styled(Button)`
-  border: 1px solid ${colors.primary};
-  padding: 0.5em;
-`;
-
-const ViewSurveyPage = () => (
-  <Container>
-    <Header title="View" />
-    <StyledGrid tabIndex="-1" className="keyNav">
-      <ScrollPane>
-        <StyledMainCanvas>
-          <Panel>
-            <Layout>
-              <Section>
-                <SectionTitle>Electronic questionnaire</SectionTitle>
-                <SectionContent>
-                  Opens the questionnaire, in a new browser tab, on the
-                  Electronic questionnaire (EQ) platform to see the respondent’s
-                  view of the questionnaire.
-                </SectionContent>
-                <InformationPanel>
-                  The questionnaire cannot be opened in Electronic questionnaire
-                  if there are unresolved validation errors.
-                </InformationPanel>
-              </Section>
-              <Section>
-                <SectionTitle>Extraction tool</SectionTitle>
-                <SectionContent>
-                  Opens the questionnaire in the Extraction tool. It will open
-                  in a new browser tab. The extraction tool will display all the
-                  questionnaire’s questions, answers and logic in one scrollable
-                  page. This is ideal for reviewing the entire questionnaire on
-                  one page. You can also view it as a question table which can
-                  be downloaded as a CSV file.
-                </SectionContent>
-                <BorderedButton
-                  variant="tertiary"
-                  small
-                  data-test="btn-open-in-extraction-tool"
-                >
-                  <IconText positionRight icon={viewIcon}>
-                    Open in Extraction tool
-                  </IconText>
-                </BorderedButton>
-                <OnsButton text="Open in Extraction tool" variant="inverse" />
-              </Section>
-            </Layout>
-          </Panel>
-        </StyledMainCanvas>
-      </ScrollPane>
-    </StyledGrid>
-  </Container>
-);
+const ViewSurveyPage = () => {
+  const params = useParams();
+  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
+  const extractionUrl = `${config.REACT_APP_EXTRACTION_URL}?qid=${params.questionnaireId}`;
+  return (
+    <Container>
+      <Header title="View" />
+      <StyledGrid tabIndex="-1" className="keyNav">
+        <ScrollPane>
+          <StyledMainCanvas>
+            <Panel>
+              <Layout>
+                <Section>
+                  <SectionTitle>Electronic questionnaire</SectionTitle>
+                  <SectionContent>
+                    Opens the questionnaire, in a new browser tab, on the
+                    Electronic questionnaire (EQ) platform to see the
+                    respondent’s view of the questionnaire.
+                  </SectionContent>
+                  <InformationPanel>
+                    The questionnaire cannot be opened in Electronic
+                    questionnaire if there are unresolved validation errors.
+                    {params.questionnaire?.validationErrorInfo?.totalCount}
+                    {params.totalCount}
+                  </InformationPanel>
+                  <ExternalLinkButton
+                    text="Open in Electronic questionnaire"
+                    url={previewUrl}
+                    disabled
+                  />
+                </Section>
+                <Section>
+                  <SectionTitle>Extraction tool</SectionTitle>
+                  <SectionContent>
+                    Opens the questionnaire in the Extraction tool. It will open
+                    in a new browser tab. The extraction tool will display all
+                    the questionnaire’s questions, answers and logic in one
+                    scrollable page. This is ideal for reviewing the entire
+                    questionnaire on one page. You can also view it as a
+                    question table which can be downloaded as a CSV file.
+                  </SectionContent>
+                  <ExternalLinkButton
+                    text="Open in Extraction tool"
+                    url={extractionUrl}
+                  />
+                </Section>
+              </Layout>
+            </Panel>
+          </StyledMainCanvas>
+        </ScrollPane>
+      </StyledGrid>
+    </Container>
+  );
+};
 
 export default ViewSurveyPage;
