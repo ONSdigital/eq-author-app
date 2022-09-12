@@ -1,4 +1,5 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
+#import "graphql/fragments/answer.graphql"
 
 mutation UpdateCalculatedSummaryPage(
   $input: UpdateCalculatedSummaryPageInput!
@@ -9,6 +10,9 @@ mutation UpdateCalculatedSummaryPage(
     totalTitle
     displayName
     alias
+    answers {
+      ...Answer
+    }
     summaryAnswers {
       id
       displayName
