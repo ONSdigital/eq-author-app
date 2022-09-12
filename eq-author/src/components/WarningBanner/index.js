@@ -48,7 +48,11 @@ const WarningBanner = () => {
         </Content>
         <Content>
           Please use latest version of Author:&nbsp;
-          <Link href="https://author.eqbs.gcp.onsdigital.uk/">
+          <Link
+            href="https://author.eqbs.gcp.onsdigital.uk/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             https://author.eqbs.gcp.onsdigital.uk/
           </Link>
         </Content>
