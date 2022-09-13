@@ -84,7 +84,6 @@ export const UnwrappedMainNavigation = ({
   qcodesEnabled,
   settingsError,
   listsError,
-  formTypeErrorCount,
   title,
   children,
   hasSurveyID,
@@ -100,13 +99,10 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
-  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
 
   if (!hasSurveyID) {
     totalErrorCount = totalErrorCount - 1;
   }
-
-  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
   return (
     <>
@@ -127,17 +123,6 @@ export const UnwrappedMainNavigation = ({
                     Home
                   </IconText>
                 </RouteButton>
-                <LinkButton
-                  href={previewUrl}
-                  variant="navigation-modal"
-                  data-test="btn-preview"
-                  small
-                  disabled={totalErrorCountNoFormType > 0}
-                >
-                  <IconText nav icon={viewIcon}>
-                    View survey
-                  </IconText>
-                </LinkButton>
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "view-survey" && "navigation-on") ||
