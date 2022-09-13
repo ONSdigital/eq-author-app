@@ -5,13 +5,11 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
-import config from "config";
 
 import { colors } from "constants/theme";
 import { useMe } from "App/MeContext";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
-import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
