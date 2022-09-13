@@ -67,7 +67,7 @@ const NavColumn = styled(Column)`
 `;
 
 const MainNav = styled.div`
-  width: 72px;
+  width: 104px;
   border: 0;
   background-color: ${colors.black};
   :focus {

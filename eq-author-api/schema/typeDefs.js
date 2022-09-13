@@ -269,6 +269,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   section: Section!
   folder: Folder!
   position: Int!
+  answers: [Answer]
   summaryAnswers: [Answer!]!
   type: String
   totalTitle: String

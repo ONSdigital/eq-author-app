@@ -153,6 +153,9 @@ fragment Pages on Page {
   ... on CalculatedSummaryPage {
     totalTitle
     type
+    answers {
+      ...Answers
+    }
     summaryAnswers {
       id
     }

@@ -60,12 +60,6 @@ const StyledMainNavigation = styled.div`
   position: relative;
 `;
 
-const Flex = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-`;
-
 export const UtilityBtns = styled.div`
   /* display: flex; */
 
@@ -105,153 +99,149 @@ export const UnwrappedMainNavigation = ({
   return (
     <>
       <StyledMainNavigation data-test="main-navigation">
-        <Flex>
-          <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
-            <Platform
-              title={enableOn(["gcp"]) ? "Platform GCP" : "Platform AWS"}
-              data-test="platform-badge"
-            >
-              {enableOn(["gcp"]) ? "GCP" : "AWS"}
-            </Platform>
+        <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
+          <Platform
+            title={enableOn(["gcp"]) ? "Platform GCP" : "Platform AWS"}
+            data-test="platform-badge"
+          >
+            {enableOn(["gcp"]) ? "GCP" : "AWS"}
+          </Platform>
 
-            {hasQuestionnaire && (
-              <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <RouteButton variant="navigation" small to="/">
-                  <IconText nav icon={homeIcon}>
-                    Home
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "view-survey" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-view"
-                  to={buildViewSurveyPath(params)}
-                >
-                  <IconText nav icon={viewIcon}>
-                    View
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "settings" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={`${buildSettingsPath(params)}/general`}
-                  small
-                  data-test="btn-settings"
-                  disabled={title === "Settings"}
-                >
-                  <IconText nav icon={settingsIcon}>
-                    Settings
-                  </IconText>
-                  {settingsError && (
-                    <Badge
-                      data-test="settings-error-badge"
-                      variant="main-nav"
-                    />
-                  )}
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "sharing" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-sharing"
-                  to={buildSharingPath(params)}
-                >
-                  <IconText nav icon={shareIcon}>
-                    Sharing
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "history" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-history"
-                  to={buildHistoryPath(params)}
-                >
-                  <IconText nav icon={historyIcon}>
-                    History
-                  </IconText>
-                </RouteButton>
-                {enableOn(["lists"]) && (
-                  <RouteButton
-                    variant={
-                      (whatPageAreWeOn === "collectionLists" &&
-                        "navigation-on") ||
-                      "navigation"
-                    }
-                    small
-                    data-test="btn-collection-lists"
-                    to={buildCollectionListsPath(params)}
-                  >
-                    <IconText nav icon={collectionListsIcon}>
-                      Collection Lists
-                    </IconText>
-                    {listsError && (
-                      <Badge data-test="lists-error-badge" variant="main-nav" />
-                    )}
-                  </RouteButton>
+          {hasQuestionnaire && (
+            <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
+              <RouteButton variant="navigation" small to="/">
+                <IconText nav icon={homeIcon}>
+                  Home
+                </IconText>
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "view-survey" && "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-view"
+                to={buildViewSurveyPath(params)}
+              >
+                <IconText nav icon={viewIcon}>
+                  View
+                </IconText>
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "settings" && "navigation-on") ||
+                  "navigation"
+                }
+                to={`${buildSettingsPath(params)}/general`}
+                small
+                data-test="btn-settings"
+                disabled={title === "Settings"}
+              >
+                <IconText nav icon={settingsIcon}>
+                  Settings
+                </IconText>
+                {settingsError && (
+                  <Badge data-test="settings-error-badge" variant="main-nav" />
                 )}
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "sharing" && "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-sharing"
+                to={buildSharingPath(params)}
+              >
+                <IconText nav icon={shareIcon}>
+                  Sharing
+                </IconText>
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "history" && "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-history"
+                to={buildHistoryPath(params)}
+              >
+                <IconText nav icon={historyIcon}>
+                  History
+                </IconText>
+              </RouteButton>
+              {enableOn(["lists"]) && (
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn === "metadata" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-metadata"
-                  to={buildMetadataPath(params)}
-                >
-                  <IconText nav icon={metadataIcon}>
-                    Metadata
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "qcodes" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={buildQcodesPath(params)}
-                  small
-                  data-test="btn-qcodes"
-                  disabled={
-                    title === "QCodes" || totalErrorCount > 0 || !qcodesEnabled
-                  }
-                >
-                  <IconText nav icon={qcodeIcon}>
-                    QCodes
-                  </IconText>
-                  {qcodesEnabled && hasQCodeError && (
-                    <Badge data-test="small-badge" variant="main-nav" />
-                  )}
-                </RouteButton>
-
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "keyboardShortcuts" &&
+                    (whatPageAreWeOn === "collectionLists" &&
                       "navigation-on") ||
                     "navigation"
                   }
                   small
-                  data-test="btn-shortcuts"
-                  to={buildShortcutsPath(params)}
+                  data-test="btn-collection-lists"
+                  to={buildCollectionListsPath(params)}
                 >
-                  <IconText nav icon={keyboardIcon}>
-                    Shortcuts
+                  <IconText nav icon={collectionListsIcon}>
+                    Collection Lists
                   </IconText>
+                  {listsError && (
+                    <Badge data-test="lists-error-badge" variant="main-nav" />
+                  )}
                 </RouteButton>
+              )}
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "metadata" && "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-metadata"
+                to={buildMetadataPath(params)}
+              >
+                <IconText nav icon={metadataIcon}>
+                  Metadata
+                </IconText>
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "qcodes" && "navigation-on") ||
+                  "navigation"
+                }
+                to={buildQcodesPath(params)}
+                small
+                data-test="btn-qcodes"
+                disabled={
+                  title === "QCodes" || totalErrorCount > 0 || !qcodesEnabled
+                }
+              >
+                <IconText nav icon={qcodeIcon}>
+                  QCodes
+                </IconText>
+                {qcodesEnabled && hasQCodeError && (
+                  <Badge data-test="small-badge" variant="main-nav" />
+                )}
+              </RouteButton>
 
-                {me && <UserProfile nav />}
-              </ButtonGroup>
-            )}
-          </UtilityBtns>
-        </Flex>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "keyboardShortcuts" &&
+                    "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-shortcuts"
+                to={buildShortcutsPath(params)}
+              >
+                <IconText nav icon={keyboardIcon}>
+                  Shortcuts
+                </IconText>
+              </RouteButton>
+
+              {me && <UserProfile nav />}
+            </ButtonGroup>
+          )}
+        </UtilityBtns>
+
         {children}
       </StyledMainNavigation>
       {hasQuestionnaire && (
