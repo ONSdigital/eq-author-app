@@ -13,6 +13,8 @@ import MainCanvas from "components/MainCanvas";
 import { Panel, InformationPanel } from "components/Panel";
 import ExternalLinkButton from "components/buttons/ExternalLinkButton";
 
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,6 +75,13 @@ const ViewSurveyPage = () => {
   const params = useParams();
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
   const extractionUrl = `${config.REACT_APP_EXTRACTION_URL}?qid=${params.questionnaireId}`;
+  const { questionnaire } = useQuestionnaire();
+  const formTypeErrorCount =
+    questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
+      ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
+    ).length + questionnaire?.validationErrorInfo?.totalCount;
+  const totalErrorCount = questionnaire?.totalErrorCount || 0;
+  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
   return (
     <Container>
       <Header title="View" />
@@ -91,13 +100,11 @@ const ViewSurveyPage = () => {
                   <InformationPanel>
                     The questionnaire cannot be opened in Electronic
                     questionnaire if there are unresolved validation errors.
-                    {params.questionnaire?.validationErrorInfo?.totalCount}
-                    {params.totalCount}
                   </InformationPanel>
                   <ExternalLinkButton
                     text="Open in Electronic questionnaire"
                     url={previewUrl}
-                    disabled
+                    disabled={totalErrorCountNoFormType > 0}
                   />
                 </Section>
                 <Section>
