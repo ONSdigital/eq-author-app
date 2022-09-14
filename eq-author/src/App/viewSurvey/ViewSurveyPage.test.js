@@ -4,13 +4,7 @@ import ViewSurveyPage from "./ViewSurveyPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 
-const renderViewSurveyPage = (
-  questionnaire,
-  props,
-  user,
-  formTypeErrorCount,
-  mocks
-) => {
+const renderViewSurveyPage = (questionnaire, props, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn(), props }}>
       <ViewSurveyPage {...props} />
@@ -24,13 +18,12 @@ const renderViewSurveyPage = (
 };
 
 describe("View Survey Page", () => {
-  let questionnaire, props, user, formTypeErrorCount, mocks;
+  let questionnaire, props, user, mocks;
 
   beforeEach(() => {
     questionnaire = {
       id: "1",
       isPublic: true,
-      totalErrorCount: 0,
     };
     props = {
       match: { params: { modifier: "", questionnaireId: questionnaire.id } },
@@ -44,7 +37,6 @@ describe("View Survey Page", () => {
       name: "T",
       __typename: "User",
     };
-    formTypeErrorCount = 0;
     mocks = [
       {
         request: {
@@ -69,7 +61,6 @@ describe("View Survey Page", () => {
       questionnaire,
       props,
       user,
-      formTypeErrorCount,
       mocks
     );
 
@@ -81,7 +72,6 @@ describe("View Survey Page", () => {
       questionnaire,
       props,
       user,
-      formTypeErrorCount,
       mocks
     );
 
@@ -89,13 +79,12 @@ describe("View Survey Page", () => {
   });
 
   it("should not disable preview button if there are no errors on the questionnaire", () => {
-    questionnaire.totalErrorCount = 0;
-    formTypeErrorCount = 0;
+    // totalErrorCount = 0;
+    // formTypeErrorCount = 0;
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
       user,
-      formTypeErrorCount,
       mocks
     );
 
@@ -107,13 +96,12 @@ describe("View Survey Page", () => {
   });
 
   it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
-    questionnaire.totalErrorCount = 2;
-    formTypeErrorCount = 1;
+    // totalErrorCount = 2;
+    // formTypeErrorCount = 1;
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
       user,
-      formTypeErrorCount,
       mocks
     );
 
@@ -125,12 +113,11 @@ describe("View Survey Page", () => {
   });
 
   it("should not disable preview button if there are only theme errors on the questionnaire", () => {
-    formTypeErrorCount = 1;
+    // formTypeErrorCount = 1;
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
       user,
-      formTypeErrorCount,
       mocks
     );
 
