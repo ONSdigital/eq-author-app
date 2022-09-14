@@ -1,5 +1,6 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 #import "./fragments/folder.graphql"
+#import "graphql/fragments/answer.graphql"
 mutation CreateCalculatedSummaryPage(
   $input: CreateCalculatedSummaryPageInput!
 ) {
@@ -9,6 +10,12 @@ mutation CreateCalculatedSummaryPage(
     alias
     displayName
     pageType
+    answers {
+      ...Answer
+      ... on BasicAnswer {
+        secondaryQCode
+      }
+    }
     section {
       id
       folders {
