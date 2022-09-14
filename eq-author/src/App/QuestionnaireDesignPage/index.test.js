@@ -166,6 +166,11 @@ describe("QuestionnaireDesignPage", () => {
     ).toThrow(ERR_UNAUTHORIZED_QUESTIONNAIRE);
   });
 
+  it("should display warning banner message", () => {
+    const { getByText } = setup();
+    expect(getByText("Action required")).toBeTruthy();
+  });
+
   describe("Document title", () => {
     it("should display existing title if loading", () => {
       setup({ questionnaireQuery: { loading: true } });

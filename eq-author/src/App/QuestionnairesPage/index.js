@@ -24,6 +24,7 @@ import withCreateQuestionnaire from "./withCreateQuestionnaire";
 import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
 
 import useLockStatusSubscription from "hooks/useLockStatusSubscription";
+import WarningBanner from "components/WarningBanner";
 
 export const QUESTIONNAIRES_QUERY = gql`
   query GetQuestionnaireList {
@@ -92,6 +93,7 @@ const QuestionnairesPage = ({
 
   return (
     <Theme themeName={"ons"}>
+      <WarningBanner />
       <Layout title="Author">
         <QuestionnairesView
           questionnaires={data.questionnaires}

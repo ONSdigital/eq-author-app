@@ -19,6 +19,8 @@ import EmailVerification from "./EmailVerification";
 import ApiError from "./ApiError";
 import Theme from "contexts/themeContext";
 
+import WarningBanner from "components/WarningBanner";
+
 const MainPanel = styled.div`
   margin: 2em auto 0;
   display: flex;
@@ -93,6 +95,7 @@ const SignInPage = ({
   return (
     <>
       <Theme themeName={"ons"}>
+        <WarningBanner />
         {me && <Redirect to="/" />}
 
         <Layout title="Author">

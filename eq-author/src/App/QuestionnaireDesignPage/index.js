@@ -52,6 +52,8 @@ import {
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
 
+import WarningBanner from "components/WarningBanner";
+
 const NavColumn = styled(Column)`
   background-color: ${colors.black};
 `;
@@ -150,6 +152,7 @@ export const QuestionnaireDesignPage = () => {
 
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
+      <WarningBanner />
       <BaseLayout questionnaire={questionnaire}>
         <ScrollPane>
           <Titled title={() => (loading ? "" : questionnaire.title)}>

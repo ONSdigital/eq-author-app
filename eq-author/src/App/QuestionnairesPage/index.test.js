@@ -112,4 +112,48 @@ describe("QuestionnairesPage", () => {
 
     expect(getByText("UKIS")).toBeTruthy();
   });
+
+  it("should display warning banner message", async () => {
+    const { getByText } = renderQuestionnairesPage({
+      mocks: [
+        {
+          request: {
+            query: QUESTIONNAIRES_QUERY,
+          },
+          result: {
+            data: {
+              questionnaires: [
+                {
+                  id: "123",
+                  title: "UKIS",
+                  shortTitle: null,
+                  starred: false,
+                  updatedAt: Date.now().toString(),
+                  createdAt: Date.now().toString(),
+                  displayName: "UKIS",
+                  permission: WRITE,
+                  publishStatus: UNPUBLISHED,
+                  createdBy: {
+                    id: "1",
+                    name: "A Dude",
+                    email: "a.dude@gmail.com",
+                    displayName: "A Dude",
+                    __typename: "User",
+                  },
+                  locked: false,
+                  __typename: "Questionnaire",
+                },
+              ],
+            },
+          },
+        },
+      ],
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText("Action required")).toBeTruthy();
+  });
 });
