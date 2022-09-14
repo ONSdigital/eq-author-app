@@ -86,7 +86,7 @@ const ViewSurveyPage = () => {
     <Container>
       <Header title="View" />
       <StyledGrid tabIndex="-1" className="keyNav">
-        <ScrollPane>
+        <ScrollPane data-test="view-page-content">
           <StyledMainCanvas>
             <Panel>
               <Layout>
@@ -104,6 +104,7 @@ const ViewSurveyPage = () => {
                   <ExternalLinkButton
                     text="Open in Electronic questionnaire"
                     url={previewUrl}
+                    data-test="btn-open-in-electronic-questionnaire"
                     disabled={totalErrorCountNoFormType > 0}
                   />
                 </Section>
@@ -119,6 +120,7 @@ const ViewSurveyPage = () => {
                   </SectionContent>
                   <ExternalLinkButton
                     text="Open in Extraction tool"
+                    data-test="btn-open-in-extraction-tool"
                     url={extractionUrl}
                   />
                 </Section>

@@ -74,8 +74,7 @@ describe("MainNavigation", () => {
     const { getByTestId } = defaultSetup();
 
     expect(getByTestId("main-navigation")).toBeTruthy();
-
-    expect(getByTestId("btn-preview")).not.toBeDisabled();
+    expect(getByTestId("btn-view")).not.toBeDisabled();
     expect(getByTestId("btn-settings")).not.toBeDisabled();
     expect(getByTestId("btn-sharing")).not.toBeDisabled();
     expect(getByTestId("btn-history")).not.toBeDisabled();
@@ -83,11 +82,11 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-qcodes")).not.toBeDisabled();
   });
 
-  it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", () => {
+  it("should disable qcodes, and publish buttons if there are errors on questionnaire", () => {
     const { getByTestId } = defaultSetup({ changes: { totalErrorCount: 2 } });
     expect(getByTestId("main-navigation")).toBeTruthy();
 
-    expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
+    expect(getByTestId("btn-view").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-settings").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-sharing").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-history").hasAttribute("disabled")).toBeFalsy();
@@ -103,22 +102,6 @@ describe("MainNavigation", () => {
   it("should disable qcodes button if there is no surveyId BUT there is another error", () => {
     const { getByTestId } = defaultSetup({ changes: { totalErrorCount: 2 } });
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
-  });
-
-  it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
-    const { getByTestId } = defaultSetup({
-      changes: { totalErrorCount: 2, formTypeErrorCount: 1 },
-    });
-
-    expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeTruthy();
-  });
-
-  it("should not disable preview button if there are only theme errors on the questionnaire", () => {
-    const { getByTestId } = defaultSetup({
-      changes: { formTypeErrorCount: 1 },
-    });
-
-    expect(getByTestId("btn-preview").hasAttribute("disabled")).toBeFalsy();
   });
 
   it("should enable qcodes button when qcodes are enabled", () => {
