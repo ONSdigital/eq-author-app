@@ -2,9 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { Field, Input, Label } from "./elements";
-import { enableOn } from "utils/featureFlags";
-import iconSelect from "./icon-select.svg";
-import { colors } from "constants/theme";
 
 const DateInput = styled(Input)`
   width: 100%;
@@ -21,12 +18,12 @@ const DateField = styled.div`
 `;
 
 const DayDateField = styled(DateField)`
-  max-width: ${props => props.enableOn ? '5em' : '6em'};
+  max-width: 5em;
 `;
 
 const MonthDateField = styled(DateField)`
   flex: 2;
-  max-width: ${props => props.enableOn ? '5em' : '15em'};
+  max-width: 5em;
 `;
 
 const YearDateField = styled(DateField)`
@@ -42,21 +39,6 @@ const DateFieldLabel = styled.label`
   line-height: 1.4;
 `;
 
-const Select = styled.select`
-  display: block;
-  color: inherit;
-  border-right: 1px solid ${colors.grey};
-  border-radius: 3px;
-  transition: border-color 0.2s ease-in;
-  appearance: none;
-  padding: 0.6em 2em 0.6em 0.5em;
-  background: white url(${iconSelect}) no-repeat center right 10px;
-  background-size: 1em;
-  line-height: 1.25em;
-  font-size: 1em;
-  width: 100%;
-`;
-
 const DateAnswer = ({ answer }) => {
   const {
     label,
@@ -69,25 +51,20 @@ const DateAnswer = ({ answer }) => {
       <Label description={description}>{label}</Label>
       <DateFields>
         {format.includes("dd") && (
-          <DayDateField data-test="day-input" enableOn={enableOn(["hub"])}>
+          <DayDateField data-test="day-input">
             <DateFieldLabel>Day</DateFieldLabel>
             <DateInput placeholder="DD" />
           </DayDateField>
         )}
 
         {format.includes("mm") && (
-          <MonthDateField data-test="month-input" enableOn={enableOn(["hub"])}>
+          <MonthDateField data-test="month-input">
             <DateFieldLabel>Month</DateFieldLabel>
-              {enableOn(["hub"]) ? 
-                  <DateInput placeholder="MM" /> : 
-                  <Select>
-                    <option value="">Select month</option>
-                  </Select>
-              }
+            <DateInput placeholder="MM" />
           </MonthDateField>
         )}
 
-        <YearDateField enableOn={enableOn(["hub"])}>
+        <YearDateField>
           <DateFieldLabel>Year</DateFieldLabel>
           <DateInput placeholder="YYYY" />
         </YearDateField>

@@ -98,23 +98,25 @@ exports[`QuestionnaireMeta should render 1`] = `
       }
     />
     <QuestionnaireMeta__ToggleWrapper>
-      <QuestionnaireMeta__InlineField>
-        <Label
-          bold={true}
-        >
-          Section navigation
-        </Label>
-        <ToggleSwitch
-          checked={false}
-          hideLabels={false}
-          id="navigation"
-          name="navigation"
-          onChange={[MockFunction]}
-        />
-      </QuestionnaireMeta__InlineField>
-      <InformationPanel>
-        Let respondents move between sections while they're completing their questionnaire.
-      </InformationPanel>
+      <QuestionnaireMeta__EnableDisableWrapper>
+        <QuestionnaireMeta__InlineField>
+          <Label
+            bold={true}
+          >
+            Hub navigation
+          </Label>
+          <ToggleSwitch
+            checked={false}
+            hideLabels={false}
+            id="hub"
+            name="hub"
+            onChange={[MockFunction]}
+          />
+        </QuestionnaireMeta__InlineField>
+        <InformationPanel>
+          Let respondents access different sections of the survey from a single central "hub" screen.
+        </InformationPanel>
+      </QuestionnaireMeta__EnableDisableWrapper>
       <QuestionnaireMeta__HorizontalSeparator />
       <QuestionnaireMeta__EnableDisableWrapper>
         <QuestionnaireMeta__InlineField>

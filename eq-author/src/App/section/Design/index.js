@@ -35,7 +35,6 @@ import Error from "components/Error";
 import withEntityEditor from "components/withEntityEditor";
 import withPropRenamed from "enhancers/withPropRenamed";
 import sectionFragment from "graphql/fragments/section.graphql";
-import { enableOn } from "utils/featureFlags";
 import AliasEditor from "components/AliasEditor";
 import Panel from "components/Panel";
 import RedirectRoute from "../../../components/RedirectRoute";
@@ -202,7 +201,7 @@ export const UnwrappedSectionRoute = (props) => {
       preview={hasIntroductionContent()}
       title={section?.displayName || ""}
       validationErrorInfo={section?.validationErrorInfo}
-      logic={enableOn(["hub"])}
+      logic
       comments={section?.comments}
     >
       <Panel>

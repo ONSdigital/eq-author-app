@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { enableOn } from "utils/featureFlags";
 import { Select } from "components/Forms";
 import Required from "components/AnswerContent/Required";
 import MultiLineField from "components/AnswerContent/Format/MultiLineField";
@@ -10,7 +9,7 @@ const StyledSelect = styled(Select)`
   width: 12em;
 `;
 
-const monthText = enableOn(["hub"]) ? "mm" : "Month";
+const monthText = "mm";
 
 const DateProperties = ({ answer, updateAnswer }) => {
   const onUpdateFormat = ({ value }) => {

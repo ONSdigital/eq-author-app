@@ -29,8 +29,19 @@ exports[`IntroductionEditor should render 1`] = `
         size="large"
         testSelector="txt-intro-title"
         value="title"
-        withoutMargin={false}
+        withoutMargin={true}
       />
+      <Panel
+        variant="warning"
+        withList={false}
+      >
+        You can have this page display on the Hub via the 
+        <Link
+          to="/q/questionnaire-1/settings"
+        >
+          Settings page
+        </Link>
+      </Panel>
       <div>
         <IntroductionEditor__HorizontalSeparator />
         <IntroductionEditor__SectionTitle

@@ -5,7 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import { Grid, Column } from "components/Grid";
 import UserProfile from "components/UserProfile";
 import { withMe } from "App/MeContext";
-import { enableOn } from "utils/featureFlags";
 
 const HeaderTop = styled.div`
   background-color: ${({ theme, variant }) =>
@@ -121,7 +120,7 @@ const Header = ({
               <Column cols={9}>
                 <HeaderTitle headerDescription={headerDescription}>
                   {children}
-                  {enableOn(["gcp"]) ? " (GCP)" : " (AWS)"}
+                  &nbsp;(GCP)
                 </HeaderTitle>
                 {headerDescription && (
                   <HeaderDescription>{headerDescription}</HeaderDescription>

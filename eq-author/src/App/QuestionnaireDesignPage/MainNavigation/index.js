@@ -16,8 +16,6 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
 
-import { enableOn } from "utils/featureFlags";
-
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
@@ -47,7 +45,7 @@ import {
 
 const Platform = styled.h3`
   color: ${colors.white};
-  background: ${enableOn(["gcp"]) ? colors.oceanBlue : colors.blue};
+  background: ${colors.oceanBlue};
   position: relative;
   text-align: center;
   padding: 0.5em;
@@ -105,11 +103,8 @@ export const UnwrappedMainNavigation = ({
     <>
       <StyledMainNavigation data-test="main-navigation">
         <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
-          <Platform
-            title={enableOn(["gcp"]) ? "Platform GCP" : "Platform AWS"}
-            data-test="platform-badge"
-          >
-            {enableOn(["gcp"]) ? "GCP" : "AWS"}
+          <Platform title="Platform GCP" data-test="platform-badge">
+            GCP
           </Platform>
 
           {hasQuestionnaire && (
@@ -173,25 +168,22 @@ export const UnwrappedMainNavigation = ({
                   History
                 </IconText>
               </RouteButton>
-              {enableOn(["lists"]) && (
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "collectionLists" &&
-                      "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-collection-lists"
-                  to={buildCollectionListsPath(params)}
-                >
-                  <IconText nav icon={collectionListsIcon}>
-                    Collection Lists
-                  </IconText>
-                  {listsError && (
-                    <Badge data-test="lists-error-badge" variant="main-nav" />
-                  )}
-                </RouteButton>
-              )}
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "collectionLists" && "navigation-on") ||
+                  "navigation"
+                }
+                small
+                data-test="btn-collection-lists"
+                to={buildCollectionListsPath(params)}
+              >
+                <IconText nav icon={collectionListsIcon}>
+                  Collection Lists
+                </IconText>
+                {listsError && (
+                  <Badge data-test="lists-error-badge" variant="main-nav" />
+                )}
+              </RouteButton>
               <RouteButton
                 variant={
                   (whatPageAreWeOn === "metadata" && "navigation-on") ||
@@ -224,7 +216,6 @@ export const UnwrappedMainNavigation = ({
                   <Badge data-test="small-badge" variant="main-nav" />
                 )}
               </RouteButton>
-
               <RouteButton
                 variant={
                   (whatPageAreWeOn === "keyboardShortcuts" &&
@@ -239,7 +230,6 @@ export const UnwrappedMainNavigation = ({
                   Shortcuts
                 </IconText>
               </RouteButton>
-
               {me && <UserProfile nav />}
             </ButtonGroup>
           )}
