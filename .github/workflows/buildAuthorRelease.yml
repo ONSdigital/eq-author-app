@@ -2,6 +2,9 @@ name: Build Author Images for Release
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - v2.**
 
 jobs:
   Author:
