@@ -11,7 +11,6 @@ import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
 import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
-import { enableOn } from "utils/featureFlags";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -127,22 +126,20 @@ const AddMenu = ({
     },
   ];
 
-  if (enableOn(["lists"])) {
-    defaultButtons.splice(5, 0, {
-      handleClick: () => onAddListCollectorPage(),
-      disabled: !canAddListCollectorPage,
-      dataTest: "btn-add-list-collector-page",
-      icon: IconListCollectorPage,
-      text: "List collector",
-    });
-    extraButtons.splice(2, 0, {
-      handleClick: () => onAddListCollectorPage(true),
-      disabled: !canAddListCollectorPage,
-      dataTest: "btn-add-list-collector-page-inside",
-      icon: IconQuestion,
-      text: "List collector",
-    });
-  }
+  defaultButtons.splice(5, 0, {
+    handleClick: () => onAddListCollectorPage(),
+    disabled: !canAddListCollectorPage,
+    dataTest: "btn-add-list-collector-page",
+    icon: IconListCollectorPage,
+    text: "List collector",
+  });
+  extraButtons.splice(2, 0, {
+    handleClick: () => onAddListCollectorPage(true),
+    disabled: !canAddListCollectorPage,
+    dataTest: "btn-add-list-collector-page-inside",
+    icon: IconQuestion,
+    text: "List collector",
+  });
 
   return (
     <Popout

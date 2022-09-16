@@ -9,7 +9,6 @@ import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import ToggleChip from "components/buttons/ToggleChip";
-import { enableOn } from "utils/featureFlags";
 
 describe("MultipleChoiceAnswerOptionsSelector", () => {
   let defaultProps;
@@ -270,7 +269,6 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(enableOn(["enableCountCondition"])).toBe(true);
     expect(getByTestId("secondaryCondition-selector")).toBeTruthy();
     expect(getByTestId("secondaryCondition-number-input")).toBeTruthy();
   });

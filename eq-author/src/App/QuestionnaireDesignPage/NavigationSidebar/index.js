@@ -9,7 +9,6 @@ import { useMe } from "App/MeContext";
 
 import { buildIntroductionPath, buildSubmissionPath } from "utils/UrlUtils";
 import hasUnreadComments from "utils/hasUnreadComments";
-import { enableOn } from "utils/featureFlags";
 import onDragEnd from "./dragDropFunctions/onDragEnd";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -184,7 +183,7 @@ const NavigationSidebar = ({ questionnaire }) => {
               </Droppable>
             </DragDropContext>
             <NavList>
-              {enableOn(["submissionPage"]) && questionnaire.submission && (
+              {questionnaire.submission && (
                 <MenuListItem>
                   <BorderedNavItem
                     key={"submission"}

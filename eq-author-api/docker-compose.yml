@@ -37,7 +37,6 @@ services:
       - FIRESTORE_PROJECT_ID=eq-author-api
       - GOOGLE_AUTH_PROJECT_ID=eq-author-api
       - MONGO_URL=mongodb://root:example@mongo:27017/dev_author?authSource=admin
-      - FEATURE_FLAGS=gcp,hub
     entrypoint:
       - yarn
       - start:dev

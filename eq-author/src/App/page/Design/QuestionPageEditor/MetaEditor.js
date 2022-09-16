@@ -12,8 +12,6 @@ import withValidationError from "enhancers/withValidationError";
 import pageFragment from "graphql/fragments/page.graphql";
 import { getMultipleErrorsByField } from "./validationUtils.js";
 
-import { enableOn } from "utils/featureFlags";
-
 import {
   ANSWER,
   METADATA,
@@ -51,11 +49,7 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           pageType={page.pageType}
-          allowableTypes={
-            enableOn(["pipeCalculatedSummary"])
-              ? [ANSWER, METADATA, VARIABLES]
-              : [ANSWER, METADATA]
-          }
+          allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
           autoFocus={!page.title}
           allCalculatedSummaryPages={allCalculatedSummaryPages}
