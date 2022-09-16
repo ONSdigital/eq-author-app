@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkButtonWithIcon should render 1`] = `
+<DocumentFragment>
+  .c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: #3B7A9E;
+  background-color: transparent;
+  padding: 0.75em 1em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #3B7A9E;
+  margin-top: 8px;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  color: #FFFFFF;
+  background-color: #3B7A9E;
+}
+
+.c0:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+<a
+    class="-a c0"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <span />
+    <div />
+  </a>
+</DocumentFragment>
+`;

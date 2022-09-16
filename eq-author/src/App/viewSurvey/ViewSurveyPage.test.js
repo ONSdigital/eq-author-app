@@ -3,11 +3,14 @@ import { render, act, flushPromises } from "tests/utils/rtl";
 import ViewSurveyPage from "./ViewSurveyPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 const renderViewSurveyPage = (questionnaire, props, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn(), props }}>
-      <ViewSurveyPage {...props} />
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <ViewSurveyPage {...props} />
+      </QuestionnaireContext.Provider>
     </MeContext.Provider>,
     {
       route: `/q/${questionnaire.id}/view-survey`,
@@ -79,8 +82,15 @@ describe("View Survey Page", () => {
   });
 
   it("should not disable preview button if there are no errors on the questionnaire", () => {
-    // totalErrorCount = 0;
-    // formTypeErrorCount = 0;
+    questionnaire.totalErrorCount = 0;
+    questionnaire.validationErrorInfo = {
+      totalCount: 0,
+    };
+    questionnaire.themeSettings = {
+      validationErrorInfo: {
+        errors: [],
+      },
+    };
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
@@ -96,8 +106,15 @@ describe("View Survey Page", () => {
   });
 
   it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
-    // totalErrorCount = 2;
-    // formTypeErrorCount = 1;
+    questionnaire.totalErrorCount = 2;
+    questionnaire.validationErrorInfo = {
+      totalCount: 1,
+    };
+    questionnaire.themeSettings = {
+      validationErrorInfo: {
+        errors: [],
+      },
+    };
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
@@ -113,7 +130,15 @@ describe("View Survey Page", () => {
   });
 
   it("should not disable preview button if there are only theme errors on the questionnaire", () => {
-    // formTypeErrorCount = 1;
+    questionnaire.totalErrorCount = 0;
+    questionnaire.validationErrorInfo = {
+      totalCount: 1,
+    };
+    questionnaire.themeSettings = {
+      validationErrorInfo: {
+        errors: [],
+      },
+    };
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
