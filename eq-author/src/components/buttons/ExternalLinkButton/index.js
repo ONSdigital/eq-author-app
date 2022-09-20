@@ -6,11 +6,6 @@ import { radius, colors, focusStyle } from "constants/theme";
 
 import { ReactComponent as Icon } from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg";
 
-const propTypes = {
-  text: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-};
-
 const Button = styled.button`
   display: inline-flex;
   flex: 0 0 auto;
@@ -58,32 +53,30 @@ const ExternalIcon = styled(Icon)`
 const EnabledLinkButton = Button.withComponent("a");
 const DisabledLinkButton = Button.withComponent("div");
 
-class LinkButtonWithIcon extends React.Component {
-  static propTypes = {
-    ...propTypes,
-    text: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  };
+const LinkButtonWithIcon = ({ text, url, dataTest, disabled }) => {
+  return disabled ? (
+    <DisabledLinkButton aria-disabled="true" disabled data-test={dataTest}>
+      <span>{text}</span>
+      <ExternalIcon />
+    </DisabledLinkButton>
+  ) : (
+    <EnabledLinkButton
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-test={dataTest}
+    >
+      <span>{text}</span>
+      <ExternalIcon />
+    </EnabledLinkButton>
+  );
+};
 
-  render() {
-    const { text, url, disabled, ...otherProps } = this.props;
-    return disabled ? (
-      <DisabledLinkButton aria-disabled="true" disabled {...otherProps}>
-        <span>{text}</span>
-        <ExternalIcon />
-      </DisabledLinkButton>
-    ) : (
-      <EnabledLinkButton
-        {...otherProps}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>{text}</span>
-        <ExternalIcon />
-      </EnabledLinkButton>
-    );
-  }
-}
+LinkButtonWithIcon.propTypes = {
+  text: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  dataTest: PropTypes.string,
+  disabled: PropTypes.bool,
+};
 
 export default LinkButtonWithIcon;
