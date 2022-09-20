@@ -5,13 +5,11 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
-import config from "config";
 
 import { colors } from "constants/theme";
 import { useMe } from "App/MeContext";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
-import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import Badge from "components/Badge";
@@ -36,6 +34,7 @@ import { useQCodeContext } from "components/QCodeContext";
 import {
   buildQcodesPath,
   buildMetadataPath,
+  buildViewSurveyPath,
   buildHistoryPath,
   buildCollectionListsPath,
   buildSharingPath,
@@ -75,7 +74,6 @@ export const UnwrappedMainNavigation = ({
   qcodesEnabled,
   settingsError,
   listsError,
-  formTypeErrorCount,
   title,
   children,
   hasSurveyID,
@@ -91,13 +89,10 @@ export const UnwrappedMainNavigation = ({
   useSubscription(publishStatusSubscription, {
     variables: { id: params.questionnaireId },
   });
-  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
 
   if (!hasSurveyID) {
     totalErrorCount = totalErrorCount - 1;
   }
-
-  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
 
   return (
     <>
@@ -114,17 +109,19 @@ export const UnwrappedMainNavigation = ({
                   Home
                 </IconText>
               </RouteButton>
-              <LinkButton
-                href={previewUrl}
-                variant="navigation-modal"
-                data-test="btn-preview"
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "view-survey" && "navigation-on") ||
+                  "navigation"
+                }
                 small
-                disabled={totalErrorCountNoFormType > 0}
+                data-test="btn-view"
+                to={buildViewSurveyPath(params)}
               >
                 <IconText nav icon={viewIcon}>
-                  View survey
+                  View
                 </IconText>
-              </LinkButton>
+              </RouteButton>
               <RouteButton
                 variant={
                   (whatPageAreWeOn === "settings" && "navigation-on") ||
