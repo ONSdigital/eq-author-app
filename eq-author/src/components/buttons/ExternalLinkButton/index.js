@@ -50,13 +50,15 @@ const ExternalIcon = styled(Icon)`
   }
 `;
 
+const ButtonText = styled.span``;
+
 const EnabledLinkButton = Button.withComponent("a");
 const DisabledLinkButton = Button.withComponent("div");
 
 const LinkButtonWithIcon = ({ text, url, dataTest, disabled }) => {
   return disabled ? (
     <DisabledLinkButton aria-disabled="true" disabled data-test={dataTest}>
-      <span>{text}</span>
+      <ButtonText>{text}</ButtonText>
       <ExternalIcon />
     </DisabledLinkButton>
   ) : (
@@ -66,7 +68,7 @@ const LinkButtonWithIcon = ({ text, url, dataTest, disabled }) => {
       rel="noopener noreferrer"
       data-test={dataTest}
     >
-      <span>{text}</span>
+      <ButtonText>{text}</ButtonText>
       <ExternalIcon />
     </EnabledLinkButton>
   );
