@@ -19,7 +19,7 @@ add_header Cache-Control no-store;
 add_header Clear-Site-Data "cache, cookies, storage";
 add_header Pragma no-cache;
 add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
-add_header Content-Security-Policy "default-src 'self'; connect-src *; object-src 'none'; child-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; font-src https://fonts.gstatic.com; img-src 'self' www.googletagmanager.com http://cdn.jsdelivr.net/npm/@apollographql/; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.googleapis.com/identitytoolkit/v3 http://cdn.jsdelivr.net/npm/@apollographql/; style-src 'self' 'unsafe-inline' 'unsafe-eval' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com;";
+add_header Content-Security-Policy "default-src 'self'; connect-src *; object-src 'none'; child-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; font-src https://fonts.gstatic.com; img-src 'self' https://www.google-analytics.com http://cdn.jsdelivr.net/npm/@apollographql/; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googleapis.com/identitytoolkit/v3 http://cdn.jsdelivr.net/npm/@apollographql/; style-src 'self' 'unsafe-inline' 'unsafe-eval' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com;";
 
 server {
   listen 3000;
