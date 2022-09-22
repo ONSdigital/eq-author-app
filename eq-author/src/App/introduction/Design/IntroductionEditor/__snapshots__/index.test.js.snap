@@ -205,7 +205,7 @@ exports[`IntroductionEditor should render 1`] = `
         <ToggleSwitch
           checked={true}
           hideLabels={false}
-          id="toggle-preview-queations"
+          id="toggle-preview-questions"
           name="toggle-preview-questions"
           onChange={[Function]}
         />

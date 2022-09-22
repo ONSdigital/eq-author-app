@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
@@ -29,8 +28,6 @@ import { InformationPanel } from "components/Panel";
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-
-import UPDATE_QUESTIONNAIRE_INTRODUCTION from "graphql/updateQuestionnaireIntroduction.graphql";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
@@ -132,9 +129,6 @@ export const IntroductionEditor = ({
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
-  const [updateQuestionnaireIntroductionPage] = useMutation(
-    UPDATE_QUESTIONNAIRE_INTRODUCTION
-  );
 
   const { errors } = validationErrorInfo;
 
@@ -330,14 +324,14 @@ export const IntroductionEditor = ({
               Preview questions
             </Label>
             <ToggleSwitch
-              id="toggle-preview-queations"
+              id="toggle-preview-questions"
               name="toggle-preview-questions"
               hideLabels={false}
-              onChange={({ value }) =>
-                updateQuestionnaireIntroductionPage({
-                  variables: {
-                    input: { id, previewQuestions: value },
-                  },
+              onChange={() =>
+                updateQuestionnaireIntroduction({
+                  id,
+                  ...introduction,
+                  previewQuestions: !previewQuestions,
                 })
               }
               checked={previewQuestions}

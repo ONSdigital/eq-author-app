@@ -150,4 +150,15 @@ describe("IntroductionEditor", () => {
 
     expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(3);
   });
+
+  it("should toggle preview questions", () => {
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+    expect(
+      wrapper.find('[name="toggle-preview-questions"]').exists()
+    ).toBeTruthy();
+    wrapper
+      .find("#toggle-preview-questions")
+      .simulate("change", { target: { checked: false } });
+    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+  });
 });
