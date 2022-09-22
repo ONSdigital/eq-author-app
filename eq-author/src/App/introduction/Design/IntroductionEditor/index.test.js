@@ -6,11 +6,17 @@ import { IntroductionEditor } from "./";
 import { contactDetailsErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
 
+const mockUseMutation = jest.fn();
+
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useLocation: jest.fn(),
   useMatch: jest.fn(),
   useParams: jest.fn(),
+}));
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
 }));
 
 describe("IntroductionEditor", () => {
@@ -25,6 +31,7 @@ describe("IntroductionEditor", () => {
         contactDetailsEmailSubject: "Change of details",
         contactDetailsIncludeRuRef: false,
         additionalGuidancePanelSwitch: false,
+        previewQuestions: true,
         additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
@@ -36,6 +43,7 @@ describe("IntroductionEditor", () => {
           errors: [],
           totalCount: 0,
         },
+        comments: [{}],
       },
       onChangeUpdate: jest.fn(),
       updateQuestionnaireIntroduction: jest.fn(),

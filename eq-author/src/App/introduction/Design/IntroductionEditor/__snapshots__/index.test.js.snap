@@ -188,6 +188,35 @@ exports[`IntroductionEditor should render 1`] = `
   </IntroductionEditor__Section>
   <IntroductionEditor__Section>
     <IntroductionEditor__Padding>
+      <IntroductionEditor__InlineField
+        open={false}
+        style={
+          Object {
+            "marginBottom": "0",
+          }
+        }
+      >
+        <Label
+          bold={true}
+          htmlFor="toggle-contact-details-include-ruref"
+        >
+          Preview questions
+        </Label>
+        <ToggleSwitch
+          checked={true}
+          hideLabels={false}
+          id="toggle-preview-queations"
+          name="toggle-preview-questions"
+          onChange={[Function]}
+        />
+      </IntroductionEditor__InlineField>
+      <IntroductionEditor__SectionDescription>
+        This displays a link on the introduction page that takes respondents to a preview of all the questions on one page in a collapsible format.
+      </IntroductionEditor__SectionDescription>
+    </IntroductionEditor__Padding>
+  </IntroductionEditor__Section>
+  <IntroductionEditor__Section>
+    <IntroductionEditor__Padding>
       <IntroductionEditor__SectionTitle
         style={
           Object {

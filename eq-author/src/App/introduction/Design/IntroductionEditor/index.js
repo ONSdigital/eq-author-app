@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
-import { useMutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
