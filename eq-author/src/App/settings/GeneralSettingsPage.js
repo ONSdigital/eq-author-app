@@ -10,7 +10,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { getThemeSettingsErrorCount } from "./utils";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
-import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
+import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaireIntroduction.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";

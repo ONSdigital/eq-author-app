@@ -4,5 +4,6 @@ mutation UpdateQuestionnaireIntroduction(
   updateQuestionnaireIntroduction(input: $input) {
     id
     previewQuestions
+    showOnHub
   }
 }

@@ -4,7 +4,7 @@ import GeneralSettingsPage from "./GeneralSettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
-import updateQuestionnaireIntroductionMutation from "./graphql/updateQuestionnaireIntroduction.graphql";
+import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaireIntroduction.graphql";
 
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
