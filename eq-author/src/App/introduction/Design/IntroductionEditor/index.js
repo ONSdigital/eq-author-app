@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import { useMutation } from "react-apollo";
 import { flowRight, noop } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import PropTypes from "prop-types";
@@ -28,6 +29,8 @@ import { InformationPanel } from "components/Panel";
 import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+
+import UPDATE_QUESTIONNAIRE_INTRODUCTION from "graphql/updateQuestionnaireIntroduction.graphql";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
@@ -118,6 +121,7 @@ export const IntroductionEditor = ({
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
+    previewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -128,6 +132,9 @@ export const IntroductionEditor = ({
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
+  const [updateQuestionnaireIntroductionPage] = useMutation(
+    UPDATE_QUESTIONNAIRE_INTRODUCTION
+  );
 
   const { errors } = validationErrorInfo;
 
@@ -315,6 +322,36 @@ export const IntroductionEditor = ({
       </Section>
       <Section>
         <Padding>
+          <InlineField
+            open={contactDetailsIncludeRuRef}
+            style={{ marginBottom: "0" }}
+          >
+            <Label htmlFor="toggle-contact-details-include-ruref">
+              Preview questions
+            </Label>
+            <ToggleSwitch
+              id="toggle-preview-queations"
+              name="toggle-preview-questions"
+              hideLabels={false}
+              onChange={({ value }) =>
+                updateQuestionnaireIntroductionPage({
+                  variables: {
+                    input: { id, previewQuestions: value },
+                  },
+                })
+              }
+              checked={previewQuestions}
+            />
+          </InlineField>
+          <SectionDescription>
+            This displays a link on the introduction page that takes respondents
+            to a preview of all the questions on one page in a collapsible
+            format.
+          </SectionDescription>
+        </Padding>
+      </Section>
+      <Section>
+        <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
             Secondary content
           </SectionTitle>
@@ -391,6 +428,7 @@ const fragment = gql`
     additionalGuidancePanelSwitch
     secondaryTitle
     secondaryDescription
+    previewQuestions
     collapsibles {
       ...CollapsibleEditor
     }

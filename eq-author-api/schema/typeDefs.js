@@ -713,6 +713,7 @@ type QuestionnaireIntroduction {
   collapsibles: [Collapsible!]!
   tertiaryTitle: String!
   tertiaryDescription: String!
+  previewQuestions: Boolean
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
@@ -1540,6 +1541,7 @@ input UpdateQuestionnaireIntroductionInput {
   contactDetailsEmailSubject: String
   contactDetailsIncludeRuRef: Boolean
   showOnHub: Boolean
+  previewQuestions: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   description: String
