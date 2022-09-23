@@ -322,7 +322,7 @@ export const IntroductionEditor = ({
               open={contactDetailsIncludeRuRef}
               style={{ marginBottom: "0" }}
             >
-              <Label htmlFor="toggle-contact-details-include-ruref">
+              <Label htmlFor="toggle-preview-questions">
                 Preview questions
               </Label>
               <ToggleSwitch
