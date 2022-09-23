@@ -5,6 +5,7 @@ import { IntroductionEditor } from "./";
 
 import { contactDetailsErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
+import config from "config";
 
 const mockUseMutation = jest.fn();
 
@@ -152,6 +153,7 @@ describe("IntroductionEditor", () => {
   });
 
   it("should toggle preview questions", () => {
+    config.REACT_APP_FEATURE_FLAGS = "previewQuestions";
     const wrapper = shallow(<IntroductionEditor {...props} />);
     expect(
       wrapper.find('[name="toggle-preview-questions"]').exists()
