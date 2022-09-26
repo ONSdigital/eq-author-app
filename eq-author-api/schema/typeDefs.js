@@ -765,6 +765,7 @@ type Query {
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
   submission: Submission
+  introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
 }
