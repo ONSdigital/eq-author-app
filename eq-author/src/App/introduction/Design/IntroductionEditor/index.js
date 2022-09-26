@@ -54,7 +54,7 @@ const SectionTitle = styled.h2`
 
 const SectionDescription = styled.p`
   margin: 0.1em 0 1em;
-  color: ${colors.textLight};
+  color: ${colors.text};
 `;
 
 const titleControls = {
