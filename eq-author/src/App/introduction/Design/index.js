@@ -1,8 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useQuery } from "@apollo/react-hooks";
 import { isEmpty } from "lodash/fp";
-import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -38,46 +36,4 @@ export const IntroductionDesign = () => {
   );
 };
 
-IntroductionDesign.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object, // eslint-disable-line
-  data: PropTypes.shape({
-    introduction: propType(...IntroductionEditor.fragments),
-  }),
-};
-
 export default IntroductionDesign;
-
-// const query = gql`
-//   query GetQuestionnaireIntroduction($id: ID!) {
-//     questionnaireIntroduction(id: $id) {
-//       id
-//       ...IntroductionEditor
-//     }
-//   }
-// `;
-
-// const INTRODUCTION_QUERY = transformNestedFragments(
-//   query,
-//   IntroductionEditor.fragments
-// );
-
-// const IntroductionDesignWithData = (props) => (
-//   <Query
-//     query={INTRODUCTION_QUERY}
-//     variables={{
-//       id: props.match.params.introductionId,
-//     }}
-//   >
-//     {(queryProps) => <IntroductionDesign {...props} {...queryProps} />}
-//   </Query>
-// );
-// IntroductionDesignWithData.propTypes = {
-//   match: PropTypes.shape({
-//     params: PropTypes.shape({
-//       introductionId: PropTypes.string.isRequired,
-//     }).isRequired,
-//   }).isRequired,
-// };
-
-// export default IntroductionDesignWithData;
