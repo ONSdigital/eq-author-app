@@ -11,7 +11,9 @@ import IntroductionEditor from "./IntroductionEditor";
 import GET_INTRODUCTION_QUERY from "graphql/getQuestionnaireIntroduction.graphql";
 
 export const IntroductionDesign = () => {
-  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY);
+  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
 
   const introduction = data?.introduction;
 
