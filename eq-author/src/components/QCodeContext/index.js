@@ -18,20 +18,10 @@ export const flattenAnswer = (answer) =>
       (option) =>
         answer.type !== MUTUALLY_EXCLUSIVE && {
           ...option,
-          type:
-            answer.type === RADIO
-              ? "RadioOption"
-              : answer.type === MUTUALLY_EXCLUSIVE
-              ? "MutuallyExclusiveOption"
-              : "CheckboxOption",
+          type: answer.type === RADIO ? "RadioOption" : "CheckboxOption",
           option: true,
         }
     ) ?? []),
-    answer.mutuallyExclusiveOption && {
-      ...answer.mutuallyExclusiveOption,
-      type: "MutuallyExclusiveOption",
-      option: true,
-    },
     answer.secondaryLabel && {
       ...answer,
       label: answer.secondaryLabel,
