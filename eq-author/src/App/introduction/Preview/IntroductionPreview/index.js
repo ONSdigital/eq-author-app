@@ -145,6 +145,7 @@ const IntroductionPreview = ({ loading, data, match }) => {
       description,
       secondaryTitle,
       secondaryDescription,
+      previewQuestions,
       collapsibles,
       tertiaryTitle,
       tertiaryDescription,
@@ -187,6 +188,15 @@ const IntroductionPreview = ({ loading, data, match }) => {
             <Description
               dangerouslySetInnerHTML={{ __html: legalBasis?.description }}
             />
+          </>
+        )}
+        {previewQuestions && (
+          <>
+            <PageTitle title="Preview the questions before starting the survey" />
+            <Description>
+              You can <BlueUnderlined>preview the questions</BlueUnderlined> you
+              may be asked in this survey.
+            </Description>
           </>
         )}
         <Button>Start survey</Button>

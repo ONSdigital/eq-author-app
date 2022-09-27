@@ -5,12 +5,19 @@ import { IntroductionEditor } from "./";
 
 import { contactDetailsErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
+import config from "config";
+
+const mockUseMutation = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useLocation: jest.fn(),
   useMatch: jest.fn(),
   useParams: jest.fn(),
+}));
+
+jest.mock("@apollo/react-hooks", () => ({
+  useMutation: () => [mockUseMutation],
 }));
 
 describe("IntroductionEditor", () => {
@@ -25,6 +32,7 @@ describe("IntroductionEditor", () => {
         contactDetailsEmailSubject: "Change of details",
         contactDetailsIncludeRuRef: false,
         additionalGuidancePanelSwitch: false,
+        previewQuestions: true,
         additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
@@ -36,6 +44,7 @@ describe("IntroductionEditor", () => {
           errors: [],
           totalCount: 0,
         },
+        comments: [{}],
       },
       onChangeUpdate: jest.fn(),
       updateQuestionnaireIntroduction: jest.fn(),
@@ -141,5 +150,17 @@ describe("IntroductionEditor", () => {
     });
 
     expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(3);
+  });
+
+  it("should toggle preview questions", () => {
+    config.REACT_APP_FEATURE_FLAGS = "previewQuestions";
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+    expect(
+      wrapper.find('[name="toggle-preview-questions"]').exists()
+    ).toBeTruthy();
+    wrapper
+      .find("#toggle-preview-questions")
+      .simulate("change", { target: { checked: false } });
+    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
   });
 });

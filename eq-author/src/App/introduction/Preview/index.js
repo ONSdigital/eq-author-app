@@ -19,6 +19,7 @@ export const fragment = gql`
     description
     secondaryTitle
     secondaryDescription
+    previewQuestions
     collapsibles {
       id
       title

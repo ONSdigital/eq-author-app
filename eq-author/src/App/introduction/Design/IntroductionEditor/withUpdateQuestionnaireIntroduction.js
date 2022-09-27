@@ -18,6 +18,7 @@ const mutation = gql`
       additionalGuidancePanelSwitch
       additionalGuidancePanel
       description
+      previewQuestions
       secondaryTitle
       secondaryDescription
       tertiaryTitle
@@ -40,6 +41,7 @@ const inputFilter = gql`
     additionalGuidancePanelSwitch
     additionalGuidancePanel
     description
+    previewQuestions
     secondaryTitle
     secondaryDescription
     tertiaryTitle
