@@ -13,17 +13,20 @@ export const QCodeContext = createContext();
 // - (If present) Answer's embedded secondary answer
 export const flattenAnswer = (answer) =>
   [
-    answer.type !== MUTUALLY_EXCLUSIVE && answer,
-    ...(answer.options?.map((option) => ({
-      ...option,
-      type:
-        answer.type === RADIO
-          ? "RadioOption"
-          : answer.type === MUTUALLY_EXCLUSIVE
-          ? "MutuallyExclusiveOption"
-          : "CheckboxOption",
-      option: true,
-    })) ?? []),
+    answer,
+    ...(answer.options?.map(
+      (option) =>
+        answer.type !== MUTUALLY_EXCLUSIVE && {
+          ...option,
+          type:
+            answer.type === RADIO
+              ? "RadioOption"
+              : answer.type === MUTUALLY_EXCLUSIVE
+              ? "MutuallyExclusiveOption"
+              : "CheckboxOption",
+          option: true,
+        }
+    ) ?? []),
     answer.mutuallyExclusiveOption && {
       ...answer.mutuallyExclusiveOption,
       type: "MutuallyExclusiveOption",
