@@ -463,6 +463,14 @@ const Resolvers = {
       );
       return ctx.questionnaire;
     }),
+    updateQuestionnaireIntroduction: createMutation((root, { input }, ctx) => {
+      ctx.questionnaire.introduction = {
+        ...ctx.questionnaire.introduction,
+        ...input,
+      };
+
+      return ctx.questionnaire.introduction;
+    }),
     updateSubmission: createMutation((root, { input }, ctx) => {
       ctx.questionnaire.submission = {
         ...ctx.questionnaire.submission,

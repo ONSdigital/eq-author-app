@@ -1535,7 +1535,6 @@ input DeleteQuestionConfirmationInput {
 }
 
 input UpdateQuestionnaireIntroductionInput {
-  id: ID!
   title: String
   contactDetailsPhoneNumber: String
   contactDetailsEmailAddress: String

@@ -1,38 +1,26 @@
 import React, { useState } from "react";
-import gql from "graphql-tag";
 import styled from "styled-components";
-import { flowRight, noop } from "lodash/fp";
-import { propType } from "graphql-anywhere";
+import { noop } from "lodash/fp";
 import PropTypes from "prop-types";
-
-import { buildSettingsPath } from "utils/UrlUtils";
+import { useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
-import withPropRenamed from "enhancers/withPropRenamed";
-import withChangeUpdate from "enhancers/withChangeUpdate";
+import { colors } from "constants/theme";
+import { contactDetailsErrors } from "constants/validationMessages";
+
+import { buildSettingsPath } from "utils/UrlUtils";
 
 import RichTextEditor from "components/RichTextEditor";
-import withEntityEditor from "components/withEntityEditor";
 import ValidationError from "components/ValidationError";
-
+import { InformationPanel } from "components/Panel";
+import { Field, Input, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 import Panel from "components-themed/panels";
-
-import { colors } from "constants/theme";
-
-import transformNestedFragments from "utils/transformNestedFragments";
 
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
-import { InformationPanel } from "components/Panel";
+import UPDATE_INTRODUCTION_MUTATION from "graphql/updateQuestionnaireIntroduction.graphql";
 
-import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntroduction";
-import { Field, Input, Label } from "components/Forms";
-import ToggleSwitch from "components/buttons/ToggleSwitch";
-
-import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
-import CommentFragment from "graphql/fragments/comment.graphql";
-
-import { contactDetailsErrors } from "constants/validationMessages";
 import { enableOn } from "utils/featureFlags";
 
 const Section = styled.section`
@@ -103,11 +91,7 @@ const StyledInput = styled(Input)`
   `}
 `;
 
-export const IntroductionEditor = ({
-  introduction,
-  onChangeUpdate,
-  updateQuestionnaireIntroduction,
-}) => {
+export const IntroductionEditor = ({ introduction }) => {
   const {
     id,
     collapsibles,
@@ -126,6 +110,10 @@ export const IntroductionEditor = ({
     tertiaryDescription,
     validationErrorInfo,
   } = introduction;
+
+  const [updateQuestionnaireIntroduction] = useMutation(
+    UPDATE_INTRODUCTION_MUTATION
+  );
 
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
@@ -185,9 +173,11 @@ export const IntroductionEditor = ({
                 onChange={({ value }) => setPhoneNumber(value)}
                 onBlur={() =>
                   updateQuestionnaireIntroduction({
-                    id,
-                    ...introduction,
-                    contactDetailsPhoneNumber: phoneNumber,
+                    variables: {
+                      input: {
+                        contactDetailsPhoneNumber: phoneNumber,
+                      },
+                    },
                   })
                 }
                 data-test="txt-contact-details-phone-number"
@@ -205,9 +195,11 @@ export const IntroductionEditor = ({
                 onChange={({ value }) => setEmail(value)}
                 onBlur={() =>
                   updateQuestionnaireIntroduction({
-                    id,
-                    ...introduction,
-                    contactDetailsEmailAddress: email,
+                    variables: {
+                      input: {
+                        contactDetailsEmailAddress: email,
+                      },
+                    },
                   })
                 }
                 data-test="txt-contact-details-email-address"
@@ -225,9 +217,11 @@ export const IntroductionEditor = ({
                 onChange={({ value }) => setEmailSubject(value)}
                 onBlur={() =>
                   updateQuestionnaireIntroduction({
-                    id,
-                    ...introduction,
-                    contactDetailsEmailSubject: emailSubject,
+                    variables: {
+                      input: {
+                        contactDetailsEmailSubject: emailSubject,
+                      },
+                    },
                   })
                 }
                 data-test="txt-contact-details-email-subject"
@@ -246,9 +240,11 @@ export const IntroductionEditor = ({
                 hideLabels={false}
                 onChange={() =>
                   updateQuestionnaireIntroduction({
-                    id,
-                    ...introduction,
-                    contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
+                    variables: {
+                      input: {
+                        contactDetailsIncludeRuRef: !contactDetailsIncludeRuRef,
+                      },
+                    },
                   })
                 }
                 checked={contactDetailsIncludeRuRef}
@@ -271,10 +267,13 @@ export const IntroductionEditor = ({
               hideLabels={false}
               onChange={() =>
                 updateQuestionnaireIntroduction({
-                  id,
-                  ...introduction,
-                  additionalGuidancePanelSwitch: !additionalGuidancePanelSwitch,
-                  additionalGuidancePanel: "",
+                  variables: {
+                    input: {
+                      additionalGuidancePanelSwitch:
+                        !additionalGuidancePanelSwitch,
+                      additionalGuidancePanel: "",
+                    },
+                  },
                 })
               }
               checked={additionalGuidancePanelSwitch}
@@ -286,7 +285,15 @@ export const IntroductionEditor = ({
               name="additionalGuidancePanel"
               value={additionalGuidancePanel}
               label=""
-              onUpdate={onChangeUpdate}
+              onUpdate={({ value }) =>
+                updateQuestionnaireIntroduction({
+                  variables: {
+                    input: {
+                      additionalGuidancePanel: value,
+                    },
+                  },
+                })
+              }
               multiline
               controls={{
                 heading: true,
@@ -305,7 +312,15 @@ export const IntroductionEditor = ({
             multiline
             value={description}
             controls={descriptionControls}
-            onUpdate={onChangeUpdate}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    description: value,
+                  },
+                },
+              })
+            }
             testSelector="txt-intro-description"
           />
 
@@ -331,9 +346,11 @@ export const IntroductionEditor = ({
                 hideLabels={false}
                 onChange={() =>
                   updateQuestionnaireIntroduction({
-                    id,
-                    ...introduction,
-                    previewQuestions: !previewQuestions,
+                    variables: {
+                      input: {
+                        previewQuestions: !previewQuestions,
+                      },
+                    },
                   })
                 }
                 checked={previewQuestions}
@@ -362,7 +379,15 @@ export const IntroductionEditor = ({
             value={secondaryTitle}
             controls={titleControls}
             size="large"
-            onUpdate={onChangeUpdate}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    secondaryTitle: value,
+                  },
+                },
+              })
+            }
             testSelector="txt-intro-secondary-title"
           />
           <RichTextEditor
@@ -372,7 +397,15 @@ export const IntroductionEditor = ({
             multiline
             value={secondaryDescription}
             controls={descriptionControls}
-            onUpdate={onChangeUpdate}
+            onUpdate={({ value }) => {
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    secondaryDescription: value,
+                  },
+                },
+              });
+            }}
             testSelector="txt-intro-secondary-description"
           />
           <SectionTitle style={{ marginBottom: "0" }}>
@@ -394,7 +427,15 @@ export const IntroductionEditor = ({
             value={tertiaryTitle}
             controls={titleControls}
             size="large"
-            onUpdate={onChangeUpdate}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    tertiaryTitle: value,
+                  },
+                },
+              })
+            }
             testSelector="txt-intro-tertiary-title"
           />
           <RichTextEditor
@@ -404,7 +445,15 @@ export const IntroductionEditor = ({
             multiline
             value={tertiaryDescription}
             controls={descriptionControls}
-            onUpdate={onChangeUpdate}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    tertiaryDescription: value,
+                  },
+                },
+              })
+            }
             testSelector="txt-intro-tertiary-description"
           />
         </Padding>
@@ -412,51 +461,24 @@ export const IntroductionEditor = ({
     </>
   );
 };
-const fragment = gql`
-  fragment IntroductionEditor on QuestionnaireIntroduction {
-    id
-    title
-    description
-    contactDetailsPhoneNumber
-    contactDetailsEmailAddress
-    contactDetailsEmailSubject
-    contactDetailsIncludeRuRef
-    additionalGuidancePanel
-    additionalGuidancePanelSwitch
-    secondaryTitle
-    secondaryDescription
-    previewQuestions
-    collapsibles {
-      ...CollapsibleEditor
-    }
-    tertiaryTitle
-    tertiaryDescription
-    validationErrorInfo {
-      ...ValidationErrorInfo
-    }
-    comments {
-      ...Comment
-    }
-  }
-  ${CommentFragment}
-  ${ValidationErrorInfoFragment}
-`;
-
-IntroductionEditor.fragments = [fragment, ...CollapsiblesEditor.fragments];
 
 IntroductionEditor.propTypes = {
-  introduction: propType(
-    transformNestedFragments(fragment, CollapsiblesEditor.fragments)
-  ).isRequired,
-  onChangeUpdate: PropTypes.func.isRequired,
-  updateQuestionnaireIntroduction: PropTypes.func.isRequired,
+  introduction: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    contactDetailsPhoneNumber: PropTypes.string,
+    contactDetailsEmailSubject: PropTypes.string,
+    contactDetailsIncludeRuRef: PropTypes.bool,
+    additionalGuidancePanelSwitch: PropTypes.bool,
+    additionalGuidancePanel: PropTypes.string,
+    description: PropTypes.string,
+    previewQuestions: PropTypes.bool,
+    secondaryTitle: PropTypes.string,
+    secondaryDescription: PropTypes.string,
+    showOnHub: PropTypes.bool,
+    tertiaryTitle: PropTypes.string,
+    tertiaryDescription: PropTypes.string,
+  }),
 };
 
-const withWrappers = flowRight(
-  withUpdateQuestionnaireIntroduction,
-  withPropRenamed("updateQuestionnaireIntroduction", "onUpdate"),
-  withEntityEditor("introduction"),
-  withChangeUpdate
-);
-
-export default withWrappers(IntroductionEditor);
+export default IntroductionEditor;

@@ -1,9 +1,26 @@
+#import "./fragments/validationErrorInfo.graphql"
+
 mutation UpdateQuestionnaireIntroduction(
   $input: UpdateQuestionnaireIntroductionInput!
 ) {
   updateQuestionnaireIntroduction(input: $input) {
     id
+    title
+    contactDetailsPhoneNumber
+    contactDetailsEmailAddress
+    contactDetailsEmailSubject
+    contactDetailsIncludeRuRef
+    additionalGuidancePanelSwitch
+    additionalGuidancePanel
+    description
     previewQuestions
+    secondaryTitle
+    secondaryDescription
     showOnHub
+    tertiaryTitle
+    tertiaryDescription
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }
