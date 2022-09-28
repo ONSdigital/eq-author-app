@@ -91,7 +91,7 @@ const StyledInput = styled(Input)`
   `}
 `;
 
-export const IntroductionEditor = ({ introduction }) => {
+const IntroductionEditor = ({ introduction }) => {
   const {
     id,
     collapsibles,
