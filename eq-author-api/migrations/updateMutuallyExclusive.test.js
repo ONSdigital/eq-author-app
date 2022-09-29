@@ -82,4 +82,24 @@ describe("Migration: fix qcode", () => {
     expect(questionnaireAnswers[0].options[1].qCode).toBe(undefined);
     expect(questionnaireAnswers[0].options[2].qCode).toBe(undefined);
   });
+
+  it("should preserve non-mutually exclusive", () => {
+    questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+      qCode: "",
+      type: "Number",
+      options: [
+        { qCode: "MEQCodeFromOpt1" },
+        { qCode: "MEQCodeFromOpt2" },
+        { qCode: "MEQCodeFromOpt3" },
+      ],
+    };
+
+    updateMutuallyExclusive(questionnaire);
+    const questionnaireAnswers =
+      questionnaire.sections[0].folders[0].pages[0].answers;
+    expect(questionnaireAnswers[0].qCode).toBe("");
+    expect(questionnaireAnswers[0].options[0].qCode).toBe("MEQCodeFromOpt1");
+    expect(questionnaireAnswers[0].options[1].qCode).toBe("MEQCodeFromOpt2");
+    expect(questionnaireAnswers[0].options[2].qCode).toBe("MEQCodeFromOpt3");
+  });
 });
