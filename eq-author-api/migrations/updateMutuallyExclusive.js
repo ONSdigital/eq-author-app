@@ -1,5 +1,4 @@
 const { getAnswers } = require("../schema/resolvers/utils");
-const { MUTUALLY_EXCLUSIVE } = require("../constants/answerTypes");
 
 module.exports = (questionnaire) => {
   const ctx = {
@@ -8,12 +7,16 @@ module.exports = (questionnaire) => {
   const answers = getAnswers(ctx);
 
   answers.map((answer) => {
-    if (answer.type === MUTUALLY_EXCLUSIVE) {
-      if (answer.options[0].qcode) {
-        if (answer.qcode === undefined || answer.qcode === null) {
-          answer.qcode = answer.options[0].qcode.value;
-        }
-        delete answer.options[0].qcode;
+    if (answer.type === "MutuallyExclusive") {
+      if (answer.options !== undefined && answer.options !== null) {
+        answer.options.forEach((option) => {
+          if (option.qCode) {
+            if (!answer.qCode) {
+              answer.qCode = option.qCode;
+            }
+            option.qCode = undefined;
+          }
+        });
       }
     }
   });
