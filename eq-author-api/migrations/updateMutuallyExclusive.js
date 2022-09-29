@@ -9,10 +9,7 @@ module.exports = (questionnaire) => {
 
   answers.map((answer) => {
     if (answer.type === MUTUALLY_EXCLUSIVE) {
-      if (
-        answer.options[0].qcode !== undefined ||
-        answer.options[0].qcode !== null
-      ) {
+      if (answer.options[0].qcode) {
         if (answer.qcode === undefined || answer.qcode === null) {
           answer.qcode = answer.options[0].qcode.value;
         }
