@@ -1,57 +1,53 @@
 /*  eslint-disable react/no-danger */
 import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash/fp";
 
-import Comment from "graphql/fragments/comment.graphql";
+import CommentsPanel from "App/Comments";
+
+import Loading from "components/Loading";
+import Error from "components/Error";
 
 import IntroductionPreview from "./IntroductionPreview";
+import IntroductionLayout from "../IntroductionLayout";
 
-export const fragment = gql`
-  fragment QuestionnaireIntroduction on QuestionnaireIntroduction {
-    id
-    title
-    contactDetailsPhoneNumber
-    contactDetailsEmailAddress
-    additionalGuidancePanel
-    additionalGuidancePanelSwitch
-    description
-    secondaryTitle
-    secondaryDescription
-    previewQuestions
-    collapsibles {
-      id
-      title
-      description
-    }
-    tertiaryTitle
-    tertiaryDescription
-    comments {
-      ...Comment
-    }
+import GET_INTRODUCTION_QUERY from "graphql/getQuestionnaireIntroduction.graphql";
+
+const Preview = (props) => {
+  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  const introduction = data?.introduction;
+
+  if (loading) {
+    return (
+      <IntroductionLayout>
+        <Loading height="38rem">Page loading…</Loading>
+      </IntroductionLayout>
+    );
   }
-  ${Comment}
-`;
 
-export const QUESTIONNAIRE_QUERY = gql`
-  query GetQuestionnaireIntroduction($id: ID!) {
-    questionnaireIntroduction(id: $id) {
-      ...QuestionnaireIntroduction
-    }
+  const comments = introduction?.comments;
+
+  if (error || isEmpty(introduction)) {
+    return <Error>Something went wrong</Error>;
   }
-  ${fragment}
-`;
 
-const IntroductionPreviewWithData = (props) => (
-  <Query
-    query={QUESTIONNAIRE_QUERY}
-    variables={{ id: props.match.params.introductionId }}
-  >
-    {(innerProps) => <IntroductionPreview {...innerProps} {...props} />}
-  </Query>
-);
-IntroductionPreviewWithData.propTypes = {
+  return (
+    <IntroductionLayout
+      renderPanel={() => (
+        <CommentsPanel comments={comments} componentId={introduction?.id} />
+      )}
+      comments={comments}
+    >
+      <IntroductionPreview introduction={introduction} {...props} />
+    </IntroductionLayout>
+  );
+};
+
+Preview.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       introductionId: PropTypes.string.isRequired,
@@ -59,4 +55,4 @@ IntroductionPreviewWithData.propTypes = {
   }).isRequired,
 };
 
-export default IntroductionPreviewWithData;
+export default Preview;
