@@ -14,7 +14,7 @@ module.exports = (questionnaire) => {
             if (!answer.qCode) {
               answer.qCode = option.qCode;
             }
-            option.qCode = undefined;
+            option.qCode = null;
           }
         });
       }

@@ -46,7 +46,7 @@ describe("Migration: fix qcode", () => {
       questionnaire.sections[0].folders[0].pages[0].answers;
 
     expect(questionnaireAnswers[0].qCode).toBe("MEQCodeFromOpt1");
-    expect(questionnaireAnswers[0].options[0].qCode).toBe(undefined);
+    expect(questionnaireAnswers[0].options[0].qCode).toBe(null);
   });
 
   it("should not copy first options qcode to answer qcode if answer qcode already present", () => {
@@ -60,7 +60,7 @@ describe("Migration: fix qcode", () => {
     const questionnaireAnswers =
       questionnaire.sections[0].folders[0].pages[0].answers;
     expect(questionnaireAnswers[0].qCode).toBe("QCodePresent");
-    expect(questionnaireAnswers[0].options[0].qCode).toBe(undefined);
+    expect(questionnaireAnswers[0].options[0].qCode).toBe(null);
   });
 
   it("should not update if already set from earlier option", () => {
@@ -78,9 +78,9 @@ describe("Migration: fix qcode", () => {
     const questionnaireAnswers =
       questionnaire.sections[0].folders[0].pages[0].answers;
     expect(questionnaireAnswers[0].qCode).toBe("MEQCodeFromOpt1");
-    expect(questionnaireAnswers[0].options[0].qCode).toBe(undefined);
-    expect(questionnaireAnswers[0].options[1].qCode).toBe(undefined);
-    expect(questionnaireAnswers[0].options[2].qCode).toBe(undefined);
+    expect(questionnaireAnswers[0].options[0].qCode).toBe(null);
+    expect(questionnaireAnswers[0].options[1].qCode).toBe(null);
+    expect(questionnaireAnswers[0].options[2].qCode).toBe(null);
   });
 
   it("should preserve non-mutually exclusive", () => {
