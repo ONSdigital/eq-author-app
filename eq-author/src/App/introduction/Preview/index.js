@@ -15,9 +15,7 @@ import IntroductionLayout from "../IntroductionLayout";
 import GET_INTRODUCTION_QUERY from "graphql/getQuestionnaireIntroduction.graphql";
 
 const Preview = (props) => {
-  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY);
 
   const introduction = data?.introduction;
 
@@ -29,7 +27,7 @@ const Preview = (props) => {
     );
   }
 
-  const comments = introduction?.comments;
+  const comments = introduction.comments;
 
   if (error || isEmpty(introduction)) {
     return <Error>Something went wrong</Error>;
@@ -38,7 +36,7 @@ const Preview = (props) => {
   return (
     <IntroductionLayout
       renderPanel={() => (
-        <CommentsPanel comments={comments} componentId={introduction?.id} />
+        <CommentsPanel comments={comments} componentId={introduction.id} />
       )}
       comments={comments}
     >
