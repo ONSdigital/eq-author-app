@@ -6,6 +6,7 @@ import Loading from "components/Loading";
 import { useQuery } from "@apollo/react-hooks";
 
 import IntroductionPreview, { Collapsibles } from "./IntroductionPreview";
+import Preview from ".";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -23,21 +24,19 @@ describe("Introduction Preview", () => {
   beforeEach(() => {
     props = {
       loading: false,
-      data: {
-        questionnaireIntroduction: {
-          id: "1",
-          title: "foo",
-          description: "<p>bar</p>",
-          additionalGuidancePanel: "",
-          additionalGuidancePanelSwitch: false,
-          secondaryTitle: "secondaryTitle",
-          secondaryDescription: "<p>secondaryDescription</p>",
-          collapsibles: [],
-          tertiaryTitle: "tertiaryTitle",
-          tertiaryDescription: "tertiaryDescription",
-          contactDetailsPhoneNumber: "0300 1234 931",
-          contactDetailsEmailAddress: "surveys@ons.gov.uk",
-        },
+      introduction: {
+        id: "1",
+        title: "foo",
+        description: "<p>bar</p>",
+        additionalGuidancePanel: "",
+        additionalGuidancePanelSwitch: false,
+        secondaryTitle: "secondaryTitle",
+        secondaryDescription: "<p>secondaryDescription</p>",
+        collapsibles: [],
+        tertiaryTitle: "tertiaryTitle",
+        tertiaryDescription: "tertiaryDescription",
+        contactDetailsPhoneNumber: "0300 1234 931",
+        contactDetailsEmailAddress: "surveys@ons.gov.uk",
       },
       match: {
         params: {
@@ -52,7 +51,7 @@ describe("Introduction Preview", () => {
   });
 
   it("should not show incomplete collapsibles", () => {
-    props.data.questionnaireIntroduction.collapsibles = [
+    props.introduction.collapsibles = [
       { id: "2", title: "collapsible title", description: "" },
       { id: "3", title: "", description: "collapsible description" },
       {
@@ -67,15 +66,15 @@ describe("Introduction Preview", () => {
   });
 
   it("should show loading when loading", () => {
-    expect(
-      shallow(<IntroductionPreview {...props} loading />).find(Loading)
-    ).toHaveLength(1);
+    useQuery.mockImplementationOnce(() => ({
+      loading: true,
+    }));
+    expect(shallow(<Preview {...props} />).find(Loading)).toHaveLength(1);
   });
 
   it("should show additional guidance panel when enabled", () => {
-    props.data.questionnaireIntroduction.additionalGuidancePanelSwitch = true;
-    props.data.questionnaireIntroduction.additionalGuidancePanel =
-      "hello world!";
+    props.introduction.additionalGuidancePanelSwitch = true;
+    props.introduction.additionalGuidancePanel = "hello world!";
 
     const wrapper = shallow(<IntroductionPreview {...props} />);
 
