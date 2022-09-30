@@ -18,6 +18,7 @@ const Preview = (props) => {
   const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY);
 
   const introduction = data?.introduction;
+  const comments = introduction?.comments;
 
   if (loading) {
     return (
@@ -26,8 +27,6 @@ const Preview = (props) => {
       </IntroductionLayout>
     );
   }
-
-  const comments = introduction.comments;
 
   if (error || isEmpty(introduction)) {
     return <Error>Something went wrong</Error>;
