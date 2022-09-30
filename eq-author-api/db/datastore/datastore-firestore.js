@@ -272,11 +272,11 @@ const createUser = async (user) => {
     if (!name) {
       name = email;
     }
-
+    const updatedAt = new Date();
     await db
       .collection("users")
       .doc(id)
-      .set({ ...user, id, name, email });
+      .set({ ...user, id, name, email, updatedAt });
   } catch (error) {
     logger.error(error, `Error creating user with ID: ${id}: `);
     return;
@@ -507,6 +507,7 @@ const updateUser = async (changedUser) => {
     }
     const doc = db.collection("users").doc(id);
     const existingUser = await doc.get();
+    changedUser.updatedAt = new Date();
     await doc.update(changedUser);
     return { ...existingUser, ...changedUser };
   } catch (error) {

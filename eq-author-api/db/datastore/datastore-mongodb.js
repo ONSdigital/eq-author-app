@@ -219,9 +219,9 @@ const createUser = async (user) => {
     if (!name) {
       name = email;
     }
-
+    const updatedAt = new Date();
     const collection = dbo.collection("users");
-    await collection.insertOne({ ...user, id, name, email });
+    await collection.insertOne({ ...user, id, name, email, updatedAt });
   } catch (error) {
     logger.error(error, `Error creating user with ID: ${id}: `);
     return;
@@ -391,7 +391,7 @@ const updateUser = async (changedUser) => {
     }
     const collection = dbo.collection("users");
     const existingUser = await collection.findOne({ id: id });
-
+    changedUser.updatedAt = new Date();
     const user = Object.assign(existingUser, changedUser);
     await collection.updateOne({ id: id }, { $set: user });
     return user;
