@@ -143,7 +143,7 @@ const IntroductionPreview = ({ match, introduction }) => {
   } = introduction;
 
   return (
-    <Container>
+    <Container data-test="introduction-preview-container">
       <PageTitle missingText="Missing introduction title" title={title} />
       If the company details or structure have changed contact us on{" "}
       {contactDetailsPhoneNumber !== "" ? (

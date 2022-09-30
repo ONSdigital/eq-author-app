@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Introduction Preview should render 1`] = `
-<IntroductionPreview__Container>
+<IntroductionPreview__Container
+  data-test="introduction-preview-container"
+>
   <PageTitle
     missingText="Missing introduction title"
     title="foo"
