@@ -259,6 +259,7 @@ const deleteQuestionnaire = async (id) => {
 
 const createUser = async (user) => {
   let { id, name, email } = user;
+  const updatedAt = new Date();
 
   try {
     if (!email) {
@@ -272,7 +273,7 @@ const createUser = async (user) => {
     if (!name) {
       name = email;
     }
-    const updatedAt = new Date();
+
     await db
       .collection("users")
       .doc(id)
@@ -282,7 +283,7 @@ const createUser = async (user) => {
     return;
   }
 
-  return { ...user, id, name };
+  return { ...user, id, name, updatedAt };
 };
 
 const getUserByExternalId = async (externalId) => {

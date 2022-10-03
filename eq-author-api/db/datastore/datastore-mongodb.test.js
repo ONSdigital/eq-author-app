@@ -139,7 +139,8 @@ describe("MongoDB Datastore", () => {
 
     describe("Creating a questionnaire", () => {
       it("Should give the questionnaire an ID if one is not given", async () => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        const uuidRegex =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
         expect(questionnaire.id).toBeFalsy();
         const questionnaireFromDb = await mongoDB.createQuestionnaire(
           questionnaire,
@@ -259,10 +260,13 @@ describe("MongoDB Datastore", () => {
         const userFromDb = await mongoDB.createUser(firstUser);
         expect(userFromDb.id).toBeTruthy();
         expect(userFromDb.id).toMatch("999-999");
+        console.log(JSON.stringify(userFromDb));
+        expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
       });
 
       it("Should give the user an ID if one is not given", async () => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        const uuidRegex =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
         const userFromDb = await mongoDB.createUser(user);
         expect(userFromDb.id).toBeTruthy();
         expect(userFromDb.id).toMatch(uuidRegex);
@@ -331,6 +335,8 @@ describe("MongoDB Datastore", () => {
           id: "999-999",
         };
         const userFromDb = await mongoDB.updateUser(changedUser);
+        console.log(JSON.stringify(userFromDb));
+        expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
 
         expect(userFromDb).toMatchObject(changedUser);
       });
