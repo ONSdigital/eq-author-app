@@ -260,7 +260,6 @@ describe("MongoDB Datastore", () => {
         const userFromDb = await mongoDB.createUser(firstUser);
         expect(userFromDb.id).toBeTruthy();
         expect(userFromDb.id).toMatch("999-999");
-        console.log(JSON.stringify(userFromDb));
         expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
       });
 
@@ -335,7 +334,6 @@ describe("MongoDB Datastore", () => {
           id: "999-999",
         };
         const userFromDb = await mongoDB.updateUser(changedUser);
-        console.log(JSON.stringify(userFromDb));
         expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
 
         expect(userFromDb).toMatchObject(changedUser);

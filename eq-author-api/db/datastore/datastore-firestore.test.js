@@ -295,7 +295,6 @@ describe("Firestore Datastore", () => {
       const userFromDb = await createUser(user);
       expect(userFromDb.id).toBeTruthy();
       expect(userFromDb.id).toMatch(uuidRegex);
-      console.log(JSON.stringify(userFromDb));
       expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
     });
 
@@ -557,7 +556,6 @@ describe("Firestore Datastore", () => {
     it("Should return the updated user object", async () => {
       const changedUser = { ...user, name: "Harry James Potter", id: "123" };
       const userFromDb = await updateUser(changedUser);
-      console.log(JSON.stringify(userFromDb));
       expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
       expect(userFromDb).toMatchObject(changedUser);
     });
