@@ -60,8 +60,8 @@ describe("Introduction Design", () => {
   it("should render error when there is an error and it has loaded", () => {
     useQuery.mockImplementationOnce(() => ({
       loading: false,
-      error: false,
-      data: { introduction: null },
+      error: true,
+      data: { introduction },
     }));
     expect(shallow(<IntroductionDesign />).find(ErrorComponent)).toHaveLength(
       1
