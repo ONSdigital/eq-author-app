@@ -36,6 +36,7 @@ const migrations = [
   require("./updateEnabledHubAWSFixTwo"),
   require("./convertMutuallyExclusiveOptions"),
   require("./updateCalculatedSummary"),
+  require("./updateMutuallyExclusive"),
 ];
 
 const currentVersion = migrations.length;
