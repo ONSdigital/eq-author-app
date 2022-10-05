@@ -206,6 +206,7 @@ const deleteQuestionnaire = async (id) => {
 
 const createUser = async (user) => {
   let { id, name, email } = user;
+  const updatedAt = new Date();
 
   try {
     if (!email) {
@@ -221,13 +222,13 @@ const createUser = async (user) => {
     }
 
     const collection = dbo.collection("users");
-    await collection.insertOne({ ...user, id, name, email });
+    await collection.insertOne({ ...user, id, name, email, updatedAt });
   } catch (error) {
     logger.error(error, `Error creating user with ID: ${id}: `);
     return;
   }
 
-  return { ...user, id, name };
+  return { ...user, id, name, updatedAt };
 };
 
 const getUserByExternalId = async (externalId) => {
@@ -391,7 +392,7 @@ const updateUser = async (changedUser) => {
     }
     const collection = dbo.collection("users");
     const existingUser = await collection.findOne({ id: id });
-
+    changedUser.updatedAt = new Date();
     const user = Object.assign(existingUser, changedUser);
     await collection.updateOne({ id: id }, { $set: user });
     return user;

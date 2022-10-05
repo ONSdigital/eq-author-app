@@ -198,6 +198,7 @@ const Resolvers = {
        */
 
       let questionnaires = await listQuestionnaires();
+      await updateUser(ctx.user);
 
       questionnaires = questionnaires.filter((questionnaire) => {
         if (ctx.user.admin === true || questionnaire.isPublic) {

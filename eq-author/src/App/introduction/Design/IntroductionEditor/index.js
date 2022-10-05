@@ -33,6 +33,7 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import CommentFragment from "graphql/fragments/comment.graphql";
 
 import { contactDetailsErrors } from "constants/validationMessages";
+import { enableOn } from "utils/featureFlags";
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -53,7 +54,7 @@ const SectionTitle = styled.h2`
 
 const SectionDescription = styled.p`
   margin: 0.1em 0 1em;
-  color: ${colors.textLight};
+  color: ${colors.text};
 `;
 
 const titleControls = {
@@ -118,6 +119,7 @@ export const IntroductionEditor = ({
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
+    previewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -313,6 +315,38 @@ export const IntroductionEditor = ({
           </InformationPanel>
         </Padding>
       </Section>
+      {enableOn(["previewQuestions"]) && (
+        <Section>
+          <Padding>
+            <InlineField
+              open={contactDetailsIncludeRuRef}
+              style={{ marginBottom: "0" }}
+            >
+              <Label htmlFor="toggle-preview-questions">
+                Preview questions
+              </Label>
+              <ToggleSwitch
+                id="toggle-preview-questions"
+                name="toggle-preview-questions"
+                hideLabels={false}
+                onChange={() =>
+                  updateQuestionnaireIntroduction({
+                    id,
+                    ...introduction,
+                    previewQuestions: !previewQuestions,
+                  })
+                }
+                checked={previewQuestions}
+              />
+            </InlineField>
+            <SectionDescription>
+              This displays a link on the introduction page that takes
+              respondents to a preview of all the questions on one page in a
+              collapsible format.
+            </SectionDescription>
+          </Padding>
+        </Section>
+      )}
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
@@ -391,6 +425,7 @@ const fragment = gql`
     additionalGuidancePanelSwitch
     secondaryTitle
     secondaryDescription
+    previewQuestions
     collapsibles {
       ...CollapsibleEditor
     }
