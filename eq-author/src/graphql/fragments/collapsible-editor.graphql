@@ -1,0 +1,5 @@
+fragment CollapsibleEditor on Collapsible {
+  id
+  title
+  description
+}

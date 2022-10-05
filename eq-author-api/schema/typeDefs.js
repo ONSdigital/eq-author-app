@@ -765,6 +765,7 @@ type Query {
   comments(id: ID!): [Comment!]!
   skippable(input: QueryInput!): Skippable
   submission: Submission
+  introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
 }
@@ -1534,7 +1535,6 @@ input DeleteQuestionConfirmationInput {
 }
 
 input UpdateQuestionnaireIntroductionInput {
-  id: ID!
   title: String
   contactDetailsPhoneNumber: String
   contactDetailsEmailAddress: String

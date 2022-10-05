@@ -1,0 +1,28 @@
+#import "graphql/fragments/comment.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
+#import "graphql/fragments/collapsible-editor.graphql"
+fragment Introduction on QuestionnaireIntroduction {
+  id
+  title
+  description
+  contactDetailsPhoneNumber
+  contactDetailsEmailAddress
+  contactDetailsEmailSubject
+  contactDetailsIncludeRuRef
+  additionalGuidancePanel
+  additionalGuidancePanelSwitch
+  secondaryTitle
+  secondaryDescription
+  previewQuestions
+  collapsibles {
+    ...CollapsibleEditor
+  }
+  tertiaryTitle
+  tertiaryDescription
+  validationErrorInfo {
+    ...ValidationErrorInfo
+  }
+  comments {
+    ...Comment
+  }
+}

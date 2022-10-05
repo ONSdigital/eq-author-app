@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Introduction Preview should render 1`] = `
+<IntroductionPreview__Container
+  data-test="introduction-preview-container"
+>
+  <PageTitle
+    missingText="Missing introduction title"
+    title="foo"
+  />
+  If the company details or structure have changed contact us on
+   
+  <IntroductionPreview__BlueUnderlined>
+    0300 1234 931
+  </IntroductionPreview__BlueUnderlined>
+   
+  or email
+   
+  <IntroductionPreview__BlueUnderlined>
+    surveys@ons.gov.uk
+  </IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>bar</p>",
+      }
+    }
+    data-test="description"
+  />
+  <PageTitle
+    title="Your response is legally required"
+  />
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": undefined,
+      }
+    }
+  />
+  <IntroductionPreview__Button>
+    Start survey
+  </IntroductionPreview__Button>
+  <PageTitle
+    missingText="Missing secondary title"
+    title="secondaryTitle"
+  />
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>secondaryDescription</p>",
+      }
+    }
+  />
+  <PageTitle
+    missingText="Missing tertiary title"
+    title="tertiaryTitle"
+  />
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "tertiaryDescription",
+      }
+    }
+  />
+</IntroductionPreview__Container>
+`;
