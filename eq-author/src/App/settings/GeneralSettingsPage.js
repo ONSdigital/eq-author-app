@@ -243,7 +243,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                               onChange={({ value }) =>
                                 updateQuestionnaireIntroduction({
                                   variables: {
-                                    input: { id, showOnHub: value },
+                                    input: { showOnHub: value },
                                   },
                                 })
                               }

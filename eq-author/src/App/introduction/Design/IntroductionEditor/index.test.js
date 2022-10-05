@@ -1,13 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { IntroductionEditor } from "./";
+import IntroductionEditor from "./";
 
 import { contactDetailsErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
 import config from "config";
-
-const mockUseMutation = jest.fn();
+import { useMutation } from "@apollo/react-hooks";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -17,7 +16,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 jest.mock("@apollo/react-hooks", () => ({
-  useMutation: () => [mockUseMutation],
+  useMutation: jest.fn(() => [() => null]),
 }));
 
 describe("IntroductionEditor", () => {
@@ -63,6 +62,9 @@ describe("IntroductionEditor", () => {
   });
 
   it("should toggle the additional guidance panel", () => {
+    const mockUseMutation = jest.fn();
+    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+
     const wrapper = shallow(<IntroductionEditor {...props} />);
     expect(
       wrapper.find('[name="additionalGuidancePanel"]').exists()
@@ -70,7 +72,7 @@ describe("IntroductionEditor", () => {
     wrapper
       .find("#toggle-additional-guidance-panel")
       .simulate("change", { target: { checked: true } });
-    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+    expect(mockUseMutation).toHaveBeenCalledTimes(1);
   });
 
   it("should show the additional guidance panel", () => {
@@ -82,6 +84,9 @@ describe("IntroductionEditor", () => {
   });
 
   it("should toggle the add RU ref to the subject line", () => {
+    const mockUseMutation = jest.fn();
+    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+
     const wrapper = shallow(<IntroductionEditor {...props} />);
     expect(
       wrapper.find('[name="toggle-contact-details-include-ruref"]').exists()
@@ -89,7 +94,7 @@ describe("IntroductionEditor", () => {
     wrapper
       .find("#toggle-contact-details-include-ruref")
       .simulate("change", { target: { checked: false } });
-    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+    expect(mockUseMutation).toHaveBeenCalledTimes(1);
   });
 
   it("should display validation error message when phone number is not entered", () => {
@@ -129,6 +134,9 @@ describe("IntroductionEditor", () => {
   });
 
   it("should update contact details", () => {
+    const mockUseMutation = jest.fn();
+    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+
     const wrapper = shallow(<IntroductionEditor {...props} />);
 
     const phoneInput = wrapper.find(
@@ -149,11 +157,14 @@ describe("IntroductionEditor", () => {
       target: { value: "Test" },
     });
 
-    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(3);
+    expect(mockUseMutation).toHaveBeenCalledTimes(3);
   });
 
   it("should toggle preview questions", () => {
     config.REACT_APP_FEATURE_FLAGS = "previewQuestions";
+    const mockUseMutation = jest.fn();
+    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+
     const wrapper = shallow(<IntroductionEditor {...props} />);
     expect(
       wrapper.find('[name="toggle-preview-questions"]').exists()
@@ -161,6 +172,6 @@ describe("IntroductionEditor", () => {
     wrapper
       .find("#toggle-preview-questions")
       .simulate("change", { target: { checked: false } });
-    expect(props.updateQuestionnaireIntroduction).toHaveBeenCalledTimes(1);
+    expect(mockUseMutation).toHaveBeenCalledTimes(1);
   });
 });

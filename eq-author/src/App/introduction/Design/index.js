@@ -1,20 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import { get, isEmpty } from "lodash/fp";
-import { propType } from "graphql-anywhere";
+import { useQuery } from "@apollo/react-hooks";
+import { isEmpty } from "lodash/fp";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
 
-import transformNestedFragments from "utils/transformNestedFragments";
-
 import IntroductionLayout from "../IntroductionLayout";
 
 import IntroductionEditor from "./IntroductionEditor";
+import GET_INTRODUCTION_QUERY from "graphql/getQuestionnaireIntroduction.graphql";
 
-export const IntroductionDesign = ({ loading, error, data }) => {
+export const IntroductionDesign = () => {
+  const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  const introduction = data?.introduction;
+
   if (loading) {
     return (
       <IntroductionLayout>
@@ -23,7 +25,6 @@ export const IntroductionDesign = ({ loading, error, data }) => {
     );
   }
 
-  const introduction = get("questionnaireIntroduction", data);
   const comments = introduction?.comments;
 
   if (error || isEmpty(introduction)) {
@@ -37,44 +38,4 @@ export const IntroductionDesign = ({ loading, error, data }) => {
   );
 };
 
-IntroductionDesign.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object, // eslint-disable-line
-  data: PropTypes.shape({
-    introduction: propType(...IntroductionEditor.fragments),
-  }),
-};
-
-const query = gql`
-  query GetQuestionnaireIntroduction($id: ID!) {
-    questionnaireIntroduction(id: $id) {
-      id
-      ...IntroductionEditor
-    }
-  }
-`;
-
-const INTRODUCTION_QUERY = transformNestedFragments(
-  query,
-  IntroductionEditor.fragments
-);
-
-const IntroductionDesignWithData = (props) => (
-  <Query
-    query={INTRODUCTION_QUERY}
-    variables={{
-      id: props.match.params.introductionId,
-    }}
-  >
-    {(queryProps) => <IntroductionDesign {...props} {...queryProps} />}
-  </Query>
-);
-IntroductionDesignWithData.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      introductionId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
-
-export default IntroductionDesignWithData;
+export default IntroductionDesign;

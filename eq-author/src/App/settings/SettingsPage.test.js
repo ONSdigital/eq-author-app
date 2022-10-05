@@ -175,7 +175,6 @@ describe("Settings page", () => {
           query: updateQuestionnaireIntroductionMutation,
           variables: {
             input: {
-              id: mockQuestionnaire.introduction.id,
               showOnHub: false,
             },
           },
@@ -203,7 +202,6 @@ describe("Settings page", () => {
           query: updateQuestionnaireIntroductionMutation,
           variables: {
             input: {
-              id: mockQuestionnaire.id,
               showOnHub: true,
             },
           },
@@ -217,7 +215,6 @@ describe("Settings page", () => {
                 hub: true,
                 navigation: false,
                 introduction: {
-                  id: mockQuestionnaire.introduction.id,
                   showOnHub: true,
                 },
                 __typename: "Questionnaire",

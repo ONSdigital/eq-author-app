@@ -294,6 +294,7 @@ const Resolvers = {
     },
     skippable: (root, { input: { id } }, ctx) => getSkippableById(ctx, id),
     submission: (root, _, ctx) => ctx.questionnaire.submission,
+    introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
@@ -462,6 +463,14 @@ const Resolvers = {
         `Updated survery with ID ${surveyId}`
       );
       return ctx.questionnaire;
+    }),
+    updateQuestionnaireIntroduction: createMutation((root, { input }, ctx) => {
+      ctx.questionnaire.introduction = {
+        ...ctx.questionnaire.introduction,
+        ...input,
+      };
+
+      return ctx.questionnaire.introduction;
     }),
     updateSubmission: createMutation((root, { input }, ctx) => {
       ctx.questionnaire.submission = {

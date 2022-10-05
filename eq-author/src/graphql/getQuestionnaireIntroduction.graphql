@@ -1,0 +1,6 @@
+#import "./fragments/introduction.graphql"
+query GetQuestionnaireIntroduction {
+  introduction {
+    ...Introduction
+  }
+}

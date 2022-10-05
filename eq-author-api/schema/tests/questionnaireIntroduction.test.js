@@ -63,7 +63,6 @@ describe("questionnaire", () => {
       ctx.comments = {};
 
       const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
-        id: questionnaire.introduction.id,
         ...changes,
       });
 
@@ -96,7 +95,6 @@ describe("questionnaire", () => {
       ctx.comments = {};
 
       const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
-        id: questionnaire.introduction.id,
         ...changes,
       });
 
@@ -123,9 +121,10 @@ describe("questionnaire", () => {
         },
       ];
 
-      const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
-        id: questionnaire.introduction.id,
-      });
+      const updatedIntroduction = await updateQuestionnaireIntroduction(
+        ctx,
+        {}
+      );
 
       expect(updatedIntroduction.comments).toEqual(
         expect.arrayContaining(ctx.comments[questionnaire.introduction.id])
