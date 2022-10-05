@@ -259,6 +259,7 @@ const deleteQuestionnaire = async (id) => {
 
 const createUser = async (user) => {
   let { id, name, email } = user;
+  const updatedAt = new Date();
 
   try {
     if (!email) {
@@ -276,13 +277,13 @@ const createUser = async (user) => {
     await db
       .collection("users")
       .doc(id)
-      .set({ ...user, id, name, email });
+      .set({ ...user, id, name, email, updatedAt });
   } catch (error) {
     logger.error(error, `Error creating user with ID: ${id}: `);
     return;
   }
 
-  return { ...user, id, name };
+  return { ...user, id, name, updatedAt };
 };
 
 const getUserByExternalId = async (externalId) => {
@@ -507,6 +508,7 @@ const updateUser = async (changedUser) => {
     }
     const doc = db.collection("users").doc(id);
     const existingUser = await doc.get();
+    changedUser.updatedAt = new Date();
     await doc.update(changedUser);
     return { ...existingUser, ...changedUser };
   } catch (error) {
