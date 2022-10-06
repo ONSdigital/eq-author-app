@@ -144,7 +144,7 @@ module.exports = {
         }
 
         destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
-
+        ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
         return destinationSections;
       }
     ),
