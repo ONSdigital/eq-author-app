@@ -5,6 +5,7 @@ import { colors } from "constants/theme";
 import IconText from "components/IconText";
 import WarningIcon from "./icon-warning.svg?inline";
 import ExternalLinkIcon from "./icon-external-link.svg";
+import { enableOn } from "utils/featureFlags";
 
 const Banner = styled.div`
   background-color: ${colors.red};
@@ -45,30 +46,34 @@ const Link = styled.a`
 
 const WarningBanner = () => {
   return (
-    <Banner>
-      <WarningMessage icon={WarningIcon}>Action required</WarningMessage>
-      <BannerMessageContainer>
-        <Content>
-          Author has migrated and this page will be turned off shortly.
-        </Content>
-        <Content>
-          Please use latest version of Author:&nbsp;
-          <Link
-            href="https://author.eqbs.gcp.onsdigital.uk/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://author.eqbs.gcp.onsdigital.uk/
-          </Link>
-        </Content>
-        <Content>
-          If you have any questions please contact the Author team at&nbsp;
-          <Link href="mailto:Author.Requests@ons.gov.uk">
-            Author.Requests@ons.gov.uk
-          </Link>
-        </Content>
-      </BannerMessageContainer>
-    </Banner>
+    <>
+      {enableOn(["decommBanner"]) && (
+        <Banner>
+          <WarningMessage icon={WarningIcon}>Action required</WarningMessage>
+          <BannerMessageContainer>
+            <Content>
+              Author has migrated and this page will be turned off shortly.
+            </Content>
+            <Content>
+              Please use latest version of Author:&nbsp;
+              <Link
+                href="https://author.eqbs.gcp.onsdigital.uk/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://author.eqbs.gcp.onsdigital.uk/
+              </Link>
+            </Content>
+            <Content>
+              If you have any questions please contact the Author team at&nbsp;
+              <Link href="mailto:Author.Requests@ons.gov.uk">
+                Author.Requests@ons.gov.uk
+              </Link>
+            </Content>
+          </BannerMessageContainer>
+        </Banner>
+      )}
+    </>
   );
 };
 

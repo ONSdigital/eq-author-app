@@ -1,7 +1,7 @@
 import React from "react";
 import { MeContext } from "App/MeContext";
 import SignInPage from "App/SignInPage";
-import { render, screen, act, waitFor, fireEvent } from "tests/utils/rtl";
+import { render, screen, act, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import isCommonPassword from "./CommonPassword";
 import config from "config";
@@ -97,6 +97,7 @@ describe("SignInPage", () => {
     });
 
     it("should display warning banner message", () => {
+      config.REACT_APP_FEATURE_FLAGS = "decommBanner";
       const { getByText } = renderSignIn({
         ...props,
       });

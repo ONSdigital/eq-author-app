@@ -15,6 +15,7 @@ import {
 } from "constants/error-codes";
 
 import suppressConsoleMessage from "tests/utils/supressConsol";
+import config from "config";
 
 /*
  * @description Suppresses specific messages from being logged in the Console.
@@ -167,6 +168,7 @@ describe("QuestionnaireDesignPage", () => {
   });
 
   it("should display warning banner message", () => {
+    config.REACT_APP_FEATURE_FLAGS = "decommBanner";
     const { getByText } = setup();
     expect(getByText("Action required")).toBeTruthy();
   });

@@ -7,6 +7,7 @@ import { MeContext } from "App/MeContext";
 import QuestionnairesPage, { QUESTIONNAIRES_QUERY } from "./";
 
 import { UNPUBLISHED } from "constants/publishStatus";
+import config from "config";
 
 jest.mock("hooks/useLockStatusSubscription", () => ({
   __esModule: true,
@@ -114,6 +115,7 @@ describe("QuestionnairesPage", () => {
   });
 
   it("should display warning banner message", async () => {
+    config.REACT_APP_FEATURE_FLAGS = "decommBanner";
     const { getByText } = renderQuestionnairesPage({
       mocks: [
         {
