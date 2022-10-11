@@ -172,6 +172,7 @@ const CollapsibleNavItem = ({
             containsActiveEntity && !isOpen ? colors.orange : colors.grey
           }
           data-test="CollapsibleNavItem-title"
+          onMouseDown={(e) => e.currentTarget.focus()}
         >
           {Icon && <Icon data-test="CollapsibleNavItem-icon" />}
           <Title>{title}</Title>
