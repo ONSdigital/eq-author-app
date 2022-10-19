@@ -178,7 +178,7 @@ export const UnwrappedSectionRoute = (props) => {
           key={id}
           onUpdate={onUpdateSection}
           showDeleteConfirmModal={showDeleteConfirmModal}
-          onCloseDeleteConfirmDialog={() => setShowDeleteConfirmModal(false)}
+          onCloseDeleteConfirmModal={() => setShowDeleteConfirmModal(false)}
           onDeleteSectionConfirm={handleDeleteSectionConfirm}
           showMoveSectionDialog={showMoveSectionDialog}
           onCloseMoveSectionDialog={() => setMoveSectionDialog(false)}

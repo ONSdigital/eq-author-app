@@ -111,7 +111,7 @@ export class SectionEditor extends React.Component {
       onUpdate,
       onChange,
       showDeleteConfirmModal,
-      onCloseDeleteConfirmDialog,
+      onCloseDeleteConfirmModal,
       onDeleteSectionConfirm,
       match,
     } = this.props;
@@ -128,7 +128,10 @@ export class SectionEditor extends React.Component {
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
-        <Modal isOpen={showDeleteConfirmModal} />
+        <Modal
+          isOpen={showDeleteConfirmModal}
+          onClose={onCloseDeleteConfirmModal}
+        />
         {/* <DeleteConfirmDialog
           isOpen={showDeleteConfirmDialog}
           onClose={onCloseDeleteConfirmDialog}
