@@ -12,17 +12,19 @@ const ModalBackground = styled.div`
   height: 100%;
   overflow: auto;
   background-color: #000000;
-  opacity: 0.4;
+  opacity: 0.5;
 `;
 
 const ModalContainer = styled.div`
   background-color: #fefefe;
-  margin: 15% auto;
+  top: 10.3em;
+  left: 33.6em;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  /* height: 20%; */
+  width: 25em;
   z-index: 20; /* z-index of 20 as Add / import content button has z-index of 15 */
-  position: absolute;
+  position: fixed;
 `;
 
 const CloseButton = styled.span`
