@@ -495,6 +495,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 />
               </Field>
             </RadioContainer>
+            Something here
           </Collapsible>
 
           <Collapsible
