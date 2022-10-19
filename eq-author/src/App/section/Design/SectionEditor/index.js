@@ -9,6 +9,7 @@ import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
 import { Label } from "components/Forms";
+import Modal from "components-themed/Modal";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
 
@@ -109,7 +110,7 @@ export class SectionEditor extends React.Component {
       section,
       onUpdate,
       onChange,
-      showDeleteConfirmDialog,
+      showDeleteConfirmModal,
       onCloseDeleteConfirmDialog,
       onDeleteSectionConfirm,
       match,
@@ -127,7 +128,8 @@ export class SectionEditor extends React.Component {
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
-        <DeleteConfirmDialog
+        <Modal isOpen={showDeleteConfirmModal} />
+        {/* <DeleteConfirmDialog
           isOpen={showDeleteConfirmDialog}
           onClose={onCloseDeleteConfirmDialog}
           onDelete={onDeleteSectionConfirm}
@@ -135,7 +137,7 @@ export class SectionEditor extends React.Component {
           alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
           icon={iconSection}
           data-test="dialog-delete-confirm"
-        />
+        /> */}
         <MoveSectionQuery questionnaireId={match.params.questionnaireId}>
           {this.renderMoveSectionModal}
         </MoveSectionQuery>

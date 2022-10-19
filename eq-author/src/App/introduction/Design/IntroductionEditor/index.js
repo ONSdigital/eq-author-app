@@ -16,7 +16,6 @@ import { InformationPanel } from "components/Panel";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import Panel from "components-themed/panels";
-import Modal from "components-themed/Modal";
 
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
@@ -134,7 +133,6 @@ const IntroductionEditor = ({ introduction }) => {
   return (
     <>
       <Section>
-        <Modal />
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
             Introduction content

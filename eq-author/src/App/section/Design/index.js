@@ -53,7 +53,7 @@ const propTypes = {
   section: CustomPropTypes.section,
 };
 export const UnwrappedSectionRoute = (props) => {
-  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [showMoveSectionDialog, setMoveSectionDialog] = useState(false);
   const addFolderWithPage = useCreatePageWithFolder();
   const addFolder = useCreateFolder();
@@ -100,7 +100,7 @@ export const UnwrappedSectionRoute = (props) => {
   };
 
   const handleDeleteSectionConfirm = () => {
-    setShowDeleteConfirmDialog(false);
+    setShowDeleteConfirmModal(false);
     onDeleteSection(sectionId);
   };
 
@@ -167,7 +167,7 @@ export const UnwrappedSectionRoute = (props) => {
               Duplicate
             </DuplicateButton>
             <IconButtonDelete
-              onClick={() => setShowDeleteConfirmDialog(true)}
+              onClick={() => setShowDeleteConfirmModal(true)}
               data-test="btn-delete"
             >
               Delete
@@ -177,8 +177,8 @@ export const UnwrappedSectionRoute = (props) => {
         <SectionEditor
           key={id}
           onUpdate={onUpdateSection}
-          showDeleteConfirmDialog={showDeleteConfirmDialog}
-          onCloseDeleteConfirmDialog={() => setShowDeleteConfirmDialog(false)}
+          showDeleteConfirmModal={showDeleteConfirmModal}
+          onCloseDeleteConfirmDialog={() => setShowDeleteConfirmModal(false)}
           onDeleteSectionConfirm={handleDeleteSectionConfirm}
           showMoveSectionDialog={showMoveSectionDialog}
           onCloseMoveSectionDialog={() => setMoveSectionDialog(false)}
