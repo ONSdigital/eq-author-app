@@ -181,6 +181,38 @@ const getQuestionnaireMetaById = async (id) => {
   }
 };
 
+const getQuestionnaireByVersionId = async (id, versionId) => {
+  try {
+    const versionSnapshot = await db
+      .collection("questionnaires")
+      .doc(id)
+      .collection("versions")
+      .doc(versionId)
+      .get();
+
+    if (versionSnapshot.empty) {
+      throw new Error("Document doesn't exist");
+    }
+
+    const sectionsSnapshot = await versionSnapshot?.ref
+      ?.collection("sections")
+      ?.get();
+
+    const sections =
+      !sectionsSnapshot || sectionsSnapshot.empty
+        ? []
+        : sectionsSnapshot.docs
+            .map((snap) => snap.data())
+            .sort(({ position: a }, { position: b }) => a - b);
+
+    const version = versionSnapshot.data();
+    return transformedQuestionnaire(sections, version);
+  } catch (error) {
+    logger.error(error, `Unable to get version with ID: ${versionId}`);
+    return null;
+  }
+};
+
 const saveQuestionnaire = async (changedQuestionnaire) => {
   const { id } = changedQuestionnaire;
 
@@ -524,6 +556,7 @@ module.exports = {
   listQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
+  getQuestionnaireByVersionId,
   createComments,
   createUser,
   getUserByExternalId,

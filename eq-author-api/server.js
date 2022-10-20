@@ -12,6 +12,7 @@ const { getLaunchUrl } = require("./middleware/launch");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
 const exportQuestionnaire = require("./middleware/export");
+const exportQuestionnaireByVersionId = require("./middleware/export-version");
 const importQuestionnaire = require("./middleware/import");
 const identificationMiddleware = require("./middleware/identification");
 const getUserFromHeaderBuilder = require("./middleware/identification/getUserFromHeader");
@@ -72,7 +73,7 @@ const createApp = () => {
       },
       hsts: {
         maxAge: 15552000,
-        includeSubDomains: true
+        includeSubDomains: true,
       },
       noSniff: true,
       crossDomain: {
@@ -104,11 +105,11 @@ const createApp = () => {
           usb: [],
           webShare: [],
           xrSpatialTracking: [],
-        }
+        },
       },
       cacheControl: {
         noStore: true,
-        maxAge: 0
+        maxAge: 0,
       },
       pragma: "no-cache",
       contentSecurityPolicy: {
@@ -117,8 +118,8 @@ const createApp = () => {
           objectSrc: ["'none'"],
           childSrc: ["'self'"],
           frameAncestors: ["'none"],
-          upgradeInsecureRequests: ['true'],
-          blockAllMixedContent: ['true'],
+          upgradeInsecureRequests: ["true"],
+          blockAllMixedContent: ["true"],
           baseUri: ["'none'"],
           fontSrc: ["'self'", "https://fonts.gstatic.com"],
           styleSrc: [
@@ -197,6 +198,10 @@ const createApp = () => {
         importQuestionnaire
       );
   }
+  app.get(
+    "/export/:questionnaireId/version/:versionId",
+    exportQuestionnaireByVersionId
+  );
 
   app.post("/signIn", identificationMiddleware(logger), upsertUser);
 
