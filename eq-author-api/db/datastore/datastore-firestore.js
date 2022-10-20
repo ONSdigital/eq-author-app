@@ -38,7 +38,8 @@ const saveSections = (parentDoc, sections) =>
         .doc(section.id)
         .set({ ...section, position })
         .catch((error) => {
-          logger.error(error, "Error writing section");
+          logger.error({ ...error, section: section }, "Error writing section");
+          throw error;
         })
     )
   );
@@ -225,7 +226,6 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
         "Unable to save questionnaire; cannot find required field: ID"
       );
     }
-
     const createdAt = new Date();
     const updatedAt = createdAt;
 
@@ -248,7 +248,12 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       createdAt: new Date(),
     });
 
-    await saveSections(versionDoc, sections);
+    try {
+      await saveSections(versionDoc, sections);
+    } catch (error) {
+      await versionDoc.delete();
+      throw error;
+    }
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {
