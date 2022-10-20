@@ -22,6 +22,7 @@ import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 import Icon from "assets/icon-select.svg";
 import CommentFragment from "graphql/fragments/comment.graphql";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -39,6 +40,8 @@ const inputFilter = gql`
     title
     listId
     drivingQuestion
+    additionalGuidancePanel
+    additionalGuidancePanelSwitch
     drivingPositive
     drivingNegative
     drivingPositiveDescription
@@ -163,6 +166,15 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: ${(props) => (props.open ? "0.4em" : "2em")};
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 const renderErrors = (errors, field) => {
@@ -427,6 +439,51 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 field: "drivingQuestion",
               })}
             />
+          <InlineField open={entity.additionalGuidancePanelSwitch}>
+            <Label htmlFor="toggle-additional-guidance-panel">
+              Additional guidance panel
+            </Label>
+
+            <ToggleSwitch
+              id="toggle-additional-guidance-panel"
+              name="toggle-additional-guidance-panel"
+              hideLabels={false}
+                onChange={() =>
+                    updateListCollectorMutation({
+                      variables: { input: {
+                      additionalGuidancePanelSwitch:
+                        !entity.additionalGuidancePanelSwitch,
+                      additionalGuidancePanel: "",
+                    } },
+                    })
+              }
+              checked={entity.additionalGuidancePanelSwitch}
+            />
+          </InlineField>
+          {entity.additionalGuidancePanelSwitch ? (
+            <RichTextEditor
+              id={`details-additionalGuidancePanel-${entity.id}`}
+              name="additionalGuidancePanel"
+              value={entity.additionalGuidancePanel}
+              label=""
+                onUpdate={({ value }) =>
+                    updateListCollectorMutation({
+                      variables: { input: {
+                       additionalGuidancePanel: value,
+                    } },
+                    })
+               }
+              multiline
+              controls={{
+                heading: true,
+                list: true,
+                bold: true,
+                link: true,
+              }}
+              testSelector="txt-collapsible-additionalGuidancePanel"
+            />
+          ) : null}
+          
             {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
             <RadioContainer>
               <Field>
@@ -495,7 +552,6 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 />
               </Field>
             </RadioContainer>
-            Something here
           </Collapsible>
 
           <Collapsible
@@ -666,6 +722,8 @@ UnwrappedListCollectorPageEditor.fragments = {
       listId
       position
       drivingQuestion
+      additionalGuidancePanel
+      additionalGuidancePanelSwitch
       drivingPositive
       drivingNegative
       drivingPositiveDescription
