@@ -37,6 +37,9 @@ const saveSections = (parentDoc, sections) =>
         .collection("sections")
         .doc(section.id)
         .set({ ...section, position })
+        .catch((error) => {
+          logger.error(error, "Error writing section");
+        })
     )
   );
 
