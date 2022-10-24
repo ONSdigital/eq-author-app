@@ -46,6 +46,7 @@ const Modal = ({
   positiveButtonText,
   negativeButtonText,
   isOpen,
+  onConfirm,
   onClose,
 }) => {
   // https://stackoverflow.com/questions/63074577/close-modal-popup-using-esc-key-on-keyboard
@@ -69,8 +70,12 @@ const Modal = ({
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
           <Warning bold>{warningMessage}</Warning>
-          <Button variant="primary">{positiveButtonText}</Button>
-          <Button variant="secondary">{negativeButtonText}</Button>
+          <Button variant="primary" onClick={onConfirm}>
+            {positiveButtonText}
+          </Button>
+          <Button variant="secondary" onClick={onClose}>
+            {negativeButtonText}
+          </Button>
         </ModalContainer>
       </ThemeProvider>
     )
@@ -98,6 +103,10 @@ Modal.PropTypes = {
    * If true, the modal is displayed on screen.
    */
   isOpen: PropTypes.bool,
+  /**
+   * Function for the modal's positive action.
+   */
+  onConfirm: PropTypes.func,
   /**
    * Function to close the modal.
    */

@@ -133,6 +133,7 @@ export class SectionEditor extends React.Component {
           warningMessage="Test warning"
           positiveButtonText="Delete"
           isOpen={showDeleteConfirmModal}
+          onConfirm={onDeleteSectionConfirm}
           onClose={onCloseDeleteConfirmModal}
         />
         {/* <DeleteConfirmDialog
