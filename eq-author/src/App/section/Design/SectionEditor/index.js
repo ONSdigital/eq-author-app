@@ -130,6 +130,7 @@ export class SectionEditor extends React.Component {
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <Modal
           title="Delete section"
+          warningMessage="Test warning"
           isOpen={showDeleteConfirmModal}
           onClose={onCloseDeleteConfirmModal}
         />

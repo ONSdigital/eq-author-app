@@ -38,7 +38,7 @@ const CloseButton = styled.span`
 
 const Title = styled.h2``;
 
-const Modal = ({ title, isOpen, onClose }) => {
+const Modal = ({ title, warningMessage, isOpen, onClose }) => {
   return (
     isOpen && (
       <>
@@ -46,7 +46,7 @@ const Modal = ({ title, isOpen, onClose }) => {
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
-          <Warning bold>Test warning</Warning>
+          <Warning bold>{warningMessage}</Warning>
           <p>Test</p>
         </ModalContainer>
       </>
