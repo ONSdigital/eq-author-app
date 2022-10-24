@@ -4,8 +4,11 @@ import styled, { ThemeProvider } from "styled-components";
 import { colors, themes } from "constants/theme.js";
 import Theme from "contexts/themeContext";
 
+import IconText from "components/IconText";
 import Button from "components-themed/buttons";
-import Warning from "components-themed/Warning";
+// import Warning from "components-themed/Warning";
+
+import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -40,6 +43,18 @@ const CloseButton = styled.span`
 
 const Title = styled.h2``;
 
+const WarningPanel = styled(IconText)`
+  svg {
+    height: 2em;
+    width: 2em;
+  }
+`;
+
+const WarningPanelText = styled.div`
+  font-weight: bold;
+  margin-left: 0.5em;
+`;
+
 const Modal = ({
   title,
   warningMessage,
@@ -69,7 +84,9 @@ const Modal = ({
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
-          <Warning bold>{warningMessage}</Warning>
+          <WarningPanel icon={WarningIcon} left bold withMargin>
+            <WarningPanelText>{warningMessage}</WarningPanelText>
+          </WarningPanel>
           <Button variant="primary" onClick={onConfirm}>
             {positiveButtonText}
           </Button>
