@@ -42,7 +42,7 @@ const Modal = ({ title, warningMessage, isOpen, onClose }) => {
   return (
     isOpen && (
       <>
-        <ModalBackground />
+        <ModalBackground onClick={onClose} />
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
