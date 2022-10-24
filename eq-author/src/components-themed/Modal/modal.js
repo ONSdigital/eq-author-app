@@ -34,13 +34,16 @@ const CloseButton = styled.span`
   cursor: pointer;
 `;
 
-const Modal = ({ isOpen, onClose }) => {
+const Title = styled.h2``;
+
+const Modal = ({ title, isOpen, onClose }) => {
   return (
     isOpen && (
       <>
         <ModalBackground />
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
+          <Title>{title}</Title>
           <p>Test</p>
         </ModalContainer>
       </>
