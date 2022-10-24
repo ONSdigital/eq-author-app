@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
@@ -48,6 +48,18 @@ const Modal = ({
   isOpen,
   onClose,
 }) => {
+  // https://stackoverflow.com/questions/63074577/close-modal-popup-using-esc-key-on-keyboard
+  useEffect(() => {
+    const close = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  });
+
   return (
     isOpen && (
       <Theme themeName={"ons"}>
