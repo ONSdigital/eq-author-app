@@ -23,7 +23,7 @@ const ModalContainer = styled.div`
   background-color: #fefefe;
   top: 10.3em;
   left: 33.6em;
-  padding: 20px;
+  padding: 0px 10px 20px 20px;
   border: 1px solid #888;
   /* height: 20%; */
   width: 25em;
