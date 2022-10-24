@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
+import Warning from "components-themed/Warning";
+
 const ModalBackground = styled.div`
   position: fixed;
   z-index: 20; /* z-index of 20 as Add / import content button has z-index of 15 */
@@ -44,6 +46,7 @@ const Modal = ({ title, isOpen, onClose }) => {
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
+          <Warning bold>Test warning</Warning>
           <p>Test</p>
         </ModalContainer>
       </>
