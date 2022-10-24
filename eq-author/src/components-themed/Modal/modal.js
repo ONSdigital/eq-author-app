@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import { colors } from "constants/theme.js";
+import styled, { ThemeProvider } from "styled-components";
+import { colors, themes } from "constants/theme.js";
 import Theme from "contexts/themeContext";
 
 import Button from "components-themed/buttons";
@@ -60,9 +60,10 @@ const Modal = ({
     return () => window.removeEventListener("keydown", close);
   });
 
+  // TODO: ThemeProvider used instead of Theme wrapper
   return (
     isOpen && (
-      <Theme themeName={"ons"}>
+      <ThemeProvider theme={themes.ons}>
         <ModalBackground onClick={onClose} />
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
@@ -71,7 +72,7 @@ const Modal = ({
           <Button variant="primary">{positiveButtonText}</Button>
           <Button variant="secondary">{negativeButtonText}</Button>
         </ModalContainer>
-      </Theme>
+      </ThemeProvider>
     )
   );
 };
