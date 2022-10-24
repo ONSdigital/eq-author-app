@@ -131,6 +131,7 @@ export class SectionEditor extends React.Component {
         <Modal
           title="Delete section"
           warningMessage="Test warning"
+          positiveButtonText="Delete"
           isOpen={showDeleteConfirmModal}
           onClose={onCloseDeleteConfirmModal}
         />

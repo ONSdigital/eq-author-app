@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
+import Theme from "contexts/themeContext";
 
+import Button from "components-themed/buttons";
 import Warning from "components-themed/Warning";
 
 const ModalBackground = styled.div`
@@ -38,20 +40,60 @@ const CloseButton = styled.span`
 
 const Title = styled.h2``;
 
-const Modal = ({ title, warningMessage, isOpen, onClose }) => {
+const Modal = ({
+  title,
+  warningMessage,
+  positiveButtonText,
+  negativeButtonText,
+  isOpen,
+  onClose,
+}) => {
   return (
     isOpen && (
-      <>
+      <Theme themeName={"ons"}>
         <ModalBackground onClick={onClose} />
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
           <Warning bold>{warningMessage}</Warning>
-          <p>Test</p>
+          <Button variant="primary">{positiveButtonText}</Button>
+          <Button variant="secondary">{negativeButtonText}</Button>
         </ModalContainer>
-      </>
+      </Theme>
     )
   );
+};
+
+Modal.PropTypes = {
+  /**
+   * Text displayed as the modal's title.
+   */
+  title: PropTypes.string,
+  /**
+   * The warning message displayed on the icon - if no message is provided, warning icon is not rendered.
+   */
+  warningMessage: PropTypes.string,
+  /**
+   * The text displayed in the green positive action button.
+   */
+  positiveButtonText: PropTypes.string,
+  /**
+   * The text displayed in the grey negative action button.
+   */
+  negativeButtonText: PropTypes.string,
+  /**
+   * If true, the modal is displayed on screen.
+   */
+  isOpen: PropTypes.bool,
+  /**
+   * Function to close the modal.
+   */
+  onClose: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  positiveButtonText: "Confirm",
+  negativeButtonText: "Cancel",
 };
 
 export default Modal;
