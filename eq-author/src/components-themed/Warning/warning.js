@@ -1,32 +1,35 @@
 import React from "react";
-import { ReactComponent as WarningIcon } from "assets/icon-warning-circle.svg";
+import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const StyledWarningIcon = styled(WarningIcon)`
-  margin-right: 0.5em;
+import IconText from "components/IconText";
+
+const WarningPanel = styled(IconText)`
+  svg {
+    height: 2em;
+    width: 2em;
+  }
 `;
 
-const Flex = styled.div`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-`;
-
-const WarningText = styled.span`
+const WarningPanelText = styled.div`
   font-weight: ${(props) => props.bold && "bold"};
+  margin-left: 0.5em;
 `;
 
 const Warning = ({ bold, children }) => (
-  <Flex>
-    <StyledWarningIcon />
-    <WarningText bold={bold}>{children}</WarningText>
-  </Flex>
+  <WarningPanel icon={WarningIcon} left bold withMargin>
+    <WarningPanelText bold={bold}>{children}</WarningPanelText>
+  </WarningPanel>
 );
 
 Warning.propTypes = {
   bold: PropTypes.bool,
   children: PropTypes.node,
+};
+
+Warning.defaultProps = {
+  bold: true,
 };
 
 export default Warning;
