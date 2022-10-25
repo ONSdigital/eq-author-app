@@ -39,6 +39,11 @@ const CloseButton = styled.span`
 
 const Title = styled.h2``;
 
+const Subtitle = styled.h3`
+  color: ${colors.primary};
+  margin-left: 0.12em;
+`;
+
 const StyledButton = styled(Button)`
   margin-top: 3em;
   margin-right: ${(props) => props.margin && `0.5em`};
@@ -46,6 +51,7 @@ const StyledButton = styled(Button)`
 
 const Modal = ({
   title,
+  subtitle,
   warningMessage,
   positiveButtonText,
   negativeButtonText,
@@ -73,6 +79,7 @@ const Modal = ({
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
+          {subtitle && <Subtitle>{subtitle}</Subtitle>}
           {warningMessage && <Warning>{warningMessage}</Warning>}
           <StyledButton variant="primary" margin onClick={onConfirm}>
             {positiveButtonText}

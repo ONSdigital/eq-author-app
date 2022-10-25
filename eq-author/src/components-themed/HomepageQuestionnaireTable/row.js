@@ -441,6 +441,7 @@ export const Row = ({
       </TR>
       <Modal
         title={DELETE_QUESTIONNAIRE_TITLE}
+        subtitle={"Test subtitle"}
         warningMessage={DELETE_QUESTIONNAIRE_WARNING}
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
