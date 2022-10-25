@@ -16,6 +16,11 @@ import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
 import * as Headings from "constants/table-headings";
+import {
+  DELETE_QUESTIONNAIRE_TITLE,
+  DELETE_QUESTIONNAIRE_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content.js";
 
 import FormattedDate from "./FormattedDate.js";
 import questionConfirmationIcon from "assets/icon-questionnaire.svg";
@@ -25,6 +30,7 @@ import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
 import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
 
 import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
+import Modal from "components-themed/Modal";
 
 export const QuestionnaireLink = styled.span`
   color: ${colors.blueLink};
@@ -433,14 +439,13 @@ export const Row = ({
       >
         {tableHeadings.map(renderEnabled)}
       </TR>
-      <DeleteConfirmDialog
+      <Modal
+        title={DELETE_QUESTIONNAIRE_TITLE}
+        warningMessage={DELETE_QUESTIONNAIRE_WARNING}
+        positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
+        onConfirm={handleModalConfirm}
         onClose={handleModalClose}
-        onDelete={handleModalConfirm}
-        title={displayName}
-        alertText="This questionnaire including all sections and questions will be deleted."
-        icon={questionConfirmationIcon}
-        data-test="delete-questionnaire"
       />
     </>
   );

@@ -141,15 +141,6 @@ export class SectionEditor extends React.Component {
           onConfirm={onDeleteSectionConfirm}
           onClose={onCloseDeleteConfirmModal}
         />
-        {/* <DeleteConfirmDialog
-          isOpen={showDeleteConfirmDialog}
-          onClose={onCloseDeleteConfirmDialog}
-          onDelete={onDeleteSectionConfirm}
-          title={section?.displayName}
-          alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
-          icon={iconSection}
-          data-test="dialog-delete-confirm"
-        /> */}
         <MoveSectionQuery questionnaireId={match.params.questionnaireId}>
           {this.renderMoveSectionModal}
         </MoveSectionQuery>
