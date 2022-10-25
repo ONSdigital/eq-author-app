@@ -25,6 +25,11 @@ import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
 import iconSection from "./icon-dialog-section.svg";
 import { sectionErrors } from "constants/validationMessages";
+import {
+  DELETE_SECTION_TITLE,
+  DELETE_PAGE_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const titleControls = {
   emphasis: true,
@@ -129,9 +134,9 @@ export class SectionEditor extends React.Component {
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <Modal
-          title="Delete section"
-          warningMessage="Test warning"
-          positiveButtonText="Delete"
+          title={DELETE_SECTION_TITLE}
+          warningMessage={DELETE_PAGE_WARNING}
+          positiveButtonText={DELETE_BUTTON_TEXT}
           isOpen={showDeleteConfirmModal}
           onConfirm={onDeleteSectionConfirm}
           onClose={onCloseDeleteConfirmModal}

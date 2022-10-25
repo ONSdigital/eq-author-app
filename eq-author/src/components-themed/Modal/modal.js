@@ -25,7 +25,7 @@ const ModalContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 25em;
+  width: 30em;
   z-index: 20; /* z-index of 20 as Add / import content button has z-index of 15 */
   position: fixed;
 `;
