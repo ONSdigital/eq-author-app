@@ -15,12 +15,12 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #000000;
-  opacity: 0.5;
+  background-color: ${({ theme }) => theme.colors.modalBackground};
+  opacity: 0.7;
 `;
 
 const ModalContainer = styled.div`
-  background-color: #fefefe;
+  background-color: ${({ theme }) => theme.colors.modalContainer};
   padding: 0px 10px 20px 20px;
   left: 50%;
   top: 50%;
