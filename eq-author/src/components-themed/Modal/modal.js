@@ -22,7 +22,6 @@ const ModalBackground = styled.div`
 const ModalContainer = styled.div`
   background-color: #fefefe;
   padding: 0px 10px 20px 20px;
-  border: 1px solid #888;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -74,7 +73,7 @@ const Modal = ({
         <ModalContainer>
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
-          <Warning>{warningMessage}</Warning>
+          {warningMessage && <Warning>{warningMessage}</Warning>}
           <StyledButton variant="primary" margin onClick={onConfirm}>
             {positiveButtonText}
           </StyledButton>
