@@ -197,6 +197,7 @@ export const themes = {
       branded: colors.oceanBlue,
       modalContainer: colors.white,
       modalBackground: colors.black,
+      modalSubtitle: colors.oceanBlue,
     },
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",

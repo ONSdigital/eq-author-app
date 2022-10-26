@@ -21,7 +21,7 @@ const ModalBackground = styled.div`
 
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.modalContainer};
-  padding: 0px 10px 20px 20px;
+  padding: 0px 15px 20px 20px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -40,7 +40,7 @@ const CloseButton = styled.span`
 const Title = styled.h2``;
 
 const Subtitle = styled.h3`
-  color: ${colors.primary};
+  color: ${({ theme }) => theme.colors.modalSubtitle};
   margin-left: 0.12em;
 `;
 
