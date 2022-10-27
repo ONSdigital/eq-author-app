@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { ThemeProvider } from "styled-components";
+import FocusTrap from "focus-trap-react";
+
 import { colors, themes } from "constants/theme.js";
 import Theme from "contexts/themeContext";
 
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
-// import Warning from "components-themed/Warning";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -31,11 +32,16 @@ const ModalContainer = styled.div`
   position: fixed;
 `;
 
-const CloseButton = styled.span`
+const CloseButton = styled.button`
   color: ${({ theme }) => theme.colors.text};
   float: right;
   font-size: 32px;
+  /* Removes default button styling */
   cursor: pointer;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
 `;
 
 const WarningText = styled.span`
@@ -84,22 +90,31 @@ const Modal = ({
     isOpen && (
       <ThemeProvider theme={themes.ons}>
         <ModalBackground onClick={onClose} />
-        <ModalContainer>
-          <CloseButton onClick={onClose}>&times;</CloseButton>
-          <Title>{title}</Title>
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
-          {warningMessage && (
-            <Panel withPanelMargin={false} variant="warning">
-              <WarningText>{warningMessage}</WarningText>
-            </Panel>
-          )}
-          <StyledButton variant="primary" margin onClick={onConfirm}>
-            {positiveButtonText}
-          </StyledButton>
-          <StyledButton variant="secondary" onClick={onClose}>
-            {negativeButtonText}
-          </StyledButton>
-        </ModalContainer>
+        <FocusTrap>
+          <ModalContainer>
+            <CloseButton tabIndex={0} onClick={onClose}>
+              &times;
+            </CloseButton>
+            <Title>{title}</Title>
+            {subtitle && <Subtitle>{subtitle}</Subtitle>}
+            {warningMessage && (
+              <Panel withPanelMargin={false} variant="warning">
+                <WarningText>{warningMessage}</WarningText>
+              </Panel>
+            )}
+            <StyledButton
+              variant="primary"
+              margin
+              autofocus
+              onClick={onConfirm}
+            >
+              {positiveButtonText}
+            </StyledButton>
+            <StyledButton variant="secondary" onClick={onClose}>
+              {negativeButtonText}
+            </StyledButton>
+          </ModalContainer>
+        </FocusTrap>
       </ThemeProvider>
     )
   );
