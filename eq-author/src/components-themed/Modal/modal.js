@@ -5,7 +5,8 @@ import { colors, themes } from "constants/theme.js";
 import Theme from "contexts/themeContext";
 
 import Button from "components-themed/buttons";
-import Warning from "components-themed/Warning";
+import Panel from "components-themed/panels";
+// import Warning from "components-themed/Warning";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -37,10 +38,17 @@ const CloseButton = styled.span`
   cursor: pointer;
 `;
 
-const Title = styled.h2``;
+const WarningText = styled.span`
+  margin-top: 1.3em;
+`;
+
+const Title = styled.h2`
+  margin-bottom: 0.1em;
+`;
 
 const Subtitle = styled.h3`
   color: ${({ theme }) => theme.colors.modalSubtitle};
+  margin-bottom: 0.1em;
   margin-left: 0.12em;
 `;
 
@@ -80,7 +88,11 @@ const Modal = ({
           <CloseButton onClick={onClose}>&times;</CloseButton>
           <Title>{title}</Title>
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
-          {warningMessage && <Warning>{warningMessage}</Warning>}
+          {warningMessage && (
+            <Panel withPanelMargin={false} variant="warning">
+              <WarningText>{warningMessage}</WarningText>
+            </Panel>
+          )}
           <StyledButton variant="primary" margin onClick={onConfirm}>
             {positiveButtonText}
           </StyledButton>
