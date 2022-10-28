@@ -63,6 +63,10 @@ const StyledButton = styled(Button)`
   margin-right: ${(props) => props.margin && `0.5em`};
 `;
 
+const ButtonContainer = styled.div`
+  float: right;
+`;
+
 const Modal = ({
   title,
   subtitle,
@@ -102,17 +106,14 @@ const Modal = ({
                 <WarningText>{warningMessage}</WarningText>
               </Panel>
             )}
-            <StyledButton
-              variant="primary"
-              margin
-              autofocus
-              onClick={onConfirm}
-            >
-              {positiveButtonText}
-            </StyledButton>
-            <StyledButton variant="secondary" onClick={onClose}>
-              {negativeButtonText}
-            </StyledButton>
+            <ButtonContainer>
+              <StyledButton variant="secondary" margin onClick={onClose}>
+                {negativeButtonText}
+              </StyledButton>
+              <StyledButton variant="primary" autofocus onClick={onConfirm}>
+                {positiveButtonText}
+              </StyledButton>
+            </ButtonContainer>
           </ModalContainer>
         </FocusTrap>
       </ThemeProvider>
