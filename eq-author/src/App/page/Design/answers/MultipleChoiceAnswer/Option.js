@@ -126,12 +126,14 @@ export const StatelessOption = ({
     const allCheckboxAnswers = [];
     const folderData = previousCheckboxAnswers;
     if (folderData.length !== 0) {
-      folderData[0].folders.forEach((folder) => {
-        folder.pages.forEach((page) => {
-          page.answers.forEach((answer) => {
-            if (answer?.options?.length > 1) {
-              allCheckboxAnswers.push(answer);
-            }
+      folderData.forEach((section) => {
+        section.folders.forEach((folder) => {
+          folder.pages.forEach((page) => {
+            page.answers.forEach((answer) => {
+              if (answer?.options?.length > 1) {
+                allCheckboxAnswers.push(answer);
+              }
+            });
           });
         });
       });
