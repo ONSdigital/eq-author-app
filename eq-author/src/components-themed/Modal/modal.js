@@ -9,6 +9,8 @@ import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 
+const Wrapper = styled.div``;
+
 const ModalBackground = styled.div`
   position: fixed;
   z-index: 20; /* z-index of 20 as Add / import content button has z-index of 15 */
@@ -93,28 +95,30 @@ const Modal = ({
   return (
     isOpen && (
       <ThemeProvider theme={themes.ons}>
-        <ModalBackground onClick={onClose} />
         <FocusTrap>
-          <ModalContainer>
-            <CloseButton tabIndex={0} onClick={onClose}>
-              &times;
-            </CloseButton>
-            <Title>{title}</Title>
-            {subtitle && <Subtitle>{subtitle}</Subtitle>}
-            {warningMessage && (
-              <Panel withPanelMargin={false} variant="warning">
-                <WarningText>{warningMessage}</WarningText>
-              </Panel>
-            )}
-            <ButtonContainer>
-              <StyledButton variant="secondary" margin onClick={onClose}>
-                {negativeButtonText}
-              </StyledButton>
-              <StyledButton variant="primary" autofocus onClick={onConfirm}>
-                {positiveButtonText}
-              </StyledButton>
-            </ButtonContainer>
-          </ModalContainer>
+          <Wrapper>
+            <ModalBackground onClick={onClose} />
+            <ModalContainer>
+              <CloseButton tabIndex={0} onClick={onClose}>
+                &times;
+              </CloseButton>
+              <Title>{title}</Title>
+              {subtitle && <Subtitle>{subtitle}</Subtitle>}
+              {warningMessage && (
+                <Panel withPanelMargin={false} variant="warning">
+                  <WarningText>{warningMessage}</WarningText>
+                </Panel>
+              )}
+              <ButtonContainer>
+                <StyledButton variant="secondary" margin onClick={onClose}>
+                  {negativeButtonText}
+                </StyledButton>
+                <StyledButton variant="primary" autofocus onClick={onConfirm}>
+                  {positiveButtonText}
+                </StyledButton>
+              </ButtonContainer>
+            </ModalContainer>
+          </Wrapper>
         </FocusTrap>
       </ThemeProvider>
     )
