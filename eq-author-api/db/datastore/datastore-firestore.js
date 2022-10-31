@@ -252,10 +252,22 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
+    let sectionCount = originalQuestionnaire?.sections.length;
+    logger.info(
+      { qid: originalQuestionnaire?.id, sectionCount },
+      "Save questionnare: before merge with changed questionnaire"
+    );
+
     const updatedQuestionnaire = removeEmpty({
       ...originalQuestionnaire,
       ...changedQuestionnaire,
     });
+
+    sectionCount = updatedQuestionnaire?.sections.length;
+    logger.info(
+      { qid: updatedQuestionnaire?.id, sectionCount },
+      "Save questionnare: after merge with changed questionnaire"
+    );
 
     const { sections } = updatedQuestionnaire;
 
