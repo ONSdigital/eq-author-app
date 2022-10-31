@@ -43,6 +43,12 @@ const EditorToolbar = ({
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showMoveFolderModal, setMoveFolderModal] = useState(false);
+
+  const handleDeleteButtonClick = () => {
+    setShowDeleteModal(false);
+    onDelete();
+  };
+
   return (
     <>
       <Toolbar>
@@ -71,10 +77,7 @@ const EditorToolbar = ({
         warningMessage={DELETE_FOLDER_WARNING}
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
-        onConfirm={() => {
-          setShowDeleteModal(false);
-          onDelete();
-        }}
+        onConfirm={() => handleDeleteButtonClick()}
         onClose={() => setShowDeleteModal(false)}
       />
       <MoveFolderModal
