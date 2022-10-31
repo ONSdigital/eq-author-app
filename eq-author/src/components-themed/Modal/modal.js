@@ -99,9 +99,7 @@ const Modal = ({
           <Wrapper>
             <ModalBackground onClick={onClose} />
             <ModalContainer>
-              <CloseButton tabIndex={0} onClick={onClose}>
-                &times;
-              </CloseButton>
+              <CloseButton onClick={onClose}>&times;</CloseButton>
               <Title>{title}</Title>
               {subtitle && <Subtitle>{subtitle}</Subtitle>}
               {warningMessage && (
@@ -125,7 +123,7 @@ const Modal = ({
   );
 };
 
-Modal.PropTypes = {
+Modal.propTypes = {
   /**
    * Text displayed as the modal's title.
    */

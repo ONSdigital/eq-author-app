@@ -7,14 +7,18 @@ import { isFunction, flowRight } from "lodash";
 
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import { Label } from "components/Forms";
 import AliasEditor from "components/AliasEditor";
+import Modal from "components-themed/Modal";
 
-import iconPage from "./icon-dialog-page.svg";
+import {
+  DELETE_QUESTION_PAGE_TITLE,
+  DELETE_BUTTON_TEXT,
+  DELETE_PAGE_WARNING,
+} from "constants/modal-content";
 
 import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
@@ -76,14 +80,8 @@ export class PageHeader extends React.Component {
     questionnaire.sections.length === 1;
 
   render() {
-    const {
-      page,
-      onChange,
-      onUpdate,
-      isDuplicateDisabled,
-      alertText,
-      questionnaire,
-    } = this.props;
+    const { page, onChange, onUpdate, isDuplicateDisabled, questionnaire } =
+      this.props;
 
     return (
       <>
@@ -119,14 +117,13 @@ export class PageHeader extends React.Component {
             </IconButtonDelete>
           </Buttons>
         </Toolbar>
-        <DeleteConfirmDialog
+        <Modal
+          title={DELETE_QUESTION_PAGE_TITLE}
+          warningMessage={DELETE_PAGE_WARNING}
+          positiveButtonText={DELETE_BUTTON_TEXT}
           isOpen={this.state.showDeleteConfirmDialog}
+          onConfirm={this.handleDeletePageConfirm}
           onClose={this.handleCloseDeleteConfirmDialog}
-          onDelete={this.handleDeletePageConfirm}
-          title={page.displayName}
-          alertText={alertText}
-          icon={iconPage}
-          data-test="delete-page"
         />
         <MovePageModal
           isOpen={this.state.showMovePageDialog}
