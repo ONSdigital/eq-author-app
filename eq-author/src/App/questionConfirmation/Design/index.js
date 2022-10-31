@@ -10,17 +10,22 @@ import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
 import Error from "components/Error";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import Loading from "components/Loading";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import Modal from "components-themed/Modal";
 
 import withUpdateQuestionConfirmation from "./withUpdateQuestionConfirmation";
 import withDeleteQuestionConfirmation from "./withDeleteQuestionConfirmation";
-import questionConfirmationIcon from "./question-confirmation-icon.svg";
 import Editor from "./Editor";
 import Panel from "components/Panel";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
 
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
+import {
+  DELETE_CONFIRMATION_QUESTION_TITLE,
+  DELETE_PAGE_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const propTypes = {
   loading: PropTypes.bool.isRequired,
@@ -39,10 +44,10 @@ export const UnwrappedQuestionConfirmationRoute = ({
   onUpdateQuestionConfirmation,
   onDeleteQuestionConfirmation,
 }) => {
-  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
 
   const handleDeletePageConfirm = () => {
-    setShowDeleteConfirmDialog(false);
+    setShowDeleteConfirmModal(false);
     onDeleteQuestionConfirmation(data.questionConfirmation);
   };
 
@@ -64,20 +69,19 @@ export const UnwrappedQuestionConfirmationRoute = ({
 
     return (
       <>
-        <DeleteConfirmDialog
-          isOpen={showDeleteConfirmDialog}
-          onClose={() => setShowDeleteConfirmDialog(false)}
-          onDelete={handleDeletePageConfirm}
-          title={questionConfirmation.displayName}
-          alertText="All edits will be removed."
-          icon={questionConfirmationIcon}
-          data-test="delete-question-confirmation"
+        <Modal
+          title={DELETE_CONFIRMATION_QUESTION_TITLE}
+          warningMessage={DELETE_PAGE_WARNING}
+          positiveButtonText={DELETE_BUTTON_TEXT}
+          isOpen={showDeleteConfirmModal}
+          onConfirm={handleDeletePageConfirm}
+          onClose={() => setShowDeleteConfirmModal(false)}
         />
         <Toolbar>
           <Buttons>
             <IconButtonDelete
               data-test="btn-delete"
-              onClick={() => setShowDeleteConfirmDialog(true)}
+              onClick={() => setShowDeleteConfirmModal(true)}
             >
               Delete
             </IconButtonDelete>
