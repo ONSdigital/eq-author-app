@@ -16,6 +16,12 @@ import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
 import CommentEditor from "components/Comments/CommentEditor";
 import CommentHighlight from "components/Comments/CommentHighlight";
+import Modal from "components-themed/Modal";
+
+import {
+  DELETE_COMMENT_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
@@ -151,6 +157,7 @@ const Comment = ({
   const userReadComment = readBy?.some((id) => id === me.id);
 
   const [editing, setEditing] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const authorInitials = authorName
     .match(/\b(\w)/g)
@@ -184,6 +191,14 @@ const Comment = ({
     },
     [id, subjectId, rootId, isReply, updateComment, updateReply]
   );
+
+  const handleDeleteButtonClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
 
   const onDeleteComment = useCallback(() => {
     if (isReply) {
@@ -274,6 +289,13 @@ const Comment = ({
         </CommentHighlight>
       ) : (
         <Wrapper data-test="Comment">
+          <Modal
+            title={DELETE_COMMENT_TITLE}
+            positiveButtonText={DELETE_BUTTON_TEXT}
+            isOpen={showDeleteModal}
+            onConfirm={onDeleteComment}
+            onClose={handleCloseDeleteModal}
+          />
           <Header data-test="Comment__Header">
             <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
             <ColumnWrapper>
@@ -299,7 +321,7 @@ const Comment = ({
                 <IconButton
                   data-test="Comment__DeleteCommentBtn"
                   icon={iconClose}
-                  onClick={() => onDeleteComment()}
+                  onClick={() => handleDeleteButtonClick()}
                 >
                   Delete comment
                 </IconButton>
