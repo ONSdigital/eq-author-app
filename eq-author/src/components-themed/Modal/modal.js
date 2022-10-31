@@ -111,7 +111,7 @@ const Modal = ({
                 <StyledButton variant="secondary" margin onClick={onClose}>
                   {negativeButtonText}
                 </StyledButton>
-                <StyledButton variant="primary" autofocus onClick={onConfirm}>
+                <StyledButton variant="primary" onClick={onConfirm}>
                   {positiveButtonText}
                 </StyledButton>
               </ButtonContainer>

@@ -21,6 +21,8 @@ export const DELETE_PAGE_WARNING =
   "All edits, properties and routing settings will also be removed.";
 export const DELETE_QUESTIONNAIRE_WARNING =
   "This questionnaire including all sections and questions will be deleted.";
+export const DELETE_FOLDER_WARNING =
+  "The folder and all its contents will be removed.";
 
 // Delete button text
 export const DELETE_BUTTON_TEXT = "Delete";

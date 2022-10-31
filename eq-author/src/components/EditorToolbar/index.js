@@ -8,10 +8,16 @@ import ShortCodeEditor from "components/ShortCodeEditor";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import MoveFolderModal from "App/page/Design/MoveEntityModal";
 
 import iconFolder from "assets/icon-dialog-folder.svg";
+import Modal from "components-themed/Modal";
+
+import {
+  DELETE_FOLDER_TITLE,
+  DELETE_FOLDER_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const deleteAlertText = {
   folder:
@@ -60,17 +66,16 @@ const EditorToolbar = ({
         </Buttons>
       </Toolbar>
 
-      <DeleteConfirmDialog
+      <Modal
+        title={DELETE_FOLDER_TITLE}
+        warningMessage={DELETE_FOLDER_WARNING}
+        positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onDelete={() => {
+        onConfirm={() => {
           setShowDeleteModal(false);
           onDelete();
         }}
-        title={shortCode || title || `Untitled ${pageType}`}
-        alertText={deleteAlertText[pageType]}
-        icon={icons[pageType]}
-        data-test={`delete-${pageType}-modal`}
+        onClose={() => setShowDeleteModal(false)}
       />
       <MoveFolderModal
         isOpen={showMoveFolderModal}
