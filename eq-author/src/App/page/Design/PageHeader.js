@@ -16,6 +16,8 @@ import Modal from "components-themed/Modal";
 
 import {
   DELETE_QUESTION_PAGE_TITLE,
+  DELETE_CALCULATED_SUMMARY_TITLE,
+  DELETE_LIST_COLLECTOR_TITLE,
   DELETE_BUTTON_TEXT,
   DELETE_PAGE_WARNING,
 } from "constants/modal-content";
@@ -79,6 +81,19 @@ export class PageHeader extends React.Component {
     questionnaire.sections[0].folders.length <= 1 &&
     questionnaire.sections.length === 1;
 
+  deleteModalTitle = (pageType) => {
+    switch (pageType) {
+      case "QuestionPage":
+        return DELETE_QUESTION_PAGE_TITLE;
+      case "CalculatedSummaryPage":
+        return DELETE_CALCULATED_SUMMARY_TITLE;
+      case "ListCollectorPage":
+        return DELETE_LIST_COLLECTOR_TITLE;
+      default:
+        return DELETE_QUESTION_PAGE_TITLE;
+    }
+  };
+
   render() {
     const { page, onChange, onUpdate, isDuplicateDisabled, questionnaire } =
       this.props;
@@ -118,7 +133,7 @@ export class PageHeader extends React.Component {
           </Buttons>
         </Toolbar>
         <Modal
-          title={DELETE_QUESTION_PAGE_TITLE}
+          title={this.deleteModalTitle(page.pageType)}
           warningMessage={DELETE_PAGE_WARNING}
           positiveButtonText={DELETE_BUTTON_TEXT}
           isOpen={this.state.showDeleteConfirmDialog}
