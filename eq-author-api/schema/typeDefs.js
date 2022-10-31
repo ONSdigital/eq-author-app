@@ -241,6 +241,7 @@ type ListCollectorPage implements Page & Skippable & Routable {
   folder: Folder!
   position: Int!
   drivingQuestion: String
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   drivingPositive: String
   drivingNegative: String
@@ -973,6 +974,7 @@ input CreateListCollectorPageInput {
   folderId: ID!
   listId: ID
   drivingQuestion: String
+  additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   drivingPositive: String
   drivingNegative: String
@@ -992,6 +994,7 @@ input UpdateListCollectorPageInput {
   listId: ID
   drivingQuestion: String!
   additionalGuidancePanel: String!
+  additionalGuidancePanelSwitch: Boolean
   drivingPositive: String!
   drivingNegative: String!
   drivingPositiveDescription: String

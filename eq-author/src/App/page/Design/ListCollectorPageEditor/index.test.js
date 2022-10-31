@@ -112,6 +112,7 @@ describe("List Collector Page Editor", () => {
       alias: "Who am I?",
       drivingQuestion: "",
       additionalGuidancePanel: "No",
+      additionalGuidancePanelSwitch: "No",
       drivingPositive: "Yes",
       drivingNegative: "No",
       drivingPositiveDescription: "",

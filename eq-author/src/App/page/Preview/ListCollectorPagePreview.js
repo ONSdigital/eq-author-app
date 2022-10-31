@@ -145,6 +145,7 @@ const ListCollectorPagePreview = ({ page }) => {
   const {
     drivingQuestion,
     additionalGuidancePanel,
+    additionalGuidancePanelSwitch,
     drivingPositive,
     drivingNegative,
     drivingPositiveDescription,

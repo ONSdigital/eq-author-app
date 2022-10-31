@@ -439,52 +439,74 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 field: "drivingQuestion",
               })}
             />
-          <InlineField open={entity.additionalGuidancePanelSwitch}>
-            <Label htmlFor="toggle-additional-guidance-panel">
-              Additional guidance panel
-            </Label>
-
-            <ToggleSwitch
-              id="toggle-additional-guidance-panel"
-              name="toggle-additional-guidance-panel"
-              hideLabels={false}
-                onChange={() =>
-                    updateListCollectorMutation({
-                      variables: { input: {
-                      additionalGuidancePanelSwitch:
-                        !entity.additionalGuidancePanelSwitch,
-                      additionalGuidancePanel: "",
-                    } },
-                    })
-              }
-              checked={entity.additionalGuidancePanelSwitch}
-            />
-          </InlineField>
-          {entity.additionalGuidancePanelSwitch ? (
-            <RichTextEditor
-              id={`details-additionalGuidancePanel-${entity.id}`}
-              name="additionalGuidancePanel"
-              value={entity.additionalGuidancePanel}
-              label=""
-                onUpdate={({ value }) =>
-                    updateListCollectorMutation({
-                      variables: { input: {
-                       additionalGuidancePanel: value,
-                    } },
-                    })
-               }
-              multiline
-              controls={{
-                heading: true,
-                list: true,
-                bold: true,
-                link: true,
-              }}
-              testSelector="txt-collapsible-additionalGuidancePanel"
-            />
-          ) : null}
-          
             {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
+            <InlineField open={entity.additionalGuidancePanelSwitch}>
+              <Label htmlFor="toggle-additional-guidance-panel">
+                Additional guidance panel
+              </Label>
+
+              <ToggleSwitch
+                id="toggle-additional-guidance-panel"
+                name="toggle-additional-guidance-panel"
+                hideLabels={false}
+                  onChange={() =>
+                      updateListCollectorMutation({
+                        variables: {
+                          input: {
+                            id: entity.id,
+                            drivingQuestion: entity.drivingQuestion,
+                            drivingPositive: entity.drivingPositive,
+                            drivingPositiveDescription: entity.drivingPositiveDescription,
+                            drivingNegative: entity.drivingNegative,
+                            drivingNegativeDescription: entity.drivingNegativeDescription,
+                            anotherTitle: entity.anotherTitle,
+                            anotherPositive: entity.anotherPositive,
+                            anotherPositiveDescription: entity.anotherPositiveDescription,
+                            anotherNegative: entity.anotherNegative,
+                            anotherNegativeDescription: entity.anotherNegativeDescription,
+                            additionalGuidancePanelSwitch: !entity.additionalGuidancePanelSwitch,
+                            additionalGuidancePanel: entity.additionalGuidancePanel,
+                      } },
+                      })
+                }
+                checked={entity.additionalGuidancePanelSwitch}
+              />
+            </InlineField>
+            {entity.additionalGuidancePanelSwitch ? (
+              <RichTextEditor
+                id={`details-additionalGuidancePanel-${entity.id}`}
+                name="additionalGuidancePanel"
+                value={entity.additionalGuidancePanel}
+                label=""
+                  onUpdate={({ value }) =>
+                      updateListCollectorMutation({
+                        variables: { input: {
+                          id: entity.id,
+                          drivingQuestion: entity.drivingQuestion,
+                          drivingPositive: entity.drivingPositive,
+                          drivingPositiveDescription: entity.drivingPositiveDescription,
+                          drivingNegative: entity.drivingNegative,
+                          drivingNegativeDescription: entity.drivingNegativeDescription,
+                          anotherTitle: entity.anotherTitle,
+                          anotherPositive: entity.anotherPositive,
+                          anotherPositiveDescription: entity.anotherPositiveDescription,
+                          anotherNegative: entity.anotherNegative,
+                          anotherNegativeDescription: entity.anotherNegativeDescription,
+                          additionalGuidancePanelSwitch: !entity.additionalGuidancePanelSwitch,
+                          additionalGuidancePanel: value,
+                      } },
+                      })
+                }
+                multiline
+                controls={{
+                  heading: true,
+                  list: true,
+                  bold: true,
+                  link: true,
+                }}
+                testSelector="txt-collapsible-additionalGuidancePanel"
+              />
+            ) : null}           
             <RadioContainer>
               <Field>
                 <RadionIndicator />
