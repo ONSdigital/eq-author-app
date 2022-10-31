@@ -38,7 +38,10 @@ const saveSections = (parentDoc, sections) =>
         .doc(section.id)
         .set({ ...section, position })
         .catch((error) => {
-          logger.error({ ...error, section: section }, "Error writing section");
+          logger.error(
+            { ...error, section: section },
+            "Error writing section (from saveSections)"
+          );
           throw error;
         })
     )
@@ -74,10 +77,15 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
     await versionDoc.set(versionQuestionnaire);
     await saveSections(versionDoc, sections);
   } catch (error) {
-    logger.error(error, `Unable to create questionnaire with ID: ${id}`);
+    logger.error(
+      error,
+      `Unable to create questionnaire with ID: ${id} (from createQuestionnaire)`
+    );
   }
 
-  logger.info(`Created questionnaire with ID: ${id}`);
+  logger.info(
+    `Created questionnaire with ID: ${id} (from createQuestionnaire)`
+  );
 
   return { ...versionQuestionnaire, sections };
 };
@@ -130,7 +138,7 @@ const getQuestionnaire = async (id) => {
     ).docs?.[0];
 
     if (!latestVersionSnapshot) {
-      throw new Error("Document doesn't exist");
+      throw new Error("Document doesn't exist (from getQuestionnaire)");
     }
 
     const sectionsSnapshot = await latestVersionSnapshot?.ref
@@ -149,7 +157,7 @@ const getQuestionnaire = async (id) => {
   } catch (error) {
     logger.error(
       error,
-      `Unable to get latest version of questionnaire with ID: ${id}`
+      `Unable to get latest version of questionnaire with ID: ${id} (from getQuestionnaire)`
     );
     return null;
   }
@@ -163,7 +171,9 @@ const getQuestionnaireMetaById = async (id) => {
       .get();
 
     if (questionnaireSnapshot.empty) {
-      logger.info("No base questionnaire found");
+      logger.info(
+        "No base questionnaire found (from getQuestionnaireMetaById)"
+      );
       return null;
     }
 
@@ -180,7 +190,10 @@ const getQuestionnaireMetaById = async (id) => {
     };
     return questionnaire;
   } catch (error) {
-    logger.error(error, `Error getting base questionnaire with ID ${id}`);
+    logger.error(
+      error,
+      `Error getting base questionnaire with ID ${id} (from getQuestionnaireMetaById)`
+    );
     return;
   }
 };
@@ -195,7 +208,9 @@ const getQuestionnaireByVersionId = async (id, versionId) => {
       .get();
 
     if (versionSnapshot.empty) {
-      throw new Error("Document doesn't exist");
+      throw new Error(
+        "Document doesn't exist (from getQuestionnaireByVersionId)"
+      );
     }
 
     const sectionsSnapshot = await versionSnapshot?.ref
@@ -209,10 +224,16 @@ const getQuestionnaireByVersionId = async (id, versionId) => {
             .map((snap) => snap.data())
             .sort(({ position: a }, { position: b }) => a - b);
 
+    logger.info(
+      `getQuestionnaireByVersionId called on version with ID: ${versionId} in questionnaire with ID: ${id}`
+    );
     const version = versionSnapshot.data();
     return transformedQuestionnaire(sections, version);
   } catch (error) {
-    logger.error(error, `Unable to get version with ID: ${versionId}`);
+    logger.error(
+      error,
+      `Unable to get version with ID: ${versionId} in questionnaire with ID: ${id} (from getQuestionnaireByVersionId)`
+    );
     return null;
   }
 };
@@ -223,7 +244,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
   try {
     if (!id) {
       throw new Error(
-        "Unable to save questionnaire; cannot find required field: ID"
+        "Unable to save questionnaire; cannot find required field: ID (from saveQuestionnaire)"
       );
     }
     const createdAt = new Date();
@@ -231,10 +252,22 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
+    let sectionCount = originalQuestionnaire?.sections.length;
+    logger.info(
+      { qid: originalQuestionnaire?.id, sectionCount },
+      "Save questionnare: before merge with changed questionnaire"
+    );
+
     const updatedQuestionnaire = removeEmpty({
       ...originalQuestionnaire,
       ...changedQuestionnaire,
     });
+
+    sectionCount = updatedQuestionnaire?.sections.length;
+    logger.info(
+      { qid: updatedQuestionnaire?.id, sectionCount },
+      "Save questionnare: after merge with changed questionnaire"
+    );
 
     const { sections } = updatedQuestionnaire;
 
@@ -257,7 +290,10 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {
-    logger.error(error, `Error updating questionnaire with ID ${id}`);
+    logger.error(
+      error,
+      `Error updating questionnaire with ID ${id} (from saveQuestionnaire)`
+    );
     return;
   }
 };
@@ -267,7 +303,7 @@ const listQuestionnaires = async () => {
     const questionnairesSnapshot = await db.collection("questionnaires").get();
 
     if (questionnairesSnapshot.empty) {
-      logger.info("No questionnaires found");
+      logger.info("No questionnaires found (from listQuestionnaires)");
       return [];
     }
 
@@ -282,7 +318,10 @@ const listQuestionnaires = async () => {
 
     return questionnaires || [];
   } catch (error) {
-    logger.error(error, "Unable to retrieve questionnaires");
+    logger.error(
+      error,
+      "Unable to retrieve questionnaires (from listQuestionnaires)"
+    );
     return;
   }
 };
@@ -292,7 +331,10 @@ const deleteQuestionnaire = async (id) => {
     await db.collection("questionnaires").doc(id).delete();
     return;
   } catch (error) {
-    logger.error(error, `Unable to delete questionnaire with ID: ${id}`);
+    logger.error(
+      error,
+      `Unable to delete questionnaire with ID: ${id} (from deleteQuestionnaire)`
+    );
     return;
   }
 };
@@ -303,7 +345,9 @@ const createUser = async (user) => {
 
   try {
     if (!email) {
-      throw new Error("Cannot create new user without required field: email");
+      throw new Error(
+        "Cannot create new user without required field: email (from createUser)"
+      );
     }
 
     if (!id) {
@@ -319,7 +363,7 @@ const createUser = async (user) => {
       .doc(id)
       .set({ ...user, id, name, email, updatedAt });
   } catch (error) {
-    logger.error(error, `Error creating user with ID: ${id}: `);
+    logger.error(error, `Error creating user with ID: ${id} (from createUser)`);
     return;
   }
 
@@ -329,7 +373,9 @@ const createUser = async (user) => {
 const getUserByExternalId = async (externalId) => {
   try {
     if (!externalId) {
-      throw new Error("Cannot find user without required field 'externalId'");
+      throw new Error(
+        "Cannot find user without required field 'externalId' (from getUserByExternalId)"
+      );
     }
 
     const userSnapshot = await db
@@ -338,7 +384,9 @@ const getUserByExternalId = async (externalId) => {
       .limit(1)
       .get();
     if (userSnapshot.empty) {
-      logger.info(`User with external ID ${externalId} not found`);
+      logger.info(
+        `User with external ID ${externalId} not found (from getUserByExternalId)`
+      );
       return;
     }
 
@@ -346,7 +394,10 @@ const getUserByExternalId = async (externalId) => {
 
     return { ...doc.data(), id: doc.id };
   } catch (error) {
-    logger.error(error, `Unable to find user with external ID ${externalId}`);
+    logger.error(
+      error,
+      `Unable to find user with external ID ${externalId} (from getUserByExternalId)`
+    );
     return;
   }
 };
@@ -356,13 +407,13 @@ const getUserById = async (id) => {
     const userSnapshot = await db.collection("users").doc(id).get();
 
     if (userSnapshot.empty) {
-      logger.info("No users found");
+      logger.info("No users found (from getUserById");
       return;
     }
 
     return { ...userSnapshot.data(), id: userSnapshot.id };
   } catch (error) {
-    logger.error(error, `Error getting user with ID: ${id}`);
+    logger.error(error, `Error getting user with ID: ${id} (from getUserById)`);
     return;
   }
 };
@@ -372,13 +423,13 @@ const listUsers = async () => {
     const usersSnapshot = await db.collection("users").get();
 
     if (usersSnapshot.empty) {
-      logger.info("No users found");
+      logger.info("No users found (from listUsers");
       return [];
     }
 
     return usersSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (error) {
-    logger.error(error, `Unable to get a list of all users`);
+    logger.error(error, `Unable to get a list of all users (from listUsers)`);
     return;
   }
 };
@@ -387,13 +438,13 @@ const createHistoryEvent = async (qid, event) => {
   try {
     if (!qid) {
       throw new Error(
-        "Unable to create a history event without first parameter: qid"
+        "Unable to create a history event without first parameter: qid (from createHistoryEvent)"
       );
     }
 
     if (!event) {
       throw new Error(
-        "Unable to create history event without second paramater: event"
+        "Unable to create history event without second paramater: event (from createHistoryEvent)"
       );
     }
     const questionnaire = await getQuestionnaireMetaById(qid);
@@ -414,7 +465,7 @@ const createHistoryEvent = async (qid, event) => {
   } catch (error) {
     logger.error(
       error,
-      `Error creating history event in questionnaire with ID ${qid}`
+      `Error creating history event in questionnaire with ID ${qid} (from createHistoryEvent)`
     );
     return;
   }
@@ -425,7 +476,7 @@ const saveMetadata = async (metadata) => {
 
   if (!id) {
     throw new Error(
-      "Cannot find required field ID within the given base questionnaire"
+      "Cannot find required field ID within the given base questionnaire (from saveMetadata)"
     );
   }
 
@@ -437,7 +488,10 @@ const saveMetadata = async (metadata) => {
       .update({ ...updatedMetadata });
     return updatedMetadata;
   } catch (error) {
-    logger.error(error, `Cannot update base questionnaire with ID ${id}`);
+    logger.error(
+      error,
+      `Cannot update base questionnaire with ID ${id} (from saveMetadata)`
+    );
     return;
   }
 };
@@ -446,7 +500,7 @@ const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
       throw new Error(
-        "Cannot create default comments without required paramater: questionnaireId"
+        "Cannot create default comments without required paramater: questionnaireId (from createComments)"
       );
     }
     const defaultComments = { questionnaireId, comments: {} };
@@ -455,7 +509,7 @@ const createComments = async (questionnaireId) => {
   } catch (error) {
     logger.error(
       error,
-      `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
+      `Unable to create comment structure for questionnaire with ID ${questionnaireId} (from createComments)`
     );
     return;
   }
@@ -512,7 +566,7 @@ const getCommentsForQuestionnaire = async (questionnaireId) => {
   } catch (error) {
     logger.error(
       error,
-      `Unable to get comments for questionnaire with ID ${questionnaireId}`
+      `Unable to get comments for questionnaire with ID ${questionnaireId} (from getCommentsForQuestionnaire)`
     );
     return;
   }
@@ -523,7 +577,7 @@ const saveComments = async (updatedCommentsObject) => {
   try {
     if (!questionnaireId) {
       throw new Error(
-        "Unable to save comments without required field: questionnaireId"
+        "Unable to save comments without required field: questionnaireId (from saveComments)"
       );
     }
     await db
@@ -534,7 +588,7 @@ const saveComments = async (updatedCommentsObject) => {
   } catch (error) {
     logger.error(
       error,
-      `Unable to save comments for questionnaire with ID ${questionnaireId}`
+      `Unable to save comments for questionnaire with ID ${questionnaireId} (from saveComments)`
     );
     return;
   }
@@ -544,7 +598,9 @@ const updateUser = async (changedUser) => {
   const { id } = changedUser;
   try {
     if (!id) {
-      throw new Error("Cannot update user without required field: id");
+      throw new Error(
+        "Cannot update user without required field: id (from updateUser)"
+      );
     }
     const doc = db.collection("users").doc(id);
     const existingUser = await doc.get();
@@ -552,7 +608,7 @@ const updateUser = async (changedUser) => {
     await doc.update(changedUser);
     return { ...existingUser, ...changedUser };
   } catch (error) {
-    logger.error(error, `Unable update user with ID ${id}`);
+    logger.error(error, `Unable update user with ID ${id} (from updateUser)`);
     return;
   }
 };
