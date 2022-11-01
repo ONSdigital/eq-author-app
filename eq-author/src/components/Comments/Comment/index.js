@@ -192,14 +192,6 @@ const Comment = ({
     [id, subjectId, rootId, isReply, updateComment, updateReply]
   );
 
-  const handleDeleteButtonClick = () => {
-    setShowDeleteModal(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setShowDeleteModal(false);
-  };
-
   const onDeleteComment = useCallback(() => {
     if (isReply) {
       deleteReply({
@@ -294,7 +286,7 @@ const Comment = ({
             positiveButtonText={DELETE_BUTTON_TEXT}
             isOpen={showDeleteModal}
             onConfirm={onDeleteComment}
-            onClose={handleCloseDeleteModal}
+            onClose={() => setShowDeleteModal(false)}
           />
           <Header data-test="Comment__Header">
             <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
@@ -321,7 +313,7 @@ const Comment = ({
                 <IconButton
                   data-test="Comment__DeleteCommentBtn"
                   icon={iconClose}
-                  onClick={() => handleDeleteButtonClick()}
+                  onClick={() => setShowDeleteModal(true)}
                 >
                   Delete comment
                 </IconButton>

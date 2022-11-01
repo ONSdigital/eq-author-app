@@ -141,14 +141,6 @@ const HistoryItem = ({
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleDeleteButtonClick = () => {
-    setShowDeleteModal(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setShowDeleteModal(false);
-  };
-
   const isEditable =
     (currentUser.id === userId || currentUser.admin) && type === "note";
   const renderBodyText = () => {
@@ -208,7 +200,7 @@ const HistoryItem = ({
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
         onConfirm={() => handleDeleteNote(itemId)}
-        onClose={() => handleCloseDeleteModal()}
+        onClose={() => setShowDeleteModal(false)}
       />
       {isEditable && (
         <EditHeader active={isEditActive}>
@@ -223,7 +215,7 @@ const HistoryItem = ({
               icon={IconDelete}
               data-test="delete-note-btn"
               aria-label="Delete"
-              onClick={() => handleDeleteButtonClick()}
+              onClick={() => setShowDeleteModal(true)}
             />
           </HistoryButtonGroup>
         </EditHeader>
