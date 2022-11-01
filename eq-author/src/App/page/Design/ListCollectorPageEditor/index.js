@@ -492,7 +492,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                           anotherPositiveDescription: entity.anotherPositiveDescription,
                           anotherNegative: entity.anotherNegative,
                           anotherNegativeDescription: entity.anotherNegativeDescription,
-                          additionalGuidancePanelSwitch: !entity.additionalGuidancePanelSwitch,
+                          additionalGuidancePanelSwitch: entity.additionalGuidancePanelSwitch,
                           additionalGuidancePanel: value,
                       } },
                       })
@@ -506,7 +506,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 }}
                 testSelector="txt-collapsible-additionalGuidancePanel"
               />
-            ) : null}           
+            ) : null}
             <RadioContainer>
               <Field>
                 <RadionIndicator />
