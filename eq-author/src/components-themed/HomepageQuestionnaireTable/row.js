@@ -9,7 +9,6 @@ import CustomPropTypes from "custom-prop-types";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
 import Button from "components/buttons/Button";
 
@@ -23,7 +22,6 @@ import {
 } from "constants/modal-content.js";
 
 import FormattedDate from "./FormattedDate.js";
-import questionConfirmationIcon from "assets/icon-questionnaire.svg";
 import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
 import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
 import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
@@ -441,7 +439,7 @@ export const Row = ({
       </TR>
       <Modal
         title={DELETE_QUESTIONNAIRE_TITLE}
-        subtitle={"Test subtitle"}
+        subtitle={displayName}
         warningMessage={DELETE_QUESTIONNAIRE_WARNING}
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}

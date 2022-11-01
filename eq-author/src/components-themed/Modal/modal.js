@@ -58,6 +58,9 @@ const Subtitle = styled.h3`
   color: ${({ theme }) => theme.colors.modalSubtitle};
   margin-bottom: 0.1em;
   margin-left: 0.12em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StyledButton = styled(Button)`
