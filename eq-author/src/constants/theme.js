@@ -85,6 +85,12 @@ colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
 colors.commentHighlight = colors.darkGreen;
+// ONS colours
+colors.modalContainer = colors.white;
+colors.modalBackground = colors.black;
+colors.modalSubtitle = colors.oceanBlue;
+colors.onsPrimary = colors.leafGreen;
+colors.onsSecondary = colors.grey15;
 
 export const radius = "4px";
 
@@ -195,9 +201,6 @@ export const themes = {
       textBannerLink: colors.grey5,
       onsLogoAccent: colors.springGreen,
       branded: colors.oceanBlue,
-      modalContainer: colors.white,
-      modalBackground: colors.black,
-      modalSubtitle: colors.oceanBlue,
     },
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",

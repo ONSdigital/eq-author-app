@@ -19,12 +19,12 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: ${({ theme }) => theme.colors.modalBackground};
+  background-color: ${colors.modalBackground};
   opacity: 0.7;
 `;
 
 const ModalContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.modalContainer};
+  background-color: ${colors.modalContainer};
   padding: 0px 15px 20px 20px;
   left: 50%;
   top: 50%;
@@ -35,7 +35,7 @@ const ModalContainer = styled.div`
 `;
 
 const CloseButton = styled.button`
-  color: ${({ theme }) => theme.colors.text};
+  color: ${colors.text};
   float: right;
   font-size: 32px;
   /* Removes default button styling */
@@ -55,7 +55,7 @@ const Title = styled.h2`
 `;
 
 const Subtitle = styled.h3`
-  color: ${({ theme }) => theme.colors.modalSubtitle};
+  color: ${colors.modalSubtitle};
   margin-bottom: 0.1em;
   margin-left: 0.12em;
   overflow: hidden;
@@ -94,10 +94,9 @@ const Modal = ({
     return () => window.removeEventListener("keydown", close);
   });
 
-  // TODO: ThemeProvider used instead of Theme wrapper
   return (
     isOpen && (
-      <ThemeProvider theme={themes.ons}>
+      <Theme themeName={"ons"}>
         <FocusTrap>
           <Wrapper>
             <ModalBackground onClick={onClose} />
@@ -121,7 +120,7 @@ const Modal = ({
             </ModalContainer>
           </Wrapper>
         </FocusTrap>
-      </ThemeProvider>
+      </Theme>
     )
   );
 };
