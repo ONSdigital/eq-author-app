@@ -8,8 +8,11 @@ import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import RichTextEditor from "components/RichTextEditor";
 import IconButton from "components/buttons/IconButton";
+import Modal from "components-themed/Modal";
 
 import { colors } from "constants/theme";
+
+import { DELETE_NOTE_TITLE, DELETE_BUTTON_TEXT } from "constants/modal-content";
 
 import IconEdit from "./icon-edit.svg?inline";
 import IconDelete from "./icon-close.svg?inline";
@@ -136,6 +139,16 @@ const HistoryItem = ({
   const [isEditActive, setIsEditActive] = useState(false);
   const [noteState, setNoteState] = useState(bodyText);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleDeleteButtonClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
   const isEditable =
     (currentUser.id === userId || currentUser.admin) && type === "note";
   const renderBodyText = () => {
@@ -190,6 +203,13 @@ const HistoryItem = ({
   };
   return (
     <EditableItem>
+      <Modal
+        title={DELETE_NOTE_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={() => handleDeleteNote(itemId)}
+        onClose={() => handleCloseDeleteModal()}
+      />
       {isEditable && (
         <EditHeader active={isEditActive}>
           <HistoryButtonGroup horizontal align="right">
@@ -199,12 +219,11 @@ const HistoryItem = ({
               aria-label="Edit"
               onClick={() => setIsEditActive(true)}
             />
-
             <IconButton
               icon={IconDelete}
               data-test="delete-note-btn"
               aria-label="Delete"
-              onClick={() => handleDeleteNote(itemId)}
+              onClick={() => handleDeleteButtonClick()}
             />
           </HistoryButtonGroup>
         </EditHeader>
