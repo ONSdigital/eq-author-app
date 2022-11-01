@@ -101,7 +101,9 @@ const Modal = ({
           <Wrapper>
             <ModalBackground onClick={onClose} />
             <ModalContainer>
-              <CloseButton onClick={onClose}>&times;</CloseButton>
+              <CloseButton onClick={onClose} data-test="btn-modal-close">
+                &times;
+              </CloseButton>
               <Title>{title}</Title>
               {subtitle && <Subtitle>{subtitle}</Subtitle>}
               {warningMessage && (
@@ -110,10 +112,19 @@ const Modal = ({
                 </Panel>
               )}
               <ButtonContainer>
-                <StyledButton variant="secondary" margin onClick={onClose}>
+                <StyledButton
+                  variant="secondary"
+                  margin
+                  onClick={onClose}
+                  data-test="btn-modal-negative"
+                >
                   {negativeButtonText}
                 </StyledButton>
-                <StyledButton variant="primary" onClick={onConfirm}>
+                <StyledButton
+                  variant="primary"
+                  onClick={onConfirm}
+                  data-test="btn-modal-positive"
+                >
                   {positiveButtonText}
                 </StyledButton>
               </ButtonContainer>
