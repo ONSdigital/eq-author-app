@@ -1,8 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 
 import withEntityEditor from "components/withEntityEditor";
+import Modal from "components-themed/Modal";
+
 import {
   DeleteRowButton,
   TableInput,
@@ -19,6 +21,11 @@ import {
 } from "constants/metadata-types";
 import { EN, CY } from "constants/languages";
 import { GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS } from "constants/regions";
+
+import {
+  DELETE_METADATA_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 export const getFallbackKeys = ({ key, type, allKeyData }) => {
   return allKeyData
@@ -54,8 +61,17 @@ export const StatelessRow = ({
     [keyData, key, type]
   );
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   return (
     <TableRow data-test="metadata-table-row">
+      <Modal
+        title={DELETE_METADATA_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={() => onDelete(questionnaireId, id)}
+        onClose={() => setShowDeleteModal(false)}
+      />
       <TableColumn>
         <KeySelect
           onChange={onChange}
@@ -134,7 +150,7 @@ export const StatelessRow = ({
         <DeleteRowButton
           data-test="metadata-delete-row"
           size="medium"
-          onClick={() => onDelete(questionnaireId, id)}
+          onClick={() => setShowDeleteModal(true)}
         />
       </TableColumn>
     </TableRow>

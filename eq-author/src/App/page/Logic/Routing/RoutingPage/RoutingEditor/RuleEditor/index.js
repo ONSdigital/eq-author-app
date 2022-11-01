@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
@@ -8,6 +8,7 @@ import { flow } from "lodash/fp";
 import BounceTransition from "components/transitions/BounceTransition";
 import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
+import Modal from "components-themed/Modal";
 
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
@@ -21,6 +22,11 @@ import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
+
+import {
+  DELETE_LOGIC_RULE_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 import { expressionGroupErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
@@ -115,6 +121,8 @@ export const UnwrappedRuleEditor = ({
 
   const handleDeleteClick = () => deleteRule(rule.id);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const handleDestinationChange = (destination) =>
     updateRule({ ...rule, destination });
 
@@ -165,6 +173,13 @@ export const UnwrappedRuleEditor = ({
   return (
     <Rule data-test="routing-rule" className={className}>
       <Header>
+        <Modal
+          title={DELETE_LOGIC_RULE_TITLE}
+          positiveButtonText={DELETE_BUTTON_TEXT}
+          isOpen={showDeleteModal}
+          onConfirm={handleDeleteClick}
+          onClose={() => setShowDeleteModal(false)}
+        />
         <HeaderPanel>
           <HeaderLabel inline> Routing logic rule </HeaderLabel>
           <Tooltip
@@ -207,7 +222,7 @@ export const UnwrappedRuleEditor = ({
             <DeleteButton
               color="white"
               size="medium"
-              onClick={handleDeleteClick}
+              onClick={() => setShowDeleteModal(true)}
               aria-label="Delete routing rule"
               data-test="btn-delete-routing-rule"
             />
