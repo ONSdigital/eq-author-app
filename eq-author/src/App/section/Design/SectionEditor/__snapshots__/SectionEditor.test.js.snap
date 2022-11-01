@@ -5,13 +5,12 @@ exports[`SectionEditor should render 1`] = `
   data-test="section-editor"
   id={null}
 >
-  <DeleteConfirmDialog
-    alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
-    data-test="dialog-delete-confirm"
-    icon="SvgrURL"
-    isOpen={false}
-    onClose={[MockFunction]}
-    onDelete={[MockFunction]}
+  <Modal
+    negativeButtonText="Cancel"
+    onConfirm={[MockFunction]}
+    positiveButtonText="Delete"
+    title="Delete section"
+    warningMessage="All edits, properties and routing settings will also be removed."
   />
   <MoveSectionQuery
     questionnaireId="1"
@@ -112,13 +111,12 @@ exports[`SectionEditor should render 2`] = `
   data-test="section-editor"
   id={null}
 >
-  <DeleteConfirmDialog
-    alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
-    data-test="dialog-delete-confirm"
-    icon="SvgrURL"
-    isOpen={false}
-    onClose={[MockFunction]}
-    onDelete={[MockFunction]}
+  <Modal
+    negativeButtonText="Cancel"
+    onConfirm={[MockFunction]}
+    positiveButtonText="Delete"
+    title="Delete section"
+    warningMessage="All edits, properties and routing settings will also be removed."
   />
   <MoveSectionQuery
     questionnaireId="1"

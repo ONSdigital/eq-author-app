@@ -5,6 +5,14 @@ exports[`SkipConditionEditor should render 1`] = `
   data-test="skip-condition"
 >
   <SkipConditionEditor__Header>
+    <Modal
+      isOpen={false}
+      negativeButtonText="Cancel"
+      onClose={[Function]}
+      onConfirm={[MockFunction]}
+      positiveButtonText="Delete"
+      title="Delete logic rule"
+    />
     <SkipConditionEditor__HeaderPanel>
       <SkipConditionEditor__HeaderLabel
         inline={true}
@@ -25,7 +33,7 @@ exports[`SkipConditionEditor should render 1`] = `
           aria-label="Delete routing rule"
           color="white"
           data-test="btn-delete-routing-rule"
-          onClick={[MockFunction]}
+          onClick={[Function]}
           size="medium"
           type="button"
         />

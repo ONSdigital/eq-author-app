@@ -7,14 +7,14 @@ exports[`QuestionConfirmationRoute should render 1`] = `
   title="My first displayname"
 >
   <Panel>
-    <DeleteConfirmDialog
-      alertText="All edits will be removed."
-      data-test="delete-question-confirmation"
-      icon="SvgrURL"
+    <Modal
       isOpen={false}
+      negativeButtonText="Cancel"
       onClose={[Function]}
-      onDelete={[Function]}
-      title="My first displayname"
+      onConfirm={[Function]}
+      positiveButtonText="Delete"
+      title="Delete confirmation question"
+      warningMessage="All edits, properties and routing settings will also be removed."
     />
     <EditorToolbar__Toolbar>
       <EditorToolbar__Buttons>
