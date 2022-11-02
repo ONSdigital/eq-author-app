@@ -470,6 +470,13 @@ describe("History page", () => {
           await fireEvent.click(deleteButton);
         });
 
+        expect(getByTestId("modal")).toBeInTheDocument();
+        const confirmDeleteButton = getByTestId("btn-modal-positive");
+
+        await act(async () => {
+          await fireEvent.click(confirmDeleteButton);
+        });
+
         expect(mutationWasCalled).toBeTruthy();
         expect(queryByText("Hello Moto")).toBeFalsy();
       });
@@ -494,6 +501,14 @@ describe("History page", () => {
         await act(async () => {
           await fireEvent.click(deleteButton);
         });
+
+        expect(getByTestId("modal")).toBeInTheDocument();
+        const confirmDeleteButton = getByTestId("btn-modal-positive");
+
+        await act(async () => {
+          await fireEvent.click(confirmDeleteButton);
+        });
+
         expect(mutationWasCalled).toBeTruthy();
         expect(queryByText("Hello Moto")).toBeFalsy();
       });

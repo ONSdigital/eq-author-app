@@ -100,7 +100,7 @@ const Modal = ({
         <FocusTrap>
           <Wrapper>
             <ModalBackground onClick={onClose} />
-            <ModalContainer>
+            <ModalContainer data-test="modal">
               <CloseButton onClick={onClose} data-test="btn-modal-close">
                 &times;
               </CloseButton>
