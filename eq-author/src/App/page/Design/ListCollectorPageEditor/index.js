@@ -467,6 +467,9 @@ const UnwrappedListCollectorPageEditor = (props) => {
                   bold: true,
                   link: true,
                 }}
+                hasError={some(page.validationErrorInfo.errors, {
+                  field: "additionalGuidancePanel",
+                })}
                 testSelector="txt-collapsible-additionalGuidancePanel"
               />
             ) : null}
