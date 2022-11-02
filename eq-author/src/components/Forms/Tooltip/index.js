@@ -12,7 +12,7 @@ const StyledTooltip = styled(ReactTooltip)`
   line-height: 1 !important;
   padding: 0.4rem 0.6rem !important;
   border-radius: ${radius} !important;
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 
 class Tooltip extends React.Component {
