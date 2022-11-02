@@ -33,7 +33,7 @@ const Container = styled.div`
     background-color: #e0e0e0;
     padding: 0 0.125em;
     border-radius: 4px;
-    white-space: pre;
+    white-space: pre-wrap;
   }
 `;
 

@@ -58,7 +58,7 @@ const successPanel = css`
 const Flex = styled.div`
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   font-weight: ${({ bold }) => bold && "bold"};
   font-size: ${({ fontSize }) => fontSize};
 `;
@@ -185,7 +185,7 @@ const Panel = ({
       {variant === "warning" && (
         <Flex bold fontSize="18px">
           <WarningIcon>!</WarningIcon>
-          {children}
+          <div>{children}</div>
         </Flex>
       )}
       <Container variant={variant}>
