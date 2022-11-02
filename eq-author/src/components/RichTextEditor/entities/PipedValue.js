@@ -19,7 +19,7 @@ const PipedValueDecorator = styled.span`
   background-color: #e0e0e0;
   padding: 0 0.125em;
   border-radius: ${radius};
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 
 const PipedValueSerialized = ({ data: { id, text, pipingType, type } }) => (
