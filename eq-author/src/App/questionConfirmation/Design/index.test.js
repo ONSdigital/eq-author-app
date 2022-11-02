@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import DeleteModal from "components-themed/Modal";
 import { UnwrappedQuestionConfirmationRoute as QuestionConfirmationRoute } from "./";
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -83,14 +83,14 @@ describe("QuestionConfirmationRoute", () => {
 
   it("should open delete confirm dialog when the toolbar delete button is clicked", () => {
     const wrapper = render();
-    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    expect(wrapper.find(DeleteModal).prop("isOpen")).toBeFalsy();
     wrapper.find(IconButtonDelete).simulate("click");
-    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+    expect(wrapper.find(DeleteModal).prop("isOpen")).toBeTruthy();
   });
 
   it("should delete question confirmation when modal confirm clicked", () => {
     const wrapper = render();
-    wrapper.find(DeleteConfirmDialog).simulate("delete");
+    wrapper.find(DeleteModal).simulate("delete");
     expect(mockHandlers.onDeleteQuestionConfirmation).toHaveBeenCalledWith(
       defaultProps.data.questionConfirmation
     );
@@ -99,11 +99,11 @@ describe("QuestionConfirmationRoute", () => {
   it("should close modal when modal cancel clicked", () => {
     const wrapper = render();
 
-    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    expect(wrapper.find(DeleteModal).prop("isOpen")).toBeFalsy();
     wrapper.find(IconButtonDelete).simulate("click");
-    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+    expect(wrapper.find(DeleteModal).prop("isOpen")).toBeTruthy();
 
-    wrapper.find(DeleteConfirmDialog).simulate("close");
-    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(DeleteModal).simulate("close");
+    expect(wrapper.find(DeleteModal).prop("isOpen")).toBeFalsy();
   });
 });
