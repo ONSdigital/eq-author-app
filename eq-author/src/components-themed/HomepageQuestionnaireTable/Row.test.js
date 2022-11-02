@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import { render, fireEvent } from "tests/utils/rtl";
 
 import * as Headings from "constants/table-headings";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import DeleteModal from "components-themed/Modal";
 
 import { colors } from "constants/theme";
 import { UNPUBLISHED } from "constants/publishStatus";
@@ -174,7 +174,7 @@ describe("Row", () => {
       const stopPropagation = jest.fn();
       wrapper.find(DeleteButton).simulate("click", { stopPropagation });
 
-      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+      expect(wrapper.find(DeleteModal).props()).toMatchObject({
         isOpen: true,
       });
       expect(stopPropagation).toHaveBeenCalled();
@@ -184,11 +184,11 @@ describe("Row", () => {
       const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(DeleteButton).simulate("click", { stopPropagation });
-      wrapper.find(DeleteConfirmDialog).simulate("delete");
+      wrapper.find(DeleteModal).simulate("delete");
       expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
         props.questionnaire
       );
-      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+      expect(wrapper.find(DeleteModal).props()).toMatchObject({
         isOpen: false,
       });
     });
@@ -197,9 +197,9 @@ describe("Row", () => {
       const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(DeleteButton).simulate("click", { stopPropagation });
-      wrapper.find(DeleteConfirmDialog).simulate("close");
+      wrapper.find(DeleteModal).simulate("close");
       expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
-      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+      expect(wrapper.find(DeleteModal).props()).toMatchObject({
         isOpen: false,
       });
     });
