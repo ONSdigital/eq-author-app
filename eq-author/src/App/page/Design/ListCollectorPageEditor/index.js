@@ -446,57 +446,20 @@ const UnwrappedListCollectorPageEditor = (props) => {
               </Label>
 
               <ToggleSwitch
-                id="toggle-additional-guidance-panel"
-                name="toggle-additional-guidance-panel"
+                id="additionalGuidancePanelSwitch"
+                name="additionalGuidancePanelSwitch"
                 hideLabels={false}
-                  onChange={() =>
-                      updateListCollectorMutation({
-                        variables: {
-                          input: {
-                            id: entity.id,
-                            drivingQuestion: entity.drivingQuestion,
-                            drivingPositive: entity.drivingPositive,
-                            drivingPositiveDescription: entity.drivingPositiveDescription,
-                            drivingNegative: entity.drivingNegative,
-                            drivingNegativeDescription: entity.drivingNegativeDescription,
-                            anotherTitle: entity.anotherTitle,
-                            anotherPositive: entity.anotherPositive,
-                            anotherPositiveDescription: entity.anotherPositiveDescription,
-                            anotherNegative: entity.anotherNegative,
-                            anotherNegativeDescription: entity.anotherNegativeDescription,
-                            additionalGuidancePanelSwitch: !entity.additionalGuidancePanelSwitch,
-                            additionalGuidancePanel: entity.additionalGuidancePanel,
-                      } },
-                      })
-                }
+                onChange={handleOnUpdate}
                 checked={entity.additionalGuidancePanelSwitch}
               />
             </InlineField>
             {entity.additionalGuidancePanelSwitch ? (
-              <RichTextEditor
+              <StyledRichTextEditor
                 id={`details-additionalGuidancePanel-${entity.id}`}
                 name="additionalGuidancePanel"
                 value={entity.additionalGuidancePanel}
                 label=""
-                  onUpdate={({ value }) =>
-                      updateListCollectorMutation({
-                        variables: { input: {
-                          id: entity.id,
-                          drivingQuestion: entity.drivingQuestion,
-                          drivingPositive: entity.drivingPositive,
-                          drivingPositiveDescription: entity.drivingPositiveDescription,
-                          drivingNegative: entity.drivingNegative,
-                          drivingNegativeDescription: entity.drivingNegativeDescription,
-                          anotherTitle: entity.anotherTitle,
-                          anotherPositive: entity.anotherPositive,
-                          anotherPositiveDescription: entity.anotherPositiveDescription,
-                          anotherNegative: entity.anotherNegative,
-                          anotherNegativeDescription: entity.anotherNegativeDescription,
-                          additionalGuidancePanelSwitch: entity.additionalGuidancePanelSwitch,
-                          additionalGuidancePanel: value,
-                      } },
-                      })
-                }
+                onUpdate={handleOnUpdate}
                 multiline
                 controls={{
                   heading: true,
