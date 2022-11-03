@@ -90,7 +90,7 @@ describe("QuestionConfirmationRoute", () => {
 
   it("should delete question confirmation when modal confirm clicked", () => {
     const wrapper = render();
-    wrapper.find(DeleteModal).simulate("delete");
+    wrapper.find(DeleteModal).simulate("confirm");
     expect(mockHandlers.onDeleteQuestionConfirmation).toHaveBeenCalledWith(
       defaultProps.data.questionConfirmation
     );
