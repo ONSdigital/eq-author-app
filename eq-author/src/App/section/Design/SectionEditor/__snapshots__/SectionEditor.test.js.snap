@@ -6,7 +6,9 @@ exports[`SectionEditor should render 1`] = `
   id={null}
 >
   <Modal
+    isOpen={false}
     negativeButtonText="Cancel"
+    onClose={[MockFunction]}
     onConfirm={[MockFunction]}
     positiveButtonText="Delete"
     title="Delete section"
@@ -112,7 +114,9 @@ exports[`SectionEditor should render 2`] = `
   id={null}
 >
   <Modal
+    isOpen={false}
     negativeButtonText="Cancel"
+    onClose={[MockFunction]}
     onConfirm={[MockFunction]}
     positiveButtonText="Delete"
     title="Delete section"
