@@ -184,7 +184,7 @@ describe("Row", () => {
       const wrapper = shallow(<Row {...props} />);
       const stopPropagation = jest.fn();
       wrapper.find(DeleteButton).simulate("click", { stopPropagation });
-      wrapper.find(DeleteModal).simulate("delete");
+      wrapper.find(DeleteModal).simulate("confirm");
       expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
         props.questionnaire
       );
