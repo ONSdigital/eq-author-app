@@ -87,6 +87,8 @@ describe("MetadataTable", () => {
 
   it("should call onDelete event handler when deleting a metadata", () => {
     wrapper.find(DeleteRowButton).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(props.onDelete).toHaveBeenCalledWith(questionnaireId, metadata.id);
   });
 
