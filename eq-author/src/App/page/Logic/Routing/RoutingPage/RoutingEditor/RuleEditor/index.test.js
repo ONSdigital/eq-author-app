@@ -101,6 +101,8 @@ describe("RuleEditor", () => {
   it("should allow deleting rule", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-delete-routing-rule")).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(defaultProps.deleteRule).toHaveBeenCalledWith(defaultProps.rule.id);
   });
 
