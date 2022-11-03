@@ -136,6 +136,8 @@ describe("BinaryExpressionEditor", () => {
 
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression.id,
       expect.any(Function)
