@@ -3,4 +3,5 @@ export const keyCodes = {
   ArrowUp: "ArrowUp",
   Enter: "Enter",
   Space: " ",
+  Escape: "Escape",
 };
