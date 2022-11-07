@@ -43,7 +43,7 @@ const CloseButton = styled.button`
   border: none;
   background: none;
   margin: 0;
-  padding: 0;
+  margin-top: 0.1rem;
 `;
 
 const WarningText = styled.span`
