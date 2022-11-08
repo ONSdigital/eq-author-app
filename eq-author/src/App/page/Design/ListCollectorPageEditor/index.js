@@ -473,6 +473,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 testSelector="txt-collapsible-additionalGuidancePanel"
               />
             ) : null}
+            {renderErrors(page.validationErrorInfo.errors, "additionalGuidancePanel")}
             <RadioContainer>
               <Field>
                 <RadionIndicator />
