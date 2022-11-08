@@ -11,16 +11,6 @@
     "drivingQuestion": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
-    "additionalGuidancePanel": {
-       "if": {
-        "properties": {
-          "additionalGuidancePanelSwitch": { "const": true }
-        }
-      },
-      "then": {
-        "$ref": "definitions.json#/definitions/populatedString"
-      }
-    },
     "drivingPositive": {
       "if": {
         "$ref": "definitions.json#/definitions/populatedString"
@@ -95,6 +85,18 @@
       }
     }
   },
+  "if": {
+     "properties": {
+       "additionalGuidancePanelSwitch": { "const": true }
+     }
+   },
+   "then": {
+    "properties": {
+        "additionalGuidancePanel": {
+          "$ref": "definitions.json#/definitions/populatedString"
+      }
+    }
+   },
   "required": [
     "id",
     "title",
