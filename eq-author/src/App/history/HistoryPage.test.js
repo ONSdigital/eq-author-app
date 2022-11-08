@@ -481,6 +481,32 @@ describe("History page", () => {
         expect(queryByText("Hello Moto")).toBeFalsy();
       });
 
+      it("should close modal when close button is clicked", async () => {
+        const { getByTestId, queryByTestId } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          { mocks }
+        );
+
+        await act(async () => {
+          await flushPromises();
+        });
+
+        const deleteButton = getByTestId("delete-note-btn");
+        await act(async () => {
+          await fireEvent.click(deleteButton);
+        });
+
+        expect(getByTestId("modal")).toBeInTheDocument();
+
+        const modalCloseButton = getByTestId("btn-modal-negative");
+
+        await act(async () => {
+          await fireEvent.click(modalCloseButton);
+        });
+
+        expect(queryByTestId("modal")).not.toBeInTheDocument();
+      });
+
       it("should allow admins to delete any notes", async () => {
         user.id = "uauthorized-uid-123";
         user.admin = true;
