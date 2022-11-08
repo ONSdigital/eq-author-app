@@ -40,7 +40,7 @@ export default {
       page: () => (
         <>
           <Title />
-          <p>Modal with warning</p>
+          <p>Modal with subtitle</p>
           <ArgsTable story={PRIMARY_STORY} />
           <Primary />
           <Stories />

@@ -86,11 +86,11 @@ colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
 colors.commentHighlight = colors.darkGreen;
 // ONS colours
+colors.onsPrimary = colors.leafGreen;
+colors.onsSecondary = colors.grey15;
 colors.modalContainer = colors.white;
 colors.modalBackground = colors.black;
 colors.modalSubtitle = colors.oceanBlue;
-colors.onsPrimary = colors.leafGreen;
-colors.onsSecondary = colors.grey15;
 
 export const radius = "4px";
 

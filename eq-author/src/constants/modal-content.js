@@ -12,6 +12,7 @@ export const DELETE_LIST_COLLECTOR_TITLE = "Delete list collector";
 // Delete action modal titles
 export const DELETE_LOGIC_RULE_TITLE = "Delete logic rule";
 export const DELETE_LOGIC_CONDITION_TITLE = "Delete logic condition";
+export const DELETE_LOGIC_OR_STATEMENT = "Delete OR statement";
 export const DELETE_METADATA_TITLE = "Delete metadata";
 export const DELETE_COMMENT_TITLE = "Delete comment";
 export const DELETE_NOTE_TITLE = "Delete note";

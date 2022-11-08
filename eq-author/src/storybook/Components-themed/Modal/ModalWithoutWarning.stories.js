@@ -38,7 +38,7 @@ export default {
       page: () => (
         <>
           <Title />
-          <p>Modal with warning</p>
+          <p>Modal without warning</p>
           <ArgsTable story={PRIMARY_STORY} />
           <Primary />
           <Stories />

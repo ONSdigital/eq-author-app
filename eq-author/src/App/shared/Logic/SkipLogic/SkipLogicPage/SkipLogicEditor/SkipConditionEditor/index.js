@@ -24,6 +24,7 @@ import {
 import {
   DELETE_LOGIC_RULE_TITLE,
   DELETE_BUTTON_TEXT,
+  DELETE_LOGIC_OR_STATEMENT,
 } from "constants/modal-content";
 
 export const LABEL_IF = "IF";
@@ -129,7 +130,7 @@ const SkipConditionEditor = ({
   const middle = (
     <Middle>
       <Modal
-        title={DELETE_LOGIC_RULE_TITLE}
+        title={DELETE_LOGIC_OR_STATEMENT}
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
         onConfirm={handleDeleteClick}
