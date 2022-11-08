@@ -85,12 +85,6 @@ colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
 colors.commentHighlight = colors.darkGreen;
-// ONS colours
-colors.onsPrimary = colors.leafGreen;
-colors.onsSecondary = colors.grey15;
-colors.modalContainer = colors.white;
-colors.modalBackground = colors.black;
-colors.modalSubtitle = colors.oceanBlue;
 
 export const radius = "4px";
 
@@ -205,6 +199,52 @@ export const themes = {
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
     fontSize: "18px",
+  },
+  // TODO: onsLegacyFont can be removed once Author is compatible with fontSize 18px
+  onsLegacyFont: {
+    colors: {
+      ...colors,
+      primary: colors.leafGreen,
+      secondary: colors.grey15,
+      tertiary: colors.jaffaOrange,
+      focus: colors.sunYellow,
+      positive: colors.leafGreen,
+      negative: colors.rubyRed,
+      text: colors.black,
+      textInverse: colors.white,
+      textLight: colors.grey75,
+      borders: colors.grey75,
+      bordersLight: colors.grey15,
+      previewError: colors.grey100,
+      errorPrimary: colors.rubyRed,
+      errorSecondary: colors.errorsTint,
+      badgeSelectedBackground: colors.black,
+      badgeSelectedText: colors.blue,
+      calcSumEmptyContent: colors.Grey50,
+      textLink: colors.oceanBlue,
+      textLinkHover: colors.nightBlue,
+      highlight: colors.neonYellow,
+      info: colors.oceanBlue,
+      success: colors.leafGreen,
+      errors: colors.rubyRed,
+      internalHeaderTop: colors.darkerBlue,
+      externalHeaderTop: colors.white,
+      internalOnsLogo: colors.white,
+      externalOnsLogo: colors.darkerBlue,
+      headerMain: colors.oceanBlue,
+      headerTitle: colors.white,
+      colorInfoTint: colors.infoGrey,
+      input: colors.black,
+      textBannerLink: colors.grey5,
+      onsLogoAccent: colors.springGreen,
+      branded: colors.oceanBlue,
+      modalContainer: colors.white,
+      modalBackground: colors.black,
+      modalSubtitle: colors.oceanBlue,
+    },
+    radius: "3px",
+    fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
+    fontSize: "16px",
   },
 };
 

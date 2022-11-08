@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { ThemeProvider } from "styled-components";
-import { darken } from "polished";
 import FocusTrap from "focus-trap-react";
 
 import { colors, themes } from "constants/theme.js";
@@ -20,12 +19,12 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: ${colors.modalBackground};
+  background-color: ${({ theme }) => theme.colors.modalBackground};
   opacity: 0.7;
 `;
 
 const ModalContainer = styled.div`
-  background-color: ${colors.modalContainer};
+  background-color: ${({ theme }) => theme.colors.modalContainer};
   padding: 0px 15px 20px 20px;
   left: 50%;
   top: 50%;
@@ -36,7 +35,7 @@ const ModalContainer = styled.div`
 `;
 
 const CloseButton = styled.button`
-  color: ${colors.text};
+  color: ${({ theme }) => theme.colors.text};
   float: right;
   font-size: 32px;
   /* Removes default button styling */
@@ -54,7 +53,7 @@ const Title = styled.h2`
 `;
 
 const Subtitle = styled.h3`
-  color: ${colors.modalSubtitle};
+  color: ${({ theme }) => theme.colors.modalSubtitle};
   margin-bottom: 0.1em;
   margin-left: 0.12em;
   overflow: hidden;
@@ -65,42 +64,6 @@ const Subtitle = styled.h3`
 const StyledButton = styled(Button)`
   margin-top: 3em;
   margin-right: ${(props) => props.margin && `0.5em`};
-  /* TODO: The following styling rules can all be deleted once theme wrapper has been fixed */
-  background-color: ${(props) =>
-    props.variant === "primary" ? colors.onsPrimary : colors.onsSecondary};
-  box-shadow: 0 3px
-    ${(props) =>
-      props.variant === "primary"
-        ? darken(0.15, colors.onsPrimary)
-        : darken(0.5, colors.onsSecondary)};
-  &:hover {
-    background-color: ${(props) =>
-      props.variant === "primary"
-        ? darken(0.1, colors.onsPrimary)
-        : darken(0.1, colors.onsSecondary)};
-  }
-  &:focus {
-    background-color: ${colors.focus};
-    box-shadow: ${(props) =>
-      props.variant === "secondary" &&
-      `0 3px ${darken(0.15, colors.onsPrimary)}`};
-  }
-  &:active:focus {
-    color: ${(props) => props.variant === "primary" && colors.textInverse};
-    background-color: ${(props) =>
-      props.variant === "primary"
-        ? darken(0.1, colors.onsPrimary)
-        : darken(0.1, colors.onsSecondary)};
-    box-shadow: 0 0 transparent;
-    top: 3px;
-  }
-  &:focus:hover:not(:active) {
-    color: ${(props) => props.variant === "primary" && colors.text};
-    background-color: ${darken(0.05, colors.focus)};
-    box-shadow: ${(props) =>
-      props.variant === "secondary" &&
-      `0 3px ${darken(0.15, colors.onsPrimary)}`};
-  }
 `;
 
 const ButtonContainer = styled.div`
@@ -133,47 +96,47 @@ const Modal = ({
     return () => window.removeEventListener("keydown", close);
   });
 
-  // TODO: This will include the theme wrapper once theme wrapper is fixed - currently using theme wrapper causes all text to change font size
+  // TODO: When theme container is fixed for fontSize 18px, themeName can be changed to "ons"
   return (
     isOpen && (
-      // <Theme themeName={"ons"}>
-      <FocusTrap>
-        <Wrapper>
-          <ModalBackground onClick={onClose} />
-          <ModalContainer data-test="modal">
-            <CloseButton onClick={onClose} data-test="btn-modal-close">
-              &times;
-            </CloseButton>
-            <Title>{title}</Title>
-            {subtitle && <Subtitle>{subtitle}</Subtitle>}
-            {warningMessage && (
-              <WarningWrapper>
-                <Panel withPanelMargin={false} variant="warning">
-                  {warningMessage}
-                </Panel>
-              </WarningWrapper>
-            )}
-            <ButtonContainer>
-              <StyledButton
-                variant="secondary"
-                margin
-                onClick={onClose}
-                data-test="btn-modal-negative"
-              >
-                {negativeButtonText}
-              </StyledButton>
-              <StyledButton
-                variant="primary"
-                onClick={onConfirm}
-                data-test="btn-modal-positive"
-              >
-                {positiveButtonText}
-              </StyledButton>
-            </ButtonContainer>
-          </ModalContainer>
-        </Wrapper>
-      </FocusTrap>
-      // </Theme>
+      <Theme themeName={"onsLegacyFont"}>
+        <FocusTrap>
+          <Wrapper>
+            <ModalBackground onClick={onClose} />
+            <ModalContainer data-test="modal">
+              <CloseButton onClick={onClose} data-test="btn-modal-close">
+                &times;
+              </CloseButton>
+              <Title>{title}</Title>
+              {subtitle && <Subtitle>{subtitle}</Subtitle>}
+              {warningMessage && (
+                <WarningWrapper>
+                  <Panel withPanelMargin={false} variant="warning">
+                    {warningMessage}
+                  </Panel>
+                </WarningWrapper>
+              )}
+              <ButtonContainer>
+                <StyledButton
+                  variant="secondary"
+                  margin
+                  onClick={onClose}
+                  data-test="btn-modal-negative"
+                >
+                  {negativeButtonText}
+                </StyledButton>
+                <StyledButton
+                  variant="primary"
+                  onClick={onConfirm}
+                  data-test="btn-modal-positive"
+                >
+                  {positiveButtonText}
+                </StyledButton>
+              </ButtonContainer>
+            </ModalContainer>
+          </Wrapper>
+        </FocusTrap>
+      </Theme>
     )
   );
 };
