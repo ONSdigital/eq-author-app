@@ -11,7 +11,7 @@ export const DELETE_LIST_COLLECTOR_TITLE = "Delete list collector";
 export const DELETE_ANSWER_TITLE = (answerTypeText) =>
   `Delete ${answerTypeText} answer`;
 export const DELETE_OPTION_TITLE = "Delete option";
-export const DELETE_LIST_ITEM_TITLE = "Delete item";
+export const DELETE_LIST_ITEM_TITLE = "Delete collection list";
 
 // Delete action modal titles
 export const DELETE_LOGIC_RULE_TITLE = "Delete logic rule";
