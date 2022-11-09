@@ -994,7 +994,7 @@ input UpdateListCollectorPageInput {
   listId: ID
   drivingQuestion: String!
   additionalGuidancePanelSwitch: Boolean
-  additionalGuidancePanel: String!
+  additionalGuidancePanel: String
   drivingPositive: String!
   drivingNegative: String!
   drivingPositiveDescription: String

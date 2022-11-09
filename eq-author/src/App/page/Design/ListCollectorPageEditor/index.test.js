@@ -214,13 +214,13 @@ describe("List Collector Page Editor", () => {
       expect(listSelect.value).toBe("list1");
     });
 
-    it.only("update Additional Guidance Panel", () => {
+    it.only("should update Additional Guidance Panel", () => {
       const { getByTestId } = renderListCollector();
-      const guidancePanelSwitch = getByTestId(
-        "additional-guidance-panel-switch"
+      const additionalGuidancePanelSwitch = getByTestId(
+        "additionalGuidancePanelSwitch-input"
       );
 
-      // expect(additionalGuidancePanelSwitch).toBeFalsy();
+      expect(additionalGuidancePanelSwitch.checked).toBe(false);
 
       // fireEvent.change(positiveAnswerInput, {
       //   target: { value: "Yes 1" },
