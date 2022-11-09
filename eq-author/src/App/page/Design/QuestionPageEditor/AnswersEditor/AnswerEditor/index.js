@@ -30,6 +30,11 @@ import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/page/Design/answers/DateRange";
 import DateSingle from "App/page/Design/answers/DateSingle";
 import BasicAnswer from "App/page/Design/answers/BasicAnswer";
+import Modal from "components-themed/Modal/modal";
+import {
+  DELETE_ANSWER_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -84,6 +89,12 @@ const Buttons = styled.div`
 `;
 
 class AnswerEditor extends React.Component {
+  state = { showDeleteModal: false };
+
+  handleOpenDeleteModal = () => this.setState({ showDeleteModal: true });
+
+  handleCloseDeleteModal = () => this.setState({ showDeleteModal: false });
+
   handleDeleteAnswer = () => {
     this.props.onDeleteAnswer(this.props.answer.id);
   };
@@ -158,6 +169,13 @@ class AnswerEditor extends React.Component {
         data-test="answer-editor"
         className="answer"
       >
+        <Modal
+          title={DELETE_ANSWER_TITLE}
+          positiveButtonText={DELETE_BUTTON_TEXT}
+          isOpen={this.state.showDeleteModal}
+          onConfirm={this.handleDeleteAnswer}
+          onClose={this.handleCloseDeleteModal}
+        />
         <AnswerHeader>
           <AnswerTypePanel>
             <AnswerType data-test="answer-type">
@@ -220,7 +238,7 @@ class AnswerEditor extends React.Component {
                 <DeleteButton
                   color="white"
                   size="medium"
-                  onClick={this.handleDeleteAnswer}
+                  onClick={this.handleOpenDeleteModal}
                   aria-label="Delete answer"
                   data-test="btn-delete-answer"
                 />

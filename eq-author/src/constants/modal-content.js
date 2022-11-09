@@ -8,6 +8,8 @@ export const DELETE_CONFIRMATION_QUESTION_TITLE =
   "Delete confirmation question";
 export const DELETE_CALCULATED_SUMMARY_TITLE = "Delete calculated summary";
 export const DELETE_LIST_COLLECTOR_TITLE = "Delete list collector";
+export const DELETE_ANSWER_TITLE = "Delete answer";
+export const DELETE_OPTION_TITLE = "Delete option";
 
 // Delete action modal titles
 export const DELETE_LOGIC_RULE_TITLE = "Delete logic rule";
