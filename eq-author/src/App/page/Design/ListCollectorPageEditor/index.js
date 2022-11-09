@@ -448,6 +448,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               <ToggleSwitch
                 id="additionalGuidancePanelSwitch"
                 name="additionalGuidancePanelSwitch"
+                data-test={`additional-guidance-panel-switch`}
                 hideLabels={false}
                 onChange={handleOnUpdate}
                 checked={entity.additionalGuidancePanelSwitch}
@@ -457,6 +458,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               <StyledRichTextEditor
                 id={`details-additionalGuidancePanel-${entity.id}`}
                 name="additionalGuidancePanel"
+                data-test={`additional-guidance-panel-input`}
                 value={entity.additionalGuidancePanel}
                 label=""
                 onUpdate={handleOnUpdate}
@@ -473,7 +475,10 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 testSelector="txt-collapsible-additionalGuidancePanel"
               />
             ) : null}
-            {renderErrors(page.validationErrorInfo.errors, "additionalGuidancePanel")}
+            {renderErrors(
+              page.validationErrorInfo.errors,
+              "additionalGuidancePanel"
+            )}
             <RadioContainer>
               <Field>
                 <RadionIndicator />

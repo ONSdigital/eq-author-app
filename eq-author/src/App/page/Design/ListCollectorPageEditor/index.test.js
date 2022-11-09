@@ -111,8 +111,8 @@ describe("List Collector Page Editor", () => {
       title: "List Names",
       alias: "Who am I?",
       drivingQuestion: "",
-      additionalGuidancePanel: "No",
-      additionalGuidancePanelSwitch: "No",
+      additionalGuidancePanelSwitch: false,
+      additionalGuidancePanel: "",
       drivingPositive: "Yes",
       drivingNegative: "No",
       drivingPositiveDescription: "",
@@ -212,6 +212,21 @@ describe("List Collector Page Editor", () => {
       expect(getByTestId("list-page-editor")).toBeVisible();
       const listSelect = getByTestId("list-select");
       expect(listSelect.value).toBe("list1");
+    });
+
+    it.only("update Additional Guidance Panel", () => {
+      const { getByTestId } = renderListCollector();
+      const guidancePanelSwitch = getByTestId(
+        "additional-guidance-panel-switch"
+      );
+
+      // expect(additionalGuidancePanelSwitch).toBeFalsy();
+
+      // fireEvent.change(positiveAnswerInput, {
+      //   target: { value: "Yes 1" },
+      // });
+
+      // expect(positiveAnswerInput.value).toBe("Yes 1");
     });
 
     it("update a positive answer label", () => {
