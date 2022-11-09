@@ -172,6 +172,8 @@ describe("Option", () => {
   it("should invoke onDelete callback when option deleted", () => {
     render(rtlRender, { type: CHECKBOX });
     fireEvent.click(screen.getByTestId("btn-delete-option"));
+    expect(screen.getByTestId("modal")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("btn-modal-positive"));
 
     expect(mockMutations.onDelete).toHaveBeenCalledWith(option.id);
   });
