@@ -162,6 +162,23 @@ class AnswerEditor extends React.Component {
     return answer.type;
   }
 
+  getModalTitleText(answerType) {
+    switch (answerType) {
+      case MUTUALLY_EXCLUSIVE:
+        return "OR";
+      case DURATION:
+        return "duration";
+      case DATE_RANGE:
+        return "date range";
+      case TEXTAREA:
+        return "text area";
+      case TEXTFIELD:
+        return "text";
+      default:
+        return answerType.toLowerCase();
+    }
+  }
+
   render() {
     return (
       <Answer
@@ -170,7 +187,9 @@ class AnswerEditor extends React.Component {
         className="answer"
       >
         <Modal
-          title={DELETE_ANSWER_TITLE}
+          title={DELETE_ANSWER_TITLE(
+            this.getModalTitleText(this.props.answer.type)
+          )}
           positiveButtonText={DELETE_BUTTON_TEXT}
           isOpen={this.state.showDeleteModal}
           onConfirm={this.handleDeleteAnswer}
