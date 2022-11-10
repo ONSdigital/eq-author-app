@@ -64,7 +64,7 @@ export const StatelessRow = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
-    <TableRow data-test="metadata-table-row">
+    <>
       <Modal
         title={DELETE_METADATA_TITLE}
         positiveButtonText={DELETE_BUTTON_TEXT}
@@ -72,88 +72,90 @@ export const StatelessRow = ({
         onConfirm={() => onDelete(questionnaireId, id)}
         onClose={() => setShowDeleteModal(false)}
       />
-      <TableColumn>
-        <KeySelect
-          onChange={onChange}
-          onUpdate={onUpdate}
-          defaultValue={key}
-          name="key"
-          usedKeys={usedKeys}
-        />
-      </TableColumn>
-      <TableColumn>
-        <TableInput
-          id={"metadata-alias-column"}
-          onChange={onChange}
-          onBlur={onUpdate}
-          value={alias}
-          name="alias"
-        />
-      </TableColumn>
-      <TableColumn>
-        <Select
-          onChange={onChange}
-          onUpdate={onUpdate}
-          value={type}
-          options={[TEXT, TEXT_OPTIONAL, DATE, LANGUAGE, REGION]}
-          name="type"
-        />
-      </TableColumn>
-      <TableColumn>
-        {(type === TEXT.value || type === TEXT_OPTIONAL.value) && (
+      <TableRow data-test="metadata-table-row">
+        <TableColumn>
+          <KeySelect
+            onChange={onChange}
+            onUpdate={onUpdate}
+            defaultValue={key}
+            name="key"
+            usedKeys={usedKeys}
+          />
+        </TableColumn>
+        <TableColumn>
           <TableInput
-            id={"metadata-value-column"}
+            id={"metadata-alias-column"}
             onChange={onChange}
             onBlur={onUpdate}
-            value={textValue}
-            name="textValue"
+            value={alias}
+            name="alias"
           />
-        )}
-        {type === DATE.value && (
-          <TableInputDate
-            onChange={onChange}
-            onBlur={onUpdate}
-            value={dateValue}
-            name="dateValue"
-            type="date"
-          />
-        )}
-        {type === REGION.value && (
+        </TableColumn>
+        <TableColumn>
           <Select
             onChange={onChange}
             onUpdate={onUpdate}
-            value={regionValue}
-            options={[GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS]}
-            name="regionValue"
+            value={type}
+            options={[TEXT, TEXT_OPTIONAL, DATE, LANGUAGE, REGION]}
+            name="type"
           />
-        )}
-        {type === LANGUAGE.value && (
-          <Select
+        </TableColumn>
+        <TableColumn>
+          {(type === TEXT.value || type === TEXT_OPTIONAL.value) && (
+            <TableInput
+              id={"metadata-value-column"}
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={textValue}
+              name="textValue"
+            />
+          )}
+          {type === DATE.value && (
+            <TableInputDate
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={dateValue}
+              name="dateValue"
+              type="date"
+            />
+          )}
+          {type === REGION.value && (
+            <Select
+              onChange={onChange}
+              onUpdate={onUpdate}
+              value={regionValue}
+              options={[GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS]}
+              name="regionValue"
+            />
+          )}
+          {type === LANGUAGE.value && (
+            <Select
+              onChange={onChange}
+              onUpdate={onUpdate}
+              value={languageValue}
+              options={[EN, CY]}
+              name="languageValue"
+            />
+          )}
+        </TableColumn>
+        <TableColumn>
+          <FallbackSelect
             onChange={onChange}
             onUpdate={onUpdate}
-            value={languageValue}
-            options={[EN, CY]}
-            name="languageValue"
+            options={fallbackKeys}
+            defaultValue={fallbackKey}
+            name="fallbackKey"
           />
-        )}
-      </TableColumn>
-      <TableColumn>
-        <FallbackSelect
-          onChange={onChange}
-          onUpdate={onUpdate}
-          options={fallbackKeys}
-          defaultValue={fallbackKey}
-          name="fallbackKey"
-        />
-      </TableColumn>
-      <TableColumn>
-        <DeleteRowButton
-          data-test="metadata-delete-row"
-          size="medium"
-          onClick={() => setShowDeleteModal(true)}
-        />
-      </TableColumn>
-    </TableRow>
+        </TableColumn>
+        <TableColumn>
+          <DeleteRowButton
+            data-test="metadata-delete-row"
+            size="medium"
+            onClick={() => setShowDeleteModal(true)}
+          />
+        </TableColumn>
+      </TableRow>
+    </>
   );
 };
 

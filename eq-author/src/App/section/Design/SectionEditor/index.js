@@ -5,7 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { get, flip, partial } from "lodash";
 
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
 import { Label } from "components/Forms";
@@ -23,7 +22,6 @@ import getIdForObject from "utils/getIdForObject";
 
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
-import iconSection from "./icon-dialog-section.svg";
 import { sectionErrors } from "constants/validationMessages";
 import {
   DELETE_SECTION_TITLE,
@@ -65,8 +63,8 @@ export class SectionEditor extends React.Component {
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onDeleteSectionConfirm: PropTypes.func.isRequired,
-    onCloseDeleteConfirmDialog: PropTypes.func.isRequired,
-    showDeleteConfirmDialog: PropTypes.bool.isRequired,
+    onCloseDeleteConfirmModal: PropTypes.func.isRequired,
+    showDeleteConfirmModal: PropTypes.bool.isRequired,
     onMoveSectionDialog: PropTypes.func.isRequired,
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,

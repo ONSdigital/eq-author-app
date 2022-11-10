@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import FocusTrap from "focus-trap-react";
 
-import { colors, themes } from "constants/theme.js";
 import Theme from "contexts/themeContext";
 
 import Button from "components-themed/buttons";

@@ -10,7 +10,6 @@ import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
 import MoveFolderModal from "App/page/Design/MoveEntityModal";
 
-import iconFolder from "assets/icon-dialog-folder.svg";
 import Modal from "components-themed/Modal";
 
 import {
@@ -19,19 +18,8 @@ import {
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
 
-const deleteAlertText = {
-  folder:
-    "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.",
-};
-
-const icons = {
-  folder: iconFolder,
-};
-
 const EditorToolbar = ({
   shortCode,
-  title,
-  pageType,
   shortCodeOnUpdate,
   onMove,
   onDuplicate,
