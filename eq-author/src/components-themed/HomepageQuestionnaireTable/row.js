@@ -445,6 +445,7 @@ export const Row = ({
         isOpen={showDeleteModal}
         onConfirm={handleModalConfirm}
         onClose={handleModalClose}
+        updatedFontTheme //TODO: Remove updatedFontTheme when theme container is fixed for font size 18px
       />
     </>
   );

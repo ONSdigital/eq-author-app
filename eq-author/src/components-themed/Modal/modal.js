@@ -80,6 +80,8 @@ const Modal = ({
   positiveButtonText,
   negativeButtonText,
   isOpen,
+  // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
+  updatedFontTheme,
   onConfirm,
   onClose,
 }) => {
@@ -95,10 +97,10 @@ const Modal = ({
     return () => window.removeEventListener("keydown", close);
   });
 
-  // TODO: When theme container is fixed for fontSize 18px, themeName can be changed to "ons"
+  // TODO: When theme container is fixed for fontSize 18px, themeName can be changed to "ons" for all modals
   return (
     isOpen && (
-      <Theme themeName={"onsLegacyFont"}>
+      <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
         <FocusTrap>
           <Wrapper>
             <ModalBackground onClick={onClose} />
@@ -169,6 +171,10 @@ Modal.propTypes = {
    * Function to close the modal.
    */
   onClose: PropTypes.func,
+  /**
+   * Temporary prop - if false, onsLegacyFont is used as the modal's theme
+   */
+  updatedFontTheme: PropTypes.bool, // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
 };
 
 Modal.defaultProps = {
