@@ -178,6 +178,16 @@ describe("Option", () => {
     expect(mockMutations.onDelete).toHaveBeenCalledWith(option.id);
   });
 
+  it("should close modal", () => {
+    render(rtlRender, { type: CHECKBOX });
+    fireEvent.click(screen.getByTestId("btn-delete-option"));
+    expect(screen.getByTestId("modal")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("btn-modal-negative"));
+
+    expect(mockMutations.onDelete).not.toHaveBeenCalled();
+    expect(screen.queryByTestId("modal")).not.toBeInTheDocument();
+  });
+
   it("should call onEnterKey when Enter key pressed", () => {
     wrapper
       .find(WrappingInput)

@@ -157,6 +157,19 @@ describe("BinaryExpressionEditor", () => {
     });
   });
 
+  it("should close delete modal", () => {
+    const deleteSkipCondition = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [deleteSkipCondition]));
+
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(true);
+
+    wrapper.find("Modal").simulate("close");
+    expect(deleteSkipCondition).not.toHaveBeenCalled();
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(false);
+  });
+
   it("should correctly submit from RoutingAnswerContentPicker", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
 

@@ -204,6 +204,23 @@ describe("List Collector page", () => {
     expect(screen.getByText("Untitled list")).toBeTruthy();
 
     fireEvent.click(screen.getByTestId("btn-delete-item"));
+    await waitFor(() => screen.getByTestId("btn-modal-negative"));
+    fireEvent.click(screen.getByTestId("btn-modal-negative"));
+    await waitFor(() => screen.getByTestId("btn-add-list"));
+    expect(screen.queryByText("Currently no lists")).toBeFalsy();
+    expect(screen.getByText("Untitled list")).toBeTruthy();
+  });
+
+  it("Should close delete modal", async () => {
+    renderListCollectorContent(user, mocks);
+
+    await waitFor(() => screen.getByTestId("btn-add-list"));
+    fireEvent.click(screen.getByTestId("btn-add-list"));
+
+    await waitFor(() => screen.getByTestId("btn-delete-item"));
+    expect(screen.getByText("Untitled list")).toBeTruthy();
+
+    fireEvent.click(screen.getByTestId("btn-delete-item"));
     await waitFor(() => screen.getByTestId("btn-modal-positive"));
     fireEvent.click(screen.getByTestId("btn-modal-positive"));
     await waitFor(() => screen.getByTestId("btn-add-list"));

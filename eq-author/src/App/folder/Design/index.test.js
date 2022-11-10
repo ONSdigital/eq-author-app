@@ -153,6 +153,18 @@ describe("Folder design page", () => {
       });
     });
 
+    it("should close delete modal when cancel button is clicked", () => {
+      const deleteFolder = jest.fn();
+      useMutation.mockImplementation(jest.fn(() => [deleteFolder]));
+      const { getByTestId, queryByTestId } = renderFolderDesignPage();
+
+      fireEvent.click(getByTestId("btn-delete-folder"));
+      fireEvent.click(getByTestId("btn-modal-negative"));
+
+      expect(deleteFolder).not.toHaveBeenCalled();
+      expect(queryByTestId("modal")).not.toBeInTheDocument();
+    });
+
     it("Should add question page inside folder", () => {
       const onAddQuestionPage = jest.fn();
       useCreateQuestionPage.mockImplementation(() => onAddQuestionPage);

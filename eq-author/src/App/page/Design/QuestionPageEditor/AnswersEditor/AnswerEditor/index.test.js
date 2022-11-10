@@ -212,6 +212,19 @@ describe("Answer Editor", () => {
     expect(mockMutations.onDeleteAnswer).toHaveBeenCalledWith(mockAnswer.id);
   });
 
+  it("should close delete modal", async () => {
+    const wrapper = createWrapper({
+      answer: mockAnswer,
+      ...mockMutations,
+    });
+
+    wrapper.find(DeleteButton).first().simulate("click");
+    expect(wrapper.state("showDeleteModal")).toEqual(true);
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("close");
+    expect(wrapper.state("showDeleteModal")).toEqual(false);
+  });
+
   it("should call handler when answer moved down", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
