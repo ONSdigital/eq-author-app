@@ -28,7 +28,7 @@ const ModalContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 30em;
+  width: ${(props) => (props.warningMessage ? `30em` : `25em`)};
   z-index: 20; /* z-index of 20 as Add / import content button has z-index of 15 */
   position: fixed;
 `;
@@ -67,6 +67,7 @@ const StyledButton = styled(Button)`
 
 const ButtonContainer = styled.div`
   float: right;
+  padding-bottom: 0.3em;
 `;
 
 const WarningWrapper = styled.div`
@@ -104,7 +105,7 @@ const Modal = ({
         <FocusTrap>
           <Wrapper>
             <ModalBackground onClick={onClose} />
-            <ModalContainer data-test="modal">
+            <ModalContainer warningMessage={warningMessage} data-test="modal">
               <CloseButton onClick={onClose} data-test="btn-modal-close">
                 &times;
               </CloseButton>
