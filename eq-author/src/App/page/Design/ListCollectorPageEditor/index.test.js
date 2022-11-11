@@ -1,13 +1,7 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import {
-  render,
-  screen,
-  act,
-  fireEvent,
-  queryByAttribute,
-} from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -44,8 +38,6 @@ useQuery.mockImplementation(() => ({
 }));
 
 describe("List Collector Page Editor", () => {
-  let wrapper;
-
   let mockHandlers;
   let page;
   let section;
@@ -214,19 +206,27 @@ describe("List Collector Page Editor", () => {
       expect(listSelect.value).toBe("list1");
     });
 
-    it.only("should update Additional Guidance Panel", () => {
+    it("should update Additional Guidance Panel", () => {
       const { getByTestId } = renderListCollector();
+
+      // Toggle the switch to open the panel
       const additionalGuidancePanelSwitch = getByTestId(
         "additionalGuidancePanelSwitch-input"
       );
-
       expect(additionalGuidancePanelSwitch.checked).toBe(false);
+      fireEvent.change(additionalGuidancePanelSwitch, {
+        target: { checked: true },
+      });
+      expect(additionalGuidancePanelSwitch.checked).toBe(true);
 
-      // fireEvent.change(positiveAnswerInput, {
-      //   target: { value: "Yes 1" },
-      // });
-
-      // expect(positiveAnswerInput.value).toBe("Yes 1");
+      // Set Additionnal Guidance
+      const additionalGuidancePanel = getByTestId(
+        "additionalGuidancePanelSwitch-input"
+      );
+      fireEvent.change(additionalGuidancePanel, {
+        target: { value: "Additional Guidance Text" },
+      });
+      expect(additionalGuidancePanel.value).toBe("Additional Guidance Text");
     });
 
     it("update a positive answer label", () => {

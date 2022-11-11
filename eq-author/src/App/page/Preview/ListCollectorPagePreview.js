@@ -18,9 +18,7 @@ import Loading from "components/Loading";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
-// import Panel from "components/Panel";
-import Panel, { InformationPanel } from "components/Panel";
-import RichTextEditor from "components/RichTextEditor";
+import Panel from "components/Panel";
 
 const CollectorInfoTop = styled.div`
   width: 80%;
