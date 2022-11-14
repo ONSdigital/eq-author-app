@@ -97,6 +97,15 @@ describe("CollapsibleEditor", () => {
     expect(props.deleteCollapsible).toHaveBeenCalled();
   });
 
+  it("should close delete modal", () => {
+    const wrapper = shallow(<CollapsibleEditor {...props} />);
+
+    wrapper.find("[data-test='delete-collapsible-btn']").simulate("click");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(true);
+    wrapper.find("Modal").simulate("close");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(false);
+  });
+
   it("should trigger onChange when the title is changed", () => {
     shallow(<CollapsibleEditor {...props} />)
       .find("[data-test='txt-collapsible-title']")
