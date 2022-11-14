@@ -11,6 +11,7 @@ import DescribedText from "components/DescribedText";
 import { Label } from "components/Forms";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
+import PageTitleInput from "components/PageTitle";
 
 import { colors, radius } from "constants/theme";
 
@@ -227,6 +228,8 @@ export class SectionEditor extends React.Component {
               }
             />
           </IntroCanvas>
+          <HorizontalRule />
+          <PageTitleInput />
         </Padding>
       </SectionCanvas>
     );

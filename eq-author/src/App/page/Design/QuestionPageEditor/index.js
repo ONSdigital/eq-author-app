@@ -14,6 +14,8 @@ import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
 
+import PageTitleInput from "components/PageTitle";
+
 import PageHeader from "../PageHeader";
 import withUpdateAnswer from "../answers/withUpdateAnswer";
 import withCreateAnswer from "../answers/withCreateAnswer";
@@ -121,6 +123,13 @@ export const UnwrappedQuestionPageEditor = (props) => {
             allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
         </QuestionSegment>
+        <PageTitleInput
+          inCollapsible
+          page={page}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          fetchAnswers={fetchAnswers}
+        />
         <QuestionProperties
           page={page}
           onChange={onChange}
