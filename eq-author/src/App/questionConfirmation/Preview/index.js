@@ -40,7 +40,7 @@ const Container = styled.div`
   span[data-piped] {
     background-color: #5f7682;
     border-radius: 4px;
-    white-space: pre;
+    white-space: pre-wrap;
     color: white;
     padding: 0.1em 0.4em 0.2em;
   }

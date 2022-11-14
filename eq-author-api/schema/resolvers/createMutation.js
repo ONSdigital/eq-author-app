@@ -1,4 +1,5 @@
 const pubsub = require("../../db/pubSub");
+const { logger } = require("../../utils/logger");
 const validateQuestionnaire = require("../../src/validation");
 const {
   enforceHasWritePermission,
@@ -28,6 +29,11 @@ const createMutation =
         "User can not edit questionnaire while waiting for approval"
       );
     }
+    let sectionCount = ctx?.questionnaire?.sections.length;
+    logger.info(
+      { qid: ctx?.questionnaire?.id, sectionCount, ...args },
+      "Create mutation: before mutation"
+    );
 
     const result = await mutation(root, args, ctx);
     if (ctx.questionnaire.publishStatus === PUBLISHED) {
@@ -36,6 +42,12 @@ const createMutation =
       hasBeenUnpublished = true;
       await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
     }
+
+    sectionCount = ctx?.questionnaire?.sections.length;
+    logger.info(
+      { qid: ctx?.questionnaire?.id, sectionCount },
+      "Create mutation: after mutation"
+    );
 
     await saveQuestionnaire(ctx.questionnaire);
     ctx.validationErrorInfo = validateQuestionnaire({

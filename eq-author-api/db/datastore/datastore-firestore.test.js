@@ -38,6 +38,7 @@ jest.mock("@google-cloud/firestore", () => {
     return new Firestore();
   };
   Firestore.prototype.set = jest.fn(() => new Firestore());
+  Firestore.prototype.catch = jest.fn(() => new Firestore());
   Firestore.prototype.update = jest.fn(() => new Firestore());
   Firestore.prototype.orderBy = jest.fn(() => new Firestore());
   Firestore.prototype.where = jest.fn(() => new Firestore());
