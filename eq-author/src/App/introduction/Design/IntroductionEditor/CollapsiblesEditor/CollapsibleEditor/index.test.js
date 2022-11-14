@@ -84,9 +84,15 @@ describe("CollapsibleEditor", () => {
   });
 
   it("should trigger deleteCollapsible when the delete button is clicked", () => {
-    shallow(<CollapsibleEditor {...props} />)
-      .find("[data-test='delete-collapsible-btn']")
-      .simulate("click");
+    let deleteConfirmModal;
+
+    const wrapper = shallow(<CollapsibleEditor {...props} />);
+
+    wrapper.find("[data-test='delete-collapsible-btn']").simulate("click");
+
+    deleteConfirmModal = wrapper.find("Modal");
+    expect(deleteConfirmModal.prop("isOpen")).toBe(true);
+    deleteConfirmModal.simulate("confirm");
 
     expect(props.deleteCollapsible).toHaveBeenCalled();
   });
