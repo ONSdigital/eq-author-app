@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -9,6 +9,11 @@ import SelectedAnswer from "./SelectedAnswer";
 import TextButton from "components/buttons/TextButton";
 import Button from "components/buttons/Button";
 import ValidationError from "components/ValidationError";
+import Modal from "components-themed/Modal/modal";
+import {
+  DELETE_ALL_CALC_SUM_ANSWERS_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const Title = styled.h3`
   font-weight: bold;
@@ -72,6 +77,8 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
     validationErrorInfo: { errors },
   } = page;
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const selectedAnswersLeft = (answers) => {
     return selectedAnswers.filter(
       ({ id }) => !answers.find((answer) => answer.id === id)
@@ -86,11 +93,18 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
 
   return (
     <>
+      <Modal
+        title={DELETE_ALL_CALC_SUM_ANSWERS_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={() => handleRemoveAnswers(selectedAnswers)}
+        onClose={() => setShowDeleteModal(false)}
+      />
       <Header>
         <Title>
           {answerType} answers in {sectionTitle}
         </Title>
-        <RemoveAllBtn onClick={() => handleRemoveAnswers(selectedAnswers)}>
+        <RemoveAllBtn onClick={() => setShowDeleteModal(true)}>
           Remove all
         </RemoveAllBtn>
       </Header>

@@ -21,6 +21,8 @@ export const DELETE_METADATA_TITLE = "Delete metadata";
 export const DELETE_COMMENT_TITLE = "Delete comment";
 export const DELETE_NOTE_TITLE = "Delete note";
 export const DELETE_COLLAPSIBLE_TITLE = "Delete collapsible";
+export const DELETE_CALC_SUM_ANSWER_TITLE = "Remove answer";
+export const DELETE_ALL_CALC_SUM_ANSWERS_TITLE = "Remove all answers";
 
 // Delete warning messages
 export const DELETE_PAGE_WARNING =
