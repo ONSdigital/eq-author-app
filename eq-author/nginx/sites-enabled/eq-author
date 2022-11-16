@@ -17,7 +17,7 @@ add_header Cross-Origin-Opener-Policy same-origin;
 add_header Cross-Origin-Resource-Policy same-origin;
 add_header Cache-Control no-store;
 add_header Pragma no-cache;
-add_header Access-Control-Allow-Origin "https://fullstory.com";
+add_header Access-Control-Allow-Origin *;
 add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
 add_header Content-Security-Policy "default-src 'self'; connect-src * https://www.google-analytics.com; object-src 'none'; child-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; font-src https://fonts.gstatic.com; img-src 'self' https://www.google-analytics.com www.googletagmanager.com http://cdn.jsdelivr.net/npm/@apollographql/; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fullstory.com https://www.google-analytics.com https://www.googletagmanager.com https://ssl.google-analytics.com https://www.googleapis.com/identitytoolkit/v3 http://cdn.jsdelivr.net/npm/@apollographql/; style-src 'self' 'unsafe-inline' 'unsafe-eval' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com;";
 
