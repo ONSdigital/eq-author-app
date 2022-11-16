@@ -12,6 +12,8 @@ const {
 
 let db;
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 const connectDB = () => {
   if (process.env.GOOGLE_AUTH_PROJECT_ID) {
     db = new Firestore({
@@ -126,20 +128,34 @@ const transformedQuestionnaire = (sections, version) => {
 };
 
 const getQuestionnaire = async (id) => {
-  try {
-    const latestVersionSnapshot = (
-      await db
-        .collection("questionnaires")
-        .doc(id)
-        .collection("versions")
-        .orderBy("createdAt", "desc")
-        .limit(1)
-        .get()
-    ).docs?.[0];
+  let version, latestVersionSnapshot;
+  let retries = 0;
 
-    if (!latestVersionSnapshot) {
-      throw new Error("Document doesn't exist (from getQuestionnaire)");
-    }
+  try {
+    do {
+      latestVersionSnapshot = (
+        await db
+          .collection("questionnaires")
+          .doc(id)
+          .collection("versions")
+          .orderBy("createdAt", "desc")
+          .limit(1)
+          .get()
+      ).docs?.[0];
+
+      if (!latestVersionSnapshot) {
+        throw new Error("Document doesn't exist (from getQuestionnaire)");
+      }
+
+      version = latestVersionSnapshot.data();
+
+      if (version.documentStatus && version.documentStatus !== "clean") {
+        await sleep(500);
+        if (++retries > 3) {
+          throw new Error("Document is not clean");
+        }
+      }
+    } while (version.documentStatus && version.documentStatus !== "clean");
 
     const sectionsSnapshot = await latestVersionSnapshot?.ref
       ?.collection("sections")
@@ -152,12 +168,11 @@ const getQuestionnaire = async (id) => {
             .map((snap) => snap.data())
             .sort(({ position: a }, { position: b }) => a - b);
 
-    const version = latestVersionSnapshot.data();
     return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
-      error,
-      `Unable to get latest version of questionnaire with ID: ${id} (from getQuestionnaire)`
+      { ...error, qid: id },
+      `Unable to get latest version of questionnaire (from getQuestionnaire)`
     );
     return null;
   }
@@ -275,10 +290,12 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
     baseDoc.update({ ...justListFields(updatedQuestionnaire), updatedAt });
 
     const versionDoc = baseDoc.collection("versions").doc(uuidv4());
+
     versionDoc.set({
       ...omit(updatedQuestionnaire, "sections"),
       updatedAt,
       createdAt: new Date(),
+      documentStatus: "dirty",
     });
 
     try {
@@ -287,6 +304,15 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       await versionDoc.delete();
       throw error;
     }
+
+    versionDoc.update({
+      documentStatus: "clean",
+    });
+
+    logger.info(
+      { qid: updatedQuestionnaire?.id },
+      "Save questionnare: save successful"
+    );
 
     return { ...updatedQuestionnaire, updatedAt };
   } catch (error) {
