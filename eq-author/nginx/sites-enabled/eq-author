@@ -14,7 +14,7 @@ add_header X-Permitted-Cross-Domain-Policies none;
 add_header Referrer-Policy no-referrer;
 add_header Cross-Origin-Embedder-Policy require-corp;
 add_header Cross-Origin-Opener-Policy same-origin;
-add_header Cross-Origin-Resource-Policy same-origin;
+add_header Cross-Origin-Resource-Policy cross-origin;
 add_header Cache-Control no-store;
 add_header Pragma no-cache;
 add_header Permissions-Policy "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
