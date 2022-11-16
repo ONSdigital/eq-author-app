@@ -5,14 +5,6 @@ exports[`CollapsibleEditor should render 1`] = `
   data-test="collapsible-editor"
   id="1"
 >
-  <Modal
-    isOpen={false}
-    negativeButtonText="Cancel"
-    onClose={[Function]}
-    onConfirm={[Function]}
-    positiveButtonText="Delete"
-    title="Delete collapsible"
-  />
   <CollapsibleEditor__DetailHeader>
     <MoveButton
       color="secondary"
@@ -30,22 +22,11 @@ exports[`CollapsibleEditor should render 1`] = `
     >
       <Component />
     </MoveButton>
-    <Tooltip
-      content="Delete collapsible"
-      offset={
-        Object {
-          "bottom": 10,
-          "top": 0,
-        }
-      }
-      place="top"
-    >
-      <CollapsibleEditor__DetailDeleteButton
-        data-test="delete-collapsible-btn"
-        disabled={false}
-        onClick={[Function]}
-      />
-    </Tooltip>
+    <CollapsibleEditor__DetailDeleteButton
+      data-test="delete-collapsible-btn"
+      disabled={false}
+      onClick={[Function]}
+    />
   </CollapsibleEditor__DetailHeader>
   <Field
     disabled={false}

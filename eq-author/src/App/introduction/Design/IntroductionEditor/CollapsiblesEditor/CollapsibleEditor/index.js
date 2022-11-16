@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { flowRight } from "lodash";
 import styled from "styled-components";
 import gql from "graphql-tag";
@@ -11,8 +11,6 @@ import RichTextEditor from "components/RichTextEditor";
 import { colors } from "constants/theme";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
-import Tooltip from "components/Forms/Tooltip";
-import Modal from "components-themed/Modal";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -20,10 +18,6 @@ import withEntityEditor from "components/withEntityEditor";
 
 import withUpdateCollapsible from "./withUpdateCollapsible";
 import withDeleteCollapsible from "./withDeleteCollapsible";
-import {
-  DELETE_BUTTON_TEXT,
-  DELETE_COLLAPSIBLE_TITLE,
-} from "constants/modal-content";
 
 const Detail = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -61,18 +55,8 @@ export const CollapsibleEditor = ({
   deleteCollapsible,
 }) => {
   const { id, title, description } = collapsible;
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   return (
     <Detail id={collapsible.id} data-test="collapsible-editor">
-      <Modal
-        title={DELETE_COLLAPSIBLE_TITLE}
-        positiveButtonText={DELETE_BUTTON_TEXT}
-        isOpen={showDeleteModal}
-        onConfirm={() => deleteCollapsible(collapsible)}
-        onClose={() => setShowDeleteModal(false)}
-      />
       <DetailHeader>
         <MoveButton
           disabled={!canMoveUp || isMoving}
@@ -88,17 +72,11 @@ export const CollapsibleEditor = ({
         >
           <IconDown />
         </MoveButton>
-        <Tooltip
-          content="Delete collapsible"
-          place="top"
-          offset={{ top: 0, bottom: 10 }}
-        >
-          <DetailDeleteButton
-            disabled={isMoving}
-            onClick={() => setShowDeleteModal(true)}
-            data-test="delete-collapsible-btn"
-          />
-        </Tooltip>
+        <DetailDeleteButton
+          disabled={isMoving}
+          onClick={() => deleteCollapsible(collapsible)}
+          data-test="delete-collapsible-btn"
+        />
       </DetailHeader>
       <Field>
         <Label htmlFor={`details-title-${id}`}>Title</Label>
