@@ -10,6 +10,7 @@ const updateSectionMutation = `
       position
       introductionTitle
       introductionContent
+      pageDescription
       folders {
         pages {
           ... on QuestionPage {

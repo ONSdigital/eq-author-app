@@ -177,6 +177,7 @@ type Section {
   position: Int!
   introductionTitle: String
   introductionContent: String
+  pageDescription: String
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
@@ -229,6 +230,7 @@ type QuestionPage implements Page & Skippable & Routable {
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
+  pageDescription: String
 }
 
 type ListCollectorPage implements Page & Skippable & Routable {
@@ -1187,6 +1189,7 @@ input UpdateSectionInput {
   alias: String
   introductionTitle: String
   introductionContent: String
+  pageDescription: String
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean

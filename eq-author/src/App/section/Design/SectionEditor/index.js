@@ -8,10 +8,14 @@ import { get, flip, partial } from "lodash";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
-import { Label } from "components/Forms";
+// import { Label } from "components/Forms";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
-import PageTitleInput from "components/PageTitle";
+// import PageTitleInput from "components/PageTitle";
+// import PageTitleInput from "components/PageTitle/PageTitleInput"
+import { Field, Input, Label } from "components/Forms";
+
+import Collapsible from "components/Collapsible";
 
 import { colors, radius } from "constants/theme";
 
@@ -49,6 +53,39 @@ const IntroCanvas = styled.div`
   border: 1px solid ${colors.bordersLight};
   background-color: ${colors.white};
   border-radius: ${radius} ${radius};
+`;
+
+const PageTitleContent = styled.div`
+  color: ${colors.black};
+`;
+
+const Heading = styled.h2`
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 1.3em;
+  margin-bottom: 0.4em;
+`;
+
+const StyledInput = styled(Input)`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
+`;
+
+const Justification = styled(Collapsible)`
+  margin-bottom: 1em;
 `;
 
 const hasNavigation = (section) =>
@@ -229,7 +266,86 @@ export class SectionEditor extends React.Component {
             />
           </IntroCanvas>
           <HorizontalRule />
-          <PageTitleInput />
+          {/* <PageTitleInput 
+            pageDescription={section?.pageDescription}
+            onUpdate={handleUpdate}
+            onChange={onChange}
+          /> */}
+          <PageTitleContent>
+            <Heading>Descriptions and definitions</Heading>
+            <p>
+              The page description is the first part of the page title. Page
+              titles follow the structure: ‘page description – questionnaire
+              title’.
+            </p>
+            <p>
+              For help writing a page description, see our{" "}
+              <a
+                href="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                design system guidance on page titles
+              </a>
+              .
+            </p>
+            <Justification
+              title="Why do I need a page description?"
+              key={`justification-pagetitle`}
+            >
+              <p>
+                The page title is the first thing read out to those using a
+                screen reader and helps users identify the purpose of the page.
+                You can see page titles in the tab at the top of your browser.
+              </p>
+            </Justification>
+            <Field>
+              <RichTextEditor
+                id="page-description"
+                label="Page description"
+                multiline
+                onUpdate={handleUpdate}
+                name="pageDescription"
+                testSelector="txt-page-description"
+                value={section?.pageDescription}
+                controls={{
+                  heading: true,
+                  bold: true,
+                  list: true,
+                  piping: true,
+                  emphasis: true,
+                  link: true,
+                }}
+                errorValidationMsg={
+                  section &&
+                  this.props.getValidationError({
+                    field: "pageDescription",
+                    label: "Page description",
+                    requiredMsg:
+                      sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
+                  })
+                }
+              />
+              {/* <Label htmlFor="pageDescription">Page description</Label>
+                <StyledInput
+                  id="page-description"
+                  type="text"
+                  data-test="txt-page-description"
+                  autoComplete="off"
+                  name="pageDescription"
+                  placeholder=""
+                  onUpdate={handleUpdate}
+                  value={section?.pageDescription}
+                  errorValidationMsg={
+                    section &&
+                    this.props.getValidationError({
+                      field: "pageDescription",
+                      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
+                    })
+                  }
+                /> */}
+            </Field>
+          </PageTitleContent>
         </Padding>
       </SectionCanvas>
     );

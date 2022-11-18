@@ -47,6 +47,10 @@
         "introductionContent": {
           "type": ["string", "null"],
           "maxLength": 0
+        },
+        "pageDescription": {
+          "type": ["string", "null"],
+          "maxLength": 0
         }
       }
     },
@@ -56,6 +60,9 @@
           "$ref": "definitions.json#/definitions/populatedString"
         },
         "introductionContent": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "pageDescription": {
           "$ref": "definitions.json#/definitions/populatedString"
         }
       }

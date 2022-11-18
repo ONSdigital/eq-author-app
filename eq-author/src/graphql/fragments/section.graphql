@@ -4,6 +4,7 @@ fragment Section on Section {
   alias
   introductionTitle
   introductionContent
+  pageDescription
   requiredCompleted
   showOnHub
   sectionSummary

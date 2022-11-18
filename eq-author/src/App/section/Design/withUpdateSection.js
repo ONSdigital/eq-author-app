@@ -9,10 +9,18 @@ export const mapMutateToProps = ({ mutate }) => ({
     alias,
     introductionTitle,
     introductionContent,
+    pageDescription,
   }) {
     return mutate({
       variables: {
-        input: { id, title, alias, introductionTitle, introductionContent },
+        input: {
+          id,
+          title,
+          alias,
+          introductionTitle,
+          introductionContent,
+          pageDescription,
+        },
       },
     });
   },

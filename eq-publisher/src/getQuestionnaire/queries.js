@@ -234,6 +234,7 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
+        pageDescription
         sectionSummary
         collapsibleSummary
         summaryTitle

@@ -8,6 +8,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     displayName
     introductionTitle
     introductionContent
+    pageDescription
     requiredCompleted
     showOnHub
     sectionSummary
