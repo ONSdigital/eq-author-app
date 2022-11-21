@@ -16,12 +16,14 @@ import AddMenu from "../AddMenu/AddMenu";
 
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../../withCreateQuestionConfirmation";
+import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
 import { QuestionPage } from "constants/page-types";
 
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
   onAddSection,
+  onAddIntroductionPage,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [importingContent, setImportingContent] = useState(false);
@@ -70,6 +72,11 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
+  const handleAddIntroductionPage = () => {
+    onAddIntroductionPage();
+    setOpenMenu(!openMenu);
+  };
+
   const handleAddCalculatedSummaryPage = (createInsideFolder) => {
     onAddCalculatedSummaryPage(createInsideFolder);
     setOpenMenu(!openMenu);
@@ -107,6 +114,7 @@ export const UnwrappedNavigationHeader = ({
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
         onAddFolder={handleAddFolder}
         onAddListCollectorPage={handleAddListCollectorPage}
+        onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
         canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddCalculatedSummaryPage={
@@ -149,6 +157,7 @@ UnwrappedNavigationHeader.fragments = {
 const WrappedHeader = flowRight([
   withCreateQuestionConfirmation,
   withCreateSection,
+  withCreateIntroductionPage,
 ])(UnwrappedNavigationHeader);
 
 // needed for addSection()

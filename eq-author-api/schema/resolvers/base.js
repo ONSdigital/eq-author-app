@@ -579,6 +579,14 @@ const Resolvers = {
       await saveMetadata(metadata);
       return metadata.history;
     },
+    createIntroductionPage: createMutation((_, { input }, ctx) => {
+      const questionnaire = ctx.questionnaire;
+      const introduction = createQuestionnaireIntroduction(
+        questionnaire.metadata
+      );
+
+      return introduction;
+    }),
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);

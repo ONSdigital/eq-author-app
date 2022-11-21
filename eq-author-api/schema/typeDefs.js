@@ -887,6 +887,8 @@ type Mutation {
   moveSection(input: MoveSectionInput!): Questionnaire
   duplicateSection(input: DuplicateSectionInput!): Section
 
+  createIntroductionPage: QuestionnaireIntroduction
+
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder
   deleteFolder(input: DeleteFolderInput!): Section
