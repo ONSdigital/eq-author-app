@@ -44,7 +44,7 @@ const IconButton = ({
     mask: url(${icon});
     width: 2em;
     height: 2em;
-    background-color: ${colors.grey};
+    background-color: ${colors.grey75};
     border: none;
     display: block;
 
