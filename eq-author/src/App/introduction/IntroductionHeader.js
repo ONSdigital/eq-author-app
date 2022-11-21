@@ -5,7 +5,7 @@ import { Toolbar, ToolbarButtonContainer } from "components/Toolbar";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 
 const IntroductionToolbar = styled(Toolbar)`
-  padding: 0;
+  padding: 1.5em 2em 0;
 `;
 
 const IntroductionHeader = () => {

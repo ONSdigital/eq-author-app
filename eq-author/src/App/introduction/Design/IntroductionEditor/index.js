@@ -136,7 +136,7 @@ const IntroductionEditor = ({ introduction }) => {
       <IntroductionHeader />
       <Section>
         <Padding>
-          <SectionTitle style={{ marginBottom: "0" }}>
+          <SectionTitle style={{ marginTop: "-2em", marginBottom: "0" }}>
             Introduction content
           </SectionTitle>
           <SectionDescription>
