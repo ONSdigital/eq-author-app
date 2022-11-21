@@ -206,8 +206,8 @@ describe("List Collector Page Editor", () => {
       expect(listSelect.value).toBe("list1");
     });
 
-    it("should update Additional Guidance Panel", () => {
-      const { getByTestId } = renderListCollector();
+    it.only("should update Additional Guidance Panel", () => {
+      const { getByTestId, debug } = renderListCollector();
 
       // Toggle the switch to open the panel
       const additionalGuidancePanelSwitch = getByTestId(
@@ -219,10 +219,20 @@ describe("List Collector Page Editor", () => {
       });
       expect(additionalGuidancePanelSwitch.checked).toBe(true);
 
+      // console.log("page", page);
+      debug(undefined, 300000);
+
       // Set Additionnal Guidance
+      // const additionalGuidancePanel = getByTestId(
+      //   "additional-guidance-panel-input"
+      // );
+
+      // NEED THIS NEXT LINE TO WORK
       const additionalGuidancePanel = getByTestId(
-        "additionalGuidancePanelSwitch-input"
+        "txt-additional-guidance-panel"
       );
+
+      // console.log("additionalGuidancePanel", additionalGuidancePanel);
       fireEvent.change(additionalGuidancePanel, {
         target: { value: "Additional Guidance Text" },
       });
