@@ -91,6 +91,7 @@ const Text = styled.p`
   margin: 0;
   margin-bottom: 0.3125em;
   overflow-wrap: break-word;
+  color: ${colors.black};
 `;
 
 const Avatar = styled.p`
