@@ -112,7 +112,7 @@ const Author = styled.p`
 
 const Date = styled.p`
   font-size: 0.8em;
-  color: ${colors.grey};
+  color: ${colors.grey75};
   margin: 0;
 `;
 
