@@ -200,11 +200,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    <Field>
-                      <Label>Questionnaire type</Label>
-                      <Pill testId="questionnaire-type">{type}</Pill>
-                    </Field>
-                    <HorizontalSeparator />
                     <InlineField>
                       <Label htmlFor="toggle-qcodes">QCodes</Label>
                       <ToggleSwitch
