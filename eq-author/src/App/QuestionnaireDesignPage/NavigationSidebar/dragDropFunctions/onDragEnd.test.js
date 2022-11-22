@@ -98,57 +98,5 @@ describe("onDragEnd", () => {
       expect(mockMovePage).toHaveBeenCalledTimes(1);
       expect(mockMoveFolder).toHaveBeenCalledTimes(0);
     });
-
-    it("Lets you move a page into another section when the source folder has only one page", () => {
-      const mockQuestionnaire = buildQuestionnaire({
-        sectionCount: 2,
-        folderCount: 2,
-        pageCount: 1,
-      });
-
-      const pageToMove = mockQuestionnaire.sections[0].folders[0].pages[0];
-      const sourceFolder = mockQuestionnaire.sections[0].folders[0];
-      const destinationFolder = mockQuestionnaire.sections[1].folders[0];
-
-      const result = onDragEnd(
-        mockQuestionnaire,
-        buildDestination(destinationFolder, 1),
-        buildSource(sourceFolder, 0),
-        pageToMove.id,
-        mockMovePage,
-        mockMoveFolder
-      );
-
-      expect(mockQuestionnaire.sections[0].folders[0].pages.length).toBe(0);
-      expect(result).toBe(1);
-      expect(mockMovePage).toHaveBeenCalledTimes(1);
-      expect(mockMoveFolder).toHaveBeenCalledTimes(0);
-    });
-
-    it("Lets you move a folder into another section when the source section has only one folder", async () => {
-      const mockQuestionnaire = buildQuestionnaire({
-        sectionCount: 2,
-        folderCount: 1,
-        pageCount: 1,
-      });
-
-      const sourceSection = mockQuestionnaire.sections[0];
-      const sourceFolder = mockQuestionnaire.sections[0].folders[0];
-      const destinationSection = mockQuestionnaire.sections[1];
-
-      const result = onDragEnd(
-        mockQuestionnaire,
-        buildDestination(destinationSection, 1),
-        buildSource(sourceSection, 0),
-        sourceFolder.id,
-        mockMovePage,
-        mockMoveFolder
-      );
-
-      expect(mockQuestionnaire.sections[0].folders.length).toBe(0);
-      expect(result).toBe(1);
-      expect(mockMovePage).toHaveBeenCalledTimes(0);
-      expect(mockMoveFolder).toHaveBeenCalledTimes(1);
-    });
   });
 });
