@@ -1,8 +1,17 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import {
+  render,
+  fireEvent,
+  flushPromises,
+  act,
+  waitFor,
+  screen,
+} from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
+
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
@@ -58,6 +67,8 @@ describe("List Collector Page Editor", () => {
   const history = {
     push: jest.fn(),
   };
+
+  const additionalGuidancePanelSwitch = true;
 
   const renderListCollector = ({ ...props }) =>
     render(
@@ -206,33 +217,31 @@ describe("List Collector Page Editor", () => {
       expect(listSelect.value).toBe("list1");
     });
 
-    it.only("should update Additional Guidance Panel", () => {
-      const { getByTestId, debug } = renderListCollector();
+    it("should update Additional Guidance Panel Switch", async () => {
+      const { getByTestId } = await renderListCollector();
 
-      // Toggle the switch to open the panel
       const additionalGuidancePanelSwitch = getByTestId(
         "additionalGuidancePanelSwitch-input"
       );
       expect(additionalGuidancePanelSwitch.checked).toBe(false);
+
       fireEvent.change(additionalGuidancePanelSwitch, {
         target: { checked: true },
       });
       expect(additionalGuidancePanelSwitch.checked).toBe(true);
+    });
 
-      // console.log("page", page);
-      debug(undefined, 300000);
-
-      // Set Additionnal Guidance
-      // const additionalGuidancePanel = getByTestId(
-      //   "additional-guidance-panel-input"
-      // );
-
-      // NEED THIS NEXT LINE TO WORK
-      const additionalGuidancePanel = getByTestId(
-        "txt-additional-guidance-panel"
+    it.only("should update Additional Guidance Panel", async () => {
+      const { getByTestId, debug } = await renderListCollector(
+        (page.additionalGuidancePanelSwitch = true)
       );
 
-      // console.log("additionalGuidancePanel", additionalGuidancePanel);
+      debug(undefined, 300000);
+
+      const additionalGuidancePanel = getByTestId(
+        "txt-collapsible-additionalGuidancePanel"
+      );
+
       fireEvent.change(additionalGuidancePanel, {
         target: { value: "Additional Guidance Text" },
       });
