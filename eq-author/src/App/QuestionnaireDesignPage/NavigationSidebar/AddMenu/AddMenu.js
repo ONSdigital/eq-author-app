@@ -46,6 +46,7 @@ const AddMenu = ({
   onStartImportingContent,
   onAddListCollectorPage,
   onAddIntroductionPage,
+  canAddIntroductionPage,
   canAddSection,
   onAddCalculatedSummaryPage,
   canAddCalculatedSummaryPage,
@@ -82,10 +83,10 @@ const AddMenu = ({
     },
     {
       handleClick: () => onAddIntroductionPage(),
-      disabled: false,
+      disabled: !canAddIntroductionPage,
       dataTest: "btn-add-introduction",
-      icon: IconFolder,
-      text: "Introduction",
+      icon: IconImport,
+      text: "Introduction page",
     },
     {
       handleClick: onAddQuestionConfirmation,

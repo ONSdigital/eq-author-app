@@ -55,6 +55,9 @@ export const UnwrappedNavigationHeader = ({
       page?.pageType === QuestionPage && !page?.confirmation;
   }
 
+  const canAddIntroductionPage =
+    !questionnaire.introduction && [PAGE, FOLDER, SECTION].includes(entityName);
+
   const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const handleAddQuestionPage = (createInsideFolder) => {
@@ -122,6 +125,7 @@ export const UnwrappedNavigationHeader = ({
         }
         canAddQuestionConfirmation={canAddQuestionConfirmation}
         canAddListCollectorPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddIntroductionPage={canAddIntroductionPage}
         canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddSection={canAddSection}
         canImportContent={canImportContent}
