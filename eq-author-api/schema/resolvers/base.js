@@ -579,10 +579,15 @@ const Resolvers = {
       await saveMetadata(metadata);
       return metadata.history;
     },
-    createIntroductionPage: createMutation((_, { input }, ctx) => {
+    createIntroductionPage: createMutation((root, args, ctx) => {
       const questionnaire = ctx.questionnaire;
-      const introduction = createQuestionnaireIntroduction(
-        questionnaire.metadata
+      const metadata = questionnaire.metadata;
+      const introduction = createQuestionnaireIntroduction(metadata);
+      ctx.questionnaire.introduction = introduction;
+
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `New Introduction created with ID ${introduction.id}`
       );
 
       return introduction;
