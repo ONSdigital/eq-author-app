@@ -1,17 +1,8 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import {
-  render,
-  fireEvent,
-  flushPromises,
-  act,
-  waitFor,
-  screen,
-} from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
-
-import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 jest.mock("components/NavigationCallbacks", () => ({
   useSetNavigationCallbacksForPage: () => null,
@@ -67,8 +58,6 @@ describe("List Collector Page Editor", () => {
   const history = {
     push: jest.fn(),
   };
-
-  const additionalGuidancePanelSwitch = true;
 
   const renderListCollector = ({ ...props }) =>
     render(
@@ -231,21 +220,16 @@ describe("List Collector Page Editor", () => {
       expect(additionalGuidancePanelSwitch.checked).toBe(true);
     });
 
-    it.only("should update Additional Guidance Panel", async () => {
-      const { getByTestId, debug } = await renderListCollector(
-        (page.additionalGuidancePanelSwitch = true)
+    it("should show Additional Guidance Panel when toggle is set", async () => {
+      const { container } = renderListCollector(
+        (page.additionalGuidancePanelSwitch = true),
+        (page.additionalGuidancePanel = "Additional Guidance Text")
       );
 
-      debug(undefined, 300000);
-
-      const additionalGuidancePanel = getByTestId(
-        "txt-collapsible-additionalGuidancePanel"
+      const additionalGuidancePanel = container.querySelector(
+        '[data-testid="txt-collapsible-additionalGuidancePanel"]'
       );
-
-      fireEvent.change(additionalGuidancePanel, {
-        target: { value: "Additional Guidance Text" },
-      });
-      expect(additionalGuidancePanel.value).toBe("Additional Guidance Text");
+      expect(additionalGuidancePanel).toBeInTheDocument();
     });
 
     it("update a positive answer label", () => {
