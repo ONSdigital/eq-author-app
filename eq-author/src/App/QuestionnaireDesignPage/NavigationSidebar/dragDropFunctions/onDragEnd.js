@@ -72,10 +72,6 @@ export default (
       },
     });
 
-    if (sourceFolder.pages.length === 0) {
-      window.location.reload();
-    }
-
     return 1;
   }
 
@@ -157,10 +153,6 @@ export default (
         },
       },
     });
-
-    if (sourceSection.folders.length === 0) {
-      window.location.reload();
-    }
 
     return 1;
   }

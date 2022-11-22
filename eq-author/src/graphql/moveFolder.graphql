@@ -1,6 +1,7 @@
 #import "./fragments/questionnaire.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/answer.graphql"
+#import "graphql/fragments/comment.graphql"
 
 mutation MoveFolderMutation($input: MoveFolderInput!) {
   moveFolder(input: $input) {
@@ -53,6 +54,9 @@ mutation MoveFolderMutation($input: MoveFolderInput!) {
             }
             confirmation {
               id
+            }
+            comments {
+              ...Comment
             }
           }
           validationErrorInfo {
