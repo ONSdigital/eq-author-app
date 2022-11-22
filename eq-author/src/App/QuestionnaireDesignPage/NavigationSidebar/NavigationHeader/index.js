@@ -142,6 +142,7 @@ export const UnwrappedNavigationHeader = ({
 UnwrappedNavigationHeader.propTypes = {
   onAddSection: PropTypes.func.isRequired,
   onCreateQuestionConfirmation: PropTypes.func.isRequired,
+  onAddIntroductionPage: PropTypes.func.isRequired,
 };
 
 UnwrappedNavigationHeader.fragments = {
