@@ -61,6 +61,30 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
           ... on CalculatedSummaryPage {
             id
             alias
+            totalTitle
+            type
+            answers {
+              ...Answer
+              ... on BasicAnswer {
+                secondaryQCode
+              }
+              ... on MultipleChoiceAnswer {
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                  displayName
+                  label
+                  description
+                  value
+                  qCode
+                }
+              }
+            }
+            summaryAnswers {
+              id
+            }
             comments {
               ...Comment
             }
