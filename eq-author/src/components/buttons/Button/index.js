@@ -160,8 +160,8 @@ export const signoutButton = css`
 `;
 
 export const greyedButton = css`
-  --color-text: ${colors.black};
-  --color-bg: ${colors.grey15};
+  --color-text: ${colors.text};
+  --color-bg: ${colors.greyedButton};
 
   position: relative;
   border: none;
