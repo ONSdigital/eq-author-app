@@ -1,0 +1,8 @@
+#import "graphql/fragments/introduction.graphql"
+mutation deleteIntroductionPage {
+  deleteIntroductionPage {
+    introduction {
+      ...Introduction
+    }
+  }
+}

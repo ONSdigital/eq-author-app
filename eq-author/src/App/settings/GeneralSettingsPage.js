@@ -220,6 +220,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       QCodes are a way to identify answers when they&apos;re
                       sent downstream.
                     </Caption>
+                    {/* TODO: Two HorizontalSeparators */}
                     <HorizontalSeparator />
                     <>
                       {type === BUSINESS && (

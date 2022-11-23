@@ -888,6 +888,7 @@ type Mutation {
   duplicateSection(input: DuplicateSectionInput!): Section
 
   createIntroductionPage: QuestionnaireIntroduction
+  deleteIntroductionPage: Questionnaire
 
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder

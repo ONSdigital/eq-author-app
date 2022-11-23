@@ -592,6 +592,19 @@ const Resolvers = {
 
       return introduction;
     }),
+    deleteIntroductionPage: createMutation((root, args, ctx) => {
+      const questionnaire = ctx.questionnaire;
+      const introduction = questionnaire.introduction;
+
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Removed introduction with ID: ${introduction.id} from questionnaire: ${ctx.questionnaire.id}`
+      );
+
+      questionnaire.introduction = undefined;
+
+      return ctx.questionnaire;
+    }),
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);

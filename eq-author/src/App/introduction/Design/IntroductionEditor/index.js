@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { noop } from "lodash/fp";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
@@ -92,7 +93,7 @@ const StyledInput = styled(Input)`
   `}
 `;
 
-const IntroductionEditor = ({ introduction }) => {
+const IntroductionEditor = ({ introduction, history }) => {
   const {
     id,
     collapsibles,
@@ -133,7 +134,7 @@ const IntroductionEditor = ({ introduction }) => {
 
   return (
     <>
-      <IntroductionHeader />
+      <IntroductionHeader history={history} />
       <Section>
         <Padding>
           <SectionTitle style={{ marginTop: "-2em", marginBottom: "0" }}>
@@ -481,6 +482,7 @@ IntroductionEditor.propTypes = {
     tertiaryTitle: PropTypes.string,
     tertiaryDescription: PropTypes.string,
   }),
+  history: CustomPropTypes.history,
 };
 
 export default IntroductionEditor;
