@@ -167,8 +167,8 @@ export const greyedButton = css`
   border: none;
 
   &:hover {
-    --color-text: ${colors.black};
-    --color-bg: ${darken(0.1, colors.grey15)};
+    --color-text: ${colors.text};
+    --color-bg: ${darken(0.1, colors.greyedButton)};
     border-color: var(--color-bg);
   }
 `;
