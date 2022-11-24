@@ -141,9 +141,19 @@ export const DetailsContent = styled.div`
   word-wrap: break-word;
 `;
 
+const Box = styled.div`
+  border-left: 10px solid #033e58;
+  background: #eff0f9;
+  padding: 1em;
+  margin-top: -0.2em;
+  margin-bottom: 1.6em;
+`;
+
 const ListCollectorPagePreview = ({ page }) => {
   const {
     drivingQuestion,
+    additionalGuidancePanel,
+    additionalGuidancePanelSwitch,
     drivingPositive,
     drivingNegative,
     drivingPositiveDescription,
@@ -201,6 +211,21 @@ const ListCollectorPagePreview = ({ page }) => {
             ) : (
               <Error large>Missing driving question</Error>
             )}
+            <div data-test="additionalGuidancePanel">
+              {additionalGuidancePanelSwitch && (
+                <div>
+                  {additionalGuidancePanel ? (
+                    <Box
+                      dangerouslySetInnerHTML={{
+                        __html: additionalGuidancePanel,
+                      }}
+                    />
+                  ) : (
+                    <Error large>Missing Additional guidance content</Error>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div data-test="drivingPositive">
               {drivingPositive ? (
@@ -216,7 +241,6 @@ const ListCollectorPagePreview = ({ page }) => {
                 <Error large>Missing drivingPositive</Error>
               )}
             </div>
-
             <div data-test="drivingPositiveDescription">
               {drivingPositiveDescription && (
                 <Description
@@ -226,7 +250,6 @@ const ListCollectorPagePreview = ({ page }) => {
                 />
               )}
             </div>
-
             <div data-test="drivingNegative">
               {drivingNegative ? (
                 <OptionItem>
@@ -241,7 +264,6 @@ const ListCollectorPagePreview = ({ page }) => {
                 <Error large>Missing drivingNegative</Error>
               )}
             </div>
-
             <div data-test="drivingNegativeDescription">
               {drivingNegativeDescription && (
                 <Description
