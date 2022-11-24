@@ -5,6 +5,14 @@ exports[`DisplayConditionEditor should render 1`] = `
   data-test="display-condition"
 >
   <DisplayConditionEditor__Header>
+    <Modal
+      isOpen={false}
+      negativeButtonText="Cancel"
+      onClose={[Function]}
+      onConfirm={[Function]}
+      positiveButtonText="Delete"
+      title="Delete logic rule"
+    />
     <Label
       bold={true}
       inline={true}

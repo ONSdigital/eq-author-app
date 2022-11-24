@@ -33,6 +33,14 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       cols={2.5}
       gutters={false}
     >
+      <Modal
+        isOpen={false}
+        negativeButtonText="Cancel"
+        onClose={[Function]}
+        onConfirm={[Function]}
+        positiveButtonText="Delete"
+        title="Delete logic condition"
+      />
       <components__ActionButtons
         data-test="action-btns"
         horizontal={true}

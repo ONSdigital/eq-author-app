@@ -12,6 +12,14 @@ exports[`Answer Editor should render Checkbox 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete checkbox answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -133,6 +141,14 @@ exports[`Answer Editor should render Currency 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete currency answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -248,6 +264,14 @@ exports[`Answer Editor should render Date 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete date answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -365,6 +389,14 @@ exports[`Answer Editor should render DateRange 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete date range answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -477,6 +509,14 @@ exports[`Answer Editor should render Duration 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete duration answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -595,6 +635,14 @@ exports[`Answer Editor should render Mutually Exclusive 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete OR answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -718,6 +766,14 @@ exports[`Answer Editor should render Number 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete number answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -833,6 +889,14 @@ exports[`Answer Editor should render Percentage 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete percentage answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -948,6 +1012,14 @@ exports[`Answer Editor should render Radio 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete radio answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -1070,6 +1142,14 @@ exports[`Answer Editor should render TextArea 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete text area answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -1184,6 +1264,14 @@ exports[`Answer Editor should render TextField 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete text answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType
@@ -1298,6 +1386,14 @@ exports[`Answer Editor should render Unit 1`] = `
   className="answer"
   data-test="answer-editor"
 >
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete unit answer"
+  />
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerTypePanel>
       <AnswerEditor__AnswerType

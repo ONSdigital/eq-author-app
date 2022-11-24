@@ -353,7 +353,10 @@ describe("SectionRoute", () => {
 
       wrapper.find(`[data-test="btn-delete"]`).first().simulate("click");
 
-      wrapper.find(`[data-test="btn-delete-modal"]`).first().simulate("click");
+      wrapper
+        .find(`[data-test="btn-modal-positive"]`)
+        .first()
+        .simulate("click");
 
       expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
       await act(async () => {

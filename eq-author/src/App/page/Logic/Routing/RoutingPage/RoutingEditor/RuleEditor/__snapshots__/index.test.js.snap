@@ -5,6 +5,14 @@ exports[`RuleEditor should render 1`] = `
   data-test="routing-rule"
 >
   <RuleEditor__Header>
+    <Modal
+      isOpen={false}
+      negativeButtonText="Cancel"
+      onClose={[Function]}
+      onConfirm={[Function]}
+      positiveButtonText="Delete"
+      title="Delete logic rule"
+    />
     <RuleEditor__HeaderPanel>
       <RuleEditor__HeaderLabel
         inline={true}

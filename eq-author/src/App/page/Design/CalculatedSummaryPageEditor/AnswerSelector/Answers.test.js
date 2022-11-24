@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import Answers, { findAnswersErrors } from "./Answers";
 
@@ -76,7 +76,7 @@ describe("Answers", () => {
   });
 
   it("Calls onUpdateCalculatedSummaryPage when the remove all btn is pressed", () => {
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Answers
         page={mockPage}
         onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
@@ -88,11 +88,36 @@ describe("Answers", () => {
 
     removeAllBtn.click();
 
+    const deleteButton = getByTestId("btn-modal-positive");
+    fireEvent.click(deleteButton);
+
     expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
   });
 
+  it("should close delete modal for remove all modal ", () => {
+    const { getByText, getByTestId, queryByTestId } = render(
+      <Answers
+        page={mockPage}
+        onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
+        onSelect={mockOnSelect}
+      />
+    );
+
+    const removeAllBtn = getByText("Remove all");
+
+    removeAllBtn.click();
+
+    expect(queryByTestId("modal")).toBeInTheDocument();
+
+    const closeButton = getByTestId("btn-modal-close");
+    fireEvent.click(closeButton);
+
+    expect(mockOnUpdateCalculatedSummaryPage).not.toHaveBeenCalled();
+    expect(queryByTestId("modal")).not.toBeInTheDocument();
+  });
+
   it("Calls onUpdateCalculatedSummaryPage when the remove single btn is pressed", () => {
-    const { getAllByTestId } = render(
+    const { getByTestId, getAllByTestId } = render(
       <Answers
         page={mockPage}
         onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
@@ -104,7 +129,32 @@ describe("Answers", () => {
 
     removeOneBtn.click();
 
+    const deleteButton = getByTestId("btn-modal-positive");
+    fireEvent.click(deleteButton);
+
     expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
+  });
+
+  it("should close delete modal for single delete modal", () => {
+    const { getByTestId, queryByTestId, getAllByTestId } = render(
+      <Answers
+        page={mockPage}
+        onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
+        onSelect={mockOnSelect}
+      />
+    );
+
+    const removeOneBtn = getAllByTestId("remove-answer-button")[0];
+
+    removeOneBtn.click();
+
+    expect(queryByTestId("modal")).toBeInTheDocument();
+
+    const closeButton = getByTestId("btn-modal-close");
+    fireEvent.click(closeButton);
+
+    expect(mockOnUpdateCalculatedSummaryPage).not.toHaveBeenCalled();
+    expect(queryByTestId("modal")).not.toBeInTheDocument();
   });
 
   it("Can display an error", () => {

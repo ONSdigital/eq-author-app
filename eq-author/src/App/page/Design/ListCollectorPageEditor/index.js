@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import Collapsible from "components/Collapsible";
@@ -28,10 +27,6 @@ const propTypes = {
   match: CustomPropTypes.match.isRequired,
   history: CustomPropTypes.history.isRequired,
   page: CustomPropTypes.page.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  enableValidationMessage: PropTypes.bool,
-  onUpdateListCollectorPage: PropTypes.func,
 };
 
 const inputFilter = gql`

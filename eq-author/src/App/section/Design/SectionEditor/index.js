@@ -5,10 +5,10 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { get, flip, partial } from "lodash";
 
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
 import { Label } from "components/Forms";
+import Modal from "components-themed/Modal";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
 
@@ -22,8 +22,12 @@ import getIdForObject from "utils/getIdForObject";
 
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
-import iconSection from "./icon-dialog-section.svg";
 import { sectionErrors } from "constants/validationMessages";
+import {
+  DELETE_SECTION_TITLE,
+  DELETE_PAGE_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const titleControls = {
   emphasis: true,
@@ -59,8 +63,8 @@ export class SectionEditor extends React.Component {
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onDeleteSectionConfirm: PropTypes.func.isRequired,
-    onCloseDeleteConfirmDialog: PropTypes.func.isRequired,
-    showDeleteConfirmDialog: PropTypes.bool.isRequired,
+    onCloseDeleteConfirmModal: PropTypes.func.isRequired,
+    showDeleteConfirmModal: PropTypes.bool.isRequired,
     onMoveSectionDialog: PropTypes.func.isRequired,
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,
@@ -109,8 +113,8 @@ export class SectionEditor extends React.Component {
       section,
       onUpdate,
       onChange,
-      showDeleteConfirmDialog,
-      onCloseDeleteConfirmDialog,
+      showDeleteConfirmModal,
+      onCloseDeleteConfirmModal,
       onDeleteSectionConfirm,
       match,
     } = this.props;
@@ -127,14 +131,13 @@ export class SectionEditor extends React.Component {
 
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
-        <DeleteConfirmDialog
-          isOpen={showDeleteConfirmDialog}
-          onClose={onCloseDeleteConfirmDialog}
-          onDelete={onDeleteSectionConfirm}
-          title={section?.displayName}
-          alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
-          icon={iconSection}
-          data-test="dialog-delete-confirm"
+        <Modal
+          title={DELETE_SECTION_TITLE}
+          warningMessage={DELETE_PAGE_WARNING}
+          positiveButtonText={DELETE_BUTTON_TEXT}
+          isOpen={showDeleteConfirmModal}
+          onConfirm={onDeleteSectionConfirm}
+          onClose={onCloseDeleteConfirmModal}
         />
         <MoveSectionQuery questionnaireId={match.params.questionnaireId}>
           {this.renderMoveSectionModal}
