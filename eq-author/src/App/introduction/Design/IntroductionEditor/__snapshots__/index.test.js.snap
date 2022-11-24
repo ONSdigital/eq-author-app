@@ -2,12 +2,14 @@
 
 exports[`IntroductionEditor should render 1`] = `
 <Fragment>
+  <IntroductionHeader />
   <IntroductionEditor__Section>
     <IntroductionEditor__Padding>
       <IntroductionEditor__SectionTitle
         style={
           Object {
             "marginBottom": "0",
+            "marginTop": "-2em",
           }
         }
       >

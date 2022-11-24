@@ -56,7 +56,8 @@ export const UnwrappedNavigationHeader = ({
   }
 
   const canAddIntroductionPage =
-    !questionnaire.introduction && [PAGE, FOLDER, SECTION].includes(entityName);
+    !questionnaire?.introduction &&
+    [PAGE, FOLDER, SECTION].includes(entityName);
 
   const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
