@@ -1566,6 +1566,7 @@ const Resolvers = {
   },
 
   QuestionnaireIntroduction: {
+    questionnaire: (root, args, ctx) => ctx.questionnaire,
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
     comments: ({ id }, args, ctx) => ctx.comments[id],

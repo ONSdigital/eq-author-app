@@ -714,6 +714,7 @@ type QuestionnaireIntroduction {
   tertiaryTitle: String!
   tertiaryDescription: String!
   previewQuestions: Boolean
+  questionnaire: Questionnaire
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }

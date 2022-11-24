@@ -2,5 +2,11 @@
 mutation createIntroductionPage {
   createIntroductionPage {
     ...Introduction
+    questionnaire {
+      id
+      introduction {
+        ...Introduction
+      }
+    }
   }
 }
