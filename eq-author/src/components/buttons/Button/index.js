@@ -160,15 +160,15 @@ export const signoutButton = css`
 `;
 
 export const greyedButton = css`
-  --color-text: ${colors.white};
-  --color-bg: ${colors.grey};
+  --color-text: ${colors.text};
+  --color-bg: ${colors.greyedButton};
 
   position: relative;
   border: none;
 
   &:hover {
-    --color-text: ${colors.white};
-    --color-bg: ${darken(0.1, colors.grey)};
+    --color-text: ${colors.text};
+    --color-bg: ${darken(0.1, colors.greyedButton)};
     border-color: var(--color-bg);
   }
 `;
