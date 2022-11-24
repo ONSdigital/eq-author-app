@@ -50,7 +50,7 @@ const IconButton = ({
     mask: url(${icon});
     width: 2em;
     height: 2em;
-    background-color: ${colors.grey};
+    background-color: ${colors.commentIcon};
     border: none;
     display: block;
 
@@ -92,11 +92,12 @@ const ColumnWrapper = styled.div``;
 
 const Text = styled.p`
   border: 0.0625em solid ${colors.lightGrey};
-  background-color: ${colors.lighterGrey};
+  background-color: ${colors.commentBackground};
   padding: 0.5em 1em;
   margin: 0;
   margin-bottom: 0.3125em;
   overflow-wrap: break-word;
+  color: ${colors.text};
 `;
 
 const Avatar = styled.p`
@@ -118,7 +119,7 @@ const Author = styled.p`
 
 const Date = styled.p`
   font-size: 0.8em;
-  color: ${colors.grey};
+  color: ${colors.commentDate};
   margin: 0;
 `;
 

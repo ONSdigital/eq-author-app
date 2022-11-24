@@ -85,6 +85,10 @@ colors.success = colors.leafGreen;
 colors.errors = colors.rubyRed;
 colors.branded = colors.oceanBlue;
 colors.commentHighlight = colors.darkGreen;
+colors.commentDate = colors.grey75;
+colors.commentIcon = colors.grey75;
+colors.commentBackground = colors.grey5;
+colors.greyedButton = colors.grey15;
 
 export const radius = "4px";
 
