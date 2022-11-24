@@ -603,7 +603,7 @@ const Resolvers = {
 
       questionnaire.introduction = undefined;
 
-      return ctx.questionnaire;
+      return questionnaire;
     }),
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);

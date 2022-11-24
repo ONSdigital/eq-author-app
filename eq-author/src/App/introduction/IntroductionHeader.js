@@ -3,11 +3,8 @@ import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
 
-import { useQuestionnaire } from "components/QuestionnaireContext";
 import { Toolbar, ToolbarButtonContainer } from "components/Toolbar";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
-
-import { buildSectionPath } from "utils/UrlUtils";
 
 import DELETE_INTRODUCTION from "graphql/deleteIntroductionPage.graphql";
 
@@ -16,21 +13,12 @@ const IntroductionToolbar = styled(Toolbar)`
 `;
 
 const IntroductionHeader = ({ history }) => {
-  const { questionnaire } = useQuestionnaire();
-
   const [deleteIntroduction] = useMutation(DELETE_INTRODUCTION);
 
   const onDeleteIntroduction = () => {
     deleteIntroduction();
 
-    // Redirect to first section
-    const sectionPath = buildSectionPath({
-      questionnaireId: questionnaire.id,
-      sectionId: questionnaire.sections[0].id,
-      tab: "design",
-    });
-
-    history.push(sectionPath);
+    history.goBack();
   };
 
   return (
