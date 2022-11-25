@@ -20,8 +20,6 @@ import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
-import { BUSINESS } from "constants/questionnaire-types";
-
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -220,34 +218,31 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       QCodes are a way to identify answers when they&apos;re
                       sent downstream.
                     </Caption>
-                    {/* TODO: Two HorizontalSeparators */}
                     <HorizontalSeparator />
                     <>
-                      {type === BUSINESS && (
-                        <EnableDisableWrapper
-                          data-test="toggle-hub-introduction-wrapper"
-                          disabled={!hub}
-                        >
-                          <InlineField disabled={!hub}>
-                            <Label htmlFor="toggle-hub-introduction">
-                              Show introduction page on hub
-                            </Label>
-                            <ToggleSwitch
-                              id="toggle-hub-introduction"
-                              name="toggle-hub-introduction"
-                              hideLabels={false}
-                              onChange={({ value }) =>
-                                updateQuestionnaireIntroduction({
-                                  variables: {
-                                    input: { showOnHub: value },
-                                  },
-                                })
-                              }
-                              checked={showOnHub}
-                            />
-                          </InlineField>
-                        </EnableDisableWrapper>
-                      )}
+                      <EnableDisableWrapper
+                        data-test="toggle-hub-introduction-wrapper"
+                        disabled={!introduction || !hub}
+                      >
+                        <InlineField disabled={!hub}>
+                          <Label htmlFor="toggle-hub-introduction">
+                            Show introduction page on hub
+                          </Label>
+                          <ToggleSwitch
+                            id="toggle-hub-introduction"
+                            name="toggle-hub-introduction"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaireIntroduction({
+                                variables: {
+                                  input: { showOnHub: value },
+                                },
+                              })
+                            }
+                            checked={showOnHub}
+                          />
+                        </InlineField>
+                      </EnableDisableWrapper>
                     </>
                     <HorizontalSeparator />
                     <Label>Summary page</Label>
