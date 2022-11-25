@@ -137,7 +137,7 @@ const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRou
 
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
-    shortName: input.type === BUSINESS ? "default" : "social",
+    shortName: "default",
   });
   const defaultQuestionnaire = {
     id: uuidv4(),
