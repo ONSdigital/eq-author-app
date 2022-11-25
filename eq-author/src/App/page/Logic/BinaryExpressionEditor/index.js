@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { flow, some } from "lodash/fp";
 import { propType } from "graphql-anywhere";
@@ -34,6 +34,7 @@ import ValidationError from "components/ValidationError";
 import IconMinus from "./icon-minus.svg?inline";
 import IconPlus from "./icon-plus.svg?inline";
 import WarningIcon from "constants/icon-warning.svg?inline";
+import Modal from "components-themed/Modal";
 
 import fragment from "./fragment.graphql";
 import withUpdateLeftSide from "./withUpdateLeftSide";
@@ -53,6 +54,11 @@ import {
   StyledLabel,
   ConnectedPath,
 } from "./components";
+
+import {
+  DELETE_LOGIC_CONDITION_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {
@@ -139,6 +145,8 @@ export const UnwrappedBinaryExpressionEditor = ({
     }
   };
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const handleAddClick = () => createBinaryExpression(expressionGroup.id);
 
   const handleUpdateRightSide = (updateField) =>
@@ -191,10 +199,17 @@ export const UnwrappedBinaryExpressionEditor = ({
           />
         </Column>
         <Column gutters={false} cols={2.5}>
+          <Modal
+            title={DELETE_LOGIC_CONDITION_TITLE}
+            positiveButtonText={DELETE_BUTTON_TEXT}
+            isOpen={showDeleteModal}
+            onConfirm={handleDeleteClick}
+            onClose={() => setShowDeleteModal(false)}
+          />
           <ActionButtons data-test="action-btns" horizontal>
             <Tooltip content="Remove condition" place="top">
               <RemoveButton
-                onClick={handleDeleteClick}
+                onClick={() => setShowDeleteModal(true)}
                 disabled={
                   conditionType !== "skip" &&
                   expressionGroup.expressions.length === 1

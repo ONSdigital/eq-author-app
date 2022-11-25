@@ -7,6 +7,14 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
   key="1"
 >
   <div>
+    <Modal
+      isOpen={false}
+      negativeButtonText="Cancel"
+      onClose={[Function]}
+      onConfirm={[Function]}
+      positiveButtonText="Delete"
+      title="Delete option"
+    />
     <Option__ButtonsContainer>
       <Tooltip
         content="Move answer up"

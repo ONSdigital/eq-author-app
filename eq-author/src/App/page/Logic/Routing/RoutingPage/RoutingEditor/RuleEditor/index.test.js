@@ -101,7 +101,18 @@ describe("RuleEditor", () => {
   it("should allow deleting rule", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-delete-routing-rule")).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(defaultProps.deleteRule).toHaveBeenCalledWith(defaultProps.rule.id);
+  });
+
+  it("should close delete modal", () => {
+    const wrapper = shallow(<RuleEditor {...defaultProps} />);
+    wrapper.find(byTestAttr("btn-delete-routing-rule")).simulate("click");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(true);
+    wrapper.find("Modal").simulate("close");
+    expect(defaultProps.deleteRule).not.toHaveBeenCalled();
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(false);
   });
 
   it("should pass down the correct prop when a second 'And' condition is invalid", () => {

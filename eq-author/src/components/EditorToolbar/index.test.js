@@ -11,6 +11,7 @@ import {
   buildFolders,
 } from "tests/utils/createMockQuestionnaire";
 import { useQuestionnaire } from "components/QuestionnaireContext";
+import { DELETE_FOLDER_WARNING } from "constants/modal-content";
 
 jest.mock("components/QuestionnaireContext", () => ({
   __esModule: true,
@@ -32,8 +33,7 @@ useQuestionnaire.mockImplementation(() => ({
 const folder = buildFolders({ folderCount: 2 });
 folder.section = { id: "1" };
 
-const deleteDialogText =
-  "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.";
+const deleteDialogText = DELETE_FOLDER_WARNING;
 
 describe("EditorToolbar", () => {
   function setup(props) {
@@ -79,9 +79,7 @@ describe("EditorToolbar", () => {
   it("should close delete dialog", async () => {
     fireEvent.click(screen.getByTestId("btn-delete-folder"));
 
-    fireEvent.click(screen.getByTestId("btn-cancel-modal"));
-
-    await waitForElementToBeRemoved(() => screen.queryByText(deleteDialogText));
+    fireEvent.click(screen.getByTestId("btn-modal-negative"));
 
     expect(screen.queryByText(deleteDialogText)).not.toBeInTheDocument();
   });

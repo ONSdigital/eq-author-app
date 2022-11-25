@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -10,11 +10,17 @@ import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
+import Modal from "components-themed/Modal";
 
 import { Label } from "components/Forms";
 
 import DELETE_ALL_DISPLAY_CONDITIONS_MUTATION from "graphql/deleteAllDisplayConditions.graphql";
 import DELETE_DISPLAY_CONDITION_MUTATION from "graphql/deleteDisplayCondition.graphql";
+
+import {
+  DELETE_LOGIC_RULE_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const LABEL_IF = "IF";
 const LABEL_AND = "AND";
@@ -76,15 +82,19 @@ const DisplayConditionEditor = ({
     DELETE_ALL_DISPLAY_CONDITIONS_MUTATION
   );
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const existingRadioConditions = {};
 
   const labelGroupTitle = `Display this ${noun}`;
 
   const header = (
     <Header>
-      <Label inline>{labelGroupTitle}</Label>
-      <RemoveDisplayConditionButton
-        onClick={() =>
+      <Modal
+        title={DELETE_LOGIC_RULE_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={() =>
           deleteAllDisplayConditions({
             variables: {
               input: {
@@ -93,6 +103,11 @@ const DisplayConditionEditor = ({
             },
           })
         }
+        onClose={() => setShowDeleteModal(false)}
+      />
+      <Label inline>{labelGroupTitle}</Label>
+      <RemoveDisplayConditionButton
+        onClick={() => setShowDeleteModal(true)}
         data-test="btn-remove-display-conditions"
       >
         {LABEL_REMOVE_ALL_GROUPS}
@@ -100,11 +115,14 @@ const DisplayConditionEditor = ({
     </Header>
   );
 
+  // TODO: Check the modal title for OR conditions
   const MiddleOr = ({ expressionGroupId }) => (
     <Middle>
-      <Label inline>{LABEL_OR}</Label>
-      <RemoveDisplayConditionButton
-        onClick={() =>
+      <Modal
+        title={DELETE_LOGIC_RULE_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={() =>
           deleteOneDisplayCondition({
             variables: {
               input: {
@@ -113,6 +131,11 @@ const DisplayConditionEditor = ({
             },
           })
         }
+        onClose={() => setShowDeleteModal(false)}
+      />
+      <Label inline>{LABEL_OR}</Label>
+      <RemoveDisplayConditionButton
+        onClick={() => setShowDeleteModal(true)}
         data-test="btn-remove-display-condition"
       >
         {LABEL_REMOVE_GROUP}

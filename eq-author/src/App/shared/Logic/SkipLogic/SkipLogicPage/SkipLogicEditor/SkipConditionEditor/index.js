@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
@@ -9,6 +9,7 @@ import Tooltip from "components/Forms/Tooltip";
 
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
+import Modal from "components-themed/Modal";
 
 import { propType } from "graphql-anywhere";
 import fragment from "./fragment.graphql";
@@ -19,6 +20,12 @@ import {
   useDeleteSkipConditions,
   useDeleteSkipCondition,
 } from "../../../mutations";
+
+import {
+  DELETE_LOGIC_RULE_TITLE,
+  DELETE_BUTTON_TEXT,
+  DELETE_LOGIC_OR_STATEMENT,
+} from "constants/modal-content";
 
 export const LABEL_IF = "IF";
 export const LABEL_AND = "AND";
@@ -85,12 +92,21 @@ const SkipConditionEditor = ({
   const handleDeleteAllClick = deleteSkipConditions;
   const handleDeleteClick = deleteSkipCondition;
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const existingRadioConditions = {};
 
   const labelGroupTitle = `Skip this ${noun}`;
 
   const header = (
     <Header>
+      <Modal
+        title={DELETE_LOGIC_RULE_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={handleDeleteAllClick}
+        onClose={() => setShowDeleteModal(false)}
+      />
       <HeaderPanel>
         <HeaderLabel inline>{labelGroupTitle}</HeaderLabel>
         <Tooltip
@@ -101,7 +117,7 @@ const SkipConditionEditor = ({
           <DeleteButton
             color="white"
             size="medium"
-            onClick={handleDeleteAllClick}
+            onClick={() => setShowDeleteModal(true)}
             aria-label="Delete routing rule"
             data-test="btn-delete-routing-rule"
           />
@@ -110,8 +126,16 @@ const SkipConditionEditor = ({
     </Header>
   );
 
+  // TODO: Check the modal title for OR conditions
   const middle = (
     <Middle>
+      <Modal
+        title={DELETE_LOGIC_OR_STATEMENT}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={handleDeleteClick}
+        onClose={() => setShowDeleteModal(false)}
+      />
       <HeaderPanel>
         <HeaderLabel inline>{LABEL_OR}</HeaderLabel>
         <Tooltip
@@ -122,7 +146,7 @@ const SkipConditionEditor = ({
           <DeleteButton
             color="white"
             size="medium"
-            onClick={handleDeleteClick}
+            onClick={() => setShowDeleteModal(true)}
             aria-label="Delete or statement"
             data-test="btn-delete-skip-condition-or"
           />

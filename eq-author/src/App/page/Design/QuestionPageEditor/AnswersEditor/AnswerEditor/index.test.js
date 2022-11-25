@@ -199,14 +199,30 @@ describe("Answer Editor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should call handler when answer deleted", () => {
+  it("should call handler when answer deleted", async () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
       ...mockMutations,
     });
 
     wrapper.find(DeleteButton).first().simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
+
     expect(mockMutations.onDeleteAnswer).toHaveBeenCalledWith(mockAnswer.id);
+  });
+
+  it("should close delete modal", async () => {
+    const wrapper = createWrapper({
+      answer: mockAnswer,
+      ...mockMutations,
+    });
+
+    wrapper.find(DeleteButton).first().simulate("click");
+    expect(wrapper.state("showDeleteModal")).toEqual(true);
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("close");
+    expect(wrapper.state("showDeleteModal")).toEqual(false);
   });
 
   it("should call handler when answer moved down", () => {

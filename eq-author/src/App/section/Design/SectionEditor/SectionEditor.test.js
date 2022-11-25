@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render as rtlRender } from "tests/utils/rtl";
 
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
@@ -49,6 +48,7 @@ describe("SectionEditor", () => {
       totalCount: 0,
       errors: [],
     },
+    comments: [{}],
   };
 
   const section2 = {
@@ -72,6 +72,7 @@ describe("SectionEditor", () => {
       totalCount: 0,
       errors: [],
     },
+    comments: [{}],
   };
 
   const match = {
@@ -86,7 +87,7 @@ describe("SectionEditor", () => {
     onChange: jest.fn(),
     onUpdate: jest.fn(),
     onDeleteSectionConfirm: jest.fn(),
-    onCloseDeleteConfirmDialog: jest.fn(),
+    onCloseDeleteConfirmModal: jest.fn(),
     onMoveSectionDialog: jest.fn(),
     onCloseMoveSectionDialog: jest.fn(),
     getValidationError: jest.fn(),
@@ -96,7 +97,7 @@ describe("SectionEditor", () => {
     shallow(
       <SectionEditor
         section={section1}
-        showDeleteConfirmDialog={false}
+        showDeleteConfirmModal={false}
         showMoveSectionDialog={false}
         match={match}
         {...mockHandlers}
@@ -242,8 +243,8 @@ describe("SectionEditor", () => {
     let wrapper;
 
     beforeEach(() => {
-      wrapper = render({ showDeleteConfirmDialog: true });
-      deleteConfirmDialog = wrapper.find("DeleteConfirmDialog");
+      wrapper = render({ showDeleteConfirmModal: true });
+      deleteConfirmDialog = wrapper.find("Modal");
     });
 
     it("should display delete confirm dialog", () => {
@@ -251,13 +252,13 @@ describe("SectionEditor", () => {
     });
 
     it("should call handler when confirmed", () => {
-      deleteConfirmDialog.simulate("delete");
+      deleteConfirmDialog.simulate("confirm");
       expect(mockHandlers.onDeleteSectionConfirm).toHaveBeenCalled();
     });
 
     it("should call handler when closed", () => {
       deleteConfirmDialog.simulate("close");
-      expect(mockHandlers.onCloseDeleteConfirmDialog).toHaveBeenCalled();
+      expect(mockHandlers.onCloseDeleteConfirmModal).toHaveBeenCalled();
     });
   });
 });
